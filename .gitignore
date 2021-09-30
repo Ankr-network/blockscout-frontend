@@ -1,0 +1,11 @@
+node_modules
+.idea
+.vscode
+build
+xw
+.DS_Store
+homie.txt
+todo.md
+yarn-error.log
+.eslintcache
+.env
