@@ -80,7 +80,7 @@ jobs:
 
   install_dependencies:
     docker:
-      - image: tarampampam/node:13-alpine
+      - image: tarampampam/node:14-alpine
     environment:
       O: Ankr-network
       R: ankr-portal
