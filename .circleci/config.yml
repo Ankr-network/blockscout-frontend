@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   app_build: &app_build
     docker:
-      - image: tarampampam/node:13-alpine
+      - image: tarampampam/node:14-alpine
     working_directory: ~/app
     steps:
       - setup_remote_docker
