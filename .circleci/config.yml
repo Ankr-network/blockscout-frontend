@@ -15,7 +15,6 @@ jobs:
             PATH=~/app/node_modules/.bin:$PATH
             node --version
             npm --version
-            yarn test
             yarn build
       - persist_to_workspace:
           root: '.'

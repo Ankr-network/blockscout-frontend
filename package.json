@@ -10,7 +10,6 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
     "check-circular-dependency": "madge --circular src",
-    "postbuild": "react-snap",
     "prepare": "husky install"
   },
   "dependencies": {
