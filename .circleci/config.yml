@@ -44,7 +44,7 @@ jobs:
           name: 'Deploy Ankr Protocol to CDN'
           command: |
             echo "Uploading assets to $DOMAIN"
-            aws s3 cp ~/app/build s3://$DOMAIN/  --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+            aws s3 cp ~/app/build s3://$DOMAIN/ --acl public-read --recursive --cache-control "public,max-age=600,s-maxage=3600"
             aws configure set preview.cloudfront true
             echo "Invalidating CDN network"
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
