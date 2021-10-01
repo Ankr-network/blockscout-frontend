@@ -14,16 +14,14 @@ const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
 
 export const FONTS = {
   primary: ['"Helvetica Neue"', 'Arial', 'sans-serif'].join(','),
-  secondary: ['"Graphik"', 'sans-serif'].join(','),
-  monument: ['"Monument Extended"', 'sans-serif'].join(','),
 };
 
 export const PALETTE = {
   type: Themes.light,
   primary: {
-    light: lighten('#0075FF', 0.1),
-    main: '#0075FF',
-    dark: darken('#0075FF', 0.2),
+    light: lighten('#356DF3', 0.1),
+    main: '#356DF3',
+    dark: darken('#356DF3', 0.2),
   },
   background: {
     default: '#fff',
@@ -31,18 +29,18 @@ export const PALETTE = {
     reverse: '#000',
   },
   text: {
-    primary: '#000',
-    secondary: fade('#000', 0.5),
+    primary: '#1F2226',
+    secondary: fade('#1F2226', 0.5),
   },
-  warning: {
-    main: '#FFB63C',
-  },
-  success: {
-    main: '#36C98E',
-  },
-  grey: {
-    300: '#F1F1F1',
-  },
+  // warning: {
+  //   main: '#FFB63C',
+  // },
+  // success: {
+  //   main: '#36C98E',
+  // },
+  // grey: {
+  //   300: '#F1F1F1',
+  // },
 };
 
 export const defaultTheme = createMuiTheme({
@@ -162,13 +160,13 @@ export const mainTheme = createMuiTheme({
       },
 
       h1: {
-        fontFamily: FONTS.secondary,
+        fontFamily: FONTS.primary,
         fontWeight: 500,
         fontSize: 36,
       },
 
       h2: {
-        fontFamily: FONTS.secondary,
+        fontFamily: FONTS.primary,
         fontWeight: 600,
         fontSize: 28,
 
@@ -178,7 +176,7 @@ export const mainTheme = createMuiTheme({
       },
 
       h3: {
-        fontFamily: FONTS.secondary,
+        fontFamily: FONTS.primary,
         fontWeight: 600,
         fontSize: 18,
 

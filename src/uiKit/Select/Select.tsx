@@ -9,7 +9,7 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import { uid } from 'react-uid';
 
-import { AngleDownIcon } from 'modules/common/components/Icons/AngleDownIcon';
+import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 import { useSelectStyles } from './SelectStyles';
 
 export interface ISelectOption {
