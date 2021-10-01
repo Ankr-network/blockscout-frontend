@@ -13,7 +13,8 @@ const TEN_SECONDS = 10 * 1000;
 const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
 
 export const FONTS = {
-  primary: ['"Helvetica Neue"', 'Arial', 'sans-serif'].join(','),
+  primary: ['Gilroy', 'Arial', 'sans-serif'].join(','),
+  secondary: ['"TT Firs Neue"', 'Arial', 'sans-serif'].join(','),
 };
 
 export const PALETTE = {

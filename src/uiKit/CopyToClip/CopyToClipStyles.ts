@@ -14,7 +14,6 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: 9,
-    boxSizing: 'border-box',
     border: '2px solid #F2F5FA',
     cursor: isCopied ? 'default' : 'pointer',
     background: isCopied ? '#fff' : '#F2F5FA',
@@ -23,7 +22,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       background: '#fff',
       border: '2px solid #F2F5FA',
 
-      '& $message': {
+      '& $text': {
         color: theme.palette.text.primary,
       },
 

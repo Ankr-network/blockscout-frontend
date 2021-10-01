@@ -9,7 +9,6 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import { uid } from 'react-uid';
 
-import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 import { useSelectStyles } from './SelectStyles';
 
 export interface ISelectOption {
@@ -65,7 +64,7 @@ export const Select = ({
           horizontal: 'left',
         },
       },
-      IconComponent: AngleDownIcon,
+      // IconComponent: null,
     }),
     [classes],
   );
