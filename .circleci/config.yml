@@ -31,7 +31,7 @@ jobs:
       - image: bigbadalien/awscli-node-kops-kubectl:0.3
     environment:
       O: Ankr-network
-      R: ankr-portal
+      R: ankr-protocol
     working_directory: ~/app
     steps:
       - setup_remote_docker
@@ -82,7 +82,7 @@ jobs:
       - image: tarampampam/node:14-alpine
     environment:
       O: Ankr-network
-      R: ankr-portal
+      R: ankr-protocol
     working_directory: ~/app
     steps:
       - checkout
