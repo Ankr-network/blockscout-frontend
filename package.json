@@ -12,6 +12,7 @@
     "check-circular-dependency": "madge --circular src",
     "prepare": "husky install"
   },
+  "homepage": "/protocol",
   "dependencies": {
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",

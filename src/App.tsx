@@ -10,10 +10,11 @@ import { QueryLoadingAbsolute } from './modules/common/components/QueryLoading/Q
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './modules/notification/components/Notifications';
 import { Routes } from './Routes';
+import packageJson from '../package.json';
 
 function App() {
   return (
-    <Router>
+    <Router basename={packageJson.homepage}>
       <Provider store={store}>
         <PersistGate loading={<QueryLoadingAbsolute />} persistor={persistor}>
           <AppBase>
