@@ -107,6 +107,8 @@ export const mainTheme = createMuiTheme({
           vertical: 'top',
           horizontal: 'left',
         },
+
+        MenuListProps: {},
       },
     },
 
@@ -271,18 +273,18 @@ export const mainTheme = createMuiTheme({
           backgroundColor: 'none',
         },
       },
-
       outlined: {
         '&&': {
-          paddingRight: 52,
+          fontSize: 12,
+          padding: '10px 29px 9px 15px',
         },
       },
 
       iconOutlined: {
         color: defaultTheme.palette.text.primary,
-        fontSize: 20,
+        fontSize: 13,
         right: 16,
-        top: 'calc(50% - 10px)',
+        top: 'calc(50% - 7px)',
       },
     },
 
