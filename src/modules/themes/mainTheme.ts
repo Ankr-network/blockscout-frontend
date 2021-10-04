@@ -33,6 +33,8 @@ export const PALETTE = {
     primary: '#1F2226',
     secondary: fade('#1F2226', 0.5),
   },
+  divider: '#F2F5FA',
+
   // warning: {
   //   main: '#FFB63C',
   // },
@@ -313,6 +315,7 @@ export const mainTheme = createMuiTheme({
         textTransform: 'none',
         fontWeight: 500,
         minWidth: 95,
+        fontSize: 14,
 
         '&$disabled': {
           pointerEvents: 'none',
@@ -337,40 +340,25 @@ export const mainTheme = createMuiTheme({
       },
 
       sizeLarge: {
-        height: 60,
+        height: 48,
         fontSize: 16,
         fontWeight: 500,
       },
 
+      sizeSmall: {
+        height: 40,
+        fontSize: 14,
+        fontWeight: 500,
+      },
+
       contained: {
-        backgroundColor: defaultTheme.palette.common.black,
+        backgroundColor: defaultTheme.palette.primary.main,
         overflow: 'hidden',
-        border: `1px solid ${defaultTheme.palette.common.black}`,
-        transition: `color ${BTN_TRANSITION_TIME}s ease-in, border ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
         color: defaultTheme.palette.common.white,
 
-        '&:before': {
-          content: `''`,
-          position: 'absolute',
-          top: -1,
-          left: -1,
-          right: -1,
-          bottom: -1,
-          width: 'auto',
-          height: 'auto',
-          background: defaultTheme.palette.common.white,
-          transition: `transform ${BTN_TRANSITION_TIME}s cubic-bezier(0.7, 0, 0.2, 1)`,
-          transform: 'translateY(100%)',
-        },
-
         '&:hover': {
-          color: defaultTheme.palette.common.black,
-          backgroundColor: defaultTheme.palette.common.black,
-          borderColor: fade(defaultTheme.palette.common.black, 0),
-
-          '&:before': {
-            transform: 'translateY(0)',
-          },
+          backgroundColor: defaultTheme.palette.primary.dark,
         },
 
         '&:active, &:focus': {
@@ -385,33 +373,18 @@ export const mainTheme = createMuiTheme({
       outlined: {
         textTransform: 'none',
         fontWeight: 500,
-        border: `1px solid ${fade(defaultTheme.palette.common.black, 0.1)}`,
+        border: `2px solid ${defaultTheme.palette.divider}`,
         overflow: 'hidden',
-        transition: `color ${BTN_TRANSITION_TIME}s ease-in, border ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
+        color: defaultTheme.palette.primary.main,
 
         '&$disabled': {
           border: '1px solid #E6E6E6',
           color: fade(defaultTheme.palette.common.black, 0.4),
         },
 
-        '&:before': {
-          content: `''`,
-          position: 'absolute',
-          top: -1,
-          left: -1,
-          right: -1,
-          bottom: -1,
-          width: 'auto',
-          height: 'auto',
-          background: defaultTheme.palette.text.primary,
-          transition: `transform ${BTN_TRANSITION_TIME}s cubic-bezier(0.7, 0, 0.2, 1)`,
-          transform: 'translateY(100%)',
-        },
-
         '&:hover': {
-          color: defaultTheme.palette.common.white,
-          background: 'none',
-          borderColor: fade(defaultTheme.palette.common.black, 0.3),
+          background: defaultTheme.palette.divider,
 
           '&:before': {
             transform: 'translateY(0)',
@@ -420,41 +393,35 @@ export const mainTheme = createMuiTheme({
       },
 
       outlinedPrimary: {
-        color: defaultTheme.palette.text.primary,
-        border: `1px solid ${defaultTheme.palette.common.black}`,
+        textTransform: 'none',
+        fontWeight: 500,
+        border: `2px solid ${defaultTheme.palette.divider}`,
+        overflow: 'hidden',
+        transition: `background-color  ${BTN_TRANSITION_TIME}s ease-in`,
+        color: defaultTheme.palette.primary.main,
 
-        '&:before': {
-          background:
-            'linear-gradient(360deg, #FFD18B 0%, rgba(255, 0, 0, 0) 50%), linear-gradient(259.57deg, #2663FF 1.58%, #FF3828 92.54%)',
+        '&$disabled': {
+          border: '1px solid #E6E6E6',
+          color: fade(defaultTheme.palette.common.black, 0.4),
         },
 
         '&:hover': {
-          color: defaultTheme.palette.common.white,
-          borderColor: fade(defaultTheme.palette.common.black, 0),
-        },
-      },
+          border: `2px solid ${defaultTheme.palette.divider}`,
+          backgroundColor: defaultTheme.palette.divider,
 
-      outlinedSecondary: {
-        border: `1px solid ${fade(defaultTheme.palette.text.primary, 0.1)}`,
-        transition: `background ${BTN_TRANSITION_TIME}s ease-in, border ${BTN_TRANSITION_TIME}s ease-in`,
-        color: defaultTheme.palette.text.primary,
-
-        '&:before': {
-          display: 'none',
-        },
-
-        '&:hover': {
-          backgroundColor: fade(defaultTheme.palette.text.primary, 0),
-          borderColor: fade(defaultTheme.palette.text.primary, 0.3),
-          color: defaultTheme.palette.text.primary,
+          '&:before': {
+            transform: 'translateY(0)',
+          },
         },
       },
 
       text: {
         textTransform: 'none',
+        color: defaultTheme.palette.primary.main,
 
         '&:hover': {
           background: 'none',
+          backgroundColor: `${fade(defaultTheme.palette.text.primary, 0.1)}`,
         },
       },
     },
