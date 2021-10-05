@@ -34,16 +34,6 @@ export const PALETTE = {
     secondary: fade('#1F2226', 0.5),
   },
   divider: '#F2F5FA',
-
-  // warning: {
-  //   main: '#FFB63C',
-  // },
-  // success: {
-  //   main: '#36C98E',
-  // },
-  // grey: {
-  //   300: '#F1F1F1',
-  // },
 };
 
 export const defaultTheme = createMuiTheme({
@@ -280,8 +270,10 @@ export const mainTheme = createMuiTheme({
         },
       },
 
-      iconOutlined: {
+      iconOpen: {
         color: defaultTheme.palette.text.primary,
+      },
+      iconOutlined: {
         fontSize: 13,
         right: 16,
         top: 'calc(50% - 7px)',
@@ -399,7 +391,7 @@ export const mainTheme = createMuiTheme({
         fontWeight: 500,
         border: `2px solid ${defaultTheme.palette.divider}`,
         overflow: 'hidden',
-        transition: `background-color  ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
         color: defaultTheme.palette.primary.main,
 
         '&$disabled': {

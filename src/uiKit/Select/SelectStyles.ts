@@ -1,14 +1,19 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useSelectStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     background: theme.palette.background.default,
-    border: 'none',
+
     borderRadius: 18,
 
     '& div': {
+      color: theme.palette.text.secondary,
       borderRadius: 18,
-      border: 'none',
+
+      '&.Mui-focused': {
+        borderColor: 'transparent',
+        color: theme.palette.text.primary,
+      },
     },
   },
   menuPaper: {

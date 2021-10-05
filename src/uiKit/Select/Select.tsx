@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { uid } from 'react-uid';
 
 import { AngleDownIcon } from '../Icons/AngleDownIcon';
-import { useSelectStyles } from './SelectStyles';
+import { useStyles } from './SelectStyles';
 
 export interface ISelectOption {
   label: string;
@@ -33,7 +33,7 @@ export const Select = ({
   fullWidth = true,
   ...restProps
 }: ISelectProps) => {
-  const classes = useSelectStyles();
+  const classes = useStyles();
 
   const items = useMemo(() => {
     return options?.map(option => (
