@@ -9,8 +9,8 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import { uid } from 'react-uid';
 
-import { AngleDownIcon } from 'modules/common/components/Icons/AngleDownIcon';
-import { useSelectStyles } from './SelectStyles';
+import { AngleDownIcon } from '../Icons/AngleDownIcon';
+import { useStyles } from './SelectStyles';
 
 export interface ISelectOption {
   label: string;
@@ -33,7 +33,7 @@ export const Select = ({
   fullWidth = true,
   ...restProps
 }: ISelectProps) => {
-  const classes = useSelectStyles();
+  const classes = useStyles();
 
   const items = useMemo(() => {
     return options?.map(option => (
@@ -65,13 +65,13 @@ export const Select = ({
           horizontal: 'left',
         },
       },
-      IconComponent: AngleDownIcon,
+      IconComponent: props => <AngleDownIcon fontSize="small" {...props} />,
     }),
     [classes],
   );
 
   return (
-    <FormControl fullWidth={fullWidth}>
+    <FormControl fullWidth={fullWidth} className={classes.root}>
       {label && <InputLabel>{label}</InputLabel>}
 
       <SelectComponent {...selectProps} {...restProps}>
