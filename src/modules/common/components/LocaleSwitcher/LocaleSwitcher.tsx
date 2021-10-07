@@ -7,10 +7,10 @@ import { Select } from 'uiKit/Select';
 import { t } from 'modules/i18n/utils/intl';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useLocaleSwitcher } from './LocaleSwitcherStyles';
+import { useStyles } from './LocaleSwitcherStyles';
 
 export const LocaleSwitcher = () => {
-  const classes = useLocaleSwitcher();
+  const classes = useStyles();
   const dispatch = useAppDispatch();
 
   const localeOptions = useLocaleMemo(
@@ -39,6 +39,7 @@ export const LocaleSwitcher = () => {
       onChange={onChange}
       options={localeOptions}
       fullWidth={false}
+      disabled
     />
   );
 };

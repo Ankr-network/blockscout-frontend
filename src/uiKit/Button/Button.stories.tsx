@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+import { CopyIcon } from '../Icons/CopyIcon';
 import { Button } from './Button';
 
 storiesOf('components/Button', module)
@@ -25,12 +26,21 @@ storiesOf('components/Button', module)
       </ThemeProvider>
     </Box>
   ))
+  .add('White Button', () => (
+    <Box margin="8" display="flex" justifyContent="space-around">
+      <ThemeProvider theme={mainTheme}>
+        <Button variant="text" color="primary">
+          White button (variant = text color = primary)
+        </Button>
+      </ThemeProvider>
+    </Box>
+  ))
   .add('Text Buttons', () => (
     <Box margin="8" display="flex" justifyContent="space-around">
       <ThemeProvider theme={mainTheme}>
         <Button variant="text">Default</Button>
         <Button variant="text" color="primary">
-          Primary
+          Text Primary is a White button
         </Button>
         <Button variant="text" color="secondary">
           Secondary
@@ -114,6 +124,18 @@ storiesOf('components/Button', module)
             </Button>
           </Box>
         </Box>
+      </ThemeProvider>
+    </Box>
+  ))
+  .add('Buttons with icon', () => (
+    <Box margin="8" display="flex" justifyContent="space-around">
+      <ThemeProvider theme={mainTheme}>
+        <Button variant="contained" startIcon={<CopyIcon />}>
+          Active
+        </Button>
+        <Button variant="contained" disabled startIcon={<CopyIcon />}>
+          Disabled
+        </Button>
       </ThemeProvider>
     </Box>
   ));

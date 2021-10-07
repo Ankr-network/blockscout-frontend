@@ -1,3 +1,25 @@
 {
-  "test": "test"
+  "title": "RPC",
+  "main-navigation": {
+    "dashboard": "Dashboard",
+    "public-rpcs": "Public RPCs",
+    "staking": "Staking",
+    "pro": "Ankr Pro",
+    "protocol": "Protocol"
+  },
+  "extra-navigation": {
+    "docs": "Docs",
+    "faq": "FAQ",
+    "support": "Support"
+  },
+  "staking-info": {
+    "description": "<b>Stake 50000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
+    "link": "Join the waitlist"
+  },
+  "language": {
+    "en-US": "English"
+  },
+  "header": {
+    "wallet-button": "Connect Wallet"
+  }
 }

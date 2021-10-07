@@ -1,21 +1,27 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { darkTheme } from 'modules/themes/darkTheme';
 
-export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
+import { mainTheme } from 'modules/themes/mainTheme';
+
+export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
-    minHeight: '100vh',
-    flexDirection: 'column',
     minWidth: 375,
 
     background: theme.palette.background.default,
   },
 
-  darkBg: {
-    background: darkTheme.palette.background.default,
+  darkTheme: {},
+
+  body: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    background: mainTheme.palette.background.paper,
   },
 
   main: {
     flexGrow: 1,
+    padding: theme.spacing(0, 3.5),
   },
 }));

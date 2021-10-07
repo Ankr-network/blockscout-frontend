@@ -8,7 +8,7 @@ import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { persistor, store } from './store';
 import { QueryLoadingAbsolute } from './modules/common/components/QueryLoading/QueryLoading';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
-import { Notifications } from './modules/notification/components/Notifications';
+import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 import packageJson from '../package.json';
 

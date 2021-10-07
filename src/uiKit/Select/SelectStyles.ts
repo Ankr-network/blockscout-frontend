@@ -2,8 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    background: theme.palette.background.default,
-
     borderRadius: 18,
 
     '& div': {
@@ -13,6 +11,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       '&.Mui-focused': {
         borderColor: 'transparent',
         color: theme.palette.text.primary,
+        background: theme.palette.background.default,
+      },
+
+      '&:hover': {
+        borderColor: 'transparent',
       },
     },
   },
@@ -23,6 +26,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 21,
     boxShadow:
       '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 5px 100px rgba(31, 34, 38, 0.15)',
+    background: theme.palette.background.default,
 
     '& ul': {
       paddingTop: 3,
@@ -48,11 +52,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
       '&:hover': {
         color: theme.palette.primary.main,
-        background: '#fff',
+        background: theme.palette.background.default,
       },
 
       '&.Mui-selected': {
-        color: '#ccc',
+        color: theme.palette.action.disabledBackground,
         background: 'none',
         cursor: 'default',
 

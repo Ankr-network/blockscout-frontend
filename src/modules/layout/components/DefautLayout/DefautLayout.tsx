@@ -1,43 +1,40 @@
 import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo, ReactChild } from 'react';
+import { Container } from '@material-ui/core';
 
 import { getTheme } from '../../../common/utils/getTheme';
 import { Themes } from '../../../themes/types';
 import { Header } from '../Header';
-import { Footer } from '../Footer';
-import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
+import { SideBar } from '../SideBar';
+import { useStyles } from './DefaultLayoutStyles';
 
 export interface ILayoutProps {
-  children?: React.ReactNode;
-  headerTheme?: Themes;
-  footerTheme?: Themes;
-  isFooter?: boolean;
+  children?: ReactChild;
+  theme?: Themes;
 }
 
 export const DefaultLayout = ({
   children,
-  headerTheme = Themes.light,
-  footerTheme = Themes.light,
-  isFooter = true,
+  theme = Themes.light,
 }: ILayoutProps) => {
-  const classes = useDefaultLayoutStyles();
+  const classes = useStyles();
 
-  const isDarkBg = headerTheme === Themes.dark && footerTheme === Themes.dark;
+  const isDarkTheme = theme === Themes.dark;
+
+  const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
-    <div className={classNames(classes.root, isDarkBg && classes.darkBg)}>
-      <ThemeProvider theme={getTheme(headerTheme)}>
-        <Header />
+    <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
+      <ThemeProvider theme={currentTheme}>
+        <SideBar />
+        <div className={classes.body}>
+          <Header />
+          <Container className={classes.main} maxWidth={false}>
+            <main>{children}</main>
+          </Container>
+        </div>
       </ThemeProvider>
-
-      <main className={classNames(classes.main)}>{children}</main>
-
-      {isFooter && (
-        <ThemeProvider theme={getTheme(footerTheme)}>
-          <Footer />
-        </ThemeProvider>
-      )}
     </div>
   );
 };

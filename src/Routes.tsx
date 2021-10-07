@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 
-import { ChainsRoutes, ChainsRoutesConfig } from './modules/chains/Routes';
+import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
@@ -11,11 +11,11 @@ export function Routes() {
       <Route
         exact
         path={[
-          ChainsRoutesConfig.Chains.path,
-          ChainsRoutesConfig.ChainDetails.path,
+          ChainsRoutesConfig.chains.path,
+          ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (
-          <DefaultLayout headerTheme={Themes.dark} footerTheme={Themes.dark}>
+          <DefaultLayout theme={Themes.light}>
             <ChainsRoutes />
           </DefaultLayout>
         )}

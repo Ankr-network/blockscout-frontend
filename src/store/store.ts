@@ -10,8 +10,8 @@ import createSagaMiddleware from 'redux-saga';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { extractMessage } from '../modules/common/utils/extractError';
 import { historyInstance } from '../modules/common/utils/historyInstance';
-import { NotificationActions } from '../modules/notification/store/NotificationActions';
-import { notificationSlice } from '../modules/notification/store/notificationSlice';
+import { NotificationActions } from '../domains/notification/store/NotificationActions';
+import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { rootSaga } from './rootSaga';
 import { i18nPersistConfig } from './webStorageConfigs';
 
