@@ -35,7 +35,7 @@ export const ChainsList = () => {
             <ChainsItem
               logoSrc={chainLogo}
               name={name}
-              requestInfo={requestInfo}
+              description={requestInfo}
               period={period}
               chainLink={chainLink}
               chainDetailsLink={chainDetailsLink}

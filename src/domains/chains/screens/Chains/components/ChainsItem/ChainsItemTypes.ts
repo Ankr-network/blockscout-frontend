@@ -1,7 +1,7 @@
 export interface ChainsItemProps {
   logoSrc: string;
   name: string;
-  requestInfo: string;
+  description: string;
   period: string;
   chainLink: string;
   chainDetailsLink: string;

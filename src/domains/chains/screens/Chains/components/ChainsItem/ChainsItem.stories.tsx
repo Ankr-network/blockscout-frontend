@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { ChainsItem } from './ChainsItem';
-import chainLogo from './assets/logo-mock.svg';
+import chainLogo from '../ChainMainInfo/assets/logo-mock.svg';
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
   <Router>
@@ -14,7 +14,7 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
         <ChainsItem
           logoSrc={chainLogo}
           name="namenamenamename"
-          requestInfo="requestInforequestInforequestInforequestInfo"
+          description="requestInforequestInforequestInforequestInfo"
           period="24h"
           chainLink="chainLinkchainLinkchainLinkchainLinkchainLink"
           chainDetailsLink="chainDetailsLink"

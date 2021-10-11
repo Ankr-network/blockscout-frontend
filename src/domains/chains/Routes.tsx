@@ -39,8 +39,7 @@ const LoadableChainsContainer: LoadableComponent<any> = loadable(
 );
 
 const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
-  async () =>
-    import('./screens/ChainDetails').then(module => module.ChainDetails),
+  async () => import('./screens/ChainItem').then(module => module.ChainItem),
   {
     fallback: <QueryLoadingAbsolute />,
   },

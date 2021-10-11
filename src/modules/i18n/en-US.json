@@ -27,6 +27,12 @@
     "more-details": "More",
     "integrate-button": "How to integrate"
   },
+  "chain-item": {
+    "header": {
+      "bottom": "Private RPC",
+      "button": "Generate Private Endpoint"
+    }
+  },
   "common": {
     "copy-message": "Copied!"
   }

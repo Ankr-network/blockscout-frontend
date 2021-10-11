@@ -1,12 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
   text: {
-    color: theme.palette.text.secondary,
-    fontSize: 12,
+    marginRight: theme.spacing(0.5),
+    fontSize: ({ size }) => (size === 'm' ? 12 : 14),
   },
   container: {
-    borderRadius: 6,
+    borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
     display: 'flex',
     justifyContent: 'space-between',
     border: `2px solid ${theme.palette.background.paper}`,
@@ -16,20 +16,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
   message: {
     color: theme.palette.text.primary,
     background: theme.palette.background.paper,
-    fontSize: 12,
+    fontSize: ({ size }) => (size === 'm' ? 12 : 14),
     textAlign: 'center',
     width: '100%',
-    padding: 9,
+    padding: ({ size }) => (size === 'm' ? '10px 9px 9px' : '10px 9px'),
+
     cursor: 'default',
   },
 
   content: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
-    padding: 9,
+    padding: ({ size }) => (size === 'm' ? '8px 9px' : '10px 15px'),
     cursor: 'pointer',
     background: theme.palette.background.paper,
+    minHeight: 36,
 
     '&:hover': {
       background: theme.palette.common.white,
@@ -38,7 +41,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
         color: theme.palette.text.primary,
       },
 
-      '& $copyIcon': {
+      '& $copyIcon, & $copyText': {
         color: theme.palette.text.primary,
       },
     },
@@ -48,5 +51,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 16,
     marginLeft: theme.spacing(1),
     color: theme.palette.primary.main,
+  },
+  copy: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  copyText: {
+    color: theme.palette.primary.main,
+    marginLeft: theme.spacing(1),
+    fontWeight: 'bold',
   },
 }));
