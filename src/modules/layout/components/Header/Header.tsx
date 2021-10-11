@@ -18,7 +18,8 @@ export const Header = () => {
         <div className={classes.right}>
           <LocaleSwitcher />
           <Button
-            variant="contained"
+            variant="text"
+            color="primary"
             className={classes.button}
             disableElevation={false}
           >

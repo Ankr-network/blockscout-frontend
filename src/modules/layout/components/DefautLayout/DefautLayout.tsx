@@ -31,7 +31,7 @@ export const DefaultLayout = ({
         <div className={classes.body}>
           <Header />
           <Container className={classes.main} maxWidth={false}>
-            <main>{children}</main>
+            <>{children}</>
           </Container>
         </div>
       </ThemeProvider>

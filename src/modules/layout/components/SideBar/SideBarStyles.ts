@@ -1,11 +1,16 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
+export const SIDEBAR_WIDTH = 220;
+
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    width: 220,
+    width: SIDEBAR_WIDTH,
     padding: theme.spacing(4, 2),
     display: 'flex',
     flexDirection: 'column',
+    position: 'fixed',
+    height: '100%',
+    backgroundColor: theme.palette.background.default,
   },
   top: {
     display: 'flex',

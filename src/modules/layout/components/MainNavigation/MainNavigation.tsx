@@ -10,6 +10,7 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
+import { PATH_CHAINS } from 'domains/chains/Routes';
 
 export const MainNavigation = () => {
   const items = useMemo(
@@ -23,7 +24,7 @@ export const MainNavigation = () => {
       {
         label: t('main-navigation.public-rpcs'),
         Icon: BoxIcon,
-        href: '/chains',
+        href: PATH_CHAINS,
       },
       {
         label: t('main-navigation.staking'),

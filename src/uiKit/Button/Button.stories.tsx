@@ -6,7 +6,7 @@ import { mainTheme } from 'modules/themes/mainTheme';
 import { CopyIcon } from '../Icons/CopyIcon';
 import { Button } from './Button';
 
-storiesOf('components/Button', module)
+storiesOf('uiKit/Button', module)
   .add('Сontained Buttons', () => (
     <Box margin="8" display="flex" justifyContent="space-around">
       <ThemeProvider theme={mainTheme}>

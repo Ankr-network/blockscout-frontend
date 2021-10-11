@@ -27,7 +27,7 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-storiesOf('components/Select', module).add('Default', () => {
+storiesOf('uiKit/Select', module).add('Default', () => {
   const classes = useStyles();
   const [value, setValue] = useState<string>(items[0].value);
 

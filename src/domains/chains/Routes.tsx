@@ -6,8 +6,8 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { QueryLoadingAbsolute } from 'modules/common/components/QueryLoading/QueryLoading';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const PATH_CHAINS = '/';
-const PATH_CHAIN_DETAILS = '/chain/:chainId';
+export const PATH_CHAINS = '/chains';
+export const PATH_CHAIN_DETAILS = '/chains/:chainId';
 
 export const ChainsRoutesConfig = createRouteConfig(
   {

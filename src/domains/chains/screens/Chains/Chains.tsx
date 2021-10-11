@@ -1,15 +1,13 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/core';
 
-import { mainTheme } from 'modules/themes/mainTheme';
-import { useStyles } from './ChainsStyles';
+import { ChainsHeader } from './components/ChainsHeader';
+import { ChainsList } from './components/ChainsList';
 
 export const Chains = () => {
-  const classes = useStyles();
-
   return (
-    <ThemeProvider theme={mainTheme}>
-      <div className={classes.chains} />
-    </ThemeProvider>
+    <>
+      <ChainsHeader />
+      <ChainsList />
+    </>
   );
 };

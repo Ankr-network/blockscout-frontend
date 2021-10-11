@@ -8,7 +8,7 @@ import { Breadcrumbs } from './Breadcrumbs';
 
 const items = [{ title: 'Chains', link: '/' }, { title: 'Polygon' }];
 
-storiesOf('components/Breadcrumbs', module).add('Default', () => (
+storiesOf('uiKit/Breadcrumbs', module).add('Default', () => (
   <Box margin="8">
     <Router>
       <ThemeProvider theme={mainTheme}>

@@ -30,7 +30,7 @@ export const CopyToClipIcon = ({
       ) : (
         <CopyToClipboard text={text} onCopy={setIsCopied}>
           <div className={classes.content}>
-            <Typography variant="body2" className={classes.text}>
+            <Typography variant="body2" noWrap className={classes.text}>
               {text}
             </Typography>
             <CopyIcon className={classes.copyIcon} />

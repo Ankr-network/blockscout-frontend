@@ -437,9 +437,9 @@ export const mainTheme = createMuiTheme({
 
       text: {
         color: defaultTheme.palette.primary.main,
+        background: defaultTheme.palette.background.default,
 
         '&:hover': {
-          background: defaultTheme.palette.background.default,
           color: defaultTheme.palette.text.primary,
         },
       },

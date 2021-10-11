@@ -1,10 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-interface CopyToClipProps {
-  isCopied: boolean;
-}
-
-export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   text: {
     color: theme.palette.text.secondary,
     fontSize: 12,
@@ -27,15 +23,13 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     cursor: 'default',
   },
 
-  content: ({ isCopied }) => ({
+  content: {
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
     padding: 9,
     cursor: 'pointer',
-    background: isCopied
-      ? theme.palette.common.white
-      : theme.palette.background.paper,
+    background: theme.palette.background.paper,
 
     '&:hover': {
       background: theme.palette.common.white,
@@ -48,7 +42,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         color: theme.palette.text.primary,
       },
     },
-  }),
+  },
 
   copyIcon: {
     fontSize: 16,

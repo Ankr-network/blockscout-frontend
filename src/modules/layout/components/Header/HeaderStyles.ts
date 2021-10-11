@@ -1,12 +1,19 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
+import { SIDEBAR_WIDTH } from '../SideBar';
+
+export const HEADER_HEIGHT = 121;
+
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(4, 0),
     color: theme.palette.text.primary,
+    position: 'fixed',
+    width: `calc(100% - ${SIDEBAR_WIDTH}px)`,
+    backgroundColor: theme.palette.background.paper,
+    zIndex: 1,
   },
 
   container: {

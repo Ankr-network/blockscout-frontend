@@ -21,5 +21,13 @@
   },
   "header": {
     "wallet-button": "Connect Wallet"
+  },
+  "chains": {
+    "title": "Choose the chain",
+    "more-details": "More",
+    "integrate-button": "How to integrate"
+  },
+  "common": {
+    "copy-message": "Copied!"
   }
 }

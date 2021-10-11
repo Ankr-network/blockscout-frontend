@@ -17,7 +17,7 @@ import { LabelIcon } from './LabelIcon';
 import { PaperIcon } from './PaperIcon';
 import { StakingIcon } from './StakingIcon';
 
-storiesOf('components/Icons', module).add('Default', () => (
+storiesOf('uiKit/Icons', module).add('Default', () => (
   <Box margin="8" display="flex" justifyContent="space-around" flexWrap="wrap">
     <ThemeProvider theme={mainTheme}>
       <AngleDownIcon />

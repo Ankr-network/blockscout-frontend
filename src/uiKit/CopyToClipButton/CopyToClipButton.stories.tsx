@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import { mainTheme } from 'modules/themes/mainTheme';
 import { CopyToClipButton } from './CopyToClipButton';
 
-storiesOf('components/CopyToClipButton', module).add('Default', () => (
+storiesOf('uiKit/CopyToClipButton', module).add('Default', () => (
   <Box margin="8">
     <ThemeProvider theme={mainTheme}>
       <CopyToClipButton
