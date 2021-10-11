@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChainsItem } from '../ChainsItem';
 import { useStyles } from './ChainsListStyles';
-import mockedLogo from '../ChainsItem/assets/logo-mock.svg';
+import mockedLogo from '../ChainMainInfo/assets/logo-mock.svg';
 
 const CHAINS_DATA = {
   chainLogo: mockedLogo,
