@@ -31,6 +31,13 @@
     "header": {
       "bottom": "Private RPC",
       "button": "Generate Private Endpoint"
+    },
+    "details": {
+      "average-requests": "Average Requests/sec",
+      "bandwidth": "Bandwidth",
+      "cached-requests": "Cached Requests",
+      "24-hours": "Last 24 Hours",
+      "all-time": "All Time"
     }
   },
   "common": {

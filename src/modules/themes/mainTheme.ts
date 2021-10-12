@@ -35,11 +35,11 @@ export const PALETTE: PaletteOptions = {
   },
   success: {
     main: '#4DB58F',
-    light: lighten('#4DB58F', 0.15),
+    light: fade('#4DB58F', 0.15),
   },
   error: {
     main: '#E3453D',
-    light: lighten('#E3453D', 0.15),
+    light: fade('#E3453D', 0.15),
   },
   grey: {
     500: '#808692',
