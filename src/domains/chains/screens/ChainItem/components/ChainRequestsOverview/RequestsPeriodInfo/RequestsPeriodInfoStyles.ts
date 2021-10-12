@@ -3,11 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    display: 'grid',
-    gridTemplateColumns: 'auto 350px',
-    gap: theme.spacing(3.5),
+    textAlign: 'center',
   },
-  overview: {
-    marginTop: theme.spacing(3.25),
+  description: {
+    marginBottom: theme.spacing(1),
+    fontSize: 14,
+  },
+  title: {
+    fontSize: 30,
   },
 }));
