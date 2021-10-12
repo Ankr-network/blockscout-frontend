@@ -1,6 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router';
-import { generatePath, Route } from 'react-router-dom';
+import { generatePath, Route, useParams } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
 import { QueryLoadingAbsolute } from 'modules/common/components/QueryLoading/QueryLoading';

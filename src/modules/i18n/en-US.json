@@ -41,6 +41,7 @@
     }
   },
   "common": {
-    "copy-message": "Copied!"
+    "copy-message": "Copied!",
+    "copy-text": "Copy Public Link"
   }
 }

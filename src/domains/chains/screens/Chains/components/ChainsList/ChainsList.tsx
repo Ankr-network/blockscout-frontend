@@ -2,18 +2,7 @@ import React from 'react';
 
 import { ChainsItem } from '../ChainsItem';
 import { useStyles } from './ChainsListStyles';
-import mockedLogo from '../ChainMainInfo/assets/logo-mock.svg';
-
-const CHAINS_DATA = {
-  chainLogo: mockedLogo,
-  name: 'polygon',
-  requestInfo: 'requestInfo',
-  period: '24h',
-  chainLink: 'chainLink',
-  chainDetailsLink: '/chains/id',
-};
-
-const CHAINS_MOCK = new Array(10).fill(CHAINS_DATA);
+import { CHAINS_MOCK } from './ChainsListMock';
 
 export const ChainsList = () => {
   const classes = useStyles();

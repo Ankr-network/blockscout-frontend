@@ -6,7 +6,7 @@ import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './HeaderStyles';
 
-const items = [{ title: 'Chains', link: '/' }, { title: 'Polygon' }];
+const items = [{ title: 'Chains', link: '/chains' }];
 
 export const Header = () => {
   const classes = useStyles();

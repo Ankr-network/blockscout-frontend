@@ -4,29 +4,33 @@ import { Typography, Button } from '@material-ui/core';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ChainMainInfo } from 'domains/chains/screens/Chains/components/ChainMainInfo';
-import chainLogo from 'domains/chains/screens/Chains/components/ChainMainInfo/assets/logo-mock.svg';
 import { t } from 'modules/i18n/utils/intl';
-
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { CHAINS_MOCK } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListMock';
 import { useStyles } from './ChainItemHeaderStyles';
 
 export const ChainItemHeader = () => {
   const classes = useStyles();
+  const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
+
+  const data: any =
+    CHAINS_MOCK.find((item: any) => chainId === item.name) || {};
 
   return (
     <div className={classes.root}>
       <div className={classes.top}>
         <ChainMainInfo
-          logoSrc={chainLogo}
-          name="Polygon"
-          description="MATIC"
+          logoSrc={data.chainLogo}
+          name={data.name}
+          description={data.name}
           descriptionClassName={classes.description}
         />
         <div className={classes.right}>
           <CopyToClipIcon
             className={classes.copyToClip}
-            text="https://mrpc.com/matic"
+            text={data.chainLink}
             message={t('common.copy-message')}
-            copyText="copyText"
+            copyText={t('common.copy-text')}
             textColor="textPrimary"
             size="l"
           />
