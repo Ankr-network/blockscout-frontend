@@ -29,4 +29,18 @@ storiesOf('domains/chains/ChainMainInfo', module)
         />
       </Box>
     </ThemeProvider>
+  ))
+  .add('Extra description', () => (
+    <ThemeProvider theme={mainTheme}>
+      <Box padding={4} bgcolor="background.paper">
+        <ChainMainInfo
+          logoSrc={chainLogo}
+          name="namenamenamename"
+          description="requestInforequestInforequestInforequestInfo"
+          label="24h"
+          extraDescription="21 req"
+          extraLabel="sec"
+        />
+      </Box>
+    </ThemeProvider>
   ));

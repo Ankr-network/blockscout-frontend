@@ -10,6 +10,7 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
+import { PATH_DASHBOARD } from 'domains/dashboard/Routes';
 import { PATH_CHAINS } from 'domains/chains/Routes';
 
 export const MainNavigation = () => {
@@ -18,8 +19,7 @@ export const MainNavigation = () => {
       {
         label: t('main-navigation.dashboard'),
         Icon: ClockIcon,
-        href: '/dashboard',
-        isDisabled: true,
+        href: PATH_DASHBOARD,
       },
       {
         label: t('main-navigation.public-rpcs'),

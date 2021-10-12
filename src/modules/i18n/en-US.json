@@ -22,6 +22,10 @@
   "header": {
     "wallet-button": "Connect Wallet"
   },
+  "dashboard": {
+    "title": "My private RPCs",
+    "create-rpc-button": "Create Private RPC"
+  },
   "chains": {
     "title": "Choose the chain",
     "more-details": "More",

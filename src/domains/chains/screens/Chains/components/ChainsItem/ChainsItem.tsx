@@ -3,8 +3,8 @@ import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { t } from 'modules/i18n/utils/intl';
+import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { ChainMainInfo } from '../ChainMainInfo';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
 

@@ -1,6 +1,10 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
+import {
+  DashboardRoutes,
+  DashboardRoutesConfig,
+} from './domains/dashboard/Routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
@@ -8,6 +12,20 @@ import { Themes } from './modules/themes/types';
 export function Routes() {
   return (
     <Switch>
+      <Route
+        exact
+        path="/"
+        render={() => <Redirect to={DashboardRoutesConfig.dashboard.path} />}
+      />
+      <Route
+        exact
+        path={DashboardRoutesConfig.dashboard.path}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <DashboardRoutes />
+          </DefaultLayout>
+        )}
+      />
       <Route
         exact
         path={[

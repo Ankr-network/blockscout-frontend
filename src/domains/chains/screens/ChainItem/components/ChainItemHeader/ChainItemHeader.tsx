@@ -3,7 +3,7 @@ import { Typography, Button } from '@material-ui/core';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
-import { ChainMainInfo } from 'domains/chains/screens/Chains/components/ChainMainInfo';
+import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { CHAINS_MOCK } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListMock';

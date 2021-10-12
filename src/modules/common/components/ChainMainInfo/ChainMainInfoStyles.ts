@@ -17,6 +17,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
   right: {
     maxWidth: `calc(100% - ${LOGO_WIDTH}px - ${LOGO_MARGIN}px)`,
   },
+  infos: {
+    display: 'flex',
+
+    '& $info:not(:last-child)': {
+      marginRight: theme.spacing(3),
+    },
+  },
   info: {
     display: 'flex',
     alignItems: 'center',

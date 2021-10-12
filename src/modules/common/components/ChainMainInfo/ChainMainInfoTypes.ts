@@ -5,4 +5,6 @@ export interface ChainMainInfoProps {
   label?: string;
   descriptionClassName?: string;
   className?: string;
+  extraDescription?: string;
+  extraLabel?: string;
 }
