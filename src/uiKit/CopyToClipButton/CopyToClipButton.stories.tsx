@@ -12,7 +12,6 @@ storiesOf('uiKit/CopyToClipButton', module).add('Default', () => (
         text="text"
         textMessage="textMessage"
         buttonText="buttonText"
-        buttonMessage="buttonMessage"
       />
     </ThemeProvider>
   </Box>

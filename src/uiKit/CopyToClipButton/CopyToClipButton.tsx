@@ -10,7 +10,6 @@ import { useCopyToClip } from '../CopyToClipIcon/CopyToClipIconUtils';
 interface ICopyToClipButtonProps {
   className?: string;
   buttonText: string;
-  buttonMessage: string;
   text: string;
   textMessage: string;
 }
@@ -19,7 +18,6 @@ export const CopyToClipButton = ({
   text,
   textMessage,
   buttonText,
-  buttonMessage,
   className,
 }: ICopyToClipButtonProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
@@ -37,7 +35,7 @@ export const CopyToClipButton = ({
             className={classes.button}
             startIcon={<CopyIcon />}
           >
-            {isCopied ? buttonMessage : buttonText}
+            {buttonText}
           </Button>
         </div>
       </CopyToClipboard>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button } from '@material-ui/core';
 
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ChainMainInfo } from 'domains/chains/screens/Chains/components/ChainMainInfo';
 import { t } from 'modules/i18n/utils/intl';
@@ -26,13 +26,11 @@ export const ChainItemHeader = () => {
           descriptionClassName={classes.description}
         />
         <div className={classes.right}>
-          <CopyToClipIcon
+          <CopyToClipButton
             className={classes.copyToClip}
             text={data.chainLink}
-            message={t('common.copy-message')}
-            copyText={t('common.copy-text')}
-            textColor="textPrimary"
-            size="l"
+            textMessage={t('common.copy-message')}
+            buttonText={t('common.copy-text')}
           />
         </div>
       </div>

@@ -319,7 +319,7 @@ export const mainTheme = createMuiTheme({
         height: 44,
         padding: defaultTheme.spacing(0, 3),
         textTransform: 'none',
-        minWidth: 170,
+        // minWidth: 170,
         fontSize: 14,
         fontWeight: 'bold',
         lineHeight: 1,
