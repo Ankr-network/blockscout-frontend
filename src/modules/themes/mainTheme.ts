@@ -390,7 +390,6 @@ export const mainTheme = createMuiTheme({
         transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
         color: defaultTheme.palette.primary.main,
         boxShadow: 'none',
-        borderRadius: 6,
 
         '&$disabled': {
           border: `2px solid ${defaultTheme.palette.background.paper}`,

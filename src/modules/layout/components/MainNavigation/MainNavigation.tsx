@@ -14,6 +14,8 @@ import {
 } from 'modules/common/components/Navigation';
 import { PATH_DASHBOARD } from 'domains/dashboard/Routes';
 import { PATH_CHAINS } from 'domains/chains/Routes';
+import { PATH_PLAN } from 'domains/plan/Routes';
+
 import { IS_PRIVATE } from 'store';
 
 export const MainNavigation = () => {
@@ -36,10 +38,9 @@ export const MainNavigation = () => {
         href: '/staking',
       },
       {
-        label: t('main-navigation.pro'),
+        label: t('main-navigation.plan'),
         StartIcon: LabelIcon,
-        isDisabled: true,
-        href: '/pro',
+        href: PATH_PLAN,
         EndIcon: IS_PRIVATE ? SuccessIcon : undefined,
       },
       {
