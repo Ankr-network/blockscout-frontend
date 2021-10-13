@@ -6,6 +6,6 @@ export interface ChainsItemProps {
   chainLink: string;
   chainDetailsLink: string;
   className?: string;
-  extraDescription?: string;
-  extraLabel?: string;
+  extraDescription: string;
+  extraLabel: string;
 }

@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
+import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
@@ -28,9 +29,10 @@ export const ChainsItem = ({
       <ChainMainInfo
         logoSrc={logoSrc}
         name={name}
-        description={description}
-        label={period}
         className={classes.mainInfo}
+        description={
+          <ChainRequestsLabel description={description} label={period} />
+        }
       />
       <div className={classes.bottom}>
         <CopyToClipIcon text={chainLink} message={t('common.copy-message')} />

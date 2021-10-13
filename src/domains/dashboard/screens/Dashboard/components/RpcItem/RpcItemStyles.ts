@@ -24,4 +24,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
       minWidth: '50%',
     },
   },
+  description: {
+    display: 'flex',
+
+    '& $descriptionItem': {
+      marginRight: theme.spacing(2.5),
+    },
+  },
+  descriptionItem: {},
 }));

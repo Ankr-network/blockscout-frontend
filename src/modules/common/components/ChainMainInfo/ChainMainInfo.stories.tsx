@@ -6,41 +6,14 @@ import { mainTheme } from 'modules/themes/mainTheme';
 import { ChainMainInfo } from './ChainMainInfo';
 import chainLogo from './assets/logo-mock.svg';
 
-storiesOf('domains/chains/ChainMainInfo', module)
-  .add('Default', () => (
-    <ThemeProvider theme={mainTheme}>
-      <Box padding={4} bgcolor="background.paper">
-        <ChainMainInfo
-          logoSrc={chainLogo}
-          name="namenamenamename"
-          description="requestInforequestInforequestInforequestInfo"
-          label="24h"
-        />
-      </Box>
-    </ThemeProvider>
-  ))
-  .add('Without label', () => (
-    <ThemeProvider theme={mainTheme}>
-      <Box padding={4} bgcolor="background.paper">
-        <ChainMainInfo
-          logoSrc={chainLogo}
-          name="namenamenamename"
-          description="requestInforequestInforequestInforequestInfo"
-        />
-      </Box>
-    </ThemeProvider>
-  ))
-  .add('Extra description', () => (
-    <ThemeProvider theme={mainTheme}>
-      <Box padding={4} bgcolor="background.paper">
-        <ChainMainInfo
-          logoSrc={chainLogo}
-          name="namenamenamename"
-          description="requestInforequestInforequestInforequestInfo"
-          label="24h"
-          extraDescription="21 req"
-          extraLabel="sec"
-        />
-      </Box>
-    </ThemeProvider>
-  ));
+storiesOf('domains/chains/ChainMainInfo', module).add('Default', () => (
+  <ThemeProvider theme={mainTheme}>
+    <Box padding={4} bgcolor="background.paper">
+      <ChainMainInfo
+        logoSrc={chainLogo}
+        name="namenamenamename"
+        description={<div>description</div>}
+      />
+    </Box>
+  </ThemeProvider>
+));

@@ -27,6 +27,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   icon: {
     marginRight: theme.spacing(2),
-    fontSize: 16,
+  },
+  endIcon: {
+    color: theme.palette.primary.main,
   },
 }));

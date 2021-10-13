@@ -20,9 +20,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   text: {
     fontWeight: 600,
   },
-  description: {
-    color: theme.palette.text.secondary,
-  },
   bottom: {
     paddingTop: theme.spacing(2),
     display: 'flex',

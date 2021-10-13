@@ -4,8 +4,8 @@ import { storiesOf } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { ChainsItem } from './ChainsItem';
-import chainLogo from '../ChainMainInfo/assets/logo-mock.svg';
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
   <Router>

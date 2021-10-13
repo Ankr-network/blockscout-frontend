@@ -1,10 +1,8 @@
+import { ReactNode } from 'react';
+
 export interface ChainMainInfoProps {
   logoSrc: string;
   name: string;
-  description: string;
-  label?: string;
-  descriptionClassName?: string;
+  description: ReactNode;
   className?: string;
-  extraDescription?: string;
-  extraLabel?: string;
 }

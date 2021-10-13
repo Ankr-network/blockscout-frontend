@@ -9,10 +9,6 @@ export const ChainMainInfo = ({
   logoSrc,
   name,
   description,
-  label,
-  extraDescription,
-  extraLabel,
-  descriptionClassName = '',
   className = '',
 }: ChainMainInfoProps) => {
   const classes = useStyles();
@@ -24,46 +20,7 @@ export const ChainMainInfo = ({
         <Typography variant="h4" noWrap className={classes.title}>
           {name}
         </Typography>
-        <div className={classes.infos}>
-          <div className={classes.info}>
-            <Typography
-              variant="subtitle2"
-              noWrap
-              className={descriptionClassName}
-            >
-              {description}
-            </Typography>
-            {label && (
-              <Typography
-                className={classes.label}
-                variant="caption"
-                color="textSecondary"
-              >
-                {label}
-              </Typography>
-            )}
-          </div>
-          {extraDescription && (
-            <div className={classes.info}>
-              <Typography
-                variant="subtitle2"
-                noWrap
-                className={descriptionClassName}
-              >
-                {extraDescription}
-              </Typography>
-              {extraLabel && (
-                <Typography
-                  className={classes.label}
-                  variant="caption"
-                  color="textSecondary"
-                >
-                  {extraLabel}
-                </Typography>
-              )}
-            </div>
-          )}
-        </div>
+        {description}
       </div>
     </div>
   );

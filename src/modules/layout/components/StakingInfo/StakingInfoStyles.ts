@@ -13,9 +13,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   link: {
     marginTop: theme.spacing(0.5),
-    fontWeight: 600,
     whiteSpace: 'nowrap',
-    minWidth: 'auto',
+    background: 'transparent',
   },
   icon: {
     fontSize: 9,

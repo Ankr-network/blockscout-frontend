@@ -5,9 +5,12 @@ import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t } from 'modules/i18n/utils/intl';
+import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { CHAINS_MOCK } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListMock';
+import { IS_PRIVATE } from 'store';
 import { useStyles } from './ChainItemHeaderStyles';
+import { PrivateHeader } from './PrivateHeader';
 
 export const ChainItemHeader = () => {
   const classes = useStyles();
@@ -22,8 +25,12 @@ export const ChainItemHeader = () => {
         <ChainMainInfo
           logoSrc={data.chainLogo}
           name={data.name}
-          description={data.name}
-          descriptionClassName={classes.description}
+          description={
+            <ChainRequestsLabel
+              description={data.name}
+              descriptionColor="textSecondary"
+            />
+          }
         />
         <div className={classes.right}>
           <CopyToClipButton
@@ -34,14 +41,20 @@ export const ChainItemHeader = () => {
           />
         </div>
       </div>
-      <div className={classes.bottom}>
-        <Typography variant="body2" className={classes.text}>
-          {t('chain-item.header.bottom')}
-        </Typography>
-        <Button endIcon={<ArrowRightIcon className={classes.icon} />}>
-          {t('chain-item.header.button')}
-        </Button>
-      </div>
+      {IS_PRIVATE ? (
+        <PrivateHeader
+          chainLinks={['https://test./v3/1', 'https://test./v3/2']}
+        />
+      ) : (
+        <div className={classes.bottom}>
+          <Typography variant="body2" className={classes.text}>
+            {t('chain-item.header.bottom')}
+          </Typography>
+          <Button endIcon={<ArrowRightIcon className={classes.icon} />}>
+            {t('chain-item.header.button')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

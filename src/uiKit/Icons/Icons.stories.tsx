@@ -16,6 +16,7 @@ import { HeadphonesIcon } from './HeadphonesIcon';
 import { LabelIcon } from './LabelIcon';
 import { PaperIcon } from './PaperIcon';
 import { StakingIcon } from './StakingIcon';
+import { SuccessIcon } from './SuccessIcon';
 
 storiesOf('uiKit/Icons', module).add('Default', () => (
   <Box margin="8" display="flex" justifyContent="space-around" flexWrap="wrap">
@@ -32,6 +33,7 @@ storiesOf('uiKit/Icons', module).add('Default', () => (
       <LabelIcon />
       <PaperIcon />
       <StakingIcon />
+      <SuccessIcon />
     </ThemeProvider>
   </Box>
 ));

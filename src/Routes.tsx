@@ -8,6 +8,7 @@ import {
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
+import { IS_PRIVATE } from './store';
 
 export function Routes() {
   return (
@@ -15,7 +16,15 @@ export function Routes() {
       <Route
         exact
         path="/"
-        render={() => <Redirect to={DashboardRoutesConfig.dashboard.path} />}
+        render={() => (
+          <Redirect
+            to={
+              IS_PRIVATE
+                ? DashboardRoutesConfig.dashboard.path
+                : ChainsRoutesConfig.chains.path
+            }
+          />
+        )}
       />
       <Route
         exact

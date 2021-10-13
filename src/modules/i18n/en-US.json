@@ -34,7 +34,8 @@
   "chain-item": {
     "header": {
       "bottom": "Private RPC",
-      "button": "Generate Private Endpoint"
+      "button": "Generate Private Endpoint",
+      "settings-button": "Settings"
     },
     "details": {
       "average-requests": "Average Requests/sec",
