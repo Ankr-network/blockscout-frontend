@@ -27,5 +27,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexGrow: 1,
     padding: theme.spacing(0, 3.5, 6),
     paddingTop: `${HEADER_HEIGHT}px`,
+    position: 'relative',
   },
 }));

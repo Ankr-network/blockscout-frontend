@@ -29,7 +29,8 @@
   "chains": {
     "title": "Choose the chain",
     "more-details": "More",
-    "integrate-button": "How to integrate"
+    "integrate-button": "How to integrate",
+    "requests": "{value} reqs"
   },
   "chain-item": {
     "header": {

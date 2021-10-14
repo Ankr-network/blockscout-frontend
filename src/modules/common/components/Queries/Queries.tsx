@@ -1,5 +1,4 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Box } from '@material-ui/core';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
 
 import { useAppSelector } from 'store/useAppSelector';
@@ -61,19 +60,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   );
 
   if (isLoading(queries)) {
-    return (
-      noDataMessage || (
-        <Box
-          py={5}
-          position="relative"
-          width="100%"
-          display="flex"
-          justifyContent="center"
-        >
-          <Spinner centered={false} />
-        </Box>
-      )
-    );
+    return noDataMessage || <Spinner />;
   }
 
   const error = hasError(queries);

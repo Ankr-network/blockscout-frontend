@@ -16,8 +16,8 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           name="namenamenamename"
           description="requestInforequestInforequestInforequestInfo"
           period="24h"
-          chainLink="chainLinkchainLinkchainLinkchainLinkchainLink"
-          chainDetailsLink="chainDetailsLink"
+          links={['chainLinkchainLinkchainLinkchainLinkchainLink']}
+          onButtonClick={() => null}
         />
       </Box>
     </ThemeProvider>

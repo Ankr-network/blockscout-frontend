@@ -14,8 +14,16 @@ interface IFetchChainsResponseData {
   >;
 }
 
+interface IApiChain {
+  id: string;
+  name: string;
+  rpcUrl: string;
+  wsUrl: string;
+  requests?: number;
+}
+
 export const fetchChains = createSmartAction<
-  RequestAction<IFetchChainsResponseData, IFetchChainsResponseData>
+  RequestAction<IFetchChainsResponseData, IApiChain[]>
 >('chains/fetchChains', () => ({
   request: {
     promise: (async () => {
@@ -29,6 +37,25 @@ export const fetchChains = createSmartAction<
   },
   meta: {
     asMutation: false,
-    getData: data => data,
+    getData: data => {
+      const { chains } = data;
+
+      const chainsArray = Object.values(chains);
+
+      return chainsArray.map(item => {
+        const { blockchain, rpcUrl, wsUrl } = item;
+        const { id, stats, name } = blockchain;
+
+        const requests = stats?.reqs;
+
+        return {
+          id,
+          name,
+          rpcUrl,
+          wsUrl,
+          requests,
+        };
+      });
+    },
   },
 }));

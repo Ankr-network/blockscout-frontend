@@ -24,4 +24,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     marginTop: theme.spacing(1.5),
   },
+  links: {
+    '& $copyItem:not(:last-child)': {
+      marginBottom: theme.spacing(1.5),
+    },
+  },
+  copyItem: {},
 }));

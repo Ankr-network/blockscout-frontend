@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { t } from 'modules/i18n/utils/intl';
@@ -14,15 +13,10 @@ export const ChainsItem = ({
   name,
   description,
   period,
-  chainLink,
-  chainDetailsLink,
+  links,
+  onButtonClick,
 }: ChainsItemProps) => {
   const classes = useStyles();
-  const history = useHistory();
-
-  const onButtonClick = useCallback(() => {
-    history.push(chainDetailsLink);
-  }, [history, chainDetailsLink]);
 
   return (
     <div className={classes.root}>
@@ -35,7 +29,16 @@ export const ChainsItem = ({
         }
       />
       <div className={classes.bottom}>
-        <CopyToClipIcon text={chainLink} message={t('common.copy-message')} />
+        <div className={classes.links}>
+          {links.map(link => (
+            <CopyToClipIcon
+              text={link}
+              message={t('common.copy-message')}
+              key={link}
+              className={classes.copyItem}
+            />
+          ))}
+        </div>
         <Button
           variant="outlined"
           color="primary"

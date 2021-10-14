@@ -1,8 +1,8 @@
 export interface ChainsItemProps {
   logoSrc: string;
   name: string;
-  description: string;
+  description?: string;
   period: string;
-  chainLink: string;
-  chainDetailsLink: string;
+  links: string[];
+  onButtonClick: () => void;
 }
