@@ -1,10 +1,11 @@
+import React, { ReactElement, ReactNode } from 'react';
 import { Box } from '@material-ui/core';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
-import React, { ReactElement, ReactNode } from 'react';
+
 import { useAppSelector } from 'store/useAppSelector';
+import { Spinner } from 'uiKit/Spinner';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
-import { QueryLoading } from '../QueryLoading/QueryLoading';
 
 interface ILoadingProps<T1, T2, T3, T4, T5> {
   requestActions: ((...args: any[]) => RequestAction)[];
@@ -69,7 +70,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
           display="flex"
           justifyContent="center"
         >
-          <QueryLoading />
+          <Spinner centered={false} />
         </Box>
       )
     );

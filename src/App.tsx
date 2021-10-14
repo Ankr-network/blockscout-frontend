@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { persistor, store } from './store';
-import { QueryLoadingAbsolute } from './modules/common/components/QueryLoading/QueryLoading';
+import { Spinner } from './uiKit/Spinner';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
@@ -16,7 +16,7 @@ function App() {
   return (
     <Router basename={packageJson.homepage}>
       <Provider store={store}>
-        <PersistGate loading={<QueryLoadingAbsolute />} persistor={persistor}>
+        <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
             <ScrollToTop />
             <Routes />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { QueryLoadingAbsolute } from 'modules/common/components/QueryLoading/QueryLoading';
+import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_PROVIDERS = '/providers';
@@ -21,7 +21,7 @@ const LoadableProvidersContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/ProvidersList').then(module => module.ProvidersList),
   {
-    fallback: <QueryLoadingAbsolute />,
+    fallback: <Spinner />,
   },
 );
 

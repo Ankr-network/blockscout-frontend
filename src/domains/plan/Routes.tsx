@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { QueryLoadingAbsolute } from 'modules/common/components/QueryLoading/QueryLoading';
+import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_PLAN = '/plan';
@@ -20,7 +20,7 @@ export const PlanRoutesConfig = createRouteConfig(
 const LoadablePlanContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/Plan').then(module => module.Plan),
   {
-    fallback: <QueryLoadingAbsolute />,
+    fallback: <Spinner />,
   },
 );
 

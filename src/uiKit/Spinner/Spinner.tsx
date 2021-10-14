@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import { useSpinnerStyles } from './SpinnerStyles';
 import { ReactComponent as SpinnerIcon } from './assets/spinner.svg';
+import { useStyles } from './useStyles';
 
 interface ISpinnerProps {
   centered?: boolean;
@@ -10,17 +10,19 @@ interface ISpinnerProps {
   size?: number;
 }
 
+const DEFAULT_SIZE = 80;
+
 export const Spinner = ({
-  centered = false,
-  size,
+  size = DEFAULT_SIZE,
+  centered = true,
   className = '',
 }: ISpinnerProps) => {
-  const classes = useSpinnerStyles({ size });
+  const classes = useStyles({ size });
 
   return (
     <SpinnerIcon
       className={classNames(
-        classes.component,
+        classes.root,
         centered && classes.centered,
         className,
       )}
