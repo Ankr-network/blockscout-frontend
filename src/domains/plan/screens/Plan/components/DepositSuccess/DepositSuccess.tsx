@@ -16,7 +16,7 @@ export const DepositSuccess = () => {
         {t('plan.deposit-success.title')}
       </Typography>
       {HAS_EMAIL && (
-        <Typography variant="h1" className={classes.bottomTitle}>
+        <Typography variant="h3">
           {tHTML('plan.deposit-success.subtitle')}
         </Typography>
       )}

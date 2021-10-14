@@ -10,7 +10,7 @@ export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.left}>
-        <Typography variant="h4" noWrap className={classes.title}>
+        <Typography variant="h5" noWrap className={classes.title}>
           {title}
         </Typography>
         {select}

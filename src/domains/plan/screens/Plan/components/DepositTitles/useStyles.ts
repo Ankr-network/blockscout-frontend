@@ -6,7 +6,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginBottom: theme.spacing(2.5),
   },
   bottomTitle: {
-    fontSize: 60,
+    fontWeight: 400,
     maxWidth: 728,
     lineHeight: '100%',
     letterSpacing: '-0.02em',

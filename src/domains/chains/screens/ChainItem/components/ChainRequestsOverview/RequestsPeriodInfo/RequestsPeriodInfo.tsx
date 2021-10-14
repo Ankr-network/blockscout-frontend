@@ -19,10 +19,10 @@ export const RequestsPeriodInfo = ({
 
   return (
     <div className={classNames(classes.root, className)}>
-      <Typography variant="body1" noWrap className={classes.description}>
+      <Typography variant="subtitle1" noWrap className={classes.description}>
         {description}
       </Typography>
-      <Typography variant="h2" noWrap className={classes.title}>
+      <Typography variant="h3" noWrap className={classes.title}>
         {title}
       </Typography>
     </div>

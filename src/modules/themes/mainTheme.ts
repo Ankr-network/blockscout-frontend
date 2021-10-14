@@ -166,50 +166,49 @@ export const mainTheme = createMuiTheme({
 
       h1: {
         fontFamily: FONTS.primary,
-        fontWeight: 500,
-        fontSize: 36,
+        fontWeight: 'bold',
+        fontSize: 70,
       },
 
       h2: {
         fontFamily: FONTS.primary,
-        fontWeight: 600,
-        fontSize: 28,
-
-        [defaultTheme.breakpoints.up('md')]: {
-          fontSize: 32,
-        },
+        fontWeight: 'bold',
+        fontSize: 60,
       },
 
       h3: {
         fontFamily: FONTS.primary,
-        fontWeight: 600,
-        fontSize: 18,
-
-        [defaultTheme.breakpoints.up('md')]: {
-          fontSize: 22,
-        },
+        fontWeight: 'bold',
+        fontSize: 30,
       },
 
       h4: {
         fontSize: 18,
-        fontWeight: 700,
+        fontWeight: 'bold',
       },
 
       h5: {
-        fontSize: 15,
-        fontWeight: 500,
+        fontSize: 16,
+        fontWeight: 'bold',
       },
 
       body1: {
-        fontSize: 14,
-
-        [defaultTheme.breakpoints.up('md')]: {
-          fontSize: 16,
-        },
+        fontSize: 18,
+        fontWeight: 500,
       },
 
       body2: {
+        fontSize: 16,
+        fontWeight: 500,
+      },
+
+      subtitle1: {
         fontSize: 14,
+        fontWeight: 500,
+      },
+
+      subtitle2: {
+        fontSize: 12,
         fontWeight: 500,
       },
     },

@@ -13,12 +13,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingRight: theme.spacing(10),
     width: '50%',
   },
-  topTitle: {
-    marginBottom: theme.spacing(2.5),
-  },
-  bottomTitle: {
-    fontSize: 60,
-  },
   info: {
     fontWeight: 500,
 

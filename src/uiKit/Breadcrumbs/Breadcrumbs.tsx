@@ -35,7 +35,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         }
 
         return (
-          <Typography color="textPrimary" className={classes.text} key={title}>
+          <Typography color="textPrimary" variant="h3" key={title}>
             {title}
           </Typography>
         );

@@ -21,7 +21,7 @@ export const DepositTitles = ({
       <Typography variant="h4" className={classes.topTitle} color="primary">
         {topTitle}
       </Typography>
-      <Typography variant="h1" className={classes.bottomTitle}>
+      <Typography variant="h2" className={classes.bottomTitle}>
         {bottomTitle}
       </Typography>
     </div>

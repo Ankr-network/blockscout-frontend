@@ -7,11 +7,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   title: {
     marginBottom: theme.spacing(2),
-    fontSize: 60,
-
-    [theme.breakpoints.up('md')]: {
-      fontSize: 80,
-    },
   },
 
   button: {

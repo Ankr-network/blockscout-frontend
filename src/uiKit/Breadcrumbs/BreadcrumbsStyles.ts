@@ -9,10 +9,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       color: theme.palette.primary.main,
     },
   },
-  text: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
+  text: {},
   separator: {
     fontSize: 22,
   },

@@ -12,7 +12,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
     marginRight: theme.spacing(1.5),
   },
 }));

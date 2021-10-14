@@ -12,10 +12,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   topTitle: {
     marginBottom: theme.spacing(2.5),
   },
-  bottomTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
   icon: {
     fontSize: '16px !important',
   },
