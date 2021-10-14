@@ -77,5 +77,21 @@
   "common": {
     "copy-message": "Copied!",
     "copy-text": "Public Link"
+  },
+  "providers": {
+    "title": "RPC node providers",
+    "integrate-button": "Become a node provider",
+    "table": {
+      "head": {
+        "chain":  "chain",
+        "type": "type",
+        "location":  "location",
+        "organization": "organization"
+      },
+      "pagination": {
+        "previous-button": "Previous",
+        "next-button": "Next"
+      }
+    }
   }
 }

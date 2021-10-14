@@ -6,6 +6,10 @@ import {
   DashboardRoutesConfig,
 } from './domains/dashboard/Routes';
 import { PlanRoutes, PlanRoutesConfig } from './domains/plan/Routes';
+import {
+  ProvidersRoutes,
+  ProvidersRoutesConfig,
+} from './domains/nodeProviders/Routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
@@ -54,6 +58,15 @@ export function Routes() {
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <PlanRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[ProvidersRoutesConfig.providers.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <ProvidersRoutes />
           </DefaultLayout>
         )}
       />

@@ -15,6 +15,7 @@ import {
 import { PATH_DASHBOARD } from 'domains/dashboard/Routes';
 import { PATH_CHAINS } from 'domains/chains/Routes';
 import { PATH_PLAN } from 'domains/plan/Routes';
+import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
 import { IS_PRIVATE } from 'store';
 
@@ -46,8 +47,7 @@ export const MainNavigation = () => {
       {
         label: t('main-navigation.protocol'),
         StartIcon: PaperIcon,
-        isDisabled: true,
-        href: '/protocol',
+        href: PATH_PROVIDERS,
       },
     ],
     [],
