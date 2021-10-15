@@ -1,5 +1,13 @@
 {
   "title": "RPC",
+  "validation": {
+    "required": "This field is required"
+  },
+  "error": {
+    "not-authenticated": "Not Authenticated",
+    "unknown": "Unknown error",
+    "contract-rejected": "Contract interaction rejected"
+  },
   "main-navigation": {
     "dashboard": "Dashboard",
     "public-rpcs": "Public RPCs",

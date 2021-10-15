@@ -27,7 +27,7 @@ export const fetchChains = createSmartAction<
 >('chains/fetchChains', () => ({
   request: {
     promise: (async () => {
-      const service = MultiService.getInstance();
+      const { service } = MultiService.getInstance();
 
       const chains = await service.createPublicUrls();
       return {

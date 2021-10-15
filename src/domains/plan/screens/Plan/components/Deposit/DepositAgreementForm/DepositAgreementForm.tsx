@@ -1,37 +1,37 @@
 import React from 'react';
-import {
-  Typography,
-  Button,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-} from '@material-ui/core';
-
+import { Box, Button, FormGroup, Typography } from '@material-ui/core';
 import { tHTML } from 'modules/i18n/utils/intl';
-import { useStyles } from './useStyles';
+import { Field } from 'react-final-form';
+import { CheckboxField } from '../../../../../../../modules/form/components/CheckboxField/CheckboxField';
+import { Mutation } from '@redux-requests/react';
+import { deposit } from '../../../../../../../modules/auth/actions/deposit';
 
 export const DepositAgreementForm = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <>
       <FormGroup row>
-        <FormControlLabel
-          control={<Checkbox name="checkedA" />}
+        <Field
+          component={CheckboxField}
+          type="checkbox"
+          name="confirmed"
           label={
-            <Typography
-              variant="caption"
-              className={classes.caption}
-              color="textSecondary"
-            >
-              {tHTML('plan.deposit.agreement.text')}
-            </Typography>
+            <Box ml={2}>
+              <Typography variant="caption" color="textSecondary">
+                {tHTML('plan.deposit.agreement.text')}
+              </Typography>
+            </Box>
           }
         />
-        <Button color="primary" className={classes.button} disabled>
-          {tHTML('plan.deposit.agreement.button')}
-        </Button>
       </FormGroup>
-    </div>
+      <Box mt={2.5} maxWidth={210}>
+        <Mutation type={deposit}>
+          {({ loading }) => (
+            <Button color="primary" fullWidth type="submit" disabled={loading}>
+              {tHTML('plan.deposit.agreement.button')}
+            </Button>
+          )}
+        </Mutation>
+      </Box>
+    </>
   );
 };

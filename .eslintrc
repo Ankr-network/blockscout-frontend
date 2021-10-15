@@ -81,6 +81,7 @@
     "no-unreachable": "warn",
     "react/no-did-update-set-state": "off",
     "react/no-children-prop": "off",
+    "import/order": "off",
     "react/jsx-wrap-multilines": [
       "error",
       {

@@ -1,13 +1,43 @@
-import React from 'react';
-import { Typography, Divider } from '@material-ui/core';
-
+import React, { useCallback } from 'react';
+import { Divider, Typography } from '@material-ui/core';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { DepositAgreementForm } from './DepositAgreementForm';
 import { DepositTitles } from '../DepositTitles';
 import { useStyles } from './useStyles';
+import { Form, FormRenderProps } from 'react-final-form';
+import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
 
-export const Deposit = () => {
+interface IDepositFormData {
+  confirmed: boolean;
+}
+
+const validate = (data: Partial<IDepositFormData>) => {
+  const errors: FormErrors<IDepositFormData> = {};
+
+  if (!data.confirmed) {
+    errors.confirmed = t('validation.required');
+  }
+
+  return errors;
+};
+
+interface IDepositProps {
+  onSubmit: (data: IDepositFormData) => void;
+}
+
+export const Deposit = ({ onSubmit }: IDepositProps) => {
   const classes = useStyles();
+
+  const renderForm = useCallback(
+    ({ handleSubmit }: FormRenderProps<IDepositFormData>) => {
+      return (
+        <form onSubmit={handleSubmit}>
+          <DepositAgreementForm />
+        </form>
+      );
+    },
+    [],
+  );
 
   return (
     <div className={classes.root}>
@@ -29,7 +59,12 @@ export const Deposit = () => {
           </Typography>
         </div>
         <Divider className={classes.divider} />
-        <DepositAgreementForm />
+        <Form
+          onSubmit={onSubmit}
+          render={renderForm}
+          validate={validate}
+          initialValues={{ confirmed: false }}
+        />
       </div>
     </div>
   );
