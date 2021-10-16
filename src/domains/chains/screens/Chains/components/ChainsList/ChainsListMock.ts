@@ -1,7 +1,7 @@
 export const CHAINS_MOCK = [
   {
     chainLogo: 'https://assets.ankr.com/charts/icon-only/ethereum.svg',
-    name: 'ethereum',
+    name: 'eth',
     requestInfo: '3 472 952 req',
     period: '24h',
     chainLink: 'https://mrpc.com/ethereum',

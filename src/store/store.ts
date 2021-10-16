@@ -15,7 +15,7 @@ import { notificationSlice } from '../domains/notification/store/notificationSli
 import { rootSaga } from './rootSaga';
 import { i18nPersistConfig } from './webStorageConfigs';
 
-export const IS_PRIVATE = true;
+export const IS_PRIVATE = false;
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {

@@ -14,7 +14,7 @@ interface IFetchChainsResponseData {
   >;
 }
 
-interface IApiChain {
+export interface IApiChain {
   id: string;
   name: string;
   rpcUrl: string;
@@ -36,6 +36,7 @@ export const fetchChains = createSmartAction<
     })(),
   },
   meta: {
+    cache: true,
     asMutation: false,
     getData: data => {
       const { chains } = data;

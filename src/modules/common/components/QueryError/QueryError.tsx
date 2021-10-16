@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Typography } from '@material-ui/core';
 import { ErrorProps } from '@redux-requests/react';
 
 import { extractMessage } from '../../utils/extractError';
@@ -9,14 +10,8 @@ export const QueryError = (props: ILoadingProps) => {
   const message = extractMessage(props);
 
   return (
-    <div
-      style={{
-        fontSize: 30,
-        textAlign: 'center',
-        paddingTop: 40,
-      }}
-    >
+    <Typography variant="h3" color="error">
       {message}
-    </div>
+    </Typography>
   );
 };

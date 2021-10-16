@@ -348,6 +348,7 @@ export const mainTheme = createMuiTheme({
       label: {
         alignItems: 'center',
         position: 'relative',
+        whiteSpace: 'nowrap',
       },
 
       sizeLarge: {

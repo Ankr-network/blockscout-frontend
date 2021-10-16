@@ -3,42 +3,49 @@ import { Typography, Button } from '@material-ui/core';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { fetchChainItem } from 'domains/chains/actions/fetchChainItem';
+import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t } from 'modules/i18n/utils/intl';
-import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { CHAINS_MOCK } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListMock';
+import { ResponseData } from 'modules/api/utils/ResponseData';
 import { IS_PRIVATE } from 'store';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 
-export const ChainItemHeader = () => {
-  const classes = useStyles();
-  const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
+interface ChainItemHeaderProps {
+  chain: ResponseData<typeof fetchChainItem>['chain'];
+}
 
-  const data: any =
-    CHAINS_MOCK.find((item: any) => chainId === item.name) || {};
+export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
+  const classes = useStyles();
+
+  const [formattedChain] = formatChains([chain]);
+  const { rpcLinks, name } = formattedChain;
 
   return (
     <div className={classes.root}>
       <div className={classes.top}>
         <ChainMainInfo
-          logoSrc={data.chainLogo}
-          name={data.name}
+          logoSrc=""
+          name={name}
           description={
             <ChainRequestsLabel
-              description={data.name}
+              description={name}
               descriptionColor="textSecondary"
             />
           }
         />
         <div className={classes.right}>
-          <CopyToClipButton
-            className={classes.copyToClip}
-            text={data.chainLink}
-            textMessage={t('common.copy-message')}
-            buttonText={t('common.copy-text')}
-          />
+          {rpcLinks.map(link => (
+            <CopyToClipButton
+              text={link}
+              key={link}
+              textMessage={t('common.copy-message')}
+              buttonText={t('common.copy-text')}
+              className={classes.copyToClip}
+            />
+          ))}
         </div>
       </div>
       {IS_PRIVATE ? (

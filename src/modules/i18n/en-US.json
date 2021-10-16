@@ -6,7 +6,8 @@
   "error": {
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",
-    "contract-rejected": "Contract interaction rejected"
+    "contract-rejected": "Contract interaction rejected",
+    "unexpected": "Unexpected error"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -52,6 +53,16 @@
       "cached-requests": "Cached Requests",
       "24-hours": "Last 24 Hours",
       "all-time": "All Time"
+    },
+    "api-details": {
+      "data-cached": "Data cached",
+      "total-cached": "Total cached",
+      "total-served": "Total served",
+      "unique-visitors": "Unique visitors",
+      "total-requests": "Total Requests"
+    },
+    "chart": {
+      "time": "{value, date, medium}"
     }
   },
   "plan": {
@@ -85,16 +96,17 @@
   },
   "common": {
     "copy-message": "Copied!",
-    "copy-text": "Public Link"
+    "copy-text": "Public Link",
+    "empty": "Empty..."
   },
   "providers": {
     "title": "RPC node providers",
     "integrate-button": "Become a node provider",
     "table": {
       "head": {
-        "chain":  "chain",
+        "chain": "chain",
         "type": "type",
-        "location":  "location",
+        "location": "location",
         "organization": "organization"
       },
       "pagination": {
