@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@ankr.com/multirpc@^0.0.72":
-  version "0.0.72"
-  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.72.tgz#76582103d8b021a4b7228b3d9ae042e2f9903595"
-  integrity sha512-eIDI91PzZdymvoc9OvpLpb28QNqEYuzLQiFuqOeHyeUjLahKD+rs2F4K1NBs8KW8FgbHZzaXZly6lMZjEXT/lg==
+"@ankr.com/multirpc@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.76.tgz#df65dd2fd4e91fd8789f536030bd6702b7e80ded"
+  integrity sha512-h/5z3jgO9xbWgvWGOaJn9ZZ2BY9xb6uKhWozIs0c1hzCG1G1W6pwx1U0Xk8+UijH/r0Mo+SLqxRT6ma+6oV+/w==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.72"
+    "@ankr.com/stakefi-web3" "^0.0.76"
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
     ethereumjs-tx "^2.1.2"
     web3 "^1.3.5"
     web3-eth-contract "^1.3.5"
 
-"@ankr.com/stakefi-web3@^0.0.72":
-  version "0.0.72"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.72.tgz#fbad08f030b7a6e0b68dfff30e8a88038bdee1a6"
-  integrity sha512-UPLf1bsRnEMiU9obAb4M1/BEdAITGQuKKzchtUaWdD1t/7tS3A1RvMzvfhSGbwcGv3cRK3opwdj9AHfGx2QBEA==
+"@ankr.com/stakefi-web3@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.76.tgz#cc70a5a9d142520fa9054e5787a311b4090f9704"
+  integrity sha512-AhB0a89IcModBT8hKtFQaykEov0oPBu22PcreTH6YdPCfrgaGM6IHcS6gdgodl9CkTh+1EekFB9rNd+i0OsyqQ==
   dependencies:
     "@ethereumjs/tx" "^3.3.2"
     "@types/node" "^14.14.41"
