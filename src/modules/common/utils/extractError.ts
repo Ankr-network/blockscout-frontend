@@ -13,9 +13,5 @@ export function extractMessage(error: any) {
     return error.toString();
   }
 
-  if (!error) {
-    return t('error.unexpected');
-  }
-
   return t('error.unexpected');
 }

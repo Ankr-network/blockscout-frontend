@@ -9,13 +9,13 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ChainsList } from './components/ChainsList';
-import { fetchChains } from '../../actions/fetchChains';
+import { fetchPublicChains } from '../../actions/fetchPublicChains';
 
 export const Chains = () => {
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
-    dispatchRequest(fetchChains());
+    dispatchRequest(fetchPublicChains());
   }, [dispatchRequest]);
 
   return (
@@ -29,7 +29,9 @@ export const Chains = () => {
           </Button>
         }
       />
-      <Queries<ResponseData<typeof fetchChains>> requestActions={[fetchChains]}>
+      <Queries<ResponseData<typeof fetchPublicChains>>
+        requestActions={[fetchPublicChains]}
+      >
         {({ data }) => <ChainsList data={data} />}
       </Queries>
     </>

@@ -1,11 +1,10 @@
-export interface ChainsItemProps {
+export interface RpcItemProps {
   logoSrc: string;
   name: string;
   description: string;
   period: string;
-  chainLink: string;
-  chainDetailsLink: string;
+  links: string[];
   className?: string;
-  extraDescription: string;
-  extraLabel: string;
+  extraDescription?: string;
+  extraLabel?: string;
 }

@@ -16,10 +16,11 @@ import { PATH_DASHBOARD } from 'domains/dashboard/Routes';
 import { PATH_CHAINS } from 'domains/chains/Routes';
 import { PATH_PLAN } from 'domains/plan/Routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
-
-import { IS_PRIVATE } from 'store';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const MainNavigation = () => {
+  const { hasAccount } = useAuth();
+
   const items = useMemo(
     (): NavigationItem[] => [
       {
@@ -42,7 +43,7 @@ export const MainNavigation = () => {
         label: t('main-navigation.plan'),
         StartIcon: LabelIcon,
         href: PATH_PLAN,
-        EndIcon: IS_PRIVATE ? SuccessIcon : undefined,
+        EndIcon: hasAccount ? SuccessIcon : undefined,
       },
       {
         label: t('main-navigation.protocol'),
@@ -50,7 +51,7 @@ export const MainNavigation = () => {
         href: PATH_PROVIDERS,
       },
     ],
-    [],
+    [hasAccount],
   );
 
   return <Navigation items={items} />;

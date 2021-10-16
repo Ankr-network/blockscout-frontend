@@ -15,6 +15,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   darkTheme: {},
 
   body: {
+    width: '100%',
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',

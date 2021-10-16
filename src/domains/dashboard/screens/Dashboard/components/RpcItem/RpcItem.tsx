@@ -7,18 +7,18 @@ import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 
 import { useStyles } from './RpcItemStyles';
-import { ChainsItemProps } from './RpcItemTypes';
+import { RpcItemProps } from './RpcItemTypes';
 
 export const RpcItem = ({
   logoSrc,
   name,
   description,
   period,
-  chainLink,
+  links,
   extraDescription,
   extraLabel,
   className = '',
-}: ChainsItemProps) => {
+}: RpcItemProps) => {
   const classes = useStyles();
 
   return (
@@ -35,28 +35,27 @@ export const RpcItem = ({
               label={period}
               className={classes.descriptionItem}
             />
-            <ChainRequestsLabel
-              description={extraDescription}
-              label={extraLabel}
-              descriptionColor="textSecondary"
-              className={classes.descriptionItem}
-            />
+            {extraDescription && (
+              <ChainRequestsLabel
+                description={extraDescription}
+                label={extraLabel}
+                descriptionColor="textSecondary"
+                className={classes.descriptionItem}
+              />
+            )}
           </div>
         }
       />
       <div className={classes.right}>
-        <CopyToClipIcon
-          text={chainLink}
-          message={t('common.copy-message')}
-          textColor="textPrimary"
-          className={classes.item}
-        />
-        <CopyToClipIcon
-          text={chainLink}
-          message={t('common.copy-message')}
-          textColor="textPrimary"
-          className={classes.item}
-        />
+        {links.map(link => (
+          <CopyToClipIcon
+            text={link}
+            message={t('common.copy-message')}
+            key={link}
+            textColor="textPrimary"
+            className={classes.item}
+          />
+        ))}
       </div>
     </div>
   );

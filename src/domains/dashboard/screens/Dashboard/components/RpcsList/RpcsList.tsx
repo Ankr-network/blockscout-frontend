@@ -1,37 +1,32 @@
 import React from 'react';
 
-import { CHAINS_MOCK } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListMock';
-
+import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
+import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
+import { RpcsListProps } from './RpcsListProps';
 
-export const RpcsList = () => {
+export const RpcsList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
+
+  const chains = formatChains(data);
 
   return (
     <div>
-      {CHAINS_MOCK.map((item, index) => {
-        const {
-          chainLogo,
-          name,
-          requestInfo,
-          period,
-          chainLink,
-          chainDetailsLink,
-        } = item;
+      {chains.map(item => {
+        const { id, name, requests, rpcLinks } = item;
 
         return (
           <RpcItem
-            logoSrc={chainLogo}
+            logoSrc=""
+            period=""
             name={name}
-            description={requestInfo}
-            period={period}
-            chainLink={chainLink}
-            chainDetailsLink={chainDetailsLink}
-            key={index}
+            links={rpcLinks}
+            key={id}
             className={classes.item}
-            extraLabel="21 req"
-            extraDescription="sec"
+            description={
+              requests ? t('chains.requests', { value: requests }) : ''
+            }
           />
         );
       })}

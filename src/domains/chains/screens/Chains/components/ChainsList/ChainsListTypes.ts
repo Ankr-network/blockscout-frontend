@@ -1,8 +1,8 @@
-import { fetchChains } from 'domains/chains/actions/fetchChains';
+import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 
 export interface ChainsListProps {
-  data: ResponseData<typeof fetchChains>;
+  data: ResponseData<typeof fetchPublicChains>;
 }
 
 export interface Chain {

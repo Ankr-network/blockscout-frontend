@@ -13,9 +13,11 @@ import {
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
-import { IS_PRIVATE } from './store';
+import { useAuth } from './modules/auth/hooks/useAuth';
 
 export function Routes() {
+  const { hasAccount } = useAuth();
+
   return (
     <Switch>
       <Route
@@ -24,7 +26,7 @@ export function Routes() {
         render={() => (
           <Redirect
             to={
-              IS_PRIVATE
+              hasAccount
                 ? DashboardRoutesConfig.dashboard.path
                 : ChainsRoutesConfig.chains.path
             }

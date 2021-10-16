@@ -7,9 +7,9 @@ import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/Cha
 import { fetchChainItem } from 'domains/chains/actions/fetchChainItem';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { t } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { IS_PRIVATE } from 'store';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 
@@ -18,6 +18,8 @@ interface ChainItemHeaderProps {
 }
 
 export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
+  const { hasAccount } = useAuth();
+
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
@@ -48,7 +50,7 @@ export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
           ))}
         </div>
       </div>
-      {IS_PRIVATE ? (
+      {hasAccount ? (
         <PrivateHeader
           chainLinks={['https://test./v3/1', 'https://test./v3/2']}
         />
