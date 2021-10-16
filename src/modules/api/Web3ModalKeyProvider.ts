@@ -102,27 +102,26 @@ export const providerDefaultOptions: IProviderOptions = {
   },
 };
 
+export const injectWeb3Modal = async (): Promise<Web3> => {
+  const web3Modal = new Web3Modal({
+    providerOptions: providerDefaultOptions,
+    theme: {
+      background: PALETTE.background?.paper,
+      main: PALETTE.text?.primary,
+      secondary: PALETTE.text?.primary && fade(PALETTE.text.primary, 0.5),
+      border: PALETTE.background?.default,
+      hover:
+        PALETTE.background?.paper && lighten(PALETTE.background.paper, 0.03),
+    },
+  } as ICoreOptions);
+  return new Web3(await web3Modal.connect());
+};
+
 export class Web3ModalKeyProvider extends Web3KeyProvider {
   public async inject(): Promise<Web3> {
     if (!this._web3) {
-      const web3Modal = new Web3Modal({
-        providerOptions: providerDefaultOptions,
-        theme: {
-          background: PALETTE.background?.paper,
-          main: PALETTE.text?.primary,
-          secondary: PALETTE.text?.primary && fade(PALETTE.text.primary, 0.5),
-          border: PALETTE.background?.default,
-          hover:
-            PALETTE.background?.paper &&
-            lighten(PALETTE.background.paper, 0.03),
-        },
-      } as ICoreOptions);
-
-      const provider = await web3Modal.connect();
-
-      this._web3 = new Web3(provider);
+      this._web3 = await injectWeb3Modal();
     }
-
     return this._web3;
   }
 }
