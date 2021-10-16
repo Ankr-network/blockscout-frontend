@@ -16,7 +16,9 @@ export const deposit = createSmartAction<
     promise: async () => {
       const { service } = MultiService.getInstance();
 
-      await service.depositAnkr(amount);
+      await Promise.all(
+        (await service.depositAnkr(amount)).map(item => item.receiptPromise),
+      );
 
       return {} as IDeposit;
     },
