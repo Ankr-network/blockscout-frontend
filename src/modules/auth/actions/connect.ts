@@ -17,9 +17,7 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         const { provider, service } = MultiService.getInstance();
         await provider.connectFromInjected();
         const address = provider.currentAccount();
-        service.initContractManager();
-        const hasAccount = await await service.checkUserHaveDeposit(address);
-
+        const hasAccount = await service.checkUserHaveDeposit(address);
         return { address, hasAccount, justDeposited: false } as IConnect;
       })(),
     },

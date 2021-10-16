@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { IBlockchainEntity } from '@ankr.com/multirpc/dist/types/worker';
+import { IBlockchainEntity } from '@ankr.com/multirpc';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from '../../../modules/api/MultiService';
 
