@@ -5,8 +5,9 @@ import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
+import defaulLogo from './assets/defaultLogo.svg';
 
-export const RpcsList = ({ data }: RpcsListProps) => {
+export const RpcList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
 
   const chains = formatChains(data);
@@ -18,7 +19,7 @@ export const RpcsList = ({ data }: RpcsListProps) => {
 
         return (
           <RpcItem
-            logoSrc=""
+            logoSrc={defaulLogo}
             period=""
             name={name}
             links={rpcLinks}

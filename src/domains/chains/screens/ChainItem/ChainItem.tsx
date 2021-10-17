@@ -6,7 +6,7 @@ import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { fetchChainItem } from 'domains/chains/actions/fetchChainItem';
+import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
@@ -18,15 +18,13 @@ export const ChainItem = () => {
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
 
   useEffect(() => {
-    dispatchRequest(fetchChainItem(chainId));
+    dispatchRequest(fetchChain(chainId));
   }, [dispatchRequest, chainId]);
 
   return (
     <ThemeProvider theme={mainTheme}>
       <div className={classes.root}>
-        <Queries<ResponseData<typeof fetchChainItem>>
-          requestActions={[fetchChainItem]}
-        >
+        <Queries<ResponseData<typeof fetchChain>> requestActions={[fetchChain]}>
           {({ data: { chain, chainDetails } }) => {
             const {
               dataCached,

@@ -7,7 +7,8 @@
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",
     "contract-rejected": "Contract interaction rejected",
-    "unexpected": "Unexpected error"
+    "unexpected": "Unexpected error",
+    "insufficient-permissions": "Insufficient permissions"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -114,5 +115,9 @@
         "next-button": "Next"
       }
     }
+  },
+  "guard-auth-route": {
+    "connect": "Connect Wallet",
+    "create": "Create account"
   }
 }

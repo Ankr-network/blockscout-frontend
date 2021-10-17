@@ -2,7 +2,7 @@ import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { connect } from '../actions/connect';
 import { throwIfError } from '../../api/utils/throwIfError';
 
-export function authenticatedRequestGuard(
+export function walletConnectionGuard(
   request: any,
   action: RequestAction,
   store: RequestsStore,

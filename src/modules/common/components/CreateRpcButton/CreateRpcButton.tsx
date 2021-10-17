@@ -5,18 +5,14 @@ import { StarIcon } from 'uiKit/Icons/StarIcon';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './useStyles';
 
-interface CreateRpcButtonProps {
-  className?: string;
-}
-
-export const CreateRpcButton = ({ className }: CreateRpcButtonProps) => {
+export const CreateRpcButton: typeof Button = (props: any) => {
   const classes = useStyles();
 
   return (
     <Button
       color="primary"
       startIcon={<StarIcon className={classes.icon} />}
-      className={className}
+      {...props}
     >
       {t('dashboard.create-rpc-button')}
     </Button>

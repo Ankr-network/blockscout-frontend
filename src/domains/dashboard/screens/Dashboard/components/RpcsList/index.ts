@@ -1,1 +1,1 @@
-export * from './RpcsList';
+export * from './RpcList';

@@ -4,27 +4,29 @@ import { IJwtToken } from '@ankr.com/multirpc';
 
 import { MultiService } from '../../../modules/api/MultiService';
 import {
-  IFetchChainsResponseData,
   IApiChain,
+  IFetchChainsResponseData,
   mapChains,
 } from '../api/queryChains';
+import { credentialsGuard } from '../../../modules/auth/utils/credentialsGuard';
 
 export const fetchPrivateChains = createSmartAction<
   RequestAction<IFetchChainsResponseData, IApiChain[]>
->('chains/fetchPrivateChains', (jwtToken: IJwtToken) => ({
+>('chains/fetchPrivateChains', () => ({
   request: {
-    promise: (async () => {
+    promise: async (jwtToken: IJwtToken) => {
       const { service } = MultiService.getInstance();
 
-      const chains = await service.createPrivateUrls(jwtToken);
+      const chains = await service.fetchPrivateUrls(jwtToken);
 
       return {
         chains,
       };
-    })(),
+    },
   },
   meta: {
     asMutation: false,
     getData: mapChains,
+    onRequest: credentialsGuard,
   },
 }));

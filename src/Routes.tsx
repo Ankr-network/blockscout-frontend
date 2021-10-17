@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
 import {
@@ -14,9 +14,10 @@ import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
 import { useAuth } from './modules/auth/hooks/useAuth';
+import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
 
 export function Routes() {
-  const { hasAccount } = useAuth();
+  const { credentials } = useAuth();
 
   return (
     <Switch>
@@ -26,14 +27,14 @@ export function Routes() {
         render={() => (
           <Redirect
             to={
-              hasAccount
+              credentials
                 ? DashboardRoutesConfig.dashboard.path
                 : ChainsRoutesConfig.chains.path
             }
           />
         )}
       />
-      <Route
+      <GuardAuthRoute
         exact
         path={DashboardRoutesConfig.dashboard.path}
         render={() => (

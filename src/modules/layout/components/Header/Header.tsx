@@ -12,7 +12,7 @@ const items = [{ title: 'Chains', link: '/chains' }];
 
 export const Header = () => {
   const classes = useStyles();
-  const { connect, address } = useAuth();
+  const { handleConnect, address } = useAuth();
 
   return (
     <header className={classes.root}>
@@ -20,7 +20,7 @@ export const Header = () => {
         <Breadcrumbs items={items} />
         <div className={classes.right}>
           <LocaleSwitcher />
-          <Mutation type={connect.toString()}>
+          <Mutation type={handleConnect.toString()}>
             {({ loading }) =>
               address ? (
                 <Button variant="text">{shrinkAddress(address)}</Button>
@@ -30,7 +30,7 @@ export const Header = () => {
                   color="primary"
                   className={classes.button}
                   disableElevation={false}
-                  onClick={connect}
+                  onClick={handleConnect}
                   disabled={loading}
                 >
                   {t('header.wallet-button')}

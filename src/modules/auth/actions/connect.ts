@@ -3,11 +3,12 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from '../../api/MultiService';
 import { Web3Address } from '../../common/types/provider';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
+import { IJwtToken } from '@ankr.com/multirpc/dist/types/types';
 
 interface IConnect {
   address: Web3Address;
-  hasAccount: boolean;
   justDeposited: boolean;
+  credentials?: IJwtToken;
 }
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
@@ -19,7 +20,14 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         await service.getKeyProvider().connect(await injectWeb3Modal());
         const address = service.getKeyProvider().currentAccount();
         const hasAccount = await service.checkUserHaveDeposit(address);
-        return { address, hasAccount, justDeposited: false } as IConnect;
+
+        return {
+          address,
+          justDeposited: false,
+          credentials: hasAccount
+            ? await service.loginAsUser(address)
+            : undefined,
+        } as IConnect;
       })(),
     },
     meta: {

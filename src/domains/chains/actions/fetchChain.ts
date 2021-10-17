@@ -11,9 +11,9 @@ interface ChainItemDetails {
   chainDetails: IApiChainDetails;
 }
 
-export const fetchChainItem = createSmartAction<
+export const fetchChain = createSmartAction<
   RequestAction<null, ChainItemDetails>
->('chains/fetchChainItem', (chainId: string) => ({
+>('chains/fetchChain', (chainId: string) => ({
   request: {
     promise: (async () => null)(),
   },

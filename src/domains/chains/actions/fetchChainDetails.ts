@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { IWorkerGlobalStatus } from '@ankr.com/multirpc/dist/types/worker';
+import { IWorkerGlobalStatus } from '@ankr.com/multirpc';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
@@ -36,9 +36,7 @@ export const fetchChainDetails = createSmartAction<
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      const data = await service.getBlockchainStats(blockchain);
-
-      return data;
+      return service.getBlockchainStats(blockchain);
     })(),
   },
   meta: {

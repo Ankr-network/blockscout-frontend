@@ -14,7 +14,7 @@ export const fetchPublicChains = createSmartAction<
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      const chains = await service.createPublicUrls();
+      const chains = await service.fetchPublicUrls();
 
       return {
         chains,

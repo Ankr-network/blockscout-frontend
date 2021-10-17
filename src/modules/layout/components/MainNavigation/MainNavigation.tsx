@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { ClockIcon } from 'uiKit/Icons/ClockIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
@@ -17,11 +17,12 @@ import { PATH_CHAINS } from 'domains/chains/Routes';
 import { PATH_PLAN } from 'domains/plan/Routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useLocaleMemo } from '../../../i18n/utils/useLocaleMemo';
 
 export const MainNavigation = () => {
-  const { hasAccount } = useAuth();
+  const { credentials } = useAuth();
 
-  const items = useMemo(
+  const items = useLocaleMemo(
     (): NavigationItem[] => [
       {
         label: t('main-navigation.dashboard'),
@@ -43,7 +44,7 @@ export const MainNavigation = () => {
         label: t('main-navigation.plan'),
         StartIcon: LabelIcon,
         href: PATH_PLAN,
-        EndIcon: hasAccount ? SuccessIcon : undefined,
+        EndIcon: credentials ? SuccessIcon : undefined,
       },
       {
         label: t('main-navigation.protocol'),
@@ -51,7 +52,7 @@ export const MainNavigation = () => {
         href: PATH_PROVIDERS,
       },
     ],
-    [hasAccount],
+    [credentials],
   );
 
   return <Navigation items={items} />;

@@ -4,7 +4,7 @@ import { Typography, Button } from '@material-ui/core';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
-import { fetchChainItem } from 'domains/chains/actions/fetchChainItem';
+import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { useAuth } from 'modules/auth/hooks/useAuth';
@@ -14,11 +14,11 @@ import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 
 interface ChainItemHeaderProps {
-  chain: ResponseData<typeof fetchChainItem>['chain'];
+  chain: ResponseData<typeof fetchChain>['chain'];
 }
 
 export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
-  const { hasAccount } = useAuth();
+  const { credentials } = useAuth();
 
   const classes = useStyles();
 
@@ -50,7 +50,7 @@ export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
           ))}
         </div>
       </div>
-      {hasAccount ? (
+      {credentials ? (
         <PrivateHeader
           chainLinks={['https://test./v3/1', 'https://test./v3/2']}
         />
