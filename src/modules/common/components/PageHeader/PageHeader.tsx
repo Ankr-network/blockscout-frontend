@@ -13,7 +13,7 @@ export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
         <Typography variant="h5" noWrap className={classes.title}>
           {title}
         </Typography>
-        {select}
+        {select && select}
       </div>
       {button}
     </div>

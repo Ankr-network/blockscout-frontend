@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@ankr.com/multirpc@^0.0.88":
-  version "0.0.88"
-  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.88.tgz#bce6ac8086b74ee8ed97921166afc31ce7eeca42"
-  integrity sha512-hns0Hfff4imag375CgTiqoRtBLo5+WeWJvJJGxCTSrCBzoMIAVLf8eTVH55VNjGKP6oRPUPrxevmsi7DBtOnQA==
+"@ankr.com/multirpc@^0.0.90":
+  version "0.0.90"
+  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.90.tgz#17dcb186cefae15918847c881657b56181143c8c"
+  integrity sha512-JcGs/3Ik0d5AOxVj8bVhfvCTmznhRvQHGfDQqmvEZY40EwVBP9IjzgLzezYCiYww1MeLQzVOjEbIZ/6/lY7G7A==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.88"
+    "@ankr.com/stakefi-web3" "^0.0.90"
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
     ethereumjs-tx "^2.1.2"
     web3 "^1.3.5"
     web3-eth-contract "^1.3.5"
 
-"@ankr.com/stakefi-web3@^0.0.88":
-  version "0.0.88"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.88.tgz#f8bb5917a1f4826e553256cfde838a5e7ed8e287"
-  integrity sha512-0s7rFuwtofPz2DUaTu/NPiSIvfLZ2w+FSKohbpUo/GxsP1JcALGWFk3BuImj292em1Zjulp//S0Di2P+T7uJ/w==
+"@ankr.com/stakefi-web3@^0.0.90":
+  version "0.0.90"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.90.tgz#fed7fe4be105b734e93e5d97ce07857cfdac20c3"
+  integrity sha512-7hj6lcVuVYgKTkDO7R/2qNPd3xd1/IPTX7sUzvI+J0Jb8/XBA84dmd36S1ZmYCvQA6Jtm8HhUXZbvUgB0ABVIw==
   dependencies:
     "@ethereumjs/tx" "^3.3.2"
     "@types/node" "^14.14.41"
@@ -15525,6 +15525,11 @@ react-copy-to-clipboard@^5.0.3:
   dependencies:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
+
+react-country-flag@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-country-flag/-/react-country-flag-2.3.1.tgz#5f9ab50c8fe206f8aaa8d48f8f9c396e7ee67eea"
+  integrity sha512-pG2DYhx8NPoo6FMwdtSaFonqGOPAEODVxc4ZmTaPr87DZRwhG3yFxe/KFvltDWyiHwMRdPN5Ys5li7DvVE9d3w==
 
 react-dev-utils@^11.0.3:
   version "11.0.4"

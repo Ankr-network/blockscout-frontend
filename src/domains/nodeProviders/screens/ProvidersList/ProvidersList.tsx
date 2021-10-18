@@ -1,13 +1,36 @@
-import React from 'react';
-import { ProvidersHeader } from './components/ProvidersHeader';
+import React, { useEffect } from 'react';
+import { useDispatchRequest } from '@redux-requests/react';
+import { Button } from '@material-ui/core';
+
+import { PageHeader } from 'modules/common/components/PageHeader';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { fetchNodeProviders } from 'domains/nodeProviders/actions/fetchNodeProviders';
+import { t } from 'modules/i18n/utils/intl';
 import { ProvidersTable } from './components/ProvidersTable';
 
 export const ProvidersList = () => {
+  const dispatchRequest = useDispatchRequest();
+
+  useEffect(() => {
+    dispatchRequest(fetchNodeProviders());
+  }, [dispatchRequest]);
+
   return (
     <>
-      {/* TODO: add reusable component for ChainsHeader (/ankr-protocol-web/src/domains/chains/screens/Chains/components/ChainsHeader/ChainsHeader.tsx) and ProvidersHeader */}
-      <ProvidersHeader />
-      <ProvidersTable />
+      <PageHeader
+        title={t('providers.title')}
+        button={
+          <Button variant="text" color="primary" disabled>
+            {t('providers.integrate-button')}
+          </Button>
+        }
+      />
+      <Queries<ResponseData<typeof fetchNodeProviders>>
+        requestActions={[fetchNodeProviders]}
+      >
+        {({ data }) => <ProvidersTable data={data} />}
+      </Queries>
     </>
   );
 };

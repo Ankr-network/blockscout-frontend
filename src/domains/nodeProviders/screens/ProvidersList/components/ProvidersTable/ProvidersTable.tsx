@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Typography,
   Table,
@@ -11,64 +11,31 @@ import {
   capitalize,
 } from '@material-ui/core';
 import classNames from 'classnames';
+import ReactCountryFlag from 'react-country-flag';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './ProvidersTableStyles';
-import { chainsMock } from './chainsMock';
+import { useStyles } from './useStyles';
 import { ProvidersTablePagination } from '../ProvidersTablePagination';
-import { CHAINS_MOCK } from '../../../../../chains/screens/Chains/components/ChainsList/ChainsListMock';
-import { flagEmojies } from './flagEmojiesMock';
+import { ProvidersTableProps } from './ProvidersTableProps';
+import {
+  ROWS_PER_PAGE,
+  HAS_ORGANISATION,
+  usePagination,
+  getRows,
+} from './ProvidersTableUtils';
 
-function createData(
-  id: string,
-  chain: string,
-  logo: string,
-  type: string,
-  location: string | null,
-  flag: string,
-  organization?: string,
-) {
-  return { id, chain, logo, type, location, flag, organization };
-}
-
-const getRandomItemFromArray = (array: Array<any>) =>
-  array[Math.floor(Math.random() * array.length)];
-
-const rows = chainsMock.map(chain => {
-  const chainItem = getRandomItemFromArray(CHAINS_MOCK);
-  const randomFlag = getRandomItemFromArray(flagEmojies);
-
-  return createData(
-    chain.id,
-    capitalize(chainItem.name),
-    chainItem.chainLogo,
-    chain.scheme,
-    randomFlag.name,
-    randomFlag.flag,
-    chainItem.name,
-  );
-});
-
-const rowsPerPage = 8;
-
-export const ProvidersTable = () => {
+export const ProvidersTable = ({ data }: ProvidersTableProps) => {
   const classes = useStyles();
-  const [pageIndex, setPageIndex] = React.useState(0);
 
-  const pageNumber = pageIndex + 1;
-  const pagesCount = Math.ceil(rows.length / rowsPerPage);
-  const isFirstPage = pageIndex === 0;
-  const isLastPage = pageNumber === pagesCount;
+  const rows = useMemo(() => getRows(data), [data]);
 
-  const handleChangePage = (newPage: number) => {
-    if (isFirstPage && newPage <= pageIndex) {
-      return;
-    }
-    if (isLastPage && newPage >= pageIndex) {
-      return;
-    }
-    setPageIndex(newPage);
-  };
+  const {
+    isFirstPage,
+    isLastPage,
+    pageIndex,
+    pagesCount,
+    handleChangePage,
+  } = usePagination(rows);
 
   return (
     <>
@@ -100,22 +67,24 @@ export const ProvidersTable = () => {
                   {capitalize(t('providers.table.head.location'))}
                 </Typography>
               </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.organization'))}
-                </Typography>
-              </TableCell>
+              {HAS_ORGANISATION && (
+                <TableCell
+                  padding="none"
+                  className={classNames(classes.cell, classes.cellThead)}
+                >
+                  <Typography variant="body2" color="textSecondary">
+                    {capitalize(t('providers.table.head.organization'))}
+                  </Typography>
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
 
           <TableBody>
             {rows
               .slice(
-                pageIndex * rowsPerPage,
-                pageIndex * rowsPerPage + rowsPerPage,
+                pageIndex * ROWS_PER_PAGE,
+                pageIndex * ROWS_PER_PAGE + ROWS_PER_PAGE,
               )
               .map(row => (
                 <TableRow key={row.id} className={classes.row}>
@@ -130,13 +99,17 @@ export const ProvidersTable = () => {
                   <TableCell padding="none" className={classes.cell}>
                     {row.type}
                   </TableCell>
-                  <TableCell padding="none" className={classes.cell}>
-                    {row.flag}
-                    {row.location}
-                  </TableCell>
-                  <TableCell padding="none" className={classes.cell}>
-                    {row.organization}
-                  </TableCell>
+                  {row.location && (
+                    <TableCell padding="none" className={classes.cell}>
+                      <ReactCountryFlag countryCode={row.location} />
+                      {row.location}
+                    </TableCell>
+                  )}
+                  {HAS_ORGANISATION && (
+                    <TableCell padding="none" className={classes.cell}>
+                      {row.organization}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>
