@@ -318,7 +318,6 @@ export const mainTheme = createMuiTheme({
         height: 44,
         padding: defaultTheme.spacing(0, 3),
         textTransform: 'none',
-        // minWidth: 170,
         fontSize: 14,
         fontWeight: 'bold',
         lineHeight: 1,
@@ -437,6 +436,7 @@ export const mainTheme = createMuiTheme({
       text: {
         color: defaultTheme.palette.primary.main,
         background: defaultTheme.palette.background.default,
+        padding: '6px 20px',
 
         '&:hover': {
           color: defaultTheme.palette.text.primary,

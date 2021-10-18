@@ -20,6 +20,7 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   ) => ReactNode;
   noDataMessage?: ReactElement;
   empty?: JSX.Element;
+  spinner?: ReactElement;
 }
 
 function isLoading(queries: QueryState<any>[]) {
@@ -48,6 +49,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   requestKeys,
   noDataMessage,
   empty,
+  spinner = <Spinner />,
 }: ILoadingProps<T1, T2, T3, T4, T5>) {
   const queries = useAppSelector(state =>
     requestActions.map((item, index) =>
@@ -60,7 +62,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   );
 
   if (isLoading(queries)) {
-    return noDataMessage || <Spinner />;
+    return noDataMessage || spinner;
   }
 
   const error = hasError(queries);

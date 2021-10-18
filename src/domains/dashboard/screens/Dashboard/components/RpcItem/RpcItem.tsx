@@ -28,22 +28,24 @@ export const RpcItem = ({
         name={name}
         className={classes.mainInfo}
         description={
-          <div className={classes.description}>
-            <ChainRequestsLabel
-              description={description}
-              descriptionColor="textSecondary"
-              label={period}
-              className={classes.descriptionItem}
-            />
-            {extraDescription && (
+          description && (
+            <div className={classes.description}>
               <ChainRequestsLabel
-                description={extraDescription}
-                label={extraLabel}
+                description={description}
                 descriptionColor="textSecondary"
+                label={period}
                 className={classes.descriptionItem}
               />
-            )}
-          </div>
+              {extraDescription && (
+                <ChainRequestsLabel
+                  description={extraDescription}
+                  label={extraLabel}
+                  descriptionColor="textSecondary"
+                  className={classes.descriptionItem}
+                />
+              )}
+            </div>
+          )
         }
       />
       <div className={classes.right}>

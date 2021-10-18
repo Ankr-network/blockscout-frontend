@@ -5,6 +5,7 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
@@ -14,6 +15,8 @@ import { useStyles } from './ChainItemStyles';
 
 export const ChainItem = () => {
   const classes = useStyles();
+  const { credentials } = useAuth();
+
   const dispatchRequest = useDispatchRequest();
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
 
@@ -38,7 +41,11 @@ export const ChainItem = () => {
             return (
               <>
                 <div>
-                  <ChainItemHeader chain={chain} />
+                  <ChainItemHeader
+                    chain={chain}
+                    chainId={chainId}
+                    hasCredentials={Boolean(credentials)}
+                  />
                   <ChainRequestsOverview
                     className={classes.overview}
                     totalRequests={totalRequests}

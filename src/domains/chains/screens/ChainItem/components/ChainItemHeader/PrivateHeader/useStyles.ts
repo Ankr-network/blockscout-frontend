@@ -32,5 +32,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   copyToClip: {
     flexGrow: 1,
+    maxWidth: 360,
+  },
+  preloaderWrapper: {
+    minHeight: 120,
+    position: 'relative',
   },
 }));

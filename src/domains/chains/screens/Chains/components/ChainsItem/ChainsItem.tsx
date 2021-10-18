@@ -25,7 +25,9 @@ export const ChainsItem = ({
         name={name}
         className={classes.mainInfo}
         description={
-          <ChainRequestsLabel description={description} label={period} />
+          description && (
+            <ChainRequestsLabel description={description} label={period} />
+          )
         }
       />
       <div className={classes.bottom}>

@@ -7,7 +7,6 @@ import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/Cha
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
-import { useAuth } from 'modules/auth/hooks/useAuth';
 import { t } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
@@ -15,11 +14,15 @@ import { PrivateHeader } from './PrivateHeader';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
+  hasCredentials: boolean;
+  chainId: string;
 }
 
-export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
-  const { credentials } = useAuth();
-
+export const ChainItemHeader = ({
+  chain,
+  hasCredentials,
+  chainId,
+}: ChainItemHeaderProps) => {
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
@@ -50,10 +53,8 @@ export const ChainItemHeader = ({ chain }: ChainItemHeaderProps) => {
           ))}
         </div>
       </div>
-      {credentials ? (
-        <PrivateHeader
-          chainLinks={['https://test./v3/1', 'https://test./v3/2']}
-        />
+      {hasCredentials ? (
+        <PrivateHeader chainId={chainId} />
       ) : (
         <div className={classes.bottom}>
           <Typography variant="body2" className={classes.text}>

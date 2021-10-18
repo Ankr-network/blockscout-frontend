@@ -20,8 +20,8 @@ export const fetchChain = createSmartAction<
   meta: {
     asMutation: false,
     onRequest: (
-      _request: any,
-      _action: RequestAction,
+      request: any,
+      action: RequestAction,
       store: Store & { dispatchRequest: DispatchRequest },
     ) => {
       return {

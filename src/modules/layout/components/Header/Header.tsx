@@ -19,7 +19,7 @@ export const Header = () => {
       <Container className={classes.container} maxWidth={false}>
         <Breadcrumbs items={items} />
         <div className={classes.right}>
-          <LocaleSwitcher />
+          <LocaleSwitcher className={classes.switcher} />
           <Mutation type={handleConnect.toString()}>
             {({ loading }) =>
               address ? (
@@ -28,7 +28,6 @@ export const Header = () => {
                 <Button
                   variant="text"
                   color="primary"
-                  className={classes.button}
                   disableElevation={false}
                   onClick={handleConnect}
                   disabled={loading}
