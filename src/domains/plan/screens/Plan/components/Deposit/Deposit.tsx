@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react';
-import { Divider, Typography } from '@material-ui/core';
+import { Box, Divider, LinearProgress, Typography } from '@material-ui/core';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { DepositAgreementForm } from './DepositAgreementForm';
 import { DepositTitles } from '../DepositTitles';
 import { useStyles } from './useStyles';
 import { Form, FormRenderProps } from 'react-final-form';
 import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
+import { fetchCredentialsStatus } from '../../../../../../modules/auth/actions/fetchCredentialsStatus';
+import { Query } from '@redux-requests/react';
+
+const CREATE_ACCOUNT_BLOCKS_COUNT = 12;
 
 interface IDepositFormData {
   confirmed: boolean;
@@ -65,6 +69,33 @@ export const Deposit = ({ onSubmit }: IDepositProps) => {
           validate={validate}
           initialValues={{ confirmed: false }}
         />
+
+        <Query
+          type={fetchCredentialsStatus.toString()}
+          action={fetchCredentialsStatus}
+          showLoaderDuringRefetch={false}
+        >
+          {({ data }) => {
+            if (data?.isReady || typeof data.remainingBlocks === 'undefined') {
+              return null;
+            }
+
+            return (
+              <Box mt={3}>
+                <LinearProgress
+                  variant="determinate"
+                  value={
+                    data.remainingBlocks === 12
+                      ? 4
+                      : ((CREATE_ACCOUNT_BLOCKS_COUNT - data.remainingBlocks) /
+                          CREATE_ACCOUNT_BLOCKS_COUNT) *
+                        100
+                  }
+                />
+              </Box>
+            );
+          }}
+        </Query>
       </div>
     </div>
   );

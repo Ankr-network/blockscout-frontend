@@ -19,14 +19,19 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         const { service } = MultiService.getInstance();
         await service.getKeyProvider().connect(await injectWeb3Modal());
         const address = service.getKeyProvider().currentAccount();
-        const hasAccount = await service.checkUserHaveDeposit(address);
+
+        const credentials = await (async function tryToLogin() {
+          try {
+            return await service.loginAsUser(address);
+          } catch (error) {
+            return undefined;
+          }
+        })();
 
         return {
           address,
           justDeposited: false,
-          credentials: hasAccount
-            ? await service.loginAsUser(address)
-            : undefined,
+          credentials,
         } as IConnect;
       })(),
     },

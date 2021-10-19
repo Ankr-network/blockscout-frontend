@@ -8,6 +8,7 @@ import { Button } from '@material-ui/core';
 import { t } from '../../../i18n/utils/intl';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { Deposit } from '../../../../domains/plan/screens/Plan/components/Deposit';
 
 export interface IGuardRoute extends RouteProps {}
 
@@ -37,13 +38,7 @@ export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
   if (!credentials) {
     return (
       <DefaultLayout>
-        <Mutation type={connect.toString()}>
-          {({ loading }) => (
-            <Button color="primary" onClick={handleDeposit} disabled={loading}>
-              {t('guard-auth-route.create')}
-            </Button>
-          )}
-        </Mutation>
+        <Deposit onSubmit={handleDeposit} />
       </DefaultLayout>
     );
   }

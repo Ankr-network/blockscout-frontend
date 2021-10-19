@@ -11,7 +11,7 @@
     "insufficient-permissions": "Insufficient permissions"
   },
   "main-navigation": {
-    "dashboard": "Dashboard",
+    "private-rpcs": "Private RPCs",
     "public-rpcs": "Public RPCs",
     "staking": "Staking",
     "plan": "Ankr Pro",
@@ -73,6 +73,7 @@
     "deposit": {
       "title": "Annual plan",
       "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Pro</b>",
+      "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Private endpoints",
         "prioritized-requests": "Prioritized requests in&nbsp;times of&nbsp;congestion",

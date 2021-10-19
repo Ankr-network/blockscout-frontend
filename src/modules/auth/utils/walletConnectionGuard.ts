@@ -18,7 +18,7 @@ export function walletConnectionGuard(
         throwIfError(await store.dispatchRequest(connect()));
       }
 
-      return request.promise();
+      return request.promise(store);
     })(),
   };
 }

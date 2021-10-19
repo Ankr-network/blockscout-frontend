@@ -12,8 +12,8 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
-import { PATH_DASHBOARD } from 'domains/dashboard/Routes';
-import { PATH_CHAINS } from 'domains/chains/Routes';
+import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { PATH_PLAN } from 'domains/plan/Routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 import { useAuth } from 'modules/auth/hooks/useAuth';
@@ -25,14 +25,14 @@ export const MainNavigation = () => {
   const items = useLocaleMemo(
     (): NavigationItem[] => [
       {
-        label: t('main-navigation.dashboard'),
+        label: t('main-navigation.private-rpcs'),
         StartIcon: ClockIcon,
-        href: PATH_DASHBOARD,
+        href: DashboardRoutesConfig.dashboard.generatePath(),
       },
       {
         label: t('main-navigation.public-rpcs'),
         StartIcon: BoxIcon,
-        href: PATH_CHAINS,
+        href: ChainsRoutesConfig.chains.generatePath(),
       },
       {
         label: t('main-navigation.staking'),

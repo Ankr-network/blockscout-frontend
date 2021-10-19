@@ -5,8 +5,8 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const PATH_CHAINS = '/chains';
-export const PATH_CHAIN_DETAILS = '/chains/:chainId';
+export const PATH_CHAINS = '/public';
+export const PATH_CHAIN_DETAILS = '/public/:chainId';
 
 export const ChainsRoutesConfig = createRouteConfig(
   {

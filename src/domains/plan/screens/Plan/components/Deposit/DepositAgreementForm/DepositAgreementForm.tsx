@@ -1,5 +1,11 @@
 import React from 'react';
-import { Box, Button, FormGroup, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormGroup,
+  Typography,
+} from '@material-ui/core';
 import { tHTML } from 'modules/i18n/utils/intl';
 import { Field } from 'react-final-form';
 import { CheckboxField } from '../../../../../../../modules/form/components/CheckboxField/CheckboxField';
@@ -27,7 +33,11 @@ export const DepositAgreementForm = () => {
         <Mutation type={deposit}>
           {({ loading }) => (
             <Button color="primary" fullWidth type="submit" disabled={loading}>
-              {tHTML('plan.deposit.agreement.button')}
+              {loading ? (
+                <CircularProgress size={14} />
+              ) : (
+                tHTML('plan.deposit.agreement.button')
+              )}
             </Button>
           )}
         </Mutation>
