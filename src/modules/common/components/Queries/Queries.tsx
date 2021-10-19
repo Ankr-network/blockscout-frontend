@@ -1,10 +1,10 @@
-import { Box } from '@material-ui/core';
-import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
 import React, { ReactElement, ReactNode } from 'react';
+import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
+
 import { useAppSelector } from 'store/useAppSelector';
+import { Spinner } from 'uiKit/Spinner';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
-import { QueryLoading } from '../QueryLoading/QueryLoading';
 
 interface ILoadingProps<T1, T2, T3, T4, T5> {
   requestActions: ((...args: any[]) => RequestAction)[];
@@ -20,6 +20,7 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   ) => ReactNode;
   noDataMessage?: ReactElement;
   empty?: JSX.Element;
+  spinner?: ReactElement;
 }
 
 function isLoading(queries: QueryState<any>[]) {
@@ -48,6 +49,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   requestKeys,
   noDataMessage,
   empty,
+  spinner = <Spinner />,
 }: ILoadingProps<T1, T2, T3, T4, T5>) {
   const queries = useAppSelector(state =>
     requestActions.map((item, index) =>
@@ -60,19 +62,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   );
 
   if (isLoading(queries)) {
-    return (
-      noDataMessage || (
-        <Box
-          py={5}
-          position="relative"
-          width="100%"
-          display="flex"
-          justifyContent="center"
-        >
-          <QueryLoading />
-        </Box>
-      )
-    );
+    return noDataMessage || spinner;
   }
 
   const error = hasError(queries);

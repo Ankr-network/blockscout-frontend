@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@material-ui/core';
+import { Box, ThemeProvider, Button } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { CopyIcon } from '../Icons/CopyIcon';
-import { Button } from './Button';
 
 storiesOf('uiKit/Button', module)
   .add('Сontained Buttons', () => (

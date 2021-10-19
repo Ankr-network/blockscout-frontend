@@ -7,9 +7,5 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   description: {
     marginBottom: theme.spacing(1),
-    fontSize: 14,
-  },
-  title: {
-    fontSize: 30,
   },
 }));

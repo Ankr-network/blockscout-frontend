@@ -20,12 +20,14 @@ export const DetailsBlock = ({
         <Typography variant="body2" color="textPrimary">
           {title}
         </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {subtitle}
-        </Typography>
+        {subtitle && (
+          <Typography variant="body2" color="textSecondary">
+            {subtitle}
+          </Typography>
+        )}
       </div>
       <div className={classes.bottom}>
-        <Typography variant="h2" className={classes.value}>
+        <Typography variant="h4" className={classes.value}>
           {value}
         </Typography>
         {children}

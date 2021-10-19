@@ -1,38 +1,21 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { Chart, IChartData } from 'modules/common/components/Chart';
+import { Chart } from 'modules/common/components/Chart';
 import { ChartTooltip } from './ChartTooltip';
+import {
+  formatCallsCount,
+  formatDate,
+  processData,
+} from './ChainRequestsChartUtils';
+import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
 
-import { formatCallsCount, formatDate } from './ChainRequestsChartUtils';
+export const ChainRequestsChart = ({
+  requestsLog,
+}: ChainRequestsChartProps) => {
+  const data = useMemo(() => processData(requestsLog), [requestsLog]);
 
-const date = new Date();
-
-const data: IChartData[] = [
-  {
-    time: date,
-    value: 0,
-  },
-  {
-    time: date,
-    value: 1,
-  },
-  {
-    time: date,
-    value: 2,
-  },
-  {
-    time: date,
-    value: 1.5,
-  },
-  {
-    time: date,
-    value: 0,
-  },
-];
-
-export const ChainRequestsChart = () => {
-  const tickFormatter = useCallback(formatDate, []);
   const callsFormatter = useCallback(formatCallsCount, []);
+  const tickFormatter = useCallback(formatDate, []);
 
   return (
     <Chart

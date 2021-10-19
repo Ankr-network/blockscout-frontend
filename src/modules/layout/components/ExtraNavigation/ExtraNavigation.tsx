@@ -14,19 +14,19 @@ export const ExtraNavigation = () => {
     (): NavigationItem[] => [
       {
         label: t('extra-navigation.docs'),
-        Icon: FileIcon,
+        StartIcon: FileIcon,
         href: '/docs',
         isDisabled: true,
       },
       {
         label: t('extra-navigation.faq'),
-        Icon: ChatIcon,
+        StartIcon: ChatIcon,
         href: '/faq',
         isDisabled: true,
       },
       {
         label: t('extra-navigation.support'),
-        Icon: HeadphonesIcon,
+        StartIcon: HeadphonesIcon,
         href: '/support',
         isDisabled: true,
       },

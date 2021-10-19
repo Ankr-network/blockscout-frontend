@@ -19,6 +19,5 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   value: {
     marginRight: theme.spacing(1),
-    fontSize: 30,
   },
 }));

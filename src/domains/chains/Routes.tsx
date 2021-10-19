@@ -2,17 +2,18 @@ import React from 'react';
 import { generatePath, Route, useParams } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { QueryLoadingAbsolute } from 'modules/common/components/QueryLoading/QueryLoading';
+import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const PATH_CHAINS = '/chains';
-export const PATH_CHAIN_DETAILS = '/chains/:chainId';
+export const PATH_CHAINS = '/public';
+export const PATH_CHAIN_DETAILS = '/public/:chainId';
 
 export const ChainsRoutesConfig = createRouteConfig(
   {
     chains: {
       path: PATH_CHAINS,
       generatePath: () => PATH_CHAINS,
+      breadcrumbs: 'chains.breadcrumbs',
     },
     chainDetails: {
       path: PATH_CHAIN_DETAILS,
@@ -33,14 +34,14 @@ export const ChainsRoutesConfig = createRouteConfig(
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/Chains').then(module => module.Chains),
   {
-    fallback: <QueryLoadingAbsolute />,
+    fallback: <Spinner />,
   },
 );
 
 const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/ChainItem').then(module => module.ChainItem),
   {
-    fallback: <QueryLoadingAbsolute />,
+    fallback: <Spinner />,
   },
 );
 

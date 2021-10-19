@@ -4,7 +4,8 @@ import { SvgIconProps } from '@material-ui/core';
 export interface NavigationItem {
   label: string;
   href?: string;
-  Icon: (props: SvgIconProps) => ReactElement;
+  StartIcon: (props: SvgIconProps) => ReactElement;
+  EndIcon?: (props: SvgIconProps) => ReactElement;
   isDisabled?: boolean;
 }
 

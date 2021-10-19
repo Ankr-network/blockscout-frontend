@@ -1,5 +1,9 @@
 import React from 'react';
-import { Breadcrumbs as BreadcrumbsBase, Typography } from '@material-ui/core';
+import {
+  Breadcrumbs as BreadcrumbsBase,
+  Typography,
+  capitalize,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -29,14 +33,14 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               className={classNames(classes.link, 'custom-link')}
               key={title}
             >
-              {title}
+              {capitalize(title)}
             </Link>
           );
         }
 
         return (
-          <Typography color="textPrimary" className={classes.text} key={title}>
-            {title}
+          <Typography color="textPrimary" variant="h3" key={title}>
+            {capitalize(title)}
           </Typography>
         );
       })}

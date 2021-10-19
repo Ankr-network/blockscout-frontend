@@ -10,7 +10,7 @@ export const Navigation = ({ items }: NavigationProps) => {
 
   return (
     <nav>
-      {items.map(({ label, href = '', Icon, isDisabled }) => {
+      {items.map(({ label, href = '', StartIcon, EndIcon, isDisabled }) => {
         return (
           <Button
             key={label}
@@ -19,7 +19,8 @@ export const Navigation = ({ items }: NavigationProps) => {
             variant="text"
             activeClassName={classes.activeLink}
             className={classes.link}
-            startIcon={<Icon className={classes.icon} />}
+            startIcon={<StartIcon className={classes.icon} />}
+            endIcon={EndIcon && <EndIcon className={classes.endIcon} />}
             disabled={!href || isDisabled}
           >
             {label}

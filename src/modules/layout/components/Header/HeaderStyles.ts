@@ -22,9 +22,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  button: {
-    minWidth: 142,
-    marginLeft: theme.spacing(4.5),
+  switcher: {
+    marginRight: theme.spacing(4.5),
   },
   right: {
     display: 'inline-flex',

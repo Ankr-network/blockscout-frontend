@@ -1,16 +1,20 @@
 import { t } from '../../i18n/utils/intl';
 
-export function extractMessage(error: any) {
-  if (error?.code === 4001) {
+export function extractMessage(errorResponse: any) {
+  if (typeof errorResponse === 'string') {
+    return errorResponse;
+  }
+
+  if (errorResponse?.code === 4001) {
     return t('error.contract-rejected');
   }
 
-  if (error instanceof Error) {
-    return error.toString();
+  if (errorResponse instanceof Error) {
+    return errorResponse.toString();
   }
 
-  if (!error) {
-    return t('error.unexpected');
+  if (errorResponse?.error?.error instanceof Error) {
+    return errorResponse.error.error.toString();
   }
 
   return t('error.unexpected');

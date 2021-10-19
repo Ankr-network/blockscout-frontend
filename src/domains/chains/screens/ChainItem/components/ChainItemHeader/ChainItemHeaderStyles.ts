@@ -14,14 +14,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderBottom: `2px solid ${theme.palette.background.paper}`,
     paddingBottom: theme.spacing(3),
   },
-  copyToClip: {
-    minWidth: 360,
-  },
   text: {
     fontWeight: 600,
-  },
-  description: {
-    color: theme.palette.text.secondary,
   },
   bottom: {
     paddingTop: theme.spacing(2),
@@ -29,4 +23,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  right: {
+    '& $copyToClip:not(:last-child)': {
+      marginBottom: theme.spacing(1.5),
+    },
+  },
+  copyToClip: { minWidth: 360, maxWidth: 360 },
 }));

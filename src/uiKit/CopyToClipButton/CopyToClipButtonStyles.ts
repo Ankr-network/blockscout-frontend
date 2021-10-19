@@ -32,8 +32,10 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
   text: {
     color: theme.palette.text.primary,
     padding: '12px 15px',
+    width: '60%',
   },
   button: {
     transition: 'none',
+    width: '40%',
   },
 }));

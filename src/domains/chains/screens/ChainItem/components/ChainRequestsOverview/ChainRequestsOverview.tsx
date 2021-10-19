@@ -1,16 +1,23 @@
 import React from 'react';
 import classNames from 'classnames';
+import BigNumber from 'bignumber.js';
 
+import { t } from 'modules/i18n/utils/intl';
 import { ChainRequestsChart } from '../ChainRequestsChart';
 import { RequestsPeriodInfo } from './RequestsPeriodInfo';
 import { useStyles } from './useStyles';
+import { formatNumber } from '../ChainItemDetails/ChainItemDetailsUtils';
 
 interface ChainRequestsOverviewProps {
   className?: string;
+  totalRequests: BigNumber;
+  totalRequestsHistory: Record<string, number>;
 }
 
 export const ChainRequestsOverview = ({
   className,
+  totalRequests,
+  totalRequestsHistory,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
@@ -18,16 +25,11 @@ export const ChainRequestsOverview = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.info}>
         <RequestsPeriodInfo
-          description="Total Requests 30d"
-          title="63 472 952"
-        />
-        <RequestsPeriodInfo description="Total Requests 7d" title="9 382 571" />
-        <RequestsPeriodInfo
-          description="Total Requests 24h"
-          title="1 492 052"
+          description={t('chain-item.api-details.total-requests')}
+          title={formatNumber(totalRequests)}
         />
       </div>
-      <ChainRequestsChart />
+      <ChainRequestsChart requestsLog={totalRequestsHistory} />
     </div>
   );
 };

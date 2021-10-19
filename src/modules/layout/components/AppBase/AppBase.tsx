@@ -3,11 +3,10 @@ import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
+import { Spinner } from 'uiKit/Spinner';
+import { historyInstance } from 'modules/common/utils/historyInstance';
+import { mainTheme } from 'modules/themes/mainTheme';
 import '../../../../assets/fonts/style.css';
-
-import { QueryLoadingAbsolute } from '../../../common/components/QueryLoading/QueryLoading';
-import { historyInstance } from '../../../common/utils/historyInstance';
-import { mainTheme } from '../../../themes/mainTheme';
 import { useInitialaizeLocale } from './AppBaseUtils';
 
 interface IAppBaseProps {
@@ -25,7 +24,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
           {children}
         </ConnectedRouter>
       ) : (
-        <QueryLoadingAbsolute />
+        <Spinner />
       )}
     </MuiThemeProvider>
   );
