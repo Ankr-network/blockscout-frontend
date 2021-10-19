@@ -12,6 +12,7 @@ export const DashboardRoutesConfig = createRouteConfig(
     dashboard: {
       path: PATH_DASHBOARD,
       generatePath: () => PATH_DASHBOARD,
+      breadcrumbs: 'dashboard.title',
     },
   },
   PATH_DASHBOARD,

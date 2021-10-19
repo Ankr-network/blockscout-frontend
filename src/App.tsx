@@ -11,6 +11,7 @@ import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 import packageJson from '../package.json';
+import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
             <ScrollToTop />
-            <Routes />
+            <BreadcrumbsProvider>
+              <Routes />
+            </BreadcrumbsProvider>
             <NoSsr>
               <Notifications />
             </NoSsr>

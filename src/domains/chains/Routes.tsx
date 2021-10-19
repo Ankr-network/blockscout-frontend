@@ -13,6 +13,7 @@ export const ChainsRoutesConfig = createRouteConfig(
     chains: {
       path: PATH_CHAINS,
       generatePath: () => PATH_CHAINS,
+      breadcrumbs: 'chains.breadcrumbs',
     },
     chainDetails: {
       path: PATH_CHAIN_DETAILS,

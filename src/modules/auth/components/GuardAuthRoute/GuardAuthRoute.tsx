@@ -6,11 +6,19 @@ import { DefaultLayout } from '../../../layout/components/DefautLayout';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@material-ui/core';
 import { t } from '../../../i18n/utils/intl';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface IGuardRoute extends RouteProps {}
 
 export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
   const { handleConnect, credentials, address, handleDeposit } = useAuth();
+
+  const { setBreadcrumbs } = useBreadcrumbs();
+
+  useOnMount(() => {
+    if (!address || !credentials) setBreadcrumbs([]);
+  });
 
   if (!address) {
     return (

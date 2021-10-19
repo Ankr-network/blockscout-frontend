@@ -33,10 +33,12 @@
     "wallet-button": "Connect Wallet"
   },
   "dashboard": {
+    "breadcrumbs": "My private RPCs",
     "title": "My private RPCs",
     "create-rpc-button": "Create Private RPC"
   },
   "chains": {
+    "breadcrumbs": "Chains",
     "title": "Choose the chain",
     "more-details": "More",
     "integrate-button": "How to integrate",
@@ -67,6 +69,7 @@
     }
   },
   "plan": {
+    "breadcrumbs": "Ankr Pro",
     "deposit": {
       "title": "Annual plan",
       "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Pro</b>",
@@ -101,6 +104,7 @@
     "empty": "Empty..."
   },
   "providers": {
+    "breadcrumbs": "Protocol",
     "title": "RPC node providers",
     "integrate-button": "Become a node provider",
     "table": {

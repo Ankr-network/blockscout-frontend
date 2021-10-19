@@ -12,6 +12,7 @@ export const ProvidersRoutesConfig = createRouteConfig(
     providers: {
       path: PATH_PROVIDERS,
       generatePath: () => PATH_PROVIDERS,
+      breadcrumbs: 'providers.breadcrumbs',
     },
   },
   PATH_PROVIDERS,

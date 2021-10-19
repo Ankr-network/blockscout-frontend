@@ -12,6 +12,7 @@ export const PlanRoutesConfig = createRouteConfig(
     plan: {
       path: PATH_PLAN,
       generatePath: () => PATH_PLAN,
+      breadcrumbs: 'plan.breadcrumbs',
     },
   },
   PATH_PLAN,

@@ -8,9 +8,17 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchNodeProviders } from 'domains/nodeProviders/actions/fetchNodeProviders';
 import { t } from 'modules/i18n/utils/intl';
 import { ProvidersTable } from './components/ProvidersTable';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 
 export const ProvidersList = () => {
   const dispatchRequest = useDispatchRequest();
+
+  useSetBreadcrumbs([
+    {
+      title: t(ProvidersRoutesConfig.providers.breadcrumbs),
+    },
+  ]);
 
   useEffect(() => {
     dispatchRequest(fetchNodeProviders());

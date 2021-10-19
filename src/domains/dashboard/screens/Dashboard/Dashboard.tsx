@@ -9,9 +9,17 @@ import { RpcList } from './components/RpcsList';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchPrivateChains } from '../../../chains/actions/fetchPrivateChains';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 
 export const Dashboard = () => {
   const dispatchRequest = useDispatchRequest();
+
+  useSetBreadcrumbs([
+    {
+      title: t(DashboardRoutesConfig.dashboard.breadcrumbs),
+    },
+  ]);
 
   useEffect(() => {
     dispatchRequest(fetchPrivateChains());

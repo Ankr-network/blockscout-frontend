@@ -10,9 +10,17 @@ import { t } from 'modules/i18n/utils/intl';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ChainsList } from './components/ChainsList';
 import { fetchPublicChains } from '../../actions/fetchPublicChains';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
 
 export const Chains = () => {
   const dispatchRequest = useDispatchRequest();
+
+  useSetBreadcrumbs([
+    {
+      title: t(ChainsRoutesConfig.chains.breadcrumbs),
+    },
+  ]);
 
   useEffect(() => {
     dispatchRequest(fetchPublicChains());

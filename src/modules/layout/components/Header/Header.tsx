@@ -1,14 +1,13 @@
 import React from 'react';
-import { Button, Container } from '@material-ui/core';
-import { Breadcrumbs } from 'uiKit/Breadcrumbs';
+import { Container, Button } from '@material-ui/core';
+import { Mutation } from '@redux-requests/react';
+
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { t } from 'modules/i18n/utils/intl';
+import { Breadcrumbs } from '../Breadcrumbs';
 import { useStyles } from './HeaderStyles';
-import { Mutation } from '@redux-requests/react';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import { shrinkAddress } from '../../../common/utils/shrinkAddress';
-
-const items = [{ title: 'Chains', link: '/chains' }];
 
 export const Header = () => {
   const classes = useStyles();
@@ -17,7 +16,7 @@ export const Header = () => {
   return (
     <header className={classes.root}>
       <Container className={classes.container} maxWidth={false}>
-        <Breadcrumbs items={items} />
+        <Breadcrumbs />
         <div className={classes.right}>
           <LocaleSwitcher className={classes.switcher} />
           <Mutation type={handleConnect.toString()}>

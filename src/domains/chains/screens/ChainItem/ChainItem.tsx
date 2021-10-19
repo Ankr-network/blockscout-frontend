@@ -12,6 +12,8 @@ import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { useStyles } from './ChainItemStyles';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { t } from 'modules/i18n/utils/intl';
 
 export const ChainItem = () => {
   const classes = useStyles();
@@ -19,6 +21,16 @@ export const ChainItem = () => {
 
   const dispatchRequest = useDispatchRequest();
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
+
+  useSetBreadcrumbs([
+    {
+      title: t(ChainsRoutesConfig.chains.breadcrumbs),
+      link: ChainsRoutesConfig.chains.path,
+    },
+    {
+      title: chainId,
+    },
+  ]);
 
   useEffect(() => {
     dispatchRequest(fetchChain(chainId));
