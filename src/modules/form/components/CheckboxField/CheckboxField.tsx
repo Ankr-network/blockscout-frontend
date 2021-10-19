@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { FormControlLabel, Typography, Checkbox } from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
+
 import { getErrorText } from '../../utils/getErrorText';
 import { hasError } from '../../utils/hasError';
 

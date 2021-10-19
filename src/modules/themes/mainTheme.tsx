@@ -1,5 +1,7 @@
+import React from 'react';
 import { createMuiTheme, fade, lighten, ThemeOptions } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { CheckboxCheckedIcon, CheckboxIcon } from 'uiKit/Checkbox';
 import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 import { Themes } from './types';
 
@@ -118,6 +120,11 @@ export const mainTheme = createMuiTheme({
       PaperProps: {
         elevation: 0,
       },
+    },
+    MuiCheckbox: {
+      color: 'primary',
+      icon: <CheckboxIcon />,
+      checkedIcon: <CheckboxCheckedIcon />,
     },
   },
 
@@ -454,6 +461,24 @@ export const mainTheme = createMuiTheme({
         '&:hover': {
           color: defaultTheme.palette.text.primary,
           backgroundColor: defaultTheme.palette.background.default,
+        },
+      },
+    },
+
+    MuiCheckbox: {
+      root: {
+        border: 'none',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+
+      colorPrimary: {
+        '&$checked': {
+          '&:hover': {
+            color: defaultTheme.palette.primary.dark,
+            backgroundColor: 'transparent',
+          },
         },
       },
     },

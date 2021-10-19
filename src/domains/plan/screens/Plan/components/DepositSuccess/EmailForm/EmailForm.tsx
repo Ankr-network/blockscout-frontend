@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Typography,
   Button,
-  Checkbox,
   FormGroup,
   FormControlLabel,
+  Checkbox,
 } from '@material-ui/core';
 
 import { tHTML } from 'modules/i18n/utils/intl';
