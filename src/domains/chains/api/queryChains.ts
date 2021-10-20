@@ -1,4 +1,7 @@
 import { IBlockchainEntity } from '@ankr.com/multirpc';
+import { getTokenIcon } from '../../../uiKit/utils/getTokenIcon';
+import { getTokenByChain } from '../../../modules/common/utils/getTokenByChain';
+import { Chain } from '../../../modules/common/types/Chain';
 
 export interface IFetchChainsResponseData {
   chains: Record<
@@ -13,6 +16,7 @@ export interface IFetchChainsResponseData {
 
 export interface IApiChain {
   id: string;
+  icon: string;
   name: string;
   rpcUrl: string;
   wsUrl: string;
@@ -32,6 +36,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
 
     return {
       id,
+      icon: getTokenIcon(getTokenByChain(id as Chain)),
       name,
       rpcUrl,
       wsUrl,

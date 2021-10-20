@@ -31,7 +31,7 @@ export const ChainsList = ({ data }: ChainsListProps) => {
         return (
           <div className={classes.wrappper} key={id}>
             <ChainsItem
-              logoSrc=""
+              logoSrc={item.icon}
               name={name}
               period={PERIOD}
               links={rpcLinks}
