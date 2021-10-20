@@ -42,8 +42,7 @@
   },
   "dashboard": {
     "breadcrumbs": "My private RPCs",
-    "title": "My private RPCs",
-    "create-rpc-button": "Create Private RPC"
+    "title": "My private RPCs"
   },
   "chains": {
     "breadcrumbs": "Chains",
@@ -138,5 +137,8 @@
       "unlock": "Unlock all features with",
       "premium": "Ankr Premium"
     }
+  },
+  "pro-block": {
+    "label": "Private RPCs"
   }
 }

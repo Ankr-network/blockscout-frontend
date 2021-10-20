@@ -343,14 +343,6 @@ export const mainTheme = createMuiTheme({
         },
       },
 
-      iconSizeMedium: {
-        marginRight: defaultTheme.spacing(1.25),
-
-        '& > *:first-child': {
-          fontSize: 13,
-        },
-      },
-
       label: {
         alignItems: 'center',
         position: 'relative',
@@ -462,6 +454,17 @@ export const mainTheme = createMuiTheme({
           color: defaultTheme.palette.text.primary,
           backgroundColor: defaultTheme.palette.background.default,
         },
+      },
+      iconSizeMedium: {
+        '& > *:first-child': {
+          fontSize: 16,
+        },
+      },
+    },
+
+    MuiSvgIcon: {
+      root: {
+        fontSize: 16,
       },
     },
 
