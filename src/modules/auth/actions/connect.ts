@@ -5,6 +5,8 @@ import { Web3Address } from '../../common/types/provider';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
 import { IJwtToken } from '@ankr.com/multirpc/dist/types/types';
 
+const PROVIDER_ERROR_USER_DENIED = 4001;
+
 interface IConnect {
   address: Web3Address;
   justDeposited: boolean;
@@ -24,6 +26,10 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           try {
             return await service.loginAsUser(address);
           } catch (error) {
+            if (error.code === PROVIDER_ERROR_USER_DENIED) {
+              throw error;
+            }
+
             return undefined;
           }
         })();
