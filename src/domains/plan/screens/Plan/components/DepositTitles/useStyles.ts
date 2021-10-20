@@ -10,5 +10,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     maxWidth: 728,
     lineHeight: '100%',
     letterSpacing: '-0.02em',
+
+    [theme.breakpoints.down('xl')]: {
+      fontSize: 50,
+    },
   },
 }));

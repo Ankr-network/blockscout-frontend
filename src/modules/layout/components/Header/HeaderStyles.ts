@@ -24,6 +24,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   switcher: {
     marginRight: theme.spacing(4.5),
+    marginLeft: theme.spacing(1),
   },
   right: {
     display: 'inline-flex',

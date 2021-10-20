@@ -12,6 +12,8 @@ import { fetchPrivateChains } from '../../../chains/actions/fetchPrivateChains';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 
+const HAS_SORT_SELECT = false;
+
 export const Dashboard = () => {
   const dispatchRequest = useDispatchRequest();
 
@@ -29,7 +31,7 @@ export const Dashboard = () => {
     <>
       <PageHeader
         title={t('dashboard.title')}
-        select={<ChainsSortSelect />}
+        select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
         button={<CreateRpcButton />}
       />
       <Queries<ResponseData<typeof fetchPrivateChains>>

@@ -19,11 +19,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&:not($activeLink):hover': {
       background: theme.palette.background.paper,
     },
+    '&:not(:last-child)': {
+      marginBottom: 3,
+    },
   },
   activeLink: {
     color: theme.palette.text.primary,
     cursor: 'default',
     fontWeight: 'bold',
+    background: theme.palette.background.paper,
   },
   icon: {
     marginRight: theme.spacing(2),

@@ -8,6 +8,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2.5),
     transition: 'box-shadow 0.2s',
 
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+
     '&:hover': {
       boxShadow:
         '0px 0px 15px rgba(31, 34, 38, 0.05), 0px 3px 50px rgba(31, 34, 38, 0.15)',
@@ -21,6 +26,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginTop: theme.spacing(1.5),
   },
   links: {
+    width: '100%',
     '& $copyItem:not(:last-child)': {
       marginBottom: theme.spacing(1.5),
     },

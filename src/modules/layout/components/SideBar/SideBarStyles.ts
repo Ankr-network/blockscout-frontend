@@ -5,6 +5,7 @@ export const SIDEBAR_WIDTH = 220;
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     width: SIDEBAR_WIDTH,
+    minHeight: 785,
     padding: theme.spacing(4, 2),
     display: 'flex',
     flexDirection: 'column',

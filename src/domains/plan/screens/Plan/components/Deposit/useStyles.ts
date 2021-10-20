@@ -8,10 +8,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(7.5, 15, 7.5, 10.5),
     borderRadius: 18,
+
+    [theme.breakpoints.down('lg')]: {
+      flexWrap: 'wrap',
+      padding: theme.spacing(4, 6),
+    },
   },
   left: {
-    paddingRight: theme.spacing(10),
+    marginRight: theme.spacing(10),
     width: '50%',
+  },
+  right: {
+    [theme.breakpoints.down('lg')]: {
+      marginTop: theme.spacing(2),
+    },
   },
   info: {
     fontWeight: 500,

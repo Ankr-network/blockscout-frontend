@@ -8,8 +8,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: theme.spacing(3.5),
     marginTop: 'auto',
+
+    [theme.breakpoints.down('lg')]: {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr',
+    },
   },
   wrappper: {
-    minWidth: 250,
+    height: '100%',
+    overflow: 'hidden',
   },
 }));

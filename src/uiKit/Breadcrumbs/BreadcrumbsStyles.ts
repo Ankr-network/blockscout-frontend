@@ -15,5 +15,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   breadcrumbs: {
     alignItems: 'baseline',
+    flexWrap: 'nowrap',
   },
 }));
