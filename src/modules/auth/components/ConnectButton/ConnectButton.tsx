@@ -35,7 +35,6 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
         {shrinkAddress(address)}
       </Button>
       <Menu
-        id="simple-menu2"
         keepMounted
         anchorEl={anchorEl}
         open={open}
