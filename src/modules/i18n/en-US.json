@@ -22,6 +22,13 @@
     "faq": "FAQ",
     "support": "Support"
   },
+  "mobile-navigation": {
+    "private-rpcs": "Private RPCs",
+    "public-rpcs": "Public RPCs",
+    "staking": "Staking",
+    "protocol": "Protocol",
+    "more": "More"
+  },
   "staking-info": {
     "description": "<b>Stake 50000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
     "link": "Join the waitlist"
@@ -124,5 +131,11 @@
   "guard-auth-route": {
     "connect": "Connect Wallet",
     "create": "Create account"
+  },
+  "mobile-details": {
+    "pro-block": {
+      "unlock": "Unlock all features with",
+      "premium": "Ankr Premium"
+    }
   }
 }

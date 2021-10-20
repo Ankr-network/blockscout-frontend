@@ -13,12 +13,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: 'repeat(2, 1fr)',
     },
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
     },
   },
-  wrappper: {
+  wrapper: {
     height: '100%',
     overflow: 'hidden',
+
+    borderRadius: 18,
+    transition: 'box-shadow 0.2s',
+
+    '&:hover': {
+      boxShadow:
+        '0px 0px 15px rgba(31, 34, 38, 0.05), 0px 3px 50px rgba(31, 34, 38, 0.15)',
+    },
   },
 }));

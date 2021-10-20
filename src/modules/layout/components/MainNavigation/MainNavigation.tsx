@@ -14,10 +14,12 @@ import {
 } from 'modules/common/components/Navigation';
 import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { PATH_PLAN } from 'domains/plan/Routes';
-import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
+import { StakingRoutesConfig } from 'domains/staking/Routes';
+
 import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useLocaleMemo } from '../../../i18n/utils/useLocaleMemo';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 export const MainNavigation = () => {
   const { credentials } = useAuth();
@@ -38,18 +40,18 @@ export const MainNavigation = () => {
         label: t('main-navigation.staking'),
         StartIcon: StakingIcon,
         isDisabled: true,
-        href: '/staking',
+        href: StakingRoutesConfig.staking.generatePath(),
       },
       {
         label: t('main-navigation.plan'),
         StartIcon: LabelIcon,
-        href: PATH_PLAN,
+        href: PlanRoutesConfig.plan.generatePath(),
         EndIcon: credentials ? SuccessIcon : undefined,
       },
       {
         label: t('main-navigation.protocol'),
         StartIcon: PaperIcon,
-        href: PATH_PROVIDERS,
+        href: ProvidersRoutesConfig.providers.generatePath(),
       },
     ],
     [credentials],
