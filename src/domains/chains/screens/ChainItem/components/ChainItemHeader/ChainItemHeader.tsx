@@ -15,12 +15,14 @@ import { PrivateHeader } from './PrivateHeader';
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
   hasCredentials: boolean;
+  icon: string;
   chainId: string;
 }
 
 export const ChainItemHeader = ({
   chain,
   hasCredentials,
+  icon,
   chainId,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
@@ -32,7 +34,7 @@ export const ChainItemHeader = ({
     <div className={classes.root}>
       <div className={classes.top}>
         <ChainMainInfo
-          logoSrc=""
+          logoSrc={icon}
           name={name}
           description={
             <ChainRequestsLabel

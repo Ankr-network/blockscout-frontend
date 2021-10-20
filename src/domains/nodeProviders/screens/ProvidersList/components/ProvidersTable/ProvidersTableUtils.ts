@@ -33,10 +33,11 @@ export const usePagination = (rows: ProviderRow[]) => {
 
 export const getRows = (data: ProvidersTableProps['data']): ProviderRow[] => {
   return data.map(item => {
-    const { id, continent, blockchain, scheme } = item;
+    const { id, icon, continent, blockchain, scheme } = item;
 
     return {
       id,
+      icon,
       location: continent,
       chain: capitalize(blockchain),
       type: scheme,

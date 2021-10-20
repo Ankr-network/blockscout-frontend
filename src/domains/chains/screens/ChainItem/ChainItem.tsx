@@ -57,6 +57,7 @@ export const ChainItem = () => {
                     chain={chain}
                     chainId={chainId}
                     hasCredentials={Boolean(credentials)}
+                    icon={chain.icon}
                   />
                   <ChainRequestsOverview
                     className={classes.overview}

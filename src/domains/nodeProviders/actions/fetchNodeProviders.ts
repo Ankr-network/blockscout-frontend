@@ -1,24 +1,37 @@
-import { INodeEntity } from '@ankr.com/multirpc/dist/types/worker';
+import {
+  getTokenByChain,
+  INodeEntity as IApiNodeEntity,
+} from '@ankr.com/multirpc';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from '../../../modules/api/MultiService';
+import { getTokenIcon } from '../../../uiKit/utils/getTokenIcon';
+
+interface INodeEntity extends IApiNodeEntity {
+  icon: string;
+}
+
+function getData(data: IApiNodeEntity[]): INodeEntity[] {
+  return data.map(item => ({
+    ...item,
+    icon: getTokenIcon(getTokenByChain(item.blockchain)),
+  }));
+}
 
 export const fetchNodeProviders = createSmartAction<
-  RequestAction<INodeEntity[], INodeEntity[]>
+  RequestAction<IApiNodeEntity[], INodeEntity[]>
 >('nodeProviders/fetchNodeProviders', () => ({
   request: {
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      const nodes = await service.getWorkerGateway().apiGetNodes();
-
-      return nodes;
+      return service.getWorkerGateway().apiGetNodes();
     })(),
   },
   meta: {
     cache: false,
     asMutation: false,
-    getData: data => data,
+    getData,
   },
 }));

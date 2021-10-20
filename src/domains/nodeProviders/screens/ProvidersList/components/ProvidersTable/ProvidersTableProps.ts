@@ -1,14 +1,15 @@
-import { INodeEntity } from '@ankr.com/multirpc/dist/types/worker';
+import { ResponseData } from '../../../../../../modules/api/utils/ResponseData';
+import { fetchNodeProviders } from '../../../../actions/fetchNodeProviders';
 
 export interface ProvidersTableProps {
-  data: INodeEntity[];
+  data: ResponseData<typeof fetchNodeProviders>;
 }
 
 export interface ProviderRow {
   id: string;
+  icon: string;
   chain: string;
   type: string;
   location: string | null;
-  logo?: string;
   organization?: string;
 }

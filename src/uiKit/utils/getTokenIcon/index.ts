@@ -4,7 +4,7 @@ import ftmIcon from './ftm.svg';
 import ksmIcon from './ksm.svg';
 import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
-import { Token } from '../../../modules/common/types/Token';
+import { Token } from '@ankr.com/multirpc';
 
 const chainIcons: { [key in Token]: string } = {
   [Token.avax]: avaxIcon,

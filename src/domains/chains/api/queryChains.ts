@@ -1,7 +1,5 @@
-import { IBlockchainEntity } from '@ankr.com/multirpc';
+import { Chain, getTokenByChain, IBlockchainEntity } from '@ankr.com/multirpc';
 import { getTokenIcon } from '../../../uiKit/utils/getTokenIcon';
-import { getTokenByChain } from '../../../modules/common/utils/getTokenByChain';
-import { Chain } from '../../../modules/common/types/Chain';
 
 export interface IFetchChainsResponseData {
   chains: Record<

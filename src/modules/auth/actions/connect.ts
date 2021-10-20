@@ -1,9 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from '../../api/MultiService';
-import { Web3Address } from '../../common/types/provider';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
-import { IJwtToken } from '@ankr.com/multirpc/dist/types/types';
+import { IJwtToken, Web3Address } from '@ankr.com/multirpc';
 
 const PROVIDER_ERROR_USER_DENIED = 4001;
 
