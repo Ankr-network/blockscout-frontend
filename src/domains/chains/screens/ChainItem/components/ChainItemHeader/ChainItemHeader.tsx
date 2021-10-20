@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Button } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
@@ -11,6 +12,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
+import { PlanRoutesConfig } from '../../../../../plan/Routes';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -62,7 +64,12 @@ export const ChainItemHeader = ({
           <Typography variant="body2" className={classes.text}>
             {t('chain-item.header.bottom')}
           </Typography>
-          <Button endIcon={<ArrowRightIcon className={classes.icon} />}>
+
+          <Button
+            component={RouterLink}
+            to={PlanRoutesConfig.plan.generatePath()}
+            endIcon={<ArrowRightIcon className={classes.icon} />}
+          >
             {t('chain-item.header.button')}
           </Button>
         </div>

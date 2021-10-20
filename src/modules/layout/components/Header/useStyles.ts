@@ -15,7 +15,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.paper,
     zIndex: 1,
   },
-
   container: {
     display: 'flex',
     alignItems: 'center',

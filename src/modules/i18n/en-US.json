@@ -37,7 +37,8 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Connect Wallet"
+    "wallet-button": "Connect Wallet",
+    "disconnect": "Disconnect"
   },
   "dashboard": {
     "breadcrumbs": "My private RPCs",
@@ -54,7 +55,7 @@
   "chain-item": {
     "header": {
       "bottom": "Private RPC",
-      "button": "Generate Private Endpoint",
+      "button": "Unlock Private Endpoint",
       "settings-button": "Settings"
     },
     "details": {

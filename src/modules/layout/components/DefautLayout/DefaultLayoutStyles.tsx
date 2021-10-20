@@ -16,12 +16,9 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
   root: {
     display: 'flex',
     minWidth: 375,
-
     background: theme.palette.background.default,
   },
-
   darkTheme: {},
-
   body: {
     width: '100%',
     minHeight: '100vh',
@@ -34,7 +31,6 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
         : mainTheme.palette.background.paper,
     paddingLeft: props => (props.isDesktop ? `${SIDEBAR_WIDTH}px` : 0),
   },
-
   main: {
     flexGrow: 1,
     paddingBottom: theme.spacing(6),

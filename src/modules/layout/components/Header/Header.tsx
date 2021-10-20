@@ -4,7 +4,9 @@ import { Container } from '@material-ui/core';
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { useStyles } from './HeaderStyles';
+import { useStyles } from './useStyles';
+
+const IS_I18N_ENABLED = false;
 
 export const Header = () => {
   const classes = useStyles();
@@ -14,7 +16,7 @@ export const Header = () => {
       <Container className={classes.container} maxWidth={false}>
         <Breadcrumbs />
         <div className={classes.right}>
-          <LocaleSwitcher className={classes.switcher} />
+          {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
           <ConnectButton />
         </div>
       </Container>
