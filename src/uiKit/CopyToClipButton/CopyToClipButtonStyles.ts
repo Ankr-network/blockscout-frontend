@@ -26,12 +26,15 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
 
       '& $button': {
         backgroundColor: theme.palette.primary.dark,
+        [theme.breakpoints.down('xs')]: {
+          color: theme.palette.common.white,
+        },
       },
     },
   }),
   text: {
     color: theme.palette.text.primary,
-    padding: '12px 15px',
+    padding: '11px 15px',
     width: '60%',
   },
   button: {

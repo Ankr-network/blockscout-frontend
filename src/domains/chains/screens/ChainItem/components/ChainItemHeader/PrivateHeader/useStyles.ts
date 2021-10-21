@@ -28,11 +28,22 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '& $copyToClip:not(:last-child)': {
       marginRight: theme.spacing(2.5),
+      [theme.breakpoints.down('md')]: {
+        marginRight: 0,
+        marginBottom: theme.spacing(2.5),
+      },
+    },
+
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
     },
   },
   copyToClip: {
     flexGrow: 1,
     maxWidth: 360,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '100%',
+    },
   },
   preloaderWrapper: {
     minHeight: 120,

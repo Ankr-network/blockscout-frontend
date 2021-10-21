@@ -5,11 +5,12 @@ import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
+import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
 
 export const RpcList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
-
-  const chains = formatChains(data);
+  const { credentials } = useAuth();
+  const chains = formatChains(data, Boolean(credentials));
 
   return (
     <div>

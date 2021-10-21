@@ -7,12 +7,14 @@ import { ChainsItem } from '../ChainsItem';
 import { useStyles } from './ChainsListStyles';
 import { formatChains, PERIOD } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
+import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
 
 export const ChainsList = ({ data }: ChainsListProps) => {
   const classes = useStyles();
   const history = useHistory();
+  const { credentials } = useAuth();
 
-  const chains = formatChains(data);
+  const chains = formatChains(data, Boolean(credentials));
 
   const handleClick = useCallback(
     (chainId: string) => {

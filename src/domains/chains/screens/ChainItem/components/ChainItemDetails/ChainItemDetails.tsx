@@ -1,5 +1,6 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
+import cn from 'classnames';
 
 import { t } from 'modules/i18n/utils/intl';
 import { DetailsBlock } from './DetailsBlock';
@@ -11,6 +12,7 @@ interface ChainItemDetailsProps {
   totalCached: BigNumber;
   totalServed: BigNumber;
   uniqueVisitors: BigNumber;
+  className?: string;
 }
 
 export const ChainItemDetails = ({
@@ -18,11 +20,12 @@ export const ChainItemDetails = ({
   totalCached,
   totalServed,
   uniqueVisitors,
+  className,
 }: ChainItemDetailsProps) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className={cn(classes.root, className)}>
       <DetailsBlock
         title={t('chain-item.api-details.data-cached')}
         value={formatNumber(dataCached)}

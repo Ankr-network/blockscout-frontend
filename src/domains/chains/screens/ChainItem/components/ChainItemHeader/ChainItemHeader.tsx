@@ -1,6 +1,7 @@
 import React from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import cn from 'classnames';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
@@ -13,12 +14,14 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
+import { CopyToClipIcon } from '../../../../../../uiKit/CopyToClipIcon';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
   hasCredentials: boolean;
   icon: string;
   chainId: string;
+  className?: string;
 }
 
 export const ChainItemHeader = ({
@@ -26,14 +29,16 @@ export const ChainItemHeader = ({
   hasCredentials,
   icon,
   chainId,
+  className,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
-
-  const [formattedChain] = formatChains([chain]);
+  const theme = useTheme();
+  const [formattedChain] = formatChains([chain], hasCredentials);
   const { rpcLinks, name } = formattedChain;
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <div className={classes.root}>
+    <div className={cn(classes.root, className)}>
       <div className={classes.top}>
         <ChainMainInfo
           logoSrc={icon}
@@ -46,15 +51,26 @@ export const ChainItemHeader = ({
           }
         />
         <div className={classes.right}>
-          {rpcLinks.map(link => (
-            <CopyToClipButton
-              text={link}
-              key={link}
-              textMessage={t('common.copy-message')}
-              buttonText={t('common.copy-text')}
-              className={classes.copyToClip}
-            />
-          ))}
+          {rpcLinks.map(link => {
+            return isMobile ? (
+              <CopyToClipIcon
+                key={link}
+                text={link}
+                message={t('common.copy-message')}
+                size="l"
+                textColor="textPrimary"
+                className={classes.copyToClip}
+              />
+            ) : (
+              <CopyToClipButton
+                text={link}
+                key={link}
+                textMessage={t('common.copy-message')}
+                buttonText={t('common.copy-text')}
+                className={classes.copyToClip}
+              />
+            );
+          })}
         </div>
       </div>
       {hasCredentials ? (
