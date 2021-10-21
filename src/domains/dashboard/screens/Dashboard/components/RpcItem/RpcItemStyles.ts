@@ -8,20 +8,38 @@ export const useStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.default,
     borderRadius: 18,
     padding: theme.spacing(3, 2),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+  },
+  mainInfo: {
+    minWidth: '35%',
+    paddingRight: theme.spacing(1),
+
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '100%',
+      paddingRight: 0,
+    },
   },
   right: {
-    display: 'flex',
-    width: '50%',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    columnGap: theme.spacing(2.5),
+    width: '100%',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      columnGap: 0,
+      marginTop: theme.spacing(4),
+    },
   },
   item: {
-    flexGrow: 1,
-
-    '&:not(:last-child)': {
-      minWidth: `calc(50% - ${theme.spacing(2.5)}px)`,
-      marginRight: theme.spacing(2.5),
-    },
-    '&:last-child': {
-      minWidth: '50%',
+    [theme.breakpoints.down('sm')]: {
+      '&:not(:last-child)': {
+        marginBottom: theme.spacing(2),
+      },
     },
   },
   description: {

@@ -18,7 +18,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
 
   return (
     <header className={classNames(classes.root, className)}>
-      <Container className={classes.container} maxWidth={false}>
+      <Container className={classes.container}>
         <Breadcrumbs />
         <div className={classes.right}>
           {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}

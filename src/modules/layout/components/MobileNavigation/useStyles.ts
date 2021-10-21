@@ -1,12 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const MOBILE_NAVIGATION_HEIGHT = 88;
+export const MOBILE_NAVIGATION_HEIGHT = 80;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(2, 0, 3.5),
+    padding: theme.spacing(2, 0, 2.5),
     color: theme.palette.text.primary,
     position: 'fixed',
     width: '100%',

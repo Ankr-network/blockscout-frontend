@@ -38,4 +38,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     backgroundColor: theme.palette.background.default,
   },
+  dots: {
+    margin: '0 6px',
+  },
 }));

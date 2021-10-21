@@ -71,4 +71,12 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
       display: 'block',
     },
   },
+  mobileBreadcrumbs: {
+    display: 'none',
+    marginBottom: theme.spacing(2.5),
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
 }));

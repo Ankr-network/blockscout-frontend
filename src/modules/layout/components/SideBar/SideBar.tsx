@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { MainNavigation } from '../MainNavigation';
 import { ExtraNavigation } from '../ExtraNavigation';
 import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
-import { useStyles } from './SideBarStyles';
+import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
 interface SidebarProps {
   className?: string;
@@ -16,14 +17,18 @@ export const SideBar = ({ className = '' }: SidebarProps) => {
 
   return (
     <aside className={classNames(classes.root, className)}>
-      <Logo />
-      <div className={classes.bottom}>
-        <MainNavigation />
-        <div>
-          <StakingInfo />
-          <ExtraNavigation />
+      <Scrollbars autoHeightMin={SIDEBAR_HEIGHT}>
+        <div className={classes.container}>
+          <Logo />
+          <div className={classes.bottom}>
+            <MainNavigation />
+            <div>
+              <StakingInfo />
+              <ExtraNavigation />
+            </div>
+          </div>
         </div>
-      </div>
+      </Scrollbars>
     </aside>
   );
 };

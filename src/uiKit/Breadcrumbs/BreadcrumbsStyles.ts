@@ -4,6 +4,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   link: {
     fontSize: 30,
     fontWeight: 'bold',
+    lineHeight: 1.167,
 
     '&.custom-link:hover': {
       color: theme.palette.primary.main,

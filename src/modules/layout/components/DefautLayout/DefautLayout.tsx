@@ -11,6 +11,7 @@ import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { Breadcrumbs } from '../Breadcrumbs';
 
 export interface ILayoutProps {
   children?: ReactChild;
@@ -35,7 +36,10 @@ export const DefaultLayout = ({
         <div className={classes.body}>
           <Header className={classes.header} />
           <MobileHeader className={classes.mobileHeader} />
-          <Container className={classes.main} maxWidth={false}>
+          <Container className={classes.main}>
+            <div className={classes.mobileBreadcrumbs}>
+              <Breadcrumbs />
+            </div>
             <NoReactSnap>{children}</NoReactSnap>
           </Container>
         </div>
