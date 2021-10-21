@@ -41,6 +41,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
       background:
         'radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.12) 75%, rgba(0, 0, 0, 0) 100%)',
       opacity: 0.3,
+      left: '50%',
+      transform: 'translateX(-50%)',
     },
 
     '& img': {

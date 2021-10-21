@@ -4,11 +4,11 @@ import { mainTheme } from 'modules/themes/mainTheme';
 import { SIDEBAR_WIDTH } from '../SideBar';
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
+import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
 
 const MOBILE_LAYOUT_PADDING = 30;
 
 interface StyleProps {
-  isDesktop: boolean;
   isLayoutDefaultColor: boolean;
 }
 
@@ -29,17 +29,46 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
       props.isLayoutDefaultColor
         ? mainTheme.palette.background.default
         : mainTheme.palette.background.paper,
-    paddingLeft: props => (props.isDesktop ? `${SIDEBAR_WIDTH}px` : 0),
+
+    paddingLeft: `${SIDEBAR_WIDTH}px`,
+
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 0,
+    },
   },
   main: {
     flexGrow: 1,
     paddingBottom: theme.spacing(6),
     position: 'relative',
-    paddingTop: props =>
-      `${
-        props.isDesktop
-          ? HEADER_HEIGHT
-          : MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING
-      }px`,
+    paddingTop: `${HEADER_HEIGHT}px`,
+
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: `${MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING}px`,
+      paddingBottom: `${theme.spacing(6) + MOBILE_NAVIGATION_HEIGHT}px`,
+    },
+  },
+  header: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  mobileHeader: {
+    display: 'none',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
+  sidebar: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  mobileNavigation: {
+    display: 'none',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
   },
 }));

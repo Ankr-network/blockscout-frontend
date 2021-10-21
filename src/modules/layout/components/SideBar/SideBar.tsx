@@ -1,17 +1,21 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { MainNavigation } from '../MainNavigation';
 import { ExtraNavigation } from '../ExtraNavigation';
 import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
-
 import { useStyles } from './SideBarStyles';
 
-export const SideBar = () => {
+interface SidebarProps {
+  className?: string;
+}
+
+export const SideBar = ({ className = '' }: SidebarProps) => {
   const classes = useStyles();
 
   return (
-    <aside className={classes.root}>
+    <aside className={classNames(classes.root, className)}>
       <Logo />
       <div className={classes.bottom}>
         <MainNavigation />

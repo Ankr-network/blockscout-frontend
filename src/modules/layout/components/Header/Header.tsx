@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
@@ -8,11 +9,15 @@ import { useStyles } from './useStyles';
 
 const IS_I18N_ENABLED = false;
 
-export const Header = () => {
+interface HeaderProps {
+  className?: string;
+}
+
+export const Header = ({ className = '' }: HeaderProps) => {
   const classes = useStyles();
 
   return (
-    <header className={classes.root}>
+    <header className={classNames(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         <Breadcrumbs />
         <div className={classes.right}>

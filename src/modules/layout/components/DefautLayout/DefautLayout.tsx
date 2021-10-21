@@ -10,7 +10,7 @@ import { MobileHeader } from '../MobileHeader';
 import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
-import { useIsMDUp } from 'modules/themes/useTheme';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export interface ILayoutProps {
   children?: ReactChild;
@@ -23,9 +23,7 @@ export const DefaultLayout = ({
   theme = Themes.light,
   isLayoutDefaultColor = false,
 }: ILayoutProps) => {
-  const isDesktop = useIsMDUp();
-
-  const classes = useStyles({ isDesktop, isLayoutDefaultColor });
+  const classes = useStyles({ isLayoutDefaultColor });
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -33,14 +31,15 @@ export const DefaultLayout = ({
   return (
     <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
-        {isDesktop && <SideBar />}
+        <SideBar className={classes.sidebar} />
         <div className={classes.body}>
-          {isDesktop ? <Header /> : <MobileHeader />}
+          <Header className={classes.header} />
+          <MobileHeader className={classes.mobileHeader} />
           <Container className={classes.main} maxWidth={false}>
-            <>{children}</>
+            <NoReactSnap>{children}</NoReactSnap>
           </Container>
         </div>
-        {!isDesktop && <MobileNavigation />}
+        <MobileNavigation className={classes.mobileNavigation} />
       </ThemeProvider>
     </div>
   );

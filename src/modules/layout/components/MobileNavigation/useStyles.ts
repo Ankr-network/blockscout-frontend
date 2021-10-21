@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const HEADER_HEIGHT = 121;
+export const MOBILE_NAVIGATION_HEIGHT = 88;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {

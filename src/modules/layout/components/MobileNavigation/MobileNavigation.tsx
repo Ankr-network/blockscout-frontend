@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { ClockIcon } from 'uiKit/Icons/ClockIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
@@ -18,7 +19,11 @@ import { MobileDetailsRoutesConfig } from 'domains/mobileDetails/Routes';
 
 import { useStyles } from './useStyles';
 
-export const MobileNavigation = () => {
+interface MobileHeaderProps {
+  className?: string;
+}
+
+export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   const classes = useStyles();
 
   const items = useLocaleMemo(
@@ -54,7 +59,7 @@ export const MobileNavigation = () => {
   );
 
   return (
-    <nav className={classes.root}>
+    <nav className={classNames(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         {items.map(({ label, href, StartIcon, isDisabled }) => (
           <Button
