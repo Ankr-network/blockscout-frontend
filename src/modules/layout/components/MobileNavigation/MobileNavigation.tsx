@@ -59,7 +59,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   );
 
   return (
-    <nav className={classNames(classes.root, className)}>
+    <nav className={classNames(classes.root, 'custom', className)}>
       <Container className={classes.container} maxWidth={false}>
         {items.map(({ label, href, StartIcon, isDisabled }) => (
           <Button

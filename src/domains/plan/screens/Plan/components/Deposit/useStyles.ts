@@ -9,9 +9,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(7.5, 15, 7.5, 10.5),
     borderRadius: 18,
 
+    [theme.breakpoints.down(1300)]: {
+      padding: theme.spacing(4),
+    },
+
     [theme.breakpoints.down('lg')]: {
       flexWrap: 'wrap',
       padding: theme.spacing(4, 6),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2.5),
     },
   },
   left: {
