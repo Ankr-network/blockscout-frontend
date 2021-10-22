@@ -103,10 +103,10 @@
     },
     "pro": {
       "title": "Congratulations",
-      "subtitle": "<b>You are Pro member</b> and have all premium features"
+      "subtitle": "<b>You are Premium member</b> and have all premium features"
     },
     "connect-wallet": {
-      "title": "Already Pro?",
+      "title": "Already Premium?",
       "subtitle": "Connect wallet"
     }
   },
@@ -142,7 +142,7 @@
     "label": "Private RPCs"
   },
   "depositing": {
-    "title": "Becoming Pro",
+    "title": "Becoming Premium",
     "step-content": {
       "0": "Click Metamask extension and provide us your public encryption key.",
       "1": "1",
