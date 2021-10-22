@@ -156,7 +156,7 @@ workflows:
             <<: *prod_only
       - build_app_back_stage:
           context:
-            - stage_build
+            - ankr_protocol_stage_deploy
             - ankr_protocol_cicd
           requires:
             - deploy_app_prod
