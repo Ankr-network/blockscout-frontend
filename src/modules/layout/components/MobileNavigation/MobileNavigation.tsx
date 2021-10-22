@@ -15,7 +15,7 @@ import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { StakingRoutesConfig } from 'domains/staking/Routes';
-import { MobileDetailsRoutesConfig } from 'domains/mobileDetails/Routes';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 import { useStyles } from './useStyles';
 
@@ -52,7 +52,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
       {
         label: t('mobile-navigation.more'),
         StartIcon: MoreIcon,
-        href: MobileDetailsRoutesConfig.details.generatePath(),
+        href: PlanRoutesConfig.plan.generatePath(),
       },
     ],
     [],

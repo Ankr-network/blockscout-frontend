@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useMediaQuery, useTheme } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 import {
   AreaChart,
   CartesianGrid,

@@ -50,12 +50,12 @@ export const ProvidersTablePagination = ({
       {pageIndex > 0 && pagesCount > pageNumbers.length && dots}
       {pageNumbers.map((pageNumber: number, index: number) => (
         <Fab
+          variant="extended"
+          key={index}
+          onClick={() => onPageChange(pageNumber - 1)}
           className={classNames(classes.fab, {
             [classes.isActive]: pageNumber - 1 === pageIndex,
           })}
-          variant="extended"
-          onClick={() => onPageChange(index)}
-          key={index}
         >
           {pageNumber}
         </Fab>

@@ -4,6 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles<Theme>(theme => ({
   topTitle: {
     marginBottom: theme.spacing(2.5),
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+    },
   },
   bottomTitle: {
     fontWeight: 400,
@@ -13,6 +17,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       fontSize: 50,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 30,
     },
   },
 }));

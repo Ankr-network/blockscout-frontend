@@ -104,6 +104,10 @@
     "pro": {
       "title": "Congratulations",
       "subtitle": "<b>You are Pro member</b> and have all premium features"
+    },
+    "connect-wallet": {
+      "title": "Already Pro?",
+      "subtitle": "Connect wallet"
     }
   },
   "common": {
@@ -127,10 +131,6 @@
         "next-button": "Next"
       }
     }
-  },
-  "guard-auth-route": {
-    "connect": "Connect Wallet",
-    "create": "Create account"
   },
   "mobile-details": {
     "pro-block": {

@@ -3,6 +3,7 @@ import React from 'react';
 import { Deposit } from './components/Deposit';
 import { useAuth } from '../../../../modules/auth/hooks/useAuth';
 import { ProBlock } from './components/ProBlock';
+import { ConnectWalletBlock } from './components/ConnectWalletBlock';
 import { DepositSuccess } from './components/DepositSuccess';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
@@ -15,7 +16,13 @@ export const Plan = () => {
     },
   ]);
 
-  const { credentials, justDeposited, handleDeposit } = useAuth();
+  const {
+    credentials,
+    justDeposited,
+    handleDeposit,
+    handleConnect,
+    loading,
+  } = useAuth();
 
   if (credentials && justDeposited) {
     return <DepositSuccess />;
@@ -25,5 +32,10 @@ export const Plan = () => {
     return <ProBlock />;
   }
 
-  return <Deposit onSubmit={handleDeposit} />;
+  return (
+    <>
+      <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+      <Deposit onSubmit={handleDeposit} />
+    </>
+  );
 };

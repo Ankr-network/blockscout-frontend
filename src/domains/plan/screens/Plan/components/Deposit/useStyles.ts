@@ -17,6 +17,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   left: {
     marginRight: theme.spacing(10),
     width: '50%',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   right: {
     [theme.breakpoints.down('lg')]: {
@@ -28,6 +32,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '&:not(:last-child)': {
       marginBottom: theme.spacing(2),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
     },
   },
   divider: {
