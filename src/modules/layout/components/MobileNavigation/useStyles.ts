@@ -4,17 +4,19 @@ export const MOBILE_NAVIGATION_HEIGHT = 80;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(2, 0, 2.5),
-    color: theme.palette.text.primary,
-    position: 'fixed',
-    width: '100%',
-    backgroundColor: theme.palette.background.default,
-    zIndex: 1,
-    bottom: 0,
-    boxShadow:
-      '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
+    '&.custom': {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(2, 0, 2.5),
+      color: theme.palette.text.primary,
+      position: 'fixed',
+      width: '100%',
+      backgroundColor: theme.palette.background.default,
+      zIndex: 1,
+      bottom: 0,
+      boxShadow:
+        '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
+    },
   },
 
   container: {
