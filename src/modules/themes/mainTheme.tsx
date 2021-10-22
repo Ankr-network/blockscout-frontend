@@ -4,6 +4,7 @@ import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { CheckboxCheckedIcon, CheckboxIcon } from 'uiKit/Checkbox';
 import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 import { Themes } from './types';
+import { StepIcon } from './components/StepIcon';
 
 const TEN_SECONDS = 10 * 1000;
 const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
@@ -65,6 +66,9 @@ export const mainTheme = createMuiTheme({
   },
 
   props: {
+    MuiStep: {
+      StepIconComponent: StepIcon,
+    },
     MuiSnackbar: {
       autoHideDuration: NOTIFICATION_AUTO_HIDE_DURATION,
     },
@@ -125,6 +129,9 @@ export const mainTheme = createMuiTheme({
       color: 'primary',
       icon: <CheckboxIcon />,
       checkedIcon: <CheckboxCheckedIcon />,
+    },
+    MuiStepLabel: {
+      StepIconComponent: StepIcon,
     },
   },
 
@@ -677,6 +684,32 @@ export const mainTheme = createMuiTheme({
         '$colorSecondary$checked + &': {
           backgroundColor: defaultTheme.palette.text.primary,
         },
+      },
+    },
+
+    MuiStep: {
+      root: {
+        '&&': {
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+      },
+    },
+    MuiStepLabel: {
+      iconContainer: {
+        paddingRight: 0,
+      },
+    },
+    MuiStepConnector: {
+      root: {
+        height: 4,
+        background: defaultTheme.palette.background.paper,
+      },
+      active: {
+        background: defaultTheme.palette.primary.main,
+      },
+      lineHorizontal: {
+        borderTopWidth: 0,
       },
     },
   },

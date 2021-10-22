@@ -62,13 +62,15 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
                 textColor="textPrimary"
                 className={classes.copyToClip}
               />
-              <CopyToClipIcon
-                text={wsUrl}
-                message={t('common.copy-message')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
+              {wsUrl && (
+                <CopyToClipIcon
+                  text={wsUrl}
+                  message={t('common.copy-message')}
+                  size="l"
+                  textColor="textPrimary"
+                  className={classes.copyToClip}
+                />
+              )}
             </div>
           </div>
         );

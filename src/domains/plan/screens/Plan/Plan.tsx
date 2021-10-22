@@ -8,6 +8,9 @@ import { DepositSuccess } from './components/DepositSuccess';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { t } from 'modules/i18n/utils/intl';
+import { Depositing } from './components/Depositing';
+
+const isDepositing = false;
 
 export const Plan = () => {
   useSetBreadcrumbs([
@@ -23,6 +26,10 @@ export const Plan = () => {
     handleConnect,
     loading,
   } = useAuth();
+
+  if (isDepositing) {
+    return <Depositing />;
+  }
 
   if (credentials && justDeposited) {
     return <DepositSuccess />;

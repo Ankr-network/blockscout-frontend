@@ -33,7 +33,7 @@ export const ChainItemHeader = ({
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [formattedChain] = formatChains([chain], hasCredentials);
+  const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 

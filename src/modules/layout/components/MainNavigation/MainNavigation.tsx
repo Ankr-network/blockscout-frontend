@@ -37,12 +37,6 @@ export const MainNavigation = () => {
         href: ChainsRoutesConfig.chains.generatePath(),
       },
       {
-        label: t('main-navigation.staking'),
-        StartIcon: StakingIcon,
-        isDisabled: true,
-        href: StakingRoutesConfig.staking.generatePath(),
-      },
-      {
         label: t('main-navigation.plan'),
         StartIcon: LabelIcon,
         href: PlanRoutesConfig.plan.generatePath(),
@@ -52,6 +46,12 @@ export const MainNavigation = () => {
         label: t('main-navigation.protocol'),
         StartIcon: PaperIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
+      },
+      {
+        label: t('main-navigation.staking'),
+        StartIcon: StakingIcon,
+        isDisabled: true,
+        href: StakingRoutesConfig.staking.generatePath(),
       },
     ],
     [credentials],

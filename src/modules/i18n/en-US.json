@@ -14,7 +14,7 @@
     "private-rpcs": "Private RPCs",
     "public-rpcs": "Public RPCs",
     "staking": "Staking",
-    "plan": "Ankr Pro",
+    "plan": "Ankr Premium",
     "protocol": "Protocol"
   },
   "extra-navigation": {
@@ -76,10 +76,10 @@
     }
   },
   "plan": {
-    "breadcrumbs": "Ankr Pro",
+    "breadcrumbs": "Ankr Premium",
     "deposit": {
       "title": "Annual plan",
-      "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Pro</b>",
+      "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Premium</b>",
       "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Private endpoints",
@@ -140,5 +140,25 @@
   },
   "pro-block": {
     "label": "Private RPCs"
+  },
+  "depositing": {
+    "title": "Becoming Pro",
+    "step-content": {
+      "0": "Click Metamask extension and provide us your public encryption key.",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "step-notice": {
+      "0": "To enable Ankr to securely enable your deposit.",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "next": "Next"
   }
 }

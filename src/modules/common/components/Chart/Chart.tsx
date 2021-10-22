@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import { useTheme } from '@material-ui/core';
 import {
+  Area,
   AreaChart,
   CartesianGrid,
-  XAxis,
-  YAxis,
-  Area,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
 import { BaseAxisProps } from 'recharts/types/util/types';
 
