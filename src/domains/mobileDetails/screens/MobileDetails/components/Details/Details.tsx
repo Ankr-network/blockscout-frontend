@@ -6,12 +6,14 @@ import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { ProBlock } from './ProBlock';
 import { useStyles } from './useStyles';
 
+const ENABLE_STAKING_BANNER = false;
+
 export const Details = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <StakingInfo />
+      {ENABLE_STAKING_BANNER && <StakingInfo />}
       <ProBlock />
       <div className={classes.navigation}>
         <ExtraNavigation />
