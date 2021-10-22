@@ -39,15 +39,15 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         href: ChainsRoutesConfig.chains.generatePath(),
       },
       {
+        label: t('mobile-navigation.protocol'),
+        StartIcon: PaperIcon,
+        href: ProvidersRoutesConfig.providers.generatePath(),
+      },
+      {
         label: t('mobile-navigation.staking'),
         StartIcon: StakingIcon,
         isDisabled: true,
         href: StakingRoutesConfig.staking.generatePath(),
-      },
-      {
-        label: t('mobile-navigation.protocol'),
-        StartIcon: PaperIcon,
-        href: ProvidersRoutesConfig.providers.generatePath(),
       },
       {
         label: t('mobile-navigation.more'),
@@ -59,7 +59,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   );
 
   return (
-    <nav className={classNames(classes.root, 'custom', className)}>
+    <nav className={classNames(classes.root, classes.custom, className)}>
       <Container className={classes.container} maxWidth={false}>
         {items.map(({ label, href, StartIcon, isDisabled }) => (
           <Button

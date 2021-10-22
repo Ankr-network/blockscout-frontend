@@ -43,7 +43,7 @@ export const DefaultLayout = ({
             <NoReactSnap>{children}</NoReactSnap>
           </Container>
         </div>
-        <MobileNavigation className={classes.mobileNavigation} />
+        <MobileNavigation />
       </ThemeProvider>
     </div>
   );
