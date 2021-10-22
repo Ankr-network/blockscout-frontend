@@ -4,8 +4,8 @@ export const MOBILE_NAVIGATION_HEIGHT = 80;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    '&.custom': {
-      display: 'flex',
+    '&$custom': {
+      display: 'none',
       alignItems: 'center',
       padding: theme.spacing(2, 0, 2.5),
       color: theme.palette.text.primary,
@@ -16,8 +16,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       bottom: 0,
       boxShadow:
         '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
+
+      [theme.breakpoints.down('sm')]: {
+        display: 'flex',
+      },
     },
   },
+
+  custom: {},
 
   container: {
     display: 'flex',
