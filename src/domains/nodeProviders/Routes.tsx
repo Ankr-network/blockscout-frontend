@@ -5,7 +5,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const PATH_PROVIDERS = '/providers';
+export const PATH_PROVIDERS = '/providers/';
 
 export const ProvidersRoutesConfig = createRouteConfig(
   {

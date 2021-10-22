@@ -1,2 +1,2 @@
 export * from './Header';
-export { HEADER_HEIGHT } from './HeaderStyles';
+export { HEADER_HEIGHT } from './useStyles';

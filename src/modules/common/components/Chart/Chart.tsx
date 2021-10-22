@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import { useTheme } from '@material-ui/core';
 import {
+  Area,
   AreaChart,
   CartesianGrid,
-  XAxis,
-  YAxis,
-  Area,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
 import { BaseAxisProps } from 'recharts/types/util/types';
 
@@ -37,8 +37,13 @@ export const Chart = ({
   const classes = useStyles();
 
   return (
-    <ResponsiveContainer className={classes.root} height={270}>
-      <AreaChart className={classes.chart} data={data} margin={MARGIN}>
+    <ResponsiveContainer className={classes.root} width="99%" height={270}>
+      <AreaChart
+        width={0}
+        className={classes.chart}
+        data={data}
+        margin={MARGIN}
+      >
         <defs>
           <linearGradient id="valueColor" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={theme.palette.primary.main} />

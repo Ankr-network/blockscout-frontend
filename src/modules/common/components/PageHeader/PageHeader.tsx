@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Typography } from '@material-ui/core';
 
 import { useStyles } from './useStyles';
-import { PageHeaderProps } from './PageHeaderTypes';
+
+export interface PageHeaderProps {
+  title: string;
+  select?: ReactNode;
+  button?: ReactNode;
+}
 
 export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
   const classes = useStyles();

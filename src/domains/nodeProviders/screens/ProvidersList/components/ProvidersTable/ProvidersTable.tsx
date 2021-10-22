@@ -91,7 +91,7 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                   <TableCell padding="none" className={classes.cell}>
                     <img
                       className={classes.logo}
-                      src={row.logo}
+                      src={row.icon}
                       alt={row.chain}
                     />
                     {row.chain}

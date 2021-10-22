@@ -1,12 +1,13 @@
-import React from 'react';
-import { Box, Fab } from '@material-ui/core';
+import React, { useMemo } from 'react';
+import { Box, Fab, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { t } from 'modules/i18n/utils/intl';
-
+import { useIsSMDown } from 'modules/themes/useTheme';
 import { useStyles } from './ProvidersTablePaginationStyles';
+import { getPageNumbers } from './ProvidersTablePaginationUtils';
 
-interface Props {
+interface ProvidersTablePaginationProps {
   isFirstPage: boolean;
   isLastPage: boolean;
   pageIndex: number;
@@ -14,14 +15,26 @@ interface Props {
   onPageChange: (newPageIndex: number) => void;
 }
 
-export const ProvidersTablePagination: React.FC<Props> = ({
+export const ProvidersTablePagination = ({
   isFirstPage,
   isLastPage,
   pageIndex,
   pagesCount,
   onPageChange,
-}) => {
+}: ProvidersTablePaginationProps) => {
   const classes = useStyles();
+  const isMobile = useIsSMDown();
+
+  const pageNumbers = useMemo(
+    () => getPageNumbers(isMobile, pagesCount, pageIndex),
+    [isMobile, pagesCount, pageIndex],
+  );
+
+  const dots = (
+    <Typography className={classes.dots} color="textSecondary">
+      ...
+    </Typography>
+  );
 
   return (
     <Box className={classes.root}>
@@ -34,20 +47,20 @@ export const ProvidersTablePagination: React.FC<Props> = ({
       >
         {t('providers.table.pagination.previous-button')}
       </Fab>
-
-      {[...Array(pagesCount)].map((value: undefined, index: number) => (
+      {pageIndex > 0 && pagesCount > pageNumbers.length && dots}
+      {pageNumbers.map((pageNumber: number, index: number) => (
         <Fab
-          className={classNames(classes.fab, {
-            [classes.isActive]: index === pageIndex,
-          })}
           variant="extended"
-          onClick={() => onPageChange(index)}
           key={index}
+          onClick={() => onPageChange(pageNumber - 1)}
+          className={classNames(classes.fab, {
+            [classes.isActive]: pageNumber - 1 === pageIndex,
+          })}
         >
-          {index + 1}
+          {pageNumber}
         </Fab>
       ))}
-
+      {pageIndex !== pagesCount - 1 && pagesCount > pageNumbers.length && dots}
       <Fab
         className={classes.fab}
         disabled={isLastPage}

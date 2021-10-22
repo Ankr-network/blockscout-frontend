@@ -1,5 +1,6 @@
-import MultiRpcSdk from '@ankr.com/multirpc';
+import MultiRpcSdk, { configFromEnv } from '@ankr.com/multirpc';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
+import { API_ENV, getExpectedChainId } from '../common/utils/environment';
 
 export class MultiService {
   private static instance: MultiRpcSdk;
@@ -8,8 +9,9 @@ export class MultiService {
     if (!MultiService.instance) {
       MultiService.instance = new MultiRpcSdk(
         new Web3KeyProvider({
-          expectedChainId: 0x05,
+          expectedChainId: getExpectedChainId(API_ENV),
         }),
+        configFromEnv(API_ENV),
       );
     }
     return { service: MultiService.instance };

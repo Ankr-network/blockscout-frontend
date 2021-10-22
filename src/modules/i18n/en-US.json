@@ -14,13 +14,20 @@
     "private-rpcs": "Private RPCs",
     "public-rpcs": "Public RPCs",
     "staking": "Staking",
-    "plan": "Ankr Pro",
+    "plan": "Ankr Premium",
     "protocol": "Protocol"
   },
   "extra-navigation": {
     "docs": "Docs",
     "faq": "FAQ",
     "support": "Support"
+  },
+  "mobile-navigation": {
+    "private-rpcs": "Private RPCs",
+    "public-rpcs": "Public RPCs",
+    "staking": "Staking",
+    "protocol": "Protocol",
+    "more": "More"
   },
   "staking-info": {
     "description": "<b>Stake 50000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
@@ -30,12 +37,12 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Connect Wallet"
+    "wallet-button": "Connect Wallet",
+    "disconnect": "Disconnect"
   },
   "dashboard": {
     "breadcrumbs": "My private RPCs",
-    "title": "My private RPCs",
-    "create-rpc-button": "Create Private RPC"
+    "title": "My private RPCs"
   },
   "chains": {
     "breadcrumbs": "Chains",
@@ -47,7 +54,7 @@
   "chain-item": {
     "header": {
       "bottom": "Private RPC",
-      "button": "Generate Private Endpoint",
+      "button": "Unlock Private Endpoint",
       "settings-button": "Settings"
     },
     "details": {
@@ -69,10 +76,10 @@
     }
   },
   "plan": {
-    "breadcrumbs": "Ankr Pro",
+    "breadcrumbs": "Ankr Premium",
     "deposit": {
       "title": "Annual plan",
-      "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Pro</b>",
+      "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Premium</b>",
       "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Private endpoints",
@@ -97,6 +104,10 @@
     "pro": {
       "title": "Congratulations",
       "subtitle": "<b>You are Pro member</b> and have all premium features"
+    },
+    "connect-wallet": {
+      "title": "Already Pro?",
+      "subtitle": "Connect wallet"
     }
   },
   "common": {
@@ -121,8 +132,33 @@
       }
     }
   },
-  "guard-auth-route": {
-    "connect": "Connect Wallet",
-    "create": "Create account"
+  "mobile-details": {
+    "pro-block": {
+      "unlock": "Unlock all features with",
+      "premium": "Ankr Premium"
+    }
+  },
+  "pro-block": {
+    "label": "Private RPCs"
+  },
+  "depositing": {
+    "title": "Becoming Pro",
+    "step-content": {
+      "0": "Click Metamask extension and provide us your public encryption key.",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "step-notice": {
+      "0": "To enable Ankr to securely enable your deposit.",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "next": "Next"
   }
 }

@@ -1,19 +1,23 @@
 import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
-import { Mutation } from '@redux-requests/react';
-import { connect } from '../../actions/connect';
+
 import { DefaultLayout } from '../../../layout/components/DefautLayout';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '@material-ui/core';
-import { t } from '../../../i18n/utils/intl';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { Deposit } from '../../../../domains/plan/screens/Plan/components/Deposit';
+import { ConnectWalletBlock } from 'domains/plan/screens/Plan/components/ConnectWalletBlock';
+import { Deposit } from 'domains/plan/screens/Plan/components/Deposit';
 
 export interface IGuardRoute extends RouteProps {}
 
 export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
-  const { handleConnect, credentials, address, handleDeposit } = useAuth();
+  const {
+    credentials,
+    address,
+    handleDeposit,
+    handleConnect,
+    loading,
+  } = useAuth();
 
   const { setBreadcrumbs } = useBreadcrumbs();
 
@@ -24,13 +28,7 @@ export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
   if (!address) {
     return (
       <DefaultLayout>
-        <Mutation type={connect.toString()}>
-          {({ loading }) => (
-            <Button color="primary" onClick={handleConnect} disabled={loading}>
-              {t('guard-auth-route.connect')}
-            </Button>
-          )}
-        </Mutation>
+        <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
       </DefaultLayout>
     );
   }

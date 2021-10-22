@@ -1,41 +1,28 @@
 import React from 'react';
-import { Container, Button } from '@material-ui/core';
-import { Mutation } from '@redux-requests/react';
+import { Container } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
-import { t } from 'modules/i18n/utils/intl';
+import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { useStyles } from './HeaderStyles';
-import { useAuth } from '../../../auth/hooks/useAuth';
-import { shrinkAddress } from '../../../common/utils/shrinkAddress';
+import { useStyles } from './useStyles';
 
-export const Header = () => {
+const IS_I18N_ENABLED = false;
+
+interface HeaderProps {
+  className?: string;
+}
+
+export const Header = ({ className = '' }: HeaderProps) => {
   const classes = useStyles();
-  const { handleConnect, address } = useAuth();
 
   return (
-    <header className={classes.root}>
-      <Container className={classes.container} maxWidth={false}>
+    <header className={classNames(classes.root, className)}>
+      <Container className={classes.container}>
         <Breadcrumbs />
         <div className={classes.right}>
-          <LocaleSwitcher className={classes.switcher} />
-          <Mutation type={handleConnect.toString()}>
-            {({ loading }) =>
-              address ? (
-                <Button variant="text">{shrinkAddress(address)}</Button>
-              ) : (
-                <Button
-                  variant="text"
-                  color="primary"
-                  disableElevation={false}
-                  onClick={handleConnect}
-                  disabled={loading}
-                >
-                  {t('header.wallet-button')}
-                </Button>
-              )
-            }
-          </Mutation>
+          {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
+          <ConnectButton />
         </div>
       </Container>
     </header>

@@ -29,9 +29,9 @@ export const ChainsList = ({ data }: ChainsListProps) => {
         const { id, name, requests, rpcLinks } = item;
 
         return (
-          <div className={classes.wrappper} key={id}>
+          <div className={classes.wrapper} key={id}>
             <ChainsItem
-              logoSrc=""
+              logoSrc={item.icon}
               name={name}
               period={PERIOD}
               links={rpcLinks}

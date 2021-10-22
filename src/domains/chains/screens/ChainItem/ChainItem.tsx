@@ -52,19 +52,22 @@ export const ChainItem = () => {
 
             return (
               <>
-                <div>
+                <div className={classes.chainDetailsWrapper}>
                   <ChainItemHeader
+                    className={classes.chainItemHeader}
                     chain={chain}
                     chainId={chainId}
                     hasCredentials={Boolean(credentials)}
+                    icon={chain.icon}
                   />
                   <ChainRequestsOverview
-                    className={classes.overview}
+                    className={classes.chainRequestsOverview}
                     totalRequests={totalRequests}
                     totalRequestsHistory={totalRequestsHistory}
                   />
                 </div>
                 <ChainItemDetails
+                  className={classes.chainItemDetails}
                   dataCached={dataCached}
                   totalCached={totalCached}
                   totalServed={totalServed}

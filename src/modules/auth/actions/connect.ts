@@ -1,9 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from '../../api/MultiService';
-import { Web3Address } from '../../common/types/provider';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
-import { IJwtToken } from '@ankr.com/multirpc/dist/types/types';
+import { IJwtToken, Web3Address } from '@ankr.com/multirpc';
+
+const PROVIDER_ERROR_USER_DENIED = 4001;
 
 interface IConnect {
   address: Web3Address;
@@ -24,6 +25,10 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           try {
             return await service.loginAsUser(address);
           } catch (error) {
+            if (error.code === PROVIDER_ERROR_USER_DENIED) {
+              throw error;
+            }
+
             return undefined;
           }
         })();

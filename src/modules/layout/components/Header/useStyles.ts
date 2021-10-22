@@ -15,15 +15,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.paper,
     zIndex: 1,
   },
-
   container: {
-    padding: theme.spacing(0, 3.5),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   switcher: {
     marginRight: theme.spacing(4.5),
+    marginLeft: theme.spacing(1),
+    maxWidth: 180,
   },
   right: {
     display: 'inline-flex',

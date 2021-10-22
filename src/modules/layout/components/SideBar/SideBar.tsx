@@ -1,34 +1,36 @@
 import React from 'react';
-import { Typography, Divider } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-import { AnkrLogoIcon } from 'modules/common/components/Icons/AnkrLogoIcon';
-import { t } from 'modules/i18n/utils/intl';
 import { MainNavigation } from '../MainNavigation';
 import { ExtraNavigation } from '../ExtraNavigation';
 import { StakingInfo } from '../StakingInfo';
+import { Logo } from '../Logo';
+import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
-import { useStyles } from './SideBarStyles';
+const ENABLE_STAKING_BANNER = false;
 
-export const SideBar = () => {
+interface SidebarProps {
+  className?: string;
+}
+
+export const SideBar = ({ className = '' }: SidebarProps) => {
   const classes = useStyles();
 
   return (
-    <aside className={classes.root}>
-      <Link className={classes.top} to="/">
-        <AnkrLogoIcon className={classes.logo} />
-        <Divider orientation="vertical" flexItem className={classes.divider} />
-        <Typography variant="body2" color="textSecondary">
-          {t('title')}
-        </Typography>
-      </Link>
-      <div className={classes.bottom}>
-        <MainNavigation />
-        <div>
-          <StakingInfo />
-          <ExtraNavigation />
+    <aside className={classNames(classes.root, className)}>
+      <Scrollbars autoHeightMin={SIDEBAR_HEIGHT}>
+        <div className={classes.container}>
+          <Logo />
+          <div className={classes.bottom}>
+            <MainNavigation />
+            <div>
+              {ENABLE_STAKING_BANNER && <StakingInfo />}
+              <ExtraNavigation />
+            </div>
+          </div>
         </div>
-      </div>
+      </Scrollbars>
     </aside>
   );
 };
