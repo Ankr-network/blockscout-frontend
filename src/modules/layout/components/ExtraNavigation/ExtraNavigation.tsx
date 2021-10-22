@@ -15,8 +15,7 @@ export const ExtraNavigation = () => {
       {
         label: t('extra-navigation.docs'),
         StartIcon: FileIcon,
-        href: '/docs',
-        isDisabled: true,
+        href: 'https://docs.ankr.com/ankr-protocol/about',
       },
       {
         label: t('extra-navigation.faq'),
