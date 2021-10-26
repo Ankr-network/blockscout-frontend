@@ -1,18 +1,24 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
+import cn from 'classnames';
 import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
 import { useButtonSpecialStyles } from './ButtonSpecialStyles';
 
 interface IButtonSpecialProps {
   onClick: () => void;
+  isDisabled?: boolean;
 }
 
-export const ButtonSpecial = ({ onClick }: IButtonSpecialProps) => {
+export const ButtonSpecial = ({ onClick, isDisabled }: IButtonSpecialProps) => {
   const classes = useButtonSpecialStyles();
 
   return (
     <>
-      <Button className={classes.button} onClick={onClick}>
+      <Button
+        disabled={isDisabled}
+        className={cn(classes.button, isDisabled && classes.disabled)}
+        onClick={onClick}
+      >
         <MetamaskIcon />
         <span className={classes.plusIconWrapper}>
           <svg

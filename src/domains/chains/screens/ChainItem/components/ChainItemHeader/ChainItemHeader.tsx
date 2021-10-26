@@ -1,5 +1,5 @@
-import React from 'react';
-import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
+import React, { useMemo } from 'react';
+import { Typography, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import cn from 'classnames';
 
@@ -16,6 +16,9 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
+import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
+import { useIsMDDown } from '../../../../../../modules/themes/useTheme';
+import { getMappedNetwork } from './ChainItemHeaderUtils';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -33,10 +36,13 @@ export const ChainItemHeader = ({
   className,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
-  const theme = useTheme();
+  const isMobile = useIsMDDown();
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { handleAddNetwork, isWalletConnected } = useAuth();
+  const mappedNetwork = useMemo(() => getMappedNetwork(formattedChain), [
+    chain,
+  ]);
 
   return (
     <div className={cn(classes.root, className)}>
@@ -52,7 +58,10 @@ export const ChainItemHeader = ({
               />
             }
           />
-          <ButtonSpecial onClick={console.log} />
+          <ButtonSpecial
+            isDisabled={!isWalletConnected || !mappedNetwork}
+            onClick={() => handleAddNetwork(mappedNetwork)}
+          />
         </div>
 
         <div className={classes.right}>

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
-import { fade, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 
 export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
   button: {
@@ -13,6 +13,13 @@ export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
 
     '&:hover': {
       backgroundColor: theme.palette.common.white,
+    },
+
+    '&:disabled': {
+      opacity: 0.4,
+      '& $plusIconWrapper': {
+        backgroundColor: '#767c82',
+      },
     },
 
     '& > span > svg': {
