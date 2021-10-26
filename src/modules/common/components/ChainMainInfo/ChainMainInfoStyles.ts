@@ -8,11 +8,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
-      paddingBottom: theme.spacing(2.5),
-      borderBottom: `2px solid ${theme.palette.background.paper}`,
-      marginBottom: theme.spacing(2.5),
-    },
   },
   logo: {
     width: LOGO_WIDTH,

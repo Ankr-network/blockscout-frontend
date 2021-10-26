@@ -77,6 +77,14 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                   </Typography>
                 </TableCell>
               )}
+              <TableCell
+                padding="none"
+                className={classNames(classes.cell, classes.cellThead)}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  {capitalize(t('providers.table.head.total'))}
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
 
@@ -92,17 +100,19 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                     <img
                       className={classes.logo}
                       src={row.icon}
-                      alt={row.chain}
+                      alt={row.chainName}
                     />
-                    {row.chain}
+                    {row.chainName}
                   </TableCell>
                   <TableCell padding="none" className={classes.cell}>
-                    {row.type}
+                    {row.scheme}
                   </TableCell>
-                  {row.location && (
+                  {row.country && (
                     <TableCell padding="none" className={classes.cell}>
-                      <ReactCountryFlag countryCode={row.location} />
-                      {row.location}
+                      <ReactCountryFlag svg countryCode={row.country} />
+                      &nbsp;
+                      {row.country}
+                      &nbsp; ({t(`continents.${row.continent}`)})
                     </TableCell>
                   )}
                   {HAS_ORGANISATION && (
@@ -110,6 +120,9 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                       {row.organization}
                     </TableCell>
                   )}
+                  <TableCell padding="none" className={classes.cell}>
+                    {row.totalNodes}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

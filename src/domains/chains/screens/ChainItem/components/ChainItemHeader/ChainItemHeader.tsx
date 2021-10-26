@@ -1,10 +1,12 @@
-import React from 'react';
-import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
+import React, { useMemo } from 'react';
+import { Typography, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import cn from 'classnames';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { ButtonSpecial } from 'uiKit/ButtonSpecial';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
@@ -14,7 +16,9 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
-import { CopyToClipIcon } from '../../../../../../uiKit/CopyToClipIcon';
+import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
+import { useIsMDDown } from '../../../../../../modules/themes/useTheme';
+import { getMappedNetwork } from './ChainItemHeaderUtils';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -32,24 +36,34 @@ export const ChainItemHeader = ({
   className,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
-  const theme = useTheme();
+  const isMobile = useIsMDDown();
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { handleAddNetwork, isWalletConnected } = useAuth();
+  const mappedNetwork = useMemo(() => getMappedNetwork(formattedChain), [
+    chain,
+  ]);
 
   return (
     <div className={cn(classes.root, className)}>
       <div className={classes.top}>
-        <ChainMainInfo
-          logoSrc={icon}
-          name={name}
-          description={
-            <ChainRequestsLabel
-              description={name}
-              descriptionColor="textSecondary"
-            />
-          }
-        />
+        <div className={classes.left}>
+          <ChainMainInfo
+            logoSrc={icon}
+            name={name}
+            description={
+              <ChainRequestsLabel
+                description={name}
+                descriptionColor="textSecondary"
+              />
+            }
+          />
+          <ButtonSpecial
+            isDisabled={!isWalletConnected || !mappedNetwork}
+            onClick={() => handleAddNetwork(mappedNetwork)}
+          />
+        </div>
+
         <div className={classes.right}>
           {rpcLinks.map(link => {
             return isMobile ? (

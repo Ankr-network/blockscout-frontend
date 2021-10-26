@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
@@ -7,11 +7,13 @@ import { ChainsItem } from '../ChainsItem';
 import { useStyles } from './ChainsListStyles';
 import { formatChains, PERIOD } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
+import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
+import { getMappedNetwork } from '../../../ChainItem/components/ChainItemHeader/ChainItemHeaderUtils';
 
 export const ChainsList = ({ data }: ChainsListProps) => {
   const classes = useStyles();
   const history = useHistory();
-
+  const { handleAddNetwork, isWalletConnected } = useAuth();
   const chains = formatChains(data);
 
   const handleClick = useCallback(
@@ -27,6 +29,7 @@ export const ChainsList = ({ data }: ChainsListProps) => {
     <div className={classes.root}>
       {chains.map(item => {
         const { id, name, requests, rpcLinks } = item;
+        const mappedNetwork = getMappedNetwork(item);
 
         return (
           <div className={classes.wrapper} key={id}>
@@ -39,6 +42,10 @@ export const ChainsList = ({ data }: ChainsListProps) => {
               description={
                 requests ? t('chains.requests', { value: requests }) : ''
               }
+              isWalletConnectButtonActive={Boolean(
+                mappedNetwork && isWalletConnected,
+              )}
+              onNetworkAdd={() => handleAddNetwork(mappedNetwork)}
             />
           </div>
         );
