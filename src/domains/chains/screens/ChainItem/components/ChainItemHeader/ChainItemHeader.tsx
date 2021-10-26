@@ -41,7 +41,7 @@ export const ChainItemHeader = ({
   const { rpcLinks, name } = formattedChain;
   const { handleAddNetwork, isWalletConnected } = useAuth();
   const mappedNetwork = useMemo(() => getMappedNetwork(formattedChain), [
-    chain,
+    formattedChain,
   ]);
 
   return (

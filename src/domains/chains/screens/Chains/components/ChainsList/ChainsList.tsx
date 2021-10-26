@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ChainsRoutesConfig } from 'domains/chains/Routes';

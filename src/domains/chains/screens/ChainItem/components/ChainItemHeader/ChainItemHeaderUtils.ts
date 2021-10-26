@@ -26,6 +26,7 @@ const FANTOM_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://ftmscan.com/'],
 };
 // eth
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ETHEREUM_MAINNET_PARAMS = {
   chainId: '0x1',
   chainName: 'Ethereum Mainnet',
@@ -57,6 +58,7 @@ const POLYGON_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://polygonscan.com/'],
 };
 // solana
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SOLANA_NETWORK_PARAMS = {
   chainId: '0xE9AC0D6', // wrong network id
   chainName: 'Neon EVM MainNet',
@@ -69,6 +71,7 @@ const SOLANA_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://neon-labs.org/'],
 };
 // xdai
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const XDAI_NETWORK_PARAMS = {
   chainId: '0x64',
   chainName: 'xDAI Chain',

@@ -1,9 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { capitalize } from '@material-ui/core';
 
-import { ProvidersTableProps, ProviderRow } from './ProvidersTableProps';
+import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
 import { INodeEntity } from '@ankr.com/multirpc/dist/types';
-import { Chain } from '@ankr.com/multirpc';
 
 export const HAS_ORGANISATION = false;
 
