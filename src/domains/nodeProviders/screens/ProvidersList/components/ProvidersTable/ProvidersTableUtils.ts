@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { capitalize } from '@material-ui/core';
 
 import { ProvidersTableProps, ProviderRow } from './ProvidersTableProps';
+import { INodeEntity } from '@ankr.com/multirpc/dist/types';
+import { Chain } from '@ankr.com/multirpc';
 
 export const HAS_ORGANISATION = false;
 
@@ -32,15 +34,25 @@ export const usePagination = (rows: ProviderRow[]) => {
 };
 
 export const getRows = (data: ProvidersTableProps['data']): ProviderRow[] => {
-  return data.map(item => {
-    const { id, icon, continent, blockchain, scheme } = item;
-
-    return {
-      id,
-      icon,
-      location: continent,
-      chain: capitalize(blockchain),
-      type: scheme,
-    };
-  });
+  const groupedNodes = data.reduce<Record<string, ProviderRow>>(
+    (result: any, node: INodeEntity | any) => {
+      const groupBy = `${node.blockchain}/${node.continent}/${node.country}`;
+      if (!result[groupBy])
+        result[groupBy] = {
+          id: groupBy,
+          blockchain: node.blockchain,
+          scheme: node.scheme,
+          continent: node.continent,
+          country: node.country,
+          totalNodes: 0,
+          icon: node.icon,
+          organization: undefined,
+          chainName: capitalize(node.blockchain),
+        };
+      result[groupBy].totalNodes++;
+      return result;
+    },
+    {},
+  );
+  return Object.values(groupedNodes);
 };

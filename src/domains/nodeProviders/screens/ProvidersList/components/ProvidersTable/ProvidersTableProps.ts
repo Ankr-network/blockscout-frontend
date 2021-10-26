@@ -1,5 +1,6 @@
 import { ResponseData } from '../../../../../../modules/api/utils/ResponseData';
 import { fetchNodeProviders } from '../../../../actions/fetchNodeProviders';
+import { Chain } from '@ankr.com/multirpc/dist/types';
 
 export interface ProvidersTableProps {
   data: ResponseData<typeof fetchNodeProviders>;
@@ -7,9 +8,12 @@ export interface ProvidersTableProps {
 
 export interface ProviderRow {
   id: string;
+  blockchain: Chain;
+  scheme: string;
+  continent: string;
+  country: string;
+  totalNodes: number;
   icon: string;
-  chain: string;
-  type: string;
-  location: string | null;
   organization?: string;
+  chainName: string;
 }

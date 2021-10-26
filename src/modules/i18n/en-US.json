@@ -124,7 +124,8 @@
         "chain": "chain",
         "type": "type",
         "location": "location",
-        "organization": "organization"
+        "organization": "organization",
+        "total": "Nodes"
       },
       "pagination": {
         "previous-button": "Previous",
@@ -160,5 +161,14 @@
       "5": "5"
     },
     "next": "Next"
+  },
+  "continents": {
+    "AS": "Asia",
+    "EU": "Europe",
+    "AF": "Africa",
+    "NA": "North America",
+    "SA": "South America",
+    "AN": "Antarctica",
+    "OC": "Oceania"
   }
 }
