@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const LOGO_WIDTH = 50;
 const LOGO_MARGIN = 15;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme>(() => ({
   root: {
     display: 'flex',
     alignItems: 'center',
