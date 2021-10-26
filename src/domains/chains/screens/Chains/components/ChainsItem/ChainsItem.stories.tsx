@@ -18,6 +18,8 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           period="24h"
           links={['chainLinkchainLinkchainLinkchainLinkchainLink']}
           onButtonClick={() => null}
+          isWalletConnectButtonActive={false}
+          onNetworkAdd={() => null}
         />
       </Box>
     </ThemeProvider>

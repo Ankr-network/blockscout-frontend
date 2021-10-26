@@ -4,8 +4,6 @@ import { Theme } from '@material-ui/core';
 export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
   button: {
     padding: 7,
-    minWidth: 48,
-    minHeight: 48,
     position: 'relative',
     overflow: 'visible',
     border: `2px solid ${theme.palette.background.paper}`,
@@ -21,10 +19,33 @@ export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
         backgroundColor: '#767c82',
       },
     },
+  },
+  size_l: {
+    minWidth: 48,
+    minHeight: 48,
 
+    /* size for metamask fox icon */
     '& > span > svg': {
       width: '30px',
       height: '30px',
+    },
+
+    '& $plusIconWrapper': {
+      width: 18,
+      height: 18,
+      right: -13,
+      bottom: -17,
+    },
+  },
+  size_m: {
+    minWidth: 42,
+    minHeight: 42,
+
+    '& $plusIconWrapper': {
+      width: 18,
+      height: 18,
+      right: -13,
+      bottom: -17,
     },
   },
   plusIconWrapper: {
@@ -32,9 +53,5 @@ export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.primary.main,
     padding: 3,
     borderRadius: '50%',
-    width: 18,
-    height: 18,
-    right: -13,
-    bottom: -17,
   },
 }));

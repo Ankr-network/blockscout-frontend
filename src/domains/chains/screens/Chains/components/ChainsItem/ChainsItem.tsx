@@ -7,6 +7,7 @@ import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
+import { ButtonSpecial } from '../../../../../../uiKit/ButtonSpecial';
 
 export const ChainsItem = ({
   logoSrc,
@@ -15,6 +16,8 @@ export const ChainsItem = ({
   period,
   links,
   onButtonClick,
+  isWalletConnectButtonActive,
+  onNetworkAdd,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -41,14 +44,22 @@ export const ChainsItem = ({
             />
           ))}
         </div>
-        <Button
-          variant="outlined"
-          color="primary"
-          className={classes.button}
-          onClick={onButtonClick}
-        >
-          {t('chains.more-details')}
-        </Button>
+        <div className={classes.buttonWrapper}>
+          <ButtonSpecial
+            isDisabled={!isWalletConnectButtonActive}
+            onClick={onNetworkAdd}
+            size="m"
+          />
+
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.button}
+            onClick={onButtonClick}
+          >
+            {t('chains.more-details')}
+          </Button>
+        </div>
       </div>
     </div>
   );

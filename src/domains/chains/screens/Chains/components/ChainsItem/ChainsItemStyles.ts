@@ -14,9 +14,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
   mainInfo: {
     marginBottom: theme.spacing(2),
   },
+  buttonWrapper: {
+    marginTop: theme.spacing(1.5),
+    display: 'flex',
+  },
   button: {
     width: '100%',
-    marginTop: theme.spacing(1.5),
+    marginLeft: theme.spacing(1),
   },
   links: {
     width: '100%',

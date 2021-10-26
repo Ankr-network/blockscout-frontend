@@ -7,16 +7,23 @@ import { useButtonSpecialStyles } from './ButtonSpecialStyles';
 interface IButtonSpecialProps {
   onClick: () => void;
   isDisabled?: boolean;
+  size?: 'l' | 'm';
 }
 
-export const ButtonSpecial = ({ onClick, isDisabled }: IButtonSpecialProps) => {
+export const ButtonSpecial = ({
+  onClick,
+  isDisabled,
+  size = 'l',
+}: IButtonSpecialProps) => {
   const classes = useButtonSpecialStyles();
 
   return (
     <>
       <Button
         disabled={isDisabled}
-        className={cn(classes.button, isDisabled && classes.disabled)}
+        className={cn(classes.button, isDisabled && classes.disabled, {
+          [classes[`size_${size}`]]: size,
+        })}
         onClick={onClick}
       >
         <MetamaskIcon />
