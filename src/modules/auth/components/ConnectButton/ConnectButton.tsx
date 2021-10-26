@@ -6,7 +6,7 @@ import { useAuth } from 'modules/auth/hooks/useAuth';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from '../../../common/hooks/useMenu';
 import { useStyles } from './useStyles';
-import { ReactComponent as MetamaskIcon } from './assets/metamask.svg';
+import { ReactComponent as MetamaskIcon } from '../../../../assets/img/metamask.svg';
 
 interface ConnectButtonProps {
   isMobile?: boolean;

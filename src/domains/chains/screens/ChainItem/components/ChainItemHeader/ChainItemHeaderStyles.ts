@@ -13,9 +13,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     borderBottom: `2px solid ${theme.palette.background.paper}`,
     paddingBottom: theme.spacing(3),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       flexDirection: 'column',
       alignItems: 'stretch',
+    },
+  },
+  left: {
+    width: '48%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('lg')]: {
+      width: '100%',
+      paddingBottom: theme.spacing(2.5),
+      borderBottom: `2px solid ${theme.palette.background.paper}`,
+      marginBottom: theme.spacing(2.5),
     },
   },
   text: {
@@ -34,18 +45,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   right: {
+    width: '48%',
     marginLeft: theme.spacing(1),
     '& $copyToClip:not(:last-child)': {
       marginBottom: theme.spacing(1.5),
     },
+    [theme.breakpoints.down('lg')]: {
+      width: '100%',
+    },
   },
   copyToClip: {
     minWidth: 360,
-    maxWidth: 360,
-    [theme.breakpoints.down('md')]: {
+    width: '100%',
+    [theme.breakpoints.down('lg')]: {
       minWidth: 'auto',
-      maxWidth: '100%',
-      width: '100%',
     },
   },
 }));

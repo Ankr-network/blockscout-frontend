@@ -5,6 +5,8 @@ import cn from 'classnames';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { ButtonSpecial } from 'uiKit/ButtonSpecial';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
@@ -14,7 +16,6 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useStyles } from './ChainItemHeaderStyles';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
-import { CopyToClipIcon } from '../../../../../../uiKit/CopyToClipIcon';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -40,16 +41,20 @@ export const ChainItemHeader = ({
   return (
     <div className={cn(classes.root, className)}>
       <div className={classes.top}>
-        <ChainMainInfo
-          logoSrc={icon}
-          name={name}
-          description={
-            <ChainRequestsLabel
-              description={name}
-              descriptionColor="textSecondary"
-            />
-          }
-        />
+        <div className={classes.left}>
+          <ChainMainInfo
+            logoSrc={icon}
+            name={name}
+            description={
+              <ChainRequestsLabel
+                description={name}
+                descriptionColor="textSecondary"
+              />
+            }
+          />
+          <ButtonSpecial onClick={console.log} />
+        </div>
+
         <div className={classes.right}>
           {rpcLinks.map(link => {
             return isMobile ? (
