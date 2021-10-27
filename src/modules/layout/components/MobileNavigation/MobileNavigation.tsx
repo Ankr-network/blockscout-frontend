@@ -1,11 +1,10 @@
 import React from 'react';
-import { Container, Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { ClockIcon } from 'uiKit/Icons/ClockIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { StakingIcon } from 'uiKit/Icons/StakingIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
 
@@ -14,7 +13,6 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
-import { StakingRoutesConfig } from 'domains/staking/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 import { useStyles } from './useStyles';
@@ -44,15 +42,10 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         href: ProvidersRoutesConfig.providers.generatePath(),
       },
       {
-        label: t('mobile-navigation.staking'),
-        StartIcon: StakingIcon,
-        isDisabled: true,
-        href: StakingRoutesConfig.staking.generatePath(),
-      },
-      {
         label: t('mobile-navigation.more'),
         StartIcon: MoreIcon,
         href: PlanRoutesConfig.plan.generatePath(),
+        isDisabled: false,
       },
     ],
     [],

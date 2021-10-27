@@ -7,7 +7,10 @@ import { Store } from '../../../store';
 
 export function credentialsGuard(
   request: {
-    promise: (credentials: IJwtToken) => Promise<IFetchChainsResponseData>;
+    promise: (
+      store: Store & { dispatchRequest: DispatchRequest },
+      credentials: IJwtToken,
+    ) => Promise<IFetchChainsResponseData>;
   },
   action: RequestAction,
   store: Store & { dispatchRequest: DispatchRequest },
@@ -25,7 +28,7 @@ export function credentialsGuard(
 
       const { credentials } = data;
 
-      return request.promise(credentials);
+      return request.promise(store, credentials);
     })(),
   };
 }

@@ -9,8 +9,11 @@ import { IJwtToken } from '@ankr.com/multirpc';
 import { fetchCredentialsStatus } from './fetchCredentialsStatus';
 import { retry } from '../../api/utils/retry';
 import { throwIfError } from '../../api/utils/throwIfError';
+import { fetchEncryptionKey } from './fetchEncryptionKey';
+import { DepositStep, fetchDepositStatus } from './fetchDepositStatus';
+import { setDepositStatus } from './setDepositStatus';
 
-const MAX_ATTEMPTS = 20;
+const MAX_ATTEMPTS = 50;
 
 async function waitForBlocks(store: RequestsStore, transactionHash: string) {
   const response = await store.dispatchRequest(
@@ -45,7 +48,6 @@ async function waitForBlocks(store: RequestsStore, transactionHash: string) {
 interface IDeposit {
   address: string;
   credentials: IJwtToken;
-  justDeposited: boolean;
 }
 
 export const deposit = createSmartAction<
@@ -62,36 +64,54 @@ export const deposit = createSmartAction<
 
       if (data.credentials) {
         return {
-          credentials: data.credentials,
-          justDeposited: false,
-        } as IDeposit;
-      }
-
-      const depositTransactionId = await service.isUserHasDeposit(address);
-
-      if (depositTransactionId) {
-        await waitForBlocks(store, depositTransactionId);
-
-        return {
           address,
-          credentials: await service.loginAsUser(address),
-          justDeposited: false,
+          credentials: data.credentials,
         } as IDeposit;
       }
 
-      const depositResponse = await service.depositAnkr(amount);
+      const { data: depositStatusData } = await store.dispatchRequest(
+        fetchDepositStatus(),
+      );
 
-      await Promise.all([
-        depositResponse.allowance?.receiptPromise,
-        depositResponse.deposit?.receiptPromise,
-      ]);
+      const step = depositStatusData?.step ?? DepositStep.publicKey;
 
-      await waitForBlocks(store, depositResponse.deposit.transactionHash);
+      const {
+        data: { key },
+      } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
+      if (step === DepositStep.waitTransactionConfirming) {
+        const depositTransactionId = await service.isUserHasDeposit(address);
+
+        if (depositTransactionId) {
+          await waitForBlocks(store, depositTransactionId);
+
+          return {
+            address,
+            credentials: await service.loginAsUser(address, key),
+          } as IDeposit;
+        }
+      }
+
+      if (step === DepositStep.allowance || step === DepositStep.deposit) {
+        const depositResponse = await service.depositAnkr(amount);
+
+        await depositResponse.allowance?.receiptPromise;
+
+        // TODO Refactor it
+        store.dispatchRequest(fetchDepositStatus());
+
+        await depositResponse.deposit?.receiptPromise;
+
+        // TODO Refactor it
+        store.dispatchRequest(fetchDepositStatus());
+
+        await waitForBlocks(store, depositResponse.deposit.transactionHash);
+      }
+
+      await store.dispatchRequest(setDepositStatus(DepositStep.login));
 
       return {
         address,
-        credentials: await service.loginAsUser(address),
-        justDeposited: true,
+        credentials: await service.loginAsUser(address, key),
       } as IDeposit;
     },
   },

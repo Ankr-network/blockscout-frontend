@@ -14,6 +14,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 
 const HAS_SORT_SELECT = false;
+const ENABLE_HOW_TO_INTEGRATE = false;
 
 export const Chains = () => {
   const dispatchRequest = useDispatchRequest();
@@ -34,9 +35,11 @@ export const Chains = () => {
         title={t('chains.title')}
         select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
         button={
-          <Button variant="text" color="primary" disabled>
-            {t('chains.integrate-button')}
-          </Button>
+          ENABLE_HOW_TO_INTEGRATE && (
+            <Button variant="text" color="primary" disabled>
+              {t('chains.integrate-button')}
+            </Button>
+          )
         }
       />
       <Queries<ResponseData<typeof fetchPublicChains>>

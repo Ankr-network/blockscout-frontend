@@ -12,10 +12,8 @@ import { ChatIcon } from './ChatIcon';
 import { ClockIcon } from './ClockIcon';
 import { CopyIcon } from './CopyIcon';
 import { FileIcon } from './FileIcon';
-import { HeadphonesIcon } from './HeadphonesIcon';
 import { LabelIcon } from './LabelIcon';
 import { PaperIcon } from './PaperIcon';
-import { StakingIcon } from './StakingIcon';
 import { SuccessIcon } from './SuccessIcon';
 
 storiesOf('uiKit/Icons', module).add('Default', () => (
@@ -29,10 +27,8 @@ storiesOf('uiKit/Icons', module).add('Default', () => (
       <ClockIcon />
       <CopyIcon />
       <FileIcon />
-      <HeadphonesIcon />
       <LabelIcon />
       <PaperIcon />
-      <StakingIcon />
       <SuccessIcon />
     </ThemeProvider>
   </Box>

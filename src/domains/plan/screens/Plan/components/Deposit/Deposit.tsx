@@ -9,7 +9,7 @@ import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
 import { fetchCredentialsStatus } from '../../../../../../modules/auth/actions/fetchCredentialsStatus';
 import { Query } from '@redux-requests/react';
 
-const CREATE_ACCOUNT_BLOCKS_COUNT = 12;
+const CREATE_ACCOUNT_BLOCKS_COUNT = 15;
 
 interface IDepositFormData {
   confirmed: boolean;

@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper,
   capitalize,
+  Box,
 } from '@material-ui/core';
 import classNames from 'classnames';
 import ReactCountryFlag from 'react-country-flag';
@@ -35,12 +36,12 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
     pagesCount,
     handleChangePage,
     rowsPerPage,
-  } = usePagination(rows, 50);
+  } = usePagination(rows, 10);
 
   return (
     <>
       <TableContainer component={Paper} className={classes.root} elevation={0}>
-        <Table aria-label="customized table">
+        <Box component={Table} minWidth={600}>
           <TableHead className={classes.thead}>
             <TableRow>
               <TableCell
@@ -77,16 +78,6 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                   {capitalize(t('providers.table.head.type'))}
                 </Typography>
               </TableCell>
-              {HAS_ORGANISATION && (
-                <TableCell
-                  padding="none"
-                  className={classNames(classes.cell, classes.cellThead)}
-                >
-                  <Typography variant="body2" color="textSecondary">
-                    {capitalize(t('providers.table.head.organization'))}
-                  </Typography>
-                </TableCell>
-              )}
               <TableCell
                 padding="none"
                 className={classNames(classes.cell, classes.cellThead)}
@@ -140,7 +131,7 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                 </TableRow>
               ))}
           </TableBody>
-        </Table>
+        </Box>
       </TableContainer>
 
       {pagesCount > 1 && (

@@ -18,14 +18,17 @@ import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
 import { useEffect } from 'react';
 
+const ENABLE_AUTOCONNECT = false;
+
 export function Routes() {
   const { handleConnect, credentials } = useAuth();
 
   useEffect(() => {
     /* reconnecting on rerender for persisting session */
-    handleConnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (ENABLE_AUTOCONNECT) {
+      handleConnect();
+    }
+  }, [handleConnect]);
 
   return (
     <Switch>

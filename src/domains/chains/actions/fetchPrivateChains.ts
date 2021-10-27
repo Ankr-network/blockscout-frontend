@@ -1,4 +1,4 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IJwtToken } from '@ankr.com/multirpc';
 
@@ -14,7 +14,7 @@ export const fetchPrivateChains = createSmartAction<
   RequestAction<IFetchChainsResponseData, IApiChain[]>
 >('chains/fetchPrivateChains', () => ({
   request: {
-    promise: async (jwtToken: IJwtToken) => {
+    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
       const { service } = MultiService.getInstance();
 
       const chains = await service.fetchPrivateUrls(jwtToken);

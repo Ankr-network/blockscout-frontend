@@ -708,6 +708,9 @@ export const mainTheme = createMuiTheme({
       active: {
         background: defaultTheme.palette.primary.main,
       },
+      completed: {
+        background: defaultTheme.palette.primary.main,
+      },
       lineHorizontal: {
         borderTopWidth: 0,
       },

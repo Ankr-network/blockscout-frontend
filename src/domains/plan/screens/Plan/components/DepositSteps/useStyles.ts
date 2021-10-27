@@ -22,6 +22,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   content: {
     marginBottom: theme.spacing(2.75),
+    '& .icon': {
+      verticalAlign: 'middle',
+    },
   },
   notice: {
     fontWeight: 'lighter',

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import cn from 'classnames';
 
