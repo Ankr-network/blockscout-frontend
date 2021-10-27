@@ -20,8 +20,7 @@ export const ExtraNavigation = () => {
       {
         label: t('extra-navigation.faq'),
         StartIcon: ChatIcon,
-        href: '/faq',
-        isDisabled: true,
+        href: 'https://docs.ankr.com/ankr-protocol/faqs',
       },
       {
         label: t('extra-navigation.support'),
