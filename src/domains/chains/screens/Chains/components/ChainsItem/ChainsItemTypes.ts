@@ -5,6 +5,7 @@ export interface ChainsItemProps {
   period: string;
   links: string[];
   onButtonClick: () => void;
+  hasWalletButton: boolean;
   isWalletConnectButtonActive: boolean;
   onNetworkAdd: () => void;
 }

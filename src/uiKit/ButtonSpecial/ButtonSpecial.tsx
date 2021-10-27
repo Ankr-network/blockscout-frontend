@@ -8,12 +8,14 @@ interface IButtonSpecialProps {
   onClick: () => void;
   isDisabled?: boolean;
   size?: 'l' | 'm';
+  className?: string;
 }
 
 export const ButtonSpecial = ({
   onClick,
   isDisabled,
   size = 'l',
+  className,
 }: IButtonSpecialProps) => {
   const classes = useButtonSpecialStyles();
 
@@ -21,9 +23,14 @@ export const ButtonSpecial = ({
     <>
       <Button
         disabled={isDisabled}
-        className={cn(classes.button, isDisabled && classes.disabled, {
-          [classes[`size_${size}`]]: size,
-        })}
+        className={cn(
+          classes.button,
+          isDisabled && classes.disabled,
+          {
+            [classes[`size_${size}`]]: size,
+          },
+          className,
+        )}
         onClick={onClick}
       >
         <MetamaskIcon />
