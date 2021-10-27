@@ -129,13 +129,15 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
         </Table>
       </TableContainer>
 
-      <ProvidersTablePagination
-        isFirstPage={isFirstPage}
-        isLastPage={isLastPage}
-        pageIndex={pageIndex}
-        pagesCount={pagesCount}
-        onPageChange={handleChangePage}
-      />
+      {pagesCount > 1 && (
+        <ProvidersTablePagination
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          pageIndex={pageIndex}
+          pagesCount={pagesCount}
+          onPageChange={handleChangePage}
+        />
+      )}
     </>
   );
 };
