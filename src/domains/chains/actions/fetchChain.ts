@@ -19,6 +19,7 @@ export const fetchChain = createSmartAction<
   },
   meta: {
     asMutation: false,
+    requestKey: chainId,
     onRequest: (
       request: any,
       action: RequestAction,

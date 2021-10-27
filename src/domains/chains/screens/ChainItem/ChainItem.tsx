@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 
@@ -12,7 +12,7 @@ import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { useStyles } from './ChainItemStyles';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { t } from 'modules/i18n/utils/intl';
 
 interface ChainItemProps {
@@ -22,18 +22,29 @@ interface ChainItemProps {
 export const ChainItem = ({ chainId }: ChainItemProps) => {
   const classes = useStyles();
   const { credentials } = useAuth();
-
   const dispatchRequest = useDispatchRequest();
+  const { setBreadcrumbs } = useBreadcrumbs();
 
-  useSetBreadcrumbs([
-    {
-      title: t(ChainsRoutesConfig.chains.breadcrumbs),
-      link: ChainsRoutesConfig.chains.path,
+  const hasBreadcrumbsRef = useRef<boolean>(false);
+
+  const handleSetBreadcrumbs = useCallback(
+    (title: string) => {
+      if (hasBreadcrumbsRef.current) return;
+
+      hasBreadcrumbsRef.current = true;
+
+      setBreadcrumbs([
+        {
+          title: t(ChainsRoutesConfig.chains.breadcrumbs),
+          link: ChainsRoutesConfig.chains.path,
+        },
+        {
+          title,
+        },
+      ]);
     },
-    {
-      title: chainId,
-    },
-  ]);
+    [setBreadcrumbs],
+  );
 
   useEffect(() => {
     dispatchRequest(fetchChain(chainId));
@@ -42,7 +53,10 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
   return (
     <ThemeProvider theme={mainTheme}>
       <div className={classes.root}>
-        <Queries<ResponseData<typeof fetchChain>> requestActions={[fetchChain]}>
+        <Queries<ResponseData<typeof fetchChain>>
+          requestActions={[fetchChain]}
+          requestKeys={[chainId]}
+        >
           {({ data: { chain, chainDetails } }) => {
             const {
               dataCached,
@@ -52,6 +66,8 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
               totalRequests,
               totalRequestsHistory,
             } = chainDetails;
+
+            handleSetBreadcrumbs(chain.name);
 
             return (
               <>
