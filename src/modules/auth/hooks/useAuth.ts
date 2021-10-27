@@ -6,11 +6,9 @@ import {
 import { connect } from '../actions/connect';
 import { useCallback } from 'react';
 import { deposit } from '../actions/deposit';
-import BigNumber from 'bignumber.js';
 import { disconnect } from '../actions/disconnect';
 import { addNetwork } from '../actions/addNetwork';
-
-const DEFAULT_DEPOSIT = new BigNumber(10_000);
+import { DEFAULT_DEPOSIT } from '../conts';
 
 export function useAuth() {
   const dispatchRequest = useDispatchRequest();
@@ -43,12 +41,16 @@ export function useAuth() {
     type: disconnect.toString(),
   });
 
+  const { loading: loadingDeposit } = useMutation({
+    type: deposit.toString(),
+  });
+
   return {
     handleConnect,
     handleDisconnect,
     handleDeposit,
     handleAddNetwork,
-    loading: loadingConnect || loadingDisconnect,
+    loading: loadingConnect || loadingDisconnect || loadingDeposit,
     isWalletConnected: Boolean(data?.address),
     ...data,
   };

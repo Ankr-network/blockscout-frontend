@@ -3,6 +3,10 @@
   "validation": {
     "required": "This field is required"
   },
+  "meta": {
+    "title": "Ankr Protocol",
+    "description": "Ankr Protocol"
+  },
   "error": {
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",
@@ -52,6 +56,10 @@
     "requests": "{value} reqs"
   },
   "chain-item": {
+    "meta": {
+      "title": "{name} Public RPC | Ankr Protocol",
+      "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
+    },
     "header": {
       "bottom": "Private RPC",
       "button": "Unlock Private Endpoint",
@@ -142,23 +150,22 @@
   "pro-block": {
     "label": "Private RPCs"
   },
-  "depositing": {
+  "deposit-steps": {
     "title": "Becoming Premium",
+    "metamask": "Metamask",
     "step-content": {
-      "0": "Click Metamask extension and provide us your public encryption key.",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "0": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
+      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
+      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
+      "3": "Thank you! Operation will take 2-4 minutes.",
+      "4": "You’re Premium Member!."
     },
     "step-notice": {
       "0": "To enable Ankr to securely enable your deposit.",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "1": "So we could take your deposit.",
+      "2": "Operation will take a while (2-4 min).",
+      "3": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
+      "4": "So we could sign you in safely."
     },
     "next": "Next"
   },
@@ -170,5 +177,10 @@
     "SA": "South America",
     "AN": "Antarctica",
     "OC": "Oceania"
+  },
+  "web3Schemes": {
+    "web3": "Web3 (EVM)",
+    "evm": "Web3 (EVM)",
+    "solana": "Web3 (Solana)"
   }
 }

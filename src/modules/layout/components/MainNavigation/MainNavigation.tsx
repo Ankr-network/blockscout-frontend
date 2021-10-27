@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ClockIcon } from 'uiKit/Icons/ClockIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { StakingIcon } from 'uiKit/Icons/StakingIcon';
 import { LabelIcon } from 'uiKit/Icons/LabelIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { SuccessIcon } from 'uiKit/Icons/SuccessIcon';
@@ -16,7 +15,6 @@ import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
-import { StakingRoutesConfig } from 'domains/staking/Routes';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -46,12 +44,6 @@ export const MainNavigation = () => {
         label: t('main-navigation.protocol'),
         StartIcon: PaperIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
-      },
-      {
-        label: t('main-navigation.staking'),
-        StartIcon: StakingIcon,
-        isDisabled: true,
-        href: StakingRoutesConfig.staking.generatePath(),
       },
     ],
     [credentials],

@@ -16,6 +16,7 @@ export const ChainsItem = ({
   period,
   links,
   onButtonClick,
+  hasWalletButton,
   isWalletConnectButtonActive,
   onNetworkAdd,
 }: ChainsItemProps) => {
@@ -44,12 +45,15 @@ export const ChainsItem = ({
             />
           ))}
         </div>
-        <div className={classes.buttonWrapper}>
-          <ButtonSpecial
-            isDisabled={!isWalletConnectButtonActive}
-            onClick={onNetworkAdd}
-            size="m"
-          />
+        <div className={classes.buttonsWrapper}>
+          {hasWalletButton && (
+            <ButtonSpecial
+              className={classes.buttonAddNetwork}
+              isDisabled={!isWalletConnectButtonActive}
+              onClick={onNetworkAdd}
+              size="m"
+            />
+          )}
 
           <Button
             variant="outlined"

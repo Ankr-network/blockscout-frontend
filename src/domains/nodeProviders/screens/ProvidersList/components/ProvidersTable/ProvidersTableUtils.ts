@@ -4,15 +4,13 @@ import { capitalize } from '@material-ui/core';
 import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
 import { INodeEntity } from '@ankr.com/multirpc/dist/types';
 
-export const HAS_ORGANISATION = false;
+export const HAS_ORGANISATION = true;
 
-export const ROWS_PER_PAGE = 8;
-
-export const usePagination = (rows: ProviderRow[]) => {
+export const usePagination = (rows: ProviderRow[], rowsPerPage = 8) => {
   const [pageIndex, setPageIndex] = useState<number>(0);
 
   const pageNumber = pageIndex + 1;
-  const pagesCount = Math.ceil(rows.length / ROWS_PER_PAGE);
+  const pagesCount = Math.ceil(rows.length / rowsPerPage);
   const isFirstPage = pageIndex === 0;
   const isLastPage = pageNumber === pagesCount;
 
@@ -29,13 +27,26 @@ export const usePagination = (rows: ProviderRow[]) => {
     [isFirstPage, isLastPage, pageIndex],
   );
 
-  return { isFirstPage, isLastPage, pageIndex, pagesCount, handleChangePage };
+  return {
+    isFirstPage,
+    isLastPage,
+    pageIndex,
+    pagesCount,
+    handleChangePage,
+    rowsPerPage,
+  };
 };
 
 export const getRows = (data: ProvidersTableProps['data']): ProviderRow[] => {
   const groupedNodes = data.reduce<Record<string, ProviderRow>>(
     (result: any, node: INodeEntity | any) => {
-      const groupBy = `${node.blockchain}/${node.continent}/${node.country}`;
+      const groupBy = [
+        node.blockchain,
+        node.continent,
+        node.country,
+        node.city,
+        node.organization,
+      ].join(',');
       if (!result[groupBy])
         result[groupBy] = {
           id: groupBy,
@@ -43,12 +54,17 @@ export const getRows = (data: ProvidersTableProps['data']): ProviderRow[] => {
           scheme: node.scheme,
           continent: node.continent,
           country: node.country,
+          city: node.city,
           totalNodes: 0,
+          archiveNodes: 0,
           icon: node.icon,
-          organization: undefined,
+          organization: node.organization,
           chainName: capitalize(node.blockchain),
         };
       result[groupBy].totalNodes++;
+      if (node.isArchive) {
+        result[groupBy].archiveNodes++;
+      }
       return result;
     },
     {},

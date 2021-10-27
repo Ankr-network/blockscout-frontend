@@ -28,10 +28,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      <PageHeader
-        title={t('dashboard.title')}
-        select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
-      />
+      <PageHeader select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null} />
       <Queries<ResponseData<typeof fetchPrivateChains>>
         requestActions={[fetchPrivateChains]}
       >

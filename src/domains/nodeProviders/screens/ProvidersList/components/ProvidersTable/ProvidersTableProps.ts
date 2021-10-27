@@ -12,7 +12,9 @@ export interface ProviderRow {
   scheme: string;
   continent: string;
   country: string;
+  city: string;
   totalNodes: number;
+  archiveNodes: number;
   icon: string;
   organization?: string;
   chainName: string;

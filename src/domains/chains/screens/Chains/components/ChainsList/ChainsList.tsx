@@ -13,7 +13,7 @@ import { getMappedNetwork } from '../../../ChainItem/components/ChainItemHeader/
 export const ChainsList = ({ data }: ChainsListProps) => {
   const classes = useStyles();
   const history = useHistory();
-  const { handleAddNetwork, isWalletConnected } = useAuth();
+  const { handleAddNetwork, isWalletConnected, handleConnect } = useAuth();
   const chains = formatChains(data);
 
   const handleClick = useCallback(
@@ -42,10 +42,13 @@ export const ChainsList = ({ data }: ChainsListProps) => {
               description={
                 requests ? t('chains.requests', { value: requests }) : ''
               }
-              isWalletConnectButtonActive={Boolean(
-                mappedNetwork && isWalletConnected,
-              )}
-              onNetworkAdd={() => handleAddNetwork(mappedNetwork)}
+              hasWalletButton={Boolean(mappedNetwork)}
+              isWalletConnectButtonActive
+              onNetworkAdd={
+                isWalletConnected
+                  ? () => handleAddNetwork(mappedNetwork)
+                  : handleConnect
+              }
             />
           </div>
         );

@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 
 import { FileIcon } from 'uiKit/Icons/FileIcon';
 import { ChatIcon } from 'uiKit/Icons/ChatIcon';
-import { HeadphonesIcon } from 'uiKit/Icons/HeadphonesIcon';
 import { t } from 'modules/i18n/utils/intl';
 import {
   Navigation,
@@ -20,14 +19,7 @@ export const ExtraNavigation = () => {
       {
         label: t('extra-navigation.faq'),
         StartIcon: ChatIcon,
-        href: '/faq',
-        isDisabled: true,
-      },
-      {
-        label: t('extra-navigation.support'),
-        StartIcon: HeadphonesIcon,
-        href: '/support',
-        isDisabled: true,
+        href: 'https://docs.ankr.com/ankr-protocol/faqs',
       },
     ],
     [],

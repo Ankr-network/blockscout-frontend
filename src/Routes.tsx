@@ -16,9 +16,19 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
+import { useEffect } from 'react';
+
+const ENABLE_AUTOCONNECT = false;
 
 export function Routes() {
-  const { credentials } = useAuth();
+  const { handleConnect, credentials } = useAuth();
+
+  useEffect(() => {
+    /* reconnecting on rerender for persisting session */
+    if (ENABLE_AUTOCONNECT) {
+      handleConnect();
+    }
+  }, [handleConnect]);
 
   return (
     <Switch>
@@ -51,7 +61,7 @@ export function Routes() {
           ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
             <ChainsRoutes />
           </DefaultLayout>
         )}

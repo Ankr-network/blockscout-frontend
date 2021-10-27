@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import cn from 'classnames';
 
@@ -39,7 +39,7 @@ export const ChainItemHeader = ({
   const isMobile = useIsMDDown();
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
-  const { handleAddNetwork, isWalletConnected } = useAuth();
+  const { handleAddNetwork, isWalletConnected, handleConnect } = useAuth();
   const mappedNetwork = useMemo(() => getMappedNetwork(formattedChain), [
     formattedChain,
   ]);
@@ -58,10 +58,15 @@ export const ChainItemHeader = ({
               />
             }
           />
-          <ButtonSpecial
-            isDisabled={!isWalletConnected || !mappedNetwork}
-            onClick={() => handleAddNetwork(mappedNetwork)}
-          />
+          {mappedNetwork && (
+            <ButtonSpecial
+              onClick={
+                isWalletConnected
+                  ? () => handleAddNetwork(mappedNetwork)
+                  : handleConnect
+              }
+            />
+          )}
         </div>
 
         <div className={classes.right}>

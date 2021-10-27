@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper,
   capitalize,
+  Box,
 } from '@material-ui/core';
 import classNames from 'classnames';
 import ReactCountryFlag from 'react-country-flag';
@@ -18,7 +19,6 @@ import { useStyles } from './useStyles';
 import { ProvidersTablePagination } from '../ProvidersTablePagination';
 import { ProvidersTableProps } from './ProvidersTableProps';
 import {
-  ROWS_PER_PAGE,
   HAS_ORGANISATION,
   usePagination,
   getRows,
@@ -35,12 +35,13 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
     pageIndex,
     pagesCount,
     handleChangePage,
-  } = usePagination(rows);
+    rowsPerPage,
+  } = usePagination(rows, 10);
 
   return (
     <>
       <TableContainer component={Paper} className={classes.root} elevation={0}>
-        <Table aria-label="customized table">
+        <Box component={Table} minWidth={600}>
           <TableHead className={classes.thead}>
             <TableRow>
               <TableCell
@@ -49,14 +50,6 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
               >
                 <Typography variant="body2" color="textSecondary">
                   {capitalize(t('providers.table.head.chain'))}
-                </Typography>
-              </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.type'))}
                 </Typography>
               </TableCell>
               <TableCell
@@ -82,6 +75,14 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                 className={classNames(classes.cell, classes.cellThead)}
               >
                 <Typography variant="body2" color="textSecondary">
+                  {capitalize(t('providers.table.head.type'))}
+                </Typography>
+              </TableCell>
+              <TableCell
+                padding="none"
+                className={classNames(classes.cell, classes.cellThead)}
+              >
+                <Typography variant="body2" color="textSecondary">
                   {capitalize(t('providers.table.head.total'))}
                 </Typography>
               </TableCell>
@@ -91,8 +92,8 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
           <TableBody>
             {rows
               .slice(
-                pageIndex * ROWS_PER_PAGE,
-                pageIndex * ROWS_PER_PAGE + ROWS_PER_PAGE,
+                pageIndex * rowsPerPage,
+                pageIndex * rowsPerPage + rowsPerPage,
               )
               .map(row => (
                 <TableRow key={row.id} className={classes.row}>
@@ -104,38 +105,44 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
                     />
                     {row.chainName}
                   </TableCell>
-                  <TableCell padding="none" className={classes.cell}>
-                    {row.scheme}
-                  </TableCell>
                   {row.country && (
-                    <TableCell padding="none" className={classes.cell}>
-                      <ReactCountryFlag svg countryCode={row.country} />
-                      &nbsp;
-                      {row.country}
+                    <TableCell padding="none" className={classes.countryCell}>
+                      <ReactCountryFlag
+                        svg
+                        className={classes.flag}
+                        countryCode={row.country}
+                      />
+                      &nbsp; &nbsp;
+                      {row.city}
                       &nbsp; ({t(`continents.${row.continent}`)})
                     </TableCell>
                   )}
                   {HAS_ORGANISATION && (
                     <TableCell padding="none" className={classes.cell}>
-                      {row.organization}
+                      {row.organization || 'N/A'}
                     </TableCell>
                   )}
+                  <TableCell padding="none" className={classes.cell}>
+                    {t(`web3Schemes.${row.scheme}`)}
+                  </TableCell>
                   <TableCell padding="none" className={classes.cell}>
                     {row.totalNodes}
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
-        </Table>
+        </Box>
       </TableContainer>
 
-      <ProvidersTablePagination
-        isFirstPage={isFirstPage}
-        isLastPage={isLastPage}
-        pageIndex={pageIndex}
-        pagesCount={pagesCount}
-        onPageChange={handleChangePage}
-      />
+      {pagesCount > 1 && (
+        <ProvidersTablePagination
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          pageIndex={pageIndex}
+          pagesCount={pagesCount}
+          onPageChange={handleChangePage}
+        />
+      )}
     </>
   );
 };

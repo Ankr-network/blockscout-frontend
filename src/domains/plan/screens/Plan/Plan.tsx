@@ -4,13 +4,16 @@ import { Deposit } from './components/Deposit';
 import { useAuth } from '../../../../modules/auth/hooks/useAuth';
 import { ProBlock } from './components/ProBlock';
 import { ConnectWalletBlock } from './components/ConnectWalletBlock';
-import { DepositSuccess } from './components/DepositSuccess';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { t } from 'modules/i18n/utils/intl';
-import { Depositing } from './components/Depositing';
-
-const isDepositing = false;
+import { DepositSteps } from './components/DepositSteps';
+import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  DepositStep,
+  fetchDepositStatus,
+} from '../../../../modules/auth/actions/fetchDepositStatus';
+import { deposit } from '../../../../modules/auth/actions/deposit';
 
 export const Plan = () => {
   useSetBreadcrumbs([
@@ -19,20 +22,26 @@ export const Plan = () => {
     },
   ]);
 
-  const {
-    credentials,
-    justDeposited,
-    handleDeposit,
-    handleConnect,
-    loading,
-  } = useAuth();
+  const { credentials, handleDeposit, handleConnect, loading } = useAuth();
 
-  if (isDepositing) {
-    return <Depositing />;
-  }
+  const { data } = useQuery({
+    type: fetchDepositStatus.toString(),
+    action: fetchDepositStatus,
+  });
 
-  if (credentials && justDeposited) {
-    return <DepositSuccess />;
+  const { loading: depositLoading, error: depositError } = useMutation({
+    type: deposit.toString(),
+  });
+
+  if (depositLoading || depositError) {
+    return (
+      <DepositSteps
+        step={data?.step ?? DepositStep.publicKey}
+        onDeposit={handleDeposit}
+        onConnect={handleConnect}
+        loading={loading}
+      />
+    );
   }
 
   if (credentials) {

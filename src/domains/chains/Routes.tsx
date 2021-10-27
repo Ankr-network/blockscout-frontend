@@ -2,6 +2,7 @@ import React from 'react';
 import { generatePath, Route, useParams } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
@@ -48,11 +49,13 @@ const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
 export function ChainsRoutes() {
   return (
     <>
-      <Route
-        exact
-        path={ChainsRoutesConfig.chains.path}
-        component={LoadableChainsContainer}
-      />
+      <NoReactSnap>
+        <Route
+          exact
+          path={ChainsRoutesConfig.chains.path}
+          component={LoadableChainsContainer}
+        />
+      </NoReactSnap>
       <Route
         exact
         path={ChainsRoutesConfig.chainDetails.path}
