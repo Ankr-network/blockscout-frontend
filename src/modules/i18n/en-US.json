@@ -170,5 +170,10 @@
     "SA": "South America",
     "AN": "Antarctica",
     "OC": "Oceania"
+  },
+  "web3Schemes": {
+    "web3": "Web3 (EVM)",
+    "evm": "Web3 (EVM)",
+    "solana": "Web3 (Solana)"
   }
 }

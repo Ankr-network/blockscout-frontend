@@ -24,7 +24,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
   cell: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    width: '25%',
+    width: '20%',
+  },
+
+  countryCell: {
+    width: '30%',
+  },
+
+  flag: {
+    marginBottom: '3px',
   },
 
   logo: {
