@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import { useStyles } from './useStyles';
 
 export interface PageHeaderProps {
-  title: string;
+  title?: string;
   select?: ReactNode;
   button?: ReactNode;
 }
@@ -15,10 +15,12 @@ export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.left}>
-        <Typography variant="h5" noWrap className={classes.title}>
-          {title}
-        </Typography>
-        {select && select}
+        {title && (
+          <Typography variant="h5" noWrap className={classes.title}>
+            {title}
+          </Typography>
+        )}
+        {select}
       </div>
       {button}
     </div>
