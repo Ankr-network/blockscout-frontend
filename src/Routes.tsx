@@ -16,9 +16,16 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from './modules/themes/types';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
+import { useEffect } from 'react';
 
 export function Routes() {
-  const { credentials } = useAuth();
+  const { handleConnect, credentials } = useAuth();
+
+  useEffect(() => {
+    /* reconnecting on rerender for persisting session */
+    handleConnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Switch>

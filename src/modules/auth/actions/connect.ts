@@ -3,6 +3,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from '../../api/MultiService';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
 import { IJwtToken, Web3Address } from '@ankr.com/multirpc';
+import { hasMetamask } from '../utils/hasMetamask';
 
 const PROVIDER_ERROR_USER_DENIED = 4001;
 
@@ -17,6 +18,9 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   () => ({
     request: {
       promise: (async () => {
+        if (!hasMetamask()) {
+          throw new Error('no metamask extension found');
+        }
         const { service } = MultiService.getInstance();
         await service.getKeyProvider().connect(await injectWeb3Modal());
         const address = service.getKeyProvider().currentAccount();

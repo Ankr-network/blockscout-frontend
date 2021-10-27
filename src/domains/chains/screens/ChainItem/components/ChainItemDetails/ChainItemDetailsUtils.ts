@@ -6,5 +6,13 @@ const fmt = {
 };
 
 export const formatNumber = (number: BigNumber): string => {
-  return number.toFormat(fmt);
+  let formattedNumber;
+  try {
+    formattedNumber = number.toFormat(fmt);
+  } catch (e) {
+    /* got case with number caching with data mutation */
+    formattedNumber = new BigNumber(number).toFormat(fmt);
+  }
+
+  return formattedNumber;
 };
