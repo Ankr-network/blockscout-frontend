@@ -15,12 +15,15 @@ import { useStyles } from './ChainItemStyles';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { t } from 'modules/i18n/utils/intl';
 
-export const ChainItem = () => {
+interface ChainItemProps {
+  chainId: string;
+}
+
+export const ChainItem = ({ chainId }: ChainItemProps) => {
   const classes = useStyles();
   const { credentials } = useAuth();
 
   const dispatchRequest = useDispatchRequest();
-  const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
 
   useSetBreadcrumbs([
     {

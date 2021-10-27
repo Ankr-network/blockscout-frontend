@@ -58,7 +58,7 @@ export function Routes() {
           ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
             <ChainsRoutes />
           </DefaultLayout>
         )}

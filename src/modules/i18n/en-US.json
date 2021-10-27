@@ -3,6 +3,10 @@
   "validation": {
     "required": "This field is required"
   },
+  "meta": {
+    "title": "Ankr Protocol",
+    "description": "Ankr Protocol"
+  },
   "error": {
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",
@@ -52,6 +56,10 @@
     "requests": "{value} reqs"
   },
   "chain-item": {
+    "meta": {
+      "title": "{name} Public RPC | Ankr Protocol",
+      "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
+    },
     "header": {
       "bottom": "Private RPC",
       "button": "Unlock Private Endpoint",

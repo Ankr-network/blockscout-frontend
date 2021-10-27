@@ -122,6 +122,13 @@
       "--no-sandbox",
       "--disable-setuid-sandbox"
     ],
+    "include": [
+      "/public/avalanche/",
+      "/public/eth/",
+      "/public/fantom/",
+      "/public/polygon/",
+      "/public/solana/"
+    ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
   }

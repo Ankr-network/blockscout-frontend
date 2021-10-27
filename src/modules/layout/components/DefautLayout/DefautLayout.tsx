@@ -1,6 +1,6 @@
+import React, { useMemo, ReactChild } from 'react';
 import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, { useMemo, ReactChild } from 'react';
 import { Container } from '@material-ui/core';
 
 import { getTheme } from '../../../common/utils/getTheme';
@@ -17,12 +17,14 @@ export interface ILayoutProps {
   children?: ReactChild;
   theme?: Themes;
   isLayoutDefaultColor?: boolean;
+  withNoReactSnap?: boolean;
 }
 
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
   isLayoutDefaultColor = false,
+  withNoReactSnap = true,
 }: ILayoutProps) => {
   const classes = useStyles({ isLayoutDefaultColor });
 
@@ -40,7 +42,7 @@ export const DefaultLayout = ({
             <div className={classes.mobileBreadcrumbs}>
               <Breadcrumbs />
             </div>
-            <NoReactSnap>{children}</NoReactSnap>
+            {withNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>
         <MobileNavigation />
