@@ -3,7 +3,7 @@ import { Button, Container } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { ClockIcon } from 'uiKit/Icons/ClockIcon';
+import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
@@ -27,14 +27,14 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   const items = useLocaleMemo(
     () => [
       {
-        label: t('mobile-navigation.private-rpcs'),
-        StartIcon: ClockIcon,
-        href: DashboardRoutesConfig.dashboard.generatePath(),
-      },
-      {
         label: t('mobile-navigation.public-rpcs'),
         StartIcon: BoxIcon,
         href: ChainsRoutesConfig.chains.generatePath(),
+      },
+      {
+        label: t('mobile-navigation.private-rpcs'),
+        StartIcon: DiamondIcon,
+        href: DashboardRoutesConfig.dashboard.generatePath(),
       },
       {
         label: t('mobile-navigation.protocol'),

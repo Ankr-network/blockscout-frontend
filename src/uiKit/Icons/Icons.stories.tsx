@@ -9,7 +9,7 @@ import { AngleRightIcon } from './AngleRightIcon';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { BoxIcon } from './BoxIcon';
 import { ChatIcon } from './ChatIcon';
-import { ClockIcon } from './ClockIcon';
+import { DiamondIcon } from './DiamondIcon';
 import { CopyIcon } from './CopyIcon';
 import { FileIcon } from './FileIcon';
 import { LabelIcon } from './LabelIcon';
@@ -24,7 +24,7 @@ storiesOf('uiKit/Icons', module).add('Default', () => (
       <ArrowRightIcon />
       <ChatIcon />
       <BoxIcon />
-      <ClockIcon />
+      <DiamondIcon />
       <CopyIcon />
       <FileIcon />
       <LabelIcon />
