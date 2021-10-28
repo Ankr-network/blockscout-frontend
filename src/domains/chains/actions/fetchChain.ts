@@ -1,5 +1,6 @@
 import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
@@ -8,7 +9,7 @@ import { fetchChainDetails, IApiChainDetails } from './fetchChainDetails';
 
 interface ChainItemDetails {
   chain: IApiChain;
-  chainDetails: IApiChainDetails;
+  details: Record<Timeframe, IApiChainDetails>;
 }
 
 export const fetchChain = createSmartAction<
@@ -27,18 +28,37 @@ export const fetchChain = createSmartAction<
     ) => {
       return {
         promise: (async (): Promise<ChainItemDetails> => {
-          const [{ data: chainDetails }, { data: chains }] = await Promise.all([
-            store.dispatchRequest(fetchChainDetails(chainId)),
+          const [
+            { data: chainDetails30d },
+            { data: chainDetails7d },
+            { data: chainDetails24h },
+            { data: chains },
+          ] = await Promise.all([
+            store.dispatchRequest(fetchChainDetails(chainId, '30d')),
+            store.dispatchRequest(fetchChainDetails(chainId, '7d')),
+            store.dispatchRequest(fetchChainDetails(chainId, '24h')),
             store.dispatchRequest(fetchPublicChains()),
           ]);
 
           const chain = chains?.find(item => item.id === chainId);
 
-          if (!chain || !chainDetails) {
+          if (
+            !chain ||
+            !chainDetails30d ||
+            !chainDetails7d ||
+            !chainDetails24h
+          ) {
             throw new Error('ChainId not found');
           }
 
-          return { chain, chainDetails };
+          return {
+            chain,
+            details: {
+              '30d': chainDetails30d,
+              '7d': chainDetails7d,
+              '24h': chainDetails24h,
+            },
+          };
         })(),
       };
     },

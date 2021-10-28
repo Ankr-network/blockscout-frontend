@@ -5,9 +5,15 @@ import { RequestsLog } from './ChainRequestsChartTypes';
 import { t } from 'modules/i18n/utils/intl';
 
 export const formatDate = (date: Date): string => {
-  return t('chain-item.chart.time', {
+  const dateString = t('chain-item.chart.date', {
     value: date,
   });
+
+  const timeString = t('chain-item.chart.time', {
+    value: date,
+  });
+
+  return `${dateString} ${timeString}`;
 };
 
 const THOUSAND = 1000;

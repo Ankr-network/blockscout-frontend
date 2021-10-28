@@ -17,17 +17,17 @@ export const DetailsBlock = ({
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
-        <Typography variant="body2" color="textPrimary">
+        <Typography variant="subtitle1" color="textPrimary">
           {title}
         </Typography>
         {subtitle && (
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="subtitle1" color="textSecondary">
             {subtitle}
           </Typography>
         )}
       </div>
       <div className={classes.bottom}>
-        <Typography variant="h4" className={classes.value}>
+        <Typography variant="h3" className={classes.value}>
           {value}
         </Typography>
         {children}

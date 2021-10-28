@@ -27,4 +27,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       fontSize: 30,
     },
   },
+  fullWidth: {
+    maxWidth: '100%',
+  },
 }));

@@ -18,7 +18,7 @@
     "private-rpcs": "Private RPCs",
     "public-rpcs": "Public RPCs",
     "staking": "Staking",
-    "plan": "Ankr Premium",
+    "plan": "Premium Plan",
     "protocol": "Protocol"
   },
   "extra-navigation": {
@@ -34,7 +34,7 @@
     "more": "More"
   },
   "staking-info": {
-    "description": "<b>Stake 50000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
+    "description": "<b>Deposit 50,000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
     "link": "Join the waitlist"
   },
   "language": {
@@ -69,25 +69,27 @@
       "average-requests": "Average Requests/sec",
       "bandwidth": "Bandwidth",
       "cached-requests": "Cached Requests",
-      "24-hours": "Last 24 Hours",
-      "all-time": "All Time"
+      "all-time": "All Time",
+      "total-requests": "Total Requests",
+      "total-requests-24h": "Total Requests 24h",
+      "total-requests-7d": "Total Requests 7d",
+      "total-requests-30d": "Total Requests 30d"
     },
-    "api-details": {
-      "data-cached": "Data cached",
-      "total-cached": "Total cached",
-      "total-served": "Total served",
-      "unique-visitors": "Unique visitors",
-      "total-requests": "Total Requests"
+    "timeframe": {
+      "24-hours": "Last 24 Hours",
+      "7-days": "Last 7 Days",
+      "30-days": "Last 30 Days"
     },
     "chart": {
-      "time": "{value, date, medium}"
+      "date": "{value, date, medium}",
+      "time": "{value, time, short}"
     }
   },
   "plan": {
-    "breadcrumbs": "Ankr Premium",
+    "breadcrumbs": "Premium Plan",
     "deposit": {
       "title": "Annual plan",
-      "subtitle": "Deposit<br /><b>10,000</b>&nbsp;ANKR to&nbsp;become&nbsp;<b>Premium</b>",
+      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;become <b>Premium&nbsp;member</b>",
       "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Private endpoints",
@@ -111,7 +113,7 @@
     },
     "pro": {
       "title": "Congratulations",
-      "subtitle": "<b>You are Premium member</b> and have all premium features"
+      "subtitle": "<b>You are member</b> and have all premium features"
     },
     "connect-wallet": {
       "title": "Already Premium?",
@@ -158,7 +160,7 @@
       "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
       "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
       "3": "Thank you! Operation will take 2-4 minutes.",
-      "4": "You’re Premium Member!."
+      "4": "You’re Premium Member!"
     },
     "step-notice": {
       "0": "To enable Ankr to securely enable your deposit.",

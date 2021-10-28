@@ -8,7 +8,7 @@ import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
 import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
-const ENABLE_STAKING_BANNER = false;
+const ENABLE_STAKING_BANNER = true;
 
 interface SidebarProps {
   className?: string;

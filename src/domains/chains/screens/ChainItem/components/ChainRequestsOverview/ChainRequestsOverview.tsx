@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import BigNumber from 'bignumber.js';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { t } from 'modules/i18n/utils/intl';
 import { ChainRequestsChart } from '../ChainRequestsChart';
@@ -10,14 +11,18 @@ import { formatNumber } from '../ChainItemDetails/ChainItemDetailsUtils';
 
 interface ChainRequestsOverviewProps {
   className?: string;
-  totalRequests: BigNumber;
+  totalRequests: Record<Timeframe, BigNumber>;
   totalRequestsHistory: Record<string, number>;
+  timeframe: Timeframe;
+  onClick: (timeframe: Timeframe) => void;
 }
 
 export const ChainRequestsOverview = ({
   className,
   totalRequests,
   totalRequestsHistory,
+  onClick,
+  timeframe,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
@@ -25,11 +30,27 @@ export const ChainRequestsOverview = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.info}>
         <RequestsPeriodInfo
-          description={t('chain-item.api-details.total-requests')}
-          title={formatNumber(totalRequests)}
+          description={t('chain-item.details.total-requests-30d')}
+          title={formatNumber(totalRequests?.['30d'])}
+          onClick={() => onClick('30d')}
+          isActive={timeframe === '30d'}
+        />
+        <RequestsPeriodInfo
+          description={t('chain-item.details.total-requests-7d')}
+          title={formatNumber(totalRequests?.['7d'])}
+          onClick={() => onClick('7d')}
+          isActive={timeframe === '7d'}
+        />
+        <RequestsPeriodInfo
+          description={t('chain-item.details.total-requests-24h')}
+          title={formatNumber(totalRequests?.['24h'])}
+          onClick={() => onClick('24h')}
+          isActive={timeframe === '24h'}
         />
       </div>
-      <ChainRequestsChart requestsLog={totalRequestsHistory} />
+      {Object.keys(totalRequestsHistory).length !== 0 && (
+        <ChainRequestsChart requestsLog={totalRequestsHistory} />
+      )}
     </div>
   );
 };

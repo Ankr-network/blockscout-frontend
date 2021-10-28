@@ -17,6 +17,7 @@ export const ProBlock = () => {
       <DepositTitles
         topTitle={t('plan.pro.title')}
         bottomTitle={tHTML('plan.pro.subtitle')}
+        isBottomTitleFullWidth
       />
 
       <Button

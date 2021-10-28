@@ -6,7 +6,7 @@ import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { useStyles } from './StakingInfoStyles';
 import CubeImg from './assets/cube.png';
 
-const WAITLIST_LINK = 'https://test.com';
+const WAITLIST_LINK = 'https://ankrnetwork.typeform.com/nodeprovider';
 
 export const StakingInfo = () => {
   const classes = useStyles();
