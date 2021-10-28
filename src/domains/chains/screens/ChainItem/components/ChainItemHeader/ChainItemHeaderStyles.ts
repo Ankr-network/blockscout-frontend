@@ -55,7 +55,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   copyToClip: {
-    minWidth: 360,
+    minWidth: 330,
     width: '100%',
     [theme.breakpoints.down('lg')]: {
       minWidth: 'auto',

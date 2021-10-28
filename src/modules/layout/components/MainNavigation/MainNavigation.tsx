@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ClockIcon } from 'uiKit/Icons/ClockIcon';
+import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
 import { LabelIcon } from 'uiKit/Icons/LabelIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
@@ -25,14 +25,14 @@ export const MainNavigation = () => {
   const items = useLocaleMemo(
     (): NavigationItem[] => [
       {
-        label: t('main-navigation.private-rpcs'),
-        StartIcon: ClockIcon,
-        href: DashboardRoutesConfig.dashboard.generatePath(),
-      },
-      {
         label: t('main-navigation.public-rpcs'),
         StartIcon: BoxIcon,
         href: ChainsRoutesConfig.chains.generatePath(),
+      },
+      {
+        label: t('main-navigation.private-rpcs'),
+        StartIcon: DiamondIcon,
+        href: DashboardRoutesConfig.dashboard.generatePath(),
       },
       {
         label: t('main-navigation.plan'),

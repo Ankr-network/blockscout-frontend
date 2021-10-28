@@ -7,7 +7,6 @@ import { useStyles } from './useStyles';
 import { Link as RouterLink } from 'react-router-dom';
 import { DashboardRoutesConfig } from '../../../../../dashboard/Routes';
 import { Button } from '@material-ui/core';
-import { StarIcon } from '../../../../../../uiKit/Icons/StarIcon';
 
 export const ProBlock = () => {
   const classes = useStyles();
@@ -22,7 +21,6 @@ export const ProBlock = () => {
 
       <Button
         color="primary"
-        startIcon={<StarIcon />}
         className={classes.button}
         component={RouterLink}
         to={DashboardRoutesConfig.dashboard.generatePath()}
