@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { IWorkerGlobalStatus } from '@ankr.com/multirpc';
+import { IWorkerGlobalStatus, Timeframe } from '@ankr.com/multirpc';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
@@ -31,16 +31,22 @@ export interface IApiChainDetails {
 
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->('chains/fetchChainDetails', (blockchain: string) => ({
+>('chains/fetchChainDetails', (blockchain: string, timeframe: Timeframe) => ({
   request: {
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      return service.getBlockchainStats(blockchain);
+      const data = await service.getBlockchainTimeFrameStats(
+        blockchain,
+        timeframe,
+      );
+
+      return data;
     })(),
   },
   meta: {
     asMutation: false,
+    takeLatest: false,
     getData: data => {
       const {
         dataCached,

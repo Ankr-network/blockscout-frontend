@@ -69,18 +69,20 @@
       "average-requests": "Average Requests/sec",
       "bandwidth": "Bandwidth",
       "cached-requests": "Cached Requests",
-      "24-hours": "Last 24 Hours",
-      "all-time": "All Time"
+      "all-time": "All Time",
+      "total-requests": "Total Requests",
+      "total-requests-24h": "Total Requests 24h",
+      "total-requests-7d": "Total Requests 7d",
+      "total-requests-30d": "Total Requests 30d"
     },
-    "api-details": {
-      "data-cached": "Data cached",
-      "total-cached": "Total cached",
-      "total-served": "Total served",
-      "unique-visitors": "Unique visitors",
-      "total-requests": "Total Requests"
+    "timeframe": {
+      "24-hours": "Last 24 Hours",
+      "7-days": "Last 7 Days",
+      "30-days": "Last 30 Days"
     },
     "chart": {
-      "time": "{value, date, medium}"
+      "date": "{value, date, medium}",
+      "time": "{value, time, short}"
     }
   },
   "plan": {

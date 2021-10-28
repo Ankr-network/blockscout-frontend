@@ -1,19 +1,21 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { t } from 'modules/i18n/utils/intl';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { useStyles } from './ChainItemStyles';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { t } from 'modules/i18n/utils/intl';
 
 interface ChainItemProps {
   chainId: string;
@@ -21,6 +23,8 @@ interface ChainItemProps {
 
 export const ChainItem = ({ chainId }: ChainItemProps) => {
   const classes = useStyles();
+  const [timeframe, setTimeframe] = useState<Timeframe>('30d');
+
   const { credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -46,9 +50,13 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
     [setBreadcrumbs],
   );
 
-  useEffect(() => {
+  useOnMount(() => {
     dispatchRequest(fetchChain(chainId));
-  }, [dispatchRequest, chainId]);
+  });
+
+  const handleTimeframeClick = useCallback((newTimeframe: Timeframe) => {
+    setTimeframe(newTimeframe);
+  }, []);
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -57,15 +65,20 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
           requestActions={[fetchChain]}
           requestKeys={[chainId]}
         >
-          {({ data: { chain, chainDetails } }) => {
+          {({ data: { chain, details } }) => {
+            const chainsDetails = details[timeframe];
+
             const {
-              dataCached,
               totalCached,
-              totalServed,
-              uniqueVisitors,
               totalRequests,
               totalRequestsHistory,
-            } = chainDetails;
+            } = chainsDetails;
+
+            const totalRequestsCount = {
+              '30d': details?.['30d'].totalRequests,
+              '7d': details?.['7d'].totalRequests,
+              '24h': details?.['24h'].totalRequests,
+            };
 
             handleSetBreadcrumbs(chain.name);
 
@@ -81,16 +94,17 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                   />
                   <ChainRequestsOverview
                     className={classes.chainRequestsOverview}
-                    totalRequests={totalRequests}
+                    totalRequests={totalRequestsCount}
                     totalRequestsHistory={totalRequestsHistory}
+                    onClick={handleTimeframeClick}
+                    timeframe={timeframe}
                   />
                 </div>
                 <ChainItemDetails
                   className={classes.chainItemDetails}
-                  dataCached={dataCached}
                   totalCached={totalCached}
-                  totalServed={totalServed}
-                  uniqueVisitors={uniqueVisitors}
+                  totalRequests={totalRequests}
+                  timeframe={timeframe}
                 />
               </>
             );

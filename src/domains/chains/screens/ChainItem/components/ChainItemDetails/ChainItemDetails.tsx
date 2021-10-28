@@ -1,50 +1,55 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import cn from 'classnames';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { t } from 'modules/i18n/utils/intl';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { DetailsBlock } from './DetailsBlock';
 import { useStyles } from './ChainItemDetailsStyles';
-import { formatNumber } from './ChainItemDetailsUtils';
+import {
+  formatNumber,
+  getAvarageRequests,
+  getCachedRequestPercent,
+  getSubtitle,
+} from './ChainItemDetailsUtils';
 
 interface ChainItemDetailsProps {
-  dataCached: BigNumber;
+  totalRequests: BigNumber;
   totalCached: BigNumber;
-  totalServed: BigNumber;
-  uniqueVisitors: BigNumber;
   className?: string;
+  timeframe: Timeframe;
 }
 
 export const ChainItemDetails = ({
-  dataCached,
+  totalRequests,
   totalCached,
-  totalServed,
-  uniqueVisitors,
+  timeframe,
   className,
 }: ChainItemDetailsProps) => {
   const classes = useStyles();
 
+  const subtitle = useLocaleMemo(() => t(getSubtitle(timeframe)), [timeframe]);
+
   return (
     <div className={cn(classes.root, className)}>
       <DetailsBlock
-        title={t('chain-item.api-details.data-cached')}
-        value={formatNumber(dataCached)}
+        title={t('chain-item.details.total-requests')}
+        value={formatNumber(totalRequests)}
         className={classes.block}
+        subtitle={subtitle}
       />
       <DetailsBlock
-        title={t('chain-item.api-details.total-cached')}
-        value={formatNumber(totalCached)}
+        title={t('chain-item.details.cached-requests')}
+        value={getCachedRequestPercent(totalRequests, totalCached)}
         className={classes.block}
+        subtitle={subtitle}
       />
       <DetailsBlock
-        title={t('chain-item.api-details.total-served')}
-        value={formatNumber(totalServed)}
+        title={t('chain-item.details.average-requests')}
+        value={getAvarageRequests(totalRequests, timeframe)}
         className={classes.block}
-      />
-      <DetailsBlock
-        title={t('chain-item.api-details.unique-visitors')}
-        value={formatNumber(uniqueVisitors)}
-        className={classes.block}
+        subtitle={subtitle}
       />
     </div>
   );

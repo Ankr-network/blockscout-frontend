@@ -5,8 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    minHeight: 420,
-    padding: theme.spacing(3),
+    padding: theme.spacing(0, 3, 3),
   },
   info: {
     display: 'flex',
