@@ -22,10 +22,12 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   () => ({
     request: {
       promise: async (store: RequestsStore) => {
+        const { service } = MultiService.getInstance();
+
         if (!hasMetamask()) {
           throw new Error('no metamask extension found');
         }
-        const { service } = MultiService.getInstance();
+
         await service.getKeyProvider().connect(await injectWeb3Modal());
         const address = service.getKeyProvider().currentAccount();
 
