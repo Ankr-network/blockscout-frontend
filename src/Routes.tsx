@@ -17,15 +17,16 @@ import { Themes } from './modules/themes/types';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
 import { useEffect } from 'react';
+import { hasUserLoggedIn } from './modules/common/utils/localStorage';
 
-const ENABLE_AUTOCONNECT = false;
+const ENABLE_AUTOCONNECT = true;
 
 export function Routes() {
   const { handleConnect, credentials } = useAuth();
 
   useEffect(() => {
-    /* reconnecting on rerender for persisting session */
-    if (ENABLE_AUTOCONNECT) {
+    /* reconnecting on rerender if user has logged in earlier for persisting session */
+    if (ENABLE_AUTOCONNECT && hasUserLoggedIn()) {
       handleConnect();
     }
   }, [handleConnect]);

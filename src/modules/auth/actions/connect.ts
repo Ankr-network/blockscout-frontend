@@ -9,6 +9,7 @@ import { throwIfError } from '../../api/utils/throwIfError';
 // eslint-disable-next-line import/no-cycle
 import { fetchDepositStatus } from './fetchDepositStatus';
 import { hasMetamask } from '../utils/hasMetamask';
+import { setHasUserLoggedIn } from '../../common/utils/localStorage';
 
 const PROVIDER_ERROR_USER_DENIED = 4001;
 
@@ -46,6 +47,9 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
             return undefined;
           }
         })();
+
+        /* saving user login to localstorage */
+        setHasUserLoggedIn();
 
         return {
           address,

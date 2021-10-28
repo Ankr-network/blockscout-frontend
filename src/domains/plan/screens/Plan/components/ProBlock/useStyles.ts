@@ -4,13 +4,20 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(7.5, 15, 7.5, 10.5),
+    padding: theme.spacing(5),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(3.5),
+    },
     borderRadius: 18,
   },
-  icon: {
-    fontSize: '16px !important',
+  title: {
+    width: '100%',
   },
   button: {
     marginTop: theme.spacing(7),
+    minWidth: 240,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
 }));
