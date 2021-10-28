@@ -184,5 +184,8 @@
     "web3": "Web3 (EVM)",
     "evm": "Web3 (EVM)",
     "solana": "Web3 (Solana)"
+  },
+  "zendesk": {
+    "get-help": "Help"
   }
 }
