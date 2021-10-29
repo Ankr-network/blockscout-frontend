@@ -2,22 +2,22 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import cn from 'classnames';
 import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
-import { useButtonSpecialStyles } from './ButtonSpecialStyles';
+import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
 interface IButtonSpecialProps {
   onClick: () => void;
   isDisabled?: boolean;
-  size?: 'l' | 'm';
+  size?: 'large' | 'medium';
   className?: string;
 }
 
-export const ButtonSpecial = ({
+export const ButtonMetamask = ({
   onClick,
   isDisabled,
-  size = 'l',
+  size = 'large',
   className,
 }: IButtonSpecialProps) => {
-  const classes = useButtonSpecialStyles();
+  const classes = useButtonMetamaskStyles();
 
   return (
     <>

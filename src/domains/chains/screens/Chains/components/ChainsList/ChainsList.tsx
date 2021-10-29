@@ -7,13 +7,10 @@ import { ChainsItem } from '../ChainsItem';
 import { useStyles } from './ChainsListStyles';
 import { formatChains, PERIOD } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
-import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
-import { getMappedNetwork } from '../../../ChainItem/components/ChainItemHeader/ChainItemHeaderUtils';
 
 export const ChainsList = ({ data }: ChainsListProps) => {
   const classes = useStyles();
   const history = useHistory();
-  const { handleAddNetwork, isWalletConnected, handleConnect } = useAuth();
   const chains = formatChains(data);
 
   const handleClick = useCallback(
@@ -29,7 +26,6 @@ export const ChainsList = ({ data }: ChainsListProps) => {
     <div className={classes.root}>
       {chains.map(item => {
         const { id, name, requests, rpcLinks } = item;
-        const mappedNetwork = getMappedNetwork(item);
 
         return (
           <div className={classes.wrapper} key={id}>
@@ -42,13 +38,7 @@ export const ChainsList = ({ data }: ChainsListProps) => {
               description={
                 requests ? t('chains.requests', { value: requests }) : ''
               }
-              hasWalletButton={Boolean(mappedNetwork)}
-              isWalletConnectButtonActive
-              onNetworkAdd={
-                isWalletConnected
-                  ? () => handleAddNetwork(mappedNetwork)
-                  : handleConnect
-              }
+              chain={item}
             />
           </div>
         );
