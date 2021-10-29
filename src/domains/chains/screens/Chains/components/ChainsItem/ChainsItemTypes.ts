@@ -1,3 +1,5 @@
+import { Chain } from '../ChainsList/ChainsListTypes';
+
 export interface ChainsItemProps {
   logoSrc: string;
   name: string;
@@ -5,7 +7,5 @@ export interface ChainsItemProps {
   period: string;
   links: string[];
   onButtonClick: () => void;
-  hasWalletButton: boolean;
-  isWalletConnectButtonActive: boolean;
-  onNetworkAdd: () => void;
+  chain: Chain;
 }

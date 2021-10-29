@@ -4,10 +4,10 @@ import { Button } from '@material-ui/core';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
+import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
-import { ButtonSpecial } from '../../../../../../uiKit/ButtonSpecial';
 
 export const ChainsItem = ({
   logoSrc,
@@ -16,9 +16,7 @@ export const ChainsItem = ({
   period,
   links,
   onButtonClick,
-  hasWalletButton,
-  isWalletConnectButtonActive,
-  onNetworkAdd,
+  chain,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -46,15 +44,11 @@ export const ChainsItem = ({
           ))}
         </div>
         <div className={classes.buttonsWrapper}>
-          {hasWalletButton && (
-            <ButtonSpecial
-              className={classes.buttonAddNetwork}
-              isDisabled={!isWalletConnectButtonActive}
-              onClick={onNetworkAdd}
-              size="m"
-            />
-          )}
-
+          <AddNetworkButton
+            chain={chain}
+            size="medium"
+            className={classes.buttonAddNetwork}
+          />
           <Button
             variant="outlined"
             color="primary"

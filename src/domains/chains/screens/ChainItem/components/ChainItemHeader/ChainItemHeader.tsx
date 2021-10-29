@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import cn from 'classnames';
@@ -6,19 +6,17 @@ import cn from 'classnames';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { ButtonSpecial } from 'uiKit/ButtonSpecial';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useStyles } from './ChainItemHeaderStyles';
+import { useIsMDDown } from 'modules/themes/useTheme';
+import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
-import { useAuth } from '../../../../../../modules/auth/hooks/useAuth';
-import { useIsMDDown } from '../../../../../../modules/themes/useTheme';
-import { getMappedNetwork } from './ChainItemHeaderUtils';
+import { useStyles } from './ChainItemHeaderStyles';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -39,10 +37,6 @@ export const ChainItemHeader = ({
   const isMobile = useIsMDDown();
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
-  const { handleAddNetwork, isWalletConnected, handleConnect } = useAuth();
-  const mappedNetwork = useMemo(() => getMappedNetwork(formattedChain), [
-    formattedChain,
-  ]);
 
   return (
     <div className={cn(classes.root, className)}>
@@ -58,15 +52,7 @@ export const ChainItemHeader = ({
               />
             }
           />
-          {mappedNetwork && (
-            <ButtonSpecial
-              onClick={
-                isWalletConnected
-                  ? () => handleAddNetwork(mappedNetwork)
-                  : handleConnect
-              }
-            />
-          )}
+          <AddNetworkButton chain={formattedChain} />
         </div>
 
         <div className={classes.right}>

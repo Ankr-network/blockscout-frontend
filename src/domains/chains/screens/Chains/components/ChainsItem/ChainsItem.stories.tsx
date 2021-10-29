@@ -7,20 +7,25 @@ import { mainTheme } from 'modules/themes/mainTheme';
 import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { ChainsItem } from './ChainsItem';
 
+const chain = {
+  id: 'id',
+  name: 'namenamenamename',
+  icon: chainLogo,
+  rpcLinks: ['chainLinkchainLinkchainLinkchainLinkchainLink'],
+};
+
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
   <Router>
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
         <ChainsItem
-          logoSrc={chainLogo}
-          name="namenamenamename"
+          logoSrc={chain.icon}
+          name={chain.name}
           description="requestInforequestInforequestInforequestInfo"
           period="24h"
-          links={['chainLinkchainLinkchainLinkchainLinkchainLink']}
+          links={chain.rpcLinks}
           onButtonClick={() => null}
-          hasWalletButton={false}
-          isWalletConnectButtonActive={false}
-          onNetworkAdd={() => null}
+          chain={chain}
         />
       </Box>
     </ThemeProvider>

@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
-export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
+export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
   button: {
     padding: 7,
     position: 'relative',
@@ -20,7 +20,7 @@ export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
-  size_l: {
+  size_large: {
     minWidth: 48,
     minHeight: 48,
 
@@ -37,7 +37,7 @@ export const useButtonSpecialStyles = makeStyles<Theme>(theme => ({
       bottom: -17,
     },
   },
-  size_m: {
+  size_medium: {
     minWidth: 42,
     minHeight: 42,
 
