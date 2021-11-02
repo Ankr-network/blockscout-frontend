@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { useAddNetworkButton } from './useAddNetworkButton';
-import { isAddNetworkSupported } from '../../../common/utils/browserDetect';
+import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 
 interface IAddNetworkProps {
   chain: Chain;

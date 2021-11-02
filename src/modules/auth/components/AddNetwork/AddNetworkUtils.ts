@@ -1,4 +1,4 @@
-import { Chain } from '../../../../domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { IChainParams } from '../../actions/addNetwork';
 
 // avalanche

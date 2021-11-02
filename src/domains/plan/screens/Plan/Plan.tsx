@@ -22,7 +22,13 @@ export const Plan = () => {
     },
   ]);
 
-  const { credentials, handleDeposit, handleConnect, loading } = useAuth();
+  const {
+    credentials,
+    handleDeposit,
+    handleConnect,
+    loading,
+    isWalletConnected,
+  } = useAuth();
 
   const { data } = useQuery({
     type: fetchDepositStatus.toString(),
@@ -50,7 +56,9 @@ export const Plan = () => {
 
   return (
     <>
-      <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+      {!isWalletConnected && (
+        <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+      )}
       <Deposit onSubmit={handleDeposit} />
     </>
   );
