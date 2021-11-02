@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Box, Fab, Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import { uid } from 'react-uid';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useIsSMDown } from 'modules/themes/useTheme';
@@ -14,6 +15,30 @@ interface ProvidersTablePaginationProps {
   pagesCount: number;
   onPageChange: (newPageIndex: number) => void;
 }
+
+const PaginationButton = ({
+  text,
+  onClick,
+  className,
+  isDisabled = false,
+}: {
+  text: string | number;
+  onClick: () => void;
+  className: string;
+  isDisabled?: boolean;
+}) => {
+  return (
+    <Fab
+      className={className}
+      variant="extended"
+      disabled={isDisabled}
+      onClick={onClick}
+      aria-label={text.toString()}
+    >
+      {text}
+    </Fab>
+  );
+};
 
 export const ProvidersTablePagination = ({
   isFirstPage,
@@ -36,40 +61,42 @@ export const ProvidersTablePagination = ({
     </Typography>
   );
 
+  const isPagesCountMoreThenPageNumbers = pagesCount > pageNumbers.length;
+  const isPrevDotsVisible =
+    isPagesCountMoreThenPageNumbers && !pageNumbers.includes(1);
+  const isNextDotsVisible =
+    isPagesCountMoreThenPageNumbers && !pageNumbers.includes(pagesCount);
+
   return (
     <Box className={classes.root}>
-      <Fab
+      <PaginationButton
         className={classes.fab}
-        variant="extended"
-        disabled={isFirstPage}
+        text={t('providers.table.pagination.previous-button')}
         onClick={() => onPageChange(pageIndex - 1)}
-        aria-label={t('providers.table.pagination.previous-button')}
-      >
-        {t('providers.table.pagination.previous-button')}
-      </Fab>
-      {pageIndex > 0 && pagesCount > pageNumbers.length && dots}
-      {pageNumbers.map((pageNumber: number, index: number) => (
-        <Fab
-          variant="extended"
-          key={index}
-          onClick={() => onPageChange(pageNumber - 1)}
+        isDisabled={isFirstPage}
+      />
+
+      {isPrevDotsVisible && dots}
+
+      {pageNumbers.map((pageNumber: number) => (
+        <PaginationButton
+          key={uid(pageNumber)}
           className={classNames(classes.fab, {
             [classes.isActive]: pageNumber - 1 === pageIndex,
           })}
-        >
-          {pageNumber}
-        </Fab>
+          text={pageNumber}
+          onClick={() => onPageChange(pageNumber - 1)}
+        />
       ))}
-      {pageIndex !== pagesCount - 1 && pagesCount > pageNumbers.length && dots}
-      <Fab
+
+      {isNextDotsVisible && dots}
+
+      <PaginationButton
         className={classes.fab}
-        disabled={isLastPage}
-        variant="extended"
+        text={t('providers.table.pagination.next-button')}
         onClick={() => onPageChange(pageIndex + 1)}
-        aria-label={t('providers.table.pagination.next-button')}
-      >
-        {t('providers.table.pagination.next-button')}
-      </Fab>
+        isDisabled={isLastPage}
+      />
     </Box>
   );
 };

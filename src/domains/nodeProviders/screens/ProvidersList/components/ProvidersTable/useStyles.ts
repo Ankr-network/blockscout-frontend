@@ -7,6 +7,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingRight: theme.spacing(3),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    borderRadius: 18,
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 15,
+    },
   },
 
   thead: {

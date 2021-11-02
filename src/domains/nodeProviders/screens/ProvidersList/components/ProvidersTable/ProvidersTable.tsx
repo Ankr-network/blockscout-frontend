@@ -36,7 +36,7 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
     pagesCount,
     handleChangePage,
     rowsPerPage,
-  } = usePagination(rows, 10);
+  } = usePagination(rows, 8);
 
   return (
     <>
