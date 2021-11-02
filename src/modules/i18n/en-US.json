@@ -102,6 +102,9 @@
       "agreement": {
         "text": "I&nbsp;understand that my&nbsp;wallet app will deposit these tokens and&nbsp;I will incur a&nbsp;gas fee. The deposit is&nbsp;non-refundable. Ankr cannot assist with lost passwords for wallet apps.",
         "button": "Deposit"
+      },
+      "validation": {
+        "checkbox": "Please, check this box to proceed"
       }
     },
     "deposit-success": {
