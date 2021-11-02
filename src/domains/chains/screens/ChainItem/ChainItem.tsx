@@ -17,7 +17,7 @@ import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { RequestsMap } from './components/RequestsMap';
 import { useStyles } from './ChainItemStyles';
-import { useIsSMDown } from 'modules/themes/useTheme';
+import { useIsWXGAPlusDown } from 'modules/themes/useTheme';
 
 interface ChainItemProps {
   chainId: string;
@@ -30,7 +30,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
   const { credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
   const { setBreadcrumbs } = useBreadcrumbs();
-  const isMobile = useIsSMDown();
+  const isWXGAPlusDown = useIsWXGAPlusDown();
 
   const hasBreadcrumbsRef = useRef<boolean>(false);
 
@@ -105,7 +105,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     hasCredentials={Boolean(credentials)}
                     icon={chain.icon}
                   />
-                  {isMobile && detailsBlock}
+                  {isWXGAPlusDown && detailsBlock}
                   <ChainRequestsOverview
                     className={classes.chainRequestsOverview}
                     totalRequests={totalRequestsCount}
@@ -117,7 +117,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     <RequestsMap countries={countries} />
                   )}
                 </div>
-                {!isMobile && detailsBlock}
+                {!isWXGAPlusDown && detailsBlock}
               </>
             );
           }}

@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BREAKPOINTS } from '../../../../modules/themes/const';
+import { BREAKPOINTS } from 'modules/themes/const';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
