@@ -83,6 +83,9 @@
     "chart": {
       "date": "{value, date, medium}",
       "time": "{value, time, short}"
+    },
+    "map": {
+      "header": "Top 10 countries with most requests"
     }
   },
   "plan": {
