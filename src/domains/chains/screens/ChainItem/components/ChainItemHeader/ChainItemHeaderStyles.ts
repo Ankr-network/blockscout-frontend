@@ -47,11 +47,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
   right: {
     width: '48%',
     marginLeft: theme.spacing(1),
+
     '& $copyToClip:not(:last-child)': {
       marginBottom: theme.spacing(1.5),
     },
+
     [theme.breakpoints.down('lg')]: {
       width: '100%',
+      marginLeft: 0,
     },
   },
   copyToClip: {
