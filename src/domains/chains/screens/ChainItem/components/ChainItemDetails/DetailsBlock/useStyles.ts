@@ -19,5 +19,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   value: {
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20,
+    },
   },
 }));

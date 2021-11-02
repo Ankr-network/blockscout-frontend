@@ -17,6 +17,7 @@ import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { RequestsMap } from './components/RequestsMap';
 import { useStyles } from './ChainItemStyles';
+import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface ChainItemProps {
   chainId: string;
@@ -29,6 +30,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
   const { credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const isMobile = useIsSMDown();
 
   const hasBreadcrumbsRef = useRef<boolean>(false);
 
@@ -84,6 +86,15 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
 
             handleSetBreadcrumbs(chain.name);
 
+            const detailsBlock = (
+              <ChainItemDetails
+                className={classes.chainItemDetails}
+                totalCached={totalCached}
+                totalRequests={totalRequests}
+                timeframe={timeframe}
+              />
+            );
+
             return (
               <>
                 <div className={classes.chainDetailsWrapper}>
@@ -94,6 +105,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     hasCredentials={Boolean(credentials)}
                     icon={chain.icon}
                   />
+                  {isMobile && detailsBlock}
                   <ChainRequestsOverview
                     className={classes.chainRequestsOverview}
                     totalRequests={totalRequestsCount}
@@ -105,12 +117,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     <RequestsMap countries={countries} />
                   )}
                 </div>
-                <ChainItemDetails
-                  className={classes.chainItemDetails}
-                  totalCached={totalCached}
-                  totalRequests={totalRequests}
-                  timeframe={timeframe}
-                />
+                {!isMobile && detailsBlock}
               </>
             );
           }}
