@@ -92,7 +92,7 @@
     "breadcrumbs": "Premium Plan",
     "deposit": {
       "title": "Annual plan",
-      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to&nbsp;<b>Premium&nbsp;features</b>",
+      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to <b>Premium&nbsp;features</b>",
       "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Exclusive endpoints",
