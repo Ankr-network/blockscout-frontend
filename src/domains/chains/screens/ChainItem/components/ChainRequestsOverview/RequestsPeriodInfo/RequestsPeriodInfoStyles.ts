@@ -9,14 +9,33 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingTop: theme.spacing(3),
     transition: 'opacity 0.2s ease-in',
     width: '30%',
+
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: theme.spacing(2.5),
+    },
   },
   description: {
     marginBottom: theme.spacing(1),
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  timeframe: {
+    display: 'none',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
   },
   active: {
     opacity: 1,
     cursor: 'default',
     position: 'relative',
+
+    '& $timeframe': {
+      fontWeight: 'bold',
+    },
 
     '&:before': {
       content: '""',
@@ -28,6 +47,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       top: 0,
       borderBottomLeftRadius: 4,
       borderBottomRightRadius: 4,
+    },
+  },
+  title: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }));

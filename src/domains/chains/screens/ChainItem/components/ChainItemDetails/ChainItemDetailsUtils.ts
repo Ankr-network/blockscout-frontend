@@ -26,7 +26,12 @@ const getSeconds = (timeframe: Timeframe): number => {
   }
 };
 
-export const getSubtitle = (timeframe: Timeframe): string => {
+export const getSubtitle = (
+  timeframe: Timeframe,
+  isMobile: boolean,
+): string => {
+  if (isMobile) return timeframe;
+
   switch (timeframe) {
     case '30d':
       return 'chain-item.timeframe.30-days';
