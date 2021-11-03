@@ -62,6 +62,7 @@
     },
     "header": {
       "bottom": "Exclusive RPC Endpoint",
+      "right": "Public RPC",
       "button": "Unlock Premium Features",
       "settings-button": "Settings"
     },
@@ -118,7 +119,7 @@
       }
     },
     "pro": {
-      "title": "Congratulations",
+      "title": "Congratulations!",
       "subtitle": "<b>You have access</b> to all premium features"
     },
     "connect-wallet": {

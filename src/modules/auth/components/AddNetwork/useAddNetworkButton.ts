@@ -4,7 +4,12 @@ import { getMappedNetwork } from './AddNetworkUtils';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 
 export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
-  const { handleAddNetwork, isWalletConnected, handleConnect } = useAuth();
+  const {
+    handleAddNetwork,
+    isWalletConnected,
+    handleConnect,
+    loading,
+  } = useAuth();
   const mappedNetwork = useMemo(() => getMappedNetwork(chain), [chain]);
 
   const handleButtonClick = () => {
@@ -16,6 +21,8 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
   };
 
   return {
+    isWalletConnected,
+    loading,
     mappedNetwork,
     handleButtonClick,
   };

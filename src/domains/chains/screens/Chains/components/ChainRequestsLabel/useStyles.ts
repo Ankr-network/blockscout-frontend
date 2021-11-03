@@ -7,6 +7,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     minHeight: 22,
   },
+  subtitle: {
+    fontSize: 14,
+  },
   label: {
     marginLeft: theme.spacing(1),
     border: '1px solid rgba(31, 34, 38, 0.1)',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
@@ -39,7 +39,7 @@ export const ChainItemHeader = ({
   const { rpcLinks, name } = formattedChain;
 
   return (
-    <div className={cn(classes.root, className)}>
+    <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
         <div className={classes.left}>
           <ChainMainInfo
@@ -58,14 +58,22 @@ export const ChainItemHeader = ({
         <div className={classes.right}>
           {rpcLinks.map(link => {
             return isMobile ? (
-              <CopyToClipIcon
-                key={link}
-                text={link}
-                message={t('common.copy-message')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
+              <React.Fragment key={link}>
+                <Typography
+                  variant="body2"
+                  className={classNames(classes.text, classes.textPublic)}
+                >
+                  {t('chain-item.header.right')}
+                </Typography>
+
+                <CopyToClipIcon
+                  text={link}
+                  message={t('common.copy-message')}
+                  size="l"
+                  textColor="textPrimary"
+                  className={classes.copyToClip}
+                />
+              </React.Fragment>
             ) : (
               <CopyToClipButton
                 text={link}
@@ -87,6 +95,7 @@ export const ChainItemHeader = ({
           </Typography>
 
           <Button
+            className={classes.btnUnlock}
             component={RouterLink}
             to={PlanRoutesConfig.plan.generatePath()}
             endIcon={<ArrowRightIcon className={classes.icon} />}

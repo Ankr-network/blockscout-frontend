@@ -13,12 +13,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   block: {
     [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      width: '48%',
-      marginBottom: theme.spacing(3.5),
+      width: '49%',
     },
 
     '&:not(:last-child)': {
-      marginBottom: theme.spacing(3.5),
+      marginBottom: theme.spacing(2.5),
+      [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
+        marginBottom: '2%',
+      },
     },
   },
 }));

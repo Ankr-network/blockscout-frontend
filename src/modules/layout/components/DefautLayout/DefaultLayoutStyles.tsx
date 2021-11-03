@@ -65,7 +65,9 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     },
   },
   mobileBreadcrumbs: {
-    display: 'none',
     marginBottom: theme.spacing(2.5),
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
   },
 }));

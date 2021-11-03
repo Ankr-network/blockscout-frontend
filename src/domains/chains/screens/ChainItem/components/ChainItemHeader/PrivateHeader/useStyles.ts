@@ -39,7 +39,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   copyToClip: {
     flexGrow: 1,
-    maxWidth: '48%',
+    maxWidth: '49%',
     [theme.breakpoints.down('md')]: {
       maxWidth: '100%',
     },

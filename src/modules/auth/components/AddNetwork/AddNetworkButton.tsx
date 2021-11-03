@@ -15,7 +15,12 @@ export const AddNetworkButton = ({
   size,
   className,
 }: IAddNetworkProps) => {
-  const { mappedNetwork, handleButtonClick } = useAddNetworkButton({ chain });
+  const {
+    mappedNetwork,
+    handleButtonClick,
+    loading,
+    isWalletConnected,
+  } = useAddNetworkButton({ chain });
 
   /* hiding the addNetwork button for some browsers which have problems with add network method */
   if (!isAddNetworkSupported()) {
@@ -29,9 +34,11 @@ export const AddNetworkButton = ({
 
   return (
     <ButtonMetamask
+      isDisabled={loading}
       size={size}
       className={className}
       onClick={handleButtonClick}
+      hasPlusIcon={isWalletConnected}
     />
   );
 };

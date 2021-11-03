@@ -19,7 +19,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   left: {
-    width: '48%',
+    width: '49%',
     display: 'flex',
     justifyContent: 'space-between',
     [theme.breakpoints.down('lg')]: {
@@ -32,8 +32,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   text: {
     fontWeight: 600,
     [theme.breakpoints.down('xs')]: {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacing(2),
     },
+  },
+  textPublic: {
+    marginBottom: theme.spacing(2),
   },
   bottom: {
     paddingTop: theme.spacing(2),
@@ -42,10 +45,16 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
+  },
+  btnUnlock: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
     },
   },
   right: {
-    width: '48%',
+    width: '49%',
 
     '& $copyToClip:not(:last-child)': {
       marginBottom: theme.spacing(1.5),
