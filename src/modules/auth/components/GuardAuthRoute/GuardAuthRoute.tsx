@@ -6,7 +6,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ConnectWalletBlock } from 'domains/plan/screens/Plan/components/ConnectWalletBlock';
-import { Deposit } from 'domains/plan/screens/Plan/components/Deposit';
+import { Plan } from '../../../../domains/plan/screens/Plan';
 
 export interface IGuardRoute extends RouteProps {}
 
@@ -36,7 +36,7 @@ export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
   if (!credentials) {
     return (
       <DefaultLayout>
-        <Deposit onSubmit={handleDeposit} />
+        <Plan />
       </DefaultLayout>
     );
   }
