@@ -1,23 +1,15 @@
 import IsoToLatLong from 'country-iso-to-coordinates';
 import BigNumber from 'bignumber.js';
+import { lighten } from '@material-ui/core';
 
 import { RequestsCountry, RequestsMapProps } from './RequestsMapTypes';
 
 export const GEO_URL =
   'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json';
 
-const COLORS = [
-  '#006DFF',
-  '#FF0000',
-  '#37AF25',
-  '#FF8A00',
-  '#00D1FF',
-  '#FF007A',
-  '#FFD600',
-  '#BD00FF',
-  '#AEEB00',
-  '#A28575',
-];
+const COLORS = Array(10)
+  .fill(0)
+  .map((item, index) => lighten('#356DF3', 0.1 * index));
 
 export const getMarkerPointsAndStats = (
   countries: RequestsMapProps['countries'],
@@ -50,4 +42,21 @@ export const GEOGRAPHY_STYLES = {
   default: { fill: '#E8EEF5' },
   hover: { fill: '#E8EEF5' },
   pressed: { fill: '#E8EEF5', outline: 'none' },
+};
+
+const strokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
+
+export const getGeogrpahyStyles = (geo: any, data: RequestsCountry[]) => {
+  const fillColor =
+    data.find(item => item.name === geo?.properties?.NAME)?.color || '#E8EEF5';
+
+  return {
+    default: { fill: fillColor, ...strokeStyles },
+    hover: { fill: fillColor, ...strokeStyles },
+    pressed: {
+      fill: fillColor,
+      outline: 'none',
+      ...strokeStyles,
+    },
+  };
 };

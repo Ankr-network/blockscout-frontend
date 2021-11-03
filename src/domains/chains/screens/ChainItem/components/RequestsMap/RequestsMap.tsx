@@ -1,10 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import {
   Typography,
   Table,
@@ -19,9 +14,9 @@ import {
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './useStyles';
 import {
-  GEOGRAPHY_STYLES,
   GEO_URL,
   getMarkerPointsAndStats,
+  getGeogrpahyStyles,
 } from './RequestsMapUtils';
 import { RequestsMapProps } from './RequestsMapTypes';
 
@@ -80,16 +75,11 @@ export const RequestsMap = ({ countries }: RequestsMapProps) => {
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
-                      style={GEOGRAPHY_STYLES}
+                      style={getGeogrpahyStyles(geo, data)}
                     />
                   ));
               }}
             </Geographies>
-            {data.map(({ coordinates, color }, index) => (
-              <Marker key={index} coordinates={coordinates}>
-                <circle r="4" fill={color} />
-              </Marker>
-            ))}
           </ComposableMap>
         </div>
       </div>
