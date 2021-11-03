@@ -7,6 +7,7 @@ import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
+import { LabelIcon } from 'uiKit/Icons/LabelIcon';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -14,6 +15,7 @@ import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { MobileDetailsRoutesConfig } from 'domains/mobileDetails/Routes';
 
 import { useStyles } from './useStyles';
 
@@ -37,15 +39,19 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         href: DashboardRoutesConfig.dashboard.generatePath(),
       },
       {
-        label: t('mobile-navigation.protocol'),
+        label: t('mobile-navigation.plan'),
         StartIcon: PaperIcon,
+        href: PlanRoutesConfig.plan.generatePath(),
+      },
+      {
+        label: t('mobile-navigation.protocol'),
+        StartIcon: LabelIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
       },
       {
         label: t('mobile-navigation.more'),
         StartIcon: MoreIcon,
-        href: PlanRoutesConfig.plan.generatePath(),
-        isDisabled: false,
+        href: MobileDetailsRoutesConfig.details.generatePath(),
       },
     ],
     [],
@@ -54,7 +60,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   return (
     <nav className={classNames(classes.root, classes.custom, className)}>
       <Container className={classes.container} maxWidth={false}>
-        {items.map(({ label, href, StartIcon, isDisabled }) => (
+        {items.map(({ label, href, StartIcon }) => (
           <Button
             key={label}
             component={NavLink}
@@ -62,7 +68,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
             variant="text"
             activeClassName={classes.activeLink}
             className={classes.link}
-            disabled={!href || isDisabled}
+            disabled={!href}
             classes={{
               label: classes.label,
             }}

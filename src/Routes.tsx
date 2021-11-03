@@ -10,6 +10,10 @@ import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
 } from './domains/nodeProviders/Routes';
+import {
+  MobileDetailsRoutes,
+  MobileDetailsRoutesConfig,
+} from './domains/mobileDetails/Routes';
 
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
@@ -82,6 +86,15 @@ export function Routes() {
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <ProvidersRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[MobileDetailsRoutesConfig.details.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light} isLayoutDefaultColor>
+            <MobileDetailsRoutes />
           </DefaultLayout>
         )}
       />

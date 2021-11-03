@@ -29,7 +29,7 @@
   "mobile-navigation": {
     "public-rpcs": "Public RPCs",
     "private-rpcs": "Exclusive RPCs",
-    "staking": "Staking",
+    "plan": "Premium Plan",
     "protocol": "Node Providers",
     "more": "More"
   },

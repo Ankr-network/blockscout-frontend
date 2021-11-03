@@ -14,6 +14,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&& svg': {
       fontSize: 16,
       marginRight: theme.spacing(1.5),
+
+      [theme.breakpoints.down('sm')]: {
+        marginRight: theme.spacing(1),
+      },
     },
 
     '&:not($activeLink):hover': {
@@ -21,6 +25,22 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
     '&:not(:last-child)': {
       marginBottom: 3,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      position: 'relative',
+      color: theme.palette.text.primary,
+
+      '&:after': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        background: theme.palette.background.paper,
+        height: 2,
+        bottom: 0,
+        left: 45,
+        width: 'calc(90% - 45px)',
+      },
     },
   },
   activeLink: {
