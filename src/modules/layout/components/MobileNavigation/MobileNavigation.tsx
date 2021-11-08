@@ -5,13 +5,11 @@ import classNames from 'classnames';
 
 import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
 import { LabelIcon } from 'uiKit/Icons/LabelIcon';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
@@ -34,13 +32,8 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         href: ChainsRoutesConfig.chains.generatePath(),
       },
       {
-        label: t('mobile-navigation.private-rpcs'),
-        StartIcon: DiamondIcon,
-        href: DashboardRoutesConfig.dashboard.generatePath(),
-      },
-      {
         label: t('mobile-navigation.plan'),
-        StartIcon: PaperIcon,
+        StartIcon: DiamondIcon,
         href: PlanRoutesConfig.plan.generatePath(),
       },
       {

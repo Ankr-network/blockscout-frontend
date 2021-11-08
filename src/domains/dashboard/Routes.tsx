@@ -19,12 +19,14 @@ export const DashboardRoutesConfig = createRouteConfig(
 );
 
 const LoadableDashboardContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/Dashboard').then(module => module.Dashboard),
+  async () =>
+    import('../plan/screens/Dashboard').then(module => module.Dashboard),
   {
     fallback: <Spinner />,
   },
 );
 
+/* since premium plan and Private RPCs pages merged, this page is not used more */
 export function DashboardRoutes() {
   return (
     <>

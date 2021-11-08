@@ -29,11 +29,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
       marginBottom: theme.spacing(2.5),
     },
   },
-  text: {
-    fontWeight: 600,
+  tooltip: {
     [theme.breakpoints.down('xs')]: {
       marginBottom: theme.spacing(2),
     },
+  },
+  text: {
+    fontWeight: 600,
   },
   textPublic: {
     marginBottom: theme.spacing(2),

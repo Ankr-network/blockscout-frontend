@@ -6,11 +6,12 @@ import classNames from 'classnames';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useIsMDDown } from 'modules/themes/useTheme';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
@@ -90,9 +91,14 @@ export const ChainItemHeader = ({
         <PrivateHeader chainId={chainId} />
       ) : (
         <div className={classes.bottom}>
-          <Typography variant="body2" className={classes.text}>
-            {t('chain-item.header.bottom')}
-          </Typography>
+          <TooltipWrapper
+            className={classes.tooltip}
+            tooltipText={tHTML('chain-item.header.tooltipText')}
+          >
+            <Typography variant="body2" className={classes.text}>
+              {t('chain-item.header.bottom')}
+            </Typography>
+          </TooltipWrapper>
 
           <Button
             className={classes.btnUnlock}

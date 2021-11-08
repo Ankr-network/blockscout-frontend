@@ -1,10 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
-import {
-  DashboardRoutes,
-  DashboardRoutesConfig,
-} from './domains/dashboard/Routes';
 import { PlanRoutes, PlanRoutesConfig } from './domains/plan/Routes';
 import {
   ProvidersRoutes,
@@ -44,19 +40,10 @@ export function Routes() {
           <Redirect
             to={
               credentials
-                ? DashboardRoutesConfig.dashboard.path
+                ? PlanRoutesConfig.plan.path
                 : ChainsRoutesConfig.chains.path
             }
           />
-        )}
-      />
-      <GuardAuthRoute
-        exact
-        path={DashboardRoutesConfig.dashboard.path}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <DashboardRoutes />
-          </DefaultLayout>
         )}
       />
       <Route
@@ -71,7 +58,7 @@ export function Routes() {
           </DefaultLayout>
         )}
       />
-      <Route
+      <GuardAuthRoute
         exact
         path={PlanRoutesConfig.plan.path}
         render={() => (

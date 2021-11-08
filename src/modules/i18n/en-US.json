@@ -62,6 +62,7 @@
     },
     "header": {
       "bottom": "Exclusive RPC Endpoint",
+      "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
       "right": "Public RPC",
       "button": "Unlock Premium Features",
       "settings-button": "Settings"

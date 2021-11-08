@@ -5,8 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    padding: theme.spacing(3, 3, 0),
-
+    padding: theme.spacing(3, 3, 2),
     marginTop: theme.spacing(3.5),
     marginBottom: theme.spacing(3.5),
   },
@@ -37,7 +36,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('md')]: {
       marginTop: 0,
       paddingRight: 0,
-      paddingBottom: theme.spacing(3),
     },
   },
 

@@ -1,13 +1,14 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { DepositTitles } from '../DepositTitles';
-
 import { useStyles } from './useStyles';
-import { Link as RouterLink } from 'react-router-dom';
-import { DashboardRoutesConfig } from '../../../../../dashboard/Routes';
-import { Button } from '@material-ui/core';
 
+/* was used on plan page for redirect to private RPCs.
+ * since plan and dashboard routes merged, is not used anymore */
 export const ProBlock = () => {
   const classes = useStyles();
 
