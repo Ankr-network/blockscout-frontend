@@ -48,18 +48,21 @@ export const ChainRequestsOverview = ({
         </div>
         <div className={classes.info}>
           <RequestsPeriodInfo
+            timeframe="24h"
             description={t('chain-item.details.total-requests-24h')}
             title={formatNumber(totalRequests?.['24h'])}
             onClick={() => onClick('24h')}
             isActive={timeframe === '24h'}
           />
           <RequestsPeriodInfo
+            timeframe="7d"
             description={t('chain-item.details.total-requests-7d')}
             title={formatNumber(totalRequests?.['7d'])}
             onClick={() => onClick('7d')}
             isActive={timeframe === '7d'}
           />
           <RequestsPeriodInfo
+            timeframe="30d"
             description={t('chain-item.details.total-requests-30d')}
             title={formatNumber(totalRequests?.['30d'])}
             onClick={() => onClick('30d')}
