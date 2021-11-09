@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
@@ -13,15 +13,31 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { MobileDetailsRoutesConfig } from 'domains/mobileDetails/Routes';
-
+import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useStyles } from './useStyles';
+import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface MobileHeaderProps {
   className?: string;
 }
 
 export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
+  const isMobile = useIsSMDown();
+
+  useEffect(() => {
+    if (!isMobile) {
+      setIsOpened(false);
+    }
+  }, [isMobile]);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setIsOpened(false);
+  }, [pathname]);
+
   const classes = useStyles();
 
   const items = useLocaleMemo(
@@ -44,7 +60,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
       {
         label: t('mobile-navigation.more'),
         StartIcon: MoreIcon,
-        href: MobileDetailsRoutesConfig.details.generatePath(),
+        onClick: () => setIsOpened(oldIsOpened => !oldIsOpened),
       },
     ],
     [],
@@ -53,23 +69,40 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   return (
     <nav className={classNames(classes.root, classes.custom, className)}>
       <Container className={classes.container} maxWidth={false}>
-        {items.map(({ label, href, StartIcon }) => (
-          <Button
-            key={label}
-            component={NavLink}
-            to={href}
-            variant="text"
-            activeClassName={classes.activeLink}
-            className={classes.link}
-            disabled={!href}
-            classes={{
-              label: classes.label,
-            }}
-          >
-            <StartIcon />
-            {label}
-          </Button>
-        ))}
+        {items.map(({ label, href = '', onClick, StartIcon }) => {
+          return typeof onClick === 'function' ? (
+            <Button
+              key={label}
+              variant="text"
+              className={classes.link}
+              color="primary"
+              onClick={onClick}
+              classes={{
+                label: classes.label,
+              }}
+            >
+              <StartIcon />
+              {label}
+            </Button>
+          ) : (
+            <Button
+              key={label}
+              component={NavLink}
+              to={href}
+              activeClassName={classes.activeLink}
+              variant="text"
+              className={classes.link}
+              color="primary"
+              classes={{
+                label: classes.label,
+              }}
+            >
+              <StartIcon />
+              {label}
+            </Button>
+          );
+        })}
+        <MobileDetails isOpened={isOpened} onClose={() => setIsOpened(false)} />
       </Container>
     </nav>
   );

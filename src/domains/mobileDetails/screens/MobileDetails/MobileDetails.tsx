@@ -1,10 +1,31 @@
 import React from 'react';
+import { Dialog } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { Details } from './components/Details';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useStyles } from './useStyles';
 
-export const MobileDetails = () => {
-  useSetBreadcrumbs([]);
+interface MobileDetailsProps {
+  isOpened: boolean;
+  onClose: () => void;
+}
 
-  return <Details />;
+export const MobileDetails = ({ isOpened, onClose }: MobileDetailsProps) => {
+  const classes = useStyles();
+
+  return (
+    <Dialog
+      open={isOpened}
+      fullScreen
+      onBackdropClick={onClose}
+      // @ts-ignore
+      style={{ zIndex: '0!important', inset: '64px 0 80px' }}
+      classes={{
+        root: classNames(classes.root, classes.details),
+        paper: classes.paper,
+      }}
+    >
+      <Details />
+    </Dialog>
+  );
 };

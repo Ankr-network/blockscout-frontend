@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       position: 'fixed',
       width: '100%',
       backgroundColor: theme.palette.background.default,
-      zIndex: 1,
+      zIndex: 4,
       bottom: 0,
       boxShadow:
         '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
@@ -42,6 +42,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   link: {
     color: theme.palette.text.secondary,
+    background: theme.palette.background.default,
     padding: theme.spacing(2),
     fontWeight: 500,
 
