@@ -16,8 +16,17 @@ interface StakingInfoProps {
 export const StakingInfo = ({ className = '' }: StakingInfoProps) => {
   const classes = useStyles();
 
+  const handleBannerClick = () => {
+    window.open(WAITLIST_LINK, '_blank')?.focus();
+  };
+
   return (
-    <div className={classNames(classes.root, className)}>
+    <div
+      onClick={handleBannerClick}
+      role="button"
+      tabIndex={0}
+      className={classNames(classes.root, className)}
+    >
       <div className={classes.image}>
         <img src={CubeImg} alt="" />
       </div>

@@ -12,6 +12,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.common.white,
     padding: 40,
     maxWidth: 480,
+    borderRadius: 30,
   },
   stepper: {
     background: 'transparent',

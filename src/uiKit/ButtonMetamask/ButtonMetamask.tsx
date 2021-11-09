@@ -5,7 +5,7 @@ import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
 interface IButtonSpecialProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   isDisabled?: boolean;
   size?: 'large' | 'medium';
   className?: string;

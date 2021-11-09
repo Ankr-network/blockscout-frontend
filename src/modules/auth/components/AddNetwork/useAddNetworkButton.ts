@@ -1,5 +1,5 @@
 import { useAuth } from '../../hooks/useAuth';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { getMappedNetwork } from './AddNetworkUtils';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 
@@ -12,7 +12,11 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
   } = useAuth();
   const mappedNetwork = useMemo(() => getMappedNetwork(chain), [chain]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
+    /* stop propagation for click event to avoid parent element click */
+    event.stopPropagation();
     if (isWalletConnected) {
       return handleAddNetwork(mappedNetwork);
     }

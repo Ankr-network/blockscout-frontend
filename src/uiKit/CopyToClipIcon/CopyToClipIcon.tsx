@@ -28,7 +28,13 @@ export const CopyToClipIcon = ({
   const classes = useStyles({ size });
 
   return (
-    <div className={classNames(classes.container, className)}>
+    <div
+      role="button"
+      tabIndex={0}
+      /* stop propagation for click event to avoid parent element click */
+      onClick={event => event.stopPropagation()}
+      className={classNames(classes.container, className)}
+    >
       {isCopied ? (
         <Typography variant="body2" className={classes.message}>
           {message}

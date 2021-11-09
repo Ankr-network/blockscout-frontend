@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   Typography,
   Table,
@@ -15,19 +15,15 @@ import classNames from 'classnames';
 import ReactCountryFlag from 'react-country-flag';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './useStyles';
 import { ProvidersTablePagination } from '../ProvidersTablePagination';
-import { ProvidersTableProps } from './ProvidersTableProps';
-import {
-  HAS_ORGANISATION,
-  usePagination,
-  getRows,
-} from './ProvidersTableUtils';
+import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
+import { HAS_ORGANISATION } from './ProvidersTableUtils';
+import { usePagination } from './usePagination';
+
+import { useStyles } from './useStyles';
 
 export const ProvidersTable = ({ data }: ProvidersTableProps) => {
   const classes = useStyles();
-
-  const rows = useMemo(() => getRows(data), [data]);
 
   const {
     isFirstPage,
@@ -35,8 +31,72 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
     pageIndex,
     pagesCount,
     handleChangePage,
-    rowsPerPage,
-  } = usePagination(rows, 8);
+    rowsForCurrentPage,
+  } = usePagination(data, 8);
+
+  const renderTheadCell = (textId: string) => {
+    return (
+      <TableCell
+        padding="none"
+        className={classNames(classes.cell, classes.cellThead)}
+      >
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          className={classes.theadText}
+        >
+          {capitalize(t(textId))}
+        </Typography>
+      </TableCell>
+    );
+  };
+
+  const renderRow = ({
+    id,
+    icon,
+    chainName,
+    country,
+    city,
+    continent,
+    organization,
+    scheme,
+    totalNodes,
+  }: ProviderRow) => {
+    return (
+      <TableRow key={id} className={classes.row}>
+        <TableCell padding="none" className={classes.cell}>
+          <img className={classes.logo} src={icon} alt={chainName} />
+          {chainName}
+        </TableCell>
+        {country && (
+          <TableCell
+            padding="none"
+            className={classNames(classes.cell, classes.countryCell)}
+          >
+            <ReactCountryFlag
+              svg
+              className={classes.flag}
+              countryCode={country}
+            />
+            &nbsp; &nbsp;
+            {city}
+            &nbsp; ({t(`continents.${continent}`)})
+          </TableCell>
+        )}
+        {HAS_ORGANISATION && (
+          <TableCell padding="none" className={classes.cell}>
+            {organization || 'N/A'}
+          </TableCell>
+        )}
+        <TableCell padding="none" className={classes.cell}>
+          {t(`web3Schemes.${scheme}`)}
+        </TableCell>
+        <TableCell padding="none" className={classes.cell}>
+          {totalNodes}
+        </TableCell>
+      </TableRow>
+    );
+  };
 
   return (
     <>
@@ -44,93 +104,16 @@ export const ProvidersTable = ({ data }: ProvidersTableProps) => {
         <Box component={Table} minWidth={600}>
           <TableHead className={classes.thead}>
             <TableRow>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.chain'))}
-                </Typography>
-              </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.location'))}
-                </Typography>
-              </TableCell>
-              {HAS_ORGANISATION && (
-                <TableCell
-                  padding="none"
-                  className={classNames(classes.cell, classes.cellThead)}
-                >
-                  <Typography variant="body2" color="textSecondary">
-                    {capitalize(t('providers.table.head.organization'))}
-                  </Typography>
-                </TableCell>
-              )}
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.type'))}
-                </Typography>
-              </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {capitalize(t('providers.table.head.total'))}
-                </Typography>
-              </TableCell>
+              {renderTheadCell('providers.table.head.chain')}
+              {renderTheadCell('providers.table.head.location')}
+              {HAS_ORGANISATION &&
+                renderTheadCell('providers.table.head.organization')}
+              {renderTheadCell('providers.table.head.type')}
+              {renderTheadCell('providers.table.head.total')}
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {rows
-              .slice(
-                pageIndex * rowsPerPage,
-                pageIndex * rowsPerPage + rowsPerPage,
-              )
-              .map(row => (
-                <TableRow key={row.id} className={classes.row}>
-                  <TableCell padding="none" className={classes.cell}>
-                    <img
-                      className={classes.logo}
-                      src={row.icon}
-                      alt={row.chainName}
-                    />
-                    {row.chainName}
-                  </TableCell>
-                  {row.country && (
-                    <TableCell padding="none" className={classes.countryCell}>
-                      <ReactCountryFlag
-                        svg
-                        className={classes.flag}
-                        countryCode={row.country}
-                      />
-                      &nbsp; &nbsp;
-                      {row.city}
-                      &nbsp; ({t(`continents.${row.continent}`)})
-                    </TableCell>
-                  )}
-                  {HAS_ORGANISATION && (
-                    <TableCell padding="none" className={classes.cell}>
-                      {row.organization || 'N/A'}
-                    </TableCell>
-                  )}
-                  <TableCell padding="none" className={classes.cell}>
-                    {t(`web3Schemes.${row.scheme}`)}
-                  </TableCell>
-                  <TableCell padding="none" className={classes.cell}>
-                    {row.totalNodes}
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
+          <TableBody>{rowsForCurrentPage.map(renderRow)}</TableBody>
         </Box>
       </TableContainer>
 

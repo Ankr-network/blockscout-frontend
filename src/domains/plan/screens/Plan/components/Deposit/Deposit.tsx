@@ -6,16 +6,15 @@ import { DepositTitles } from '../DepositTitles';
 import { useStyles } from './useStyles';
 import { Form, FormRenderProps } from 'react-final-form';
 import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
-
-interface IDepositFormData {
-  confirmed: boolean;
-}
+import { AgreementFormFields, IDepositFormData } from './DepositTypes';
 
 const validate = (data: Partial<IDepositFormData>) => {
   const errors: FormErrors<IDepositFormData> = {};
 
-  if (!data.confirmed) {
-    errors.confirmed = t('plan.deposit.validation.checkbox');
+  if (!data[AgreementFormFields.confirmed]) {
+    errors[AgreementFormFields.confirmed] = t(
+      'plan.deposit.validation.checkbox',
+    );
   }
 
   return errors;
@@ -29,10 +28,15 @@ export const Deposit = ({ onSubmit }: IDepositProps) => {
   const classes = useStyles();
 
   const renderForm = useCallback(
-    ({ handleSubmit }: FormRenderProps<IDepositFormData>) => {
+    ({ handleSubmit, form }: FormRenderProps<IDepositFormData>) => {
+      const isAgreementFormConfirmed = form.getFieldState(
+        AgreementFormFields.confirmed,
+      )?.value;
+
       return (
         <form onSubmit={handleSubmit}>
-          <DepositAgreementForm />
+          {/* isConfirmed prop is used for submit button disabling */}
+          <DepositAgreementForm isConfirmed={isAgreementFormConfirmed} />
         </form>
       );
     },
@@ -63,7 +67,7 @@ export const Deposit = ({ onSubmit }: IDepositProps) => {
           onSubmit={onSubmit}
           render={renderForm}
           validate={validate}
-          initialValues={{ confirmed: false }}
+          initialValues={{ [AgreementFormFields.confirmed]: false }}
         />
       </div>
     </div>

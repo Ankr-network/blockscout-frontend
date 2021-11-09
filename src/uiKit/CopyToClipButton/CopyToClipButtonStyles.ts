@@ -17,12 +17,13 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     justifyContent: 'space-between',
     width: '100%',
     cursor: 'pointer',
-    background: isCopied
+    backgroundColor: isCopied
       ? theme.palette.common.white
       : theme.palette.background.paper,
+    transition: 'background-color .3s',
 
     '&:hover': {
-      background: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white,
 
       '& $button': {
         backgroundColor: theme.palette.primary.dark,
@@ -38,7 +39,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     width: '60%',
   },
   button: {
-    transition: 'none',
+    transition: 'color .3s, background-color .3s',
     width: '40%',
   },
 }));

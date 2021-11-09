@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useStyles } from './useStyles';
-import { t, tHTML } from '../../../../../../modules/i18n/utils/intl';
-import { DepositStep } from '../../../../../../modules/auth/actions/fetchDepositStatus';
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import { DepositStep } from 'modules/auth/actions/fetchDepositStatus';
+import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import MetamaskIcon from './assets/metamask.svg';
-import { fetchCredentialsStatus } from '../../../../../../modules/auth/actions/fetchCredentialsStatus';
 import { Query } from '@redux-requests/react';
 
 const CREATE_ACCOUNT_BLOCKS_COUNT = 15;
