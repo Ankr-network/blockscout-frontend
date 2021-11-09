@@ -11,6 +11,9 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
 
     '&:hover': {
       backgroundColor: theme.palette.common.white,
+      '& $plusIconWrapper': {
+        backgroundColor: theme.palette.primary.dark,
+      },
     },
 
     '&:disabled': {
@@ -29,29 +32,19 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
       width: '30px',
       height: '30px',
     },
-
-    '& $plusIconWrapper': {
-      width: 18,
-      height: 18,
-      right: -13,
-      bottom: -17,
-    },
   },
   size_medium: {
     minWidth: 42,
     minHeight: 42,
-
-    '& $plusIconWrapper': {
-      width: 18,
-      height: 18,
-      right: -13,
-      bottom: -17,
-    },
   },
   plusIconWrapper: {
     position: 'absolute',
     backgroundColor: theme.palette.primary.main,
-    padding: 3,
+    padding: 4,
     borderRadius: '50%',
+    lineHeight: 0,
+    right: -13,
+    bottom: -17,
+    transition: 'background-color .3s',
   },
 }));

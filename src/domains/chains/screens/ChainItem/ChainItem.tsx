@@ -15,7 +15,9 @@ import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
+import { RequestsMap } from './components/RequestsMap';
 import { useStyles } from './ChainItemStyles';
+import { useIsWXGAPlusDown } from 'modules/themes/useTheme';
 
 interface ChainItemProps {
   chainId: string;
@@ -28,6 +30,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
   const { credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const isWXGAPlusDown = useIsWXGAPlusDown();
 
   const hasBreadcrumbsRef = useRef<boolean>(false);
 
@@ -72,6 +75,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
               totalCached,
               totalRequests,
               totalRequestsHistory,
+              countries,
             } = chainsDetails;
 
             const totalRequestsCount = {
@@ -81,6 +85,15 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
             };
 
             handleSetBreadcrumbs(chain.name);
+
+            const detailsBlock = (
+              <ChainItemDetails
+                className={classes.chainItemDetails}
+                totalCached={totalCached}
+                totalRequests={totalRequests}
+                timeframe={timeframe}
+              />
+            );
 
             return (
               <>
@@ -92,6 +105,7 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     hasCredentials={Boolean(credentials)}
                     icon={chain.icon}
                   />
+                  {isWXGAPlusDown && detailsBlock}
                   <ChainRequestsOverview
                     className={classes.chainRequestsOverview}
                     totalRequests={totalRequestsCount}
@@ -99,13 +113,11 @@ export const ChainItem = ({ chainId }: ChainItemProps) => {
                     onClick={handleTimeframeClick}
                     timeframe={timeframe}
                   />
+                  {Object.keys(countries).length !== 0 && (
+                    <RequestsMap countries={countries} />
+                  )}
                 </div>
-                <ChainItemDetails
-                  className={classes.chainItemDetails}
-                  totalCached={totalCached}
-                  totalRequests={totalRequests}
-                  timeframe={timeframe}
-                />
+                {!isWXGAPlusDown && detailsBlock}
               </>
             );
           }}

@@ -19,7 +19,7 @@ const validate = (data: Partial<IDepositFormData>) => {
   const errors: FormErrors<IDepositFormData> = {};
 
   if (!data.confirmed) {
-    errors.confirmed = t('validation.required');
+    errors.confirmed = t('plan.deposit.validation.checkbox');
   }
 
   return errors;

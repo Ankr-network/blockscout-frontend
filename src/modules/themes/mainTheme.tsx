@@ -219,6 +219,10 @@ export const mainTheme = createMuiTheme({
       subtitle1: {
         fontSize: 14,
         fontWeight: 500,
+
+        [defaultTheme.breakpoints.down('sm')]: {
+          fontSize: 12,
+        },
       },
 
       subtitle2: {

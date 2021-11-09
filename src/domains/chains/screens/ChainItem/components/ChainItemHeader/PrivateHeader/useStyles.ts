@@ -25,11 +25,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(2),
+    justifyContent: 'space-between',
 
     '& $copyToClip:not(:last-child)': {
-      marginRight: theme.spacing(2.5),
       [theme.breakpoints.down('md')]: {
-        marginRight: 0,
         marginBottom: theme.spacing(2.5),
       },
     },
@@ -40,7 +39,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   copyToClip: {
     flexGrow: 1,
-    maxWidth: 360,
+    maxWidth: '48%',
     [theme.breakpoints.down('md')]: {
       maxWidth: '100%',
     },

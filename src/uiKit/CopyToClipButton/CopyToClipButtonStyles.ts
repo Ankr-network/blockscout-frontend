@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     borderRadius: 12,
     display: 'flex',
     justifyContent: 'space-between',
-    border: `2px solid ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     overflow: 'hidden',
   },
   content: ({ isCopied }) => ({

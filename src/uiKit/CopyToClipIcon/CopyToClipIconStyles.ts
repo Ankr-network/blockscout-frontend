@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
     display: 'flex',
     justifyContent: 'space-between',
-    border: `2px solid ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     overflow: 'hidden',
   },
 

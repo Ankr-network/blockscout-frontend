@@ -6,7 +6,7 @@ orbs:
 jobs:
   app_build: &app_build
     docker:
-      - image: circleci/node:16.12.0-browsers
+    - image: circleci/node:16.12.0-browsers
     working_directory: ~/app
     steps:
       - setup_remote_docker
