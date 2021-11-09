@@ -30,10 +30,10 @@ export const ChainRequestsOverview = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.info}>
         <RequestsPeriodInfo
-          description={t('chain-item.details.total-requests-30d')}
-          title={formatNumber(totalRequests?.['30d'])}
-          onClick={() => onClick('30d')}
-          isActive={timeframe === '30d'}
+          description={t('chain-item.details.total-requests-24h')}
+          title={formatNumber(totalRequests?.['24h'])}
+          onClick={() => onClick('24h')}
+          isActive={timeframe === '24h'}
         />
         <RequestsPeriodInfo
           description={t('chain-item.details.total-requests-7d')}
@@ -42,10 +42,10 @@ export const ChainRequestsOverview = ({
           isActive={timeframe === '7d'}
         />
         <RequestsPeriodInfo
-          description={t('chain-item.details.total-requests-24h')}
-          title={formatNumber(totalRequests?.['24h'])}
-          onClick={() => onClick('24h')}
-          isActive={timeframe === '24h'}
+          description={t('chain-item.details.total-requests-30d')}
+          title={formatNumber(totalRequests?.['30d'])}
+          onClick={() => onClick('30d')}
+          isActive={timeframe === '30d'}
         />
       </div>
       {Object.keys(totalRequestsHistory).length !== 0 && (
