@@ -40,16 +40,18 @@ export function formatCallsCount(value: number): string {
 export const processData = (requestsLog: RequestsLog): IChartData[] => {
   if (!requestsLog) return [];
 
-  return Object.entries(requestsLog).map(row => {
-    const [rowTime, callsCount] = row;
+  return Object.entries(requestsLog)
+    .map(row => {
+      const [rowTime, callsCount] = row;
 
-    const time = new Date(Number(rowTime));
+      const time = new Date(Number(rowTime));
 
-    const data: IChartData = {
-      time,
-      value: callsCount,
-    };
+      const data: IChartData = {
+        time,
+        value: callsCount,
+      };
 
-    return data;
-  });
+      return data;
+    })
+    .sort((a, b) => a.time.getTime() - b.time.getTime());
 };

@@ -25,7 +25,7 @@ interface ChainItemProps {
 
 export const ChainItem = ({ chainId }: ChainItemProps) => {
   const classes = useStyles();
-  const [timeframe, setTimeframe] = useState<Timeframe>('30d');
+  const [timeframe, setTimeframe] = useState<Timeframe>('24h');
 
   const { credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
