@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { Divider, Typography } from '@material-ui/core';
+import { Form, FormRenderProps } from 'react-final-form';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { FormErrors } from 'modules/form/utils/FormErrors';
 import { DepositAgreementForm } from './DepositAgreementForm';
 import { DepositTitles } from '../DepositTitles';
-import { useStyles } from './useStyles';
-import { Form, FormRenderProps } from 'react-final-form';
-import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
 import { AgreementFormFields, IDepositFormData } from './DepositTypes';
+import { useDepositStyles } from './useDepositStyles';
 
 const validate = (data: Partial<IDepositFormData>) => {
   const errors: FormErrors<IDepositFormData> = {};
@@ -25,7 +25,7 @@ interface IDepositProps {
 }
 
 export const Deposit = ({ onSubmit }: IDepositProps) => {
-  const classes = useStyles();
+  const classes = useDepositStyles();
 
   const renderForm = useCallback(
     ({ handleSubmit, form }: FormRenderProps<IDepositFormData>) => {

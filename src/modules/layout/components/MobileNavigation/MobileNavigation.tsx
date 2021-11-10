@@ -14,7 +14,7 @@ import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
-import { useStyles } from './useStyles';
+import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface MobileHeaderProps {
@@ -38,7 +38,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
     setIsOpened(false);
   }, [pathname]);
 
-  const classes = useStyles();
+  const classes = useMobileNavigationStyles();
 
   const items = useLocaleMemo(
     () => [

@@ -1,12 +1,13 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useDepositStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(7, 7, 7, 10.5),
     borderRadius: 18,
+    flexDirection: 'row',
 
     [theme.breakpoints.down(1300)]: {
       padding: theme.spacing(4),
@@ -23,6 +24,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   left: {
     marginRight: theme.spacing(7),
+    color: theme.palette.text.primary,
+    padding: 0,
   },
   right: {
     maxWidth: '40%',

@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const MOBILE_NAVIGATION_HEIGHT = 80;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useMobileNavigationStyles = makeStyles<Theme>(theme => ({
   root: {
     '&$custom': {
       display: 'none',
