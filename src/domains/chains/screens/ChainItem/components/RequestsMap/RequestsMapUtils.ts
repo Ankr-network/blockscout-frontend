@@ -47,8 +47,13 @@ export const GEOGRAPHY_STYLES = {
 const strokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
 
 export const getGeogrpahyStyles = (geo: any, data: RequestsCountry[]) => {
+  /* geo?.properties?.NAME_LONG is used for United States matching */
   const fillColor =
-    data.find(item => item.name === geo?.properties?.NAME)?.color || '#E8EEF5';
+    data.find(
+      item =>
+        item.name === geo?.properties?.NAME ||
+        item.name === geo?.properties?.NAME_LONG,
+    )?.color || '#E8EEF5';
 
   return {
     default: { fill: fillColor, ...strokeStyles },
