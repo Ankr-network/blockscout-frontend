@@ -1,8 +1,8 @@
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { IChainParams } from '../../actions/addNetwork';
 
-const toHex = (num: number) => {
-  return '0x' + num.toString(16);
+const toHex = (num: number): string => {
+  return `0x${num.toString(16)}`;
 };
 
 // avalanche
