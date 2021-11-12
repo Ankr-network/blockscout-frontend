@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { ChainItem as ChainItemBase } from './ChainItem';
+import { ChainItemQuery as ChainItemBase } from './ChainItemQuery';
 import { useMetatags } from './ChainItemUtils';
 
 export const ChainItem = () => {

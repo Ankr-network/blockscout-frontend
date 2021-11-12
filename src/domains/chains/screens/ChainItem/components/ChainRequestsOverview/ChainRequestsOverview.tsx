@@ -71,7 +71,10 @@ export const ChainRequestsOverview = ({
         </div>
       </div>
       {Object.keys(totalRequestsHistory).length !== 0 && (
-        <ChainRequestsChart requestsLog={totalRequestsHistory} />
+        <ChainRequestsChart
+          requestsLog={totalRequestsHistory}
+          timeframe={timeframe}
+        />
       )}
     </div>
   );

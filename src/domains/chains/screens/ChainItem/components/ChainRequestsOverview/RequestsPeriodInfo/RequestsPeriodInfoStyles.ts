@@ -11,7 +11,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: '30%',
 
     [theme.breakpoints.down('sm')]: {
+      width: 'auto',
+      minWidth: 42,
       paddingTop: theme.spacing(2.5),
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
     },
   },
   description: {
@@ -44,6 +48,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       height: 3,
       backgroundColor: theme.palette.primary.main,
       position: 'absolute',
+      left: 0,
       top: 0,
       borderBottomLeftRadius: 4,
       borderBottomRightRadius: 4,

@@ -7,13 +7,13 @@ import { IApiChain } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
 import { fetchChainDetails, IApiChainDetails } from './fetchChainDetails';
 
-interface ChainItemDetails {
+export interface IChainItemDetails {
   chain: IApiChain;
   details: Record<Timeframe, IApiChainDetails>;
 }
 
 export const fetchChain = createSmartAction<
-  RequestAction<null, ChainItemDetails>
+  RequestAction<null, IChainItemDetails>
 >('chains/fetchChain', (chainId: string) => ({
   request: {
     promise: (async () => null)(),
@@ -27,7 +27,7 @@ export const fetchChain = createSmartAction<
       store: Store & { dispatchRequest: DispatchRequest },
     ) => {
       return {
-        promise: (async (): Promise<ChainItemDetails> => {
+        promise: (async (): Promise<IChainItemDetails> => {
           const [
             { data: chainDetails30d },
             { data: chainDetails7d },
