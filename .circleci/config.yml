@@ -27,6 +27,10 @@ jobs:
             - '.'
   build_app_stage:
     <<: *app_build
+  build_app_bs5:
+    <<: *app_build
+  build_app_bs6:
+    <<: *app_build
   build_app_prod:
     <<: *app_build
   build_app_back_stage:
@@ -34,9 +38,6 @@ jobs:
   app_deploy_cdn: &app_deploy_cdn
     docker:
       - image: bigbadalien/awscli-node-kops-kubectl:0.3
-    environment:
-      O: Ankr-network
-      R: ankr-protocol
     working_directory: ~/app
     steps:
       - setup_remote_docker
@@ -55,7 +56,7 @@ jobs:
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
             echo "Invalidation ID is $INVALIDATION_ID"
             echo "CDN Invalidation request is sent."
-  deploy_app_stage_to_stage:
+  deploy:
     <<: *app_deploy_cdn
   deploy_app_prod:
     <<: *app_deploy_cdn
@@ -112,7 +113,6 @@ workflows:
       - build_app_stage:
           context:
             - ankr_protocol_stage_build
-            - ankr_protocol_cicd
           requires:
             - install_dependencies
             - hold_build_stage
@@ -125,13 +125,49 @@ workflows:
           filters:
             <<: *non_prod
 
-      - deploy_app_stage_to_stage:
+      - deploy:
           context:
             - ankr_protocol_stage_deploy
             - ankr_protocol_cicd
           requires:
             - build_app_stage
             - hold_app_stage_to_stage
+          filters:
+            <<: *non_prod
+
+      # https://bs-5-stage.dccn.ankr.com/protocol/
+      - hold_app_stage_to_bs5:
+          type: approval
+          requires:
+            - hold_build_stage
+          filters:
+            <<: *non_prod
+
+      - deploy:
+          context:
+            - bs5_deploy
+            - ankr_protocol_cicd
+          requires:
+            - build_app_stage
+            - hold_app_stage_to_bs5
+          filters:
+            <<: *non_prod
+
+      # https://bs-6-stage.dccn.ankr.com/protocol/
+      - hold_app_stage_to_bs6:
+          type: approval
+          requires:
+            - hold_build_stage
+          filters:
+            <<: *non_prod
+
+      - deploy:
+          context:
+            - bs6_deploy
+            - ankr_protocol_cicd
+          requires:
+            - build_app_stage
+            - hold_app_stage_to_bs6
           filters:
             <<: *non_prod
 
