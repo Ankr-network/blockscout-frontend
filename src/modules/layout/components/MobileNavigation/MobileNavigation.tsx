@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
-import { LabelIcon } from 'uiKit/Icons/LabelIcon';
+import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -54,7 +54,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
       },
       {
         label: t('mobile-navigation.protocol'),
-        StartIcon: LabelIcon,
+        StartIcon: PaperIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
       },
       {
