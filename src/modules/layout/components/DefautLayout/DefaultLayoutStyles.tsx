@@ -8,11 +8,7 @@ import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
 
 const MOBILE_LAYOUT_PADDING = 30;
 
-interface StyleProps {
-  isLayoutDefaultColor: boolean;
-}
-
-export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     minWidth: 375,
@@ -25,10 +21,7 @@ export const useStyles = makeStyles<Theme, StyleProps>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    background: props =>
-      props.isLayoutDefaultColor
-        ? mainTheme.palette.background.default
-        : mainTheme.palette.background.paper,
+    background: mainTheme.palette.background.paper,
 
     paddingLeft: `${SIDEBAR_WIDTH}px`,
 

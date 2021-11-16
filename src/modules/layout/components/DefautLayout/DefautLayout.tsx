@@ -23,10 +23,9 @@ export interface ILayoutProps {
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
-  isLayoutDefaultColor = false,
   withNoReactSnap = true,
 }: ILayoutProps) => {
-  const classes = useStyles({ isLayoutDefaultColor });
+  const classes = useStyles();
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
