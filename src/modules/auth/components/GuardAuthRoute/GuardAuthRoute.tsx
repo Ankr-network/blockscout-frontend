@@ -5,38 +5,31 @@ import { DefaultLayout } from '../../../layout/components/DefautLayout';
 import { useAuth } from '../../hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ConnectWalletBlock } from 'domains/plan/screens/Plan/components/ConnectWalletBlock';
-import { Deposit } from 'domains/plan/screens/Plan/components/Deposit';
+import { Dashboard } from 'domains/plan/screens/Dashboard';
+import { Plan } from 'domains/plan/screens/Plan';
 
 export interface IGuardRoute extends RouteProps {}
 
 export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
-  const {
-    credentials,
-    address,
-    handleDeposit,
-    handleConnect,
-    loading,
-  } = useAuth();
-
+  const { credentials, address } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useOnMount(() => {
     if (!address || !credentials) setBreadcrumbs([]);
   });
 
-  if (!address) {
+  if (!address || !credentials) {
     return (
       <DefaultLayout>
-        <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+        <Plan />
       </DefaultLayout>
     );
   }
 
-  if (!credentials) {
+  if (credentials) {
     return (
       <DefaultLayout>
-        <Deposit onSubmit={handleDeposit} />
+        <Dashboard />
       </DefaultLayout>
     );
   }

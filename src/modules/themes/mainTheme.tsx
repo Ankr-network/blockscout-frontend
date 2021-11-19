@@ -219,6 +219,10 @@ export const mainTheme = createMuiTheme({
       subtitle1: {
         fontSize: 14,
         fontWeight: 500,
+
+        [defaultTheme.breakpoints.down('sm')]: {
+          fontSize: 12,
+        },
       },
 
       subtitle2: {
@@ -557,7 +561,7 @@ export const mainTheme = createMuiTheme({
 
     MuiPaper: {
       rounded: {
-        borderRadius: 8,
+        borderRadius: 18,
       },
 
       outlined: {

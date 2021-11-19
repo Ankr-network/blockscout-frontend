@@ -29,7 +29,7 @@
   "mobile-navigation": {
     "public-rpcs": "Public RPCs",
     "private-rpcs": "Exclusive RPCs",
-    "staking": "Staking",
+    "plan": "Premium Plan",
     "protocol": "Node Providers",
     "more": "More"
   },
@@ -62,6 +62,8 @@
     },
     "header": {
       "bottom": "Exclusive RPC Endpoint",
+      "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
+      "right": "Public RPC",
       "button": "Unlock Premium Features",
       "settings-button": "Settings"
     },
@@ -83,13 +85,34 @@
     "chart": {
       "date": "{value, date, medium}",
       "time": "{value, time, short}"
+    },
+    "map": {
+      "header": "Top 10 countries with most requests"
+    },
+    "nodes-table": {
+      "header": "Nodes",
+      "head": {
+        "node": "Node",
+        "height": "Height",
+        "location": "Location",
+        "weight": "Weight"
+      }
+    },
+    "requests-table": {
+      "header": "Most recent requests",
+      "head": {
+        "time": "Time",
+        "command": "Command",
+        "failed": "Failed",
+        "success": "Success"
+      }
     }
   },
   "plan": {
     "breadcrumbs": "Premium Plan",
     "deposit": {
       "title": "Annual plan",
-      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to&nbsp;<b>Premium&nbsp;features</b>",
+      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to <b>Premium&nbsp;features</b>",
       "remaining-block": "Remaining blocks: {value, number}",
       "advantages": {
         "private-endpoints": "Exclusive endpoints",
@@ -99,6 +122,9 @@
       "agreement": {
         "text": "I&nbsp;understand that my&nbsp;wallet app will deposit these tokens and&nbsp;I will incur a&nbsp;gas fee. The deposit is&nbsp;non-refundable. Ankr cannot assist with lost passwords for wallet apps.",
         "button": "Deposit"
+      },
+      "validation": {
+        "checkbox": "Please, check this box to proceed"
       }
     },
     "deposit-success": {
@@ -112,7 +138,7 @@
       }
     },
     "pro": {
-      "title": "Congratulations",
+      "title": "Congratulations!",
       "subtitle": "<b>You have access</b> to all premium features"
     },
     "connect-wallet": {

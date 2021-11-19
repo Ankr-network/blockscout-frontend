@@ -7,6 +7,14 @@ import { MultiService } from '../../../modules/api/MultiService';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
+interface RequestsCountry {
+  country: string;
+  bytes: number;
+  requests: number;
+}
+
+export type Country = Record<string, RequestsCountry>;
+
 export interface IApiChainDetails {
   dataCached: BigNumber;
   totalCached: BigNumber;
@@ -19,14 +27,7 @@ export interface IApiChainDetails {
   totalCachedHistory: Record<string, number>;
   totalServedHistory: Record<string, number>;
   dataCachedHistory: Record<string, number>;
-  countries: Record<
-    string,
-    {
-      country: string;
-      bytes: number;
-      requests: number;
-    }
-  >;
+  countries: Country;
 }
 
 export const fetchChainDetails = createSmartAction<

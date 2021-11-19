@@ -1,41 +1,8 @@
-import { useCallback, useState } from 'react';
 import { capitalize } from '@material-ui/core';
-
-import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
 import { INodeEntity } from '@ankr.com/multirpc/dist/types';
+import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
 
 export const HAS_ORGANISATION = true;
-
-export const usePagination = (rows: ProviderRow[], rowsPerPage = 8) => {
-  const [pageIndex, setPageIndex] = useState<number>(0);
-
-  const pageNumber = pageIndex + 1;
-  const pagesCount = Math.ceil(rows.length / rowsPerPage);
-  const isFirstPage = pageIndex === 0;
-  const isLastPage = pageNumber === pagesCount;
-
-  const handleChangePage = useCallback(
-    (newPage: number) => {
-      if (isFirstPage && newPage <= pageIndex) {
-        return;
-      }
-      if (isLastPage && newPage >= pageIndex) {
-        return;
-      }
-      setPageIndex(newPage);
-    },
-    [isFirstPage, isLastPage, pageIndex],
-  );
-
-  return {
-    isFirstPage,
-    isLastPage,
-    pageIndex,
-    pagesCount,
-    handleChangePage,
-    rowsPerPage,
-  };
-};
 
 export const getRows = (data: ProvidersTableProps['data']): ProviderRow[] => {
   const groupedNodes = data.reduce<Record<string, ProviderRow>>(

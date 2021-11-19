@@ -12,7 +12,6 @@ import { ChatIcon } from './ChatIcon';
 import { DiamondIcon } from './DiamondIcon';
 import { CopyIcon } from './CopyIcon';
 import { FileIcon } from './FileIcon';
-import { LabelIcon } from './LabelIcon';
 import { PaperIcon } from './PaperIcon';
 import { SuccessIcon } from './SuccessIcon';
 
@@ -27,7 +26,6 @@ storiesOf('uiKit/Icons', module).add('Default', () => (
       <DiamondIcon />
       <CopyIcon />
       <FileIcon />
-      <LabelIcon />
       <PaperIcon />
       <SuccessIcon />
     </ThemeProvider>

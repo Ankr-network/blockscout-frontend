@@ -10,6 +10,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '100%',
+    cursor: 'pointer',
+
+    '&:hover $button': {
+      backgroundColor: theme.palette.background.paper,
+    },
   },
   mainInfo: {
     marginBottom: theme.spacing(2),

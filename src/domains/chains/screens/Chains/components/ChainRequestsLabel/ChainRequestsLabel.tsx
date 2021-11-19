@@ -15,7 +15,12 @@ export const ChainRequestsLabel = ({
 
   return (
     <div className={classNames(classes.root, className)}>
-      <Typography variant="subtitle2" noWrap color={descriptionColor}>
+      <Typography
+        className={classes.subtitle}
+        variant="subtitle2"
+        noWrap
+        color={descriptionColor}
+      >
         {description}
       </Typography>
       {label && (

@@ -7,11 +7,24 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginBottom: theme.spacing(4),
     padding: theme.spacing(7.5, 2.5, 2),
     position: 'relative',
+    cursor: 'pointer',
+
+    '&:hover': {
+      '& $link': {
+        color: theme.palette.common.black,
+      },
+
+      '& $icon': {
+        transform: 'translateX(5px)',
+      },
+    },
   },
   text: {
     textAlign: 'center',
   },
   link: {
+    /* disabled pointer events because whole component is clickable */
+    pointerEvents: 'none',
     marginTop: theme.spacing(0.5),
     whiteSpace: 'nowrap',
     background: 'transparent',
@@ -19,7 +32,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: '100%',
   },
   icon: {
-    fontSize: 9,
+    width: 14,
+    height: 14,
+    transition: 'transform 0.3s',
   },
   image: {
     position: 'absolute',

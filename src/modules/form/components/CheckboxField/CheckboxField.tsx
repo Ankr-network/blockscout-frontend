@@ -24,7 +24,9 @@ export const CheckboxField = ({
         }}
         label={
           typeof label === 'string' ? (
-            <Typography variant="body2">{label}</Typography>
+            <Typography variant="caption" color="textSecondary">
+              {label}
+            </Typography>
           ) : (
             label
           )

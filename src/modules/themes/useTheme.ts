@@ -1,5 +1,6 @@
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { Themes } from 'modules/themes/types';
+import { BREAKPOINTS } from 'modules/themes/const';
 
 export const useIsXSDown = () => {
   const theme = useTheme();
@@ -39,6 +40,11 @@ export const useIsLGUp = () => {
 export const useIsXLUp = () => {
   const theme = useTheme();
   return useMediaQuery(theme.breakpoints.up('xl'));
+};
+
+export const useIsWXGAPlusDown = () => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus));
 };
 
 export const useIsLightTheme = () => {

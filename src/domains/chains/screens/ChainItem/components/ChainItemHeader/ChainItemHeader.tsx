@@ -1,16 +1,17 @@
 import React from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useIsMDDown } from 'modules/themes/useTheme';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
@@ -39,7 +40,7 @@ export const ChainItemHeader = ({
   const { rpcLinks, name } = formattedChain;
 
   return (
-    <div className={cn(classes.root, className)}>
+    <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
         <div className={classes.left}>
           <ChainMainInfo
@@ -58,14 +59,22 @@ export const ChainItemHeader = ({
         <div className={classes.right}>
           {rpcLinks.map(link => {
             return isMobile ? (
-              <CopyToClipIcon
-                key={link}
-                text={link}
-                message={t('common.copy-message')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
+              <React.Fragment key={link}>
+                <Typography
+                  variant="body2"
+                  className={classNames(classes.text, classes.textPublic)}
+                >
+                  {t('chain-item.header.right')}
+                </Typography>
+
+                <CopyToClipIcon
+                  text={link}
+                  message={t('common.copy-message')}
+                  size="l"
+                  textColor="textPrimary"
+                  className={classes.copyToClip}
+                />
+              </React.Fragment>
             ) : (
               <CopyToClipButton
                 text={link}
@@ -82,11 +91,17 @@ export const ChainItemHeader = ({
         <PrivateHeader chainId={chainId} />
       ) : (
         <div className={classes.bottom}>
-          <Typography variant="body2" className={classes.text}>
-            {t('chain-item.header.bottom')}
-          </Typography>
+          <TooltipWrapper
+            className={classes.tooltip}
+            tooltipText={tHTML('chain-item.header.tooltipText')}
+          >
+            <Typography variant="body2" className={classes.text}>
+              {t('chain-item.header.bottom')}
+            </Typography>
+          </TooltipWrapper>
 
           <Button
+            className={classes.btnUnlock}
             component={RouterLink}
             to={PlanRoutesConfig.plan.generatePath()}
             endIcon={<ArrowRightIcon className={classes.icon} />}

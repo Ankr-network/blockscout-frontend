@@ -13,6 +13,7 @@ import {
   getCachedRequestPercent,
   getSubtitle,
 } from './ChainItemDetailsUtils';
+import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface ChainItemDetailsProps {
   totalRequests: BigNumber;
@@ -28,8 +29,12 @@ export const ChainItemDetails = ({
   className,
 }: ChainItemDetailsProps) => {
   const classes = useStyles();
+  const isMobile = useIsSMDown();
 
-  const subtitle = useLocaleMemo(() => t(getSubtitle(timeframe)), [timeframe]);
+  const subtitle = useLocaleMemo(() => t(getSubtitle(timeframe, isMobile)), [
+    timeframe,
+    isMobile,
+  ]);
 
   return (
     <div className={cn(classes.root, className)}>

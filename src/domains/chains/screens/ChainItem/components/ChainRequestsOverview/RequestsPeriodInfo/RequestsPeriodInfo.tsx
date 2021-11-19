@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { useStyles } from './RequestsPeriodInfoStyles';
 
@@ -10,6 +11,7 @@ interface RequestsPeriodInfoProps {
   title: string;
   onClick: () => void;
   isActive: boolean;
+  timeframe: Timeframe;
 }
 
 export const RequestsPeriodInfo = ({
@@ -18,6 +20,7 @@ export const RequestsPeriodInfo = ({
   onClick,
   isActive,
   className,
+  timeframe,
 }: RequestsPeriodInfoProps) => {
   const classes = useStyles();
 
@@ -37,6 +40,9 @@ export const RequestsPeriodInfo = ({
           {description}
         </Typography>
       )}
+      <Typography variant="subtitle2" noWrap className={classes.timeframe}>
+        {timeframe}
+      </Typography>
       <Typography variant="h3" noWrap className={classes.title}>
         {title}
       </Typography>

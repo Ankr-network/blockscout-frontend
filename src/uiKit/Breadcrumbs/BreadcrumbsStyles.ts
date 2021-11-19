@@ -5,17 +5,32 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 30,
     fontWeight: 'bold',
     lineHeight: 1.167,
-
     '&.custom-link:hover': {
       color: theme.palette.primary.main,
+    },
+    /* just icon "back" for breadcrumbs link */
+    [theme.breakpoints.down('md')]: {
+      padding: 10,
+      border: '1px solid #CDCDCD',
+      borderRadius: '50%',
+      width: 36,
+      height: 36,
+      display: 'inline-flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   },
   text: {},
   separator: {
     fontSize: 22,
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
   breadcrumbs: {
     alignItems: 'baseline',
-    flexWrap: 'nowrap',
+  },
+  mobileBackButton: {
+    transform: 'rotate(180deg)',
   },
 }));

@@ -21,7 +21,12 @@ export const ChainsItem = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div
+      onClick={onButtonClick}
+      role="button"
+      tabIndex={0}
+      className={classes.root}
+    >
       <ChainMainInfo
         logoSrc={logoSrc}
         name={name}

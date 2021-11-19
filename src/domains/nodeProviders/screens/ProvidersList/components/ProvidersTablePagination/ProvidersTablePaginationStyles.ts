@@ -27,6 +27,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.background.default,
     },
 
+    '&:active': {
+      boxShadow: 'none',
+    },
+
     '&.Mui-disabled': {
       color: fade(theme.palette.text.primary, 0.2),
       borderColor: fade(theme.palette.text.primary, 0.2),

@@ -3,8 +3,10 @@ import BigNumber from 'bignumber.js';
 import { IChartData } from 'modules/common/components/Chart';
 import { RequestsLog } from './ChainRequestsChartTypes';
 import { t } from 'modules/i18n/utils/intl';
+import { Timeframe } from '@ankr.com/multirpc';
 
-export const formatDate = (date: Date): string => {
+/* timeFrame in formatDate is used for chart labels view */
+export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
   const dateString = t('chain-item.chart.date', {
     value: date,
   });
@@ -13,28 +15,43 @@ export const formatDate = (date: Date): string => {
     value: date,
   });
 
+  if (timeFrame === '24h') {
+    return timeString;
+  }
+
+  if (timeFrame === '7d') {
+    return dateString;
+  }
+
+  if (timeFrame === '30d') {
+    return dateString;
+  }
+
   return `${dateString} ${timeString}`;
 };
 
 const THOUSAND = 1000;
-const THOUSAND_AS_STRING = 'K';
-
-export function convertCalls(value: BigNumber, steps = ''): string {
-  if (value.isGreaterThanOrEqualTo(THOUSAND)) {
-    return convertCalls(value.dividedBy(THOUSAND), steps + THOUSAND_AS_STRING);
-  }
-
-  return `${value.toFixed()}${steps}`;
-}
 
 export function formatCallsCount(value: number): string {
   const calls = new BigNumber(value);
 
-  if (calls.lt(THOUSAND)) {
-    return calls.toFixed();
+  if (calls.isGreaterThanOrEqualTo(THOUSAND) && calls.isLessThan(1e6)) {
+    return `${calls.dividedBy(THOUSAND).toFixed()}k`;
   }
 
-  return convertCalls(calls);
+  if (calls.isGreaterThanOrEqualTo(1e6) && calls.isLessThan(1e9)) {
+    return `${calls.dividedBy(THOUSAND * THOUSAND).toFixed()}m`;
+  }
+
+  if (calls.isGreaterThanOrEqualTo(1e9) && calls.isLessThan(1e12)) {
+    return `${calls.dividedBy(1e9).toFixed()}b`;
+  }
+
+  if (calls.isGreaterThanOrEqualTo(1e12) && calls.isLessThan(1e15)) {
+    return `${calls.dividedBy(1e12).toFixed()}t`;
+  }
+
+  return calls.toFixed();
 }
 
 export const processData = (requestsLog: RequestsLog): IChartData[] => {

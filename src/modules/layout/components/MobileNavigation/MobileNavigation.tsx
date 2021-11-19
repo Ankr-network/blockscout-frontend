@@ -1,28 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 import { MoreIcon } from 'uiKit/Icons/MoreIcon';
+import { PaperIcon } from 'uiKit/Icons/PaperIcon';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
-
-import { useStyles } from './useStyles';
+import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
+import { useMobileNavigationStyles } from './useMobileNavigationStyles';
+import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface MobileHeaderProps {
   className?: string;
 }
 
 export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
-  const classes = useStyles();
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
+  const isMobile = useIsSMDown();
+
+  useEffect(() => {
+    if (!isMobile) {
+      setIsOpened(false);
+    }
+  }, [isMobile]);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setIsOpened(false);
+  }, [pathname]);
+
+  const classes = useMobileNavigationStyles();
 
   const items = useLocaleMemo(
     () => [
@@ -32,9 +48,9 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         href: ChainsRoutesConfig.chains.generatePath(),
       },
       {
-        label: t('mobile-navigation.private-rpcs'),
+        label: t('mobile-navigation.plan'),
         StartIcon: DiamondIcon,
-        href: DashboardRoutesConfig.dashboard.generatePath(),
+        href: PlanRoutesConfig.plan.generatePath(),
       },
       {
         label: t('mobile-navigation.protocol'),
@@ -44,8 +60,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
       {
         label: t('mobile-navigation.more'),
         StartIcon: MoreIcon,
-        href: PlanRoutesConfig.plan.generatePath(),
-        isDisabled: false,
+        onClick: () => setIsOpened(oldIsOpened => !oldIsOpened),
       },
     ],
     [],
@@ -54,23 +69,40 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   return (
     <nav className={classNames(classes.root, classes.custom, className)}>
       <Container className={classes.container} maxWidth={false}>
-        {items.map(({ label, href, StartIcon, isDisabled }) => (
-          <Button
-            key={label}
-            component={NavLink}
-            to={href}
-            variant="text"
-            activeClassName={classes.activeLink}
-            className={classes.link}
-            disabled={!href || isDisabled}
-            classes={{
-              label: classes.label,
-            }}
-          >
-            <StartIcon />
-            {label}
-          </Button>
-        ))}
+        {items.map(({ label, href = '', onClick, StartIcon }) => {
+          return typeof onClick === 'function' ? (
+            <Button
+              key={label}
+              variant="text"
+              className={classes.link}
+              color="primary"
+              onClick={onClick}
+              classes={{
+                label: classes.label,
+              }}
+            >
+              <StartIcon />
+              {label}
+            </Button>
+          ) : (
+            <Button
+              key={label}
+              component={NavLink}
+              to={href}
+              activeClassName={classes.activeLink}
+              variant="text"
+              className={classes.link}
+              color="primary"
+              classes={{
+                label: classes.label,
+              }}
+            >
+              <StartIcon />
+              {label}
+            </Button>
+          );
+        })}
+        <MobileDetails isOpened={isOpened} onClose={() => setIsOpened(false)} />
       </Container>
     </nav>
   );

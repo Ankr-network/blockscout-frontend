@@ -1,19 +1,18 @@
 import React from 'react';
-
-import { Deposit } from './components/Deposit';
-import { useAuth } from '../../../../modules/auth/hooks/useAuth';
-import { ProBlock } from './components/ProBlock';
-import { ConnectWalletBlock } from './components/ConnectWalletBlock';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { t } from 'modules/i18n/utils/intl';
-import { DepositSteps } from './components/DepositSteps';
 import { useMutation, useQuery } from '@redux-requests/react';
+
+import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { t } from 'modules/i18n/utils/intl';
 import {
   DepositStep,
   fetchDepositStatus,
-} from '../../../../modules/auth/actions/fetchDepositStatus';
-import { deposit } from '../../../../modules/auth/actions/deposit';
+} from 'modules/auth/actions/fetchDepositStatus';
+import { deposit } from 'modules/auth/actions/deposit';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { Deposit } from './components/Deposit';
+import { ConnectWalletBlock } from './components/ConnectWalletBlock';
+import { DepositSteps } from './components/DepositSteps';
 
 export const Plan = () => {
   useSetBreadcrumbs([
@@ -22,7 +21,12 @@ export const Plan = () => {
     },
   ]);
 
-  const { credentials, handleDeposit, handleConnect, loading } = useAuth();
+  const {
+    handleDeposit,
+    handleConnect,
+    loading,
+    isWalletConnected,
+  } = useAuth();
 
   const { data } = useQuery({
     type: fetchDepositStatus.toString(),
@@ -44,13 +48,11 @@ export const Plan = () => {
     );
   }
 
-  if (credentials) {
-    return <ProBlock />;
-  }
-
   return (
     <>
-      <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+      {!isWalletConnected && (
+        <ConnectWalletBlock onClick={handleConnect} isLoading={loading} />
+      )}
       <Deposit onSubmit={handleDeposit} />
     </>
   );

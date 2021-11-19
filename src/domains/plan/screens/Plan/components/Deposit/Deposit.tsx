@@ -1,25 +1,20 @@
 import React, { useCallback } from 'react';
-import { Box, Divider, LinearProgress, Typography } from '@material-ui/core';
+import { Divider, Typography } from '@material-ui/core';
+import { Form, FormRenderProps } from 'react-final-form';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { FormErrors } from 'modules/form/utils/FormErrors';
 import { DepositAgreementForm } from './DepositAgreementForm';
 import { DepositTitles } from '../DepositTitles';
-import { useStyles } from './useStyles';
-import { Form, FormRenderProps } from 'react-final-form';
-import { FormErrors } from '../../../../../../modules/form/utils/FormErrors';
-import { fetchCredentialsStatus } from '../../../../../../modules/auth/actions/fetchCredentialsStatus';
-import { Query } from '@redux-requests/react';
-
-const CREATE_ACCOUNT_BLOCKS_COUNT = 15;
-
-interface IDepositFormData {
-  confirmed: boolean;
-}
+import { AgreementFormFields, IDepositFormData } from './DepositTypes';
+import { useDepositStyles } from './useDepositStyles';
 
 const validate = (data: Partial<IDepositFormData>) => {
   const errors: FormErrors<IDepositFormData> = {};
 
-  if (!data.confirmed) {
-    errors.confirmed = t('validation.required');
+  if (!data[AgreementFormFields.confirmed]) {
+    errors[AgreementFormFields.confirmed] = t(
+      'plan.deposit.validation.checkbox',
+    );
   }
 
   return errors;
@@ -30,13 +25,18 @@ interface IDepositProps {
 }
 
 export const Deposit = ({ onSubmit }: IDepositProps) => {
-  const classes = useStyles();
+  const classes = useDepositStyles();
 
   const renderForm = useCallback(
-    ({ handleSubmit }: FormRenderProps<IDepositFormData>) => {
+    ({ handleSubmit, form }: FormRenderProps<IDepositFormData>) => {
+      const isAgreementFormConfirmed = form.getFieldState(
+        AgreementFormFields.confirmed,
+      )?.value;
+
       return (
         <form onSubmit={handleSubmit}>
-          <DepositAgreementForm />
+          {/* isConfirmed prop is used for submit button disabling */}
+          <DepositAgreementForm isConfirmed={isAgreementFormConfirmed} />
         </form>
       );
     },
@@ -67,35 +67,8 @@ export const Deposit = ({ onSubmit }: IDepositProps) => {
           onSubmit={onSubmit}
           render={renderForm}
           validate={validate}
-          initialValues={{ confirmed: false }}
+          initialValues={{ [AgreementFormFields.confirmed]: false }}
         />
-
-        <Query
-          type={fetchCredentialsStatus.toString()}
-          action={fetchCredentialsStatus}
-          showLoaderDuringRefetch={false}
-        >
-          {({ data }) => {
-            if (data?.isReady || typeof data.remainingBlocks === 'undefined') {
-              return null;
-            }
-
-            return (
-              <Box mt={3}>
-                <LinearProgress
-                  variant="determinate"
-                  value={
-                    data.remainingBlocks === 12
-                      ? 4
-                      : ((CREATE_ACCOUNT_BLOCKS_COUNT - data.remainingBlocks) /
-                          CREATE_ACCOUNT_BLOCKS_COUNT) *
-                        100
-                  }
-                />
-              </Box>
-            );
-          }}
-        </Query>
       </div>
     </div>
   );

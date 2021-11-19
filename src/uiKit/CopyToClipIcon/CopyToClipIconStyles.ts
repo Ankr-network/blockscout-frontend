@@ -4,12 +4,13 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
   text: {
     marginRight: theme.spacing(0.5),
     fontSize: ({ size }) => (size === 'm' ? 12 : 14),
+    transition: 'color .3s',
   },
   container: {
     borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
     display: 'flex',
     justifyContent: 'space-between',
-    border: `2px solid ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     overflow: 'hidden',
   },
 
@@ -33,6 +34,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     cursor: 'pointer',
     background: theme.palette.background.paper,
     minHeight: 36,
+    transition: 'background .3s',
 
     '&:hover': {
       background: theme.palette.common.white,
@@ -51,6 +53,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     fontSize: 16,
     marginLeft: theme.spacing(1),
     color: theme.palette.primary.main,
+    transition: 'color .3s',
   },
   copy: {
     display: 'flex',
@@ -60,5 +63,6 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     color: theme.palette.primary.main,
     marginLeft: theme.spacing(1),
     fontWeight: 'bold',
+    transition: 'color .3s',
   },
 }));

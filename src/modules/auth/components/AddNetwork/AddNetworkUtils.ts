@@ -1,9 +1,13 @@
-import { Chain } from '../../../../domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { IChainParams } from '../../actions/addNetwork';
+
+const toHex = (num: number): string => {
+  return `0x${num.toString(16)}`;
+};
 
 // avalanche
 export const AVALANCHE_MAINNET_PARAMS = {
-  chainId: '0xA86A',
+  chainId: 43114,
   chainName: 'Avalanche by Ankr Protocol',
   nativeCurrency: {
     name: 'Avalanche',
@@ -14,7 +18,7 @@ export const AVALANCHE_MAINNET_PARAMS = {
 };
 // fantom
 const FANTOM_NETWORK_PARAMS = {
-  chainId: '0xFA',
+  chainId: 250,
   chainName: 'Fantom by Ankr Protocol',
   nativeCurrency: {
     name: 'Fantom',
@@ -26,7 +30,7 @@ const FANTOM_NETWORK_PARAMS = {
 // eth
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ETHEREUM_MAINNET_PARAMS = {
-  chainId: '0x1',
+  chainId: 1,
   chainName: 'Ethereum by Ankr Protocol',
   nativeCurrency: {
     name: 'Ether',
@@ -37,7 +41,7 @@ const ETHEREUM_MAINNET_PARAMS = {
 };
 // polygon
 const POLYGON_NETWORK_PARAMS = {
-  chainId: '0x89',
+  chainId: 137,
   chainName: 'Polygon by Ankr Protocol',
   nativeCurrency: {
     name: 'MATIC',
@@ -49,7 +53,7 @@ const POLYGON_NETWORK_PARAMS = {
 // solana
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SOLANA_NETWORK_PARAMS = {
-  chainId: '0xE9AC0D6', // wrong network id
+  chainId: 245022934, // wrong network id
   chainName: 'Neon by Ankr Protocol',
   nativeCurrency: {
     name: 'Neon',
@@ -61,7 +65,7 @@ const SOLANA_NETWORK_PARAMS = {
 // xdai
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const XDAI_NETWORK_PARAMS = {
-  chainId: '0x64',
+  chainId: 100,
   chainName: 'xDAI by Ankr Protocol',
   nativeCurrency: {
     name: 'xDAI',
@@ -70,18 +74,30 @@ const XDAI_NETWORK_PARAMS = {
   },
   blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
 };
+
+const mapParams = (
+  chain: Chain,
+  networkData: typeof AVALANCHE_MAINNET_PARAMS,
+): IChainParams => {
+  return {
+    ...networkData,
+    chainId: toHex(networkData.chainId),
+    rpcUrls: chain.rpcLinks,
+  };
+};
+
 /* map network data for using addNetwork action */
 export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
   switch (chain.id) {
     case 'avalanche':
-      return { ...AVALANCHE_MAINNET_PARAMS, rpcUrls: chain.rpcLinks };
+      return mapParams(chain, AVALANCHE_MAINNET_PARAMS);
     /* adding ethereum network got error: MetaMask - RPC Error: May not specify default MetaMask chain. */
     case 'eth':
       return undefined;
     case 'fantom':
-      return { ...FANTOM_NETWORK_PARAMS, rpcUrls: chain.rpcLinks };
+      return mapParams(chain, FANTOM_NETWORK_PARAMS);
     case 'polygon':
-      return { ...POLYGON_NETWORK_PARAMS, rpcUrls: chain.rpcLinks };
+      return mapParams(chain, POLYGON_NETWORK_PARAMS);
     /* adding solana network returns error: Request for method 'eth_chainId on https://proxy.mainnet.neonlabs.org/solana failed */
     case 'solana':
       return undefined;

@@ -21,6 +21,7 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   noDataMessage?: ReactElement;
   empty?: JSX.Element;
   spinner?: ReactElement;
+  isPreloadDisabled?: boolean;
 }
 
 function isLoading(queries: QueryState<any>[]) {
@@ -50,6 +51,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   noDataMessage,
   empty,
   spinner = <Spinner />,
+  isPreloadDisabled = false,
 }: ILoadingProps<T1, T2, T3, T4, T5>) {
   const queries = useAppSelector(state =>
     requestActions.map((item, index) =>
@@ -61,7 +63,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
     ),
   );
 
-  if (isLoading(queries)) {
+  if (isLoading(queries) && !isPreloadDisabled) {
     return noDataMessage || spinner;
   }
 
@@ -71,7 +73,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
     return <QueryError error={error} />;
   }
 
-  if (isEmpty(queries)) {
+  if (isEmpty(queries) && !isPreloadDisabled) {
     return empty || <QueryEmpty />;
   }
 
