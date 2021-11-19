@@ -3,11 +3,12 @@ import { useStyles } from './ChainItemStyles';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
+import { ChainNodesTable } from './components/ChainNodesTable';
 import { RequestsMap } from './components/RequestsMap';
 import { useIsWXGAPlusDown } from 'modules/themes/useTheme';
 import { useChainItem } from './useChainItem';
 import { IChainItemDetails } from '../../actions/fetchChain';
-import { useAuth } from '../../../../modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 interface IChainItemUIProps {
   data: IChainItemDetails;
@@ -26,6 +27,8 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
     totalRequestsHistory,
     handleTimeframeClick,
     countries,
+    nodes,
+    nodesWeight,
   } = useChainItem(data);
   const classes = useStyles();
 
@@ -59,6 +62,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         {Object.keys(countries).length !== 0 && (
           <RequestsMap countries={countries} />
         )}
+        <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
       </div>
       {!isWXGAPlusDown && detailsBlock}
     </>

@@ -88,6 +88,24 @@
     },
     "map": {
       "header": "Top 10 countries with most requests"
+    },
+    "nodes-table": {
+      "header": "Nodes",
+      "head": {
+        "node": "Node",
+        "height": "Height",
+        "location": "Location",
+        "weight": "Weight"
+      }
+    },
+    "requests-table": {
+      "header": "Most recent requests",
+      "head": {
+        "time": "Time",
+        "command": "Command",
+        "failed": "Failed",
+        "success": "Success"
+      }
     }
   },
   "plan": {

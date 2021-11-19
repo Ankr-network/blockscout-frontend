@@ -7,7 +7,7 @@ import { IChainItemDetails } from '../../actions/fetchChain';
 
 export const useChainItem = (data: IChainItemDetails) => {
   const [timeframe, setTimeframe] = useState<Timeframe>('24h');
-  const { chain, details } = data;
+  const { chain, details, nodes, nodesWeight } = data;
   const chainsDetails = details[timeframe];
 
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -59,5 +59,7 @@ export const useChainItem = (data: IChainItemDetails) => {
     totalRequestsHistory,
     handleTimeframeClick,
     countries,
+    nodes,
+    nodesWeight,
   };
 };

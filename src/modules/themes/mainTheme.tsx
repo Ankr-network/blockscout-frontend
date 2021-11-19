@@ -561,7 +561,7 @@ export const mainTheme = createMuiTheme({
 
     MuiPaper: {
       rounded: {
-        borderRadius: 8,
+        borderRadius: 18,
       },
 
       outlined: {
