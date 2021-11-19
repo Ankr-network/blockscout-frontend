@@ -10,7 +10,7 @@ export interface ChainNodesTableProps {
   nodesWeight?: ResponseData<typeof fetchNodesWeight>;
 }
 
-export interface ProviderRow {
+export interface GroupedNode {
   id: string;
   nodeId: string;
   blockchain: Chain;
@@ -23,6 +23,10 @@ export interface ProviderRow {
   icon: string;
   organization?: string;
   chainName: string;
-  weight?: BigNumber;
+  weight: number;
   height?: number;
+}
+
+export interface ProviderRow extends Omit<GroupedNode, 'weight'> {
+  weight?: BigNumber;
 }
