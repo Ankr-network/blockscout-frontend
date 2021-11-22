@@ -10,6 +10,8 @@ import { useChainItem } from './useChainItem';
 import { IChainItemDetails } from '../../actions/fetchChain';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 
+const ENABLE_CHAIN_NODES_TABLE = false;
+
 interface IChainItemUIProps {
   data: IChainItemDetails;
   chainId: string;
@@ -62,7 +64,9 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         {Object.keys(countries).length !== 0 && (
           <RequestsMap countries={countries} />
         )}
-        <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
+        {ENABLE_CHAIN_NODES_TABLE && (
+          <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
+        )}
       </div>
       {!isWXGAPlusDown && detailsBlock}
     </>
