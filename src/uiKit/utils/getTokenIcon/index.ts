@@ -4,17 +4,19 @@ import ftmIcon from './ftm.svg';
 import ksmIcon from './ksm.svg';
 import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
-import { Token } from '@ankr.com/multirpc';
+import arbitrumIcon from './arbitrum.svg';
+import { Chain } from '@ankr.com/multirpc';
 
-const chainIcons: { [key in Token]: string } = {
-  [Token.avax]: avaxIcon,
-  [Token.eth]: ethIcon,
-  [Token.ftm]: ftmIcon,
-  [Token.ksm]: ksmIcon,
-  [Token.sol]: solIcon,
-  [Token.stake]: stakeIcon,
+const chainIcons: { [key in Chain]: string } = {
+  [Chain.avalanche]: avaxIcon,
+  [Chain.eth]: ethIcon,
+  [Chain.fantom]: ftmIcon,
+  [Chain.polygon]: ksmIcon,
+  [Chain.solana]: solIcon,
+  [Chain.xdai]: stakeIcon,
+  [Chain.arbitrum]: arbitrumIcon,
 };
 
-export function getTokenIcon(name: Token) {
+export function getChainIcon(name: Chain) {
   return chainIcons[name];
 }

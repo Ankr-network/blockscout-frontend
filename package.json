@@ -14,11 +14,12 @@
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "postbuild": "react-snap"
+    "postbuild": "react-snap",
+    "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done"
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/multirpc": "^0.0.139",
+    "@ankr.com/multirpc": "^0.0.143",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -62,6 +63,7 @@
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
+    "source-map-explorer": "^2.5.2",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
