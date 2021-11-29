@@ -48,7 +48,9 @@ export const fetchChainDetails = createSmartAction<
   meta: {
     asMutation: false,
     takeLatest: false,
-    getData: data => {
+    getData: rawData => {
+      const data = JSON.parse((rawData as any).__content);
+
       const {
         dataCached,
         totalCached,
