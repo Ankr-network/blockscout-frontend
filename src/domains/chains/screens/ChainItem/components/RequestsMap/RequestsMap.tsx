@@ -70,7 +70,7 @@ export const RequestsMap = ({ countries }: RequestsMapProps) => {
             <Geographies geography={GEO_URL}>
               {({ geographies }) => {
                 return geographies
-                  .filter(d => d.properties.REGION_UN !== 'Antarctica')
+                  .filter(d => d.properties.ISO_A2 !== 'AQ')
                   .map(geo => (
                     <Geography
                       key={geo.rsmKey}
