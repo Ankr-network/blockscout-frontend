@@ -2,9 +2,11 @@ import BigNumber from 'bignumber.js';
 import { Timeframe } from '@ankr.com/multirpc';
 
 export const getCachedRequestPercent = (
-  totalRequests: BigNumber,
-  totalCached: BigNumber,
+  totalRequests?: BigNumber,
+  totalCached?: BigNumber,
 ) => {
+  if (!totalRequests || !totalCached) return '';
+
   const percent = totalCached.multipliedBy(100).dividedBy(totalRequests);
 
   return !percent.isNaN() ? `${percent.toFormat(2)}%` : '-';
@@ -46,9 +48,11 @@ export const getSubtitle = (
 };
 
 export const getAvarageRequests = (
-  requests: BigNumber,
   timeframe: Timeframe,
+  requests?: BigNumber,
 ) => {
+  if (!requests) return 0;
+
   const seconds = getSeconds(timeframe);
 
   const reqsPerSecond = requests.div(seconds);
@@ -58,7 +62,9 @@ export const getAvarageRequests = (
     : requests.div(seconds).toFormat(5) || 0;
 };
 
-export const formatNumber = (number: BigNumber): string => {
+export const formatNumber = (number?: BigNumber): string => {
+  if (!number) return '';
+
   let formattedNumber;
   try {
     formattedNumber = number.toFormat();

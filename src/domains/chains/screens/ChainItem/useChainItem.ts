@@ -35,17 +35,13 @@ export const useChainItem = (data: IChainItemDetails) => {
     setTimeframe(newTimeframe);
   }, []);
 
-  const {
-    totalCached,
-    totalRequests,
-    totalRequestsHistory,
-    countries,
-  } = chainsDetails;
+  const { totalCached, totalRequests, totalRequestsHistory, countries } =
+    chainsDetails || {};
 
   const totalRequestsCount = {
-    '30d': details?.['30d'].totalRequests,
-    '7d': details?.['7d'].totalRequests,
-    '24h': details?.['24h'].totalRequests,
+    '30d': details?.['30d']?.totalRequests,
+    '7d': details?.['7d']?.totalRequests,
+    '24h': details?.['24h']?.totalRequests,
   };
 
   handleSetBreadcrumbs(chain.name);

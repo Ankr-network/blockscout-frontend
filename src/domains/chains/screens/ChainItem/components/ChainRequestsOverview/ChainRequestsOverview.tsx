@@ -12,10 +12,16 @@ import { formatNumber } from '../ChainItemDetails/ChainItemDetailsUtils';
 
 interface ChainRequestsOverviewProps {
   className?: string;
-  totalRequests: Record<Timeframe, BigNumber>;
-  totalRequestsHistory: Record<string, number>;
+  totalRequests: {
+    '24h': BigNumber;
+    '7d'?: BigNumber;
+    '30d'?: BigNumber;
+  };
+  totalRequestsHistory?: Record<string, number>;
   timeframe: Timeframe;
   onClick: (timeframe: Timeframe) => void;
+  dataFor7dLoading: boolean;
+  dataFor30dLoading: boolean;
 }
 
 export const ChainRequestsOverview = ({
@@ -24,6 +30,8 @@ export const ChainRequestsOverview = ({
   totalRequestsHistory,
   onClick,
   timeframe,
+  dataFor7dLoading,
+  dataFor30dLoading,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
@@ -60,6 +68,7 @@ export const ChainRequestsOverview = ({
             title={formatNumber(totalRequests?.['7d'])}
             onClick={() => onClick('7d')}
             isActive={timeframe === '7d'}
+            isLoading={dataFor7dLoading}
           />
           <RequestsPeriodInfo
             timeframe="30d"
@@ -67,15 +76,17 @@ export const ChainRequestsOverview = ({
             title={formatNumber(totalRequests?.['30d'])}
             onClick={() => onClick('30d')}
             isActive={timeframe === '30d'}
+            isLoading={dataFor30dLoading}
           />
         </div>
       </div>
-      {Object.keys(totalRequestsHistory).length !== 0 && (
-        <ChainRequestsChart
-          requestsLog={totalRequestsHistory}
-          timeframe={timeframe}
-        />
-      )}
+      {totalRequestsHistory &&
+        Object.keys(totalRequestsHistory).length !== 0 && (
+          <ChainRequestsChart
+            requestsLog={totalRequestsHistory}
+            timeframe={timeframe}
+          />
+        )}
     </div>
   );
 };

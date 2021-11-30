@@ -55,4 +55,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   mobileRequestsSubtitle: {
     fontSize: 20,
   },
+  skeleton: {
+    width: '30%',
+    paddingTop: theme.spacing(3),
+  },
 }));

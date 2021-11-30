@@ -16,8 +16,8 @@ import {
 import { useIsSMDown } from 'modules/themes/useTheme';
 
 interface ChainItemDetailsProps {
-  totalRequests: BigNumber;
-  totalCached: BigNumber;
+  totalRequests?: BigNumber;
+  totalCached?: BigNumber;
   className?: string;
   timeframe: Timeframe;
 }
@@ -52,7 +52,7 @@ export const ChainItemDetails = ({
       />
       <DetailsBlock
         title={t('chain-item.details.average-requests')}
-        value={getAvarageRequests(totalRequests, timeframe)}
+        value={getAvarageRequests(timeframe, totalRequests)}
         className={classes.block}
         subtitle={subtitle}
       />

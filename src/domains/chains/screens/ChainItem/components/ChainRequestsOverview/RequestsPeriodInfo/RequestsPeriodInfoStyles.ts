@@ -59,4 +59,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
       display: 'none',
     },
   },
+  skeleton: {
+    fontSize: 30,
+    lineHeight: '30px',
+  },
 }));

@@ -48,6 +48,8 @@ export const fetchChainDetails = createSmartAction<
   meta: {
     asMutation: false,
     takeLatest: false,
+    requestKey: timeframe,
+
     getData: data => {
       const {
         dataCached,

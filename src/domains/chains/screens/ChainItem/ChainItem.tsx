@@ -15,9 +15,16 @@ const ENABLE_CHAIN_NODES_TABLE = false;
 interface IChainItemUIProps {
   data: IChainItemDetails;
   chainId: string;
+  dataFor7dLoading: boolean;
+  dataFor30dLoading: boolean;
 }
 
-export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
+export const ChainItem = ({
+  data,
+  chainId,
+  dataFor7dLoading,
+  dataFor30dLoading,
+}: IChainItemUIProps) => {
   const isWXGAPlusDown = useIsWXGAPlusDown();
   const { credentials } = useAuth();
   const {
@@ -60,8 +67,10 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
           totalRequestsHistory={totalRequestsHistory}
           onClick={handleTimeframeClick}
           timeframe={timeframe}
+          dataFor7dLoading={dataFor7dLoading}
+          dataFor30dLoading={dataFor30dLoading}
         />
-        {Object.keys(countries).length !== 0 && (
+        {countries && Object.keys(countries).length !== 0 && (
           <RequestsMap countries={countries} />
         )}
         {ENABLE_CHAIN_NODES_TABLE && (

@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 import { Timeframe } from '@ankr.com/multirpc';
+import { Skeleton } from '@material-ui/lab';
 
 import { useStyles } from './RequestsPeriodInfoStyles';
 
@@ -12,6 +13,7 @@ interface RequestsPeriodInfoProps {
   onClick: () => void;
   isActive: boolean;
   timeframe: Timeframe;
+  isLoading?: boolean;
 }
 
 export const RequestsPeriodInfo = ({
@@ -21,6 +23,7 @@ export const RequestsPeriodInfo = ({
   isActive,
   className,
   timeframe,
+  isLoading,
 }: RequestsPeriodInfoProps) => {
   const classes = useStyles();
 
@@ -31,7 +34,7 @@ export const RequestsPeriodInfo = ({
         className,
         isActive ? classes.active : '',
       )}
-      onClick={onClick}
+      onClick={isLoading ? () => null : onClick}
       role="button"
       tabIndex={-1}
     >
@@ -40,12 +43,18 @@ export const RequestsPeriodInfo = ({
           {description}
         </Typography>
       )}
-      <Typography variant="subtitle2" noWrap className={classes.timeframe}>
-        {timeframe}
-      </Typography>
-      <Typography variant="h3" noWrap className={classes.title}>
-        {title}
-      </Typography>
+      {isLoading ? (
+        <Skeleton width="100%" className={classes.skeleton} />
+      ) : (
+        <>
+          <Typography variant="subtitle2" noWrap className={classes.timeframe}>
+            {timeframe}
+          </Typography>
+          <Typography variant="h3" noWrap className={classes.title}>
+            {title}
+          </Typography>
+        </>
+      )}
     </div>
   );
 };
