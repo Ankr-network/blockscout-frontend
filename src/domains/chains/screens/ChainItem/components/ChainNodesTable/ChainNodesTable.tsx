@@ -79,7 +79,7 @@ export const ChainNodesTable = ({
               )}
 
               <TableCell className={classes.cell}>
-                {`${row.weight.toFixed(0)}%`}
+                {`${row?.weight?.toFixed(0)}%`}
               </TableCell>
             </TableRow>
           ))}

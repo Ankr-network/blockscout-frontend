@@ -31,6 +31,7 @@ export const fetchChain = createSmartAction<
   meta: {
     asMutation: false,
     requestKey: chainId,
+    poll: 30,
     onRequest: (
       request: any,
       action: RequestAction,

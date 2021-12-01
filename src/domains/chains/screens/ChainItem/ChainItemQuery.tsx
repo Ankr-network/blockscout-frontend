@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { resetRequests } from '@redux-requests/core';
+import { stopPolling, resetRequests } from '@redux-requests/core';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { useStyles } from './ChainItemStyles';
 import { ChainItemSkeleton } from './ChainItemSkeleton';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
 
 interface ChainItemProps {
@@ -24,17 +25,20 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
     dispatch(fetchChain(chainId));
   });
 
-  useEffect(() => {
-    return () => {
-      dispatch(
-        resetRequests([
-          fetchChain.toString(),
-          { requestType: fetchChain.toString(), requestKey: chainId },
-        ]),
-      );
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useOnUnmount(() => {
+    const fetchChainAction = fetchChain.toString();
+
+    dispatch(
+      resetRequests([
+        fetchChainAction,
+        { requestType: fetchChainAction, requestKey: chainId },
+      ]),
+    );
+
+    dispatch(
+      stopPolling([{ requestType: fetchChainAction, requestKey: chainId }]),
+    );
+  });
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -44,8 +48,8 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
           requestKeys={[chainId]}
           isPreloadDisabled
         >
-          {({ data, loading }) => {
-            if (loading || !data) {
+          {({ data, loading, pristine }) => {
+            if ((loading && pristine) || !data) {
               return <ChainItemSkeleton />;
             }
 
