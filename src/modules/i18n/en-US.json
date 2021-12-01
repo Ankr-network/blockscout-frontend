@@ -19,7 +19,8 @@
     "public-rpcs": "Public RPCs",
     "staking": "Staking",
     "plan": "Premium Plan",
-    "protocol": "Node Providers"
+    "protocol": "Node Providers",
+    "ankr-scan": "Ankr Scan"
   },
   "extra-navigation": {
     "docs": "Docs",
