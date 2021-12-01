@@ -27,6 +27,8 @@ export const ChainNodesTable = ({
 
   const rows = useMemo(() => getRows(data, nodesWeight), [data, nodesWeight]);
 
+  if (rows.length === 0) return null;
+
   return (
     <TableContainer component={Paper} className={classes.root} elevation={0}>
       <Typography variant="h5" className={classes.header}>
@@ -60,7 +62,7 @@ export const ChainNodesTable = ({
               </TableCell>
 
               <TableCell padding="none" className={classes.cell}>
-                {row.height || '-'}
+                {row.height}
               </TableCell>
 
               {row.country && (
@@ -77,7 +79,7 @@ export const ChainNodesTable = ({
               )}
 
               <TableCell className={classes.cell}>
-                {row.weight ? `${row.weight.toFixed(0)}%` : '-'}
+                {`${row.weight.toFixed(0)}%`}
               </TableCell>
             </TableRow>
           ))}

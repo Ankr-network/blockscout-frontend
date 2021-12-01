@@ -23,10 +23,9 @@ export interface GroupedNode {
   icon: string;
   organization?: string;
   chainName: string;
-  weight: number;
   height?: number;
 }
 
-export interface ProviderRow extends Omit<GroupedNode, 'weight'> {
-  weight?: BigNumber;
+export interface ProviderRow extends GroupedNode {
+  weight: BigNumber;
 }
