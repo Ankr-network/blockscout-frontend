@@ -8,19 +8,18 @@ interface IAddNetworkProps {
   chain: Chain;
   size?: 'large' | 'medium';
   className?: string;
+  hasPlusIcon?: boolean;
 }
 
 export const AddNetworkButton = ({
   chain,
   size,
   className,
+  hasPlusIcon,
 }: IAddNetworkProps) => {
-  const {
-    mappedNetwork,
-    handleButtonClick,
-    loading,
-    isWalletConnected,
-  } = useAddNetworkButton({ chain });
+  const { mappedNetwork, handleButtonClick, loading } = useAddNetworkButton({
+    chain,
+  });
 
   /* hiding the addNetwork button for some browsers which have problems with add network method */
   if (!isAddNetworkSupported()) {
@@ -38,7 +37,7 @@ export const AddNetworkButton = ({
       size={size}
       className={className}
       onClick={handleButtonClick}
-      hasPlusIcon={isWalletConnected}
+      hasPlusIcon={hasPlusIcon}
     />
   );
 };

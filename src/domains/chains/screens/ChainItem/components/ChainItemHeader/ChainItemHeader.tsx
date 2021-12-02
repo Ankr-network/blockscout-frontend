@@ -53,7 +53,7 @@ export const ChainItemHeader = ({
               />
             }
           />
-          <AddNetworkButton chain={formattedChain} />
+          <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
 
         <div className={classes.right}>
