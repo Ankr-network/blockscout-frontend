@@ -49,8 +49,15 @@ export const fetchChainDetails = createSmartAction<
     asMutation: false,
     takeLatest: false,
     requestKey: timeframe,
+    getData: rawData => {
+      const data = (() => {
+        if ((rawData as any).__content) {
+          return JSON.parse((rawData as any).__content);
+        }
 
-    getData: data => {
+        return rawData;
+      })();
+
       const {
         dataCached,
         totalCached,
