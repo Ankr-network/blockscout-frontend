@@ -59,6 +59,7 @@ export const ChainItem = ({
           chainId={chainId}
           hasCredentials={Boolean(credentials)}
           icon={chain.icon}
+          nodes={nodes}
         />
         {isWXGAPlusDown && detailsBlock}
         <ChainRequestsOverview
