@@ -87,10 +87,18 @@
     },
     "chart": {
       "date": "{value, date, medium}",
-      "time": "{value, time, short}"
+      "time": "{value, time, short}",
+      "calls-count": "{value, number, ::compact-short}"
     },
     "map": {
-      "header": "Top 10 countries with most requests"
+      "header": "Top 10 countries with most requests",
+      "stats-table": {
+        "head": {
+          "country": "Country",
+          "requests": "Requests"
+        },
+        "value": "{value, number, ::compact-short}"
+      }
     },
     "nodes-table": {
       "header": "Nodes",

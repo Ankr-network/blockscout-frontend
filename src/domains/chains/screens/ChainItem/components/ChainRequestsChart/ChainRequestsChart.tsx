@@ -1,14 +1,11 @@
 import React, { useCallback, useMemo, useRef } from 'react';
+import { Timeframe } from '@ankr.com/multirpc';
 
 import { Chart } from 'modules/common/components/Chart';
 import { ChartTooltip } from './ChartTooltip';
-import {
-  formatCallsCount,
-  formatDate,
-  processData,
-} from './ChainRequestsChartUtils';
+import { formatDate, processData } from './ChainRequestsChartUtils';
 import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
-import { Timeframe } from '@ankr.com/multirpc';
+import { t } from 'modules/i18n/utils/intl';
 
 export const ChainRequestsChart = ({
   timeframe,
@@ -17,7 +14,13 @@ export const ChainRequestsChart = ({
   const data = useMemo(() => processData(requestsLog), [requestsLog]);
   const timeframeRef = useRef<Timeframe>();
   timeframeRef.current = timeframe;
-  const callsFormatter = useCallback(formatCallsCount, []);
+
+  const callsFormatter = useCallback((value: number) => {
+    return t('chain-item.chart.calls-count', {
+      value,
+    });
+  }, []);
+
   const tickFormatter = useCallback(
     value => formatDate(value, timeframeRef.current),
     [],
