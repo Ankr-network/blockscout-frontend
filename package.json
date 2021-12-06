@@ -5,7 +5,8 @@
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build": "env-cmd react-scripts build",
+    "build:stage": "env-cmd -f .env.stage react-scripts build",
+    "build:prod": "env-cmd -f .env.prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",

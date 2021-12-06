@@ -12,6 +12,13 @@ on:
           - PRODUCTION # www.ankr.com/protocol/
           - BS5 # bs-5-stage.dccn.ankr.com/protocol
           - BS6 # bs-6-stage.dccn.ankr.com/protocol
+      api:
+        type: choice
+        description: Target
+        required: true
+        options:
+          - STAGE
+          - PRODUCTION
 
 jobs:
   deploy:
@@ -27,8 +34,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build
-        run: yarn build
+      - name: Build stage
+        if: ${{ github.event.inputs.api == 'STAGE' }}
+        run:
+          yarn build:stage
+
+      - name: Build production
+        if: ${{ github.event.inputs.api == 'PRODUCTION' }}
+        run:
+          yarn build:prod
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
