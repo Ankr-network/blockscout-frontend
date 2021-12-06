@@ -719,5 +719,39 @@ export const mainTheme = createMuiTheme({
         borderTopWidth: 0,
       },
     },
+    MuiToggleButtonGroup: {
+      root: {
+        width: '100%',
+        borderRadius: 9,
+        padding: 2,
+        background: defaultTheme.palette.background.paper,
+      },
+    },
+    MuiToggleButton: {
+      root: {
+        background: defaultTheme.palette.background.paper,
+        color: defaultTheme.palette.text.primary,
+        border: 'none',
+        padding: '9px 28px',
+        textTransform: 'lowercase',
+
+        '&&': {
+          borderRadius: 9,
+          marginLeft: 0,
+        },
+
+        [defaultTheme.breakpoints.down('sm')]: {
+          padding: '9px 21px',
+        },
+        '&.Mui-selected': {
+          backgroundColor: defaultTheme.palette.background.default,
+          color: defaultTheme.palette.text.primary,
+          fontWeight: 'bold',
+        },
+      },
+      label: {
+        whiteSpace: 'nowrap',
+      },
+    },
   },
 } as ThemeOptions);

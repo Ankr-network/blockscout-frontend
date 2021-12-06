@@ -1,26 +1,43 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatch } from 'react-redux';
+import { stopPolling, resetRequests } from '@redux-requests/core';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { useStyles } from './ChainItemStyles';
-import { ChainItem } from './ChainItem';
 import { ChainItemSkeleton } from './ChainItemSkeleton';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+import { ChainItem } from './ChainItem';
 
 interface ChainItemProps {
   chainId: string;
 }
 
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatchRequest(fetchChain(chainId));
+    dispatch(fetchChain(chainId));
+  });
+
+  useOnUnmount(() => {
+    const fetchChainAction = fetchChain.toString();
+
+    dispatch(
+      resetRequests([
+        fetchChainAction,
+        { requestType: fetchChainAction, requestKey: chainId },
+      ]),
+    );
+
+    dispatch(
+      stopPolling([{ requestType: fetchChainAction, requestKey: chainId }]),
+    );
   });
 
   return (
@@ -31,8 +48,8 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
           requestKeys={[chainId]}
           isPreloadDisabled
         >
-          {({ data, loading }) => {
-            if (loading || !data) {
+          {({ data, loading, pristine }) => {
+            if ((loading && pristine) || !data) {
               return <ChainItemSkeleton />;
             }
 

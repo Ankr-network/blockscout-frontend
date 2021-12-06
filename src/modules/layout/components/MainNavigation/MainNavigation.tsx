@@ -3,6 +3,7 @@ import React from 'react';
 import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
 import { BoxIcon } from 'uiKit/Icons/BoxIcon';
 import { PaperIcon } from 'uiKit/Icons/PaperIcon';
+import { StatIcon } from 'uiKit/Icons/StatIcon';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import {
@@ -12,6 +13,8 @@ import {
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
+
+export const ANKR_SCAN_LINK = 'https://ankrscan.io/';
 
 export const MainNavigation = () => {
   const items = useLocaleMemo(
@@ -30,6 +33,11 @@ export const MainNavigation = () => {
         label: t('main-navigation.protocol'),
         StartIcon: PaperIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
+      },
+      {
+        label: t('main-navigation.ankr-scan'),
+        StartIcon: StatIcon,
+        href: ANKR_SCAN_LINK,
       },
     ],
     [],

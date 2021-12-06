@@ -1,17 +1,15 @@
 import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { Timeframe, INodeEntity, IWorkerNodesWeight } from '@ankr.com/multirpc';
+import { INodeEntity, IWorkerNodesWeight } from '@ankr.com/multirpc';
 
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
-import { fetchChainDetails, IApiChainDetails } from './fetchChainDetails';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchNodesWeight } from './fetchNodesWeight';
 
 export interface IChainItemDetails {
   chain: IApiChain;
-  details: Record<Timeframe, IApiChainDetails>;
   nodes?: INodeEntity[];
   nodesWeight?: IWorkerNodesWeight;
 }
@@ -25,6 +23,7 @@ export const fetchChain = createSmartAction<
   meta: {
     asMutation: false,
     requestKey: chainId,
+    poll: 30,
     onRequest: (
       request: any,
       action: RequestAction,
@@ -33,16 +32,10 @@ export const fetchChain = createSmartAction<
       return {
         promise: (async (): Promise<IChainItemDetails> => {
           const [
-            { data: chainDetails30d },
-            { data: chainDetails7d },
-            { data: chainDetails24h },
             { data: chains },
             { data: nodes },
             { data: nodesWeight },
           ] = await Promise.all([
-            store.dispatchRequest(fetchChainDetails(chainId, '30d')),
-            store.dispatchRequest(fetchChainDetails(chainId, '7d')),
-            store.dispatchRequest(fetchChainDetails(chainId, '24h')),
             store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes(chainId)),
             store.dispatchRequest(fetchNodesWeight()),
@@ -50,12 +43,7 @@ export const fetchChain = createSmartAction<
 
           const chain = chains?.find(item => item.id === chainId);
 
-          if (
-            !chain ||
-            !chainDetails30d ||
-            !chainDetails7d ||
-            !chainDetails24h
-          ) {
+          if (!chain) {
             throw new Error('ChainId not found');
           }
 
@@ -63,11 +51,6 @@ export const fetchChain = createSmartAction<
             chain,
             nodes,
             nodesWeight,
-            details: {
-              '30d': chainDetails30d,
-              '7d': chainDetails7d,
-              '24h': chainDetails24h,
-            },
           };
         })(),
       };

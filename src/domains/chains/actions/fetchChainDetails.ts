@@ -32,13 +32,13 @@ export interface IApiChainDetails {
 
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->('chains/fetchChainDetails', (blockchain: string, timeframe: Timeframe) => ({
+>('chains/fetchChainDetails', (chainId: string, timeframe: Timeframe) => ({
   request: {
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
       const data = await service.getBlockchainTimeFrameStats(
-        blockchain,
+        chainId,
         timeframe,
       );
 
@@ -48,6 +48,7 @@ export const fetchChainDetails = createSmartAction<
   meta: {
     asMutation: false,
     takeLatest: false,
+    cache: false,
     getData: rawData => {
       const data = (() => {
         if ((rawData as any).__content) {

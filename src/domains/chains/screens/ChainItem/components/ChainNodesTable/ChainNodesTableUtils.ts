@@ -60,18 +60,20 @@ export const getRows = (
   const totalWeights =
     currentNodesWeight?.reduce((acc, el) => acc + el.weight, 0) || 0;
 
-  return nodes.map(node => {
-    const { weight, ...other } = node;
-    const nodeWeight = currentNodesWeight?.find(el => el.id === node.nodeId);
+  return nodes
+    .map(node => {
+      const nodeWeight = currentNodesWeight?.find(el => el.id === node.nodeId);
 
-    if (!nodeWeight) return other;
+      if (!nodeWeight) return { ...node, height: 0, weight: new BigNumber(0) };
 
-    const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
+      const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
 
-    return {
-      ...other,
-      weight: new BigNumber(percentWeight),
-      height: nodeWeight.height,
-    };
-  });
+      return {
+        ...node,
+        weight: new BigNumber(percentWeight),
+        height: nodeWeight.height,
+      };
+    })
+    .filter(item => item.height)
+    .filter(item => !item.weight.isEqualTo(0));
 };

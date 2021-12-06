@@ -9,11 +9,7 @@ storiesOf('domains/chains/DetailsBlock', module)
   .add('Default', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
-        <DetailsBlock
-          title="Average Requests/sec"
-          subtitle="Last 24 Hours"
-          value="9 321"
-        >
+        <DetailsBlock title="Average Requests/sec" value="9 321">
           <div>changes</div>
         </DetailsBlock>
       </Box>
@@ -22,11 +18,7 @@ storiesOf('domains/chains/DetailsBlock', module)
   .add('Without children', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
-        <DetailsBlock
-          title="Average Requests/sec"
-          subtitle="Last 24 Hours"
-          value="9 321"
-        />
+        <DetailsBlock title="Average Requests/sec" value="9 321" />
       </Box>
     </ThemeProvider>
   ));

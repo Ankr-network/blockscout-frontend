@@ -3,25 +3,48 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    background: theme.palette.background.default,
-    borderRadius: 18,
     padding: theme.spacing(2.5, 2.5, 2),
+    textAlign: 'center',
+    flexGrow: 1,
   },
   top: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: theme.spacing(1),
+
+    '& span': {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   bottom: {
-    display: 'flex',
-    alignItems: 'center',
+    '& span': {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   value: {
-    marginRight: theme.spacing(1),
-
     [theme.breakpoints.down('sm')]: {
       fontSize: 20,
+    },
+  },
+  skeleton: {
+    width: '60%',
+    height: 35,
+    margin: 'auto',
+  },
+
+  dot: {
+    position: 'relative',
+    '&:before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: 6,
+      height: 6,
+      borderRadius: '50%',
+      left: -10,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      backgroundColor: theme.palette.primary.main,
     },
   },
 }));
