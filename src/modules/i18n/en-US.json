@@ -66,29 +66,36 @@
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
       "right": "Public RPC",
       "button": "Unlock Premium Features",
-      "settings-button": "Settings"
+      "settings-button": "Settings",
+      "archived": "Archived",
+      "archived-node-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
     },
     "details": {
       "average-requests": "Average Requests/sec",
       "bandwidth": "Bandwidth",
       "cached-requests": "Cached Requests",
       "all-time": "All Time",
-      "total-requests": "Total Requests",
-      "total-requests-24h": "Total Requests 24h",
-      "total-requests-7d": "Total Requests 7d",
-      "total-requests-30d": "Total Requests 30d"
+      "total-requests": "Total Requests"
     },
     "timeframe": {
-      "24-hours": "Last 24 Hours",
-      "7-days": "Last 7 Days",
-      "30-days": "Last 30 Days"
+      "24-hours": "24 Hours",
+      "7-days": "7 Days",
+      "30-days": "30 Days"
     },
     "chart": {
       "date": "{value, date, medium}",
-      "time": "{value, time, short}"
+      "time": "{value, time, short}",
+      "calls-count": "{value, number, ::compact-short}"
     },
     "map": {
-      "header": "Top 10 countries with most requests"
+      "header": "Top 10 countries with most requests",
+      "stats-table": {
+        "head": {
+          "country": "Country",
+          "requests": "Requests"
+        },
+        "value": "{value, number, ::compact-short}"
+      }
     },
     "nodes-table": {
       "header": "Nodes",

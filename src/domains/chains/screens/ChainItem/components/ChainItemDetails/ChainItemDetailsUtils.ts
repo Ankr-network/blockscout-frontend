@@ -28,25 +28,6 @@ const getSeconds = (timeframe: Timeframe): number => {
   }
 };
 
-export const getSubtitle = (
-  timeframe: Timeframe,
-  isMobile: boolean,
-): string => {
-  if (isMobile) return timeframe;
-
-  switch (timeframe) {
-    case '30d':
-      return 'chain-item.timeframe.30-days';
-
-    case '7d':
-      return 'chain-item.timeframe.7-days';
-
-    case '24h':
-    default:
-      return 'chain-item.timeframe.24-hours';
-  }
-};
-
 export const getAvarageRequests = (
   timeframe: Timeframe,
   requests?: BigNumber,

@@ -31,15 +31,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   infoSkeleton: {
-    margin: theme.spacing(4),
-  },
-  container: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      marginBottom: theme.spacing(2),
-      padding: theme.spacing(0, 0, 0, 2.5),
-      justifyContent: 'space-between',
-    },
+    height: 270,
+    margin: theme.spacing(0, 4),
+    position: 'relative',
   },
   mobileRequests: {
     display: 'none',
@@ -58,5 +52,27 @@ export const useStyles = makeStyles<Theme>(theme => ({
   skeleton: {
     width: '30%',
     paddingTop: theme.spacing(3),
+  },
+  buttonGroup: {
+    marginTop: theme.spacing(3.5),
+    display: 'flex',
+    justifyContent: 'center',
+    borderRadius: 9,
+    paddingLeft: theme.spacing(3),
+  },
+  toggleButtonGroup: {
+    maxWidth: 320,
+
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '100%',
+    },
+
+    '& button': {
+      width: 'auto',
+
+      [theme.breakpoints.down('sm')]: {
+        width: '33.3%',
+      },
+    },
   },
 }));

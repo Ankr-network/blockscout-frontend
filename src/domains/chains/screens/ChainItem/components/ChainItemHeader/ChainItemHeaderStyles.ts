@@ -73,4 +73,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
       minWidth: 'auto',
     },
   },
+  description: {
+    display: 'flex',
+  },
+  archived: {
+    marginLeft: theme.spacing(1),
+    borderRadius: 6,
+    lineHeight: 1,
+    padding: '4px 6px',
+    background: theme.palette.background.paper,
+    cursor: 'pointer',
+  },
 }));

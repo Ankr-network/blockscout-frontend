@@ -5,19 +5,11 @@ import { INodeEntity, IWorkerNodesWeight } from '@ankr.com/multirpc';
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
-import { fetchChainDetails, IApiChainDetails } from './fetchChainDetails';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchNodesWeight } from './fetchNodesWeight';
 
-export interface ChainDetails {
-  '24h': IApiChainDetails;
-  '7d'?: IApiChainDetails;
-  '30d'?: IApiChainDetails;
-}
-
 export interface IChainItemDetails {
   chain: IApiChain;
-  details: ChainDetails;
   nodes?: INodeEntity[];
   nodesWeight?: IWorkerNodesWeight;
 }
@@ -40,12 +32,10 @@ export const fetchChain = createSmartAction<
       return {
         promise: (async (): Promise<IChainItemDetails> => {
           const [
-            { data: chainDetails24h },
             { data: chains },
             { data: nodes },
             { data: nodesWeight },
           ] = await Promise.all([
-            store.dispatchRequest(fetchChainDetails(chainId, '24h')),
             store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes(chainId)),
             store.dispatchRequest(fetchNodesWeight()),
@@ -53,7 +43,7 @@ export const fetchChain = createSmartAction<
 
           const chain = chains?.find(item => item.id === chainId);
 
-          if (!chain || !chainDetails24h) {
+          if (!chain) {
             throw new Error('ChainId not found');
           }
 
@@ -61,9 +51,6 @@ export const fetchChain = createSmartAction<
             chain,
             nodes,
             nodesWeight,
-            details: {
-              '24h': chainDetails24h,
-            },
           };
         })(),
       };

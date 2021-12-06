@@ -29,46 +29,4 @@ export const useStyles = makeStyles<Theme>(theme => ({
       outline: 'none',
     },
   },
-  stats: {
-    marginTop: theme.spacing(5),
-    paddingRight: theme.spacing(0.5),
-
-    [theme.breakpoints.down('md')]: {
-      marginTop: 0,
-      paddingRight: 0,
-    },
-  },
-
-  table: {
-    background: theme.palette.background.default,
-  },
-  row: {
-    '& td': { border: 0 },
-  },
-  requests: {
-    fontWeight: 600,
-  },
-
-  country: {
-    display: 'flex',
-  },
-  firstCell: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    minWidth: '120px',
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
-  },
-  secondCell: {
-    minWidth: '40%',
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
-    textAlign: 'right',
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: '50%',
-    marginRight: 10,
-  },
 }));

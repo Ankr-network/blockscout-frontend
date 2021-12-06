@@ -5,79 +5,75 @@ import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainRequestsOverview } from './components/ChainRequestsOverview';
 import { ChainNodesTable } from './components/ChainNodesTable';
 import { RequestsMap } from './components/RequestsMap';
-import { useIsWXGAPlusDown } from 'modules/themes/useTheme';
-import { useChainItem } from './useChainItem';
+import { useChainItemBreadcrumbs, useTimeframeData } from './useChainItem';
 import { IChainItemDetails } from '../../actions/fetchChain';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { QueryError } from 'modules/common/components/QueryError/QueryError';
 
 const ENABLE_CHAIN_NODES_TABLE = false;
 
 interface IChainItemUIProps {
   data: IChainItemDetails;
   chainId: string;
-  dataFor7dLoading: boolean;
-  dataFor30dLoading: boolean;
 }
 
-export const ChainItem = ({
-  data,
-  chainId,
-  dataFor7dLoading,
-  dataFor30dLoading,
-}: IChainItemUIProps) => {
-  const isWXGAPlusDown = useIsWXGAPlusDown();
+export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const { credentials } = useAuth();
-  const {
-    totalCached,
-    totalRequests,
-    timeframe,
-    chain,
-    totalRequestsCount,
-    totalRequestsHistory,
-    handleTimeframeClick,
-    countries,
-    nodes,
-    nodesWeight,
-  } = useChainItem(data);
   const classes = useStyles();
 
-  const detailsBlock = (
-    <ChainItemDetails
-      className={classes.chainItemDetails}
-      totalCached={totalCached}
-      totalRequests={totalRequests}
-      timeframe={timeframe}
-    />
-  );
+  useChainItemBreadcrumbs(data.chain.name);
+
+  const { chain, nodes, nodesWeight } = data;
+  const {
+    timeframe,
+    setTimeframe,
+    loading,
+    totalCached,
+    totalRequests,
+    totalRequestsHistory,
+    countries,
+    error,
+  } = useTimeframeData(chainId);
 
   return (
-    <>
-      <div className={classes.chainDetailsWrapper}>
-        <ChainItemHeader
-          className={classes.chainItemHeader}
-          chain={chain}
-          chainId={chainId}
-          hasCredentials={Boolean(credentials)}
-          icon={chain.icon}
-        />
-        {isWXGAPlusDown && detailsBlock}
-        <ChainRequestsOverview
-          className={classes.chainRequestsOverview}
-          totalRequests={totalRequestsCount}
-          totalRequestsHistory={totalRequestsHistory}
-          onClick={handleTimeframeClick}
-          timeframe={timeframe}
-          dataFor7dLoading={dataFor7dLoading}
-          dataFor30dLoading={dataFor30dLoading}
-        />
-        {countries && Object.keys(countries).length !== 0 && (
-          <RequestsMap countries={countries} />
-        )}
-        {ENABLE_CHAIN_NODES_TABLE && (
-          <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
-        )}
-      </div>
-      {!isWXGAPlusDown && detailsBlock}
-    </>
+    <div className={classes.chainDetailsWrapper}>
+      <ChainItemHeader
+        className={classes.chainItemHeader}
+        chain={chain}
+        chainId={chainId}
+        hasCredentials={Boolean(credentials)}
+        icon={chain.icon}
+        nodes={nodes}
+      />
+      {error ? (
+        <div className={classes.error}>
+          <QueryError error={error} />
+        </div>
+      ) : (
+        <>
+          <ChainRequestsOverview
+            className={classes.chainRequestsOverview}
+            totalRequestsHistory={totalRequestsHistory}
+            onClick={setTimeframe}
+            timeframe={timeframe}
+            loading={loading}
+          >
+            <ChainItemDetails
+              className={classes.chainItemDetails}
+              totalCached={totalCached}
+              totalRequests={totalRequests}
+              timeframe={timeframe}
+              loading={loading}
+            />
+          </ChainRequestsOverview>
+          {countries && Object.keys(countries).length !== 0 && (
+            <RequestsMap countries={countries} />
+          )}
+        </>
+      )}
+      {ENABLE_CHAIN_NODES_TABLE && (
+        <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
+      )}
+    </div>
   );
 };
