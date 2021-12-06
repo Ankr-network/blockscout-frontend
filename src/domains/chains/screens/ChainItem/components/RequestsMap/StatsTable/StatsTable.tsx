@@ -33,6 +33,7 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
               ].map(item => (
                 <TableCell
                   className={classNames(classes.cell, classes.cellThead)}
+                  key={item}
                 >
                   <Typography variant="subtitle2" color="textSecondary">
                     {item}

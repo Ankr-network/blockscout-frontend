@@ -17,6 +17,8 @@ export const useTooltipWrapperStyles = makeStyles<Theme>(theme => ({
     transition: 'color .3s',
     width: 20,
     height: 20,
+    position: 'relative',
+    top: -2,
   },
 }));
 
