@@ -19,7 +19,7 @@
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/multirpc": "^0.0.143",
+    "@ankr.com/multirpc": "^0.0.145",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
