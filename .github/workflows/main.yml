@@ -14,7 +14,7 @@ on:
           - BS6 # bs-6-stage.dccn.ankr.com/protocol
       api:
         type: choice
-        description: Target
+        description: API
         required: true
         options:
           - STAGE
