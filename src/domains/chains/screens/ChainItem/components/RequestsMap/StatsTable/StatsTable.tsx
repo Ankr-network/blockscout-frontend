@@ -18,7 +18,11 @@ import { PALETTE } from 'modules/themes/mainTheme';
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
 
-export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
+export const StatsTable = ({
+  data,
+  selectedCountry,
+  userCountryCode,
+}: StatsTableProps) => {
   const classes = useStyles();
 
   return (
@@ -46,7 +50,8 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
             {data.map(country => {
               const { color, name, requests, isoA2 } = country;
 
-              const isSelectedCountry = selectedCountry === isoA2;
+              const isSelectedCountry =
+                selectedCountry === isoA2 || userCountryCode === isoA2;
 
               return (
                 <TableRow

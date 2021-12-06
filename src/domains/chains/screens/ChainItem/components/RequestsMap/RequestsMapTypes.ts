@@ -2,6 +2,7 @@ import { Country } from 'domains/chains/actions/fetchChainDetails';
 
 export interface RequestsMapProps {
   countries: Country;
+  userCountryCode: string;
 }
 
 export interface RequestsCountry {
