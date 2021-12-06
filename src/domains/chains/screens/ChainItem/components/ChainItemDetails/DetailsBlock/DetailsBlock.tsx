@@ -4,12 +4,14 @@ import classNames from 'classnames';
 
 import { useStyles } from './useStyles';
 import { DetailsBlockProps } from './DetailsBlockTypes';
+import { Skeleton } from '@material-ui/lab';
 
 export const DetailsBlock = ({
   title,
-  subtitle,
   value,
   children,
+  loading,
+  hasDot,
   className = '',
 }: DetailsBlockProps) => {
   const classes = useStyles();
@@ -17,21 +19,18 @@ export const DetailsBlock = ({
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
-        <Typography variant="subtitle1" color="textPrimary">
-          {title}
+        <Typography variant="subtitle1" color="textPrimary" noWrap>
+          <span className={hasDot ? classes.dot : ''}>{title}</span>
         </Typography>
-        {subtitle && (
-          <Typography variant="subtitle1" color="textSecondary">
-            {subtitle}
-          </Typography>
-        )}
       </div>
-      <div className={classes.bottom}>
+      {loading ? (
+        <Skeleton className={classes.skeleton} />
+      ) : (
         <Typography variant="h3" className={classes.value}>
           {value}
         </Typography>
-        {children}
-      </div>
+      )}
+      {children}
     </div>
   );
 };

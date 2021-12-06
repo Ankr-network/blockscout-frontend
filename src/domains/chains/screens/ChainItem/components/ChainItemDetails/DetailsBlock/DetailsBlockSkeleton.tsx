@@ -13,10 +13,10 @@ export const DetailsBlockSkeleton = ({ className }: IProps) => {
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
-        <Skeleton width="50%" />
+        <Skeleton width="70%" />
       </div>
       <div className={classes.bottom}>
-        <Skeleton width="30%" className={classes.value} />
+        <Skeleton width="80%" className={classes.value} />
       </div>
     </div>
   );

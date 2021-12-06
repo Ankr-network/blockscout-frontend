@@ -75,15 +75,12 @@
       "bandwidth": "Bandwidth",
       "cached-requests": "Cached Requests",
       "all-time": "All Time",
-      "total-requests": "Total Requests",
-      "total-requests-24h": "Total Requests 24h",
-      "total-requests-7d": "Total Requests 7d",
-      "total-requests-30d": "Total Requests 30d"
+      "total-requests": "Total Requests"
     },
     "timeframe": {
-      "24-hours": "Last 24 Hours",
-      "7-days": "Last 7 Days",
-      "30-days": "Last 30 Days"
+      "24-hours": "24 Hours",
+      "7-days": "7 Days",
+      "30-days": "30 Days"
     },
     "chart": {
       "date": "{value, date, medium}",

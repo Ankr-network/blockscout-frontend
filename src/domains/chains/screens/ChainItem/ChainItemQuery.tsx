@@ -11,7 +11,7 @@ import { useStyles } from './ChainItemStyles';
 import { ChainItemSkeleton } from './ChainItemSkeleton';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
+import { ChainItem } from './ChainItem';
 
 interface ChainItemProps {
   chainId: string;
@@ -53,7 +53,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
               return <ChainItemSkeleton />;
             }
 
-            return <ChainItemDetailsQuery data={data} chainId={chainId} />;
+            return <ChainItem data={data} chainId={chainId} />;
           }}
         </Queries>
       </div>

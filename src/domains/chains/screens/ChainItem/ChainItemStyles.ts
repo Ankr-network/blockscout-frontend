@@ -2,8 +2,6 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BREAKPOINTS } from 'modules/themes/const';
 
-const CHAIN_DETAILS_WIDTH = 350;
-
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
@@ -16,31 +14,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   chainDetailsWrapper: {
     flexGrow: 1,
-    maxWidth: `calc(100% - ${CHAIN_DETAILS_WIDTH}px)`,
-    [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      maxWidth: '100%',
-    },
+    maxWidth: '100%',
   },
   chainItemHeader: {},
   chainRequestsOverview: {
     marginTop: theme.spacing(3.25),
-  },
-  chainItemDetails: {
-    width: CHAIN_DETAILS_WIDTH,
-    minWidth: 150,
-    marginLeft: theme.spacing(3.25),
-    [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      marginLeft: 0,
-      marginTop: theme.spacing(3.25),
-      width: '100%',
-    },
-  },
-  chainItemDetailsSkeleton: {
-    [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-    },
   },
   chainItemDetailsInnerSkeleton: {
     [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
@@ -53,5 +31,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
         marginBottom: '2%',
       },
     },
+  },
+  details: {
+    display: 'flex',
+    width: '100%',
+  },
+  error: {
+    background: theme.palette.background.default,
+    borderRadius: 18,
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(3),
   },
 }));
