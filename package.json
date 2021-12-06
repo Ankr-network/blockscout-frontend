@@ -134,7 +134,8 @@
       "/public/fantom/",
       "/public/polygon/",
       "/public/solana/",
-      "/public/arbitrum/"
+      "/public/arbitrum/",
+      "/public/selo/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
