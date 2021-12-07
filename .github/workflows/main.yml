@@ -36,7 +36,9 @@ jobs:
 
       - name: Build stage
         if: ${{ github.event.inputs.api == 'STAGE' }}
-        run: yarn build:stage
+        run: |
+          yarn build:stage
+          yarn postbuild
 
       - name: Build production
         if: ${{ github.event.inputs.api == 'PROD' }}
