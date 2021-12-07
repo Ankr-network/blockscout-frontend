@@ -6,10 +6,6 @@ export class MultiService {
   private static instance: MultiRpcSdk;
 
   public static getInstance(): { service: MultiRpcSdk } {
-    // eslint-disable-next-line no-console
-    console.log('API_ENV', API_ENV);
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (!MultiService.instance) {
       MultiService.instance = new MultiRpcSdk(
         new Web3KeyProvider({
