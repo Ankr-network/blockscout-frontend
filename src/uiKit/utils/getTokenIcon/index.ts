@@ -5,6 +5,8 @@ import ksmIcon from './ksm.svg';
 import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
 import arbitrumIcon from './arbitrum.svg';
+import defaultIcon from './default-icon.svg';
+import celoIcon from './celo.svg';
 import { Chain } from '@ankr.com/multirpc';
 
 const chainIcons: { [key in Chain]: string } = {
@@ -15,9 +17,9 @@ const chainIcons: { [key in Chain]: string } = {
   [Chain.solana]: solIcon,
   [Chain.xdai]: stakeIcon,
   [Chain.arbitrum]: arbitrumIcon,
-  [Chain.celo]: '',
+  [Chain.celo]: celoIcon,
 };
 
 export function getChainIcon(name: Chain) {
-  return chainIcons[name];
+  return chainIcons[name] || defaultIcon;
 }
