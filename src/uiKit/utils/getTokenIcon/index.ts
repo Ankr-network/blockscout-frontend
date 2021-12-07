@@ -15,6 +15,7 @@ const chainIcons: { [key in Chain]: string } = {
   [Chain.solana]: solIcon,
   [Chain.xdai]: stakeIcon,
   [Chain.arbitrum]: arbitrumIcon,
+  [Chain.celo]: '',
 };
 
 export function getChainIcon(name: Chain) {
