@@ -75,6 +75,30 @@ const XDAI_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
 };
 
+// celo
+const CELO_NETWORK_PARAMS = {
+  chainId: 42220,
+  chainName: 'Celo by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Celo (Mainnet)',
+    symbol: 'CELO',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.celo.org'],
+};
+
+// Arbitrum
+const ARBITRUM_NETWORK_PARAMS = {
+  chainId: 42161,
+  chainName: 'Arbitrum by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Arbitrum One',
+    symbol: 'AETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://arbiscan.io'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -103,6 +127,10 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return undefined;
     case 'xdai':
       return undefined;
+    case 'celo':
+      return mapParams(chain, CELO_NETWORK_PARAMS);
+    case 'arbitrum':
+      return mapParams(chain, ARBITRUM_NETWORK_PARAMS);
     default:
       return undefined;
   }
