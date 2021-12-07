@@ -1,12 +1,11 @@
-import React, { useMemo, ReactChild } from 'react';
 import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
-
+import React, { ReactChild, useMemo } from 'react';
 import { getTheme } from '../../../common/utils/getTheme';
-import { Themes } from '../../../../themes/types';
-import { useStyles } from './DefaultLayoutStyles';
-import { Header } from '../Header/index';
+import { Themes } from '../../../themes/types';
 import { Footer } from '../Footer/index';
+import { Header } from '../Header/index';
+import { useStyles } from './DefaultLayoutStyles';
 
 export interface ILayoutProps {
   children?: ReactChild;

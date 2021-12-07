@@ -1,8 +1,7 @@
-import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
-
-import { mainTheme } from '../../themes/mainTheme';
+import React from 'react';
+import { mainTheme } from '../../modules/themes/mainTheme';
 import { Spinner } from './Spinner';
 
 storiesOf('uiKit/Spinner', module)

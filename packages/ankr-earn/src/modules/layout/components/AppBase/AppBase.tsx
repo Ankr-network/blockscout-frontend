@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { mainTheme } from '../../../../themes/mainTheme';
+import { ReactNode } from 'react';
 import '../../../../assets/fonts/style.css';
+import { mainTheme } from '../../../themes/mainTheme';
 
 interface IAppBaseProps {
   children: ReactNode;

@@ -1,10 +1,10 @@
-import React from 'react';
 import { createMuiTheme, fade, lighten, ThemeOptions } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-import { CheckboxCheckedIcon, CheckboxIcon } from '../uiKit/Checkbox';
+import React from 'react';
+import { CheckboxCheckedIcon, CheckboxIcon } from '../../uiKit/Checkbox';
+import { StepIcon } from './components/StepIcon';
 import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 import { Themes } from './types';
-import { StepIcon } from './components/StepIcon';
 
 const TEN_SECONDS = 10 * 1000;
 const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
