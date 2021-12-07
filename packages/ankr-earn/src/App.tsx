@@ -1,8 +1,15 @@
-import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AppBase } from './modules/layout/components/AppBase/AppBase';
+import { Routes } from './Routes';
 
-export const App = () => {
+function App() {
   return (
-    <h1>Ankr Earn</h1>
+    <Router>
+      <AppBase>
+        <Routes />
+      </AppBase>
+    </Router>
   );
 }
 
+export default App;
