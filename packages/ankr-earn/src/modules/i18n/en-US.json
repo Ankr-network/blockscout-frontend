@@ -1,0 +1,19 @@
+{
+  "validation": {
+    "required": "This field is required"
+  },
+  "meta": {
+    "title": "Ankr Earn",
+    "description": "Ankr Earn"
+  },
+  "error": {
+    "not-authenticated": "Not Authenticated",
+    "unknown": "Unknown error",
+    "contract-rejected": "Contract interaction rejected",
+    "unexpected": "Unexpected error",
+    "insufficient-permissions": "Insufficient permissions"
+  },
+  "language": {
+    "en-US": "English"
+  }
+}
