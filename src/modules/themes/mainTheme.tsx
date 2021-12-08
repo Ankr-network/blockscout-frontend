@@ -753,5 +753,10 @@ export const mainTheme = createMuiTheme({
         whiteSpace: 'nowrap',
       },
     },
+    MuiSkeleton: {
+      root: {
+        backgroundColor: defaultTheme.palette.background.paper,
+      },
+    },
   },
 } as ThemeOptions);

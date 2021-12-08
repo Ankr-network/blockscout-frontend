@@ -5,19 +5,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    padding: theme.spacing(0, 3, 3, 0),
+    padding: theme.spacing(0, 0, 3, 0),
 
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2.5, 2.5, 0),
+      padding: theme.spacing(0, 0, 2.5, 0),
+    },
+  },
+  chart: {
+    paddingRight: theme.spacing(3),
+
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: theme.spacing(2.5),
     },
   },
   rootSkeleton: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2.5),
-    },
+    height: 472,
   },
   info: {
     display: 'flex',
@@ -58,7 +62,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'center',
     borderRadius: 9,
-    paddingLeft: theme.spacing(3),
+    padding: theme.spacing(0, 3),
   },
   toggleButtonGroup: {
     maxWidth: 320,
