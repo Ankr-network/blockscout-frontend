@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
+import { INodeEntity } from '@ankr.com/multirpc';
 
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
@@ -25,6 +26,7 @@ interface ChainItemHeaderProps {
   icon: string;
   chainId: string;
   className?: string;
+  nodes?: INodeEntity[];
 }
 
 export const ChainItemHeader = ({
@@ -33,11 +35,16 @@ export const ChainItemHeader = ({
   icon,
   chainId,
   className,
+  nodes,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
   const isMobile = useIsMDDown();
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
+
+  const hasArchiveNodes = useMemo(() => nodes?.some(item => item.isArchive), [
+    nodes,
+  ]);
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -47,13 +54,31 @@ export const ChainItemHeader = ({
             logoSrc={icon}
             name={name}
             description={
-              <ChainRequestsLabel
-                description={name}
-                descriptionColor="textSecondary"
-              />
+              <div className={classes.description}>
+                <ChainRequestsLabel
+                  description={name}
+                  descriptionColor="textSecondary"
+                />
+                {hasCredentials && hasArchiveNodes && (
+                  <TooltipWrapper
+                    hasIcon={false}
+                    tooltipText={tHTML(
+                      'chain-item.header.archived-node-tooltip-text',
+                    )}
+                  >
+                    <Typography
+                      className={classes.archived}
+                      variant="caption"
+                      color="textSecondary"
+                    >
+                      {t('chain-item.header.archived')}
+                    </Typography>
+                  </TooltipWrapper>
+                )}
+              </div>
             }
           />
-          <AddNetworkButton chain={formattedChain} />
+          <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
 
         <div className={classes.right}>

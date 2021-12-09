@@ -5,19 +5,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    padding: theme.spacing(0, 3, 3, 0),
+    padding: theme.spacing(0, 0, 3, 0),
 
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0, 2.5, 2.5, 0),
+      padding: theme.spacing(0, 0, 2.5, 0),
+    },
+  },
+  chart: {
+    paddingRight: theme.spacing(3),
+
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: theme.spacing(2.5),
     },
   },
   rootSkeleton: {
     background: theme.palette.background.default,
     borderRadius: 18,
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2.5),
-    },
+    height: 472,
   },
   info: {
     display: 'flex',
@@ -31,15 +35,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   infoSkeleton: {
-    margin: theme.spacing(4),
-  },
-  container: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      marginBottom: theme.spacing(2),
-      padding: theme.spacing(0, 0, 0, 2.5),
-      justifyContent: 'space-between',
-    },
+    height: 270,
+    margin: theme.spacing(0, 4),
+    position: 'relative',
   },
   mobileRequests: {
     display: 'none',
@@ -54,5 +52,31 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   mobileRequestsSubtitle: {
     fontSize: 20,
+  },
+  skeleton: {
+    width: '30%',
+    paddingTop: theme.spacing(3),
+  },
+  buttonGroup: {
+    marginTop: theme.spacing(3.5),
+    display: 'flex',
+    justifyContent: 'center',
+    borderRadius: 9,
+    padding: theme.spacing(0, 3),
+  },
+  toggleButtonGroup: {
+    maxWidth: 320,
+
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '100%',
+    },
+
+    '& button': {
+      width: 'auto',
+
+      [theme.breakpoints.down('sm')]: {
+        width: '33.3%',
+      },
+    },
   },
 }));

@@ -1,16 +1,21 @@
 import React, { useMemo } from 'react';
 
-import { FileIcon } from 'uiKit/Icons/FileIcon';
-import { ChatIcon } from 'uiKit/Icons/ChatIcon';
+import { ReactComponent as FileIcon } from 'uiKit/Icons/file.svg';
+import { ReactComponent as ChatIcon } from 'uiKit/Icons/chat.svg';
 import { t } from 'modules/i18n/utils/intl';
 import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
+import { useIsSMDown } from 'modules/themes/useTheme';
+import { ReactComponent as StatIcon } from 'uiKit/Icons/stat.svg';
+import { ANKR_SCAN_LINK } from '../MainNavigation';
 
 export const ExtraNavigation = () => {
-  const items = useMemo(
-    (): NavigationItem[] => [
+  const isMobile = useIsSMDown();
+
+  const items = useMemo((): NavigationItem[] => {
+    const mainItems = [
       {
         label: t('extra-navigation.docs'),
         StartIcon: FileIcon,
@@ -21,9 +26,18 @@ export const ExtraNavigation = () => {
         StartIcon: ChatIcon,
         href: 'https://docs.ankr.com/ankr-protocol/faqs',
       },
-    ],
-    [],
-  );
+    ];
+
+    if (isMobile) {
+      mainItems.unshift({
+        label: t('main-navigation.ankr-scan'),
+        StartIcon: StatIcon,
+        href: ANKR_SCAN_LINK,
+      });
+    }
+
+    return mainItems;
+  }, [isMobile]);
 
   return <Navigation items={items} />;
 };

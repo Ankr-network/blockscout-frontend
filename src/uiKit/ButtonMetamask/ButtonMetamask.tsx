@@ -17,7 +17,7 @@ export const ButtonMetamask = ({
   isDisabled,
   size = 'large',
   className,
-  hasPlusIcon = true,
+  hasPlusIcon = false,
 }: IButtonSpecialProps) => {
   const classes = useButtonMetamaskStyles();
 

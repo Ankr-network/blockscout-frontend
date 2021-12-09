@@ -13,6 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     minWidth: 375,
     background: theme.palette.background.default,
+    fontVariantNumeric: 'tabular-nums',
   },
   darkTheme: {},
   body: {

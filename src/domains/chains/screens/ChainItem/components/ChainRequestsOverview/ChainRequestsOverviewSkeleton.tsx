@@ -1,26 +1,26 @@
-import React from 'react';
-import { useStyles } from './useStyles';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { Skeleton } from '@material-ui/lab';
+
+import { Spinner } from 'uiKit/Spinner';
+import { useStyles } from './useStyles';
 
 interface IChainRequestsOverviewSkeletonProps {
   className?: string;
+  children: ReactNode;
 }
 
 export const ChainRequestsOverviewSkeleton = ({
   className,
+  children,
 }: IChainRequestsOverviewSkeletonProps) => {
   const classes = useStyles();
 
   return (
     <div className={classNames(classes.rootSkeleton, className)}>
-      <div className={classes.container}>
-        <div className={classes.mobileRequests}>
-          <Skeleton width={80} className={classes.mobileRequestsTitle} />
-          <Skeleton width={90} className={classes.mobileRequestsSubtitle} />
-        </div>
+      <div>
+        {children}
         <div className={classes.infoSkeleton}>
-          <Skeleton variant="rect" width="100%" height="270px" />
+          <Spinner />
         </div>
       </div>
     </div>

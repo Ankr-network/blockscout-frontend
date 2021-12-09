@@ -1,16 +1,20 @@
-import { useCallback, useRef, useState } from 'react';
-import { Timeframe } from '@ankr.com/multirpc/dist/types';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Timeframe } from '@ankr.com/multirpc';
+import { useDispatchRequest } from '@redux-requests/react';
+import { getQuery } from '@redux-requests/core';
+
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { t } from '../../../../modules/i18n/utils/intl';
+import { t } from 'modules/i18n/utils/intl';
 import { ChainsRoutesConfig } from '../../Routes';
-import { IChainItemDetails } from '../../actions/fetchChain';
+import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
+import useInterval from 'modules/common/hooks/useInterval';
+import { store } from 'store';
 
-export const useChainItem = (data: IChainItemDetails) => {
-  const [timeframe, setTimeframe] = useState<Timeframe>('24h');
-  const { chain, details, nodes, nodesWeight } = data;
-  const chainsDetails = details[timeframe];
+const POLL_INTERVAL = 20_000;
 
+export const useChainItemBreadcrumbs = (chainName: string) => {
   const { setBreadcrumbs } = useBreadcrumbs();
+
   const hasBreadcrumbsRef = useRef<boolean>(false);
   const handleSetBreadcrumbs = useCallback(
     (title: string) => {
@@ -31,35 +35,45 @@ export const useChainItem = (data: IChainItemDetails) => {
     [setBreadcrumbs],
   );
 
-  const handleTimeframeClick = useCallback((newTimeframe: Timeframe) => {
-    setTimeframe(newTimeframe);
+  handleSetBreadcrumbs(chainName);
+};
+
+export const useTimeframeData = (chainId: string) => {
+  const dispatchRequest = useDispatchRequest();
+  const [timeframe, setTimeframe] = useState<Timeframe>('30d');
+
+  useEffect(() => {
+    dispatchRequest(fetchChainDetails(chainId, timeframe));
+  }, [dispatchRequest, chainId, timeframe]);
+
+  useInterval(
+    (...args) => dispatchRequest(fetchChainDetails(...args)),
+    POLL_INTERVAL,
+    chainId,
+    timeframe,
+  );
+
+  const { data, loading, error } = getQuery(store.getState(), {
+    type: fetchChainDetails.toString(),
+  });
+
+  const handleSetTimeframe = useCallback((newTimeframe: Timeframe) => {
+    if (newTimeframe) {
+      setTimeframe(newTimeframe);
+    }
   }, []);
 
-  const {
-    totalCached,
-    totalRequests,
-    totalRequestsHistory,
-    countries,
-  } = chainsDetails;
-
-  const totalRequestsCount = {
-    '30d': details?.['30d'].totalRequests,
-    '7d': details?.['7d'].totalRequests,
-    '24h': details?.['24h'].totalRequests,
-  };
-
-  handleSetBreadcrumbs(chain.name);
+  const { totalCached, totalRequests, totalRequestsHistory, countries } =
+    data || {};
 
   return {
+    timeframe,
+    setTimeframe: handleSetTimeframe,
+    loading,
     totalCached,
     totalRequests,
-    timeframe,
-    chain,
-    totalRequestsCount,
     totalRequestsHistory,
-    handleTimeframeClick,
     countries,
-    nodes,
-    nodesWeight,
+    error,
   };
 };
