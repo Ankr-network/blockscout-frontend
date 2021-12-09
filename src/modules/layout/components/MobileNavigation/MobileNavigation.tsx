@@ -3,10 +3,10 @@ import { Button, Container } from '@material-ui/core';
 import { NavLink, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
-import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { MoreIcon } from 'uiKit/Icons/MoreIcon';
-import { PaperIcon } from 'uiKit/Icons/PaperIcon';
+import { ReactComponent as DiamondIcon } from 'uiKit/Icons/diamond.svg';
+import { ReactComponent as BoxIcon } from 'uiKit/Icons/box.svg';
+import { ReactComponent as MoreIcon } from 'uiKit/Icons/more.svg';
+import { ReactComponent as PaperIcon } from 'uiKit/Icons/paper.svg';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
