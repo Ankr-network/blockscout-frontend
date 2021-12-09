@@ -1,8 +1,4 @@
-import { SvgIcon, SvgIconProps } from '@material-ui/core';
-
-export const StatIcon = (props: SvgIconProps) => {
-  return (
-    <SvgIcon {...props} viewBox="0 0 16 16" fill="none">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <rect
         x="1.5"
         y="7.5"
@@ -10,7 +6,7 @@ export const StatIcon = (props: SvgIconProps) => {
         height="5"
         rx="0.5"
         stroke="currentColor"
-        strokeWidth="1.2"
+        stroke-width="1.2"
         fill="none"
       />
       <rect
@@ -20,7 +16,7 @@ export const StatIcon = (props: SvgIconProps) => {
         height="9"
         rx="0.5"
         stroke="currentColor"
-        strokeWidth="1.2"
+        stroke-width="1.2"
         fill="none"
       />
       <rect
@@ -30,9 +26,7 @@ export const StatIcon = (props: SvgIconProps) => {
         height="7"
         rx="0.5"
         stroke="currentColor"
-        strokeWidth="1.2"
+        stroke-width="1.2"
         fill="none"
       />
-    </SvgIcon>
-  );
-};
+    </svg>

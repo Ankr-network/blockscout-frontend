@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 
-import { FileIcon } from 'uiKit/Icons/FileIcon';
-import { ChatIcon } from 'uiKit/Icons/ChatIcon';
+import { ReactComponent as FileIcon } from 'uiKit/Icons/file.svg';
+import { ReactComponent as ChatIcon } from 'uiKit/Icons/chat.svg';
 import { t } from 'modules/i18n/utils/intl';
 import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
 import { useIsSMDown } from 'modules/themes/useTheme';
-import { StatIcon } from 'uiKit/Icons/StatIcon';
+import { ReactComponent as StatIcon } from 'uiKit/Icons/stat.svg';
 import { ANKR_SCAN_LINK } from '../MainNavigation';
 
 export const ExtraNavigation = () => {
