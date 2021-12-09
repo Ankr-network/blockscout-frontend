@@ -7,13 +7,11 @@ import { IApiChain } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchNodesWeight } from './fetchNodesWeight';
-import { fetchUserLocation } from './fetchUserLocation';
 
 export interface IChainItemDetails {
   chain: IApiChain;
   nodes?: INodeEntity[];
   nodesWeight?: IWorkerNodesWeight;
-  userCountryCode?: string;
 }
 
 export const fetchChain = createSmartAction<
@@ -37,25 +35,22 @@ export const fetchChain = createSmartAction<
             { data: chains },
             { data: nodes },
             { data: nodesWeight },
-            { data: userCountryCode },
           ] = await Promise.all([
             store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes(chainId)),
             store.dispatchRequest(fetchNodesWeight()),
-            store.dispatchRequest(fetchUserLocation()),
           ]);
 
           const chain = chains?.find(item => item.id === chainId);
 
           if (!chain) {
-            throw new Error('chainId not found');
+            throw new Error('ChainId not found');
           }
 
           return {
             chain,
             nodes,
             nodesWeight,
-            userCountryCode,
           };
         })(),
       };

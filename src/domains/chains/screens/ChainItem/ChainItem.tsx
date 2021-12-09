@@ -23,7 +23,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   useChainItemBreadcrumbs(data.chain.name);
 
-  const { chain, nodes, nodesWeight, userCountryCode = '' } = data;
+  const { chain, nodes, nodesWeight } = data;
   const {
     timeframe,
     setTimeframe,
@@ -67,10 +67,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
             />
           </ChainRequestsOverview>
           {countries && Object.keys(countries).length !== 0 && (
-            <RequestsMap
-              countries={countries}
-              userCountryCode={userCountryCode}
-            />
+            <RequestsMap countries={countries} />
           )}
         </>
       )}

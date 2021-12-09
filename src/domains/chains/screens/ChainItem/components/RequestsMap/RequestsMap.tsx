@@ -8,10 +8,7 @@ import { RequestsMapProps } from './RequestsMapTypes';
 import { StatsTable } from './StatsTable';
 import { StatsMap } from './StatsMap';
 
-export const RequestsMap = ({
-  countries,
-  userCountryCode = '',
-}: RequestsMapProps) => {
+export const RequestsMap = ({ countries }: RequestsMapProps) => {
   const classes = useStyles();
   const [country, setCountry] = useState<string>('');
 
@@ -21,11 +18,7 @@ export const RequestsMap = ({
     <div className={classes.root}>
       <Typography variant="h5">{t('chain-item.map.header')}</Typography>
       <div className={classes.container}>
-        <StatsTable
-          data={data}
-          selectedCountry={country}
-          userCountryCode={userCountryCode}
-        />
+        <StatsTable data={data} selectedCountry={country} />
         <div className={classes.mapContainer}>
           <StatsMap data={data} setCountry={setCountry} />
         </div>
