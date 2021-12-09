@@ -99,7 +99,7 @@
     },
     "nodes-table": {
       "header": "Nodes",
-      "tooltip-text": "Height, weight and availability of&nbsp;the node are depends on&nbsp;location",
+      "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location",
       "head": {
         "node": "Node",
         "height": "Height",
