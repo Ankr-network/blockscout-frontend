@@ -7,6 +7,7 @@ import stakeIcon from './stake.svg';
 import arbitrumIcon from './arbitrum.svg';
 import defaultIcon from './default-icon.svg';
 import celoIcon from './celo.svg';
+import nearIcon from './near.svg';
 import { Chain } from '@ankr.com/multirpc';
 
 const chainIcons: { [key in Chain]: string } = {
@@ -18,6 +19,8 @@ const chainIcons: { [key in Chain]: string } = {
   [Chain.xdai]: stakeIcon,
   [Chain.arbitrum]: arbitrumIcon,
   [Chain.celo]: celoIcon,
+  // @ts-ignore
+  near: nearIcon,
 };
 
 export function getChainIcon(name: Chain) {
