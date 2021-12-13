@@ -20,7 +20,7 @@
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/multirpc": "^0.0.145",
+    "@ankr.com/multirpc": "^0.0.149",
     "@ankr.com/dom": "^0.0.143",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
@@ -137,7 +137,8 @@
       "/public/polygon/",
       "/public/solana/",
       "/public/arbitrum/",
-      "/public/selo/"
+      "/public/selo/",
+      "/public/near/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
