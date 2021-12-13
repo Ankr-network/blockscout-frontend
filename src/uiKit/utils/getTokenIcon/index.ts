@@ -19,8 +19,7 @@ const chainIcons: { [key in Chain]: string } = {
   [Chain.xdai]: stakeIcon,
   [Chain.arbitrum]: arbitrumIcon,
   [Chain.celo]: celoIcon,
-  // @ts-ignore
-  near: nearIcon,
+  [Chain.near]: nearIcon,
 };
 
 export function getChainIcon(name: Chain) {
