@@ -1,14 +1,14 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
-import { useRightsStyles as useStyles } from './useRightsStyles';
+import { useRightsStyles } from './useRightsStyles';
 
 interface IRights {
   className?: string;
 }
 
 export const Rights = ({ className = '' }: IRights) => {
-  const classes = useStyles();
+  const classes = useRightsStyles();
 
   return (
     <Typography

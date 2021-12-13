@@ -1,15 +1,11 @@
-import { SubNavigation } from '../SubNavigation';
+import { Container } from '@material-ui/core';
 import { Rights } from '../Rights';
 import { Socials } from '../Socials';
-import { useFooterStyles as useStyles } from './useFooterStyles';
-import { Container } from '@material-ui/core';
+import { SubNavigation } from '../SubNavigation';
+import { useFooterStyles } from './useFooterStyles';
 
-interface IFooter {
-  className?: string;
-}
-
-export const Footer = ({ className = '' }: IFooter) => {
-  const classes = useStyles();
+export const Footer = () => {
+  const classes = useFooterStyles();
 
   return (
     <footer>

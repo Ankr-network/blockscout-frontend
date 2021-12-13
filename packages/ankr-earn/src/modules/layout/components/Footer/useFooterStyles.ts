@@ -6,8 +6,7 @@ export const useFooterStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    paddingTop: theme.spacing(2.5),
-    paddingBottom: theme.spacing(2.5),
+    padding: theme.spacing(2.5, 5),
     [theme.breakpoints.up('lg')]: {
       display: 'grid',
       gridTemplateColumns: '1fr 2fr 1fr',

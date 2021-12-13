@@ -2,6 +2,7 @@ import { Button, Popover } from '@material-ui/core';
 import classNames from 'classnames';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig as TradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
 import { useState } from 'react';
 import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
 import { Navigation } from '../../../common/components/Navigation';
@@ -23,7 +24,7 @@ export const MainNavigation = () => {
     },
     {
       label: t('main-navigation.boost'),
-      href: '4', // TODO: add proper route
+      href: TradingCockpitRoutes.dashboard.generatePath(), // TODO: add proper route
     },
   ];
 

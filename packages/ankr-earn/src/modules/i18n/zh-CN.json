@@ -1,38 +1,6 @@
 {
-  "validation": {
-    "required": "This field is required"
-  },
   "meta": {
     "title": "Ankr Earn",
     "description": "Ankr Earn"
-  },
-  "error": {
-    "not-authenticated": "Not Authenticated",
-    "unknown": "Unknown error",
-    "contract-rejected": "Contract interaction rejected",
-    "unexpected": "Unexpected error",
-    "insufficient-permissions": "Insufficient permissions"
-  },
-  "main-navigation": {
-    "stake": "Stake",
-    "dashboard": "Dashboard",
-    "parachain": "Parachain",
-    "boost": "Boost",
-    "menu": "Menu",
-    "docs": "Docs",
-    "litepaper": "Litepaper"
-  },
-  "litepaper-links": {
-    "en": "Litepaper (EN)",
-    "cn": "Litepaper (CN)"
-  },
-  "logo": {
-    "earn": "Earn"
-  },
-  "rights": "© 2021 Ankr All rights reserved | info@ankr.com",
-  "language": {
-    "language": "Language",
-    "en-US": "EN",
-    "zh-CN": "中文"
   }
 }

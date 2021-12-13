@@ -27,7 +27,7 @@ export const DefaultLayout = ({
     <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
         <Header navigationSlot={<MainNavigationMobile />} />
-        {children ? children : null}
+        {children}
         <Footer />
       </ThemeProvider>
     </div>

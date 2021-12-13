@@ -1,11 +1,11 @@
-import { MainNavigation } from '../MainNavigation';
-import { Logo } from '../Logo';
-import { useHeaderStyles as useStyles } from './useHeaderStyles';
-import { useIsLGUp } from '../../../themes/useTheme';
-import { Toggle } from '../Toggle';
-import { ReactNode, useState } from 'react';
 import { Container, Drawer } from '@material-ui/core';
+import { ReactNode, useState } from 'react';
+import { useIsLGUp } from '../../../themes/useTheme';
 import { LocaleSwitcher } from '../LocaleSwitcher';
+import { Logo } from '../Logo';
+import { MainNavigation } from '../MainNavigation';
+import { Toggle } from '../Toggle';
+import { useHeaderStyles as useStyles } from './useHeaderStyles';
 
 interface IHeader {
   navigationSlot: ReactNode;

@@ -1,5 +1,5 @@
-import { useSocialsStyles as useStyles } from './useSocialsStyles';
 import { Button } from '@material-ui/core';
+import { useSocialsStyles as useStyles } from './useSocialsStyles';
 
 export interface ISocialItem {
   title: string;
