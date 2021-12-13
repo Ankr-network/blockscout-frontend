@@ -1,18 +1,22 @@
+import { LITEPAPER_CN, LITEPAPER_EN } from 'modules/common/const';
+import { t } from 'modules/i18n/utils/intl';
 import { Navigation } from '../../../common/components/Navigation';
 
-// TODO: add intl translation
+interface ISubNavigation {
+  className?: string;
+}
 
-export const SubNavigation = () => {
+export const SubNavigation = ({ className = '' }: ISubNavigation) => {
   const items = [
     {
-      label: 'Litepaper (EN)',
-      href: 'https://assets.ankr.com/files/stakefi_litepaper.pdf', // TODO: move route to const
+      label: t('litepaper-links.en'),
+      href: LITEPAPER_EN,
     },
     {
-      label: 'Litepaper (Ch)',
-      href: 'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf', // TODO: move route to const
+      label: t('litepaper-links.cn'),
+      href: LITEPAPER_CN,
     },
   ];
 
-  return <Navigation items={items} />;
+  return <Navigation className={className} items={items} />;
 };

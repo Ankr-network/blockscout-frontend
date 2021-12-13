@@ -1,4 +1,4 @@
-import { useStyles } from './SocialsStyles';
+import { useSocialsStyles as useStyles } from './useSocialsStyles';
 import {
   Twitter,
   Discord,
@@ -7,12 +7,14 @@ import {
 } from '../../../common/components/Icons/Socials';
 import { useMemo } from 'react';
 import { ISocialItem, SocialItem } from './SocialItem';
+import classNames from 'classnames';
+import { SOCIAL_LINK } from 'modules/common/const';
 
-interface SocialsProps {
+interface ISocials {
   className?: string;
 }
 
-export const Socials = ({ className = '' }: SocialsProps) => {
+export const Socials = ({ className = '' }: ISocials) => {
   const classes = useStyles();
 
   const socialList: ISocialItem[] = useMemo(
@@ -20,31 +22,31 @@ export const Socials = ({ className = '' }: SocialsProps) => {
       {
         title: 'twitter',
         icon: <Twitter />,
-        href: 'twitter',
+        href: SOCIAL_LINK.twitter,
       },
       {
         title: 'telegram',
         icon: <Telegram />,
-        href: 'telegram',
+        href: SOCIAL_LINK.telegram,
       },
       {
         title: 'medium',
         icon: <Medium />,
-        href: 'medium',
+        href: SOCIAL_LINK.medium,
       },
       {
         title: 'discord',
         icon: <Discord />,
-        href: 'discord',
+        href: SOCIAL_LINK.discord,
       },
     ],
     [],
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classNames(classes.root, className)}>
       {socialList.map((item, index) => (
-        <SocialItem key={index} {...item} /> // TODO: uid
+        <SocialItem key={item.title} {...item} />
       ))}
     </div>
   );

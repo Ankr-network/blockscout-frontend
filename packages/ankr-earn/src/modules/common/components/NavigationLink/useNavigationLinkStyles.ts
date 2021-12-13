@@ -1,12 +1,10 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const HEADER_HEIGHT_XS = 66;
-export const HEADER_HEIGHT_XL = 80;
-
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useNavigationLinkStyles = makeStyles<Theme>(theme => ({
   link: {
     padding: theme.spacing(0, 2),
     color: theme.palette.text.secondary,
+    background: 'none',
     fontWeight: 400,
     transition: 'color 0.2s',
     '&:hover': {
