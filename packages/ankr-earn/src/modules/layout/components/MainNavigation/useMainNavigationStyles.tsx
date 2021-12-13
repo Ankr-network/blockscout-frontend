@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useMainNavigationStyles = makeStyles<Theme>(theme => ({
   button: {
     padding: theme.spacing(0, 2),
     color: theme.palette.text.secondary,

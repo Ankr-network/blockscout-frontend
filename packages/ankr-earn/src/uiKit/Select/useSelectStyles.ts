@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useSelectStyles = makeStyles<Theme>(theme => ({
   root: {
     borderRadius: 18,
 

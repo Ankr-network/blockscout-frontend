@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useNavigationLinkStyles = makeStyles<Theme>(theme => ({
   link: {
     padding: theme.spacing(0, 2),
     color: theme.palette.text.secondary,

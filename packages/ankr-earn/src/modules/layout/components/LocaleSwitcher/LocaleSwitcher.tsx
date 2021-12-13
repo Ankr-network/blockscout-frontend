@@ -1,21 +1,18 @@
-import { ChangeEvent, FC, useCallback } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { Locale } from '../../../i18n/types/locale';
 import { t } from '../../../i18n/utils/intl';
 import { setLocale } from '../../../i18n/i18nSlice';
 import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useStyles } from './useLocaleSwitcherStyles';
 import { Select } from 'uiKit/Select';
-import classNames from 'classnames';
 
 export interface ILocaleSwitcher {
   className?: string;
 }
 
-export const LocaleSwitcher: FC<ILocaleSwitcher> = ({ className = '' }) => {
+export const LocaleSwitcher = ({ className = '' }: ILocaleSwitcher) => {
   const dispatch = useAppDispatch();
-  const classes = useStyles();
   const localeOptions = useLocaleMemo(
     () => [
       {
@@ -41,7 +38,7 @@ export const LocaleSwitcher: FC<ILocaleSwitcher> = ({ className = '' }) => {
 
   return (
     <Select
-      className={classNames(className, classes.root)}
+      className={className}
       value={locale}
       onChange={onChange}
       options={localeOptions}

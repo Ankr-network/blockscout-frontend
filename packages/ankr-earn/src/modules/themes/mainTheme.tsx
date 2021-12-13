@@ -153,9 +153,15 @@ export const mainTheme = createTheme({
 
     MuiContainer: {
       root: {
+        paddingLeft: defaultTheme.spacing(5),
+        paddingRight: defaultTheme.spacing(5),
+        [defaultTheme.breakpoints.up('sm')]: {
+          paddingLeft: defaultTheme.spacing(5),
+          paddingRight: defaultTheme.spacing(5),
+        },
         [defaultTheme.breakpoints.up('xl')]: {
-          paddingLeft: defaultTheme.spacing(7.5),
-          paddingRight: defaultTheme.spacing(7.5),
+          paddingLeft: defaultTheme.spacing(5),
+          paddingRight: defaultTheme.spacing(5),
         },
       },
 
@@ -302,7 +308,7 @@ export const mainTheme = createTheme({
       iconOutlined: {
         fontSize: 12,
         right: 16,
-        top: 'calc(50% - 6px)',
+        top: 'calc(50% - 4px)',
         color: 'inherit',
       },
     },

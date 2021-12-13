@@ -1,16 +1,16 @@
-import { Button, ButtonProps } from '@material-ui/core';
+import { ButtonProps, Button } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
-import { useToggleStyles } from './useToggleStyles';
+import { useToggleStyles as useStyles } from './useToggleStyles';
 
-interface IToggleProps extends ButtonProps {
+interface IToggle extends ButtonProps {
   opened?: boolean;
   className?: string;
 }
 
-export const Toggle = React.forwardRef<HTMLButtonElement, IToggleProps>(
+export const Toggle = React.forwardRef<HTMLButtonElement, IToggle>(
   ({ className, opened, ...props }, ref) => {
-    const classes = useToggleStyles();
+    const classes = useStyles();
     return (
       <Button
         className={classNames(

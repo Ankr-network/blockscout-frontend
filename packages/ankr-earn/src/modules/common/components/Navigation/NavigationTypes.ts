@@ -1,6 +1,6 @@
 import { NavigationItem } from '../NavigationLink/';
 
-export interface NavigationProps {
+export interface INavigation {
   items: NavigationItem[];
   className?: string;
 }

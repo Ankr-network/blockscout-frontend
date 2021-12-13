@@ -1,18 +1,18 @@
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { ConnectedRouter } from 'connected-react-router';
-import { historyInstance } from 'modules/common/utils/historyInstance';
 import { ReactNode } from 'react';
-import { ReactReduxContext } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { useInitializeLocale } from 'store/useAppUtils';
-import { Spinner } from 'uiKit/Spinner';
 import '../../../../assets/fonts/style.css';
 import { mainTheme } from '../../../themes/mainTheme';
+import { Spinner } from 'uiKit/Spinner';
+import { historyInstance } from 'modules/common/utils/historyInstance';
+import { ReactReduxContext } from 'react-redux';
 
-interface IAppBaseProps {
+interface IAppBase {
   children: ReactNode;
 }
 
-export const AppBase = ({ children }: IAppBaseProps) => {
+export const AppBase = ({ children }: IAppBase) => {
   const isInitialized = useInitializeLocale();
 
   return (

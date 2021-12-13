@@ -1,10 +1,9 @@
 import { NavigationLink } from 'modules/common/components/NavigationLink';
 import { t } from 'modules/i18n/utils/intl';
-import { FC } from 'react';
 import { LocaleSwitcherMobile } from '../LocaleSwitcherMobile';
-import { useStyles } from './useMainNavigationMobileStyles';
+import { useMainNavigationMobileStyles as useStyles } from './useMainNavigationMobileStyles';
 
-export const MainNavigationMobile: FC = () => {
+export const MainNavigationMobile = () => {
   const classes = useStyles();
 
   const items = [

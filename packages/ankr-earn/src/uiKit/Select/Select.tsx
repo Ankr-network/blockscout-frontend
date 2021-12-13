@@ -1,3 +1,4 @@
+import { ReactNode, useMemo } from 'react';
 import {
   FormControl,
   FormHelperText,
@@ -6,10 +7,10 @@ import {
   SelectProps,
 } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, { ReactNode, useMemo } from 'react';
 import { uid } from 'react-uid';
-import { AngleDownIcon } from '../Icons/AngleDownIcon';
-import { useStyles } from './useSelectStyles';
+
+import { ReactComponent as AngleDownIcon } from '../../assets/img/angle-down-icon.svg';
+import { useSelectStyles as useStyles } from './useSelectStyles';
 
 export interface ISelectOption {
   label: string;
@@ -68,7 +69,7 @@ export const Select = ({
           horizontal: 'right',
         },
       },
-      IconComponent: props => <AngleDownIcon fontSize="medium" {...props} />,
+      IconComponent: props => <AngleDownIcon fontSize="default" {...props} />,
     }),
     [classes],
   );

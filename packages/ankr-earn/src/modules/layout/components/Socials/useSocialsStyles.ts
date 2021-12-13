@@ -1,7 +1,7 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { defaultTheme } from '../../../themes/mainTheme';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useSocialsStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     margin: theme.spacing(0, -1),

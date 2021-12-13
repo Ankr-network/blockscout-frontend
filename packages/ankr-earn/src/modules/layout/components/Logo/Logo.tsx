@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
 import { Typography, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { AnkrLogoIcon } from '../../../common/components/Icons/AnkrLogoIcon';
+import { ReactComponent as AnkrLogoIcon } from '../../../../assets/img/logo.svg';
 
-import { useStyles } from './useLogoStyles';
+import { useLogoStyles as useStyles } from './useLogoStyles';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
 
@@ -12,7 +11,7 @@ export interface ILogo {
   className?: string;
 }
 
-export const Logo: FC<ILogo> = ({ className = '' }) => {
+export const Logo = ({ className = '' }: ILogo) => {
   const classes = useStyles();
 
   return (

@@ -1,13 +1,14 @@
 import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { getTheme } from '../../../common/utils/getTheme';
 import { Themes } from '../../../themes/types';
 import { Footer } from '../Footer/index';
 import { Header } from '../Header/index';
-import { useStyles } from './useDefaultLayoutStyles';
+import { useDefaultLayoutStyles as useStyles } from './useDefaultLayoutStyles';
+import { MainNavigationMobile } from '../MainNavigationMobile';
 
-export interface ILayoutProps {
+export interface IDefaultLayout {
   children?: ReactNode;
   theme?: Themes;
   isLayoutDefaultColor?: boolean;
@@ -17,8 +18,7 @@ export interface ILayoutProps {
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
-  withNoReactSnap = true,
-}: ILayoutProps) => {
+}: IDefaultLayout) => {
   const classes = useStyles();
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -26,9 +26,9 @@ export const DefaultLayout = ({
   return (
     <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
-        <Header></Header>
-        <main>{children}</main>
-        <Footer></Footer>
+        <Header navigationSlot={<MainNavigationMobile />} />
+        {children}
+        <Footer />
       </ThemeProvider>
     </div>
   );

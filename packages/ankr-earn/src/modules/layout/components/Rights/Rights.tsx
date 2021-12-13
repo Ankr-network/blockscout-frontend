@@ -1,15 +1,14 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
-import { FC } from 'react';
-import { useStyles } from './useRightsStyles';
+import { useRightsStyles } from './useRightsStyles';
 
-interface RightsProps {
+interface IRights {
   className?: string;
 }
 
-export const Rights: FC<RightsProps> = ({ className = '' }) => {
-  const classes = useStyles();
+export const Rights = ({ className = '' }: IRights) => {
+  const classes = useRightsStyles();
 
   return (
     <Typography

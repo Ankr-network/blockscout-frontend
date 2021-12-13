@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const SIDEBAR_WIDTH = 220;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useLogoStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -27,8 +27,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   title: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 14,
-    },
+    fontSize: 14,
   },
 }));

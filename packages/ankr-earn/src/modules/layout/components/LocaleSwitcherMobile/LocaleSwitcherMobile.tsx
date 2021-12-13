@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Locale } from '../../../i18n/types/locale';
 import { t } from '../../../i18n/utils/intl';
 import { setLocale } from '../../../i18n/i18nSlice';
@@ -6,16 +6,16 @@ import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from '@material-ui/core';
-import { useStyles } from './useLocaleSwitcherMobileStyles';
+import { useLocaleSwitcherMobileStyles as useStyles } from './useLocaleSwitcherMobileStyles';
 import classNames from 'classnames';
 
 export interface ILocaleSwitcherMobile {
   className?: string;
 }
 
-export const LocaleSwitcherMobile: FC<ILocaleSwitcherMobile> = ({
+export const LocaleSwitcherMobile = ({
   className = '',
-}) => {
+}: ILocaleSwitcherMobile) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const localeOptions = useLocaleMemo(
@@ -48,7 +48,7 @@ export const LocaleSwitcherMobile: FC<ILocaleSwitcherMobile> = ({
       onClick={() => onClick(option.value)}
       className={classNames(
         classes.button,
-        option.value === locale ? classes.activeButton : '',
+        option.value === locale && classes.activeButton,
       )}
     >
       {option.label}

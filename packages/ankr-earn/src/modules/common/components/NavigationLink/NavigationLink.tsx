@@ -1,8 +1,7 @@
-import React from 'react';
 import { Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 
-import { useStyles } from './useNavigationLinkStyles';
+import { useNavigationLinkStyles as useStyles } from './useNavigationLinkStyles';
 import { NavigationItem } from './NavigationLinkTypes';
 import { isExternalPath } from '../../utils/isExternalPath';
 import classNames from 'classnames';

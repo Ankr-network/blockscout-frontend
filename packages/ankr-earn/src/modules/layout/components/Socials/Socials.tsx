@@ -1,4 +1,4 @@
-import { useStyles } from './useSocialsStyles';
+import { useSocialsStyles as useStyles } from './useSocialsStyles';
 import {
   Twitter,
   Discord,
@@ -10,11 +10,11 @@ import { ISocialItem, SocialItem } from './SocialItem';
 import classNames from 'classnames';
 import { SOCIAL_LINK } from 'modules/common/const';
 
-interface SocialsProps {
+interface ISocials {
   className?: string;
 }
 
-export const Socials = ({ className = '' }: SocialsProps) => {
+export const Socials = ({ className = '' }: ISocials) => {
   const classes = useStyles();
 
   const socialList: ISocialItem[] = useMemo(

@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as TradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
-import { FC, useState } from 'react';
-import { AngleDownIconSmall } from 'uiKit/Icons/AngleDownIconSmall';
+import { useState } from 'react';
+import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
 import { Navigation } from '../../../common/components/Navigation';
-import { useStyles } from './useMainNavigationStyles';
+import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
-export const MainNavigation: FC = () => {
+export const MainNavigation = () => {
   const items = [
     {
       label: t('main-navigation.stake'),
@@ -47,7 +47,7 @@ export const MainNavigation: FC = () => {
       key={option.label}
       href={option.href}
       label={option.label}
-    ></NavigationLink>
+    />
   ));
 
   const handleMenuClick = (event: any) => {
@@ -67,7 +67,7 @@ export const MainNavigation: FC = () => {
       <Button
         className={classNames(
           classes.button,
-          popoverOpen ? classes.buttonActive : '',
+          popoverOpen && classes.buttonActive,
         )}
         aria-describedby={id}
         variant="text"

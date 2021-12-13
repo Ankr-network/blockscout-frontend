@@ -4,7 +4,7 @@ interface SpinnerStyleProps {
   size: number;
 }
 
-export const useStyles = makeStyles<Theme, SpinnerStyleProps>(theme => ({
+export const useSpinnerStyles = makeStyles<Theme, SpinnerStyleProps>(theme => ({
   root: {
     animationName: '$spin',
     animationDuration: '1s',
