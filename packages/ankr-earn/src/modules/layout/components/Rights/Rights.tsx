@@ -1,22 +1,23 @@
 import { Typography } from '@material-ui/core';
-import { useStyles } from './RightsStyles';
+import classNames from 'classnames';
+import { t } from 'modules/i18n/utils/intl';
+import { FC } from 'react';
+import { useStyles } from './useRightsStyles';
 
 interface RightsProps {
   className?: string;
 }
 
-// TODO: add intl translation
-
-export const Rights = ({ className = '' }: RightsProps) => {
+export const Rights: FC<RightsProps> = ({ className = '' }) => {
   const classes = useStyles();
 
   return (
     <Typography
       variant="subtitle1"
       color="textSecondary"
-      className={classes.container}
+      className={classNames(classes.root, className)}
     >
-      © 2021 Ankr All rights reserved | info@ankr.com
+      {t('rights')}
     </Typography>
   );
 };

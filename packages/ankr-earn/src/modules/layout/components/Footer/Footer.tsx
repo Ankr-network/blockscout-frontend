@@ -1,26 +1,21 @@
 import { SubNavigation } from '../SubNavigation';
 import { Rights } from '../Rights';
 import { Socials } from '../Socials';
-import { useStyles } from './FooterStyles';
+import { useStyles } from './useFooterStyles';
+import { FC } from 'react';
 
-interface FooterProps {
+interface IFooter {
   className?: string;
 }
 
-export const Footer = ({ className = '' }: FooterProps) => {
+export const Footer: FC<IFooter> = ({ className = '' }) => {
   const classes = useStyles();
 
   return (
     <footer className={classes.container}>
-      <div className={classes.leftSide}>
-        <Rights />
-      </div>
-      <div className={classes.center}>
-        <SubNavigation />
-      </div>
-      <div className={classes.rightSide}>
-        <Socials />
-      </div>
+      <Rights className={classes.leftSide} />
+      <SubNavigation className={classes.center} />
+      <Socials className={classes.rightSide} />
     </footer>
   );
 };

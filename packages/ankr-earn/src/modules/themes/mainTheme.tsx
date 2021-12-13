@@ -1,4 +1,4 @@
-import { createMuiTheme, fade, lighten, ThemeOptions } from '@material-ui/core';
+import { alpha, createTheme, lighten, ThemeOptions } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import React from 'react';
 import { CheckboxCheckedIcon, CheckboxIcon } from '../../uiKit/Checkbox';
@@ -38,24 +38,24 @@ export const PALETTE: PaletteOptions = {
   },
   success: {
     main: '#4DB58F',
-    light: fade('#4DB58F', 0.15),
+    light: alpha('#4DB58F', 0.15),
   },
   error: {
     main: '#E3453D',
-    light: fade('#E3453D', 0.15),
+    light: alpha('#E3453D', 0.15),
   },
   grey: {
     500: '#808692',
   },
 };
 
-export const defaultTheme = createMuiTheme({
+export const defaultTheme = createTheme({
   spacing: 8,
   palette: PALETTE,
   breakpoints: BREAKPOINTS,
 });
 
-export const mainTheme = createMuiTheme({
+export const mainTheme = createTheme({
   spacing: defaultTheme.spacing,
   palette: defaultTheme.palette,
   breakpoints: defaultTheme.breakpoints,
@@ -234,11 +234,11 @@ export const mainTheme = createMuiTheme({
     MuiInputBase: {
       root: {
         fontSize: 16,
-        border: `1px solid ${fade(defaultTheme.palette.common.black, 0.1)}`,
+        border: `1px solid ${alpha(defaultTheme.palette.common.black, 0.1)}`,
         transition: 'border 0.2s',
 
         '&:hover, &.Mui-focused': {
-          borderColor: fade(defaultTheme.palette.common.black, 0.3),
+          borderColor: alpha(defaultTheme.palette.common.black, 0.3),
         },
 
         '& fieldset': {
@@ -294,18 +294,16 @@ export const mainTheme = createMuiTheme({
       },
       outlined: {
         '&&': {
-          fontSize: 12,
+          fontSize: 14,
           padding: '10px 29px 9px 15px',
         },
       },
 
-      iconOpen: {
-        color: defaultTheme.palette.text.primary,
-      },
       iconOutlined: {
-        fontSize: 10,
+        fontSize: 12,
         right: 16,
         top: 'calc(50% - 6px)',
+        color: 'inherit',
       },
     },
 
@@ -319,12 +317,12 @@ export const mainTheme = createMuiTheme({
 
     MuiIconButton: {
       root: {
-        border: `1px solid ${fade(defaultTheme.palette.common.black, 0.1)}`,
+        border: `1px solid ${alpha(defaultTheme.palette.common.black, 0.1)}`,
         color: defaultTheme.palette.text.primary,
         transition: `border ${BTN_TRANSITION_TIME}s`,
 
         '&:hover': {
-          borderColor: fade(defaultTheme.palette.common.black, 0.3),
+          borderColor: alpha(defaultTheme.palette.common.black, 0.3),
           backgroundColor: 'none',
         },
       },
@@ -342,14 +340,14 @@ export const mainTheme = createMuiTheme({
 
         '&$disabled': {
           pointerEvents: 'none',
-          borderColor: fade(defaultTheme.palette.common.black, 0),
+          borderColor: alpha(defaultTheme.palette.common.black, 0),
 
           '&:active': {
             transform: 'none',
           },
 
           '&:hover': {
-            borderColor: fade(defaultTheme.palette.common.black, 0),
+            borderColor: alpha(defaultTheme.palette.common.black, 0),
           },
         },
       },
@@ -424,7 +422,7 @@ export const mainTheme = createMuiTheme({
 
         '&$disabled': {
           border: '1px solid #E6E6E6',
-          color: fade(defaultTheme.palette.common.black, 0.4),
+          color: alpha(defaultTheme.palette.common.black, 0.4),
         },
 
         '&:hover': {
@@ -538,7 +536,7 @@ export const mainTheme = createMuiTheme({
 
       textColorInherit: {
         opacity: 1,
-        color: fade(defaultTheme.palette.text.primary, 0.3),
+        color: alpha(defaultTheme.palette.text.primary, 0.3),
       },
     },
 
@@ -565,7 +563,7 @@ export const mainTheme = createMuiTheme({
       },
 
       outlined: {
-        border: `1px solid ${fade('#000', 0.1)}`,
+        border: `1px solid ${alpha('#000', 0.1)}`,
       },
     },
 

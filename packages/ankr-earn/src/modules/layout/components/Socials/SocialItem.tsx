@@ -1,5 +1,6 @@
-import { useStyles } from './SocialsStyles';
+import { useStyles } from './useSocialsStyles';
 import { Button } from '@material-ui/core';
+import { FC } from 'react';
 
 export interface ISocialItem {
   className?: string;
@@ -8,12 +9,12 @@ export interface ISocialItem {
   href: string;
 }
 
-export const SocialItem = ({
+export const SocialItem: FC<ISocialItem> = ({
   className = '',
   title,
   icon,
   href,
-}: ISocialItem) => {
+}) => {
   const classes = useStyles();
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { useStyles } from './useStyles';
+import { useStyles } from './useCheckboxStyles';
 
 export const CheckboxIcon = () => {
   const classes = useStyles();

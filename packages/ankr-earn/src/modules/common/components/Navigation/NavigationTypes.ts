@@ -1,9 +1,6 @@
-export interface NavigationItem {
-  label: string;
-  href?: string;
-  isDisabled?: boolean;
-}
+import { NavigationItem } from '../NavigationLink/';
 
 export interface NavigationProps {
   items: NavigationItem[];
+  className?: string;
 }

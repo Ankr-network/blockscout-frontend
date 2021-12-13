@@ -10,6 +10,7 @@ import { historyInstance } from '../modules/common/utils/historyInstance';
 import { i18nPersistConfig } from './webStorageConfigs';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
+  cache: true,
   driver: {
     default: createPromiseDriver({
       processResponse: response => ({ data: response }),
