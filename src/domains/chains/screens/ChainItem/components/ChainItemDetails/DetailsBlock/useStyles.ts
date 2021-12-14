@@ -5,7 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     padding: theme.spacing(2.5, 2.5, 2),
     textAlign: 'center',
-    flexGrow: 1,
+    flex: 1,
   },
   top: {
     marginBottom: theme.spacing(1),

@@ -8,6 +8,7 @@ export const useStyles = makeStyles<Theme>(() => ({
   root: {
     display: 'flex',
     alignItems: 'center',
+    flex: 1,
   },
   logo: {
     width: LOGO_WIDTH,
@@ -18,6 +19,7 @@ export const useStyles = makeStyles<Theme>(() => ({
     transition: 'color 0.2s',
   },
   right: {
+    flex: 1,
     maxWidth: `calc(100% - ${LOGO_WIDTH}px - ${LOGO_MARGIN}px)`,
   },
 }));

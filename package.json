@@ -1,11 +1,12 @@
 {
   "name": "ankr-protocol-web",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build": "env-cmd react-scripts build",
+    "build:stage": "env-cmd -f .env.stage react-scripts build",
+    "build:prod": "env-cmd -f .env.prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
@@ -19,7 +20,7 @@
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/multirpc": "^0.0.143",
+    "@ankr.com/multirpc": "^0.0.145",
     "@ankr.com/dom": "^0.0.143",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
@@ -135,7 +136,8 @@
       "/public/fantom/",
       "/public/polygon/",
       "/public/solana/",
-      "/public/arbitrum/"
+      "/public/arbitrum/",
+      "/public/selo/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
