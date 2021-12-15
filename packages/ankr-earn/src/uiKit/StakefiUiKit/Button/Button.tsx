@@ -1,6 +1,6 @@
 import { Button as ButtonComponent, ButtonProps } from '@material-ui/core';
 import React from 'react';
-import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
+import { QueryLoading } from 'components/QueryLoading/QueryLoading';
 
 type ButtonsVariant = 'contained' | 'outlined' | 'text';
 

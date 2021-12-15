@@ -1,10 +1,9 @@
-import React from 'react';
 import { ReactComponent as AvaxcIcon } from '../../common/assets/avaxcIcon.svg';
 import { ReactComponent as BinanceSmartChainIcon } from '../../common/assets/binanceSmartChainIcon.svg';
 import { ReactComponent as EthereumMainnetIcon } from '../../common/assets/ethereumMainnetIcon.svg';
-import { useLocaleMemo } from '../../common/hooks/useLocaleMemo';
-import { BlockchainNetworkId } from '../../common/types';
-import { t } from '../../common/utils/intl';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { BlockchainNetworkId } from 'modules/common/types';
+import { t } from 'modules/i18n/utils/intl';
 
 export interface INetwork {
   title: string;

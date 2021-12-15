@@ -28,7 +28,7 @@ import { Queries } from '../../../../components/Queries/Queries';
 import { Query, useDispatchRequest, useMutation } from '@redux-requests/react';
 import { PlusMinusBtn } from '../../../../components/PlusMinusBtn';
 import { unstake } from '../../actions/unstake';
-import { fetchAccountData } from '../../../../store/actions/UserActions';
+import { UserActions } from '../../../../store/actions/UserActions';
 import { PendingUnstakeAmount } from '../../components/PendingUnstakeAmount';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { ResponseData } from 'components/ResponseData';

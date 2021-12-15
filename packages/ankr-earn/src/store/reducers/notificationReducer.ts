@@ -1,4 +1,4 @@
-import { createReducer } from '../../common/utils/redux/createReducer';
+import { createReducer } from 'modules/common/utils/redux/createReducer';
 import { SnackbarProps } from '@material-ui/core/Snackbar';
 import { NotificationActionsTypes } from '../actions/NotificationActions';
 import { Color } from '@material-ui/lab';

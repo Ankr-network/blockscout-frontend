@@ -1,12 +1,12 @@
 import { IconButton, Tooltip } from '@material-ui/core';
 
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { MinusIcon } from '../../UiKit/Icons/MinusIcon';
-import { PlusIcon } from '../../UiKit/Icons/PlusIcon';
+import { MinusIcon } from 'uiKit/StakefiUiKit/Icons/MinusIcon';
+import { PlusIcon } from 'uiKit/StakefiUiKit/Icons/PlusIcon';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from 'uiKit/Spinner';
 
 import { usePlusMinusBtnStyles } from './usePlusMinusBtnStyles';
 

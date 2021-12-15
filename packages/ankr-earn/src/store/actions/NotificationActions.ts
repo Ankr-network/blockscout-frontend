@@ -1,5 +1,5 @@
 import { INotificationProps } from '../reducers/notificationReducer';
-import { createAction } from '../../common/utils/redux/createAction';
+import { createAction } from 'modules/common/utils/redux/createAction';
 
 const NotificationActionsTypes = {
   SHOW_NOTIFICATION: 'SHOW_NOTIFICATION',

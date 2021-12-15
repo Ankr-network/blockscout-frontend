@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import { PALETTE } from '../../../../common/themes/mainTheme';
+import { PALETTE } from 'modules/themes/mainTheme';
 
 export const useBalanceStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -88,11 +88,11 @@ export const useBalanceStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '3px 15px 4px 15px',
-    border: `1px solid ${PALETTE.grey[400]}`,
+    border: `1px solid rgba(255, 255, 255, .2)`,
     borderRadius: 65,
 
     '&:hover': {
-      borderColor: PALETTE.primary.contrastText,
+      borderColor: '#ffffff',
     },
   },
   tradePriceContainer: {
@@ -146,7 +146,7 @@ export const useBalanceStyles = makeStyles<Theme>(theme => ({
   },
 
   smartChainWarnArea: {
-    borderLeft: `2px solid ${PALETTE.primary.main}`,
+    borderLeft: `2px solid #006DFF`,
   },
   smartChainWarnTxt: {
     margin: '0 0 0 12px',

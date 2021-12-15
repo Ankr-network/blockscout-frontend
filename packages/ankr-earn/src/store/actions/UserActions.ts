@@ -12,6 +12,7 @@ import { BridgeSdk } from 'modules/bridge-sdk';
 export const UserActionTypes = {
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
   CALC_STAKING_FEE: 'CALC_STAKING_FEE',
+  STAKE_AND_CLAIM: 'STAKE_AND_CLAIM',
 };
 
 export const UserActions = {
@@ -94,6 +95,29 @@ export const UserActions = {
           stakingFeeRate: stakingFeeRate,
         } as IStakingFeeInfo;
       })(),
+    },
+  }),
+  stakeAndClaim: (amount: BigNumber | string, token: string) => ({
+    type: UserActionTypes.STAKE_AND_CLAIM,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          const bridgeSdk = new BridgeSdk(stkrSdk);
+          const stakingFeeRate = await bridgeSdk.calcStakingFeeRate();
+          const fee = stakingFeeRate.multipliedBy(amount).dividedBy(32);
+
+          amount = new BigNumber(amount).plus(fee);
+
+          console.log(`New staking amount is: ${amount.toString(10)}`);
+        }
+
+        return stkrSdk.stake(amount, token, true);
+      })(),
+    },
+    meta: {
+      asMutation: true,
     },
   }),
 };

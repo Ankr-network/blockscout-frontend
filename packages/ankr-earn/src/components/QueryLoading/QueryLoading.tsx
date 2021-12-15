@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Spinner } from '../Spinner';
+import { Spinner } from 'uiKit/Spinner';
 import { LoadingProps } from '@redux-requests/react';
 import { Box } from '@material-ui/core';
 

@@ -14,8 +14,8 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
-} from 'components/TableComponents';
-import { AlignType } from 'components/TableComponents/types';
+} from 'modules/common/components/TableComponents';
+import { AlignType } from 'modules/common/components/TableComponents/types';
 import { NavLink } from 'uiKit/StakefiUiKit/NavLink';
 import {
   ITxEventsHistoryData,
