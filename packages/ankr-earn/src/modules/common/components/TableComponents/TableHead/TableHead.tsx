@@ -16,26 +16,26 @@ export const TableHeadComponent = ({
   paddingCollapse,
   count,
   stickyHeader,
+  dense,
 }: ITableHeadProps & ICustomProps & IStyleProps & { count: number }) => {
   const classes = useTableHeadStyles({
     count,
     customCell,
     paddingCollapse,
+    dense,
   });
 
   return (
-    <div
+    <thead
       className={classNames(
         classes.head,
         className,
         stickyHeader && classes.headSticky,
+        !dense && classes.headWithBg,
       )}
-      role="rowgroup"
     >
-      <div className={classes.row} role="row">
-        {children}
-      </div>
-    </div>
+      <tr className={classes.row}>{children}</tr>
+    </thead>
   );
 };
 

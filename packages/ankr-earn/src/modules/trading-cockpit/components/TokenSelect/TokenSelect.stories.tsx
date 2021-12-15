@@ -1,3 +1,4 @@
+import { Paper } from '@material-ui/core';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
@@ -32,5 +33,14 @@ export const Default = () => {
     setValue(event.target.value);
   };
 
-  return <TokenSelect value={value} onChange={onChange} options={options} />;
+  return (
+    <Paper style={{ padding: 20 }}>
+      <TokenSelect
+        value={value}
+        onChange={onChange}
+        options={options}
+        variant="filled"
+      />
+    </Paper>
+  );
 };

@@ -41,12 +41,18 @@
     "aeth": "aETHc",
     "feth": "aETHb",
     "polygon": "MATIC",
-    "amaticb": "aMATICb"
+    "amaticb": "aMATICb",
+    "token-value": "{value, number} {token}"
+  },
+  "boost": {
+    "trading-cockpit": "Trading cockpit",
+    "liquidity-mining": "Liquidity mining"
   },
   "trading-cockpit": {
     "stake-btn": "Stake now",
     "unstake-btn": "Unstake now",
-    "exchange-btn": "Exchange",
+    "exchange-btn": "Trade",
+    "eth-unstake-err": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
     "header": {
       "title": "Trading cockpit",
       "aethb-info": "aETHb is an ETH reward earning bond.",
@@ -63,6 +69,7 @@
     },
     "table": {
       "name": "Name",
+      "rate": "Exchange rate",
       "fair-value": "Fair Value",
       "difference": "Difference vs. Fair value",
       "difference-tip": "This indicates the difference between market price and fair value, which is the amount of tokens received when you stake/unstake.",

@@ -35,16 +35,9 @@ const dataMockup: ITableRow[] = [
 ];
 
 export const Default = () => {
-  return (
-    <TableComponent
-      data={dataMockup}
-      outToken="ETH"
-      inToken="aETHb"
-      isLoading={false}
-    />
-  );
+  return <TableComponent data={dataMockup} outToken="ETH" isLoading={false} />;
 };
 
 export const LoadingState = () => {
-  return <TableComponent outToken="aETHb" inToken="ETH" isLoading />;
+  return <TableComponent outToken="aETHb" isLoading />;
 };

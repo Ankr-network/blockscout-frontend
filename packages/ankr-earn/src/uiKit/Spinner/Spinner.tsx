@@ -1,9 +1,8 @@
 import classNames from 'classnames';
-
 import { ReactComponent as SpinnerIcon } from './assets/spinner.svg';
-import { useSpinnerStyles as useStyles } from './useSpinnerStyles';
+import { useSpinnerStyles } from './useSpinnerStyles';
 
-interface ISpinner {
+export interface ISpinnerProps {
   centered?: boolean;
   className?: string;
   size?: number;
@@ -15,8 +14,8 @@ export const Spinner = ({
   size = DEFAULT_SIZE,
   centered = true,
   className = '',
-}: ISpinner) => {
-  const classes = useStyles({ size });
+}: ISpinnerProps) => {
+  const classes = useSpinnerStyles({ size });
 
   return (
     <SpinnerIcon

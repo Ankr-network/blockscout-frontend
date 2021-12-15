@@ -1,3 +1,4 @@
+import { Paper } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { createPureContext } from 'react-shallow-context';
@@ -26,15 +27,20 @@ const TableComponent = ({
   className,
   children,
   minWidth,
+  dense,
 }: ITableComponentProps) => {
   const classes = useTableStyles({ minWidth });
 
   return (
-    <div className={classNames(classes.container, className)}>
-      <div className={classes.table} role="grid">
-        {children}
-      </div>
-    </div>
+    <Paper
+      className={classNames(
+        classes.container,
+        className,
+        !dense && classes.containerNoPaper,
+      )}
+    >
+      <table className={classes.table}>{children}</table>
+    </Paper>
   );
 };
 
@@ -45,7 +51,7 @@ export const Table = (props: ITableProps) => {
     <TableContext.Provider
       value={{
         dense: props.dense,
-        paddingCollapse: props.paddingCollapse,
+        paddingCollapse: props.dense || props.paddingCollapse,
         customCell: props.customCell,
         alignCell: props.alignCell,
         count: props.columnsCount,

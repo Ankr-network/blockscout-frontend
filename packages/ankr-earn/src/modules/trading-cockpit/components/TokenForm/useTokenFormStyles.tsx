@@ -3,7 +3,7 @@ import { alpha, makeStyles, Theme } from '@material-ui/core/styles';
 export const useTokenFormStyles = makeStyles<Theme>(
   (theme: Theme) => ({
     root: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         flexWrap: 'nowrap',
       },
     },
@@ -12,18 +12,30 @@ export const useTokenFormStyles = makeStyles<Theme>(
       display: 'flex',
       justifyContent: 'center',
 
-      [theme.breakpoints.up('sm')]: {
-        marginTop: theme.spacing(1),
+      [theme.breakpoints.up('md')]: {
+        marginTop: 10,
       },
     },
 
-    swapIcon: {
+    swapBtn: {
       opacity: 0.5,
       transition: '200ms ease-in-out',
+      fontSize: 24,
+      height: 40,
+      padding: theme.spacing(1, 1),
+
+      [theme.breakpoints.up('lg')]: {
+        padding: theme.spacing(1, 2),
+      },
 
       '&:hover': {
         opacity: 1,
       },
+    },
+
+    swapIcon: {
+      width: '1em',
+      height: '1em',
     },
 
     amount: {
@@ -40,8 +52,7 @@ export const useTokenFormStyles = makeStyles<Theme>(
     },
 
     amountInput: {
-      height: 58,
-      padding: theme.spacing(0, 3),
+      padding: theme.spacing(0, 2.5),
     },
 
     tokenFrom: {
@@ -50,7 +61,7 @@ export const useTokenFormStyles = makeStyles<Theme>(
     },
 
     tokenFromSelect: {
-      marginLeft: -1,
+      marginLeft: -2,
       borderRadius: '0 12px 12px 0',
     },
   }),

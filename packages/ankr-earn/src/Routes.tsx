@@ -1,5 +1,5 @@
-import { EMPTY_PATH, featuresConfig, INDEX_PATH } from 'modules/common/const';
-import { getRoutes as getTradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
+import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
+import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 
@@ -14,7 +14,7 @@ export function Routes() {
         <Redirect to={INDEX_PATH} />
       </Route>
 
-      {featuresConfig.tradingCockpit && getTradingCockpitRoutes()}
+      {getBoostRoutes()}
     </Switch>
   );
 }

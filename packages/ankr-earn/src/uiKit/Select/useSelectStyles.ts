@@ -1,4 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { lighten, makeStyles, Theme } from '@material-ui/core';
 
 export const useSelectStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -7,34 +7,56 @@ export const useSelectStyles = makeStyles<Theme>(theme => ({
     '& svg': {
       transition: '0.2s all',
     },
+  },
 
-    '& > div': {
-      color: theme.palette.text.secondary,
-      borderRadius: 18,
+  selectRoot: {
+    borderRadius: 18,
+  },
 
-      '&:hover': {
-        background: 'none',
-        borderColor: theme.palette.primary.main,
-        color: theme.palette.primary.main,
-      },
+  // do not delete as this class is used below
+  selectDisabled: {},
 
-      '&:focused': {
-        background: 'none',
-      },
+  selectRootOutlined: {
+    color: theme.palette.text.secondary,
+    border: `1px solid ${lighten(theme.palette.text.secondary, 0.7)}`,
+    background: 'none',
+
+    '&:hover': {
+      background: theme.palette.background.paper,
+      borderColor: theme.palette.background.paper,
+    },
+
+    '&$selectDisabled': {
+      border: `1px solid ${lighten(theme.palette.text.secondary, 0.7)}`,
+      background: 'none',
     },
   },
+
+  selectRootFilled: {
+    border: `2px solid ${theme.palette.background.default}`,
+
+    '&:hover': {
+      background: 'none',
+    },
+
+    '&$selectDisabled': {
+      background: theme.palette.background.default,
+    },
+  },
+
   select: {
     '&&': {
       paddingRight: theme.spacing(4.75),
       background: 'none',
     },
   },
+
   menuPaper: {
     fontSize: 16,
     marginTop: theme.spacing(1),
     borderRadius: theme.spacing(1),
     border: '1px solid #E2E7F0',
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     minWidth: 100,
 
     '& ul': {
@@ -62,7 +84,7 @@ export const useSelectStyles = makeStyles<Theme>(theme => ({
 
       '&:hover': {
         color: theme.palette.primary.main,
-        background: theme.palette.background.default,
+        background: theme.palette.background.paper,
       },
 
       '&.Mui-selected': {
