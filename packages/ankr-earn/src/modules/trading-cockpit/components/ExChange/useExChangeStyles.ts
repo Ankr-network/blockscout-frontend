@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useExChangeStyles = makeStyles<Theme>(theme => ({
   root: {
-    display: 'inline-flex',
+    display: 'flex',
     alignItems: 'center',
     color: theme.palette.text.primary,
   },

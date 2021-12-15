@@ -1,4 +1,4 @@
-import { Grid, IconButton } from '@material-ui/core';
+import { ButtonBase, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
 import { Milliseconds } from 'modules/common/types';
@@ -50,13 +50,12 @@ export const TokenForm = ({
 
   const handleTokenSwap = useCallback(
     (
-        form: FormApi<ITokenFormValues, Partial<ITokenFormValues>>,
-        values: ITokenFormValues,
-      ) =>
-      () => {
-        form.change(FieldsNames.toToken, values.fromToken);
-        form.change(FieldsNames.fromToken, values.toToken);
-      },
+      form: FormApi<ITokenFormValues, Partial<ITokenFormValues>>,
+      values: ITokenFormValues,
+    ) => () => {
+      form.change(FieldsNames.toToken, values.fromToken);
+      form.change(FieldsNames.fromToken, values.toToken);
+    },
     [],
   );
 
@@ -113,7 +112,7 @@ export const TokenForm = ({
           className={classes.root}
           alignItems="flex-start"
         >
-          <Grid item xs={12} sm="auto">
+          <Grid item xs={12} md="auto">
             <div className={classes.tokenFrom}>
               <Field
                 name={FieldsNames.amount}
@@ -146,23 +145,24 @@ export const TokenForm = ({
                     className={classes.tokenFromSelect}
                     options={filteredFromTokenOptions}
                     disabled={disabled}
+                    variant="filled"
                   />
                 )}
               </Field>
             </div>
           </Grid>
 
-          <Grid item xs={12} sm="auto" className={classes.swap}>
-            <IconButton
-              className={classes.swapIcon}
+          <Grid item xs={12} md="auto" className={classes.swap}>
+            <ButtonBase
+              className={classes.swapBtn}
               onClick={handleTokenSwap(form, values)}
               disabled={disabled}
             >
-              <SwapIcon />
-            </IconButton>
+              <SwapIcon className={classes.swapIcon} />
+            </ButtonBase>
           </Grid>
 
-          <Grid item xs={12} sm="auto">
+          <Grid item xs={12} md="auto">
             <Field name={FieldsNames.toToken} defaultValue={defaultToToken}>
               {props => (
                 <TokenSelect
@@ -171,6 +171,7 @@ export const TokenForm = ({
                   value={props.input.value}
                   options={filteredToTokenOptions}
                   disabled={disabled}
+                  variant="filled"
                 />
               )}
             </Field>

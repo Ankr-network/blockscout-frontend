@@ -5,8 +5,9 @@ import { getTheme } from '../../../common/utils/getTheme';
 import { Themes } from '../../../themes/types';
 import { Footer } from '../Footer/index';
 import { Header } from '../Header/index';
-import { useDefaultLayoutStyles as useStyles } from './useDefaultLayoutStyles';
+import { MainNavigation } from '../MainNavigation';
 import { MainNavigationMobile } from '../MainNavigationMobile';
+import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
 
 export interface IDefaultLayout {
   children?: ReactNode;
@@ -19,15 +20,18 @@ export const DefaultLayout = ({
   children,
   theme = Themes.light,
 }: IDefaultLayout) => {
-  const classes = useStyles();
+  const classes = useDefaultLayoutStyles();
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
     <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
-        <Header navigationSlot={<MainNavigationMobile />} />
-        {children}
+        <Header
+          mainNavigationSlot={<MainNavigation />}
+          mainNavigationMobileSlot={<MainNavigationMobile />}
+        />
+        <main className={classes.main}>{children}</main>
         <Footer />
       </ThemeProvider>
     </div>

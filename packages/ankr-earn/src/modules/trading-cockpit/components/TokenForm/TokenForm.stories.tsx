@@ -1,3 +1,4 @@
+import { Paper } from '@material-ui/core';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
@@ -53,13 +54,15 @@ export const Default = () => {
   };
 
   return (
-    <TokenForm
-      onSubmit={onSubmit}
-      options={tokenSelectMockup}
-      defaultFromToken={tokenSelectMockup[0].value}
-      defaultToToken={tokenSelectMockup[1].value}
-      disabled={false}
-      getPairedOption={getPairedOption}
-    />
+    <Paper style={{ padding: 20 }}>
+      <TokenForm
+        onSubmit={onSubmit}
+        options={tokenSelectMockup}
+        defaultFromToken={tokenSelectMockup[0].value}
+        defaultToToken={tokenSelectMockup[1].value}
+        disabled={false}
+        getPairedOption={getPairedOption}
+      />
+    </Paper>
   );
 };

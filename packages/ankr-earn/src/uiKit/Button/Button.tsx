@@ -4,15 +4,14 @@ import { QueryLoading } from 'uiKit/QueryLoading';
 
 type ButtonsVariant = 'contained' | 'outlined' | 'text';
 
-export const Button = React.forwardRef<
-  HTMLButtonElement,
-  ButtonProps & {
-    variant?: ButtonsVariant;
-    submit?: boolean;
-    style?: React.CSSProperties;
-    isLoading?: boolean;
-  }
->(
+export interface IButtonProps extends ButtonProps {
+  variant?: ButtonsVariant;
+  submit?: boolean;
+  style?: React.CSSProperties;
+  isLoading?: boolean;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
     { variant = 'contained', submit, style, isLoading, endIcon, ...props },
     ref,

@@ -1,3 +1,4 @@
+import { Story } from '@storybook/react';
 import { uid } from 'react-uid';
 import { Table } from '.';
 import {
@@ -14,6 +15,12 @@ import {
   ITablesCaptionProps,
   ITablesRowProps,
 } from '../types';
+import { ITableProps } from './Table';
+
+export default {
+  title: 'components/Table',
+  component: Table,
+};
 
 interface IDataTableProps extends ICustomProps, IStyleProps {
   className?: string;
@@ -50,39 +57,25 @@ const DataTable = ({ captions, rows, ...rest }: IDataTableProps) => {
   );
 };
 
-export const SimpleTable = () => <DataTable captions={CAPTIONS} rows={DATA} />;
+const Template: Story<ITableProps> = args => {
+  return (
+    <>
+      <DataTable captions={CAPTIONS} {...args} rows={DATA} />
+      <div style={{ height: '100vh' }} />
+    </>
+  );
+};
 
-export const DenseSimpleTable = () => (
-  <DataTable captions={CAPTIONS} rows={DATA} dense />
-);
-
-export const StickyHeader = () => (
-  <>
-    <DataTable captions={CAPTIONS} rows={DATA} stickyHeader />
-    <div style={{ height: '100vh' }} />
-  </>
-);
-
-export const CustomCellSize = () => (
-  <DataTable
-    captions={CAPTIONS}
-    rows={DATA}
-    customCell="2.5fr 1.5fr 1fr 1.5fr minmax(70px, 1fr)"
-  />
-);
-
-export const ContentDisplayOnRightSide = () => (
-  <DataTable captions={CAPTIONS} rows={DATA} alignCell="right" />
-);
-
-export const ContentDisplayOnCenter = () => (
-  <DataTable captions={CAPTIONS} rows={DATA} alignCell="center" />
-);
+export const Default = Template.bind({});
+Default.args = {
+  dense: false,
+  stickyHeader: false,
+  customCell: '0.5fr 1fr 1fr 0.6fr minmax(70px, 1fr)',
+  columnsCount: CAPTIONS.length,
+  paddingCollapse: false,
+  minWidth: 810,
+};
 
 export const ContentDisplayOnDifferentSide = () => (
   <DataTable captions={CAPTIONS_2} rows={DATA} />
 );
-
-export default {
-  title: 'components/Table',
-};

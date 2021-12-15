@@ -1,7 +1,6 @@
 import { Box, Container } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { t } from 'modules/i18n/utils/intl';
-import { HeaderComponent } from '.';
+import { Header } from '.';
 
 export default {
   title: 'modules/TradingCockpit/components/Header',
@@ -21,9 +20,7 @@ export const Default = () => {
   return (
     <section>
       <Container>
-        <HeaderComponent
-          footnote={t('trading-cockpit.header.aethb-info')}
-          footnoteLink="#"
+        <Header
           formSlot={formPlaceholder}
           fairValueSlot={fairValuePlaceholder}
         />
