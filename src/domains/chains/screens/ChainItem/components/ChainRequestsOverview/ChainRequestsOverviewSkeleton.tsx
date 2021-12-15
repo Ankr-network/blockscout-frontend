@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
-import { useStyles } from './useStyles';
 import classNames from 'classnames';
-import { Skeleton } from '@material-ui/lab';
+
+import { Spinner } from 'uiKit/Spinner';
+import { useStyles } from './useStyles';
 
 interface IChainRequestsOverviewSkeletonProps {
   className?: string;
@@ -19,7 +20,7 @@ export const ChainRequestsOverviewSkeleton = ({
       <div>
         {children}
         <div className={classes.infoSkeleton}>
-          <Skeleton variant="rect" width="100%" height="270px" />
+          <Spinner />
         </div>
       </div>
     </div>

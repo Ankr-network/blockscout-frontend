@@ -44,10 +44,12 @@ export const ChainRequestsOverview = ({
       ) : (
         totalRequestsHistory &&
         Object.keys(totalRequestsHistory).length !== 0 && (
-          <ChainRequestsChart
-            requestsLog={totalRequestsHistory}
-            timeframe={timeframe}
-          />
+          <div className={classes.chart}>
+            <ChainRequestsChart
+              requestsLog={totalRequestsHistory}
+              timeframe={timeframe}
+            />
+          </div>
         )
       )}
       <div className={classes.buttonGroup}>
@@ -57,13 +59,13 @@ export const ChainRequestsOverview = ({
           value={timeframe}
           className={classes.toggleButtonGroup}
         >
-          <ToggleButton value="30d">
+          <ToggleButton value="30d" disabled={loading}>
             {t('chain-item.timeframe.30-days')}
           </ToggleButton>
-          <ToggleButton value="7d">
+          <ToggleButton value="7d" disabled={loading}>
             {t('chain-item.timeframe.7-days')}
           </ToggleButton>
-          <ToggleButton value="24h">
+          <ToggleButton value="24h" disabled={loading}>
             {t('chain-item.timeframe.24-hours')}
           </ToggleButton>
         </ToggleButtonGroup>
