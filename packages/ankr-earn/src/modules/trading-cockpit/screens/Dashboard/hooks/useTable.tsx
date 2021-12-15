@@ -1,4 +1,5 @@
 import { useQuery } from '@redux-requests/react';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { Percentage } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -14,8 +15,6 @@ import { getExchangeLink } from 'modules/trading-cockpit/utils/getExchangeLink';
 import { NavLink } from 'uiKit/NavLink';
 import { ITableRow } from '../../../components/Table';
 import { useStakeBtn } from './useStakeBtn';
-
-const DECIMAL_PLACES = 4;
 
 interface IUseTableArgs {
   amount: number;

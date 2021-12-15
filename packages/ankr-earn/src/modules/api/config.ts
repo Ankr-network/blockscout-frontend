@@ -7,6 +7,8 @@ export interface IContractConfig {
   fethContract?: string;
   maticToken?: string;
   aMaticbToken?: string;
+  polygonPool?: string;
+  ankrContract?: string;
 }
 
 export interface IStkrConfig {

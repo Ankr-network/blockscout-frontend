@@ -4,6 +4,9 @@ export const EMPTY_PATH = '/';
 export const INDEX_PATH = '/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
+export const DEFAULT_FIXED = 4;
+export const DECIMAL_PLACES = 4;
+export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
@@ -26,6 +29,11 @@ export const SOCIAL_LINK = {
   whitepaperEn: 'https://assets.ankr.com/files/stakefi_litepaper.pdf',
 };
 
+export const ANKR_1INCH_BUY_LINK =
+  'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
+
 export const featuresConfig = {
   tradingCockpit: true,
 };
+
+export const isMainnet = currentEnv === Env.Production;
