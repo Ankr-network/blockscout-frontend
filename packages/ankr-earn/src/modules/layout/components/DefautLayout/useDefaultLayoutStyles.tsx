@@ -7,6 +7,10 @@ export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
     minHeight: '100vh',
     justifyContent: 'space-between',
     minWidth: 375,
-    background: theme.palette.background.paper,
+    background: theme.palette.background.default,
+  },
+
+  main: {
+    marginBottom: 'auto',
   },
 }));

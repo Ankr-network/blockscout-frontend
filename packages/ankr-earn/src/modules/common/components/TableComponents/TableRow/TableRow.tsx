@@ -18,16 +18,15 @@ export const TableRowComponent = ({
   const classes = useTableRowStyles();
 
   return (
-    <ul
+    <tr
       className={classNames(
         className,
         classes.row,
         hover && classes.rowHovered,
       )}
-      role="row"
     >
       {children}
-    </ul>
+    </tr>
   );
 };
 

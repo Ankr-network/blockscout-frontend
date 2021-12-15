@@ -1,4 +1,4 @@
-import { alpha, Theme } from '@material-ui/core';
+import { darken, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useTableHeadStyles = makeStyles<
@@ -7,28 +7,34 @@ export const useTableHeadStyles = makeStyles<
     count: number;
     customCell?: string;
     paddingCollapse?: boolean;
+    dense?: boolean;
   }
 >(theme => ({
   head: {
     display: 'none',
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'grid',
-      gridTemplateColumns: props =>
-        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+      gridTemplateColumns: ({ customCell, count }) =>
+        customCell ? customCell : `repeat(${count}, 1fr)`,
       alignItems: 'stretch',
       boxSizing: 'border-box',
-      borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+      marginBottom: ({ dense }) => (dense ? -1 : theme.spacing(1)),
     },
   },
 
   headSticky: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       position: 'sticky',
       zIndex: 1,
       top: 0,
-      backgroundColor: theme.palette.background.default,
+      background: theme.palette.background.default,
     },
+  },
+
+  headWithBg: {
+    borderRadius: 18,
+    background: darken(theme.palette.background.default, 0.04),
   },
 
   row: {

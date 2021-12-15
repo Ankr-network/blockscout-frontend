@@ -36,7 +36,7 @@ export const useStakeBtn = ({ fromToken, toToken }: IUseStakeBtnArgs) => {
     isUnstakeType &&
     (fromToken === AvailableTokens.ETH || toToken === AvailableTokens.ETH)
   ) {
-    tooltip = t('staker-dashboard.tip.eth-unstake-err');
+    tooltip = t('trading-cockpit.eth-unstake-err');
   }
 
   return {

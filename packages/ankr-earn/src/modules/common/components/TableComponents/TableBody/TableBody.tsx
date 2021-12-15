@@ -14,22 +14,14 @@ export const TableBodyComponent = ({
   children,
   count,
   customCell,
-  dense,
-  paddingCollapse,
 }: ITableBodyProps & ICustomProps & IStyleProps & { count: number }) => {
   const classes = useTableBodyStyles({
     count,
     customCell,
-    paddingCollapse,
-    dense,
   });
 
   return (
-    <div className={classNames(classes.bodyWrapper, className)}>
-      <div className={classes.body} role="rowgroup">
-        {children}
-      </div>
-    </div>
+    <tbody className={classNames(classes.body, className)}>{children}</tbody>
   );
 };
 

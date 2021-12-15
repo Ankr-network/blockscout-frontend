@@ -12,13 +12,21 @@ interface ITableHeadCellProps
   align?: AlignType;
 }
 
-const TableHeadCellComponent = (props: ITableHeadCellProps & IStyleProps) => {
-  const { className, alignCell, align, label } = props;
-
-  const classes = useTableHeadCellStyles(props);
+const TableHeadCellComponent = ({
+  className,
+  alignCell,
+  align,
+  label,
+  dense,
+  paddingCollapse,
+}: ITableHeadCellProps & IStyleProps) => {
+  const classes = useTableHeadCellStyles({
+    dense,
+    paddingCollapse,
+  });
 
   return (
-    <div
+    <th
       className={classNames(
         classes.cell,
         classes.headCell,
@@ -27,10 +35,9 @@ const TableHeadCellComponent = (props: ITableHeadCellProps & IStyleProps) => {
         (alignCell === 'left' || align === 'left') && classes.leftCell,
         className,
       )}
-      role="cell"
     >
       <div className={classes.content}>{label}</div>
-    </div>
+    </th>
   );
 };
 

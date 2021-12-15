@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    paddingLeft: theme.spacing(3),
+    padding: theme.spacing(0, 3),
     display: 'flex',
     justifyContent: 'space-around',
 

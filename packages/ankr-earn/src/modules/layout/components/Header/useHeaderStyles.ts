@@ -30,5 +30,10 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   rightSide: {
     justifyContent: 'right',
     display: 'flex',
+    overflow: 'hidden',
+
+    [theme.breakpoints.up('md')]: {
+      overflow: 'visible',
+    },
   },
 }));

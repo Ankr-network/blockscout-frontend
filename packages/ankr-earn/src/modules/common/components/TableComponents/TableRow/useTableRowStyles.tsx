@@ -3,12 +3,17 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useTableRowStyles = makeStyles<Theme>(theme => ({
   row: {
+    display: 'block',
     listStyle: 'none',
     margin: 0,
     padding: theme.spacing(1.5, 0),
-    borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+    borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
 
-    [theme.breakpoints.up('sm')]: {
+    '&:last-of-type': {
+      borderBottom: 'none',
+    },
+
+    [theme.breakpoints.up('md')]: {
       display: 'contents',
       border: 'none',
       padding: 0,

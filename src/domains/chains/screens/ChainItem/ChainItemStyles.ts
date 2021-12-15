@@ -35,6 +35,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   details: {
     display: 'flex',
     width: '100%',
+    paddingBottom: 19,
   },
   error: {
     background: theme.palette.background.default,

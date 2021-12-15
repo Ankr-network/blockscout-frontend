@@ -14,9 +14,9 @@ export const useTokenSelectStyles = makeStyles<Theme>(theme => ({
   selectBtn: {
     display: 'flex',
     alignItems: 'center',
-    height: 58,
+    height: 56,
     minWidth: 150,
-    padding: theme.spacing(1, 5, 1, 3),
+    padding: theme.spacing(1, 5, 1, 2.5),
     boxSizing: 'border-box',
   },
 
