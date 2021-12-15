@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build:stage": "env-cmd -f .env.stage react-scripts build",
-    "build:prod": "env-cmd -f .env.prod react-scripts build",
+    "start:prod": "env-cmd -f .env.prod react-scripts start" ,
+    "build:stage": "env-cmd -f .env.stage react-scripts build && yarn postbuild",
+    "build:prod": "env-cmd -f .env.prod react-scripts build && yarn postbuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
@@ -137,7 +137,7 @@
       "/public/polygon/",
       "/public/solana/",
       "/public/arbitrum/",
-      "/public/selo/",
+      "/public/celo/",
       "/public/near/"
     ],
     "skipThirdPartyRequests": true,
