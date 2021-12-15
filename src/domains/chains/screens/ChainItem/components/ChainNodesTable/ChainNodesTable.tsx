@@ -14,10 +14,11 @@ import {
 import classNames from 'classnames';
 import ReactCountryFlag from 'react-country-flag';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './useStyles';
 import { ChainNodesTableProps } from './ChainNodesTableProps';
 import { getRows } from './ChainNodesTableUtils';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 
 export const ChainNodesTable = ({
   data,
@@ -31,9 +32,15 @@ export const ChainNodesTable = ({
 
   return (
     <TableContainer component={Paper} className={classes.root} elevation={0}>
-      <Typography variant="h5" className={classes.header}>
-        {t('chain-item.nodes-table.header')}
-      </Typography>
+      <TooltipWrapper
+        hasIcon
+        tooltipText={tHTML('chain-item.nodes-table.tooltip-text')}
+      >
+        <Typography variant="h5" className={classes.header}>
+          {t('chain-item.nodes-table.header')}
+        </Typography>
+      </TooltipWrapper>
+
       <Box component={Table} minWidth={600}>
         <TableHead className={classes.thead}>
           <TableRow>

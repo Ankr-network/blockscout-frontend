@@ -10,7 +10,7 @@ import { IChainItemDetails } from '../../actions/fetchChain';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 
-const ENABLE_CHAIN_NODES_TABLE = false;
+const ENABLE_CHAIN_NODES_TABLE = true;
 
 interface IChainItemUIProps {
   data: IChainItemDetails;

@@ -14,12 +14,12 @@
     redux-smart-actions "^1.0.0"
     web3-core "^1.6.0"
 
-"@ankr.com/multirpc@^0.0.145":
-  version "0.0.145"
-  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.145.tgz#3174be47844328bd8be9654ead07357136f15727"
-  integrity sha512-wQu1xk5SZAVb0WrKeBG/ucDZ1ciJyah43lHueYsHVnfNPBiewGDT1nnwDKeJYq5+iJMtYdD+85rbCUmW/O/6Fg==
+"@ankr.com/multirpc@^0.0.146":
+  version "0.0.146"
+  resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.146.tgz#eb03a0b5bada1051db9497a52e2ec723fec2b74b"
+  integrity sha512-q6OkueO+a+pqWOoaxv049N2q0p0JESsnPVUjJVGEtvZR9GvLMxbOqcggL0R0kqyuE5EKC+MCWoAXkPPQUW9kRQ==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.145"
+    "@ankr.com/stakefi-web3" "^0.0.146"
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
     ethereumjs-tx "^2.1.2"
@@ -38,10 +38,10 @@
     web3 "^1.3.5"
     web3-eth-contract "^1.3.5"
 
-"@ankr.com/stakefi-web3@^0.0.145":
-  version "0.0.145"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.145.tgz#dee6044a246e3ea5420c57b049ccc5cd254aa83e"
-  integrity sha512-ipi5mUqSb5553HkQyTppopfUutlDsozdH3yvSfHJOmdkc0+VUbRP26MKNXUTPRR6w72Z2xRYjz0Sr7h0pBF+hw==
+"@ankr.com/stakefi-web3@^0.0.146":
+  version "0.0.146"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.146.tgz#b5bfe4226f69e4e6635dae04500273ae5c5ce3cd"
+  integrity sha512-EcRuFKxZKm3NU5mvn1g3ileX8RLnC5IKl5VIuyFpHd6M41HJ8R7ZsamnVzF5B4OQBwdeu2LqbZyVt7wEj0a3kw==
   dependencies:
     "@ethereumjs/tx" "^3.3.2"
     "@types/node" "^14.14.41"
