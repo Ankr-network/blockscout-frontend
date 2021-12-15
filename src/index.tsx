@@ -2,6 +2,9 @@ import React from 'react';
 import { hydrate, render } from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { initializeSentry } from 'modules/sentry';
+
+initializeSentry();
 
 const rootElement = document.getElementById('root');
 

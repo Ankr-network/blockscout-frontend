@@ -20,8 +20,8 @@
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/multirpc": "^0.0.146",
     "@ankr.com/dom": "^0.0.143",
+    "@ankr.com/multirpc": "^0.0.146",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -32,6 +32,8 @@
     "@redux-requests/promise": "1.0.2",
     "@redux-requests/react": "1.6.0",
     "@reduxjs/toolkit": "^1.5.1",
+    "@sentry/react": "^6.16.0",
+    "@sentry/tracing": "^6.16.0",
     "@walletconnect/web3-provider": "^1.6.5",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
@@ -65,7 +67,6 @@
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
-    "source-map-explorer": "^2.5.2",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
@@ -99,6 +100,7 @@
     "madge": "^5.0.1",
     "prettier": "^2.2.1",
     "react-snap": "^1.23.0",
+    "source-map-explorer": "^2.5.2",
     "typescript": "^4.1.2"
   },
   "browserslist": {

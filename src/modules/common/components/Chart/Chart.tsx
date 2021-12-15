@@ -81,14 +81,14 @@ export const Chart = ({
           stroke={theme.palette.primary.main}
           strokeWidth={2}
           fill="url(#valueColor)"
-          type="basis"
+          type="monotone"
         />
         <Area
           dataKey="extraValue"
           stroke={theme.palette.error.main}
           strokeWidth={2}
           fill="url(#extraValueColor)"
-          type="basis"
+          type="monotone"
         />
       </AreaChart>
     </ResponsiveContainer>
