@@ -11,15 +11,20 @@ export const ChainRequestsChart = ({
   timeframe,
   requestsLog,
 }: ChainRequestsChartProps) => {
-  const data = useMemo(() => processData(requestsLog), [requestsLog]);
+  const data = useMemo(
+    () => processData(requestsLog, timeframe),
+    [requestsLog, timeframe],
+  );
   const timeframeRef = useRef<Timeframe>();
   timeframeRef.current = timeframe;
 
-  const callsFormatter = useCallback((value: number) => {
-    return t('chain-item.chart.calls-count', {
-      value,
-    });
-  }, []);
+  const callsFormatter = useCallback(
+    (value: number) =>
+      t('chain-item.chart.calls-count', {
+        value,
+      }),
+    [],
+  );
 
   const tickFormatter = useCallback(
     value => formatDate(value, timeframeRef.current),
