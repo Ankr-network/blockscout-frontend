@@ -15,7 +15,6 @@ interface ConnectButtonProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
   const classes = useStyles();
-  // eslint-disable-next-line
   const { handleConnect, handleDisconnect, address, loading } = useAuth();
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
 
@@ -23,10 +22,6 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
     handleClose();
     handleDisconnect();
   }, [handleClose, handleDisconnect]);
-
-  const handle = () => {
-    throw new Error('test');
-  };
 
   return address ? (
     <>
@@ -66,7 +61,7 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
       variant="text"
       color="primary"
       disableElevation={false}
-      onClick={handle}
+      onClick={handleConnect}
       disabled={loading}
     >
       {t('header.wallet-button')}
