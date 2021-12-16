@@ -37,10 +37,17 @@ export const processData = (
   const rows = Object.entries(requestsLog);
 
   return rows
-    .map((row, index) => {
+    .map(row => {
       const [rowTime, callsCount] = row;
 
-      const time = new Date(Number(rowTime));
+      return {
+        time: new Date(Number(rowTime)),
+        callsCount,
+      };
+    })
+    .sort((a, b) => a.time.getTime() - b.time.getTime())
+    .map((row, index) => {
+      const { time, callsCount } = row;
 
       if (timeframe === '24h') {
         return {
@@ -54,6 +61,5 @@ export const processData = (
         time,
         value: callsCount,
       };
-    })
-    .sort((a, b) => a.time.getTime() - b.time.getTime());
+    });
 };

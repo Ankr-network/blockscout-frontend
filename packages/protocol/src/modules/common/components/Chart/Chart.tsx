@@ -88,7 +88,7 @@ export const Chart = ({
           stroke={theme.palette.primary.main}
           strokeWidth={2}
           fill="url(#extraValueColor)"
-          strokeDasharray="5"
+          strokeDasharray="3"
           type="monotone"
         />
       </AreaChart>
