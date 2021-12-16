@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, ReactNode } from 'react';
+import { forwardRef, memo, ReactNode } from 'react';
 import { SvgIcon, Theme, useTheme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
 import { CSSProperties, makeStyles } from '@material-ui/styles';

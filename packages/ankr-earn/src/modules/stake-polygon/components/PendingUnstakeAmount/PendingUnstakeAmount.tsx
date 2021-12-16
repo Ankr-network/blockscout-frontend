@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { usePendingUnstakeAmountStyles } from './usePendingUnstakeAmountStyles';
-import { QuestionIcon } from 'uiKit/StakefiUiKit/Icons/QuestionIcon';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 
 interface IPendingUnstakeAmountProps {
   value: BigNumber;

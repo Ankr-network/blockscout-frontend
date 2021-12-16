@@ -1,7 +1,6 @@
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-import { Curtains } from 'uiKit/StakefiUiKit/Curtains';
 import { IUnstakeFormValues, UnstakeDialog } from './UnstakeDialog';
 
 export default {
@@ -27,7 +26,7 @@ export const Default = () => {
 
   return (
     <section>
-      <Curtains>
+      <Container>
         <Button color="primary" onClick={onUnstakeClick}>
           Unstake
         </Button>
@@ -42,7 +41,7 @@ export const Default = () => {
           isLoading={isLoading}
           endDate={new Date()}
         />
-      </Curtains>
+      </Container>
     </section>
   );
 };

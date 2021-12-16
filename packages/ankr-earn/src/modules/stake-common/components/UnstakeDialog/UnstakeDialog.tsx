@@ -13,11 +13,11 @@ import { Form } from 'react-final-form';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
-import { AmountField } from 'components/AmountField';
+import { AmountField } from 'modules/common/components/AmountField';
 import { Button } from 'uiKit/Button';
-import { Timer } from 'components/Timer';
+import { Timer } from 'modules/common/components/Timer';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
-import { CancelIcon } from 'uiKit/StakefiUiKit/Icons/CancelIcon';
+import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
 

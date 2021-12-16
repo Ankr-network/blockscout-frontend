@@ -5,9 +5,9 @@ import { ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { PlusMinusBtn } from 'components/PlusMinusBtn';
-import { AMATICBIcon } from 'uiKit/StakefiUiKit/Icons/AMATICBIcon';
-import { QuestionIcon } from 'uiKit/StakefiUiKit/Icons/QuestionIcon';
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { RoutesConfig } from '../../Routes';
 import { useBalanceStyles } from './BalanceStyles';
 

@@ -24,15 +24,15 @@ import { useDialog } from '../../hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { ANKR_1INCH_BUY_LINK, DEFAULT_ROUNDING } from 'modules/common/const';
 import { fetchStats } from '../../actions/fetchStats';
-import { Queries } from '../../../../components/Queries/Queries';
+import { Queries } from 'modules/common/components/Queries/Queries';
 import { Query, useDispatchRequest, useMutation } from '@redux-requests/react';
-import { PlusMinusBtn } from '../../../../components/PlusMinusBtn';
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { unstake } from '../../actions/unstake';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { PendingUnstakeAmount } from '../../components/PendingUnstakeAmount';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
-import { ResponseData } from 'components/ResponseData';
-import { QuestionIcon } from 'uiKit/StakefiUiKit/Icons/QuestionIcon';
+import { ResponseData } from 'modules/common/components/ResponseData';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 
 const ONE = new BigNumber(1);
 

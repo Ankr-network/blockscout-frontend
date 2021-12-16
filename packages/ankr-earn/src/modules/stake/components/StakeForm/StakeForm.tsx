@@ -1,4 +1,10 @@
-import { Hidden, IconButton, Paper } from '@material-ui/core';
+import {
+  Container,
+  Hidden,
+  IconButton,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
@@ -7,14 +13,12 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
 import { roundByStep } from 'modules/common/utils/numbers/roundByStep';
-import { MutationErrorHandler } from 'components/MutationErrorHandler/MutationErrorHandler';
+import { MutationErrorHandler } from 'modules/common/components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from 'store/actions/UserActions';
-import { Button } from 'uiKit/StakefiUiKit/Button';
-import { Curtains } from 'uiKit/StakefiUiKit/Curtains';
-import { CancelIcon } from 'uiKit/StakefiUiKit/Icons/CancelIcon';
-import { CloseIcon } from 'uiKit/StakefiUiKit/Icons/CloseIcon';
-import { SliderField } from 'uiKit/StakefiUiKit/RangeField';
-import { Body2, Headline2 } from 'uiKit/StakefiUiKit/Typography';
+import { Button } from 'uiKit/Button';
+import { CancelIcon } from 'uiKit/Icons/CancelIcon';
+import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { SliderField } from 'uiKit/RangeField';
 import { useStakeFormStyles } from './StakeFormStyles';
 
 interface IStakePayload {
@@ -119,12 +123,16 @@ export const StakeForm = ({
       <form onSubmit={handleSubmit}>
         <div className={classes.body}>
           <div className={classes.wrapper}>
-            <Headline2 classes={{ root: classes.title }}>
+            <Typography variant="h2" classes={{ root: classes.title }}>
               {t('stake.title')}
-            </Headline2>
+            </Typography>
 
             <label className={classes.range}>
-              <Headline2 component="div" classes={{ root: classes.label }}>
+              <Typography
+                variant="h2"
+                component="div"
+                classes={{ root: classes.label }}
+              >
                 <div className={classes.labelText}>{t('stake.i-want')}</div>
 
                 <div className={classes.amount}>
@@ -147,7 +155,7 @@ export const StakeForm = ({
                   </Field>
                   <div>{currency}</div>
                 </div>
-              </Headline2>
+              </Typography>
 
               <Field
                 component={SliderField}
@@ -168,9 +176,14 @@ export const StakeForm = ({
               renderFooter(amountNumber)
             ) : (
               <>
-                <Body2 className={classes.info} color="secondary" component="p">
+                <Typography
+                  variant="body2"
+                  className={classes.info}
+                  color="secondary"
+                  component="p"
+                >
                   {stakeInfo}
-                </Body2>
+                </Typography>
 
                 <MutationErrorHandler type={UserActionTypes.STAKE_AND_CLAIM} />
 
@@ -195,7 +208,7 @@ export const StakeForm = ({
   // todo: form must be separated from layout (section, paper...)
   return (
     <section className={classes.root}>
-      <Curtains classes={{ root: classes.container }}>
+      <Container classes={{ root: classes.container }}>
         <Paper className={classes.box} variant="outlined" square={false}>
           <Form
             onSubmit={onSubmitForm}
@@ -221,7 +234,7 @@ export const StakeForm = ({
             </Hidden>
           </IconButton>
         </Paper>
-      </Curtains>
+      </Container>
     </section>
   );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { PlusMinusBtn } from './PlusMinusBtn';
 
 export default {
-  title: 'components/PlusMinusBtn',
+  title: 'modules/common/components/PlusMinusBtn',
 };
 
 export const Default = () => {

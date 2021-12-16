@@ -14,11 +14,11 @@ import { Box, IconButton, Tooltip } from '@material-ui/core';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { fetchStats } from '../../actions/fetchStats';
-import { Queries } from 'components/Queries/Queries';
+import { Queries } from 'modules/common/components/Queries/Queries';
 import { stake } from '../../actions/stake';
-import { QuestionIcon } from 'uiKit/StakefiUiKit/Icons/QuestionIcon';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { ResponseData } from 'components/ResponseData';
+import { ResponseData } from 'modules/common/components/ResponseData';
 
 export const StakePolygon = () => {
   const { push } = useHistory();

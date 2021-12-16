@@ -16,7 +16,7 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { AlignType } from 'modules/common/components/TableComponents/types';
-import { NavLink } from 'uiKit/StakefiUiKit/NavLink';
+import { NavLink } from 'uiKit/NavLink';
 import {
   ITxEventsHistoryData,
   ITxEventsHistoryGroupItem,

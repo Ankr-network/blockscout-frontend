@@ -3,8 +3,8 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo } from 'react';
 
-import { MinusIcon } from 'uiKit/StakefiUiKit/Icons/MinusIcon';
-import { PlusIcon } from 'uiKit/StakefiUiKit/Icons/PlusIcon';
+import { MinusIcon } from 'uiKit/Icons/MinusIcon';
+import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 
 import { Spinner } from 'uiKit/Spinner';
 

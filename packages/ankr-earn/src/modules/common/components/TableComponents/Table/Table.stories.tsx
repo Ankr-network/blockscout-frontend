@@ -18,7 +18,7 @@ import {
 import { ITableProps } from './Table';
 
 export default {
-  title: 'components/Table',
+  title: 'modules/common/components/Table',
   component: Table,
 };
 
