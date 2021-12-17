@@ -29,3 +29,16 @@ export enum BlockchainNetworkId {
   avalancheTestnet = 43113,
   polygon = 137,
 }
+
+export enum EParachainPolkadotNetwork {
+  DOT = 'DOT',
+  KSM = 'KSM',
+  WND = 'WND',
+  ROC = 'ROC',
+}
+
+export enum Provider {
+  metamask = 'metamask',
+  wallet = 'wallet',
+  binance = 'binance',
+}

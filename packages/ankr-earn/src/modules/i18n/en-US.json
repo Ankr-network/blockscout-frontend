@@ -1,5 +1,10 @@
 {
   "validation": {
+    "greater-than-zero": "Should be greater than 0",
+    "insufficient-funds": "Insufficient funds",
+    "low-balance": "Your balance is not sufficient",
+    "min": "Should be greater than {value}",
+    "number-only": "Must be a number",
     "required": "This field is required"
   },
   "meta": {
@@ -36,12 +41,114 @@
     "en-US": "EN",
     "zh-CN": "中文"
   },
+  "format": {
+    "date": "{value, date, medium}"
+  },
   "unit": {
     "eth": "ETH",
     "aeth": "aETHc",
     "feth": "aETHb",
     "polygon": "MATIC",
     "amaticb": "aMATICb"
+  },
+  "not-found": {
+    "title": "Page not found",
+    "btn-back": "Previous page",
+    "btn-home": "Go home"
+  },
+  "connect": {
+    "networks": {
+      "avax-chain": "AVAX C Chain",
+      "avax-fuji-testnet": "AVAX Fuji Testnet",
+      "binance-smart-chain": "Binance Smart Chain",
+      "ethereum-goerli": "Ethereum Goerli",
+      "ethereum-mainnet": "Ethereum Mainnet",
+      "smart-chain-testnet": "Smart Chain Testnet"
+    }
+  },
+  "polkadot-slot-auction": {
+    "title": "Parachain Crowdloan Marketplace",
+    "button": {
+      "claim": "Claim {currency}",
+      "claim-rewards": "Claim Rewards",
+      "claim-tokens": "Claim {value} {currency}",
+      "connect": "Connect Polkadot Wallet",
+      "contribute": "Contribute {currency}",
+      "contribute-form": "Contribute",
+      "max": "(Max)",
+      "provided": "Provided {value} {currency}"
+    },
+    "column": {
+      "bond-token-values": "{val1, number, ::compact-short} / {val2, number, ::compact-short} / {val3, number, ::compact-short} {currency}",
+      "val-currency": "{val, number} {currency}"
+    },
+    "currency": {
+      "DOT": "DOT",
+      "KSM": "KSM",
+      "WND": "WND",
+      "ROC": "ROC"
+    },
+    "header": {
+      "balance": "My Balance",
+      "claimable-rewards": "Claimable Rewards",
+      "end-date": "End Date",
+      "future-rewards": "Future rewards until maturity",
+      "hard-cap": "Raised on Ankr / Total Raised / HardCap",
+      "lease-duration": "Lease Duration",
+      "parachain-bond": "Parachain Bond",
+      "project": "Project",
+      "total-rewards": "Total Rewards"
+    },
+    "labels": {
+      "failed": "Failed",
+      "paused": "Paused",
+      "winner": "Winner"
+    },
+    "no-crowdloan": {
+      "message": "There are no {type} crowdloans on {tokenName} at the moment",
+      "sub-message": "They will be coming soon!",
+      "types": {
+        "MY_REWARDS": "reward",
+        "PROJECTS_LIST": "any"
+      }
+    },
+    "select-wallet": {
+      "install": "Install",
+      "preferred": "Preferred",
+      "title-install": "You need to install Polkadot supporting wallet to continue",
+      "title-select": "Select wallet to continue",
+      "wallet": {
+        "clover": "Clover Wallet",
+        "polkadot": "Polladot.js Wallet"
+      }
+    },
+    "support-project-form": {
+      "title": "Support {value} project",
+      "available-balance": "Available balance: {value} {currency}",
+      "daily-reward": "Daily {rewardTokenSymbol} Reward",
+      "disclaimer": "a{currency}p tokens can be claimed on Ethereum if {project} wins a Polkadot Parachain slot auction. a{currency}p will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
+      "initial-reward": "Expected Initial airdrop {rewardTokenSymbol} Reward",
+      "want-contribute": "I want to contribute",
+      "will-get": "You will get {bondTokenSymbol}"
+    },
+    "tabs": {
+      "my-rewards": "My Rewards",
+      "projects-list": "Projects List"
+    },
+    "tooltips": {
+      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing."
+    }
+  },
+  "stake-polkadot": {
+    "networks": {
+      "DOT": "Polkadot",
+      "KSM": "Kusama",
+      "WND": "Westend",
+      "ROC": "Rococo"
+    }
+  },
+  "support-project-form": {
+    "coming-soon": "coming soon"
   },
   "trading-cockpit": {
     "stake-btn": "Stake now",

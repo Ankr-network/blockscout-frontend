@@ -1,0 +1,1 @@
+export { PolkadotSlotAuction } from './PolkadotSlotAuction';

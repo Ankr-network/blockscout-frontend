@@ -1,11 +1,13 @@
+import { NoSsr } from '@material-ui/core';
+import { Notifications } from 'modules/common/components/Notifications';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
+import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AppBase } from './modules/layout/components/AppBase/AppBase';
+import { persistor, store } from 'store';
+import { Spinner } from 'uiKit/Spinner';
 import { Routes } from './Routes';
-import { persistor, store } from './store';
-import { Spinner } from './uiKit/Spinner';
 
 function App() {
   return (
@@ -15,6 +17,9 @@ function App() {
           <AppBase>
             <ScrollToTop />
             <Routes />
+            <NoSsr>
+              <Notifications />
+            </NoSsr>
           </AppBase>
         </PersistGate>
       </Provider>

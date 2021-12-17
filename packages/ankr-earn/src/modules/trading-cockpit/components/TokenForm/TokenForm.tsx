@@ -50,13 +50,12 @@ export const TokenForm = ({
 
   const handleTokenSwap = useCallback(
     (
-        form: FormApi<ITokenFormValues, Partial<ITokenFormValues>>,
-        values: ITokenFormValues,
-      ) =>
-      () => {
-        form.change(FieldsNames.toToken, values.fromToken);
-        form.change(FieldsNames.fromToken, values.toToken);
-      },
+      form: FormApi<ITokenFormValues, Partial<ITokenFormValues>>,
+      values: ITokenFormValues,
+    ) => () => {
+      form.change(FieldsNames.toToken, values.fromToken);
+      form.change(FieldsNames.fromToken, values.toToken);
+    },
     [],
   );
 
@@ -70,7 +69,7 @@ export const TokenForm = ({
     } else {
       const currentAmount = new BigNumber(value);
       if (currentAmount.isNaN()) {
-        error = t('validation.numberOnly');
+        error = t('validation.number-only');
       } else if (currentAmount.isLessThanOrEqualTo(MIN_AMOUNT)) {
         error = t('validation.min', {
           value: MIN_AMOUNT,

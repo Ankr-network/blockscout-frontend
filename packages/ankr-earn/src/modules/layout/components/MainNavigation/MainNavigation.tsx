@@ -1,11 +1,14 @@
 import { Button, Popover } from '@material-ui/core';
 import classNames from 'classnames';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
+import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as TradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
+import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { useState } from 'react';
 import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
 import { Navigation } from '../../../common/components/Navigation';
+import { isMainnet } from '../../../common/const';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
 export const MainNavigation = () => {
@@ -20,7 +23,11 @@ export const MainNavigation = () => {
     },
     {
       label: t('main-navigation.parachain'),
-      href: '3', // TODO: add proper route
+      href: PolkadotSlotAuctionRoutes.crowdloans.generatePath(
+        isMainnet
+          ? EParachainPolkadotNetwork.DOT.toLowerCase()
+          : EParachainPolkadotNetwork.WND.toLowerCase(),
+      ),
     },
     {
       label: t('main-navigation.boost'),

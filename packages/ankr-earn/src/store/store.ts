@@ -1,13 +1,35 @@
 import { createDriver as createAxiosDriver } from '@redux-requests/axios';
-import { handleRequests } from '@redux-requests/core';
+import { handleRequests, RequestAction } from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { i18nSlice } from 'modules/i18n/i18nSlice';
+import {
+  connectRouter,
+  routerMiddleware,
+  RouterState,
+} from 'connected-react-router';
+import { historyInstance } from 'modules/common/utils/historyInstance';
+import { I18nSlice, i18nSlice } from 'modules/i18n/i18nSlice';
 import { persistReducer, persistStore } from 'redux-persist';
-import { historyInstance } from '../modules/common/utils/historyInstance';
+import { PersistState } from 'redux-persist/es/types';
+import createSagaMiddleware from 'redux-saga';
+import { getErrorMessage } from 'uiKit/QueryError';
+import { NotificationActions } from './actions/NotificationActions';
+import { dialog } from './dialogs/reducer';
+import { IDialogState } from './dialogs/selectors';
+import { notificationReducer } from './reducers/notificationReducer';
+import { rootSagas } from './sagas';
 import { i18nPersistConfig } from './webStorageConfigs';
+
+export interface IStoreState {
+  dialog: IDialogState;
+  i18n: I18nSlice & {
+    _persist: PersistState;
+  };
+  notification: any;
+  requests: any;
+  router: RouterState<unknown>;
+}
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   cache: true,
@@ -33,25 +55,42 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  onError: (error: Error, _action, _store: Store) => {
-    // todo: show common notification
+  onError: (error: Error, action: RequestAction, store: Store) => {
+    if (action.meta?.showNotificationOnError) {
+      store.dispatch(
+        NotificationActions.showNotification({
+          message: getErrorMessage(error),
+          severity: 'error',
+        }),
+      );
+    }
 
     throw error;
   },
 });
 
-const rootReducer = combineReducers({
+const sagaMiddleware = createSagaMiddleware();
+
+const rootReducer = combineReducers<IStoreState>({
+  dialog,
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
+  notification: notificationReducer,
   requests: requestsReducer,
   router: connectRouter(historyInstance),
 });
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [...requestsMiddleware, routerMiddleware(historyInstance)],
+  middleware: [
+    ...requestsMiddleware,
+    routerMiddleware(historyInstance),
+    sagaMiddleware,
+  ],
 });
 
 export const persistor = persistStore(store);
+
+sagaMiddleware.run(rootSagas);
 
 export type Store = typeof store;
 export type AppDispatch = typeof store.dispatch;
