@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "rootDirs": [
+      "."
+    ],
     "target": "es5",
     "lib": [
       "dom",
@@ -23,6 +26,7 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "typings/**/*.d.ts"
+  ],
 }

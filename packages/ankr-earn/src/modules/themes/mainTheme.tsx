@@ -169,7 +169,7 @@ export const mainTheme = createTheme({
 
       maxWidthXl: {
         [defaultTheme.breakpoints.up('xl')]: {
-          maxWidth: 1520 + 48,
+          maxWidth: 1160 + defaultTheme.spacing(5 * 2),
         },
       },
     },

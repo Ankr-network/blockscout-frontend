@@ -1,4 +1,5 @@
 import loadable from '@loadable/component';
+import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -49,8 +50,8 @@ export function getRoutes() {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <Route path={ROOT} exact>
-          <Redirect to={TRADING_COCKPIT_PATH} />
+        <Route path={RoutesConfig.root} exact>
+          <Redirect to={RoutesConfig.tradingCockpit.path} />
         </Route>
 
         <Route path={RoutesConfig.tradingCockpit.path} exact>
@@ -68,8 +69,9 @@ export function getRoutes() {
         )}
 
         <Route>
-          {/* todo: use 404 page component */}
-          <DefaultLayout>404</DefaultLayout>
+          <DefaultLayout>
+            <PageNotFound />
+          </DefaultLayout>
         </Route>
       </Switch>
     </Route>

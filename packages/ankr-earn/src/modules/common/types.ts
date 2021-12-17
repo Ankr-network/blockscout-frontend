@@ -7,6 +7,7 @@ export type Milliseconds = number;
 export type Megabytes = number;
 export type Percentage = number;
 export type ETH = number;
+export declare type Web3Address = string;
 
 export enum Env {
   Develop = 'develop',
