@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, Typography } from '@material-ui/core';
+import { ButtonBase, Tooltip } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import {
   Table as BasicTable,
@@ -11,7 +11,7 @@ import {
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { WithUseStyles } from 'modules/themes/types';
-import { ReactNode, ReactText } from 'react';
+import { ReactNode, ReactText, useMemo } from 'react';
 import { uid } from 'react-uid';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { CellPercentageValue } from '../CellPercentageValue';
@@ -36,17 +36,11 @@ export interface ITableRow {
 
 interface ITableProps extends Partial<WithUseStyles<typeof useTableStyles>> {
   data?: ITableRow[];
-  inToken: string;
   outToken: string;
   isLoading?: boolean;
 }
 
-export const TableComponent = ({
-  data,
-  inToken,
-  outToken,
-  isLoading,
-}: ITableProps) => {
+export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
   const classes = useTableStyles();
 
   const captions = useLocaleMemo(
@@ -55,7 +49,7 @@ export const TableComponent = ({
         label: t('trading-cockpit.table.name'),
       },
       {
-        label: `${inToken}/${outToken}`,
+        label: t('trading-cockpit.table.rate'),
       },
       {
         label: t('trading-cockpit.table.difference'),
@@ -72,12 +66,31 @@ export const TableComponent = ({
         label: ' ',
       },
     ],
-    [inToken, outToken],
+    [],
   );
 
-  const commontTdProps = {
-    className: classes.td,
-  };
+  const renderedSkeletonRows = useMemo(
+    () =>
+      SKELETON_ROWS.map((columnWidths, i) => (
+        <TableRow key={uid(i)}>
+          {columnWidths.map((width, j) => (
+            <TableBodyCell label={captions[j].label} key={uid(`${i}-${j}`)}>
+              <Skeleton width={width} />
+            </TableBodyCell>
+          ))}
+
+          <TableBodyCell label={captions[columnWidths.length].label}>
+            <Skeleton
+              className={classes.btnSkeleton}
+              width="100%"
+              height={40}
+              variant="rect"
+            />
+          </TableBodyCell>
+        </TableRow>
+      )),
+    [captions, classes],
+  );
 
   if (!data?.length && !isLoading) {
     return null;
@@ -86,15 +99,13 @@ export const TableComponent = ({
   return (
     <BasicTable
       columnsCount={captions.length}
-      customCell="1fr 152px 230px 210px 175px 130px"
-      minWidth={1100}
-      paddingCollapse
+      customCell="1fr 145px 235px 210px 155px 165px"
+      minWidth={1120}
     >
-      <TableHead className={classes.tableHead}>
+      <TableHead>
         {captions.map(({ label, tip }, i) => (
           <TableHeadCell
             key={uid(i)}
-            className={classes.th}
             classes={{
               content: classes.thContent,
             }}
@@ -104,9 +115,12 @@ export const TableComponent = ({
 
                 {tip && (
                   <Tooltip title={tip}>
-                    <IconButton className={classes.question}>
-                      <QuestionIcon size="xs" />
-                    </IconButton>
+                    <ButtonBase className={classes.questionBtn}>
+                      <QuestionIcon
+                        className={classes.questionIcon}
+                        size="xs"
+                      />
+                    </ButtonBase>
                   </Tooltip>
                 )}
               </>
@@ -116,45 +130,24 @@ export const TableComponent = ({
       </TableHead>
 
       <TableBody>
-        {isLoading &&
-          SKELETON_ROWS.map((columnWidths, i) => (
-            <TableRow key={uid(i)}>
-              {columnWidths.map((width, j) => (
-                <TableBodyCell
-                  {...commontTdProps}
-                  label={captions[j].label}
-                  key={uid(`${i}-${j}`)}
-                >
-                  <Skeleton width={width} />
-                </TableBodyCell>
-              ))}
-
-              <TableBodyCell
-                {...commontTdProps}
-                label={captions[columnWidths.length].label}
-              >
-                <Skeleton
-                  className={classes.btnSkeleton}
-                  width="100%"
-                  height={40}
-                  variant="rect"
-                />
-              </TableBodyCell>
-            </TableRow>
-          ))}
+        {isLoading && renderedSkeletonRows}
 
         {!isLoading &&
           data?.map((row, i) => (
             <TableRow key={uid(i)}>
-              <TableBodyCell {...commontTdProps} label={`${captions[0].label}`}>
-                <ExChange title={row.paltform} iconSlot={row.iconSlot} />
+              <TableBodyCell label={`${captions[0].label}`}>
+                <ExChange
+                  className={classes.platform}
+                  title={row.paltform}
+                  iconSlot={row.iconSlot}
+                />
               </TableBodyCell>
 
-              <TableBodyCell {...commontTdProps} label={`${captions[1].label}`}>
+              <TableBodyCell label={`${captions[1].label}`}>
                 {row.ratio}
               </TableBodyCell>
 
-              <TableBodyCell {...commontTdProps} label={`${captions[2].label}`}>
+              <TableBodyCell label={`${captions[2].label}`}>
                 <CellPercentageValue
                   value={row.fairValue}
                   text={
@@ -165,28 +158,25 @@ export const TableComponent = ({
                 />
               </TableBodyCell>
 
-              <TableBodyCell {...commontTdProps} label={`${captions[3].label}`}>
+              <TableBodyCell label={`${captions[3].label}`}>
                 <CellPercentageValue value={row.priceDiff} />
               </TableBodyCell>
 
-              <TableBodyCell {...commontTdProps} label={`${captions[4].label}`}>
-                <Typography
-                  variant="body2"
-                  color="textPrimary"
-                  component="strong"
-                  className={classes.outValue}
+              <TableBodyCell label={`${captions[4].label}`}>
+                <span
+                  title={t('unit.token-value', {
+                    value: row.youGet,
+                    token: outToken,
+                  })}
                 >
-                  <span title={`${row.youGet} ${outToken}`}>
-                    {`${row.youGet} ${outToken}`}
-                  </span>
-                </Typography>
+                  {t('unit.token-value', {
+                    value: row.youGet,
+                    token: outToken,
+                  })}
+                </span>
               </TableBodyCell>
 
-              <TableBodyCell
-                {...commontTdProps}
-                label={`${captions[5].label}`}
-                align="right"
-              >
+              <TableBodyCell label={`${captions[5].label}`} align="right">
                 {row.btnSlot}
               </TableBodyCell>
             </TableRow>

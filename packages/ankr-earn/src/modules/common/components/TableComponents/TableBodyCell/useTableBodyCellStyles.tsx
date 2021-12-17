@@ -6,35 +6,38 @@ export const useTableBodyCellStyles = makeStyles<
   {
     dense?: boolean;
     paddingCollapse?: boolean;
-    on?: boolean;
   }
 >(theme => ({
   cell: {
     fontWeight: 400,
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'inline-grid',
       alignItems: 'center',
-      paddingLeft: theme.spacing(4.5),
-      paddingRight: theme.spacing(4.5),
-      borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+      margin: ({ dense }) => (dense ? '' : theme.spacing(1, 0)),
+      background: ({ dense }) => (dense ? '' : theme.palette.background.paper),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+      borderTop: ({ dense }) =>
+        dense ? `1px solid ${alpha(theme.palette.text.secondary, 0.1)}` : '',
     },
 
     '&:first-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
+      [theme.breakpoints.up('md')]: {
+        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3)),
+        borderRadius: ({ dense }) => (dense ? '' : '18px 0 0 18px'),
       },
     },
 
     '&:last-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingRight: props =>
-          props.paddingCollapse ? 0 : theme.spacing(3.75),
+      [theme.breakpoints.up('md')]: {
+        paddingRight: props => (props.paddingCollapse ? 0 : theme.spacing(3)),
+        borderRadius: ({ dense }) => (dense ? '' : '0 18px 18px 0'),
       },
     },
 
     '&$centerCell': {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         textAlign: 'center',
       },
     },
@@ -44,7 +47,7 @@ export const useTableBodyCellStyles = makeStyles<
     },
 
     '&$rightCell': {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         textAlign: 'right',
       },
     },
@@ -56,7 +59,7 @@ export const useTableBodyCellStyles = makeStyles<
     gap: theme.spacing(0, 2),
     textAlign: 'right',
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'inline-grid',
       textAlign: 'left',
       gridTemplateColumns: 'auto',
@@ -75,7 +78,7 @@ export const useTableBodyCellStyles = makeStyles<
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
 
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         display: 'none',
       },
     },
@@ -86,13 +89,10 @@ export const useTableBodyCellStyles = makeStyles<
     paddingBottom: theme.spacing(1.5),
     fontSize: 16,
     lineHeight: 1.3,
-    color: theme.palette.common.white,
 
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: props =>
-        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
-      paddingBottom: props =>
-        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
 
       minHeight: props => (props.dense ? 0 : theme.spacing(10)),
     },

@@ -31,5 +31,5 @@ export const SOCIAL_LINK = {
 };
 
 export const featuresConfig = {
-  tradingCockpit: true,
+  liquidityMining: true,
 };

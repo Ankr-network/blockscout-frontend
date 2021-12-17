@@ -31,7 +31,7 @@ export const TableBodyCellComponent = ({
     ...rest,
   });
   return (
-    <li
+    <td
       className={classNames(
         className,
         classes.tableCell,
@@ -49,7 +49,7 @@ export const TableBodyCellComponent = ({
       data-label={label}
     >
       <div className={classes.cellWrapper}>{children}</div>
-    </li>
+    </td>
   );
 };
 

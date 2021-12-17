@@ -1,7 +1,7 @@
-import { EMPTY_PATH, featuresConfig, INDEX_PATH } from 'modules/common/const';
+import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
+import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
-import { getRoutes as getTradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 export function Routes() {
@@ -17,7 +17,7 @@ export function Routes() {
 
       {getPolkadotSlotAuctionRoutes()}
 
-      {featuresConfig.tradingCockpit && getTradingCockpitRoutes()}
+      {getBoostRoutes()}
     </Switch>
   );
 }

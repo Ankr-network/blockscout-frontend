@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { DiamondIcon } from 'uiKit/Icons/DiamondIcon';
-import { BoxIcon } from 'uiKit/Icons/BoxIcon';
-import { PaperIcon } from 'uiKit/Icons/PaperIcon';
-import { StatIcon } from 'uiKit/Icons/StatIcon';
+import { ReactComponent as DiamondIcon } from 'uiKit/Icons/diamond.svg';
+import { ReactComponent as BoxIcon } from 'uiKit/Icons/box.svg';
+import { ReactComponent as PaperIcon } from 'uiKit/Icons/paper.svg';
+import { ReactComponent as StatIcon } from 'uiKit/Icons/stat.svg';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import {

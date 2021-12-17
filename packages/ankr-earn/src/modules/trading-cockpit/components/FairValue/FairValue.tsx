@@ -1,8 +1,8 @@
-import { IconButton, Tooltip } from '@material-ui/core';
+import { ButtonBase, Tooltip, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { Skeleton } from '@material-ui/lab';
 import { t } from 'modules/i18n/utils/intl';
-import React, { FC } from 'react';
+import React from 'react';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { useFairValueStyles } from './useFairValueStyles';
 
@@ -19,19 +19,19 @@ interface IFairValue {
   };
 }
 
-export const FairValue: FC<IFairValue> = ({
+export const FairValue = ({
   isLoading,
   tooltip,
   currencyFirst,
   currencySecond,
-}) => {
+}: IFairValue) => {
   const classes: ClassNameMap = useFairValueStyles();
 
   const tooltipElement = tooltip && (
     <Tooltip title={tooltip}>
-      <IconButton className={classes.question}>
-        <QuestionIcon size="xs" />
-      </IconButton>
+      <ButtonBase className={classes.questionBtn}>
+        <QuestionIcon size="xs" className={classes.questionIcon} />
+      </ButtonBase>
     </Tooltip>
   );
 
@@ -41,9 +41,11 @@ export const FairValue: FC<IFairValue> = ({
         <span className={classes.descriptionTitle}>
           {t('trading-cockpit.fair-value.title')}
         </span>
+
         {tooltipElement}
       </div>
-      <div className={classes.values}>
+
+      <Typography variant="body2" className={classes.values}>
         {isLoading ? (
           <Skeleton width={100} />
         ) : (
@@ -54,7 +56,7 @@ export const FairValue: FC<IFairValue> = ({
             currencyB: currencySecond.label,
           })
         )}
-      </div>
+      </Typography>
     </div>
   );
 };

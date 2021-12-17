@@ -66,12 +66,7 @@ export const useTable = ({
           priceDiff: getEstPriceDiff(outAmount, bestPrice, amount),
           youGet: round(outAmount),
           btnSlot: (
-            <NavLink
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              href={linkToExchange}
-            >
+            <NavLink variant="outlined" fullWidth href={linkToExchange}>
               {t('trading-cockpit.exchange-btn')}
             </NavLink>
           ),

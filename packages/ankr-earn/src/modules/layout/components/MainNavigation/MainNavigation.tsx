@@ -1,25 +1,27 @@
 import { Button, Popover } from '@material-ui/core';
+import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import classNames from 'classnames';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
+import { isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
-import { RoutesConfig as TradingCockpitRoutes } from 'modules/trading-cockpit/Routes';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { useState } from 'react';
-import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
-import { Navigation } from '../../../common/components/Navigation';
-import { isMainnet } from '../../../common/const';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
+
+const EMPTY_PATH = '#';
 
 export const MainNavigation = () => {
   const items = [
     {
       label: t('main-navigation.stake'),
-      href: '1', // TODO: add proper route
+      href: EMPTY_PATH, // TODO: add proper route
     },
     {
       label: t('main-navigation.dashboard'),
-      href: '2', // TODO: add proper route
+      href: EMPTY_PATH, // TODO: add proper route
     },
     {
       label: t('main-navigation.parachain'),
@@ -27,22 +29,22 @@ export const MainNavigation = () => {
         isMainnet
           ? EParachainPolkadotNetwork.DOT.toLowerCase()
           : EParachainPolkadotNetwork.WND.toLowerCase(),
-      ),
+      ), // TODO: add proper route
     },
     {
       label: t('main-navigation.boost'),
-      href: TradingCockpitRoutes.dashboard.generatePath(), // TODO: add proper route
+      href: BoostRoutes.tradingCockpit.generatePath(), // TODO: add proper route
     },
   ];
 
   const moreOptions = [
     {
       label: t('main-navigation.docs'),
-      href: '6', // TODO: add proper route
+      href: EMPTY_PATH, // TODO: add proper route
     },
     {
       label: t('main-navigation.litepaper'),
-      href: '7', // TODO: add proper route
+      href: EMPTY_PATH, // TODO: add proper route
     },
   ];
 

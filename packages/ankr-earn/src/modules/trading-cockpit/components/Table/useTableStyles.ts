@@ -4,49 +4,30 @@ export const useTableStyles = makeStyles<Theme>(
   theme => ({
     root: {},
 
-    tableHead: {
-      border: 'none',
-      background: theme.palette.background.paper,
-      borderRadius: 12,
-    },
-
-    th: {
-      [theme.breakpoints.up('sm')]: {
-        paddingLeft: theme.spacing(3),
-        paddingRight: theme.spacing(3),
-      },
-
-      '&:first-child': {
-        [theme.breakpoints.up('sm')]: {
-          paddingLeft: theme.spacing(3),
-        },
-      },
-
-      '&:last-child': {
-        [theme.breakpoints.up('sm')]: {
-          paddingRight: theme.spacing(3),
-        },
-      },
-    },
-
     thContent: {
       display: 'flex',
       alignItems: 'center',
     },
 
-    td: {
-      color: theme.palette.text.secondary,
+    platform: {
+      display: 'inline-flex',
 
-      [theme.breakpoints.up('sm')]: {
-        paddingLeft: theme.spacing(3),
-        paddingRight: theme.spacing(3),
-        border: 'none',
-        fontSize: 16,
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
       },
     },
 
     outValue: {
       fontWeight: 700,
+    },
+
+    questionBtn: {
+      padding: theme.spacing(1),
+      color: theme.palette.text.secondary,
+    },
+
+    questionIcon: {
+      color: 'inherit',
     },
 
     noPrimaryBtnScale: {
@@ -60,7 +41,7 @@ export const useTableStyles = makeStyles<Theme>(
     },
 
     btnSkeleton: {
-      borderRadius: 60,
+      borderRadius: 12,
     },
   }),
   { index: 1 },

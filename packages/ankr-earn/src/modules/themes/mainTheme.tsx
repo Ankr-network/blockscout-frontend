@@ -1,4 +1,9 @@
-import { alpha, createTheme, lighten, ThemeOptions } from '@material-ui/core';
+import {
+  alpha,
+  lighten,
+  ThemeOptions,
+  unstable_createMuiStrictModeTheme as createTheme,
+} from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import React from 'react';
 import { CheckboxCheckedIcon, CheckboxIcon } from '../../uiKit/Checkbox';
@@ -26,8 +31,8 @@ export const PALETTE: PaletteOptions = {
     dark: '#2A5BD1',
   },
   background: {
-    default: '#fff',
-    paper: '#F2F5FA',
+    default: '#F2F5FA',
+    paper: '#fff',
   },
   text: {
     primary: '#1F2226',
@@ -153,13 +158,10 @@ export const mainTheme = createTheme({
 
     MuiContainer: {
       root: {
-        paddingLeft: defaultTheme.spacing(5),
-        paddingRight: defaultTheme.spacing(5),
+        paddingLeft: defaultTheme.spacing(2),
+        paddingRight: defaultTheme.spacing(2),
+
         [defaultTheme.breakpoints.up('sm')]: {
-          paddingLeft: defaultTheme.spacing(5),
-          paddingRight: defaultTheme.spacing(5),
-        },
-        [defaultTheme.breakpoints.up('xl')]: {
           paddingLeft: defaultTheme.spacing(5),
           paddingRight: defaultTheme.spacing(5),
         },
@@ -240,11 +242,17 @@ export const mainTheme = createTheme({
     MuiInputBase: {
       root: {
         fontSize: 16,
-        border: `1px solid ${alpha(defaultTheme.palette.common.black, 0.1)}`,
-        transition: 'border 0.2s',
+        border: `2px solid ${defaultTheme.palette.background.default}`,
+        transition: 'border 0.2s, background 0.2s',
+        backgroundColor: defaultTheme.palette.background.default,
 
         '&:hover, &.Mui-focused': {
-          borderColor: alpha(defaultTheme.palette.common.black, 0.3),
+          borderColor: defaultTheme.palette.background.default,
+          backgroundColor: defaultTheme.palette.background.paper,
+        },
+
+        '&&$disabled': {
+          backgroundColor: defaultTheme.palette.background.default,
         },
 
         '& fieldset': {
@@ -281,11 +289,12 @@ export const mainTheme = createTheme({
     MuiOutlinedInput: {
       root: {
         borderRadius: 8,
+        border: `2px solid ${defaultTheme.palette.background.default}`,
       },
 
       input: {
         padding: defaultTheme.spacing(2.3, 2),
-        minHeight: 58,
+        minHeight: 56,
         boxSizing: 'border-box',
       },
     },
@@ -293,7 +302,7 @@ export const mainTheme = createTheme({
     MuiSelect: {
       select: {
         '&:focus, &:hover': {
-          backgroundColor: defaultTheme.palette.background.default,
+          backgroundColor: defaultTheme.palette.background.paper,
           borderRadius: 18,
           borderColor: 'transparent',
         },
@@ -377,7 +386,7 @@ export const mainTheme = createTheme({
       contained: {
         backgroundColor: defaultTheme.palette.primary.main,
         overflow: 'hidden',
-        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s, color ${BTN_TRANSITION_TIME}s`,
         color: defaultTheme.palette.common.white,
         boxShadow: 'none',
 
@@ -398,19 +407,19 @@ export const mainTheme = createTheme({
       },
 
       outlined: {
-        border: `2px solid ${defaultTheme.palette.background.paper}`,
+        border: `2px solid ${defaultTheme.palette.background.default}`,
         overflow: 'hidden',
-        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s, color ${BTN_TRANSITION_TIME}s`,
         color: defaultTheme.palette.primary.main,
         boxShadow: 'none',
 
         '&$disabled': {
-          border: `2px solid ${defaultTheme.palette.background.paper}`,
+          border: `2px solid ${defaultTheme.palette.background.default}`,
           color: defaultTheme.palette.action.disabledBackground,
         },
 
         '&:hover': {
-          background: defaultTheme.palette.background.paper,
+          background: defaultTheme.palette.background.default,
 
           '&:before': {
             transform: 'translateY(0)',
@@ -420,9 +429,9 @@ export const mainTheme = createTheme({
 
       outlinedPrimary: {
         textTransform: 'none',
-        border: `2px solid ${defaultTheme.palette.background.paper}`,
+        border: `2px solid ${defaultTheme.palette.background.default}`,
         overflow: 'hidden',
-        transition: `background-color ${BTN_TRANSITION_TIME}s ease-in`,
+        transition: `background-color ${BTN_TRANSITION_TIME}s, color ${BTN_TRANSITION_TIME}s`,
         color: defaultTheme.palette.primary.main,
         boxShadow: 'none',
 
@@ -432,24 +441,24 @@ export const mainTheme = createTheme({
         },
 
         '&:hover': {
-          border: `2px solid ${defaultTheme.palette.background.paper}`,
-          backgroundColor: defaultTheme.palette.background.paper,
+          border: `2px solid ${defaultTheme.palette.background.default}`,
+          backgroundColor: defaultTheme.palette.background.default,
           color: defaultTheme.palette.primary.main,
         },
       },
 
       outlinedSecondary: {
-        border: `2px solid ${defaultTheme.palette.background.paper}`,
+        border: `2px solid ${defaultTheme.palette.background.default}`,
 
         '&:hover': {
-          backgroundColor: defaultTheme.palette.background.paper,
-          border: `2px solid ${defaultTheme.palette.background.paper}`,
+          backgroundColor: defaultTheme.palette.background.default,
+          border: `2px solid ${defaultTheme.palette.background.default}`,
         },
       },
 
       text: {
         color: defaultTheme.palette.primary.main,
-        background: defaultTheme.palette.background.default,
+        background: defaultTheme.palette.background.paper,
         padding: '6px 20px',
 
         '&:hover': {
@@ -459,7 +468,7 @@ export const mainTheme = createTheme({
       textPrimary: {
         '&:hover': {
           color: defaultTheme.palette.text.primary,
-          backgroundColor: defaultTheme.palette.background.default,
+          backgroundColor: defaultTheme.palette.background.paper,
           boxShadow:
             '0px 0px 10px rgba(38, 49, 64, 0.1), 0px 3px 40px rgba(38, 49, 64, 0.15)',
         },
@@ -467,7 +476,7 @@ export const mainTheme = createTheme({
       textSecondary: {
         '&:hover': {
           color: defaultTheme.palette.text.primary,
-          backgroundColor: defaultTheme.palette.background.default,
+          backgroundColor: defaultTheme.palette.background.paper,
         },
       },
       iconSizeMedium: {
@@ -711,7 +720,7 @@ export const mainTheme = createTheme({
     MuiStepConnector: {
       root: {
         height: 4,
-        background: defaultTheme.palette.background.paper,
+        background: defaultTheme.palette.background.default,
       },
       active: {
         background: defaultTheme.palette.primary.main,
@@ -728,12 +737,12 @@ export const mainTheme = createTheme({
         width: '100%',
         borderRadius: 9,
         padding: 2,
-        background: defaultTheme.palette.background.paper,
+        background: defaultTheme.palette.background.default,
       },
     },
     MuiToggleButton: {
       root: {
-        background: defaultTheme.palette.background.paper,
+        background: defaultTheme.palette.background.default,
         color: defaultTheme.palette.text.primary,
         border: 'none',
         padding: '9px 28px',
@@ -748,7 +757,7 @@ export const mainTheme = createTheme({
           padding: '9px 21px',
         },
         '&.Mui-selected': {
-          backgroundColor: defaultTheme.palette.background.default,
+          backgroundColor: defaultTheme.palette.background.paper,
           color: defaultTheme.palette.text.primary,
           fontWeight: 'bold',
         },

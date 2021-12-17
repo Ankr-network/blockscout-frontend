@@ -1,15 +1,18 @@
-import React from 'react';
-
+import { Paper, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
-import { InputField } from './InputField';
+import React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
+import { InputField } from './InputField';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 
   input: {
-    marginBottom: 16,
+    margin: 10,
+  },
+
+  form: {
+    padding: 10,
   },
 }));
 
@@ -18,7 +21,7 @@ const InputFieldStory = () => {
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
     return (
-      <form onSubmit={handleSubmit}>
+      <Paper className={classes.form} component="form" onSubmit={handleSubmit}>
         <Field
           id={1}
           className={classes.input}
@@ -37,7 +40,7 @@ const InputFieldStory = () => {
           placeholder="Your email address"
           color="secondary"
         />
-      </form>
+      </Paper>
     );
   };
 

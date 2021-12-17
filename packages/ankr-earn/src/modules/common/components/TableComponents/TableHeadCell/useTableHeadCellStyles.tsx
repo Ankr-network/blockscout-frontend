@@ -1,27 +1,26 @@
-import { createStyles, Theme } from '@material-ui/core';
+import { alpha, createStyles, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useTableHeadCellStyles = makeStyles<
   Theme,
-  { dense?: boolean; paddingCollapse?: boolean; on?: boolean },
+  { dense?: boolean; paddingCollapse?: boolean },
   'cell' | 'headCell' | 'centerCell' | 'leftCell' | 'rightCell' | 'content'
 >(theme =>
   createStyles({
     cell: {
       display: 'inline-grid',
       alignItems: 'center',
-      paddingLeft: theme.spacing(4.5),
-      paddingRight: theme.spacing(4.5),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       fontWeight: 400,
       textAlign: 'left',
 
       '&:first-child': {
-        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
+        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3)),
       },
 
       '&:last-child': {
-        paddingRight: props =>
-          props.paddingCollapse ? 0 : theme.spacing(3.75),
+        paddingRight: props => (props.paddingCollapse ? 0 : theme.spacing(3)),
       },
 
       '&$centerCell': {
@@ -40,12 +39,14 @@ export const useTableHeadCellStyles = makeStyles<
     },
 
     headCell: {
-      paddingTop: theme.spacing(1.5),
-      paddingBottom: theme.spacing(1.5),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
       boxSizing: 'border-box',
       fontSize: 12,
       lineHeight: 1.5,
       color: theme.palette.text.secondary,
+      borderBottom: ({ dense }) =>
+        dense ? `1px solid ${alpha(theme.palette.text.secondary, 0.1)}` : '',
     },
 
     centerCell: {},

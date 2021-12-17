@@ -1,9 +1,17 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
-import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
-import { storiesOf } from '@storybook/react';
+import { Paper } from '@material-ui/core';
+import { Story } from '@storybook/react';
+import React, {
+  ChangeEvent,
+  CSSProperties,
+  useCallback,
+  useState,
+} from 'react';
+import { ISelectProps, Select } from './Select';
 
-import { mainTheme } from 'modules/themes/mainTheme';
-import { Select } from './Select';
+export default {
+  title: 'uiKit/Select',
+  component: Select,
+};
 
 const items = [
   {
@@ -20,26 +28,28 @@ const items = [
   },
 ];
 
-export const useStyles = makeStyles(() => ({
-  root: {
-    backgroundColor: 'grey',
-    padding: 20,
-  },
-}));
-
-storiesOf('uiKit/Select', module).add('Default', () => {
-  const classes = useStyles();
+const Template: Story<ISelectProps> = args => {
   const [value, setValue] = useState<string>(items[0].value);
 
   const onChange = useCallback((event: ChangeEvent<{ value: unknown }>) => {
     setValue(event.target.value as any);
   }, []);
 
+  const paperStyles: CSSProperties = {
+    padding: 20,
+    background: args.variant === 'outlined' ? 'none' : '',
+  };
+
   return (
-    <Box margin="8" className={classes.root}>
-      <ThemeProvider theme={mainTheme}>
-        <Select value={value} onChange={onChange} options={items} fullWidth />
-      </ThemeProvider>
-    </Box>
+    <Paper style={paperStyles}>
+      <Select {...args} value={value} onChange={onChange} options={items} />
+    </Paper>
   );
-});
+};
+
+export const Default = Template.bind({});
+Default.args = {
+  variant: 'outlined',
+  fullWidth: false,
+  disabled: false,
+};
