@@ -1,5 +1,4 @@
 node_modules
-.idea
 .vscode
 build
 xw
@@ -8,3 +7,4 @@ homie.txt
 todo.md
 yarn-error.log
 .eslintcache
+.idea

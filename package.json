@@ -1,145 +1,18 @@
 {
-  "name": "ankr-protocol-web",
+  "name": "root",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build:stage": "env-cmd -f .env.stage react-scripts build",
-    "build:prod": "env-cmd -f .env.prod react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
-    "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
-    "check-circular-dependency": "madge --circular src",
-    "prepare": "husky install",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "postbuild": "react-snap",
-    "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done"
+    "clean": "lerna clean && rm -rf node_modules",
+    "prepare": "husky install"
   },
-  "homepage": "/protocol/",
-  "dependencies": {
-    "@ankr.com/multirpc": "^0.0.145",
-    "@ankr.com/dom": "^0.0.143",
-    "@loadable/component": "^5.14.1",
-    "@material-ui/core": "4.11.0",
-    "@material-ui/lab": "4.0.0-alpha.57",
-    "@material-ui/pickers": "^3.3.10",
-    "@material-ui/styles": "^4.11.4",
-    "@redux-requests/axios": "^1.1.1",
-    "@redux-requests/core": "1.6.1",
-    "@redux-requests/promise": "1.0.2",
-    "@redux-requests/react": "1.6.0",
-    "@reduxjs/toolkit": "^1.5.1",
-    "@walletconnect/web3-provider": "^1.6.5",
-    "axios": "^0.21.1",
-    "bignumber.js": "^9.0.1",
-    "bowser": "^2.11.0",
-    "classnames": "^2.3.1",
-    "connected-react-router": "^6.9.1",
-    "country-iso-to-coordinates": "^1.0.2",
-    "final-form": "^4.20.2",
-    "history": "4.10.1",
-    "immer": "^9.0.1",
-    "react": "^17.0.2",
-    "react-copy-to-clipboard": "^5.0.3",
-    "react-country-flag": "^2.3.1",
-    "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "^17.0.2",
-    "react-final-form": "^6.5.3",
-    "react-intersection-observer": "^8.31.0",
-    "react-intl-universal": "^2.4.5",
-    "react-redux": "^7.2.3",
-    "react-router": "^5.2.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-simple-maps": "^2.3.0",
-    "react-uid": "^2.3.1",
-    "recharts": "^2.1.4",
-    "redux-persist": "^6.0.0",
-    "redux-saga": "^1.1.3",
-    "redux-smart-actions": "^1.0.0",
-    "web-vitals": "^1.0.1",
-    "web3": "^1.3.5",
-    "web3modal": "^1.9.4"
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   },
   "devDependencies": {
-    "source-map-explorer": "^2.5.2",
-    "@storybook/addon-actions": "^6.3.8",
-    "@storybook/addon-essentials": "^6.3.8",
-    "@storybook/addon-links": "^6.3.8",
-    "@storybook/node-logger": "^6.3.8",
-    "@storybook/preset-create-react-app": "^3.2.0",
-    "@storybook/react": "^6.3.8",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/history": "^4.7.9",
-    "@types/jest": "^26.0.15",
-    "@types/loadable__component": "^5.13.3",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-copy-to-clipboard": "^4.3.0",
-    "@types/react-custom-scrollbars": "^4.0.9",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/react-simple-maps": "^1.0.6",
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1",
-    "babel-loader": "8.1.0",
-    "env-cmd": "^10.1.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-airbnb-typescript": "^12.3.1",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-typescript": "^0.14.0",
-    "husky": "^7.0.0",
-    "lint-staged": "^10.5.4",
-    "madge": "^5.0.1",
-    "prettier": "^2.2.1",
-    "react-snap": "^1.23.0",
-    "typescript": "^4.1.2"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
-  },
-  "reactSnap": {
-    "puppeteerArgs": [
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-    "include": [
-      "/public/avalanche/",
-      "/public/eth/",
-      "/public/fantom/",
-      "/public/polygon/",
-      "/public/solana/",
-      "/public/arbitrum/",
-      "/public/selo/"
-    ],
-    "skipThirdPartyRequests": true,
-    "inlineCss": true
+    "lerna": "^4.0.0",
+    "husky": "^7.0.4"
   }
 }
