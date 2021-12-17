@@ -32,7 +32,7 @@ export const disconnect = createAction<RequestAction, [AvailableProviders]>(
         const requestsToReset = [
           {
             requestType: connect.toString(),
-            requestKey: `${providerId}`,
+            requestKey: getAuthRequestKey(providerId),
           },
         ];
 

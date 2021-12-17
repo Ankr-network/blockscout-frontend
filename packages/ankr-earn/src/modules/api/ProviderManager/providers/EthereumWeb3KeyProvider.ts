@@ -1,8 +1,8 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3 from 'web3';
 import Web3Modal, { IProviderOptions } from 'web3modal';
-import { Web3KeyProvider } from '..';
 import { web3ModalTheme } from '../const';
+import { Web3KeyProvider } from '../Web3KeyProvider';
 
 export class EthereumWeb3KeyProvider extends Web3KeyProvider {
   async inject() {
