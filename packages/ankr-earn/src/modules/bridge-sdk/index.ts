@@ -1,11 +1,13 @@
-import { RequestManager } from './requestManager';
+export {};
+
+/*import { RequestManager } from './requestManager';
 import {
   ICreateSwapResponse,
   ISwapResponse,
   ISwapStatus,
   ITokenResponse,
 } from './entity';
-import { IStkrSdk } from '../api';
+//import { IStkrSdk } from '../api';
 import { BlockchainNetworkId } from 'modules/common/types';
 import PEG_ETH_ABI from './Peg-ETH.json';
 import { Contract } from 'web3-eth-contract';
@@ -328,4 +330,4 @@ export class BridgeSdk {
       );
     }
   }
-}
+}*/

@@ -6,12 +6,8 @@ export const useStakeDescriptionValueStyles = makeStyles<Theme>(theme => ({
     '&&': {
       justifySelf: 'end',
       alignSelf: 'center',
-      fontSize: 20,
+      fontSize: 16,
       textAlign: 'right',
-
-      [theme.breakpoints.up('sm')]: {
-        fontSize: 22,
-      },
     },
   },
 }));

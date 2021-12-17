@@ -17,7 +17,7 @@ export const fetchStats = createSmartAction<
 >('polygon/fetchStats', () => ({
   request: {
     promise: (async () => {
-      const sdk = PolygonSDK.getInstance();
+      /*const sdk = PolygonSDK.getInstance();
       return {
         maticBalance: await sdk.getMaticBalance(),
         aMaticbBalance: await sdk.getaMaticbBalance(),
@@ -27,6 +27,8 @@ export const fetchStats = createSmartAction<
         ),
         pendingClaim: await sdk.getPendingClaim(),
       } as IFetchStatsResponseData;
+      */
+      return {};
     })(),
   },
   meta: {

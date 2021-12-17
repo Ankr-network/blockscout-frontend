@@ -1,13 +1,12 @@
 import loadable from '@loadable/component';
 import { generatePath, Route, Switch } from 'react-router-dom';
-import { INDEX_PATH } from '../common/const';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
-const ROOT = `${INDEX_PATH}/MATIC`;
-const DASHBOARD_PATH = `${ROOT}`;
-const STAKE_PATH = `${ROOT}/stake`;
+const ROOT = '/polygon-staking'; //`${INDEX_PATH}/MATIC`;
+const DASHBOARD_PATH = '/polygon-staking/dashboard'; //`${ROOT}`;
+const STAKE_PATH = '/polygon-staking/stake'; //`${ROOT}/stake`;
 
 const Dashboard = loadable(
   async () =>
@@ -41,27 +40,28 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
+console.log(RoutesConfig.root);
+console.log(RoutesConfig.dashboard.path);
+
 export function getRoutes() {
   return (
-    <Route path={RoutesConfig.root}>
-      <Switch>
-        <Route path={RoutesConfig.dashboard.path} exact>
-          <DefaultLayout>
-            <Dashboard />
-          </DefaultLayout>
-        </Route>
+    <Switch>
+      <Route path={RoutesConfig.dashboard.path} exact>
+        <DefaultLayout>
+          <Dashboard />
+        </DefaultLayout>
+      </Route>
 
-        <Route path={RoutesConfig.stake.path} exact>
-          <DefaultLayout>
-            <Stake />
-          </DefaultLayout>
-        </Route>
+      <Route path={RoutesConfig.stake.path} exact>
+        <DefaultLayout>
+          <Stake />
+        </DefaultLayout>
+      </Route>
 
-        <Route>
-          {/* todo: use 404 page component */}
-          <DefaultLayout>404</DefaultLayout>
-        </Route>
-      </Switch>
-    </Route>
+      <Route>
+        {/* todo: use 404 page component */}
+        <DefaultLayout>404</DefaultLayout>
+      </Route>
+    </Switch>
   );
 }

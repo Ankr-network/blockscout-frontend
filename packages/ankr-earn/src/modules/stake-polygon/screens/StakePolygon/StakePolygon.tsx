@@ -7,16 +7,14 @@ import {
   StakeForm,
 } from 'modules/stake/components/StakeForm';
 import { RoutesConfig } from '../../Routes';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t } from 'modules/i18n/utils/intl';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
-import { Box, IconButton, Tooltip } from '@material-ui/core';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { fetchStats } from '../../actions/fetchStats';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { stake } from '../../actions/stake';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { ResponseData } from 'modules/common/components/ResponseData';
 
@@ -46,32 +44,26 @@ export const StakePolygon = () => {
 
   const yearlyInterest = useMemo(() => new BigNumber(0.12), []);
 
+  // TODO: proper "you will get" value
+
   const renderStats = useCallback(
     (amount: number) => {
       const isZeroAmount: boolean = amount === 0;
       return (
         <StakeDescriptionContainer>
-          {yearlyInterest ? (
-            <>
-              <StakeDescriptionName>
-                {t('stake.yearly-earning')}
+          <>
+            <StakeDescriptionName>
+              {t('stake.you-will-get')}
+            </StakeDescriptionName>
 
-                <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
-                  <Box component={IconButton} padding={1}>
-                    <QuestionIcon size="xs" />
-                  </Box>
-                </Tooltip>
-              </StakeDescriptionName>
-
-              <StakeDescriptionValue>
-                {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
-                  value: new BigNumber(amount)
-                    .multipliedBy(yearlyInterest)
-                    .decimalPlaces(DECIMAL_PLACES),
-                })}
-              </StakeDescriptionValue>
-            </>
-          ) : null}
+            <StakeDescriptionValue>
+              {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
+                value: new BigNumber(amount)
+                  .multipliedBy(yearlyInterest)
+                  .decimalPlaces(DECIMAL_PLACES),
+              })}
+            </StakeDescriptionValue>
+          </>
         </StakeDescriptionContainer>
       );
     },
@@ -84,13 +76,12 @@ export const StakePolygon = () => {
         <StakeForm
           onSubmit={handleSubmit}
           onCancel={handleCancel}
-          balance={data.maticBalance}
-          maxAmount={data.maticBalance.toNumber()}
+          balance={/*data.maticBalance*/ new BigNumber(123)}
+          maxAmount={/*data.maticBalance.toNumber()*/ 123}
           stakingAmountStep={0.1}
-          minAmount={data.minimumStake.toNumber()}
+          minAmount={/*data.minimumStake.toNumber()*/ 123}
           loading={loading}
           currency={t('unit.polygon')}
-          stakeInfo={t('stake-polygon.stake-info')}
           renderStats={renderStats}
         />
       )}

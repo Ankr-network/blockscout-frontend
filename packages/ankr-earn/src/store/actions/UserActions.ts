@@ -3,11 +3,11 @@ import BigNumber from 'bignumber.js';
 import { Store } from 'redux';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Blockchain, Provider } from 'modules/common/types';
-import { StkrSdk } from 'modules/api';
+//import { StkrSdk } from 'modules/api';
 import { IConnectResult } from 'modules/api/provider';
 import { IStakingFeeInfo, IUserInfo } from '../apiMappers/userApi';
 import { IStoreState } from '../reducers';
-import { BridgeSdk } from 'modules/bridge-sdk';
+//import { BridgeSdk } from 'modules/bridge-sdk';
 
 export const UserActionTypes = {
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
@@ -21,7 +21,7 @@ export const UserActions = {
     () => ({
       request: {
         promise: (async function () {
-          const stkrSdk = StkrSdk.getForEnv();
+          /*const stkrSdk = StkrSdk.getForEnv();
           let networkName;
           try {
             const { name } = stkrSdk.getCrossChainBridge().getCurrentNetwork();
@@ -65,6 +65,8 @@ export const UserActions = {
             walletIcon: walletMeta?.icons ? walletMeta.icons[0] : undefined,
             walletName: walletMeta?.name,
           } as IUserInfo;
+          */
+          return {};
         })(),
       },
       meta: {
@@ -85,6 +87,7 @@ export const UserActions = {
     type: UserActionTypes.CALC_STAKING_FEE,
     request: {
       promise: (async function () {
+        /*
         const stkrSdk = StkrSdk.getForEnv();
         let stakingFeeRate = new BigNumber('0');
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
@@ -94,6 +97,8 @@ export const UserActions = {
         return {
           stakingFeeRate: stakingFeeRate,
         } as IStakingFeeInfo;
+        */
+        return {};
       })(),
     },
   }),
@@ -101,6 +106,7 @@ export const UserActions = {
     type: UserActionTypes.STAKE_AND_CLAIM,
     request: {
       promise: (async function () {
+        /*
         const stkrSdk = StkrSdk.getForEnv();
 
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
@@ -114,6 +120,8 @@ export const UserActions = {
         }
 
         return stkrSdk.stake(amount, token, true);
+        */
+        return true;
       })(),
     },
     meta: {

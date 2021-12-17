@@ -1,5 +1,6 @@
 import { alpha, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { relative } from 'path';
 
 export const useStakeFormStyles = makeStyles<Theme>(theme => {
   return {
@@ -27,54 +28,37 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     box: {
       position: 'relative',
       padding: 0,
-      maxWidth: 1132,
-      margin: '0 auto',
-
-      [theme.breakpoints.up('lg')]: {
-        borderRadius: 65,
-      },
+      maxWidth: 700,
+      margin: theme.spacing(0, 'auto', 4, 'auto'),
+      borderRadius: 18,
+      border: 'none',
     },
 
     body: {
-      padding: theme.spacing(3, 0, 4),
-
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(6, 0, 8),
-      },
+      padding: theme.spacing(6, 0, 4.5),
     },
 
     footer: {
-      borderTop: `1px solid ${alpha(theme.palette.text.primary, 0.2)}`,
-      padding: theme.spacing(3.5, 0, 5),
-
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(6, 0),
-      },
+      padding: theme.spacing(0, 0, 7.5, 0),
     },
 
     wrapper: {
       padding: theme.spacing(0, 2.5),
 
       [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(0, 5),
-        maxWidth: 880,
+        padding: theme.spacing(0, 7.5),
         margin: '0 auto',
       },
     },
 
     footerWrapper: {
-      display: 'grid',
-      gridRowGap: theme.spacing(3),
-
-      [theme.breakpoints.up('md')]: {
-        gridTemplateColumns: '1fr minmax(auto, 214px)',
-        gridColumnGap: theme.spacing(4),
-      },
+      display: 'flex',
     },
 
     title: {
       textAlign: 'left',
       margin: theme.spacing(0, 0, 5.5),
+      fontSize: 30,
 
       [theme.breakpoints.down('xs')]: {
         fontSize: 24,
@@ -82,18 +66,18 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
 
       [theme.breakpoints.up('sm')]: {
         textAlign: 'center',
-        marginBottom: theme.spacing(10),
+        marginBottom: theme.spacing(7.5),
       },
     },
 
     cancel: {
       position: 'absolute',
-      top: 15,
-      right: 10,
+      top: 0,
+      left: 0,
 
       [theme.breakpoints.up('sm')]: {
-        right: 24,
-        top: 24,
+        top: 0,
+        left: 0,
       },
 
       '& svg': {
@@ -101,26 +85,23 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       },
     },
 
+    formButtonWrapper: {
+      position: 'relative',
+    },
+
     range: {
-      display: 'grid',
-      gridRowGap: theme.spacing(1),
+      display: 'flex',
+      flexDirection: 'column',
     },
 
     label: {
       display: 'flex',
       flexDirection: 'column',
 
-      '&&': {
-        [theme.breakpoints.down('xs')]: {
-          fontSize: 16,
-          fontWeight: 500,
-        },
-      },
-
       [theme.breakpoints.up('sm')]: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(1.5),
       },
     },
 
@@ -137,6 +118,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
 
     labelText: {
       width: 'max-content',
+      fontSize: 14,
     },
 
     inputAmount: {
@@ -176,11 +158,46 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     submit: {
-      maxWidth: 230,
+      width: '100%',
       height: 54,
-      [theme.breakpoints.down('sm')]: {
-        maxWidth: 'none',
-      },
     },
+
+    // stats
+
+    statisticWrapper: {
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      width: '100%',
+      padding: theme.spacing(4.5, 0),
+    },
+
+    statistic: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    statisticLabel: {
+      color: `${theme.palette.text.secondary}`,
+      fontSize: 14,
+      fontWeight: 'bold',
+      marginBottom: theme.spacing(1),
+    },
+
+    statisticValue: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+
+    statisticDivider: {
+      backgroundColor: `${theme.palette.background.default}`,
+      height: theme.spacing(8.5),
+      width: theme.spacing(0.25),
+    },
+
+    // faq
+
+    faqWrapper: {},
   };
 });

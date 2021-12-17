@@ -42,7 +42,9 @@
     "feth": "aETHb",
     "polygon": "MATIC",
     "amaticb": "aMATICb",
-    "token-value": "{value, number} {token}"
+    "token-value": "{value, number} {token}",
+    "matic-value": "{value} aMATICb",
+    "~polygon": "{value} aMATICb"
   },
   "boost": {
     "trading-cockpit": "Trading cockpit",
@@ -76,6 +78,28 @@
       "est-price": "Est. price difference",
       "est-price-tip": "Price difference in comparison with the best price that you can get.",
       "you-get": "You’ll Get"
+    }
+  },
+  "stake": {
+    "title": "MATIC Staking",
+    "amount": "MATIC Amount",
+    "liquid-staking": "Liquid staking",
+    "normal-staking": "Staking (Coming soon)",
+    "you-will-get": "You will get",
+    "stake": "Get {token}",
+    "stats": { 
+      "apr": "APR",
+      "yearly-earning": "Yearly earning",
+      "staked-with-ankr": "Staked with ANKR",
+      "stakers": "Stakers"
+    },
+    "faq": {
+      "title": "FAQ",
+      "faq-1": "How long after unstaking can I withdraw my ETH?",
+      "faq-2": "My stake has become inactive, how can I withdraw my ETH?",
+      "faq-3": "How does ANKR for ETH work?",
+      "faq-4": "What is aETHb?",
+      "faq-5": "What is aETHc?"
     }
   }
 }

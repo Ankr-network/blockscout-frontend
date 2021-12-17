@@ -17,8 +17,11 @@ export const unstake = createSmartAction<
 >('polygon/unstake', ({ amount }) => ({
   request: {
     promise: (async () => {
+      /*
       const sdk = PolygonSDK.getInstance();
       return await sdk.unstake(amount);
+      */
+      return true;
     })(),
   },
   meta: {

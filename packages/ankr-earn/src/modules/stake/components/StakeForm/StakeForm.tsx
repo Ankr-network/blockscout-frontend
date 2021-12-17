@@ -1,6 +1,7 @@
 import {
+  Collapse,
   Container,
-  Hidden,
+  Divider,
   IconButton,
   Paper,
   Typography,
@@ -16,10 +17,8 @@ import { roundByStep } from 'modules/common/utils/numbers/roundByStep';
 import { MutationErrorHandler } from 'modules/common/components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from 'store/actions/UserActions';
 import { Button } from 'uiKit/Button';
-import { CancelIcon } from 'uiKit/Icons/CancelIcon';
-import { CloseIcon } from 'uiKit/Icons/CloseIcon';
-import { SliderField } from 'uiKit/RangeField';
 import { useStakeFormStyles } from './StakeFormStyles';
+import { InputField } from 'uiKit/InputField';
 
 interface IStakePayload {
   amount?: ReactText;
@@ -41,7 +40,6 @@ export interface IStakeFormComponentProps {
   currency?: string;
   renderStats?: (amount: number) => ReactNode;
   renderFooter?: (amount: number) => ReactNode;
-  stakeInfo?: string;
 }
 
 const getAmountNum = (amount?: ReactText): number => {
@@ -65,7 +63,6 @@ export const StakeForm = ({
   currency = t('unit.eth'),
   renderStats,
   renderFooter,
-  stakeInfo = t('stake.info'),
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
@@ -133,32 +130,11 @@ export const StakeForm = ({
                 component="div"
                 classes={{ root: classes.label }}
               >
-                <div className={classes.labelText}>{t('stake.i-want')}</div>
-
-                <div className={classes.amount}>
-                  <Field name="amount">
-                    {props => (
-                      <input
-                        {...props.input}
-                        value={props.input.value ?? ''}
-                        className={classes.inputAmount}
-                        onBlur={handleInputAmountBlur(
-                          props.input.onChange,
-                          props.input.onBlur,
-                        )}
-                        type="number"
-                        min={minAmount}
-                        max={max}
-                        step={stakingAmountStep}
-                      />
-                    )}
-                  </Field>
-                  <div>{currency}</div>
-                </div>
+                <div className={classes.labelText}>{t('stake.amount')}</div>
               </Typography>
 
               <Field
-                component={SliderField}
+                component={InputField}
                 min={minAmount}
                 max={max}
                 step={stakingAmountStep}
@@ -176,15 +152,6 @@ export const StakeForm = ({
               renderFooter(amountNumber)
             ) : (
               <>
-                <Typography
-                  variant="body2"
-                  className={classes.info}
-                  color="secondary"
-                  component="p"
-                >
-                  {stakeInfo}
-                </Typography>
-
                 <MutationErrorHandler type={UserActionTypes.STAKE_AND_CLAIM} />
 
                 <Button
@@ -195,7 +162,9 @@ export const StakeForm = ({
                   disabled={loading}
                   isLoading={loading}
                 >
-                  {t('stake.stake')}
+                  {t('stake.stake', {
+                    token: currency,
+                  })}
                 </Button>
               </>
             )}
@@ -206,6 +175,9 @@ export const StakeForm = ({
   };
 
   // todo: form must be separated from layout (section, paper...)
+
+  // TODO: transfer stats and faq into their own components
+
   return (
     <section className={classes.root}>
       <Container classes={{ root: classes.container }}>
@@ -216,23 +188,47 @@ export const StakeForm = ({
             initialValues={{ amount: INIT_AMOUNT }}
             validate={validateStakeForm}
           />
-
-          <IconButton
-            disableTouchRipple={false}
-            focusRipple={false}
-            disableFocusRipple={false}
-            disableRipple={false}
-            className={classes.cancel}
-            onClick={onCancel}
-          >
-            <Hidden smUp>
-              <CloseIcon size="sm" />
-            </Hidden>
-
-            <Hidden xsDown>
-              <CancelIcon size="xmd" />
-            </Hidden>
-          </IconButton>
+        </Paper>
+        <Paper className={classes.box} variant="outlined" square={false}>
+          <div className={classes.statisticWrapper}>
+            <div className={classes.statistic}>
+              <div className={classes.statisticLabel}>
+                {t('stake.stats.apr')}
+              </div>
+              <div className={classes.statisticValue}>345</div>
+            </div>
+            <Divider className={classes.statisticDivider} />
+            <div className={classes.statistic}>
+              <div className={classes.statisticLabel}>
+                {t('stake.stats.yearly-earning')}
+              </div>
+              <div className={classes.statisticValue}>5467</div>
+            </div>
+            <Divider className={classes.statisticDivider} />
+            <div className={classes.statistic}>
+              <div className={classes.statisticLabel}>
+                {t('stake.stats.staked-with-ankr')}
+              </div>
+              <div className={classes.statisticValue}>789</div>
+            </div>
+            <Divider className={classes.statisticDivider} />
+            <div className={classes.statistic}>
+              <div className={classes.statisticLabel}>
+                {t('stake.stats.stakers')}
+              </div>
+              <div className={classes.statisticValue}>345</div>
+            </div>
+          </div>
+        </Paper>
+        <Paper className={classes.box} variant="outlined" square={false}>
+          <div className={classes.faqWrapper}>
+            <div className={classes.faqTitle}>{t('stake.faq.title')}</div>
+            <ul className={classes.faqList}>
+              <li>
+                <Collapse className={classes.faq}>123</Collapse>
+              </li>
+            </ul>
+          </div>
         </Paper>
       </Container>
     </section>

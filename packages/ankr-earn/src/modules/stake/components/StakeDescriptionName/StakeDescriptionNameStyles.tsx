@@ -4,9 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 export const useStakeTermStyles = makeStyles<Theme>(theme => ({
   root: {
     alignSelf: 'center',
-
-    [theme.breakpoints.up('sm')]: {
-      fontSize: 20,
-    },
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 }));

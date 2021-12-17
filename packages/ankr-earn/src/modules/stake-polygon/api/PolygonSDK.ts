@@ -1,4 +1,4 @@
-import { StkrSdk } from 'modules/api';
+//import { StkrSdk } from 'modules/api';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
@@ -123,6 +123,7 @@ export class PolygonSDK {
       );
   }
 
+  /*
   public static getInstance() {
     const provider = StkrSdk.getForEnv().getKeyProvider();
     const web3 = provider.getWeb3();
@@ -134,6 +135,7 @@ export class PolygonSDK {
 
     return new PolygonSDK(web3, currentAccount);
   }
+  */
 
   public getWeb3() {
     return this.web3;
@@ -312,6 +314,7 @@ export class PolygonSDK {
     };
   }
 
+  /*
   public async stake(amount: BigNumber) {
     const polygonPoolAddress = configFromEnv().contractConfig.polygonPool;
     const stkrSdk = StkrSdk.getForEnv();
@@ -350,7 +353,6 @@ export class PolygonSDK {
 
     return { txHash };
   }
-
   public async getUnstakeFee() {
     const stkrSdk = StkrSdk.getForEnv();
     if (!stkrSdk.isConnected()) {
@@ -425,4 +427,5 @@ export class PolygonSDK {
         from: currentAccount,
       });
   }
+*/
 }

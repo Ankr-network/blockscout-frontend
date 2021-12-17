@@ -294,7 +294,7 @@ export const mainTheme = createTheme({
 
       input: {
         padding: defaultTheme.spacing(2.3, 2),
-        minHeight: 56,
+        minHeight: defaultTheme.spacing(6.5),
         boxSizing: 'border-box',
       },
     },

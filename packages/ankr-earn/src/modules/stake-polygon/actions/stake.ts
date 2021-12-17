@@ -17,8 +17,11 @@ export const stake = createSmartAction<
 >('polygon/stake', ({ amount }) => ({
   request: {
     promise: (async () => {
+      /*
       const sdk = PolygonSDK.getInstance();
       return await sdk.stake(amount);
+      */
+      return true;
     })(),
   },
   meta: {

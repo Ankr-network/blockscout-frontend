@@ -8,8 +8,11 @@ export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
+        /*
         const sdk: PolygonSDK = PolygonSDK.getInstance();
         return await sdk.getaMaticbAPY();
+        */
+        return new BigNumber(123);
       })(),
     },
     meta: {
