@@ -8,6 +8,9 @@
     "browser": true,
     "es6": true
   },
+  "settings": {
+    "import/core-modules": [ "ui", "provider" ]
+  },
   "extends": [
     "airbnb-typescript",
     "eslint:recommended",
@@ -23,6 +26,14 @@
       ],
       "rules": {
         "additional-typescript-only-rule": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.stories.*"
+      ],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
       }
     }
   ],
@@ -42,10 +53,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "import/no-extraneous-dependencies": [
-      "off",
-      {
-        "devDependencies": true
-      }
+      "warn"
     ],
     "react/jsx-one-expression-per-line": "off",
     "react/static-property-placement": [

@@ -1,6 +1,6 @@
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { Themes } from 'modules/themes/types';
-import { BREAKPOINTS } from 'ui/const';
+import { BREAKPOINTS } from 'ui';
 
 export const useIsXSDown = () => {
   const theme = useTheme();

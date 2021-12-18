@@ -2,10 +2,10 @@ const {
   removeModuleScopePlugin,
   override,
   babelInclude,
-} = require("customize-cra");
-const path = require("path");
-const ESLintPlugin = require("eslint-webpack-plugin");
-const paths = require("react-scripts/config/paths.js");
+} = require('customize-cra');
+const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const paths = require('react-scripts/config/paths.js');
 
 module.exports = function (config) {
   const esLintPluginOptions = config.plugins.splice(-1)[0].options;
@@ -14,12 +14,16 @@ module.exports = function (config) {
     new ESLintPlugin({
       ...esLintPluginOptions,
       exclude: [],
-      context: path.resolve(paths.appPath + "/.."),
-    })
+      context: path.resolve(paths.appPath + '/..'),
+    }),
   );
 
   return override(
     removeModuleScopePlugin(),
-    babelInclude([path.resolve("src"), path.resolve("../ui")])
+    babelInclude([
+      path.resolve('src'),
+      path.resolve('../ui'),
+      path.resolve('../provider'),
+    ]),
   )(config);
 };
