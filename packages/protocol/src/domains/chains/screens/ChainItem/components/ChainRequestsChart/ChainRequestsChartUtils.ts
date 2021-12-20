@@ -28,21 +28,38 @@ export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
   return `${dateString} ${timeString}`;
 };
 
-export const processData = (requestsLog: RequestsLog): IChartData[] => {
+export const processData = (
+  requestsLog: RequestsLog,
+  timeframe: Timeframe,
+): IChartData[] => {
   if (!requestsLog) return [];
 
-  return Object.entries(requestsLog)
+  const rows = Object.entries(requestsLog);
+
+  return rows
     .map(row => {
       const [rowTime, callsCount] = row;
 
-      const time = new Date(Number(rowTime));
+      return {
+        time: new Date(Number(rowTime)),
+        callsCount,
+      };
+    })
+    .sort((a, b) => a.time.getTime() - b.time.getTime())
+    .map((row, index) => {
+      const { time, callsCount } = row;
 
-      const data: IChartData = {
+      if (timeframe === '24h') {
+        return {
+          time,
+          value: index <= rows.length - 3 ? callsCount : undefined,
+          extraValue: index >= rows.length - 3 ? callsCount : undefined,
+        };
+      }
+
+      return {
         time,
         value: callsCount,
       };
-
-      return data;
-    })
-    .sort((a, b) => a.time.getTime() - b.time.getTime());
+    });
 };

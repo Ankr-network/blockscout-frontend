@@ -52,7 +52,7 @@ export const Chart = ({
         </defs>
         <defs>
           <linearGradient id="extraValueColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={theme.palette.error.main} />
+            <stop offset="0%" stopColor={theme.palette.primary.main} />
             <stop offset="0%" stopColor="#f4f9ff" />
           </linearGradient>
         </defs>
@@ -85,9 +85,10 @@ export const Chart = ({
         />
         <Area
           dataKey="extraValue"
-          stroke={theme.palette.error.main}
+          stroke={theme.palette.primary.main}
           strokeWidth={2}
           fill="url(#extraValueColor)"
+          strokeDasharray="3"
           type="monotone"
         />
       </AreaChart>

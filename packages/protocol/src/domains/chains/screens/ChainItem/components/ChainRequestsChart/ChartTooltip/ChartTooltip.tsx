@@ -24,7 +24,7 @@ export const ChartTooltip = ({ active, payload }: IChartTooltipProps) => {
     <div className={classes.root}>
       <div className={classes.row}>
         <Typography variant="body2" className={classes.value}>
-          {item.value ?? 0}
+          {(item.value || item.extraValue) ?? 0}
         </Typography>
       </div>
       <div className={classes.row}>
