@@ -1,7 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
+import { AvailableProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
-import { AvailableProviders } from '../../api/ProviderManager/types';
 import { connect, IConnect } from '../actions/connect';
 import { disconnect } from '../actions/disconnect';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';

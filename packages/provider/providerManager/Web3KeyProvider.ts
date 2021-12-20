@@ -16,10 +16,15 @@ export interface IWalletMeta {
 
 export abstract class Web3KeyProvider {
   protected web3: Web3 | null = null;
-  protected currentChain: number = 0;
+
+  protected currentChain = 0;
+
   protected accounts: string[] = [];
+
   protected currentAccount: string | null = null;
+
   protected provider: Provider = null;
+
   private walletMeta: IWalletMeta | undefined;
 
   public abstract inject(): Promise<void>;
@@ -61,13 +66,13 @@ export abstract class Web3KeyProvider {
     try {
       unlockedAccounts = await web3.eth.getAccounts();
     } catch (e) {
-      console.error(e);
       throw new Error('User denied access to account');
     }
-    if (!unlockedAccounts.length || !unlockedAccounts[0]) {
+    const [currentAccount] = unlockedAccounts;
+    if (!unlockedAccounts.length || !currentAccount) {
       throw new Error('Unable to detect unlocked MetaMask account');
     }
-    this.currentAccount = unlockedAccounts[0];
+    this.currentAccount = currentAccount;
     this.accounts = unlockedAccounts;
     return unlockedAccounts;
   }

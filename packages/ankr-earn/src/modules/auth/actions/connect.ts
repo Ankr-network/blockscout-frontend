@@ -1,9 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
-import { ProviderManager } from 'modules/api/ProviderManager';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Web3Address } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
+import { AvailableProviders } from 'provider/providerManager/types';
 import { createAction } from 'redux-smart-actions';
-import { AvailableProviders } from '../../api/ProviderManager/types';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 export interface IConnect {
@@ -17,7 +17,8 @@ export const connect = createAction<
 >('auth/connect', providerId => ({
   request: {
     promise: async () => {
-      const provider = await ProviderManager.getProvider(providerId);
+      const providerManager = ProviderManagerSingleton.getInstance();
+      const provider = await providerManager.getProvider(providerId);
 
       return {
         isConnected: provider.isConnected(),

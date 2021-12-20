@@ -1,3 +1,3 @@
-import { AvailableProviders } from 'modules/api/ProviderManager/types';
+import { AvailableProviders } from 'provider/providerManager/types';
 
 export const requiredProvider = AvailableProviders.Mainnet;

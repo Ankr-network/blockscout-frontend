@@ -1,10 +1,20 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3 from 'web3';
-import Web3Modal, { IProviderOptions } from 'web3modal';
-import { web3ModalTheme } from '../const';
+import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
 import { Web3KeyProvider } from '../Web3KeyProvider';
 
+interface IEthereumWeb3KeyProviderArgs {
+  web3ModalTheme: ThemeColors;
+}
+
 export class EthereumWeb3KeyProvider extends Web3KeyProvider {
+  private web3ModalTheme: ThemeColors;
+
+  constructor({ web3ModalTheme }: IEthereumWeb3KeyProviderArgs) {
+    super();
+    this.web3ModalTheme = web3ModalTheme;
+  }
+
   async inject() {
     const providerOptions: IProviderOptions = {
       walletconnect: {
@@ -23,7 +33,7 @@ export class EthereumWeb3KeyProvider extends Web3KeyProvider {
     const web3Modal = new Web3Modal({
       cacheProvider: false,
       providerOptions,
-      theme: web3ModalTheme,
+      theme: this.web3ModalTheme,
     });
 
     // get provider after user selects the provider and grants access
