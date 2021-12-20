@@ -1,11 +1,4 @@
-import {
-  Collapse,
-  Container,
-  Divider,
-  IconButton,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
@@ -19,6 +12,8 @@ import { UserActionTypes } from 'store/actions/UserActions';
 import { Button } from 'uiKit/Button';
 import { useStakeFormStyles } from './StakeFormStyles';
 import { InputField } from 'uiKit/InputField';
+import { Faq } from 'modules/common/components/Faq';
+import { StakeStats } from '../StakeStats';
 
 interface IStakePayload {
   amount?: ReactText;
@@ -40,6 +35,8 @@ export interface IStakeFormComponentProps {
   currency?: string;
   renderStats?: (amount: number) => ReactNode;
   renderFooter?: (amount: number) => ReactNode;
+  faq?: Record<string, string>[];
+  stats?: Record<string, string>[];
 }
 
 const getAmountNum = (amount?: ReactText): number => {
@@ -63,6 +60,8 @@ export const StakeForm = ({
   currency = t('unit.eth'),
   renderStats,
   renderFooter,
+  faq,
+  stats,
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
@@ -176,8 +175,6 @@ export const StakeForm = ({
 
   // todo: form must be separated from layout (section, paper...)
 
-  // TODO: transfer stats and faq into their own components
-
   return (
     <section className={classes.root}>
       <Container classes={{ root: classes.container }}>
@@ -189,47 +186,8 @@ export const StakeForm = ({
             validate={validateStakeForm}
           />
         </Paper>
-        <Paper className={classes.box} variant="outlined" square={false}>
-          <div className={classes.statisticWrapper}>
-            <div className={classes.statistic}>
-              <div className={classes.statisticLabel}>
-                {t('stake.stats.apr')}
-              </div>
-              <div className={classes.statisticValue}>345</div>
-            </div>
-            <Divider className={classes.statisticDivider} />
-            <div className={classes.statistic}>
-              <div className={classes.statisticLabel}>
-                {t('stake.stats.yearly-earning')}
-              </div>
-              <div className={classes.statisticValue}>5467</div>
-            </div>
-            <Divider className={classes.statisticDivider} />
-            <div className={classes.statistic}>
-              <div className={classes.statisticLabel}>
-                {t('stake.stats.staked-with-ankr')}
-              </div>
-              <div className={classes.statisticValue}>789</div>
-            </div>
-            <Divider className={classes.statisticDivider} />
-            <div className={classes.statistic}>
-              <div className={classes.statisticLabel}>
-                {t('stake.stats.stakers')}
-              </div>
-              <div className={classes.statisticValue}>345</div>
-            </div>
-          </div>
-        </Paper>
-        <Paper className={classes.box} variant="outlined" square={false}>
-          <div className={classes.faqWrapper}>
-            <div className={classes.faqTitle}>{t('stake.faq.title')}</div>
-            <ul className={classes.faqList}>
-              <li>
-                <Collapse className={classes.faq}>123</Collapse>
-              </li>
-            </ul>
-          </div>
-        </Paper>
+        {stats && <StakeStats stats={stats} />}
+        {faq && <Faq data={faq} />}
       </Container>
     </section>
   );

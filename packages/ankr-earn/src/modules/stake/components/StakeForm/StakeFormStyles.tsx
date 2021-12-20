@@ -161,43 +161,5 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       width: '100%',
       height: 54,
     },
-
-    // stats
-
-    statisticWrapper: {
-      display: 'flex',
-      justifyContent: 'space-evenly',
-      width: '100%',
-      padding: theme.spacing(4.5, 0),
-    },
-
-    statistic: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-
-    statisticLabel: {
-      color: `${theme.palette.text.secondary}`,
-      fontSize: 14,
-      fontWeight: 'bold',
-      marginBottom: theme.spacing(1),
-    },
-
-    statisticValue: {
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-
-    statisticDivider: {
-      backgroundColor: `${theme.palette.background.default}`,
-      height: theme.spacing(8.5),
-      width: theme.spacing(0.25),
-    },
-
-    // faq
-
-    faqWrapper: {},
   };
 });

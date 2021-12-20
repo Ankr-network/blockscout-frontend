@@ -95,11 +95,16 @@
     },
     "faq": {
       "title": "FAQ",
-      "faq-1": "How long after unstaking can I withdraw my ETH?",
-      "faq-2": "My stake has become inactive, how can I withdraw my ETH?",
-      "faq-3": "How does ANKR for ETH work?",
-      "faq-4": "What is aETHb?",
-      "faq-5": "What is aETHc?"
+      "question-1": "How long after unstaking can I withdraw my ETH?",
+      "answer-1": "ans?",
+      "question-2": "My stake has become inactive, how can I withdraw my ETH?",
+      "answer-2": "ans?",
+      "question-3": "How does ANKR for ETH work?",
+      "answer-3": "ans?",
+      "question-4": "What is aETHb?",
+      "answer-4": "ans?",
+      "question-5": "What is aETHc?",
+      "answer-5": "ans?"
     }
   }
 }
