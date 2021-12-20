@@ -46,6 +46,11 @@
     "matic-value": "{value} aMATICb",
     "~polygon": "{value} aMATICb"
   },
+  "not-found": {
+    "title": "Page not found",
+    "btn-home": "Go home",
+    "btn-back": "Previous page"
+  },
   "boost": {
     "trading-cockpit": "Trading cockpit",
     "liquidity-mining": "Liquidity mining"

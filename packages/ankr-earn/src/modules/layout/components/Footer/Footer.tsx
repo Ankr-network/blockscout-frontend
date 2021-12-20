@@ -9,7 +9,7 @@ export const Footer = () => {
 
   return (
     <footer>
-      <Container className={classes.container}>
+      <Container className={classes.container} maxWidth={false}>
         <Rights className={classes.leftSide} />
         <SubNavigation className={classes.center} />
         <Socials className={classes.rightSide} />

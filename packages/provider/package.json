@@ -1,0 +1,27 @@
+{
+  "name": "provider",
+  "version": "1.0.0",
+  "scripts": {
+    "format": "lint-staged"
+  },
+  "dependencies": {
+    "@ankr.com/stakefi-web3": "^0.0.149",
+    "@redux-requests/core": "1.6.1",
+    "@walletconnect/web3-provider": "^1.7.0",
+    "redux": "^4.1.2",
+    "redux-saga": "^1.1.3",
+    "web3": "^1.6.1",
+    "web3-core": "^1.6.1",
+    "web3-eth-contract": "^1.6.1",
+    "web3modal": "^1.9.4"
+  },
+  "devDependencies": {
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  }
+}

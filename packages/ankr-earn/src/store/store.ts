@@ -4,6 +4,7 @@ import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import { historyInstance } from '../modules/common/utils/historyInstance';
@@ -33,9 +34,11 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  onError: (error: Error, _action, _store: Store) => {
-    // todo: show common notification
-
+  onError: (error: Error, action, _store: Store) => {
+    if (action.meta?.showNotificationOnError) {
+      // todo: show common notification
+      alert(getErrorMessage(error));
+    }
     throw error;
   },
 });

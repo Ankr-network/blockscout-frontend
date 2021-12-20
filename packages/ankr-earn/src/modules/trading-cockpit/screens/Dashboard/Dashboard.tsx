@@ -19,23 +19,18 @@ const defaultFormState = {
 };
 
 export const Dashboard = () => {
-  const {
-    amount,
-    fromToken,
-    toToken,
-    options,
-    isLoading,
-    handleSubmit,
-  } = useTokenForm({
-    defaultAmount: defaultFormState.defaultAmount,
-    defaultFromToken: defaultFormState.defaultFromToken,
-    defaultToToken: defaultFormState.defaultToToken,
-  });
+  const { amount, fromToken, toToken, options, isLoading, handleSubmit } =
+    useTokenForm({
+      defaultAmount: defaultFormState.defaultAmount,
+      defaultFromToken: defaultFormState.defaultFromToken,
+      defaultToToken: defaultFormState.defaultToToken,
+    });
 
-  const { fairValue, tooltip, isLoading: isFairValueLoading } = useFairValue(
-    fromToken,
-    toToken,
-  );
+  const {
+    fairValue,
+    tooltip,
+    isLoading: isFairValueLoading,
+  } = useFairValue(fromToken, toToken);
 
   const {
     hasErrors,
