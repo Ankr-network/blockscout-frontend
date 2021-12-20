@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "title": "Ankr Academy",
+    "description": "Ankr Academy"
+  },
+  "error": {
+    "not-authenticated": "Not Authenticated",
+    "unknown": "Unknown error",
+    "contract-rejected": "Contract interaction rejected",
+    "unexpected": "Unexpected error",
+    "insufficient-permissions": "Insufficient permissions"
+  }
+}
