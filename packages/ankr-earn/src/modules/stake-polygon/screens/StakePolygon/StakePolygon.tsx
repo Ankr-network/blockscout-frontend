@@ -21,6 +21,7 @@ import { useHistory } from 'react-router';
 import { fetchStats } from '../../actions/fetchStats';
 import { stake } from '../../actions/stake';
 import { RoutesConfig } from '../../Routes';
+import { useStakePolygonStyles } from './useStakePolygonStyles';
 
 const FAQ: Record<string, string>[] = [
   {
@@ -67,6 +68,7 @@ const Stats: Record<string, string>[] = [
 ];
 
 export const StakePolygon = () => {
+  const classes = useStakePolygonStyles();
   const { push } = useHistory();
   const dispatchRequest = useDispatchRequest();
 
@@ -107,7 +109,7 @@ export const StakePolygon = () => {
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
-        <Box py={{ xs: 5, md: 8 }} component="section">
+        <Box component="section" className={classes.root}>
           <StakeContainer>
             <StakeForm
               onSubmit={handleSubmit}
