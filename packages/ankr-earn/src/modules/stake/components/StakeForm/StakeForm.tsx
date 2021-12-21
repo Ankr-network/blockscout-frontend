@@ -9,14 +9,19 @@ import { t } from 'modules/i18n/utils/intl';
 import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
+import { OnChange } from 'uiKit/OnChange';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
-interface IStakePayload {
+enum FieldsNames {
+  amount = 'amount',
+}
+
+export interface IStakeFormPayload {
   amount?: ReactText;
   agreement: boolean;
 }
 
-export interface IStakeSubmitPayload extends IStakePayload {
+export interface IStakeSubmitPayload extends IStakeFormPayload {
   amount: number;
 }
 
@@ -32,6 +37,7 @@ export interface IStakeFormComponentProps {
   className?: string;
   renderStats?: (amount: number) => ReactNode;
   renderFooter?: (amount: number) => ReactNode;
+  onChange?: (values: IStakeFormPayload) => void;
 }
 
 const getAmountNum = (amount?: ReactText): number => {
@@ -56,12 +62,13 @@ export const StakeForm = ({
   tokenOut = tokenIn,
   renderStats,
   renderFooter,
+  onChange,
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
   const validateStakeForm = useCallback(
-    ({ amount }: IStakePayload) => {
-      const errors: FormErrors<IStakePayload> = {};
+    ({ amount }: IStakeFormPayload) => {
+      const errors: FormErrors<IStakeFormPayload> = {};
 
       if (!amount) {
         errors.amount = t('validation.required');
@@ -83,7 +90,7 @@ export const StakeForm = ({
   );
 
   const setMaxAmount = useCallback(
-    (form: FormApi<IStakePayload>, maxAmount: string) => () =>
+    (form: FormApi<IStakeFormPayload>, maxAmount: string) => () =>
       form.change('amount', maxAmount),
     [],
   );
@@ -92,7 +99,7 @@ export const StakeForm = ({
     ? floor(balance.toNumber(), stakingAmountStep)
     : minAmount;
 
-  const onSubmitForm = (payload: IStakePayload): void =>
+  const onSubmitForm = (payload: IStakeFormPayload): void =>
     onSubmit({
       ...payload,
       amount: getAmountNum(payload?.amount),
@@ -101,8 +108,9 @@ export const StakeForm = ({
   const renderForm = ({
     form,
     handleSubmit,
-    values: { amount },
-  }: FormRenderProps<IStakePayload>) => {
+    values,
+  }: FormRenderProps<IStakeFormPayload>) => {
+    const { amount } = values;
     const amountNumber: number = getAmountNum(amount);
     return (
       <Paper
@@ -123,7 +131,7 @@ export const StakeForm = ({
               balance={balance}
               onMaxClick={setMaxAmount(form, `${max}`)}
               isBalanceLoading={false}
-              name="amount"
+              name={FieldsNames.amount}
               tokenName={tokenIn}
               label={t('stake.amount', {
                 token: tokenIn,
@@ -164,6 +172,14 @@ export const StakeForm = ({
             )}
           </div>
         </div>
+
+        <OnChange name={FieldsNames.amount}>
+          {() => {
+            if (typeof onChange === 'function') {
+              onChange(values);
+            }
+          }}
+        </OnChange>
       </Paper>
     );
   };

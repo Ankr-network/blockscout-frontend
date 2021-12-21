@@ -10,8 +10,13 @@ import { t } from 'modules/i18n/utils/intl';
 import { uid } from 'react-uid';
 import { useFaqStyles as useStyles } from './useFaqStyles';
 
+export interface IFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface IFaq {
-  data: Record<string, string>[];
+  data: IFaqItem[];
 }
 
 export const Faq = ({ data }: IFaq) => {
@@ -21,8 +26,8 @@ export const Faq = ({ data }: IFaq) => {
     <Accordion key={uid(i)}>
       <AccordionSummary
         expandIcon={<AngleDownIcon />}
-        aria-controls={`${el.question}-content`}
-        id={`${el.question}-header`}
+        aria-controls={`${i}-faq-content`}
+        id={`${i}-faq-header`}
       >
         {t(el.question)}
       </AccordionSummary>
@@ -33,7 +38,7 @@ export const Faq = ({ data }: IFaq) => {
   return (
     <Paper className={classes.box} variant="outlined" square={false}>
       <Typography variant="h2" className={classes.title}>
-        {t('stake.faq.title')}
+        {t('stake.faq-title')}
       </Typography>
       {FaqList}
     </Paper>

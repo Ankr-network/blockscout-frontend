@@ -67,6 +67,11 @@ export const AmountField = ({
     [balance, maxAmount, withBalance],
   );
 
+  const normalizeAmount = (value: string): string => {
+    // only numbers and dot
+    return value.replace(',', '.').replace(/[^0-9.]/g, '');
+  };
+
   return (
     <>
       {(withBalance || isBalanceLoading) && (
@@ -94,6 +99,7 @@ export const AmountField = ({
         variant="outlined"
         disabled={disabled}
         validate={validateAmount}
+        parse={normalizeAmount}
         InputProps={{
           classes: {
             input: inputClassName,
