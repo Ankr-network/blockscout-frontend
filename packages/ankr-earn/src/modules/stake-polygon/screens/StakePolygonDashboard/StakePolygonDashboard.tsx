@@ -1,4 +1,3 @@
-import React, { ReactNode, useCallback } from 'react';
 import {
   Box,
   Container,
@@ -7,32 +6,33 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
+import { Query, useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { fetchAPY } from '../../actions/fetchAPY';
-import { fetchTxHistory } from '../../actions/fetchTxHistory';
-import { stake } from '../../actions/stake';
-import { Balance } from '../../components/Balance';
-import { EBalancePropsVariants } from '../../components/Balance/Balance';
-import { HistoryTable } from '../../components/HistoryTable';
-import { useStakePolygonDashboardStyles } from './useStakePolygonDashboardStyles';
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { ResponseData } from 'modules/common/components/ResponseData';
+import { ANKR_1INCH_BUY_LINK, DEFAULT_ROUNDING } from 'modules/common/const';
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
+import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import React, { ReactNode, useCallback } from 'react';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { UserActions } from '../../../../store/actions/UserActions';
 import {
   IUnstakeFormValues,
   UnstakeDialog,
 } from '../../../stake-common/components/UnstakeDialog';
-import { useDialog } from '../../hooks/useDialog';
-import { Token } from 'modules/common/types/token';
-import { ANKR_1INCH_BUY_LINK, DEFAULT_ROUNDING } from 'modules/common/const';
+import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { Query, useDispatchRequest, useMutation } from '@redux-requests/react';
-import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { fetchTxHistory } from '../../actions/fetchTxHistory';
+import { stake } from '../../actions/stake';
 import { unstake } from '../../actions/unstake';
-import { UserActions } from '../../../../store/actions/UserActions';
+import { Balance } from '../../components/Balance';
+import { EBalancePropsVariants } from '../../components/Balance/Balance';
+import { HistoryTable } from '../../components/HistoryTable';
 import { PendingUnstakeAmount } from '../../components/PendingUnstakeAmount';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
-import { ResponseData } from 'modules/common/components/ResponseData';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { useDialog } from '../../hooks/useDialog';
+import { useStakePolygonDashboardStyles } from './useStakePolygonDashboardStyles';
 
 const ONE = new BigNumber(1);
 
@@ -68,7 +68,7 @@ export const StakePolygonDashboard = () => {
   const { loading: unstakeLoading } = useMutation({ type: unstake.toString() });
 
   return (
-    <section className={classes.root}>
+    <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
         <Box mb={5}>
           <div className={classes.titleArea}>
@@ -205,12 +205,14 @@ export const StakePolygonDashboard = () => {
         </Box>
         <Box>
           <Query<ResponseData<typeof fetchTxHistory>>
-            component={HistoryTable}
+            // ! temporary fix
+            // todo: fix typings
+            component={HistoryTable as any}
             showLoaderDuringRefetch={false}
             type={fetchTxHistory.toString()}
           />
         </Box>
       </Container>
-    </section>
+    </Box>
   );
 };

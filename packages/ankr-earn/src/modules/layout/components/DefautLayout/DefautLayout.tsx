@@ -12,26 +12,31 @@ import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
 export interface IDefaultLayout {
   children?: ReactNode;
   theme?: Themes;
-  isLayoutDefaultColor?: boolean;
-  withNoReactSnap?: boolean;
+  verticalAlign?: 'top' | 'center' | 'bottom';
 }
 
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
+  verticalAlign = 'top',
 }: IDefaultLayout) => {
   const classes = useDefaultLayoutStyles();
-  const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
-    <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
+    <div className={classes.root}>
       <ThemeProvider theme={currentTheme}>
         <Header
           mainNavigationSlot={<MainNavigation />}
           mainNavigationMobileSlot={<MainNavigationMobile />}
         />
-        <main className={classes.main}>{children}</main>
+        <main
+          className={classNames({
+            [classes.mainAlignTop]: verticalAlign === 'top',
+          })}
+        >
+          {children}
+        </main>
         <Footer />
       </ThemeProvider>
     </div>

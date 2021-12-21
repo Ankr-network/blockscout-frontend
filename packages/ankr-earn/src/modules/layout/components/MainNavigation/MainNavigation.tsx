@@ -2,27 +2,26 @@ import { Button, Popover } from '@material-ui/core';
 import classNames from 'classnames';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
+import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useState } from 'react';
 import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
 import { Navigation } from '../../../common/components/Navigation';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
-const EMPTY_PATH = '#';
-
 export const MainNavigation = () => {
   const items = [
     {
       label: t('main-navigation.stake'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: FeaturesRoutes.main.generatePath(), // TODO: add proper route
     },
     {
       label: t('main-navigation.dashboard'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: '/dashboard', // TODO: add proper route
     },
     {
       label: t('main-navigation.parachain'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: '/parachain', // TODO: add proper route
     },
     {
       label: t('main-navigation.boost'),
@@ -33,11 +32,11 @@ export const MainNavigation = () => {
   const moreOptions = [
     {
       label: t('main-navigation.docs'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: '/docs', // TODO: add proper route
     },
     {
       label: t('main-navigation.litepaper'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: 'litepaper', // TODO: add proper route
     },
   ];
 

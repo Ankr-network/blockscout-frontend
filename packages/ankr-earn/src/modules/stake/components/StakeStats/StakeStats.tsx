@@ -10,7 +10,7 @@ export const StakeStats = ({ stats }: IStakeStats) => {
   const classes = useStyles();
 
   const statsRender = stats.map(stat => (
-    <div className={classes.statistic}>
+    <div className={classes.statistic} key={stat.label}>
       <div className={classes.statisticLabel}>{t(stat.label)}</div>
       <div className={classes.statisticValue}>{t(stat.value)}</div>
     </div>

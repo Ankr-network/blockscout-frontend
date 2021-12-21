@@ -10,7 +10,7 @@ export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.default,
   },
 
-  main: {
+  mainAlignTop: {
     marginBottom: 'auto',
   },
 }));

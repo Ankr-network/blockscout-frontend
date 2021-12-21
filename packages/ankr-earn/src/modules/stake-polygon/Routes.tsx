@@ -1,14 +1,28 @@
 import loadable from '@loadable/component';
+import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { POLYGON_PROVIDER_ID } from './const';
 
 // TODO: remove dashboard from this route and all dependend components if we decide not to use it
 
-const ROOT = '/polygon-staking'; //`${INDEX_PATH}/MATIC`;
-const DASHBOARD_PATH = '/polygon-staking/dashboard'; //`${ROOT}`;
-const STAKE_PATH = '/polygon-staking/stake'; //`${ROOT}/stake`;
+const ROOT = `${FeaturesRoutes.main.path}/MATIC`;
+const DASHBOARD_PATH = `${ROOT}/dashboard`;
+const STAKE_PATH = ROOT;
+
+const StakePolygonDashboard = loadable(
+  async () =>
+    import('./screens/StakePolygonDashboard').then(
+      module => module.StakePolygonDashboard,
+    ),
+  {
+    fallback: <QueryLoadingAbsolute />,
+  },
+);
 
 const Stake = loadable(
   async () =>
@@ -32,22 +46,32 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-console.log(RoutesConfig.root);
-console.log(RoutesConfig.dashboard.path);
-
 export function getRoutes() {
   return (
-    <Switch>
-      <Route path={RoutesConfig.stake.path} exact>
-        <DefaultLayout>
-          <Stake />
-        </DefaultLayout>
-      </Route>
+    <Route path={RoutesConfig.root}>
+      <Switch>
+        <GuardRoute
+          providerId={POLYGON_PROVIDER_ID}
+          path={DASHBOARD_PATH}
+          exact
+        >
+          <DefaultLayout>
+            <StakePolygonDashboard />
+          </DefaultLayout>
+        </GuardRoute>
 
-      <Route>
-        {/* todo: use 404 page component */}
-        <DefaultLayout>404</DefaultLayout>
-      </Route>
-    </Switch>
+        <GuardRoute providerId={POLYGON_PROVIDER_ID} path={STAKE_PATH} exact>
+          <DefaultLayout>
+            <Stake />
+          </DefaultLayout>
+        </GuardRoute>
+
+        <Route>
+          <DefaultLayout>
+            <PageNotFound />
+          </DefaultLayout>
+        </Route>
+      </Switch>
+    </Route>
   );
 }

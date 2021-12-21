@@ -8,6 +8,7 @@ export const LiquidityMining = () => {
     <Box py={{ xs: 6, sm: 8 }} component="section">
       <Container>
         <Nav />
+        {/* todo: use the relevant module */}
         {t('boost.liquidity-mining')}
       </Container>
     </Box>

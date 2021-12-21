@@ -25,7 +25,7 @@ export const Header = ({
 
   return (
     <header>
-      <Container className={classes.container}>
+      <Container className={classes.container} maxWidth={false}>
         <div className={classes.leftSide}>
           <Logo className={classes.logo} />
         </div>
