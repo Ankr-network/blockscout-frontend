@@ -1,7 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import { PALETTE } from 'modules/themes/mainTheme';
-
 export const useBalanceStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
