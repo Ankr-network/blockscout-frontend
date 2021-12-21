@@ -92,7 +92,7 @@
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
     "stake": "Get {token}",
-    "stats": { 
+    "stats": {
       "apr": "APR",
       "yearly-earning": "Yearly earning",
       "staked-with-ankr": "Staked with ANKR",
@@ -111,5 +111,30 @@
       "question-5": "What is aETHc?",
       "answer-5": "ans?"
     }
+  },
+  "stake-polygon-dashboard": {
+    "column": {
+      "amount": "Amount",
+      "tx-date": "Transaction Date",
+      "tx-hash": "Transaction Hash",
+      "tx-type": "Transaction Type"
+    },
+    "switcher": {
+      "completed-title": "Completed transactions",
+      "pending-title": "Pending transactions"
+    },
+    "title": "MATIC Staking",
+    "unstake-eta": "You will receive MATIC in about 3-4 days. ",
+    "tooltip": {
+      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned MATIC over the last 7 days, net of delegation fees from Polygon Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending MATIC rewards, earned MATIC will be staked to generate compounding effect.",
+      "unstake": "Unstake",
+      "fee": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses.  MATIC tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+    },
+    "validation": {
+      "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
+    }
+  },
+  "stake-polygon": {
+    "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards."
   }
 }

@@ -1,14 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStakePolygonDashboardStyles = makeStyles<Theme>(theme => ({
-  root: {
-    padding: theme.spacing(6, 0),
-
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(10, 0),
-    },
-  },
-
   titleArea: {
     display: 'flex',
     flexDirection: 'column',

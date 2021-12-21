@@ -1,11 +1,13 @@
 //import { StkrSdk } from 'modules/api';
+import BigNumber from 'bignumber.js';
+import { configFromEnv } from 'modules/api/config';
+import ABI_ERC20 from 'modules/api/contract/IERC20.json';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
-import ABI_ERC20 from 'modules/api/contract/IERC20.json';
+import { POLYGON_PROVIDER_ID } from '../const';
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_POLYGON_POOL from './contracts/polygonPool.json';
-import { configFromEnv } from 'modules/api/config';
-import BigNumber from 'bignumber.js';
 
 export type TTxEventsHistoryGroupData = Array<ITxEventsHistoryGroupItem | void>;
 
@@ -123,11 +125,11 @@ export class PolygonSDK {
       );
   }
 
-  /*
-  public static getInstance() {
-    const provider = StkrSdk.getForEnv().getKeyProvider();
+  public static async getInstance() {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
     const web3 = provider.getWeb3();
-    const currentAccount = provider.currentAccount();
+    const currentAccount = provider.getCurrentAccount();
 
     if (PolygonSDK.instance?.web3 === web3 && PolygonSDK.instance) {
       return PolygonSDK.instance;
@@ -135,7 +137,6 @@ export class PolygonSDK {
 
     return new PolygonSDK(web3, currentAccount);
   }
-  */
 
   public getWeb3() {
     return this.web3;
@@ -166,16 +167,14 @@ export class PolygonSDK {
     const initRatio: BigNumber = new BigNumber(1e18);
     const defaultState: BigNumber = new BigNumber(0);
 
-    const rawEvents: Array<EventData | void> = await this.aMaticbTokenContract.getPastEvents(
-      'RatioUpdate',
-      {
+    const rawEvents: Array<EventData | void> =
+      await this.aMaticbTokenContract.getPastEvents('RatioUpdate', {
         fromBlock: 'earliest',
         toBlock: 'latest',
         filter: {
           newRatio: await this.aMaticbTokenContract.methods.ratio().call(),
         },
-      },
-    );
+      });
 
     const [firstRawEvent, seventhRawEvent]: [
       EventData | void,
@@ -282,7 +281,8 @@ export class PolygonSDK {
       completedRawEvents: Array<EventData | void>;
 
     if (pendingClaim.isGreaterThan(0)) {
-      const unstakeRawEventsReverse: Array<EventData | void> = unstakeRawEvents.reverse();
+      const unstakeRawEventsReverse: Array<EventData | void> =
+        unstakeRawEvents.reverse();
 
       for (
         let i = 0, unstakeRawEventItem: EventData, itemAmount: BigNumber;
@@ -314,14 +314,15 @@ export class PolygonSDK {
     };
   }
 
-  /*
   public async stake(amount: BigNumber) {
     const polygonPoolAddress = configFromEnv().contractConfig.polygonPool;
-    const stkrSdk = StkrSdk.getForEnv();
-    if (!stkrSdk.isConnected()) {
-      await stkrSdk.connect();
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+
+    if (!provider.isConnected()) {
+      await provider.connect();
     }
-    const web3 = await stkrSdk.getKeyProvider().getWeb3();
+    const web3 = provider.getWeb3();
     const polygonPoolContract = this.polygonPoolContract;
     const maticTokenContract = this.maticTokenContract;
     const currentAccount = this.currentAccount;
@@ -354,7 +355,7 @@ export class PolygonSDK {
     return { txHash };
   }
   public async getUnstakeFee() {
-    const stkrSdk = StkrSdk.getForEnv();
+    /* const stkrSdk = StkrSdk.getForEnv();
     if (!stkrSdk.isConnected()) {
       await stkrSdk.connect();
     }
@@ -372,16 +373,23 @@ export class PolygonSDK {
       unstakeFee: data.unstakeFee,
       useBeforeBlock: data.useBeforeBlock,
       signature: data.signature,
+    }; */
+
+    return {
+      unstakeFee: 1,
+      useBeforeBlock: 1,
+      signature: 'signature',
     };
   }
 
   public async unstake(amount: BigNumber) {
     const polygonPoolAddress = configFromEnv().contractConfig.polygonPool;
-    const stkrSdk = StkrSdk.getForEnv();
-    if (!stkrSdk.isConnected()) {
-      await stkrSdk.connect();
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+    if (!provider.isConnected()) {
+      await provider.connect();
     }
-    const web3 = await stkrSdk.getKeyProvider().getWeb3();
+    const web3 = provider.getWeb3();
     const polygonPoolContract = new web3.eth.Contract(
       ABI_POLYGON_POOL as any,
       polygonPoolAddress,
@@ -427,5 +435,4 @@ export class PolygonSDK {
         from: currentAccount,
       });
   }
-*/
 }

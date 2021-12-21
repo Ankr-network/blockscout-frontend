@@ -68,7 +68,7 @@ export const StakePolygonDashboard = () => {
   const { loading: unstakeLoading } = useMutation({ type: unstake.toString() });
 
   return (
-    <section className={classes.root}>
+    <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
         <Box mb={5}>
           <div className={classes.titleArea}>
@@ -213,6 +213,6 @@ export const StakePolygonDashboard = () => {
           />
         </Box>
       </Container>
-    </section>
+    </Box>
   );
 };

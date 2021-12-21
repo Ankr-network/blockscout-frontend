@@ -17,7 +17,7 @@ export const Main = () => {
             title={t('Demo')}
           />
           <FeatureItem
-            mainHref={PolygonRoutes.dashboard.generatePath()}
+            mainHref={PolygonRoutes.stake.generatePath()}
             moreHref={StakeDemoRoutes.root}
             title={t('Polygon (MATIC)')}
           />
