@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { useContainerStyles } from './useContainerStyles';
 
-interface IContainerProps {
+export interface IContainerProps {
   className?: string;
   children?: ReactNode;
   maxWidth?: string;

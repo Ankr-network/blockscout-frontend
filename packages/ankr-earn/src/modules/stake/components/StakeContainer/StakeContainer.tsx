@@ -1,14 +1,12 @@
-import { Container, ContainerProps } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
+import { Container, IContainerProps } from 'uiKit/Container';
 import { useStakeContainerStyles } from './useStakeContainerStyles';
-
-interface IStakeContainerProps extends ContainerProps {}
 
 export const StakeContainer = ({
   className,
   ...restContainerProps
-}: IStakeContainerProps) => {
+}: IContainerProps) => {
   const classes = useStakeContainerStyles();
 
   return (

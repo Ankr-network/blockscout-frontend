@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStakeContainerStyles = makeStyles<Theme>(theme => ({
   root: {
-    maxWidth: 820,
+    maxWidth: 780,
     display: 'grid',
     gap: theme.spacing(3, 0),
     gridAutoRows: 'minmax(0, max-content)',
