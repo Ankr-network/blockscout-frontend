@@ -133,6 +133,7 @@ export const StakeForm = ({
               isBalanceLoading={false}
               name={FieldsNames.amount}
               tokenName={tokenIn}
+              minAmount={minAmount}
               label={t('stake.amount', {
                 token: tokenIn,
               })}

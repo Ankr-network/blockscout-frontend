@@ -19,6 +19,7 @@ interface IAmountFieldProps {
   label?: string;
   tokenName?: string;
   inputClassName?: string;
+  minAmount?: number;
 }
 
 export const AmountField = ({
@@ -30,6 +31,7 @@ export const AmountField = ({
   tokenName = 'ETH',
   label = t('stake-avax.convert-dialog.amount'),
   inputClassName,
+  minAmount = MIN_AMOUNT,
 }: IAmountFieldProps) => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
@@ -53,9 +55,12 @@ export const AmountField = ({
 
         if (currentAmount.isNaN()) {
           error = t('validation.numberOnly');
-        } else if (currentAmount.isLessThanOrEqualTo(MIN_AMOUNT)) {
+        } else if (
+          currentAmount.isLessThan(minAmount) ||
+          currentAmount.isEqualTo(MIN_AMOUNT)
+        ) {
           error = t('validation.min', {
-            value: MIN_AMOUNT,
+            value: minAmount,
           });
         } else if (isTooBigAmount || isZeroBalance) {
           error = t('validation.low-balance');
@@ -64,7 +69,7 @@ export const AmountField = ({
 
       return error;
     },
-    [balance, maxAmount, withBalance],
+    [balance, maxAmount, minAmount, withBalance],
   );
 
   const normalizeAmount = (value: string): string => {
