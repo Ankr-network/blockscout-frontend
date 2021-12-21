@@ -13,6 +13,9 @@ export interface IContractConfig {
 
 export interface IStkrConfig {
   contractConfig: IContractConfig;
+  gatewayConfig: {
+    baseUrl: string;
+  };
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -23,10 +26,16 @@ const LOCAL_CONFIG: IStkrConfig = {
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
   },
+  gatewayConfig: {
+    baseUrl: 'http://localhost:8080/',
+  },
 };
 
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
+  gatewayConfig: {
+    baseUrl: 'https://api.dev.stkr.io/',
+  },
 };
 
 const GOERLI_CONFIG: IStkrConfig = {
@@ -40,6 +49,9 @@ const GOERLI_CONFIG: IStkrConfig = {
       },
     },
   },
+  gatewayConfig: {
+    baseUrl: 'https://api.goerli.stkr.io/',
+  },
 };
 
 const MAINNET_CONFIG: IStkrConfig = {
@@ -49,6 +61,9 @@ const MAINNET_CONFIG: IStkrConfig = {
     fethContract: '0xD01ef7C0A5d8c432fc2d1a85c66cF2327362E5C6',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
+  },
+  gatewayConfig: {
+    baseUrl: 'https://api.stkr.io/',
   },
 };
 

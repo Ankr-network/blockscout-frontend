@@ -1,22 +1,22 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router';
-import {
-  IStakeSubmitPayload,
-  StakeForm,
-} from 'modules/stake/components/StakeForm';
-import { RoutesConfig } from '../../Routes';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { ResponseData } from 'modules/common/components/ResponseData';
+import { DECIMAL_PLACES } from 'modules/common/const';
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
+import {
+  IStakeSubmitPayload,
+  StakeForm,
+} from 'modules/stake/components/StakeForm';
+import { useCallback } from 'react';
+import { useHistory } from 'react-router';
 import { fetchStats } from '../../actions/fetchStats';
-import { Queries } from 'modules/common/components/Queries/Queries';
 import { stake } from '../../actions/stake';
-import { DECIMAL_PLACES } from 'modules/common/const';
-import { ResponseData } from 'modules/common/components/ResponseData';
+import { RoutesConfig } from '../../Routes';
 
 const FAQ: Record<string, string>[] = [
   {
@@ -111,10 +111,10 @@ export const StakePolygon = () => {
         <StakeForm
           onSubmit={handleSubmit}
           onCancel={handleCancel}
-          balance={/*data.maticBalance*/ new BigNumber(123)}
-          maxAmount={/*data.maticBalance.toNumber()*/ 123}
+          balance={data.maticBalance}
+          maxAmount={data.maticBalance.toNumber()}
           stakingAmountStep={0.1}
-          minAmount={/*data.minimumStake.toNumber()*/ 123}
+          minAmount={data.minimumStake.toNumber()}
           loading={loading}
           currency={t('unit.polygon')}
           renderStats={renderStats}

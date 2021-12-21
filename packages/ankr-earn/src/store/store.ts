@@ -4,6 +4,7 @@ import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { configFromEnv } from 'modules/api/config';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -18,7 +19,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
     }),
     axios: createAxiosDriver(
       axios.create({
-        baseURL: process.env.REACT_APP_API_BASE || '',
+        baseURL: configFromEnv().gatewayConfig.baseUrl,
       }),
     ),
   },

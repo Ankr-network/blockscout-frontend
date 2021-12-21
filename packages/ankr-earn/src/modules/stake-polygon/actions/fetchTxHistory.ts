@@ -7,9 +7,8 @@ export const fetchTxHistory = createSmartAction<
 >('polygon/fetchTxHistory', () => ({
   request: {
     promise: (async (): Promise<ITxEventsHistoryData> => {
-      //const sdk: PolygonSDK = PolygonSDK.getInstance();
-      //return await sdk.getTxEventsHistory();
-      return { completed: [], pending: [] };
+      const sdk: PolygonSDK = await PolygonSDK.getInstance();
+      return await sdk.getTxEventsHistory();
     })(),
   },
   meta: {
