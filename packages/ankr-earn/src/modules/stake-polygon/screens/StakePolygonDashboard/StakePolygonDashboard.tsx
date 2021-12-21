@@ -8,14 +8,14 @@ import { ANKR_1INCH_BUY_LINK, DEFAULT_ROUNDING } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import {
+  IUnstakeFormValues,
+  UnstakeDialog,
+} from 'modules/stake/components/UnstakeDialog';
 import React, { ReactNode, useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { UserActions } from '../../../../store/actions/UserActions';
-import {
-  IUnstakeFormValues,
-  UnstakeDialog,
-} from '../../../stake-common/components/UnstakeDialog';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';
