@@ -21,7 +21,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
 
     '&:not($activeLink):hover': {
-      background: theme.palette.background.paper,
+      background: theme.palette.background.default,
     },
     '&:not(:last-child)': {
       marginBottom: 3,
@@ -35,7 +35,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
         content: '""',
         display: 'block',
         position: 'absolute',
-        background: theme.palette.background.paper,
+        background: theme.palette.background.default,
         height: 2,
         bottom: 0,
         left: 45,
@@ -47,7 +47,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     cursor: 'default',
     fontWeight: 'bold',
-    background: theme.palette.background.paper,
+    background: theme.palette.background.default,
   },
   icon: {
     marginRight: theme.spacing(2),

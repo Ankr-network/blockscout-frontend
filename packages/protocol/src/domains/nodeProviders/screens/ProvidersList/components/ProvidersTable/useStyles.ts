@@ -2,7 +2,7 @@ import { Theme, makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingTop: theme.spacing(1),
@@ -33,7 +33,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   cellThead: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     paddingBottom: theme.spacing(1),
   },
 

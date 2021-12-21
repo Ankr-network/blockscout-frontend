@@ -5,7 +5,7 @@ import { ReactReduxContext } from 'react-redux';
 
 import { Spinner } from 'uiKit/Spinner';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';
 

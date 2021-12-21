@@ -1,6 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import { mainTheme } from 'modules/themes/mainTheme';
 import { SIDEBAR_WIDTH } from '../SideBar';
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
@@ -12,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     minWidth: 375,
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     fontVariantNumeric: 'tabular-nums',
   },
   darkTheme: {},
@@ -22,7 +21,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    background: mainTheme.palette.background.paper,
+    background: theme.palette.background.default,
 
     paddingLeft: `${SIDEBAR_WIDTH}px`,
 

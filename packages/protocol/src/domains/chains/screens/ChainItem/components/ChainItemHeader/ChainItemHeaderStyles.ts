@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     borderRadius: 18,
     padding: theme.spacing(2.5, 3.5),
   },
@@ -11,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.background.paper}`,
+    borderBottom: `2px solid ${theme.palette.background.default}`,
     paddingBottom: theme.spacing(3),
     [theme.breakpoints.down('lg')]: {
       flexDirection: 'column',
@@ -25,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('lg')]: {
       width: '100%',
       paddingBottom: theme.spacing(2.5),
-      borderBottom: `2px solid ${theme.palette.background.paper}`,
+      borderBottom: `2px solid ${theme.palette.background.default}`,
       marginBottom: theme.spacing(2.5),
     },
   },
@@ -81,7 +81,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 6,
     lineHeight: 1,
     padding: '4px 6px',
-    background: theme.palette.background.paper,
+    background: theme.palette.background.default,
     cursor: 'pointer',
   },
 }));

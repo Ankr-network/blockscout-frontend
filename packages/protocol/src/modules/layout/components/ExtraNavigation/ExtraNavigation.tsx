@@ -7,7 +7,7 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
-import { useIsSMDown } from 'modules/themes/useTheme';
+import { useIsSMDown } from 'ui';
 import { ReactComponent as StatIcon } from 'uiKit/Icons/stat.svg';
 import { ANKR_SCAN_LINK } from '../MainNavigation';
 

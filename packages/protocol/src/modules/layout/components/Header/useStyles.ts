@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     position: 'fixed',
     width: `calc(100% - ${SIDEBAR_WIDTH}px)`,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     zIndex: 1,
   },
   container: {

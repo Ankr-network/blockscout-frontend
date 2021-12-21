@@ -6,8 +6,8 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
     padding: 7,
     position: 'relative',
     overflow: 'visible',
-    border: `2px solid ${theme.palette.background.paper}`,
-    backgroundColor: theme.palette.background.paper,
+    border: `2px solid ${theme.palette.background.default}`,
+    backgroundColor: theme.palette.background.default,
 
     '&:hover': {
       backgroundColor: theme.palette.common.white,

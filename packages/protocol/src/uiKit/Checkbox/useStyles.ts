@@ -7,7 +7,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 5,
     width: 16,
     height: 16,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     border: `2px solid ${theme.palette.primary.main}`,
 
     'input:hover ~ &': {

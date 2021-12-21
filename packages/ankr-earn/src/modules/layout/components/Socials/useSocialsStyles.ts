@@ -1,5 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { defaultTheme } from 'ui/src/modules/themes/mainTheme';
+import { defaultTheme } from 'ui';
 
 export const useSocialsStyles = makeStyles<Theme>(theme => ({
   root: {

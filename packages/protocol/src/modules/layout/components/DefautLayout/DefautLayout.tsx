@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Container } from '@material-ui/core';
 
 import { getTheme } from '../../../common/utils/getTheme';
-import { Themes } from '../../../themes/types';
+import { Themes } from 'ui';
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
 import { MobileNavigation } from '../MobileNavigation';

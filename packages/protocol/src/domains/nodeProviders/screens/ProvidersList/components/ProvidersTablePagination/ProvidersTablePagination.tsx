@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { uid } from 'react-uid';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useIsSMDown } from 'modules/themes/useTheme';
+import { useIsSMDown } from 'ui';
 import { useStyles } from './ProvidersTablePaginationStyles';
 import { getPageNumbers } from './ProvidersTablePaginationUtils';
 

@@ -10,13 +10,13 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
     display: 'flex',
     justifyContent: 'space-between',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
     overflow: 'hidden',
   },
 
   message: {
     color: theme.palette.text.primary,
-    background: theme.palette.background.paper,
+    background: theme.palette.background.default,
     fontSize: ({ size }) => (size === 'm' ? 12 : 14),
     textAlign: 'center',
     width: '100%',
@@ -32,7 +32,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     width: '100%',
     padding: ({ size }) => (size === 'm' ? '8px 9px' : '10px 15px'),
     cursor: 'pointer',
-    background: theme.palette.background.paper,
+    background: theme.palette.background.default,
     minHeight: 36,
     transition: 'background .3s',
 
