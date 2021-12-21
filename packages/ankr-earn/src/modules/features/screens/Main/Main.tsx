@@ -1,8 +1,9 @@
-import { Box, Container } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeDemoRoutes } from 'modules/stake-demo/Routes';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
 import React from 'react';
+import { Container } from 'uiKit/Container';
 import { FeatureItem } from './components/FeatureItem';
 import { Features } from './components/Features';
 

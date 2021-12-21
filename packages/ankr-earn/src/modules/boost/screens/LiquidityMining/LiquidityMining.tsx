@@ -1,7 +1,8 @@
-import { Box, Container } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Nav } from 'modules/boost/components/Nav/Nav';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
+import { Container } from 'uiKit/Container';
 
 export const LiquidityMining = () => {
   return (

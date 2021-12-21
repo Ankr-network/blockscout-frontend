@@ -1,8 +1,9 @@
-import { Box, Container, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { INDEX_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import React from 'react';
+import { Container } from 'uiKit/Container';
 import { DisconnectBtn } from './components/DisconnectBtn/DisconnectBtn';
 import { GuardRoute } from './components/GuardRoute/GuardRoute';
 

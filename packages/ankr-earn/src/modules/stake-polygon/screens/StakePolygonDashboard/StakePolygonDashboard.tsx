@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  IconButton,
-  Link,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Box, IconButton, Link, Tooltip, Typography } from '@material-ui/core';
 import { Query, useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
@@ -16,6 +9,7 @@ import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import React, { ReactNode, useCallback } from 'react';
+import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { UserActions } from '../../../../store/actions/UserActions';
 import {
