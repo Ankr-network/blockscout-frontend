@@ -3,7 +3,7 @@ import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { ChainsItem } from './ChainsItem';
 

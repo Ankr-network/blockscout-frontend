@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     borderRadius: 12,
     display: 'flex',
     justifyContent: 'space-between',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
     overflow: 'hidden',
   },
   content: ({ isCopied }) => ({
@@ -19,7 +19,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     cursor: 'pointer',
     backgroundColor: isCopied
       ? theme.palette.common.white
-      : theme.palette.background.paper,
+      : theme.palette.background.default,
     transition: 'background-color .3s',
 
     '&:hover': {

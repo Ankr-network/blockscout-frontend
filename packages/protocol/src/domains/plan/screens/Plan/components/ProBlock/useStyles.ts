@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(5),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(3.5),

@@ -7,7 +7,7 @@ export const OFFSET_Y_DESKTOP = 9;
 
 export const useSectionStyles = makeStyles<Theme>(theme => ({
   section: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     color: theme.palette.text.primary,
   },
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { CopyToClipIcon } from './CopyToClipIcon';
 
 storiesOf('uiKit/CopyToClipIcon', module)

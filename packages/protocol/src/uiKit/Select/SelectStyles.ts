@@ -11,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       '&.Mui-focused': {
         borderColor: 'transparent',
         color: theme.palette.text.primary,
-        background: theme.palette.background.default,
+        background: theme.palette.background.paper,
       },
 
       '&:hover': {
@@ -26,7 +26,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 21,
     boxShadow:
       '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 5px 100px rgba(31, 34, 38, 0.15)',
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
 
     '& ul': {
       paddingTop: 3,
@@ -52,7 +52,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
       '&:hover': {
         color: theme.palette.primary.main,
-        background: theme.palette.background.default,
+        background: theme.palette.background.paper,
       },
 
       '&.Mui-selected': {

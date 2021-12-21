@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { stopPolling, resetRequests } from '@redux-requests/core';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchChain } from 'domains/chains/actions/fetchChain';

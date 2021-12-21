@@ -14,7 +14,7 @@ import { formatChains } from 'domains/chains/screens/Chains/components/ChainsLis
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useIsMDDown } from 'modules/themes/useTheme';
+import { useIsMDDown } from 'ui';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
@@ -42,9 +42,10 @@ export const ChainItemHeader = ({
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
 
-  const hasArchiveNodes = useMemo(() => nodes?.some(item => item.isArchive), [
-    nodes,
-  ]);
+  const hasArchiveNodes = useMemo(
+    () => nodes?.some(item => item.isArchive),
+    [nodes],
+  );
 
   return (
     <div className={classNames(classes.root, className)}>

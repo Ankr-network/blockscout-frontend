@@ -24,7 +24,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
 
     '&:hover': {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.paper,
     },
 
     '&:active': {
@@ -40,7 +40,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   isActive: {
     color: theme.palette.text.primary,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
   },
   dots: {
     margin: '0 6px',

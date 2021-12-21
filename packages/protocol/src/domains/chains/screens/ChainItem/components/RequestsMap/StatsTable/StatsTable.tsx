@@ -14,7 +14,7 @@ import {
 import classNames from 'classnames';
 
 import { t } from 'modules/i18n/utils/intl';
-import { PALETTE } from 'modules/themes/mainTheme';
+import { PALETTE } from 'ui';
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
 

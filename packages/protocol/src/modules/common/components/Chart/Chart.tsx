@@ -57,7 +57,7 @@ export const Chart = ({
           </linearGradient>
         </defs>
         <CartesianGrid
-          style={{ stroke: theme.palette.background.paper }}
+          style={{ stroke: theme.palette.background.default }}
           strokeWidth={2}
           horizontal
           vertical={false}

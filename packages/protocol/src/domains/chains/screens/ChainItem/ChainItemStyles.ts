@@ -38,7 +38,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingBottom: 19,
   },
   error: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     borderRadius: 18,
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
