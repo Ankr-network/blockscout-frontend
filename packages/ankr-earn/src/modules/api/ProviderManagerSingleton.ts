@@ -1,5 +1,5 @@
 import { alpha, lighten } from '@material-ui/core';
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui/src/modules/themes/mainTheme';
 import { ProviderManager } from 'provider';
 import { ThemeColors } from 'web3modal';
 

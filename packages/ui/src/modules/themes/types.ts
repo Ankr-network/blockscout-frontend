@@ -21,5 +21,5 @@ declare module '@material-ui/core/styles/createBreakpoints' {
 
 // TODO
 export type WithUseStyles<
-  USE_STYLES extends (props?: any) => ClassNameMap<string>,
-> = WithStyles<{ [key in keyof ReturnType<USE_STYLES>]?: any }>;
+  UseStyles extends (props?: any) => ClassNameMap<string>,
+> = WithStyles<{ [key in keyof ReturnType<UseStyles>]?: any }>;

@@ -5,14 +5,16 @@ import {
   unstable_createMuiStrictModeTheme as createTheme,
 } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-import React from 'react';
-import { CheckboxCheckedIcon, CheckboxIcon } from '../../uiKit/Checkbox';
-import { StepIcon } from './components/StepIcon';
-import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
-import { Themes } from './types';
 
-const TEN_SECONDS = 10 * 1000;
-const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
+import {
+  BREAKPOINTS,
+  BTN_TRANSITION_TIME,
+  NOTIFICATION_AUTO_HIDE_DURATION,
+  TEN_SECONDS,
+} from '../../../const';
+import { Themes } from './types';
+import { CheckboxIcon, CheckboxCheckedIcon } from '../../components/Checkbox';
+import { StepIcon } from '../../components/StepIcon';
 
 export const FONTS = {
   primary: ['Gilroy', 'Arial', 'sans-serif'].join(','),
@@ -71,9 +73,6 @@ export const mainTheme = createTheme({
   },
 
   props: {
-    MuiStep: {
-      StepIconComponent: StepIcon,
-    },
     MuiSnackbar: {
       autoHideDuration: NOTIFICATION_AUTO_HIDE_DURATION,
     },
@@ -132,10 +131,13 @@ export const mainTheme = createTheme({
     },
     MuiCheckbox: {
       color: 'primary',
-      icon: <CheckboxIcon />,
-      checkedIcon: <CheckboxCheckedIcon />,
+      icon: CheckboxIcon,
+      checkedIcon: CheckboxCheckedIcon,
     },
     MuiStepLabel: {
+      StepIconComponent: StepIcon,
+    },
+    MuiStep: {
       StepIconComponent: StepIcon,
     },
   },
@@ -313,7 +315,9 @@ export const mainTheme = createTheme({
           padding: '10px 29px 9px 15px',
         },
       },
-
+      iconOpen: {
+        color: defaultTheme.palette.text.primary,
+      },
       iconOutlined: {
         fontSize: 12,
         right: 16,
@@ -764,6 +768,11 @@ export const mainTheme = createTheme({
       },
       label: {
         whiteSpace: 'nowrap',
+      },
+    },
+    MuiSkeleton: {
+      root: {
+        backgroundColor: defaultTheme.palette.background.default,
       },
     },
     MuiAccordion: {
