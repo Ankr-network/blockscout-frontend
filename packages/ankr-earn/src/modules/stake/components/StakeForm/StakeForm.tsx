@@ -1,19 +1,15 @@
-import { Container, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
-import { Field, Form, FormRenderProps } from 'react-final-form';
+import { FormApi } from 'final-form';
+import { AmountField } from 'modules/common/components/AmountField';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
-import { roundByStep } from 'modules/common/utils/numbers/roundByStep';
-import { MutationErrorHandler } from 'modules/common/components/MutationErrorHandler/MutationErrorHandler';
-import { UserActionTypes } from 'store/actions/UserActions';
+import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
+import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
-import { useStakeFormStyles } from './StakeFormStyles';
-import { InputField } from 'uiKit/InputField';
-import { Faq } from 'modules/common/components/Faq';
-import { StakeStats } from '../StakeStats';
+import { useStakeFormStyles } from './useStakeFormStyles';
 
 interface IStakePayload {
   amount?: ReactText;
@@ -26,17 +22,16 @@ export interface IStakeSubmitPayload extends IStakePayload {
 
 export interface IStakeFormComponentProps {
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onCancel: () => void;
   balance?: BigNumber;
   stakingAmountStep: number;
   minAmount?: number;
   maxAmount?: number;
   loading: boolean;
-  currency?: string;
+  tokenIn?: string;
+  tokenOut?: string;
+  className?: string;
   renderStats?: (amount: number) => ReactNode;
   renderFooter?: (amount: number) => ReactNode;
-  faq?: Record<string, string>[];
-  stats?: Record<string, string>[];
 }
 
 const getAmountNum = (amount?: ReactText): number => {
@@ -50,18 +45,17 @@ const getAmountNum = (amount?: ReactText): number => {
 };
 
 export const StakeForm = ({
+  className,
   onSubmit,
-  onCancel,
   balance = new BigNumber(0),
   stakingAmountStep,
   minAmount = stakingAmountStep,
   maxAmount = balance.toNumber(),
   loading,
-  currency = t('unit.eth'),
+  tokenIn = t('unit.eth'),
+  tokenOut = tokenIn,
   renderStats,
   renderFooter,
-  faq,
-  stats,
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
@@ -88,21 +82,15 @@ export const StakeForm = ({
     [maxAmount, minAmount, stakingAmountStep],
   );
 
+  const setMaxAmount = useCallback(
+    (form: FormApi<IStakePayload>, maxAmount: string) => () =>
+      form.change('amount', maxAmount),
+    [],
+  );
+
   const INIT_AMOUNT = balance.isGreaterThan(minAmount)
     ? floor(balance.toNumber(), stakingAmountStep)
     : minAmount;
-
-  const handleInputAmountBlur = (
-    onChange: (v: any) => void,
-    onBlur: () => void,
-  ) => (e: React.FocusEvent<HTMLInputElement>) => {
-    onBlur();
-    let nearestValue = roundByStep(+e.target.value, stakingAmountStep);
-    nearestValue = Math.min(nearestValue, max);
-    nearestValue = Math.max(nearestValue, minAmount);
-
-    onChange(nearestValue);
-  };
 
   const onSubmitForm = (payload: IStakePayload): void =>
     onSubmit({
@@ -111,35 +99,37 @@ export const StakeForm = ({
     } as IStakeSubmitPayload);
 
   const renderForm = ({
+    form,
     handleSubmit,
     values: { amount },
   }: FormRenderProps<IStakePayload>) => {
     const amountNumber: number = getAmountNum(amount);
     return (
-      <form onSubmit={handleSubmit}>
+      <Paper
+        className={className}
+        component="form"
+        variant="elevation"
+        onSubmit={handleSubmit}
+      >
         <div className={classes.body}>
           <div className={classes.wrapper}>
             <Typography variant="h2" classes={{ root: classes.title }}>
-              {t('stake.title')}
+              {t('stake.title', {
+                token: tokenIn,
+              })}
             </Typography>
 
-            <label className={classes.range}>
-              <Typography
-                variant="h2"
-                component="div"
-                classes={{ root: classes.label }}
-              >
-                <div className={classes.labelText}>{t('stake.amount')}</div>
-              </Typography>
-
-              <Field
-                component={InputField}
-                min={minAmount}
-                max={max}
-                step={stakingAmountStep}
-                name="amount"
-              />
-            </label>
+            <AmountField
+              balance={balance}
+              onMaxClick={setMaxAmount(form, `${max}`)}
+              isBalanceLoading={false}
+              name="amount"
+              tokenName={tokenIn}
+              label={t('stake.amount', {
+                token: tokenIn,
+              })}
+              inputClassName={classes.input}
+            />
 
             <div className={classes.stakingTypes}>
               <div className={classNames(classes.stakingType, 'active')}>
@@ -159,45 +149,31 @@ export const StakeForm = ({
             {typeof renderFooter === 'function' ? (
               renderFooter(amountNumber)
             ) : (
-              <>
-                <MutationErrorHandler type={UserActionTypes.STAKE_AND_CLAIM} />
-
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.submit}
-                  type="submit"
-                  disabled={loading}
-                  isLoading={loading}
-                >
-                  {t('stake.stake', {
-                    token: currency,
-                  })}
-                </Button>
-              </>
+              <Button
+                color="primary"
+                size="large"
+                className={classes.submit}
+                type="submit"
+                disabled={loading}
+                isLoading={loading}
+              >
+                {t('stake.stake', {
+                  token: tokenOut,
+                })}
+              </Button>
             )}
           </div>
         </div>
-      </form>
+      </Paper>
     );
   };
 
-  // todo: form must be separated from layout (section, paper...)
-
   return (
-    <section className={classes.root}>
-      <Container classes={{ root: classes.container }}>
-        <Paper className={classes.box} variant="outlined" square={false}>
-          <Form
-            onSubmit={onSubmitForm}
-            render={renderForm}
-            initialValues={{ amount: INIT_AMOUNT }}
-            validate={validateStakeForm}
-          />
-        </Paper>
-        {stats && <StakeStats stats={stats} />}
-        {faq && <Faq data={faq} />}
-      </Container>
-    </section>
+    <Form
+      onSubmit={onSubmitForm}
+      render={renderForm}
+      initialValues={{ amount: INIT_AMOUNT }}
+      validate={validateStakeForm}
+    />
   );
 };

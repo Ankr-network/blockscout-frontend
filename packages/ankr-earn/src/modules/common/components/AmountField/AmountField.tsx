@@ -1,9 +1,9 @@
 import { Button, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { ReactText, useCallback } from 'react';
-import { Field } from 'react-final-form';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
+import { ReactText, useCallback } from 'react';
+import { Field } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
 import { QueryLoading } from '../QueryLoading/QueryLoading';
 import { useAmountFieldStyles } from './useAmountFieldStyles';
@@ -75,7 +75,7 @@ export const AmountField = ({
           className={classes.balance}
           color="textSecondary"
         >
-          {t('cross-chain-bridge.form.balance')}:{' '}
+          {t('stake.balance-label')}:{' '}
           {isBalanceLoading ? (
             <div className={classes.balanceLoadingBox}>
               <QueryLoading size={16} />
@@ -103,11 +103,10 @@ export const AmountField = ({
               className={classes.maxBtn}
               variant="outlined"
               size="small"
-              color="secondary"
               onClick={onMaxClick}
               disabled={disabled}
             >
-              {t('cross-chain-bridge.form.btn-max')}
+              {t('stake.btn-max')}
             </Button>
           ),
         }}

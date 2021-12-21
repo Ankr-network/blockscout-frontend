@@ -9,7 +9,7 @@ export interface IStakeStats {
 export const StakeStats = ({ stats }: IStakeStats) => {
   const classes = useStyles();
 
-  const statsRender = stats.map(stat => (
+  const renderedStats = stats.map(stat => (
     <div className={classes.statistic} key={stat.label}>
       <div className={classes.statisticLabel}>{t(stat.label)}</div>
       <div className={classes.statisticValue}>{t(stat.value)}</div>
@@ -17,8 +17,8 @@ export const StakeStats = ({ stats }: IStakeStats) => {
   ));
 
   return (
-    <Paper className={classes.box} variant="outlined" square={false}>
-      <div className={classes.statisticWrapper}>{statsRender}</div>
+    <Paper variant="elevation">
+      <div className={classes.statisticWrapper}>{renderedStats}</div>
     </Paper>
   );
 };

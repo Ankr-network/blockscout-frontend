@@ -1,10 +1,13 @@
+import { Box } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
+import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
@@ -12,6 +15,7 @@ import {
   IStakeSubmitPayload,
   StakeForm,
 } from 'modules/stake/components/StakeForm';
+import { StakeStats } from 'modules/stake/components/StakeStats';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { fetchStats } from '../../actions/fetchStats';
@@ -82,12 +86,7 @@ export const StakePolygon = () => {
 
   const { loading } = useMutation({ type: stake.toString() });
 
-  const handleCancel = useCallback(() => {
-    push(RoutesConfig.dashboard.generatePath());
-  }, [push]);
-
   // TODO: proper "you will get" value
-
   const renderStats = useCallback((amount: number) => {
     const isZeroAmount: boolean = amount === 0;
     return (
@@ -108,19 +107,25 @@ export const StakePolygon = () => {
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
-        <StakeForm
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          balance={data.maticBalance}
-          maxAmount={data.maticBalance.toNumber()}
-          stakingAmountStep={0.1}
-          minAmount={data.minimumStake.toNumber()}
-          loading={loading}
-          currency={t('unit.polygon')}
-          renderStats={renderStats}
-          faq={FAQ}
-          stats={Stats}
-        />
+        <Box py={{ xs: 5, md: 8 }} component="section">
+          <StakeContainer>
+            <StakeForm
+              onSubmit={handleSubmit}
+              balance={data.maticBalance}
+              maxAmount={data.maticBalance.toNumber()}
+              stakingAmountStep={0.1}
+              minAmount={data.minimumStake.toNumber()}
+              loading={loading}
+              tokenIn={t('unit.polygon')}
+              tokenOut={t('unit.amaticb')}
+              renderStats={renderStats}
+            />
+
+            <StakeStats stats={Stats} />
+
+            <Faq data={FAQ} />
+          </StakeContainer>
+        </Box>
       )}
     </Queries>
   );

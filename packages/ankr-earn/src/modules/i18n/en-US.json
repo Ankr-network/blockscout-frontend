@@ -1,6 +1,9 @@
 {
   "validation": {
-    "required": "This field is required"
+    "required": "This field is required",
+    "numberOnly": "Must be a number",
+    "min": "Should be greater than {value}",
+    "low-balance": "Your balance is not sufficient"
   },
   "meta": {
     "title": "Ankr Earn",
@@ -86,12 +89,14 @@
     }
   },
   "stake": {
-    "title": "MATIC Staking",
-    "amount": "MATIC Amount",
+    "title": "{token} Staking",
+    "amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
     "stake": "Get {token}",
+    "balance-label": "Your balance",
+    "btn-max": "Max",
     "stats": {
       "apr": "APR",
       "yearly-earning": "Yearly earning",
