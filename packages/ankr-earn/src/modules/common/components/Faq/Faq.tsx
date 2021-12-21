@@ -23,16 +23,17 @@ export const Faq = ({ data }: IFaq) => {
         aria-controls={`${el.question}-content`}
         id={`${el.question}-header`}
       >
-        <Typography>{t(el.question)}</Typography>
+        {t(el.question)}
       </AccordionSummary>
-      <AccordionDetails>
-        <Typography>{t(el.answer)}</Typography>
-      </AccordionDetails>
+      <AccordionDetails>{t(el.answer)}</AccordionDetails>
     </Accordion>
   ));
 
   return (
     <Paper className={classes.box} variant="outlined" square={false}>
+      <Typography variant="h2" className={classes.title}>
+        {t('stake.faq.title')}
+      </Typography>
       {FaqList}
     </Paper>
   );

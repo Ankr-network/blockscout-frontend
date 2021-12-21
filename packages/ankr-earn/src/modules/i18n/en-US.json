@@ -96,15 +96,19 @@
     "faq": {
       "title": "FAQ",
       "question-1": "How long after unstaking can I withdraw my ETH?",
-      "answer-1": "ans?",
-      "question-2": "My stake has become inactive, how can I withdraw my ETH?",
-      "answer-2": "ans?",
-      "question-3": "How does ANKR for ETH work?",
-      "answer-3": "ans?",
-      "question-4": "What is aETHb?",
-      "answer-4": "ans?",
-      "question-5": "What is aETHc?",
-      "answer-5": "ans?"
+      "answer-1": "Polygon Liquid Staking from Ankr Ankr earn offers instant liquidity for your staked MATIC, enabling you to connect your tokens with DeFi platforms and earn several more layers of rewards.\n Polygon Liquid Staking enables you to earn **alpha. ** (Alpha is a return on investment that goes far beyond normal increases in the crypto market index). Ankr Earn can connect you to the best ways to earn more crypto by staking, arbitrage trading, yield farming, and much more.",
+      "question-2": "What is the minimum amount of MATIC I can stake?",
+      "answer-2": "1",
+      "question-3": "If I unstake is there a lead time required for this to happen or is it immediate?",
+      "answer-3": "Approx 9 days (80 checkpoints)",
+      "question-4": "How soon after staking will I begin to receive rewards?",
+      "answer-4": "aMATICb will increase with every rebase, rebase occurs daily.",
+      "question-5": "How do I receive rewards?",
+      "answer-5": "A rebase runs daily and rewards are received each time this runs. You will receive these rewards provided you hold aMATICb in your wallet.",
+      "question-6": "What determines the amount of reward I receive each rebase?",
+      "answer-6": "It depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (indirect cost for aMATICb holders).",
+      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
+      "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
     }
   }
 }

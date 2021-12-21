@@ -766,5 +766,45 @@ export const mainTheme = createTheme({
         whiteSpace: 'nowrap',
       },
     },
+    MuiAccordion: {
+      root: {
+        '&:before': {
+          display: 'none',
+        },
+
+        borderTop: `2px solid ${defaultTheme.palette.background.default}`,
+
+        '&:first-of-type': {
+          borderTop: 'none',
+        },
+
+        '&.Mui-expanded': {
+          margin: 0,
+        },
+      },
+    },
+    MuiAccordionSummary: {
+      root: {
+        minHeight: defaultTheme.spacing(8),
+        [defaultTheme.breakpoints.down('sm')]: {
+          padding: 0,
+        },
+      },
+      content: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        '&.Mui-expanded': {
+          margin: defaultTheme.spacing(1.5, 0),
+        },
+      },
+      expandIcon: {
+        border: 'none',
+      },
+    },
+    MuiAccordionDetails: {
+      root: {
+        fontSize: 14,
+      },
+    },
   },
 } as ThemeOptions);

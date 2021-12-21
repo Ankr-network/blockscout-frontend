@@ -15,6 +15,11 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     justifyContent: 'space-evenly',
     width: '100%',
     padding: theme.spacing(4.5, 0),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      padding: theme.spacing(0.5, 2),
+    },
   },
 
   statistic: {
@@ -40,6 +45,22 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     '&:last-of-type:after': {
       display: 'none',
     },
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      minHeight: theme.spacing(8.5),
+      justifyContent: 'space-between',
+
+      '&:after': {
+        display: 'none',
+      },
+
+      borderBottom: `2px solid ${theme.palette.background.default}`,
+
+      '&:last-of-type': {
+        borderBottom: 'none',
+      },
+    },
   },
 
   statisticLabel: {
@@ -47,11 +68,18 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 0,
+    },
   },
 
   statisticValue: {
     fontSize: 20,
     fontWeight: 'bold',
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+    },
   },
 
   statisticDivider: {

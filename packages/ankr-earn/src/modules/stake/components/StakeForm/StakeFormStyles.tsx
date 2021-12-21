@@ -9,17 +9,17 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       display: 'grid',
       gridTemplateColumns: '100%',
       gridTemplateRows: '100%',
-      padding: theme.spacing(5, 0),
+      padding: theme.spacing(8, 0, 5),
       boxSizing: 'border-box',
 
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(8, 0, 5),
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(5, 0),
       },
     },
 
     container: {
       '&&': {
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
           padding: theme.spacing(0, 2),
         },
       },
@@ -40,13 +40,17 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
 
     footer: {
       padding: theme.spacing(0, 0, 7.5, 0),
+
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(0, 0, 2.5, 0),
+      },
     },
 
     wrapper: {
-      padding: theme.spacing(0, 2.5),
+      padding: theme.spacing(0, 7.5),
 
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(0, 7.5),
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(0, 2),
         margin: '0 auto',
       },
     },
@@ -56,16 +60,11 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     title: {
-      textAlign: 'left',
-      margin: theme.spacing(0, 0, 5.5),
+      textAlign: 'center',
+      margin: theme.spacing(0, 0, 6),
       fontSize: 30,
 
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 24,
-      },
-
       [theme.breakpoints.up('sm')]: {
-        textAlign: 'center',
         marginBottom: theme.spacing(7.5),
       },
     },
@@ -97,12 +96,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     label: {
       display: 'flex',
       flexDirection: 'column',
-
-      [theme.breakpoints.up('sm')]: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: theme.spacing(1.5),
-      },
+      marginBottom: theme.spacing(1.5),
     },
 
     amount: {
@@ -142,7 +136,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
 
     amountError: {
       textAlign: 'right',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         textAlign: 'left',
       },
     },
@@ -152,7 +146,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       paddingLeft: theme.spacing(2.5),
       borderLeft: `2px solid ${theme.palette.primary.main}`,
 
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         fontSize: 14,
       },
     },
@@ -160,6 +154,47 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     submit: {
       width: '100%',
       height: 54,
+    },
+
+    stakingTypes: {
+      display: 'flex',
+      marginTop: theme.spacing(2.5),
+
+      [theme.breakpoints.down('sm')]: {
+        marginTop: theme.spacing(3.5),
+        flexDirection: 'column',
+      },
+    },
+
+    stakingType: {
+      display: 'flex',
+      color: '#9AA1B0',
+      alignItems: 'center',
+      fontSize: 14,
+      marginRight: theme.spacing(3),
+      fontWeight: 600,
+      userSelect: 'none',
+
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: theme.spacing(2),
+      },
+
+      '&:before': {
+        content: '""',
+        display: 'block',
+        width: 22,
+        height: 22,
+        borderRadius: '50%',
+        backgroundColor: '#E6ECF5',
+        marginRight: theme.spacing(1),
+      },
+
+      '&.active': {
+        color: '#356DF3',
+        '&:before': {
+          backgroundColor: '#356DF3',
+        },
+      },
     },
   };
 });
