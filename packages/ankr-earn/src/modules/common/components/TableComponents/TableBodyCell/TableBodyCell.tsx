@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { WithUseStyles } from 'modules/themes/types';
+import { WithUseStyles } from 'ui/src/modules/themes/types';
 import React, { CSSProperties, useContext } from 'react';
 import { TableContext } from '../Table/Table';
 import { AlignType, IStyleProps } from '../types';

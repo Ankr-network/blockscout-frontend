@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
-import { createTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
-
+import { mainTheme } from 'ui/src/modules/themes/mainTheme';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';
@@ -15,8 +15,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
   const isInitialized = useInitialaizeLocale();
 
   return (
-    /* TODO: import shared theme */
-    <MuiThemeProvider theme={createTheme({})}>
+    <MuiThemeProvider theme={mainTheme}>
       <CssBaseline />
       {isInitialized ? (
         <ConnectedRouter history={historyInstance} context={ReactReduxContext}>

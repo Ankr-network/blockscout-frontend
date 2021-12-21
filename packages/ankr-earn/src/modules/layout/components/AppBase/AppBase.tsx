@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { useInitializeLocale } from 'store/useAppUtils';
 import '../../../../assets/fonts/style.css';
-import { mainTheme } from '../../../themes/mainTheme';
+import { mainTheme } from 'ui/src/modules/themes/mainTheme';
 import { Spinner } from 'uiKit/Spinner';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { ReactReduxContext } from 'react-redux';

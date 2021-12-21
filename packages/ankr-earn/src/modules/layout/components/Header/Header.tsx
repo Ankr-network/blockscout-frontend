@@ -1,6 +1,6 @@
 import { Container, Drawer } from '@material-ui/core';
 import { ReactNode, useState } from 'react';
-import { useIsLGUp } from '../../../themes/useTheme';
+import { useIsLGUp } from 'ui/src/modules/themes/useTheme';
 import { LocaleSwitcher } from '../LocaleSwitcher';
 import { Logo } from '../Logo';
 import { Toggle } from '../Toggle';

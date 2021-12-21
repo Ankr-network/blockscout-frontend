@@ -7,7 +7,7 @@ import React, { ReactText, useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
 import { OnChange } from 'uiKit/OnChange';
-import { useDebouncedCallback } from 'use-debounce/lib';
+import { useDebouncedCallback } from 'use-debounce';
 import { ITokenSelectOption, TokenSelect } from '../TokenSelect';
 import { ReactComponent as SwapIcon } from './assets/swap.svg';
 import { useTokenFormStyles } from './useTokenFormStyles';
