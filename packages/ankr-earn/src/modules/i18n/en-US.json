@@ -114,6 +114,12 @@
       "answer-6": "It depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (indirect cost for aMATICb holders).",
       "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
       "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
+    },
+    "success": {
+      "title": "Stake successful",
+      "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
+      "return": "Go to dashboard",
+      "add-to-wallet": "Add {token} to wallet"
     }
   },
   "stake-polygon-dashboard": {
