@@ -138,6 +138,7 @@ export const StakeForm = ({
                 token: tokenIn,
               })}
               inputClassName={classes.input}
+              disabled={loading}
             />
 
             <div className={classes.stakingTypes}>

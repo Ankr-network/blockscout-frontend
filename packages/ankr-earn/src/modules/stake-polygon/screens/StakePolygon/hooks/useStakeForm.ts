@@ -4,27 +4,28 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { floor } from 'modules/common/utils/floor';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
-import { RoutesConfig } from 'modules/stake-polygon/Routes';
+import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useState } from 'react';
-import { useHistory } from 'react-router';
+import { ReactText, useEffect, useState } from 'react';
 
 export const useStakeForm = () => {
   const dispatchRequest = useDispatchRequest();
-  const { push } = useHistory();
   const { loading: isStakeLoading } = useMutation({ type: stake });
-  const { data: fetchStatsData } = useQuery({
+  const {
+    data: fetchStatsData,
+    loading: isFetchStatsLoading,
+    error: fetchStatsError,
+  } = useQuery({
     type: fetchStats,
   });
 
-  const [amount, setAmount] = useState<ReactText>(
-    fetchStatsData?.minimumStake.toNumber() || '',
-  );
+  const [amount, setAmount] = useState<ReactText>('');
 
   const handleFormChange = (values: IStakeFormPayload) => {
     setAmount(values.amount || '');
@@ -34,16 +35,32 @@ export const useStakeForm = () => {
     dispatchRequest(stake({ amount: new BigNumber(amount) })).then(
       ({ error }) => {
         if (!error) {
-          push(RoutesConfig.dashboard.generatePath());
+          // todo: show success modal
         }
       },
     );
   };
+
+  useEffect(() => {
+    if (!fetchStatsData) {
+      return;
+    }
+    const { minimumStake, maticBalance } = fetchStatsData;
+
+    const initAmount = maticBalance.isGreaterThan(minimumStake)
+      ? floor(maticBalance.toNumber(), MATIC_STAKING_AMOUNT_STEP)
+      : minimumStake.toNumber();
+
+    setAmount(initAmount);
+  }, [fetchStatsData]);
 
   return {
     amount,
     handleFormChange,
     handleSubmit,
     isStakeLoading,
+    isFetchStatsLoading,
+    fetchStatsData,
+    fetchStatsError,
   };
 };

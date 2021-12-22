@@ -8,3 +8,4 @@ export const POLYGON_PROVIDER_ID =
     : AvailableProviders.Mainnet;
 
 export const YEARLY_INTEREST: Percentage = 12;
+export const MATIC_STAKING_AMOUNT_STEP = 0.1;
