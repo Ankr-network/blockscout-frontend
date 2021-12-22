@@ -8,7 +8,10 @@ import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 export interface IConnect {
   isConnected: boolean;
-  address?: Web3Address;
+  address: Web3Address;
+  chainId: number;
+  walletName: string;
+  walletIcon?: string;
 }
 
 export const connect = createAction<
@@ -16,13 +19,17 @@ export const connect = createAction<
   [AvailableProviders]
 >('auth/connect', providerId => ({
   request: {
-    promise: async () => {
+    promise: async (): Promise<IConnect> => {
       const providerManager = ProviderManagerSingleton.getInstance();
       const provider = await providerManager.getProvider(providerId);
+      const { icons, name: walletName } = provider.getWalletMeta();
 
       return {
         isConnected: provider.isConnected(),
         address: provider.getCurrentAccount(),
+        chainId: provider.getCurrentChain(),
+        walletName,
+        walletIcon: icons?.length ? icons[0] : undefined,
       };
     },
   },
