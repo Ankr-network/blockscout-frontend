@@ -12,7 +12,7 @@ const DEFAULT_SIZE = 80;
 
 export const Spinner = ({
   size = DEFAULT_SIZE,
-  centered = true,
+  centered = false,
   className = '',
 }: ISpinnerProps) => {
   const classes = useSpinnerStyles({ size });

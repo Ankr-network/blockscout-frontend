@@ -11,11 +11,13 @@ export interface IContractConfig {
   ankrContract?: string;
 }
 
+export interface IGatewayConfig {
+  baseUrl: string;
+}
+
 export interface IStkrConfig {
   contractConfig: IContractConfig;
-  gatewayConfig: {
-    baseUrl: string;
-  };
+  gatewayConfig: IGatewayConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {

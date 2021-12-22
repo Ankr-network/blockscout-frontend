@@ -1,12 +1,9 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 import { PolygonSDK } from '../api/PolygonSDK';
-import { POLYGON_PROVIDER_ID } from '../const';
-import { getUnstakeFee } from './getUnstakeFee';
 
 interface IFetchStatsResponseData {
   maticBalance: BigNumber;
@@ -22,17 +19,7 @@ export const fetchStats = createSmartAction<
   request: {
     promise: async (store: RequestsStore) => {
       const sdk = await PolygonSDK.getInstance();
-      const providerManager = ProviderManagerSingleton.getInstance();
-      const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-      const currentAccount = provider.getCurrentAccount();
-
-      const { data: unstakeFee } = await store.dispatchRequest(
-        getUnstakeFee(currentAccount),
-      );
-
-      if (!unstakeFee) {
-        throw new Error('Failed to get unstake fee data');
-      }
+      const { unstakeFee } = await sdk.getUnstakeFee();
 
       return {
         maticBalance: await sdk.getMaticBalance(),

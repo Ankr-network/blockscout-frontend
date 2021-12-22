@@ -2,6 +2,7 @@
 import BigNumber from 'bignumber.js';
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
+import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
@@ -45,6 +46,7 @@ export class PolygonSDK {
   private readonly aMaticbTokenContract: Contract;
   private readonly polygonPoolContract: Contract;
   private readonly ankrTokenContract: Contract;
+  private readonly apiGateWay: ApiGateway;
 
   private constructor(private web3: Web3, private currentAccount: string) {
     PolygonSDK.instance = this;
@@ -67,6 +69,8 @@ export class PolygonSDK {
       ABI_ERC20 as any,
       config.contractConfig.ankrContract,
     );
+
+    this.apiGateWay = new ApiGateway(config.gatewayConfig);
   }
 
   private getTxType(rawTxType?: string): string | null {
@@ -355,12 +359,13 @@ export class PolygonSDK {
     return { txHash };
   }
   public async getUnstakeFee() {
-    /* const stkrSdk = StkrSdk.getForEnv();
-    if (!stkrSdk.isConnected()) {
-      await stkrSdk.connect();
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+    if (!provider.isConnected()) {
+      await provider.connect();
     }
 
-    const { status, data, statusText } = await stkrSdk.getApiGateway().api.get<{
+    const { status, data, statusText } = await this.apiGateWay.api.get<{
       unstakeFee: string;
       useBeforeBlock: number;
       signature: string;
@@ -373,12 +378,6 @@ export class PolygonSDK {
       unstakeFee: data.unstakeFee,
       useBeforeBlock: data.useBeforeBlock,
       signature: data.signature,
-    }; */
-
-    return {
-      unstakeFee: 1,
-      useBeforeBlock: 1,
-      signature: 'signature',
     };
   }
 
