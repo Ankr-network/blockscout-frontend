@@ -1,6 +1,7 @@
-import { Container, Drawer } from '@material-ui/core';
+import { Drawer } from '@material-ui/core';
 import { ReactNode, useState } from 'react';
-import { useIsLGUp } from 'ui/src/modules/themes/useTheme';
+import { useIsLGUp } from 'ui';
+import { Container } from 'uiKit/Container';
 import { LocaleSwitcher } from '../LocaleSwitcher';
 import { Logo } from '../Logo';
 import { Toggle } from '../Toggle';
@@ -25,7 +26,7 @@ export const Header = ({
 
   return (
     <header>
-      <Container className={classes.container} maxWidth={false}>
+      <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
           <Logo className={classes.logo} />
         </div>

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     borderRadius: 18,
     padding: theme.spacing(2.5),
     display: 'flex',
@@ -13,7 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     cursor: 'pointer',
 
     '&:hover $button': {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.default,
     },
   },
   mainInfo: {

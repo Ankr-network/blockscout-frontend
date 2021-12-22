@@ -1,4 +1,4 @@
-import { Container } from '@material-ui/core';
+import { Container } from 'uiKit/Container';
 import { Rights } from '../Rights';
 import { Socials } from '../Socials';
 import { SubNavigation } from '../SubNavigation';
@@ -9,7 +9,7 @@ export const Footer = () => {
 
   return (
     <footer>
-      <Container className={classes.container} maxWidth={false}>
+      <Container className={classes.container} maxWidth="none">
         <Rights className={classes.leftSide} />
         <SubNavigation className={classes.center} />
         <Socials className={classes.rightSide} />

@@ -2,7 +2,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
 import { ReactNode, useMemo } from 'react';
 import { getTheme } from '../../../common/utils/getTheme';
-import { Themes } from 'ui/src/modules/themes/types';
+import { Themes } from 'ui';
 import { Footer } from '../Footer/index';
 import { Header } from '../Header/index';
 import { MainNavigation } from '../MainNavigation';

@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { AngleRightIcon } from 'uiKit/Icons/AngleRightIcon';
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
-import { useIsMDDown } from 'modules/themes/useTheme';
+import { useIsMDDown } from 'ui';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const classes = useStyles();

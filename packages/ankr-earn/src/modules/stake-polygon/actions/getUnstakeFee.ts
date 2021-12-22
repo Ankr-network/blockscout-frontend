@@ -1,22 +1,27 @@
 import { RequestAction } from '@redux-requests/core';
+import { Web3Address } from 'modules/common/types';
 import { createAction } from 'redux-smart-actions';
 
 interface IGetUnstakeFeeResponse {
   unstakeFee: string;
   useBeforeBlock: number;
-  signature: string;
+  signature: Web3Address;
 }
 
 export const getUnstakeFee = createAction<
-  RequestAction<IGetUnstakeFeeResponse, IGetUnstakeFeeResponse>
->('polygon/getUnstakeFee', () => ({
+  RequestAction<IGetUnstakeFeeResponse, string>,
+  [string]
+>('polygon/getUnstakeFee', address => ({
   request: {
     method: 'get',
-    url: `//google.com`,
+    url: `/v1alpha/polygon/unstakeFee`,
+    params: {
+      address,
+    },
   },
   meta: {
     driver: 'axios',
-    asMutation: false,
-    getData: data => data,
+    asMutation: true,
+    getData: data => data.unstakeFee,
   },
 }));

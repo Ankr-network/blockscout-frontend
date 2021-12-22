@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useDepositStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(7, 7, 7, 10.5),
     borderRadius: 18,
     flexDirection: 'row',

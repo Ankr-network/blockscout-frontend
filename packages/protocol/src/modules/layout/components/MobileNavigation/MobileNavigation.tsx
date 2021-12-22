@@ -15,7 +15,7 @@ import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
-import { useIsSMDown } from 'modules/themes/useTheme';
+import { useIsSMDown } from 'ui';
 
 interface MobileHeaderProps {
   className?: string;

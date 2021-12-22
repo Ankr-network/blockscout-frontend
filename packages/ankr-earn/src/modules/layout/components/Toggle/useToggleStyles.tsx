@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { defaultTheme } from 'ui/src/modules/themes/mainTheme';
+import { defaultTheme } from 'ui';
 
 export const useToggleStyles = makeStyles<Theme>(theme => ({
   component: {

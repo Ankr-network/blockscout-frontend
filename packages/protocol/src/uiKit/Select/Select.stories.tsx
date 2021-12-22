@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useState } from 'react';
 import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { Select } from './Select';
 
 const items = [

@@ -1,9 +1,10 @@
-import { Box, Container, Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { INDEX_PATH } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'uiKit/Button';
+import { Container } from 'uiKit/Container';
 import { NavLink } from 'uiKit/NavLink';
 import { usePageNotFoundStyles } from './usePageNotFoundStyles';
 

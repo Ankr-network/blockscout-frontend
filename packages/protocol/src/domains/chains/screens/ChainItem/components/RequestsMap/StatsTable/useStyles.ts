@@ -13,11 +13,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   table: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     borderRadius: 0,
   },
   cellThead: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(0, 0, 1.5),
   },
 
@@ -25,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '& $cellThead:last-child': {
       textAlign: 'right',
     },
-    borderBottom: `1px solid ${theme.palette.background.paper}`,
+    borderBottom: `1px solid ${theme.palette.background.default}`,
   },
   row: {
     '& td': { border: 0 },

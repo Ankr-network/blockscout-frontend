@@ -8,7 +8,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: SIDEBAR_WIDTH,
     position: 'fixed',
     height: '100%',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
   },
   container: {
     padding: theme.spacing(4, 2),

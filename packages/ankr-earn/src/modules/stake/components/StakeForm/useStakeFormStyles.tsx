@@ -1,37 +1,10 @@
-import { alpha, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { relative } from 'path';
 
 export const useStakeFormStyles = makeStyles<Theme>(theme => {
   return {
-    root: {
-      flexGrow: 1,
-      display: 'grid',
-      gridTemplateColumns: '100%',
-      gridTemplateRows: '100%',
-      padding: theme.spacing(8, 0, 5),
-      boxSizing: 'border-box',
-
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(5, 0),
-      },
-    },
-
-    container: {
-      '&&': {
-        [theme.breakpoints.down('sm')]: {
-          padding: theme.spacing(0, 2),
-        },
-      },
-    },
-
     box: {
-      position: 'relative',
-      padding: 0,
-      maxWidth: 700,
       margin: theme.spacing(0, 'auto', 4, 'auto'),
-      borderRadius: 18,
-      border: 'none',
     },
 
     body: {

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
-import { mainTheme } from 'ui/src/modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';

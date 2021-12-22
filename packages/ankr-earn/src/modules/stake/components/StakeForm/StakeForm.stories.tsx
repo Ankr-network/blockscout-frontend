@@ -3,12 +3,7 @@ import { StakeForm } from './StakeForm';
 
 const StakeFormStory = () => {
   return (
-    <StakeForm
-      onSubmit={() => null}
-      onCancel={() => null}
-      stakingAmountStep={0.5}
-      loading={false}
-    />
+    <StakeForm onSubmit={() => null} stakingAmountStep={0.5} loading={false} />
   );
 };
 

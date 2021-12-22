@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { DetailsBlockChip } from './DetailsBlockChip';
 
 storiesOf('domains/chains/DetailsBlockChip', module)

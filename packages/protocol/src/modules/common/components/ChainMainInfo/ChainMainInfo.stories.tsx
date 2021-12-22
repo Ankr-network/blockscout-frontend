@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'modules/themes/mainTheme';
+import { mainTheme } from 'ui';
 import { ChainMainInfo } from './ChainMainInfo';
 import chainLogo from './assets/logo-mock.svg';
 

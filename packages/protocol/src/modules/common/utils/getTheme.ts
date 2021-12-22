@@ -1,5 +1,4 @@
-import { mainTheme } from '../../themes/mainTheme';
-import { Themes } from '../../themes/types';
+import { mainTheme, Themes } from 'ui';
 
 export const getTheme = (type: Themes) => {
   switch (type) {
