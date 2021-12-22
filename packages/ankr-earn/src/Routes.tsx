@@ -5,8 +5,6 @@ import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
 import { getRoutes as getFeaturesRoutes } from 'modules/features/Routes';
 import { getRoutes as getStakeDemoRoutes } from 'modules/stake-demo/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
-import { StakeSuccessful } from 'modules/stake/components/StakeSuccessful';
-import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 
