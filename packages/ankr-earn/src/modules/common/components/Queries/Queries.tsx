@@ -2,9 +2,9 @@ import { Box } from '@material-ui/core';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
 import { ReactElement, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
+import { QueryLoading } from 'uiKit/QueryLoading';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
-import { QueryLoading } from '../QueryLoading/QueryLoading';
 
 interface ILoadingProps<T1, T2, T3, T4, T5> {
   requestActions: ((...args: any[]) => RequestAction)[];

@@ -5,7 +5,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { ReactText, useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
-import { QueryLoading } from '../QueryLoading/QueryLoading';
+import { QueryLoading } from 'uiKit/QueryLoading';
 import { useAmountFieldStyles } from './useAmountFieldStyles';
 
 const MIN_AMOUNT = 0;
