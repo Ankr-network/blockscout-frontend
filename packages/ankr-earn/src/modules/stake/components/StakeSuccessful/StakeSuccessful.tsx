@@ -3,6 +3,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { NavLink } from 'uiKit/NavLink';
 import { useStakeSuccessful as useStyles } from './useStakeSuccessful';
+import { ReactComponent as CloseSmall } from 'assets/img/close-small.svg';
 
 export interface IStakeSuccessful {
   token: AvailableTokens;
@@ -19,6 +20,9 @@ export const StakeSuccessful = ({ token, stakeHref }: IStakeSuccessful) => {
   return (
     <Container>
       <Paper className={classes.box} variant="outlined" square={false}>
+        <NavLink className={classes.closeBtn} href={dashboardHref}>
+          <CloseSmall />
+        </NavLink>
         <div className={classes.wrapper}>
           <Typography variant="h1">{t('stake.success.title')}</Typography>
           <Typography>{t('stake.success.description', { token })}</Typography>

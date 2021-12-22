@@ -103,6 +103,12 @@
       "yearly-earning": "Yearly earning",
       "staked-with-ankr": "Staked with ANKR",
       "stakers": "Stakers"
+    },
+    "success": {
+      "title": "Stake successful",
+      "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
+      "return": "Go to dashboard",
+      "add-to-wallet": "Add {token} to wallet"
     }
   },
   "stake-polygon-dashboard": {
