@@ -105,7 +105,10 @@ export abstract class Web3KeyProvider {
     return this.web3;
   }
 
-  public getWalletMeta(): IWalletMeta | undefined {
+  public getWalletMeta(): IWalletMeta {
+    if (!this.isConnected()) {
+      throw new Error('Provider must be connected');
+    }
     return this.walletMeta;
   }
 
