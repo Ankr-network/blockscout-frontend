@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_PROVIDERS = '/providers/';

@@ -17793,6 +17793,11 @@ react-router@6.1.1, react-router@^6.0.0:
   dependencies:
     history "^5.1.0"
 
+react-script-hook@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-script-hook/-/react-script-hook-1.5.0.tgz#7d7eb189c92e01cf0a8d1796113947ef8e08eed5"
+  integrity sha512-LzWXi5rxT4xz+zLwCt7nTmMuFyFs04c5m6lHCs8Ps9U8J8zHQNp+E9IcLFSFzkn4WZMiNPt2DQUVeBHLy2Ix0w==
+
 react-scripts@4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-4.0.3.tgz#b1cafed7c3fa603e7628ba0f187787964cb5d345"

@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
 
 import { useAppSelector } from 'store/useAppSelector';
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner } from 'ui';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
 

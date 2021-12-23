@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from 'store';
+import { DevOverlayFix } from 'ui';
 import { Spinner } from 'uiKit/Spinner';
 import { Routes } from './Routes';
 
@@ -15,6 +16,8 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
+            {/* todo: remove when the issue will be resolved */}
+            <DevOverlayFix />
             <ScrollToTop />
             <Routes />
             <NoSsr>

@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { persistor, store } from './store';
-import { Spinner } from './uiKit/Spinner';
+import { Spinner } from 'ui';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
