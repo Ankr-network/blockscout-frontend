@@ -2,7 +2,6 @@ import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
-import { DevOverlayFix } from 'ui';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 import { persistor, store } from './store';
@@ -14,8 +13,6 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
-            {/* todo: remove when the issue will be resolved */}
-            <DevOverlayFix />
             <ScrollToTop />
             <Routes />
           </AppBase>
