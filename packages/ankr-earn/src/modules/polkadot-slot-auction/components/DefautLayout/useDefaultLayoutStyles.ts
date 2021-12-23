@@ -2,21 +2,6 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useDefaultLayoutStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    minWidth: 375,
-    minHeight: '100vh',
-    background: theme.palette.background.default,
-  },
-
-  darkTheme: {},
-
-  main: {
-    marginBottom: 'auto',
-  },
-
   buttonArea: {
     display: 'flex',
     flexDirection: 'row',
@@ -26,7 +11,7 @@ export const useDefaultLayoutStyles = makeStyles((theme: Theme) => ({
   },
   button: {
     position: 'relative',
-    
+
     '&:active': {
       transform: 'none',
     },

@@ -1,12 +1,12 @@
 import { Theme } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { useQuery } from '@redux-requests/react';
-import classNames from 'classnames';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { t } from 'modules/i18n/utils/intl';
 import { Footer } from 'modules/layout/components/Footer';
 import { Header } from 'modules/layout/components/Header';
+import { ILayoutProps, Layout } from 'modules/layout/components/Layout';
 import { MainNavigation } from 'modules/layout/components/MainNavigation';
 import { MainNavigationMobile } from 'modules/layout/components/MainNavigationMobile';
 import React, { ReactNode, useMemo } from 'react';
@@ -16,30 +16,30 @@ import { useDialog } from 'store/dialogs/selectors';
 import { Themes } from 'ui';
 import { Button } from 'uiKit/Button';
 import { QueryLoading } from 'uiKit/QueryLoading';
-import { connect } from '../../../actions/connect';
-import { fetchPolkadotAccounts } from '../../../actions/fetchPolkadotAccounts';
-import { SelectWalletModal } from '../../../components/SelectWalletModal';
-import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
-import { initConnect } from '../../../sagas/polkadotSlotAuctionSaga';
-import { ProviderName } from '../../../utils/isProviderAvailable';
-import { WalletSwitcher } from '../WalletSwitcher/WalletSwitcher';
+import { connect } from '../../actions/connect';
+import { fetchPolkadotAccounts } from '../../actions/fetchPolkadotAccounts';
+import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
+import { WalletSwitcher } from '../../layout/components/WalletSwitcher/WalletSwitcher';
+import { initConnect } from '../../sagas/polkadotSlotAuctionSaga';
+import { ProviderName } from '../../utils/isProviderAvailable';
+import { SelectWalletModal } from '../SelectWalletModal';
 import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
-
-export interface IDefaultLayout {
-  children?: ReactNode;
-  theme?: Themes;
-  isLayoutDefaultColor?: boolean;
-  withNoReactSnap?: boolean;
-}
 
 interface IDialog {
   isCloverWalletAvailable: boolean;
   isPolkadotWalletAvailable: boolean;
 }
 
+export interface IDefaultLayout
+  extends Omit<ILayoutProps, 'headerSlot' | 'footerSlot'> {
+  children?: ReactNode;
+  theme?: Themes;
+}
+
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
+  verticalAlign = 'top',
 }: IDefaultLayout) => {
   const classes = useDefaultLayoutStyles();
   const dispatch = useDispatch();
@@ -65,7 +65,6 @@ export const DefaultLayout = ({
     type: fetchPolkadotAccounts,
   });
 
-  const isDarkTheme: boolean = theme === Themes.dark;
   const isLoading: boolean = connectLoading || fetchPolkadotAccountsLoading;
 
   const providerName: ProviderName | undefined = polkadotAccounts.find(
@@ -80,41 +79,53 @@ export const DefaultLayout = ({
     await dispatch(connect(account));
   };
 
+  const renderedHeader = (
+    <ThemeProvider theme={currentTheme}>
+      <Header
+        mainNavigationSlot={<MainNavigation />}
+        mainNavigationMobileSlot={<MainNavigationMobile />}
+        rightComponentSlot={
+          isConnected ? (
+            <WalletSwitcher
+              currentProvider={providerName}
+              currentWallet={polkadotAccount}
+              onConnect={handleConnect}
+              wallets={polkadotAccounts}
+            />
+          ) : (
+            <div className={classes.buttonArea}>
+              <Button
+                className={classes.button}
+                color="primary"
+                disabled={isLoading}
+                onClick={handleInitConnect}
+                variant="text"
+              >
+                {t('polkadot-slot-auction.button.connect')}
+
+                {isLoading && <QueryLoading size={44} />}
+              </Button>
+            </div>
+          )
+        }
+      />
+    </ThemeProvider>
+  );
+
+  const renderedFooter = (
+    <ThemeProvider theme={currentTheme}>
+      <Footer />
+    </ThemeProvider>
+  );
+
   return (
-    <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
+    <Layout
+      verticalAlign={verticalAlign}
+      headerSlot={renderedHeader}
+      footerSlot={renderedFooter}
+    >
       <ThemeProvider theme={currentTheme}>
-        <Header
-          mainNavigationSlot={<MainNavigation />}
-          mainNavigationMobileSlot={<MainNavigationMobile />}
-          rightComponentSlot={
-            isConnected ? (
-              <WalletSwitcher
-                currentProvider={providerName}
-                currentWallet={polkadotAccount}
-                onConnect={handleConnect}
-                wallets={polkadotAccounts}
-              />
-            ) : (
-              <div className={classes.buttonArea}>
-                <Button
-                  className={classes.button}
-                  color="primary"
-                  disabled={isLoading}
-                  onClick={handleInitConnect}
-                  variant="text"
-                >
-                  {t('polkadot-slot-auction.button.connect')}
-  
-                  {isLoading && <QueryLoading size={44} />}
-                </Button>
-              </div>
-            )
-          }
-        />
-
-        <main className={classes.main}>{children}</main>
-
-        <Footer />
+        {children}
 
         <SelectWalletModal
           handleConnect={handleConnect()}
@@ -126,6 +137,6 @@ export const DefaultLayout = ({
           onClose={handleClose}
         />
       </ThemeProvider>
-    </div>
+    </Layout>
   );
 };
