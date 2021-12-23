@@ -17,13 +17,13 @@ export interface IRequestStatusFailed {
   error?: string;
 }
 
+export interface IRequestStatusSuccessful {
+  type: RequestStatusType.successful;
+}
+
 export interface IRequestStatusInactive {
   type: RequestStatusType.inactive;
   message?: string;
-}
-
-export interface IRequestStatusSuccessful {
-  type: RequestStatusType.successful;
 }
 
 export enum RequestStatusType {
@@ -70,3 +70,33 @@ export function requestSuccessful(): RequestStatus {
     type: RequestStatusType.successful,
   };
 }
+
+export function isRequestInProgress(status: RequestStatus) {
+  return status.type === RequestStatusType.active;
+}
+
+export function isRequestFailed(status: RequestStatus) {
+  return status.type === RequestStatusType.failed;
+}
+
+export function isRequestSuccessful(status: RequestStatus) {
+  return status.type === RequestStatusType.successful;
+}
+
+export function isRequestInactive(status: RequestStatus) {
+  return status.type === RequestStatusType.inactive;
+}
+
+export function getRequestError(...statuses: RequestStatus[]) {
+  const status = statuses.find(
+    status => status.type === RequestStatusType.failed,
+  );
+
+  if (status && status.type === RequestStatusType.failed) {
+    return status.error ? status.error : 'Error';
+  }
+
+  return undefined;
+}
+
+export const getRequestsError = getRequestError;

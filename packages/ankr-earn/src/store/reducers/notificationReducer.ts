@@ -1,7 +1,7 @@
 import { SnackbarProps } from '@material-ui/core/Snackbar';
 import { Color } from '@material-ui/lab';
+import { createReducer } from 'modules/common/utils/redux/createReducer';
 import { NotificationActionsTypes } from '../actions/NotificationActions';
-import { createReducer } from '../utils/createReducer';
 
 export interface INotificationProps extends SnackbarProps {
   severity: Color;

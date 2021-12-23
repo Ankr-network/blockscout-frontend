@@ -6,6 +6,8 @@ export const PARACHAIN_BONDING_PATH = '/parachain-liquid-bonding';
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
+export const DECIMAL_PLACES = 4;
+export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
@@ -29,6 +31,9 @@ export const SOCIAL_LINK = {
   telegramAnnouncements: 'https://t.me/anrknetworkann',
   twitter: 'https://twitter.com/ankr',
 };
+
+export const ANKR_1INCH_BUY_LINK =
+  'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
   liquidityMining: true,

@@ -1,9 +1,9 @@
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import { alpha, lighten } from '@material-ui/core';
 import { limitConcurrency } from 'limit-concurrency-decorator';
+import { PALETTE } from 'ui';
 import Web3 from 'web3';
 import Web3Modal, { ICoreOptions } from 'web3modal';
-import { PALETTE } from '../themes/mainTheme';
 import { providerDefaultOptions } from './provider';
 
 export class Web3ModalKeyProvider extends Web3KeyProvider {

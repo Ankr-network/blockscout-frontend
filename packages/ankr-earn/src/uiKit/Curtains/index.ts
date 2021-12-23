@@ -1,1 +1,0 @@
-export { Curtains } from './Curtains';

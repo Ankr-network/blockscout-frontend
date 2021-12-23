@@ -3,7 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useMyRewardsStyles = makeStyles<Theme>(theme => ({
   button: {
+    position: 'relative',
     padding: theme.spacing(0, 5),
+    
+    '& svg': {
+      position: 'absolute',
+    },
   },
   img: {
     width: theme.spacing(4),

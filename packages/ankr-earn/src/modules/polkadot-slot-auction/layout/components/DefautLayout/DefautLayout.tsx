@@ -9,11 +9,11 @@ import { Footer } from 'modules/layout/components/Footer';
 import { Header } from 'modules/layout/components/Header';
 import { MainNavigation } from 'modules/layout/components/MainNavigation';
 import { MainNavigationMobile } from 'modules/layout/components/MainNavigationMobile';
-import { Themes } from 'modules/themes/types';
 import React, { ReactNode, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { DIALOG_POLKADOT_EXTENSION } from 'store/dialogs/actions';
 import { useDialog } from 'store/dialogs/selectors';
+import { Themes } from 'ui';
 import { Button } from 'uiKit/Button';
 import { QueryLoading } from 'uiKit/QueryLoading';
 import { connect } from '../../../actions/connect';
@@ -104,9 +104,9 @@ export const DefaultLayout = ({
                   variant="text"
                 >
                   {t('polkadot-slot-auction.button.connect')}
+  
+                  {isLoading && <QueryLoading size={44} />}
                 </Button>
-
-                {isLoading && <QueryLoading size={40} />}
               </div>
             )
           }

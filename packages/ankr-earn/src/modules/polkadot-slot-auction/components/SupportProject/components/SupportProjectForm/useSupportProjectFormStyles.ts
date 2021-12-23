@@ -101,10 +101,12 @@ export const useSupportProjectFormStyles = makeStyles((theme: Theme) => ({
     fontSize: 14,
   },
   button: {
+    position: 'relative',
     width: '100%',
     height: 60,
 
     '& svg': {
+      position: 'absolute',
       width: 60,
       height: 60,
     },

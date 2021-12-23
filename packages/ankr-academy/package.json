@@ -1,0 +1,83 @@
+{
+  "name": "ankr-academy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:stage": "env-cmd -f .env.stage react-app-rewired start",
+    "start:prod": "env-cmd -f .env.prod react-app-rewired start",
+    "build:stage": "env-cmd -f .env.stage react-app-rewired build",
+    "build:prod": "env-cmd -f .env.prod react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "format": "lint-staged",
+    "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
+    "check-circular-dependency": "madge --circular src",
+    "postbuild": "react-snap",
+    "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done"
+  },
+  "homepage": "/academy/",
+  "dependencies": {
+    "@loadable/component": "^5.15.0",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/pickers": "^3.3.10",
+    "@redux-requests/axios": "^1.1.1",
+    "@redux-requests/core": "^1.6.2",
+    "@redux-requests/promise": "^1.0.2",
+    "@redux-requests/react": "^1.7.0",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@sentry/react": "^6.16.1",
+    "@sentry/tracing": "^6.16.1",
+    "@testing-library/jest-dom": "^5.16.1",
+    "axios": "^0.24.0",
+    "bignumber.js": "^9.0.1",
+    "classnames": "^2.3.1",
+    "connected-react-router": "^6.9.2",
+    "history": "4.10.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-intl-universal": "^2.4.8",
+    "react-redux": "^7.2.3",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-uid": "^2.3.1",
+    "redux-persist": "^6.0.0",
+    "redux-smart-actions": "^1.0.0",
+    "typescript": "^4.1.2",
+    "web-vitals": "^2.1.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "babel-loader": "8.1.0",
+    "env-cmd": "^10.1.0",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1",
+    "react-app-rewired": "^2.1.8"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

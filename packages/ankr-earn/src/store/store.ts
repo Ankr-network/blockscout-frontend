@@ -3,20 +3,18 @@ import { handleRequests, RequestAction } from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {
-  connectRouter,
-  routerMiddleware,
-  RouterState,
-} from 'connected-react-router';
+import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
+import { configFromEnv } from 'modules/api/config';
+import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { I18nSlice, i18nSlice } from 'modules/i18n/i18nSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistState } from 'redux-persist/es/types';
 import createSagaMiddleware from 'redux-saga';
-import { getErrorMessage } from 'uiKit/QueryError';
 import { NotificationActions } from './actions/NotificationActions';
 import { dialog } from './dialogs/reducer';
 import { IDialogState } from './dialogs/selectors';
+import { ISidecars } from './reducers';
 import { notificationReducer } from './reducers/notificationReducer';
 import { rootSagas } from './sagas';
 import { i18nPersistConfig } from './webStorageConfigs';
@@ -27,8 +25,15 @@ export interface IStoreState {
     _persist: PersistState;
   };
   notification: any;
-  requests: any;
+  requests: {
+    queries: {
+      FETCH_CURRENT_PROVIDER_SIDECARS: {
+        data: ISidecars;
+      };
+    };
+  };
   router: RouterState<unknown>;
+  // user: IUserState; // @TODO Add a logic for this
 }
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
@@ -39,7 +44,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
     }),
     axios: createAxiosDriver(
       axios.create({
-        baseURL: process.env.REACT_APP_API_BASE || '',
+        baseURL: configFromEnv().gatewayConfig.baseUrl,
       }),
     ),
   },
@@ -64,7 +69,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
         }),
       );
     }
-
+    
     throw error;
   },
 });

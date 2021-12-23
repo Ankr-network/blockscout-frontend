@@ -49,6 +49,7 @@ export const useTokenFormStyles = makeStyles<Theme>(
     amountInputBase: {
       borderRadius: '12px 0 0 12px',
       borderRightColor: alpha('#000', 0),
+      height: 60,
     },
 
     amountInput: {

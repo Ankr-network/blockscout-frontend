@@ -29,3 +29,11 @@ export const openModalAction = (name: KnownModal, context?: any) => ({
 });
 
 export const closeModalAction = () => ({ type: CLOSE_MODAL_ACTION });
+
+export const openPresentationModal = () => openModalAction(DIALOG_PRESENTATION);
+
+export const openGovernanceRulesOfProposalModal = () =>
+  openModalAction(DIALOG_GOVERNANCE_RULES_OF_PROPOSAL);
+
+export const openGovernanceProjectCreatedModal = () =>
+  openModalAction(DIALOG_GOVERNANCE_PROJECT_CREATED);

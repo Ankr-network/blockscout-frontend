@@ -18,7 +18,6 @@ export const useDefaultLayoutStyles = makeStyles((theme: Theme) => ({
   },
 
   buttonArea: {
-    position: 'relative',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -26,8 +25,13 @@ export const useDefaultLayoutStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, 0, 0, 3),
   },
   button: {
+    position: 'relative',
+    
     '&:active': {
       transform: 'none',
+    },
+    '& svg': {
+      position: 'absolute',
     },
   },
 }));

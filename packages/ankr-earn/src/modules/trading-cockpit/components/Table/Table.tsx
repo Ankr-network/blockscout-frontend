@@ -10,7 +10,7 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { WithUseStyles } from 'modules/themes/types';
+import { WithUseStyles } from 'ui';
 import { ReactNode, ReactText, useMemo } from 'react';
 import { uid } from 'react-uid';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';

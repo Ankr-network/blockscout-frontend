@@ -1,5 +1,6 @@
-import { Box, Container } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { Container } from 'uiKit/Container';
 import { Header } from '.';
 
 export default {

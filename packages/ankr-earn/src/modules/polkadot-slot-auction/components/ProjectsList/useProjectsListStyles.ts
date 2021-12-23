@@ -25,7 +25,12 @@ export const useProjectsListStyles = makeStyles<Theme>(
     },
 
     button: {
+      position: 'relative',
       padding: theme.spacing(0, 5),
+      
+      '& svg': {
+        position: 'absolute',
+      }
     },
     plus: {
       margin: theme.spacing('1px', 0, 0, 1),

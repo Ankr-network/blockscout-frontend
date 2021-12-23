@@ -6,22 +6,21 @@ import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
 import { isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
+import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { useState } from 'react';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
-const EMPTY_PATH = '#';
-
 export const MainNavigation = () => {
   const items = [
     {
       label: t('main-navigation.stake'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: FeaturesRoutes.main.generatePath(), // TODO: add proper route
     },
     {
       label: t('main-navigation.dashboard'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: '/dashboard', // TODO: add proper route
     },
     {
       label: t('main-navigation.parachain'),
@@ -40,11 +39,11 @@ export const MainNavigation = () => {
   const moreOptions = [
     {
       label: t('main-navigation.docs'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: '/docs', // TODO: add proper route
     },
     {
       label: t('main-navigation.litepaper'),
-      href: EMPTY_PATH, // TODO: add proper route
+      href: 'litepaper', // TODO: add proper route
     },
   ];
 

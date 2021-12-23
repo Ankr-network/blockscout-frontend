@@ -1,9 +1,9 @@
 import loadable, { LoadableComponent } from '@loadable/component';
+import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { PARACHAIN_BONDING_PATH as ROOT } from 'modules/common/const';
 import React from 'react';
 import { generatePath, useParams } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
-import { PageNotFound } from 'uiKit/PageNotFound';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { createWithLayout } from './layout/utils/createWithLayout';

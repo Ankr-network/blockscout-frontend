@@ -6,16 +6,12 @@ import { Transaction } from 'ethereumjs-tx';
 import { EventEmitter } from 'events';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { sleep } from 'modules/common/utils/sleep';
-import { PALETTE } from 'modules/themes/mainTheme';
+import { PALETTE } from 'ui';
 import Web3 from 'web3';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
-import Web3Modal, {
-  getProviderInfo,
-  ICoreOptions,
-  IProviderOptions,
-} from 'web3modal';
+import Web3Modal, { getProviderInfo, ICoreOptions, IProviderOptions } from 'web3modal';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';

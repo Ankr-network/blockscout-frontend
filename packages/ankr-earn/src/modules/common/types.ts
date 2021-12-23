@@ -7,6 +7,7 @@ export type Milliseconds = number;
 export type Megabytes = number;
 export type Percentage = number;
 export type ETH = number;
+export declare type Web3Address = string;
 
 export enum Env {
   Develop = 'develop',
@@ -41,4 +42,15 @@ export enum Provider {
   metamask = 'metamask',
   wallet = 'wallet',
   binance = 'binance',
+}
+
+export enum Blockchain {
+  ethereum = 'ethereum',
+  binance = 'binance',
+  avalanche = 'avalanche',
+}
+
+export enum Locale {
+  en = 'en-US',
+  zh = 'zh-CN',
 }
