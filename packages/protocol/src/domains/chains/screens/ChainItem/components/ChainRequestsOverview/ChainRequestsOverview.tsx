@@ -6,7 +6,7 @@ import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainRequestsChart } from '../ChainRequestsChart';
 import { useStyles } from './useStyles';
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner } from 'ui';
 
 interface ChainRequestsOverviewProps {
   className?: string;

@@ -3,9 +3,8 @@ import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner, mainTheme } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { mainTheme } from 'ui';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';
 

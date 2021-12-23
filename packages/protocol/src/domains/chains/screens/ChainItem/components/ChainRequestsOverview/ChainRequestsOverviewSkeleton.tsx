@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner } from 'ui';
 import { useStyles } from './useStyles';
 
 interface IChainRequestsOverviewSkeletonProps {

@@ -33,7 +33,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  onError: (error: Error, action, store: Store) => {
+  onError: (error: Error, action) => {
     if (!action.meta?.suppressErrorNotification) {
       // TODO: show notification
     }

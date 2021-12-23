@@ -3,7 +3,7 @@ import { generatePath, Route, useParams } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { Spinner } from 'uiKit/Spinner';
+import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_CHAINS = '/public/';
