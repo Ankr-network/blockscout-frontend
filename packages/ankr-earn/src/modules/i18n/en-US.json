@@ -47,7 +47,8 @@
     "amaticb": "aMATICb",
     "token-value": "{value, number} {token}",
     "matic-value": "{value} aMATICb",
-    "~polygon": "{value} aMATICb"
+    "~polygon": "{value} aMATICb",
+    "ankr-value": "{value} ANKR"
   },
   "not-found": {
     "title": "Page not found",
@@ -152,5 +153,12 @@
       "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
       "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
     }
+  },
+  "unstake-dialog": {
+    "title": "How many {token} do you want to redeem?",
+    "unstake-fee": "Unstake Fee",
+    "btn": "Unstake",
+    "buy-ankr": "Buy ANKR",
+    "amount": "{value}%"
   }
 }

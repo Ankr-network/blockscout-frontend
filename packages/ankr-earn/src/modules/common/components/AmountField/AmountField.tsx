@@ -20,6 +20,7 @@ interface IAmountFieldProps {
   tokenName?: string;
   inputClassName?: string;
   minAmount?: number;
+  showBalance?: boolean;
 }
 
 export const AmountField = ({
@@ -32,6 +33,7 @@ export const AmountField = ({
   label = t('stake-avax.convert-dialog.amount'),
   inputClassName,
   minAmount = MIN_AMOUNT,
+  showBalance = true,
 }: IAmountFieldProps) => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
@@ -79,7 +81,7 @@ export const AmountField = ({
 
   return (
     <>
-      {(withBalance || isBalanceLoading) && (
+      {showBalance && (withBalance || isBalanceLoading) && (
         <Typography
           variant="body2"
           className={classes.balance}
