@@ -19,10 +19,10 @@ import { QueryLoading } from 'uiKit/QueryLoading';
 import { connect } from '../../actions/connect';
 import { fetchPolkadotAccounts } from '../../actions/fetchPolkadotAccounts';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { WalletSwitcher } from '../../layout/components/WalletSwitcher/WalletSwitcher';
 import { initConnect } from '../../sagas/polkadotSlotAuctionSaga';
 import { ProviderName } from '../../utils/isProviderAvailable';
 import { SelectWalletModal } from '../SelectWalletModal';
+import { WalletSwitcher } from '../WalletSwitcher';
 import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
 
 interface IDialog {

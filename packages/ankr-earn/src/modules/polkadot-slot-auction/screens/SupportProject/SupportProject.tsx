@@ -29,9 +29,8 @@ export const SupportProject = () => {
 
   const { isConnected } = useSlotAuctionSdk();
 
-  const ParachainBondsCrowdloansPath = RoutesConfig.crowdloans.generatePath(
-    network,
-  );
+  const ParachainBondsCrowdloansPath =
+    RoutesConfig.crowdloans.generatePath(network);
   const loanId = Number.parseInt(id);
 
   const goToParachainBondsCrowdloans = () => {

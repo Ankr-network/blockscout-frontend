@@ -8,7 +8,7 @@ import { Address } from 'modules/api/provider';
 import { getShortStr } from 'modules/common/utils/getShortStr';
 import React, { useState } from 'react';
 import { Button } from 'uiKit/Button';
-import { ProviderName } from '../../../utils/isProviderAvailable';
+import { ProviderName } from '../../utils/isProviderAvailable';
 import { ReactComponent as CloverWalletIcon } from './assets/clover.svg';
 import { ReactComponent as PolkadotWalletIcon } from './assets/polkadot.svg';
 import { useWalletSwitcherStyles } from './useWalletSwitcherStyles';
