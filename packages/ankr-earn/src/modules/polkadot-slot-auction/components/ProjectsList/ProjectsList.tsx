@@ -2,6 +2,14 @@ import { TCrowdloanStatus } from '@ankr.com/stakefi-polkadot/dist/types/entity';
 import { Box } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import {
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from 'modules/common/components/TableComponents';
 import { DEFAULT_FIXED, ZERO_ADDR } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
@@ -24,16 +32,11 @@ import {
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { RoutesConfig } from '../../Routes';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
-import {
-  Table,
-  TableBody,
-  TableBodyCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from '../Table';
-import { CaptionType } from '../Table/types';
 import { useProjectsListStyles } from './useProjectsListStyles';
+
+type CaptionType = {
+  label: string;
+};
 
 export const ProjectsList = () => {
   const classes = useProjectsListStyles();
@@ -80,17 +83,15 @@ export const ProjectsList = () => {
     return null;
   };
 
-  const handleContributeBtn = (
-    loanId: number,
-    projectName: string,
-  ) => (): void =>
-    history.push(
-      RoutesConfig.lend.generatePath(
-        networkType.toLowerCase(),
-        loanId,
-        projectName,
-      ),
-    );
+  const handleContributeBtn =
+    (loanId: number, projectName: string) => (): void =>
+      history.push(
+        RoutesConfig.lend.generatePath(
+          networkType.toLowerCase(),
+          loanId,
+          projectName,
+        ),
+      );
 
   const handleClaimBtn = (loanId: number) => async (): Promise<void> => {
     setLoading(true);
@@ -118,17 +119,12 @@ export const ProjectsList = () => {
 
       {error === null && !!crowdloans?.length && (
         <Table
-          customCell="3fr 3fr 3fr 3fr"
+          customCell="0.8fr 0.8fr 1fr 250px"
           columnsCount={captions.length}
-          paddingCollapse
         >
           <TableHead>
             {captions.map(cell => (
-              <TableHeadCell
-                key={uid(cell)}
-                label={cell.label}
-                align={cell.align}
-              />
+              <TableHeadCell key={uid(cell)} label={cell.label} />
             ))}
           </TableHead>
           <TableBody>
@@ -201,6 +197,7 @@ export const ProjectsList = () => {
                         disabled={isDisabledContributeBtn}
                         onClick={handleContributeBtn(loanId, projectName)}
                         variant="outlined"
+                        fullWidth
                       >
                         {!providedBalance.isZero() ? (
                           <>
@@ -228,6 +225,7 @@ export const ProjectsList = () => {
                         disabled={isDisabledClaimBtn}
                         onClick={handleClaimBtn(loanId)}
                         variant="outlined"
+                        fullWidth
                       >
                         {balanceItem?.claimable instanceof BigNumber &&
                         !balanceItem.claimable.isZero()

@@ -1,5 +1,13 @@
 import { Box } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import {
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from 'modules/common/components/TableComponents';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -16,16 +24,11 @@ import {
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
-import {
-  Table,
-  TableBody,
-  TableBodyCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from '../Table';
-import { CaptionType } from '../Table/types';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
+
+type CaptionType = {
+  label: string;
+};
 
 /**
  *  @TODO Add data for skipped columns with a valid logic for end users
@@ -92,27 +95,20 @@ export const MyRewards = () => {
 
       {error === null && !!crowdloans?.length && (
         <Table
+          // todo: update columns sizes
           customCell="2fr 2fr 1fr 2fr 2fr 1fr 2fr"
           columnsCount={captions.length}
-          paddingCollapse
         >
           <TableHead>
             {captions.map(cell => (
-              <TableHeadCell
-                key={uid(cell)}
-                label={cell.label}
-                align={cell.align}
-              />
+              <TableHeadCell key={uid(cell)} label={cell.label} />
             ))}
           </TableHead>
           <TableBody>
             {(crowdloans as IFetchMyRewardCrowdloansItem[]).map(
               (item: IFetchMyRewardCrowdloansItem): JSX.Element => {
-                const {
-                  claimableRewardsAmount,
-                  loanId,
-                  rewardTokenSymbol,
-                } = item;
+                const { claimableRewardsAmount, loanId, rewardTokenSymbol } =
+                  item;
 
                 const isDisabledClaimBtn: boolean =
                   loading || !claimableRewardsAmount.isGreaterThan(0);
@@ -167,6 +163,7 @@ export const MyRewards = () => {
                         disabled={isDisabledClaimBtn}
                         onClick={handleClaim(loanId)}
                         variant="outlined"
+                        fullWidth
                       >
                         {t('polkadot-slot-auction.button.claim-rewards')}
 
