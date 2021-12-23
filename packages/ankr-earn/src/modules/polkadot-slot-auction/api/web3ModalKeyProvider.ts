@@ -4,7 +4,7 @@ import { limitConcurrency } from 'limit-concurrency-decorator';
 import { PALETTE } from 'ui';
 import Web3 from 'web3';
 import Web3Modal, { ICoreOptions } from 'web3modal';
-import { providerDefaultOptions } from './provider';
+import { providerDefaultOptions } from './providerDefaultOptions';
 
 export class Web3ModalKeyProvider extends Web3KeyProvider {
   @limitConcurrency(1)

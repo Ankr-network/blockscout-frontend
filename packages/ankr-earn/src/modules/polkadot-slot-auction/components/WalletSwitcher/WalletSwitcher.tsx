@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
-import { Address } from 'modules/api/provider';
+import { Web3Address } from 'modules/common/types';
 import { getShortStr } from 'modules/common/utils/getShortStr';
 import React, { useState } from 'react';
 import { Button } from 'uiKit/Button';
@@ -19,7 +19,7 @@ const ICONS = {
 };
 
 interface WalletSwitcherProps {
-  wallets: { providerName: ProviderName; address: Address }[];
+  wallets: { providerName: ProviderName; address: Web3Address }[];
   currentWallet: string;
   onConnect: (account: string) => () => void;
   currentProvider?: ProviderName;

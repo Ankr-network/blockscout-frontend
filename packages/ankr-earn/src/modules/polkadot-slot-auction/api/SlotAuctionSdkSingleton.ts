@@ -1,8 +1,8 @@
 import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
-import { Web3ModalKeyProvider } from 'modules/api/web3ModalKeyProvider';
 import { isMainnet } from 'modules/common/const';
 import { BlockchainNetworkId } from 'modules/common/types';
+import { Web3ModalKeyProvider } from './web3ModalKeyProvider';
 
 export class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;

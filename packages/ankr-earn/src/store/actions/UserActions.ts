@@ -1,12 +1,16 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { BlockchainNetworkId } from 'modules/common/types';
 import { Store } from 'redux';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 //import { StkrSdk } from 'modules/api';
-import { IConnectResult } from 'modules/api/provider';
 import { IStoreState } from 'store/store';
 import { IUserInfo } from '../apiMappers/userApi';
 //import { BridgeSdk } from 'modules/bridge-sdk';
+
+interface IConnectResult {
+  chainId: BlockchainNetworkId;
+}
 
 export const UserActionTypes = {
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
