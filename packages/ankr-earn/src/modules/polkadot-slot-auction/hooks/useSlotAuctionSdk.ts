@@ -42,6 +42,6 @@ export const useSlotAuctionSdk = () => {
     slotAuctionSdk,
     isConnected,
     polkadotAccount,
-    networkType: networkType ?? network.toUpperCase(),
+    networkType: networkType ?? network?.toUpperCase() ?? '',
   };
 };

@@ -36,15 +36,15 @@ export const useTableBodyCellStyles = makeStyles<
   },
 
   bodyCell: {
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(2.25, 1.5, 2.25, 1.5),
     fontSize: 16,
     lineHeight: 1.3,
     color: theme.palette.text.primary,
 
     paddingTop: props =>
-      props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
+      props.dense ? theme.spacing(1.5) : theme.spacing(2.25),
     paddingBottom: props =>
-      props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
+      props.dense ? theme.spacing(1.5) : theme.spacing(2.25),
 
     minHeight: props => (props.dense ? 0 : theme.spacing(11)),
   },

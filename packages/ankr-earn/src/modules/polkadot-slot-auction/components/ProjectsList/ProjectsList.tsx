@@ -196,7 +196,8 @@ export const ProjectsList = () => {
                   <TableBodyCell align="right">
                     {isContributeBtn && (
                       <Button
-                        className={classes.buttonContribute}
+                        className={classes.button}
+                        color="default"
                         disabled={isDisabledContributeBtn}
                         onClick={handleContributeBtn(loanId, projectName)}
                         variant="outlined"
@@ -221,28 +222,27 @@ export const ProjectsList = () => {
                     )}
 
                     {isClaimBtn && (
-                      <Box display="flex" justifyContent="flex-end">
-                        <Button
-                          className={classes.buttonClaim}
-                          color="default"
-                          disabled={isDisabledClaimBtn}
-                          onClick={handleClaimBtn(loanId)}
-                        >
-                          {balanceItem?.claimable instanceof BigNumber &&
-                          !balanceItem.claimable.isZero()
-                            ? t('polkadot-slot-auction.button.claim-tokens', {
-                                value: balanceItem.claimable
-                                  .decimalPlaces(DEFAULT_FIXED)
-                                  .toString(10),
-                                currency: bondTokenSymbol,
-                              })
-                            : t('polkadot-slot-auction.button.claim', {
-                                currency: bondTokenSymbol,
-                              })}
-                        </Button>
+                      <Button
+                        className={classes.button}
+                        color="default"
+                        disabled={isDisabledClaimBtn}
+                        onClick={handleClaimBtn(loanId)}
+                        variant="outlined"
+                      >
+                        {balanceItem?.claimable instanceof BigNumber &&
+                        !balanceItem.claimable.isZero()
+                          ? t('polkadot-slot-auction.button.claim-tokens', {
+                              value: balanceItem.claimable
+                                .decimalPlaces(DEFAULT_FIXED)
+                                .toString(10),
+                              currency: bondTokenSymbol,
+                            })
+                          : t('polkadot-slot-auction.button.claim', {
+                              currency: bondTokenSymbol,
+                            })}
 
                         {loading && <QueryLoading size={40} />}
-                      </Box>
+                      </Button>
                     )}
                   </TableBodyCell>
                 </TableRow>

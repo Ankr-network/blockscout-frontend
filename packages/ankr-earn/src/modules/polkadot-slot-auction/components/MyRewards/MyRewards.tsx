@@ -160,19 +160,18 @@ export const MyRewards = () => {
                       })}
                     </TableBodyCell>
 
-                    <TableBodyCell>
-                      <Box display="flex" justifyContent="flex-end">
-                        <Button
-                          className={classes.button}
-                          disabled={isDisabledClaimBtn}
-                          onClick={handleClaim(loanId)}
-                          variant="outlined"
-                        >
-                          {t('polkadot-slot-auction.button.claim-rewards')}
-                        </Button>
+                    <TableBodyCell align="right">
+                      <Button
+                        className={classes.button}
+                        color="default"
+                        disabled={isDisabledClaimBtn}
+                        onClick={handleClaim(loanId)}
+                        variant="outlined"
+                      >
+                        {t('polkadot-slot-auction.button.claim-rewards')}
 
                         {loading && <QueryLoading size={40} />}
-                      </Box>
+                      </Button>
                     </TableBodyCell>
                   </TableRow>
                 );

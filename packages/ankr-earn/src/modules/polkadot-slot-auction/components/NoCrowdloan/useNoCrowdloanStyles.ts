@@ -17,7 +17,7 @@ export const useNoCrowdloanStyles = makeStyles<Theme>((theme: Theme) => ({
     alignItems: 'center',
     width: 720,
     padding: theme.spacing(6, 18, 6, 18),
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.common.white,
     border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
     borderRadius: 24,
   },

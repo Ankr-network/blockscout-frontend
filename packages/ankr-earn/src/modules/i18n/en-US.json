@@ -72,15 +72,13 @@
     }
   },
   "polkadot-slot-auction": {
-    "title": "Parachain Crowdloan Marketplace",
     "button": {
       "claim": "Claim {currency}",
-      "claim-rewards": "Claim Rewards",
+      "claim-rewards": "Claim",
       "claim-tokens": "Claim {value} {currency}",
-      "connect": "Connect Polkadot Wallet",
+      "connect": "Connect Wallet",
       "contribute": "Contribute {currency}",
       "contribute-form": "Contribute",
-      "max": "(Max)",
       "provided": "Provided {value} {currency}"
     },
     "column": {
@@ -129,7 +127,8 @@
     },
     "support-project-form": {
       "title": "Support {value} project",
-      "available-balance": "Available balance: {value} {currency}",
+      "available-balance-txt": "Available balance:",
+      "available-balance-val": "{value} {currency}",
       "daily-reward": "Daily {rewardTokenSymbol} Reward",
       "disclaimer": "a{currency}p tokens can be claimed on Ethereum if {project} wins a Polkadot Parachain slot auction. a{currency}p will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
       "initial-reward": "Expected Initial airdrop {rewardTokenSymbol} Reward",

@@ -1,19 +1,25 @@
-import { alpha } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 
-export const useSupportProjectFormStyles = makeStyles(theme => ({
+export const useSupportProjectFormStyles = makeStyles((theme: Theme) => ({
+  inputArea: {},
   inputContainer: {
-    textAlign: 'right',
+    margin: theme.spacing(2, 0, 2.25, 0),
   },
   inputFieldArea: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.default,
+    borderRadius: 12,
   },
   inputField: {
+    width: '100%',
+    height: 'auto',
+
     '& > div': {
+      backgroundColor: 'inherit !important',
       border: 'none',
     },
     '& > p': {
@@ -21,70 +27,86 @@ export const useSupportProjectFormStyles = makeStyles(theme => ({
     },
 
     '& input': {
-      width: 190,
-      padding: 0,
+      width: '100%',
+      padding: '0 0 0 20px',
       backgroundColor: 'inherit',
-      fontSize: 38,
-      fontWeight: 700,
-      textAlign: 'right',
+      fontSize: 16,
     },
   },
+  inputFieldLabelArea: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 'auto',
+    height: theme.spacing(4),
+    padding: theme.spacing(0, 3, 0, 2),
+    fontSize: 16,
+    fontWeight: 600,
+    borderLeft: `1px solid ${alpha(theme.palette.text.primary, 0.1)}`,
+  },
   inputFieldLabel: {
-    margin: theme.spacing(0, 0, 0, 2),
-    fontSize: 22,
-    fontWeight: 700,
+    margin: '6px 0 0 0',
   },
   inputCurrBalanceArea: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    margin: '10px 0 10px 0',
+    margin: theme.spacing(2.25, 0, 1, 0),
     fontSize: 14,
   },
-  inputCurrBalance: {},
-  inputCurrBalanceMaxBtn: {
-    margin: '0 0 0 4px',
+  inputCurrBalanceText: {
+    color: alpha(theme.palette.text.primary, 0.6),
+  },
+  inputCurrBalanceVal: {
+    margin: theme.spacing(0, 0, 0, 0.5),
+    color: theme.palette.primary.main,
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: theme.palette.primary.dark,
+    },
   },
   inputCurrBalanceTooltip: {
-    margin: '0 0 0 7px',
-    padding: '0 0 0 1px',
+    margin: '-2px 0 0 4px',
+    padding: 0,
+    border: 'none',
+
+    '&:active': {
+      transform: 'none',
+    },
   },
   inputErr: {
     color: theme.palette.error.main,
   },
 
-  line: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingBottom: 31,
-  },
   footer: {
-    borderTop: '1px solid rgba(255,255,255,0.2)',
-    margin: '42px -160px 0',
-    padding: '50px 160px 0',
     display: 'flex',
-  },
-  disclaimerText: {
-    marginLeft: theme.spacing(3),
-    fontSize: 14,
+    flexDirection: 'column',
+    padding: theme.spacing(4, 0, 0, 0),
+    borderTop: '1px solid #e0e6ef',
   },
   disclaimerInput: {
-    flex: 1,
+    margin: theme.spacing(0, 0, 5.5, 1.125),
+
+    '& > div > p': {
+      margin: '8px 0 0 -9px',
+      fontSize: 14,
+    },
+  },
+  disclaimerText: {
+    marginLeft: 13,
+    color: alpha(theme.palette.text.primary, 0.6),
+    fontSize: 14,
   },
   button: {
-    width: 216,
-    boxSizing: 'content-box',
-    marginLeft: 50,
-  },
-  buttonContainer: {
-    display: 'flex',
-    position: 'relative',
+    width: '100%',
+    height: 60,
 
     '& svg': {
-      position: 'absolute',
-      top: 5,
-      right: -60,
+      width: 60,
+      height: 60,
     },
   },
 }));

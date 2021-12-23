@@ -40,9 +40,9 @@ export const useTableHeadCellStyles = makeStyles<
     headCell: {
       padding: theme.spacing(1.5),
       boxSizing: 'border-box',
-      fontSize: 12,
+      fontSize: 14,
       lineHeight: 1.5,
-      color: theme.palette.text.secondary,
+      color: '#808692',
     },
 
     centerCell: {},

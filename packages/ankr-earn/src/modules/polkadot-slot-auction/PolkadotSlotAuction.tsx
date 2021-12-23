@@ -1,8 +1,9 @@
 import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { Box, Typography } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
+import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { uid } from 'react-uid';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoading } from 'uiKit/QueryLoading';
@@ -13,6 +14,7 @@ import { GuardComponent } from './components/GuardComponent';
 import { MyRewards } from './components/MyRewards';
 import { ProjectsList } from './components/ProjectsList';
 import { useSlotAuctionSdk } from './hooks/useSlotAuctionSdk';
+import { NetworkSwitcher } from './layout/components/NetworkSwitcher/NetworkSwitcher';
 import { usePolkadotSlotAuctionStyles } from './usePolkadotSlotAuctionStyles';
 
 export const PolkadotSlotAuction = () => {
@@ -42,24 +44,35 @@ export const PolkadotSlotAuction = () => {
     >
       {() => (
         <Box width={1280} className={classes.wrapper} px={4}>
-          <Box display="flex">
-            {(tabs as string[]).map(tab => (
-              <Box
-                key={uid(tab)}
-                onClick={handleChangeTab(tab)}
-                mr={4}
-                mb={3.5}
-              >
-                <Typography
-                  variant="h3"
-                  className={classes.tab}
-                  color={tab === currentTab ? 'initial' : 'secondary'}
-                >
-                  {tab}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+          <div className={classes.header}>
+            <div className={classes.tabs}>
+              {tabs.map(
+                (tab: string): ReactNode => {
+                  const isActiveTab: boolean = tab === currentTab;
+
+                  return (
+                    <div
+                      className={classes.tabArea}
+                      key={uid(tab)}
+                      onClick={handleChangeTab(tab)}
+                    >
+                      <Typography
+                        className={classNames(classes.tab, {
+                          [classes.tabActive]: isActiveTab,
+                        })}
+                        color={isActiveTab ? 'initial' : 'textSecondary'}
+                        variant="h3"
+                      >
+                        {tab}
+                      </Typography>
+                    </div>
+                  );
+                },
+              )}
+            </div>
+
+            <NetworkSwitcher classRoot={classes.networkSwitcher} />
+          </div>
 
           {currentTab === myRewardsText ? (
             <GuardComponent

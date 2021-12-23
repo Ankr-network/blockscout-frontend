@@ -54,14 +54,16 @@ export const SupportProject = () => {
     <div className={classes.container}>
       <IconButton className={classes.close}>
         <NavLink href={ParachainBondsCrowdloansPath}>
-          <CancelIcon size="xmd" />
+          <CancelIcon size="md" />
         </NavLink>
       </IconButton>
-      <Typography variant="h2" className={classes.title}>
+
+      <Typography variant="h3" className={classes.title}>
         {t('polkadot-slot-auction.support-project-form.title', {
           value: crowdloan.projectName,
         })}
       </Typography>
+
       <SupportProjectForm
         crowdloan={crowdloan}
         goToParachainBondsCrowdloans={goToParachainBondsCrowdloans}

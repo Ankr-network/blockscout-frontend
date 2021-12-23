@@ -73,11 +73,11 @@ export const SelectWallet = ({
     <Box pt={2} textAlign="center">
       <Box mb={7.5} ml="auto" mr="auto" maxWidth={500}>
         {isCloverWalletAvailable || isPolkadotWalletAvailable ? (
-          <Typography variant="h4">
+          <Typography variant="h3">
             {t('polkadot-slot-auction.select-wallet.title-select')}
           </Typography>
         ) : (
-          <Typography variant="h4">
+          <Typography variant="h3">
             {t('polkadot-slot-auction.select-wallet.title-install')}
           </Typography>
         )}

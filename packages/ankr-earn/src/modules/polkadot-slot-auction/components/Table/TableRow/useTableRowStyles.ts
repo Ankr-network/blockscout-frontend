@@ -20,6 +20,7 @@ export const useTableRowStyles = makeStyles<
     gridTemplateColumns: props =>
       props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
     alignItems: 'stretch',
+    backgroundColor: theme.palette.common.white,
   },
   row: {
     listStyle: 'none',

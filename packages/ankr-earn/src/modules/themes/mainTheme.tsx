@@ -299,6 +299,18 @@ export const mainTheme = createTheme({
       },
     },
 
+    MuiTooltip: {
+      tooltip: {
+        padding: defaultTheme.spacing(0.875, 2.125, 0.875, 2.125),
+        backgroundColor: defaultTheme.palette.common.white,
+        color: defaultTheme.palette.text.primary,
+        fontSize: 14,
+        fontWeight: 'normal',
+        border: `1px solid ${alpha(defaultTheme.palette.text.primary, 0.2)}`,
+        borderRadius: 8,
+      },
+    },
+
     MuiSelect: {
       select: {
         '&:focus, &:hover': {

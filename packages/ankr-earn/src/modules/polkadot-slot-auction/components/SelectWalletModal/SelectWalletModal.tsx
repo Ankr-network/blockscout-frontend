@@ -31,7 +31,7 @@ export const SelectWalletModal = ({
       classes={{ paper: classes.root }}
     >
       <IconButton className={classes.close} onClick={onClose}>
-        <CancelIcon size="xmd" />
+        <CancelIcon size="md" />
       </IconButton>
       <SelectWallet
         isCloverWalletAvailable={isCloverWalletAvailable}

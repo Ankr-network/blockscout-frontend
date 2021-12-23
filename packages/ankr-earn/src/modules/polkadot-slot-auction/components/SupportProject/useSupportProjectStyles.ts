@@ -1,23 +1,27 @@
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useSupportProjectStyles = makeStyles(theme => ({
+export const useSupportProjectStyles = makeStyles((theme: Theme) => ({
   container: {
-    background: theme.palette.background.paper,
-    border: '1px solid #3F3F3F',
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    borderRadius: 65,
-    padding: '52px 160px',
     position: 'relative',
-    maxWidth: 1130,
+    maxWidth: 700,
     margin: theme.spacing('60px', 'auto'),
+    padding: '50px 50px 50px 50px',
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 18,
   },
   title: {
-    paddingBottom: 84,
+    margin: theme.spacing(0, 0, 8, 0),
     textAlign: 'center',
   },
   close: {
     position: 'absolute',
-    top: 36,
-    right: 36,
+    top: theme.spacing(2),
+    right: theme.spacing(2),
+    border: 'none',
+
+    '& a:hover': {
+      backgroundColor: 'inherit',
+    },
   },
 }));

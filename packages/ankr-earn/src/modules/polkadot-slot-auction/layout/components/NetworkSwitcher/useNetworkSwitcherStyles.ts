@@ -1,36 +1,31 @@
 import { Theme } from '@material-ui/core';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export const useNetworkSwitcherStyles = makeStyles<Theme>(theme => ({
   networkSwitcher: {
-    border: `1px solid ${alpha(theme.palette.text.primary, 0.2)}`,
-    borderRadius: 24,
-    height: 40,
     display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
     fontSize: 14,
-    lineHeight: '150%',
-    margin: theme.spacing(0, 3),
+    fontWeight: 700,
+    border: '1px solid #e2e7f0',
+    borderRadius: 12,
   },
   networkButton: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: 60,
-    borderRight: `1px solid ${alpha(theme.palette.text.primary, 0.2)}`,
     margin: theme.spacing(1, 0),
-    color: alpha(theme.palette.text.primary, 0.5),
-
-    '& > a': {
-      color: 'inherit',
-      textDecoration: 'none',
-    },
+    color: theme.palette.text.secondary,
   },
-  activeNetworkButton: {
-    color: theme.palette.text.primary,
+  networkButtonActive: {
+    color: theme.palette.primary.main,
+    cursor: 'default',
   },
-  networkHref: {
-    '&:last-child > div': {
-      borderRight: 'none',
-    },
+  networkSeparator: {
+    borderRight: '1px solid #e2e7f0',
   },
 }));

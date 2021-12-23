@@ -4,18 +4,19 @@ export const useInfoLineStyles = makeStyles(theme => ({
   line: {
     display: 'flex',
     justifyContent: 'space-between',
-    paddingBottom: 35,
+    paddingBottom: 36,
   },
   infoText: {
-    fontSize: 18,
-    lineHeight: '21px',
     display: 'flex',
     alignItems: 'center',
+    fontSize: 16,
+    fontWeight: 700,
+    lineHeight: '21px',
   },
   infoValue: {
-    fontSize: 22,
-    lineHeight: '27px',
+    fontSize: 16,
     fontWeight: 700,
+    lineHeight: '27px',
   },
   question: {
     padding: '0 8px',

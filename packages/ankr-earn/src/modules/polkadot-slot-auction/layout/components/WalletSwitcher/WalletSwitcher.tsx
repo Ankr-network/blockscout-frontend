@@ -43,53 +43,63 @@ export const WalletSwitcher = ({
   const handleMenuItemClick = (wallet: string) => () => {
     if (currentWallet !== wallet) {
       onConnect(wallet)();
-      handleClose();
     }
+
+    handleClose();
   };
 
   if (!wallets) {
     return null;
   }
 
+  const isAvailableWallets: boolean = !!wallets?.length;
+  const endIcon: JSX.Element = isOpened ? (
+    <ExpandLessIcon />
+  ) : (
+    <ExpandMoreIcon />
+  );
   const icon = currentProvider && ICONS[currentProvider];
 
   return (
     <>
       <Button
         variant="outlined"
-        color="secondary"
+        color="primary"
         className={classes.button}
         onClick={handleClick}
-        endIcon={isOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        endIcon={isAvailableWallets ? endIcon : null}
       >
         <Box mr={1}>{icon}</Box>
         {getShortStr(currentWallet)}
       </Button>
-      <Menu
-        classes={{ paper: classes.menu, list: classes.menuList }}
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={isOpened}
-        onClose={handleClose}
-      >
-        {wallets.map(wallet => (
-          <MenuItem
-            onClick={handleMenuItemClick(wallet.address)}
-            key={wallet.address}
-            className={classNames({
-              [classes.walletSelected]: wallet.address === currentWallet,
-            })}
-          >
-            {ICONS[wallet.providerName] && (
-              <Box mr={1} display="inherit">
-                {ICONS[wallet.providerName]}
-              </Box>
-            )}
-            {getShortStr(wallet.address)}
-          </MenuItem>
-        ))}
-      </Menu>
+
+      {isAvailableWallets && (
+        <Menu
+          classes={{ paper: classes.menu, list: classes.menuList }}
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={isOpened}
+          onClose={handleClose}
+        >
+          {wallets.map(wallet => (
+            <MenuItem
+              onClick={handleMenuItemClick(wallet.address)}
+              key={wallet.address}
+              className={classNames({
+                [classes.walletSelected]: wallet.address === currentWallet,
+              })}
+            >
+              {ICONS[wallet.providerName] && (
+                <Box mr={1} display="inherit">
+                  {ICONS[wallet.providerName]}
+                </Box>
+              )}
+              {getShortStr(wallet.address)}
+            </MenuItem>
+          ))}
+        </Menu>
+      )}
     </>
   );
 };

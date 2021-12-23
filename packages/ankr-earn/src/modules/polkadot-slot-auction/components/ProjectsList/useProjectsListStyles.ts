@@ -1,4 +1,4 @@
-import { alpha, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/styles';
 
@@ -6,7 +6,7 @@ export const useProjectsListStyles = makeStyles<Theme>(
   (theme: Theme): StyleRules => ({
     label: {
       position: 'absolute',
-      top: '-4px',
+      top: '-1px',
       left: '-34px',
       padding: '4px 9px 4px 9px',
       backgroundColor: theme.palette.primary.main,
@@ -24,23 +24,12 @@ export const useProjectsListStyles = makeStyles<Theme>(
       fontSize: 14,
     },
 
-    buttonContribute: {
+    button: {
       padding: theme.spacing(0, 5),
-      border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
     },
     plus: {
-      margin: theme.spacing(-0.5, 0, 0, 1),
+      margin: theme.spacing('1px', 0, 0, 1),
       fontSize: 22,
-    },
-
-    buttonClaim: {
-      padding: theme.spacing(0, 5),
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-
-      '&:hover': {
-        backgroundColor: theme.palette.primary.light,
-      },
     },
 
     noCrowdloanArea: {

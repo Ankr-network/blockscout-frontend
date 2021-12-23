@@ -71,7 +71,7 @@ export const SupportProjectForm = ({
     }
   };
 
-  const onMaxBtnClick = (onChange: (val: string) => void) => (): void =>
+  const onMaxValClick = (onChange: (val: string) => void) => (): void =>
     onChange(balance.toString());
 
   const validate = useCallback(
@@ -116,8 +116,8 @@ export const SupportProjectForm = ({
     values,
   }: FormRenderProps<FormPayload>) => (
     <>
-      <div className={classes.line}>
-        <Typography variant="h2">
+      <div className={classes.inputArea}>
+        <Typography variant="h5">
           {t('polkadot-slot-auction.support-project-form.want-contribute')}
         </Typography>
 
@@ -131,28 +131,30 @@ export const SupportProjectForm = ({
                   <div className={classes.inputFieldArea}>
                     <InputField className={classes.inputField} {...props} />
 
-                    <div className={classes.inputFieldLabel}>{currency}</div>
+                    <div className={classes.inputFieldLabelArea}>
+                      <div className={classes.inputFieldLabel}>{currency}</div>
+                    </div>
                   </div>
 
                   <div className={classes.inputCurrBalanceArea}>
-                    <div className={classes.inputCurrBalance}>
+                    <div className={classes.inputCurrBalanceText}>
                       {t(
-                        'polkadot-slot-auction.support-project-form.available-balance',
+                        'polkadot-slot-auction.support-project-form.available-balance-txt',
+                      )}
+                    </div>
+
+                    <div
+                      className={classes.inputCurrBalanceVal}
+                      onClick={onMaxValClick(input.onChange)}
+                    >
+                      {t(
+                        'polkadot-slot-auction.support-project-form.available-balance-val',
                         {
                           value: balance,
                           currency,
                         },
                       )}
                     </div>
-
-                    <Button
-                      className={classes.inputCurrBalanceMaxBtn}
-                      color="primary"
-                      onClick={onMaxBtnClick(input.onChange)}
-                      variant="text"
-                    >
-                      {t('polkadot-slot-auction.button.max')}
-                    </Button>
 
                     <Tooltip
                       className={classes.inputCurrBalanceTooltip}
@@ -218,19 +220,19 @@ export const SupportProjectForm = ({
             </Typography>
           </Field>
         </div>
-        <div className={classes.buttonContainer}>
-          <Button
-            className={classes.button}
-            onClick={handleSubmit}
-            color="primary"
-            size="large"
-            type="submit"
-            disabled={!values.agreement || !values.contributeValue || isLoading}
-          >
-            {t('polkadot-slot-auction.button.contribute-form')}
-          </Button>
+
+        <Button
+          className={classes.button}
+          color="primary"
+          disabled={!values.agreement || !values.contributeValue || isLoading}
+          onClick={handleSubmit}
+          size="large"
+          type="submit"
+        >
+          {t('polkadot-slot-auction.button.contribute-form')}
+
           {isLoading && <QueryLoading />}
-        </div>
+        </Button>
       </div>
     </>
   );

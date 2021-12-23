@@ -1,32 +1,33 @@
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FONTS } from 'modules/themes/mainTheme';
 
-export const useDefaultLayoutStyles = makeStyles(theme => ({
+export const useDefaultLayoutStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
+    minWidth: 375,
     minHeight: '100vh',
-    width: '100%',
-    fontFamily: FONTS.primary,
-    fontWeight: 400,
-    backgroundColor: theme.palette.background.paper,
-    '-webkit-backface-visibility': 'hidden',
-    '-moz-backface-visibility': 'hidden',
-    '-webkit-font-smoothing': 'antialiased',
-    '& *': {
-      outline: 'none',
-      '-webkit-tap-highlight-color': 'transparent',
-      '&::-moz-focus-inner': {
-        border: 0,
-      },
-    },
+    background: theme.palette.background.default,
   },
-  content: {
+
+  darkTheme: {},
+
+  main: {
+    marginBottom: 'auto',
+  },
+
+  buttonArea: {
     position: 'relative',
-    flexGrow: 1,
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'initial',
-    maxWidth: '100vw',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    margin: theme.spacing(0, 0, 0, 3),
+  },
+  button: {
+    '&:active': {
+      transform: 'none',
+    },
   },
 }));

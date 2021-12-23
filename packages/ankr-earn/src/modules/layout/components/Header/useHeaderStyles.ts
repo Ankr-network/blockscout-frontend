@@ -28,8 +28,9 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     marginLeft: theme.spacing(-2),
   },
   rightSide: {
-    justifyContent: 'right',
     display: 'flex',
+    justifyContent: 'right',
+    alignItems: 'center',
     overflow: 'hidden',
 
     [theme.breakpoints.up('md')]: {

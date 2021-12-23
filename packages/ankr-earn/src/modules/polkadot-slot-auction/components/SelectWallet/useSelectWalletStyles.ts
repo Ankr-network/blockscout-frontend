@@ -1,14 +1,21 @@
-import { Theme } from '@material-ui/core';
+import { lighten, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useSelectWalletStyles = makeStyles<Theme>(theme => ({
   walletItem: {
-    padding: theme.spacing(4, 5, 1.5, 5),
-    background: theme.palette.background.paper,
-    borderRadius: 32,
     position: 'relative',
+    width: 200,
+    height: 'auto',
+    padding: theme.spacing(4, 5, 1.5, 5),
+    border: `1px solid ${lighten(theme.palette.text.secondary, 0.7)}`,
+    borderRadius: 32,
+
     '&:not(:first-child)': {
       marginLeft: theme.spacing(4),
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.background.default,
+      borderColor: theme.palette.background.default,
     },
   },
   walletName: {

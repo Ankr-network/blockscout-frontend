@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import { PageNotFound } from 'uiKit/PageNotFound';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
-import { withPolkadotSlotAuctionLayout } from './layout';
+import { createWithLayout } from './layout/utils/createWithLayout';
 
 const CROWDLOANS_PATH = `${ROOT}/:network/crowdloans`;
 const LEND_PATH = `${CROWDLOANS_PATH}/lend/:id/:name`;
@@ -33,7 +33,7 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const PolkadotSlotAuctionContainer = withPolkadotSlotAuctionLayout(
+const PolkadotSlotAuctionContainer = createWithLayout(
   loadable(
     async () =>
       import('./PolkadotSlotAuction').then(
@@ -45,7 +45,7 @@ const PolkadotSlotAuctionContainer = withPolkadotSlotAuctionLayout(
   ) as LoadableComponent<any>,
 );
 
-const PolkadotSlotAuctionLend = withPolkadotSlotAuctionLayout(
+const PolkadotSlotAuctionLend = createWithLayout(
   loadable(
     async () =>
       import('./components/SupportProject').then(
@@ -71,7 +71,7 @@ export function getRoutes() {
           component={PolkadotSlotAuctionLend}
           exact
         />
-        <Route component={withPolkadotSlotAuctionLayout(PageNotFound)} />
+        <Route component={createWithLayout(PageNotFound)} />
       </Switch>
     </Route>
   );
