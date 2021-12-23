@@ -1,44 +1,44 @@
 import { ThemeProvider } from '@material-ui/styles';
-import classNames from 'classnames';
-import { ReactNode, useMemo } from 'react';
-import { getTheme } from '../../../common/utils/getTheme';
+import { useMemo } from 'react';
 import { Themes } from 'ui';
+import { getTheme } from '../../../common/utils/getTheme';
 import { Footer } from '../Footer/index';
 import { Header } from '../Header/index';
+import { ILayoutProps, Layout } from '../Layout';
 import { MainNavigation } from '../MainNavigation';
 import { MainNavigationMobile } from '../MainNavigationMobile';
-import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
 
-export interface IDefaultLayout {
-  children?: ReactNode;
+export interface IDefaultLayoutProps
+  extends Omit<ILayoutProps, 'headerSlot' | 'footerSlot'> {
   theme?: Themes;
-  verticalAlign?: 'top' | 'center' | 'bottom';
 }
 
 export const DefaultLayout = ({
-  children,
   theme = Themes.light,
-  verticalAlign = 'top',
-}: IDefaultLayout) => {
-  const classes = useDefaultLayoutStyles();
+  ...restProps
+}: IDefaultLayoutProps) => {
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
-    <div className={classes.root}>
-      <ThemeProvider theme={currentTheme}>
-        <Header
-          mainNavigationSlot={<MainNavigation />}
-          mainNavigationMobileSlot={<MainNavigationMobile />}
-        />
-        <main
-          className={classNames({
-            [classes.mainAlignTop]: verticalAlign === 'top',
-          })}
-        >
-          {children}
-        </main>
-        <Footer />
-      </ThemeProvider>
-    </div>
+    <Layout
+      {...restProps}
+      headerSlot={
+        <ThemeProvider theme={currentTheme}>
+          <Header
+            mainNavigationSlot={<MainNavigation />}
+            mainNavigationMobileSlot={<MainNavigationMobile />}
+          />
+        </ThemeProvider>
+      }
+      footerSlot={
+        <ThemeProvider theme={currentTheme}>
+          <Header
+            mainNavigationSlot={<MainNavigation />}
+            mainNavigationMobileSlot={<MainNavigationMobile />}
+          />
+          <Footer />
+        </ThemeProvider>
+      }
+    />
   );
 };
