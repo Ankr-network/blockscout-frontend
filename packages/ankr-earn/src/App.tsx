@@ -1,4 +1,6 @@
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
+import { currentEnv } from 'modules/common/const';
+import { Env } from 'modules/common/types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -15,7 +17,7 @@ function App() {
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
             {/* todo: remove when the issue will be resolved */}
-            <DevOverlayFix />
+            {currentEnv !== Env.Production && <DevOverlayFix />}
             <ScrollToTop />
             <Routes />
           </AppBase>
