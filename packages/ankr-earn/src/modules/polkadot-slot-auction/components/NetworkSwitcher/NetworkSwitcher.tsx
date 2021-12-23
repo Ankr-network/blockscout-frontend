@@ -11,6 +11,7 @@ interface INetworkSwitcherProps {
 }
 
 export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
+  // todo: update styles according to the design
   const classes = useNetworkSwitcherStyles();
 
   const { networkType } = useSlotAuctionSdk();

@@ -1,5 +1,5 @@
 import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
@@ -50,33 +50,40 @@ export const PolkadotSlotAuction = () => {
           py={{ xs: 5, md: 8 }}
         >
           <Container>
-            <div className={classes.header}>
-              <div className={classes.tabs}>
-                {tabs.map((tab: string): ReactNode => {
-                  const isActiveTab: boolean = tab === currentTab;
+            <Box mb={5}>
+              <Grid container spacing={3} alignItems="center">
+                <Grid item xs={12} md>
+                  {/* todo: merge with tabs from Boost module */}
+                  <div className={classes.tabs}>
+                    {tabs.map((tab: string): ReactNode => {
+                      const isActiveTab: boolean = tab === currentTab;
 
-                  return (
-                    <div
-                      className={classes.tabArea}
-                      key={uid(tab)}
-                      onClick={handleChangeTab(tab)}
-                    >
-                      <Typography
-                        className={classNames(classes.tab, {
-                          [classes.tabActive]: isActiveTab,
-                        })}
-                        color={isActiveTab ? 'initial' : 'textSecondary'}
-                        variant="h3"
-                      >
-                        {tab}
-                      </Typography>
-                    </div>
-                  );
-                })}
-              </div>
+                      return (
+                        <div
+                          className={classes.tabArea}
+                          key={uid(tab)}
+                          onClick={handleChangeTab(tab)}
+                        >
+                          <Typography
+                            className={classNames(classes.tab, {
+                              [classes.tabActive]: isActiveTab,
+                            })}
+                            color={isActiveTab ? 'initial' : 'textSecondary'}
+                            variant="h3"
+                          >
+                            {tab}
+                          </Typography>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Grid>
 
-              <NetworkSwitcher classRoot={classes.networkSwitcher} />
-            </div>
+                <Grid item xs={12} md="auto">
+                  <NetworkSwitcher />
+                </Grid>
+              </Grid>
+            </Box>
 
             {currentTab === myRewardsText ? (
               <GuardComponent

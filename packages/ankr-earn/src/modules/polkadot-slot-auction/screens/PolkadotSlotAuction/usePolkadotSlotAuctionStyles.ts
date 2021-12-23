@@ -16,19 +16,26 @@ export const usePolkadotSlotAuctionStyles = makeStyles<Theme>(
       display: 'flex',
       flexDirection: 'row',
     },
+
     tabArea: {
-      margin: theme.spacing(0, 4.5, 5, 0),
+      marginLeft: theme.spacing(4.5),
+
+      '&:first-of-type': {
+        marginLeft: 0,
+      },
     },
+
     tab: {
       fontWeight: 700,
       cursor: 'pointer',
+      fontSize: 24,
+
+      [theme.breakpoints.up('md')]: {
+        fontSize: 30,
+      },
     },
     tabActive: {
       cursor: 'default',
-    },
-
-    networkSwitcher: {
-      margin: theme.spacing(0, 0, 5, 0),
     },
   }),
 );
