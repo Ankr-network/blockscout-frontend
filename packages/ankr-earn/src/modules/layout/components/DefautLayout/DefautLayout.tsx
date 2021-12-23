@@ -15,13 +15,14 @@ export interface IDefaultLayoutProps
 
 export const DefaultLayout = ({
   theme = Themes.light,
-  ...restProps
+  children,
+  verticalAlign = 'top',
 }: IDefaultLayoutProps) => {
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
     <Layout
-      {...restProps}
+      verticalAlign={verticalAlign}
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
@@ -35,6 +36,8 @@ export const DefaultLayout = ({
           <Footer />
         </ThemeProvider>
       }
-    />
+    >
+      {children}
+    </Layout>
   );
 };
