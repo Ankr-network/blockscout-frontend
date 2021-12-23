@@ -1,5 +1,3 @@
-import { currentEnv } from 'modules/common/const';
-import { Env } from 'modules/common/types';
 import { useEffect } from 'react';
 
 /**
@@ -7,9 +5,6 @@ import { useEffect } from 'react';
  */
 export const DevOverlayFix = () => {
   useEffect(() => {
-    if (currentEnv === Env.Production) {
-      return;
-    }
     const css = 'body > iframe { display: none !important }';
     const head = document.head || document.getElementsByTagName('head')[0];
     const style = document.createElement('style');

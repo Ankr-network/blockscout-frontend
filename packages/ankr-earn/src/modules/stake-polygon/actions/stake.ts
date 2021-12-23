@@ -25,7 +25,7 @@ export const stake = createSmartAction<
     asMutation: true,
     showNotificationOnError: true,
     getData: data => data,
-    onSuccess: (response, action, store) => {
+    onSuccess: (response, _action, store) => {
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());
       return response;

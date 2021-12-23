@@ -1,13 +1,8 @@
-import { StakeSuccessful } from '.';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
+import { StakeSuccessDialog } from '.';
 
 export const StakeSuccessfulExample = () => {
-  return (
-    <StakeSuccessful
-      stakeHref={'/'}
-      token={AvailableTokens.aMATICb}
-    ></StakeSuccessful>
-  );
+  return <StakeSuccessDialog isOpened token={AvailableTokens.aMATICb} />;
 };
 
 export default {

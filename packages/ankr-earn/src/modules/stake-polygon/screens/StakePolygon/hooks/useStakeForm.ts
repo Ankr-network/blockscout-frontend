@@ -14,7 +14,11 @@ import {
 } from 'modules/stake/components/StakeForm';
 import { ReactText, useEffect, useState } from 'react';
 
-export const useStakeForm = () => {
+interface IUseStakeFormArgs {
+  openSuccessModal: () => void;
+}
+
+export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
   const dispatchRequest = useDispatchRequest();
   const { loading: isStakeLoading } = useMutation({ type: stake });
   const {
@@ -35,7 +39,7 @@ export const useStakeForm = () => {
     dispatchRequest(stake({ amount: new BigNumber(amount) })).then(
       ({ error }) => {
         if (!error) {
-          // todo: show success modal
+          openSuccessModal();
         }
       },
     );
