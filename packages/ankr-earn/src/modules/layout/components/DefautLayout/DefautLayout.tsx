@@ -32,10 +32,6 @@ export const DefaultLayout = ({
       }
       footerSlot={
         <ThemeProvider theme={currentTheme}>
-          <Header
-            mainNavigationSlot={<MainNavigation />}
-            mainNavigationMobileSlot={<MainNavigationMobile />}
-          />
           <Footer />
         </ThemeProvider>
       }
