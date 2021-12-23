@@ -6,21 +6,31 @@ export const useProjectsListStyles = makeStyles<Theme>(
   (theme: Theme): StyleRules => ({
     label: {
       position: 'absolute',
-      top: 0,
-      left: -8,
+      top: -13,
+      left: -18,
       padding: theme.spacing(0.5, 1.25),
       fontSize: 13,
       lineHeight: 1,
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.common.white,
       borderRadius: 7,
+
+      [theme.breakpoints.up('md')]: {
+        top: 0,
+        left: 0,
+      },
+
+      [theme.breakpoints.up('xl')]: {
+        left: -8,
+      },
     },
 
-    img: {
-      width: 28,
-      height: 28,
-      marginRight: theme.spacing(1),
-      borderRadius: 5,
+    projectBox: {
+      display: 'inline-flex',
+
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
     },
 
     bondTokenValuesCol: {

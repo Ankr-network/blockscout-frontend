@@ -97,7 +97,7 @@
       "balance": "My Balance",
       "claimable-rewards": "Claimable Rewards",
       "end-date": "End Date",
-      "future-rewards": "Future rewards until maturity",
+      "future-rewards": "Future expected rewards",
       "hard-cap": "Raised on Ankr / Total Raised / HardCap",
       "lease-duration": "Lease Duration",
       "parachain-bond": "Parachain Bond",

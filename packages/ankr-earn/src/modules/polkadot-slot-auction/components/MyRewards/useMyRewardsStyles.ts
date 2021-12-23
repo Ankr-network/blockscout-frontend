@@ -10,11 +10,12 @@ export const useMyRewardsStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  img: {
-    width: 28,
-    height: 28,
-    marginRight: theme.spacing(1),
-    borderRadius: 5,
+  projectBox: {
+    display: 'inline-flex',
+
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
   },
 
   noCrowdloanArea: {

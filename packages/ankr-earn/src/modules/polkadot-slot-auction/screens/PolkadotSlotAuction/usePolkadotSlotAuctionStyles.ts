@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 
 export const usePolkadotSlotAuctionStyles = makeStyles<Theme>(
   (theme: Theme) => ({
-    wrapper: {
-      margin: theme.spacing(7, 'auto', 12.5),
-    },
+    wrapper: {},
 
     header: {
       display: 'flex',

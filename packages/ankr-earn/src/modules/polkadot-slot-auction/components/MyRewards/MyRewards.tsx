@@ -24,6 +24,7 @@ import {
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
+import { ProjectMeta } from '../ProjectMeta';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
 
 type CaptionType = {
@@ -63,7 +64,7 @@ export const MyRewards = () => {
         label: t('polkadot-slot-auction.header.total-rewards'),
       },
       {
-        label: '',
+        label: ' ',
       },
     ],
     [],
@@ -95,9 +96,9 @@ export const MyRewards = () => {
 
       {error === null && !!crowdloans?.length && (
         <Table
-          // todo: update columns sizes
-          customCell="2fr 2fr 1fr 2fr 2fr 1fr 2fr"
+          customCell="minmax(200px, 1fr) 120px 150px 175px 220px 140px 150px"
           columnsCount={captions.length}
+          minWidth={1120}
         >
           <TableHead>
             {captions.map(cell => (
@@ -115,48 +116,45 @@ export const MyRewards = () => {
 
                 return (
                   <TableRow key={uid(item)}>
-                    <TableBodyCell>
-                      <Box display="flex" alignItems="center">
-                        <img
-                          src={item.projectLogo}
-                          alt={item.projectDescription}
-                          className={classes.img}
-                        />
-
-                        {item.projectName}
-                      </Box>
+                    <TableBodyCell label={captions[0].label}>
+                      <ProjectMeta
+                        img={item.projectLogo}
+                        name={item.projectName}
+                        description={item.projectDescription}
+                        className={classes.projectBox}
+                      />
                     </TableBodyCell>
 
-                    <TableBodyCell>
+                    <TableBodyCell label={captions[1].label}>
                       {t('format.date', { value: item.endTime })}
                     </TableBodyCell>
 
-                    <TableBodyCell>
+                    <TableBodyCell label={captions[2].label}>
                       {t('polkadot-slot-auction.column.val-currency', {
                         val: item.currBalance,
                         currency: item.bondTokenSymbol,
                       })}
                     </TableBodyCell>
 
-                    <TableBodyCell>
+                    <TableBodyCell label={captions[3].label}>
                       {claimableRewardsAmount.toFixed()} {rewardTokenSymbol}
                     </TableBodyCell>
 
-                    <TableBodyCell>
+                    <TableBodyCell label={captions[4].label}>
                       {t('polkadot-slot-auction.column.val-currency', {
                         val: 0,
                         currency: rewardTokenSymbol,
                       })}
                     </TableBodyCell>
 
-                    <TableBodyCell>
+                    <TableBodyCell label={captions[5].label}>
                       {t('polkadot-slot-auction.column.val-currency', {
                         val: 0,
                         currency: rewardTokenSymbol,
                       })}
                     </TableBodyCell>
 
-                    <TableBodyCell align="right">
+                    <TableBodyCell label={captions[6].label} align="right">
                       <Button
                         className={classes.button}
                         color="default"

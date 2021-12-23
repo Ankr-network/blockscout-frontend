@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
 import React, { ReactNode, useState } from 'react';
 import { uid } from 'react-uid';
+import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoading } from 'uiKit/QueryLoading';
 import { isMainnet } from '../../../common/const';
@@ -43,47 +44,53 @@ export const PolkadotSlotAuction = () => {
       showLoaderDuringRefetch={false}
     >
       {() => (
-        <Box width={1280} className={classes.wrapper} px={4}>
-          <div className={classes.header}>
-            <div className={classes.tabs}>
-              {tabs.map((tab: string): ReactNode => {
-                const isActiveTab: boolean = tab === currentTab;
+        <Box
+          component="section"
+          className={classes.wrapper}
+          py={{ xs: 5, md: 8 }}
+        >
+          <Container>
+            <div className={classes.header}>
+              <div className={classes.tabs}>
+                {tabs.map((tab: string): ReactNode => {
+                  const isActiveTab: boolean = tab === currentTab;
 
-                return (
-                  <div
-                    className={classes.tabArea}
-                    key={uid(tab)}
-                    onClick={handleChangeTab(tab)}
-                  >
-                    <Typography
-                      className={classNames(classes.tab, {
-                        [classes.tabActive]: isActiveTab,
-                      })}
-                      color={isActiveTab ? 'initial' : 'textSecondary'}
-                      variant="h3"
+                  return (
+                    <div
+                      className={classes.tabArea}
+                      key={uid(tab)}
+                      onClick={handleChangeTab(tab)}
                     >
-                      {tab}
-                    </Typography>
-                  </div>
-                );
-              })}
+                      <Typography
+                        className={classNames(classes.tab, {
+                          [classes.tabActive]: isActiveTab,
+                        })}
+                        color={isActiveTab ? 'initial' : 'textSecondary'}
+                        variant="h3"
+                      >
+                        {tab}
+                      </Typography>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <NetworkSwitcher classRoot={classes.networkSwitcher} />
             </div>
 
-            <NetworkSwitcher classRoot={classes.networkSwitcher} />
-          </div>
-
-          {currentTab === myRewardsText ? (
-            <GuardComponent
-              availableNetworks={[
-                isMainnet
-                  ? BlockchainNetworkId.mainnet
-                  : BlockchainNetworkId.goerli,
-              ]}
-              componentSlot={<MyRewards />}
-            />
-          ) : (
-            <ProjectsList />
-          )}
+            {currentTab === myRewardsText ? (
+              <GuardComponent
+                availableNetworks={[
+                  isMainnet
+                    ? BlockchainNetworkId.mainnet
+                    : BlockchainNetworkId.goerli,
+                ]}
+                componentSlot={<MyRewards />}
+              />
+            ) : (
+              <ProjectsList />
+            )}
+          </Container>
         </Box>
       )}
     </Query>

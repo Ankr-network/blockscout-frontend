@@ -6,7 +6,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { NavLink } from 'uiKit/NavLink';
-import { QueryLoading } from 'uiKit/QueryLoading';
+import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { fetchCrowdloanById } from '../../actions/fetchCrowdloanById';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
@@ -48,7 +48,7 @@ export const SupportProject = () => {
   });
 
   return isLoading ? (
-    <QueryLoading />
+    <QueryLoadingCentered />
   ) : (
     <div className={classes.container}>
       <IconButton className={classes.close}>

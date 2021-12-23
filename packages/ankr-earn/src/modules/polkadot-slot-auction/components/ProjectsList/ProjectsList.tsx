@@ -32,6 +32,7 @@ import {
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { RoutesConfig } from '../../Routes';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
+import { ProjectMeta } from '../ProjectMeta';
 import { useProjectsListStyles } from './useProjectsListStyles';
 
 type CaptionType = {
@@ -61,7 +62,7 @@ export const ProjectsList = () => {
         label: t('polkadot-slot-auction.header.hard-cap'),
       },
       {
-        label: '',
+        label: ' ',
       },
     ],
     [],
@@ -121,6 +122,7 @@ export const ProjectsList = () => {
         <Table
           customCell="0.8fr 0.8fr 1fr 250px"
           columnsCount={captions.length}
+          minWidth={1100}
         >
           <TableHead>
             {captions.map(cell => (
@@ -154,28 +156,26 @@ export const ProjectsList = () => {
 
               return (
                 <TableRow key={uid(item)}>
-                  <TableBodyCell>
+                  <TableBodyCell label={captions[0].label}>
                     {currLabelTxt && (
                       <div className={classes.label}>{currLabelTxt}</div>
                     )}
 
-                    <Box display="flex" alignItems="center">
-                      <img
-                        src={item.projectLogo}
-                        alt={item.projectDescription}
-                        className={classes.img}
-                      />
-                      {projectName}
-                    </Box>
+                    <ProjectMeta
+                      img={item.projectLogo}
+                      name={projectName}
+                      description={item.projectDescription}
+                      className={classes.projectBox}
+                    />
                   </TableBodyCell>
 
-                  <TableBodyCell>
+                  <TableBodyCell label={captions[1].label}>
                     {t('format.date', { value: item.startLease })}
                     {' – '}
                     {t('format.date', { value: item.endLease })}
                   </TableBodyCell>
 
-                  <TableBodyCell>
+                  <TableBodyCell label={captions[2].label}>
                     <Body2
                       className={classes.bondTokenValuesCol}
                       color="textPrimary"
@@ -189,7 +189,7 @@ export const ProjectsList = () => {
                     </Body2>
                   </TableBodyCell>
 
-                  <TableBodyCell align="right">
+                  <TableBodyCell align="right" label={captions[3].label}>
                     {isContributeBtn && (
                       <Button
                         className={classes.button}
