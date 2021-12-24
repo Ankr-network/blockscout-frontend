@@ -1,5 +1,5 @@
 import { TCrowdloanStatus } from '@ankr.com/stakefi-polkadot/dist/types/entity';
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import {
@@ -20,7 +20,6 @@ import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoading, QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { Body2 } from 'uiKit/Typography';
 import { claimRewardPoolTokens } from '../../actions/claimRewardPoolTokens';
 import { IFetchCrowdloanBalancesItem } from '../../actions/fetchCrowdloanBalances';
 import { ICrowdloanByStatus } from '../../actions/fetchCrowdloansByStatus';
@@ -176,7 +175,8 @@ export const ProjectsList = () => {
                   </TableBodyCell>
 
                   <TableBodyCell label={captions[2].label}>
-                    <Body2
+                    <Typography
+                      variant="body2"
                       className={classes.bondTokenValuesCol}
                       color="textPrimary"
                     >
@@ -186,7 +186,7 @@ export const ProjectsList = () => {
                         val3: item.totalRaiseTarget,
                         currency: networkType,
                       })}
-                    </Body2>
+                    </Typography>
                   </TableBodyCell>
 
                   <TableBodyCell align="right" label={captions[3].label}>
