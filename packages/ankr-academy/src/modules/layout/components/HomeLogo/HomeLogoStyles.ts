@@ -11,7 +11,7 @@ export const useHomeLogoStyles = makeStyles<Theme>(theme => ({
   },
 
   homeIcon: {
-    width: 102,
+    width: 96,
     height: 'auto',
     color: theme.palette.primary.main,
   },
