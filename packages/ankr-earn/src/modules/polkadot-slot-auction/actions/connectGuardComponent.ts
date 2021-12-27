@@ -1,6 +1,6 @@
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -17,7 +17,8 @@ export const connectGuardComponent = createAction<
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<boolean> => {
-        const slotAuctionSdk: SlotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          SlotAuctionSdkSingleton.getInstance();
 
         // Note: This is an external method for calling the "connectFromInjected()" in a "safe" mode
         await slotAuctionSdk.getEthereumAccount();

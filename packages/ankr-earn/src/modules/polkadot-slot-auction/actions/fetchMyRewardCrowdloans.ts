@@ -1,7 +1,7 @@
-import { ICrowdloanType, SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -38,7 +38,8 @@ export const fetchMyRewardCrowdloans = createAction<
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<TFetchMyRewardCrowdloansData> => {
-        const slotAuctionSdk: SlotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          SlotAuctionSdkSingleton.getInstance();
 
         let ethAddress: string;
 
@@ -58,41 +59,42 @@ export const fetchMyRewardCrowdloans = createAction<
           slotAuctionSdk.getRewardPoolBalances(ethAddress),
         ]);
 
-        const rawResultData: TFetchMyRewardCrowdloansData = rawSucceededData.reduce(
-          (
-            acc: TFetchMyRewardCrowdloansData,
-            curr: ICrowdloanType,
-          ): TFetchMyRewardCrowdloansData => {
-            const currClaimableStakingRewards:
-              | IClaimableStakingRewardsItem
-              | undefined = rawClaimableStakingRewards.find(
-              ({ loanId }: IClaimableStakingRewardsItem): boolean =>
-                loanId === curr.loanId,
-            );
-            const currRewardPoolBalances:
-              | IRewardPoolBalancesItem
-              | undefined = rawRewardPoolBalances.find(
-              ({ loanId }: IRewardPoolBalancesItem): boolean =>
-                loanId === curr.loanId,
-            );
+        const rawResultData: TFetchMyRewardCrowdloansData =
+          rawSucceededData.reduce(
+            (
+              acc: TFetchMyRewardCrowdloansData,
+              curr: ICrowdloanType,
+            ): TFetchMyRewardCrowdloansData => {
+              const currClaimableStakingRewards:
+                | IClaimableStakingRewardsItem
+                | undefined = rawClaimableStakingRewards.find(
+                ({ loanId }: IClaimableStakingRewardsItem): boolean =>
+                  loanId === curr.loanId,
+              );
+              const currRewardPoolBalances:
+                | IRewardPoolBalancesItem
+                | undefined = rawRewardPoolBalances.find(
+                ({ loanId }: IRewardPoolBalancesItem): boolean =>
+                  loanId === curr.loanId,
+              );
 
-            return [
-              ...acc,
-              {
-                ...curr,
-                claimableRewardsAmount:
-                  currClaimableStakingRewards?.amount ?? new BigNumber(0),
-                currBalance:
-                  currRewardPoolBalances?.balance ?? new BigNumber(0),
-                endLease: new Date(curr.endLease * 1_000),
-                endTime: new Date(curr.endTime * 1_000),
-                startLease: new Date(curr.startLease * 1_000),
-                startTime: new Date(curr.startTime * 1_000),
-              },
-            ];
-          },
-          [],
-        );
+              return [
+                ...acc,
+                {
+                  ...curr,
+                  claimableRewardsAmount:
+                    currClaimableStakingRewards?.amount ?? new BigNumber(0),
+                  currBalance:
+                    currRewardPoolBalances?.balance ?? new BigNumber(0),
+                  endLease: new Date(curr.endLease * 1_000),
+                  endTime: new Date(curr.endTime * 1_000),
+                  startLease: new Date(curr.startLease * 1_000),
+                  startTime: new Date(curr.startTime * 1_000),
+                },
+              ];
+            },
+            [],
+          );
 
         (rawResultData as IFetchMyRewardCrowdloansItem[]).sort(
           (

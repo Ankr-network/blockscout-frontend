@@ -1,6 +1,6 @@
-import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
 import { Web3Address } from 'modules/common/types';
+import { PolkadotProvider } from 'polkadot';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { ProviderName } from '../utils/isProviderAvailable';

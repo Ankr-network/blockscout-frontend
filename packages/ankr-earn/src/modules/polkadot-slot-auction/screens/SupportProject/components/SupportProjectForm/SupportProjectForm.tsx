@@ -1,9 +1,9 @@
-import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { DispatchRequest } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { t } from 'modules/i18n/utils/intl';
+import { ICrowdloanType } from 'polkadot';
 import React, { useCallback, useState } from 'react';
 import {
   Field,

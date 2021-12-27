@@ -1,5 +1,5 @@
-import { TNetworkType } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
+import { TNetworkType } from 'polkadot';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 export interface IDepositAddressReply {

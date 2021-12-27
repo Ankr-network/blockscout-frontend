@@ -1,6 +1,6 @@
-import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useQuery } from '@redux-requests/react';
 import { ResponseData } from 'modules/common/types/ResponseData';
+import { ICrowdloanType } from 'polkadot';
 import {
   fetchCrowdloanBalances,
   IFetchCrowdloanBalancesItem,
@@ -40,37 +40,43 @@ export const useCrowdloanById = (
   return data;
 };
 
-export const useProjectsListCrowdloans = (): ICrowdloans<ICrowdloanByStatus> => {
-  const { data: crowdloans, error, loading: isLoading } = useQuery<
-    ResponseData<typeof fetchProjectsListCrowdloans>
-  >({
-    action: fetchProjectsListCrowdloans,
-    defaultData: [],
-    type: fetchProjectsListCrowdloans,
-  });
+export const useProjectsListCrowdloans =
+  (): ICrowdloans<ICrowdloanByStatus> => {
+    const {
+      data: crowdloans,
+      error,
+      loading: isLoading,
+    } = useQuery<ResponseData<typeof fetchProjectsListCrowdloans>>({
+      action: fetchProjectsListCrowdloans,
+      defaultData: [],
+      type: fetchProjectsListCrowdloans,
+    });
 
-  return {
-    crowdloans,
-    error,
-    isLoading,
+    return {
+      crowdloans,
+      error,
+      isLoading,
+    };
   };
-};
 
-export const useMyRewardCrowdloans = (): ICrowdloans<IFetchMyRewardCrowdloansItem> => {
-  const { data: crowdloans, error, loading: isLoading } = useQuery<
-    ResponseData<typeof fetchMyRewardCrowdloans>
-  >({
-    action: fetchMyRewardCrowdloans,
-    defaultData: [],
-    type: fetchMyRewardCrowdloans,
-  });
+export const useMyRewardCrowdloans =
+  (): ICrowdloans<IFetchMyRewardCrowdloansItem> => {
+    const {
+      data: crowdloans,
+      error,
+      loading: isLoading,
+    } = useQuery<ResponseData<typeof fetchMyRewardCrowdloans>>({
+      action: fetchMyRewardCrowdloans,
+      defaultData: [],
+      type: fetchMyRewardCrowdloans,
+    });
 
-  return {
-    crowdloans,
-    error,
-    isLoading,
+    return {
+      crowdloans,
+      error,
+      isLoading,
+    };
   };
-};
 
 export const useCrowdloanBalances = (): {
   balances: TBalances;

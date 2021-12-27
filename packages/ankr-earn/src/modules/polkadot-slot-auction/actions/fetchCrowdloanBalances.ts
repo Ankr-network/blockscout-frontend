@@ -1,9 +1,6 @@
-import {
-  ICrowdloanType,
-  TNetworkType,
-} from '@ankr.com/stakefi-polkadot/dist/types/entity';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { ICrowdloanType, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 

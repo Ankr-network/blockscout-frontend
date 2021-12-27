@@ -1,5 +1,5 @@
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
+import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
@@ -15,7 +15,8 @@ export const fetchWeb3WalletData = createAction<
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<IFetchWeb3WalletData> => {
-        const slotAuctionSdk: SlotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          SlotAuctionSdkSingleton.getInstance();
 
         const isConnected: boolean = slotAuctionSdk
           .getKeyProvider()

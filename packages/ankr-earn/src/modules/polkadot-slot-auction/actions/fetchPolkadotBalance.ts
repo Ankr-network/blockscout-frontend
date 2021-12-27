@@ -1,10 +1,7 @@
-import {
-  PolkadotProvider,
-  TNetworkType,
-} from '@ankr.com/stakefi-polkadot/dist/types';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { PolkadotProvider, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -42,17 +39,15 @@ export const fetchPolkadotBalance = createAction<
         store: TStore<IStoreState>,
       ) => ({
         promise: (async (): Promise<IBalanceData> => {
-          const polkadotProvider: PolkadotProvider = SlotAuctionSdkSingleton.getInstance().getPolkadotProvider();
+          const polkadotProvider: PolkadotProvider =
+            SlotAuctionSdkSingleton.getInstance().getPolkadotProvider();
 
-          const [
-            { free: rawSenderBalance },
-            networkType,
-            minSafeDepositVal,
-          ] = await Promise.all([
-            polkadotProvider.getAccountBalance(senderAddr),
-            polkadotProvider.getNetworkType(),
-            polkadotProvider.getMinSafeDepositVal(),
-          ]);
+          const [{ free: rawSenderBalance }, networkType, minSafeDepositVal] =
+            await Promise.all([
+              polkadotProvider.getAccountBalance(senderAddr),
+              polkadotProvider.getNetworkType(),
+              polkadotProvider.getMinSafeDepositVal(),
+            ]);
 
           const recipientAddr: string | null =
             (await store.dispatchRequest(getDepositAddress(networkType)))

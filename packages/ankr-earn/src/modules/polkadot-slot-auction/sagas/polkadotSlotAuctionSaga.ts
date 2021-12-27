@@ -1,4 +1,4 @@
-import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
+import { PolkadotProvider } from 'polkadot';
 import { Action } from 'redux';
 import { put, take, takeEvery } from 'redux-saga/effects';
 import { createAction } from 'redux-smart-actions';

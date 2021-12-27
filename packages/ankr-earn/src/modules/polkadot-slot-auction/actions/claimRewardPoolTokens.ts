@@ -1,6 +1,6 @@
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -33,7 +33,8 @@ export const claimRewardPoolTokens = createAction<
   (polkadotAccount: string, loanId: number): RequestAction => ({
     request: {
       promise: (async (): Promise<IClaimRewardPoolTokensData> => {
-        const slotAuctionSdk: SlotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          SlotAuctionSdkSingleton.getInstance();
 
         let data: IClaimRewardPoolTokensData;
 

@@ -1,4 +1,3 @@
-import { TCrowdloanStatus } from '@ankr.com/stakefi-polkadot/dist/types/entity';
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
@@ -14,6 +13,7 @@ import { DEFAULT_FIXED, ZERO_ADDR } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+import { TCrowdloanStatus } from 'polkadot';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';

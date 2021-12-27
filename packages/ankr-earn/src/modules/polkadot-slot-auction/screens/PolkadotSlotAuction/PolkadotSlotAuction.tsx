@@ -1,8 +1,8 @@
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
+import { SlotAuctionSdk } from 'polkadot';
 import React, { ReactNode, useState } from 'react';
 import { uid } from 'react-uid';
 import { Container } from 'uiKit/Container';

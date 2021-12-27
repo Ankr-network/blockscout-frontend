@@ -1,5 +1,5 @@
-import { TNetworkType } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
+import { TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { NotificationActions } from 'store/actions/NotificationActions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';

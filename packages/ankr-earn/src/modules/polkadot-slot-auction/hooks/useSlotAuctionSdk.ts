@@ -1,11 +1,11 @@
+import { useQuery } from '@redux-requests/react';
 import {
   DEVELOP_ROCOCO_CONFIG,
   DEVELOP_WESTEND_CONFIG,
   MAINNET_KUSAMA_CONFIG,
   MAINNET_POLKADOT_CONFIG,
   SlotAuctionSdk,
-} from '@ankr.com/stakefi-polkadot';
-import { useQuery } from '@redux-requests/react';
+} from 'polkadot';
 import { useParams } from 'react-router';
 import { connect } from '../actions/connect';
 import { initialize } from '../actions/initialize';

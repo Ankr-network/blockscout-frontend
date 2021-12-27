@@ -1,6 +1,6 @@
-import { TNetworkType } from '@ankr.com/stakefi-polkadot/dist/types';
 import classNames from 'classnames';
 import { isMainnet } from 'modules/common/const';
+import { TNetworkType } from 'polkadot';
 import React, { ReactNode, useState } from 'react';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { RoutesConfig } from '../../Routes';

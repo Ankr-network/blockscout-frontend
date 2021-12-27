@@ -1,4 +1,4 @@
-import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
+import { ISlotAuctionConfig } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 

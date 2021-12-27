@@ -1,5 +1,5 @@
-import { ICrowdloanType, SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
+import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { ICrowdloanByStatus, mapCrowdloan } from './fetchCrowdloansByStatus';
@@ -11,8 +11,10 @@ export const fetchProjectsListCrowdloans = createAction<
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<ICrowdloanType[]> => {
-        const slotAuctionSdk: SlotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
-        const rawData: ICrowdloanType[] = await slotAuctionSdk.getAvailableCrowdloans();
+        const slotAuctionSdk: SlotAuctionSdk =
+          SlotAuctionSdkSingleton.getInstance();
+        const rawData: ICrowdloanType[] =
+          await slotAuctionSdk.getAvailableCrowdloans();
 
         rawData.sort((a: ICrowdloanType, b: ICrowdloanType): number => {
           if (a.status === 'ONGOING' && b.status === 'ONGOING') {

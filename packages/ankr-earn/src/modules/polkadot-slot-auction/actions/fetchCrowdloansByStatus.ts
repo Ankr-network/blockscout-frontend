@@ -1,5 +1,5 @@
-import { ICrowdloanType, TCrowdloanStatus } from '@ankr.com/stakefi-polkadot';
 import { RequestAction } from '@redux-requests/core';
+import { ICrowdloanType, TCrowdloanStatus } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
