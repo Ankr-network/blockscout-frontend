@@ -17,7 +17,7 @@ import { AmountField } from 'modules/common/components/AmountField';
 import { Button } from 'uiKit/Button';
 import { Timer } from 'modules/common/components/Timer';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
-import { CancelIcon } from 'uiKit/Icons/CancelIcon';
+import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
 
@@ -76,6 +76,15 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
+  const percentage = (values: IUnstakeFormValues) =>
+    balance && values && values.amount
+      ? new BigNumber(+values.amount)
+          .dividedBy(balance)
+          .multipliedBy(100)
+          .decimalPlaces(4)
+          .toFormat()
+      : 0;
+
   return (
     <Dialog
       open={isOpened}
@@ -107,8 +116,11 @@ export const UnstakeDialog = ({
                   isBalanceLoading={isBalanceLoading}
                   name="amount"
                   tokenName={token}
-                  label={t('stake-avax.convert-dialog.amount')}
+                  label={t('unstake-dialog.amount', {
+                    value: percentage(values),
+                  })}
                   inputClassName={classes.input}
+                  showBalance={false}
                 />
               </Box>
 
@@ -124,8 +136,8 @@ export const UnstakeDialog = ({
 
       <div className={classes.footer}>
         <Container className={classes.container}>
-          <Grid container alignItems="center" spacing={3}>
-            <Grid item xs={12} sm>
+          <Grid container direction="column" spacing={4}>
+            <Grid item xs>
               {endDate && (
                 <Typography variant="body2" className={classes.info}>
                   {t('unstake-dialog.info', { token })}
@@ -144,7 +156,7 @@ export const UnstakeDialog = ({
               )}
             </Grid>
 
-            <Grid item xs sm={5}>
+            <Grid item xs>
               <Button
                 type="submit"
                 size="large"
@@ -161,9 +173,9 @@ export const UnstakeDialog = ({
         </Container>
       </div>
 
-      <IconButton className={classes.closeBtn} onClick={onClose}>
-        <CancelIcon size="xmd" />
-      </IconButton>
+      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
+        <CloseIcon size="xxs" htmlColor="inherit" />
+      </Button>
     </Dialog>
   );
 };

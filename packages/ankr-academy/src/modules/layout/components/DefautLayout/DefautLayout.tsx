@@ -31,7 +31,7 @@ export const DefaultLayout = ({
           mainNavigationMobileSlot={<MainNavigationMobile />}
         />
         <main
-          className={classNames({
+          className={classNames(classes.main, {
             [classes.mainAlignTop]: verticalAlign === 'top',
           })}
         >

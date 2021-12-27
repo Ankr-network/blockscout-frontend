@@ -48,5 +48,9 @@ export const useStakeSuccessDialogStyles = makeStyles<Theme>(theme => ({
       width: theme.spacing(5),
       height: theme.spacing(5),
     },
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
   },
 }));

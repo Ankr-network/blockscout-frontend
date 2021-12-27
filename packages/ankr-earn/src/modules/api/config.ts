@@ -3,13 +3,13 @@ import { BlockchainNetworkId, Env } from 'modules/common/types';
 import { numberToHex } from 'web3-utils';
 
 export interface IContractConfig {
-  ETHContract?: string;
-  aethContract?: string;
-  fethContract?: string;
-  maticToken?: string;
-  aMaticbToken?: string;
+  ETHContract: string;
+  aethContract: string;
+  fethContract: string;
+  maticToken: string;
+  aMaticbToken: string;
   polygonPool?: string;
-  ankrContract?: string;
+  ankrContract: string;
 }
 
 export interface IGatewayConfig {
@@ -36,6 +36,7 @@ export interface IRPCConfig {
 
 const LOCAL_CONFIG: IStkrConfig = {
   contractConfig: {
+    ankrContract: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -72,6 +73,7 @@ const GOERLI_CONFIG: IStkrConfig = {
 
 const MAINNET_CONFIG: IStkrConfig = {
   contractConfig: {
+    ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
     fethContract: '0xD01ef7C0A5d8c432fc2d1a85c66cF2327362E5C6',
