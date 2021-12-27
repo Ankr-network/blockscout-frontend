@@ -1,6 +1,7 @@
-import { Container, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { Button } from 'uiKit/Button';
+import { Container } from 'uiKit/Container';
 import { useConnectStyles } from './useConnectStyles';
 
 interface IConnectProps {

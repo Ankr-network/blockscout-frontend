@@ -21,12 +21,8 @@ export const Plan = () => {
     },
   ]);
 
-  const {
-    handleDeposit,
-    handleConnect,
-    loading,
-    isWalletConnected,
-  } = useAuth();
+  const { handleDeposit, handleConnect, loading, isWalletConnected } =
+    useAuth();
 
   const { data } = useQuery({
     type: fetchDepositStatus.toString(),

@@ -16,9 +16,10 @@ export const DetailsBlockChip = ({
   const classes = useStyles();
 
   const isPositive = useMemo(() => type === 'positive', [type]);
-  const color = useMemo(() => (isPositive ? 'primary' : 'secondary'), [
-    isPositive,
-  ]);
+  const color = useMemo(
+    () => (isPositive ? 'primary' : 'secondary'),
+    [isPositive],
+  );
 
   return (
     <Chip

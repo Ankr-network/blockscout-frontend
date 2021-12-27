@@ -31,15 +31,12 @@ export const fetchChain = createSmartAction<
     ) => {
       return {
         promise: (async (): Promise<IChainItemDetails> => {
-          const [
-            { data: chains },
-            { data: nodes },
-            { data: nodesWeight },
-          ] = await Promise.all([
-            store.dispatchRequest(fetchPublicChains()),
-            store.dispatchRequest(fetchChainNodes(chainId)),
-            store.dispatchRequest(fetchNodesWeight()),
-          ]);
+          const [{ data: chains }, { data: nodes }, { data: nodesWeight }] =
+            await Promise.all([
+              store.dispatchRequest(fetchPublicChains()),
+              store.dispatchRequest(fetchChainNodes(chainId)),
+              store.dispatchRequest(fetchNodesWeight()),
+            ]);
 
           const chain = chains?.find(item => item.id === chainId);
 

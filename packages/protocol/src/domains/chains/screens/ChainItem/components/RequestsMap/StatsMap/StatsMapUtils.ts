@@ -14,8 +14,9 @@ export const GEOGRAPHY_STYLES = {
 const strokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
 
 export const getGeogrpahyStyles = (geo: any, data: RequestsCountry[]) => {
-  const hasColor = data.find(item => item.isoA2 === geo?.properties?.ISO_A2)
-    ?.color;
+  const hasColor = data.find(
+    item => item.isoA2 === geo?.properties?.ISO_A2,
+  )?.color;
 
   const cursorStyle = hasColor ? 'pointer' : 'default';
   const fillColor = hasColor || COLOR_DEFAULT;

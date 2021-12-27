@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import {
   HttpProvider,
@@ -105,13 +106,40 @@ export abstract class Web3KeyProvider {
     return this.web3;
   }
 
-  public getWalletMeta(): IWalletMeta | undefined {
+  public getWalletMeta(): IWalletMeta {
+    if (!this.isConnected()) {
+      throw new Error('Provider must be connected');
+    }
     return this.walletMeta;
   }
 
   public createContract(abi: any, address: string): Contract {
     const web3 = this.getWeb3();
     return new web3.eth.Contract(abi, address);
+  }
+
+  public async getErc20Balance(
+    contract: Contract,
+    address: string,
+  ): Promise<BigNumber> {
+    let balance = 0;
+    try {
+      balance = await contract.methods.balanceOf(address).call();
+    } catch (error) {
+      console.error(`Unable to get contract balance: ${error}`);
+    }
+    let decimals = 18;
+    try {
+      decimals = await contract.methods.decimals().call();
+      if (!Number(decimals)) {
+        decimals = 18;
+      }
+    } catch (e) {
+      console.error(`Unable to calculate contract decimals: ${e}`);
+    }
+    return new BigNumber(`${balance}`).dividedBy(
+      new BigNumber(10).pow(decimals),
+    );
   }
 
   private setWalletMeta() {

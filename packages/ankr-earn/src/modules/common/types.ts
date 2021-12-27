@@ -30,3 +30,20 @@ export enum BlockchainNetworkId {
   avalancheTestnet = 43113,
   polygon = 137,
 }
+
+export enum Provider {
+  metamask = 'metamask',
+  wallet = 'wallet',
+  binance = 'binance',
+}
+
+export enum Blockchain {
+  ethereum = 'ethereum',
+  binance = 'binance',
+  avalanche = 'avalanche',
+}
+
+export enum Locale {
+  en = 'en-US',
+  zh = 'zh-CN',
+}
