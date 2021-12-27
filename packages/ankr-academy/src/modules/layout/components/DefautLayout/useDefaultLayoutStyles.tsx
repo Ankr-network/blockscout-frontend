@@ -10,6 +10,10 @@ export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.default,
   },
 
+  main: {
+    padding: theme.spacing(10, 0),
+  },
+
   mainAlignTop: {
     marginBottom: 'auto',
   },

@@ -29,7 +29,7 @@ export const useSubMenuStyles = makeStyles<Theme>(theme => ({
   },
 
   link: {
-    '&&': {
+    '&&, &:focus': {
       display: 'inline-block',
       width: 'auto',
       color: alpha(theme.palette.text.primary, 0.5),
@@ -41,23 +41,24 @@ export const useSubMenuStyles = makeStyles<Theme>(theme => ({
       transitionTimingFunction: 'linear',
       padding: theme.spacing(1.25, 0),
       fontSize: 18,
+      textDecoration: 'none',
 
       [theme.breakpoints.down('sm')]: {
         fontSize: 14,
       },
 
-      '&:hover, &:focus': {
-        color: theme.palette.text.secondary,
+      '&:hover': {
+        color: theme.palette.primary.main,
         transitionDuration: '200ms',
       },
     },
   },
 
   activeLink: {
-    '&&': {
-      color: theme.palette.text.primary,
-      '&:hover, &:focus': {
-        color: theme.palette.text.primary,
+    '&&, &:focus': {
+      color: theme.palette.primary.main,
+      '&:hover': {
+        color: theme.palette.primary.main,
       },
     },
   },

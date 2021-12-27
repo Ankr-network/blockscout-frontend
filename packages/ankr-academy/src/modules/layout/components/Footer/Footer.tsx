@@ -7,9 +7,9 @@ export const Footer = () => {
   const classes = useFooterStyles();
 
   return (
-    <div className={classes.inner}>
+    <footer className={classes.inner}>
       <Menu />
       <Privacy />
-    </div>
+    </footer>
   );
 };

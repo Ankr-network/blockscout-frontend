@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    padding: '20vh 0',
+    padding: '10vh 0',
   },
 
   title: {
