@@ -1,20 +1,16 @@
-import { Box, Divider, Link, Tooltip, Typography } from '@material-ui/core';
+import { Box, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/common/components/ResponseData';
 import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t } from 'modules/i18n/utils/intl';
 import {
   IUnstakeFormValues,
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
 import React, { useCallback } from 'react';
 import { Container } from 'uiKit/Container';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { UserActions } from '../../../../store/actions/UserActions';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';

@@ -8,6 +8,7 @@ import { ANKR_1INCH_BUY_LINK, DEFAULT_ROUNDING } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import {
   IUnstakeFormValues,
   UnstakeDialog,
@@ -15,7 +16,6 @@ import {
 import React, { ReactNode, useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { UserActions } from '../../../../store/actions/UserActions';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';
@@ -38,6 +38,7 @@ export const StakePolygonDashboard = () => {
   useInitEffect(() => {
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
+    dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());
   });
 
@@ -108,11 +109,11 @@ export const StakePolygonDashboard = () => {
         >
           <Queries<
             ResponseData<typeof fetchStats>,
-            ResponseData<typeof UserActions.fetchAccountData>
+            ResponseData<typeof getAnkrBalance>
           >
-            requestActions={[fetchStats, UserActions.fetchAccountData]}
+            requestActions={[fetchStats, getAnkrBalance]}
           >
-            {({ data: statsData, loading }, { data: accountData }) => (
+            {({ data: statsData, loading }, { data: ankrBalance }) => (
               <>
                 <Balance
                   isLoading={stakeLoading}
@@ -135,13 +136,11 @@ export const StakePolygonDashboard = () => {
                 )}
                 <UnstakeDialog
                   extraValidation={(data, errors) => {
-                    if (
-                      accountData.ankrBalance.isLessThan(statsData.unstakeFee)
-                    ) {
+                    if (ankrBalance.isLessThan(statsData.unstakeFee)) {
                       errors.amount = tHTML(
                         'stake-polygon-dashboard.validation.is-not-enough-fee',
                         {
-                          value: accountData.ankrBalance.toFormat(),
+                          value: ankrBalance.toFormat(),
                           link: ANKR_1INCH_BUY_LINK,
                         },
                       );
