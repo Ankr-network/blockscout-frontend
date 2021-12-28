@@ -11,7 +11,7 @@ export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
   },
 
   main: {
-    padding: theme.spacing(10, 0),
+    padding: theme.spacing('10vh', 0),
   },
 
   mainAlignTop: {

@@ -30,6 +30,11 @@ export const getTheme = (type: Themes) => {
               fontWeight: 'bold',
               fontSize: 45,
             },
+
+            h4: {
+              fontWeight: 'bold',
+              fontSize: 34,
+            },
           },
           MuiButton: {
             ...mainTheme.overrides?.MuiButton,
@@ -42,6 +47,7 @@ export const getTheme = (type: Themes) => {
               },
             },
           },
+          MuiIconButton: {},
         },
       });
   }

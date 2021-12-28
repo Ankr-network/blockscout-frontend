@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
-import { mainTheme } from 'ui';
+import { mainTheme, Spinner } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';
@@ -22,7 +22,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
           {children}
         </ConnectedRouter>
       ) : (
-        'TODO: Spinner from UIKit'
+        <Spinner />
       )}
     </MuiThemeProvider>
   );
