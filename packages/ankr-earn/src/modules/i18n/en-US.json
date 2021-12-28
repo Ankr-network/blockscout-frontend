@@ -55,14 +55,14 @@
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR"
   },
-  "boost": {
-    "trading-cockpit": "Trading cockpit",
-    "liquidity-mining": "Liquidity mining"
-  },
   "not-found": {
     "title": "Page not found",
     "btn-back": "Previous page",
     "btn-home": "Go home"
+  },
+  "boost": {
+    "trading-cockpit": "Trading cockpit",
+    "liquidity-mining": "Liquidity mining"
   },
   "connect": {
     "networks": {

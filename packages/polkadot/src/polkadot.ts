@@ -375,9 +375,9 @@ export class PolkadotProvider {
       try {
         const transactionHash = blake2AsHex(signedExtrinsic.toU8a(false), 256);
         console.log(`Transaction hash (calculated): ${transactionHash}`);
-        // TODO Please to resolve the issue with this line
-        // @ts-ignore
         const unsub = await signedExtrinsic.send(
+          // TODO Please to resolve the issue with this line
+          // @ts-ignore
           (result: ISubmittableResult) => {
             const { events = [], status, dispatchError } = result;
             console.log('Transaction status:', status.type);

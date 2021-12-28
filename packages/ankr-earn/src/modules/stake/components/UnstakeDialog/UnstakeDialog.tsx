@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Dialog,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, Dialog, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
 import { ReactNode, ReactText, useCallback } from 'react';

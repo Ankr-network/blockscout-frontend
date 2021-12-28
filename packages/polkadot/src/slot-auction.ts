@@ -365,8 +365,8 @@ export class SlotAuctionSdk {
     const lineBreak = new Buffer('\n', 'ascii');
     let amountHex = amount.toString(16);
     amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
-    // eslint-disable-next-line no-buffer-constructor
     return Uint8Array.from(
+      // eslint-disable-next-line no-buffer-constructor
       Buffer.concat([header, address, lineBreak, new Buffer(amountHex, 'hex')]),
     );
   }
