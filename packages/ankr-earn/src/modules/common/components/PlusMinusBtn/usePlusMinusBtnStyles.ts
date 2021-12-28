@@ -8,7 +8,7 @@ export const usePlusMinusBtnStyles = makeStyles<Theme>(theme => ({
     padding: 0,
     background: theme.palette.background.paper,
     border: `2px solid ${theme.palette.background.default}`,
-    color: theme.palette.background.paper,
+    color: theme.palette.text.secondary,
     borderRadius: '50%',
 
     '& svg': {

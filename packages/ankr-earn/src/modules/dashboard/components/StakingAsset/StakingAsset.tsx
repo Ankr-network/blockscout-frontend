@@ -1,5 +1,7 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
@@ -10,21 +12,21 @@ import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 interface IStakingAssetProps {
   token: EToken;
   network: string;
-  amount: number;
+  amount: BigNumber;
+  pending?: number;
   tradeLink?: string;
   stakeLink?: string;
   unstakeLink?: string;
-  isPending?: boolean;
 }
 
 export const StakingAsset = ({
   network,
   token,
   amount,
+  pending = 0,
   tradeLink,
   stakeLink,
   unstakeLink,
-  isPending = false,
 }: IStakingAssetProps) => {
   const classes = useStyles();
 
@@ -32,33 +34,40 @@ export const StakingAsset = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid container justifyContent="space-between">
-        <Grid item>
+      <Grid
+        container
+        justifyContent="space-between"
+        className={classes.upperWrapper}
+        spacing={2}
+      >
+        <Grid item xs>
           <NetworkIconText network={network} token={token} />
         </Grid>
-
-        {isPending && (
-          <Grid item>
+        {!!pending && (
+          <Grid item xs container className={classes.pendingWrapper}>
             <Pending value={123} token="aMATICb" />
           </Grid>
         )}
       </Grid>
-
-      <Grid container justifyContent="space-between" spacing={1}>
+      <Grid
+        container
+        justifyContent="space-between"
+        spacing={2}
+        className={classes.bottomWrapper}
+      >
         <Grid item>
           <Typography className={classes.amount}>
-            {amount ? amount : '-'}
+            {amount ? amount.decimalPlaces(DEFAULT_FIXED).toFormat() : '-'}
           </Typography>
         </Grid>
-
         {displayLinks && (
           <Grid
             item
             xs
             container
-            justifyContent="flex-end"
             alignItems="center"
             spacing={2}
+            className={classes.links}
           >
             {stakeLink && (
               <Grid item>

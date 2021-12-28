@@ -4,6 +4,8 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 
 const ROOT = `/dashboard`;
 
@@ -28,11 +30,11 @@ export function getRoutes() {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <Route path={ROOT} exact>
+        <GuardRoute providerId={POLYGON_PROVIDER_ID} path={ROOT} exact>
           <DefaultLayout>
             <Dashboard />
           </DefaultLayout>
-        </Route>
+        </GuardRoute>
 
         <Route>
           <DefaultLayout>

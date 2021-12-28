@@ -7,9 +7,10 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     flexDirection: 'column',
     minHeight: 220,
+    maxWidth: 566,
   },
   amount: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: 'bold',
 
     [theme.breakpoints.up('sm')]: {
@@ -20,7 +21,7 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
     borderRadius: theme.spacing(2),
     background: theme.palette.background.paper,
     border: `2px solid ${theme.palette.background.default}`,
-    color: theme.palette.background.paper,
+    color: theme.palette.text.secondary,
 
     transition: '0.2s all',
 
@@ -28,6 +29,37 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
       background: theme.palette.background.paper,
       borderColor: theme.palette.background.default,
       color: theme.palette.primary.main,
+    },
+  },
+  upperWrapper: {
+    flexDirection: 'column',
+    marginBottom: theme.spacing(4),
+
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+      marginBottom: 0,
+    },
+  },
+  bottomWrapper: {
+    flexDirection: 'column',
+
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
+  },
+  links: {
+    justifyContent: 'flex-start',
+
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-end',
+    },
+  },
+  pendingWrapper: {
+    justifyContent: 'flex-start',
+
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-end',
+      alignItems: 'flex-start',
     },
   },
 }));

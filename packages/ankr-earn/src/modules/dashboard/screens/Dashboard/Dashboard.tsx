@@ -1,11 +1,23 @@
 import { Container, Grid, Paper, Typography } from '@material-ui/core';
+import { useDispatchRequest } from '@redux-requests/react';
+import { RoutesConfig as RoutesConfigBoost } from 'modules/boost/Routes';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { ResponseData } from 'modules/common/components/ResponseData';
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
+import { fetchStats as fetchStatsPolygon } from 'modules/stake-polygon/actions/fetchStats';
+import { RoutesConfig as RoutesConfigPolygon } from 'modules/stake-polygon/Routes';
 import { useDashboardStyles as useStyles } from './useDashboardStyles';
 
 export const Dashboard = () => {
   const classes = useStyles();
+  const dispatchRequest = useDispatchRequest();
+
+  useInitEffect(() => {
+    dispatchRequest(fetchStatsPolygon());
+  });
 
   return (
     <Container className={classes.root}>
@@ -26,16 +38,22 @@ export const Dashboard = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} lg={6}>
-          <StakingAsset
-            network="Ethereum Mainnet"
-            token={EToken.aMATICb}
-            amount={1234}
-            tradeLink="trade-link-PLACEHOLDER"
-            unstakeLink="unstake-link-PLACEHOLDER"
-            stakeLink="stake-link-PLACEHOLDER"
-          />
-        </Grid>
+        <Queries<ResponseData<typeof fetchStatsPolygon>>
+          requestActions={[fetchStatsPolygon]}
+        >
+          {({ data }) => (
+            <Grid item xs={12} lg={6}>
+              <StakingAsset
+                network="Ethereum Mainnet"
+                token={EToken.aMATICb}
+                amount={data.aMaticbBalance}
+                tradeLink={RoutesConfigBoost.tradingCockpit.generatePath()}
+                unstakeLink="unstake-link-PLACEHOLDER"
+                stakeLink={RoutesConfigPolygon.stake.generatePath()}
+              />
+            </Grid>
+          )}
+        </Queries>
       </Grid>
     </Container>
   );
