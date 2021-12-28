@@ -160,5 +160,12 @@
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
     "amount": "{value}%"
+  },
+  "dashboard": {
+    "title": "My staking portfolio",
+    "balance": "Estimated balance",
+    "assets": "Staking assets",
+    "pending": "Pending {value} {token}",
+    "trade": "Trade"
   }
 }

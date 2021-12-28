@@ -5,6 +5,7 @@ import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
 import { getRoutes as getFeaturesRoutes } from 'modules/features/Routes';
 import { getRoutes as getStakeDemoRoutes } from 'modules/stake-demo/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
+import { getRoutes as getDashboardRoutes } from 'modules/dashboard/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 
@@ -30,6 +31,7 @@ export function Routes() {
       {getBoostRoutes()}
       {getStakePolygonRoutes()}
       {getFeaturesRoutes()}
+      {getDashboardRoutes()}
 
       {/* for the demo purpose */}
       {getStakeDemoRoutes()}

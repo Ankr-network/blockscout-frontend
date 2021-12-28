@@ -3,7 +3,13 @@ import { withSvgIcon } from './withSvgIcon';
 
 export const MinusIcon = withSvgIcon(
   <>
-    <rect y="14" width="3" height="25" transform="rotate(-90 0 14)" />
+    <rect
+      y="14"
+      width="3"
+      height="25"
+      transform="rotate(-90 0 14)"
+      fill="currentColor"
+    />
   </>,
   { viewBox: '0 0 25 25' },
 );
