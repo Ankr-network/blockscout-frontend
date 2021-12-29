@@ -9,11 +9,15 @@ interface IFeaturesProps {
 export const Features = ({ children }: IFeaturesProps) => {
   const renderedChildren = useMemo(
     () =>
-      Children.map(children, (child, index) => (
-        <Grid item xs={12} md={6} lg={4} key={uid(index)}>
-          {child}
-        </Grid>
-      )),
+      Children.map(
+        children,
+        (child, index) =>
+          child && (
+            <Grid item xs={12} md={6} lg={4} key={uid(index)}>
+              {child}
+            </Grid>
+          ),
+      ),
     [children],
   );
 

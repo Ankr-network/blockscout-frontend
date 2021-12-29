@@ -1,20 +1,23 @@
 import { Box, Container, Typography } from '@material-ui/core';
 import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
-import { getRoutes as getFeaturesRoutes } from 'modules/features/Routes';
+import { EMPTY_PATH, featuresConfig, INDEX_PATH } from 'modules/common/const';
+import { getRoutes as getDashboardRoutes } from 'modules/dashboard/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { getRoutes as getStakeDemoRoutes } from 'modules/stake-demo/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
-import { getRoutes as getDashboardRoutes } from 'modules/dashboard/Routes';
+import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 export function Routes() {
   return (
     <Switch>
-      {/* todo: move it to the dedicated module */}
+      <Route path={EMPTY_PATH} exact>
+        <Redirect to={INDEX_PATH} />
+      </Route>
 
+      {/* todo: move it to the dedicated module */}
       <Route path={INDEX_PATH} exact>
         <DefaultLayout>
           <Box textAlign="center" py={6}>
@@ -25,19 +28,14 @@ export function Routes() {
         </DefaultLayout>
       </Route>
 
-      <Route path={EMPTY_PATH} exact>
-        <Redirect to={INDEX_PATH} />
-      </Route>
-
+      {getBoostRoutes()}
+      {getStakeRoutes()}
+      {getStakePolygonRoutes()}
+      {getDashboardRoutes()}
       {getPolkadotSlotAuctionRoutes()}
 
-      {getBoostRoutes()}
-      {getStakePolygonRoutes()}
-      {getFeaturesRoutes()}
-      {getDashboardRoutes()}
-
       {/* for the demo purpose */}
-      {getStakeDemoRoutes()}
+      {featuresConfig.demoStaking && getStakeDemoRoutes()}
 
       <Route>
         <DefaultLayout>

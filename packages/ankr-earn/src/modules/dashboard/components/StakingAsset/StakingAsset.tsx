@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
@@ -13,7 +13,7 @@ interface IStakingAssetProps {
   token: EToken;
   network: string;
   amount: BigNumber;
-  pending?: number;
+  pendingValue?: number;
   tradeLink?: string;
   stakeLink?: string;
   unstakeLink?: string;
@@ -23,7 +23,7 @@ export const StakingAsset = ({
   network,
   token,
   amount,
-  pending = 0,
+  pendingValue = 0,
   tradeLink,
   stakeLink,
   unstakeLink,
@@ -34,21 +34,20 @@ export const StakingAsset = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid
-        container
-        justifyContent="space-between"
-        className={classes.upperWrapper}
-        spacing={2}
-      >
-        <Grid item xs>
-          <NetworkIconText network={network} token={token} />
-        </Grid>
-        {!!pending && (
-          <Grid item xs container className={classes.pendingWrapper}>
-            <Pending value={123} token="aMATICb" />
+      <Box mb={{ xs: 3, sm: 'auto' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm>
+            <NetworkIconText network={network} token={token} />
           </Grid>
-        )}
-      </Grid>
+
+          {!!pendingValue && (
+            <Grid item xs="auto" className={classes.pendingCol}>
+              <Pending value={pendingValue} token={token} />
+            </Grid>
+          )}
+        </Grid>
+      </Box>
+
       <Grid
         container
         justifyContent="space-between"
@@ -60,6 +59,7 @@ export const StakingAsset = ({
             {amount ? amount.decimalPlaces(DEFAULT_FIXED).toFormat() : '-'}
           </Typography>
         </Grid>
+
         {displayLinks && (
           <Grid
             item
@@ -81,7 +81,11 @@ export const StakingAsset = ({
             )}
             {tradeLink && (
               <Grid item>
-                <NavLink className={classes.tradeButton} href={tradeLink}>
+                <NavLink
+                  variant="outlined"
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                >
                   {t('dashboard.trade')}
                 </NavLink>
               </Grid>

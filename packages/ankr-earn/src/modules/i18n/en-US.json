@@ -51,9 +51,13 @@
     "polygon": "MATIC",
     "amaticb": "aMATICb",
     "token-value": "{value, number} {token}",
-    "matic-value": "{value} aMATICb",
+    "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR"
+  },
+  "chain": {
+    "1": "Ethereum Mainnet",
+    "5": "Ethereum Goerli"
   },
   "not-found": {
     "title": "Page not found",

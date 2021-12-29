@@ -3,6 +3,7 @@ import { Env } from './types';
 export const EMPTY_PATH = '/';
 export const INDEX_PATH = '/liquid-staking';
 export const PARACHAIN_BONDING_PATH = '/parachain-liquid-bonding';
+export const UNSTAKE_PATH = `${INDEX_PATH}/unstake`;
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
@@ -37,4 +38,5 @@ export const ANKR_1INCH_BUY_LINK =
 
 export const featuresConfig = {
   liquidityMining: true,
+  demoStaking: true,
 };

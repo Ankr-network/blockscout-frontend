@@ -7,7 +7,7 @@ import { createAction } from 'redux-smart-actions';
 import { POLYGON_PROVIDER_ID } from '../const';
 
 export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
-  'stakePolygon/getAnkrBalance',
+  'polygon/getAnkrBalance',
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {

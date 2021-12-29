@@ -3,7 +3,11 @@ import { handleRequests, RequestAction } from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
+import {
+  connectRouter,
+  routerMiddleware,
+  RouterState,
+} from 'connected-react-router';
 import { configFromEnv } from 'modules/api/config';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
@@ -69,7 +73,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
         }),
       );
     }
-    
+
     throw error;
   },
 });

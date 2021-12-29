@@ -9,22 +9,23 @@ interface IFeatureItemProps {
   title: string;
   mainHref: string;
   moreHref?: string;
+  iconSlot: JSX.Element;
 }
 
 export const FeatureItem = ({
   title,
   mainHref,
   moreHref,
+  iconSlot,
 }: IFeatureItemProps) => {
   // todo: update styles according to the design
   const classes = useFeatureItemStyles();
 
   return (
     <Paper className={classNames(classes.root)}>
-      <Box mb={2}>
-        {/* todo: use relevant icon */}
-        <b style={{ fontSize: 32 }}>💲</b>
-      </Box>
+      {React.cloneElement(iconSlot, {
+        className: classes.icon,
+      })}
 
       <Box mb={3}>
         <Typography>{title}</Typography>

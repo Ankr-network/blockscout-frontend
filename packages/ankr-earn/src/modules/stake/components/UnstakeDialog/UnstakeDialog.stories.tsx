@@ -35,7 +35,6 @@ export const Default = () => {
           isBalanceLoading={false}
           balance={new BigNumber('23.5678715432314234213')}
           onSubmit={onSubmit}
-          isOpened={isOpened}
           onClose={onCloseClick}
           submitDisabled={isLoading}
           isLoading={isLoading}
