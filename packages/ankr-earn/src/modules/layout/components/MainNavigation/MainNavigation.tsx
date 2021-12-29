@@ -1,12 +1,15 @@
 import { Button, Popover } from '@material-ui/core';
+import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import classNames from 'classnames';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
+import { isMainnet } from 'modules/common/const';
+import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { useState } from 'react';
-import { ReactComponent as AngleDownIconSmall } from '../../../../assets/img/angle-down-icon-small.svg';
-import { Navigation } from '../../../common/components/Navigation';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
 export const MainNavigation = () => {
@@ -21,7 +24,11 @@ export const MainNavigation = () => {
     },
     {
       label: t('main-navigation.parachain'),
-      href: '/parachain', // TODO: add proper route
+      href: PolkadotSlotAuctionRoutes.crowdloans.generatePath(
+        isMainnet
+          ? EParachainPolkadotNetwork.DOT.toLowerCase()
+          : EParachainPolkadotNetwork.WND.toLowerCase(),
+      ), // TODO: add proper route
     },
     {
       label: t('main-navigation.boost'),

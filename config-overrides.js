@@ -23,6 +23,7 @@ module.exports = function (config) {
     babelInclude([
       path.resolve('src'),
       path.resolve('../ui'),
+      path.resolve('../polkadot'),
       path.resolve('../provider'),
     ]),
   )(config);

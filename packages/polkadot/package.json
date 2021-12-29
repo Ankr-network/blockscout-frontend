@@ -1,0 +1,57 @@
+{
+  "name": "polkadot",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "format": "lint-staged",
+    "test": "tsc && jest"
+  },
+  "dependencies": {
+    "@ankr.com/stakefi-web3": "^0.0.149",
+    "@polkadot/api": "^6.12.1",
+    "@polkadot/extension-dapp": "^0.40.3",
+    "@polkadot/types": "^6.12.1",
+    "@polkadot/util": "^8.2.2",
+    "@polkadot/util-crypto": "^8.2.2",
+    "axios": "^0.21.1",
+    "axios-cache-adapter": "^2.7.3",
+    "bignumber.js": "^9.0.1",
+    "bs58": "^4.0.0",
+    "web3-eth-contract": "^1.3.5"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.5",
+    "@types/bs58": "^4.0.1",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.18.3",
+    "babel-jest": "^27.4.5",
+    "jest": "^26.6.3",
+    "jsonfile": "^6.1.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "typescript": "^4.5.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "<rootDir>"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "<rootDir>/../../node_modules"
+    ],
+    "moduleNameMapper": {
+      "@ankr.com/stakefi-web3": "<rootDir>/../../node_modules/@ankr.com/stakefi-web3/dist"
+    },
+    "testMatch": [
+      "**/?(*.)+(test).+(js)"
+    ],
+    "transformIgnorePatterns": []
+  }
+}

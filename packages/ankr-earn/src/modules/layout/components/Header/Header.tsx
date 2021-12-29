@@ -10,11 +10,13 @@ import { useHeaderStyles as useStyles } from './useHeaderStyles';
 interface IHeader {
   mainNavigationMobileSlot: ReactNode;
   mainNavigationSlot: ReactNode;
+  rightComponentSlot?: ReactNode;
 }
 
 export const Header = ({
   mainNavigationMobileSlot,
   mainNavigationSlot,
+  rightComponentSlot,
 }: IHeader) => {
   const classes = useStyles();
   const isLGUp = useIsLGUp();
@@ -35,6 +37,8 @@ export const Header = ({
 
         <div className={classes.rightSide}>
           {isLGUp && <LocaleSwitcher className={classes.localeSwitcher} />}
+
+          {!!rightComponentSlot && rightComponentSlot}
 
           {!isLGUp && (
             <Toggle

@@ -3,11 +3,12 @@ import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EMPTY_PATH, INDEX_PATH } from 'modules/common/const';
 import { getRoutes as getFeaturesRoutes } from 'modules/features/Routes';
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { getRoutes as getStakeDemoRoutes } from 'modules/stake-demo/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getDashboardRoutes } from 'modules/dashboard/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { DefaultLayout } from './modules/layout/components/DefautLayout';
 
 export function Routes() {
   return (
@@ -27,6 +28,8 @@ export function Routes() {
       <Route path={EMPTY_PATH} exact>
         <Redirect to={INDEX_PATH} />
       </Route>
+
+      {getPolkadotSlotAuctionRoutes()}
 
       {getBoostRoutes()}
       {getStakePolygonRoutes()}

@@ -131,8 +131,8 @@ export const mainTheme = createTheme({
     },
     MuiCheckbox: {
       color: 'primary',
-      icon: CheckboxIcon,
-      checkedIcon: CheckboxCheckedIcon,
+      icon: <CheckboxIcon />,
+      checkedIcon: <CheckboxCheckedIcon />,
     },
     MuiStepLabel: {
       StepIconComponent: StepIcon,
@@ -295,6 +295,18 @@ export const mainTheme = createTheme({
         padding: defaultTheme.spacing(2.3, 2),
         minHeight: defaultTheme.spacing(6.5),
         boxSizing: 'border-box',
+      },
+    },
+
+    MuiTooltip: {
+      tooltip: {
+        padding: defaultTheme.spacing(0.875, 2.125, 0.875, 2.125),
+        backgroundColor: defaultTheme.palette.common.white,
+        color: defaultTheme.palette.text.primary,
+        fontSize: 14,
+        fontWeight: 'normal',
+        border: `1px solid ${alpha(defaultTheme.palette.text.primary, 0.2)}`,
+        borderRadius: 8,
       },
     },
 

@@ -1,7 +1,7 @@
-import { closeModalAction, KnownModal, openModalAction } from './actions';
-import { IStoreState } from '../reducers';
-import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IStoreState } from '../store';
+import { closeModalAction, KnownModal, openModalAction } from './actions';
 
 export type IDialogState = {
   currentModal?: KnownModal;

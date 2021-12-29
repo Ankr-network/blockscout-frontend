@@ -70,7 +70,7 @@ export const TokenForm = ({
     } else {
       const currentAmount = new BigNumber(value);
       if (currentAmount.isNaN()) {
-        error = t('validation.numberOnly');
+        error = t('validation.number-only');
       } else if (currentAmount.isLessThanOrEqualTo(MIN_AMOUNT)) {
         error = t('validation.min', {
           value: MIN_AMOUNT,
