@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntroductionStyles as useStyles } from './IntroductionStyles';
 import { Box, Button, Container, Typography } from '@material-ui/core';
-import { LibraryRoutesConfig } from '../../../library/Routes';
+import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 
 export const Introduction = () => {
   const classes = useStyles();
@@ -20,7 +20,7 @@ export const Introduction = () => {
         <Button
           color="secondary"
           component={Link}
-          to={LibraryRoutesConfig.library.generatePath()}
+          to={LibraryRoutesConfig.lesson.generatePath('lesson1')}
         >
           Start Learning at Ankr Academy!
         </Button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { uid } from 'react-uid';
 import { UserActionType } from '../../types';
 import { UserActionButton } from '../UserActionButton/UserActionButton';
 import { UserActionRadio } from '../UserActionRadio/UserActionRadio';
@@ -17,6 +18,7 @@ export const UserActionWrapper = ({
     case 'button':
       return (
         <UserActionButton
+          key={uid(userAction.buttonText)}
           text={userAction.buttonText}
           onClick={loadNextBlock}
         />
@@ -33,7 +35,7 @@ export const UserActionWrapper = ({
     case 'rate':
       return <UserActionRate onClick={loadNextBlock} />;
     case 'next':
-      return <>TODO user action type next</>;
+      return null;
     default:
       throw new Error('wrong user action type');
   }

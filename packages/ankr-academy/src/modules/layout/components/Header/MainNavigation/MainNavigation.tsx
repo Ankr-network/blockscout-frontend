@@ -1,8 +1,8 @@
 import React from 'react';
 import { t } from 'modules/i18n/utils/intl';
 import { Navigation } from 'modules/common/components/Navigation';
-import { AcademyRoutesConfig } from '../../../../../domains/academy/Routes';
-import { LibraryRoutesConfig } from '../../../../../domains/library/Routes';
+import { AcademyRoutesConfig } from 'domains/academy/Routes';
+import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 
 export const MainNavigation = () => {
   const items = [
@@ -12,7 +12,7 @@ export const MainNavigation = () => {
     },
     {
       label: t('main-navigation.library'),
-      href: LibraryRoutesConfig.library.generatePath(),
+      href: LibraryRoutesConfig.lesson.generatePath('lesson1'),
     },
     {
       label: t('main-navigation.glossary'),

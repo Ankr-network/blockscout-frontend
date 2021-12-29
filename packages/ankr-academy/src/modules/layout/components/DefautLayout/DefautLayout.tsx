@@ -13,12 +13,14 @@ export interface IDefaultLayout {
   children?: ReactNode;
   theme?: Themes;
   verticalAlign?: 'top' | 'center' | 'bottom';
+  isFooterDisabled?: boolean;
 }
 
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
   verticalAlign = 'top',
+  isFooterDisabled,
 }: IDefaultLayout) => {
   const classes = useDefaultLayoutStyles();
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -37,7 +39,7 @@ export const DefaultLayout = ({
         >
           {children}
         </main>
-        <Footer />
+        {!isFooterDisabled && <Footer />}
       </ThemeProvider>
     </div>
   );

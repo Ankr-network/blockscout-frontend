@@ -1,9 +1,15 @@
-import { LessonType } from './types';
+import { LessonType, ModuleType } from './types';
 import imgIntro from './assets/lesson1_intro.png';
 import img2 from './assets/lesson1_img2.png';
+import imgPreviewLesson2 from './assets/medal.png';
 
-export const lesson: LessonType = {
+export const lesson1: LessonType = {
+  id: 'lesson1',
+  nextLessonId: 'lesson2',
+  index: '1',
   title: 'Intro to Bitcoin',
+  timeToRead: '5 min read',
+  imgPreview: imgPreviewLesson2,
   blocks: [
     {
       id: '1',
@@ -333,4 +339,67 @@ export const lesson: LessonType = {
       },
     },
   ],
+};
+
+export const lesson2: LessonType = {
+  id: 'lesson2',
+  nextLessonId: 'lesson1',
+  index: '2',
+  title: 'What Is DeFi?',
+  timeToRead: '5 min read',
+  imgPreview: imgPreviewLesson2,
+  blocks: [
+    {
+      id: '11',
+      blockContent: [
+        {
+          type: 'ankr',
+          messagesList: [
+            'Hey there!',
+            'Welcome to the second Academy lesson.',
+            'Sometimes you may see a specialized highlighted words. Hover your cursor over it to see the definition.',
+          ],
+        },
+        {
+          type: 'text',
+          messagesList: [
+            'Now that you have some more details about how the traditional, centralized financial system operates, it’s time to introduce the financial system of the future and the one we’re currently trying to build: decentralized finance (or DeFi). “DeFi” is more than just a trendy tech company buzzword, and it’s about more than just cryptocurrency and blockchain technology. Yes, these technologies form the technological backbone of the DeFi space, but they’re more about the “how” than the “why” of DeFi. At its core, the ethos of DeFi is about giving power back to the people. It entails a process of decentralizing the current financial system that is dominated by banks, governments, and monetary policies that benefit big businesses over individuals.',
+            'Simply put, the DeFi movement is trying to facilitate the exact same financial services you know and use today — like banking, borrowing and lending, trading, investing, and earning interest, among others — and streamlining these services by removing the legacy players and unnecessary middlemen. DeFi relies on some innovative technologies like blockchain to eliminate the need for expensive, slow, and inefficient middlemen that take their cut every time you use a financial service. By reducing overhead and making these financial services more efficient, they become more accessible, cheaper, and quicker than ever before. And without paying the centralized middlemen, there’s more money leftover on the table for you, the individual user.',
+          ],
+        },
+      ],
+      userAction: {
+        type: 'button',
+        buttonText: 'Sounds great. Tell more about how DeFi can benefit me?',
+      },
+    },
+    {
+      id: '12',
+      blockContent: [
+        {
+          type: 'ankr',
+          messagesList: [
+            'Hey there!',
+            'Welcome to the first Academy lesson.',
+            'Sometimes you may see a specialized highlighted words. Hover your cursor over it to see the definition.',
+          ],
+        },
+        {
+          type: 'text',
+          messagesList: [
+            'Now that you have some more details about how the traditional, centralized financial system operates, it’s time to introduce the financial system of the future and the one we’re currently trying to build: decentralized finance (or DeFi). “DeFi” is more than just a trendy tech company buzzword, and it’s about more than just cryptocurrency and blockchain technology. Yes, these technologies form the technological backbone of the DeFi space, but they’re more about the “how” than the “why” of DeFi. At its core, the ethos of DeFi is about giving power back to the people. It entails a process of decentralizing the current financial system that is dominated by banks, governments, and monetary policies that benefit big businesses over individuals.',
+            'Simply put, the DeFi movement is trying to facilitate the exact same financial services you know and use today — like banking, borrowing and lending, trading, investing, and earning interest, among others — and streamlining these services by removing the legacy players and unnecessary middlemen. DeFi relies on some innovative technologies like blockchain to eliminate the need for expensive, slow, and inefficient middlemen that take their cut every time you use a financial service. By reducing overhead and making these financial services more efficient, they become more accessible, cheaper, and quicker than ever before. And without paying the centralized middlemen, there’s more money leftover on the table for you, the individual user.',
+          ],
+        },
+      ],
+      userAction: {
+        type: 'next',
+      },
+    },
+  ],
+};
+
+export const module1: ModuleType = {
+  lesson1,
+  lesson2,
 };

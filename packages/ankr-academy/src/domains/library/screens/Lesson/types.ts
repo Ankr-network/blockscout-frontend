@@ -30,23 +30,28 @@ export type RadioButton = {
   label: string;
   value: string;
 };
+
 type UserActionRadio = {
   type: 'radio';
   question: string;
   controls: RadioButton[];
   buttonText: string;
 };
+
 type UserActionRate = {
   type: 'rate';
 };
+
 type UserActionNext = {
   type: 'next';
 };
+
 export type UserActionType =
   | UserActionButton
   | UserActionRadio
   | UserActionRate
   | UserActionNext;
+
 export type LessonBlockType = {
   id: string;
   blockContent: BlockContentType[];
@@ -54,6 +59,17 @@ export type LessonBlockType = {
 };
 
 export type LessonType = {
+  id: LessonId;
+  nextLessonId: LessonId; // TODO: add courses, modules and lessons structure
+  index: string;
   title: string;
+  timeToRead: string;
+  imgPreview: string;
   blocks: LessonBlockType[];
 };
+
+export type ModuleType = {
+  [lessonIndex in LessonId]: LessonType;
+};
+
+export type LessonId = 'lesson1' | 'lesson2';
