@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { ICrowdloanType } from 'polkadot';
+import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
@@ -13,7 +13,8 @@ export const fetchCrowdloanById = createAction<
 >('FETCH_CROWDLOAN_BY_ID', (loanId: number) => ({
   request: {
     promise: (async () => {
-      const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+      const slotAuctionSdk: SlotAuctionSdk =
+        await SlotAuctionSdkSingleton.getInstance();
       const crowdloan = await slotAuctionSdk.getCrowdloanById(loanId);
       return {
         crowdloan,

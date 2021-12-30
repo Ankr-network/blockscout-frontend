@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { ICrowdloanType, TCrowdloanStatus } from 'polkadot';
+import { ICrowdloanType, SlotAuctionSdk, TCrowdloanStatus } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
@@ -19,7 +19,9 @@ export const fetchCrowdloansByStatus = createAction<
 >('FETCH_CROWDLOANS_BY_STATUS', (status: TCrowdloanStatus) => ({
   request: {
     promise: (async (): Promise<ICrowdloanType[]> => {
-      const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+      const slotAuctionSdk: SlotAuctionSdk =
+        await SlotAuctionSdkSingleton.getInstance();
+
       return slotAuctionSdk.getCrowdloansByStatus(status);
     })(),
   },

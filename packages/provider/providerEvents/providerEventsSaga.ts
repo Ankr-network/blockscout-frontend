@@ -1,4 +1,3 @@
-import { IWeb3KeyProvider } from '@ankr.com/stakefi-web3';
 import { success } from '@redux-requests/core';
 import { END, eventChannel } from 'redux-saga';
 import {
@@ -6,20 +5,20 @@ import {
   cancel,
   cancelled,
   fork,
+  put,
   take,
   takeEvery,
-  put,
 } from 'redux-saga/effects';
-
-import { EVENTS, getProvider } from './utils';
+import { Web3KeyProvider } from '../providerManager';
 import {
+  ProviderActions,
   ProviderEvent,
   ProviderEvents,
   ProviderEventsSagaParams,
-  ProviderActions,
 } from './types';
+import { EVENTS, getProvider } from './utils';
 
-function createEventChannel(keyProvider: IWeb3KeyProvider) {
+function createEventChannel(keyProvider: Web3KeyProvider) {
   return eventChannel(emitter => {
     const web3 = keyProvider.getWeb3();
     const provider = getProvider(web3.currentProvider);
@@ -45,7 +44,7 @@ function createEventChannel(keyProvider: IWeb3KeyProvider) {
 }
 
 function* listenProviderEvents(
-  provider: IWeb3KeyProvider,
+  provider: Web3KeyProvider,
   actions: ProviderActions,
 ) {
   const channel = yield call(createEventChannel, provider);

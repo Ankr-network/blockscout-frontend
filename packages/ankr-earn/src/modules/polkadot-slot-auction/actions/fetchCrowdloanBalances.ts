@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { ICrowdloanType, TNetworkType } from 'polkadot';
+import { ICrowdloanType, SlotAuctionSdk, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
@@ -26,7 +26,8 @@ export const fetchCrowdloanBalances = createAction<
   (polkadotAccount: string): RequestAction => ({
     request: {
       promise: (async (): Promise<TFetchCrowdloanBalancesData> => {
-        const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          await SlotAuctionSdkSingleton.getInstance();
 
         const network: TNetworkType = await slotAuctionSdk
           .getPolkadotProvider()

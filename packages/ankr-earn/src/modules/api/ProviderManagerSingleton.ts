@@ -3,7 +3,7 @@ import { mainTheme } from 'ui';
 import { ProviderManager } from 'provider';
 import { ThemeColors } from 'web3modal';
 
-const web3ModalTheme: ThemeColors = {
+export const web3ModalTheme: ThemeColors = {
   background: mainTheme.palette.background.paper,
   main: mainTheme.palette.text.primary,
   secondary: alpha(mainTheme.palette.text.primary, 0.5),

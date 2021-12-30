@@ -34,7 +34,7 @@ export const claimRewardPoolTokens = createAction<
     request: {
       promise: (async (): Promise<IClaimRewardPoolTokensData> => {
         const slotAuctionSdk: SlotAuctionSdk =
-          SlotAuctionSdkSingleton.getInstance();
+          await SlotAuctionSdkSingleton.getInstance();
 
         let data: IClaimRewardPoolTokensData;
 

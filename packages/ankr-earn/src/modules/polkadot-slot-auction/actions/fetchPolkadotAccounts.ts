@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { Web3Address } from 'modules/common/types';
-import { PolkadotProvider } from 'polkadot';
+import { PolkadotProvider, SlotAuctionSdk } from 'polkadot';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { ProviderName } from '../utils/isProviderAvailable';
@@ -19,7 +19,8 @@ export const fetchPolkadotAccounts = createSmartAction<
 >('fetchPolkadotAccounts', () => ({
   request: {
     promise: (async () => {
-      const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+      const slotAuctionSdk: SlotAuctionSdk =
+        await SlotAuctionSdkSingleton.getInstance();
 
       const polkadotAccounts: IFetchPolkadotAccountsDataItem[] =
         await (async () => {

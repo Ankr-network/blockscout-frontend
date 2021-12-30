@@ -1,7 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { TStore } from 'modules/common/types/ReduxRequests';
-import { PolkadotProvider, TNetworkType } from 'polkadot';
+import { PolkadotProvider, SlotAuctionSdk, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -39,8 +39,10 @@ export const fetchPolkadotBalance = createAction<
         store: TStore<IStoreState>,
       ) => ({
         promise: (async (): Promise<IBalanceData> => {
+          const slotAuctionSdk: SlotAuctionSdk =
+            await SlotAuctionSdkSingleton.getInstance();
           const polkadotProvider: PolkadotProvider =
-            SlotAuctionSdkSingleton.getInstance().getPolkadotProvider();
+            slotAuctionSdk.getPolkadotProvider();
 
           const [{ free: rawSenderBalance }, networkType, minSafeDepositVal] =
             await Promise.all([

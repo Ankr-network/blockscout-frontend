@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { TNetworkType } from 'polkadot';
+import { SlotAuctionSdk, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { NotificationActions } from 'store/actions/NotificationActions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -18,7 +18,8 @@ export const connect = createAction<RequestAction<IConnect, IConnect>>(
   (selectedPolkadotAccount?: string) => ({
     request: {
       promise: (async function () {
-        const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          await SlotAuctionSdkSingleton.getInstance();
 
         if (!slotAuctionSdk.isConnected()) {
           await slotAuctionSdk.connect();

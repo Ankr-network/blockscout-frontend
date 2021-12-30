@@ -1,21 +1,20 @@
-import { isMainnet } from 'modules/common/const';
-import { BlockchainNetworkId } from 'modules/common/types';
+import { web3ModalTheme } from 'modules/api/ProviderManagerSingleton';
 import { ISlotAuctionConfig, SlotAuctionSdk } from 'polkadot';
-import { Web3ModalKeyProvider } from './web3ModalKeyProvider';
+import { EthereumWeb3KeyProvider } from 'provider/providerManager/providers/EthereumWeb3KeyProvider';
 
 export class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;
 
-  public static getInstance(config?: ISlotAuctionConfig): SlotAuctionSdk {
+  public static async getInstance(
+    config?: ISlotAuctionConfig,
+  ): Promise<SlotAuctionSdk> {
     if (SlotAuctionSdkSingleton.sdk) {
       return SlotAuctionSdkSingleton.sdk;
     }
 
     SlotAuctionSdkSingleton.sdk = new SlotAuctionSdk(
-      new Web3ModalKeyProvider({
-        expectedChainId: isMainnet
-          ? BlockchainNetworkId.mainnet
-          : BlockchainNetworkId.goerli,
+      new EthereumWeb3KeyProvider({
+        web3ModalTheme,
       }),
       config,
     );

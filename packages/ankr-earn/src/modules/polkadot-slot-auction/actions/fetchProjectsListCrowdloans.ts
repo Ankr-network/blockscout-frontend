@@ -12,7 +12,7 @@ export const fetchProjectsListCrowdloans = createAction<
     request: {
       promise: (async (): Promise<ICrowdloanType[]> => {
         const slotAuctionSdk: SlotAuctionSdk =
-          SlotAuctionSdkSingleton.getInstance();
+          await SlotAuctionSdkSingleton.getInstance();
         const rawData: ICrowdloanType[] =
           await slotAuctionSdk.getAvailableCrowdloans();
 

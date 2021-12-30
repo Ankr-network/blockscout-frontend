@@ -1,6 +1,6 @@
-import { IpcProvider, WebsocketProvider } from 'web3-core';
-import { IWeb3KeyProvider } from '@ankr.com/stakefi-web3';
 import { AnyAction } from 'redux';
+import { IpcProvider, WebsocketProvider } from 'web3-core';
+import { Web3KeyProvider } from '../providerManager';
 
 export interface EventProvider
   extends Omit<IpcProvider | WebsocketProvider, 'on'> {
@@ -64,6 +64,6 @@ export interface ProviderActions {
 export interface ProviderEventsSagaParams {
   connectAction: string;
   disconnectAction: string;
-  provider: IWeb3KeyProvider;
+  provider: Web3KeyProvider;
   actions: ProviderActions;
 }
