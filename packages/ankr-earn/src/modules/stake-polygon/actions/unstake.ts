@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { PolygonSDK } from '../api/PolygonSDK';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
+import { getAnkrBalance } from './getAnkrBalance';
 
 interface IUnstakePayload {
   amount: BigNumber;
@@ -28,6 +29,7 @@ export const unstake = createSmartAction<
     onSuccess: (response, action, store) => {
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());
+      store.dispatchRequest(getAnkrBalance());
       return response;
     },
   },

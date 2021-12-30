@@ -1,17 +1,22 @@
 import { Button } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
-
-import { useNavigationLinkStyles as useStyles } from './useNavigationLinkStyles';
-import { NavigationItem } from './NavigationLinkTypes';
-import { isExternalPath } from '../../utils/isExternalPath';
 import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
+import { isExternalPath } from '../../utils/isExternalPath';
+import { useNavigationLinkStyles as useStyles } from './useNavigationLinkStyles';
+
+export interface INavigationLinkProps {
+  label: string;
+  href?: string;
+  isDisabled?: boolean;
+  className?: string;
+}
 
 export const NavigationLink = ({
   label,
   href = '',
   isDisabled,
   className,
-}: NavigationItem) => {
+}: INavigationLinkProps) => {
   const classes = useStyles();
 
   if (isExternalPath(href)) {

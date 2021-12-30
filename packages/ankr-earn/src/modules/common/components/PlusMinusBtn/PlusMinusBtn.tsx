@@ -1,6 +1,7 @@
-import { IconButton, Tooltip } from '@material-ui/core';
+import { ButtonProps, Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo } from 'react';
+import { Button } from 'uiKit/Button';
 import { MinusIcon } from 'uiKit/Icons/MinusIcon';
 import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 import { NavLink } from 'uiKit/NavLink';
@@ -37,31 +38,30 @@ export const PlusMinusBtn = ({
 
   const Icon = iconsMap[icon];
 
-  const button = useMemo(
-    () =>
-      href ? (
-        <NavLink
-          className={classNames(classes.root, className)}
-          disabled={isLoading || disabled}
-          href={href}
-          color="secondary"
-        >
-          {isLoading ? <Spinner size={24} /> : <Icon size={20} />}
-        </NavLink>
-      ) : (
-        <IconButton
-          className={classNames(classes.root, className)}
-          component="div"
-          size="medium"
-          color="secondary"
-          disabled={isLoading || disabled}
-          onClick={isLoading || disabled ? undefined : onClick}
-        >
-          {isLoading ? <Spinner size={24} /> : <Icon size={20} />}
-        </IconButton>
-      ),
-    [Icon, className, classes.root, disabled, isLoading, onClick, href],
-  );
+  const button = useMemo(() => {
+    const renderedIcon = isLoading ? <Spinner size={24} /> : <Icon size={18} />;
+    const commonBtnProps: Pick<
+      ButtonProps,
+      'className' | 'disabled' | 'variant'
+    > = {
+      className: classNames(classes.root, className),
+      disabled: isLoading || disabled,
+      variant: 'outlined',
+    };
+
+    return href ? (
+      <NavLink {...commonBtnProps} href={href}>
+        {renderedIcon}
+      </NavLink>
+    ) : (
+      <Button
+        {...commonBtnProps}
+        onClick={isLoading || disabled ? undefined : onClick}
+      >
+        {renderedIcon}
+      </Button>
+    );
+  }, [Icon, className, classes.root, disabled, href, isLoading, onClick]);
 
   return tooltip ? (
     <Tooltip

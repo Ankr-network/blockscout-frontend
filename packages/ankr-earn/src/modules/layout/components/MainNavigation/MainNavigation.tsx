@@ -1,62 +1,17 @@
 import { Button, Popover } from '@material-ui/core';
 import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import classNames from 'classnames';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
-import { isMainnet } from 'modules/common/const';
-import { EParachainPolkadotNetwork } from 'modules/common/types';
-import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
 import { t } from 'modules/i18n/utils/intl';
-import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
-import { useState } from 'react';
+import { useNavigationItems } from 'modules/layout/hooks/useNavigationItems';
+import { useMemo, useState } from 'react';
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
 export const MainNavigation = () => {
-  const items = [
-    {
-      label: t('main-navigation.stake'),
-      href: FeaturesRoutes.main.generatePath(), // TODO: add proper route
-    },
-    {
-      label: t('main-navigation.dashboard'),
-      href: '/dashboard', // TODO: add proper route
-    },
-    {
-      label: t('main-navigation.parachain'),
-      href: PolkadotSlotAuctionRoutes.crowdloans.generatePath(
-        isMainnet
-          ? EParachainPolkadotNetwork.DOT.toLowerCase()
-          : EParachainPolkadotNetwork.WND.toLowerCase(),
-      ), // TODO: add proper route
-    },
-    {
-      label: t('main-navigation.boost'),
-      href: BoostRoutes.tradingCockpit.generatePath(), // TODO: add proper route
-    },
-  ];
-
-  const moreOptions = [
-    {
-      label: t('main-navigation.docs'),
-      href: '/docs', // TODO: add proper route
-    },
-    {
-      label: t('main-navigation.litepaper'),
-      href: 'litepaper', // TODO: add proper route
-    },
-  ];
-
+  const { desktopItems, desktopMenuItems } = useNavigationItems();
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
-
-  const moreOptionsRenderedList = moreOptions.map(option => (
-    <NavigationLink
-      key={option.label}
-      href={option.href}
-      label={option.label}
-    />
-  ));
 
   const handleMenuClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -69,9 +24,22 @@ export const MainNavigation = () => {
   const popoverOpen = Boolean(anchorEl);
   const id = popoverOpen ? 'simple-popover' : undefined;
 
+  const moreOptionsRenderedList = useMemo(
+    () =>
+      desktopMenuItems.map(option => (
+        <NavigationLink
+          key={option.label}
+          href={option.href}
+          label={option.label}
+        />
+      )),
+    [desktopMenuItems],
+  );
+
   return (
     <>
-      <Navigation items={items} />
+      <Navigation items={desktopItems} />
+
       <Button
         className={classNames(
           classes.button,
@@ -84,6 +52,7 @@ export const MainNavigation = () => {
       >
         {t('main-navigation.menu')}
       </Button>
+
       <Popover
         id={id}
         open={popoverOpen}

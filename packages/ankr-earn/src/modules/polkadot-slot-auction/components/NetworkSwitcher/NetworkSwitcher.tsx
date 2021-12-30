@@ -11,7 +11,7 @@ interface INetworkSwitcherProps {
 }
 
 export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
-  // todo: update styles according to the design
+  // TODO: fix 'a' switcher, implement proper navlink and check that it doesn't break the parachain, add animation
   const classes = useNetworkSwitcherStyles();
 
   const { networkType } = useSlotAuctionSdk();

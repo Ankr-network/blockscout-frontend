@@ -51,9 +51,13 @@
     "polygon": "MATIC",
     "amaticb": "aMATICb",
     "token-value": "{value, number} {token}",
-    "matic-value": "{value} aMATICb",
+    "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR"
+  },
+  "chain": {
+    "1": "Ethereum Mainnet",
+    "5": "Ethereum Goerli"
   },
   "not-found": {
     "title": "Page not found",
@@ -265,5 +269,14 @@
     "assets": "Staking assets",
     "pending": "Pending {value} {token}",
     "trade": "Trade"
+  },
+  "features": {
+    "polygon": "Polygon (MATIC)",
+    "apy": "APY",
+    "apy-value": "{value}%",
+    "staked": "Staked",
+    "staked-amount": "{value} {token}",
+    "stake": "Stake",
+    "learn-more": "Learn more"
   }
 }

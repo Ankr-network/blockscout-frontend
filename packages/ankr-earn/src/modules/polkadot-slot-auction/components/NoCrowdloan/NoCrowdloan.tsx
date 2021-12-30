@@ -31,7 +31,8 @@ export const NoCrowdloan = ({
   type = ENoCrowdloanTypes.ProjectsList,
 }: INoCrowdloanProps) => {
   const classes: ClassNameMap = useNoCrowdloanStyles();
-  const network: EParachainPolkadotNetwork = useCurrentNetwork<EParachainPolkadotNetwork>().toUpperCase() as EParachainPolkadotNetwork;
+  const network: EParachainPolkadotNetwork =
+    useCurrentNetwork<EParachainPolkadotNetwork>().toUpperCase() as EParachainPolkadotNetwork;
   const Icon = ICONS_MAP[network];
 
   if (typeof Icon === 'undefined') {

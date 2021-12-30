@@ -2,8 +2,11 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useUnstakeDialogStyles = makeStyles<Theme>(theme => ({
   root: {
+    position: 'relative',
     padding: theme.spacing(8, 0, 0),
     backgroundColor: theme.palette.background.paper,
+    maxWidth: 600,
+    margin: '0 auto',
 
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(6, 0, 0),

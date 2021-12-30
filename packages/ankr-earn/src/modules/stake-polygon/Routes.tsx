@@ -1,27 +1,30 @@
 import loadable from '@loadable/component';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { RoutesConfig as FeaturesRoutes } from 'modules/features/Routes';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { POLYGON_PROVIDER_ID } from './const';
 
-// TODO: remove dashboard from this route and all dependend components if we decide not to use it
+const ROOT = `${StakeRoutes.main.path}/MATIC`;
+const STAKE_MATIC_PATH = ROOT;
+const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}/MATIC`;
 
-const ROOT = `${FeaturesRoutes.main.path}/MATIC`;
-const DASHBOARD_PATH = `${ROOT}/dashboard`;
-const STAKE_PATH = ROOT;
-
-const StakePolygonDashboard = loadable(
-  async () =>
-    import('./screens/StakePolygonDashboard').then(
-      module => module.StakePolygonDashboard,
-    ),
+export const RoutesConfig = createRouteConfig(
   {
-    fallback: <QueryLoadingAbsolute />,
+    stake: {
+      path: STAKE_MATIC_PATH,
+      generatePath: () => generatePath(STAKE_MATIC_PATH),
+    },
+    unstake: {
+      path: UNSTAKE_MATIC_PATH,
+      generatePath: () => generatePath(UNSTAKE_MATIC_PATH),
+    },
   },
+  ROOT,
 );
 
 const Stake = loadable(
@@ -32,37 +35,35 @@ const Stake = loadable(
   },
 );
 
-export const RoutesConfig = createRouteConfig(
+const Unstake = loadable(
+  async () =>
+    import('./screens/UnstakePolygon').then(module => module.UnstakePolygon),
   {
-    dashboard: {
-      path: DASHBOARD_PATH,
-      generatePath: () => generatePath(DASHBOARD_PATH),
-    },
-    stake: {
-      path: STAKE_PATH,
-      generatePath: () => generatePath(STAKE_PATH),
-    },
+    fallback: <QueryLoadingAbsolute />,
   },
-  ROOT,
 );
 
 export function getRoutes() {
   return (
-    <Route path={RoutesConfig.root}>
+    <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
           providerId={POLYGON_PROVIDER_ID}
-          path={DASHBOARD_PATH}
+          path={RoutesConfig.stake.path}
           exact
         >
           <DefaultLayout>
-            <StakePolygonDashboard />
+            <Stake />
           </DefaultLayout>
         </GuardRoute>
 
-        <GuardRoute providerId={POLYGON_PROVIDER_ID} path={STAKE_PATH} exact>
+        <GuardRoute
+          providerId={POLYGON_PROVIDER_ID}
+          path={RoutesConfig.unstake.path}
+          exact
+        >
           <DefaultLayout>
-            <Stake />
+            <Unstake />
           </DefaultLayout>
         </GuardRoute>
 

@@ -1,9 +1,12 @@
 import { Box } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeDemoRoutes } from 'modules/stake-demo/Routes';
+import { YEARLY_INTEREST as apyMatic } from 'modules/stake-polygon/const';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
-import React from 'react';
 import { Container } from 'uiKit/Container';
+import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { FeatureItem } from './components/FeatureItem';
 import { Features } from './components/Features';
 
@@ -13,14 +16,13 @@ export const Main = () => {
       <Container>
         <Features>
           <FeatureItem
-            mainHref={StakeDemoRoutes.root}
-            moreHref={StakeDemoRoutes.root}
-            title={t('Demo')}
-          />
-          <FeatureItem
             mainHref={PolygonRoutes.stake.generatePath()}
             moreHref={StakeDemoRoutes.root}
-            title={t('Polygon (MATIC)')}
+            title={t('features.polygon')}
+            iconSlot={<MaticIcon />}
+            token={Token.MATIC}
+            apy={apyMatic}
+            staked={new BigNumber('25175951')}
           />
         </Features>
       </Container>

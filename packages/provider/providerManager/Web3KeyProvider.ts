@@ -72,7 +72,7 @@ export abstract class Web3KeyProvider {
     try {
       balance = await contract.methods.balanceOf(address).call();
     } catch (error) {
-      console.error(`Unable to get contract balance: ${error}`);
+      throw new Error(`Unable to get contract balance: ${error}`);
     }
     let decimals = 18;
     try {
@@ -81,7 +81,7 @@ export abstract class Web3KeyProvider {
         decimals = 18;
       }
     } catch (e) {
-      console.error(`Unable to calculate contract decimals: ${e}`);
+      throw new Error(`Unable to calculate contract decimals: ${e}`);
     }
     return new BigNumber(`${balance}`).dividedBy(
       new BigNumber(10).pow(decimals),
@@ -100,7 +100,7 @@ export abstract class Web3KeyProvider {
         decimals = 18;
       }
     } catch (e) {
-      console.error(`Unable to calculate contract decimals: ${e}`);
+      throw new Error(`Unable to calculate contract decimals: ${e}`);
     }
     return new BigNumber(`${balance}`).dividedBy(
       new BigNumber(10).pow(decimals),
