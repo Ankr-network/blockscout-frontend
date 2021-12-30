@@ -1,5 +1,5 @@
 import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 
 export const useNetworkSwitcherStyles = makeStyles<Theme>(theme => ({
   networkSwitcher: {
@@ -7,25 +7,29 @@ export const useNetworkSwitcherStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
     fontSize: 14,
-    fontWeight: 700,
-    border: '1px solid #e2e7f0',
-    borderRadius: 12,
+    fontWeight: 600,
+    background: alpha(theme.palette.text.secondary, 0.15),
+    borderRadius: 16,
+    padding: theme.spacing(0.5),
   },
   networkButton: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
-    margin: theme.spacing(1, 0),
+    width: 54,
+    height: 36,
+    background: 'none',
     color: theme.palette.text.secondary,
   },
   networkButtonActive: {
     color: theme.palette.primary.main,
     cursor: 'default',
+    background: theme.palette.background.paper,
+    padding: theme.spacing(0.5, 0),
+    borderRadius: 12,
   },
   networkSeparator: {
-    borderRight: '1px solid #e2e7f0',
+    borderRight: `1px solid ${alpha(theme.palette.text.secondary, 0.15)}`,
   },
 }));
