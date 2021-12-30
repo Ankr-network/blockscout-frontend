@@ -6,7 +6,7 @@ import { AmountField } from 'modules/common/components/AmountField';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
-import React, { ReactNode, ReactText, useCallback, useMemo } from 'react';
+import { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';

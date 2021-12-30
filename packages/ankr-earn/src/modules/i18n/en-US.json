@@ -269,5 +269,14 @@
     "assets": "Staking assets",
     "pending": "Pending {value} {token}",
     "trade": "Trade"
+  },
+  "features": {
+    "polygon": "Polygon (MATIC)",
+    "apy": "APY",
+    "apy-value": "{value}%",
+    "staked": "Staked",
+    "staked-amount": "{value} {token}",
+    "stake": "Stake",
+    "learn-more": "Learn more"
   }
 }
