@@ -1,9 +1,9 @@
-import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
-import { Contract } from 'web3-eth-contract';
-import ABI_REWARD_POOL from './abi/RewardPool.json';
-import ABI_IERC20 from './abi/IERC20.json';
 import BigNumber from 'bignumber.js';
 import bs58 from 'bs58';
+import { IWeb3SendResult, Web3KeyProvider } from 'provider';
+import { Contract } from 'web3-eth-contract';
+import ABI_IERC20 from './abi/IERC20.json';
+import ABI_REWARD_POOL from './abi/RewardPool.json';
 
 const upscale = (
   value: BigNumber | BigNumber.Value,
@@ -23,7 +23,7 @@ export class ContractManager {
   private readonly rewardPool: Contract;
 
   public constructor(
-    private readonly keyProvider: IWeb3KeyProvider,
+    private readonly keyProvider: Web3KeyProvider,
     config: {
       rewardPoolAddress: string;
     },
@@ -75,7 +75,7 @@ export class ContractManager {
     toBlockExclusive: string,
     amount: string,
   ): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.currentAccount();
+    const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods
       .initZeroRewardPayout(
         maxSupply,
@@ -101,7 +101,7 @@ export class ContractManager {
     toBlockExclusive: string,
     amount: string,
   ): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.currentAccount();
+    const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods
       .depositRewardPayout(
         payoutType,
@@ -136,7 +136,7 @@ export class ContractManager {
       if (!val.startsWith('0x')) return `0x${val}`;
       return val;
     };
-    const sender = this.keyProvider.currentAccount();
+    const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods
       .claimTokensFor(
         makePrefixed(claimId),
@@ -157,7 +157,7 @@ export class ContractManager {
   }
 
   public async claimableRewardsOf(account?: string): Promise<BigNumber> {
-    if (!account) account = this.keyProvider.currentAccount();
+    if (!account) account = this.keyProvider.getCurrentAccount();
     const rawRewardPayouts = await this.rewardPool.methods
       .claimableRewardsOf(account)
       .call();
@@ -190,7 +190,7 @@ export class ContractManager {
   }
 
   public async claimTokenRewards(): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.currentAccount();
+    const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods.claimTokenRewards().encodeABI();
     return this.keyProvider.sendTransactionAsync(
       sender,
@@ -206,7 +206,7 @@ export class ContractManager {
     recipientBase58: string,
   ): Promise<IWeb3SendResult> {
     const recipientHex = bs58.decode(recipientBase58).toString('hex');
-    const sender = this.keyProvider.currentAccount();
+    const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods
       .claimParachainRewards(recipientHex)
       .encodeABI();

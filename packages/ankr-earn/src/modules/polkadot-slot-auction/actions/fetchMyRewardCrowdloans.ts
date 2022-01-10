@@ -39,7 +39,7 @@ export const fetchMyRewardCrowdloans = createAction<
     request: {
       promise: (async (): Promise<TFetchMyRewardCrowdloansData> => {
         const slotAuctionSdk: SlotAuctionSdk =
-          SlotAuctionSdkSingleton.getInstance();
+          await SlotAuctionSdkSingleton.getInstance();
 
         let ethAddress: string;
 

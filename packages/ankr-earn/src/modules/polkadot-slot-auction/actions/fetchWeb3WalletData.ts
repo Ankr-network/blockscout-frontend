@@ -16,7 +16,7 @@ export const fetchWeb3WalletData = createAction<
     request: {
       promise: (async (): Promise<IFetchWeb3WalletData> => {
         const slotAuctionSdk: SlotAuctionSdk =
-          SlotAuctionSdkSingleton.getInstance();
+          await SlotAuctionSdkSingleton.getInstance();
 
         const isConnected: boolean = slotAuctionSdk
           .getKeyProvider()

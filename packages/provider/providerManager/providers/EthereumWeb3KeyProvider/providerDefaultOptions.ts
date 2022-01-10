@@ -1,7 +1,7 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
 import huobiLogo from './assets/huobi.svg';
-import imTokenLogo from './assets/imToken.svg';
+import imTokenLogo from './assets/im-token.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
 

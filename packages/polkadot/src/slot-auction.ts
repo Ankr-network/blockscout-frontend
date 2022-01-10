@@ -1,31 +1,27 @@
 /* eslint-disable no-console */
 import BigNumber from 'bignumber.js';
-import { ApiGateway } from './gateway';
+import { IWeb3SendResult, Web3KeyProvider } from 'provider';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
 import { ContractManager } from './contract';
-import {
-  alwaysConnectedWeb3KeyProvider,
-  IWeb3KeyProvider,
-  IWeb3SendResult,
-} from '@ankr.com/stakefi-web3';
-import { PolkadotProvider } from './polkadot';
 import { ICrowdloanType, TClaimMethod, TCrowdloanStatus } from './entity';
+import { ApiGateway } from './gateway';
+import { PolkadotProvider } from './polkadot';
 
 const isZeroAddress = (address: string): boolean =>
   address === '0x0000000000000000000000000000000000000000';
 
 export class SlotAuctionSdk {
-  private keyProvider: IWeb3KeyProvider;
+  private keyProvider: Web3KeyProvider;
 
   private polkadotProvider: PolkadotProvider;
 
   private readonly apiGateway: ApiGateway;
 
   public constructor(
-    keyProvider: IWeb3KeyProvider,
+    keyProvider: Web3KeyProvider,
     private readonly config: ISlotAuctionConfig = DEVELOP_CONFIG,
   ) {
-    this.keyProvider = alwaysConnectedWeb3KeyProvider(keyProvider);
+    this.keyProvider = keyProvider;
     this.polkadotProvider = new PolkadotProvider({
       polkadotUrl: this.config.polkadotUrl,
       networkType: this.config.networkType,
@@ -36,7 +32,7 @@ export class SlotAuctionSdk {
     });
   }
 
-  public getKeyProvider(): IWeb3KeyProvider {
+  public getKeyProvider(): Web3KeyProvider {
     return this.keyProvider;
   }
 
@@ -108,7 +104,7 @@ export class SlotAuctionSdk {
 
   public async getEthereumAccount(): Promise<string> {
     const keyProvider = await this.injectedWeb3KeyProvider();
-    return keyProvider.currentAccount();
+    return keyProvider.getCurrentAccount();
   }
 
   public async requestDepositAddress(loanId: number): Promise<string> {
@@ -221,7 +217,7 @@ export class SlotAuctionSdk {
     );
     const keyProvider = await this.injectedWeb3KeyProvider();
     if (!ethereumAddress) {
-      ethereumAddress = keyProvider.currentAccount();
+      ethereumAddress = keyProvider.getCurrentAccount();
     }
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
@@ -302,7 +298,7 @@ export class SlotAuctionSdk {
     );
     const keyProvider = await this.injectedWeb3KeyProvider();
     if (!ethereumAddress) {
-      ethereumAddress = keyProvider.currentAccount();
+      ethereumAddress = keyProvider.getCurrentAccount();
     }
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
@@ -517,7 +513,7 @@ export class SlotAuctionSdk {
       network: currentNetwork,
     });
     const keyProvider = await this.injectedWeb3KeyProvider();
-    const account = keyProvider.currentAccount();
+    const account = keyProvider.getCurrentAccount();
     // eslint-disable-next-line no-restricted-syntax
     for (const crowdloan of crowdloans) {
       if (isZeroAddress(crowdloan.bondTokenContract)) {
@@ -614,11 +610,14 @@ export class SlotAuctionSdk {
     return { transactionReceipt, transactionHash: sendResult.transactionHash };
   }
 
-  private async injectedWeb3KeyProvider(): Promise<IWeb3KeyProvider> {
+  private async injectedWeb3KeyProvider(): Promise<Web3KeyProvider> {
     if (this.keyProvider.isConnected()) {
       return this.keyProvider;
     }
-    await this.keyProvider.connectFromInjected();
+
+    await this.keyProvider.inject();
+    await this.keyProvider.connect();
+
     return this.keyProvider;
   }
 

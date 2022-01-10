@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -21,7 +22,8 @@ export const claimStakingRewards = createAction<
   (polkadotAccount: string, loanId: number): RequestAction => ({
     request: {
       promise: (async (): Promise<IClaimStakingRewardsData> => {
-        const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+        const slotAuctionSdk: SlotAuctionSdk =
+          await SlotAuctionSdkSingleton.getInstance();
 
         let data: IClaimStakingRewardsData;
 

@@ -18,7 +18,7 @@ export const connectGuardComponent = createAction<
     request: {
       promise: (async (): Promise<boolean> => {
         const slotAuctionSdk: SlotAuctionSdk =
-          SlotAuctionSdkSingleton.getInstance();
+          await SlotAuctionSdkSingleton.getInstance();
 
         // Note: This is an external method for calling the "connectFromInjected()" in a "safe" mode
         await slotAuctionSdk.getEthereumAccount();

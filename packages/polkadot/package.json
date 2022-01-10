@@ -8,7 +8,6 @@
     "test": "tsc && jest"
   },
   "dependencies": {
-    "@ankr.com/stakefi-web3": "^0.0.149",
     "@polkadot/api": "^6.12.1",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/types": "^6.12.1",
@@ -46,9 +45,6 @@
       "<rootDir>/node_modules",
       "<rootDir>/../../node_modules"
     ],
-    "moduleNameMapper": {
-      "@ankr.com/stakefi-web3": "<rootDir>/../../node_modules/@ankr.com/stakefi-web3/dist"
-    },
     "testMatch": [
       "**/?(*.)+(test).+(js)"
     ],
