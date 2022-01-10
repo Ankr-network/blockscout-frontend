@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Tooltip } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import {
   Table,
@@ -114,6 +114,16 @@ export const MyRewards = () => {
                 const isDisabledClaimBtn: boolean =
                   loading || !claimableRewardsAmount.isGreaterThan(0);
 
+                const balanceVal: string = t(
+                  'polkadot-slot-auction.column.val-currency',
+                  {
+                    val: item.currBalance,
+                    currency: item.bondTokenSymbol,
+                  },
+                );
+
+                const claimableRewardsVal: string = `${claimableRewardsAmount.toFixed()} ${rewardTokenSymbol}`;
+
                 return (
                   <TableRow key={uid(item)}>
                     <TableBodyCell label={captions[0].label}>
@@ -130,14 +140,25 @@ export const MyRewards = () => {
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[2].label}>
-                      {t('polkadot-slot-auction.column.val-currency', {
-                        val: item.currBalance,
-                        currency: item.bondTokenSymbol,
-                      })}
+                      <Tooltip
+                        title={
+                          <div className={classes.tooltipBox}>{balanceVal}</div>
+                        }
+                      >
+                        <span>{balanceVal}</span>
+                      </Tooltip>
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[3].label}>
-                      {claimableRewardsAmount.toFixed()} {rewardTokenSymbol}
+                      <Tooltip
+                        title={
+                          <div className={classes.tooltipBox}>
+                            {claimableRewardsVal}
+                          </div>
+                        }
+                      >
+                        <span>{claimableRewardsVal}</span>
+                      </Tooltip>
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[4].label}>

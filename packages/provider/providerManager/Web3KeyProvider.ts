@@ -306,7 +306,7 @@ export abstract class Web3KeyProvider {
       {
         gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
         gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
-        to: `${rawTx.to}`,
+        to: rawTx.to,
         nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
         data: rawTx.input,
         v,

@@ -17,6 +17,9 @@ export const useMyRewardsStyles = makeStyles<Theme>(theme => ({
       display: 'flex',
     },
   },
+  tooltipBox: {
+    margin: theme.spacing(0, 0, '-3px', 0),
+  },
 
   noCrowdloanArea: {
     padding: theme.spacing(19, 0, 8, 0),
