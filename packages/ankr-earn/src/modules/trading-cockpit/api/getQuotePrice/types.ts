@@ -74,6 +74,8 @@ export interface IGetQuotePriceParams {
   chainId?: number;
   gasPrice?: number;
   slippage?: number;
+  in_token_decimals?: number;
+  out_token_decimals?: number;
 }
 
 export interface IGetQuotePriceReply {

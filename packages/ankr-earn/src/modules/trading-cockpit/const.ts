@@ -1,8 +1,8 @@
+import { BlockchainNetworkId } from 'modules/common/types';
 import { AvailablePlatforms, AvailableTokens } from './types';
 
 export const ACTIONS_PREFIX = 'tradingCockpit/';
-export const AETHB_FAIR_VALUE_RATIO = 1;
-export const AMATICB_FAIR_VALUE_RATIO = 1;
+export const BOND_TOKENS_RATIO = 1;
 
 export const pairedTokensMap: Record<string, string | string[]> = {
   [AvailableTokens.ETH]: [AvailableTokens.aETHb, AvailableTokens.aETHc],
@@ -10,6 +10,8 @@ export const pairedTokensMap: Record<string, string | string[]> = {
   [AvailableTokens.aETHc]: AvailableTokens.ETH,
   [AvailableTokens.MATIC]: AvailableTokens.aMATICb,
   [AvailableTokens.aMATICb]: AvailableTokens.MATIC,
+  [AvailableTokens.AVAX]: AvailableTokens.aAVAXb,
+  [AvailableTokens.aAVAXb]: AvailableTokens.AVAX,
 };
 
 export const platformsByTokenMap: Record<string, string[]> = {
@@ -20,6 +22,22 @@ export const platformsByTokenMap: Record<string, string[]> = {
   [AvailableTokens.aETHc]: [
     AvailablePlatforms.SushiSwap,
     AvailablePlatforms.UniswapV2,
+    AvailablePlatforms.UniswapV3,
   ],
   [AvailableTokens.aMATICb]: [AvailablePlatforms.Curve],
+  [AvailableTokens.aAVAXb]: [
+    AvailablePlatforms.Lydia,
+    AvailablePlatforms.TraderJoe,
+    AvailablePlatforms.Pangolin,
+  ],
+};
+
+export const chainIdByTokenMap = {
+  [AvailableTokens.AVAX]: BlockchainNetworkId.avalanche,
+  [AvailableTokens.aAVAXb]: BlockchainNetworkId.avalanche,
+  [AvailableTokens.ETH]: BlockchainNetworkId.mainnet,
+  [AvailableTokens.aETHb]: BlockchainNetworkId.mainnet,
+  [AvailableTokens.aETHc]: BlockchainNetworkId.mainnet,
+  [AvailableTokens.MATIC]: BlockchainNetworkId.mainnet,
+  [AvailableTokens.aMATICb]: BlockchainNetworkId.mainnet,
 };

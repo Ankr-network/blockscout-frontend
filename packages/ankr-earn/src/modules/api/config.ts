@@ -12,6 +12,10 @@ export interface IContractConfig {
   ankrContract: string;
 }
 
+export interface IAvalancheConfig {
+  futureBondAVAX: string;
+}
+
 export interface IGatewayConfig {
   baseUrl: string;
 }
@@ -19,6 +23,7 @@ export interface IGatewayConfig {
 export interface IStkrConfig {
   contractConfig: IContractConfig;
   gatewayConfig: IGatewayConfig;
+  avalancheConfig: IAvalancheConfig;
 }
 
 export interface IRPCConfig {
@@ -43,6 +48,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
   },
+  avalancheConfig: {
+    futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
+  },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
   },
@@ -66,6 +74,14 @@ const GOERLI_CONFIG: IStkrConfig = {
       },
     },
   },
+  ...{
+    avalancheConfig: {
+      ...LOCAL_CONFIG.avalancheConfig,
+      ...{
+        futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
+      },
+    },
+  },
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
   },
@@ -79,6 +95,9 @@ const MAINNET_CONFIG: IStkrConfig = {
     fethContract: '0xD01ef7C0A5d8c432fc2d1a85c66cF2327362E5C6',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
+  },
+  avalancheConfig: {
+    futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

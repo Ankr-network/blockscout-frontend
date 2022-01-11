@@ -11,11 +11,5 @@ export const useExChangeStyles = makeStyles<Theme>(theme => ({
     marginRight: theme.spacing(1.75),
     fontSize: 24,
     fontStyle: 'normal',
-
-    '& svg': {
-      display: 'block',
-      width: '1em',
-      height: '1em',
-    },
   },
 }));

@@ -4,6 +4,8 @@ export enum AvailableTokens {
   aETHc = 'aETHc',
   MATIC = 'MATIC',
   aMATICb = 'aMATICb',
+  AVAX = 'AVAX',
+  aAVAXb = 'aAVAXb',
 }
 
 export enum AvailablePlatforms {
@@ -11,4 +13,8 @@ export enum AvailablePlatforms {
   Curve = 'Curve',
   SushiSwap = 'SushiSwap',
   UniswapV2 = 'UniswapV2',
+  UniswapV3 = 'UniswapV3',
+  Lydia = 'Lydia',
+  Pangolin = 'Pangolin',
+  TraderJoe = 'TraderJoe',
 }

@@ -12,6 +12,7 @@ import { getTokenAddr } from '../utils/getTokenAddr';
 
 // if it is more, an error will occur
 const MAX_GAS_PRICE = 300;
+const DEFAULT_TOKEN_DECIMALS = 18;
 
 export interface IGetQuotePriceArgs {
   exChange?: TExChange;
@@ -77,6 +78,8 @@ export const getQuotePrice = createAction<
         amount,
         gasPrice: gasPrice > MAX_GAS_PRICE ? MAX_GAS_PRICE : gasPrice,
         slippage,
+        in_token_decimals: DEFAULT_TOKEN_DECIMALS,
+        out_token_decimals: DEFAULT_TOKEN_DECIMALS,
       } as IGetQuotePriceParams,
     },
     meta: {
