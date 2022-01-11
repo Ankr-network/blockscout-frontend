@@ -268,7 +268,9 @@
     "balance": "Estimated balance",
     "assets": "Staking assets",
     "pending": "Pending {value} {token}",
-    "trade": "Trade"
+    "trade": "Trade",
+    "start-staking": "Start staking with Ankr Earn",
+    "stake": "Stake"
   },
   "features": {
     "polygon": "Polygon (MATIC)",

@@ -30,7 +30,12 @@ export function getRoutes() {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardRoute providerId={POLYGON_PROVIDER_ID} path={ROOT} exact>
+        <GuardRoute
+          openConnectInstantly
+          providerId={POLYGON_PROVIDER_ID}
+          path={ROOT}
+          exact
+        >
           <DefaultLayout>
             <Dashboard />
           </DefaultLayout>
