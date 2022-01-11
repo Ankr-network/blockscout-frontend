@@ -43,14 +43,17 @@ jobs:
         run: yarn install
 
       - name: Build dev
+        working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'DEV' }}
         run: yarn build:dev
 
       - name: Build stage
+        working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'STAGE' }}
         run: yarn build:stage
 
       - name: Build production
+        working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'PROD' }}
         run: yarn build:prod
 
@@ -62,6 +65,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Copy files to the production website with the AWS CLI
+        working-directory: ./packages/ankr-earn
         env:
           DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
