@@ -1,5 +1,7 @@
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
@@ -10,21 +12,21 @@ import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 interface IStakingAssetProps {
   token: EToken;
   network: string;
-  amount: number;
+  amount: BigNumber;
+  pendingValue?: number;
   tradeLink?: string;
   stakeLink?: string;
   unstakeLink?: string;
-  isPending?: boolean;
 }
 
 export const StakingAsset = ({
   network,
   token,
   amount,
+  pendingValue = 0,
   tradeLink,
   stakeLink,
   unstakeLink,
-  isPending = false,
 }: IStakingAssetProps) => {
   const classes = useStyles();
 
@@ -32,22 +34,29 @@ export const StakingAsset = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid container justifyContent="space-between">
-        <Grid item>
-          <NetworkIconText network={network} token={token} />
-        </Grid>
-
-        {isPending && (
-          <Grid item>
-            <Pending value={123} token="aMATICb" />
+      <Box mb={{ xs: 3, sm: 'auto' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm>
+            <NetworkIconText network={network} token={token} />
           </Grid>
-        )}
-      </Grid>
 
-      <Grid container justifyContent="space-between" spacing={1}>
+          {!!pendingValue && (
+            <Grid item xs="auto" className={classes.pendingCol}>
+              <Pending value={pendingValue} token={token} />
+            </Grid>
+          )}
+        </Grid>
+      </Box>
+
+      <Grid
+        container
+        justifyContent="space-between"
+        spacing={2}
+        className={classes.bottomWrapper}
+      >
         <Grid item>
           <Typography className={classes.amount}>
-            {amount ? amount : '-'}
+            {amount ? amount.decimalPlaces(DEFAULT_FIXED).toFormat() : '-'}
           </Typography>
         </Grid>
 
@@ -56,9 +65,9 @@ export const StakingAsset = ({
             item
             xs
             container
-            justifyContent="flex-end"
             alignItems="center"
             spacing={2}
+            className={classes.links}
           >
             {stakeLink && (
               <Grid item>
@@ -72,7 +81,11 @@ export const StakingAsset = ({
             )}
             {tradeLink && (
               <Grid item>
-                <NavLink className={classes.tradeButton} href={tradeLink}>
+                <NavLink
+                  variant="outlined"
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                >
                   {t('dashboard.trade')}
                 </NavLink>
               </Grid>

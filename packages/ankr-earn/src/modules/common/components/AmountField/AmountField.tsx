@@ -56,7 +56,7 @@ export const AmountField = ({
           withBalance && currentAmount.isGreaterThan(maxAmount);
 
         if (currentAmount.isNaN()) {
-          error = t('validation.numberOnly');
+          error = t('validation.number-only');
         } else if (
           currentAmount.isLessThan(minAmount) ||
           currentAmount.isEqualTo(MIN_AMOUNT)

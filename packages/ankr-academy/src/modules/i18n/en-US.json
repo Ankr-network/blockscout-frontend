@@ -69,6 +69,10 @@
       }
     }
   },
+  "lesson-card": {
+    "class-index": "Class {index}",
+    "next-lesson-btn": "Continue Learning"
+  },
   "error": {
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",

@@ -1,23 +1,17 @@
-import {
-  Box,
-  Container,
-  Dialog,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback } from 'react';
-import { Form } from 'react-final-form';
+import { AmountField } from 'modules/common/components/AmountField';
+import { Timer } from 'modules/common/components/Timer';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
-import { AmountField } from 'modules/common/components/AmountField';
+import { ReactNode, ReactText, useCallback } from 'react';
+import { Form } from 'react-final-form';
 import { Button } from 'uiKit/Button';
-import { Timer } from 'modules/common/components/Timer';
-import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
 
@@ -25,9 +19,8 @@ export interface IUnstakeFormValues {
   amount?: ReactText;
 }
 
-interface IUnstakeDialogProps {
+export interface IUnstakeDialogProps {
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
-  isOpened?: boolean;
   balance?: BigNumber;
   isLoading?: boolean;
   submitDisabled?: boolean;
@@ -45,7 +38,6 @@ interface IUnstakeDialogProps {
 
 export const UnstakeDialog = ({
   renderFormFooter,
-  isOpened = false,
   isBalanceLoading,
   isLoading,
   submitDisabled,
@@ -76,25 +68,23 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
-  const percentage = (values: IUnstakeFormValues) =>
-    balance && values && values.amount
-      ? new BigNumber(+values.amount)
-          .dividedBy(balance)
-          .multipliedBy(100)
-          .decimalPlaces(4)
-          .toFormat()
-      : 0;
+  const percentage = useCallback(
+    (values: IUnstakeFormValues) => {
+      const amount = new BigNumber(values.amount || 0);
+
+      const percents = balance
+        ? amount.dividedBy(balance).multipliedBy(100)
+        : new BigNumber(0);
+
+      return percents.isGreaterThan(100)
+        ? '100'
+        : percents.decimalPlaces(DEFAULT_ROUNDING).toFormat();
+    },
+    [balance],
+  );
 
   return (
-    <Dialog
-      open={isOpened}
-      onClose={onClose}
-      fullWidth
-      maxWidth="sm"
-      PaperProps={{ square: false }}
-      classes={{ paper: classes.root }}
-      scroll="body"
-    >
+    <Paper className={classes.root}>
       <Container className={classes.container}>
         <Typography variant="h3" className={classes.title}>
           {t('unstake-dialog.title', { token })}
@@ -176,6 +166,6 @@ export const UnstakeDialog = ({
       <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
         <CloseIcon size="xxs" htmlColor="inherit" />
       </Button>
-    </Dialog>
+    </Paper>
   );
 };

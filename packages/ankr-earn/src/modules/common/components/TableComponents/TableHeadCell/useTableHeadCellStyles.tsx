@@ -47,6 +47,8 @@ export const useTableHeadCellStyles = makeStyles<
       color: theme.palette.text.secondary,
       borderBottom: ({ dense }) =>
         dense ? `1px solid ${alpha(theme.palette.text.secondary, 0.1)}` : '',
+
+      minHeight: ({ dense }) => (dense ? '' : 46),
     },
 
     centerCell: {},

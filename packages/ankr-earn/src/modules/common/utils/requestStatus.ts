@@ -1,13 +1,14 @@
 import { t } from 'modules/i18n/utils/intl';
 
-export enum RequestStatusType {
-  active = 'active',
-  failed = 'failed',
-  inactive = 'inactive',
-  successful = 'successful',
-}
+export type RequestStatus =
+  | IRequestStatusProgress
+  | IRequestStatusFailed
+  | IRequestStatusInactive
+  | IRequestStatusSuccessful;
+
 export interface IRequestStatusProgress {
   type: RequestStatusType.active;
+  progress?: number;
 }
 
 export interface IRequestStatusFailed {
@@ -25,36 +26,49 @@ export interface IRequestStatusInactive {
   message?: string;
 }
 
-export type RequestStatus =
-  | IRequestStatusProgress
-  | IRequestStatusFailed
-  | IRequestStatusInactive
-  | IRequestStatusSuccessful;
-
-export const extractRequestError = (action: any): string => {
-  return t('errors.unknown');
-};
-
-export function requestInProgress(progress?: number) {
-  return { progress, type: RequestStatusType.active } as RequestStatus;
+export enum RequestStatusType {
+  active = 'active',
+  failed = 'failed',
+  inactive = 'inactive',
+  successful = 'successful',
 }
 
-export function requestFailed(error?: string, errorCode?: number) {
-  return { error, errorCode, type: RequestStatusType.failed } as RequestStatus;
+export const extractRequestError = (action: any): string => t('error.unknown');
+
+export function requestInProgress(progress?: number): RequestStatus {
+  return {
+    progress,
+    type: RequestStatusType.active,
+  };
 }
 
-const REQUEST_SUCCESSFUL = { type: RequestStatusType.successful };
-export function requestSuccessful() {
-  return REQUEST_SUCCESSFUL as RequestStatus;
+export function requestFailed(
+  error?: string,
+  errorCode?: number,
+): RequestStatus {
+  return {
+    error,
+    errorCode,
+    type: RequestStatusType.failed,
+  };
 }
 
-const REQUEST_INACTIVE_EMPTY = {
-  type: RequestStatusType.inactive,
-} as RequestStatus;
+export function requestInactive(message?: string): RequestStatus {
+  if (message === undefined)
+    return {
+      type: RequestStatusType.inactive,
+    };
 
-export function requestInactive(message?: string) {
-  if (message === undefined) return REQUEST_INACTIVE_EMPTY;
-  return { type: RequestStatusType.inactive, message } as RequestStatus;
+  return {
+    type: RequestStatusType.inactive,
+    message,
+  };
+}
+
+export function requestSuccessful(): RequestStatus {
+  return {
+    type: RequestStatusType.successful,
+  };
 }
 
 export function isRequestInProgress(status: RequestStatus) {

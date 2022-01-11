@@ -2,16 +2,19 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const usePendingStyles = makeStyles<Theme>(theme => ({
   root: {
-    borderRadius: theme.spacing(1.5),
-    padding: theme.spacing(0.5, 1.25),
+    display: 'grid',
+    gridTemplateColumns: 'auto auto',
+    gap: theme.spacing(0, 1),
+    alignItems: 'center',
+    justifyContent: 'start',
+    padding: theme.spacing(0.75, 1.25),
+    borderRadius: 30,
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
   },
+
   value: {
     fontSize: 13,
-  },
-  spinner: {
-    position: 'relative',
-    width: theme.spacing(3.25),
+    lineHeight: 1,
   },
 }));

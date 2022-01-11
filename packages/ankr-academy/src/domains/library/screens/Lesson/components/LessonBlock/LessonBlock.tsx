@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import { useLessonBlockStyles } from './LessonBlockStyles';
-import { BlockContentType, Img, LessonBlockType } from '../../types';
 import { uid } from 'react-uid';
+import { Typography } from '@material-ui/core';
+
+import { BlockContentType, Img, LessonBlockType } from '../../types';
 import { MessagesContainer } from '../MessagesContainer/MessagesContainer';
 import { UserActionWrapper } from '../UserActionWrapper/UserActionWrapper';
-import { Typography } from '@material-ui/core';
+import { useLessonBlockStyles } from './LessonBlockStyles';
 
 interface ILessonBlockProps extends LessonBlockType {
   loadNextBlock: () => void;
@@ -18,30 +19,31 @@ export const LessonBlock = ({
 }: ILessonBlockProps) => {
   const classes = useLessonBlockStyles();
 
-  const renderImage = (img: Img) => {
+  const renderImage = ({ src, alt, copyright }: Img) => {
     return (
       <>
-        <img className={classes.imgMessage} src={img.src} alt={img.alt} />
+        <img className={classes.imgMessage} src={src} alt={alt} />
         <Typography variant="body2" color="textSecondary" align="center">
-          {img.copyright}
+          {copyright}
         </Typography>
       </>
     );
   };
 
   const renderMessages = (block: BlockContentType) => {
-    if (block.type === 'img') {
-      return (
-        <Fragment key={uid(id + block.type)}>{renderImage(block.img)}</Fragment>
-      );
+    const { type } = block;
+    const key = uid(id + block.type);
+
+    if (type === 'img') {
+      return <Fragment key={key}>{renderImage(block.img)}</Fragment>;
     }
 
     // TODO block.type === 'text' here
 
     return (
       <MessagesContainer
-        key={uid(id + block.type)}
-        type={block.type}
+        key={key}
+        type={type}
         messagesList={block.messagesList}
       />
     );

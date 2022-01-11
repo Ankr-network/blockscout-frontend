@@ -1,4 +1,2 @@
-import { providerEventsSaga } from './providerEvents/providerEventsSaga';
-import { ProviderManager } from './providerManager';
-
-export { providerEventsSaga, ProviderManager };
+export { providerEventsSaga } from './providerEvents/providerEventsSaga';
+export * from './providerManager';

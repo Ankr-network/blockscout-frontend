@@ -3,12 +3,13 @@ import { Theme } from '@material-ui/core';
 
 export const useLessonStyles = makeStyles<Theme>(theme => ({
   root: {},
-  container: {
-    '&&': {
-      maxWidth: `calc(604px + ${theme.spacing(4) * 2}px)`,
-    },
+  containerLesson: {
+    '&&': {},
   },
   title: {
     marginBottom: theme.spacing(6),
+  },
+  conainerNextLesson: {
+    '&&': {},
   },
 }));

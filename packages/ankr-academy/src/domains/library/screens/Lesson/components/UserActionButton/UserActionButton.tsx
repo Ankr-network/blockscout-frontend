@@ -10,7 +10,6 @@ interface IUserActionProps {
 
 export const UserActionButton = ({ text, onClick }: IUserActionProps) => {
   const classes = useUserActionButtonStyles();
-
   const [isButtonClicked, setButtonClicked] = useState(false);
   const handleUserClickButton = () => {
     setButtonClicked(true);

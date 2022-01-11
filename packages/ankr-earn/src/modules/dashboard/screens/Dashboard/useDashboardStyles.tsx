@@ -6,12 +6,23 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
   },
 
   title: {
-    marginBottom: theme.spacing(4),
+    fontSize: 24,
+    marginBottom: theme.spacing(2.5),
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 30,
+      marginBottom: theme.spacing(4),
+    },
   },
 
   assetsTitle: {
-    fontSize: 24,
-    marginBottom: theme.spacing(4),
+    fontSize: 20,
+    marginBottom: theme.spacing(2.5),
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 24,
+      marginBottom: theme.spacing(4),
+    },
   },
 
   paper: {
@@ -24,6 +35,10 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
   },
   balance: {
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 30,
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 40,
+    },
   },
 }));

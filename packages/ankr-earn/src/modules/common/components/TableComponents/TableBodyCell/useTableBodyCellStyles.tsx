@@ -75,8 +75,6 @@ export const useTableBodyCellStyles = makeStyles<
       textAlign: 'left',
 
       overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
 
       [theme.breakpoints.up('md')]: {
         display: 'none',

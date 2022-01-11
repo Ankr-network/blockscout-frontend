@@ -1,8 +1,9 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { AcademyRoutes, AcademyRoutesConfig } from 'domains/academy/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
-import { LibraryRoutes, LibraryRoutesConfig } from './domains/library/Routes';
+import { AcademyRoutes, AcademyRoutesConfig } from 'domains/academy/Routes';
+import { LibraryRoutes } from 'domains/library/Routes';
+import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 
 export function Routes() {
   return (
@@ -21,9 +22,9 @@ export function Routes() {
       />
       <Route
         exact
-        path={[LibraryRoutesConfig.library.path]}
+        path={[LibraryRoutesConfig.lesson.path]}
         render={() => (
-          <DefaultLayout>
+          <DefaultLayout isFooterDisabled>
             <LibraryRoutes />
           </DefaultLayout>
         )}
