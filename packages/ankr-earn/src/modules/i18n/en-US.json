@@ -59,7 +59,17 @@
   },
   "chain": {
     "1": "Ethereum Mainnet",
-    "5": "Ethereum Goerli"
+    "3": "Ropsten",
+    "4": "Rinkeby",
+    "5": "Ethereum Goerli",
+    "6": "Kotti",
+    "56": "Binance SmartChain",
+    "61": "Classic",
+    "63": "Mordor",
+    "97": "Binance SmartChain Testnet",
+    "43113": "Avalanche C-Chain",
+    "43114": "Avalanche",
+    "2018": "Dev"
   },
   "not-found": {
     "title": "Page not found",
@@ -71,13 +81,23 @@
     "liquidity-mining": "Liquidity mining"
   },
   "connect": {
+    "access-request": "Access Request",
+    "ask-connect": "Do you wish to connect Ankr Earn to your wallet?",
+    "grant": "Grant Access",
+    "info": "Click and select a wallet to connect",
+    "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
+    "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
+    "available-networks": "Ensure your wallet is connected to the following networks:",
+    "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
     "networks": {
-      "avax-chain": "AVAX C Chain",
-      "avax-fuji-testnet": "AVAX Fuji Testnet",
-      "binance-smart-chain": "Binance Smart Chain",
-      "ethereum-goerli": "Ethereum Goerli",
       "ethereum-mainnet": "Ethereum Mainnet",
-      "smart-chain-testnet": "Smart Chain Testnet"
+      "ethereum-goerli": "Ethereum Goerli",
+      "binance": "Binance Chain",
+      "binance-testnet": "Binance Chain Testnet",
+      "binance-smart-chain": "Binance Smart Chain",
+      "smart-chain-testnet": "Smart Chain Testnet",
+      "avax-chain": "AVAX C Chain",
+      "avax-fuji-testnet": "AVAX Fuji Testnet"
     }
   },
   "polkadot-slot-auction": {

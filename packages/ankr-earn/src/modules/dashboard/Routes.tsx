@@ -1,11 +1,13 @@
 import loadable from '@loadable/component';
+import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { currentEnv } from 'modules/common/const';
+import { BlockchainNetworkId, Env } from 'modules/common/types';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 
 const ROOT = `/dashboard`;
 
@@ -31,10 +33,15 @@ export function getRoutes() {
     <Route path={RoutesConfig.root}>
       <Switch>
         <GuardRoute
+          exact
           openConnectInstantly
           providerId={POLYGON_PROVIDER_ID}
+          availableNetworks={[
+            currentEnv === Env.Production
+              ? BlockchainNetworkId.mainnet
+              : BlockchainNetworkId.goerli,
+          ]}
           path={ROOT}
-          exact
         >
           <DefaultLayout>
             <Dashboard />

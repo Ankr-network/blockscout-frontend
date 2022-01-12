@@ -1,7 +1,8 @@
 import loadable from '@loadable/component';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { UNSTAKE_PATH } from 'modules/common/const';
+import { currentEnv, UNSTAKE_PATH } from 'modules/common/const';
+import { BlockchainNetworkId, Env } from 'modules/common/types';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { generatePath, Route, Switch } from 'react-router-dom';
@@ -44,12 +45,18 @@ const Unstake = loadable(
 );
 
 export function getRoutes() {
+  const availableNetworks = [
+    currentEnv === Env.Production
+      ? BlockchainNetworkId.mainnet
+      : BlockchainNetworkId.goerli,
+  ];
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
           providerId={POLYGON_PROVIDER_ID}
           path={RoutesConfig.stake.path}
+          availableNetworks={availableNetworks}
           exact
         >
           <DefaultLayout>
@@ -60,6 +67,7 @@ export function getRoutes() {
         <GuardRoute
           providerId={POLYGON_PROVIDER_ID}
           path={RoutesConfig.unstake.path}
+          availableNetworks={availableNetworks}
           exact
         >
           <DefaultLayout>

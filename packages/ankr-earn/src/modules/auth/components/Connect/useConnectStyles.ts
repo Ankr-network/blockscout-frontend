@@ -8,11 +8,40 @@ export const useConnectStyles = makeStyles<Theme>(theme => ({
     textAlign: 'center',
   },
 
-  title: {
-    margin: theme.spacing(3),
+  headerContainer: {
+    margin: theme.spacing(0, 0, 3),
   },
 
-  networkText: {
-    margin: theme.spacing(4),
+  question: {
+    margin: theme.spacing(0, 0, 7),
+    fontSize: 16,
+  },
+
+  button: {
+    height: 52,
+    margin: theme.spacing(0, 0, 3),
+
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: 262,
+    },
+  },
+
+  info: {
+    fontSize: 16,
+    margin: '0 auto',
+
+    '& .highlight': {
+      color: theme.palette.text.primary,
+    },
+  },
+
+  networksWrapper: {
+    borderTop: `1px solid ${theme.palette.background.default}`,
+    margin: theme.spacing(4, -3, 0),
+    padding: theme.spacing(3.5, 3, 0),
+  },
+
+  networksTitle: {
+    marginBottom: theme.spacing(3),
   },
 }));

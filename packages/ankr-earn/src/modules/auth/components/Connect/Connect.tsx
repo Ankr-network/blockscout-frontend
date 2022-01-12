@@ -1,29 +1,60 @@
 import { Paper, Typography } from '@material-ui/core';
-import React from 'react';
+import { t } from 'modules/i18n/utils/intl';
+import React, { ReactNode } from 'react';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { useConnectStyles } from './useConnectStyles';
 
 interface IConnectProps {
   onConnectClick?: () => void;
+  btnDisabled?: boolean;
+  info?: ReactNode;
+  networksSlot?: ReactNode;
 }
 
-// todo: make component according to the design
-export const Connect = ({ onConnectClick }: IConnectProps) => {
+export const Connect = ({
+  onConnectClick,
+  btnDisabled,
+  info,
+  networksSlot,
+}: IConnectProps) => {
   const classes = useConnectStyles();
 
   return (
     <Container>
       <Paper className={classes.box}>
-        <Typography variant="h3" className={classes.title}>
-          Connect wallet to continue
+        <div className={classes.headerContainer}>
+          <Typography variant="h3">{t('connect.access-request')}</Typography>
+        </div>
+
+        <Typography className={classes.question}>
+          {t('connect.ask-connect')}
         </Typography>
 
-        <Typography variant="body1" className={classes.networkText}>
-          Required network: 👉 Ethereum Mainnet
+        <Button
+          color="primary"
+          size="large"
+          fullWidth
+          onClick={onConnectClick}
+          className={classes.button}
+          disabled={btnDisabled}
+        >
+          {t('connect.grant')}
+        </Button>
+
+        <Typography className={classes.info} color="textSecondary">
+          {info || t('connect.info')}
         </Typography>
 
-        <Button onClick={onConnectClick}>Connect</Button>
+        {networksSlot && (
+          <div className={classes.networksWrapper}>
+            <Typography variant="h5" className={classes.networksTitle}>
+              {t('connect.available-networks')}
+            </Typography>
+
+            {networksSlot}
+          </div>
+        )}
       </Paper>
     </Container>
   );

@@ -15,6 +15,7 @@ import {
 import { Contract } from 'web3-eth-contract';
 import { numberToHex } from 'web3-utils';
 import { getProviderInfo } from 'web3modal';
+import { RPCConfig } from './const';
 
 export interface IWalletMeta {
   description?: string;
@@ -255,6 +256,48 @@ export abstract class Web3KeyProvider {
 
     if (!success) {
       throw new Error(`Failed to watch asset, something went wrong`);
+    }
+  }
+
+  public async switchNetwork(chainId: number): Promise<any> {
+    const config = RPCConfig[chainId];
+    const provider = this.provider as AbstractProvider;
+
+    const isProviderHasRequest =
+      !!provider && typeof provider.request === 'function';
+
+    if (!isProviderHasRequest) {
+      throw new Error(
+        'This provider does not support the network switching method',
+      );
+    }
+
+    try {
+      return await provider.request({
+        /**
+         * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
+         */
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: config.chainId }],
+      });
+    } catch (switchError) {
+      const isChainNotAdded = switchError.code === 4902;
+
+      if (isChainNotAdded) {
+        return await provider
+          .request({
+            /**
+             * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
+             */
+            method: 'wallet_addEthereumChain',
+            params: [config],
+          })
+          .catch(() => {
+            throw new Error('addError');
+          });
+      }
+      // handle other "switch" errors
+      throw new Error('switchError');
     }
   }
 

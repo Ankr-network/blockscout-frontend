@@ -38,5 +38,4 @@ export const ANKR_1INCH_BUY_LINK =
 
 export const featuresConfig = {
   liquidityMining: false,
-  demoStaking: true,
 };
