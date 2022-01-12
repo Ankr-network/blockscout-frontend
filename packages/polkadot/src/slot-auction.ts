@@ -566,7 +566,7 @@ export class SlotAuctionSdk {
   }
 
   public async claimStakingRewards(
-    polkadotAccount: string,
+    toAccount: string,
     loanId: number,
     claimMethod?: TClaimMethod,
   ): Promise<{
@@ -602,7 +602,7 @@ export class SlotAuctionSdk {
     if (claimMethod === 'ERC20') {
       sendResult = await contractManager.claimTokenRewards();
     } else if (claimMethod === 'PARACHAIN') {
-      sendResult = await contractManager.claimParachainRewards(polkadotAccount);
+      sendResult = await contractManager.claimParachainRewards(toAccount);
     } else {
       throw new Error(`Not supported claim method: ${claimMethod}`);
     }
