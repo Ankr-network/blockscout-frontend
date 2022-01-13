@@ -1,12 +1,13 @@
 import { useDispatchRequest } from '@redux-requests/react';
 import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { BlockchainNetworkId } from 'modules/common/types';
 import { AvailableProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
 import { useNetworks } from './useNetworks';
 
 interface IUseGuardRouteArgs {
-  availableNetworks: number[];
+  availableNetworks: BlockchainNetworkId[];
   providerId: AvailableProviders;
 }
 
@@ -14,8 +15,10 @@ export const useGuardRoute = ({
   availableNetworks,
   providerId,
 }: IUseGuardRouteArgs) => {
-  const { isConnected, dispatchConnect, chainId, walletName } =
-    useAuth(providerId);
+  const { isConnected, dispatchConnect, chainId, walletName } = useAuth(
+    providerId,
+    availableNetworks,
+  );
   const networks = useNetworks();
   const dispatchRequest = useDispatchRequest();
 

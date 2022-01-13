@@ -18,7 +18,10 @@ interface IUseAuth {
   walletIcon?: string;
 }
 
-export const useAuth = (providerId: AvailableProviders): IUseAuth => {
+export const useAuth = (
+  providerId: AvailableProviders,
+  availableNetworks: BlockchainNetworkId[],
+): IUseAuth => {
   const dispatchRequest = useDispatchRequest();
 
   const { data, loading } = useQuery<IConnect | null>({
@@ -27,8 +30,8 @@ export const useAuth = (providerId: AvailableProviders): IUseAuth => {
   });
 
   const dispatchConnect = useCallback(
-    () => dispatchRequest(connect(providerId)),
-    [providerId, dispatchRequest],
+    () => dispatchRequest(connect(providerId, availableNetworks)),
+    [availableNetworks, dispatchRequest, providerId],
   );
 
   const dispatchDisconnect = useCallback(
