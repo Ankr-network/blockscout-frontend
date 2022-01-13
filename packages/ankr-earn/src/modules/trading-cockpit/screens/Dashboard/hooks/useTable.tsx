@@ -37,7 +37,7 @@ export const useTable = ({
     disabled: stakeBtnDisabled,
     btnText: stakeBtnText,
     tooltip: stakeTooltip,
-  } = useStakeBtn({ fromToken, toToken });
+  } = useStakeBtn(fromToken);
 
   const { data: getPricesData } = useQuery<IGetQuotePrice[] | null>({
     type: getPrices,

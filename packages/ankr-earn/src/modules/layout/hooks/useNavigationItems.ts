@@ -1,9 +1,16 @@
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
-import { isMainnet } from 'modules/common/const';
+import {
+  DOCS_LINK,
+  isMainnet,
+  LITEPAPER_CN,
+  LITEPAPER_EN,
+} from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { Locale } from 'modules/i18n/types/locale';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
@@ -12,6 +19,7 @@ import { useMemo } from 'react';
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
 
 export const useNavigationItems = () => {
+  const { locale } = useLocale();
   const links: Record<string, INavItem> = useLocaleMemo(
     () => ({
       dashboard: {
@@ -32,15 +40,15 @@ export const useNavigationItems = () => {
       },
       boost: {
         label: t('main-navigation.boost'),
-        href: BoostRoutes.tradingCockpit.generatePath(),
+        href: BoostRoutes.root,
       },
       docs: {
         label: t('main-navigation.docs'),
-        href: '/docs', // TODO: add proper route
+        href: DOCS_LINK,
       },
       litepaper: {
         label: t('main-navigation.litepaper'),
-        href: 'litepaper', // TODO: add proper route
+        href: getLitepaperLink(locale),
       },
     }),
     [],
@@ -73,4 +81,14 @@ export const useNavigationItems = () => {
     desktopMenuItems,
     mobileItems,
   };
+};
+
+const getLitepaperLink = (locale: Locale) => {
+  switch (locale) {
+    case Locale.zh:
+      return LITEPAPER_CN;
+
+    default:
+      return LITEPAPER_EN;
+  }
 };
