@@ -18,7 +18,6 @@ import createSagaMiddleware from 'redux-saga';
 import { NotificationActions } from './actions/NotificationActions';
 import { dialog } from './dialogs/reducer';
 import { IDialogState } from './dialogs/selectors';
-import { ISidecars } from './reducers';
 import { notificationReducer } from './reducers/notificationReducer';
 import { rootSagas } from './sagas';
 import { i18nPersistConfig } from './webStorageConfigs';
@@ -29,13 +28,7 @@ export interface IStoreState {
     _persist: PersistState;
   };
   notification: any;
-  requests: {
-    queries: {
-      FETCH_CURRENT_PROVIDER_SIDECARS: {
-        data: ISidecars;
-      };
-    };
-  };
+  requests: any;
   router: RouterState<unknown>;
   // user: IUserState; // @TODO Add a logic for this
 }
