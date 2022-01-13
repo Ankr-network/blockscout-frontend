@@ -2,8 +2,9 @@ import React from 'react';
 import { uid } from 'react-uid';
 import { UserActionType } from '../../types';
 import { UserActionButton } from '../UserActionButton/UserActionButton';
-import { UserActionRadio } from '../UserActionRadio/UserActionRadio';
+import { UserActionRadio } from '../UserActionQuestion/UserActionRadio/UserActionRadio';
 import { UserActionRate } from '../UserActionRate/UserActionRate';
+import { UserActionCheckbox } from '../UserActionQuestion/UserActionCheckbox/UserActionCheckbox';
 
 interface IUserActionWrapperProps {
   userAction: UserActionType;
@@ -26,6 +27,15 @@ export const UserActionWrapper = ({
     case 'radio':
       return (
         <UserActionRadio
+          question={userAction.question}
+          controls={userAction.controls}
+          buttonText={userAction.buttonText}
+          onClick={loadNextBlock}
+        />
+      );
+    case 'checkbox':
+      return (
+        <UserActionCheckbox
           question={userAction.question}
           controls={userAction.controls}
           buttonText={userAction.buttonText}
