@@ -1,66 +1,63 @@
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
-const supportedBondTokens = [
-  AvailableTokens.aETHb,
-  AvailableTokens.aETHc,
-  AvailableTokens.aMATICb,
-  AvailableTokens.aAVAXb,
-];
-
-interface IUseStakeBtnArgs {
-  fromToken: AvailableTokens;
-  toToken: AvailableTokens;
+interface IUseStakeBtn {
+  href: string;
+  disabled: boolean;
+  btnText: string;
+  tooltip?: string;
 }
 
-export const useStakeBtn = ({ fromToken, toToken }: IUseStakeBtnArgs) => {
-  let btnText = t('trading-cockpit.stake-btn');
-  let disabled = false;
-  let tooltip: string | undefined;
+export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
+  const btnPropsByToken: Record<AvailableTokens, IUseStakeBtn> =
+    useLocaleMemo(() => {
+      const stakeText = t('trading-cockpit.stake-btn');
+      const unstakeText = t('trading-cockpit.unstake-btn');
+      const defaultHref = StakeRoutes.main.generatePath();
 
-  const isBondTokenSelected = !!supportedBondTokens.find(
-    token => token === fromToken,
-  );
+      return {
+        [AvailableTokens.MATIC]: {
+          btnText: stakeText,
+          href: StakePolygonRoutes.stake.generatePath(),
+          disabled: false,
+        },
+        [AvailableTokens.aMATICb]: {
+          btnText: unstakeText,
+          href: StakePolygonRoutes.unstake.generatePath(),
+          disabled: false,
+        },
+        [AvailableTokens.ETH]: {
+          btnText: stakeText,
+          href: defaultHref,
+          disabled: true,
+        },
+        [AvailableTokens.aETHb]: {
+          btnText: unstakeText,
+          href: defaultHref,
+          disabled: true,
+          tooltip: t('trading-cockpit.eth-unstake-err'),
+        },
+        [AvailableTokens.aETHc]: {
+          btnText: unstakeText,
+          href: defaultHref,
+          disabled: true,
+          tooltip: t('trading-cockpit.eth-unstake-err'),
+        },
+        [AvailableTokens.AVAX]: {
+          btnText: stakeText,
+          href: defaultHref,
+          disabled: true,
+        },
+        [AvailableTokens.aAVAXb]: {
+          btnText: unstakeText,
+          href: defaultHref,
+          disabled: true,
+        },
+      };
+    }, []);
 
-  if (isBondTokenSelected) {
-    btnText = t('trading-cockpit.unstake-btn');
-    disabled = true;
-
-    if (fromToken === AvailableTokens.ETH || toToken === AvailableTokens.ETH) {
-      tooltip = t('staker-dashboard.tip.eth-unstake-err');
-    }
-  }
-
-  return {
-    href: getStakeBtnPath(fromToken, toToken),
-    disabled,
-    btnText,
-    tooltip,
-  };
-};
-
-export const getStakeBtnPath = (
-  fromToken: AvailableTokens,
-  toToken: AvailableTokens,
-): string => {
-  if (fromToken === AvailableTokens.ETH || toToken === AvailableTokens.ETH) {
-    // todo: add stake ETH path
-    return StakeRoutes.main.generatePath();
-  }
-
-  if (
-    fromToken === AvailableTokens.MATIC ||
-    toToken === AvailableTokens.MATIC
-  ) {
-    return StakePolygonRoutes.stake.generatePath();
-  }
-
-  if (fromToken === AvailableTokens.AVAX || toToken === AvailableTokens.AVAX) {
-    // todo: add stake AVAX path
-    return StakeRoutes.main.generatePath();
-  }
-
-  return StakeRoutes.main.generatePath();
+  return btnPropsByToken[token];
 };

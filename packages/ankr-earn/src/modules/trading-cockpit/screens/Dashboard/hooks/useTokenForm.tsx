@@ -1,9 +1,11 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { getPrices } from 'modules/trading-cockpit/actions/getPrices';
 import { ITokenFormValues } from 'modules/trading-cockpit/components/TokenForm/TokenForm';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { useCallback, useState } from 'react';
+import { useHistory } from 'react-router';
 import { useTokenSelectOptions } from './useTokenSelectOptions';
 
 interface IUseTokenFormArgs {
@@ -22,6 +24,7 @@ export const useTokenForm = ({
   const [amount, setAmount] = useState(defaultAmount);
   const dispatchRequest = useDispatchRequest();
   const options = useTokenSelectOptions();
+  const { push } = useHistory();
 
   const { loading } = useQuery({
     type: getPrices,
@@ -33,6 +36,13 @@ export const useTokenForm = ({
       setToToken(values.toToken as AvailableTokens);
       setAmount(values.amount);
 
+      push(
+        BoostRoutes.tradingCockpit.generatePath(
+          values.fromToken,
+          values.toToken,
+        ),
+      );
+
       dispatchRequest(
         getPrices({
           fromToken: values.fromToken as AvailableTokens,
@@ -41,10 +51,11 @@ export const useTokenForm = ({
         }),
       );
     },
-    [dispatchRequest],
+    [dispatchRequest, push],
   );
 
   useInitEffect(() => {
+    push(BoostRoutes.tradingCockpit.generatePath(fromToken, toToken));
     dispatchRequest(
       getPrices({
         fromToken,
