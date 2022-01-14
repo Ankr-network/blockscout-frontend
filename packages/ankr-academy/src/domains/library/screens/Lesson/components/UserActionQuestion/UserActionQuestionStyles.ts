@@ -1,12 +1,8 @@
 import { makeStyles } from '@material-ui/styles';
 import { lighten, Theme } from '@material-ui/core';
 
-export const useUserActionRadioStyles = makeStyles<Theme>(theme => ({
-  formWrapper: {
-    padding: theme.spacing(3.5),
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: 28,
-  },
+export const useUserActionQuestionStyles = makeStyles<Theme>(theme => ({
+  formWrapper: {},
   formControl: {
     width: '100%',
   },
@@ -18,32 +14,44 @@ export const useUserActionRadioStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     borderRadius: 16,
-    backgroundColor: lighten(theme.palette.primary.main, 0.9),
+    backgroundColor: theme.palette.background.default,
+    border: `1px solid transparent`,
+    transition: 'background-color .3s, border-color .3s',
 
     '&+&': {
       marginTop: theme.spacing(0.5),
     },
   },
+  controlWrapperActive: {
+    borderColor: theme.palette.primary.main,
+    backgroundColor: lighten(theme.palette.primary.main, 0.9),
+  },
   controlWrapperSuccess: {
-    border: `1px solid ${theme.palette.success.main}`,
+    borderColor: theme.palette.success.main,
     backgroundColor: theme.palette.success.light,
   },
   controlWrapperError: {
-    border: `1px solid ${theme.palette.error.main}`,
+    borderColor: theme.palette.error.main,
     backgroundColor: theme.palette.error.light,
   },
-  radioButton: {
+  controlButton: {
     marginRight: theme.spacing(1),
   },
-  radioButtonError: {
+  controlButtonActive: {
     '&&': {
-      /* is used for radio icon currentColor */
+      /* is used for control icon currentColor */
+      color: theme.palette.primary.main,
+    },
+  },
+  controlButtonError: {
+    '&&': {
+      /* is used for control icon currentColor */
       color: theme.palette.error.main,
     },
   },
-  radioButtonSuccess: {
+  controlButtonSuccess: {
     '&&': {
-      /* is used for radio icon currentColor */
+      /* is used for control icon currentColor */
       color: theme.palette.success.main,
     },
   },
@@ -51,15 +59,21 @@ export const useUserActionRadioStyles = makeStyles<Theme>(theme => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
-  radioStatus: {
+  controlStatus: {
     marginTop: -theme.spacing(2),
     marginBottom: theme.spacing(1),
     paddingLeft: 38,
   },
-  radioStatusSuccess: {
+  controlStatusSuccess: {
     color: theme.palette.success.main,
   },
-  radioStatusError: {
+  controlStatusError: {
     color: theme.palette.error.main,
+  },
+
+  /* UserActionCheckbox styles */
+  btnSubmit: {
+    marginTop: theme.spacing(3.5),
+    alignSelf: 'flex-start',
   },
 }));

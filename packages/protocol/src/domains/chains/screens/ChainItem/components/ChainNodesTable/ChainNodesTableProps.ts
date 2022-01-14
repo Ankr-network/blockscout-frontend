@@ -1,4 +1,3 @@
-import { Chain } from '@ankr.com/multirpc/dist/types';
 import BigNumber from 'bignumber.js';
 
 import { ResponseData } from 'modules/api/utils/ResponseData';
@@ -13,7 +12,7 @@ export interface ChainNodesTableProps {
 export interface GroupedNode {
   id: string;
   nodeId: string;
-  blockchain: Chain;
+  blockchain: string;
   scheme: string;
   continent: string;
   country: string;

@@ -58,7 +58,10 @@ export const Dashboard = () => {
                       network={t(`chain.${chainId}`)}
                       token={EToken.aMATICb}
                       amount={data.aMaticbBalance}
-                      tradeLink={RoutesConfigBoost.tradingCockpit.generatePath()}
+                      tradeLink={RoutesConfigBoost.tradingCockpit.generatePath(
+                        EToken.aMATICb,
+                        'MATIC',
+                      )}
                       unstakeLink={StakePolygonRoutes.unstake.generatePath()}
                       stakeLink={StakePolygonRoutes.stake.generatePath()}
                     />

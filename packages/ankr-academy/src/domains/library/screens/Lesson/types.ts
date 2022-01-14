@@ -25,18 +25,27 @@ type UserActionButton = {
   buttonText: string;
 };
 
-export type RadioButton = {
-  isCorrect: boolean;
+export type UserActionAnswerControlType = 'checkbox' | 'radio';
+
+export type AnswerControl = {
+  isCorrect: boolean; // has to be at least one correct (true) in controls array
   label: string;
   value: string;
 };
 
-type UserActionRadio = {
-  type: 'radio';
+type UserActionQuiz = {
   question: string;
-  controls: RadioButton[];
+  controls: AnswerControl[];
   buttonText: string;
 };
+
+type UserActionRadio = {
+  type: 'radio';
+} & UserActionQuiz;
+
+type UserActionCheckbox = {
+  type: 'checkbox';
+} & UserActionQuiz;
 
 type UserActionRate = {
   type: 'rate';
@@ -49,6 +58,7 @@ type UserActionNext = {
 export type UserActionType =
   | UserActionButton
   | UserActionRadio
+  | UserActionCheckbox
   | UserActionRate
   | UserActionNext;
 

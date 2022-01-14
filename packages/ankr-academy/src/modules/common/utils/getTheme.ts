@@ -48,6 +48,16 @@ export const getTheme = (type: Themes) => {
             },
           },
           MuiIconButton: {},
+          MuiPaper: {
+            ...mainTheme.overrides?.MuiPaper,
+            rounded: {
+              borderRadius: 28,
+              padding: mainTheme.spacing(2.5),
+              [mainTheme.breakpoints.up('md')]: {
+                padding: mainTheme.spacing(3.5),
+              },
+            },
+          },
         },
       });
   }

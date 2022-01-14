@@ -5,25 +5,22 @@ import { FairValue } from 'modules/trading-cockpit/components/FairValue';
 import { Header } from 'modules/trading-cockpit/components/Header';
 import { TableComponent } from 'modules/trading-cockpit/components/Table';
 import { TokenForm } from 'modules/trading-cockpit/components/TokenForm';
-import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { getPairedToken } from 'modules/trading-cockpit/utils/getPairedToken';
+import { useDefaultFormState } from './hooks/useDefaultFormState';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFairValue } from './hooks/useFairValue';
 import { useTable } from './hooks/useTable';
 import { useTokenForm } from './hooks/useTokenForm';
 
-const defaultFormState = {
-  defaultAmount: '1',
-  defaultFromToken: AvailableTokens.aETHb,
-  defaultToToken: AvailableTokens.ETH,
-};
-
 export const Dashboard = () => {
+  const { defaultAmount, defaultFromToken, defaultToToken } =
+    useDefaultFormState();
+
   const { amount, fromToken, toToken, options, isLoading, handleSubmit } =
     useTokenForm({
-      defaultAmount: defaultFormState.defaultAmount,
-      defaultFromToken: defaultFormState.defaultFromToken,
-      defaultToToken: defaultFormState.defaultToToken,
+      defaultAmount,
+      defaultFromToken,
+      defaultToToken,
     });
 
   const {
@@ -57,11 +54,11 @@ export const Dashboard = () => {
           <TokenForm
             onSubmit={handleSubmit}
             options={options}
-            defaultFromToken={defaultFormState.defaultFromToken}
-            defaultToToken={defaultFormState.defaultToToken}
+            defaultFromToken={defaultFromToken}
+            defaultToToken={defaultToToken}
             disabled={isLoading}
             getPairedOption={getPairedToken}
-            defaultAmount={defaultFormState.defaultAmount}
+            defaultAmount={defaultAmount}
           />
         }
         fairValueSlot={

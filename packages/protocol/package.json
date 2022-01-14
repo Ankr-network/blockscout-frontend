@@ -19,7 +19,6 @@
   },
   "homepage": "/protocol/",
   "dependencies": {
-    "@ankr.com/dom": "^0.0.143",
     "@ankr.com/multirpc": "^0.0.146",
     "@ankr.com/stakefi-web3": "^0.0.149",
     "@loadable/component": "^5.14.1",
@@ -133,7 +132,10 @@
       "/public/polygon/",
       "/public/solana/",
       "/public/arbitrum/",
-      "/public/selo/"
+      "/public/celo/",
+      "/public/near/",
+      "/public/bsc/",
+      "/public/iotex/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

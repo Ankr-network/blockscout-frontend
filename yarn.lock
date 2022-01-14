@@ -2,18 +2,6 @@
 # yarn lockfile v1
 
 
-"@ankr.com/dom@^0.0.143":
-  version "0.0.143"
-  resolved "https://registry.yarnpkg.com/@ankr.com/dom/-/dom-0.0.143.tgz#f5c579b07232157d245b6f1fcee7db1af899810d"
-  integrity sha512-P6xFHLExi5bCppk7TK4+ySokysFJDukoLYR3VtjW9bnuZ7reHfbA44gwl+XutzXjg7R1Ut9+652aYGD5UaljhQ==
-  dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.136"
-    "@redux-requests/core" "1.6.1"
-    "@types/node" "^14.14.41"
-    redux-saga "^1.1.3"
-    redux-smart-actions "^1.0.0"
-    web3-core "^1.6.0"
-
 "@ankr.com/multirpc@^0.0.146":
   version "0.0.146"
   resolved "https://registry.yarnpkg.com/@ankr.com/multirpc/-/multirpc-0.0.146.tgz#eb03a0b5bada1051db9497a52e2ec723fec2b74b"
@@ -23,18 +11,6 @@
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
     ethereumjs-tx "^2.1.2"
-    web3 "^1.3.5"
-    web3-eth-contract "^1.3.5"
-
-"@ankr.com/stakefi-web3@^0.0.136":
-  version "0.0.136"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.136.tgz#619f44c9e91a9e724de3308c70a15440b8888102"
-  integrity sha512-LZOJyGWz6a0Wy46T9PBLeHf5R/yoojEhrx5HfSZERVqcs14apNZQD41ar3H91TIdhdFySEpJRnMCueimE2a0hA==
-  dependencies:
-    "@ethereumjs/tx" "^3.3.2"
-    "@types/node" "^14.14.41"
-    bignumber.js "^9.0.1"
-    ethereumjs-util "^7.1.3"
     web3 "^1.3.5"
     web3-eth-contract "^1.3.5"
 
@@ -21376,7 +21352,7 @@ web3-core-subscriptions@1.6.1:
     eventemitter3 "4.0.4"
     web3-core-helpers "1.6.1"
 
-web3-core@1.6.1, web3-core@^1.6.0, web3-core@^1.6.1:
+web3-core@1.6.1, web3-core@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/web3-core/-/web3-core-1.6.1.tgz#b41f08fdc9ea1082d15384a3d6fa93a47c3fc1b4"
   integrity sha512-m+b7UfYvU5cQUAh6NRfxRzH/5B3to1AdEQi1HIQt570cDWlObOOmoO9tY6iJnI5w4acxIO19LqjDMqEJGBYyRQ==

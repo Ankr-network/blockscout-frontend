@@ -15,6 +15,7 @@ export function* rootSaga() {
     {
       connectAction: connect.toString(),
       disconnectAction: disconnect.toString(),
+      // @ts-ignore
       provider: service.getKeyProvider(),
       actions: {
         accountsChanged: disconnect,

@@ -244,16 +244,16 @@ export const lesson1: LessonType = {
         },
       ],
       userAction: {
-        type: 'radio',
+        type: 'checkbox',
         question: 'Why is bitcoin valuable?',
         controls: [
           {
-            isCorrect: false,
+            isCorrect: true,
             label: 'It is rare',
             value: 'rare',
           },
           {
-            isCorrect: false,
+            isCorrect: true,
             label: 'It has a fixed supply',
             value: 'fixed',
           },
@@ -268,7 +268,7 @@ export const lesson1: LessonType = {
             value: 'requires',
           },
           {
-            isCorrect: true,
+            isCorrect: false,
             label: 'All of the above',
             value: 'all',
           },

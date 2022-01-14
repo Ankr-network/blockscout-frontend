@@ -2,6 +2,7 @@ import loadable from '@loadable/component';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import React from 'react';
 import { generatePath, Redirect } from 'react-router';
@@ -10,13 +11,25 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = '/boost';
 const TRADING_COCKPIT_PATH = `${ROOT}/trading-cockpit`;
+const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
 const LIQUIDITY_MINING_PATH = `${ROOT}/liquidity-mining`;
 
 export const RoutesConfig = createRouteConfig(
   {
     tradingCockpit: {
       path: TRADING_COCKPIT_PATH,
-      generatePath: () => generatePath(TRADING_COCKPIT_PATH),
+      generatePath: (fromToken?: string, toToken?: string) =>
+        generatePath(TRADING_COCKPIT_SPECIFIC_PATH, {
+          fromToken,
+          toToken,
+        }),
+      useParams: () => {
+        const query = useQueryParams();
+        return {
+          fromToken: query.get('from') ?? undefined,
+          toToken: query.get('to') ?? undefined,
+        };
+      },
     },
     liquidityMining: {
       path: LIQUIDITY_MINING_PATH,
