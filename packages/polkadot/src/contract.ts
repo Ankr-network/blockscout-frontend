@@ -203,9 +203,9 @@ export class ContractManager {
   }
 
   public async claimParachainRewards(
-    recipientBase58: string,
+    toAddress: string,
   ): Promise<IWeb3SendResult> {
-    const recipientHex = bs58.decode(recipientBase58).toString('hex');
+    const recipientHex = ContractManager.extractAddressIntoHex(toAddress);
     const sender = this.keyProvider.getCurrentAccount();
     const data = this.rewardPool.methods
       .claimParachainRewards(recipientHex)
@@ -218,5 +218,16 @@ export class ContractManager {
         estimate: true,
       },
     );
+  }
+
+  protected static extractAddressIntoHex(address: string): string {
+    if (address.startsWith('0x')) address = address.slice(2);
+    if (/^[a-fA-F0-9]{40}$/.test(address)) {
+      return address.toLowerCase();
+    }
+    return bs58
+      .decode(address)
+      .toString('hex')
+      .slice(2, 2 + 64);
   }
 }

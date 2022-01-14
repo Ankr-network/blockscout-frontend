@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import BigNumber from 'bignumber.js';
 import { SlotAuctionSdk } from './slot-auction';
 
@@ -13,7 +12,7 @@ class TestSlotAuctionSdk extends SlotAuctionSdk {
 
 describe('Test: SlotAuctionSdk', (): void => {
   describe('Case: onchain claim', (): void => {
-    it('Remark payload composed correctly', () => {
+    it('Remark payload composed correctly', (): void => {
       const payload: Buffer = Buffer.from(
         TestSlotAuctionSdk.createRemarkPayload(
           '0x527e4403255053669cE5f5C1124480fe46138de2',
@@ -21,15 +20,11 @@ describe('Test: SlotAuctionSdk', (): void => {
         ),
       );
 
-      console.log(payload.toString('hex'));
-
       // eslint-disable-next-line no-buffer-constructor
       const prefix: Buffer = new Buffer(
         'Stakefi Signed Message:\nCreateClaim\n',
         'ascii',
       );
-
-      console.log(prefix.toString('hex'));
 
       expect(payload.slice(0, prefix.length)).toStrictEqual(prefix);
       expect(payload.length).toStrictEqual(prefix.length + 20 + 1 + 16);
