@@ -1,4 +1,4 @@
-import { useDialog } from 'modules/stake-polygon/hooks/useDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 export const useSuccessDialog = () => {

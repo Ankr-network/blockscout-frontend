@@ -37,4 +37,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
       overflow: 'visible',
     },
   },
+  rightComponentSlot: {
+    marginLeft: theme.spacing(2),
+  },
 }));

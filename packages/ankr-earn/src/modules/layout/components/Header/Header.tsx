@@ -38,7 +38,11 @@ export const Header = ({
         <div className={classes.rightSide}>
           {isLGUp && <LocaleSwitcher className={classes.localeSwitcher} />}
 
-          {!!rightComponentSlot && rightComponentSlot}
+          {!!rightComponentSlot && (
+            <div className={classes.rightComponentSlot}>
+              {rightComponentSlot}
+            </div>
+          )}
 
           {!isLGUp && (
             <Toggle

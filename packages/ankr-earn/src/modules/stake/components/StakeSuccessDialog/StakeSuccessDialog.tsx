@@ -1,8 +1,8 @@
-import { Dialog, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { Button } from 'uiKit/Button';
-import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
 import { useStakeSuccessDialogStyles } from './useStakeSuccessDialogStyles';
 
@@ -26,19 +26,7 @@ export const StakeSuccessDialog = ({
   const classes = useStakeSuccessDialogStyles();
 
   return (
-    <Dialog
-      open={isOpened}
-      onClose={onClose}
-      fullWidth
-      maxWidth="sm"
-      PaperProps={{ square: false, variant: 'elevation' }}
-      classes={{ paper: classes.box }}
-      scroll="body"
-    >
-      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
-        <CloseIcon size="xxs" htmlColor="inherit" />
-      </Button>
-
+    <Dialog open={isOpened} onClose={onClose}>
       <div className={classes.wrapper}>
         <Typography variant="h1" className={classes.title}>
           {t('stake.success.title')}

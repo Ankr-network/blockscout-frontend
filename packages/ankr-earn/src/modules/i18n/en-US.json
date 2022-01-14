@@ -302,5 +302,12 @@
     "staked-amount": "{value} {token}",
     "stake": "Stake",
     "learn-more": "Learn more"
+  },
+  "wallets": {
+    "connect-btn": "Connect wallet",
+    "copy": "Copy",
+    "disconnect": "Disconnect",
+    "disconnect-all": "Disconnect all",
+    "connected-wallets": "Connected wallets"
   }
 }

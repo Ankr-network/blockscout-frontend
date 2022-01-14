@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles';
+import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
 import { useMemo } from 'react';
 import { Themes } from 'ui';
 import { getTheme } from '../../../common/utils/getTheme';
@@ -28,6 +29,7 @@ export const DefaultLayout = ({
           <Header
             mainNavigationSlot={<MainNavigation />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
+            rightComponentSlot={<ConnectedWallets />}
           />
         </ThemeProvider>
       }
