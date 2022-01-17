@@ -41,7 +41,7 @@ export const useChainItemBreadcrumbs = (chainName: string) => {
 
 export const useTimeframeData = (chainId: string) => {
   const dispatchRequest = useDispatchRequest();
-  const [timeframe, setTimeframe] = useState<Timeframe>('30d');
+  const [timeframe, setTimeframe] = useState<Timeframe>('24h');
 
   useEffect(() => {
     dispatchRequest(fetchChainDetails(chainId, timeframe));

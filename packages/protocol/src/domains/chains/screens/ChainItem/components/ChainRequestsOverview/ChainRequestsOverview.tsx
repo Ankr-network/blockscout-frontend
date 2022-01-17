@@ -59,14 +59,14 @@ export const ChainRequestsOverview = ({
           value={timeframe}
           className={classes.toggleButtonGroup}
         >
-          <ToggleButton value="30d" disabled={loading}>
-            {t('chain-item.timeframe.30-days')}
+          <ToggleButton value="24h" disabled={loading}>
+            {t('chain-item.timeframe.24-hours')}
           </ToggleButton>
           <ToggleButton value="7d" disabled={loading}>
             {t('chain-item.timeframe.7-days')}
           </ToggleButton>
-          <ToggleButton value="24h" disabled={loading}>
-            {t('chain-item.timeframe.24-hours')}
+          <ToggleButton value="30d" disabled={loading}>
+            {t('chain-item.timeframe.30-days')}
           </ToggleButton>
         </ToggleButtonGroup>
       </div>
