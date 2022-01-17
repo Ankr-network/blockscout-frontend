@@ -10,4 +10,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       color: theme.palette.text.primary,
     },
   },
+  loading: {
+    opacity: 0.5,
+  },
 }));

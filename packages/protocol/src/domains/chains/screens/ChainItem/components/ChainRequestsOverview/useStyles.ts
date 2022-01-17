@@ -13,7 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   chart: {
     paddingRight: theme.spacing(3),
-
+    height: 270,
     [theme.breakpoints.down('sm')]: {
       paddingRight: theme.spacing(2.5),
     },

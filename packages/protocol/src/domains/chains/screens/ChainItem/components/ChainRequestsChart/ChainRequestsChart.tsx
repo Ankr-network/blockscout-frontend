@@ -10,6 +10,7 @@ import { t } from 'modules/i18n/utils/intl';
 export const ChainRequestsChart = ({
   timeframe,
   requestsLog,
+  loading,
 }: ChainRequestsChartProps) => {
   const data = useMemo(
     () => processData(requestsLog, timeframe),
@@ -37,6 +38,7 @@ export const ChainRequestsChart = ({
       xAxisTickFormatter={tickFormatter}
       yAxisTickFormatter={callsFormatter}
       tooltipContent={<ChartTooltip />}
+      loading={loading}
     />
   );
 };

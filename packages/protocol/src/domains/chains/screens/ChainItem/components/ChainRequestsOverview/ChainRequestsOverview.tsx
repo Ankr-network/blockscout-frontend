@@ -15,6 +15,7 @@ interface ChainRequestsOverviewProps {
   onClick: (timeframe: Timeframe) => void;
   children: ReactNode;
   loading: boolean;
+  pristine: boolean;
 }
 
 export const ChainRequestsOverview = ({
@@ -24,6 +25,7 @@ export const ChainRequestsOverview = ({
   timeframe,
   children,
   loading,
+  pristine,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
@@ -37,20 +39,21 @@ export const ChainRequestsOverview = ({
   return (
     <div className={classNames(classes.root, className)}>
       {children}
-      {loading ? (
+      {loading && pristine ? (
         <div className={classes.infoSkeleton}>
           <Spinner />
         </div>
       ) : (
-        totalRequestsHistory &&
-        Object.keys(totalRequestsHistory).length !== 0 && (
-          <div className={classes.chart}>
-            <ChainRequestsChart
-              requestsLog={totalRequestsHistory}
-              timeframe={timeframe}
-            />
-          </div>
-        )
+        <div className={classes.chart}>
+          {totalRequestsHistory &&
+            Object.keys(totalRequestsHistory).length !== 0 && (
+              <ChainRequestsChart
+                requestsLog={totalRequestsHistory}
+                timeframe={timeframe}
+                loading={loading}
+              />
+            )}
+        </div>
       )}
       <div className={classes.buttonGroup}>
         <ToggleButtonGroup

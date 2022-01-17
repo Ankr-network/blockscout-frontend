@@ -8,4 +8,5 @@ export type RequestsLog = Record<TimeStamp, Count>;
 export interface ChainRequestsChartProps {
   timeframe: Timeframe;
   requestsLog: RequestsLog;
+  loading?: boolean;
 }

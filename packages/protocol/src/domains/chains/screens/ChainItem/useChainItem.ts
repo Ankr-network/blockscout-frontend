@@ -54,7 +54,7 @@ export const useTimeframeData = (chainId: string) => {
     timeframe,
   );
 
-  const { data, loading, error } = getQuery(store.getState(), {
+  const { data, loading, error, pristine } = getQuery(store.getState(), {
     type: fetchChainDetails.toString(),
   });
 
@@ -71,6 +71,7 @@ export const useTimeframeData = (chainId: string) => {
     timeframe,
     setTimeframe: handleSetTimeframe,
     loading,
+    pristine,
     totalCached,
     totalRequests,
     totalRequestsHistory,

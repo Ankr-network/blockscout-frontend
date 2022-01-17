@@ -19,6 +19,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   chainItemHeader: {},
   chainRequestsOverview: {
     marginTop: theme.spacing(3.25),
+    marginBottom: theme.spacing(3.5),
   },
   chainItemDetailsInnerSkeleton: {
     [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
@@ -42,5 +43,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 18,
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
   },
 }));

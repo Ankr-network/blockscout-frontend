@@ -29,6 +29,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
     timeframe,
     setTimeframe,
     loading,
+    pristine,
     totalCached,
     totalRequests,
     totalRequestsHistory,
@@ -46,6 +47,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         icon={chain.icon}
         nodes={nodes}
       />
+
       {error ? (
         <div className={classes.error}>
           <QueryError error={error} />
@@ -58,6 +60,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
             onClick={setTimeframe}
             timeframe={timeframe}
             loading={loading}
+            pristine={pristine}
           >
             <ChainItemDetails
               className={classes.chainItemDetails}

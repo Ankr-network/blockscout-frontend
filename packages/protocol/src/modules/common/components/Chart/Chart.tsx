@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 import { BaseAxisProps } from 'recharts/types/util/types';
+import classNames from 'classnames';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
@@ -25,13 +26,17 @@ interface IChartProps {
   tooltipContent?: ReactNode;
   xAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   yAxisTickFormatter?: BaseAxisProps['tickFormatter'];
+  loading?: boolean;
 }
+
+const ANIMATION_DURATION = 500;
 
 export const Chart = ({
   data,
   tooltipContent,
   xAxisTickFormatter,
   yAxisTickFormatter,
+  loading,
 }: IChartProps) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -40,7 +45,7 @@ export const Chart = ({
     <ResponsiveContainer className={classes.root} width="99%" height={270}>
       <AreaChart
         width={0}
-        className={classes.chart}
+        className={classNames(classes.chart, loading ? classes.loading : null)}
         data={data}
         margin={MARGIN}
       >
@@ -82,6 +87,7 @@ export const Chart = ({
           strokeWidth={2}
           fill="url(#valueColor)"
           type="monotone"
+          animationDuration={ANIMATION_DURATION}
         />
         <Area
           dataKey="extraValue"
@@ -90,6 +96,7 @@ export const Chart = ({
           fill="url(#extraValueColor)"
           strokeDasharray="3"
           type="monotone"
+          animationDuration={ANIMATION_DURATION}
         />
       </AreaChart>
     </ResponsiveContainer>

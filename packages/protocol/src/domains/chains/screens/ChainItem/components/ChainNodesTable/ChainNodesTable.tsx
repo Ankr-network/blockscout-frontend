@@ -53,6 +53,7 @@ export const ChainNodesTable = ({
               <TableCell
                 padding="none"
                 className={classNames(classes.cell, classes.cellThead)}
+                key={item}
               >
                 <Typography variant="subtitle2" color="textSecondary">
                   {item}

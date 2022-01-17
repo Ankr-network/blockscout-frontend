@@ -30,6 +30,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: '60%',
     height: 35,
     margin: 'auto',
+
+    [theme.breakpoints.down('sm')]: {
+      height: 23.3,
+    },
   },
 
   dot: {
