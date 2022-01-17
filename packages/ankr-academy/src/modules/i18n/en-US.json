@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "title": "Ankr Academy",
+    "description": "Ankr Academy"
+  },
+  "logo": {
+    "academy": "Academy"
+  },
+  "header": {
+    "wallet-button": "Connect Wallet"
+  },
+  "main-navigation": {
+    "academy": "Academy",
+    "library": "Content Library",
+    "glossary":  "Glossary"
+  },
+  "page-not-found": {
+    "title": "404",
+    "text": "Page not found"
+  },
+  "footer": {
+    "term-of-use": "Terms of service",
+    "privacy-policy": "Privacy Policy",
+    "copy": "| © 2020 Ankr All rights reserved",
+    "find-on": "Find on"
+  },
+  "partners": {
+    "coinMarketCap":  "Coin Market Cap",
+    "coinGecko": "Coin gecko",
+    "blockfolio":  "BlockFolio",
+    "crypto": "crypto.com"
+  },
+  "copyright": "© {year} Ankr All rights reserved | <a href=\"mailto:info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
+  "navigation": {
+    "assets": "Brand Assets",
+    "products": "Products",
+    "node-service": "Node Service",
+    "ankr-earn": "Ankr Earn",
+    "ankr-protocol": "Ankr Protocol",
+    "about-us": "About Us",
+    "about-company": "Our Story",
+    "about-team": "Team",
+    "about-careers": "Careers",
+    "community": "Community",
+    "socials": "Socials"
+  },
+  "social-media": {
+    "title": "Join a passionate, global community.",
+    "list": {
+      "twitter": {
+        "title": "Twitter",
+        "hint": "General Announcements"
+      },
+      "telegram": {
+        "title": "Telegram",
+        "hint": "Live Chat"
+      },
+      "discord": {
+        "title": "Discord",
+        "hint": "Technical Support"
+      },
+      "medium": {
+        "title": "Medium",
+        "hint": "Blogs and Tutorials"
+      },
+      "reddit": {
+        "title": "Reddit",
+        "hint": "Community Forum"
+      }
+    }
+  },
+  "lesson-card": {
+    "class-index": "Class {index}",
+    "next-lesson-btn": "Continue Learning"
+  },
+  "error": {
+    "not-authenticated": "Not Authenticated",
+    "unknown": "Unknown error",
+    "contract-rejected": "Contract interaction rejected",
+    "unexpected": "Unexpected error",
+    "insufficient-permissions": "Insufficient permissions"
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "validation": {
+    "greater-than-zero": "Should be greater than 0",
+    "insufficient-funds": "Insufficient funds",
+    "low-balance": "Your balance is not sufficient",
+    "min": "Should be greater than {value}",
+    "number-only": "Must be a number",
+    "required": "This field is required"
+  },
+  "meta": {
+    "title": "Ankr Earn",
+    "description": "Ankr Earn"
+  },
+  "error": {
+    "not-authenticated": "Not Authenticated",
+    "unknown": "Unknown error",
+    "contract-rejected": "Contract interaction rejected",
+    "unexpected": "Unexpected error",
+    "insufficient-permissions": "Insufficient permissions",
+    "btn": "Try again"
+  },
+  "main-navigation": {
+    "stake": "Stake",
+    "dashboard": "Dashboard",
+    "parachain": "Parachain",
+    "boost": "Boost",
+    "menu": "Menu",
+    "docs": "Docs",
+    "litepaper": "Litepaper"
+  },
+  "litepaper-links": {
+    "en": "Litepaper (EN)",
+    "cn": "Litepaper (CN)"
+  },
+  "logo": {
+    "earn": "Earn"
+  },
+  "rights": "© 2021 Ankr All rights reserved | info@ankr.com",
+  "language": {
+    "language": "Language",
+    "en-US": "EN",
+    "zh-CN": "中文"
+  },
+  "format": {
+    "date": "{value, date, medium}"
+  },
+  "unit": {
+    "eth": "ETH",
+    "aeth": "aETHc",
+    "feth": "aETHb",
+    "polygon": "MATIC",
+    "amaticb": "aMATICb",
+    "avax": "AVAX",
+    "aavaxb": "aAVAXb",
+    "token-value": "{value, number} {token}",
+    "matic-value": "{value} MATIC",
+    "~polygon": "{value} aMATICb",
+    "ankr-value": "{value} ANKR"
+  },
+  "chain": {
+    "1": "Ethereum Mainnet",
+    "3": "Ropsten",
+    "4": "Rinkeby",
+    "5": "Ethereum Goerli",
+    "6": "Kotti",
+    "56": "Binance SmartChain",
+    "61": "Classic",
+    "63": "Mordor",
+    "97": "Binance SmartChain Testnet",
+    "43113": "Avalanche C-Chain",
+    "43114": "Avalanche",
+    "2018": "Dev"
+  },
+  "not-found": {
+    "title": "Page not found",
+    "btn-back": "Previous page",
+    "btn-home": "Go home"
+  },
+  "boost": {
+    "trading-cockpit": "Trading cockpit",
+    "liquidity-mining": "Liquidity mining"
+  },
+  "connect": {
+    "access-request": "Access Request",
+    "ask-connect": "Do you wish to connect Ankr Earn to your wallet?",
+    "grant": "Grant Access",
+    "info": "Click and select a wallet to connect",
+    "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
+    "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
+    "available-networks": "Ensure your wallet is connected to the following networks:",
+    "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "networks": {
+      "ethereum-mainnet": "Ethereum Mainnet",
+      "ethereum-goerli": "Ethereum Goerli",
+      "binance": "Binance Chain",
+      "binance-testnet": "Binance Chain Testnet",
+      "binance-smart-chain": "Binance Smart Chain",
+      "smart-chain-testnet": "Smart Chain Testnet",
+      "avax-chain": "AVAX C Chain",
+      "avax-fuji-testnet": "AVAX Fuji Testnet"
+    }
+  },
+  "polkadot-slot-auction": {
+    "button": {
+      "claim": "Claim {currency}",
+      "claim-rewards": "Claim",
+      "claim-tokens": "Claim {value} {currency}",
+      "connect": "Connect Wallet",
+      "contribute": "Contribute {currency}",
+      "contribute-form": "Contribute",
+      "provided": "Provided {value} {currency}"
+    },
+    "column": {
+      "bond-token-values": "{val1, number, ::compact-short} / {val2, number, ::compact-short} / {val3, number, ::compact-short} {currency}",
+      "val-currency": "{val, number} {currency}"
+    },
+    "currency": {
+      "DOT": "DOT",
+      "KSM": "KSM",
+      "WND": "WND",
+      "ROC": "ROC"
+    },
+    "header": {
+      "balance": "My Balance",
+      "claimable-rewards": "Claimable Rewards",
+      "end-date": "End Date",
+      "future-rewards": "Future expected rewards",
+      "hard-cap": "Raised on Ankr / Total Raised / HardCap",
+      "lease-duration": "Lease Duration",
+      "parachain-bond": "Parachain Bond",
+      "project": "Project",
+      "total-rewards": "Total Rewards"
+    },
+    "labels": {
+      "failed": "Failed",
+      "paused": "Paused",
+      "winner": "Winner"
+    },
+    "no-crowdloan": {
+      "message": "There are no {type} crowdloans on {tokenName} at the moment",
+      "sub-message": "They will be coming soon!",
+      "types": {
+        "MY_REWARDS": "reward",
+        "PROJECTS_LIST": "any"
+      }
+    },
+    "select-wallet": {
+      "install": "Install",
+      "preferred": "Preferred",
+      "title-install": "You need to install Polkadot supporting wallet to continue",
+      "title-select": "Select wallet to continue",
+      "wallet": {
+        "clover": "Clover Wallet",
+        "polkadot": "Polladot.js Wallet"
+      }
+    },
+    "support-project-form": {
+      "title": "Support {value} project",
+      "available-balance-txt": "Available balance:",
+      "available-balance-val": "{value} {currency}",
+      "daily-reward": "Daily {rewardTokenSymbol} Reward",
+      "disclaimer": "a{currency}p tokens can be claimed on Ethereum if {project} wins a Polkadot Parachain slot auction. a{currency}p will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
+      "initial-reward": "Expected Initial airdrop {rewardTokenSymbol} Reward",
+      "want-contribute": "I want to contribute",
+      "will-get": "You will get {bondTokenSymbol}"
+    },
+    "tabs": {
+      "my-rewards": "My Rewards",
+      "projects-list": "Projects List"
+    },
+    "tooltips": {
+      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing."
+    }
+  },
+  "stake-polkadot": {
+    "networks": {
+      "DOT": "Polkadot",
+      "KSM": "Kusama",
+      "WND": "Westend",
+      "ROC": "Rococo"
+    }
+  },
+  "support-project-form": {
+    "coming-soon": "coming soon"
+  },
+  "trading-cockpit": {
+    "stake-btn": "Stake now",
+    "unstake-btn": "Unstake now",
+    "exchange-btn": "Trade",
+    "eth-unstake-err": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
+    "header": {
+      "title": "Trading cockpit",
+      "aethb-info": "aETHb is an ETH reward earning bond.",
+      "link": "Learn more"
+    },
+    "platforms": {
+      "stakefi": "StakeFi by Ankr"
+    },
+    "fair-value": {
+      "title": "Fair Value",
+      "tooltip": "The fair value represents the ratio at which users can stake/unstake one token. For reward-earning (rebasing) tokens, the value should always be 1 to 1 because user's wallet balance increase in a daily basis, simulating as such earned staking rewards.",
+      "tooltip-aethc": "The fair value represents the staking value of 1 aETHc, which should always increase and be above 1 ETH as ETH2 staking rewards are accumulated in Ankr's staking pool. At phase 1.5 of Ethereum 2.0, unstaking ETH will become possible and staked ETH can be redeemed at fair value.",
+      "text": "{amountA} {currencyA} = {amountB} {currencyB}"
+    },
+    "table": {
+      "name": "Name",
+      "rate": "Exchange rate",
+      "fair-value": "Fair Value",
+      "difference": "Difference vs. Fair value",
+      "difference-tip": "This indicates the difference between market price and fair value, which is the amount of tokens received when you stake/unstake.",
+      "est-price": "Est. price difference",
+      "est-price-tip": "Price difference in comparison with the best price that you can get.",
+      "you-get": "You’ll Get"
+    }
+  },
+  "stake": {
+    "title": "{token} Staking",
+    "amount": "{token} Amount",
+    "liquid-staking": "Liquid staking",
+    "normal-staking": "Staking (Coming soon)",
+    "you-will-get": "You will get",
+    "stake": "Get {token}",
+    "balance-label": "Your balance",
+    "btn-max": "Max",
+    "faq-title": "FAQ",
+    "stats": {
+      "apr": "APR",
+      "yearly-earning": "Yearly earning",
+      "staked-with-ankr": "Staked with ANKR",
+      "stakers": "Stakers"
+    },
+    "success": {
+      "title": "Stake successful",
+      "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
+      "return": "Go to dashboard",
+      "add-to-wallet": "Add {token} to wallet"
+    }
+  },
+  "stake-polygon-dashboard": {
+    "column": {
+      "amount": "Amount",
+      "tx-date": "Transaction Date",
+      "tx-hash": "Transaction Hash",
+      "tx-type": "Transaction Type"
+    },
+    "switcher": {
+      "completed-title": "Completed transactions",
+      "pending-title": "Pending transactions"
+    },
+    "title": "MATIC Staking",
+    "unstake-eta": "You will receive MATIC in about 3-4 days. ",
+    "tooltip": {
+      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned MATIC over the last 7 days, net of delegation fees from Polygon Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending MATIC rewards, earned MATIC will be staked to generate compounding effect.",
+      "unstake": "Unstake",
+      "fee": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses.  MATIC tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+    },
+    "validation": {
+      "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
+    }
+  },
+  "stake-polygon": {
+    "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
+    "faq": {
+      "title": "FAQ",
+      "question-1": "How long after unstaking can I withdraw my ETH?",
+      "answer-1": "Polygon Liquid Staking from Ankr Ankr earn offers instant liquidity for your staked MATIC, enabling you to connect your tokens with DeFi platforms and earn several more layers of rewards.\n Polygon Liquid Staking enables you to earn **alpha. ** (Alpha is a return on investment that goes far beyond normal increases in the crypto market index). Ankr Earn can connect you to the best ways to earn more crypto by staking, arbitrage trading, yield farming, and much more.",
+      "question-2": "What is the minimum amount of MATIC I can stake?",
+      "answer-2": "{value} MATIC",
+      "question-3": "If I unstake is there a lead time required for this to happen or is it immediate?",
+      "answer-3": "Approx 9 days (80 checkpoints)",
+      "question-4": "How soon after staking will I begin to receive rewards?",
+      "answer-4": "aMATICb will increase with every rebase, rebase occurs daily.",
+      "question-5": "How do I receive rewards?",
+      "answer-5": "A rebase runs daily and rewards are received each time this runs. You will receive these rewards provided you hold aMATICb in your wallet.",
+      "question-6": "What determines the amount of reward I receive each rebase?",
+      "answer-6": "It depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (indirect cost for aMATICb holders).",
+      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
+      "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
+    }
+  },
+  "unstake-dialog": {
+    "title": "How many {token} do you want to redeem?",
+    "unstake-fee": "Unstake Fee",
+    "btn": "Unstake",
+    "buy-ankr": "Buy ANKR",
+    "amount": "{value}%"
+  },
+  "dashboard": {
+    "title": "My staking portfolio",
+    "balance": "Estimated balance",
+    "assets": "Staking assets",
+    "pending": "Pending {value} {token}",
+    "trade": "Trade",
+    "start-staking": "Start staking with Ankr Earn",
+    "stake": "Stake"
+  },
+  "features": {
+    "polygon": "Polygon (MATIC)",
+    "apy": "APY",
+    "apy-value": "{value}%",
+    "staked": "Staked",
+    "staked-amount": "{value} {token}",
+    "stake": "Stake",
+    "learn-more": "Learn more"
+  },
+  "wallets": {
+    "connect-btn": "Connect wallet",
+    "copy": "Copy",
+    "disconnect": "Disconnect",
+    "disconnect-all": "Disconnect all",
+    "connected-wallets": "Connected wallets"
+  }
+}
