@@ -16,17 +16,9 @@ export const getRows = (
 
   const groupedNodes = data.reduce<Record<string, GroupedNode>>(
     (result: any, node: INodeEntity | any) => {
-      const groupBy = [
-        node.blockchain,
-        node.continent,
-        node.country,
-        node.city,
-        node.organization,
-      ].join(',');
-
-      if (!result[groupBy]) {
-        result[groupBy] = {
-          id: groupBy,
+      if (!result[node.id]) {
+        result[node.id] = {
+          id: node.id,
           nodeId: node.id,
           blockchain: node.blockchain,
           scheme: node.scheme,
@@ -39,11 +31,11 @@ export const getRows = (
           organization: node.organization,
           chainName: capitalize(node.blockchain),
         };
-        result[groupBy].totalNodes++;
+        result[node.id].totalNodes++;
       }
 
       if (node.isArchive) {
-        result[groupBy].archiveNodes++;
+        result[node.id].archiveNodes++;
       }
 
       return result;
@@ -74,6 +66,12 @@ export const getRows = (
         height: nodeWeight.height,
       };
     })
-    .filter(item => item.height)
-    .filter(item => !item.weight.isEqualTo(0));
+    .sort((a, b) => b.weight.toNumber() - a.weight.toNumber())
+    .sort((a, b) => {
+      if (b.weight.toNumber() === a.weight.toNumber()) {
+        return (a?.organization || '').localeCompare(b?.organization || '');
+      }
+
+      return 0;
+    });
 };
