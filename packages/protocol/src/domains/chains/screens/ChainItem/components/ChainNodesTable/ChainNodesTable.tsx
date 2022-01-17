@@ -68,7 +68,7 @@ export const ChainNodesTable = ({
                 {capitalize(row.organization || '')}
               </TableCell>
 
-              <TableCell padding="none" className={classes.cell}>
+              <TableCell padding="none" className={classes.heightCell}>
                 {row.height}
               </TableCell>
 
@@ -85,7 +85,7 @@ export const ChainNodesTable = ({
                 </TableCell>
               )}
 
-              <TableCell className={classes.cell}>
+              <TableCell className={classes.weightCell}>
                 {`${row?.weight?.toFixed(0)}%`}
               </TableCell>
             </TableRow>

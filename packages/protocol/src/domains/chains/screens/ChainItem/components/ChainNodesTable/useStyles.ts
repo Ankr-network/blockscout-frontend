@@ -28,15 +28,28 @@ export const useStyles = makeStyles<Theme>(theme => ({
   cell: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    width: '20%',
+
+    '&:last-child': {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
   },
 
   nodeCell: {
-    width: '40%',
+    width: '35%',
+  },
+  heightCell: {
+    width: '20%',
   },
 
   countryCell: {
-    width: '40%',
+    width: '35%',
+  },
+
+  weightCell: {
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
+    width: '10%',
   },
 
   flag: {
