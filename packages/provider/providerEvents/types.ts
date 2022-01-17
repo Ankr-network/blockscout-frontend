@@ -22,11 +22,13 @@ export interface ProviderRpcError extends Error {
   data?: any;
 }
 
-export type AccountChangedEventData = Address[];
+export type IAccountChangedEventData = {
+  accounts: Address[];
+};
 
 export interface IAccountChangedEvent {
   type: ProviderEvents.AccountsChanged;
-  data: AccountChangedEventData;
+  data: IAccountChangedEventData;
 }
 
 export interface IDisconnectEvent {
@@ -34,11 +36,11 @@ export interface IDisconnectEvent {
   error: ProviderRpcError;
 }
 
-export type MessageEventData = any;
+export type IMessageEventData = any;
 
 export interface IMessageEvent {
   type: ProviderEvents.Message;
-  data: MessageEventData;
+  data: IMessageEventData;
 }
 
 export interface IChainChangedEvent {
@@ -55,7 +57,7 @@ export type ProviderEvent =
 export interface ProviderActions {
   chainChanged?: (data: IChainChangedEvent['data']) => AnyAction;
   accountsChanged?: (data: IAccountChangedEvent['data']) => AnyAction;
-  message?: (data: IMessageEvent['data']) => AnyAction;
+  message?: (data: IMessageEventData['data']) => AnyAction;
   disconnect?: () => AnyAction;
 }
 

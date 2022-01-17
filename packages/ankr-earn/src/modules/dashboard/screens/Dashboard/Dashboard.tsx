@@ -5,7 +5,6 @@ import { RoutesConfig as RoutesConfigBoost } from 'modules/boost/Routes';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
-import { BlockchainNetworkId } from 'modules/common/types';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { EToken } from 'modules/dashboard/types';
@@ -16,14 +15,10 @@ import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes
 import { Container } from 'uiKit/Container';
 import { useDashboardStyles as useStyles } from './useDashboardStyles';
 
-interface IDashboardArgs {
-  availableNetworks: BlockchainNetworkId[];
-}
-
-export const Dashboard = ({ availableNetworks }: IDashboardArgs) => {
+export const Dashboard = () => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
-  const { chainId } = useAuth(POLYGON_PROVIDER_ID, availableNetworks);
+  const { chainId } = useAuth(POLYGON_PROVIDER_ID);
 
   useInitEffect(() => {
     dispatchRequest(fetchStatsPolygon());

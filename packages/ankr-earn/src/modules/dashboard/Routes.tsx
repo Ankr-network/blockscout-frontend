@@ -29,12 +29,6 @@ export const RoutesConfig = createRouteConfig(
 );
 
 export function getRoutes() {
-  const availableNetworks: BlockchainNetworkId[] = [
-    currentEnv === Env.Production
-      ? BlockchainNetworkId.mainnet
-      : BlockchainNetworkId.goerli,
-  ];
-
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
@@ -42,11 +36,15 @@ export function getRoutes() {
           exact
           openConnectInstantly
           providerId={POLYGON_PROVIDER_ID}
-          availableNetworks={availableNetworks}
+          availableNetworks={[
+            currentEnv === Env.Production
+              ? BlockchainNetworkId.mainnet
+              : BlockchainNetworkId.goerli,
+          ]}
           path={ROOT}
         >
           <DefaultLayout>
-            <Dashboard availableNetworks={availableNetworks} />
+            <Dashboard />
           </DefaultLayout>
         </GuardRoute>
 
