@@ -2,12 +2,17 @@ import { makeStyles } from '@material-ui/styles';
 import { lighten, Theme } from '@material-ui/core';
 
 export const useUserActionQuestionStyles = makeStyles<Theme>(theme => ({
-  formWrapper: {},
   formControl: {
     width: '100%',
   },
+  preQuestionText: {
+    marginBottom: theme.spacing(1),
+  },
   legend: {
     marginBottom: theme.spacing(3),
+  },
+  description: {
+    marginTop: theme.spacing(1),
   },
   controlWrapper: {
     padding: `0 ${theme.spacing(2)}px`,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Paper, Typography } from '@material-ui/core';
-import { LessonType } from '../../types';
+import { LessonType } from '../../../../types';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 import { t } from 'modules/i18n/utils/intl';
 import { useLessonCardStyles } from './LessonCardStyles';

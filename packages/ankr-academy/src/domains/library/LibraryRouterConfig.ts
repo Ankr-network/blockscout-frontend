@@ -1,9 +1,10 @@
 import { generatePath, useParams } from 'react-router-dom';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { LessonId } from './screens/Lesson/types';
+import { ExamId, LessonId } from './types';
 
 const PATH_LIBRARY = '/library';
 const PATH_LESSON = '/lesson/:lessonId';
+const PATH_EXAM = '/exam/:examId';
 
 export const LibraryRoutesConfig = createRouteConfig(
   {
@@ -20,6 +21,17 @@ export const LibraryRoutesConfig = createRouteConfig(
 
         return {
           lessonId,
+        };
+      },
+    },
+    exam: {
+      path: PATH_EXAM,
+      generatePath: (examId: ExamId) => generatePath(PATH_EXAM, { examId }),
+      useParams: () => {
+        const { examId } = useParams<{ examId: ExamId }>();
+
+        return {
+          examId,
         };
       },
     },

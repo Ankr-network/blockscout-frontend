@@ -22,7 +22,7 @@ export function Routes() {
       />
       <Route
         exact
-        path={[LibraryRoutesConfig.lesson.path]}
+        path={[LibraryRoutesConfig.lesson.path, LibraryRoutesConfig.exam.path]}
         render={() => (
           <DefaultLayout isFooterDisabled>
             <LibraryRoutes />

@@ -34,9 +34,11 @@ export type AnswerControl = {
 };
 
 type UserActionQuiz = {
+  id: string;
   question: string;
+  description?: string;
   controls: AnswerControl[];
-  buttonText: string;
+  buttonText: string; // is required for instant questions
 };
 
 type UserActionRadio = {
@@ -51,8 +53,23 @@ type UserActionRate = {
   type: 'rate';
 };
 
-type UserActionNext = {
-  type: 'next';
+type UserActionNull = {
+  type: 'null';
+};
+
+type UserActionExamLink = {
+  type: 'examLink';
+  examId: ExamId;
+  buttonText: string;
+};
+
+export type ExamQuestions = {
+  type: 'examQuestions';
+  allowableWrongAnswersCount: number;
+  questions: (
+    | Omit<UserActionRadio, 'buttonText'>
+    | Omit<UserActionCheckbox, 'buttonText'>
+  )[];
 };
 
 export type UserActionType =
@@ -60,12 +77,19 @@ export type UserActionType =
   | UserActionRadio
   | UserActionCheckbox
   | UserActionRate
-  | UserActionNext;
+  | UserActionNull
+  | UserActionExamLink;
 
 export type LessonBlockType = {
   id: string;
   blockContent: BlockContentType[];
   userAction: UserActionType;
+};
+
+export type ModuleEntityBlockType = {
+  id: string;
+  blockContent?: BlockContentType[];
+  userAction: UserActionType | ExamQuestions;
 };
 
 export type LessonType = {
@@ -78,8 +102,26 @@ export type LessonType = {
   blocks: LessonBlockType[];
 };
 
-export type ModuleType = {
+export type ExamType = {
+  id: ExamId;
+  moduleId: ModuleId;
+  title: string;
+  blocks: ModuleEntityBlockType[];
+};
+
+type ModuleLessonsType = {
   [lessonIndex in LessonId]: LessonType;
 };
 
+type ModuleExamType = {
+  [examIndex in ExamId]: ExamType;
+};
+
+export type ModuleType = {
+  id: ModuleId;
+} & ModuleLessonsType &
+  ModuleExamType;
+
+type ModuleId = 'module1';
 export type LessonId = 'lesson1' | 'lesson2';
+export type ExamId = 'exam1';

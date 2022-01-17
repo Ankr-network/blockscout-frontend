@@ -4,12 +4,6 @@ import { alpha } from '@material-ui/core';
 import { FONTS } from 'ui';
 
 export const usePrivacyStyles = makeStyles<Theme>(theme => ({
-  component: {},
-
-  wrapper: {
-    '&&': {},
-  },
-
   inner: {
     padding: theme.spacing(3, 0),
     borderTop: `2px solid ${theme.palette.background.default}`,

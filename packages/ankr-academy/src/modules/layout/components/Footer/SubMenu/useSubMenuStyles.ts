@@ -4,8 +4,6 @@ import { alpha } from '@material-ui/core';
 import { FONTS } from 'ui';
 
 export const useSubMenuStyles = makeStyles<Theme>(theme => ({
-  component: {},
-
   title: {
     display: 'flex',
     flexDirection: 'row',

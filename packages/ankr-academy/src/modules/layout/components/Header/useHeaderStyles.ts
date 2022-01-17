@@ -28,7 +28,6 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     zIndex: 1301,
     marginRight: theme.spacing(-2.5),
   },
-  logo: {},
   rightSide: {
     justifyContent: 'right',
     display: 'flex',

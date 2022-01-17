@@ -1,4 +1,4 @@
-import { LessonType, ModuleType } from './types';
+import { ExamType, LessonType, ModuleType } from './types';
 import imgIntro from './assets/lesson1_intro.png';
 import img2 from './assets/lesson1_img2.png';
 import imgPreviewLesson2 from './assets/medal.png';
@@ -131,7 +131,9 @@ export const lesson1: LessonType = {
         },
       ],
       userAction: {
+        id: 'q1',
         type: 'radio',
+        description: 'Question description (optional)',
         question:
           'If you paid for your ice cream with bitcoin in El Salvador, this would be an example of bitcoin as what?',
         controls: [
@@ -205,7 +207,9 @@ export const lesson1: LessonType = {
         },
       ],
       userAction: {
+        id: 'q2',
         type: 'radio',
+        description: 'Question description (optional)',
         question: 'Why is bitcoin considered a hedge against inflation?',
         controls: [
           {
@@ -244,7 +248,9 @@ export const lesson1: LessonType = {
         },
       ],
       userAction: {
+        id: 'q3',
         type: 'checkbox',
+        description: 'Question description (optional)',
         question: 'Why is bitcoin valuable?',
         controls: [
           {
@@ -335,7 +341,7 @@ export const lesson1: LessonType = {
         },
       ],
       userAction: {
-        type: 'next',
+        type: 'null',
       },
     },
   ],
@@ -393,13 +399,153 @@ export const lesson2: LessonType = {
         },
       ],
       userAction: {
-        type: 'next',
+        type: 'examLink',
+        examId: 'exam1',
+        buttonText: 'Go to exam',
+      },
+    },
+  ],
+};
+
+export const exam1: ExamType = {
+  id: 'exam1',
+  moduleId: 'module1',
+  title: 'Intro to Web3 Exam',
+  blocks: [
+    {
+      id: 'module1_exam1_block1',
+      blockContent: [
+        {
+          type: 'ankr',
+          messagesList: [
+            'Time to check your knowladge. Give 13 of 15 to unlock your NFT.',
+            'Good luck!',
+          ],
+        },
+      ],
+      userAction: {
+        type: 'button',
+        buttonText: 'Let`s start exam',
+      },
+    },
+    {
+      id: 'module1_exam1_block2',
+      userAction: {
+        type: 'examQuestions',
+        allowableWrongAnswersCount: 1,
+        questions: [
+          {
+            id: 'm1_q1',
+            type: 'radio',
+            description: 'Question description (optional)',
+            question:
+              'If you paid for your ice cream with bitcoin in El Salvador, this would be an example of bitcoin as what?',
+            controls: [
+              {
+                isCorrect: false,
+                label: 'Store of value',
+                value: 'store',
+              },
+              {
+                isCorrect: false,
+                label: 'Unit of account',
+                value: 'unit',
+              },
+              {
+                isCorrect: true,
+                label: 'Medium of exchange',
+                value: 'exchange',
+              },
+            ],
+          },
+          {
+            id: 'm1_q2',
+            type: 'checkbox',
+            description: 'Question description (optional)',
+            question: 'Why is bitcoin valuable?',
+            controls: [
+              {
+                isCorrect: true,
+                label: 'It is rare',
+                value: 'rare',
+              },
+              {
+                isCorrect: true,
+                label: 'It has a fixed supply',
+                value: 'fixed',
+              },
+              {
+                isCorrect: false,
+                label: 'It fulfills all traditional and new uses of currency',
+                value: 'currency',
+              },
+              {
+                isCorrect: false,
+                label: 'It requires intense labor to “mine”',
+                value: 'requires',
+              },
+              {
+                isCorrect: false,
+                label: 'All of the above',
+                value: 'all',
+              },
+            ],
+          },
+          {
+            id: 'm1_q3',
+            type: 'radio',
+            question: 'Q3',
+            controls: [
+              {
+                isCorrect: false,
+                label: 'Store of value',
+                value: 'store',
+              },
+              {
+                isCorrect: false,
+                label: 'Unit of account',
+                value: 'unit',
+              },
+              {
+                isCorrect: true,
+                label: 'Medium of exchange',
+                value: 'exchange',
+              },
+            ],
+          },
+          {
+            id: 'm1_q4',
+            type: 'radio',
+            description: 'Question description (optional)',
+            question:
+              'If you paid for your ice cream with bitcoin in El Salvador, this would be an example of bitcoin as what?',
+            controls: [
+              {
+                isCorrect: false,
+                label: 'Store of value',
+                value: 'store',
+              },
+              {
+                isCorrect: false,
+                label: 'Unit of account',
+                value: 'unit',
+              },
+              {
+                isCorrect: true,
+                label: 'Medium of exchange',
+                value: 'exchange',
+              },
+            ],
+          },
+        ],
       },
     },
   ],
 };
 
 export const module1: ModuleType = {
+  id: 'module1',
   lesson1,
   lesson2,
+  exam1,
 };

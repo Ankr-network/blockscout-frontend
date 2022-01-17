@@ -8,6 +8,11 @@ const LoadableLessonContainer: LoadableComponent<any> = loadable(
   { fallback: <Spinner /> },
 );
 
+const LoadableExamContainer: LoadableComponent<any> = loadable(
+  async () => import('./screens/Exam').then(module => module.Exam),
+  { fallback: <Spinner /> },
+);
+
 export function LibraryRoutes() {
   return (
     <>
@@ -15,6 +20,11 @@ export function LibraryRoutes() {
         exact
         path={LibraryRoutesConfig.lesson.path}
         component={LoadableLessonContainer}
+      />
+      <Route
+        exact
+        path={LibraryRoutesConfig.exam.path}
+        component={LoadableExamContainer}
       />
     </>
   );

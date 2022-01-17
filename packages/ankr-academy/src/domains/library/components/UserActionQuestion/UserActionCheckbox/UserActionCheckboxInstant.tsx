@@ -1,36 +1,25 @@
 import React from 'react';
-import {
-  Button,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Paper,
-  Typography,
-} from '@material-ui/core';
-import classNames from 'classnames';
 
 import { AnswerControl } from '../../../types';
-import { UserActionAnswerControl } from '../UserActionAnswerControl/UserActionAnswerControl';
-import { useUserActionQuestionStyles } from '../UserActionQuestionStyles';
-import { UserActionButton } from '../../UserActionButton/UserActionButton';
+import { UserActionAnswerControl } from '../UserActionAnswerControl';
+import { UserActionCheckboxUI } from './UserActionCheckboxUI';
+import { UserActionButton } from '../../UserActionButton';
 
 interface IUserActionCheckboxProps {
   question: string;
   controls: AnswerControl[];
   buttonText: string;
-  onClick: () => void;
+  loadNextBlock: () => void;
   className?: string;
 }
 
-export const UserActionCheckbox = ({
+export const UserActionCheckboxInstant = ({
   question,
   controls,
   buttonText,
-  onClick,
+  loadNextBlock,
   className,
 }: IUserActionCheckboxProps) => {
-  const classes = useUserActionQuestionStyles();
-
   const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
   const [isSubmitted, setSubmitted] = React.useState(false);
 
@@ -74,31 +63,18 @@ export const UserActionCheckbox = ({
 
   return (
     <>
-      <Paper className={classNames(classes.formWrapper, className)}>
-        <FormControl className={classes.formControl} component="fieldset">
-          <FormLabel className={classes.legend} component="legend">
-            <Typography variant="h4" color="textPrimary">
-              {question}
-            </Typography>
-          </FormLabel>
-          <FormGroup onChange={handleChange}>
-            {controls.map(renderCheckboxItem)}
-          </FormGroup>
-
-          {!isSubmitted && (
-            <Button
-              className={classes.btnSubmit}
-              onClick={handleSubmit}
-              type="submit"
-              color="secondary"
-            >
-              Show Answer
-            </Button>
-          )}
-        </FormControl>
-      </Paper>
-
-      {isSubmitted && <UserActionButton text={buttonText} onClick={onClick} />}
+      <UserActionCheckboxUI
+        className={className}
+        question={question}
+        controlElements={controls.map(renderCheckboxItem)}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isSubmitted={isSubmitted}
+        hasSubmitButton
+      />
+      {isSubmitted && (
+        <UserActionButton text={buttonText} onClick={loadNextBlock} />
+      )}
     </>
   );
 };

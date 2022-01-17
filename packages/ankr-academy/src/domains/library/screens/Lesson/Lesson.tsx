@@ -1,8 +1,9 @@
 import React from 'react';
 import { Container, Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
-import { LessonBlock } from './components/LessonBlock/LessonBlock';
-import { LessonCard } from './components/LessonCard/LessonCard';
+
+import { ModuleEntityBlock } from 'domains/library/components/ModuleEntityBlock';
+import { LessonCard } from './components/LessonCard';
 import { useLesson } from './useLesson';
 import { useLessonStyles } from './LessonStyles';
 
@@ -24,7 +25,7 @@ export const Lesson = () => {
         </Typography>
 
         {blocksToRender.map(i => (
-          <LessonBlock
+          <ModuleEntityBlock
             key={uid(i.id)}
             id={i.id}
             blockContent={i.blockContent}

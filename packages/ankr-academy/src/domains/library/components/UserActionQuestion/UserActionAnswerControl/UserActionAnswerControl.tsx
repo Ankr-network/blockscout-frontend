@@ -10,11 +10,14 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { AnswerControl, UserActionAnswerControlType } from '../../../types';
-import { ReactComponent as CheckboxIcon } from '../../../../../../../assets/img/Checkbox/Normal.svg';
-import { ReactComponent as CheckboxIconChecked } from '../../../../../../../assets/img/Checkbox/Checked.svg';
-import { ReactComponent as RadioIcon } from '../../../../../../../assets/img/RadioButton/Normal.svg';
-import { ReactComponent as RadioIconChecked } from '../../../../../../../assets/img/RadioButton/Checked.svg';
+import {
+  AnswerControl,
+  UserActionAnswerControlType,
+} from 'domains/library/types';
+import { ReactComponent as CheckboxIcon } from 'assets/img/Checkbox/Normal.svg';
+import { ReactComponent as CheckboxIconChecked } from 'assets/img/Checkbox/Checked.svg';
+import { ReactComponent as RadioIcon } from 'assets/img/RadioButton/Normal.svg';
+import { ReactComponent as RadioIconChecked } from 'assets/img/RadioButton/Checked.svg';
 import { useUserActionQuestionStyles } from '../UserActionQuestionStyles';
 
 interface IUserActionAnswerControlProps {

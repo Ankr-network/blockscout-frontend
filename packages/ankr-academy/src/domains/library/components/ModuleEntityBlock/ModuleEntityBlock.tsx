@@ -2,22 +2,22 @@ import React, { Fragment } from 'react';
 import { uid } from 'react-uid';
 import { Typography } from '@material-ui/core';
 
-import { BlockContentType, Img, LessonBlockType } from '../../types';
-import { MessagesContainer } from '../MessagesContainer/MessagesContainer';
-import { UserActionWrapper } from '../UserActionWrapper/UserActionWrapper';
-import { useLessonBlockStyles } from './LessonBlockStyles';
+import { BlockContentType, Img, ModuleEntityBlockType } from '../../types';
+import { MessagesContainer } from '../MessagesContainer';
+import { UserActionWrapper } from '../UserActionWrapper';
+import { useModuleEntityBlockStyles } from './ModuleEntityBlockStyles';
 
-interface ILessonBlockProps extends LessonBlockType {
+interface ILessonBlockProps extends ModuleEntityBlockType {
   loadNextBlock: () => void;
 }
 
-export const LessonBlock = ({
+export const ModuleEntityBlock = ({
   id,
   blockContent,
   userAction,
   loadNextBlock,
 }: ILessonBlockProps) => {
-  const classes = useLessonBlockStyles();
+  const classes = useModuleEntityBlockStyles();
 
   const renderImage = ({ src, alt, copyright }: Img) => {
     return (
@@ -51,7 +51,7 @@ export const LessonBlock = ({
 
   return (
     <>
-      {blockContent.map(renderMessages)}
+      {blockContent && blockContent.map(renderMessages)}
 
       <UserActionWrapper
         userAction={userAction}

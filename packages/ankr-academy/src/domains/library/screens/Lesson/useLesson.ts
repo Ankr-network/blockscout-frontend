@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
-import { module1 } from './lessonMock';
+import { module1 } from '../../moduleMock';
 
 export const useLesson = () => {
   const { lessonId } = LibraryRoutesConfig.lesson.useParams();

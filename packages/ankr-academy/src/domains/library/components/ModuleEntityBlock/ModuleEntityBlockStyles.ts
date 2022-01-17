@@ -1,8 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
-export const useLessonBlockStyles = makeStyles<Theme>(theme => ({
-  root: {},
+export const useModuleEntityBlockStyles = makeStyles<Theme>(theme => ({
   imgMessage: {
     display: 'block',
     maxWidth: '100%',

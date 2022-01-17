@@ -1,35 +1,24 @@
 import React from 'react';
-import {
-  FormControl,
-  FormLabel,
-  Paper,
-  RadioGroup,
-  Typography,
-} from '@material-ui/core';
-import classNames from 'classnames';
-
 import { AnswerControl } from '../../../types';
-import { UserActionButton } from '../../UserActionButton/UserActionButton';
-import { UserActionAnswerControl } from '../UserActionAnswerControl/UserActionAnswerControl';
-import { useUserActionQuestionStyles } from '../UserActionQuestionStyles';
+import { UserActionAnswerControl } from '../UserActionAnswerControl';
+import { UserActionRadioUI } from './UserActionRadioUI';
+import { UserActionButton } from '../../UserActionButton';
 
 interface IUserActionProps {
   question: string;
   controls: AnswerControl[];
   buttonText: string;
-  onClick: () => void;
+  loadNextBlock: () => void;
   className?: string;
 }
 
-export const UserActionRadio = ({
+export const UserActionRadioInstant = ({
   question,
   controls,
   buttonText,
-  onClick,
+  loadNextBlock,
   className,
 }: IUserActionProps) => {
-  const classes = useUserActionQuestionStyles();
-
   const [value, setValue] = React.useState('');
   // hasError can be used to display error or
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -71,20 +60,15 @@ export const UserActionRadio = ({
 
   return (
     <>
-      <Paper className={classNames(classes.formWrapper, className)}>
-        <FormControl className={classes.formControl} component="fieldset">
-          <FormLabel className={classes.legend} component="legend">
-            <Typography variant="h4" color="textPrimary">
-              {question}
-            </Typography>
-          </FormLabel>
-          <RadioGroup name="radio-buttons-group" onChange={handleRadioChange}>
-            {controls.map(renderRadioItem)}
-          </RadioGroup>
-        </FormControl>
-      </Paper>
-
-      {isSubmitted && <UserActionButton text={buttonText} onClick={onClick} />}
+      <UserActionRadioUI
+        className={className}
+        question={question}
+        controlElements={controls.map(renderRadioItem)}
+        handleChange={handleRadioChange}
+      />
+      {isSubmitted && (
+        <UserActionButton text={buttonText} onClick={loadNextBlock} />
+      )}
     </>
   );
 };

@@ -46,5 +46,4 @@ export const useToggleStyles = makeStyles<Theme>(theme => ({
   top: {
     marginBottom: theme.spacing(0.75),
   },
-  bottom: {},
 }));

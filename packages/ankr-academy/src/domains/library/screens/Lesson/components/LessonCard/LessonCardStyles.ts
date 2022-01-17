@@ -11,9 +11,6 @@ export const useLessonCardStyles = makeStyles<Theme>(theme => ({
     minHeight: 400,
     overflow: 'hidden',
   },
-  lessonIndex: {},
-  lessonTitle: {},
-  timeToRead: {},
   btn: {
     marginTop: 'auto',
     position: 'relative',

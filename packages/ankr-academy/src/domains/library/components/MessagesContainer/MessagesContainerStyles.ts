@@ -18,7 +18,6 @@ export const useMessagesContainerStyles = makeStyles<Theme>(theme => ({
   messagesWrapperText: {
     flexDirection: 'column',
   },
-  avatar: {},
   avatarAnkr: {
     marginRight: theme.spacing(1),
   },

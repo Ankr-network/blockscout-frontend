@@ -3,8 +3,8 @@ import { Box, Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
 import classNames from 'classnames';
 
-import avatarAnkr from '../../../../../../assets/img/Avatar/Ankr.svg';
-import avatarStudent from '../../../../../../assets/img/Avatar/Student.svg';
+import avatarAnkr from '../../../../assets/img/Avatar/Ankr.svg';
+import avatarStudent from '../../../../assets/img/Avatar/Student.svg';
 import { MessageBlock, UserType } from '../../types';
 
 import { useMessagesContainerStyles } from './MessagesContainerStyles';
