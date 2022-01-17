@@ -2,7 +2,10 @@ import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ConnectedWalletsButton } from 'modules/connected-wallets/components/ConnectedWalletsButton';
 import { ConnectedWalletsDialog } from 'modules/connected-wallets/components/ConnectedWalletsDialog';
-import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
+import {
+  MATIC_STAKING_NETWORKS,
+  POLYGON_PROVIDER_ID,
+} from 'modules/stake-polygon/const';
 
 interface IConnectedWalletsProps {
   className?: string;
@@ -12,20 +15,20 @@ export const ConnectedWallets = ({ className }: IConnectedWalletsProps) => {
   const { onOpen, onClose, isOpened } = useDialog();
 
   // TODO: add more providers in the future
-  const auth = useAuth(POLYGON_PROVIDER_ID);
+  const polygonAuth = useAuth(POLYGON_PROVIDER_ID, MATIC_STAKING_NETWORKS);
 
   const networks = [];
 
-  if (auth.isConnected) {
+  if (polygonAuth.isConnected) {
     networks.push({
-      network: auth.walletName as string,
+      network: polygonAuth.walletName as string,
       addresses: [
         {
-          tokenIconSrc: auth.walletIcon as string,
-          address: auth.address as string,
+          tokenIconSrc: polygonAuth.walletIcon as string,
+          address: polygonAuth.address as string,
         },
       ],
-      disconnect: auth.dispatchDisconnect,
+      disconnect: polygonAuth.dispatchDisconnect,
     });
   }
 
@@ -34,7 +37,7 @@ export const ConnectedWallets = ({ className }: IConnectedWalletsProps) => {
       <ConnectedWalletsButton
         networks={networks}
         onClick={onOpen}
-        connectHandler={auth.dispatchConnect}
+        connectHandler={polygonAuth.dispatchConnect}
         className={className}
       />
       <ConnectedWalletsDialog
