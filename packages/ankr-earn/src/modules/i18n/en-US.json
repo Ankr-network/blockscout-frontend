@@ -225,9 +225,7 @@
     "faq-title": "FAQ",
     "stats": {
       "apr": "APR",
-      "yearly-earning": "Yearly earning",
-      "staked-with-ankr": "Staked with ANKR",
-      "stakers": "Stakers"
+      "yearly-earning": "Yearly earning"
     },
     "success": {
       "title": "Stake successful",
