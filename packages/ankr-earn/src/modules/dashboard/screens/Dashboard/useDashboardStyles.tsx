@@ -29,16 +29,12 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2.75, 3.75),
     marginBottom: theme.spacing(5.5),
   },
-  balanceLabel: {
-    fontSize: 16,
-    color: theme.palette.text.secondary,
-  },
-  balance: {
-    fontWeight: 'bold',
-    fontSize: 30,
 
-    [theme.breakpoints.up('sm')]: {
-      fontSize: 40,
+  stakableAssets: {
+    marginBottom: theme.spacing(4.5),
+
+    [theme.breakpoints.up('md')]: {
+      marginBottom: theme.spacing(5.5),
     },
   },
 }));

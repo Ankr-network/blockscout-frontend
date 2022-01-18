@@ -285,12 +285,16 @@
   },
   "dashboard": {
     "title": "My staking portfolio",
-    "balance": "Estimated balance",
     "assets": "Staking assets",
     "pending": "Pending {value} {token}",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
-    "stake": "Stake"
+    "stake": "Stake",
+    "stakable-portfolio": "My stakable portfolio",
+    "wallet-balance": "{value} {token}",
+    "stakable-asset-apy": "APY: {value}%",
+    "stakable-asset-stake": "Stake {token}",
+    "networks": "in {value} networks"
   },
   "features": {
     "polygon": "Polygon (MATIC)",
