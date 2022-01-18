@@ -28,10 +28,7 @@ export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
   return `${dateString} ${timeString}`;
 };
 
-export const processData = (
-  requestsLog: RequestsLog,
-  timeframe: Timeframe,
-): IChartData[] => {
+export const processData = (requestsLog: RequestsLog): IChartData[] => {
   if (!requestsLog) return [];
 
   const rows = Object.entries(requestsLog);
@@ -49,17 +46,10 @@ export const processData = (
     .map((row, index) => {
       const { time, callsCount } = row;
 
-      if (timeframe === '24h') {
-        return {
-          time,
-          value: index <= rows.length - 3 ? callsCount : undefined,
-          extraValue: index >= rows.length - 3 ? callsCount : undefined,
-        };
-      }
-
       return {
         time,
-        value: callsCount,
+        value: index <= rows.length - 3 ? callsCount : undefined,
+        extraValue: index >= rows.length - 3 ? callsCount : undefined,
       };
     });
 };
