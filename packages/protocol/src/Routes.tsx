@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
+import { useAppSelector } from 'store/useAppSelector';
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
 import { PlanRoutes, PlanRoutesConfig } from './domains/plan/Routes';
 import {
@@ -12,20 +14,18 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from 'ui';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
-import { useEffect } from 'react';
-import { hasUserLoggedIn } from './modules/common/utils/localStorage';
-
-const ENABLE_AUTOCONNECT = true;
+import { selectCredentials } from 'modules/user/userSlice';
 
 export function Routes() {
-  const { handleConnect, credentials } = useAuth();
+  const { handleConnect } = useAuth();
+
+  const cachedCredentials = useAppSelector(selectCredentials);
 
   useEffect(() => {
-    /* reconnecting on rerender if user has logged in earlier for persisting session */
-    if (ENABLE_AUTOCONNECT && hasUserLoggedIn()) {
+    if (cachedCredentials) {
       handleConnect();
     }
-  }, [handleConnect]);
+  }, [handleConnect, cachedCredentials]);
 
   return (
     <Switch>
@@ -35,7 +35,7 @@ export function Routes() {
         render={() => (
           <Redirect
             to={
-              credentials
+              cachedCredentials
                 ? PlanRoutesConfig.plan.path
                 : ChainsRoutesConfig.chains.path
             }
@@ -57,6 +57,7 @@ export function Routes() {
       <GuardAuthRoute
         exact
         path={PlanRoutesConfig.plan.path}
+        hasCachedCredentials={Boolean(cachedCredentials)}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <PlanRoutes />

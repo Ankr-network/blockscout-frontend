@@ -4,3 +4,8 @@ export const i18nPersistConfig = {
   key: 'i18n',
   storage,
 };
+
+export const userPersistConfig = {
+  key: 'user',
+  storage,
+};

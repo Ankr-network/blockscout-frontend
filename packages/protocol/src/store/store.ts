@@ -13,7 +13,8 @@ import { historyInstance } from '../modules/common/utils/historyInstance';
 import { NotificationActions } from '../domains/notification/store/NotificationActions';
 import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { rootSaga } from './rootSaga';
-import { i18nPersistConfig } from './webStorageConfigs';
+import { i18nPersistConfig, userPersistConfig } from './webStorageConfigs';
+import { userSlice } from 'modules/user/userSlice';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -56,6 +57,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
+  user: persistReducer(userPersistConfig, userSlice.reducer),
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
