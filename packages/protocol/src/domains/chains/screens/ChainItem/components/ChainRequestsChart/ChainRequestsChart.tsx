@@ -12,10 +12,7 @@ export const ChainRequestsChart = ({
   requestsLog,
   loading,
 }: ChainRequestsChartProps) => {
-  const data = useMemo(
-    () => processData(requestsLog, timeframe),
-    [requestsLog, timeframe],
-  );
+  const data = useMemo(() => processData(requestsLog), [requestsLog]);
   const timeframeRef = useRef<Timeframe>();
   timeframeRef.current = timeframe;
 
