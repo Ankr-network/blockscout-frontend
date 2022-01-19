@@ -1,13 +1,10 @@
 import loadable from '@loadable/component';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { currentEnv } from 'modules/common/const';
-import { BlockchainNetworkId, Env } from 'modules/common/types';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
 const ROOT = `/dashboard`;
 
@@ -29,26 +26,14 @@ export const RoutesConfig = createRouteConfig(
 );
 
 export function getRoutes() {
-  const availableNetworks: BlockchainNetworkId[] = [
-    currentEnv === Env.Production
-      ? BlockchainNetworkId.mainnet
-      : BlockchainNetworkId.goerli,
-  ];
-
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardRoute
-          exact
-          openConnectInstantly
-          providerId={POLYGON_PROVIDER_ID}
-          availableNetworks={availableNetworks}
-          path={ROOT}
-        >
+        <ConnectGuardRoute exact path={ROOT}>
           <DefaultLayout>
-            <Dashboard availableNetworks={availableNetworks} />
+            <Dashboard />
           </DefaultLayout>
-        </GuardRoute>
+        </ConnectGuardRoute>
 
         <Route>
           <DefaultLayout>

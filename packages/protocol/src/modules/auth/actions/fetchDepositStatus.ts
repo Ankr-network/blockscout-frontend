@@ -6,7 +6,7 @@ import { connect } from './connect';
 // eslint-disable-next-line import/no-cycle
 import { fetchEncryptionKey } from './fetchEncryptionKey';
 import { fetchCredentialsStatus } from './fetchCredentialsStatus';
-import { DEFAULT_DEPOSIT } from '../conts';
+import { DEFAULT_DEPOSIT } from '../const';
 import { withStore } from '../utils/withStore';
 
 // Request encryption public key

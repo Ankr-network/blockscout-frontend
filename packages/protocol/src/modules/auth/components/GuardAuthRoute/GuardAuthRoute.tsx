@@ -6,22 +6,27 @@ import { useAuth } from '../../hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { Dashboard } from 'domains/plan/screens/Dashboard';
-import { Plan } from 'domains/plan/screens/Plan';
+import { Spinner } from 'ui';
 
-export interface IGuardRoute extends RouteProps {}
+export interface IGuardRoute extends RouteProps {
+  hasCachedCredentials: boolean;
+}
 
-export const GuardAuthRoute = ({ ...routeProps }: IGuardRoute) => {
-  const { credentials, address } = useAuth();
+export const GuardAuthRoute = ({
+  hasCachedCredentials,
+  ...routeProps
+}: IGuardRoute) => {
+  const { credentials, address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useOnMount(() => {
     if (!address || !credentials) setBreadcrumbs([]);
   });
 
-  if (!address || !credentials) {
+  if (loading && hasCachedCredentials && typeof credentials === 'undefined') {
     return (
       <DefaultLayout>
-        <Plan />
+        <Spinner />
       </DefaultLayout>
     );
   }
