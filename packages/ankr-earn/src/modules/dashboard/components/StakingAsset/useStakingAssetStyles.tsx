@@ -5,15 +5,16 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2.5),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: 220,
 
     [theme.breakpoints.up('sm')]: {
+      minHeight: 220,
       padding: theme.spacing(3.75, 3.75, 2.75, 3.75),
     },
   },
   amount: {
     fontSize: 30,
     fontWeight: 'bold',
+    lineHeight: 1,
 
     [theme.breakpoints.up('sm')]: {
       fontSize: 40,
@@ -24,18 +25,7 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
     width: 115,
   },
 
-  bottomWrapper: {
-    flexDirection: 'column',
-
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: 'row',
-    },
-  },
-  links: {
-    justifyContent: 'flex-start',
-
-    [theme.breakpoints.up('sm')]: {
-      justifyContent: 'flex-end',
-    },
+  btnSkeleton: {
+    borderRadius: 12,
   },
 }));

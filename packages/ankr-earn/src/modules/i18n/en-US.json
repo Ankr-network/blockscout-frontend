@@ -77,7 +77,7 @@
     "btn-home": "Go home"
   },
   "boost": {
-    "trading-cockpit": "Trading cockpit",
+    "trading-cockpit": "Trade",
     "liquidity-mining": "Liquidity mining"
   },
   "connect": {
@@ -284,12 +284,18 @@
     "amount": "{value}%"
   },
   "dashboard": {
-    "title": "My staking portfolio",
-    "assets": "Staking assets",
-    "pending": "Pending {value} {token}",
+    "title": "Stakable tokens",
+    "balance": "Estimated balance",
+    "assets": "Staked tokens",
+    "pending": "Unstaking in progress {value} {token}",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
     "stake": "Stake",
+    "copy": "Copy contract address",
+    "copied": "Copied!",
+    "stake-tooltip": "Stake",
+    "stake-loading": "Stake in progress",
+    "unstake-tooltip": "Unstake",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value}%",

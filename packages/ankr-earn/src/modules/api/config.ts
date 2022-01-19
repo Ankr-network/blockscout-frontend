@@ -7,7 +7,7 @@ export interface IContractConfig {
   fethContract: string;
   maticToken: string;
   aMaticbToken: string;
-  polygonPool?: string;
+  polygonPool: string;
   ankrContract: string;
 }
 
@@ -31,6 +31,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+    polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
   },
@@ -79,6 +80,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
     fethContract: '0xD01ef7C0A5d8c432fc2d1a85c66cF2327362E5C6',
+    polygonPool: '0xCfD4B4Bc15C8bF0Fd820B0D4558c725727B3ce89',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
   },

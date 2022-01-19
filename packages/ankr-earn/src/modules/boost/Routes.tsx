@@ -10,7 +10,7 @@ import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = '/boost';
-const TRADING_COCKPIT_PATH = `${ROOT}/trading-cockpit`;
+const TRADING_COCKPIT_PATH = `${ROOT}/trade`;
 const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
 const LIQUIDITY_MINING_PATH = `${ROOT}/liquidity-mining`;
 

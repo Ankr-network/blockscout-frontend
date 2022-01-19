@@ -5,16 +5,15 @@ import {
   unstable_createMuiStrictModeTheme as createTheme,
 } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-
 import {
   BREAKPOINTS,
   BTN_TRANSITION_TIME,
   NOTIFICATION_AUTO_HIDE_DURATION,
   TEN_SECONDS,
 } from '../../../const';
-import { Themes } from './types';
-import { CheckboxIcon, CheckboxCheckedIcon } from '../../components/Checkbox';
+import { CheckboxCheckedIcon, CheckboxIcon } from '../../components/Checkbox';
 import { StepIcon } from '../../components/StepIcon';
+import { Themes } from './types';
 
 export const FONTS = {
   primary: ['Gilroy', 'Arial', 'sans-serif'].join(','),
@@ -781,7 +780,7 @@ export const mainTheme = createTheme({
     },
     MuiSkeleton: {
       root: {
-        backgroundColor: defaultTheme.palette.background.default,
+        backgroundColor: '#E2E8F3',
       },
     },
     MuiAccordion: {
