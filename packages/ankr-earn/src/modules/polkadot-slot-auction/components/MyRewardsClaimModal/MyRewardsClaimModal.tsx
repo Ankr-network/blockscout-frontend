@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@material-ui/core';
+import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
@@ -19,6 +19,7 @@ import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { InputField } from 'uiKit/InputField';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
@@ -45,6 +46,7 @@ interface IClaimData {
   action: any;
 }
 
+const IS_FOR_QUICK_RELEASE = true;
 const ETH_PROJECT = 'moonbeam';
 
 export const MyRewardsClaimModal = () => {
@@ -80,6 +82,9 @@ export const MyRewardsClaimModal = () => {
     useFetchPolkadotAccounts();
   /* eslint-enable react-hooks/rules-of-hooks */
 
+  const isETHProject: boolean =
+    crowdloan?.rewardTokenName?.toLowerCase() === ETH_PROJECT;
+
   const providerName: ProviderName | undefined = (
     polkadotAccounts as IFetchPolkadotAccountsDataItem[]
   ).find(
@@ -102,8 +107,8 @@ export const MyRewardsClaimModal = () => {
         {t(
           'polkadot-slot-auction.my-rewards-claim-modal.select-section.title',
           {
-            network: t(`stake-polkadot.networks.${networkKey}`),
             rewardTokenSymbol: crowdloan?.rewardTokenSymbol ?? '',
+            rewardTokenName: crowdloan?.rewardTokenName ?? '',
           },
         )}
       </Typography>
@@ -112,53 +117,78 @@ export const MyRewardsClaimModal = () => {
         <QueryLoadingCentered />
       ) : (
         <>
-          <div className={classes.selectFieldArea}>
-            <Typography className={classes.selectFieldLabel} variant="body2">
-              {t(
-                'polkadot-slot-auction.my-rewards-claim-modal.select-section.select-wallet',
-                {
-                  network: t(`stake-polkadot.networks.${networkKey}`),
-                },
-              )}
-            </Typography>
+          {!IS_FOR_QUICK_RELEASE && (
+            <>
+              <div className={classes.selectFieldArea}>
+                <Typography
+                  className={classes.selectFieldLabel}
+                  variant="body2"
+                >
+                  {t(
+                    'polkadot-slot-auction.my-rewards-claim-modal.select-section.select-wallet',
+                    {
+                      network: t(`stake-polkadot.networks.${networkKey}`),
+                    },
+                  )}
+                </Typography>
 
-            <WalletSwitcher
-              classMenu={classes.selectFieldMenu}
-              currentProvider={providerName}
-              currentWallet={polkadotAccount}
-              isDisabled={values?.isExternalWallet}
-              onConnect={onWalletSwitcherItemClick}
-              wallets={polkadotAccounts}
-            />
-          </div>
+                <WalletSwitcher
+                  classMenu={classes.selectFieldMenu}
+                  currentProvider={providerName}
+                  currentWallet={polkadotAccount}
+                  isDisabled={values?.isExternalWallet}
+                  onConnect={onWalletSwitcherItemClick}
+                  wallets={polkadotAccounts}
+                />
+              </div>
 
-          <div className={classes.checkboxArea}>
-            <Field
-              component={CheckboxField}
-              name="isExternalWallet"
-              type="checkbox"
-            >
-              <Typography className={classes.checkboxTxt} variant="body2">
-                {t(
-                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.send-external-wallet',
-                )}
-              </Typography>
-            </Field>
-          </div>
+              <div className={classes.checkboxArea}>
+                <Field
+                  component={CheckboxField}
+                  name="isExternalWallet"
+                  type="checkbox"
+                >
+                  <Typography className={classes.checkboxTxt} variant="body2">
+                    {t(
+                      'polkadot-slot-auction.my-rewards-claim-modal.select-section.send-external-wallet',
+                    )}
+                  </Typography>
+                </Field>
+              </div>
+            </>
+          )}
 
           {values?.isExternalWallet && (
             <div className={classes.inputFieldArea}>
               <Field name="inputWallet" type="string">
                 {(props: FieldRenderProps<string>): React.ReactElement => (
                   <>
-                    <Typography
-                      className={classes.inputFieldLabel}
-                      variant="body2"
-                    >
-                      {t(
-                        'polkadot-slot-auction.my-rewards-claim-modal.select-section.external-wallet',
+                    <div className={classes.inputFieldLabelArea}>
+                      <Typography
+                        className={classes.inputFieldLabel}
+                        variant="body2"
+                      >
+                        {t(
+                          'polkadot-slot-auction.my-rewards-claim-modal.select-section.external-wallet',
+                        )}
+                      </Typography>
+
+                      {isETHProject && (
+                        <Tooltip
+                          className={classes.inputFieldTooltip}
+                          title={t(
+                            'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltip-eth',
+                            {
+                              rewardTokenName: crowdloan?.rewardTokenName ?? '',
+                            },
+                          )}
+                        >
+                          <IconButton>
+                            <QuestionIcon size="xs" />
+                          </IconButton>
+                        </Tooltip>
                       )}
-                    </Typography>
+                    </div>
 
                     <InputField
                       className={classes.inputField}
@@ -217,19 +247,17 @@ export const MyRewardsClaimModal = () => {
     inputWallet,
     isExternalWallet,
   }: IFormPayload): FormErrors<IFormPayload> => {
-    const isETHValidation: boolean =
-      crowdloan?.rewardTokenName?.toLowerCase() === ETH_PROJECT;
     const errors: FormErrors<IFormPayload> = {};
 
     if (isExternalWallet) {
       if (typeof inputWallet !== 'string' || inputWallet === ' ') {
         errors.inputWallet = t('validation.required');
-      } else if (isETHValidation && !isValidETHAddress(inputWallet)) {
+      } else if (isETHProject && !isValidETHAddress(inputWallet)) {
         errors.inputWallet = t('validation.invalid-network-address', {
-          network: t('unit.eth'),
+          network: crowdloan?.rewardTokenName ?? t('unit.eth'),
         });
       } else if (
-        !isETHValidation &&
+        !isETHProject &&
         !PolkadotProvider.isValidAddress(inputWallet)
       ) {
         errors.inputWallet = t('validation.invalid-network-address', {
@@ -271,6 +299,9 @@ export const MyRewardsClaimModal = () => {
         {!isSuccessWindow ? (
           <div className={classes.bodyArea}>
             <Form
+              initialValues={{
+                isExternalWallet: IS_FOR_QUICK_RELEASE,
+              }}
               onSubmit={onSubmit}
               render={onRenderForm}
               validate={onValidate}

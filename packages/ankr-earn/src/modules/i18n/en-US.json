@@ -141,10 +141,11 @@
     },
     "my-rewards-claim-modal": {
       "select-section": {
-        "external-wallet": "External wallet address",
+        "external-wallet": "My wallet address",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
-        "title": "Select {network} address to claim {rewardTokenSymbol} tokens"
+        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address",
+        "tooltip-eth": "You can claim {rewardTokenName} rewards to Ethereum compatible address"
       },
       "success-section": {
         "message": "You can check your wallet on {rewardTokenName} parachain",

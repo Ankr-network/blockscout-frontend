@@ -86,6 +86,13 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
     inputFieldArea: {
       margin: theme.spacing('20px', 0, 0, 0),
     },
+    inputFieldLabelArea: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      margin: theme.spacing(0, 0, 2, 0),
+    },
     messageArea: {
       fontWeight: 'normal',
       textAlign: 'center',
@@ -120,8 +127,12 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
     },
 
     inputFieldLabel: {
-      margin: theme.spacing(0, 0, 2, 0),
       fontWeight: 'bold',
+    },
+    inputFieldTooltip: {
+      margin: theme.spacing('-2px', 0, 0, '6px'),
+      padding: 0,
+      border: 'none',
     },
     inputField: {
       width: '100%',
