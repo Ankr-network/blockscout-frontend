@@ -11,18 +11,19 @@ import {
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
-import { QueryLoading, QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { claimStakingRewards } from '../../actions/claimStakingRewards';
+import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import {
   fetchMyRewardCrowdloans,
   IFetchMyRewardCrowdloansItem,
 } from '../../actions/fetchMyRewardCrowdloans';
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
+import { RoutesConfig } from '../../Routes';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
@@ -35,12 +36,11 @@ type CaptionType = {
  *  @TODO Add data for skipped columns with a valid logic for end users
  */
 export const MyRewards = () => {
-  const [loading, setLoading] = useState(false);
-
   const classes = useMyRewardsStyles();
   const dispatch = useDispatchRequest();
+  const history = useHistory();
 
-  const { polkadotAccount } = useSlotAuctionSdk();
+  const { isConnected, networkType } = useSlotAuctionSdk();
   const { crowdloans, error, isLoading } = useMyRewardCrowdloans();
 
   const captions: CaptionType[] = useLocaleMemo(
@@ -70,12 +70,10 @@ export const MyRewards = () => {
     [],
   );
 
-  const handleClaim = (loanId: number) => async (): Promise<void> => {
-    setLoading(true);
-
-    await dispatch(claimStakingRewards(polkadotAccount, loanId));
-
-    setLoading(false);
+  const handleClaimBtn = (loanId: number) => (): void => {
+    history.push(
+      RoutesConfig.rewardsClaim.generatePath(networkType.toLowerCase(), loanId),
+    );
   };
 
   useInitEffect((): void => {
@@ -112,7 +110,7 @@ export const MyRewards = () => {
                   item;
 
                 const isDisabledClaimBtn: boolean =
-                  loading || !claimableRewardsAmount.isGreaterThan(0);
+                  !isConnected || !claimableRewardsAmount.isGreaterThan(0);
 
                 const balanceVal: string = t(
                   'polkadot-slot-auction.column.val-currency',
@@ -180,13 +178,11 @@ export const MyRewards = () => {
                         className={classes.button}
                         color="default"
                         disabled={isDisabledClaimBtn}
-                        onClick={handleClaim(loanId)}
+                        onClick={handleClaimBtn(loanId)}
                         variant="outlined"
                         fullWidth
                       >
                         {t('polkadot-slot-auction.button.claim-rewards')}
-
-                        {loading && <QueryLoading size={40} />}
                       </Button>
                     </TableBodyCell>
                   </TableRow>

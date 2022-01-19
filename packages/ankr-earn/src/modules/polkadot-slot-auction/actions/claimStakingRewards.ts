@@ -43,6 +43,8 @@ export const claimStakingRewards = createAction<
     meta: {
       asMutation: true,
       showNotificationOnError: true,
+      getData: (data: IClaimStakingRewardsData): IClaimStakingRewardsData =>
+        data,
       onSuccess: (
         request: IReq,
         _action: RequestAction,

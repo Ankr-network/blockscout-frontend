@@ -15,13 +15,10 @@ import { GuardComponent } from '../../components/GuardComponent';
 import { MyRewards } from '../../components/MyRewards';
 import { NetworkSwitcher } from '../../components/NetworkSwitcher';
 import { ProjectsList } from '../../components/ProjectsList';
-import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { usePolkadotSlotAuctionStyles } from './usePolkadotSlotAuctionStyles';
 
 export const PolkadotSlotAuction = () => {
   const classes = usePolkadotSlotAuctionStyles();
-
-  const { isConnected } = useSlotAuctionSdk();
 
   const projectsListText = t('polkadot-slot-auction.tabs.projects-list');
   const myRewardsText = t('polkadot-slot-auction.tabs.my-rewards');
@@ -29,10 +26,6 @@ export const PolkadotSlotAuction = () => {
   const [currentTab, setCurrentTab] = useState<string>(projectsListText);
 
   const tabs: string[] = Object.values([projectsListText, myRewardsText]);
-
-  if (!isConnected) {
-    tabs.splice(1, 2);
-  }
 
   const handleChangeTab = (newTab: string) => (): void => setCurrentTab(newTab);
 

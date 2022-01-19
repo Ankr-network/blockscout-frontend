@@ -2,7 +2,7 @@ import { Env } from './types';
 
 export const EMPTY_PATH = '/';
 export const INDEX_PATH = '/liquid-staking';
-export const PARACHAIN_BONDING_PATH = '/parachain-liquid-bonding';
+export const PARACHAIN_BONDING_PATH = '/liquid-crowdloan';
 export const UNSTAKE_PATH = `${INDEX_PATH}/unstake`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
 
