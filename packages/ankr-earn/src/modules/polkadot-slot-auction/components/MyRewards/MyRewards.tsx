@@ -24,6 +24,7 @@ import {
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { RoutesConfig } from '../../Routes';
+import { ConnectTooltip } from '../ConnectTooltip';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
@@ -111,6 +112,7 @@ export const MyRewards = () => {
 
                 const isDisabledClaimBtn: boolean =
                   !isConnected || !claimableRewardsAmount.isGreaterThan(0);
+                const isShowConnectTooltip: boolean = !isConnected;
 
                 const endDateVal: string = t('format.date', {
                   value: item.endTime,
@@ -184,16 +186,22 @@ export const MyRewards = () => {
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[6].label} align="right">
-                      <Button
-                        className={classes.button}
-                        color="default"
-                        disabled={isDisabledClaimBtn}
-                        onClick={handleClaimBtn(loanId)}
-                        variant="outlined"
-                        fullWidth
-                      >
-                        {t('polkadot-slot-auction.button.claim-rewards')}
-                      </Button>
+                      <div className={classes.buttonCol}>
+                        <Button
+                          className={classes.button}
+                          color="default"
+                          disabled={isDisabledClaimBtn}
+                          onClick={handleClaimBtn(loanId)}
+                          variant="outlined"
+                          fullWidth
+                        >
+                          {t('polkadot-slot-auction.button.claim-rewards')}
+                        </Button>
+
+                        {isShowConnectTooltip && (
+                          <ConnectTooltip rootClass={classes.connectTooltip} />
+                        )}
+                      </div>
                     </TableBodyCell>
                   </TableRow>
                 );

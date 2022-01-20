@@ -185,7 +185,8 @@
       "projects-list": "Projects List"
     },
     "tooltips": {
-      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing."
+      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing.",
+      "connect-polkadot-wallet": "Please connect your Polkadot wallet in order to continue"
     }
   },
   "stake-polkadot": {
