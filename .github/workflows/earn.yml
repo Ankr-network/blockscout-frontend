@@ -8,8 +8,10 @@ on:
         description: Target
         required: true
         options:
-          - BS5 # bs-5-stage.dccn.ankr.com
-          - BS6 # bs-6-stage.dccn.ankr.com
+          - STAGE # www-stage.ankr.com/earn/
+          - PROD # www.ankr.com/earn/
+          - BS5 # bs-5-stage.dccn.ankr.com/earn/
+          - BS6 # bs-6-stage.dccn.ankr.com/earn/
       api:
         type: choice
         description: API
@@ -70,7 +72,7 @@ jobs:
           DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
         run: |
-          aws s3 sync ./build s3://$DOMAIN --cache-control "public,max-age=600,s-maxage=3600"
+          aws s3 sync ./build s3://$DOMAIN/earn/ --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`

@@ -19,6 +19,8 @@ interface IConnect {
   credentials?: IJwtToken;
 }
 
+const timeout = () => new Promise(res => setTimeout(res, 300));
+
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
   () => ({
@@ -31,6 +33,10 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         }
 
         await service.getKeyProvider().connect(await injectWeb3Modal());
+
+        // TODO: try to avoid this timeout in the future PROTOCOL-244
+        await timeout();
+
         const address = service.getKeyProvider().currentAccount();
 
         const cachedCredentials = selectCredentials(store.getState());
