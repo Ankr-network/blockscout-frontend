@@ -4,6 +4,7 @@ import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+import { setErrorMsg } from '../utils/setError';
 import { fetchCrowdloanBalances } from './fetchCrowdloanBalances';
 import { fetchProjectsListCrowdloans } from './fetchProjectsListCrowdloans';
 
@@ -59,6 +60,8 @@ export const claimRewardPoolTokens = createAction<
         store: TStore<IStoreState>,
       ): Error => {
         refreshData(store, polkadotAccount);
+
+        error.message = setErrorMsg(error.message);
 
         throw error;
       },

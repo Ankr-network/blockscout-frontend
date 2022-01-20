@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { TStore } from 'modules/common/types/ReduxRequests';
-import { SlotAuctionSdk } from 'polkadot';
+import { SlotAuctionSdk, TClaimMethod } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -19,7 +19,11 @@ export const claimStakingRewards = createAction<
   RequestAction<IClaimStakingRewardsData, IClaimStakingRewardsData>
 >(
   'CLAIM_STAKING_REWARDS',
-  (polkadotAccount: string, loanId: number): RequestAction => ({
+  (
+    polkadotAccount: string,
+    loanId: number,
+    claimMethod: TClaimMethod,
+  ): RequestAction => ({
     request: {
       promise: (async (): Promise<IClaimStakingRewardsData> => {
         const slotAuctionSdk: SlotAuctionSdk =
@@ -31,7 +35,7 @@ export const claimStakingRewards = createAction<
           data = await slotAuctionSdk.claimStakingRewards(
             polkadotAccount,
             loanId,
-            'ERC20',
+            claimMethod,
           );
         } catch (e: any) {
           throw new Error(e.message);

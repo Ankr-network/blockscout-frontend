@@ -232,7 +232,11 @@ export const MyRewardsClaimModal = () => {
     setIsSubmitted(true);
 
     const claimData: IClaimData = await dispatch(
-      claimStakingRewards(targetWallet, loanId),
+      claimStakingRewards(
+        targetWallet,
+        loanId,
+        isETHProject ? 'PARACHAIN' : 'ERC20',
+      ),
     );
 
     if (claimData?.data?.transactionHash) {

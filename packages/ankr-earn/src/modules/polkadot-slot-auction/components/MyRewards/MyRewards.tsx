@@ -112,6 +112,10 @@ export const MyRewards = () => {
                 const isDisabledClaimBtn: boolean =
                   !isConnected || !claimableRewardsAmount.isGreaterThan(0);
 
+                const endDateVal: string = t('format.date', {
+                  value: item.endTime,
+                });
+
                 const balanceVal: string = t(
                   'polkadot-slot-auction.column.val-currency',
                   {
@@ -134,7 +138,13 @@ export const MyRewards = () => {
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[1].label}>
-                      {t('format.date', { value: item.endTime })}
+                      <Tooltip
+                        title={
+                          <div className={classes.tooltipBox}>{endDateVal}</div>
+                        }
+                      >
+                        <span>{endDateVal}</span>
+                      </Tooltip>
                     </TableBodyCell>
 
                     <TableBodyCell label={captions[2].label}>
