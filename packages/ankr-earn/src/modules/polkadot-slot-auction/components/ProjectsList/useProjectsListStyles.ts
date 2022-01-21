@@ -60,7 +60,11 @@ export const useProjectsListStyles = makeStyles<Theme>(
     },
 
     noCrowdloanArea: {
-      padding: theme.spacing(19, 0, 8, 0),
+      padding: theme.spacing(3, 0),
+
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(5, 0),
+      },
     },
   }),
 );
