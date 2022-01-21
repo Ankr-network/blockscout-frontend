@@ -8,10 +8,8 @@ on:
         description: Target
         required: true
         options:
-          - STAGE # www-stage.ankr.com/earn/
-          - PROD # www.ankr.com/earn/
-          - BS5 # bs-5-stage.dccn.ankr.com/earn/
-          - BS6 # bs-6-stage.dccn.ankr.com/earn/
+          - BS5 # bs-5-stage.dccn.ankr.com
+          - BS6 # bs-6-stage.dccn.ankr.com
       api:
         type: choice
         description: API
