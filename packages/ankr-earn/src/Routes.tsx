@@ -1,16 +1,15 @@
 // import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import {
-  EARN_PATH,
   EMPTY_PATH,
   isMainnet,
   PARACHAIN_BONDING_PATH,
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
-// import {
-//   getRoutes as getDashboardRoutes,
-//   RoutesConfig as DashboardRoutes,
-// } from 'modules/dashboard/Routes';
+import {
+  // getRoutes as getDashboardRoutes,
+  RoutesConfig as DashboardRoutes,
+} from 'modules/dashboard/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import {
   getRoutes as getPolkadotSlotAuctionRoutes,
@@ -26,7 +25,15 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 export function Routes() {
   return (
     <Switch>
-      <Route path={[EMPTY_PATH, EARN_PATH, PARACHAIN_BONDING_PATH]} exact>
+      <Route
+        path={[
+          '/',
+          EMPTY_PATH,
+          PARACHAIN_BONDING_PATH,
+          DashboardRoutes.dashboard.path,
+        ]}
+        exact
+      >
         {/*<Redirect to={DashboardRoutes.dashboard.generatePath()} />*/}
         <Redirect
           to={PolkadotSlotAuctionRoutes.crowdloans.generatePath(
