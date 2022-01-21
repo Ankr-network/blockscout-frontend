@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { INDEX_PATH } from 'modules/common/const';
+import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { useHistory } from 'react-router';
@@ -36,7 +36,7 @@ export const PageNotFound = (props: IPageNotFoundProps) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                href={INDEX_PATH}
+                href={DashboardRoutes.dashboard.path}
               >
                 {t('not-found.btn-home')}
               </NavLink>

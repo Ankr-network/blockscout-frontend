@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig } from 'modules/common/const';
+import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -9,7 +9,7 @@ import { generatePath, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = '/boost';
+const ROOT = `${EARN_PATH}/boost`;
 const TRADING_COCKPIT_PATH = `${ROOT}/trade`;
 const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
 const LIQUIDITY_MINING_PATH = `${ROOT}/liquidity-mining`;

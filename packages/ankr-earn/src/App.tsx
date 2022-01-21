@@ -9,12 +9,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from 'store';
 import { DevOverlayFix } from 'ui';
 import { Spinner } from 'uiKit/Spinner';
+import packageJson from '../package.json';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 
 function App() {
   return (
-    <Router>
+    <Router basename={packageJson.homepage}>
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
