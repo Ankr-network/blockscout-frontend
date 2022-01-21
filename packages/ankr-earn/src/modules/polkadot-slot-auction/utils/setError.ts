@@ -16,7 +16,10 @@ export const setErrorMsg = (message: string): string => {
   const networkName: string = t(`chain.${chainId}`);
 
   if (
-    message.includes("Returned values aren't valid, did it run Out of Gas?")
+    message.includes("Returned values aren't valid, did it run Out of Gas?") ||
+    message.includes(
+      'JsonRpcEngine: Response has no error or result for request',
+    )
   ) {
     return `Error: Please switch to the ${networkName} and refresh the page`;
   }
