@@ -6,6 +6,7 @@ import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useStyles } from './useStyles';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export const IS_I18N_ENABLED = false;
 
@@ -22,7 +23,9 @@ export const Header = ({ className = '' }: HeaderProps) => {
         <Breadcrumbs />
         <div className={classes.right}>
           {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
-          <ConnectButton />
+          <NoReactSnap>
+            <ConnectButton />
+          </NoReactSnap>
         </div>
       </Container>
     </header>
