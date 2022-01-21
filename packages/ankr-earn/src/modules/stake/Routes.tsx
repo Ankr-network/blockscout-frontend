@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { INDEX_PATH } from 'modules/common/const';
+import { EARN_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import React from 'react';
@@ -7,7 +7,7 @@ import { generatePath } from 'react-router';
 import { Route } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${INDEX_PATH}/stake`;
+const ROOT = `${EARN_PATH}/stake`;
 
 export const RoutesConfig = createRouteConfig(
   {
