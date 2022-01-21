@@ -14,7 +14,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 export function Routes() {
   return (
     <Switch>
-      <Route path={EMPTY_PATH} exact>
+      <Route path={[EMPTY_PATH, '/']} exact>
         <Redirect to={DashboardRoutes.dashboard.generatePath()} />
       </Route>
 

@@ -1,4 +1,5 @@
 import { Drawer } from '@material-ui/core';
+import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { ReactNode, useState } from 'react';
 import { useIsLGUp } from 'ui';
 import { Container } from 'uiKit/Container';
@@ -30,7 +31,10 @@ export const Header = ({
     <header>
       <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
-          <Logo className={classes.logo} />
+          <Logo
+            className={classes.logo}
+            href={DashboardRoutes.dashboard.path}
+          />
         </div>
 
         <div className={classes.center}>{mainNavigationSlot}</div>
