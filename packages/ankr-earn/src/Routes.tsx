@@ -6,10 +6,10 @@ import {
   PARACHAIN_BONDING_PATH,
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
-import {
-  // getRoutes as getDashboardRoutes,
-  RoutesConfig as DashboardRoutes,
-} from 'modules/dashboard/Routes';
+// import {
+//   getRoutes as getDashboardRoutes,
+//   RoutesConfig as DashboardRoutes,
+// } from 'modules/dashboard/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import {
   getRoutes as getPolkadotSlotAuctionRoutes,
@@ -25,15 +25,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 export function Routes() {
   return (
     <Switch>
-      <Route
-        path={[
-          '/',
-          EMPTY_PATH,
-          PARACHAIN_BONDING_PATH,
-          DashboardRoutes.dashboard.path,
-        ]}
-        exact
-      >
+      <Route path={['/', EMPTY_PATH, PARACHAIN_BONDING_PATH]} exact>
         {/*<Redirect to={DashboardRoutes.dashboard.generatePath()} />*/}
         <Redirect
           to={PolkadotSlotAuctionRoutes.crowdloans.generatePath(
