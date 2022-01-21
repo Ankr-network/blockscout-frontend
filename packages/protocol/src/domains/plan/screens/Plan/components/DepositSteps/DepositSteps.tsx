@@ -15,8 +15,9 @@ import { DepositStep } from 'modules/auth/actions/fetchDepositStatus';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import MetamaskIcon from './assets/metamask.svg';
 import { Query } from '@redux-requests/react';
+import { CONFIRMATION_BLOCKS } from '@ankr.com/multirpc';
 
-const CREATE_ACCOUNT_BLOCKS_COUNT = 15;
+const CREATE_ACCOUNT_BLOCKS_COUNT = CONFIRMATION_BLOCKS;
 
 interface IDepositStepsProps {
   step: DepositStep;
@@ -79,7 +80,7 @@ export const DepositSteps = ({
           color="textSecondary"
           className={classes.notice}
         >
-          {t(`deposit-steps.step-notice.${step}`)}
+          {tHTML(`deposit-steps.step-notice.${step}`)}
         </Typography>
         {step === DepositStep.waitTransactionConfirming && (
           <Query
