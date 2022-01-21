@@ -21,4 +21,14 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
     textAlign: 'center',
     marginBottom: theme.spacing(2),
   },
+
+  answer: {
+    '& a': {
+      color: theme.palette.text.secondary,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+    },
+  },
 }));

@@ -260,20 +260,20 @@
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "faq": {
       "title": "FAQ",
-      "question-1": "How long after unstaking can I withdraw my ETH?",
-      "answer-1": "Polygon Liquid Staking from Ankr Ankr earn offers instant liquidity for your staked MATIC, enabling you to connect your tokens with DeFi platforms and earn several more layers of rewards.\n Polygon Liquid Staking enables you to earn **alpha. ** (Alpha is a return on investment that goes far beyond normal increases in the crypto market index). Ankr Earn can connect you to the best ways to earn more crypto by staking, arbitrage trading, yield farming, and much more.",
+      "question-1": "What is Polygon (MATIC) liquid staking?",
+      "answer-1": "Polygon Liquid Staking offers instant liquidity for your staked MATIC. When you stake MATIC, you will mint and claim aMATICb tokens. These new tokens can be used with DeFi platforms to earn additional layers of rewards.",
       "question-2": "What is the minimum amount of MATIC I can stake?",
-      "answer-2": "{value} MATIC",
-      "question-3": "If I unstake is there a lead time required for this to happen or is it immediate?",
-      "answer-3": "Approx 9 days (80 checkpoints)",
-      "question-4": "How soon after staking will I begin to receive rewards?",
-      "answer-4": "aMATICb will increase with every rebase, rebase occurs daily.",
-      "question-5": "How do I receive rewards?",
-      "answer-5": "A rebase runs daily and rewards are received each time this runs. You will receive these rewards provided you hold aMATICb in your wallet.",
-      "question-6": "What determines the amount of reward I receive each rebase?",
-      "answer-6": "It depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (indirect cost for aMATICb holders).",
-      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
-      "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
+      "answer-2": "The minimum amount you can stake is {value} MATIC.",
+      "question-3": "How soon after staking will I begin to receive rewards?",
+      "answer-3": "Your aMATICb balance will increase daily with every rebase. This rebase reflects the staking rewards you have earned for the period.",
+      "question-4": "How do I receive rewards?",
+      "answer-4": "The aMATICb tokens you keep in your wallet will gradually increase in quantity to reflect the staking rewards you earn. This happens daily with a process called “rebasing” (adjusting the supply of tokens) to deliver your appropriate staking rewards.",
+      "question-5": "What determines the amount of reward I receive with each rebase?",
+      "answer-5": "This depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
+      "question-6": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
+      "answer-6": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction.",
+      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
+      "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
     }
   },
   "unstake-dialog": {
