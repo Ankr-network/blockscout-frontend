@@ -176,12 +176,31 @@ export const MyRewardsClaimModal = () => {
                       {isETHProject && (
                         <Tooltip
                           className={classes.inputFieldTooltip}
-                          title={t(
-                            'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltip-eth',
-                            {
-                              rewardTokenName: crowdloan?.rewardTokenName ?? '',
-                            },
-                          )}
+                          title={
+                            <div className={classes.inputFieldTooltipTitleArea}>
+                              <div className={classes.inputFieldTooltipRow}>
+                                {t(
+                                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltips.eth-claim',
+                                  {
+                                    rewardTokenName:
+                                      crowdloan?.rewardTokenName ?? '',
+                                  },
+                                )}
+                              </div>
+
+                              <div className={classes.inputFieldTooltipRow}>
+                                {t(
+                                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltips.eth-add-network',
+                                  {
+                                    rewardTokenName:
+                                      crowdloan?.rewardTokenName ?? '',
+                                    rewardTokenSymbol:
+                                      crowdloan?.rewardTokenSymbol ?? '',
+                                  },
+                                )}
+                              </div>
+                            </div>
+                          }
                         >
                           <IconButton>
                             <QuestionIcon size="xs" />

@@ -93,6 +93,7 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
       alignItems: 'center',
       margin: theme.spacing(0, 0, 2, 0),
     },
+    inputFieldTooltipTitleArea: {},
     messageArea: {
       fontWeight: 'normal',
       textAlign: 'center',
@@ -133,6 +134,13 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
       margin: theme.spacing('-2px', 0, 0, '6px'),
       padding: 0,
       border: 'none',
+    },
+    inputFieldTooltipRow: {
+      margin: theme.spacing(0, 0, 1, 0),
+
+      '&:last-child': {
+        margin: 0,
+      },
     },
     inputField: {
       width: '100%',

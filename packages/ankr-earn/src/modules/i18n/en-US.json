@@ -145,7 +145,10 @@
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
         "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address",
-        "tooltip-eth": "You can claim {rewardTokenName} rewards to Ethereum compatible address"
+        "tooltips": {
+          "eth-add-network": "You will have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your Ethereum compatible wallet.",
+          "eth-claim": "You can claim {rewardTokenName} rewards to Ethereum compatible address."
+        }
       },
       "success-section": {
         "message": "You can check your wallet on {rewardTokenName} parachain",
