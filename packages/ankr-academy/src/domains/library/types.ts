@@ -9,16 +9,28 @@ export type ImageBlock = {
   img: Img;
 };
 
-export type UserType = 'ankr' | 'student';
-export type ContentType = 'text';
-export type MessageType = UserType | ContentType;
-
-export type MessageBlock = {
-  type: MessageType;
+export type TextBlock = {
+  type: 'text';
   messagesList: string[];
 };
 
-export type BlockContentType = ImageBlock | MessageBlock;
+export type MarkdownBlock = {
+  type: 'markdown';
+  messagesList: string[];
+};
+
+export type UserType = 'ankr' | 'student';
+
+export type MessageBlock = {
+  type: UserType;
+  messagesList: string[];
+};
+
+export type BlockContentType =
+  | ImageBlock
+  | TextBlock
+  | MarkdownBlock
+  | MessageBlock;
 
 type UserActionButton = {
   type: 'button';
@@ -94,7 +106,7 @@ export type ModuleEntityBlockType = {
 
 export type LessonType = {
   id: LessonId;
-  nextLessonId: LessonId; // TODO: add courses, modules and lessons structure
+  nextLessonId?: LessonId; // TODO: add courses, modules and lessons structure
   index: string;
   title: string;
   timeToRead: string;

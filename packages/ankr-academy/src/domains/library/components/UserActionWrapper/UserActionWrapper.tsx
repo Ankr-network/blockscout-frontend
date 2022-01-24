@@ -1,6 +1,6 @@
 import React from 'react';
 import { uid } from 'react-uid';
-import { Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import { ExamQuestions, UserActionType } from 'domains/library/types';
@@ -55,14 +55,16 @@ export const UserActionWrapper = ({
       return null;
     case 'examLink':
       return (
-        <Button
-          key={uid(userAction.examId)}
-          color="secondary"
-          component={Link}
-          to={LibraryRoutesConfig.exam.generatePath(userAction.examId)}
-        >
-          {userAction.buttonText}
-        </Button>
+        <Box display="flex" justifyContent="center">
+          <Button
+            key={uid(userAction.examId)}
+            color="secondary"
+            component={Link}
+            to={LibraryRoutesConfig.exam.generatePath(userAction.examId)}
+          >
+            {userAction.buttonText}
+          </Button>
+        </Box>
       );
     case 'examQuestions':
       return <ExamQuestionsWrapper examQuestions={userAction} />;
