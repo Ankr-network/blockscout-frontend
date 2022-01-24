@@ -9,31 +9,65 @@ import {
 } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
+import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+import { UNSTAKE_TIME_WAIT_HOURS } from 'modules/stake-polygon/const';
 import { useMaticStakingAsset } from './useMaticStakingAsset';
+import { useMaticTxHistory } from './useMaticTxHistory';
 import { useTokensListStyles } from './useTokensListStyles';
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  addHours,
+} from 'date-fns';
 
 const SKELETONS_COUNT = 1;
 
-const rowsDemo: IPendingTableRow[] = [
-  {
-    id: 1,
-    amount: '10 aMATICb',
-    timerSlot: '1d 3h 23m',
-  },
-  {
-    id: 2,
-    amount: '10 aMATICb',
-    timerSlot: '1d 3h 23m',
-  },
-];
-
 export const StakedTokens = () => {
   const aMATICbData = useMaticStakingAsset();
+  const MATICTxHistory = useMaticTxHistory();
   const classes = useTokensListStyles();
 
   const showAMAITCb = !aMATICbData.amount.isZero() || aMATICbData.isLoading;
   const isLoading = aMATICbData.isLoading;
+
+  const aMATICbPendingValue = aMATICbData.pendingValue
+    ? +aMATICbData.pendingValue
+    : 0;
+
+  const aMATICbpendingUnstake = MATICTxHistory?.txHistory?.pending.filter(
+    transaction =>
+      transaction?.txType === EPolygonPoolEventsMap.MaticClaimPending,
+  );
+
+  const aMATICbpendingUnstakeDisplay: IPendingTableRow[] = aMATICbpendingUnstake
+    ? aMATICbpendingUnstake.map((transaction, index): IPendingTableRow => {
+        let daysRemaining = 0;
+        let hoursRemaining = 0;
+        let minutesRemainig = 0;
+
+        if (transaction) {
+          const unstakeDate = addHours(
+            new Date(transaction.txDate),
+            UNSTAKE_TIME_WAIT_HOURS,
+          );
+
+          daysRemaining = differenceInDays(unstakeDate, Date.now());
+          hoursRemaining = differenceInHours(unstakeDate, Date.now()) % 24;
+          minutesRemainig = differenceInMinutes(unstakeDate, Date.now()) % 60;
+        }
+
+        return {
+          id: index + 1,
+          amount: transaction ? transaction.txAmount.toFormat() : '0',
+          timerSlot: t('dashboard.unstake-time', {
+            days: daysRemaining,
+            hours: hoursRemaining,
+            minutes: minutesRemainig,
+          }),
+        };
+      })
+    : [];
 
   return (
     <>
@@ -52,13 +86,13 @@ export const StakedTokens = () => {
           {showAMAITCb && (
             <StakingAsset
               pendingSlot={
-                !!aMATICbData.pendingValue && (
+                !!aMATICbPendingValue && (
                   <Pending
-                    value={aMATICbData.pendingValue}
+                    value={aMATICbPendingValue.toString()}
                     token={aMATICbData.token}
                     tooltip={
                       featuresConfig.unstakingHistory && (
-                        <PendingTable data={rowsDemo} />
+                        <PendingTable data={aMATICbpendingUnstakeDisplay} />
                       )
                     }
                   />
