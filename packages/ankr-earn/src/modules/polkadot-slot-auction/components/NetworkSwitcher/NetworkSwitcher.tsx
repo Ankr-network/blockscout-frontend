@@ -30,7 +30,6 @@ export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
     <div className={classNames(classes.networkSwitcher, classRoot)}>
       {networks.map((network: TNetworkType, idx: number): ReactNode => {
         const isActiveNetwork: boolean = network === currentNetwork;
-        const isActiveSeparator: boolean = idx !== networks.length - 1;
 
         if (!isActiveNetwork) {
           return (
@@ -40,13 +39,7 @@ export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
               onClick={handleCurrentActionChange(network)}
               rel="noopener noreferrer"
             >
-              <div
-                className={classNames(classes.networkButton, {
-                  [classes.networkSeparator]: isActiveSeparator,
-                })}
-              >
-                {network}
-              </div>
+              <div className={classNames(classes.networkButton)}>{network}</div>
             </a>
           );
         }
@@ -56,9 +49,6 @@ export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
             className={classNames(
               classes.networkButton,
               classes.networkButtonActive,
-              {
-                [classes.networkSeparator]: isActiveSeparator,
-              },
             )}
             key={idx}
           >

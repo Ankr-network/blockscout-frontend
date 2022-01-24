@@ -37,6 +37,13 @@ export const useProjectsListStyles = makeStyles<Theme>(
       fontSize: 14,
     },
 
+    buttonCol: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
     button: {
       position: 'relative',
 
@@ -48,9 +55,16 @@ export const useProjectsListStyles = makeStyles<Theme>(
       margin: theme.spacing('1px', 0, 0, 1),
       fontSize: 22,
     },
+    connectTooltip: {
+      margin: theme.spacing(0, 0, 0, 1),
+    },
 
     noCrowdloanArea: {
-      padding: theme.spacing(19, 0, 8, 0),
+      padding: theme.spacing(3, 0),
+
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(5, 0),
+      },
     },
   }),
 );

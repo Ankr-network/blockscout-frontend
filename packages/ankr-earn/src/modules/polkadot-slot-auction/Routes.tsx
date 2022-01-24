@@ -7,9 +7,16 @@ import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { DefaultLayout } from './components/DefautLayout';
+import { MyRewardsClaimModal } from './components/MyRewardsClaimModal';
+
+export interface IRouteRewardsClaimData {
+  id: string;
+  network: string;
+}
 
 const CROWDLOANS_PATH = `${ROOT}/:network/crowdloans`;
 const LEND_PATH = `${CROWDLOANS_PATH}/lend/:id/:name`;
+const REWARDS_CLAIM_PATH = `${CROWDLOANS_PATH}/rewards-claim/:id`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -28,6 +35,16 @@ export const RoutesConfig = createRouteConfig(
           name: name ? name.toLowerCase() : '/',
         }),
       useParams: () => useParams<{ id: string; name: string }>(),
+    },
+    rewardsClaim: {
+      path: REWARDS_CLAIM_PATH,
+      generatePath: (network: string, id: number): string =>
+        generatePath(REWARDS_CLAIM_PATH, {
+          id,
+          network,
+        }),
+      useParams: (): IRouteRewardsClaimData =>
+        useParams<IRouteRewardsClaimData>(),
     },
   },
   ROOT,
@@ -64,6 +81,12 @@ export function getRoutes() {
         <Route path={RoutesConfig.lend.path} exact>
           <DefaultLayout>
             <SupportProject />
+          </DefaultLayout>
+        </Route>
+
+        <Route path={RoutesConfig.rewardsClaim.path} exact>
+          <DefaultLayout>
+            <MyRewardsClaimModal />
           </DefaultLayout>
         </Route>
 

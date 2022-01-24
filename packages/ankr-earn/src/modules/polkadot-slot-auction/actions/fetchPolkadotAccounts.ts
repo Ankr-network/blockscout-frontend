@@ -5,7 +5,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { ProviderName } from '../utils/isProviderAvailable';
 
-interface IFetchPolkadotAccountsDataItem {
+export interface IFetchPolkadotAccountsDataItem {
   providerName: ProviderName;
   address: Web3Address;
 }

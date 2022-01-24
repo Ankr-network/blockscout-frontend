@@ -2,6 +2,7 @@
   "validation": {
     "greater-than-zero": "Should be greater than 0",
     "insufficient-funds": "Insufficient funds",
+    "invalid-network-address": "This is invalid {network} address",
     "low-balance": "Your balance is not sufficient",
     "min": "Should be greater than {value}",
     "number-only": "Must be a number",
@@ -22,7 +23,7 @@
   "main-navigation": {
     "stake": "Stake",
     "dashboard": "Dashboard",
-    "parachain": "Parachain",
+    "parachain": "Liquid Crowdloan",
     "boost": "Boost",
     "menu": "Menu",
     "docs": "Docs",
@@ -102,10 +103,12 @@
   },
   "polkadot-slot-auction": {
     "button": {
+      "check-wallet": "Check wallet",
       "claim": "Claim {currency}",
       "claim-rewards": "Claim",
       "claim-tokens": "Claim {value} {currency}",
       "connect": "Connect Wallet",
+      "continue": "Continue",
       "contribute": "Contribute {currency}",
       "contribute-form": "Contribute",
       "provided": "Provided {value} {currency}"
@@ -135,6 +138,22 @@
       "failed": "Failed",
       "paused": "Paused",
       "winner": "Winner"
+    },
+    "my-rewards-claim-modal": {
+      "select-section": {
+        "external-wallet": "My wallet address",
+        "select-wallet": "My {network} wallets",
+        "send-external-wallet": "Send to external wallet",
+        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address",
+        "tooltips": {
+          "eth-add-network": "You will have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your Ethereum compatible wallet.",
+          "eth-claim": "You can claim {rewardTokenName} rewards to Ethereum compatible address."
+        }
+      },
+      "success-section": {
+        "message": "You can check your wallet on {rewardTokenName} parachain",
+        "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
+      }
     },
     "no-crowdloan": {
       "message": "There are no {type} crowdloans on {tokenName} at the moment",
@@ -169,7 +188,8 @@
       "projects-list": "Projects List"
     },
     "tooltips": {
-      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing."
+      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing.",
+      "connect-polkadot-wallet": "Please connect your Polkadot wallet in order to continue"
     }
   },
   "stake-polkadot": {

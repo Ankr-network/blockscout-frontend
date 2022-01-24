@@ -4,10 +4,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
-import { Web3Address } from 'modules/common/types';
 import { getShortStr } from 'modules/common/utils/getShortStr';
 import React, { useState } from 'react';
 import { Button } from 'uiKit/Button';
+import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccounts';
 import { ProviderName } from '../../utils/isProviderAvailable';
 import { ReactComponent as CloverWalletIcon } from './assets/clover.svg';
 import { ReactComponent as PolkadotWalletIcon } from './assets/polkadot.svg';
@@ -19,14 +19,18 @@ const ICONS = {
 };
 
 interface WalletSwitcherProps {
-  wallets: { providerName: ProviderName; address: Web3Address }[];
+  isDisabled?: boolean;
+  wallets: Array<IFetchPolkadotAccountsDataItem | void>;
+  classMenu?: string;
   currentWallet: string;
   onConnect: (account: string) => () => void;
   currentProvider?: ProviderName;
 }
 
 export const WalletSwitcher = ({
+  isDisabled,
   wallets,
+  classMenu,
   currentWallet,
   currentProvider,
   onConnect,
@@ -68,6 +72,7 @@ export const WalletSwitcher = ({
         className={classes.button}
         onClick={handleClick}
         endIcon={isAvailableWallets ? endIcon : null}
+        disabled={isDisabled}
       >
         <Box mr={1}>{icon}</Box>
         {getShortStr(currentWallet)}
@@ -75,14 +80,17 @@ export const WalletSwitcher = ({
 
       {isAvailableWallets && (
         <Menu
-          classes={{ paper: classes.menu, list: classes.menuList }}
+          classes={{
+            paper: classNames(classes.menu, classMenu),
+            list: classes.menuList,
+          }}
           id="simple-menu"
           anchorEl={anchorEl}
           keepMounted
           open={isOpened}
           onClose={handleClose}
         >
-          {wallets.map(wallet => (
+          {(wallets as IFetchPolkadotAccountsDataItem[]).map(wallet => (
             <MenuItem
               onClick={handleMenuItemClick(wallet.address)}
               key={wallet.address}

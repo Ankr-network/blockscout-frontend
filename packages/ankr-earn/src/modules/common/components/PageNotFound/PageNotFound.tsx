@@ -1,6 +1,8 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { isMainnet } from 'modules/common/const';
+import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'uiKit/Button';
@@ -10,6 +12,9 @@ import { usePageNotFoundStyles } from './usePageNotFoundStyles';
 
 interface IPageNotFoundProps {}
 
+/**
+ *  TODO Please add fixes for routes after the release
+ */
 export const PageNotFound = (props: IPageNotFoundProps) => {
   const classes = usePageNotFoundStyles();
   const { goBack } = useHistory();
@@ -36,7 +41,11 @@ export const PageNotFound = (props: IPageNotFoundProps) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                href={DashboardRoutes.dashboard.path}
+                href={PolkadotSlotAuctionRoutes.crowdloans.generatePath(
+                  isMainnet
+                    ? EParachainPolkadotNetwork.DOT.toLowerCase()
+                    : EParachainPolkadotNetwork.WND.toLowerCase(),
+                )}
               >
                 {t('not-found.btn-home')}
               </NavLink>
