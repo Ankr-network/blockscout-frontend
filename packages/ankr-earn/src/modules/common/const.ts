@@ -1,10 +1,8 @@
 import packageJson from '../../../package.json';
 import { Env } from './types';
 
-export const EARN_PATH = packageJson.homepage;
-export const EMPTY_PATH = `${EARN_PATH}/`;
-export const PARACHAIN_BONDING_PATH = `${EARN_PATH}/liquid-crowdloan`;
-export const UNSTAKE_PATH = `${EARN_PATH}/unstake`;
+export const EARN_PATH = `${packageJson.homepage}/`;
+export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
 
 export const DEFAULT_ROUNDING = 2;
@@ -42,4 +40,5 @@ export const featuresConfig = {
   liquidityMining: false,
   unstakingHistory: false,
   localeSwitcher: false,
+  onlyCrowdloans: true,
 };
