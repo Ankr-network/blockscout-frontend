@@ -1,5 +1,5 @@
 import { Drawer } from '@material-ui/core';
-import { EMPTY_PATH } from 'modules/common/const';
+import { EMPTY_PATH, featuresConfig } from 'modules/common/const';
 import { ReactNode, useState } from 'react';
 import { useIsLGUp } from 'ui';
 import { Container } from 'uiKit/Container';
@@ -37,7 +37,9 @@ export const Header = ({
         <div className={classes.center}>{mainNavigationSlot}</div>
 
         <div className={classes.rightSide}>
-          {isLGUp && <LocaleSwitcher className={classes.localeSwitcher} />}
+          {featuresConfig.localeSwitcher && isLGUp && (
+            <LocaleSwitcher className={classes.localeSwitcher} />
+          )}
 
           {!!rightComponentSlot && (
             <div className={classes.rightComponentSlot}>
