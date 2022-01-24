@@ -20,6 +20,11 @@ import {
   differenceInMinutes,
   addHours,
 } from 'date-fns';
+import {
+  HistoryDialog,
+  HistoryDialogData,
+} from 'modules/common/components/HistoryDialog';
+import { useState } from 'react';
 
 const SKELETONS_COUNT = 1;
 
@@ -27,6 +32,20 @@ export const StakedTokens = () => {
   const aMATICbData = useMaticStakingAsset();
   const MATICTxHistory = useMaticTxHistory();
   const classes = useTokensListStyles();
+
+  const [historyDialogOpened, setHistoryDialogOpened] = useState(false);
+  const [historyDialogData, setHistoryDialogData] = useState<HistoryDialogData>(
+    {
+      staked: [],
+      unstaked: [],
+    },
+  );
+
+  const handleHistoryDialogClose = () => setHistoryDialogOpened(false);
+  const handleHistoryDialogOpen = (dialogData: HistoryDialogData) => {
+    setHistoryDialogData(dialogData);
+    setHistoryDialogOpened(true);
+  };
 
   const showAMAITCb = !aMATICbData.amount.isZero() || aMATICbData.isLoading;
   const isLoading = aMATICbData.isLoading;
@@ -78,13 +97,18 @@ export const StakedTokens = () => {
       {isLoading ? (
         <AssetsList>
           {[...Array(SKELETONS_COUNT)].map((_, index) => (
-            <StakingAsset isLoading key={index} />
+            <StakingAsset
+              openHistoryDialog={handleHistoryDialogOpen}
+              isLoading
+              key={index}
+            />
           ))}
         </AssetsList>
       ) : (
         <AssetsList noChildrenSlot={<NoAssets />}>
           {showAMAITCb && (
             <StakingAsset
+              openHistoryDialog={handleHistoryDialogOpen}
               pendingSlot={
                 !!aMATICbPendingValue && (
                   <Pending
@@ -109,6 +133,12 @@ export const StakedTokens = () => {
           )}
         </AssetsList>
       )}
+
+      <HistoryDialog
+        open={historyDialogOpened}
+        onClose={handleHistoryDialogClose}
+        history={historyDialogData}
+      />
     </>
   );
 };

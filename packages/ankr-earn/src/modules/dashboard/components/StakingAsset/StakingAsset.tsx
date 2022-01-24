@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
@@ -10,6 +10,8 @@ import { NetworkIconText } from '../NetworkIconText';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 import { configFromEnv } from 'modules/api/config';
+import { ReactComponent as HistoryIcon } from './assets/history.svg';
+import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 
 interface IStakingAssetProps {
   token?: EToken;
@@ -21,6 +23,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
+  openHistoryDialog: (dialogData: HistoryDialogData) => void;
 }
 
 export const StakingAsset = ({
@@ -33,6 +36,7 @@ export const StakingAsset = ({
   pendingSlot,
   isLoading = false,
   isStakeLoading = false,
+  openHistoryDialog,
 }: IStakingAssetProps) => {
   const classes = useStyles();
 
@@ -43,6 +47,38 @@ export const StakingAsset = ({
   const displayLinks = stakeLink || unstakeLink || tradeLink;
 
   const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
+
+  const handleDialogOpen = () =>
+    openHistoryDialog({
+      staked: [
+        {
+          date: '10 december',
+          amount: '10 matic',
+        },
+        {
+          date: '10 december',
+          amount: '10 matic',
+        },
+        {
+          date: '10 december',
+          amount: '10 matic',
+        },
+      ],
+      unstaked: [
+        {
+          date: '10 december',
+          amount: '12 matic',
+        },
+        {
+          date: '10 december',
+          amount: '12 matic',
+        },
+        {
+          date: '10 december',
+          amount: '12 matic',
+        },
+      ],
+    });
 
   return (
     <Paper className={classes.root}>
@@ -61,6 +97,15 @@ export const StakingAsset = ({
               {pendingSlot}
             </Grid>
           )}
+
+          <Grid item xs="auto" className={classes.pendingCol}>
+            <IconButton
+              className={classes.openHistory}
+              onClick={handleDialogOpen}
+            >
+              <HistoryIcon />
+            </IconButton>
+          </Grid>
         </Grid>
       </Box>
 
