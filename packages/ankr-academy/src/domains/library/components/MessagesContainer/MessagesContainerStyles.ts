@@ -15,9 +15,6 @@ export const useMessagesContainerStyles = makeStyles<Theme>(theme => ({
   messagesWrapperStudent: {
     flexDirection: 'row-reverse',
   },
-  messagesWrapperText: {
-    flexDirection: 'column',
-  },
   avatarAnkr: {
     marginRight: theme.spacing(1),
   },
@@ -68,12 +65,6 @@ export const useMessagesContainerStyles = makeStyles<Theme>(theme => ({
         right: -5,
         backgroundImage: `url(${bubbleTailBlack})`,
       },
-    },
-  },
-
-  messageText: {
-    '&+&': {
-      marginTop: theme.spacing(3),
     },
   },
 }));

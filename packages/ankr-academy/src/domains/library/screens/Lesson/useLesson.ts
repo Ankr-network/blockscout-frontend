@@ -23,7 +23,8 @@ export const useLesson = () => {
   };
   const blocksToRender = currentLesson.blocks.slice(0, blocksLoaded);
   const isLessonFinished = currentLesson.blocks.length <= blocksToRender.length;
-  const nextLesson = module1[currentLesson.nextLessonId]; // TODO: lessons managing
+  const nextLesson =
+    currentLesson.nextLessonId && module1[currentLesson.nextLessonId]; // TODO: lessons managing
 
   return {
     lessonTitle: currentLesson.title,

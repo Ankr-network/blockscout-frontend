@@ -34,9 +34,11 @@ export const Lesson = () => {
           />
         ))}
       </Container>
-      <Container className={classes.conainerNextLesson} maxWidth="lg">
-        {isLessonFinished && <LessonCard lesson={nextLesson} />}
-      </Container>
+      {isLessonFinished && nextLesson && (
+        <Container className={classes.conainerNextLesson} maxWidth="lg">
+          <LessonCard lesson={nextLesson} />
+        </Container>
+      )}
     </section>
   );
 };
