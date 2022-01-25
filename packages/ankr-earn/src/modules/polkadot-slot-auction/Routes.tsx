@@ -15,7 +15,7 @@ export interface IRouteRewardsClaimData {
 }
 
 const ROOT = `${EARN_PATH}liquid-crowdloan/`;
-const CROWDLOANS_PATH = `${ROOT}:network/crowdloans/`;
+const CROWDLOANS_PATH = `${ROOT}:network/`;
 const LEND_PATH = `${CROWDLOANS_PATH}lend/:id/:name/`;
 const REWARDS_CLAIM_PATH = `${CROWDLOANS_PATH}rewards-claim/:id/`;
 
