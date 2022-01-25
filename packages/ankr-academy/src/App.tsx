@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { DevOverlayFix } from 'ui';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { AppBase } from 'modules/layout/components/AppBase';
@@ -17,8 +16,6 @@ function App() {
       <Router basename={packageJson.homepage}>
         <Provider store={store}>
           <AppBase>
-            {/* todo: remove when the issue will be resolved */}
-            {isDev() && <DevOverlayFix />}
             <ScrollToTop />
             <Routes />
           </AppBase>
