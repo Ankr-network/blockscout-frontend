@@ -1,4 +1,4 @@
-import glossaryData from 'domains/glossary/glossary.json';
+import { glossaryMock } from 'domains/glossary/glossaryMock';
 
 // `\\b${find}\\b` is used to exclude part for words matching
 // for example: coin has not match bitcoin
@@ -27,7 +27,7 @@ function replaceAll(str: string, find: string): string {
   return stringReplaced;
 }
 
-const glossaryKeys = Object.keys(glossaryData);
+const glossaryKeys = Object.keys(glossaryMock);
 export const mapMessagesList = (messagesList: string[]) => {
   return messagesList.map(message => {
     let replacedMessage = message;

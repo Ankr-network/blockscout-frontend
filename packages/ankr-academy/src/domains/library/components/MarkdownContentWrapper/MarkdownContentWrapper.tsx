@@ -3,7 +3,7 @@ import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Tooltip, Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
-import glossaryData from 'domains/glossary/glossary.json';
+import { glossaryMock } from 'domains/glossary/glossaryMock';
 import { mapMessagesList } from './MarkdownContentWrapperUtils';
 
 import { useMarkdownContentWrapperStyles } from './MarkdownContentWrapperStyles';
@@ -30,8 +30,7 @@ export const MarkdownContentWrapper = ({
       // TODO: improve glossary data structure
       const key = props.children[0];
       if (typeof key === 'string') {
-        const tooltipObject =
-          glossaryData[key.toLowerCase() as keyof typeof glossaryData];
+        const tooltipObject = glossaryMock[key.toLowerCase()];
         tooltipTitle = tooltipObject?.value;
 
         // if tooltip data found render the tooltip component
