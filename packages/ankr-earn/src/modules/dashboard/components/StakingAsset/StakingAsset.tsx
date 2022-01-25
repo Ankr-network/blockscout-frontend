@@ -11,7 +11,6 @@ import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 import { configFromEnv } from 'modules/api/config';
 import { ReactComponent as HistoryIcon } from './assets/history.svg';
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 
 interface IStakingAssetProps {
   token?: EToken;
@@ -23,7 +22,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
-  openHistoryDialog: (dialogData: HistoryDialogData) => void;
+  openHistoryDialog: () => void;
 }
 
 export const StakingAsset = ({
@@ -48,38 +47,6 @@ export const StakingAsset = ({
 
   const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
 
-  const handleDialogOpen = () =>
-    openHistoryDialog({
-      staked: [
-        {
-          date: '10 december',
-          amount: '10 matic',
-        },
-        {
-          date: '10 december',
-          amount: '10 matic',
-        },
-        {
-          date: '10 december',
-          amount: '10 matic',
-        },
-      ],
-      unstaked: [
-        {
-          date: '10 december',
-          amount: '12 matic',
-        },
-        {
-          date: '10 december',
-          amount: '12 matic',
-        },
-        {
-          date: '10 december',
-          amount: '12 matic',
-        },
-      ],
-    });
-
   return (
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
@@ -101,7 +68,7 @@ export const StakingAsset = ({
           <Grid item xs="auto" className={classes.pendingCol}>
             <IconButton
               className={classes.openHistory}
-              onClick={handleDialogOpen}
+              onClick={openHistoryDialog}
             >
               <HistoryIcon />
             </IconButton>

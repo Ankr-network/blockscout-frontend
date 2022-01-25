@@ -111,4 +111,11 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     paddingTop: 0,
     paddingBottom: 0,
   },
+
+  empty: {
+    padding: theme.spacing(14, 0, 22),
+    textAlign: 'center',
+    color: theme.palette.action.disabledBackground,
+    fontSize: 22,
+  },
 }));

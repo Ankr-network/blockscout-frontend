@@ -3,23 +3,12 @@ import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { Pending } from 'modules/dashboard/components/Pending';
-import {
-  IPendingTableRow,
-  PendingTable,
-} from 'modules/dashboard/components/PendingTable';
+import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { t } from 'modules/i18n/utils/intl';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
-import { UNSTAKE_TIME_WAIT_HOURS } from 'modules/stake-polygon/const';
 import { useMaticStakingAsset } from './useMaticStakingAsset';
 import { useMaticTxHistory } from './useMaticTxHistory';
 import { useTokensListStyles } from './useTokensListStyles';
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMinutes,
-  addHours,
-} from 'date-fns';
 import {
   HistoryDialog,
   HistoryDialogData,
@@ -36,6 +25,7 @@ export const StakedTokens = () => {
   const [historyDialogOpened, setHistoryDialogOpened] = useState(false);
   const [historyDialogData, setHistoryDialogData] = useState<HistoryDialogData>(
     {
+      token: undefined,
       staked: [],
       unstaked: [],
     },
@@ -54,39 +44,8 @@ export const StakedTokens = () => {
     ? +aMATICbData.pendingValue
     : 0;
 
-  const aMATICbpendingUnstake = MATICTxHistory?.txHistory?.pending.filter(
-    transaction =>
-      transaction?.txType === EPolygonPoolEventsMap.MaticClaimPending,
-  );
-
-  const aMATICbpendingUnstakeDisplay: IPendingTableRow[] = aMATICbpendingUnstake
-    ? aMATICbpendingUnstake.map((transaction, index): IPendingTableRow => {
-        let daysRemaining = 0;
-        let hoursRemaining = 0;
-        let minutesRemainig = 0;
-
-        if (transaction) {
-          const unstakeDate = addHours(
-            new Date(transaction.txDate),
-            UNSTAKE_TIME_WAIT_HOURS,
-          );
-
-          daysRemaining = differenceInDays(unstakeDate, Date.now());
-          hoursRemaining = differenceInHours(unstakeDate, Date.now()) % 24;
-          minutesRemainig = differenceInMinutes(unstakeDate, Date.now()) % 60;
-        }
-
-        return {
-          id: index + 1,
-          amount: transaction ? transaction.txAmount.toFormat() : '0',
-          timerSlot: t('dashboard.unstake-time', {
-            days: daysRemaining,
-            hours: hoursRemaining,
-            minutes: minutesRemainig,
-          }),
-        };
-      })
-    : [];
+  const handleHistoryDialogOpenPolygon = () =>
+    handleHistoryDialogOpen(MATICTxHistory.transactionHistory);
 
   return (
     <>
@@ -98,7 +57,7 @@ export const StakedTokens = () => {
         <AssetsList>
           {[...Array(SKELETONS_COUNT)].map((_, index) => (
             <StakingAsset
-              openHistoryDialog={handleHistoryDialogOpen}
+              openHistoryDialog={handleHistoryDialogOpenPolygon}
               isLoading
               key={index}
             />
@@ -108,7 +67,7 @@ export const StakedTokens = () => {
         <AssetsList noChildrenSlot={<NoAssets />}>
           {showAMAITCb && (
             <StakingAsset
-              openHistoryDialog={handleHistoryDialogOpen}
+              openHistoryDialog={handleHistoryDialogOpenPolygon}
               pendingSlot={
                 !!aMATICbPendingValue && (
                   <Pending
@@ -116,7 +75,9 @@ export const StakedTokens = () => {
                     token={aMATICbData.token}
                     tooltip={
                       featuresConfig.unstakingHistory && (
-                        <PendingTable data={aMATICbpendingUnstakeDisplay} />
+                        <PendingTable
+                          data={MATICTxHistory.pendingUnstakeHistory}
+                        />
                       )
                     }
                   />
