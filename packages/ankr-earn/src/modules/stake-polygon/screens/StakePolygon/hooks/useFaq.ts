@@ -1,7 +1,7 @@
 import { useQuery } from '@redux-requests/react';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
 export const useFaq = () => {
@@ -32,6 +32,14 @@ export const useFaq = () => {
       {
         question: t('stake-polygon.faq.question-5'),
         answer: t('stake-polygon.faq.answer-5'),
+      },
+      {
+        question: t('stake-polygon.faq.question-6'),
+        answer: t('stake-polygon.faq.answer-6'),
+      },
+      {
+        question: t('stake-polygon.faq.question-7'),
+        answer: tHTML('stake-polygon.faq.answer-7'),
       },
     ],
     [fetchStatsData],

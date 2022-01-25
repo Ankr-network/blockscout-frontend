@@ -21,7 +21,22 @@ export const useMyRewardsStyles = makeStyles<Theme>(theme => ({
     margin: theme.spacing(0, 0, '-3px', 0),
   },
 
+  buttonCol: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  connectTooltip: {
+    margin: theme.spacing(0, 0, 0, 1),
+  },
+
   noCrowdloanArea: {
-    padding: theme.spacing(19, 0, 8, 0),
+    padding: theme.spacing(3, 0),
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(5, 0),
+    },
   },
 }));

@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { INodeEntity } from '@ankr.com/multirpc';
 
+import { Preloader } from 'uiKit/Preloader';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
@@ -27,6 +28,7 @@ interface ChainItemHeaderProps {
   chainId: string;
   className?: string;
   nodes?: INodeEntity[];
+  loading: boolean;
 }
 
 export const ChainItemHeader = ({
@@ -36,6 +38,7 @@ export const ChainItemHeader = ({
   chainId,
   className,
   nodes,
+  loading,
 }: ChainItemHeaderProps) => {
   const classes = useStyles();
   const isMobile = useIsMDDown();
@@ -113,7 +116,11 @@ export const ChainItemHeader = ({
           })}
         </div>
       </div>
-      {hasCredentials ? (
+      {loading ? (
+        <div className={classes.preloaderWrapper}>
+          <Preloader centered />
+        </div>
+      ) : hasCredentials ? (
         <PrivateHeader chainId={chainId} />
       ) : (
         <div className={classes.bottom}>

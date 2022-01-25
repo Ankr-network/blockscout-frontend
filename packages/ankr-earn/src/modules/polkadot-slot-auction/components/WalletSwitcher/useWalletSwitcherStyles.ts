@@ -23,6 +23,7 @@ export const useWalletSwitcherStyles = makeStyles<Theme>(theme => ({
     },
   },
   menu: {
+    position: 'relative',
     width: theme.spacing(22),
     marginTop: theme.spacing(6),
     backgroundColor: theme.palette.common.white,

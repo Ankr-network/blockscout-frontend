@@ -11,8 +11,7 @@ import { throwIfError } from '../../api/utils/throwIfError';
 import { fetchDepositStatus } from './fetchDepositStatus';
 import { hasMetamask } from '../utils/hasMetamask';
 import { selectCredentials, setCredentials } from 'modules/user/userSlice';
-
-const PROVIDER_ERROR_USER_DENIED = 4001;
+import { tryToLogin } from '../utils/tryToLogin';
 
 interface IConnect {
   address: Web3Address;
@@ -52,17 +51,7 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           data: { key },
         } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
 
-        const credentials = await (async function tryToLogin() {
-          try {
-            return await service.loginAsUser(address, key);
-          } catch (error: any) {
-            if (error.code === PROVIDER_ERROR_USER_DENIED) {
-              throw error;
-            }
-
-            return undefined;
-          }
-        })();
+        const credentials = await tryToLogin(service, address, key);
 
         if (credentials) {
           store.dispatch(setCredentials(credentials));

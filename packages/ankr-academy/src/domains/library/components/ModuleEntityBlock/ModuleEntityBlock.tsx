@@ -5,6 +5,8 @@ import { Typography } from '@material-ui/core';
 import { BlockContentType, Img, ModuleEntityBlockType } from '../../types';
 import { MessagesContainer } from '../MessagesContainer';
 import { UserActionWrapper } from '../UserActionWrapper';
+import { TextContentWrapper } from '../TextContentWrapper';
+import { MarkdownContentWrapper } from '../MarkdownContentWrapper';
 import { useModuleEntityBlockStyles } from './ModuleEntityBlockStyles';
 
 interface ILessonBlockProps extends ModuleEntityBlockType {
@@ -21,24 +23,46 @@ export const ModuleEntityBlock = ({
 
   const renderImage = ({ src, alt, copyright }: Img) => {
     return (
-      <>
+      <Fragment key={uid(src)}>
         <img className={classes.imgMessage} src={src} alt={alt} />
         <Typography variant="body2" color="textSecondary" align="center">
           {copyright}
         </Typography>
-      </>
+      </Fragment>
     );
   };
 
   const renderMessages = (block: BlockContentType) => {
     const { type } = block;
-    const key = uid(id + block.type);
+    const key = uid(id + type);
 
     if (type === 'img') {
-      return <Fragment key={key}>{renderImage(block.img)}</Fragment>;
+      return (
+        <div key={key} className={classes.blockWrapper}>
+          {renderImage(block.img)}
+        </div>
+      );
     }
 
-    // TODO block.type === 'text' here
+    if (type === 'text') {
+      return (
+        <TextContentWrapper
+          key={key}
+          className={classes.blockWrapper}
+          messagesList={block.messagesList}
+        />
+      );
+    }
+
+    if (type === 'markdown') {
+      return (
+        <MarkdownContentWrapper
+          key={key}
+          className={classes.blockWrapper}
+          messagesList={block.messagesList}
+        />
+      );
+    }
 
     return (
       <MessagesContainer

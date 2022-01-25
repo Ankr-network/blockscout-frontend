@@ -1,4 +1,5 @@
 import { Drawer } from '@material-ui/core';
+import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { ReactNode, useState } from 'react';
 import { useIsLGUp } from 'ui';
 import { Container } from 'uiKit/Container';
@@ -30,13 +31,15 @@ export const Header = ({
     <header>
       <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
-          <Logo className={classes.logo} />
+          <Logo className={classes.logo} href={EARN_PATH} />
         </div>
 
         <div className={classes.center}>{mainNavigationSlot}</div>
 
         <div className={classes.rightSide}>
-          {isLGUp && <LocaleSwitcher className={classes.localeSwitcher} />}
+          {featuresConfig.localeSwitcher && isLGUp && (
+            <LocaleSwitcher className={classes.localeSwitcher} />
+          )}
 
           {!!rightComponentSlot && (
             <div className={classes.rightComponentSlot}>
