@@ -141,17 +141,16 @@
     },
     "my-rewards-claim-modal": {
       "select-section": {
-        "external-wallet": "My wallet address",
+        "external-wallet": "Address",
+        "hint-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
+        "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
-        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address",
-        "tooltips": {
-          "eth-add-network": "You will have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your Ethereum compatible wallet.",
-          "eth-claim": "You can claim {rewardTokenName} rewards to Ethereum compatible address."
-        }
+        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address"
       },
       "success-section": {
-        "message": "You can check your wallet on {rewardTokenName} parachain",
+        "hint-eth": "You have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your wallet",
+        "message": "Your rewards will arrive in about 3-5 minutes",
         "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
       }
     },
