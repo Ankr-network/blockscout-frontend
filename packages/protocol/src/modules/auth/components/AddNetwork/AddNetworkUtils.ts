@@ -99,6 +99,30 @@ const ARBITRUM_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://arbiscan.io'],
 };
 
+// bsc
+const BSC_NETWORK_PARAMS = {
+  chainId: 56,
+  chainName: 'BSC by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Smart Chain',
+    symbol: 'BNB',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://bscscan.com'],
+};
+
+// iotex
+const IOTEX_NETWORK_PARAMS = {
+  chainId: 4689,
+  chainName: 'IoTeX by Ankr Protocol',
+  nativeCurrency: {
+    name: 'IoTeX Mainnet',
+    symbol: 'IOTX',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://iotexscan.io/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -131,6 +155,10 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, CELO_NETWORK_PARAMS);
     case 'arbitrum':
       return mapParams(chain, ARBITRUM_NETWORK_PARAMS);
+    case 'bsc':
+      return mapParams(chain, BSC_NETWORK_PARAMS);
+    case 'iotex':
+      return mapParams(chain, IOTEX_NETWORK_PARAMS);
     default:
       return undefined;
   }

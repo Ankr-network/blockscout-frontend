@@ -1,34 +1,27 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { AvailableProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
 import { connect, IConnect } from '../actions/connect';
 import { disconnect } from '../actions/disconnect';
-import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+import { IUseConnectedData, useConnectedData } from './useConnectedData';
 
-interface IUseAuth {
-  isConnected: boolean;
-  isLoading: boolean;
-  address?: string;
+interface IUseAuth extends IUseConnectedData {
   dispatchConnect: () => TActionPromise<IConnect>;
   dispatchDisconnect: () => TActionPromise<IConnect>;
-  chainId?: BlockchainNetworkId;
-  walletName?: string;
-  walletIcon?: string;
 }
 
-export const useAuth = (providerId: AvailableProviders): IUseAuth => {
+export const useAuth = (
+  providerId: AvailableProviders,
+  availableNetworks: BlockchainNetworkId[],
+): IUseAuth => {
   const dispatchRequest = useDispatchRequest();
-
-  const { data, loading } = useQuery<IConnect | null>({
-    type: connect,
-    requestKey: getAuthRequestKey(providerId),
-  });
+  const data = useConnectedData(providerId);
 
   const dispatchConnect = useCallback(
-    () => dispatchRequest(connect(providerId)),
-    [providerId, dispatchRequest],
+    () => dispatchRequest(connect(providerId, availableNetworks)),
+    [availableNetworks, dispatchRequest, providerId],
   );
 
   const dispatchDisconnect = useCallback(
@@ -37,12 +30,7 @@ export const useAuth = (providerId: AvailableProviders): IUseAuth => {
   );
 
   return {
-    isConnected: !!data?.isConnected,
-    address: data?.address,
-    isLoading: loading,
-    chainId: data?.chainId,
-    walletName: data?.walletName,
-    walletIcon: data?.walletIcon,
+    ...data,
     dispatchConnect,
     dispatchDisconnect,
   };

@@ -1,7 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { useQuery } from '@redux-requests/react';
-import { ResponseData } from 'modules/common/types/ResponseData';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { t } from 'modules/i18n/utils/intl';
 import { Footer } from 'modules/layout/components/Footer';
@@ -17,7 +16,8 @@ import { Themes } from 'ui';
 import { Button } from 'uiKit/Button';
 import { QueryLoading } from 'uiKit/QueryLoading';
 import { connect } from '../../actions/connect';
-import { fetchPolkadotAccounts } from '../../actions/fetchPolkadotAccounts';
+import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccounts';
+import { useFetchPolkadotAccounts } from '../../hooks/useFetchPolkadotAccounts';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { initConnect } from '../../sagas/polkadotSlotAuctionSaga';
 import { ProviderName } from '../../utils/isProviderAvailable';
@@ -47,6 +47,8 @@ export const DefaultLayout = ({
   const currentTheme = useMemo((): Theme => getTheme(theme), [theme]);
 
   const { isConnected, polkadotAccount } = useSlotAuctionSdk();
+  const { isLoading: fetchPolkadotAccountsLoading, polkadotAccounts } =
+    useFetchPolkadotAccounts();
 
   const { context, isOpened, handleClose } = useDialog<IDialog | undefined>(
     DIALOG_POLKADOT_EXTENSION,
@@ -57,19 +59,11 @@ export const DefaultLayout = ({
     type: connect,
   });
 
-  const {
-    loading: fetchPolkadotAccountsLoading,
-    data: { polkadotAccounts },
-  } = useQuery<ResponseData<typeof fetchPolkadotAccounts>>({
-    defaultData: { polkadotAccounts: [] },
-    type: fetchPolkadotAccounts,
-  });
-
   const isLoading: boolean = connectLoading || fetchPolkadotAccountsLoading;
 
-  const providerName: ProviderName | undefined = polkadotAccounts.find(
-    item => item.address === polkadotAccount,
-  )?.providerName;
+  const providerName: ProviderName | undefined = (
+    polkadotAccounts as IFetchPolkadotAccountsDataItem[]
+  ).find(item => item.address === polkadotAccount)?.providerName;
 
   const handleInitConnect = (): void => {
     dispatch(initConnect());
@@ -90,7 +84,7 @@ export const DefaultLayout = ({
               currentProvider={providerName}
               currentWallet={polkadotAccount}
               onConnect={handleConnect}
-              wallets={polkadotAccounts}
+              wallets={polkadotAccounts as IFetchPolkadotAccountsDataItem[]}
             />
           ) : (
             <div className={classes.buttonArea}>

@@ -1,4 +1,4 @@
-import { ButtonProps, Tooltip } from '@material-ui/core';
+import { ButtonProps } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo } from 'react';
 import { Button } from 'uiKit/Button';
@@ -6,6 +6,7 @@ import { MinusIcon } from 'uiKit/Icons/MinusIcon';
 import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
+import { Tooltip } from 'uiKit/Tooltip';
 import { usePlusMinusBtnStyles } from './usePlusMinusBtnStyles';
 
 const iconsMap = {

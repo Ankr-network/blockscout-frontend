@@ -3,7 +3,7 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 
 export const useNetworkSwitcherStyles = makeStyles<Theme>(theme => ({
   networkSwitcher: {
-    display: 'flex',
+    display: 'inline-flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,8 +28,5 @@ export const useNetworkSwitcherStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.paper,
     padding: theme.spacing(0.5, 0),
     borderRadius: 12,
-  },
-  networkSeparator: {
-    borderRight: `1px solid ${alpha(theme.palette.text.secondary, 0.15)}`,
   },
 }));

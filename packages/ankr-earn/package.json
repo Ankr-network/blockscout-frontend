@@ -2,6 +2,7 @@
   "name": "ankr-earn",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/earn",
   "dependencies": {
     "@binance-chain/bsc-connector": "^1.0.0",
     "@loadable/component": "^5.15.2",
@@ -25,6 +26,7 @@
     "ethereumjs-tx": "^2.1.2",
     "final-form": "^4.20.6",
     "history": "4.10.1",
+    "jss-preset-default": "^10.9.0",
     "limit-concurrency-decorator": "^0.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -66,7 +68,8 @@
     "env-cmd": "^10.1.0",
     "lint-staged": "^12.1.2",
     "prettier": "^2.5.1",
-    "react-app-rewired": "^2.1.8"
+    "react-app-rewired": "^2.1.8",
+    "react-snap": "^1.23.0"
   },
   "scripts": {
     "start:dev": "env-cmd -f .env.dev react-app-rewired start",
@@ -80,7 +83,8 @@
     "eject": "react-app-rewired eject",
     "format": "lint-staged",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "postbuild": "react-snap"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -140,5 +144,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "skipThirdPartyRequests": true,
+    "inlineCss": true
   }
 }

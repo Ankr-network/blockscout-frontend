@@ -17,16 +17,6 @@ export const useStakeStats = (amount: number) => {
           value: calcYearlyEarning(amount),
         }),
       },
-      {
-        label: t('stake.stats.staked-with-ankr'),
-        // todo: get actual value
-        value: '360,443 MATIC',
-      },
-      {
-        label: t('stake.stats.stakers'),
-        // todo: get actual value
-        value: '66',
-      },
     ],
     [amount],
   );

@@ -2,6 +2,7 @@
   "validation": {
     "greater-than-zero": "Should be greater than 0",
     "insufficient-funds": "Insufficient funds",
+    "invalid-network-address": "This is invalid {network} address",
     "low-balance": "Your balance is not sufficient",
     "min": "Should be greater than {value}",
     "number-only": "Must be a number",
@@ -22,7 +23,7 @@
   "main-navigation": {
     "stake": "Stake",
     "dashboard": "Dashboard",
-    "parachain": "Parachain",
+    "parachain": "Liquid Crowdloan",
     "boost": "Boost",
     "menu": "Menu",
     "docs": "Docs",
@@ -77,7 +78,7 @@
     "btn-home": "Go home"
   },
   "boost": {
-    "trading-cockpit": "Trading cockpit",
+    "trading-cockpit": "Trade",
     "liquidity-mining": "Liquidity mining"
   },
   "connect": {
@@ -102,10 +103,12 @@
   },
   "polkadot-slot-auction": {
     "button": {
+      "check-wallet": "Check wallet",
       "claim": "Claim {currency}",
       "claim-rewards": "Claim",
       "claim-tokens": "Claim {value} {currency}",
       "connect": "Connect Wallet",
+      "continue": "Continue",
       "contribute": "Contribute {currency}",
       "contribute-form": "Contribute",
       "provided": "Provided {value} {currency}"
@@ -135,6 +138,22 @@
       "failed": "Failed",
       "paused": "Paused",
       "winner": "Winner"
+    },
+    "my-rewards-claim-modal": {
+      "select-section": {
+        "external-wallet": "My wallet address",
+        "select-wallet": "My {network} wallets",
+        "send-external-wallet": "Send to external wallet",
+        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address",
+        "tooltips": {
+          "eth-add-network": "You will have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your Ethereum compatible wallet.",
+          "eth-claim": "You can claim {rewardTokenName} rewards to Ethereum compatible address."
+        }
+      },
+      "success-section": {
+        "message": "You can check your wallet on {rewardTokenName} parachain",
+        "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
+      }
     },
     "no-crowdloan": {
       "message": "There are no {type} crowdloans on {tokenName} at the moment",
@@ -169,7 +188,8 @@
       "projects-list": "Projects List"
     },
     "tooltips": {
-      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing."
+      "available-balance": "Make sure to leave at least {value} {token} existential deposit ({network} requirement) on your wallet when contributing.",
+      "connect-polkadot-wallet": "Please connect your Polkadot wallet in order to continue"
     }
   },
   "stake-polkadot": {
@@ -225,9 +245,7 @@
     "faq-title": "FAQ",
     "stats": {
       "apr": "APR",
-      "yearly-earning": "Yearly earning",
-      "staked-with-ankr": "Staked with ANKR",
-      "stakers": "Stakers"
+      "yearly-earning": "Yearly earning"
     },
     "success": {
       "title": "Stake successful",
@@ -262,20 +280,20 @@
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "faq": {
       "title": "FAQ",
-      "question-1": "How long after unstaking can I withdraw my ETH?",
-      "answer-1": "Polygon Liquid Staking from Ankr Ankr earn offers instant liquidity for your staked MATIC, enabling you to connect your tokens with DeFi platforms and earn several more layers of rewards.\n Polygon Liquid Staking enables you to earn **alpha. ** (Alpha is a return on investment that goes far beyond normal increases in the crypto market index). Ankr Earn can connect you to the best ways to earn more crypto by staking, arbitrage trading, yield farming, and much more.",
+      "question-1": "What is Polygon (MATIC) liquid staking?",
+      "answer-1": "Polygon Liquid Staking offers instant liquidity for your staked MATIC. When you stake MATIC, you will mint and claim aMATICb tokens. These new tokens can be used with DeFi platforms to earn additional layers of rewards.",
       "question-2": "What is the minimum amount of MATIC I can stake?",
-      "answer-2": "{value} MATIC",
-      "question-3": "If I unstake is there a lead time required for this to happen or is it immediate?",
-      "answer-3": "Approx 9 days (80 checkpoints)",
-      "question-4": "How soon after staking will I begin to receive rewards?",
-      "answer-4": "aMATICb will increase with every rebase, rebase occurs daily.",
-      "question-5": "How do I receive rewards?",
-      "answer-5": "A rebase runs daily and rewards are received each time this runs. You will receive these rewards provided you hold aMATICb in your wallet.",
-      "question-6": "What determines the amount of reward I receive each rebase?",
-      "answer-6": "It depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (indirect cost for aMATICb holders).",
-      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc?",
-      "answer-7": "Yes - there’s a user guide you can find here: \nhttps://docs.ankr.com/earn/liquid-staking/polygon"
+      "answer-2": "The minimum amount you can stake is {value} MATIC.",
+      "question-3": "How soon after staking will I begin to receive rewards?",
+      "answer-3": "Your aMATICb balance will increase daily with every rebase. This rebase reflects the staking rewards you have earned for the period.",
+      "question-4": "How do I receive rewards?",
+      "answer-4": "The aMATICb tokens you keep in your wallet will gradually increase in quantity to reflect the staking rewards you earn. This happens daily with a process called “rebasing” (adjusting the supply of tokens) to deliver your appropriate staking rewards.",
+      "question-5": "What determines the amount of reward I receive with each rebase?",
+      "answer-5": "This depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
+      "question-6": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
+      "answer-6": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction.",
+      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
+      "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
     }
   },
   "unstake-dialog": {
@@ -286,13 +304,23 @@
     "amount": "{value}%"
   },
   "dashboard": {
-    "title": "My staking portfolio",
+    "title": "Stakable tokens",
     "balance": "Estimated balance",
-    "assets": "Staking assets",
-    "pending": "Pending {value} {token}",
+    "assets": "Staked tokens",
+    "pending": "Unstaking in progress {value} {token}",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
-    "stake": "Stake"
+    "stake": "Stake",
+    "copy": "Copy contract address",
+    "copied": "Copied!",
+    "stake-tooltip": "Stake",
+    "stake-loading": "Stake in progress",
+    "unstake-tooltip": "Unstake",
+    "stakable-portfolio": "My stakable portfolio",
+    "wallet-balance": "{value} {token}",
+    "stakable-asset-apy": "APY: {value}%",
+    "stakable-asset-stake": "Stake {token}",
+    "networks": "in {value} networks"
   },
   "features": {
     "polygon": "Polygon (MATIC)",

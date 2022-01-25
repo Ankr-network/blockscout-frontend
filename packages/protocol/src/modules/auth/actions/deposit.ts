@@ -12,6 +12,8 @@ import { throwIfError } from '../../api/utils/throwIfError';
 import { fetchEncryptionKey } from './fetchEncryptionKey';
 import { DepositStep, fetchDepositStatus } from './fetchDepositStatus';
 import { setDepositStatus } from './setDepositStatus';
+import { setCredentials } from 'modules/user/userSlice';
+import { tryToLogin } from '../utils/tryToLogin';
 
 const MAX_ATTEMPTS = 50;
 
@@ -109,9 +111,15 @@ export const deposit = createSmartAction<
 
       await store.dispatchRequest(setDepositStatus(DepositStep.login));
 
+      const credentials = await tryToLogin(service, address, key);
+
+      if (credentials) {
+        store.dispatch(setCredentials(credentials));
+      }
+
       return {
         address,
-        credentials: await service.loginAsUser(address, key),
+        credentials,
       } as IDeposit;
     },
   },

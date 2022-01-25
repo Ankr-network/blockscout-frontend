@@ -1,23 +1,33 @@
 import { Typography } from '@material-ui/core';
+import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
-import { Spinner } from 'ui/src/components/Spinner';
+import { ReactChild, ReactFragment } from 'react';
+import { Tooltip } from 'uiKit/Tooltip';
 import { usePendingStyles as useStyles } from './usePendingStyles';
 
 interface IPendingProps {
-  value: number;
+  value: string;
   token: string;
+  tooltip?: boolean | ReactChild | ReactFragment;
 }
 
-export const Pending = ({ value, token }: IPendingProps) => {
+export const Pending = ({ value, token, tooltip }: IPendingProps) => {
   const classes = useStyles();
+  const hasTooltip = !!tooltip;
 
-  return (
-    <div className={classes.root}>
-      <Spinner centered={false} size={14} />
+  const renderedPending = (
+    <Typography
+      className={classNames(classes.root, hasTooltip && classes.hoverable)}
+    >
+      {t('dashboard.pending', { value, token })}
+    </Typography>
+  );
 
-      <Typography className={classes.value}>
-        {t('dashboard.pending', { value, token })}
-      </Typography>
-    </div>
+  return hasTooltip ? (
+    <Tooltip arrow title={tooltip}>
+      {renderedPending}
+    </Tooltip>
+  ) : (
+    renderedPending
   );
 };

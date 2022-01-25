@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 import { deposit } from '../actions/deposit';
 import { disconnect } from '../actions/disconnect';
 import { addNetwork } from '../actions/addNetwork';
-import { DEFAULT_DEPOSIT } from '../conts';
+import { DEFAULT_DEPOSIT } from '../const';
 
 export function useAuth() {
   const dispatchRequest = useDispatchRequest();
