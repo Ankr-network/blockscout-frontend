@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { AppBase } from 'modules/layout/components/AppBase';
 import { ErrorBoundary } from 'modules/common/components/ErrorBoundary';
-import { isDev } from 'modules/common/utils/isProd';
 import { store } from './store';
 import { Routes } from './Routes';
 import packageJson from '../package.json';
