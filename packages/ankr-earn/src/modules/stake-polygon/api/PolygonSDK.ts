@@ -17,7 +17,7 @@ enum EPolygonPoolEvents {
   StakePending = 'StakePending',
 }
 
-enum EPolygonPoolEventsMap {
+export enum EPolygonPoolEventsMap {
   MaticClaimPending = 'STAKE_ACTION_UNSTAKED',
   StakePending = 'STAKE_ACTION_STAKED',
 }

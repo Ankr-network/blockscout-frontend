@@ -320,7 +320,8 @@
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value}%",
     "stakable-asset-stake": "Stake {token}",
-    "networks": "in {value} networks"
+    "networks": "in {value} networks",
+    "unstake-time": "~{days}d {hours}h {minutes}m"
   },
   "features": {
     "polygon": "Polygon (MATIC)",
