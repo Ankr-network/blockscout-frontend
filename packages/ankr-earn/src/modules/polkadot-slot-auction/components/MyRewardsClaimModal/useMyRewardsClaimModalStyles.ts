@@ -30,12 +30,17 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
     },
 
     titleArea: {
-      margin: theme.spacing(0, 0, '38px', 0),
+      margin: theme.spacing(0, 0, '23px', 0),
       textAlign: 'center',
     },
     titleSuccessArea: {
       marginRight: theme.spacing(9),
       marginLeft: theme.spacing(9),
+    },
+    infoMsgArea: {
+      fontSize: 14,
+      fontWeight: 400,
+      textAlign: 'center',
     },
     selectFieldArea: {
       margin: theme.spacing(0, 0, '20px', 0),
@@ -84,7 +89,7 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
       },
     },
     inputFieldArea: {
-      margin: theme.spacing('20px', 0, 0, 0),
+      margin: theme.spacing('30px', 0, 0, 0),
     },
     inputFieldLabelArea: {
       display: 'flex',
@@ -93,7 +98,18 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
       alignItems: 'center',
       margin: theme.spacing(0, 0, 2, 0),
     },
-    inputFieldTooltipTitleArea: {},
+    hintEthArea: {
+      display: 'inline-flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      margin: theme.spacing(3, 0, '18px', 0),
+      fontSize: 14,
+      fontWeight: 400,
+    },
+    hintEthSuccessArea: {
+      margin: theme.spacing('40px', 0, 0, 0),
+    },
     messageArea: {
       fontWeight: 'normal',
       textAlign: 'center',
@@ -130,18 +146,6 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
     inputFieldLabel: {
       fontWeight: 'bold',
     },
-    inputFieldTooltip: {
-      margin: theme.spacing('-2px', 0, 0, '6px'),
-      padding: 0,
-      border: 'none',
-    },
-    inputFieldTooltipRow: {
-      margin: theme.spacing(0, 0, 1, 0),
-
-      '&:last-child': {
-        margin: 0,
-      },
-    },
     inputField: {
       width: '100%',
 
@@ -156,6 +160,15 @@ export const useMyRewardsClaimModalStyles = makeStyles<Theme>(
         minHeight: 46,
       },
     },
+
+    hintEthSplitter: {
+      display: 'inline-block',
+      width: 'auto',
+      height: 22,
+      margin: theme.spacing(0, 1, 0, 0),
+      borderLeft: `2px solid ${theme.palette.primary.main}`,
+    },
+    hintEthTxt: {},
 
     actionBtn: {},
     actionSuccessBtn: {

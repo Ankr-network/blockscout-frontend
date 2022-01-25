@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, Typography } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
@@ -19,7 +19,6 @@ import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { InputField } from 'uiKit/InputField';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
@@ -117,6 +116,12 @@ export const MyRewardsClaimModal = () => {
         <QueryLoadingCentered />
       ) : (
         <>
+          <Typography className={classes.infoMsgArea} variant="body2">
+            {t(
+              'polkadot-slot-auction.my-rewards-claim-modal.select-section.info-message',
+            )}
+          </Typography>
+
           {!IS_FOR_QUICK_RELEASE && (
             <>
               <div className={classes.selectFieldArea}>
@@ -172,41 +177,6 @@ export const MyRewardsClaimModal = () => {
                           'polkadot-slot-auction.my-rewards-claim-modal.select-section.external-wallet',
                         )}
                       </Typography>
-
-                      {isETHProject && (
-                        <Tooltip
-                          className={classes.inputFieldTooltip}
-                          title={
-                            <div className={classes.inputFieldTooltipTitleArea}>
-                              <div className={classes.inputFieldTooltipRow}>
-                                {t(
-                                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltips.eth-claim',
-                                  {
-                                    rewardTokenName:
-                                      crowdloan?.rewardTokenName ?? '',
-                                  },
-                                )}
-                              </div>
-
-                              <div className={classes.inputFieldTooltipRow}>
-                                {t(
-                                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.tooltips.eth-add-network',
-                                  {
-                                    rewardTokenName:
-                                      crowdloan?.rewardTokenName ?? '',
-                                    rewardTokenSymbol:
-                                      crowdloan?.rewardTokenSymbol ?? '',
-                                  },
-                                )}
-                              </div>
-                            </div>
-                          }
-                        >
-                          <IconButton>
-                            <QuestionIcon size="xs" />
-                          </IconButton>
-                        </Tooltip>
-                      )}
                     </div>
 
                     <InputField
@@ -218,6 +188,21 @@ export const MyRewardsClaimModal = () => {
                 )}
               </Field>
             </div>
+          )}
+
+          {isETHProject && (
+            <Typography className={classes.hintEthArea} variant="body2">
+              <span className={classes.hintEthSplitter} />
+
+              <span className={classes.hintEthTxt}>
+                {t(
+                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-eth',
+                  {
+                    rewardTokenName: crowdloan?.rewardTokenName ?? '',
+                  },
+                )}
+              </span>
+            </Typography>
           )}
 
           <div className={classes.actionArea}>
@@ -350,9 +335,6 @@ export const MyRewardsClaimModal = () => {
             <Typography className={classes.messageArea} variant="h5">
               {t(
                 'polkadot-slot-auction.my-rewards-claim-modal.success-section.message',
-                {
-                  rewardTokenName: crowdloan?.rewardTokenName ?? '',
-                },
               )}
             </Typography>
 
@@ -374,6 +356,28 @@ export const MyRewardsClaimModal = () => {
                 </span>
               </NavLink>
             </div>
+
+            {isETHProject && (
+              <Typography
+                className={classNames(
+                  classes.hintEthArea,
+                  classes.hintEthSuccessArea,
+                )}
+                variant="body2"
+              >
+                <span className={classes.hintEthSplitter} />
+
+                <span className={classes.hintEthTxt}>
+                  {t(
+                    'polkadot-slot-auction.my-rewards-claim-modal.success-section.hint-eth',
+                    {
+                      rewardTokenName: crowdloan?.rewardTokenName ?? '',
+                      rewardTokenSymbol: crowdloan?.rewardTokenSymbol ?? '',
+                    },
+                  )}
+                </span>
+              </Typography>
+            )}
           </div>
         )}
       </div>
