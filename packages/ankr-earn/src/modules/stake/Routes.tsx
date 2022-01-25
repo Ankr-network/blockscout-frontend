@@ -7,7 +7,7 @@ import { generatePath } from 'react-router';
 import { Route } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${EARN_PATH}/stake`;
+const ROOT = `${EARN_PATH}stake/`;
 
 export const RoutesConfig = createRouteConfig(
   {

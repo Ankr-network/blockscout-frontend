@@ -349,9 +349,8 @@ export const lesson1: LessonType = {
 
 export const lesson2: LessonType = {
   id: 'lesson2',
-  nextLessonId: 'lesson1',
   index: '2',
-  title: 'What Is DeFi?',
+  title: 'Lesson 2',
   timeToRead: '5 min read',
   imgPreview: imgPreviewLesson2,
   blocks: [
@@ -369,8 +368,14 @@ export const lesson2: LessonType = {
         {
           type: 'text',
           messagesList: [
-            'Now that you have some more details about how the traditional, centralized financial system operates, it’s time to introduce the financial system of the future and the one we’re currently trying to build: decentralized finance (or DeFi). “DeFi” is more than just a trendy tech company buzzword, and it’s about more than just cryptocurrency and blockchain technology. Yes, these technologies form the technological backbone of the DeFi space, but they’re more about the “how” than the “why” of DeFi. At its core, the ethos of DeFi is about giving power back to the people. It entails a process of decentralizing the current financial system that is dominated by banks, governments, and monetary policies that benefit big businesses over individuals.',
-            'Simply put, the DeFi movement is trying to facilitate the exact same financial services you know and use today — like banking, borrowing and lending, trading, investing, and earning interest, among others — and streamlining these services by removing the legacy players and unnecessary middlemen. DeFi relies on some innovative technologies like blockchain to eliminate the need for expensive, slow, and inefficient middlemen that take their cut every time you use a financial service. By reducing overhead and making these financial services more efficient, they become more accessible, cheaper, and quicker than ever before. And without paying the centralized middlemen, there’s more money leftover on the table for you, the individual user.',
+            'Now that you have some <b>more details</b> about how the <i>traditional</i> metamask.io, https://fb.com \n\n\n #centralized <ul> <li>1</li> <li>2</li> </ul> <ol> <li>1</li> <li>2</li> </ol>financial system operates, it’s time to introduce the financial system of the #future and the one we’re <i>currently</i> trying to build: decentralized finance (or DeFi). “DeFi” is more than just a trendy tech company buzzword, and it’s about more than just cryptocurrency and blockchain technology. Yes, these technologies form the technological backbone of the DeFi space, but they’re more about the “how” than the “why” of DeFi. At its core, the ethos of DeFi is about giving power back to the people. It entails a process of decentralizing the current financial system that is dominated by banks, governments, and monetary policies that benefit big businesses over individuals.',
+          ],
+        },
+        {
+          type: 'markdown',
+          messagesList: [
+            'Now that you have Test tooltip and test tooltip for bitcoin but not bitcoins test tooltip some Coins Coin *more details* about how the **traditional** [metamask.io](https://metamask.io), https://fb.com centralized inside text',
+            "# A demo of `react-markdown`\n\n`react-markdown` is a markdown component for React.\n\n\uD83D\uDC49 Changes are re-rendered as you type.\n\n\uD83D\uDC48 Try writing some markdown on the left.\n\n## Overview\n\n* Follows [CommonMark](https://commonmark.org)\n* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)\n* Renders actual React elements instead of using `dangerouslySetInnerHTML`\n* Lets you define your own components (to render `MyHeading` instead of `h1`)\n* Has a lot of plugins\n\n## Table of contents\n\nHere is an example of a plugin in action\n([`remark-toc`](https://github.com/remarkjs/remark-toc)).\nThis section is replaced by an actual table of contents.\n\n## Syntax highlighting\n\nHere is an example of a plugin to highlight code:\n[`rehype-highlight`](https://github.com/rehypejs/rehype-highlight).\n\n```js\nimport React from 'react'\nimport ReactDOM from 'react-dom'\nimport ReactMarkdown from 'react-markdown'\nimport rehypeHighlight from 'rehype-highlight'\n\nReactDOM.render(\n  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,\n  document.querySelector('#content')\n)\n```\n\nPretty neat, eh?\n\n## GitHub flavored markdown (GFM)\n\nFor GFM, you can *also* use a plugin:\n[`remark-gfm`](https://github.com/remarkjs/react-markdown#use).\nIt adds support for GitHub-specific extensions to the language:\ntables, strikethrough, tasklists, and literal URLs.\n\nThese features **do not work by default**.\n\uD83D\uDC46 Use the toggle above to add the plugin.\n\n| Feature    | Support              |\n| ---------: | :------------------- |\n| CommonMark | 100%                 |\n| GFM        | 100% w/ `remark-gfm` |\n\n~~strikethrough~~\n\n* [ ] task list\n* [x] checked item\n\nhttps://example.com\n\n## HTML in markdown\n\n⚠️ HTML in markdown is quite unsafe, but if you want to support it, you can\nuse [`rehype-raw`](https://github.com/rehypejs/rehype-raw).\nYou should probably combine it with\n[`rehype-sanitize`](https://github.com/rehypejs/rehype-sanitize).\n\n<blockquote>\n  \uD83D\uDC46 Use the toggle above to add the plugin.\n</blockquote>\n\n## Components\n\nYou can pass components to change things:\n\n```js\nimport React from 'react'\nimport ReactDOM from 'react-dom'\nimport ReactMarkdown from 'react-markdown'\nimport MyFancyRule from './components/my-fancy-rule.js'\n\nReactDOM.render(\n  <ReactMarkdown\n    components={{\n      // Use h2s instead of h1s\n      h1: 'h2',\n      // Use a component instead of hrs\n      hr: ({node, ...props}) => <MyFancyRule {...props} />\n    }}\n  >\n    # Your markdown here\n  </ReactMarkdown>,\n  document.querySelector('#content')\n)\n```\n\n## More info?\n\nMuch more info is available in the\n[readme on GitHub](https://github.com/remarkjs/react-markdown)!\n\n***\n\nA component by [Espen Hovlandsdal](https://espen.codes/)",
           ],
         },
       ],
@@ -380,21 +385,101 @@ export const lesson2: LessonType = {
       },
     },
     {
+      id: '9',
+      blockContent: [
+        {
+          type: 'text',
+          messagesList: [
+            'Now that we’ve gotten all that technical stuff out of the way, we can dive more into this topic.',
+            'Bitcoin is often referred to as an “internet-native” currency with no physical representation. It is easy to send, receive, and store bitcoin online with blockchain technology. Although other cryptocurrencies are more commonly used to interact and participate in Web3 applications and DeFi, Bitcoin paved the way — Bitcoin walked so its successors could run.',
+            'And though bitcoin is not as widely used as other cryptocurrencies in Web3, bitcoin can still be wrapped to be deployed on, for example, Ethereum-based Web3 platforms.',
+          ],
+        },
+      ],
+      userAction: {
+        id: 'q2',
+        type: 'radio',
+        description: 'Question description (optional)',
+        question: 'Why is bitcoin considered a hedge against inflation?',
+        controls: [
+          {
+            isCorrect: false,
+            label: 'It is considered a volatile asset',
+            value: 'considered',
+          },
+          {
+            isCorrect: false,
+            label: 'It can be stored on a hard drive',
+            value: 'stored',
+          },
+          {
+            isCorrect: true,
+            label: 'It has a fixed supply and historically increases in value',
+            value: 'fixed',
+          },
+          {
+            isCorrect: false,
+            label: 'Governments are beginning to regulate digital assets',
+            value: 'governments',
+          },
+        ],
+        buttonText: 'But what makes Bitcoin and crypto valuable?',
+      },
+    },
+    {
+      id: '10',
+      blockContent: [
+        {
+          type: 'text',
+          messagesList: [
+            'We’ve touched on this a bit already, but the answer is the same thing that makes gold valuable. Besides its usefulness as a conductor, gold is no more useful than any other element. But due to its shiny and rare nature, we consider it to be extremely valuable. ',
+            'Bitcoin is the same because of its scarce maximum supply of 21,000,000 BTC. And, like gold, there is a labor-intensive process to “mine” it. So because it is scarce, requires work to mine, and fulfills all three uses of money, Bitcoin has tangible, real-world value. And there are plenty of other cryptocurrencies that provide even more benefits — as you’re likely aware — that we will get into in later courses.',
+          ],
+        },
+      ],
+      userAction: {
+        id: 'q3',
+        type: 'checkbox',
+        description: 'Question description (optional)',
+        question: 'Why is bitcoin valuable?',
+        controls: [
+          {
+            isCorrect: true,
+            label: 'It is rare',
+            value: 'rare',
+          },
+          {
+            isCorrect: true,
+            label: 'It has a fixed supply',
+            value: 'fixed',
+          },
+          {
+            isCorrect: false,
+            label: 'It fulfills all traditional and new uses of currency',
+            value: 'currency',
+          },
+          {
+            isCorrect: false,
+            label: 'It requires intense labor to “mine”',
+            value: 'requires',
+          },
+          {
+            isCorrect: false,
+            label: 'All of the above',
+            value: 'all',
+          },
+        ],
+        buttonText: 'Okay. What now?',
+      },
+    },
+    {
       id: '12',
       blockContent: [
         {
           type: 'ankr',
           messagesList: [
-            'Hey there!',
-            'Welcome to the first Academy lesson.',
-            'Sometimes you may see a specialized highlighted words. Hover your cursor over it to see the definition.',
-          ],
-        },
-        {
-          type: 'text',
-          messagesList: [
-            'Now that you have some more details about how the traditional, centralized financial system operates, it’s time to introduce the financial system of the future and the one we’re currently trying to build: decentralized finance (or DeFi). “DeFi” is more than just a trendy tech company buzzword, and it’s about more than just cryptocurrency and blockchain technology. Yes, these technologies form the technological backbone of the DeFi space, but they’re more about the “how” than the “why” of DeFi. At its core, the ethos of DeFi is about giving power back to the people. It entails a process of decentralizing the current financial system that is dominated by banks, governments, and monetary policies that benefit big businesses over individuals.',
-            'Simply put, the DeFi movement is trying to facilitate the exact same financial services you know and use today — like banking, borrowing and lending, trading, investing, and earning interest, among others — and streamlining these services by removing the legacy players and unnecessary middlemen. DeFi relies on some innovative technologies like blockchain to eliminate the need for expensive, slow, and inefficient middlemen that take their cut every time you use a financial service. By reducing overhead and making these financial services more efficient, they become more accessible, cheaper, and quicker than ever before. And without paying the centralized middlemen, there’s more money leftover on the table for you, the individual user.',
+            'You passed all lessons of the module.',
+            'Let`s check your knowledge',
           ],
         },
       ],
@@ -418,7 +503,7 @@ export const exam1: ExamType = {
         {
           type: 'ankr',
           messagesList: [
-            'Time to check your knowladge. Give 13 of 15 to unlock your NFT.',
+            'Time to check your knowledge. Give 13 of 15 to unlock your NFT.',
             'Good luck!',
           ],
         },
@@ -495,30 +580,6 @@ export const exam1: ExamType = {
             id: 'm1_q3',
             type: 'radio',
             question: 'Q3',
-            controls: [
-              {
-                isCorrect: false,
-                label: 'Store of value',
-                value: 'store',
-              },
-              {
-                isCorrect: false,
-                label: 'Unit of account',
-                value: 'unit',
-              },
-              {
-                isCorrect: true,
-                label: 'Medium of exchange',
-                value: 'exchange',
-              },
-            ],
-          },
-          {
-            id: 'm1_q4',
-            type: 'radio',
-            description: 'Question description (optional)',
-            question:
-              'If you paid for your ice cream with bitcoin in El Salvador, this would be an example of bitcoin as what?',
             controls: [
               {
                 isCorrect: false,

@@ -1,0 +1,22 @@
+{
+  "centralized": {
+    "id": "centralized",
+    "value": "**Bitcoin** — The world’s first widely-adopted cryptocurrency. With Bitcoin, people can securely and directly send each other digital money on the internet. (300 Character Max)"
+  },
+  "future": {
+    "id": "future",
+    "value": "Data for future glossary content"
+  },
+  "test tooltip": {
+    "id": "testTooltip",
+    "value": "test tooltip data"
+  },
+  "coin": {
+    "id": "coin",
+    "value": "**Coin** tooltip but not *bitcoin*"
+  },
+  "bitcoin": {
+    "id": "bitcoin",
+    "value": "**Bitcoin** — The world’s first widely-adopted cryptocurrency. With Bitcoin, people can securely and directly send each other digital money on the internet. (300 Character Max)"
+  }
+}

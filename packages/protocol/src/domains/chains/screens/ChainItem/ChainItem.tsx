@@ -19,7 +19,7 @@ interface IChainItemUIProps {
 }
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
-  const { credentials } = useAuth();
+  const { credentials, loading: authLoading } = useAuth();
   const classes = useStyles();
 
   useChainItemBreadcrumbs(data.chain.name);
@@ -46,6 +46,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         hasCredentials={Boolean(credentials)}
         icon={chain.icon}
         nodes={nodes}
+        loading={authLoading}
       />
 
       {error ? (

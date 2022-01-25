@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { ExamQuestions } from 'domains/library/types';
 import {
   UserActionRadioDelayed,
@@ -75,13 +75,15 @@ export const ExamQuestionsWrapper = ({
         }
       })}
 
-      <Button
-        disabled={!isUserAnsweredAllQuestions}
-        onClick={handleSubmit}
-        color="secondary"
-      >
-        Check answers
-      </Button>
+      {!isSubmitted && (
+        <Button
+          disabled={!isUserAnsweredAllQuestions}
+          onClick={handleSubmit}
+          color="secondary"
+        >
+          Check answers
+        </Button>
+      )}
 
       {isSubmitted && (
         <>
@@ -93,6 +95,17 @@ export const ExamQuestionsWrapper = ({
           <Typography variant="h3">
             Correct answers: {correctAnswersCount} / {questions.length}
           </Typography>
+
+          {!isUserPassedExam && (
+            <Box marginTop={3} display="flex" justifyContent="center">
+              <Button
+                color="secondary"
+                onClick={() => window.location.reload()}
+              >
+                retake the exam
+              </Button>
+            </Box>
+          )}
         </>
       )}
     </>

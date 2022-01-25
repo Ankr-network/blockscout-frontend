@@ -9,10 +9,10 @@ import { generatePath, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${EARN_PATH}/boost`;
-const TRADING_COCKPIT_PATH = `${ROOT}/trade`;
+const ROOT = `${EARN_PATH}boost/`;
+const TRADING_COCKPIT_PATH = `${ROOT}trade/`;
 const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
-const LIQUIDITY_MINING_PATH = `${ROOT}/liquidity-mining`;
+const LIQUIDITY_MINING_PATH = `${ROOT}liquidity-mining/`;
 
 export const RoutesConfig = createRouteConfig(
   {

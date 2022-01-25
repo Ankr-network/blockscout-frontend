@@ -7,7 +7,7 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
-const ROOT = `${EARN_PATH}/dashboard`;
+const ROOT = `${EARN_PATH}dashboard/`;
 
 const Dashboard = loadable(
   async () => import('./screens/Dashboard').then(module => module.Dashboard),

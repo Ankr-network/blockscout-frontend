@@ -8,17 +8,34 @@ import {
   web3FromAddress,
 } from '@polkadot/extension-dapp';
 /* eslint-disable import/no-extraneous-dependencies */
+import { encodeAddress } from '@polkadot/keyring';
+/* eslint-enable import/no-extraneous-dependencies */
 import { GenericExtrinsic } from '@polkadot/types/extrinsic';
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { ISubmittableResult } from '@polkadot/types/types/extrinsic';
+import { hexToU8a, isHex } from '@polkadot/util';
 import { blake2AsHex, decodeAddress } from '@polkadot/util-crypto';
-/* eslint-enable import/no-extraneous-dependencies */
 import BigNumber from 'bignumber.js';
 import { TNetworkType } from './entity';
 
 export class PolkadotProvider {
   static isSupported(): boolean {
     return isWeb3Injected;
+  }
+
+  static isValidAddress(address: string): boolean {
+    /**
+     *  Note: https://polkadot.js.org/docs/util-crypto/examples/validate-address/
+     */
+    try {
+      encodeAddress(
+        isHex(address) ? hexToU8a(address) : decodeAddress(address),
+      );
+
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   static web3FromAddress(address: string) {

@@ -8,20 +8,16 @@ import { uid } from 'react-uid';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoading } from 'uiKit/QueryLoading';
-import { isMainnet } from '../../../common/const';
-import { BlockchainNetworkId } from '../../../common/types';
 import { initialize } from '../../actions/initialize';
 import { GuardComponent } from '../../components/GuardComponent';
 import { MyRewards } from '../../components/MyRewards';
 import { NetworkSwitcher } from '../../components/NetworkSwitcher';
 import { ProjectsList } from '../../components/ProjectsList';
-import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
+import { validETHChainId } from '../../const';
 import { usePolkadotSlotAuctionStyles } from './usePolkadotSlotAuctionStyles';
 
 export const PolkadotSlotAuction = () => {
   const classes = usePolkadotSlotAuctionStyles();
-
-  const { isConnected } = useSlotAuctionSdk();
 
   const projectsListText = t('polkadot-slot-auction.tabs.projects-list');
   const myRewardsText = t('polkadot-slot-auction.tabs.my-rewards');
@@ -29,10 +25,6 @@ export const PolkadotSlotAuction = () => {
   const [currentTab, setCurrentTab] = useState<string>(projectsListText);
 
   const tabs: string[] = Object.values([projectsListText, myRewardsText]);
-
-  if (!isConnected) {
-    tabs.splice(1, 2);
-  }
 
   const handleChangeTab = (newTab: string) => (): void => setCurrentTab(newTab);
 
@@ -87,11 +79,7 @@ export const PolkadotSlotAuction = () => {
 
             {currentTab === myRewardsText ? (
               <GuardComponent
-                availableNetworks={[
-                  isMainnet
-                    ? BlockchainNetworkId.mainnet
-                    : BlockchainNetworkId.goerli,
-                ]}
+                availableNetworks={[validETHChainId]}
                 componentSlot={<MyRewards />}
               />
             ) : (
