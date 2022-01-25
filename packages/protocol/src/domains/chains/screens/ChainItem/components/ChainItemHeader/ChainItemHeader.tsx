@@ -6,7 +6,6 @@ import { INodeEntity } from '@ankr.com/multirpc';
 
 import { Preloader } from 'uiKit/Preloader';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
@@ -17,6 +16,7 @@ import { PrivateHeader } from './PrivateHeader';
 import { PlanRoutesConfig } from '../../../../../plan/Routes';
 import { useStyles } from './ChainItemHeaderStyles';
 import { MainInfo } from './MainInfo';
+import { RpcLinks } from './RpcLinks';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -54,29 +54,8 @@ export const ChainItemHeader = ({
           />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
-
         <div className={classes.right}>
-          {rpcLinks.map(link => {
-            return (
-              <React.Fragment key={link}>
-                <Typography
-                  variant="body2"
-                  className={classNames(classes.text, classes.textPublic)}
-                >
-                  {t('chain-item.header.right')}
-                </Typography>
-
-                <CopyToClipIcon
-                  text={link}
-                  message={t('common.copy-message')}
-                  copyText={t('common.copy-text')}
-                  size="l"
-                  textColor="textPrimary"
-                  className={classes.copyToClip}
-                />
-              </React.Fragment>
-            );
-          })}
+          <RpcLinks rpcLinks={rpcLinks} />
         </div>
       </div>
       {loading ? (
