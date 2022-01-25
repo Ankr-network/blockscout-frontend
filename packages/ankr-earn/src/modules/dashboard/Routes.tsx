@@ -1,12 +1,13 @@
 import loadable from '@loadable/component';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { EARN_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
-const ROOT = `/dashboard`;
+const ROOT = `${EARN_PATH}dashboard/`;
 
 const Dashboard = loadable(
   async () => import('./screens/Dashboard').then(module => module.Dashboard),

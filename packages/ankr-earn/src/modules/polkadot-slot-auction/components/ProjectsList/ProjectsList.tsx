@@ -30,6 +30,7 @@ import {
 } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { RoutesConfig } from '../../Routes';
+import { ConnectTooltip } from '../ConnectTooltip';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
 import { useProjectsListStyles } from './useProjectsListStyles';
@@ -148,6 +149,8 @@ export const ProjectsList = () => {
                 item.bondTokenContract === ZERO_ADDR ||
                 !(balanceItem?.claimable instanceof BigNumber) ||
                 balanceItem.claimable.isZero();
+              const isShowConnectTooltip: boolean =
+                (isContributeBtn || isClaimBtn) && !isConnected;
 
               const providedBalance: BigNumber =
                 balanceItem?.claimable ?? new BigNumber(0);
@@ -190,58 +193,64 @@ export const ProjectsList = () => {
                   </TableBodyCell>
 
                   <TableBodyCell align="right" label={captions[3].label}>
-                    {isContributeBtn && (
-                      <Button
-                        className={classes.button}
-                        color="default"
-                        disabled={isDisabledContributeBtn}
-                        onClick={handleContributeBtn(loanId, projectName)}
-                        variant="outlined"
-                        fullWidth
-                      >
-                        {!providedBalance.isZero() ? (
-                          <>
-                            <span>
-                              {t('polkadot-slot-auction.button.provided', {
-                                value: providedBalance,
-                                currency: networkType,
-                              })}
-                            </span>
+                    <div className={classes.buttonCol}>
+                      {isContributeBtn && (
+                        <Button
+                          className={classes.button}
+                          color="default"
+                          disabled={isDisabledContributeBtn}
+                          onClick={handleContributeBtn(loanId, projectName)}
+                          variant="outlined"
+                          fullWidth
+                        >
+                          {!providedBalance.isZero() ? (
+                            <>
+                              <span>
+                                {t('polkadot-slot-auction.button.provided', {
+                                  value: providedBalance,
+                                  currency: networkType,
+                                })}
+                              </span>
 
-                            <span className={classes.plus}>+</span>
-                          </>
-                        ) : (
-                          t('polkadot-slot-auction.button.contribute', {
-                            currency: networkType,
-                          })
-                        )}
-                      </Button>
-                    )}
-
-                    {isClaimBtn && (
-                      <Button
-                        className={classes.button}
-                        color="default"
-                        disabled={isDisabledClaimBtn}
-                        onClick={handleClaimBtn(loanId)}
-                        variant="outlined"
-                        fullWidth
-                      >
-                        {balanceItem?.claimable instanceof BigNumber &&
-                        !balanceItem.claimable.isZero()
-                          ? t('polkadot-slot-auction.button.claim-tokens', {
-                              value: balanceItem.claimable
-                                .decimalPlaces(DEFAULT_FIXED)
-                                .toString(10),
-                              currency: bondTokenSymbol,
+                              <span className={classes.plus}>+</span>
+                            </>
+                          ) : (
+                            t('polkadot-slot-auction.button.contribute', {
+                              currency: networkType,
                             })
-                          : t('polkadot-slot-auction.button.claim', {
-                              currency: bondTokenSymbol,
-                            })}
+                          )}
+                        </Button>
+                      )}
 
-                        {loading && <QueryLoading size={40} />}
-                      </Button>
-                    )}
+                      {isClaimBtn && (
+                        <Button
+                          className={classes.button}
+                          color="default"
+                          disabled={isDisabledClaimBtn}
+                          onClick={handleClaimBtn(loanId)}
+                          variant="outlined"
+                          fullWidth
+                        >
+                          {balanceItem?.claimable instanceof BigNumber &&
+                          !balanceItem.claimable.isZero()
+                            ? t('polkadot-slot-auction.button.claim-tokens', {
+                                value: balanceItem.claimable
+                                  .decimalPlaces(DEFAULT_FIXED)
+                                  .toString(10),
+                                currency: bondTokenSymbol,
+                              })
+                            : t('polkadot-slot-auction.button.claim', {
+                                currency: bondTokenSymbol,
+                              })}
+
+                          {loading && <QueryLoading size={40} />}
+                        </Button>
+                      )}
+
+                      {isShowConnectTooltip && (
+                        <ConnectTooltip rootClass={classes.connectTooltip} />
+                      )}
+                    </div>
                   </TableBodyCell>
                 </TableRow>
               );

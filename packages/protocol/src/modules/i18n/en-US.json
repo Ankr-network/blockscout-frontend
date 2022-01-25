@@ -195,14 +195,14 @@
       "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
       "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
       "3": "Thank you! Operation will take 2-4 minutes.",
-      "4": "You’re Premium Member!"
+      "4": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
     },
     "step-notice": {
       "0": "To enable Ankr to securely enable your deposit.",
       "1": "So we could take your deposit.",
       "2": "Operation will take a while (2-4 min).",
       "3": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
-      "4": "So we could sign you in safely."
+      "4": "The last step in&nbsp;your sign in&nbsp;process."
     },
     "next": "Next"
   },

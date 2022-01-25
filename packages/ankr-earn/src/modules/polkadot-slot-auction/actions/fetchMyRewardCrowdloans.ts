@@ -5,6 +5,7 @@ import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+import { setErrorMsg } from '../utils/setError';
 
 type TFetchMyRewardCrowdloansData = Array<IFetchMyRewardCrowdloansItem | void>;
 
@@ -141,6 +142,8 @@ export const fetchMyRewardCrowdloans = createAction<
         error.message = currMsg.includes('Error: ')
           ? currMsg
           : `Error: ${currMsg}`;
+
+        error.message = setErrorMsg(error.message);
 
         throw error;
       },

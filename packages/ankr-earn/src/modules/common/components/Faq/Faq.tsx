@@ -29,9 +29,11 @@ export const Faq = ({ data }: IFaq) => {
         aria-controls={`${i}-faq-content`}
         id={`${i}-faq-header`}
       >
-        {t(el.question)}
+        {el.question}
       </AccordionSummary>
-      <AccordionDetails>{t(el.answer)}</AccordionDetails>
+      <AccordionDetails className={classes.answer}>
+        {el.answer}
+      </AccordionDetails>
     </Accordion>
   ));
 

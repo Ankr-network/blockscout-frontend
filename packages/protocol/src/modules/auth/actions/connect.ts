@@ -11,13 +11,14 @@ import { throwIfError } from '../../api/utils/throwIfError';
 import { fetchDepositStatus } from './fetchDepositStatus';
 import { hasMetamask } from '../utils/hasMetamask';
 import { selectCredentials, setCredentials } from 'modules/user/userSlice';
-
-const PROVIDER_ERROR_USER_DENIED = 4001;
+import { tryToLogin } from '../utils/tryToLogin';
 
 interface IConnect {
   address: Web3Address;
   credentials?: IJwtToken;
 }
+
+const timeout = () => new Promise(res => setTimeout(res, 300));
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
@@ -31,6 +32,10 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         }
 
         await service.getKeyProvider().connect(await injectWeb3Modal());
+
+        // TODO: try to avoid this timeout in the future PROTOCOL-244
+        await timeout();
+
         const address = service.getKeyProvider().currentAccount();
 
         const cachedCredentials = selectCredentials(store.getState());
@@ -46,17 +51,7 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           data: { key },
         } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
 
-        const credentials = await (async function tryToLogin() {
-          try {
-            return await service.loginAsUser(address, key);
-          } catch (error: any) {
-            if (error.code === PROVIDER_ERROR_USER_DENIED) {
-              throw error;
-            }
-
-            return undefined;
-          }
-        })();
+        const credentials = await tryToLogin(service, address, key);
 
         if (credentials) {
           store.dispatch(setCredentials(credentials));

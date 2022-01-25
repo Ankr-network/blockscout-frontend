@@ -84,4 +84,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.default,
     cursor: 'pointer',
   },
+  preloaderWrapper: {
+    minHeight: 120,
+    position: 'relative',
+  },
 }));

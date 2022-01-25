@@ -2,6 +2,10 @@ import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
 export const useModuleEntityBlockStyles = makeStyles<Theme>(theme => ({
+  blockWrapper: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(6),
+  },
   imgMessage: {
     display: 'block',
     maxWidth: '100%',
