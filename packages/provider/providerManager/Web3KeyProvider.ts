@@ -30,6 +30,13 @@ export interface IWeb3SendResult {
   rawTransaction: string;
 }
 
+export interface ITokenInfo {
+  address: string;
+  symbol?: string;
+  decimals?: number;
+  image?: string;
+}
+
 export abstract class Web3KeyProvider {
   protected accounts: string[] = [];
 
@@ -373,5 +380,26 @@ export abstract class Web3KeyProvider {
     console.log(`Raw transaction hex is: `, rawTxHex);
 
     return rawTxHex;
+  }
+
+  public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    const provider = this.provider as AbstractProvider;
+
+    const isProviderHasRequest =
+      !!provider && typeof provider.request === 'function';
+
+    if (!isProviderHasRequest) {
+      throw new Error('This provider does not support the adding new tokens');
+    }
+
+    return provider
+      .request({
+        method: 'metamask_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: tokenInfo,
+        },
+      })
+      .catch();
   }
 }

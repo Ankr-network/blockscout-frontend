@@ -4,6 +4,7 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { Token } from 'modules/common/types/token';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
 import { POLYGON_PROVIDER_ID } from '../const';
@@ -433,5 +434,17 @@ export class PolygonSDK {
       .send({
         from: currentAccount,
       });
+  }
+
+  public async addAmaticbToWallet() {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+    const amaticbContract = configFromEnv().contractConfig.aMaticbToken;
+
+    await provider.addTokenToWallet({
+      address: amaticbContract,
+      symbol: Token.aMATICb,
+      decimals: 18,
+    });
   }
 }

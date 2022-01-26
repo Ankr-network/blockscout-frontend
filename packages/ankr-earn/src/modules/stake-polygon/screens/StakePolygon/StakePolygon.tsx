@@ -28,8 +28,13 @@ import { useStakePolygonStyles } from './useStakePolygonStyles';
 export const StakePolygon = () => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
-  const { token, onSuccessOpen, onSuccessClose, isSuccessOpened } =
-    useSuccessDialog();
+  const {
+    token,
+    onAddTokenClick,
+    onSuccessOpen,
+    onSuccessClose,
+    isSuccessOpened,
+  } = useSuccessDialog();
 
   const { amount, handleFormChange, handleSubmit, isStakeLoading } =
     useStakeForm({
@@ -101,7 +106,7 @@ export const StakePolygon = () => {
               isOpened={isSuccessOpened}
               onClose={onSuccessClose}
               token={token}
-              onAddTokenClick={undefined}
+              onAddTokenClick={onAddTokenClick}
             />
           </StakeContainer>
         </section>
