@@ -86,7 +86,7 @@ export const StakePolygon = () => {
               isOpened={isSuccessOpened}
               onClose={onSuccessClose}
               token={token}
-              onAddTokenClick={onAddTokenClick}
+              onAddTokenClick={undefined}
             />
           </StakeContainer>
         </section>

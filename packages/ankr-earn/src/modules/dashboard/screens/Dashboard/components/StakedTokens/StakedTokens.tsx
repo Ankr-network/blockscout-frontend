@@ -1,4 +1,8 @@
 import { Typography } from '@material-ui/core';
+import {
+  HistoryDialog,
+  HistoryDialogData,
+} from 'modules/common/components/HistoryDialog';
 import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
@@ -6,21 +10,17 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { t } from 'modules/i18n/utils/intl';
+import { useState } from 'react';
 import { useMaticStakingAsset } from './useMaticStakingAsset';
 import { useMaticTxHistory } from './useMaticTxHistory';
-import { useTokensListStyles } from './useTokensListStyles';
-import {
-  HistoryDialog,
-  HistoryDialogData,
-} from 'modules/common/components/HistoryDialog';
-import { useState } from 'react';
+import { useStakedTokensStyles } from './useStakedTokensStyles';
 
 const SKELETONS_COUNT = 1;
 
 export const StakedTokens = () => {
   const aMATICbData = useMaticStakingAsset();
   const MATICTxHistory = useMaticTxHistory();
-  const classes = useTokensListStyles();
+  const classes = useStakedTokensStyles();
 
   const [historyDialogOpened, setHistoryDialogOpened] = useState(false);
   const [historyDialogData, setHistoryDialogData] = useState<HistoryDialogData>(
@@ -56,18 +56,14 @@ export const StakedTokens = () => {
       {isLoading ? (
         <AssetsList>
           {[...Array(SKELETONS_COUNT)].map((_, index) => (
-            <StakingAsset
-              openHistoryDialog={handleHistoryDialogOpenPolygon}
-              isLoading
-              key={index}
-            />
+            <StakingAsset isLoading key={index} />
           ))}
         </AssetsList>
       ) : (
         <AssetsList noChildrenSlot={<NoAssets />}>
           {showAMAITCb && (
             <StakingAsset
-              openHistoryDialog={handleHistoryDialogOpenPolygon}
+              onHistoryBtnClick={handleHistoryDialogOpenPolygon}
               pendingSlot={
                 !!aMATICbPendingValue && (
                   <Pending

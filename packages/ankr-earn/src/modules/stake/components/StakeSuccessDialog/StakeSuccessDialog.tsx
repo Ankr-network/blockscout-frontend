@@ -1,14 +1,11 @@
 import { Grid, Typography } from '@material-ui/core';
+import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
 import { useStakeSuccessDialogStyles } from './useStakeSuccessDialogStyles';
-
-// TODO: import proper dashboard route when dashboard routes is completed
-
-const dashboardHref = '/dashboard';
 
 export interface IStakeSuccessful {
   token: AvailableTokens;
@@ -38,7 +35,11 @@ export const StakeSuccessDialog = ({
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <NavLink variant="contained" fullWidth href={dashboardHref}>
+            <NavLink
+              variant="contained"
+              fullWidth
+              href={DashboardRoutes.dashboard.generatePath()}
+            >
               {t('stake.success.return')}
             </NavLink>
           </Grid>
