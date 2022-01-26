@@ -26,5 +26,9 @@ export const useNavItemStyles = makeStyles<Theme>(theme => ({
     '&:hover': {
       color: theme.palette.text.primary,
     },
+
+    '&:active': {
+      transform: 'none',
+    },
   },
 }));

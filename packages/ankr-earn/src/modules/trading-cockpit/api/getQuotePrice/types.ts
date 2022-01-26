@@ -51,6 +51,7 @@ type TPolygonExChange =
   | 'BalancerV2';
 
 type TAvalancheExChange =
+  | 'openoceanv2'
   | 'SushiSwap'
   | 'Pangolin'
   | 'TraderJoe'

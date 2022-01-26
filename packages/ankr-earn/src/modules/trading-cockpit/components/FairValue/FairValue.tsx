@@ -1,9 +1,10 @@
-import { ButtonBase, Tooltip, Typography } from '@material-ui/core';
+import { ButtonBase, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { Skeleton } from '@material-ui/lab';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { useFairValueStyles } from './useFairValueStyles';
 
 interface IFairValue {

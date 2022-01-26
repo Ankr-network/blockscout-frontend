@@ -1,6 +1,7 @@
-import { Box, Tooltip } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 import { NavLink } from 'uiKit/NavLink';
+import { Tooltip } from 'uiKit/Tooltip';
 import { useStakeBtnStyles } from './useStakeBtnStyles';
 
 interface IStakeBtnProps {
