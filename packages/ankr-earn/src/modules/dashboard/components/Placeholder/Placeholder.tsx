@@ -13,7 +13,9 @@ export const Placeholder = ({ title, btnSlot }: IPlaceholderProps) => {
 
   return (
     <Paper className={classes.root}>
-      <img src={PortfolioStartStaking} alt={title} />
+      <div className={classes.imgWrap}>
+        <img className={classes.img} src={PortfolioStartStaking} alt={title} />
+      </div>
 
       <Typography className={classes.title}>{title}</Typography>
 

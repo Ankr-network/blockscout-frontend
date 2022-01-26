@@ -340,5 +340,16 @@
     "disconnect": "Disconnect",
     "disconnect-all": "Disconnect all",
     "connected-wallets": "Connected wallets"
+  },
+  "history-dialog": {
+    "header": "Transactions History",
+    "date": "Date",
+    "amount": "Amount",
+    "staking": "Staking",
+    "unstaking": "Unstaking",
+    "date-cell": "{month} {day}, {year}",
+    "amount-cell": "{value} {token}",
+    "error-cell": "Error",
+    "empty": "There are no transactions"
   }
 }
