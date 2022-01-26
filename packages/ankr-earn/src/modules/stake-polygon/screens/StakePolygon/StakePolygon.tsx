@@ -1,3 +1,4 @@
+import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { Faq } from 'modules/common/components/Faq';
@@ -14,7 +15,9 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { fetchStats } from '../../actions/fetchStats';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -47,6 +50,7 @@ export const StakePolygon = () => {
 
   const renderStats = useCallback((amount: number) => {
     const isZeroAmount: boolean = amount === 0;
+
     return (
       <StakeDescriptionContainer>
         <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
@@ -55,6 +59,19 @@ export const StakePolygon = () => {
           {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
             value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
           })}
+          <Tooltip
+            title={
+              <div>
+                <div>{t('unit.matic-tooltip-title')}</div>
+                <br />
+                <div>{t('unit.matic-tooltip-body')}</div>
+              </div>
+            }
+          >
+            <ButtonBase className={classes.questionBtn}>
+              <QuestionIcon size="xs" className={classes.questionIcon} />
+            </ButtonBase>
+          </Tooltip>
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     );

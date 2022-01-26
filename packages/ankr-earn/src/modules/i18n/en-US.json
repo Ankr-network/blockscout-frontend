@@ -56,7 +56,9 @@
     "token-value": "{value, number} {token}",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
-    "ankr-value": "{value} ANKR"
+    "ankr-value": "{value} ANKR",
+    "matic-tooltip-title": "1 MATIC = 1 aMATICb",
+    "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period."
   },
   "chain": {
     "1": "Ethereum Mainnet",
@@ -243,8 +245,9 @@
     "btn-max": "Max",
     "faq-title": "FAQ",
     "stats": {
-      "apr": "APR",
-      "yearly-earning": "Yearly earning"
+      "apy": "APY",
+      "yearly-earning": "Yearly earning",
+      "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding."
     },
     "success": {
       "title": "Stake successful",
