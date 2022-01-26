@@ -19,6 +19,16 @@ const downscale = (
   return new BigNumber(value).dividedBy(10 ** decimals);
 };
 
+const getTokenDecimals = (tokenSymbol?: string): number => {
+  switch (tokenSymbol) {
+    case 'ACA':
+      return 12;
+
+    default:
+      return 18;
+  }
+};
+
 export class ContractManager {
   private readonly rewardPool: Contract;
 
@@ -156,12 +166,16 @@ export class ContractManager {
     );
   }
 
-  public async claimableRewardsOf(account?: string): Promise<BigNumber> {
+  public async claimableRewardsOf(
+    rewardTokenSymbol: string,
+    account?: string,
+  ): Promise<BigNumber> {
     if (!account) account = this.keyProvider.getCurrentAccount();
-    const rawRewardPayouts = await this.rewardPool.methods
+    const rawRewardPayouts: string = await this.rewardPool.methods
       .claimableRewardsOf(account)
       .call();
-    return downscale(rawRewardPayouts);
+    const tokenDecimals: number = getTokenDecimals(rewardTokenSymbol);
+    return downscale(rawRewardPayouts, tokenDecimals);
   }
 
   public async getRewardPoolSymbol(): Promise<string> {
