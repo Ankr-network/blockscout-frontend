@@ -111,10 +111,7 @@ export const MyRewards = () => {
                   item;
 
                 const isDisabledClaimBtn: boolean =
-                  // TODO Please update it after the release
-                  !isConnected ||
-                  !claimableRewardsAmount.isGreaterThan(0) ||
-                  item.rewardTokenName === 'Acala';
+                  !isConnected || !claimableRewardsAmount.isGreaterThan(0);
                 const isShowConnectTooltip: boolean = !isConnected;
 
                 const endDateVal: string = t('format.date', {
