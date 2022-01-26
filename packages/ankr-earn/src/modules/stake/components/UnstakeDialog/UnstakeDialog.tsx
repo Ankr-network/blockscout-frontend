@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
 import { AmountField } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';

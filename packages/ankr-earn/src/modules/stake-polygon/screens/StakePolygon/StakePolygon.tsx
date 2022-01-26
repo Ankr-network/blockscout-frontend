@@ -28,13 +28,8 @@ import { useStakePolygonStyles } from './useStakePolygonStyles';
 export const StakePolygon = () => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
-  const {
-    token,
-    onAddTokenClick,
-    onSuccessOpen,
-    onSuccessClose,
-    isSuccessOpened,
-  } = useSuccessDialog();
+  const { token, onSuccessOpen, onSuccessClose, isSuccessOpened } =
+    useSuccessDialog();
 
   const { amount, handleFormChange, handleSubmit, isStakeLoading } =
     useStakeForm({
@@ -48,34 +43,37 @@ export const StakePolygon = () => {
     dispatchRequest(fetchStats());
   });
 
-  const renderStats = useCallback((amount: number) => {
-    const isZeroAmount: boolean = amount === 0;
+  const renderStats = useCallback(
+    (amount: number) => {
+      const isZeroAmount: boolean = amount === 0;
 
-    return (
-      <StakeDescriptionContainer>
-        <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+      return (
+        <StakeDescriptionContainer>
+          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
-        <StakeDescriptionValue>
-          {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
-            value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
-          })}
-          <Tooltip
-            title={
-              <div>
-                <div>{t('unit.matic-tooltip-title')}</div>
-                <br />
-                <div>{t('unit.matic-tooltip-body')}</div>
-              </div>
-            }
-          >
-            <ButtonBase className={classes.questionBtn}>
-              <QuestionIcon size="xs" className={classes.questionIcon} />
-            </ButtonBase>
-          </Tooltip>
-        </StakeDescriptionValue>
-      </StakeDescriptionContainer>
-    );
-  }, []);
+          <StakeDescriptionValue>
+            {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
+              value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
+            })}
+            <Tooltip
+              title={
+                <div>
+                  <div>{t('unit.matic-tooltip-title')}</div>
+                  <br />
+                  <div>{t('unit.matic-tooltip-body')}</div>
+                </div>
+              }
+            >
+              <ButtonBase className={classes.questionBtn}>
+                <QuestionIcon size="xs" className={classes.questionIcon} />
+              </ButtonBase>
+            </Tooltip>
+          </StakeDescriptionValue>
+        </StakeDescriptionContainer>
+      );
+    },
+    [classes],
+  );
 
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>

@@ -9,10 +9,8 @@ export const useSuccessDialog = () => {
   } = useDialog();
 
   // todo: add Token on Click
-  const onAddTokenClick = () => null;
 
   return {
-    onAddTokenClick,
     onSuccessOpen,
     onSuccessClose,
     isSuccessOpened,
