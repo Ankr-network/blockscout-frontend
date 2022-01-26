@@ -40,5 +40,5 @@ export const featuresConfig = {
   liquidityMining: false,
   unstakingHistory: true,
   localeSwitcher: false,
-  onlyCrowdloans: true,
+  onlyCrowdloans: false,
 };
