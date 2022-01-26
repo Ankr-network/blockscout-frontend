@@ -303,7 +303,7 @@
     "unstake-fee": "Unstake Fee",
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
-    "amount": "{value}%"
+    "amount": "Amount"
   },
   "dashboard": {
     "title": "Stakable tokens",
