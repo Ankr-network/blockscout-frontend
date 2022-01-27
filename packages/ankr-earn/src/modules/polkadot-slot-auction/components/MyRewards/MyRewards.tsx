@@ -29,8 +29,6 @@ import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
 
-const ACALA_TOKEN_NAME = 'Acala';
-
 type CaptionType = {
   label: string;
 };
@@ -113,9 +111,7 @@ export const MyRewards = () => {
                   item;
 
                 const isDisabledClaimBtn: boolean =
-                  !isConnected ||
-                  !claimableRewardsAmount.isGreaterThan(0) ||
-                  item.rewardTokenName === ACALA_TOKEN_NAME;
+                  !isConnected || !claimableRewardsAmount.isGreaterThan(0);
                 const isShowConnectTooltip: boolean = !isConnected;
 
                 const endDateVal: string = t('format.date', {
