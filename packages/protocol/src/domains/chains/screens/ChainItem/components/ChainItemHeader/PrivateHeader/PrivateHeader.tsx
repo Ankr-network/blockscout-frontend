@@ -34,7 +34,7 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
       }
     >
       {({ data }) => {
-        const { rpcUrl, wsUrl, requests } = data;
+        const { rpcUrls, wsUrls, requests } = data;
 
         return (
           <div className={classes.root}>
@@ -55,7 +55,7 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
               </Button>
             </div>
             <div className={classes.bottom}>
-              {rpcUrl.map(item => {
+              {rpcUrls.map(item => {
                 return (
                   <CopyToClipIcon
                     text={item}
@@ -67,7 +67,7 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
                   />
                 );
               })}
-              {wsUrl.map(item => {
+              {wsUrls.map(item => {
                 return (
                   <CopyToClipIcon
                     text={item}

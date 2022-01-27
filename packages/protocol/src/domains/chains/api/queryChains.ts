@@ -16,8 +16,8 @@ export interface IApiChain {
   id: string;
   icon: string;
   name: string;
-  rpcUrl: string[];
-  wsUrl: string[];
+  rpcUrls: string[];
+  wsUrls: string[];
   requests?: number;
 }
 
@@ -37,8 +37,8 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
       id,
       icon: getChainIcon(id),
       name,
-      rpcUrl: rpcUrl ? [rpcUrl] : [],
-      wsUrl: wsUrl ? [wsUrl] : [],
+      rpcUrls: rpcUrl ? [rpcUrl] : [],
+      wsUrls: wsUrl ? [wsUrl] : [],
       requests,
       chainExtends,
     };
@@ -48,13 +48,13 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
   return mappedData
     .map(item => {
       if (item.chainExtends) {
-        const { rpcUrl, wsUrl } = item;
+        const { rpcUrls, wsUrls } = item;
 
         const chain = mappedData.find(el => el.id === item.chainExtends);
 
         if (chain) {
-          chain.rpcUrl = [...chain.rpcUrl, ...rpcUrl];
-          chain.wsUrl = [...chain.wsUrl, ...wsUrl];
+          chain.rpcUrls = [...chain.rpcUrls, ...rpcUrls];
+          chain.wsUrls = [...chain.wsUrls, ...wsUrls];
         }
 
         return null;
