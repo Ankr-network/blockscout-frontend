@@ -55,9 +55,11 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
         if (chain) {
           chain.rpcUrls = [...chain.rpcUrls, ...rpcUrls];
           chain.wsUrls = [...chain.wsUrls, ...wsUrls];
+
+          return null;
         }
 
-        return null;
+        return item;
       }
 
       return item;
