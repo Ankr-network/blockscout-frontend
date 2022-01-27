@@ -70,6 +70,10 @@
       "archived": "Archived",
       "archived-node-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
     },
+    "nervos": {
+      "eth-based": "For Ethereum-based and Polyjuice methods",
+      "godwoken-based": "For Godwoken and Polyjuice methods"
+    },
     "details": {
       "average-requests": "Average Requests/sec",
       "bandwidth": "Bandwidth",

@@ -8,9 +8,10 @@ import { useStyles } from './RpcLinksStyles';
 
 interface RpcLinksProps {
   rpcLinks: string[];
+  isNervos?: boolean;
 }
 
-export const RpcLinks = ({ rpcLinks }: RpcLinksProps) => {
+export const RpcLinks = ({ rpcLinks, isNervos }: RpcLinksProps) => {
   const classes = useStyles();
 
   return (
@@ -22,18 +23,33 @@ export const RpcLinks = ({ rpcLinks }: RpcLinksProps) => {
         {t('chain-item.header.right')}
       </Typography>
       <div className={classes.root}>
-        {rpcLinks.map(link => {
+        {rpcLinks.map((link, index) => {
           return (
-            <React.Fragment key={link}>
-              <CopyToClipIcon
-                text={link}
-                message={t('common.copy-message')}
-                copyText={t('common.copy-text')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
-            </React.Fragment>
+            <div className={classes.section} key={link}>
+              <div className={classes.link}>
+                <CopyToClipIcon
+                  text={link}
+                  message={t('common.copy-message')}
+                  copyText={t('common.copy-text')}
+                  size="l"
+                  textColor="textPrimary"
+                  className={classes.copyToClip}
+                />
+              </div>
+              {isNervos && (
+                <Typography
+                  variant="subtitle2"
+                  className={classes.label}
+                  color="textSecondary"
+                >
+                  {t(
+                    `chain-item.nervos.${
+                      index === 0 ? 'eth-based' : 'godwoken-based'
+                    }`,
+                  )}
+                </Typography>
+              )}
+            </div>
           );
         })}
       </div>

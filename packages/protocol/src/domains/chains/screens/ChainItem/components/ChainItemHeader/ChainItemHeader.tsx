@@ -36,6 +36,9 @@ export const ChainItemHeader = ({
 
   const [formattedChain] = formatChains([chain]);
   const { rpcLinks, name } = formattedChain;
+  const { id } = chain;
+
+  const isNervos = id === 'nervos';
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -50,7 +53,7 @@ export const ChainItemHeader = ({
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
         <div className={classes.right}>
-          <RpcLinks rpcLinks={rpcLinks} />
+          <RpcLinks rpcLinks={rpcLinks} isNervos={isNervos} />
         </div>
       </div>
       {loading ? (
