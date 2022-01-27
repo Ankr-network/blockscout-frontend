@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { t } from 'modules/i18n/utils/intl';
@@ -39,14 +39,25 @@ export const ChainsItem = ({
       />
       <div className={classes.bottom}>
         <div className={classes.links}>
-          {links.map(link => (
-            <CopyToClipIcon
-              text={link}
-              message={t('common.copy-message')}
-              key={link}
-              className={classes.copyItem}
-            />
-          ))}
+          {links.length <= 1 ? (
+            links.map(link => (
+              <CopyToClipIcon
+                text={link}
+                message={t('common.copy-message')}
+                key={link}
+                className={classes.copyItem}
+              />
+            ))
+          ) : (
+            <Typography
+              className={classes.dummy}
+              variant="body2"
+              noWrap
+              color="textSecondary"
+            >
+              {`${links.length} public links`}
+            </Typography>
+          )}
         </div>
         <div className={classes.buttonsWrapper}>
           <AddNetworkButton

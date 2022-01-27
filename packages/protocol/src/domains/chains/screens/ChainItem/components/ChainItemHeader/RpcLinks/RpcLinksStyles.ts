@@ -15,4 +15,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
       minWidth: 'auto',
     },
   },
+  root: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: theme.spacing(0, 2),
+  },
 }));

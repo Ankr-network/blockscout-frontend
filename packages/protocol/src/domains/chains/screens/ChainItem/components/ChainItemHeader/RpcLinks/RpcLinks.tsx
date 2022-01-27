@@ -15,27 +15,28 @@ export const RpcLinks = ({ rpcLinks }: RpcLinksProps) => {
 
   return (
     <>
-      {rpcLinks.map(link => {
-        return (
-          <React.Fragment key={link}>
-            <Typography
-              variant="body2"
-              className={classNames(classes.text, classes.textPublic)}
-            >
-              {t('chain-item.header.right')}
-            </Typography>
-
-            <CopyToClipIcon
-              text={link}
-              message={t('common.copy-message')}
-              copyText={t('common.copy-text')}
-              size="l"
-              textColor="textPrimary"
-              className={classes.copyToClip}
-            />
-          </React.Fragment>
-        );
-      })}
+      <Typography
+        variant="body2"
+        className={classNames(classes.text, classes.textPublic)}
+      >
+        {t('chain-item.header.right')}
+      </Typography>
+      <div className={classes.root}>
+        {rpcLinks.map(link => {
+          return (
+            <React.Fragment key={link}>
+              <CopyToClipIcon
+                text={link}
+                message={t('common.copy-message')}
+                copyText={t('common.copy-text')}
+                size="l"
+                textColor="textPrimary"
+                className={classes.copyToClip}
+              />
+            </React.Fragment>
+          );
+        })}
+      </div>
     </>
   );
 };

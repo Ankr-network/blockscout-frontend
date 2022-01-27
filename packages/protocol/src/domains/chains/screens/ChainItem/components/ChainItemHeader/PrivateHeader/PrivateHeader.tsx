@@ -55,22 +55,30 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
               </Button>
             </div>
             <div className={classes.bottom}>
-              <CopyToClipIcon
-                text={rpcUrl}
-                message={t('common.copy-message')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
-              {wsUrl && (
-                <CopyToClipIcon
-                  text={wsUrl}
-                  message={t('common.copy-message')}
-                  size="l"
-                  textColor="textPrimary"
-                  className={classes.copyToClip}
-                />
-              )}
+              {rpcUrl.map(item => {
+                return (
+                  <CopyToClipIcon
+                    text={item}
+                    message={t('common.copy-message')}
+                    size="l"
+                    textColor="textPrimary"
+                    className={classes.copyToClip}
+                    key={item}
+                  />
+                );
+              })}
+              {wsUrl.map(item => {
+                return (
+                  <CopyToClipIcon
+                    text={item}
+                    message={t('common.copy-message')}
+                    size="l"
+                    textColor="textPrimary"
+                    className={classes.copyToClip}
+                    key={item}
+                  />
+                );
+              })}
             </div>
           </div>
         );

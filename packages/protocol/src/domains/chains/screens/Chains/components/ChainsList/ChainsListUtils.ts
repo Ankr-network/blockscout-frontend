@@ -7,7 +7,7 @@ export const formatChains = (data: ChainsListProps['data']): Chain[] => {
 
   return data.map(item => {
     const { id, icon, name, rpcUrl, wsUrl, requests } = item;
-    const rpcLinks = wsUrl ? [rpcUrl, wsUrl] : [rpcUrl];
+    const rpcLinks = wsUrl.length > 0 ? [...rpcUrl, ...wsUrl] : rpcUrl;
 
     return {
       id,
