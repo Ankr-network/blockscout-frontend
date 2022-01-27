@@ -22,28 +22,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   bottom: {
-    display: 'flex',
-    alignItems: 'center',
     marginTop: theme.spacing(2),
-    justifyContent: 'space-between',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, calc(50% - 8px))',
+
+    gap: theme.spacing(0, 2),
+
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: '100%',
+    },
 
     '& $copyToClip:not(:last-child)': {
       [theme.breakpoints.down('md')]: {
         marginBottom: theme.spacing(2.5),
       },
     },
-
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-    },
   },
-  copyToClip: {
-    flexGrow: 1,
-    maxWidth: '49%',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '100%',
-    },
-  },
+  copyToClip: {},
   preloaderWrapper: {
     minHeight: 120,
     position: 'relative',
