@@ -37,6 +37,7 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
+  isActiveLedgerNanoX: false,
   liquidityMining: false,
   unstakingHistory: true,
   localeSwitcher: false,
