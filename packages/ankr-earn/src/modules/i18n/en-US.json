@@ -145,6 +145,7 @@
       "select-section": {
         "external-wallet": "Address",
         "hint-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
+        "hint-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
         "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",

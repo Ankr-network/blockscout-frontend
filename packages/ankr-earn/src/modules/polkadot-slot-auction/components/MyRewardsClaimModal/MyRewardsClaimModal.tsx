@@ -190,20 +190,20 @@ export const MyRewardsClaimModal = () => {
             </div>
           )}
 
-          {isETHProject && (
-            <Typography className={classes.hintEthArea} variant="body2">
-              <span className={classes.hintEthSplitter} />
+          <Typography className={classes.hintEthArea} variant="body2">
+            <span className={classes.hintEthSplitter} />
 
-              <span className={classes.hintEthTxt}>
-                {t(
-                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-eth',
-                  {
-                    rewardTokenName: crowdloan?.rewardTokenName ?? '',
-                  },
-                )}
-              </span>
-            </Typography>
-          )}
+            <span className={classes.hintEthTxt}>
+              {t(
+                isETHProject
+                  ? 'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-eth'
+                  : 'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-polkadot',
+                {
+                  rewardTokenName: crowdloan?.rewardTokenName ?? '',
+                },
+              )}
+            </span>
+          </Typography>
 
           <div className={classes.actionArea}>
             <Button
