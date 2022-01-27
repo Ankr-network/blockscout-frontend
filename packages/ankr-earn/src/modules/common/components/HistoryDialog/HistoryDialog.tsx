@@ -73,7 +73,7 @@ export const HistoryDialog = ({
     <table className={classes.table}>
       <thead className={classes.thead}>
         <tr className={classes.theadTr}>
-          <th className={classes.th}>{t('history-dialog.amount')}</th>
+          <th className={classes.th}>{t('history-dialog.date')}</th>
           <th className={classes.th}>{t('history-dialog.amount')}</th>
         </tr>
       </thead>

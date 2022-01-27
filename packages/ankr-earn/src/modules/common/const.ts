@@ -42,4 +42,5 @@ export const featuresConfig = {
   unstakingHistory: true,
   localeSwitcher: false,
   onlyCrowdloans: false,
+  dashboardLiquidCrowdloanAssets: false,
 };

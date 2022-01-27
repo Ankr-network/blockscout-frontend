@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Box, BoxProps, Typography } from '@material-ui/core';
 import {
   HistoryDialog,
   HistoryDialogData,
@@ -17,7 +17,7 @@ import { useStakedTokensStyles } from './useStakedTokensStyles';
 
 const SKELETONS_COUNT = 1;
 
-export const StakedTokens = () => {
+export const StakedTokens = (props: BoxProps) => {
   const aMATICbData = useMaticStakingAsset();
   const MATICTxHistory = useMaticTxHistory();
   const classes = useStakedTokensStyles();
@@ -48,7 +48,7 @@ export const StakedTokens = () => {
     handleHistoryDialogOpen(MATICTxHistory.transactionHistory);
 
   return (
-    <>
+    <Box {...props}>
       <Typography className={classes.title} variant="h3">
         {t('dashboard.assets')}
       </Typography>
@@ -96,6 +96,6 @@ export const StakedTokens = () => {
         onClose={handleHistoryDialogClose}
         history={historyDialogData}
       />
-    </>
+    </Box>
   );
 };

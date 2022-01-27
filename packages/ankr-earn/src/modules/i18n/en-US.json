@@ -147,6 +147,7 @@
       "select-section": {
         "external-wallet": "Address",
         "hint-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
+        "hint-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
         "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
@@ -322,6 +323,7 @@
     "title": "Stakable tokens",
     "balance": "Estimated balance",
     "assets": "Staked tokens",
+    "assets-crowdloans": "Liquid crowdloan assets",
     "pending": "Unstaking in progress {value} {token}",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
@@ -336,7 +338,12 @@
     "stakable-asset-apy": "APY: {value}%",
     "stakable-asset-stake": "Stake {token}",
     "networks": "in {value} networks",
-    "unstake-time": "~{days}d {hours}h {minutes}m"
+    "unstake-time": "~{days}d {hours}h {minutes}m",
+    "claim": "Claim",
+    "remaining-rewards": "Remaining rewards",
+    "claimable-rewards": "Claimable rewards",
+    "redeem-timer": "Redeem in {days} days",
+    "reward": "{value} ACA"
   },
   "features": {
     "polygon": "Polygon (MATIC)",

@@ -6,6 +6,8 @@ import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { Container } from 'uiKit/Container';
 import { StakableTokens } from './components/StakableTokens';
 import { StakedTokens } from './components/StakedTokens';
+import { LiquidCrowdloans } from './components/LiquidCrowdloans';
+import { featuresConfig } from 'modules/common/const';
 
 export const Dashboard = () => {
   const dispatchRequest = useDispatchRequest();
@@ -20,7 +22,9 @@ export const Dashboard = () => {
       <Container>
         <StakableTokens mb={7} />
 
-        <StakedTokens />
+        <StakedTokens mb={7} />
+
+        {featuresConfig.dashboardLiquidCrowdloanAssets && <LiquidCrowdloans />}
       </Container>
     </Box>
   );
