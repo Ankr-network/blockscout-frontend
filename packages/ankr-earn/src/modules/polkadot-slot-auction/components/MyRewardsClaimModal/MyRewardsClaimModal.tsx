@@ -236,11 +236,7 @@ export const MyRewardsClaimModal = () => {
     setIsSubmitted(true);
 
     const claimData: IClaimData = await dispatch(
-      claimStakingRewards(
-        targetWallet,
-        loanId,
-        isETHProject ? 'PARACHAIN' : 'ERC20',
-      ),
+      claimStakingRewards(targetWallet, loanId),
     );
 
     if (claimData?.data?.transactionHash) {
