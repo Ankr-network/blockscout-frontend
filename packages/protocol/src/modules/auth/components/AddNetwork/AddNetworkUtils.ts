@@ -137,7 +137,7 @@ const NERVOS_ETH_NETWORK_PARAMS = {
 };
 
 // nervos https://docs.godwoken.io/#godwoken-public-networks
-const GODWOKEN_NETWORK_PARAMS = {
+const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
   chainId: 71394,
   chainName: 'Godwoken Polyjuice Mainnet by Ankr Protocol',
   nativeCurrency: {
