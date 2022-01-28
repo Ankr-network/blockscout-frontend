@@ -139,7 +139,7 @@ const NERVOS_ETH_NETWORK_PARAMS = {
 // nervos https://docs.godwoken.io/#godwoken-public-networks
 const GODWOKEN_NETWORK_PARAMS = {
   chainId: 71394,
-  chainName: 'Godwoken Mainnet by Ankr Protocol',
+  chainName: 'Godwoken Polyjuice Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'Godwoken Mainnet',
     symbol: 'CKB',
@@ -185,7 +185,7 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
     case 'iotex':
       return mapParams(chain, IOTEX_NETWORK_PARAMS);
     case 'nervos':
-      return mapParams(chain, GODWOKEN_NETWORK_PARAMS);
+      return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
     default:
       return undefined;
   }
