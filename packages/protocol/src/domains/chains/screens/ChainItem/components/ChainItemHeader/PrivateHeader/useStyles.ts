@@ -37,7 +37,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
-  copyToClip: { flex: 1, maxWidth: '100%', overflow: 'hidden' },
+  copyToClip: { flex: 1, maxWidth: '100%', minWidth: 0 },
   preloaderWrapper: {
     minHeight: 120,
     position: 'relative',

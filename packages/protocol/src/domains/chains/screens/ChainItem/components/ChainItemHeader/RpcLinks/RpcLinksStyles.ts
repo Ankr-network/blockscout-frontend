@@ -31,7 +31,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   section: {
     marginBottom: theme.spacing(2),
     flex: 1,
-    overflow: 'hidden',
+    minWidth: 0,
   },
   label: {
     marginTop: theme.spacing(1),
