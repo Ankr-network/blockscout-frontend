@@ -23,13 +23,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   bottom: {
     marginTop: theme.spacing(2),
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, calc(50% - 8px))',
-
+    display: 'flex',
+    flexWrap: 'wrap',
     gap: theme.spacing(0, 2),
 
     [theme.breakpoints.down('md')]: {
-      gridTemplateColumns: '100%',
+      flexDirection: 'column',
     },
 
     '& $copyToClip:not(:last-child)': {
@@ -38,7 +37,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
-  copyToClip: {},
+  copyToClip: { flex: 1, maxWidth: '100%', overflow: 'hidden' },
   preloaderWrapper: {
     minHeight: 120,
     position: 'relative',

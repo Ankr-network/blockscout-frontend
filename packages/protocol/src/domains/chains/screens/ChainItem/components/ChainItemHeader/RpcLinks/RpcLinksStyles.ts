@@ -17,13 +17,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   root: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, calc(50% - 8px))',
-
+    display: 'flex',
     gap: theme.spacing(0, 2),
 
     [theme.breakpoints.down('md')]: {
-      gridTemplateColumns: '100%',
+      flexDirection: 'column',
     },
   },
   link: {
@@ -32,6 +30,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   section: {
     marginBottom: theme.spacing(2),
+    flex: 1,
+    overflow: 'hidden',
   },
   label: {
     marginTop: theme.spacing(1),
