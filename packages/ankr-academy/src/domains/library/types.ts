@@ -100,7 +100,7 @@ export type LessonBlockType = {
 
 export type ModuleEntityBlockType = {
   id: string;
-  blockContent?: BlockContentType[];
+  blockContent?: BlockContentType[]; // can be not presented in exams
   userAction: UserActionType | ExamQuestions;
 };
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import { uid } from 'react-uid';
 import { glossaryMock } from 'domains/glossary/glossaryMock';
+import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
 import { mapMessagesList } from './MarkdownContentWrapperUtils';
 
 import { useMarkdownContentWrapperStyles } from './MarkdownContentWrapperStyles';
@@ -13,6 +15,9 @@ interface IMarkdownContentWrapperProps {
   messagesList: string[];
 }
 
+// flag is used for automatic finding and wrapping glossary terms inside texts
+const IS_AUTOMATIC_GLOSSARY_TERMS_WRAPPING_AVAILABLE = false;
+
 export const MarkdownContentWrapper = ({
   className,
   messagesList,
@@ -20,7 +25,11 @@ export const MarkdownContentWrapper = ({
   const classes = useMarkdownContentWrapperStyles();
   const [mappedMessages, setMappedMessages] = useState<string[]>([]);
   useEffect(() => {
-    setMappedMessages(mapMessagesList(messagesList));
+    if (IS_AUTOMATIC_GLOSSARY_TERMS_WRAPPING_AVAILABLE) {
+      setMappedMessages(mapMessagesList(messagesList));
+    } else {
+      setMappedMessages(messagesList);
+    }
   }, [messagesList]);
 
   const components: Components = {
@@ -28,7 +37,10 @@ export const MarkdownContentWrapper = ({
       let tooltipTitle: string | undefined;
 
       // TODO: improve glossary data structure
-      const key = props.children[0];
+      const {
+        children: [key],
+      } = props;
+
       if (typeof key === 'string') {
         const tooltipObject = glossaryMock[key.toLowerCase()];
         tooltipTitle = tooltipObject?.value;
@@ -39,17 +51,17 @@ export const MarkdownContentWrapper = ({
             <Tooltip
               placement="top"
               title={<ReactMarkdown>{tooltipTitle}</ReactMarkdown>}
-              // TODO: redirect to glossary item
-              onClick={() => console.log(tooltipObject.id)}
             >
-              <Typography
-                className={classes.glossary}
-                paragraph={false}
-                variant="body2"
-                component="span"
+              <Link
+                className={classes.glossaryLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                to={GlossaryRouterConfig.glossaryTerm.generatePath(
+                  tooltipObject.termId,
+                )}
               >
-                {props.children}
-              </Typography>
+                <span className={classes.glossary}>{props.children}</span>
+              </Link>
             </Tooltip>
           );
         }

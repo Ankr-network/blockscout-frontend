@@ -3,9 +3,9 @@ import { uid } from 'react-uid';
 import classNames from 'classnames';
 import { Button, IconButton, InputBase, Menu, Paper } from '@material-ui/core';
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
+import { isLetter } from 'utils';
+import { NON_LETTER_ID } from 'domains/glossary/const';
 import { useGlossarySearchStyles } from './GlossarySearchStyles';
-import { isLetter } from '../../../../../../utils/isLetter';
-import { NON_LETTER_ID } from '../../../../const';
 
 interface IGlossarySearchProps {
   inputRef: RefObject<HTMLInputElement>;

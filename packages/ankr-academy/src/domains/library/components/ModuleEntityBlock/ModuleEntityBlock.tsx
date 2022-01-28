@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { uid } from 'react-uid';
 import { Typography } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { BlockContentType, Img, ModuleEntityBlockType } from '../../types';
 import { MessagesContainer } from '../MessagesContainer';
@@ -58,7 +59,7 @@ export const ModuleEntityBlock = ({
       return (
         <MarkdownContentWrapper
           key={key}
-          className={classes.blockWrapper}
+          className={classNames(classes.blockWrapper, classes.markdownWrapper)}
           messagesList={block.messagesList}
         />
       );

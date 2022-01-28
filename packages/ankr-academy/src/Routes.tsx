@@ -4,8 +4,8 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { AcademyRoutes, AcademyRoutesConfig } from 'domains/academy/Routes';
 import { LibraryRoutes } from 'domains/library/Routes';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
-import { GlossaryRouterConfig } from './domains/glossary/GlossaryRouterConfig';
-import { GlossaryRoutes } from './domains/glossary/Routes';
+import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
+import { GlossaryRoutes } from 'domains/glossary/Routes';
 
 export function Routes() {
   return (
@@ -33,7 +33,10 @@ export function Routes() {
       />
       <Route
         exact
-        path={[GlossaryRouterConfig.glossary.path]}
+        path={[
+          GlossaryRouterConfig.glossary.path,
+          GlossaryRouterConfig.glossaryTerm.path,
+        ]}
         render={() => (
           <DefaultLayout>
             <GlossaryRoutes />

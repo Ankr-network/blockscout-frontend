@@ -6,6 +6,11 @@ const LoadableGlossaryContainer: LoadableComponent<any> = loadable(async () =>
   import('./screens/Glossary').then(module => module.Glossary),
 );
 
+const LoadableGlossaryTermContainer: LoadableComponent<any> = loadable(
+  async () =>
+    import('./screens/GlossaryTerm').then(module => module.GlossaryTerm),
+);
+
 export function GlossaryRoutes() {
   return (
     <>
@@ -13,6 +18,11 @@ export function GlossaryRoutes() {
         exact
         path={GlossaryRouterConfig.glossary.path}
         component={LoadableGlossaryContainer}
+      />
+      <Route
+        exact
+        path={GlossaryRouterConfig.glossaryTerm.path}
+        component={LoadableGlossaryTermContainer}
       />
     </>
   );

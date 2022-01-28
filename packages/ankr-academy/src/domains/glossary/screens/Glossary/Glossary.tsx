@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography } from '@material-ui/core';
 import { GlossarySearch } from './components/GlossarySearch';
 import { GlossaryList } from './components/GlossaryList';
-import { t } from '../../../../modules/i18n/utils/intl';
+import { t } from 'modules/i18n/utils/intl';
 
 import { useGlossary } from './useGlossary';
 import { useGlossaryStyles } from './GlossaryStyles';

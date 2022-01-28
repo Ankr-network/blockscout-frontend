@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NON_LETTER_MENU_BUTTON } from '../../const';
-import { isLetter } from '../../../../utils/isLetter';
+import { NON_LETTER_MENU_BUTTON } from 'domains/glossary/const';
+import { glossaryMock } from 'domains/glossary/glossaryMock';
+import { isLetter } from 'utils';
 import { findGlossaryItems, sortData } from './GlossaryUtils';
-import { glossaryMock } from '../../glossaryMock';
 import { GlossaryMock } from '../../types';
 
 export const useGlossary = () => {

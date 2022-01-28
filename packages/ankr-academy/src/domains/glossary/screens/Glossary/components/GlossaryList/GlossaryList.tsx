@@ -1,40 +1,33 @@
 import React from 'react';
 import { uid } from 'react-uid';
-import { Paper, Typography } from '@material-ui/core';
-import { GlossaryMock } from '../../../../types';
-import { NON_LETTER_ID } from '../../../../const';
-import { isLetter } from '../../../../../../utils/isLetter';
-
-import { useGlossaryListStyles } from './GlossaryListStyles';
+import { isLetter } from 'utils';
+import { GlossaryMock } from 'domains/glossary/types';
+import { NON_LETTER_ID } from 'domains/glossary/const';
+import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
+import { GlossaryItem } from './GlossaryItem';
 
 interface IGlossaryListProps {
   glossaryItems: GlossaryMock;
 }
 
 export const GlossaryList = ({ glossaryItems }: IGlossaryListProps) => {
-  const classes = useGlossaryListStyles();
-
   return (
     <>
-      {Object.entries(glossaryItems).map(([key, { value }]) => {
+      {Object.entries(glossaryItems).map(([key, { termId, value }]) => {
         const firstCharForCurrentKey = key.charAt(0).toLowerCase();
         const currentChar = isLetter(firstCharForCurrentKey)
           ? firstCharForCurrentKey
           : NON_LETTER_ID;
 
         return (
-          // scroll to letter is working by this ids
-          <div key={uid(key)} id={currentChar}>
-            <br />
-            <Paper>
-              <Typography className={classes.title} variant="h4">
-                {key}
-              </Typography>
-              <Typography className={classes.title} variant="body1">
-                {value}
-              </Typography>
-            </Paper>
-          </div>
+          <GlossaryItem
+            key={uid(key)}
+            // scroll to letter is working by this ids (lowercased first letter of key)
+            id={currentChar}
+            href={GlossaryRouterConfig.glossaryTerm.generatePath(termId)}
+            termTitle={key}
+            value={value}
+          />
         );
       })}
     </>
