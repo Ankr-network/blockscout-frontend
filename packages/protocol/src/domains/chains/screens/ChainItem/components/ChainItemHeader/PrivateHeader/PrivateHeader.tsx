@@ -41,7 +41,12 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
             <div className={classes.top}>
               <div className={classes.left}>
                 <Typography variant="body2" className={classes.text}>
-                  {t('chain-item.header.bottom')}
+                  {t('chain-item.header.private-endpoints', {
+                    plural:
+                      [...rpcUrls, ...wsUrls].length > 1
+                        ? t('chain-item.header.plural')
+                        : '',
+                  })}
                 </Typography>
                 {requests && (
                   <ChainRequestsLabel

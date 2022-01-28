@@ -63,7 +63,7 @@ export const ChainItemHeader = ({
       ) : hasCredentials ? (
         <PrivateHeader chainId={chainId} />
       ) : (
-        <PublicHeader />
+        <PublicHeader isPlural={rpcLinks.length > 1} />
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 import { useStyles } from './PublicHeaderStyles';
 
-export const PublicHeader = () => {
+export const PublicHeader = ({ isPlural }: { isPlural: boolean }) => {
   const classes = useStyles();
 
   return (
@@ -19,7 +19,9 @@ export const PublicHeader = () => {
         tooltipText={tHTML('chain-item.header.tooltipText')}
       >
         <Typography variant="body2" className={classes.text}>
-          {t('chain-item.header.bottom')}
+          {t('chain-item.header.private-endpoints', {
+            plural: isPlural ? t('chain-item.header.plural') : '',
+          })}
         </Typography>
       </TooltipWrapper>
 

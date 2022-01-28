@@ -20,7 +20,9 @@ export const RpcLinks = ({ rpcLinks, isNervos }: RpcLinksProps) => {
         variant="body2"
         className={classNames(classes.text, classes.textPublic)}
       >
-        {t('chain-item.header.right')}
+        {t('chain-item.header.public-endpoints', {
+          plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',
+        })}
       </Typography>
       <div className={classes.root}>
         {rpcLinks.map((link, index) => {

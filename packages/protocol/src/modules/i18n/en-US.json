@@ -62,9 +62,10 @@
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
     "header": {
-      "bottom": "Exclusive RPC Endpoint",
+      "public-endpoints": "Public RPC Endpoint{plural}",
+      "private-endpoints": "Exclusive RPC Endpoint{plural}",
+      "plural": "s",
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
-      "right": "Public RPC",
       "button": "Unlock Premium Features",
       "settings-button": "Settings",
       "archived": "Archived",
