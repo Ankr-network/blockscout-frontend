@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
   },
   text: {
     fontWeight: 600,

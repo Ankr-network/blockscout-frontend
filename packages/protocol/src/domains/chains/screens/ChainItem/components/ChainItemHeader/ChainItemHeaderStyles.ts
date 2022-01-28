@@ -11,7 +11,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     borderBottom: `2px solid ${theme.palette.background.default}`,
-    paddingBottom: theme.spacing(3),
     flexDirection: 'column',
     alignItems: 'stretch',
   },
@@ -20,7 +19,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     paddingBottom: theme.spacing(2.5),
     borderBottom: `2px solid ${theme.palette.background.default}`,
-    marginBottom: theme.spacing(2.5),
+    marginBottom: theme.spacing(2),
   },
   tooltip: {
     [theme.breakpoints.down('xs')]: {
