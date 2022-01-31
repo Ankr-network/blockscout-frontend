@@ -135,7 +135,8 @@
       "/public/celo/",
       "/public/near/",
       "/public/bsc/",
-      "/public/iotex/"
+      "/public/iotex/",
+      "/public/nervos/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

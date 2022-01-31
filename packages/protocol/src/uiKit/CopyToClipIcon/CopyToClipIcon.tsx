@@ -36,7 +36,7 @@ export const CopyToClipIcon = ({
       className={classNames(classes.container, className)}
     >
       {isCopied ? (
-        <Typography variant="body2" className={classes.message}>
+        <Typography variant="subtitle1" className={classes.message}>
           {message}
         </Typography>
       ) : (
@@ -53,7 +53,11 @@ export const CopyToClipIcon = ({
             <div className={classes.copy}>
               <CopyIcon className={classes.copyIcon} />
               {copyText && (
-                <Typography variant="body2" noWrap className={classes.copyText}>
+                <Typography
+                  variant="subtitle1"
+                  noWrap
+                  className={classes.copyText}
+                >
                   {copyText}
                 </Typography>
               )}

@@ -11,6 +11,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       paddingBottom: theme.spacing(3.5),
     },
+    maxWidth: 940,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   chainDetailsWrapper: {
     flexGrow: 1,
@@ -35,6 +38,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   details: {
     display: 'flex',
+    justifyContent: 'center',
     width: '100%',
     paddingBottom: 19,
   },

@@ -10,33 +10,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.background.default}`,
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginBottom: theme.spacing(2),
   },
   left: {
     display: 'flex',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingBottom: theme.spacing(2.5),
     borderBottom: `2px solid ${theme.palette.background.default}`,
-    marginBottom: theme.spacing(2),
   },
-  tooltip: {
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  text: {
-    fontWeight: 600,
+  rect: {
+    marginLeft: theme.spacing(2),
   },
   right: {
-    '& $copyToClip:not(:last-child)': {
-      marginBottom: theme.spacing(1.5),
-    },
+    marginTop: theme.spacing(2),
+    marginBottom: 10,
   },
-  preloaderWrapper: {
-    minHeight: 85,
-    position: 'relative',
+  btnUnlock: {
+    marginTop: theme.spacing(2),
   },
 }));

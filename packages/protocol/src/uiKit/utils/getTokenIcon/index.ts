@@ -10,6 +10,7 @@ import celoIcon from './celo.svg';
 import nearIcon from './near.svg';
 import bscIcon from './bsc.svg';
 import iotexIcon from './iotex.svg';
+import nervosIcon from './nervos.svg';
 
 const chainIcons = {
   avalanche: avaxIcon,
@@ -23,6 +24,8 @@ const chainIcons = {
   near: nearIcon,
   bsc: bscIcon,
   iotex: iotexIcon,
+  nervos: nervosIcon,
+  nervos_gw: nervosIcon,
 };
 
 export function getChainIcon(name: string) {

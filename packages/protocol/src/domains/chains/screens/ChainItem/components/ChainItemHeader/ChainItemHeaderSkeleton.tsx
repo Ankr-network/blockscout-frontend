@@ -1,7 +1,8 @@
 import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
-import { useStyles } from './ChainItemHeaderStyles';
+
+import { useStyles } from './ChainItemHeaderSkeletonStyles';
 
 interface IChainItemHeaderProps {
   className?: string;
@@ -17,21 +18,18 @@ export const ChainItemHeaderSkeleton = ({
       <div className={classes.top}>
         <div className={classes.left}>
           <Skeleton variant="circle" height={50} width={50} />
-          <Skeleton variant="rect" width={50} height={50} />
+          <Skeleton
+            variant="rect"
+            width={70}
+            height={24}
+            className={classes.rect}
+          />
         </div>
 
         <div className={classes.right}>
-          <Skeleton variant="rect" height={50} />
+          <Skeleton variant="rect" width={150} height={20} />
+          <Skeleton variant="rect" height={42} className={classes.btnUnlock} />
         </div>
-      </div>
-      <div className={classes.bottom}>
-        <Skeleton width={180} className={classes.tooltip} />
-        <Skeleton
-          variant="rect"
-          width={240}
-          height={42}
-          className={classes.btnUnlock}
-        />
       </div>
     </div>
   );

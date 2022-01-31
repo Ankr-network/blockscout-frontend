@@ -21,6 +21,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     textAlign: 'center',
     width: '100%',
     padding: ({ size }) => (size === 'm' ? '10px 9px 9px' : '10px 9px'),
+    lineHeight: 1.43,
 
     cursor: 'default',
   },
@@ -64,5 +65,6 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     marginLeft: theme.spacing(1),
     fontWeight: 'bold',
     transition: 'color .3s',
+    lineHeight: 1,
   },
 }));
