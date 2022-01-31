@@ -26,10 +26,11 @@ interface IUseMaticStakingAsset {
   txHistory: ITxEventsHistoryData | null;
   pendingUnstakeHistory: IPendingTableRow[];
   transactionHistory: HistoryDialogData;
+  loading: boolean;
 }
 
 export const useMaticTxHistory = (): IUseMaticStakingAsset => {
-  const { data } = useQuery({
+  const { data, loading } = useQuery({
     type: fetchTxHistory,
   });
 
@@ -115,5 +116,6 @@ export const useMaticTxHistory = (): IUseMaticStakingAsset => {
     txHistory: data,
     pendingUnstakeHistory,
     transactionHistory,
+    loading,
   };
 };

@@ -7,6 +7,7 @@ import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode } from 'react';
 import { NavLink } from 'uiKit/NavLink';
+import { Spinner } from 'uiKit/Spinner';
 import { NetworkIconText } from '../NetworkIconText';
 import { ReactComponent as HistoryIcon } from './assets/history.svg';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
@@ -22,6 +23,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
+  isHistoryLoading?: boolean;
   onHistoryBtnClick?: () => void;
 }
 
@@ -35,6 +37,7 @@ export const StakingAsset = ({
   pendingSlot,
   isLoading = false,
   isStakeLoading = false,
+  isHistoryLoading = false,
   onHistoryBtnClick,
 }: IStakingAssetProps) => {
   const classes = useStyles();
@@ -46,6 +49,16 @@ export const StakingAsset = ({
   const displayLinks = stakeLink || unstakeLink || tradeLink;
 
   const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
+
+  const historyButtonIcon = isHistoryLoading ? (
+    <Spinner size={18} />
+  ) : (
+    <HistoryIcon />
+  );
+
+  const historyClickHandler = () => {
+    if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
+  };
 
   return (
     <Paper className={classes.root}>
@@ -69,9 +82,9 @@ export const StakingAsset = ({
             <Grid item xs="auto">
               <IconButton
                 className={classes.openHistory}
-                onClick={onHistoryBtnClick}
+                onClick={historyClickHandler}
               >
-                <HistoryIcon />
+                {historyButtonIcon}
               </IconButton>
             </Grid>
           )}
