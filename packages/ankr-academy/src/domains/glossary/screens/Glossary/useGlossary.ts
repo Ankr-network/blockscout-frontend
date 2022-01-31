@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NON_LETTER_MENU_BUTTON } from 'domains/glossary/const';
-import { glossaryMock } from 'domains/glossary/glossaryMock';
 import { isLetter } from 'utils';
-import { findGlossaryItems, sortData } from './GlossaryUtils';
-import { GlossaryMock } from '../../types';
+import { findGlossaryItems } from './GlossaryUtils';
+import { GlossaryMappedData } from '../../types';
+import { useGlossaryData } from '../../hooks';
 
 export const useGlossary = () => {
+  /* request glossary start */
+  const { data: glossaryData, loading } = useGlossaryData();
+  /* request glossary end */
+
   /* input start */
   // input value is used only for search here. not for input state management
   const [inputValue, setInputValue] = useState<string>('');
@@ -20,15 +24,13 @@ export const useGlossary = () => {
   /* input end */
 
   /* search start */
-  const [sortedGlossaryData] = useState(sortData(glossaryMock));
-  const [glossaryItems, setGlossaryItems] = useState<GlossaryMock>(
-    sortData(glossaryMock),
-  );
+  const [glossaryItems, setGlossaryItems] =
+    useState<GlossaryMappedData>(glossaryData);
 
   useEffect(() => {
-    const filteredItems = findGlossaryItems(sortedGlossaryData, inputValue);
+    const filteredItems = findGlossaryItems(glossaryData, inputValue);
     setGlossaryItems(filteredItems);
-  }, [sortedGlossaryData, inputValue]);
+  }, [glossaryData, inputValue]);
   /* search end */
 
   /* A-Z menu start */
@@ -46,13 +48,15 @@ export const useGlossary = () => {
   /* A-Z menu end */
 
   /* menu items start */
-  const firstCharsArray = Object.keys(sortedGlossaryData).map(key => {
-    const firstChar = key.charAt(0).toUpperCase();
-    if (isLetter(firstChar)) {
-      return firstChar;
-    }
-    return NON_LETTER_MENU_BUTTON;
-  });
+  const firstCharsArray =
+    glossaryData &&
+    Object.keys(glossaryData).map(key => {
+      const firstChar = key.charAt(0).toUpperCase();
+      if (isLetter(firstChar)) {
+        return firstChar;
+      }
+      return NON_LETTER_MENU_BUTTON;
+    });
   const uniqChars = [...new Set(firstCharsArray)];
   /* menu items end */
 
@@ -64,5 +68,6 @@ export const useGlossary = () => {
     handleCloseMenu,
     glossaryItems,
     menuItems: uniqChars,
+    loading,
   };
 };

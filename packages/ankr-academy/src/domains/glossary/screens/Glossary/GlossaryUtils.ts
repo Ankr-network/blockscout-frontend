@@ -1,9 +1,12 @@
-import { GlossaryMock, GlossaryValue } from '../../types';
+import { GlossaryMappedData, GlossaryMappedValue } from '../../types';
 import pickBy from 'lodash/pickBy';
-import { isLetter, hasWhiteSpace } from 'utils';
+import { hasWhiteSpace } from 'utils';
 
-export const findGlossaryItems = (data: GlossaryMock, searchValue: string) => {
-  return pickBy(data, (value: GlossaryValue, key: any) => {
+export const findGlossaryItems = (
+  data: GlossaryMappedData,
+  searchValue: string,
+) => {
+  return pickBy(data, (value: GlossaryMappedValue, key: string) => {
     // if searchValue has a whitespace check full key string
     if (hasWhiteSpace(searchValue)) {
       return key.match(searchValue.toLowerCase());
@@ -16,18 +19,4 @@ export const findGlossaryItems = (data: GlossaryMock, searchValue: string) => {
       word.startsWith(searchValue.toLowerCase()),
     );
   });
-};
-
-export const sortData = (glossaryData: GlossaryMock): GlossaryMock => {
-  const keys = Object.keys(glossaryData);
-  const keysStartWithLetter = keys.filter(k => isLetter(k.charAt(0))).sort();
-  const keysStartWithNotLetter = keys
-    .filter(k => !isLetter(k.charAt(0)))
-    .sort();
-  const keysSorted = [...keysStartWithLetter, ...keysStartWithNotLetter];
-
-  return keysSorted.reduce((obj, key: string) => {
-    obj[key] = glossaryData[key];
-    return obj;
-  }, {} as GlossaryMock);
 };

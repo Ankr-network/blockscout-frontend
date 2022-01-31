@@ -1,32 +1,38 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-export interface IDepositAddressReply {
-  address: string;
-}
+import { glossaryResponseMock } from '../api/glossaryResponseMock';
+import { FetchGlossaryResponseData, GlossaryMappedData } from '../types';
+import { mapGlossaryData } from '../api/mapGlossaryData';
 
 /**
- * Part of [DOT/KSM staking](https://ankrnetwork.atlassian.net/wiki/spaces/SP/pages/1646428256/Technical+description+of+staking+process+backend+-+frontend+-+contract+protocol#Stake-DOT%2FKSM).
- *
- * Requests deposit address specifying his polkadot address.
+ * request from strapi admin panel
  */
-export const fetchGlossary = createSmartAction<RequestAction<any, any>, any>(
-  'academy/fetchGlossary',
-  () => ({
-    request: {
-      url: `/glossaries?populate[GlossaryItems][populate]=*`,
-      method: 'get',
-    },
-    meta: {
-      driver: 'axios',
-      asMutation: false,
-      showNotificationOnError: true,
-      getData: data => {
-        return data.data.map((item: any) => ({
-          id: item.id,
-          ...item.attributes,
-        }));
+
+export const fetchGlossary = createSmartAction<
+  RequestAction<FetchGlossaryResponseData, GlossaryMappedData>
+>('academy/fetchGlossary', () =>
+  // using mock response data if REACT_APP_IS_GLOSSARY_MOCK_AVAILABLE in .env
+  process.env.REACT_APP_IS_GLOSSARY_MOCK_AVAILABLE
+    ? {
+        request: {
+          response: glossaryResponseMock,
+        },
+        meta: {
+          driver: 'mock',
+          getData: mapGlossaryData,
+        },
+      }
+    : {
+        request: {
+          url: `/glossaries?populate[GlossaryItems][populate]=*`,
+          method: 'get',
+        },
+        meta: {
+          driver: 'axios',
+          asMutation: false,
+          showNotificationOnError: true,
+          getData: mapGlossaryData,
+        },
       },
-    },
-  }),
 );

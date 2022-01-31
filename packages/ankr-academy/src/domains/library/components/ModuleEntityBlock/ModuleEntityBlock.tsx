@@ -9,9 +9,11 @@ import { UserActionWrapper } from '../UserActionWrapper';
 import { TextContentWrapper } from '../TextContentWrapper';
 import { MarkdownContentWrapper } from '../MarkdownContentWrapper';
 import { useModuleEntityBlockStyles } from './ModuleEntityBlockStyles';
+import { GlossaryMappedData } from '../../../glossary/types';
 
 interface ILessonBlockProps extends ModuleEntityBlockType {
   loadNextBlock: () => void;
+  glossaryData: GlossaryMappedData;
 }
 
 export const ModuleEntityBlock = ({
@@ -19,6 +21,7 @@ export const ModuleEntityBlock = ({
   blockContent,
   userAction,
   loadNextBlock,
+  glossaryData,
 }: ILessonBlockProps) => {
   const classes = useModuleEntityBlockStyles();
 
@@ -59,6 +62,7 @@ export const ModuleEntityBlock = ({
       return (
         <MarkdownContentWrapper
           key={key}
+          glossaryData={glossaryData}
           className={classNames(classes.blockWrapper, classes.markdownWrapper)}
           messagesList={block.messagesList}
         />

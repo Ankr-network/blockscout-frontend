@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Tooltip } from '@material-ui/core';
 import { uid } from 'react-uid';
-import { glossaryMock } from 'domains/glossary/glossaryMock';
 import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
-import { mapMessagesList } from './MarkdownContentWrapperUtils';
-
+import { useMarkdownContent } from './useMarkdownContent';
 import { useMarkdownContentWrapperStyles } from './MarkdownContentWrapperStyles';
+import { GlossaryMappedData } from '../../../glossary/types';
 
 interface IMarkdownContentWrapperProps {
   className?: string;
   messagesList: string[];
+  glossaryData: GlossaryMappedData;
 }
-
-// flag is used for automatic finding and wrapping glossary terms inside texts
-const IS_AUTOMATIC_GLOSSARY_TERMS_WRAPPING_AVAILABLE = false;
 
 export const MarkdownContentWrapper = ({
   className,
   messagesList,
+  glossaryData,
 }: IMarkdownContentWrapperProps) => {
   const classes = useMarkdownContentWrapperStyles();
-  const [mappedMessages, setMappedMessages] = useState<string[]>([]);
-  useEffect(() => {
-    if (IS_AUTOMATIC_GLOSSARY_TERMS_WRAPPING_AVAILABLE) {
-      setMappedMessages(mapMessagesList(messagesList));
-    } else {
-      setMappedMessages(messagesList);
-    }
-  }, [messagesList]);
+  const { mappedMessages } = useMarkdownContent(messagesList, glossaryData);
 
   const components: Components = {
     a: ({ node, ...props }) => {
@@ -42,7 +33,7 @@ export const MarkdownContentWrapper = ({
       } = props;
 
       if (typeof key === 'string') {
-        const tooltipObject = glossaryMock[key.toLowerCase()];
+        const tooltipObject = glossaryData[key.toLowerCase()];
         tooltipTitle = tooltipObject?.value;
 
         // if tooltip data found render the tooltip component

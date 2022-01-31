@@ -1,5 +1,3 @@
-import { glossaryMock } from 'domains/glossary/glossaryMock';
-
 // regex for wrapped term into link format
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 const wrapTermIntoLinkFormat = (string: string) => `[${string}](.*)`;
@@ -31,8 +29,10 @@ function replaceAll(str: string, find: string): string {
   return stringReplaced;
 }
 
-const glossaryKeys = Object.keys(glossaryMock);
-export const mapMessagesList = (messagesList: string[]) => {
+export const mapMessagesList = (
+  glossaryKeys: string[],
+  messagesList: string[],
+) => {
   return messagesList.map(message => {
     let replacedMessage = message;
     glossaryKeys.forEach(key => {

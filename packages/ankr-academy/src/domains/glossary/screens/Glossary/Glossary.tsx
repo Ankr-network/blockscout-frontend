@@ -3,6 +3,7 @@ import { Container, Typography } from '@material-ui/core';
 import { GlossarySearch } from './components/GlossarySearch';
 import { GlossaryList } from './components/GlossaryList';
 import { t } from 'modules/i18n/utils/intl';
+import { Spinner } from 'ui';
 
 import { useGlossary } from './useGlossary';
 import { useGlossaryStyles } from './GlossaryStyles';
@@ -17,7 +18,12 @@ export const Glossary = () => {
     handleCloseMenu,
     glossaryItems,
     menuItems,
+    loading,
   } = useGlossary();
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <section className={classes.root}>

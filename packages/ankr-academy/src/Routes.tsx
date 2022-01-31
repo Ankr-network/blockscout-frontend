@@ -6,8 +6,12 @@ import { LibraryRoutes } from 'domains/library/Routes';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
 import { GlossaryRoutes } from 'domains/glossary/Routes';
+import { useGlossaryLoading } from 'domains/glossary/hooks';
 
 export function Routes() {
+  // request glossary items from strapi
+  useGlossaryLoading();
+
   return (
     <Switch>
       <Route exact path="/">

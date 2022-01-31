@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
+import { Spinner } from 'ui';
 
 import { ModuleEntityBlock } from 'domains/library/components/ModuleEntityBlock';
 import { useExam } from './useExam';
@@ -8,7 +9,12 @@ import { useExamStyles } from './ExamStyles';
 
 export const Exam = () => {
   const classes = useExamStyles();
-  const { examTitle, loadNextBlock, blocksToRender } = useExam();
+  const { examTitle, loadNextBlock, blocksToRender, glossaryData, loading } =
+    useExam();
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <section className={classes.rootExam}>
@@ -24,6 +30,7 @@ export const Exam = () => {
             blockContent={i.blockContent}
             userAction={i.userAction}
             loadNextBlock={loadNextBlock}
+            glossaryData={glossaryData}
           />
         ))}
       </Container>

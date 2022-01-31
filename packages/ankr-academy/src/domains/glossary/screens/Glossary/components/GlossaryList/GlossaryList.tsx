@@ -1,13 +1,13 @@
 import React from 'react';
 import { uid } from 'react-uid';
 import { isLetter } from 'utils';
-import { GlossaryMock } from 'domains/glossary/types';
+import { GlossaryMappedData } from 'domains/glossary/types';
 import { NON_LETTER_ID } from 'domains/glossary/const';
 import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
 import { GlossaryItem } from './GlossaryItem';
 
 interface IGlossaryListProps {
-  glossaryItems: GlossaryMock;
+  glossaryItems: GlossaryMappedData;
 }
 
 export const GlossaryList = ({ glossaryItems }: IGlossaryListProps) => {

@@ -4,17 +4,20 @@ import { Redirect, Link } from 'react-router-dom';
 import { Box, Button, Container, Typography } from '@material-ui/core';
 import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
 import { MarkdownContentWrapper } from 'domains/library/components/MarkdownContentWrapper';
+import { Spinner } from 'ui';
 
 import { useGlossaryTerm } from './useGlossaryTerm';
 import { GlossaryItem } from '../Glossary/components/GlossaryList/GlossaryItem';
 import { getTermById } from './GlossaryTermUtils';
 import { useGlossaryTermStyles } from './GlossaryTermStyles';
 
-interface IGlossaryTermProps {}
-
-export const GlossaryTerm = (props: IGlossaryTermProps) => {
+export const GlossaryTerm = () => {
   const classes = useGlossaryTermStyles();
-  const { currentTerm } = useGlossaryTerm();
+  const { currentTerm, glossaryData, loading } = useGlossaryTerm();
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   if (!currentTerm) {
     console.error(`term not found`);
@@ -34,6 +37,7 @@ export const GlossaryTerm = (props: IGlossaryTermProps) => {
         {/* TODO: tags */}
 
         <MarkdownContentWrapper
+          glossaryData={glossaryData}
           className={classes.quote}
           messagesList={[quote]}
         />
@@ -42,6 +46,7 @@ export const GlossaryTerm = (props: IGlossaryTermProps) => {
 
         {currentTerm.description && (
           <MarkdownContentWrapper
+            glossaryData={glossaryData}
             className={classes.description}
             messagesList={currentTerm.description}
           />
@@ -60,7 +65,7 @@ export const GlossaryTerm = (props: IGlossaryTermProps) => {
               </Button>
             </Box>
             {currentTerm.connectedTerms.map(term => {
-              const connectedTerm = getTermById(term);
+              const connectedTerm = getTermById(term, glossaryData);
               if (!connectedTerm) return null;
 
               const { termId, key: termTitle, value } = connectedTerm;

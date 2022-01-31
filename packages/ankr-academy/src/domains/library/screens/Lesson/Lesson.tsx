@@ -6,6 +6,7 @@ import { ModuleEntityBlock } from 'domains/library/components/ModuleEntityBlock'
 import { LessonCard } from './components/LessonCard';
 import { useLesson } from './useLesson';
 import { useLessonStyles } from './LessonStyles';
+import { Spinner } from 'ui';
 
 export const Lesson = () => {
   const classes = useLessonStyles();
@@ -15,7 +16,13 @@ export const Lesson = () => {
     blocksToRender,
     isLessonFinished,
     nextLesson,
+    glossaryData,
+    loading,
   } = useLesson();
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <section className={classes.root}>
@@ -31,6 +38,7 @@ export const Lesson = () => {
             blockContent={i.blockContent}
             userAction={i.userAction}
             loadNextBlock={loadNextBlock}
+            glossaryData={glossaryData}
           />
         ))}
       </Container>

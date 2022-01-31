@@ -1,8 +1,15 @@
-import { glossaryMock } from 'domains/glossary/glossaryMock';
 import { capitalizeFirstLetter } from '../../../../utils';
+import { GlossaryMappedData } from '../../types';
 
-export const getTermById = (termId: string) => {
-  const termEntries = Object.entries(glossaryMock).find(
+export const getTermById = (
+  termId: string,
+  glossaryItems?: GlossaryMappedData,
+) => {
+  if (!glossaryItems) {
+    return undefined;
+  }
+
+  const termEntries = Object.entries(glossaryItems).find(
     ([_key, { termId: id }]) => {
       return termId === id;
     },
@@ -11,7 +18,7 @@ export const getTermById = (termId: string) => {
 
   const [key, value] = termEntries;
   return {
-    key: capitalizeFirstLetter(key),
     ...value,
+    key: capitalizeFirstLetter(key),
   };
 };
