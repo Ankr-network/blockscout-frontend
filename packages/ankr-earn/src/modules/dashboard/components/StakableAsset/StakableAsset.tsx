@@ -1,18 +1,18 @@
 import { Paper, Typography } from '@material-ui/core';
-import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { NavLink } from 'uiKit/NavLink';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
 import { Token } from 'modules/common/types/token';
 import { EToken } from 'modules/dashboard/types';
+import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
-import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
+import { NavLink } from 'uiKit/NavLink';
+import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 
 interface IStakableAssetProps {
   icon: JSX.Element;
   balance: BigNumber;
-  networks: Array<INetwork>;
+  networks: (INetwork | undefined)[];
   token: Token | EToken;
   href: string;
   apy: number;
@@ -33,7 +33,7 @@ export const StakableAsset = ({
       <Typography className={classes.network}>
         {networks.map(
           network =>
-            network.icon &&
+            network?.icon &&
             React.cloneElement(network.icon, {
               className: classes.networkIcon,
             }),
@@ -41,7 +41,9 @@ export const StakableAsset = ({
         {t('dashboard.networks', { value: networks.length })}
       </Typography>
     ) : (
-      <Typography className={classes.network}>{networks[0].title}</Typography>
+      <Typography className={classes.network}>
+        {networks[0]?.title ?? t('dashboard.unknown-network')}
+      </Typography>
     );
 
   return (

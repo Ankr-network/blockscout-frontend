@@ -1,10 +1,10 @@
 import { Box, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t, tHTML } from 'modules/i18n/utils/intl';
@@ -27,12 +27,12 @@ export const UnstakePolygon = () => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  useInitEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());
-  });
+  }, [dispatchRequest]);
 
   const onClose = useCallback(() => {
     history.push(DashboardRoutes.dashboard.generatePath());

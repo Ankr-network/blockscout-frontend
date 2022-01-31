@@ -92,6 +92,7 @@
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
     "available-networks": "Ensure your wallet is connected to the following networks:",
     "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
       "ethereum-goerli": "Ethereum Goerli",
@@ -316,6 +317,7 @@
     "start-staking": "Start staking with Ankr Earn",
     "stake": "Stake",
     "copy": "Copy contract address",
+    "unknown-network": "Current network",
     "copied": "Copied!",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",

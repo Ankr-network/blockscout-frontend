@@ -15,10 +15,8 @@ export const useGuardRoute = ({
   availableNetworks,
   providerId,
 }: IUseGuardRouteArgs) => {
-  const { isConnected, dispatchConnect, chainId, walletName } = useAuth(
-    providerId,
-    availableNetworks,
-  );
+  const { isConnected, dispatchConnect, chainId, walletName } =
+    useAuth(providerId);
   const networks = useNetworks();
   const dispatchRequest = useDispatchRequest();
 
@@ -27,7 +25,7 @@ export const useGuardRoute = ({
     chainId !== undefined &&
     !availableNetworks.includes(chainId);
 
-  const filteredNetworks = networks.filter(network =>
+  const supportedNetworks = networks.filter(network =>
     availableNetworks.includes(network.chainId),
   );
 
@@ -41,7 +39,7 @@ export const useGuardRoute = ({
   return {
     isConnected,
     isUnsupportedNetwork,
-    filteredNetworks,
+    supportedNetworks,
     chainId,
     dispatchConnect,
     handleSwitchNetwork,

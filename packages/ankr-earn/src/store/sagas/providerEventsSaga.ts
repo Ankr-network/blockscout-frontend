@@ -4,8 +4,8 @@ import { Task } from '@redux-saga/types';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/actions/connect';
 import { disconnect } from 'modules/auth/actions/disconnect';
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { BlockchainNetworkId } from 'modules/common/types';
+import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
+import { updateConnectedNetwork } from 'modules/auth/actions/updateConnectedNetwork';
 import { ProviderManager } from 'provider';
 import {
   AccountChangedEventData,
@@ -35,7 +35,6 @@ import {
 import Web3 from 'web3';
 
 interface IListenProviderEventsArgs {
-  availableNetworks: BlockchainNetworkId[];
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
   providerId: AvailableProviders;
 }
@@ -108,7 +107,6 @@ const createEventsChannel = (web3: Web3) =>
   });
 
 function* listenProviderEvents({
-  availableNetworks,
   ethWeb3KeyProvider,
   providerId,
 }: IListenProviderEventsArgs) {
@@ -136,19 +134,24 @@ function* listenProviderEvents({
 
       switch (event.type) {
         case ProviderEvents.AccountsChanged:
+          const selectedAccount = event.data[0];
+          yield put(
+            updateAccountAddress({
+              address: selectedAccount,
+              providerId,
+            }),
+          );
           break;
 
         case ProviderEvents.ChainChanged:
           const selectedChainId: number = parseInt(event.data, 16);
 
-          if (!availableNetworks.includes(selectedChainId)) {
-            yield put(
-              switchNetwork({
-                chainId: availableNetworks[0],
-                providerId,
-              }),
-            );
-          }
+          yield put(
+            updateConnectedNetwork({
+              chainId: selectedChainId,
+              providerId,
+            }),
+          );
           break;
 
         case ProviderEvents.Disconnect:
@@ -173,12 +176,10 @@ function* listenProviderEvents({
 }
 
 function* connectSuccessWorker(action: IConnectSuccessAction) {
-  const availableNetworks: BlockchainNetworkId[] | null =
-    action?.response?.data?.availableNetworks ?? null;
   const providerId: AvailableProviders | null =
     action?.response?.data?.providerId ?? null;
 
-  if (availableNetworks === null || providerId === null) {
+  if (providerId === null) {
     return;
   }
 
@@ -202,7 +203,6 @@ function* connectSuccessWorker(action: IConnectSuccessAction) {
   }
 
   const listenProviderEventsTask: Task = yield fork(listenProviderEvents, {
-    availableNetworks,
     ethWeb3KeyProvider,
     providerId,
   });

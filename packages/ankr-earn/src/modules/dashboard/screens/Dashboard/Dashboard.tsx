@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { Container } from 'uiKit/Container';
@@ -12,10 +12,10 @@ import { featuresConfig } from 'modules/common/const';
 export const Dashboard = () => {
   const dispatchRequest = useDispatchRequest();
 
-  useInitEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(fetchStats());
     dispatchRequest(fetchTxHistory());
-  });
+  }, [dispatchRequest]);
 
   return (
     <Box component="section" py={{ xs: 6, md: 8 }}>

@@ -134,9 +134,12 @@ export class PolygonSDK {
     const providerManager = ProviderManagerSingleton.getInstance();
     const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
     const web3 = provider.getWeb3();
-    const currentAccount = provider.getCurrentAccount();
+    const currentAccount = provider.currentAccount;
+    const addrHasNotBeenUpdated =
+      PolygonSDK.instance?.currentAccount === provider.currentAccount;
+    const hasWeb3 = PolygonSDK.instance?.web3 === web3;
 
-    if (PolygonSDK.instance?.web3 === web3 && PolygonSDK.instance) {
+    if (PolygonSDK.instance && addrHasNotBeenUpdated && hasWeb3) {
       return PolygonSDK.instance;
     }
 

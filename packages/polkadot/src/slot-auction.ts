@@ -104,7 +104,7 @@ export class SlotAuctionSdk {
 
   public async getEthereumAccount(): Promise<string> {
     const keyProvider = await this.injectedWeb3KeyProvider();
-    return keyProvider.getCurrentAccount();
+    return keyProvider.currentAccount;
   }
 
   public async requestDepositAddress(loanId: number): Promise<string> {
@@ -217,7 +217,7 @@ export class SlotAuctionSdk {
     );
     const keyProvider = await this.injectedWeb3KeyProvider();
     if (!ethereumAddress) {
-      ethereumAddress = keyProvider.getCurrentAccount();
+      ethereumAddress = keyProvider.currentAccount;
     }
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
@@ -298,7 +298,7 @@ export class SlotAuctionSdk {
     );
     const keyProvider = await this.injectedWeb3KeyProvider();
     if (!ethereumAddress) {
-      ethereumAddress = keyProvider.getCurrentAccount();
+      ethereumAddress = keyProvider.currentAccount;
     }
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
@@ -513,7 +513,7 @@ export class SlotAuctionSdk {
       network: currentNetwork,
     });
     const keyProvider = await this.injectedWeb3KeyProvider();
-    const account = keyProvider.getCurrentAccount();
+    const account = keyProvider.currentAccount;
     // eslint-disable-next-line no-restricted-syntax
     for (const crowdloan of crowdloans) {
       if (isZeroAddress(crowdloan.bondTokenContract)) {

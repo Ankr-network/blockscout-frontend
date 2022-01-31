@@ -1,11 +1,11 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
 import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -44,9 +44,9 @@ export const StakePolygon = () => {
   const stats = useStakeStats(+amount);
   const faqItems = useFaq();
 
-  useInitEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(fetchStats());
-  });
+  }, [dispatchRequest]);
 
   const renderStats = useCallback(
     (amount: number) => {

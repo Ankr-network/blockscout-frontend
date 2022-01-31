@@ -1,5 +1,4 @@
 import { Box } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { YEARLY_INTEREST as apyMatic } from 'modules/stake-polygon/const';
@@ -21,7 +20,8 @@ export const Main = () => {
             iconSlot={<MaticIcon />}
             token={Token.MATIC}
             apy={apyMatic}
-            staked={new BigNumber('25175951')}
+            // todo: get actual staked amount
+            staked={undefined}
           />
         </Features>
       </Container>

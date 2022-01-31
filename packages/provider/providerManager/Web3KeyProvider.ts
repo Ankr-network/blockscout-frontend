@@ -40,9 +40,9 @@ export interface ITokenInfo {
 export abstract class Web3KeyProvider {
   protected accounts: string[] = [];
 
-  protected currentAccount: string | null = null;
+  protected _currentAccount: string | null = null;
 
-  protected currentChain = 0;
+  protected _currentChain = 0;
 
   protected provider: Provider = null;
 
@@ -56,20 +56,26 @@ export abstract class Web3KeyProvider {
     return !!this.web3;
   }
 
-  public getCurrentAccount(): string {
-    if (!this.currentAccount) {
+  public get currentAccount(): string {
+    if (!this._currentAccount) {
       throw new Error('Wallet is not activated');
     }
-
-    return this.currentAccount;
+    return this._currentAccount;
   }
 
-  public getCurrentChain(): number {
-    if (!this.currentChain) {
+  public set currentAccount(addr) {
+    this._currentAccount = addr;
+  }
+
+  public get currentChain(): number {
+    if (!this._currentChain) {
       throw new Error(`Web3 is not connected`);
     }
+    return this._currentChain;
+  }
 
-    return this.currentChain;
+  public set currentChain(chainId) {
+    this._currentChain = chainId;
   }
 
   public async getErc20Balance(

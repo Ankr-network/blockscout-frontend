@@ -10,6 +10,7 @@ import { Container } from 'uiKit/Container';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
 import { UnsupportedNetwork } from '../UnsupportedNetwork';
 import { useGuardRoute } from './useGuardRoute';
+import { useKnownNetworks } from './useKnownNetworks';
 
 const METAMASK_WALLET_NAME = 'MetaMask';
 
@@ -28,7 +29,7 @@ export const GuardRoute = ({
   const {
     isConnected,
     isUnsupportedNetwork,
-    filteredNetworks,
+    supportedNetworks,
     chainId,
     dispatchConnect,
     handleSwitchNetwork,
@@ -38,6 +39,8 @@ export const GuardRoute = ({
     availableNetworks,
   });
 
+  const knownNetworks = useKnownNetworks();
+
   useEffect(() => {
     if (!isConnected && openConnectInstantly) dispatchConnect();
   }, [openConnectInstantly, isConnected, dispatchConnect]);
@@ -45,7 +48,12 @@ export const GuardRoute = ({
   if (isUnsupportedNetwork) {
     const isMetamask = walletName === METAMASK_WALLET_NAME;
 
-    const renderedNetworkItems = filteredNetworks.map(
+    const currentNetwork =
+      chainId && knownNetworks[chainId]
+        ? knownNetworks[chainId]
+        : t('connect.current');
+
+    const renderedNetworkItems = supportedNetworks.map(
       ({ icon, title, chainId }) => (
         <NetworkSelectorItem
           key={chainId}
@@ -65,7 +73,7 @@ export const GuardRoute = ({
               networksSlot={
                 <NetworkSelector>{renderedNetworkItems}</NetworkSelector>
               }
-              currentNetwork={t(`chain.${chainId}`)}
+              currentNetwork={currentNetwork}
             />
           </Container>
         </Box>
@@ -84,7 +92,7 @@ export const GuardRoute = ({
           onConnectClick={dispatchConnect}
           networksSlot={
             <NetworkSelector>
-              {filteredNetworks.map(({ icon, title, chainId }) => (
+              {supportedNetworks.map(({ icon, title, chainId }) => (
                 <NetworkSelectorItem
                   key={chainId}
                   iconSlot={icon}
