@@ -42,7 +42,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginBottom: 6,
   },
   preloaderWrapper: {
-    minHeight: 120,
+    minHeight: 85,
     position: 'relative',
   },
   button: {

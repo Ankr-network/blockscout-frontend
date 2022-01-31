@@ -36,7 +36,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   preloaderWrapper: {
-    minHeight: 120,
+    minHeight: 85,
     position: 'relative',
   },
 }));
