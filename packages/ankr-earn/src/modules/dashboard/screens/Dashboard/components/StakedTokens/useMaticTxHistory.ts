@@ -6,15 +6,9 @@ import {
   EPolygonPoolEventsMap,
   ITxEventsHistoryData,
 } from 'modules/stake-polygon/api/PolygonSDK';
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMinutes,
-  addHours,
-} from 'date-fns';
-import { UNSTAKE_TIME_WAIT_HOURS } from 'modules/stake-polygon/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { format } from 'date-fns';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import {
   MATIC_STAKING_NETWORKS,
@@ -85,29 +79,24 @@ export const useMaticTxHistory = (): IUseMaticStakingAsset => {
 
   const pendingUnstakeHistory: IPendingTableRow[] = pendingUnstake
     ? pendingUnstake.map((transaction, index): IPendingTableRow => {
-        let daysRemaining = 0;
-        let hoursRemaining = 0;
-        let minutesRemainig = 0;
-
-        if (transaction) {
-          const unstakeDate = addHours(
-            new Date(transaction.txDate),
-            UNSTAKE_TIME_WAIT_HOURS,
-          );
-
-          daysRemaining = differenceInDays(unstakeDate, Date.now());
-          hoursRemaining = differenceInHours(unstakeDate, Date.now()) % 24;
-          minutesRemainig = differenceInMinutes(unstakeDate, Date.now()) % 60;
-        }
+        if (!transaction)
+          return {
+            id: index + 1,
+            amount: '',
+            timerSlot: t('dashboard.unstake-time', {
+              month: '',
+              day: '',
+              year: '',
+            }),
+          };
 
         return {
           id: index + 1,
-          amount: transaction ? transaction.txAmount.toFormat() : '0',
-          timerSlot: t('dashboard.unstake-time', {
-            days: daysRemaining,
-            hours: hoursRemaining,
-            minutes: minutesRemainig,
+          amount: t('unit.token-value', {
+            value: transaction.txAmount.toFormat(),
+            token: Token.aMATICb,
           }),
+          timerSlot: format(transaction.txDate, t('dashboard.unstake-time')),
         };
       })
     : [];

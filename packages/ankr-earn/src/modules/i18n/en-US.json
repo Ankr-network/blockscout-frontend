@@ -325,12 +325,14 @@
     "stakable-asset-apy": "APY: {value}%",
     "stakable-asset-stake": "Stake {token}",
     "networks": "in {value} networks",
-    "unstake-time": "~{days}d {hours}h {minutes}m",
+    "unstake-time": "dd.LL.yyyy, hh:mm",
     "claim": "Claim",
     "remaining-rewards": "Remaining rewards",
     "claimable-rewards": "Claimable rewards",
     "redeem-timer": "Redeem in {days} days",
-    "reward": "{value} ACA"
+    "reward": "{value} ACA",
+    "pending-amount": "Amount",
+    "pending-time": "Requested time"
   },
   "features": {
     "polygon": "Polygon (MATIC)",

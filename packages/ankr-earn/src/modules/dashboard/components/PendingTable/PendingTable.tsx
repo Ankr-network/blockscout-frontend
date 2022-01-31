@@ -16,7 +16,7 @@ interface IPendingTableProps {
 export const PendingTable = ({ data }: IPendingTableProps) => {
   const classes = usePendingTableStyles();
 
-  const captions = [t('Amount'), t('Remaining time')];
+  const captions = [t('dashboard.pending-amount'), t('dashboard.pending-time')];
 
   return (
     <table className={classes.table}>
