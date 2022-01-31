@@ -86,7 +86,6 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(0, 2.5),
 
     '&:first-of-type': {
-      width: '80%',
       borderRadius: '6px 0 0 6px',
     },
 
@@ -117,5 +116,22 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     textAlign: 'center',
     color: theme.palette.action.disabledBackground,
     fontSize: 22,
+  },
+
+  txLink: {
+    padding: 0,
+    height: 'auto',
+    width: 'auto',
+    minWidth: 0,
+
+    color: theme.palette.text.secondary,
+    fontWeight: 500,
+
+    transition: '0.2s all',
+
+    '&:hover': {
+      background: 'none',
+      color: theme.palette.text.primary,
+    },
   },
 }));

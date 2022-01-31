@@ -8,18 +8,24 @@ import { t } from 'modules/i18n/utils/intl';
 import BigNumber from 'bignumber.js';
 import { Token } from 'modules/common/types/token';
 import { format } from 'date-fns';
+import { NavLink } from 'uiKit/NavLink';
+import { getShortStr } from 'modules/common/utils/getShortStr';
 
 export interface HistoryDialogData {
   token: Token | undefined;
   staked:
     | Array<{
         date: Date | undefined;
+        link: string | undefined;
+        hash: string | undefined;
         amount: BigNumber | undefined;
       }>
     | undefined;
   unstaked:
     | Array<{
         date: Date | undefined;
+        link: string | undefined;
+        hash: string | undefined;
         amount: BigNumber | undefined;
       }>
     | undefined;
@@ -55,6 +61,15 @@ export const HistoryDialog = ({
           : t('history-dialog.error-cell')}
       </td>
       <td className={classes.td}>
+        {el.link && el.hash ? (
+          <NavLink href={el.link} className={classes.txLink}>
+            {t('history-dialog.hash-cell', { hash: getShortStr(el.hash) })}
+          </NavLink>
+        ) : (
+          t('history-dialog.error-cell')
+        )}
+      </td>
+      <td className={classes.td}>
         {el.amount
           ? t('history-dialog.amount-cell', {
               value: el.amount.toFormat(),
@@ -74,6 +89,7 @@ export const HistoryDialog = ({
       <thead className={classes.thead}>
         <tr className={classes.theadTr}>
           <th className={classes.th}>{t('history-dialog.date')}</th>
+          <th className={classes.th}>{t('history-dialog.hash')}</th>
           <th className={classes.th}>{t('history-dialog.amount')}</th>
         </tr>
       </thead>

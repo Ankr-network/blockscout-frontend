@@ -357,6 +357,8 @@
     "date-cell": "{month} {day}, {year}",
     "amount-cell": "{value} {token}",
     "error-cell": "Error",
-    "empty": "There are no transactions"
+    "hash-cell": "{hash}",
+    "empty": "There are no transactions",
+    "hash": "Hash"
   }
 }

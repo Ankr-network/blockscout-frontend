@@ -43,3 +43,10 @@ export const featuresConfig = {
   onlyCrowdloans: false,
   dashboardLiquidCrowdloanAssets: false,
 };
+
+export const transactionHistoryUrlsByNetwork: any = {
+  1: 'https://etherscan.io/tx/{value}',
+  5: 'https://goerli.etherscan.io/tx/{value}',
+  56: 'https://bscscan.com/tx/{value}',
+  97: 'https://testnet.bscscan.com/tx/{value}',
+};

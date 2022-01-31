@@ -15,6 +15,12 @@ import {
 import { UNSTAKE_TIME_WAIT_HOURS } from 'modules/stake-polygon/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import {
+  MATIC_STAKING_NETWORKS,
+  POLYGON_PROVIDER_ID,
+} from 'modules/stake-polygon/const';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 interface IUseMaticStakingAsset {
   txHistory: ITxEventsHistoryData | null;
@@ -27,20 +33,44 @@ export const useMaticTxHistory = (): IUseMaticStakingAsset => {
     type: fetchTxHistory,
   });
 
+  const polygonAuth = useAuth(POLYGON_PROVIDER_ID, MATIC_STAKING_NETWORKS);
+
+  const network = polygonAuth.chainId;
+
   const staked = data?.completed
     ?.filter(el => el?.txType === EPolygonPoolEventsMap.StakePending)
     .map(el => {
+      if (!el)
+        return {
+          date: undefined,
+          hash: undefined,
+          link: undefined,
+          amount: undefined,
+        };
+
       return {
-        date: el?.txDate,
-        amount: el?.txAmount,
+        date: el.txDate,
+        hash: el.txHash,
+        link: network && getTxLinkByNetwork(el.txHash, network),
+        amount: el.txAmount,
       };
     });
 
   const unstaked = data?.completed
     .filter(el => el?.txType === EPolygonPoolEventsMap.MaticClaimPending)
     .map(el => {
+      if (!el)
+        return {
+          date: undefined,
+          hash: undefined,
+          link: undefined,
+          amount: undefined,
+        };
+
       return {
         date: el?.txDate,
+        hash: el?.txHash,
+        link: network && getTxLinkByNetwork(el.txHash, network),
         amount: el?.txAmount,
       };
     });
