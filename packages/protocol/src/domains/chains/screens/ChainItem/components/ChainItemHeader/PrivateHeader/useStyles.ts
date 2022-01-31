@@ -2,9 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  root: {
-    paddingTop: theme.spacing(1),
-  },
+  root: {},
   text: {
     fontWeight: 600,
   },
@@ -37,9 +35,18 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
-  copyToClip: { flex: 1, maxWidth: '100%', minWidth: 0 },
+  copyToClip: {
+    flex: 1,
+    maxWidth: '100%',
+    minWidth: 0,
+    marginBottom: 6,
+  },
   preloaderWrapper: {
     minHeight: 120,
     position: 'relative',
+  },
+  button: {
+    height: 23,
+    padding: 0,
   },
 }));

@@ -29,7 +29,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'flex-start',
   },
   section: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
     flex: 1,
     minWidth: 0,
   },

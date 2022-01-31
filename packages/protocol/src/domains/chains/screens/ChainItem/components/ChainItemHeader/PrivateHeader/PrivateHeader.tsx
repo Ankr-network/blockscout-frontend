@@ -55,7 +55,7 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
                   />
                 )}
               </div>
-              <Button variant="text" disabled>
+              <Button variant="text" disabled className={classes.button}>
                 {t('chain-item.header.settings-button')}
               </Button>
             </div>
