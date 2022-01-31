@@ -38,6 +38,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   details: {
     display: 'flex',
+    justifyContent: 'center',
     width: '100%',
     paddingBottom: 19,
   },

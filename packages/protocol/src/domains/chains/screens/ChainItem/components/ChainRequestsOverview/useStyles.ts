@@ -21,7 +21,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   rootSkeleton: {
     background: theme.palette.background.paper,
     borderRadius: 18,
-    height: 472,
+    height: 520,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'flex-end',
   },
   info: {
     display: 'flex',
@@ -78,5 +81,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
         width: '33.3%',
       },
     },
+  },
+  spinner: {
+    bottom: 40,
   },
 }));

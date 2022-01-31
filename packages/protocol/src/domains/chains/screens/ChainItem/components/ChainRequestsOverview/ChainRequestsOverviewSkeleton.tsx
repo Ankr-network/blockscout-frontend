@@ -17,12 +17,8 @@ export const ChainRequestsOverviewSkeleton = ({
 
   return (
     <div className={classNames(classes.rootSkeleton, className)}>
-      <div>
-        {children}
-        <div className={classes.infoSkeleton}>
-          <Spinner />
-        </div>
-      </div>
+      <Spinner className={classes.spinner} />
+      {children}
     </div>
   );
 };
