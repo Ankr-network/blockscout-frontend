@@ -11,7 +11,6 @@ import {
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
@@ -28,6 +27,8 @@ import { ConnectTooltip } from '../ConnectTooltip';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
 import { useMyRewardsStyles } from './useMyRewardsStyles';
+
+const CLOVER_TOKEN_NAME = 'Clover';
 
 type CaptionType = {
   label: string;
@@ -111,7 +112,10 @@ export const MyRewards = () => {
                   item;
 
                 const isDisabledClaimBtn: boolean =
-                  !isConnected || !claimableRewardsAmount.isGreaterThan(0);
+                  !isConnected ||
+                  !claimableRewardsAmount.isGreaterThan(0) ||
+                  item.rewardTokenName === CLOVER_TOKEN_NAME;
+
                 const isShowConnectTooltip: boolean = !isConnected;
 
                 const endDateVal: string = t('format.date', {
