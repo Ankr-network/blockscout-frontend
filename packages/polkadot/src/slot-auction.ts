@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult, Web3KeyProvider } from 'provider';
+import { Contract } from 'web3-eth-contract';
+import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
 import { ContractManager } from './contract';
 import { ICrowdloanType, TClaimMethod, TCrowdloanStatus } from './entity';
@@ -621,22 +623,47 @@ export class SlotAuctionSdk {
     return this.keyProvider;
   }
 
-  public async addCrowdloanAssetsToMetaMask(loanId: number): Promise<void> {
-    const keyProvider = await this.injectedWeb3KeyProvider();
-    const crowdloan = await this.getCrowdloanById(loanId);
-    if (!isZeroAddress(crowdloan.bondTokenContract)) {
-      await keyProvider.watchAsset({
-        type: 'ERC20',
-        address: crowdloan.bondTokenContract,
-        symbol: crowdloan.bondTokenSymbol,
-      });
+  public async addCrowdloanAssetsToMetaMask(
+    loanId: number,
+    isBondToken = true,
+  ): Promise<void> {
+    const keyProvider: Web3KeyProvider = await this.injectedWeb3KeyProvider();
+    const crowdloan: ICrowdloanType = await this.getCrowdloanById(loanId);
+
+    let tokenAddr: string | null;
+
+    if (isBondToken) {
+      tokenAddr = isZeroAddress(crowdloan.bondTokenContract)
+        ? null
+        : crowdloan.bondTokenContract;
+    } else {
+      tokenAddr = isZeroAddress(crowdloan.rewardTokenContract)
+        ? null
+        : crowdloan.rewardTokenContract;
     }
-    if (!isZeroAddress(crowdloan.rewardTokenContract)) {
-      await keyProvider.watchAsset({
-        type: 'ERC20',
-        address: crowdloan.rewardTokenContract,
-        symbol: crowdloan.rewardTokenSymbol,
-      });
+
+    if (tokenAddr === null) {
+      return;
     }
+
+    const tokenContract: Contract = keyProvider.createContract(
+      ABI_IERC20,
+      tokenAddr,
+    );
+
+    const decimals: number = parseInt(
+      await tokenContract.methods.decimals().call(),
+      10,
+    );
+    const symbol: string = await tokenContract.methods.symbol().call();
+    const image: string = crowdloan.projectLogo;
+
+    await keyProvider.watchAsset({
+      type: 'ERC20',
+      address: tokenAddr,
+      symbol,
+      decimals,
+      image,
+    });
   }
 }
