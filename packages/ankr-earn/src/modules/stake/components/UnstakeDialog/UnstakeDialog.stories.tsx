@@ -8,7 +8,7 @@ export default {
 };
 
 export const Default = () => {
-  const [isOpened, setIsOpened] = useState(true);
+  const [, setIsOpened] = useState(true);
 
   const onUnstakeClick = () => {
     setIsOpened(true);

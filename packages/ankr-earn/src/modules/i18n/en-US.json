@@ -25,7 +25,8 @@
     "dashboard": "Dashboard",
     "parachain": "Liquid Crowdloan",
     "boost": "Boost",
-    "menu": "Menu",
+    "more": "More",
+    "eth2Swap": "ETH2 Swap",
     "docs": "Docs",
     "litepaper": "Litepaper"
   },
@@ -298,6 +299,17 @@
       "answer-6": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction.",
       "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
       "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
+    }
+  },
+  "eth2Swap": {
+    "title": "ETH2 Swap",
+    "info": "Swap ETH liquid staking tokens at fair value any time.",
+    "fee": "Service fee ({fee}%)",
+    "willGet": "You will get",
+    "amountInputTitle": "Amount",
+    "tooltips": {
+      "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. By holding aETHb, its balance will increase in a daily basis at the same proportion as ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
+      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token. Its ratio, representing the redemption value of aETHc, increases pver time due to ETH2 staking rewards."
     }
   },
   "unstake-dialog": {

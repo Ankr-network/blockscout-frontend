@@ -15,6 +15,7 @@ import { Locale } from 'modules/i18n/types/locale';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
+import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { useMemo } from 'react';
 
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
@@ -46,6 +47,10 @@ export const useNavigationItems = () => {
         label: t('main-navigation.boost'),
         href: BoostRoutes.root,
       },
+      eth2Swap: {
+        label: t('main-navigation.eth2Swap'),
+        href: ETH2SwapRoutes.root,
+      },
       docs: {
         label: t('main-navigation.docs'),
         href: DOCS_LINK,
@@ -68,7 +73,13 @@ export const useNavigationItems = () => {
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
-    () => [links.docs, links.litepaper],
+    () => [
+      ...(featuresConfig.onlyCrowdloans || !featuresConfig.eth2Swap
+        ? []
+        : [links.eth2Swap]),
+      links.docs,
+      links.litepaper,
+    ],
     [links],
   );
 
@@ -77,6 +88,9 @@ export const useNavigationItems = () => {
       ...(featuresConfig.onlyCrowdloans ? [] : [links.dashboard, links.stake]),
       links.parachain,
       ...(featuresConfig.onlyCrowdloans ? [] : [links.boost]),
+      ...(featuresConfig.onlyCrowdloans || !featuresConfig.eth2Swap
+        ? []
+        : [links.eth2Swap]),
       links.docs,
       links.litepaper,
     ],

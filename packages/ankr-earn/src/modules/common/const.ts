@@ -42,6 +42,7 @@ export const featuresConfig = {
   localeSwitcher: false,
   onlyCrowdloans: false,
   dashboardLiquidCrowdloanAssets: false,
+  eth2Swap: currentEnv === Env.Develop,
 };
 
 export const transactionHistoryUrlsByNetwork: any = {
