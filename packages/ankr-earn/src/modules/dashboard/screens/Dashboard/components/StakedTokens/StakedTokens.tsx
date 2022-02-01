@@ -86,6 +86,7 @@ export const StakedTokens = (props: BoxProps) => {
               unstakeLink={aMATICbData.unstakeLink}
               stakeLink={aMATICbData.stakeLink}
               isStakeLoading={aMATICbData.isStakeLoading}
+              isUnstakeLoading={aMATICbData.isUnstakeLoading}
               isHistoryLoading={MATICTxHistory.loading}
             />
           )}

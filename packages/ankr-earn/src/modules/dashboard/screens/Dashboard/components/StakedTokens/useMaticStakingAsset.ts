@@ -7,6 +7,7 @@ import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
+import { unstake } from 'modules/stake-polygon/actions/unstake';
 import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 
@@ -20,6 +21,7 @@ interface IUseMaticStakingAsset {
   unstakeLink: string;
   isLoading: boolean;
   isStakeLoading: boolean;
+  isUnstakeLoading: boolean;
 }
 
 export const useMaticStakingAsset = (): IUseMaticStakingAsset => {
@@ -29,8 +31,10 @@ export const useMaticStakingAsset = (): IUseMaticStakingAsset => {
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
   return {
+    isUnstakeLoading,
     isStakeLoading,
     isLoading: loading,
     token: EToken.aMATICb,

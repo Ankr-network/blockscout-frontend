@@ -23,6 +23,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
+  isUnstakeLoading?: boolean;
   isHistoryLoading?: boolean;
   onHistoryBtnClick?: () => void;
 }
@@ -37,6 +38,7 @@ export const StakingAsset = ({
   pendingSlot,
   isLoading = false,
   isStakeLoading = false,
+  isUnstakeLoading = false,
   isHistoryLoading = false,
   onHistoryBtnClick,
 }: IStakingAssetProps) => {
@@ -118,8 +120,13 @@ export const StakingAsset = ({
                 <Grid item>
                   <PlusMinusBtn
                     href={unstakeLink}
+                    isLoading={isUnstakeLoading}
                     icon="minus"
-                    tooltip={t('dashboard.unstake-tooltip')}
+                    tooltip={
+                      isUnstakeLoading
+                        ? t('dashboard.unstake-loading')
+                        : t('dashboard.unstake-tooltip')
+                    }
                   />
                 </Grid>
               )}

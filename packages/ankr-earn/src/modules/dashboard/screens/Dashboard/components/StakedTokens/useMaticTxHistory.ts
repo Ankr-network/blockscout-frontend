@@ -1,20 +1,17 @@
 import { useQuery } from '@redux-requests/react';
+import { format } from 'date-fns';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { Token } from 'modules/common/types/token';
+import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
+import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import {
   EPolygonPoolEventsMap,
   ITxEventsHistoryData,
 } from 'modules/stake-polygon/api/PolygonSDK';
-import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
-import { format } from 'date-fns';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
-import {
-  MATIC_STAKING_NETWORKS,
-  POLYGON_PROVIDER_ID,
-} from 'modules/stake-polygon/const';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 
 interface IUseMaticStakingAsset {
   txHistory: ITxEventsHistoryData | null;
@@ -28,7 +25,7 @@ export const useMaticTxHistory = (): IUseMaticStakingAsset => {
     type: fetchTxHistory,
   });
 
-  const polygonAuth = useAuth(POLYGON_PROVIDER_ID, MATIC_STAKING_NETWORKS);
+  const polygonAuth = useAuth(POLYGON_PROVIDER_ID);
 
   const network = polygonAuth.chainId;
 

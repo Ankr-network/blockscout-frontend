@@ -7,9 +7,13 @@ export const usePlusMinusBtnStyles = makeStyles<Theme>(theme => ({
     minWidth: 48,
     padding: 0,
     borderRadius: '50%',
+  },
 
-    '& svg': {
-      color: 'inherit',
-    },
+  icon: {
+    color: 'inherit',
+  },
+
+  loader: {
+    color: theme.palette.primary.main,
   },
 }));

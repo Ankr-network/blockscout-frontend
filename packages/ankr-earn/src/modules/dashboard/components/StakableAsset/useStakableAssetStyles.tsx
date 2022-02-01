@@ -153,4 +153,9 @@ export const useStakableAssetStyles = makeStyles<Theme>(theme => ({
       display: 'none',
     },
   },
+
+  loaderIcon: {
+    color: 'inherit',
+    marginRight: theme.spacing(1),
+  },
 }));

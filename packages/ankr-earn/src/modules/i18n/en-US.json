@@ -322,6 +322,7 @@
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
+    "unstake-loading": "Unstake in progress",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value}%",

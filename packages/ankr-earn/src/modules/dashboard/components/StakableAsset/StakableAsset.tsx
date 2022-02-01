@@ -7,6 +7,7 @@ import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { NavLink } from 'uiKit/NavLink';
+import { Spinner } from 'uiKit/Spinner';
 import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 
 interface IStakableAssetProps {
@@ -16,6 +17,7 @@ interface IStakableAssetProps {
   token: Token | EToken;
   href: string;
   apy: number;
+  isStakeLoading?: boolean;
 }
 
 export const StakableAsset = ({
@@ -25,6 +27,7 @@ export const StakableAsset = ({
   token,
   href,
   apy,
+  isStakeLoading = false,
 }: IStakableAssetProps) => {
   const classes = useStyles();
 
@@ -66,16 +69,27 @@ export const StakableAsset = ({
           className={classNames(classes.crossIcon, classes.mobileStakeLink)}
         />
       </div>
+
       <NavLink
-        href={href}
+        href={isStakeLoading ? '#' : href}
         className={classes.onHoverDisplay}
         classes={{ label: classes.onHoverDisplayLabel }}
       >
         <Typography className={classes.apy}>
           {t('dashboard.stakable-asset-apy', { value: apy })}
         </Typography>
+
         <Typography className={classes.stake}>
-          <span className={classes.crossIcon} />
+          {isStakeLoading ? (
+            <Spinner
+              variant="circle"
+              size={16}
+              className={classes.loaderIcon}
+            />
+          ) : (
+            <span className={classes.crossIcon} />
+          )}
+
           {t('dashboard.stakable-asset-stake', { token: token })}
         </Typography>
       </NavLink>
