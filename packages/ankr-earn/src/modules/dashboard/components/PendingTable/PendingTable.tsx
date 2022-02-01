@@ -1,11 +1,14 @@
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import React, { ReactNode, ReactText } from 'react';
+import { ReactNode, ReactText } from 'react';
 import { usePendingTableStyles } from './usePendingTableStyles';
 
 export interface IPendingTableRow {
   id: ReactText;
-  amount: string;
+  amount: BigNumber;
+  token: string;
   timerSlot: ReactNode;
 }
 
@@ -31,9 +34,18 @@ export const PendingTable = ({ data }: IPendingTableProps) => {
       </thead>
 
       <tbody>
-        {data.map(({ amount, timerSlot, id }) => (
+        {data.map(({ amount, timerSlot, id, token }) => (
           <tr className={classes.tr} key={id}>
-            <td className={classNames(classes.td, classes.tCell)}>{amount}</td>
+            <td
+              className={classNames(classes.td, classes.tCell)}
+              title={amount.toFormat()}
+            >
+              {t('unit.token-value', {
+                token,
+                value: amount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+              })}
+            </td>
+
             <td className={classNames(classes.td, classes.tCell)}>
               {timerSlot}
             </td>

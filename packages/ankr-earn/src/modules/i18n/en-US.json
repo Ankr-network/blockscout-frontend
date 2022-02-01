@@ -44,7 +44,8 @@
     "zh-CN": "中文"
   },
   "format": {
-    "date": "{value, date, medium}"
+    "date": "{value, date, medium}",
+    "time-short": "{value, time, short}"
   },
   "unit": {
     "eth": "ETH",

@@ -40,7 +40,7 @@ export const Select = ({
   ...restProps
 }: ISelectProps) => {
   const styles = useSelectStyles();
-  const tooltiClasses = useTooltipStyles();
+  const tooltiClasses = useTooltipStyles({});
 
   const items = useMemo(() => {
     return options?.map(option => (

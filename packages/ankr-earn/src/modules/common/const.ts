@@ -39,7 +39,6 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   liquidityMining: false,
-  unstakingHistory: true,
   localeSwitcher: false,
   onlyCrowdloans: false,
   dashboardLiquidCrowdloanAssets: false,

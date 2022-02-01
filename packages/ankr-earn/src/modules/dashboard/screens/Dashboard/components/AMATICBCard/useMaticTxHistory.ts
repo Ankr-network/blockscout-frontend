@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { format } from 'date-fns';
+import BigNumber from 'bignumber.js';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
@@ -15,6 +15,7 @@ import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 
 interface IUseMaticStakingAsset {
   txHistory: ITxEventsHistoryData | null;
+  hasHistory: boolean;
   pendingUnstakeHistory: IPendingTableRow[];
   transactionHistory: HistoryDialogData;
   loading: boolean;
@@ -79,27 +80,28 @@ export const useMaticTxHistory = (): IUseMaticStakingAsset => {
         if (!transaction)
           return {
             id: index + 1,
-            amount: '',
-            timerSlot: t('dashboard.unstake-time', {
-              month: '',
-              day: '',
-              year: '',
-            }),
+            amount: new BigNumber(0),
+            token: '',
+            timerSlot: '',
           };
+
+        const date = t('format.date', { value: transaction.txDate });
+        const time = t('format.time-short', { value: transaction.txDate });
 
         return {
           id: index + 1,
-          amount: t('unit.token-value', {
-            value: transaction.txAmount.toFormat(),
-            token: Token.aMATICb,
-          }),
-          timerSlot: format(transaction.txDate, t('dashboard.unstake-time')),
+          token: Token.aMATICb,
+          amount: transaction.txAmount,
+          timerSlot: `${date}, ${time}`,
         };
       })
     : [];
 
+  const hasHistory = !!staked?.length || !!unstaked?.length;
+
   return {
     txHistory: data,
+    hasHistory,
     pendingUnstakeHistory,
     transactionHistory,
     loading,
