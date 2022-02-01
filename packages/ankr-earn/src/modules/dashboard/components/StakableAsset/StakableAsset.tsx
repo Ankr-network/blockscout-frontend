@@ -2,6 +2,7 @@ import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
@@ -55,15 +56,18 @@ export const StakableAsset = ({
         {React.cloneElement(icon, {
           className: classes.icon,
         })}
+
         <div className={classes.balanceNetworkWrapper}>
           <Typography className={classes.balance}>
             {t('dashboard.wallet-balance', {
-              value: balance.toFormat(),
+              value: balance.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
               token: token,
             })}
           </Typography>
+
           {networksDisplay}
         </div>
+
         <NavLink
           href={href}
           className={classNames(classes.crossIcon, classes.mobileStakeLink)}
