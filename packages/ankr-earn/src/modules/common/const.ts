@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-
 import packageJson from '../../../package.json';
 import { Env } from './types';
 
@@ -45,7 +44,8 @@ export const featuresConfig = {
   isActiveLedgerNanoX: false,
   liquidityMining: false,
   localeSwitcher: false,
-  earlyRelease: false,
+  earlyRelease: true,
+  v1banner: false,
   dashboardLiquidCrowdloanAssets: false,
   eth2Swap: currentEnv === Env.Develop,
 };
