@@ -45,7 +45,7 @@ export const featuresConfig = {
   isActiveLedgerNanoX: false,
   liquidityMining: false,
   localeSwitcher: false,
-  onlyCrowdloans: false,
+  earlyRelease: false,
   dashboardLiquidCrowdloanAssets: false,
   eth2Swap: currentEnv === Env.Develop,
 };

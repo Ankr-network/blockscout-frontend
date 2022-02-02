@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles';
-import { STAKEFI_LINK } from 'modules/common/const';
+import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
 import { useMemo } from 'react';
 import { Themes } from 'ui';
@@ -31,7 +31,9 @@ export const DefaultLayout = ({
           <Header
             mainNavigationSlot={<MainNavigation />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
-            rightComponentSlot={<ConnectedWallets />}
+            rightComponentSlot={
+              featuresConfig.earlyRelease ? null : <ConnectedWallets />
+            }
           />
         </ThemeProvider>
       }
