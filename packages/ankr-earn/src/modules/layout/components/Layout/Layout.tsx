@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+import { SwitchBanner } from '../SwitchBanner';
 import { useLayoutStyles } from './useLayoutStyles';
 
 export interface ILayoutProps {
@@ -7,6 +8,7 @@ export interface ILayoutProps {
   headerSlot?: ReactNode;
   footerSlot?: ReactNode;
   verticalAlign?: 'top' | 'center' | 'bottom';
+  oldVersionLink?: string;
 }
 
 export const Layout = ({
@@ -14,11 +16,13 @@ export const Layout = ({
   headerSlot,
   footerSlot,
   verticalAlign,
+  oldVersionLink,
 }: ILayoutProps) => {
   const classes = useLayoutStyles();
 
   return (
     <div className={classes.root}>
+      {!!oldVersionLink && <SwitchBanner link={oldVersionLink} />}
       {headerSlot}
       <main
         className={classNames({

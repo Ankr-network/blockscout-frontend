@@ -392,5 +392,10 @@
     "hash-cell": "{hash}",
     "empty": "There are no transactions",
     "hash": "Hash"
+  },
+  "switch-banner": {
+    "img-alt": "Two arrows icon",
+    "text": "Switch to old version",
+    "btn": "Switch"
   }
 }

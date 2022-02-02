@@ -4,6 +4,7 @@ import { Env } from './types';
 export const EARN_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
+export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
