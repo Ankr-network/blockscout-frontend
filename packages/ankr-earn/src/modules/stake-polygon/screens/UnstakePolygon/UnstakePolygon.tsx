@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
@@ -16,6 +16,8 @@ import {
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';
@@ -98,6 +100,14 @@ export const UnstakePolygon = () => {
                       className={classes.fee}
                     >
                       {t('unstake-dialog.unstake-fee')}
+                      <Tooltip title={t('unstake-dialog.unstake-fee-tooltip')}>
+                        <ButtonBase className={classes.questionBtn}>
+                          <QuestionIcon
+                            size="xs"
+                            className={classes.questionIcon}
+                          />
+                        </ButtonBase>
+                      </Tooltip>
                     </Typography>
 
                     <Box ml="auto" />

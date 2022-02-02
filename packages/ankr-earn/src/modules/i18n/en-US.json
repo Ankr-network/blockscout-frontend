@@ -331,7 +331,8 @@
     "unstake-fee": "Unstake Fee",
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
-    "amount": "Amount"
+    "amount": "Amount",
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. MATIC tokens will therefore be transferred to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
   },
   "dashboard": {
     "title": "Stakable tokens",

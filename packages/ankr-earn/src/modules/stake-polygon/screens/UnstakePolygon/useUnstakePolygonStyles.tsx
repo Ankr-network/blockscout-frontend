@@ -32,6 +32,10 @@ export const useUnstakePolygonStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
   },
 
+  questionBtn: {
+    margin: theme.spacing(0.5),
+  },
+
   ankrValue: {
     marginRight: theme.spacing(0.5),
     fontSize: 14,
