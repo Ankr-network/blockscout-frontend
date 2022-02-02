@@ -4,8 +4,14 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { AcademyRoutes, AcademyRoutesConfig } from 'domains/academy/Routes';
 import { LibraryRoutes } from 'domains/library/Routes';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
+import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
+import { GlossaryRoutes } from 'domains/glossary/Routes';
+import { useGlossaryLoading } from 'domains/glossary/hooks';
 
 export function Routes() {
+  // request glossary items from strapi
+  useGlossaryLoading();
+
   return (
     <Switch>
       <Route exact path="/">
@@ -26,6 +32,18 @@ export function Routes() {
         render={() => (
           <DefaultLayout isFooterDisabled>
             <LibraryRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[
+          GlossaryRouterConfig.glossary.path,
+          GlossaryRouterConfig.glossaryTerm.path,
+        ]}
+        render={() => (
+          <DefaultLayout>
+            <GlossaryRoutes />
           </DefaultLayout>
         )}
       />

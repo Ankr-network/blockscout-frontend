@@ -50,7 +50,7 @@ export const MainNavigation = () => {
         onClick={handleMenuClick}
         endIcon={<AngleDownIconSmall />}
       >
-        {t('main-navigation.menu')}
+        {t('main-navigation.more')}
       </Button>
 
       <Popover

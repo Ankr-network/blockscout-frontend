@@ -1,6 +1,7 @@
 import { createDriver as createAxiosDriver } from '@redux-requests/axios';
 import { handleRequests } from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
+import { createDriver as createMockDriver } from '@redux-requests/mock';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
@@ -20,6 +21,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
         baseURL: process.env.REACT_APP_API_BASE || '',
       }),
     ),
+    mock: createMockDriver({ timeout: 1000 }),
   },
   onRequest: (request, action) => {
     if (action.meta?.auth) {

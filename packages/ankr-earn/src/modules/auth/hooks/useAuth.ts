@@ -1,5 +1,4 @@
 import { useDispatchRequest } from '@redux-requests/react';
-import { BlockchainNetworkId } from 'modules/common/types';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { AvailableProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
@@ -12,16 +11,13 @@ interface IUseAuth extends IUseConnectedData {
   dispatchDisconnect: () => TActionPromise<IConnect>;
 }
 
-export const useAuth = (
-  providerId: AvailableProviders,
-  availableNetworks: BlockchainNetworkId[],
-): IUseAuth => {
+export const useAuth = (providerId: AvailableProviders): IUseAuth => {
   const dispatchRequest = useDispatchRequest();
   const data = useConnectedData(providerId);
 
   const dispatchConnect = useCallback(
-    () => dispatchRequest(connect(providerId, availableNetworks)),
-    [availableNetworks, dispatchRequest, providerId],
+    () => dispatchRequest(connect(providerId)),
+    [dispatchRequest, providerId],
   );
 
   const dispatchDisconnect = useCallback(

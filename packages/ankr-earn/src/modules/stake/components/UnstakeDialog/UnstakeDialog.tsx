@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
 import { AmountField } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
@@ -68,21 +67,6 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
-  const percentage = useCallback(
-    (values: IUnstakeFormValues) => {
-      const amount = new BigNumber(values.amount || 0);
-
-      const percents = balance
-        ? amount.dividedBy(balance).multipliedBy(100)
-        : new BigNumber(0);
-
-      return percents.isGreaterThan(100)
-        ? '100'
-        : percents.decimalPlaces(DEFAULT_ROUNDING).toFormat();
-    },
-    [balance],
-  );
-
   return (
     <Paper className={classes.root}>
       <Container className={classes.container}>
@@ -106,11 +90,8 @@ export const UnstakeDialog = ({
                   isBalanceLoading={isBalanceLoading}
                   name="amount"
                   tokenName={token}
-                  label={t('unstake-dialog.amount', {
-                    value: percentage(values),
-                  })}
+                  label={t('unstake-dialog.amount')}
                   inputClassName={classes.input}
-                  showBalance={false}
                 />
               </Box>
 
@@ -131,7 +112,7 @@ export const UnstakeDialog = ({
               {endDate && (
                 <Typography variant="body2" className={classes.info}>
                   {t('unstake-dialog.info', { token })}
-                  {` `}
+
                   <Timer
                     component="span"
                     className={classes.timer}

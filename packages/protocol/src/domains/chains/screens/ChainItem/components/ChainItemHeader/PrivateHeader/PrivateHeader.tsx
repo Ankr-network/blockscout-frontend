@@ -34,14 +34,19 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
       }
     >
       {({ data }) => {
-        const { rpcUrl, wsUrl, requests } = data;
+        const { rpcUrls, wsUrls, requests } = data;
 
         return (
           <div className={classes.root}>
             <div className={classes.top}>
               <div className={classes.left}>
                 <Typography variant="body2" className={classes.text}>
-                  {t('chain-item.header.bottom')}
+                  {t('chain-item.header.private-endpoints', {
+                    plural:
+                      [...rpcUrls, ...wsUrls].length > 1
+                        ? t('chain-item.header.plural')
+                        : '',
+                  })}
                 </Typography>
                 {requests && (
                   <ChainRequestsLabel
@@ -50,27 +55,35 @@ export const PrivateHeader = ({ chainId }: PrivateHeaderProps) => {
                   />
                 )}
               </div>
-              <Button variant="text" disabled>
+              <Button variant="text" disabled className={classes.button}>
                 {t('chain-item.header.settings-button')}
               </Button>
             </div>
             <div className={classes.bottom}>
-              <CopyToClipIcon
-                text={rpcUrl}
-                message={t('common.copy-message')}
-                size="l"
-                textColor="textPrimary"
-                className={classes.copyToClip}
-              />
-              {wsUrl && (
-                <CopyToClipIcon
-                  text={wsUrl}
-                  message={t('common.copy-message')}
-                  size="l"
-                  textColor="textPrimary"
-                  className={classes.copyToClip}
-                />
-              )}
+              {rpcUrls.map(item => {
+                return (
+                  <CopyToClipIcon
+                    text={item}
+                    message={t('common.copy-message')}
+                    size="l"
+                    textColor="textPrimary"
+                    className={classes.copyToClip}
+                    key={item}
+                  />
+                );
+              })}
+              {wsUrls.map(item => {
+                return (
+                  <CopyToClipIcon
+                    text={item}
+                    message={t('common.copy-message')}
+                    size="l"
+                    textColor="textPrimary"
+                    className={classes.copyToClip}
+                    key={item}
+                  />
+                );
+              })}
             </div>
           </div>
         );

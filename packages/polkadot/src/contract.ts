@@ -85,7 +85,7 @@ export class ContractManager {
     toBlockExclusive: string,
     amount: string,
   ): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.getCurrentAccount();
+    const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods
       .initZeroRewardPayout(
         maxSupply,
@@ -111,7 +111,7 @@ export class ContractManager {
     toBlockExclusive: string,
     amount: string,
   ): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.getCurrentAccount();
+    const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods
       .depositRewardPayout(
         payoutType,
@@ -146,7 +146,7 @@ export class ContractManager {
       if (!val.startsWith('0x')) return `0x${val}`;
       return val;
     };
-    const sender = this.keyProvider.getCurrentAccount();
+    const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods
       .claimTokensFor(
         makePrefixed(claimId),
@@ -170,7 +170,7 @@ export class ContractManager {
     rewardTokenSymbol: string,
     account?: string,
   ): Promise<BigNumber> {
-    if (!account) account = this.keyProvider.getCurrentAccount();
+    if (!account) account = this.keyProvider.currentAccount;
     const rawRewardPayouts: string = await this.rewardPool.methods
       .claimableRewardsOf(account)
       .call();
@@ -204,7 +204,7 @@ export class ContractManager {
   }
 
   public async claimTokenRewards(): Promise<IWeb3SendResult> {
-    const sender = this.keyProvider.getCurrentAccount();
+    const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods.claimTokenRewards().encodeABI();
     return this.keyProvider.sendTransactionAsync(
       sender,
@@ -223,7 +223,7 @@ export class ContractManager {
     const recipientHex = `0x${ContractManager.extractAddressIntoHex(
       toAddress,
     )}`;
-    const sender = this.keyProvider.getCurrentAccount();
+    const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods
       .claimParachainRewards(recipientHex)
       .encodeABI();

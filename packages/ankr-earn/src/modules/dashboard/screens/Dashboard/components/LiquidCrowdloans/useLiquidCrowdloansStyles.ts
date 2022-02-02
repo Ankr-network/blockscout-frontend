@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useTokensListStyles = makeStyles<Theme>(theme => ({
+export const useLiquidCrowdloansStyles = makeStyles<Theme>(theme => ({
   title: {
     fontSize: 20,
     marginBottom: theme.spacing(2.5),

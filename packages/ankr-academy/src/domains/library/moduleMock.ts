@@ -374,8 +374,30 @@ export const lesson2: LessonType = {
         {
           type: 'markdown',
           messagesList: [
-            'Now that you have Test tooltip and test tooltip for bitcoin but not bitcoins test tooltip some Coins Coin *more details* about how the **traditional** [metamask.io](https://metamask.io), https://fb.com centralized inside text',
-            "# A demo of `react-markdown`\n\n`react-markdown` is a markdown component for React.\n\n\uD83D\uDC49 Changes are re-rendered as you type.\n\n\uD83D\uDC48 Try writing some markdown on the left.\n\n## Overview\n\n* Follows [CommonMark](https://commonmark.org)\n* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)\n* Renders actual React elements instead of using `dangerouslySetInnerHTML`\n* Lets you define your own components (to render `MyHeading` instead of `h1`)\n* Has a lot of plugins\n\n## Table of contents\n\nHere is an example of a plugin in action\n([`remark-toc`](https://github.com/remarkjs/remark-toc)).\nThis section is replaced by an actual table of contents.\n\n## Syntax highlighting\n\nHere is an example of a plugin to highlight code:\n[`rehype-highlight`](https://github.com/rehypejs/rehype-highlight).\n\n```js\nimport React from 'react'\nimport ReactDOM from 'react-dom'\nimport ReactMarkdown from 'react-markdown'\nimport rehypeHighlight from 'rehype-highlight'\n\nReactDOM.render(\n  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,\n  document.querySelector('#content')\n)\n```\n\nPretty neat, eh?\n\n## GitHub flavored markdown (GFM)\n\nFor GFM, you can *also* use a plugin:\n[`remark-gfm`](https://github.com/remarkjs/react-markdown#use).\nIt adds support for GitHub-specific extensions to the language:\ntables, strikethrough, tasklists, and literal URLs.\n\nThese features **do not work by default**.\n\uD83D\uDC46 Use the toggle above to add the plugin.\n\n| Feature    | Support              |\n| ---------: | :------------------- |\n| CommonMark | 100%                 |\n| GFM        | 100% w/ `remark-gfm` |\n\n~~strikethrough~~\n\n* [ ] task list\n* [x] checked item\n\nhttps://example.com\n\n## HTML in markdown\n\n⚠️ HTML in markdown is quite unsafe, but if you want to support it, you can\nuse [`rehype-raw`](https://github.com/rehypejs/rehype-raw).\nYou should probably combine it with\n[`rehype-sanitize`](https://github.com/rehypejs/rehype-sanitize).\n\n<blockquote>\n  \uD83D\uDC46 Use the toggle above to add the plugin.\n</blockquote>\n\n## Components\n\nYou can pass components to change things:\n\n```js\nimport React from 'react'\nimport ReactDOM from 'react-dom'\nimport ReactMarkdown from 'react-markdown'\nimport MyFancyRule from './components/my-fancy-rule.js'\n\nReactDOM.render(\n  <ReactMarkdown\n    components={{\n      // Use h2s instead of h1s\n      h1: 'h2',\n      // Use a component instead of hrs\n      hr: ({node, ...props}) => <MyFancyRule {...props} />\n    }}\n  >\n    # Your markdown here\n  </ReactMarkdown>,\n  document.querySelector('#content')\n)\n```\n\n## More info?\n\nMuch more info is available in the\n[readme on GitHub](https://github.com/remarkjs/react-markdown)!\n\n***\n\nA component by [Espen Hovlandsdal](https://espen.codes/)",
+            'Now that you have Test tooltip and test tooltip for [bitcoin](glossary/bitcoin) but not bitcoins test tooltip some Coins Coin *more details* about how the **traditional** [metamask.io](https://metamask.io), https://fb.com centralized inside text',
+            '#### Subhead Normal\n' +
+              '\n' +
+              ' 1. Asset Management\n' +
+              ' 2. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.\n' +
+              ' 3. Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.\n' +
+              ' 4. Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.\n' +
+              '\n' +
+              '\n' +
+              '#### Subhead Normal\n' +
+              '\n' +
+              ' - Asset Management\n' +
+              ' - Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.\n' +
+              ' - Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.\n' +
+              '\n' +
+              '# “H4. We believe that truly understanding Web3 means being able to explain it in the most simple and human way.”\n' +
+              '\n' +
+              '### Subhead Large\n' +
+              '\n' +
+              'Most dApps on what we call [Bitcoin](glossary/bitcoin), or the [decentralized web](glossary/decentralized_web), don’t require logins or passwords, but rather require you to use your Web3 wallet as a sort of ID or passport. When you visit dApps built on Web3, you’re not required to create a new account in order to sign in. Instead, you simply connect your Web3 wallet enabling you to immediately access the platform.\n' +
+              '\n' +
+              'Web3 — the newest **bold text** of the *italic* that’s being built [link](https://some.url) — revolutionizes this model by placing security and login mechanisms directly within your Web3 wallet.\n' +
+              '\n' +
+              '![Source: Time.com](https://picsum.photos/604/340)',
           ],
         },
       ],

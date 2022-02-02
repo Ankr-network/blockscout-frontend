@@ -6,6 +6,9 @@ export const useModuleEntityBlockStyles = makeStyles<Theme>(theme => ({
     marginTop: theme.spacing(6),
     marginBottom: theme.spacing(6),
   },
+  markdownWrapper: {
+    fontSize: 16,
+  },
   imgMessage: {
     display: 'block',
     maxWidth: '100%',

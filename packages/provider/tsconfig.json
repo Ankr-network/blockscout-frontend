@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
+    "target": "es5",
     "declaration": true,
     "declarationMap": true,
     "composite": true,
     "outDir": "out"
   },
-  "include": ["."],
-  "exclude": ["node_modules", "out"],
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "node_modules",
+    "out"
+  ],
   "references": []
 }

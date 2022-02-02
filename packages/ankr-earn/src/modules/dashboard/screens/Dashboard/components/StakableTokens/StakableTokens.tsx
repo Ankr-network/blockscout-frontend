@@ -41,6 +41,7 @@ export const StakableTokens = (props: BoxProps) => {
                 token={maticAsset.token}
                 href={maticAsset.href}
                 apy={maticAsset.apy}
+                isStakeLoading={maticAsset.isStakeLoading}
               />
             </Grid>
           )}

@@ -32,18 +32,33 @@ export const useTokenSelectStyles = makeStyles<Theme>(theme => ({
 
   menuItem: {
     display: 'grid',
-    gridTemplateColumns: 'auto 1fr',
+    gridTemplateColumns: 'auto 1fr 16px',
     gap: theme.spacing(0, 2),
     alignItems: 'center',
+    fontSize: 14,
 
     '&:first-child': {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(0.5),
     },
 
     '&:last-child': {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacing(0.5),
+    },
+
+    '&:hover': {
+      backgroundColor: theme.palette.background.default,
+    },
+
+    '&$menuItemSelected': {
+      backgroundColor: theme.palette.background.default,
+
+      '&:hover': {
+        backgroundColor: theme.palette.background.default,
+      },
     },
   },
+
+  menuItemSelected: {},
 
   listItemIcon: {
     display: 'flex',

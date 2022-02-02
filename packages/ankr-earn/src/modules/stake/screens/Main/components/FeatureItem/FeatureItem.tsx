@@ -15,7 +15,7 @@ interface IFeatureItemProps {
   iconSlot: JSX.Element;
   token: Token | EToken;
   apy: number;
-  staked: BigNumber;
+  staked?: BigNumber;
 }
 
 export const FeatureItem = ({
@@ -27,7 +27,6 @@ export const FeatureItem = ({
   apy,
   staked,
 }: IFeatureItemProps) => {
-  // todo: update styles according to the design
   const classes = useFeatureItemStyles();
 
   return (
@@ -46,21 +45,26 @@ export const FeatureItem = ({
             <Typography className={classNames(classes.statLabel)}>
               {t('features.apy')}
             </Typography>
+
             <Typography className={classNames(classes.statValue)}>
               {t('features.apy-value', { value: apy })}
             </Typography>
           </Grid>
-          <Grid item>
-            <Typography className={classNames(classes.statLabel)}>
-              {t('features.staked')}
-            </Typography>
-            <Typography className={classNames(classes.statValue)}>
-              {t('features.staked-amount', {
-                value: staked.toFormat(),
-                token: token,
-              })}
-            </Typography>
-          </Grid>
+
+          {staked && (
+            <Grid item>
+              <Typography className={classNames(classes.statLabel)}>
+                {t('features.staked')}
+              </Typography>
+
+              <Typography className={classNames(classes.statValue)}>
+                {t('features.staked-amount', {
+                  value: staked.toFormat(),
+                  token: token,
+                })}
+              </Typography>
+            </Grid>
+          )}
         </Grid>
 
         <Grid spacing={2} container className={classNames(classes.buttons)}>

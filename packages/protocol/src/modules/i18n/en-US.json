@@ -62,13 +62,18 @@
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
     "header": {
-      "bottom": "Exclusive RPC Endpoint",
+      "public-endpoints": "Public RPC Endpoint{plural}",
+      "private-endpoints": "Exclusive RPC Endpoint{plural}",
+      "plural": "s",
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
-      "right": "Public RPC",
       "button": "Unlock Premium Features",
       "settings-button": "Settings",
       "archived": "Archived",
       "archived-node-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
+    },
+    "nervos": {
+      "eth-based": "For Ethereum-based and Polyjuice methods",
+      "godwoken-based": "For Godwoken methods"
     },
     "details": {
       "average-requests": "Average Requests/sec",

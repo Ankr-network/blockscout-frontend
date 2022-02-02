@@ -8,7 +8,7 @@ import { NavItem } from '../NavItem';
 export const Nav = () => {
   return (
     <NavComponent mb={4}>
-      <NavItem href={RoutesConfig.tradingCockpit.generatePath()}>
+      <NavItem href={RoutesConfig.tradingCockpit.path}>
         {t('boost.trading-cockpit')}
       </NavItem>
 

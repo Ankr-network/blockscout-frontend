@@ -30,12 +30,19 @@ export interface IWeb3SendResult {
   rawTransaction: string;
 }
 
+export interface ITokenInfo {
+  address: string;
+  symbol?: string;
+  decimals?: number;
+  image?: string;
+}
+
 export abstract class Web3KeyProvider {
   protected accounts: string[] = [];
 
-  protected currentAccount: string | null = null;
+  protected _currentAccount: string | null = null;
 
-  protected currentChain = 0;
+  protected _currentChain = 0;
 
   protected provider: Provider = null;
 
@@ -49,20 +56,26 @@ export abstract class Web3KeyProvider {
     return !!this.web3;
   }
 
-  public getCurrentAccount(): string {
-    if (!this.currentAccount) {
+  public get currentAccount(): string {
+    if (!this._currentAccount) {
       throw new Error('Wallet is not activated');
     }
-
-    return this.currentAccount;
+    return this._currentAccount;
   }
 
-  public getCurrentChain(): number {
-    if (!this.currentChain) {
+  public set currentAccount(addr) {
+    this._currentAccount = addr;
+  }
+
+  public get currentChain(): number {
+    if (!this._currentChain) {
       throw new Error(`Web3 is not connected`);
     }
+    return this._currentChain;
+  }
 
-    return this.currentChain;
+  public set currentChain(chainId) {
+    this._currentChain = chainId;
   }
 
   public async getErc20Balance(
@@ -373,5 +386,26 @@ export abstract class Web3KeyProvider {
     console.log(`Raw transaction hex is: `, rawTxHex);
 
     return rawTxHex;
+  }
+
+  public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    const provider = this.provider as AbstractProvider;
+
+    const isProviderHasRequest =
+      !!provider && typeof provider.request === 'function';
+
+    if (!isProviderHasRequest) {
+      throw new Error('This provider does not support the adding new tokens');
+    }
+
+    return provider
+      .request({
+        method: 'metamask_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: tokenInfo,
+        },
+      })
+      .catch();
   }
 }

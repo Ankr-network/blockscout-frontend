@@ -25,7 +25,8 @@
     "dashboard": "Dashboard",
     "parachain": "Liquid Crowdloan",
     "boost": "Boost",
-    "menu": "Menu",
+    "more": "More",
+    "eth2Swap": "ETH2 Swap",
     "docs": "Docs",
     "litepaper": "Litepaper"
   },
@@ -43,7 +44,8 @@
     "zh-CN": "中文"
   },
   "format": {
-    "date": "{value, date, medium}"
+    "date": "{value, date, medium}",
+    "time-short": "{value, time, short}"
   },
   "unit": {
     "eth": "ETH",
@@ -56,7 +58,9 @@
     "token-value": "{value, number} {token}",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
-    "ankr-value": "{value} ANKR"
+    "ankr-value": "{value} ANKR",
+    "matic-tooltip-title": "1 MATIC = 1 aMATICb",
+    "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period."
   },
   "chain": {
     "1": "Ethereum Mainnet",
@@ -90,6 +94,7 @@
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
     "available-networks": "Ensure your wallet is connected to the following networks:",
     "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
       "ethereum-goerli": "Ethereum Goerli",
@@ -103,14 +108,16 @@
   },
   "polkadot-slot-auction": {
     "button": {
+      "add-to-wallet": "Add {bondTokenSymbol} to wallet",
       "check-wallet": "Check wallet",
-      "claim": "Claim {currency}",
-      "claim-rewards": "Claim",
+      "claim": "Claim",
+      "claim-currency": "Claim {currency}",
       "claim-tokens": "Claim {value} {currency}",
       "connect": "Connect Wallet",
       "continue": "Continue",
       "contribute": "Contribute {currency}",
       "contribute-form": "Contribute",
+      "go-to-dashboard": "Go to dashboard",
       "provided": "Provided {value} {currency}"
     },
     "column": {
@@ -161,6 +168,17 @@
       "types": {
         "MY_REWARDS": "reward",
         "PROJECTS_LIST": "any"
+      }
+    },
+    "projects-list-claim-modal": {
+      "claim-section": {
+        "ledger-wallet": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
+        "ledger-wallet-hint": "Ledger Nano X support would be available soon",
+        "title": "Сlaim {bondTokenSymbol} to Ethereum network"
+      },
+      "success-section": {
+        "message": "You will be able to see your {bondTokenSymbol} exposure on Ankr Earn Dashboard.",
+        "title": "Claim successful"
       }
     },
     "select-wallet": {
@@ -244,8 +262,9 @@
     "btn-max": "Max",
     "faq-title": "FAQ",
     "stats": {
-      "apr": "APR",
-      "yearly-earning": "Yearly earning"
+      "apy": "APY",
+      "yearly-earning": "Yearly earning",
+      "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding."
     },
     "success": {
       "title": "Stake successful",
@@ -296,31 +315,54 @@
       "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
     }
   },
+  "eth2Swap": {
+    "title": "ETH2 Swap",
+    "info": "Swap ETH liquid staking tokens at fair value any time.",
+    "fee": "Service fee ({fee}%)",
+    "willGet": "You will get",
+    "amountInputTitle": "Amount",
+    "tooltips": {
+      "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. By holding aETHb, its balance will increase in a daily basis at the same proportion as ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
+      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token. Its ratio, representing the redemption value of aETHc, increases pver time due to ETH2 staking rewards."
+    }
+  },
   "unstake-dialog": {
     "title": "How many {token} do you want to redeem?",
     "unstake-fee": "Unstake Fee",
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
-    "amount": "{value}%"
+    "amount": "Amount",
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. MATIC tokens will therefore be transferred to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
   },
   "dashboard": {
     "title": "Stakable tokens",
     "balance": "Estimated balance",
     "assets": "Staked tokens",
+    "assets-crowdloans": "Liquid crowdloan assets",
     "pending": "Unstaking in progress {value} {token}",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
     "stake": "Stake",
     "copy": "Copy contract address",
+    "unknown-network": "Current network",
     "copied": "Copied!",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
+    "unstake-loading": "Unstake in progress",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value}%",
     "stakable-asset-stake": "Stake {token}",
-    "networks": "in {value} networks"
+    "networks": "in {value} networks",
+    "unstake-time": "dd.LL.yyyy, hh:mm",
+    "claim": "Claim",
+    "remaining-rewards": "Remaining rewards",
+    "claimable-rewards": "Claimable rewards",
+    "redeem-timer": "Redeem in {days} days",
+    "reward": "{value} ACA",
+    "pending-amount": "Amount",
+    "pending-time": "Requested time"
   },
   "features": {
     "polygon": "Polygon (MATIC)",
@@ -337,5 +379,18 @@
     "disconnect": "Disconnect",
     "disconnect-all": "Disconnect all",
     "connected-wallets": "Connected wallets"
+  },
+  "history-dialog": {
+    "header": "Transactions History",
+    "date": "Date",
+    "amount": "Amount",
+    "staking": "Staking",
+    "unstaking": "Unstaking",
+    "date-cell": "{month} {day}, {year}",
+    "amount-cell": "{value} {token}",
+    "error-cell": "Error",
+    "hash-cell": "{hash}",
+    "empty": "There are no transactions",
+    "hash": "Hash"
   }
 }

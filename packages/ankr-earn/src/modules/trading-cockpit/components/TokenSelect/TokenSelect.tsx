@@ -2,6 +2,7 @@ import { MenuItem, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { ReactNode, useCallback } from 'react';
 import { uid } from 'react-uid';
+import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { ISelectProps, Select } from 'uiKit/Select';
 import { useTokenSelectStyles } from './useTokenSelectStyles';
 
@@ -50,19 +51,26 @@ export const TokenSelect = ({
         root: classes.selectRoot,
       }}
     >
-      {options?.map(({ value, text: label, disabled, iconSlot }) => (
-        <MenuItem
-          key={uid(value)}
-          className={classes.menuItem}
-          value={value}
-          disabled={disabled}
-        >
-          <i className={classes.listItemIcon}>{iconSlot}</i>
-          <Typography variant="body2" component="span">
-            {label}
-          </Typography>
-        </MenuItem>
-      ))}
+      {options?.map(({ value: itemValue, text: label, disabled, iconSlot }) => {
+        const selected = itemValue === value;
+        return (
+          <MenuItem
+            key={uid(itemValue)}
+            classes={{
+              root: classes.menuItem,
+              selected: classes.menuItemSelected,
+            }}
+            value={itemValue}
+            disabled={disabled}
+          >
+            <i className={classes.listItemIcon}>{iconSlot}</i>
+            <span>{label}</span>
+            {selected && (
+              <CompleteIcon size="xs" className={classes.checkedIcon} />
+            )}
+          </MenuItem>
+        );
+      })}
     </Select>
   );
 };

@@ -17,4 +17,5 @@ export enum AvailablePlatforms {
   Lydia = 'Lydia',
   Pangolin = 'Pangolin',
   TraderJoe = 'TraderJoe',
+  OpenOceanV2 = 'openoceanv2',
 }

@@ -4,7 +4,6 @@ import { Theme } from '@material-ui/core';
 export const useMarkdownContentWrapperStyles = makeStyles<Theme>(theme => ({
   root: {},
   messageMarkdown: {
-    fontSize: 16,
     '&+&': {
       marginTop: theme.spacing(3),
     },
@@ -12,6 +11,12 @@ export const useMarkdownContentWrapperStyles = makeStyles<Theme>(theme => ({
       textDecoration: 'underline',
       color: theme.palette.primary.main,
     },
+    '& img': {
+      maxWidth: '100%',
+    },
+  },
+  glossaryLink: {
+    '&&': { textDecoration: 'none' },
   },
   glossary: {
     display: 'inline',

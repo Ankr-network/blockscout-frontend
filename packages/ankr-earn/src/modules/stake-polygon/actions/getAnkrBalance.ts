@@ -13,7 +13,7 @@ export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
       promise: (async (): Promise<BigNumber> => {
         const providerManager = ProviderManagerSingleton.getInstance();
         const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-        const currentAccount = provider.getCurrentAccount();
+        const currentAccount = provider.currentAccount;
         const { contractConfig } = configFromEnv();
         const ankrContract = provider.createContract(
           ABI_ANKR,

@@ -9,8 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import { ReactNode, useMemo } from 'react';
 import { uid } from 'react-uid';
+import { useTooltipStyles } from 'uiKit/Tooltip/useTooltipStyles';
 import { ReactComponent as AngleDownIcon } from '../../assets/img/angle-down-icon.svg';
-import { useSelectStyles as useStyles } from './useSelectStyles';
+import { useSelectStyles } from './useSelectStyles';
 
 export interface ISelectOption {
   label: string;
@@ -38,7 +39,8 @@ export const Select = ({
   disabled,
   ...restProps
 }: ISelectProps) => {
-  const styles = useStyles();
+  const styles = useSelectStyles();
+  const tooltiClasses = useTooltipStyles({});
 
   const items = useMemo(() => {
     return options?.map(option => (
@@ -46,11 +48,15 @@ export const Select = ({
         key={uid(option)}
         value={option.value}
         disabled={option.disabled}
+        classes={{
+          root: styles.item,
+          selected: styles.itemSelected,
+        }}
       >
         {option.label}
       </MenuItem>
     ));
-  }, [options]);
+  }, [options, styles]);
 
   const selectProps = useMemo(
     (): SelectProps => ({
@@ -62,7 +68,7 @@ export const Select = ({
       },
       MenuProps: {
         classes: {
-          paper: styles.menuPaper,
+          paper: classNames(styles.menuPaper, tooltiClasses.lightTooltip),
         },
         elevation: 0,
         getContentAnchorEl: null,
@@ -77,7 +83,7 @@ export const Select = ({
       },
       IconComponent: props => <AngleDownIcon fontSize="default" {...props} />,
     }),
-    [classes, styles],
+    [classes, styles.menuPaper, styles.select, tooltiClasses.lightTooltip],
   );
 
   return (

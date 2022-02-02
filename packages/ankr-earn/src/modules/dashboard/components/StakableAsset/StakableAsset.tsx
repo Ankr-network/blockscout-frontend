@@ -1,21 +1,24 @@
 import { Paper, Typography } from '@material-ui/core';
-import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { NavLink } from 'uiKit/NavLink';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EToken } from 'modules/dashboard/types';
+import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
-import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
+import { NavLink } from 'uiKit/NavLink';
+import { Spinner } from 'uiKit/Spinner';
+import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 
 interface IStakableAssetProps {
   icon: JSX.Element;
   balance: BigNumber;
-  networks: Array<INetwork>;
+  networks: (INetwork | undefined)[];
   token: Token | EToken;
   href: string;
   apy: number;
+  isStakeLoading?: boolean;
 }
 
 export const StakableAsset = ({
@@ -25,6 +28,7 @@ export const StakableAsset = ({
   token,
   href,
   apy,
+  isStakeLoading = false,
 }: IStakableAssetProps) => {
   const classes = useStyles();
 
@@ -33,7 +37,7 @@ export const StakableAsset = ({
       <Typography className={classes.network}>
         {networks.map(
           network =>
-            network.icon &&
+            network?.icon &&
             React.cloneElement(network.icon, {
               className: classes.networkIcon,
             }),
@@ -41,7 +45,9 @@ export const StakableAsset = ({
         {t('dashboard.networks', { value: networks.length })}
       </Typography>
     ) : (
-      <Typography className={classes.network}>{networks[0].title}</Typography>
+      <Typography className={classes.network}>
+        {networks[0]?.title ?? t('dashboard.unknown-network')}
+      </Typography>
     );
 
   return (
@@ -50,30 +56,44 @@ export const StakableAsset = ({
         {React.cloneElement(icon, {
           className: classes.icon,
         })}
+
         <div className={classes.balanceNetworkWrapper}>
           <Typography className={classes.balance}>
             {t('dashboard.wallet-balance', {
-              value: balance.toFormat(),
+              value: balance.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
               token: token,
             })}
           </Typography>
+
           {networksDisplay}
         </div>
+
         <NavLink
           href={href}
           className={classNames(classes.crossIcon, classes.mobileStakeLink)}
         />
       </div>
+
       <NavLink
-        href={href}
+        href={isStakeLoading ? '#' : href}
         className={classes.onHoverDisplay}
         classes={{ label: classes.onHoverDisplayLabel }}
       >
         <Typography className={classes.apy}>
           {t('dashboard.stakable-asset-apy', { value: apy })}
         </Typography>
+
         <Typography className={classes.stake}>
-          <span className={classes.crossIcon} />
+          {isStakeLoading ? (
+            <Spinner
+              variant="circle"
+              size={16}
+              className={classes.loaderIcon}
+            />
+          ) : (
+            <span className={classes.crossIcon} />
+          )}
+
           {t('dashboard.stakable-asset-stake', { token: token })}
         </Typography>
       </NavLink>

@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import { LibraryRoutesConfig } from 'domains/library/LibraryRouterConfig';
 import { module1 } from '../../moduleMock';
+import { useGlossaryData } from '../../../glossary/hooks';
 
 export const useLesson = () => {
+  /* request glossary start */
+  const { data: glossaryData, loading } = useGlossaryData();
+  /* request glossary end */
+
   const { lessonId } = LibraryRoutesConfig.lesson.useParams();
   const currentLesson = module1[lessonId];
   const [blocksLoaded, setBlocksLoaded] = useState<number>(1);
@@ -32,5 +37,7 @@ export const useLesson = () => {
     blocksToRender,
     isLessonFinished,
     nextLesson,
+    glossaryData,
+    loading,
   };
 };

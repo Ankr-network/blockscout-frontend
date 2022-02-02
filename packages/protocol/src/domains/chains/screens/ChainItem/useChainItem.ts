@@ -67,6 +67,25 @@ export const useTimeframeData = (chainId: string) => {
   const { totalCached, totalRequests, totalRequestsHistory, countries } =
     data || {};
 
+  const normilizedTotalRequestsHistory = {} as any;
+  const removeLastDot = () => {
+    const historyKeys = Object.keys(totalRequestsHistory).sort(
+      (a: string, b: string) => {
+        return +a - +b;
+      },
+    );
+
+    historyKeys.pop();
+
+    historyKeys.forEach(key => {
+      normilizedTotalRequestsHistory[key] = totalRequestsHistory[key];
+    });
+  };
+
+  if (totalRequestsHistory) {
+    removeLastDot();
+  }
+
   return {
     timeframe,
     setTimeframe: handleSetTimeframe,
@@ -74,7 +93,7 @@ export const useTimeframeData = (chainId: string) => {
     pristine,
     totalCached,
     totalRequests,
-    totalRequestsHistory,
+    totalRequestsHistory: normilizedTotalRequestsHistory,
     countries,
     error,
   };

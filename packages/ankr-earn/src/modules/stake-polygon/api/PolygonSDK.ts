@@ -4,6 +4,7 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { Token } from 'modules/common/types/token';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
 import { POLYGON_PROVIDER_ID } from '../const';
@@ -17,7 +18,7 @@ enum EPolygonPoolEvents {
   StakePending = 'StakePending',
 }
 
-enum EPolygonPoolEventsMap {
+export enum EPolygonPoolEventsMap {
   MaticClaimPending = 'STAKE_ACTION_UNSTAKED',
   StakePending = 'STAKE_ACTION_STAKED',
 }
@@ -133,9 +134,12 @@ export class PolygonSDK {
     const providerManager = ProviderManagerSingleton.getInstance();
     const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
     const web3 = provider.getWeb3();
-    const currentAccount = provider.getCurrentAccount();
+    const currentAccount = provider.currentAccount;
+    const addrHasNotBeenUpdated =
+      PolygonSDK.instance?.currentAccount === provider.currentAccount;
+    const hasWeb3 = PolygonSDK.instance?.web3 === web3;
 
-    if (PolygonSDK.instance?.web3 === web3 && PolygonSDK.instance) {
+    if (PolygonSDK.instance && addrHasNotBeenUpdated && hasWeb3) {
       return PolygonSDK.instance;
     }
 
@@ -433,5 +437,17 @@ export class PolygonSDK {
       .send({
         from: currentAccount,
       });
+  }
+
+  public async addAmaticbToWallet() {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+    const amaticbContract = configFromEnv().contractConfig.aMaticbToken;
+
+    await provider.addTokenToWallet({
+      address: amaticbContract,
+      symbol: Token.aMATICb,
+      decimals: 18,
+    });
   }
 }

@@ -1,4 +1,6 @@
-import glossaryData from 'domains/glossary/glossary.json';
+// regex for wrapped term into link format
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+const wrapTermIntoLinkFormat = (string: string) => `[${string}](.*)`;
 
 // `\\b${find}\\b` is used to exclude part for words matching
 // for example: coin has not match bitcoin
@@ -27,8 +29,10 @@ function replaceAll(str: string, find: string): string {
   return stringReplaced;
 }
 
-const glossaryKeys = Object.keys(glossaryData);
-export const mapMessagesList = (messagesList: string[]) => {
+export const mapMessagesList = (
+  glossaryKeys: string[],
+  messagesList: string[],
+) => {
   return messagesList.map(message => {
     let replacedMessage = message;
     glossaryKeys.forEach(key => {

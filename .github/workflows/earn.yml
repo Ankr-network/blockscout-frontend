@@ -12,6 +12,8 @@ on:
           - PROD # www.ankr.com/earn/
           - BS5 # bs-5-stage.dccn.ankr.com/earn/
           - BS6 # bs-6-stage.dccn.ankr.com/earn/
+          - BS7 # bs-7-stage.dccn.ankr.com/earn/
+          - BS8 # bs-8-stage.dccn.ankr.com/earn/
       api:
         type: choice
         description: API

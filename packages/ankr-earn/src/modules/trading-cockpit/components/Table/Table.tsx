@@ -1,4 +1,4 @@
-import { ButtonBase, Tooltip } from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import {
   Table as BasicTable,
@@ -10,10 +10,11 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { WithUseStyles } from 'ui';
 import { ReactNode, ReactText, useMemo } from 'react';
 import { uid } from 'react-uid';
+import { WithUseStyles } from 'ui';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { CellPercentageValue } from '../CellPercentageValue';
 import { ExChange } from '../ExChange';
 import { useTableStyles } from './useTableStyles';

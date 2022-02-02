@@ -1,10 +1,10 @@
-import { Box, Divider, Link, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t, tHTML } from 'modules/i18n/utils/intl';
@@ -16,6 +16,8 @@ import {
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';
@@ -27,12 +29,12 @@ export const UnstakePolygon = () => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  useInitEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());
-  });
+  }, [dispatchRequest]);
 
   const onClose = useCallback(() => {
     history.push(DashboardRoutes.dashboard.generatePath());
@@ -98,6 +100,14 @@ export const UnstakePolygon = () => {
                       className={classes.fee}
                     >
                       {t('unstake-dialog.unstake-fee')}
+                      <Tooltip title={t('unstake-dialog.unstake-fee-tooltip')}>
+                        <ButtonBase className={classes.questionBtn}>
+                          <QuestionIcon
+                            size="xs"
+                            className={classes.questionIcon}
+                          />
+                        </ButtonBase>
+                      </Tooltip>
                     </Typography>
 
                     <Box ml="auto" />

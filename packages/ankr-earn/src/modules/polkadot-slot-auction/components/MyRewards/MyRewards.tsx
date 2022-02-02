@@ -199,7 +199,7 @@ export const MyRewards = () => {
                           variant="outlined"
                           fullWidth
                         >
-                          {t('polkadot-slot-auction.button.claim-rewards')}
+                          {t('polkadot-slot-auction.button.claim')}
                         </Button>
 
                         {isShowConnectTooltip && (

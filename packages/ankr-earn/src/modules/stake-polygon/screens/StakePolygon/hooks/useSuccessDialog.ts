@@ -1,4 +1,5 @@
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 export const useSuccessDialog = () => {
@@ -8,14 +9,16 @@ export const useSuccessDialog = () => {
     onOpen: onSuccessOpen,
   } = useDialog();
 
-  // todo: add Token on Click
-  const onAddTokenClick = () => null;
+  const onAddTokenClick = async () => {
+    const sdk = await PolygonSDK.getInstance();
+    return await sdk.addAmaticbToWallet();
+  };
 
   return {
-    onAddTokenClick,
     onSuccessOpen,
     onSuccessClose,
     isSuccessOpened,
+    onAddTokenClick,
     token: AvailableTokens.aMATICb,
   };
 };

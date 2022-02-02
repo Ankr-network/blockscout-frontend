@@ -79,5 +79,8 @@
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions"
+  },
+  "glossary": {
+    "title": "Web3 from A to Z"
   }
 }

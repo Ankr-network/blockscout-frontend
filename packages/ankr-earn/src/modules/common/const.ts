@@ -37,8 +37,17 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
+  isActiveLedgerNanoX: false,
   liquidityMining: false,
-  unstakingHistory: false,
   localeSwitcher: false,
-  onlyCrowdloans: true,
+  onlyCrowdloans: false,
+  dashboardLiquidCrowdloanAssets: false,
+  eth2Swap: currentEnv === Env.Develop,
+};
+
+export const transactionHistoryUrlsByNetwork: any = {
+  1: 'https://etherscan.io/tx/{value}',
+  5: 'https://goerli.etherscan.io/tx/{value}',
+  56: 'https://bscscan.com/tx/{value}',
+  97: 'https://testnet.bscscan.com/tx/{value}',
 };

@@ -1,15 +1,17 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+import { configFromEnv } from 'modules/api/config';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode } from 'react';
 import { NavLink } from 'uiKit/NavLink';
+import { Spinner } from 'uiKit/Spinner';
 import { NetworkIconText } from '../NetworkIconText';
+import { ReactComponent as HistoryIcon } from './assets/history.svg';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
-import { configFromEnv } from 'modules/api/config';
 
 interface IStakingAssetProps {
   token?: EToken;
@@ -21,6 +23,9 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
+  isUnstakeLoading?: boolean;
+  isHistoryLoading?: boolean;
+  onHistoryBtnClick?: () => void;
 }
 
 export const StakingAsset = ({
@@ -33,6 +38,9 @@ export const StakingAsset = ({
   pendingSlot,
   isLoading = false,
   isStakeLoading = false,
+  isUnstakeLoading = false,
+  isHistoryLoading = false,
+  onHistoryBtnClick,
 }: IStakingAssetProps) => {
   const classes = useStyles();
 
@@ -43,6 +51,16 @@ export const StakingAsset = ({
   const displayLinks = stakeLink || unstakeLink || tradeLink;
 
   const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
+
+  const historyButtonIcon = isHistoryLoading ? (
+    <Spinner size={18} variant="circle" />
+  ) : (
+    <HistoryIcon />
+  );
+
+  const historyClickHandler = () => {
+    if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
+  };
 
   return (
     <Paper className={classes.root}>
@@ -57,8 +75,19 @@ export const StakingAsset = ({
           </Grid>
 
           {pendingSlot && (
-            <Grid item xs="auto" className={classes.pendingCol}>
+            <Grid item xs="auto">
               {pendingSlot}
+            </Grid>
+          )}
+
+          {typeof onHistoryBtnClick === 'function' && (
+            <Grid item xs="auto">
+              <IconButton
+                className={classes.openHistory}
+                onClick={historyClickHandler}
+              >
+                {historyButtonIcon}
+              </IconButton>
             </Grid>
           )}
         </Grid>
@@ -91,8 +120,13 @@ export const StakingAsset = ({
                 <Grid item>
                   <PlusMinusBtn
                     href={unstakeLink}
+                    isLoading={isUnstakeLoading}
                     icon="minus"
-                    tooltip={t('dashboard.unstake-tooltip')}
+                    tooltip={
+                      isUnstakeLoading
+                        ? t('dashboard.unstake-loading')
+                        : t('dashboard.unstake-tooltip')
+                    }
                   />
                 </Grid>
               )}

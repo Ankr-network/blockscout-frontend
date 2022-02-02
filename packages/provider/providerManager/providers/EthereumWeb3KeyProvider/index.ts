@@ -19,10 +19,7 @@ export class EthereumWeb3KeyProvider extends Web3KeyProvider {
     // create Web3Modal instance
     const web3Modal = new Web3Modal({
       cacheProvider: false,
-      providerOptions: {
-        // TODO: Please remove it after the release
-        walletconnect: providerDefaultOptions.walletconnect,
-      },
+      providerOptions: providerDefaultOptions,
       theme: this.web3ModalTheme,
     });
 

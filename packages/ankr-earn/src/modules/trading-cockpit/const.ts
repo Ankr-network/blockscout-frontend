@@ -18,17 +18,24 @@ export const platformsByTokenMap: Record<string, string[]> = {
   [AvailableTokens.aETHb]: [
     AvailablePlatforms.Curve,
     AvailablePlatforms.UniswapV2,
+    AvailablePlatforms.OpenOceanV2,
   ],
   [AvailableTokens.aETHc]: [
+    AvailablePlatforms.Curve,
     AvailablePlatforms.SushiSwap,
     AvailablePlatforms.UniswapV2,
     AvailablePlatforms.UniswapV3,
+    AvailablePlatforms.OpenOceanV2,
   ],
-  [AvailableTokens.aMATICb]: [AvailablePlatforms.Curve],
+  [AvailableTokens.aMATICb]: [
+    AvailablePlatforms.Curve,
+    AvailablePlatforms.OpenOceanV2,
+  ],
   [AvailableTokens.aAVAXb]: [
     AvailablePlatforms.Lydia,
     AvailablePlatforms.TraderJoe,
     AvailablePlatforms.Pangolin,
+    AvailablePlatforms.OpenOceanV2,
   ],
 };
 

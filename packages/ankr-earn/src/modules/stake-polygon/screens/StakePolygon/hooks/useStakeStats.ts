@@ -7,8 +7,9 @@ export const useStakeStats = (amount: number) => {
   const stats: IStakeStatsItem[] = useLocaleMemo(
     () => [
       {
-        label: t('stake.stats.apr'),
+        label: t('stake.stats.apy'),
         value: `${YEARLY_INTEREST}%`,
+        tooltip: t('stake.stats.apy-tooltip'),
       },
       {
         label: t('stake.stats.yearly-earning'),

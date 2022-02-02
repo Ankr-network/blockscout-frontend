@@ -48,7 +48,7 @@ export const useTokenFormStyles = makeStyles<Theme>(
 
     amountInputBase: {
       borderRadius: '12px 0 0 12px',
-      borderRightColor: alpha('#000', 0),
+      borderRight: 'none',
       height: 60,
     },
 
@@ -62,8 +62,15 @@ export const useTokenFormStyles = makeStyles<Theme>(
     },
 
     tokenFromSelect: {
-      marginLeft: -2,
+      borderLeft: 'none',
       borderRadius: '0 12px 12px 0',
+
+      '&:before': {
+        content: `''`,
+        height: '60%',
+        width: '1px',
+        backgroundColor: alpha(theme.palette.text.primary, 0.1),
+      },
     },
   }),
   { index: 1 },

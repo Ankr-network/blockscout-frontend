@@ -1,4 +1,4 @@
-import { ButtonProps } from '@material-ui/core';
+import { Box, ButtonProps } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo } from 'react';
 import { Button } from 'uiKit/Button';
@@ -40,7 +40,11 @@ export const PlusMinusBtn = ({
   const Icon = iconsMap[icon];
 
   const button = useMemo(() => {
-    const renderedIcon = isLoading ? <Spinner size={24} /> : <Icon size={18} />;
+    const renderedIcon = isLoading ? (
+      <Spinner variant="circle" size={18} className={classes.loader} />
+    ) : (
+      <Icon size={18} className={classes.icon} />
+    );
     const commonBtnProps: Pick<
       ButtonProps,
       'className' | 'disabled' | 'variant'
@@ -62,7 +66,7 @@ export const PlusMinusBtn = ({
         {renderedIcon}
       </Button>
     );
-  }, [Icon, className, classes.root, disabled, href, isLoading, onClick]);
+  }, [Icon, className, classes, disabled, href, isLoading, onClick]);
 
   return tooltip ? (
     <Tooltip
@@ -71,7 +75,7 @@ export const PlusMinusBtn = ({
       title={tooltip ?? false}
       arrow
     >
-      {button}
+      <Box display="inline-flex">{button}</Box>
     </Tooltip>
   ) : (
     button

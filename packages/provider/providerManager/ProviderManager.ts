@@ -19,10 +19,7 @@ export class ProviderManager {
       return provider;
     }
 
-    if (
-      providerId === AvailableProviders.Mainnet ||
-      providerId === AvailableProviders.Goerli
-    ) {
+    if (providerId === AvailableProviders.ethCompatible) {
       const newProvider = new EthereumWeb3KeyProvider({
         web3ModalTheme: this.web3ModalTheme,
       });

@@ -12,6 +12,7 @@ import {
   AvailableTokens,
 } from 'modules/trading-cockpit/types';
 import { getExchangeLink } from 'modules/trading-cockpit/utils/getExchangeLink';
+import { getExchangeName } from 'modules/trading-cockpit/utils/getExchangeName';
 import { NavLink } from 'uiKit/NavLink';
 import { ITableRow } from '../../../components/Table';
 import { useStakeBtn } from './useStakeBtn';
@@ -39,39 +40,41 @@ export const useTable = ({
     tooltip: stakeTooltip,
   } = useStakeBtn(fromToken);
 
-  const { data: getPricesData } = useQuery<IGetQuotePrice[] | null>({
+  const { data: pricesData } = useQuery<IGetQuotePrice[] | null>({
     type: getPrices,
   });
 
+  // todo: reduce the number of cycles with prices data, if possible
   const data = useLocaleMemo(() => {
-    const pricesData = getPricesData || [];
+    if (!pricesData) {
+      return [];
+    }
+
     const stakefiResultAmount = round(fairValue * amount);
     const linkToExchange = getExchangeLink(fromToken, toToken);
 
-    const bestPrice = pricesData.reduce<number>((acc, item) => {
-      if (item && acc < item.outAmount) {
-        return item.outAmount;
+    // 1. get best price and OpenOcean price
+    let bestPrice: number = stakefiResultAmount;
+    let openOceanOutAmount: number = 0;
+    for (const exchangeData of pricesData) {
+      if (bestPrice < exchangeData.outAmount) {
+        bestPrice = exchangeData.outAmount;
       }
-      return acc;
-    }, stakefiResultAmount);
 
-    const getPricesRows: ITableRow[] = pricesData.map(
-      ({ inAmount, outAmount, exChange }) => {
-        return {
-          paltform: exChange,
-          iconSlot: <PlatformLogo name={exChange as AvailablePlatforms} />,
-          ratio: getRatio(+inAmount, outAmount),
-          fairValue: getDiffVsFairValue(+inAmount, outAmount, fairValue),
-          priceDiff: getEstPriceDiff(outAmount, bestPrice, amount),
-          youGet: round(outAmount),
-          btnSlot: (
-            <NavLink variant="outlined" fullWidth href={linkToExchange}>
-              {t('trading-cockpit.exchange-btn')}
-            </NavLink>
-          ),
-        };
-      },
-    );
+      if (exchangeData.exChange === AvailablePlatforms.OpenOceanV2) {
+        openOceanOutAmount = exchangeData.outAmount;
+      }
+    }
+
+    // 2. check if you need to show open ocean
+    let showOpenOcean = true;
+    for (const { exChange, outAmount } of pricesData) {
+      const isNotOpenOcean = exChange !== AvailablePlatforms.OpenOceanV2;
+      const equalOutAmount = outAmount === openOceanOutAmount;
+      if (isNotOpenOcean && equalOutAmount) {
+        showOpenOcean = false;
+      }
+    }
 
     const stakefiRow: ITableRow = {
       paltform: t('trading-cockpit.platforms.stakefi'),
@@ -91,12 +94,38 @@ export const useTable = ({
       ),
     };
 
-    const sortedByRatioRows = [stakefiRow, ...getPricesRows].sort(
-      (a, b) => +b.ratio - +a.ratio,
-    );
+    const getPricesRows: ITableRow[] = [stakefiRow];
+
+    // 3. set up rows data
+    for (const { inAmount, outAmount, exChange } of pricesData) {
+      const isOpenOcean = exChange === AvailablePlatforms.OpenOceanV2;
+
+      if (isOpenOcean && !showOpenOcean) {
+        continue;
+      }
+
+      const tableRow: ITableRow = {
+        paltform: getExchangeName(exChange),
+        iconSlot: <PlatformLogo name={exChange as AvailablePlatforms} />,
+        ratio: getRatio(+inAmount, outAmount),
+        fairValue: getDiffVsFairValue(+inAmount, outAmount, fairValue),
+        priceDiff: getEstPriceDiff(outAmount, bestPrice, amount),
+        youGet: round(outAmount),
+        btnSlot: (
+          <NavLink variant="outlined" fullWidth href={linkToExchange}>
+            {t('trading-cockpit.exchange-btn')}
+          </NavLink>
+        ),
+      };
+
+      getPricesRows.push(tableRow);
+    }
+
+    // 4. sort by ratio
+    const sortedByRatioRows = getPricesRows.sort((a, b) => +b.ratio - +a.ratio);
 
     return sortedByRatioRows;
-  }, [amount, fairValue, getPricesData, fromToken, toToken]);
+  }, [amount, fairValue, pricesData, fromToken, toToken]);
 
   return {
     data,

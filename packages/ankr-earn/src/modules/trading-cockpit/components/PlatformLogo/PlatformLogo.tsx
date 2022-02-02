@@ -4,6 +4,7 @@ import React, { FC, SVGProps } from 'react';
 import { ReactComponent as AnkrIcon } from './assets/ankr.svg';
 import { ReactComponent as CurveIcon } from './assets/curve.svg';
 import LydiaIcon from './assets/lydia.png';
+import { ReactComponent as OpenOceanIcon } from './assets/openocean.svg';
 import PangolinIcon from './assets/pangolin.png';
 import { ReactComponent as SushiswapIcon } from './assets/sushiswap.svg';
 import TraderjoeIcon from './assets/traderjoe.png';
@@ -22,6 +23,7 @@ export const PlatformLogoMap: Record<
   [AvailablePlatforms.Lydia]: LydiaIcon,
   [AvailablePlatforms.TraderJoe]: TraderjoeIcon,
   [AvailablePlatforms.Pangolin]: PangolinIcon,
+  [AvailablePlatforms.OpenOceanV2]: OpenOceanIcon,
 };
 
 interface IPlatformLogoProps {

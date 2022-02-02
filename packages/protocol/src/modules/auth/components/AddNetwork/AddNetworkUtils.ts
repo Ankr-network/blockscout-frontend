@@ -123,6 +123,31 @@ const IOTEX_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://iotexscan.io/'],
 };
 
+// nervos https://docs.godwoken.io/#godwoken-public-networks
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const NERVOS_ETH_NETWORK_PARAMS = {
+  chainId: 71394,
+  chainName: 'Nervos Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Nervos Mainnet',
+    symbol: 'CKB',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.nervos.org/'],
+};
+
+// nervos https://docs.godwoken.io/#godwoken-public-networks
+const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
+  chainId: 71394,
+  chainName: 'Godwoken Polyjuice Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Godwoken Mainnet',
+    symbol: 'CKB',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://www.layerview.io/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -159,6 +184,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, BSC_NETWORK_PARAMS);
     case 'iotex':
       return mapParams(chain, IOTEX_NETWORK_PARAMS);
+    case 'nervos':
+      return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
     default:
       return undefined;
   }

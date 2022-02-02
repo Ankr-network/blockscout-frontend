@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import { uid } from 'react-uid';
-import glossaryData from 'domains/glossary/glossary.json';
-import { mapMessagesList } from './MarkdownContentWrapperUtils';
-
+import { GlossaryRouterConfig } from 'domains/glossary/GlossaryRouterConfig';
+import { useMarkdownContent } from './useMarkdownContent';
 import { useMarkdownContentWrapperStyles } from './MarkdownContentWrapperStyles';
+import { GlossaryMappedData } from '../../../glossary/types';
 
 interface IMarkdownContentWrapperProps {
   className?: string;
   messagesList: string[];
+  glossaryData: GlossaryMappedData;
 }
 
 export const MarkdownContentWrapper = ({
   className,
   messagesList,
+  glossaryData,
 }: IMarkdownContentWrapperProps) => {
   const classes = useMarkdownContentWrapperStyles();
-  const [mappedMessages, setMappedMessages] = useState<string[]>([]);
-  useEffect(() => {
-    setMappedMessages(mapMessagesList(messagesList));
-  }, [messagesList]);
+  const { mappedMessages } = useMarkdownContent(messagesList, glossaryData);
 
   const components: Components = {
     a: ({ node, ...props }) => {
       let tooltipTitle: string | undefined;
 
       // TODO: improve glossary data structure
-      const key = props.children[0];
+      const {
+        children: [key],
+      } = props;
+
       if (typeof key === 'string') {
-        const tooltipObject =
-          glossaryData[key.toLowerCase() as keyof typeof glossaryData];
+        const tooltipObject = glossaryData[key.toLowerCase()];
         tooltipTitle = tooltipObject?.value;
 
         // if tooltip data found render the tooltip component
@@ -40,17 +42,17 @@ export const MarkdownContentWrapper = ({
             <Tooltip
               placement="top"
               title={<ReactMarkdown>{tooltipTitle}</ReactMarkdown>}
-              // TODO: redirect to glossary item
-              onClick={() => console.log(tooltipObject.id)}
             >
-              <Typography
-                className={classes.glossary}
-                paragraph={false}
-                variant="body2"
-                component="span"
+              <Link
+                className={classes.glossaryLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                to={GlossaryRouterConfig.glossaryTerm.generatePath(
+                  tooltipObject.termId,
+                )}
               >
-                {props.children}
-              </Typography>
+                <span className={classes.glossary}>{props.children}</span>
+              </Link>
             </Tooltip>
           );
         }

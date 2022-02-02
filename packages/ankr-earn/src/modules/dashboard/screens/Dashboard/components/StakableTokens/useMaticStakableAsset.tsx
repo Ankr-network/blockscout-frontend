@@ -1,12 +1,10 @@
-import { useQuery } from '@redux-requests/react';
+import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import {
-  INetwork,
-  useNetworks,
-} from 'modules/auth/components/GuardRoute/useNetworks';
+import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
+import { stake } from 'modules/stake-polygon/actions/stake';
 import {
   POLYGON_PROVIDER_ID,
   YEARLY_INTEREST,
@@ -21,6 +19,8 @@ export const useMaticStakableAsset = () => {
     type: fetchStats,
   });
 
+  const { loading: isStakeLoading } = useMutation({ type: stake });
+
   const currentPolygonNetwork = networks.find(
     network => network.chainId === polygonProvider.chainId,
   );
@@ -31,7 +31,8 @@ export const useMaticStakableAsset = () => {
     href: StakePolygonRoutes.stake.generatePath(),
     apy: YEARLY_INTEREST,
     balance: data?.maticBalance ?? new BigNumber(0),
-    networks: [currentPolygonNetwork as INetwork],
+    networks: [currentPolygonNetwork],
     isLoading: loading,
+    isStakeLoading,
   };
 };

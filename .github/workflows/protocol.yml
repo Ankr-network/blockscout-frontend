@@ -12,6 +12,8 @@ on:
           - PROD # www.ankr.com/protocol/
           - BS5 # bs-5-stage.dccn.ankr.com/protocol
           - BS6 # bs-6-stage.dccn.ankr.com/protocol
+          - BS7 # bs-7-stage.dccn.ankr.com/protocol
+          - BS8 # bs-8-stage.dccn.ankr.com/protocol
       api:
         type: choice
         description: API

@@ -13,6 +13,7 @@ import {
 } from 'modules/polkadot-slot-auction/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
+import { getRoutes as getETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 /**
@@ -41,6 +42,10 @@ export function Routes() {
       {!featuresConfig.onlyCrowdloans && getStakeRoutes()}
       {!featuresConfig.onlyCrowdloans && getStakePolygonRoutes()}
       {!featuresConfig.onlyCrowdloans && getDashboardRoutes()}
+      {/* TODO: remove eth2Swap flag when feature is done */}
+      {!featuresConfig.onlyCrowdloans &&
+        featuresConfig.eth2Swap &&
+        getETH2SwapRoutes()}
       {getPolkadotSlotAuctionRoutes()}
 
       <Route>

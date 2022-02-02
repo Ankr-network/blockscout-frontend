@@ -1,7 +1,7 @@
 export enum AvailableProviders {
-  Mainnet = 'mainnet',
-  Goerli = 'goerli',
-  Polygon = 'polygon',
+  ethCompatible = 'ethCompatible',
+  polkadot = 'polkadot',
+  binance = 'binance',
 }
 
 export enum BlockchainNetworkId {

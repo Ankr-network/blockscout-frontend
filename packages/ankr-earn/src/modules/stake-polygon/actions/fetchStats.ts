@@ -17,7 +17,7 @@ export const fetchStats = createSmartAction<
   RequestAction<IFetchStatsResponseData, IFetchStatsResponseData>
 >('polygon/fetchStats', () => ({
   request: {
-    promise: async (store: RequestsStore) => {
+    promise: async (store: RequestsStore): Promise<IFetchStatsResponseData> => {
       const sdk = await PolygonSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 
@@ -27,7 +27,7 @@ export const fetchStats = createSmartAction<
         minimumStake: await sdk.getMinimumStake(),
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
         pendingClaim: await sdk.getPendingClaim(),
-      } as IFetchStatsResponseData;
+      };
     },
   },
   meta: {
