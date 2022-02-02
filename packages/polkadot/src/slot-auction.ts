@@ -527,7 +527,10 @@ export class SlotAuctionSdk {
       });
       // TODO Please to resolve the issue with this line
       // eslint-disable-next-line no-await-in-loop
-      const rewards = await contractManager.claimableRewardsOf(account);
+      const rewards: BigNumber = await contractManager.claimableRewardsOf(
+        crowdloan.rewardTokenSymbol,
+        account,
+      );
       if (rewards.isZero()) {
         // eslint-disable-next-line no-continue
         continue;

@@ -153,6 +153,9 @@
       "--no-sandbox",
       "--disable-setuid-sandbox"
     ],
+    "include": [
+      "/liquid-crowdloan/"
+    ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
   }
