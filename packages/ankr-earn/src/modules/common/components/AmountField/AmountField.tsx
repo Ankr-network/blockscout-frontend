@@ -1,9 +1,10 @@
+import { ReactText, useCallback } from 'react';
 import { Button, Typography } from '@material-ui/core';
+import { Field } from 'react-final-form';
 import BigNumber from 'bignumber.js';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactText, useCallback } from 'react';
-import { Field } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
 import { QueryLoading } from 'uiKit/QueryLoading';
 import { useAmountFieldStyles } from './useAmountFieldStyles';

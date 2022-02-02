@@ -5,6 +5,7 @@
     "invalid-network-address": "This is invalid {network} address",
     "low-balance": "Your balance is not sufficient",
     "min": "Should be greater than {value}",
+    "max": "Should be less than {value}",
     "number-only": "Must be a number",
     "required": "This field is required"
   },
@@ -323,7 +324,7 @@
     "amountInputTitle": "Amount",
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. By holding aETHb, its balance will increase in a daily basis at the same proportion as ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
-      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token. Its ratio, representing the redemption value of aETHc, increases pver time due to ETH2 staking rewards."
+      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token. Its ratio, representing the redemption value of aETHc, increases over time due to ETH2 staking rewards."
     }
   },
   "unstake-dialog": {

@@ -30,6 +30,7 @@ export const Spinner = ({
 
   return (
     <IconComponent
+      data-testid="spinner"
       className={classNames(
         classes.root,
         centered && classes.centered,

@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import packageJson from '../../../package.json';
 import { Env } from './types';
 
@@ -13,6 +15,8 @@ export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
+export const ZERO = new BigNumber(0);
+export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)

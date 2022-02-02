@@ -6,7 +6,7 @@ import { FieldRenderProps } from 'react-final-form';
 interface IFieldProps extends FieldRenderProps<string> {}
 
 export const InputField = ({
-  input: { name, onChange, value },
+  input: { name, value, onChange, onBlur, onFocus },
   meta,
   ...rest
 }: IFieldProps & TextFieldProps) => {
@@ -17,6 +17,8 @@ export const InputField = ({
       value={value}
       helperText={getErrorText(meta)}
       onChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
       {...rest}
     />
   );

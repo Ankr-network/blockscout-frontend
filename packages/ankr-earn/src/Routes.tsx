@@ -42,7 +42,7 @@ export function Routes() {
       {!featuresConfig.onlyCrowdloans && getStakeRoutes()}
       {!featuresConfig.onlyCrowdloans && getStakePolygonRoutes()}
       {!featuresConfig.onlyCrowdloans && getDashboardRoutes()}
-      {/* TODO: remove eth2Swap flag when feature is done */}
+      {/* TODO: STAKAN-990 remove eth2Swap flag when feature is done */}
       {!featuresConfig.onlyCrowdloans &&
         featuresConfig.eth2Swap &&
         getETH2SwapRoutes()}
