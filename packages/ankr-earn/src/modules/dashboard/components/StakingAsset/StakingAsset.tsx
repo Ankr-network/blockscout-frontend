@@ -53,7 +53,7 @@ export const StakingAsset = ({
   const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
 
   const historyButtonIcon = isHistoryLoading ? (
-    <Spinner size={18} />
+    <Spinner size={18} variant="circle" />
   ) : (
     <HistoryIcon />
   );

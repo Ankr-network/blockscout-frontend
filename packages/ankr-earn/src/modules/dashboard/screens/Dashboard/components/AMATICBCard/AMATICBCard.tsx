@@ -37,6 +37,7 @@ export const AMATICBCard = (): JSX.Element | null => {
         isUnstakeLoading={aMATICbData.isUnstakeLoading}
         isHistoryLoading={MATICTxHistory.loading}
         pendingSlot={renderedPendingSlot}
+        isLoading={aMATICbData.isLoading}
       />
 
       <HistoryDialog
