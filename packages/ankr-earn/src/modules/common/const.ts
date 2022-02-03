@@ -37,10 +37,9 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveLedgerNanoX: false,
   liquidityMining: false,
   localeSwitcher: false,
-  onlyCrowdloans: false,
+  onlyCrowdloans: true,
   dashboardLiquidCrowdloanAssets: false,
   eth2Swap: currentEnv === Env.Develop,
 };
