@@ -15,6 +15,7 @@ export interface IGetEth2SwapData {
   ratio: BigNumber;
   fethBalance: BigNumber;
   aethBalance: BigNumber;
+  allowance: BigNumber;
 }
 
 export const getEth2SwapData = createAction<

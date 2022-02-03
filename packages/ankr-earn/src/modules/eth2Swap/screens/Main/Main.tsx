@@ -18,7 +18,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { Button } from 'uiKit/Button';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { ISwapFormPayload } from './types';
+import { ISwapFormPayload } from '../../types';
 import { useEth2SwapHook } from './hook';
 import { SwapOptions } from './components';
 import { useMainEth2SwapStyles } from './styles';
@@ -29,20 +29,40 @@ export const Main = (): JSX.Element => {
   const classes = useMainEth2SwapStyles();
 
   const {
+    allowance,
     swapOption,
     ratio,
     balance,
     isDataLoading,
-    handleChooseAEthB,
-    handleChooseAEthC,
+    aethBalance,
+    fethBalance,
+    isApproveLoading,
+    isSwapLoading,
     validate,
     calculateValueWithRatio,
     calculateFeeAndTotal,
+    handleChooseAEthB,
+    handleChooseAEthC,
+    handleApprove,
+    handleSwap,
   } = useEth2SwapHook();
 
   const max = useMemo(
     () => balance.dividedBy(ETH_SCALE_FACTOR).decimalPlaces(DECIMAL_PLACES),
     [balance],
+  );
+  const canShowApprove = allowance.isZero() && swapOption === 'aETHc';
+  const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
+
+  const onSubmit = useCallback(
+    ({ amount }: ISwapFormPayload) => {
+      if (canShowApprove) {
+        handleApprove();
+      } else {
+        handleSwap(amount as string);
+      }
+    },
+    [canShowApprove, handleApprove, handleSwap],
   );
 
   const setMaxAmount = useCallback(
@@ -138,7 +158,23 @@ export const Main = (): JSX.Element => {
         </Box>
 
         <Box className={classes.buttons}>
-          <Button type="button" className={classes.button}>
+          {swapOption === 'aETHc' && (
+            <Button
+              className={classes.button}
+              disabled={isApproveLoading || !canShowApprove}
+              isLoading={isApproveLoading}
+              onClick={handleSubmit}
+            >
+              Approve
+            </Button>
+          )}
+
+          <Button
+            className={classes.button}
+            disabled={isSwapLoading || canShowApprove}
+            isLoading={isSwapLoading}
+            onClick={handleSubmit}
+          >
             Swap
           </Button>
         </Box>
@@ -149,14 +185,14 @@ export const Main = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
-        {isDataLoading && <QueryLoadingCentered />}
+        {canShowSpinner && <QueryLoadingCentered />}
 
-        {!isDataLoading && (
+        {!canShowSpinner && (
           <Form
             initialValues={{ amount: '' }}
             validate={validate}
             render={renderForm}
-            onSubmit={noop}
+            onSubmit={onSubmit}
           />
         )}
       </Container>

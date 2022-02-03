@@ -1,14 +1,29 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import fc from 'fast-check';
 import BigNumber from 'bignumber.js';
 
+import { AvailableProviders } from 'provider/providerManager/types';
 import { ETH_SCALE_FACTOR, ONE_ETH } from 'modules/common/const';
+import {
+  approveAETHC,
+  swapAssets,
+} from 'modules/eth2Swap/actions/transactions';
 import { useEth2SwapHook } from '../hook';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
   useQuery: jest.fn(),
+  useMutation: jest.fn(),
+}));
+
+jest.mock('modules/eth2Swap/actions/transactions', () => ({
+  approveAETHC: jest.fn(),
+  swapAssets: jest.fn(),
 }));
 
 describe('modules/eth2Swap/screens/Main/hook', () => {
@@ -16,6 +31,9 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
     (useQuery as jest.Mock).mockReturnValue({
       data: null,
+      loading: false,
+    });
+    (useMutation as jest.Mock).mockReturnValue({
       loading: false,
     });
   });
@@ -28,27 +46,65 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     const { result } = renderHook(() => useEth2SwapHook());
     const {
       ratio,
+      allowance,
       aethBalance,
       fethBalance,
       isDataLoading,
       swapOption,
       balance,
-      handleChooseAEthB,
-      handleChooseAEthC,
       validate,
       calculateFeeAndTotal,
+      handleChooseAEthB,
+      handleChooseAEthC,
+      handleApprove,
+      handleSwap,
     } = result.current;
 
     expect(ratio.toNumber()).toBe(ONE_ETH.toNumber());
+    expect(allowance.toNumber()).toBe(0);
     expect(aethBalance).toBeUndefined();
     expect(fethBalance).toBeUndefined();
     expect(isDataLoading).toBe(false);
     expect(swapOption).toBeDefined();
     expect(balance.toNumber()).toBe(0);
-    expect(handleChooseAEthB).toBeDefined();
-    expect(handleChooseAEthC).toBeDefined();
     expect(validate).toBeDefined();
     expect(calculateFeeAndTotal).toBeDefined();
+    expect(handleChooseAEthB).toBeDefined();
+    expect(handleChooseAEthC).toBeDefined();
+    expect(handleApprove).toBeDefined();
+    expect(handleSwap).toBeDefined();
+  });
+
+  describe('handle swap', () => {
+    test('should handle assets swap properly', () => {
+      const { result } = renderHook(() => useEth2SwapHook());
+
+      act(() => {
+        result.current.handleSwap('1');
+      });
+
+      expect(swapAssets).toBeCalledTimes(1);
+      expect(swapAssets).toBeCalledWith({
+        amount: '1',
+        swapOption: 'aETHb',
+        providerId: AvailableProviders.ethCompatible,
+      });
+    });
+  });
+
+  describe('handle approve', () => {
+    test('should handle approve aETHc for aETHb properly', () => {
+      const { result } = renderHook(() => useEth2SwapHook());
+
+      act(() => {
+        result.current.handleApprove();
+      });
+
+      expect(approveAETHC).toBeCalledTimes(1);
+      expect(approveAETHC).toBeCalledWith({
+        providerId: AvailableProviders.ethCompatible,
+      });
+    });
   });
 
   describe('fee and total', () => {
