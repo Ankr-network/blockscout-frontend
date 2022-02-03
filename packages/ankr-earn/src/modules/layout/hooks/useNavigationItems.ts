@@ -9,13 +9,13 @@ import {
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { useMemo } from 'react';
 
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
@@ -65,16 +65,16 @@ export const useNavigationItems = () => {
 
   const desktopItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.onlyCrowdloans ? [] : [links.dashboard, links.stake]),
+      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
       links.parachain,
-      ...(featuresConfig.onlyCrowdloans ? [] : [links.boost]),
+      links.boost,
     ],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.onlyCrowdloans || !featuresConfig.eth2Swap
+      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
         ? []
         : [links.eth2Swap]),
       links.docs,
@@ -85,10 +85,10 @@ export const useNavigationItems = () => {
 
   const mobileItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.onlyCrowdloans ? [] : [links.dashboard, links.stake]),
+      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
       links.parachain,
-      ...(featuresConfig.onlyCrowdloans ? [] : [links.boost]),
-      ...(featuresConfig.onlyCrowdloans || !featuresConfig.eth2Swap
+      links.boost,
+      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
         ? []
         : [links.eth2Swap]),
       links.docs,

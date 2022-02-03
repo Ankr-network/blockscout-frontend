@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Box, Paper, Typography, Chip } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
@@ -7,117 +7,158 @@ import cn from 'classnames';
 import noop from 'lodash/noop';
 
 import { t } from 'modules/i18n/utils/intl';
+import {
+  DECIMAL_PLACES,
+  ETH_SCALE_FACTOR,
+  ONE_ETH,
+} from 'modules/common/const';
 import { AmountField } from 'modules/common/components/AmountField';
 import { Container } from 'uiKit/Container';
 import { Tooltip } from 'uiKit/Tooltip';
 import { Button } from 'uiKit/Button';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+import { ISwapFormPayload } from './types';
+import { useEth2SwapHook } from './hook';
 import { SwapOptions } from './components';
 import { useMainEth2SwapStyles } from './styles';
 
-type SwapOption = 'aETHb' | 'aETHc';
-
-const FEE_PERCENT = 0.3;
+const FEE_BASIS_POINTS = 30;
 
 export const Main = (): JSX.Element => {
   const classes = useMainEth2SwapStyles();
-  const [swapOption, setSwapOption] = useState<SwapOption>('aETHb');
-  const max = new BigNumber(0);
+
+  const {
+    swapOption,
+    ratio,
+    balance,
+    isDataLoading,
+    handleChooseAEthB,
+    handleChooseAEthC,
+    validate,
+    calculateValueWithRatio,
+    calculateFeeAndTotal,
+  } = useEth2SwapHook();
+
+  const max = useMemo(
+    () => balance.dividedBy(ETH_SCALE_FACTOR).decimalPlaces(DECIMAL_PLACES),
+    [balance],
+  );
 
   const setMaxAmount = useCallback(
-    (form: FormApi<{ amount?: string }>, maxAmount: string) => () =>
+    (form: FormApi<ISwapFormPayload>, maxAmount: string) => () =>
       form.change('amount', maxAmount),
     [],
   );
 
-  const handleChooseAEthB = useCallback(() => {
-    setSwapOption('aETHb');
-  }, []);
+  const renderForm = ({
+    form,
+    values,
+    handleSubmit,
+  }: FormRenderProps): JSX.Element => {
+    const { fee, total } = calculateFeeAndTotal({
+      amount: new BigNumber(values.amount || 0),
+      feeBP: new BigNumber(FEE_BASIS_POINTS),
+    });
 
-  const handleChooseAEthC = useCallback(() => {
-    setSwapOption('aETHc');
-  }, []);
-
-  const renderForm = ({ form }: FormRenderProps): JSX.Element => (
-    <Paper className={classes.root} component="form" variant="elevation">
-      <Typography variant="h2" className={classes.title}>
-        {t('eth2Swap.title')}
-      </Typography>
-
-      <Typography className={classes.info}>{t('eth2Swap.info')}</Typography>
-
-      <Box className={classes.chips}>
-        <Tooltip title={t('eth2Swap.tooltips.aETHb')}>
-          <Chip
-            className={classes.chip}
-            label="1 aETHb = 1 ETH"
-            variant="outlined"
-            deleteIcon={<QuestionIcon className={classes.infoIcon} />}
-            onDelete={noop}
-          />
-        </Tooltip>
-
-        <Tooltip title={t('eth2Swap.tooltips.aETHc')}>
-          <Chip
-            className={classes.chip}
-            label="1 aETHc = 1.0627 ETH"
-            variant="outlined"
-            deleteIcon={<QuestionIcon className={classes.infoIcon} />}
-            onDelete={noop}
-          />
-        </Tooltip>
-      </Box>
-
-      <AmountField
-        inputClassName={classes.amountInput}
-        balance={max}
-        label={t('eth2Swap.amountInputTitle')}
-        name="amount"
-        isBalanceLoading={false}
-        tokenName="aETHb"
-        onMaxClick={setMaxAmount(form, max.toString())}
-      />
-
-      <SwapOptions
-        swapOption={swapOption}
-        onChooseAEthB={handleChooseAEthB}
-        onChooseAEthC={handleChooseAEthC}
-      />
-
-      <Box className={classes.row}>
-        <Typography className={classes.fee}>
-          {t('eth2Swap.fee', { fee: FEE_PERCENT })}
+    return (
+      <Paper
+        className={classes.root}
+        component="form"
+        variant="elevation"
+        onSubmit={handleSubmit}
+      >
+        <Typography variant="h2" className={classes.title}>
+          {t('eth2Swap.title')}
         </Typography>
 
-        <Typography className={classes.fee}>0.0157 aETHb</Typography>
-      </Box>
+        <Typography className={classes.info}>{t('eth2Swap.info')}</Typography>
 
-      <div className={classes.hr} />
+        <Box className={classes.chips}>
+          <Tooltip title={t('eth2Swap.tooltips.aETHb')}>
+            <Chip
+              className={classes.chip}
+              label="1 aETHb = 1 ETH"
+              variant="outlined"
+              deleteIcon={<QuestionIcon className={classes.infoIcon} />}
+              onDelete={noop}
+            />
+          </Tooltip>
 
-      <Box className={classes.row}>
-        <Typography className={classes.result}>
-          {t('eth2Swap.willGet')}
-        </Typography>
+          <Tooltip title={t('eth2Swap.tooltips.aETHc')}>
+            <Chip
+              className={classes.chip}
+              label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
+                .decimalPlaces(DECIMAL_PLACES)
+                .toNumber()} ETH`}
+              variant="outlined"
+              deleteIcon={<QuestionIcon className={classes.infoIcon} />}
+              onDelete={noop}
+            />
+          </Tooltip>
+        </Box>
 
-        <Typography className={cn(classes.result, classes.sum)}>
-          4.9160 aETHc
-        </Typography>
-      </Box>
+        <AmountField
+          inputClassName={classes.amountInput}
+          balance={max}
+          label={t('eth2Swap.amountInputTitle')}
+          name="amount"
+          isBalanceLoading={false}
+          tokenName={swapOption}
+          onMaxClick={setMaxAmount(form, max.toString())}
+        />
 
-      <Box className={classes.buttons}>
-        <Button className={classes.button}>Swap</Button>
-      </Box>
-    </Paper>
-  );
+        <SwapOptions
+          swapOption={swapOption}
+          onChooseAEthB={handleChooseAEthB}
+          onChooseAEthC={handleChooseAEthC}
+        />
+
+        <Box className={classes.row}>
+          <Typography className={classes.fee}>
+            {t('eth2Swap.fee', { fee: FEE_BASIS_POINTS / 100 })}
+          </Typography>
+
+          <Typography className={classes.fee}>
+            {fee.decimalPlaces(DECIMAL_PLACES).toNumber()} {swapOption}
+          </Typography>
+        </Box>
+
+        <div className={classes.hr} />
+
+        <Box className={classes.row}>
+          <Typography className={classes.result}>
+            {t('eth2Swap.willGet')}
+          </Typography>
+
+          <Typography className={cn(classes.result, classes.sum)}>
+            {calculateValueWithRatio(total).toNumber()}{' '}
+            {swapOption === 'aETHb' ? 'aETHc' : 'aETHb'}
+          </Typography>
+        </Box>
+
+        <Box className={classes.buttons}>
+          <Button type="button" className={classes.button}>
+            Swap
+          </Button>
+        </Box>
+      </Paper>
+    );
+  };
 
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
-        <Form
-          initialValues={{ amount: '' }}
-          render={renderForm}
-          onSubmit={noop}
-        />
+        {isDataLoading && <QueryLoadingCentered />}
+
+        {!isDataLoading && (
+          <Form
+            initialValues={{ amount: '' }}
+            validate={validate}
+            render={renderForm}
+            onSubmit={noop}
+          />
+        )}
       </Container>
     </Box>
   );

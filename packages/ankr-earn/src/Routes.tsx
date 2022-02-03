@@ -6,6 +6,7 @@ import {
   getRoutes as getDashboardRoutes,
   RoutesConfig as DashboardRoutes,
 } from 'modules/dashboard/Routes';
+import { getRoutes as getETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import {
   getRoutes as getPolkadotSlotAuctionRoutes,
@@ -13,7 +14,6 @@ import {
 } from 'modules/polkadot-slot-auction/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
-import { getRoutes as getETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 /**
@@ -22,7 +22,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 export function Routes() {
   return (
     <Switch>
-      {featuresConfig.onlyCrowdloans ? (
+      {featuresConfig.earlyRelease ? (
         <Route path={['/', EARN_PATH, PolkadotSlotAuctionRoutes.root]} exact>
           <Redirect
             to={PolkadotSlotAuctionRoutes.crowdloans.generatePath(
@@ -38,12 +38,12 @@ export function Routes() {
         </Route>
       )}
 
-      {!featuresConfig.onlyCrowdloans && getBoostRoutes()}
-      {!featuresConfig.onlyCrowdloans && getStakeRoutes()}
-      {!featuresConfig.onlyCrowdloans && getStakePolygonRoutes()}
-      {!featuresConfig.onlyCrowdloans && getDashboardRoutes()}
-      {/* TODO: remove eth2Swap flag when feature is done */}
-      {!featuresConfig.onlyCrowdloans &&
+      {getBoostRoutes()}
+      {!featuresConfig.earlyRelease && getStakeRoutes()}
+      {!featuresConfig.earlyRelease && getStakePolygonRoutes()}
+      {!featuresConfig.earlyRelease && getDashboardRoutes()}
+      {/* TODO: STAKAN-990 remove eth2Swap flag when feature is done */}
+      {!featuresConfig.earlyRelease &&
         featuresConfig.eth2Swap &&
         getETH2SwapRoutes()}
       {getPolkadotSlotAuctionRoutes()}

@@ -1,9 +1,12 @@
+import BigNumber from 'bignumber.js';
+
 import packageJson from '../../../package.json';
 import { Env } from './types';
 
 export const EARN_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
+export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
@@ -12,6 +15,8 @@ export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
+export const ZERO = new BigNumber(0);
+export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
@@ -39,7 +44,7 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   liquidityMining: false,
   localeSwitcher: false,
-  onlyCrowdloans: true,
+  earlyRelease: false,
   dashboardLiquidCrowdloanAssets: false,
   eth2Swap: currentEnv === Env.Develop,
 };
