@@ -108,16 +108,14 @@
   },
   "polkadot-slot-auction": {
     "button": {
-      "add-to-wallet": "Add {bondTokenSymbol} to wallet",
       "check-wallet": "Check wallet",
-      "claim": "Claim",
-      "claim-currency": "Claim {currency}",
+      "claim": "Claim {currency}",
+      "claim-rewards": "Claim",
       "claim-tokens": "Claim {value} {currency}",
       "connect": "Connect Wallet",
       "continue": "Continue",
       "contribute": "Contribute {currency}",
       "contribute-form": "Contribute",
-      "go-to-dashboard": "Go to dashboard",
       "provided": "Provided {value} {currency}"
     },
     "column": {
@@ -168,17 +166,6 @@
       "types": {
         "MY_REWARDS": "reward",
         "PROJECTS_LIST": "any"
-      }
-    },
-    "projects-list-claim-modal": {
-      "claim-section": {
-        "ledger-wallet": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
-        "ledger-wallet-hint": "Ledger Nano X support would be available soon",
-        "title": "Сlaim {bondTokenSymbol} to Ethereum network"
-      },
-      "success-section": {
-        "message": "You will be able to see your {bondTokenSymbol} exposure on Ankr Earn Dashboard.",
-        "title": "Claim successful"
       }
     },
     "select-wallet": {
