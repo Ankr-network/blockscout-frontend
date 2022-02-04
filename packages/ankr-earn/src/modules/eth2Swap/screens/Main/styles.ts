@@ -91,5 +91,9 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   button: {
     height: 60,
     flex: 1,
+
+    '& + &': {
+      marginLeft: theme.spacing(4),
+    },
   },
 }));

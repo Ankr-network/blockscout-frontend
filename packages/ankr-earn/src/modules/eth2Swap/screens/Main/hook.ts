@@ -1,20 +1,28 @@
 import { useMemo, useCallback, useState, useEffect } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useQuery,
+  useMutation,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { object, number } from 'yup';
 
+import { AvailableProviders } from 'provider/providerManager/types';
 import { t } from 'modules/i18n/utils/intl';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { validate } from 'modules/common/utils/validation';
-import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import {
   DECIMAL_PLACES,
   ETH_SCALE_FACTOR,
   ONE_ETH,
   ZERO,
 } from 'modules/common/const';
-import { AvailableProviders } from 'provider/providerManager/types';
-import { ISwapFormPayload, IFeeAndTotal, TSwapOption } from './types';
+import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
+import {
+  approveAETHC,
+  swapAssets,
+} from 'modules/eth2Swap/actions/transactions';
+import { ISwapFormPayload, IFeeAndTotal, TSwapOption } from '../../types';
 
 export interface IEth2SwapHookProps {
   max: BigNumber;
@@ -22,9 +30,12 @@ export interface IEth2SwapHookProps {
 
 export interface IEth2SwapHookData {
   swapOption: TSwapOption;
-  isDataLoading: boolean;
   balance: BigNumber;
   ratio: BigNumber;
+  allowance: BigNumber;
+  isDataLoading: boolean;
+  isSwapLoading: boolean;
+  isApproveLoading: boolean;
   fethBalance?: BigNumber;
   aethBalance?: BigNumber;
   validate: () => Promise<FormErrors<ISwapFormPayload>>;
@@ -32,6 +43,8 @@ export interface IEth2SwapHookData {
   calculateFeeAndTotal: (amount: number) => IFeeAndTotal;
   handleChooseAEthB: () => void;
   handleChooseAEthC: () => void;
+  handleApprove: () => void;
+  handleSwap: (amount: string) => void;
 }
 
 const createSchema = ({ max }: { max: BigNumber }) =>
@@ -48,11 +61,14 @@ export const useEth2SwapHook = () => {
   const { data, loading: isDataLoading } = useQuery({
     type: getEth2SwapData,
   });
+  const { loading: isApproveLoading } = useMutation({ type: approveAETHC });
+  const { loading: isSwapLoading } = useMutation({ type: swapAssets });
 
   const [swapOption, setSwapOption] = useState<TSwapOption>('aETHb');
   const balance =
     swapOption === 'aETHb' ? data?.fethBalance : data?.aethBalance;
   const ratio = useMemo(() => data?.ratio ?? ONE_ETH, [data?.ratio]);
+  const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
   const max = useMemo(() => balance ?? ZERO, [balance]);
 
   const schema = useMemo(() => createSchema({ max }), [max]);
@@ -94,6 +110,25 @@ export const useEth2SwapHook = () => {
 
   const handleValidate = useCallback(validateHandler, [validateHandler]);
 
+  const handleApprove = useCallback(() => {
+    dispatchRequest(
+      approveAETHC({ providerId: AvailableProviders.ethCompatible }),
+    );
+  }, [dispatchRequest]);
+
+  const handleSwap = useCallback(
+    (amount: string) => {
+      dispatchRequest(
+        swapAssets({
+          amount,
+          providerId: AvailableProviders.ethCompatible,
+          swapOption,
+        }),
+      );
+    },
+    [swapOption, dispatchRequest],
+  );
+
   useEffect(() => {
     dispatchRequest(
       getEth2SwapData({
@@ -104,15 +139,20 @@ export const useEth2SwapHook = () => {
 
   return {
     ratio,
+    allowance,
     balance: max,
     aethBalance: data?.aethBalance,
     fethBalance: data?.fethBalance,
     isDataLoading,
+    isSwapLoading,
+    isApproveLoading,
     swapOption,
     validate: handleValidate,
     calculateValueWithRatio,
     calculateFeeAndTotal,
     handleChooseAEthB,
     handleChooseAEthC,
+    handleApprove,
+    handleSwap,
   };
 };
