@@ -11,6 +11,7 @@ import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFairValue } from './hooks/useFairValue';
 import { useTable } from './hooks/useTable';
 import { useTokenForm } from './hooks/useTokenForm';
+import { NoReactSnap } from '../../../common/components/NoReactSnap';
 
 export const Dashboard = () => {
   const { defaultAmount, defaultFromToken, defaultToToken } =
@@ -78,15 +79,23 @@ export const Dashboard = () => {
       />
 
       {hasErrors ? (
-        <Box mb={3}>
-          <ErrorMessage
-            title={t('error.some')}
-            onClick={repeatFailedRequests}
-            isLoading={isFailedRequestsLoading}
-          />
-        </Box>
+        <NoReactSnap>
+          <Box mb={3}>
+            <ErrorMessage
+              title={t('error.some')}
+              onClick={repeatFailedRequests}
+              isLoading={isFailedRequestsLoading}
+            />
+          </Box>
+        </NoReactSnap>
       ) : (
-        <TableComponent isLoading={isLoading} data={data} outToken={toToken} />
+        <NoReactSnap>
+          <TableComponent
+            isLoading={isLoading}
+            data={data}
+            outToken={toToken}
+          />
+        </NoReactSnap>
       )}
     </>
   );

@@ -16,6 +16,7 @@
   "error": {
     "not-authenticated": "Not Authenticated",
     "unknown": "Unknown error",
+    "some": "Some errors occurred 😔",
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions",
