@@ -4,10 +4,11 @@ import { Box, Chip } from '@material-ui/core';
 import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { TSwapOption } from '../../../../types';
 import { useSwapOptionsStyles } from './styles';
 
 export interface ISwapOptionsProps {
-  swapOption: 'aETHc' | 'aETHb';
+  swapOption: TSwapOption;
   onChooseAEthB: () => void;
   onChooseAEthC: () => void;
 }

@@ -12,7 +12,7 @@ export const getPairedToken = (
     const isAlreadyCompatible = toToken && pairedToken.find(t => t === toToken);
 
     if (isAlreadyCompatible) {
-      return undefined;
+      return toToken;
     }
 
     return pairedToken[0];

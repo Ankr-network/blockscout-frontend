@@ -1,4 +1,3 @@
-import { NoSsr } from '@material-ui/core';
 import { Notifications } from 'modules/common/components/Notifications';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { Provider } from 'react-redux';
@@ -9,6 +8,7 @@ import { Spinner } from 'uiKit/Spinner';
 import packageJson from '../package.json';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
+import { NoReactSnap } from './modules/common/components/NoReactSnap';
 
 function App() {
   return (
@@ -18,9 +18,9 @@ function App() {
           <AppBase>
             <ScrollToTop />
             <Routes />
-            <NoSsr>
+            <NoReactSnap>
               <Notifications />
-            </NoSsr>
+            </NoReactSnap>
           </AppBase>
         </PersistGate>
       </Provider>

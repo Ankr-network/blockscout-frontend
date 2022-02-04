@@ -1,8 +1,13 @@
+import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
+
+const STAKEFI_EHT_STAKE_URL = `${STAKEFI_LINK}/ETH`;
+const STAKEFI_MATIC_STAKE_URL = `${STAKEFI_LINK}/MATIC`;
+const STAKEFI_AVAX_STAKE_URL = `${STAKEFI_LINK}/AVAX`;
 
 interface IUseStakeBtn {
   href: string;
@@ -21,18 +26,22 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
       return {
         [AvailableTokens.MATIC]: {
           btnText: stakeText,
-          href: StakePolygonRoutes.stake.generatePath(),
+          href: featuresConfig.earlyRelease
+            ? STAKEFI_MATIC_STAKE_URL
+            : StakePolygonRoutes.stake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.aMATICb]: {
           btnText: unstakeText,
-          href: StakePolygonRoutes.unstake.generatePath(),
+          href: featuresConfig.earlyRelease
+            ? STAKEFI_MATIC_STAKE_URL
+            : StakePolygonRoutes.unstake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.ETH]: {
           btnText: stakeText,
-          href: defaultHref,
-          disabled: true,
+          href: STAKEFI_EHT_STAKE_URL,
+          disabled: false,
         },
         [AvailableTokens.aETHb]: {
           btnText: unstakeText,
@@ -48,13 +57,13 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
         },
         [AvailableTokens.AVAX]: {
           btnText: stakeText,
-          href: defaultHref,
-          disabled: true,
+          href: STAKEFI_AVAX_STAKE_URL,
+          disabled: false,
         },
         [AvailableTokens.aAVAXb]: {
           btnText: unstakeText,
-          href: defaultHref,
-          disabled: true,
+          href: STAKEFI_AVAX_STAKE_URL,
+          disabled: false,
         },
       };
     }, []);
