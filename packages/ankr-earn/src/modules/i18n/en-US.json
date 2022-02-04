@@ -55,6 +55,8 @@
     "feth": "aETHb",
     "polygon": "MATIC",
     "amaticb": "aMATICb",
+    "ftm": "FTM",
+    "aftmb": "aFTMb",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "token-value": "{value, number} {token}",
@@ -76,7 +78,9 @@
     "97": "Binance SmartChain Testnet",
     "43113": "Avalanche C-Chain",
     "43114": "Avalanche",
-    "2018": "Dev"
+    "2018": "Dev",
+    "250": "Fantom Opera",
+    "4002": "Fantom Testnet"
   },
   "not-found": {
     "title": "Page not found",
@@ -105,7 +109,9 @@
       "binance-smart-chain": "Binance Smart Chain",
       "smart-chain-testnet": "Smart Chain Testnet",
       "avax-chain": "AVAX C Chain",
-      "avax-fuji-testnet": "AVAX Fuji Testnet"
+      "avax-fuji-testnet": "AVAX Fuji Testnet",
+      "fantom": "Fantom Opera",
+      "fantom-testnet": "Fantom Testnet"
     }
   },
   "polkadot-slot-auction": {

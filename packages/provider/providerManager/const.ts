@@ -90,4 +90,27 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
     blockExplorerUrls: ['https://cchain.explorer.avax-test.network'],
   },
+
+  [BlockchainNetworkId.fantom]: {
+    chainId: numberToHex(BlockchainNetworkId.fantom),
+    chainName: 'Fantom Opera',
+    nativeCurrency: {
+      name: 'FTM',
+      symbol: 'FTM',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.ftm.tools/'],
+    blockExplorerUrls: ['https://ftmscan.com/'],
+  },
+  [BlockchainNetworkId.fantomTestnet]: {
+    chainId: numberToHex(BlockchainNetworkId.fantomTestnet),
+    chainName: 'Fantom testnet',
+    nativeCurrency: {
+      name: 'FTM',
+      symbol: 'FTM',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.testnet.fantom.network/'],
+    blockExplorerUrls: ['https://testnet.ftmscan.com/'],
+  },
 };

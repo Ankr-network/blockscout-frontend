@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-
 import packageJson from '../../../package.json';
 import { Env } from './types';
 
@@ -49,6 +48,8 @@ export const featuresConfig = {
   localeSwitcher: false,
   earlyRelease: false,
   dashboardLiquidCrowdloanAssets: false,
+  // todo: STAKAN-911 remove this flag when the feature will be done
+  stakeFantom: currentEnv === Env.Develop,
   eth2Swap: currentEnv === Env.Develop,
 };
 

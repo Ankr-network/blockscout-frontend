@@ -10,7 +10,7 @@ import {
   PromiEvent,
   provider as Provider,
   TransactionReceipt,
-  WebsocketProvider,
+  WebsocketProvider
 } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { numberToHex } from 'web3-utils';
@@ -310,7 +310,9 @@ export abstract class Web3KeyProvider {
           });
       }
       // handle other "switch" errors
-      throw new Error('switchError');
+      throw new Error(
+        'Switch network error. Perhaps the network is not added to the RPC Config.',
+      );
     }
   }
 
