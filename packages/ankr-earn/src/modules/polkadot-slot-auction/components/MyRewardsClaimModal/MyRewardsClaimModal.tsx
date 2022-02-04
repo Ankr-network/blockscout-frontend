@@ -29,7 +29,7 @@ import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccou
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useFetchPolkadotAccounts } from '../../hooks/useFetchPolkadotAccounts';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { IRouteClaimData, RoutesConfig } from '../../Routes';
+import { IRouteRewardsClaimData, RoutesConfig } from '../../Routes';
 import { ProviderName } from '../../utils/isProviderAvailable';
 import { WalletSwitcher } from '../WalletSwitcher';
 import { useMyRewardsClaimModalStyles } from './useMyRewardsClaimModalStyles';
@@ -53,7 +53,7 @@ export const MyRewardsClaimModal = () => {
   const dispatch = useDispatchRequest();
   const history = useHistory();
 
-  const { id, network } = useParams<IRouteClaimData>();
+  const { id, network } = useParams<IRouteRewardsClaimData>();
   const { isConnected, polkadotAccount } = useSlotAuctionSdk();
 
   const [isSubmitted, setIsSubmitted] = useState(false);

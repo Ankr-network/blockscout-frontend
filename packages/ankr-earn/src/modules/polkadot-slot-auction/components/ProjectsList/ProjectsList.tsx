@@ -14,12 +14,13 @@ import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { TCrowdloanStatus } from 'polkadot';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
-import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+import { QueryLoading, QueryLoadingCentered } from 'uiKit/QueryLoading';
+import { claimRewardPoolTokens } from '../../actions/claimRewardPoolTokens';
 import { IFetchCrowdloanBalancesItem } from '../../actions/fetchCrowdloanBalances';
 import { ICrowdloanByStatus } from '../../actions/fetchCrowdloansByStatus';
 import { fetchProjectsListCrowdloans } from '../../actions/fetchProjectsListCrowdloans';
@@ -43,9 +44,11 @@ export const ProjectsList = () => {
   const dispatch = useDispatchRequest();
   const history = useHistory();
 
-  const { isConnected, networkType } = useSlotAuctionSdk();
+  const { isConnected, networkType, polkadotAccount } = useSlotAuctionSdk();
   const { crowdloans, error, isLoading } = useProjectsListCrowdloans();
   const { balances } = useCrowdloanBalances();
+
+  const [loading, setLoading] = useState(false);
 
   const captions: CaptionType[] = useLocaleMemo(
     () => [
@@ -91,13 +94,13 @@ export const ProjectsList = () => {
         ),
       );
 
-  const handleClaimBtn = (loanId: number) => (): void =>
-    history.push(
-      RoutesConfig.projectsClaim.generatePath(
-        networkType.toLowerCase(),
-        loanId,
-      ),
-    );
+  const handleClaimBtn = (loanId: number) => async (): Promise<void> => {
+    setLoading(true);
+
+    await dispatch(claimRewardPoolTokens(polkadotAccount, loanId));
+
+    setLoading(false);
+  };
 
   useInitEffect((): void => {
     dispatch(fetchProjectsListCrowdloans());
@@ -142,6 +145,7 @@ export const ProjectsList = () => {
                 !isConnected || status !== 'ONGOING';
               const isDisabledClaimBtn: boolean =
                 !isConnected ||
+                loading ||
                 item.bondTokenContract === ZERO_ADDR ||
                 !(balanceItem?.claimable instanceof BigNumber) ||
                 balanceItem.claimable.isZero();
@@ -235,9 +239,11 @@ export const ProjectsList = () => {
                                   .toString(10),
                                 currency: bondTokenSymbol,
                               })
-                            : t('polkadot-slot-auction.button.claim-currency', {
+                            : t('polkadot-slot-auction.button.claim', {
                                 currency: bondTokenSymbol,
                               })}
+
+                          {loading && <QueryLoading size={40} />}
                         </Button>
                       )}
 

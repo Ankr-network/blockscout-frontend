@@ -10,12 +10,6 @@ import { setErrorMsg } from '../utils/setError';
 import { fetchCrowdloanBalances } from './fetchCrowdloanBalances';
 import { fetchProjectsListCrowdloans } from './fetchProjectsListCrowdloans';
 
-interface IClaimRewardPoolTokensProps {
-  isLedgerWallet?: boolean;
-  loanId: number;
-  polkadotAccount: string;
-}
-
 interface IClaimRewardPoolTokensData {
   transactionHash: string;
   transactionReceipt: any;
@@ -39,21 +33,15 @@ export const claimRewardPoolTokens = createAction<
   RequestAction<IClaimRewardPoolTokensData, IClaimRewardPoolTokensData>
 >(
   'CLAIM_REWARD_POOL_TOKENS',
-  ({
-    isLedgerWallet,
-    loanId,
-    polkadotAccount,
-  }: IClaimRewardPoolTokensProps): RequestAction => ({
+  (polkadotAccount: string, loanId: number): RequestAction => ({
     request: {
       promise: (async (): Promise<IClaimRewardPoolTokensData> => {
         const slotAuctionSdk: SlotAuctionSdk =
           await SlotAuctionSdkSingleton.getInstance();
 
-        let ethereumAddress: string,
-          data: IClaimRewardPoolTokensData | undefined;
-
         try {
-          ethereumAddress = await slotAuctionSdk.getEthereumAccount();
+          // Note: This is an external method for calling the "injectedWeb3KeyProvider()" in a "safe" mode
+          await slotAuctionSdk.getEthereumAccount();
         } catch (e: any | string) {
           throw new Error(e?.message ?? e);
         }
@@ -70,17 +58,13 @@ export const claimRewardPoolTokens = createAction<
           throw new Error(getETHNetworkErrMsg());
         }
 
+        let data: IClaimRewardPoolTokensData;
+
         try {
-          data = isLedgerWallet
-            ? await slotAuctionSdk.claimRewardPoolTokensOnchain(
-                polkadotAccount,
-                loanId,
-                ethereumAddress,
-              )
-            : await slotAuctionSdk.claimRewardPoolTokens(
-                polkadotAccount,
-                loanId,
-              );
+          data = await slotAuctionSdk.claimRewardPoolTokens(
+            polkadotAccount,
+            loanId,
+          );
         } catch (e: any | string) {
           throw new Error(e?.message ?? e);
         }
