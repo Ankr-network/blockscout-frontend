@@ -8,8 +8,9 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { DefaultLayout } from './components/DefautLayout';
 import { MyRewardsClaimModal } from './components/MyRewardsClaimModal';
+import { ProjectsListClaimModal } from './components/ProjectsListClaimModal';
 
-export interface IRouteRewardsClaimData {
+export interface IRouteClaimData {
   id: string;
   network: string;
 }
@@ -17,6 +18,7 @@ export interface IRouteRewardsClaimData {
 const ROOT = `${EARN_PATH}liquid-crowdloan/`;
 const CROWDLOANS_PATH = `${ROOT}:network/`;
 const LEND_PATH = `${CROWDLOANS_PATH}lend/:id/:name/`;
+const PROJECTS_CLAIM_PATH = `${CROWDLOANS_PATH}projects-claim/:id/`;
 const REWARDS_CLAIM_PATH = `${CROWDLOANS_PATH}rewards-claim/:id/`;
 
 export const RoutesConfig = createRouteConfig(
@@ -37,6 +39,15 @@ export const RoutesConfig = createRouteConfig(
         }),
       useParams: () => useParams<{ id: string; name: string }>(),
     },
+    projectsClaim: {
+      path: PROJECTS_CLAIM_PATH,
+      generatePath: (network: string, id: number): string =>
+        generatePath(PROJECTS_CLAIM_PATH, {
+          id,
+          network,
+        }),
+      useParams: (): IRouteClaimData => useParams<IRouteClaimData>(),
+    },
     rewardsClaim: {
       path: REWARDS_CLAIM_PATH,
       generatePath: (network: string, id: number): string =>
@@ -44,8 +55,7 @@ export const RoutesConfig = createRouteConfig(
           id,
           network,
         }),
-      useParams: (): IRouteRewardsClaimData =>
-        useParams<IRouteRewardsClaimData>(),
+      useParams: (): IRouteClaimData => useParams<IRouteClaimData>(),
     },
   },
   ROOT,
@@ -82,6 +92,12 @@ export function getRoutes() {
         <Route path={RoutesConfig.lend.path} exact>
           <DefaultLayout>
             <SupportProject />
+          </DefaultLayout>
+        </Route>
+
+        <Route path={RoutesConfig.projectsClaim.path} exact>
+          <DefaultLayout>
+            <ProjectsListClaimModal />
           </DefaultLayout>
         </Route>
 
