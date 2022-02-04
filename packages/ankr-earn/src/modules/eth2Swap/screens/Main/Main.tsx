@@ -13,15 +13,16 @@ import {
   ONE_ETH,
 } from 'modules/common/const';
 import { AmountField } from 'modules/common/components/AmountField';
+import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { Container } from 'uiKit/Container';
 import { Tooltip } from 'uiKit/Tooltip';
 import { Button } from 'uiKit/Button';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { ISwapFormPayload } from '../../types';
-import { useEth2SwapHook } from './hook';
-import { SwapOptions } from './components';
-import { useMainEth2SwapStyles } from './styles';
+import { useEth2SwapHook } from './useEth2SwapHook';
+import { SwapOptions, Stepper } from './components';
+import { useMainEth2SwapStyles } from './useMainEth2SwapStyles';
 
 const FEE_BASIS_POINTS = 30;
 
@@ -32,10 +33,14 @@ export const Main = (): JSX.Element => {
     allowance,
     swapOption,
     ratio,
+    txHash,
+    txError,
+    chainId,
     balance,
     isDataLoading,
     aethBalance,
     fethBalance,
+    hasApprove,
     isApproveLoading,
     isSwapLoading,
     validate,
@@ -45,24 +50,26 @@ export const Main = (): JSX.Element => {
     handleChooseAEthC,
     handleApprove,
     handleSwap,
+    handleClearTx,
   } = useEth2SwapHook();
 
   const max = useMemo(
     () => balance.dividedBy(ETH_SCALE_FACTOR).decimalPlaces(DECIMAL_PLACES),
     [balance],
   );
-  const canShowApprove = allowance.isZero() && swapOption === 'aETHc';
+  const canApprove = allowance.isZero() && swapOption === 'aETHc';
+  const canShowApproveStep = swapOption === 'aETHc' && hasApprove;
   const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
-      if (canShowApprove) {
+      if (canApprove) {
         handleApprove();
       } else {
         handleSwap(amount as string);
       }
     },
-    [canShowApprove, handleApprove, handleSwap],
+    [canApprove, handleApprove, handleSwap],
   );
 
   const setMaxAmount = useCallback(
@@ -158,26 +165,28 @@ export const Main = (): JSX.Element => {
         </Box>
 
         <Box className={classes.buttons}>
-          {swapOption === 'aETHc' && (
+          {canShowApproveStep && (
             <Button
               className={classes.button}
-              disabled={isApproveLoading || !canShowApprove}
+              disabled={isApproveLoading || !canApprove}
               isLoading={isApproveLoading}
               onClick={handleSubmit}
             >
-              Approve
+              {t('eth2Swap.buttons.approve')}
             </Button>
           )}
 
           <Button
             className={classes.button}
-            disabled={isSwapLoading || canShowApprove}
+            disabled={isSwapLoading || canApprove}
             isLoading={isSwapLoading}
             onClick={handleSubmit}
           >
-            Swap
+            {t('eth2Swap.buttons.swap')}
           </Button>
         </Box>
+
+        {canShowApproveStep && <Stepper allowance={allowance} />}
       </Paper>
     );
   };
@@ -185,6 +194,16 @@ export const Main = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
+        {(txError || txHash) && (
+          <TransactionInfo
+            className={classes.transactionInfo}
+            type={txError ? 'failed' : 'success'}
+            chainId={chainId}
+            txHash={txHash}
+            onClose={handleClearTx}
+          />
+        )}
+
         {canShowSpinner && <QueryLoadingCentered />}
 
         {!canShowSpinner && (

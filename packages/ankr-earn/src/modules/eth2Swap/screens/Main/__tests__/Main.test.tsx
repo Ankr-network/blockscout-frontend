@@ -1,21 +1,26 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 
 import { ZERO, ONE_ETH } from 'modules/common/const';
-import { IEth2SwapHookData, useEth2SwapHook } from '../hook';
+import { IEth2SwapHookData, useEth2SwapHook } from '../useEth2SwapHook';
 import { Main } from '..';
 
-jest.mock('../hook', () => ({
+jest.mock('../useEth2SwapHook', () => ({
   useEth2SwapHook: jest.fn(),
 }));
 
 describe('modules/eth2Swap/screens/Main', () => {
   const defaultHookData: IEth2SwapHookData = {
     swapOption: 'aETHb',
+    chainId: 1,
+    txHash: 'hash',
+    txError: '',
     allowance: ZERO,
     ratio: ZERO,
     aethBalance: ZERO,
     fethBalance: ZERO,
     balance: ZERO,
+    hasApprove: false,
     isDataLoading: false,
     isSwapLoading: false,
     isApproveLoading: false,
@@ -29,6 +34,7 @@ describe('modules/eth2Swap/screens/Main', () => {
     handleChooseAEthB: jest.fn(),
     handleApprove: jest.fn(),
     handleSwap: jest.fn(),
+    handleClearTx: jest.fn(),
   };
 
   beforeEach(() => {
@@ -40,7 +46,11 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should render properly', async () => {
-    render(<Main />);
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
 
     const title = await screen.findByText('ETH2 Swap');
     expect(title).toBeInTheDocument();
@@ -55,7 +65,11 @@ describe('modules/eth2Swap/screens/Main', () => {
       fethBalance: undefined,
     });
 
-    render(<Main />);
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
 
     const spinner = await screen.findByTestId('spinner');
     expect(spinner).toBeInTheDocument();
@@ -68,13 +82,50 @@ describe('modules/eth2Swap/screens/Main', () => {
       balance: ONE_ETH.multipliedBy(10),
     });
 
-    render(<Main />);
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
 
     const maxButton = await screen.findByText('Max');
     maxButton.click();
 
     const input = await screen.findByDisplayValue('10');
     expect(input).toBeInTheDocument();
+  });
+
+  test('should render error transaction info', async () => {
+    (useEth2SwapHook as jest.Mock).mockReturnValue({
+      ...defaultHookData,
+      txError: 'error',
+    });
+
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
+
+    const txInfo = await screen.findByText('Transaction failed.');
+    expect(txInfo).toBeInTheDocument();
+  });
+
+  test('should render success transaction info', async () => {
+    (useEth2SwapHook as jest.Mock).mockReturnValue({
+      ...defaultHookData,
+      txError: '',
+      txHash: 'hash',
+    });
+
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
+
+    const txInfo = await screen.findByText('Transaction successful.');
+    expect(txInfo).toBeInTheDocument();
   });
 
   test('should handle swap properly', async () => {
@@ -85,7 +136,11 @@ describe('modules/eth2Swap/screens/Main', () => {
       balance: ONE_ETH.multipliedBy(10),
     });
 
-    render(<Main />);
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
 
     const maxButton = await screen.findByText('Max');
     maxButton.click();
@@ -104,12 +159,17 @@ describe('modules/eth2Swap/screens/Main', () => {
     (useEth2SwapHook as jest.Mock).mockReturnValue({
       ...defaultHookData,
       swapOption: 'aETHc',
+      hasApprove: true,
       allowance: ZERO,
       ratio: ONE_ETH,
       balance: ONE_ETH.multipliedBy(10),
     });
 
-    render(<Main />);
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
 
     const maxButton = await screen.findByText('Max');
     maxButton.click();

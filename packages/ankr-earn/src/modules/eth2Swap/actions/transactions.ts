@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
+import { push } from 'connected-react-router';
 
 import { IWeb3SendResult } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
@@ -26,10 +27,20 @@ export const swapAssets = createAction<
         const providerManager = ProviderManagerSingleton.getInstance();
 
         if (swapOption === 'aETHb') {
-          return unlockShares({ amount, providerManager, providerId });
+          const result = await unlockShares({
+            amount,
+            providerManager,
+            providerId,
+          });
+          return { ...result, swapOption };
         }
 
-        return lockShares({ amount, providerManager, providerId });
+        const result = await lockShares({
+          amount,
+          providerManager,
+          providerId,
+        });
+        return { ...result, swapOption };
       },
     },
     meta: {
@@ -38,7 +49,16 @@ export const swapAssets = createAction<
       onRequest: withStore,
       getData: data => data,
       onSuccess: async (response, _action, store) => {
-        await response.data?.receiptPromise;
+        const { receiptPromise, transactionHash, swapOption } =
+          response.data || {};
+
+        await receiptPromise;
+
+        if (transactionHash && swapOption) {
+          store.dispatch(
+            push(`/earn/eth2-swap/success/${transactionHash}/${swapOption}`),
+          );
+        }
 
         store.dispatchRequest(
           getEth2SwapData({ providerId: AvailableProviders.ethCompatible }),

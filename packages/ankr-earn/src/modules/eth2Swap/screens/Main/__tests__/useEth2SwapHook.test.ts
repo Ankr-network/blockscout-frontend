@@ -9,11 +9,12 @@ import BigNumber from 'bignumber.js';
 
 import { AvailableProviders } from 'provider/providerManager/types';
 import { ETH_SCALE_FACTOR, ONE_ETH } from 'modules/common/const';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import {
   approveAETHC,
   swapAssets,
 } from 'modules/eth2Swap/actions/transactions';
-import { useEth2SwapHook } from '../hook';
+import { useEth2SwapHook } from '../useEth2SwapHook';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
@@ -26,16 +27,25 @@ jest.mock('modules/eth2Swap/actions/transactions', () => ({
   swapAssets: jest.fn(),
 }));
 
-describe('modules/eth2Swap/screens/Main/hook', () => {
+jest.mock('modules/auth/hooks/useAuth', () => ({
+  useAuth: jest.fn(),
+}));
+
+describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
   beforeEach(() => {
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    const dispatchRequest = jest.fn(() => Promise.resolve({}));
+    (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
+
     (useQuery as jest.Mock).mockReturnValue({
       data: null,
       loading: false,
     });
+
     (useMutation as jest.Mock).mockReturnValue({
       loading: false,
     });
+
+    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
   });
 
   afterEach(() => {
@@ -46,21 +56,28 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     const { result } = renderHook(() => useEth2SwapHook());
     const {
       ratio,
+      chainId,
       allowance,
       aethBalance,
       fethBalance,
       isDataLoading,
       swapOption,
       balance,
+      txError,
+      txHash,
       validate,
       calculateFeeAndTotal,
       handleChooseAEthB,
       handleChooseAEthC,
       handleApprove,
       handleSwap,
+      handleClearTx,
     } = result.current;
 
     expect(ratio.toNumber()).toBe(ONE_ETH.toNumber());
+    expect(chainId).toBe(1);
+    expect(txError).toBe('');
+    expect(txHash).toBe('');
     expect(allowance.toNumber()).toBe(0);
     expect(aethBalance).toBeUndefined();
     expect(fethBalance).toBeUndefined();
@@ -73,6 +90,20 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     expect(handleChooseAEthC).toBeDefined();
     expect(handleApprove).toBeDefined();
     expect(handleSwap).toBeDefined();
+    expect(handleClearTx).toBeDefined();
+  });
+
+  describe('handle clear tx', () => {
+    test('should clear tx hash and error', () => {
+      const { result } = renderHook(() => useEth2SwapHook());
+
+      act(() => {
+        result.current.handleClearTx();
+      });
+
+      expect(result.current.txError).toBe('');
+      expect(result.current.txHash).toBe('');
+    });
   });
 
   describe('handle swap', () => {
@@ -90,10 +121,31 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
         providerId: AvailableProviders.ethCompatible,
       });
     });
+
+    test('should handle swap error', async () => {
+      const dispatchRequest = jest.fn(() =>
+        Promise.resolve({ error: 'error' }),
+      );
+
+      (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
+
+      const { result } = renderHook(() => useEth2SwapHook());
+
+      await act(() => {
+        result.current.handleSwap('1');
+      });
+
+      expect(result.current.txError).toBe('error');
+    });
   });
 
   describe('handle approve', () => {
     test('should handle approve aETHc for aETHb properly', () => {
+      (useQuery as jest.Mock).mockReturnValue({
+        data: { allowance: new BigNumber(1) },
+        loading: false,
+      });
+
       const { result } = renderHook(() => useEth2SwapHook());
 
       act(() => {

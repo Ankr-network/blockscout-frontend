@@ -6,6 +6,7 @@ import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
 import { configFromEnv } from 'modules/api/config';
 import AETH from 'modules/api/contract/AETH.json';
 import FETH from 'modules/api/contract/FETH.json';
+import { TSwapOption } from '../types';
 
 export interface IGetEth2SwapServiceArgs {
   providerManager: ProviderManager;
@@ -136,4 +137,37 @@ export const approveAETHCForAETHB = async ({
     contractConfig.aethContract,
     { data },
   );
+};
+
+export interface IAddTokenToWalletArgs {
+  providerManager: ProviderManager;
+  providerId: AvailableProviders;
+  swapOption: TSwapOption;
+}
+
+const TOKENS = {
+  aETHc: {
+    address: CONFIG.contractConfig.aethContract,
+    symbol: 'aETHc',
+    decimals: 18,
+  },
+
+  aETHb: {
+    address: CONFIG.contractConfig.fethContract,
+    symbol: 'aETHb',
+    decimals: 18,
+  },
+};
+
+export const addTokenToWallet = async ({
+  providerManager,
+  providerId,
+  swapOption,
+}: IAddTokenToWalletArgs): Promise<void> => {
+  const provider = await providerManager.getProvider(providerId);
+  const data = TOKENS[swapOption];
+
+  if (data) {
+    await provider.addTokenToWallet(data);
+  }
 };

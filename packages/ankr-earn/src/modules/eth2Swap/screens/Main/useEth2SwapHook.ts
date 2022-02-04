@@ -17,6 +17,7 @@ import {
   ONE_ETH,
   ZERO,
 } from 'modules/common/const';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import {
   approveAETHC,
@@ -29,13 +30,17 @@ export interface IEth2SwapHookProps {
 }
 
 export interface IEth2SwapHookData {
+  txHash: string;
+  txError: string;
   swapOption: TSwapOption;
   balance: BigNumber;
   ratio: BigNumber;
   allowance: BigNumber;
   isDataLoading: boolean;
   isSwapLoading: boolean;
+  hasApprove: boolean;
   isApproveLoading: boolean;
+  chainId: number;
   fethBalance?: BigNumber;
   aethBalance?: BigNumber;
   validate: () => Promise<FormErrors<ISwapFormPayload>>;
@@ -45,6 +50,7 @@ export interface IEth2SwapHookData {
   handleChooseAEthC: () => void;
   handleApprove: () => void;
   handleSwap: (amount: string) => void;
+  handleClearTx: () => void;
 }
 
 const createSchema = ({ max }: { max: BigNumber }) =>
@@ -63,13 +69,25 @@ export const useEth2SwapHook = () => {
   });
   const { loading: isApproveLoading } = useMutation({ type: approveAETHC });
   const { loading: isSwapLoading } = useMutation({ type: swapAssets });
+  const { chainId } = useAuth(AvailableProviders.ethCompatible);
 
   const [swapOption, setSwapOption] = useState<TSwapOption>('aETHb');
+  const [hasApprove, setHasApprove] = useState(false);
+  const [txHash, setTxHash] = useState('');
+  const [txError, setTxError] = useState('');
   const balance =
     swapOption === 'aETHb' ? data?.fethBalance : data?.aethBalance;
   const ratio = useMemo(() => data?.ratio ?? ONE_ETH, [data?.ratio]);
   const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
   const max = useMemo(() => balance ?? ZERO, [balance]);
+
+  useEffect(() => {
+    if (hasApprove || !data?.allowance) {
+      return;
+    }
+
+    setHasApprove(data.allowance.isZero());
+  }, [hasApprove, data?.allowance]);
 
   const schema = useMemo(() => createSchema({ max }), [max]);
   const validateHandler = useMemo(() => validate(schema), [schema]);
@@ -113,7 +131,10 @@ export const useEth2SwapHook = () => {
   const handleApprove = useCallback(() => {
     dispatchRequest(
       approveAETHC({ providerId: AvailableProviders.ethCompatible }),
-    );
+    ).then(response => {
+      setTxHash(response.data?.transactionHash ?? '');
+      setTxError(response.error ?? '');
+    });
   }, [dispatchRequest]);
 
   const handleSwap = useCallback(
@@ -124,10 +145,19 @@ export const useEth2SwapHook = () => {
           providerId: AvailableProviders.ethCompatible,
           swapOption,
         }),
-      );
+      ).then(response => {
+        if (response.error) {
+          setTxError(response.error);
+        }
+      });
     },
     [swapOption, dispatchRequest],
   );
+
+  const handleClearTx = useCallback(() => {
+    setTxError('');
+    setTxHash('');
+  }, []);
 
   useEffect(() => {
     dispatchRequest(
@@ -138,11 +168,15 @@ export const useEth2SwapHook = () => {
   }, [dispatchRequest]);
 
   return {
+    txHash,
+    txError,
     ratio,
     allowance,
+    hasApprove,
     balance: max,
     aethBalance: data?.aethBalance,
     fethBalance: data?.fethBalance,
+    chainId: chainId as number,
     isDataLoading,
     isSwapLoading,
     isApproveLoading,
@@ -154,5 +188,6 @@ export const useEth2SwapHook = () => {
     handleChooseAEthC,
     handleApprove,
     handleSwap,
+    handleClearTx,
   };
 };

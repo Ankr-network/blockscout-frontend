@@ -39,7 +39,7 @@
   "logo": {
     "earn": "Earn"
   },
-  "rights": "© 2021 Ankr All rights reserved | info@ankr.com",
+  "rights": "© 2022 Ankr All rights reserved | info@ankr.com",
   "language": {
     "language": "Language",
     "en-US": "EN",
@@ -65,6 +65,11 @@
     "ankr-value": "{value} ANKR",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period."
+  },
+  "common": {
+    "successTx": "Transaction successful.",
+    "errorTx": "Transaction failed.",
+    "explorer": "View on explorer"
   },
   "chain": {
     "1": "Ethereum Mainnet",
@@ -345,7 +350,16 @@
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. By holding aETHb, its balance will increase in a daily basis at the same proportion as ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token. Its ratio, representing the redemption value of aETHc, increases over time due to ETH2 staking rewards."
-    }
+    },
+    "buttons": {
+      "approve": "Approve",
+      "swap": "Swap",
+      "explorer": "View on explorer",
+      "dashboard": "Go to dashboard",
+      "addToWallet": "Add {token} to wallet"
+    },
+    "successTitle": "Swap successful",
+    "successInfo": "You will be able to see your {token} exposure on Ankr Earn Dashboard."
   },
   "unstake-polygon": {
     "success": {

@@ -54,9 +54,16 @@ export const featuresConfig = {
   eth2Swap: currentEnv === Env.Develop,
 };
 
-export const transactionHistoryUrlsByNetwork: any = {
-  1: 'https://etherscan.io/tx/{value}',
-  5: 'https://goerli.etherscan.io/tx/{value}',
-  56: 'https://bscscan.com/tx/{value}',
-  97: 'https://testnet.bscscan.com/tx/{value}',
+export enum SupportedChainIDS {
+  MAINNET = 1,
+  GOERLI = 5,
+  BSC = 56,
+  BSC_TESTNET = 97,
+}
+
+export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
+  [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
+  [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
+  [SupportedChainIDS.BSC]: 'https://bscscan.com',
+  [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
 };
