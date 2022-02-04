@@ -9,9 +9,9 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { MATIC_STAKING_NETWORKS, POLYGON_PROVIDER_ID } from './const';
 
-const ROOT = `${StakeRoutes.main.path}MATIC/`;
+const ROOT = `${StakeRoutes.main.path}matic/`;
 const STAKE_MATIC_PATH = ROOT;
-const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}MATIC/`;
+const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/`;
 
 export const RoutesConfig = createRouteConfig(
   {

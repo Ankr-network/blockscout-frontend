@@ -374,6 +374,7 @@
   },
   "features": {
     "polygon": "Polygon (MATIC)",
+    "fantom": "Fantom (FTM)",
     "apy": "APY",
     "apy-value": "{value}%",
     "staked": "Staked",
