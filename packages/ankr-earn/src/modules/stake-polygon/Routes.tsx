@@ -64,7 +64,7 @@ export function getRoutes() {
           availableNetworks={MATIC_STAKING_NETWORKS}
           exact
         >
-          <DefaultLayout>
+          <DefaultLayout verticalAlign="center">
             <Unstake />
           </DefaultLayout>
         </GuardRoute>
