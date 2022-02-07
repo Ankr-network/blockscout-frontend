@@ -20,7 +20,7 @@ import { Button } from 'uiKit/Button';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { ISwapFormPayload } from '../../types';
-import { useEth2SwapHook } from './useEth2SwapHook';
+import { useEth2SwapData, useEth2SwapForm } from './hooks';
 import { SwapOptions, Stepper } from './components';
 import { useMainEth2SwapStyles } from './useMainEth2SwapStyles';
 
@@ -33,25 +33,28 @@ export const Main = (): JSX.Element => {
     allowance,
     swapOption,
     ratio,
-    txHash,
-    txError,
     chainId,
     balance,
     isDataLoading,
     aethBalance,
     fethBalance,
     hasApprove,
+    handleChooseAEthB,
+    handleChooseAEthC,
+  } = useEth2SwapData();
+
+  const {
+    txHash,
+    txError,
     isApproveLoading,
     isSwapLoading,
     validate,
     calculateValueWithRatio,
     calculateFeeAndTotal,
-    handleChooseAEthB,
-    handleChooseAEthC,
     handleApprove,
     handleSwap,
     handleClearTx,
-  } = useEth2SwapHook();
+  } = useEth2SwapForm({ max: balance, swapOption, ratio });
 
   const max = useMemo(
     () => balance.dividedBy(ETH_SCALE_FACTOR).decimalPlaces(DECIMAL_PLACES),

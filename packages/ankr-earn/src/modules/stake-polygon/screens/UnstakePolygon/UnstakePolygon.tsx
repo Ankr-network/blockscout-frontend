@@ -1,12 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  Divider,
-  Grid,
-  Link,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
@@ -23,11 +15,10 @@ import {
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
@@ -40,7 +31,6 @@ export const UnstakePolygon = () => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  const [isUnstakeSucess, setIsUnstakeSucess] = useState<boolean>(false);
   const {
     isOpened: isSuccessOpened,
     onClose: onSuccessClose,

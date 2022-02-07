@@ -2,19 +2,23 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { ZERO, ONE_ETH } from 'modules/common/const';
-import { IEth2SwapHookData, useEth2SwapHook } from '../useEth2SwapHook';
+import {
+  IEth2SwapFormHookData,
+  IEth2SwapHookData,
+  useEth2SwapData,
+  useEth2SwapForm,
+} from '../hooks';
 import { Main } from '..';
 
-jest.mock('../useEth2SwapHook', () => ({
-  useEth2SwapHook: jest.fn(),
+jest.mock('../hooks', () => ({
+  useEth2SwapData: jest.fn(),
+  useEth2SwapForm: jest.fn(),
 }));
 
 describe('modules/eth2Swap/screens/Main', () => {
   const defaultHookData: IEth2SwapHookData = {
     swapOption: 'aETHb',
     chainId: 1,
-    txHash: 'hash',
-    txError: '',
     allowance: ZERO,
     ratio: ZERO,
     aethBalance: ZERO,
@@ -22,6 +26,13 @@ describe('modules/eth2Swap/screens/Main', () => {
     balance: ZERO,
     hasApprove: false,
     isDataLoading: false,
+    handleChooseAEthC: jest.fn(),
+    handleChooseAEthB: jest.fn(),
+  };
+
+  const defaultFormData: IEth2SwapFormHookData = {
+    txHash: 'hash',
+    txError: '',
     isSwapLoading: false,
     isApproveLoading: false,
     validate: jest.fn(),
@@ -30,15 +41,15 @@ describe('modules/eth2Swap/screens/Main', () => {
       fee: ZERO,
       total: ZERO,
     }),
-    handleChooseAEthC: jest.fn(),
-    handleChooseAEthB: jest.fn(),
     handleApprove: jest.fn(),
     handleSwap: jest.fn(),
     handleClearTx: jest.fn(),
   };
 
   beforeEach(() => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue(defaultHookData);
+    (useEth2SwapData as jest.Mock).mockReturnValue(defaultHookData);
+
+    (useEth2SwapForm as jest.Mock).mockReturnValue(defaultFormData);
   });
 
   afterEach(() => {
@@ -57,7 +68,7 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should render spinner properly', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
+    (useEth2SwapData as jest.Mock).mockReturnValue({
       ...defaultHookData,
       balance: ZERO,
       isDataLoading: true,
@@ -76,7 +87,7 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should handle max input button', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
+    (useEth2SwapData as jest.Mock).mockReturnValue({
       ...defaultHookData,
       ratio: ONE_ETH,
       balance: ONE_ETH.multipliedBy(10),
@@ -96,8 +107,8 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should render error transaction info', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
-      ...defaultHookData,
+    (useEth2SwapForm as jest.Mock).mockReturnValue({
+      ...defaultFormData,
       txError: 'error',
     });
 
@@ -112,7 +123,7 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should render success transaction info', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
+    (useEth2SwapData as jest.Mock).mockReturnValue({
       ...defaultHookData,
       txError: '',
       txHash: 'hash',
@@ -129,7 +140,7 @@ describe('modules/eth2Swap/screens/Main', () => {
   });
 
   test('should handle swap properly', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
+    (useEth2SwapData as jest.Mock).mockReturnValue({
       ...defaultHookData,
       swapOption: 'aETHb',
       ratio: ONE_ETH,
@@ -151,12 +162,12 @@ describe('modules/eth2Swap/screens/Main', () => {
     const button = await screen.findByText('Swap');
     button.click();
 
-    expect(defaultHookData.handleSwap).toBeCalledTimes(1);
-    expect(defaultHookData.handleSwap).toBeCalledWith('10');
+    expect(defaultFormData.handleSwap).toBeCalledTimes(1);
+    expect(defaultFormData.handleSwap).toBeCalledWith('10');
   });
 
   test('should handle approve properly', async () => {
-    (useEth2SwapHook as jest.Mock).mockReturnValue({
+    (useEth2SwapData as jest.Mock).mockReturnValue({
       ...defaultHookData,
       swapOption: 'aETHc',
       hasApprove: true,
@@ -180,6 +191,6 @@ describe('modules/eth2Swap/screens/Main', () => {
     const button = await screen.findByText('Approve');
     button.click();
 
-    expect(defaultHookData.handleApprove).toBeCalledTimes(1);
+    expect(defaultFormData.handleApprove).toBeCalledTimes(1);
   });
 });

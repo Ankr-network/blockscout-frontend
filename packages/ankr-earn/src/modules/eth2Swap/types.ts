@@ -11,6 +11,11 @@ export interface IFeeAndTotal {
   total: BigNumber;
 }
 
+export interface IFeeAndAmount {
+  amount: BigNumber;
+  feeBP: BigNumber;
+}
+
 export interface ISuccessPathParams {
   txHash: string;
   swapOption: TSwapOption;
