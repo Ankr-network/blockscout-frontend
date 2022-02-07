@@ -10,6 +10,7 @@ import {
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
+import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
@@ -48,6 +49,10 @@ export const useNavigationItems = () => {
         label: t('main-navigation.eth2Swap'),
         href: ETH2SwapRoutes.root,
       },
+      bridge: {
+        label: 'Bridge',
+        href: BridgeRoutes.main.generatePath(),
+      },
       docs: {
         label: t('main-navigation.docs'),
         href: DOCS_LINK,
@@ -74,6 +79,7 @@ export const useNavigationItems = () => {
       ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
         ? []
         : [links.eth2Swap]),
+      ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
     ],
@@ -88,6 +94,7 @@ export const useNavigationItems = () => {
       ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
         ? []
         : [links.eth2Swap]),
+      ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
     ],

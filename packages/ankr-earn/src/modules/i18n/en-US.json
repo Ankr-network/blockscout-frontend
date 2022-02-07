@@ -479,5 +479,15 @@
     "img-alt": "Two arrows icon",
     "text": "Switch to old version",
     "btn": "Switch"
+  },
+  "bridge": {
+    "main": {
+      "title": "Cross Chain Bridge",
+      "connectBtn": "Connect your wallet",
+      "btn-max": "Max",
+      "your-balance": "Your balance:",
+      "from": "From",
+      "to": "To"
+    }
   }
 }

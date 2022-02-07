@@ -55,6 +55,7 @@ export const featuresConfig = {
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: currentEnv === Env.Develop,
   eth2Swap: currentEnv === Env.Develop,
+  bridge: false,
 };
 
 export enum SupportedChainIDS {
