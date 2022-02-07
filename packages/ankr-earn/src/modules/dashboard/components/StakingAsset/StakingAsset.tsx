@@ -1,6 +1,5 @@
 import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { configFromEnv } from 'modules/api/config';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { EToken } from 'modules/dashboard/types';
@@ -15,6 +14,7 @@ import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
   token?: EToken;
+  tokenAddress?: string;
   network?: string;
   amount?: BigNumber;
   tradeLink?: string;
@@ -31,6 +31,7 @@ interface IStakingAssetProps {
 export const StakingAsset = ({
   network,
   token,
+  tokenAddress,
   amount,
   tradeLink,
   stakeLink,
@@ -50,8 +51,6 @@ export const StakingAsset = ({
 
   const displayLinks = stakeLink || unstakeLink || tradeLink;
 
-  const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
-
   const historyButtonIcon = isHistoryLoading ? (
     <Spinner size={18} variant="circle" />
   ) : (
@@ -70,7 +69,7 @@ export const StakingAsset = ({
             <NetworkIconText
               network={network}
               token={token}
-              contract={aMaticbContract}
+              contract={tokenAddress}
             />
           </Grid>
 

@@ -53,16 +53,22 @@
     "eth": "ETH",
     "aeth": "aETHc",
     "feth": "aETHb",
+    "bnb": "BNB",
     "polygon": "MATIC",
+    "abnbb": "aBNBb",
     "amaticb": "aMATICb",
     "ftm": "FTM",
     "aftmb": "aFTMb",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "token-value": "{value, number} {token}",
+    "bnb-value": "{value} BNB",
     "matic-value": "{value} MATIC",
+    "~abnbb": "{value} aBNBb",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR",
+    "bnb-tooltip-title": "1 BNB = 1 aBNBb",
+    "bnb-tooltip-body": "aBNBb is a redeemable token. aBNBb can be redeemed at fair value into BNB tokens anytime after 3-4 days unbonding period.",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period."
   },
@@ -122,7 +128,7 @@
   "polkadot-slot-auction": {
     "button": {
       "add-to-wallet": "Add {bondTokenSymbol} to wallet",
-      "check-wallet": "Check wallet",
+      "check-transaction": "Check transaction",
       "claim": "Claim",
       "claim-currency": "Claim {currency}",
       "claim-tokens": "Claim {value} {currency}",
@@ -171,7 +177,7 @@
       },
       "success-section": {
         "hint-eth": "You have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your wallet",
-        "message": "Your rewards will arrive in about 3-5 minutes",
+        "message": "You can check your wallet on {rewardTokenName} parachain in about 3-5 minutes",
         "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
       }
     },
@@ -286,18 +292,47 @@
       "add-to-wallet": "Add {token} to wallet"
     }
   },
-  "unstake-dialog": {
-    "title": "How many {token} do you want to redeem?",
-    "unstake-fee": "Unstake Fee",
-    "btn": "Unstake",
-    "buy-ankr": "Buy ANKR",
-    "amount": "Amount",
-    "success": {
-      "title": "Unstake is pending",
-      "description": "You will recieve {token} in {period}",
-      "return": "Go to dashboard"
+  "stake-bnb-dashboard": {
+    "column": {
+      "amount": "Amount",
+      "tx-date": "Transaction Date",
+      "tx-hash": "Transaction Hash",
+      "tx-type": "Transaction Type"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. MATIC tokens will therefore be transferred to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+    "switcher": {
+      "completed-title": "Completed transactions",
+      "pending-title": "Pending transactions"
+    },
+    "title": "BNB Staking",
+    "unstake-eta": "You will receive BNB in about 3-4 days. ",
+    "tooltip": {
+      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned BNB over the last 7 days, net of delegation fees from Binance Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending BNB rewards, earned BNB will be staked to generate compounding effect.",
+      "unstake": "Unstake",
+      "fee": "As unstaking BNB tokens is a gas and time consuming process requiring sending several transactions to the BNB smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. BNB tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+    },
+    "validation": {
+      "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
+    }
+  },
+  "stake-bnb": {
+    "stake-info": "Stake at least 1 BNB on Ethereum network and claim the same amount of aBNBb liquid staking tokens (aBNBb) on Binance Smart Chain network (BEP-20 token). Your aBNBb balance will increase on a daily basis, simulating as such your aBNBb staking rewards.",
+    "faq": {
+      "title": "FAQ",
+      "question-1": "What is Polygon (MATIC) liquid staking?",
+      "answer-1": "Polygon Liquid Staking offers instant liquidity for your staked MATIC. When you stake MATIC, you will mint and claim aMATICb tokens. These new tokens can be used with DeFi platforms to earn additional layers of rewards.",
+      "question-2": "What is the minimum amount of MATIC I can stake?",
+      "answer-2": "The minimum amount you can stake is {value} MATIC.",
+      "question-3": "How soon after staking will I begin to receive rewards?",
+      "answer-3": "Your aMATICb balance will increase daily with every rebase. This rebase reflects the staking rewards you have earned for the period.",
+      "question-4": "How do I receive rewards?",
+      "answer-4": "The aMATICb tokens you keep in your wallet will gradually increase in quantity to reflect the staking rewards you earn. This happens daily with a process called “rebasing” (adjusting the supply of tokens) to deliver your appropriate staking rewards.",
+      "question-5": "What determines the amount of reward I receive with each rebase?",
+      "answer-5": "This depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
+      "question-6": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
+      "answer-6": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction.",
+      "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
+      "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
+    }
   },
   "stake-polygon-dashboard": {
     "column": {
@@ -361,6 +396,19 @@
     "successTitle": "Swap successful",
     "successInfo": "You will be able to see your {token} exposure on Ankr Earn Dashboard."
   },
+  "unstake-dialog": {
+    "title": "How many {token} do you want to redeem?",
+    "unstake-fee": "Unstake Fee",
+    "btn": "Unstake",
+    "buy-ankr": "Buy ANKR",
+    "amount": "Amount",
+    "success": {
+      "title": "Unstake is pending",
+      "description": "You will recieve {token} in {period}",
+      "return": "Go to dashboard"
+    },
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. MATIC tokens will therefore be transferred to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+  },
   "unstake-polygon": {
     "success": {
       "period": "about 3-4 days"
@@ -397,6 +445,7 @@
     "pending-time": "Requested time"
   },
   "features": {
+    "binance": "Binance (BNB)",
     "polygon": "Polygon (MATIC)",
     "fantom": "Fantom (FTM)",
     "apy": "APY",

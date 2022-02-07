@@ -1,17 +1,19 @@
 import { Grid, Typography } from '@material-ui/core';
 import { EToken } from 'modules/dashboard/types';
-import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
-import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
-import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
-import { Tooltip } from 'uiKit/Tooltip';
 import { t } from 'modules/i18n/utils/intl';
 import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { TextButton } from 'uiKit/TextButton';
+import { Tooltip } from 'uiKit/Tooltip';
 import { ReactComponent as Checkmark } from './assets/checkmark.svg';
 import { ReactComponent as Copy } from './assets/copy.svg';
-import { TextButton } from 'uiKit/TextButton';
+import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
+import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
 const iconByTokenMap = {
+  [EToken.aBNBb]: BNBIcon,
   [EToken.aMATICb]: AMATICBIcon,
 };
 

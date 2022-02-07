@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { configFromEnv } from 'modules/api/config';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { Token } from 'modules/common/types/token';
 import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
@@ -12,13 +14,14 @@ import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes
 
 interface IUseMaticStakingAsset {
   token: EToken;
+  tokenAddress: string;
   network: string;
   amount: BigNumber;
   pendingValue: BigNumber;
   tradeLink: string;
   stakeLink: string;
   unstakeLink: string;
-  isLoading: boolean;
+  isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   isShowed: boolean;
@@ -45,11 +48,15 @@ export const useAMATICBCard = (hasHistory: boolean): IUseMaticStakingAsset => {
   return {
     isUnstakeLoading,
     isStakeLoading,
-    isLoading: isBalancesLoading,
+    isBalancesLoading,
     token: EToken.aMATICb,
+    tokenAddress: configFromEnv().contractConfig.aMaticbToken,
     network: t(`chain.${chainId}`),
     amount,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(EToken.aMATICb, 'MATIC'),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(
+      EToken.aMATICb,
+      Token.MATIC,
+    ),
     unstakeLink: StakePolygonRoutes.unstake.generatePath(),
     stakeLink: StakePolygonRoutes.stake.generatePath(),
     pendingValue,

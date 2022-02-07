@@ -45,6 +45,9 @@ export const ANKR_1INCH_BUY_LINK =
 
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
+  isActiveMyRewardsClaimModalNewParts: false,
+  isActiveBNBStaking: false,
+  isActiveBNBUnstaking: false,
   liquidityMining: false,
   localeSwitcher: false,
   earlyRelease: false,

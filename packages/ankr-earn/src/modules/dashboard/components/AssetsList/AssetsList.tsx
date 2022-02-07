@@ -3,12 +3,12 @@ import { Children, ReactNode } from 'react';
 import { uid } from 'react-uid';
 
 interface IAssetsListProps {
-  children?: ReactNode;
+  children?: ReactNode | ReactNode[];
   noChildrenSlot?: JSX.Element;
 }
 
 export const AssetsList = ({ children, noChildrenSlot }: IAssetsListProps) => {
-  if (children && isChildNull(children)) {
+  if (!Children.count(children)) {
     return noChildrenSlot ?? null;
   }
 
@@ -21,12 +21,4 @@ export const AssetsList = ({ children, noChildrenSlot }: IAssetsListProps) => {
       ))}
     </Grid>
   );
-};
-
-// https://stackoverflow.com/a/64396494
-const isChildNull = (children: any): boolean => {
-  if (typeof children.type !== 'function') {
-    throw new Error('isChildNull: children has no type method');
-  }
-  return children.type() === null;
 };

@@ -20,9 +20,6 @@ import { useMemo } from 'react';
 
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
 
-/**
- *  TODO Please uncomment links after the release
- */
 export const useNavigationItems = () => {
   const { locale } = useLocale();
   const links: Record<string, INavItem> = useLocaleMemo(
