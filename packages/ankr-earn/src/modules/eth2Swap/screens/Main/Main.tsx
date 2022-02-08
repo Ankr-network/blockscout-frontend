@@ -201,17 +201,15 @@ export const Main = (): JSX.Element => {
   };
 
   return (
-    <Box component="section" py={{ xs: 5, md: 10 }}>
+    <Box component="section" py={{ xs: 5, md: 8 }}>
       <Container>
-        {(txError || txHash) && (
-          <TransactionInfo
-            className={classes.transactionInfo}
-            type={txError ? 'failed' : 'success'}
-            chainId={chainId}
-            txHash={txHash}
-            onClose={handleClearTx}
-          />
-        )}
+        <TransactionInfo
+          type={txError ? 'failed' : 'success'}
+          chainId={chainId}
+          txHash={txHash}
+          txError={txError}
+          onClose={handleClearTx}
+        />
 
         {canShowSpinner && <QueryLoadingCentered />}
 

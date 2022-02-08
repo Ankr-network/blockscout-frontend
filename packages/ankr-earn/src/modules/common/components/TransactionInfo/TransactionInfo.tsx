@@ -8,12 +8,13 @@ import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { useTransactionInfoStyles } from './useTransactionInfoStyles';
 
-export type TStatusTx = 'success' | 'failed';
+export type TStatusTx = 'success' | 'failed' | 'default';
 
 export interface ITransactionInfoProps {
   chainId: number;
   type: TStatusTx;
   txHash?: string;
+  txError?: string;
   className?: string;
   onClose: () => void;
 }
@@ -23,9 +24,14 @@ export const TransactionInfo = ({
   className,
   chainId,
   txHash = '',
+  txError = '',
   onClose,
 }: ITransactionInfoProps): JSX.Element | null => {
   const classes = useTransactionInfoStyles();
+
+  if (!txError && !txHash) {
+    return null;
+  }
 
   return (
     <Paper className={cn(classes.root, className)}>
@@ -33,7 +39,9 @@ export const TransactionInfo = ({
         <div
           className={cn(
             classes.status,
-            type === 'success' ? classes.success : classes.error,
+            type === 'success' && classes.success,
+            type === 'failed' && classes.error,
+            type === 'default' && classes.default,
           )}
         />
 

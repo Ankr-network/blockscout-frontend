@@ -10,12 +10,10 @@ import {
 } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { t } from 'modules/i18n/utils/intl';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
-import React from 'react';
 import { useState } from 'react';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { SwapIcon } from 'uiKit/Icons/SwapIcon';
-import { NumericStepper } from 'uiKit/Stepper';
 import { BridgeBlockchainPanel } from '../BridgeBlockchainPanel';
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';
 

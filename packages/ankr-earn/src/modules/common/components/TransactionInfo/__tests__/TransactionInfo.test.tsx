@@ -20,6 +20,22 @@ describe('modules/common/components/TransactionInfo', () => {
     expect(link).toBeInTheDocument();
   });
 
+  test('should render properly default state', async () => {
+    render(
+      <MemoryRouter>
+        <TransactionInfo
+          type="default"
+          chainId={1}
+          txHash="hash"
+          onClose={jest.fn()}
+        />
+      </MemoryRouter>,
+    );
+
+    const link = await screen.findByText('View on explorer');
+    expect(link).toBeInTheDocument();
+  });
+
   test('should render properly without tx hash', () => {
     render(
       <MemoryRouter>
@@ -45,5 +61,16 @@ describe('modules/common/components/TransactionInfo', () => {
 
     const title = screen.queryByText('Transaction failed.');
     expect(title).toBeInTheDocument();
+  });
+
+  test('should not render if there is no error and tx hash', () => {
+    render(
+      <MemoryRouter>
+        <TransactionInfo type="failed" chainId={1} onClose={jest.fn()} />
+      </MemoryRouter>,
+    );
+
+    const title = screen.queryByText('Transaction failed.');
+    expect(title).not.toBeInTheDocument();
   });
 });

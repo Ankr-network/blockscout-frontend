@@ -11,12 +11,6 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
     },
   },
 
-  transactionInfo: {
-    maxWidth: 740,
-    margin: 'auto',
-    marginBottom: theme.spacing(3),
-  },
-
   title: {
     fontSize: 30,
     textAlign: 'center',
@@ -59,7 +53,7 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   },
 
   amountInput: {
-    height: 80,
+    height: 76,
   },
 
   row: {

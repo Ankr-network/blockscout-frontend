@@ -5,7 +5,6 @@ import {
   Stepper as StepperComponent,
   StepperProps,
 } from '@material-ui/core';
-import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { CompleteCircleIcon } from 'uiKit/Icons/CompleteCircleIcon';
 import { useNumericStepperStyles } from './useNumericStepperStyles';
 
