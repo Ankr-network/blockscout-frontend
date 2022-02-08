@@ -2,6 +2,8 @@ import { currentEnv } from 'modules/common/const';
 import { BlockchainNetworkId, Env } from 'modules/common/types';
 import { AvailableProviders } from 'provider/providerManager/types';
 
+export const ACTIONS_PREFIX = 'fantom/';
+
 export const FANTOM_STAKING_NETWORKS = [
   currentEnv === Env.Production
     ? BlockchainNetworkId.fantom
