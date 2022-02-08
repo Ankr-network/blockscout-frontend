@@ -105,27 +105,33 @@ export const Main = (): JSX.Element => {
         <Typography className={classes.info}>{t('eth2Swap.info')}</Typography>
 
         <Box className={classes.chips}>
-          <Tooltip title={t('eth2Swap.tooltips.aETHb')}>
-            <Chip
-              className={classes.chip}
-              label="1 aETHb = 1 ETH"
-              variant="outlined"
-              deleteIcon={<QuestionIcon className={classes.infoIcon} />}
-              onDelete={noop}
-            />
-          </Tooltip>
+          <Chip
+            className={classes.chip}
+            label="1 aETHb = 1 ETH"
+            variant="outlined"
+            clickable={false}
+            deleteIcon={
+              <Tooltip title={t('eth2Swap.tooltips.aETHb')}>
+                <QuestionIcon className={classes.infoIcon} />
+              </Tooltip>
+            }
+            onDelete={noop}
+          />
 
-          <Tooltip title={t('eth2Swap.tooltips.aETHc')}>
-            <Chip
-              className={classes.chip}
-              label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
-                .decimalPlaces(DECIMAL_PLACES)
-                .toNumber()} ETH`}
-              variant="outlined"
-              deleteIcon={<QuestionIcon className={classes.infoIcon} />}
-              onDelete={noop}
-            />
-          </Tooltip>
+          <Chip
+            className={classes.chip}
+            label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
+              .decimalPlaces(DECIMAL_PLACES)
+              .toNumber()} ETH`}
+            variant="outlined"
+            clickable={false}
+            deleteIcon={
+              <Tooltip title={t('eth2Swap.tooltips.aETHc')}>
+                <QuestionIcon className={classes.infoIcon} />
+              </Tooltip>
+            }
+            onDelete={noop}
+          />
         </Box>
 
         <AmountField

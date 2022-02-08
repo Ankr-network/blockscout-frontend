@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import { generatePath } from 'react-router';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import { currentEnv, EARN_PATH } from 'modules/common/const';
 import { Env } from 'modules/common/types';
@@ -48,28 +48,30 @@ const AVAILABLE_NETWORKS = [
 
 export function getRoutes() {
   return (
-    <Switch>
-      <GuardRoute
-        availableNetworks={AVAILABLE_NETWORKS}
-        providerId={AvailableProviders.ethCompatible}
-        path={RoutesConfig.main.path}
-        exact
-      >
-        <DefaultLayout>
-          <Main />
-        </DefaultLayout>
-      </GuardRoute>
+    <Route path={RoutesConfig.root}>
+      <Switch>
+        <GuardRoute
+          availableNetworks={AVAILABLE_NETWORKS}
+          providerId={AvailableProviders.ethCompatible}
+          path={RoutesConfig.main.path}
+          exact
+        >
+          <DefaultLayout>
+            <Main />
+          </DefaultLayout>
+        </GuardRoute>
 
-      <GuardRoute
-        availableNetworks={AVAILABLE_NETWORKS}
-        providerId={AvailableProviders.ethCompatible}
-        path={RoutesConfig.success.path}
-        exact
-      >
-        <DefaultLayout>
-          <Success />
-        </DefaultLayout>
-      </GuardRoute>
-    </Switch>
+        <GuardRoute
+          availableNetworks={AVAILABLE_NETWORKS}
+          providerId={AvailableProviders.ethCompatible}
+          path={RoutesConfig.success.path}
+          exact
+        >
+          <DefaultLayout>
+            <Success />
+          </DefaultLayout>
+        </GuardRoute>
+      </Switch>
+    </Route>
   );
 }

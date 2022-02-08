@@ -1,6 +1,6 @@
 import { ProviderManager } from 'provider';
 import { AvailableProviders } from 'provider/providerManager/types';
-import { MAX_UINT256, ONE_ETH, ZERO_ADDR } from 'modules/common/const';
+import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
 import { configFromEnv } from 'modules/api/config';
 import { TSwapOption } from '../../types';
 import {
@@ -83,7 +83,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockLockShares).toBeCalledTimes(1);
-    expect(mockLockShares).toBeCalledWith(ONE_ETH.toString());
+    expect(mockLockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
@@ -129,7 +129,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockUnlockShares).toBeCalledTimes(1);
-    expect(mockUnlockShares).toBeCalledWith(ONE_ETH.toString());
+    expect(mockUnlockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
@@ -174,7 +174,10 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockApprove).toBeCalledTimes(1);
-    expect(mockApprove).toBeCalledWith(fethContract, MAX_UINT256);
+    expect(mockApprove).toBeCalledWith(
+      fethContract,
+      `0x${MAX_UINT256.toString(16)}`,
+    );
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, aethContract, {

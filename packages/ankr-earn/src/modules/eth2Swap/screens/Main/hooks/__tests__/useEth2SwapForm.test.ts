@@ -94,6 +94,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       expect(swapAssets).toBeCalledWith({
         amount: '1',
         swapOption: 'aETHb',
+        ratio: ONE_ETH,
         providerId: AvailableProviders.ethCompatible,
       });
     });
@@ -185,7 +186,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       );
 
       const total = result.current.calculateValueWithRatio(new BigNumber(10));
-      expect(total.toNumber()).toBe(10.6297);
+      expect(total.toNumber()).toBe(9.4076);
     });
 
     test('should calculate total amount from aETHc to aETHb', () => {
@@ -198,7 +199,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       );
 
       const total = result.current.calculateValueWithRatio(new BigNumber(10));
-      expect(total.toNumber()).toBe(9.4076);
+      expect(total.toNumber()).toBe(10.6297);
     });
   });
 

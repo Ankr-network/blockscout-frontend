@@ -42,6 +42,7 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   },
 
   chip: {
+    backgroundColor: 'transparent !important',
     color: theme.palette.text.secondary,
     marginBottom: theme.spacing(1),
 

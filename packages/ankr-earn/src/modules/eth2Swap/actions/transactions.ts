@@ -1,9 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 import { push } from 'connected-react-router';
+import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 import { AvailableProviders } from 'provider/providerManager/types';
 import { lockShares, unlockShares, approveAETHCForAETHB } from '../api/sdk';
@@ -14,6 +16,7 @@ export interface ISwapAssetsArgs {
   amount: string;
   providerId: AvailableProviders;
   swapOption: TSwapOption;
+  ratio: BigNumber;
 }
 
 export const swapAssets = createAction<
@@ -21,17 +24,24 @@ export const swapAssets = createAction<
   [ISwapAssetsArgs]
 >(
   'eth2-swap/swapAssets',
-  ({ providerId, swapOption, amount }: ISwapAssetsArgs) => ({
+  ({ providerId, swapOption, amount, ratio }: ISwapAssetsArgs) => ({
     request: {
       promise: async () => {
         const providerManager = ProviderManagerSingleton.getInstance();
 
         if (swapOption === 'aETHb') {
+          const inputValue = new BigNumber(amount)
+            .multipliedBy(ratio)
+            .dividedBy(ETH_SCALE_FACTOR)
+            .decimalPlaces(DECIMAL_PLACES)
+            .toString(10);
+
           const result = await unlockShares({
-            amount,
+            amount: inputValue,
             providerManager,
             providerId,
           });
+
           return { ...result, swapOption };
         }
 
@@ -40,6 +50,7 @@ export const swapAssets = createAction<
           providerManager,
           providerId,
         });
+
         return { ...result, swapOption };
       },
     },
@@ -52,9 +63,11 @@ export const swapAssets = createAction<
         const { receiptPromise, transactionHash, swapOption } =
           response.data || {};
 
-        await receiptPromise;
+        await receiptPromise.catch((error: Error) => {
+          response.error = error;
+        });
 
-        if (transactionHash && swapOption) {
+        if (transactionHash && swapOption && !response.error) {
           store.dispatch(
             push(`/earn/eth2-swap/success/${transactionHash}/${swapOption}`),
           );

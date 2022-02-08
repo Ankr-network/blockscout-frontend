@@ -34,7 +34,7 @@ describe('modules/eth2Swap/screens/Success', () => {
       </MemoryRouter>,
     );
 
-    const title = await screen.findByText('Swap successful');
+    const title = await screen.findByText('Swap successful!');
     expect(title).toBeInTheDocument();
   });
 });

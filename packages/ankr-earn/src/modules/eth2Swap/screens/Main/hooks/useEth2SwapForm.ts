@@ -71,16 +71,18 @@ export const useEth2SwapForm = ({
       dispatchRequest(
         swapAssets({
           amount,
+          ratio,
           providerId: AvailableProviders.ethCompatible,
           swapOption,
         }),
       ).then(response => {
         if (response.error) {
+          setTxHash(response.data?.transactionHash ?? '');
           setTxError(response.error);
         }
       });
     },
-    [swapOption, dispatchRequest],
+    [swapOption, ratio, dispatchRequest],
   );
 
   const handleClearTx = useCallback(() => {
@@ -105,7 +107,7 @@ export const useEth2SwapForm = ({
     (total: BigNumber) => {
       const amount = total.multipliedBy(ETH_SCALE_FACTOR);
 
-      if (!ratio.isZero() && swapOption === 'aETHb') {
+      if (!ratio.isZero() && swapOption === 'aETHc') {
         return amount.dividedBy(ratio).decimalPlaces(DECIMAL_PLACES);
       }
 

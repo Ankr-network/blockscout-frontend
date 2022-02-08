@@ -1,7 +1,5 @@
 import { Box } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
-import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { useBridgeBlockchainPanelStyles } from './useBridgeBlockchainPanelStyles';
 
 export interface IBridgeBlockchainPanelItem {

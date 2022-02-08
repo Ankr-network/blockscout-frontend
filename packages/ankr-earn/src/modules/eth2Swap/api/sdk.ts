@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult, ProviderManager } from 'provider';
 import { AvailableProviders } from 'provider/providerManager/types';
 import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { configFromEnv } from 'modules/api/config';
 import AETH from 'modules/api/contract/AETH.json';
 import FETH from 'modules/api/contract/FETH.json';
@@ -75,7 +76,7 @@ export const lockShares = async ({
   );
 
   const data = fethContract.methods
-    .lockShares(new BigNumber(amount).multipliedBy(ETH_SCALE_FACTOR).toString())
+    .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
     .encodeABI();
 
   return provider.sendTransactionAsync(
@@ -99,9 +100,7 @@ export const unlockShares = async ({
   );
 
   const data = fethContract.methods
-    .unlockShares(
-      new BigNumber(amount).multipliedBy(ETH_SCALE_FACTOR).toString(),
-    )
+    .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
     .encodeABI();
 
   return provider.sendTransactionAsync(
@@ -129,7 +128,7 @@ export const approveAETHCForAETHB = async ({
   );
 
   const data = aethContract.methods
-    .approve(contractConfig.fethContract, MAX_UINT256)
+    .approve(contractConfig.fethContract, convertNumberToHex(MAX_UINT256))
     .encodeABI();
 
   return provider.sendTransactionAsync(
