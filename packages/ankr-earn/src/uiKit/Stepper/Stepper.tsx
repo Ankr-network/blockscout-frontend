@@ -5,14 +5,14 @@ import {
   StepperProps,
 } from '@material-ui/core';
 
-export interface IStepperProps extends StepperProps {
+export interface IStepperProps extends Omit<StepperProps, 'children'> {
   steps?: { label?: string }[];
 }
 
 export const Stepper = (props: IStepperProps) => {
-  const { steps = [] } = props;
+  const { steps = [], ...rest } = props;
   return (
-    <StepperComponent activeStep={1}>
+    <StepperComponent {...rest}>
       {steps.map(item => (
         <Step key={item.label}>
           <StepLabel>{item.label}</StepLabel>

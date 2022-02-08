@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { SwapIcon } from 'uiKit/Icons/SwapIcon';
+import { NumericStepper } from 'uiKit/Stepper';
 import { BridgeBlockchainPanel } from '../BridgeBlockchainPanel';
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';
 
