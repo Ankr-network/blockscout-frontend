@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core';
 import { Box, Typography, Input } from '@material-ui/core';
 import {
   AvailableNewtworks,
@@ -12,6 +13,7 @@ import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import React from 'react';
 import { useState } from 'react';
 import { Button } from 'uiKit/Button';
+import { Checkbox } from 'uiKit/Checkbox';
 import { SwapIcon } from 'uiKit/Icons/SwapIcon';
 import { BridgeBlockchainPanel } from '../BridgeBlockchainPanel';
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';
@@ -22,6 +24,7 @@ export const BridgeMainView = () => {
   const networkOptions = useBlockchainPanelOptions();
 
   const [tokenValue, setTokenValue] = useState(AvailableTokens.aETHc);
+  const [isSendAnother, setIsSendAnother] = useState(false);
 
   const [swapNetworkItem, setSwapNetworkItem] = useState({
     from: AvailableNewtworks.bsc,
@@ -82,6 +85,7 @@ export const BridgeMainView = () => {
             }}
           />
         </Box>
+
         <Box className={classes.swapField}>
           <BridgeBlockchainPanel
             value={swapNetworkItem.to}
@@ -89,6 +93,17 @@ export const BridgeMainView = () => {
             direction={'to'}
           />
         </Box>
+      </Box>
+
+      <Box className={classes.anotherCheckbox}>
+        <Checkbox
+          checked={isSendAnother}
+          onChange={() => setIsSendAnother(!isSendAnother)}
+          label={'Send to another address'}
+        />
+        {isSendAnother ? (
+          <TextField className={classes.anotherAddress} />
+        ) : null}
       </Box>
 
       <Button

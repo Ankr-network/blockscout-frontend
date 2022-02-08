@@ -66,4 +66,12 @@ export const useBridgeMainViewStyles = makeStyles<Theme>(theme => ({
     height: 54,
     marginTop: theme.spacing(6),
   },
+  anotherCheckbox: {
+    margin: theme.spacing(2, 0),
+    display: 'grid',
+    flexDirection: 'column',
+  },
+  anotherAddress: {
+    margin: theme.spacing(2, 0),
+  },
 }));
