@@ -219,10 +219,9 @@ export class ContractManager {
   public async claimParachainRewards(
     toAddress: string,
   ): Promise<IWeb3SendResult> {
-    const addrHex: string = ContractManager.extractAddressIntoHex(toAddress);
-    const recipientHex: string = toAddress.startsWith('0x')
-      ? `0x${addrHex}`
-      : addrHex;
+    const recipientHex = `0x${ContractManager.extractAddressIntoHex(
+      toAddress,
+    )}`;
     const sender = this.keyProvider.currentAccount;
     const data = this.rewardPool.methods
       .claimParachainRewards(recipientHex)

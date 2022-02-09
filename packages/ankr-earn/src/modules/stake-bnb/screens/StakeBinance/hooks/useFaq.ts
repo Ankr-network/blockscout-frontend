@@ -1,15 +1,12 @@
-import { useQuery } from '@redux-requests/react';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useFetchStats } from '../../../hooks/useFetchStats';
 
-export const useFaq = () => {
-  const { data: fetchStatsData } = useQuery({
-    type: fetchStats,
-  });
+export const useFaq = (): IFaqItem[] => {
+  const { stats } = useFetchStats();
 
-  const faqItems: IFaqItem[] = useLocaleMemo(
+  return useLocaleMemo(
     () => [
       {
         question: t('stake-bnb.faq.question-1'),
@@ -18,7 +15,7 @@ export const useFaq = () => {
       {
         question: t('stake-bnb.faq.question-2'),
         answer: t('stake-bnb.faq.answer-2', {
-          value: fetchStatsData?.minimumStake ?? 1,
+          value: stats?.minimumStake ?? 1,
         }),
       },
       {
@@ -42,8 +39,6 @@ export const useFaq = () => {
         answer: tHTML('stake-bnb.faq.answer-7'),
       },
     ],
-    [fetchStatsData],
+    [stats],
   );
-
-  return faqItems;
 };

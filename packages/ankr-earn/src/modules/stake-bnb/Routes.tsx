@@ -9,9 +9,9 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { BINANCE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
 
-const ROOT = `${StakeRoutes.main.path}BNB/`;
+const ROOT = `${StakeRoutes.main.path}bnb/`;
 const STAKE_BNB_PATH = ROOT;
-const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}BNB/`;
+const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
 
 export const RoutesConfig = createRouteConfig(
   {

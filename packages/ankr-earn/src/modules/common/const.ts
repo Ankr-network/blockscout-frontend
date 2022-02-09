@@ -10,7 +10,6 @@ export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;
-export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
@@ -46,7 +45,8 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveBNBStaking: false,
+  isActiveBNBStaking: currentEnv === Env.Develop,
+  isActiveBNBStakingFAQ: false,
   isActiveBNBUnstaking: false,
   liquidityMining: false,
   localeSwitcher: false,

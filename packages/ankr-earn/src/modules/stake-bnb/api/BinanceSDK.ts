@@ -3,8 +3,10 @@ import { configFromEnv, IStkrConfig } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { ZERO } from 'modules/common/const';
 import { ProviderManager, Web3KeyProvider } from 'provider';
 import Web3 from 'web3';
+import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { BINANCE_PROVIDER_ID } from '../const';
@@ -84,6 +86,10 @@ export class BinanceSDK {
     );
 
     this.apiGateWay = new ApiGateway(config.gatewayConfig);
+  }
+
+  private getHexAmount(amount: BigNumber): string {
+    return this.web3.utils.numberToHex(amount.multipliedBy(1e18).toString(10));
   }
 
   private async getPastEvents(
@@ -189,7 +195,7 @@ export class BinanceSDK {
     );
     const aBNBbContract: string = configFromEnv().binanceConfig.aBNBbToken;
 
-    const [symbol, rawDecimals] = await Promise.all([
+    const [symbol, rawDecimals]: [string, string] = await Promise.all([
       this.aBNBbTokenContract.methods.symbol().call(),
       this.aBNBbTokenContract.methods.decimals().call(),
     ]);
@@ -222,7 +228,7 @@ export class BinanceSDK {
 
     const secOneYear: BigNumber = new BigNumber(31_536_000);
     const initRatio: BigNumber = new BigNumber(1e18);
-    const defaultState: BigNumber = new BigNumber(0);
+    const defaultState: BigNumber = ZERO;
 
     const rawEvents: TPastEventsData = await this.getPastEvents(
       provider,
@@ -245,7 +251,10 @@ export class BinanceSDK {
       return defaultState;
     }
 
-    const [firstRawEventBlock, seventhRawEventBlock] = await Promise.all([
+    const [firstRawEventBlock, seventhRawEventBlock]: [
+      BlockTransactionObject,
+      BlockTransactionObject,
+    ] = await Promise.all([
       this.web3.eth.getBlock(firstRawEvent.blockHash, false),
       this.web3.eth.getBlock(seventhRawEvent.blockHash, false),
     ]);
@@ -437,11 +446,40 @@ export class BinanceSDK {
     return this.web3;
   }
 
-  public async stake(amount: BigNumber) {
-    return {
-      txHash: '',
-    };
+  public async stake(amount: BigNumber): Promise<void> {
+    const providerManager: ProviderManager =
+      ProviderManagerSingleton.getInstance();
+    const provider: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_PROVIDER_ID,
+    );
+
+    if (!provider.isConnected()) {
+      await provider.connect();
+    }
+
+    const resultAmount: string = this.getHexAmount(amount);
+
+    await this.binancePoolContract.methods.stake().send({
+      from: this.currentAccount,
+      value: resultAmount,
+    });
   }
 
-  public async unstake(amount: BigNumber) {}
+  public async unstake(amount: BigNumber): Promise<void> {
+    const providerManager: ProviderManager =
+      ProviderManagerSingleton.getInstance();
+    const provider: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_PROVIDER_ID,
+    );
+
+    if (!provider.isConnected()) {
+      await provider.connect();
+    }
+
+    const resultAmount: string = this.getHexAmount(amount);
+
+    await this.binancePoolContract.methods.unstake(resultAmount).send({
+      from: this.currentAccount,
+    });
+  }
 }

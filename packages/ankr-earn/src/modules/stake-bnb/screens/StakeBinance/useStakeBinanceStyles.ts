@@ -8,6 +8,7 @@ export const useStakeBinanceStyles = makeStyles(theme => ({
       padding: theme.spacing(8, 0),
     },
   },
+
   questionBtn: {
     margin: 5,
   },

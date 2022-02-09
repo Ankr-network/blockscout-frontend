@@ -1,4 +1,4 @@
-import { currentEnv } from 'modules/common/const';
+import { currentEnv, isMainnet } from 'modules/common/const';
 import { BlockchainNetworkId, Env, Percentage } from 'modules/common/types';
 import { AvailableProviders } from 'provider/providerManager/types';
 
@@ -10,6 +10,8 @@ export const BNB_STAKING_NETWORKS = [
     : BlockchainNetworkId.smartchainTestnet,
 ];
 
-export const YEARLY_INTEREST: Percentage = 12;
+// Note: Mainnet = ~7 days. Testnet = ~4 hours
+export const ABNBB_REDEEM_PERIOD = isMainnet ? 7 : 4;
+
 export const BNB_STAKING_AMOUNT_STEP = 0.1;
-export const UNSTAKE_TIME_WAIT_HOURS = 25;
+export const YEARLY_INTEREST: Percentage = 12;
