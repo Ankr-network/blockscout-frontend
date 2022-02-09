@@ -1,8 +1,8 @@
-import { AvailableTokens } from 'modules/trading-cockpit/types';
+import { Token } from 'modules/common/types/token';
 import { StakeSuccessDialog } from '.';
 
 export const StakeSuccessfulExample = () => {
-  return <StakeSuccessDialog isOpened token={AvailableTokens.aMATICb} />;
+  return <StakeSuccessDialog tokenName={Token.aMATICb} />;
 };
 
 export default {

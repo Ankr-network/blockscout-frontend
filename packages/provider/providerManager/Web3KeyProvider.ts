@@ -78,6 +78,13 @@ export abstract class Web3KeyProvider {
     this._currentChain = chainId;
   }
 
+  public getFormattedBalance(
+    balance: BigNumber.Value,
+    decimals: BigNumber.Value,
+  ): BigNumber {
+    return new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals));
+  }
+
   public async getErc20Balance(
     contract: Contract,
     address: string,
@@ -97,9 +104,7 @@ export abstract class Web3KeyProvider {
     } catch (e) {
       throw new Error(`Unable to calculate contract decimals: ${e}`);
     }
-    return new BigNumber(`${balance}`).dividedBy(
-      new BigNumber(10).pow(decimals),
-    );
+    return this.getFormattedBalance(balance, decimals);
   }
 
   public async getTokenBalance(
@@ -116,9 +121,7 @@ export abstract class Web3KeyProvider {
     } catch (e) {
       throw new Error(`Unable to calculate contract decimals: ${e}`);
     }
-    return new BigNumber(`${balance}`).dividedBy(
-      new BigNumber(10).pow(decimals),
-    );
+    return this.getFormattedBalance(balance, decimals);
   }
 
   public getWalletMeta(): IWalletMeta {
@@ -310,7 +313,9 @@ export abstract class Web3KeyProvider {
           });
       }
       // handle other "switch" errors
-      throw new Error('switchError');
+      throw new Error(
+        'Switch network error. Perhaps the network is not added to the RPC Config.',
+      );
     }
   }
 
@@ -400,7 +405,7 @@ export abstract class Web3KeyProvider {
 
     return provider
       .request({
-        method: 'metamask_watchAsset',
+        method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
           options: tokenInfo,

@@ -1,6 +1,7 @@
 import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
@@ -24,6 +25,16 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
       const defaultHref = StakeRoutes.main.generatePath();
 
       return {
+        [AvailableTokens.BNB]: {
+          btnText: stakeText,
+          href: StakeBinanceRoutes.stake.generatePath(),
+          disabled: false,
+        },
+        [AvailableTokens.aBNBb]: {
+          btnText: unstakeText,
+          href: StakeBinanceRoutes.unstake.generatePath(),
+          disabled: false,
+        },
         [AvailableTokens.MATIC]: {
           btnText: stakeText,
           href: featuresConfig.earlyRelease

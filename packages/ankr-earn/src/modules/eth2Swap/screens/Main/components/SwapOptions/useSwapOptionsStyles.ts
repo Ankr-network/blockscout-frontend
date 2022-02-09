@@ -12,7 +12,7 @@ export const useSwapOptionsStyles = makeStyles(theme => ({
   },
 
   swapChip: {
-    backgroundColor: '#F2F5FA',
+    backgroundColor: theme.palette.background.default,
     fontSize: 16,
     cursor: 'pointer',
 
@@ -24,7 +24,7 @@ export const useSwapOptionsStyles = makeStyles(theme => ({
   },
 
   arrowIconWrapper: {
-    border: '2px solid #F2F5FA',
+    border: `2px solid ${theme.palette.background.default}`,
     borderRadius: 6,
     cursor: 'pointer',
 

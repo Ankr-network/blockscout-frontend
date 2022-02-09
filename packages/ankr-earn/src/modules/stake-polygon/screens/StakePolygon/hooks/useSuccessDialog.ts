@@ -1,6 +1,6 @@
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { Token } from 'modules/common/types/token';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
-import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 export const useSuccessDialog = () => {
   const {
@@ -19,6 +19,6 @@ export const useSuccessDialog = () => {
     onSuccessClose,
     isSuccessOpened,
     onAddTokenClick,
-    token: AvailableTokens.aMATICb,
+    token: Token.aMATICb,
   };
 };

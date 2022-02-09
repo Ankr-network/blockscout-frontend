@@ -1,6 +1,25 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useUnstakePolygonStyles = makeStyles<Theme>(theme => ({
+  root: {
+    position: 'relative',
+    padding: theme.spacing(8, 0, 0),
+    backgroundColor: theme.palette.background.paper,
+    maxWidth: 600,
+    margin: '0 auto',
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(6, 0, 6),
+    },
+  },
+
+  container: {
+    '&&': {
+      maxWidth: 520 + theme.spacing(4),
+      padding: theme.spacing(0, 4),
+    },
+  },
+
   titleArea: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,8 +34,6 @@ export const useUnstakePolygonStyles = makeStyles<Theme>(theme => ({
     height: 13,
     margin: '4px 0 0 0',
   },
-
-  title: {},
 
   apyValue: {
     fontSize: 13,

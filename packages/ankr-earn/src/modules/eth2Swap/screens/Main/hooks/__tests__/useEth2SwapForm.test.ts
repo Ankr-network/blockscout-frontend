@@ -1,23 +1,19 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import fc from 'fast-check';
 import BigNumber from 'bignumber.js';
 
 import { AvailableProviders } from 'provider/providerManager/types';
-import { ETH_SCALE_FACTOR, ONE_ETH } from 'modules/common/const';
+import { ONE_ETH, ZERO } from 'modules/common/const';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import {
   approveAETHC,
   swapAssets,
 } from 'modules/eth2Swap/actions/transactions';
-import { useEth2SwapHook } from '../hook';
+import { useEth2SwapForm, IEth2SwapFormHookArgs } from '..';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
   useMutation: jest.fn(),
 }));
 
@@ -26,16 +22,26 @@ jest.mock('modules/eth2Swap/actions/transactions', () => ({
   swapAssets: jest.fn(),
 }));
 
-describe('modules/eth2Swap/screens/Main/hook', () => {
+jest.mock('modules/auth/hooks/useAuth', () => ({
+  useAuth: jest.fn(),
+}));
+
+describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
+  const defaultHookProps: IEth2SwapFormHookArgs = {
+    ratio: ONE_ETH,
+    swapOption: 'aETHb',
+    max: ONE_ETH,
+  };
+
   beforeEach(() => {
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
-    (useQuery as jest.Mock).mockReturnValue({
-      data: null,
-      loading: false,
-    });
+    const dispatchRequest = jest.fn(() => Promise.resolve({}));
+    (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
+
     (useMutation as jest.Mock).mockReturnValue({
       loading: false,
     });
+
+    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
   });
 
   afterEach(() => {
@@ -43,41 +49,42 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
   });
 
   test('should return initial data', () => {
-    const { result } = renderHook(() => useEth2SwapHook());
+    const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
     const {
-      ratio,
-      allowance,
-      aethBalance,
-      fethBalance,
-      isDataLoading,
-      swapOption,
-      balance,
+      txError,
+      txHash,
       validate,
       calculateFeeAndTotal,
-      handleChooseAEthB,
-      handleChooseAEthC,
       handleApprove,
       handleSwap,
+      handleClearTx,
     } = result.current;
 
-    expect(ratio.toNumber()).toBe(ONE_ETH.toNumber());
-    expect(allowance.toNumber()).toBe(0);
-    expect(aethBalance).toBeUndefined();
-    expect(fethBalance).toBeUndefined();
-    expect(isDataLoading).toBe(false);
-    expect(swapOption).toBeDefined();
-    expect(balance.toNumber()).toBe(0);
+    expect(txError).toBe('');
+    expect(txHash).toBe('');
     expect(validate).toBeDefined();
     expect(calculateFeeAndTotal).toBeDefined();
-    expect(handleChooseAEthB).toBeDefined();
-    expect(handleChooseAEthC).toBeDefined();
     expect(handleApprove).toBeDefined();
     expect(handleSwap).toBeDefined();
+    expect(handleClearTx).toBeDefined();
+  });
+
+  describe('handle clear tx', () => {
+    test('should clear tx hash and error', () => {
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
+
+      act(() => {
+        result.current.handleClearTx();
+      });
+
+      expect(result.current.txError).toBe('');
+      expect(result.current.txHash).toBe('');
+    });
   });
 
   describe('handle swap', () => {
     test('should handle assets swap properly', () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       act(() => {
         result.current.handleSwap('1');
@@ -87,14 +94,31 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
       expect(swapAssets).toBeCalledWith({
         amount: '1',
         swapOption: 'aETHb',
+        ratio: ONE_ETH,
         providerId: AvailableProviders.ethCompatible,
       });
+    });
+
+    test('should handle swap error', async () => {
+      const dispatchRequest = jest.fn(() =>
+        Promise.resolve({ error: 'error' }),
+      );
+
+      (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
+
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
+
+      await act(() => {
+        result.current.handleSwap('1');
+      });
+
+      expect(result.current.txError).toBe('error');
     });
   });
 
   describe('handle approve', () => {
     test('should handle approve aETHc for aETHb properly', () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       act(() => {
         result.current.handleApprove();
@@ -109,7 +133,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
 
   describe('fee and total', () => {
     test('should check fee and total sum', () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       fc.assert(
         fc.property(
@@ -128,7 +152,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
 
     test('should calculate fee and total value', () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       {
         const { fee, total } = result.current.calculateFeeAndTotal({
@@ -152,64 +176,38 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
   });
 
-  describe('swap option', () => {
-    test('should change swap option properly', () => {
-      const { result } = renderHook(() => useEth2SwapHook());
-      const { handleChooseAEthB, handleChooseAEthC } = result.current;
-
-      expect(result.current.swapOption).toBe('aETHb');
-
-      act(() => handleChooseAEthC());
-
-      expect(result.current.swapOption).toBe('aETHc');
-
-      act(() => handleChooseAEthB());
-
-      expect(result.current.swapOption).toBe('aETHb');
-    });
-  });
-
   describe('calculate with ratio', () => {
     test('should calculate total amount from aETHb to aETHc', () => {
-      (useQuery as jest.Mock).mockReturnValue({
-        data: {
+      const { result } = renderHook(() =>
+        useEth2SwapForm({
+          ...defaultHookProps,
           ratio: new BigNumber('940763088322812800'),
-        },
-        loading: false,
-      });
-
-      const { result } = renderHook(() => useEth2SwapHook());
-
-      act(() => {
-        result.current.handleChooseAEthB();
-      });
-
-      const total = result.current.calculateValueWithRatio(new BigNumber(10));
-      expect(total.toNumber()).toBe(10.6297);
-    });
-
-    test('should calculate total amount from aETHc to aETHb', () => {
-      (useQuery as jest.Mock).mockReturnValue({
-        data: {
-          ratio: new BigNumber('940763088322812800'),
-        },
-        loading: false,
-      });
-
-      const { result } = renderHook(() => useEth2SwapHook());
-
-      act(() => {
-        result.current.handleChooseAEthC();
-      });
+        }),
+      );
 
       const total = result.current.calculateValueWithRatio(new BigNumber(10));
       expect(total.toNumber()).toBe(9.4076);
+    });
+
+    test('should calculate total amount from aETHc to aETHb', () => {
+      const { result } = renderHook(() =>
+        useEth2SwapForm({
+          ...defaultHookProps,
+          swapOption: 'aETHc',
+          ratio: new BigNumber('940763088322812800'),
+        }),
+      );
+
+      const total = result.current.calculateValueWithRatio(new BigNumber(10));
+      expect(total.toNumber()).toBe(10.6297);
     });
   });
 
   describe('validate', () => {
     test('should return max validation error', async () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() =>
+        useEth2SwapForm({ ...defaultHookProps, max: ZERO }),
+      );
 
       const errors = await result.current.validate({ amount: '11' });
 
@@ -217,7 +215,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
 
     test('should return positive validation error', async () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       const errors = await result.current.validate({ amount: '-1' });
 
@@ -225,7 +223,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
 
     test('should return NaN validation error', async () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       const errors = await result.current.validate({ amount: 'NaN' });
 
@@ -233,7 +231,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
 
     test('should return required validation error', async () => {
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       const errors = await result.current.validate({});
 
@@ -241,16 +239,7 @@ describe('modules/eth2Swap/screens/Main/hook', () => {
     });
 
     test('should not return any validation error', async () => {
-      (useQuery as jest.Mock).mockReturnValue({
-        data: {
-          fethBalance: new BigNumber(ETH_SCALE_FACTOR),
-          aethBalance: new BigNumber(ETH_SCALE_FACTOR),
-          ratio: new BigNumber('940763088322812800'),
-        },
-        loading: false,
-      });
-
-      const { result } = renderHook(() => useEth2SwapHook());
+      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       const errors = await result.current.validate({ amount: '1' });
 

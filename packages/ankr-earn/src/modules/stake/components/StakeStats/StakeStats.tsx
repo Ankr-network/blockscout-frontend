@@ -1,5 +1,6 @@
-import { ButtonBase, Paper, Tooltip } from '@material-ui/core';
+import { ButtonBase, Paper } from '@material-ui/core';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 import { useStakeStats as useStyles } from './useStakeStats';
 
 export interface IStakeStatsItem {
@@ -20,7 +21,7 @@ export const StakeStats = ({ stats }: IStakeStats) => {
       <div className={classes.statisticLabel}>
         {stat.label}
         {stat.tooltip ? (
-          <Tooltip title={stat.tooltip}>
+          <Tooltip title={stat.tooltip} arrow>
             <ButtonBase className={classes.questionBtn}>
               <QuestionIcon size="xs" className={classes.questionIcon} />
             </ButtonBase>

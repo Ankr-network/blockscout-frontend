@@ -1,8 +1,17 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-export const useStakeDescriptionValueStyles = makeStyles<Theme>(theme => ({
+export interface IUseStakeDescriptionValueStylesProps {
+  isBold?: boolean;
+}
+
+export const useStakeDescriptionValueStyles = makeStyles<
+  Theme,
+  IUseStakeDescriptionValueStylesProps
+>(() => ({
   root: {
+    fontWeight: ({ isBold }) => (isBold ? 'bold' : 'normal'),
+
     '&&': {
       justifySelf: 'end',
       alignSelf: 'center',

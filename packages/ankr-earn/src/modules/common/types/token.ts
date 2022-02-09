@@ -3,4 +3,8 @@ export enum Token {
   AVAX = 'AVAX',
   MATIC = 'MATIC',
   aMATICb = 'aMATICb',
+  BNB = 'BNB',
+  aBNBb = 'aBNBb',
+  FTM = 'FTM',
+  aFTMb = 'aFTMb',
 }

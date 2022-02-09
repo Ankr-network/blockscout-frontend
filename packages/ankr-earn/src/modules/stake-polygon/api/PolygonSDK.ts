@@ -1,4 +1,3 @@
-//import { StkrSdk } from 'modules/api';
 import BigNumber from 'bignumber.js';
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';

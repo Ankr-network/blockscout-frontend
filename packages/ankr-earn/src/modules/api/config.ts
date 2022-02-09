@@ -1,4 +1,4 @@
-import { currentEnv } from 'modules/common/const';
+import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
 export interface IContractConfig {
@@ -15,6 +15,17 @@ export interface IAvalancheConfig {
   futureBondAVAX: string;
 }
 
+export interface IBinanceConfig {
+  aBNBbToken: string;
+  binancePool: string;
+  WBNBContract: string;
+}
+
+interface IFantomConfig {
+  fantomPool: string;
+  aftmbToken: string;
+}
+
 export interface IGatewayConfig {
   baseUrl: string;
 }
@@ -23,6 +34,8 @@ export interface IStkrConfig {
   contractConfig: IContractConfig;
   gatewayConfig: IGatewayConfig;
   avalancheConfig: IAvalancheConfig;
+  binanceConfig: IBinanceConfig;
+  fantomConfig: IFantomConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -37,6 +50,15 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   avalancheConfig: {
     futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
+  },
+  binanceConfig: {
+    aBNBbToken: '0x35336b3d0f5B58C3af6Ad71a3AA790256AE3B5dA',
+    binancePool: '0xb7d6325fc0dE1c6B02af8A70A23F1d0119A452C8',
+    WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
+  },
+  fantomConfig: {
+    fantomPool: '0xB18ff393C0C75E3B8A445DF3E3bD0d9Ce03Fba4b',
+    aftmbToken: '0x5bb1Ae7FaBA68CA80A88B7dF30eea239E62D502D',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -69,6 +91,12 @@ const GOERLI_CONFIG: IStkrConfig = {
       },
     },
   },
+  binanceConfig: {
+    ...LOCAL_CONFIG.binanceConfig,
+  },
+  fantomConfig: {
+    ...LOCAL_CONFIG.fantomConfig,
+  },
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
   },
@@ -86,6 +114,18 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   avalancheConfig: {
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
+  },
+  binanceConfig: {
+    // TODO Please add valid addresses for the Mainnet (BNB)
+    aBNBbToken: '',
+    binancePool: '',
+    WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+  },
+  fantomConfig: {
+    // todo: add production addr
+    fantomPool: ZERO_ADDR,
+    // todo: add production addr
+    aftmbToken: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { isMainnet } from 'modules/common/const';
+import { EARN_PATH, featuresConfig, isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
@@ -12,12 +12,13 @@ import { usePageNotFoundStyles } from './usePageNotFoundStyles';
 
 interface IPageNotFoundProps {}
 
-/**
- *  TODO Please add fixes for routes after the release
- */
 export const PageNotFound = (props: IPageNotFoundProps) => {
   const classes = usePageNotFoundStyles();
   const { goBack } = useHistory();
+
+  const polkadotSlotAuctionNetwork: string = isMainnet
+    ? EParachainPolkadotNetwork.DOT.toLowerCase()
+    : EParachainPolkadotNetwork.WND.toLowerCase();
 
   return (
     <Box component="section" className={classes.root}>
@@ -41,11 +42,13 @@ export const PageNotFound = (props: IPageNotFoundProps) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                href={PolkadotSlotAuctionRoutes.crowdloans.generatePath(
-                  isMainnet
-                    ? EParachainPolkadotNetwork.DOT.toLowerCase()
-                    : EParachainPolkadotNetwork.WND.toLowerCase(),
-                )}
+                href={
+                  featuresConfig.earlyRelease
+                    ? PolkadotSlotAuctionRoutes.crowdloans.generatePath(
+                        polkadotSlotAuctionNetwork,
+                      )
+                    : EARN_PATH
+                }
               >
                 {t('not-found.btn-home')}
               </NavLink>

@@ -1,12 +1,14 @@
 import { ProviderManager } from 'provider';
 import { AvailableProviders } from 'provider/providerManager/types';
-import { MAX_UINT256, ONE_ETH, ZERO_ADDR } from 'modules/common/const';
+import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
 import { configFromEnv } from 'modules/api/config';
+import { TSwapOption } from '../../types';
 import {
   fetchEth2SwapData,
   lockShares,
   unlockShares,
   approveAETHCForAETHB,
+  addTokenToWallet,
 } from '../sdk';
 
 describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
@@ -81,7 +83,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockLockShares).toBeCalledTimes(1);
-    expect(mockLockShares).toBeCalledWith(ONE_ETH.toString());
+    expect(mockLockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
@@ -127,7 +129,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockUnlockShares).toBeCalledTimes(1);
-    expect(mockUnlockShares).toBeCalledWith(ONE_ETH.toString());
+    expect(mockUnlockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
@@ -172,11 +174,68 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockApprove).toBeCalledTimes(1);
-    expect(mockApprove).toBeCalledWith(fethContract, MAX_UINT256);
+    expect(mockApprove).toBeCalledWith(
+      fethContract,
+      `0x${MAX_UINT256.toString(16)}`,
+    );
 
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, aethContract, {
       data: 'mock-abi',
     });
+  });
+
+  test('should add token to wallet', async () => {
+    const mockAddTokenToWallet = jest.fn();
+
+    const mockProviderManager = {
+      getProvider: () => ({
+        currentAccount: ZERO_ADDR,
+        addTokenToWallet: mockAddTokenToWallet,
+      }),
+    };
+
+    await addTokenToWallet({
+      providerManager: mockProviderManager as unknown as ProviderManager,
+      providerId: AvailableProviders.ethCompatible,
+      swapOption: 'aETHc',
+    });
+
+    expect(mockAddTokenToWallet).toBeCalledWith({
+      address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
+      symbol: 'aETHc',
+      decimals: 18,
+    });
+
+    await addTokenToWallet({
+      providerManager: mockProviderManager as unknown as ProviderManager,
+      providerId: AvailableProviders.ethCompatible,
+      swapOption: 'aETHb',
+    });
+
+    expect(mockAddTokenToWallet).toBeCalledWith({
+      address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+      symbol: 'aETHb',
+      decimals: 18,
+    });
+  });
+
+  test('should not add unknown token to wallet', async () => {
+    const mockAddTokenToWallet = jest.fn();
+
+    const mockProviderManager = {
+      getProvider: () => ({
+        currentAccount: ZERO_ADDR,
+        addTokenToWallet: mockAddTokenToWallet,
+      }),
+    };
+
+    await addTokenToWallet({
+      providerManager: mockProviderManager as unknown as ProviderManager,
+      providerId: AvailableProviders.ethCompatible,
+      swapOption: 'unknown' as TSwapOption,
+    });
+
+    expect(mockAddTokenToWallet).not.toBeCalled();
   });
 });

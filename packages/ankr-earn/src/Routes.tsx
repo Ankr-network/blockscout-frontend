@@ -12,13 +12,13 @@ import {
   getRoutes as getPolkadotSlotAuctionRoutes,
   RoutesConfig as PolkadotSlotAuctionRoutes,
 } from 'modules/polkadot-slot-auction/Routes';
+import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
+import { getRoutes as getStakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
+import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-/**
- *  TODO Please uncomment routes after the release and add fixes
- */
 export function Routes() {
   return (
     <Switch>
@@ -41,11 +41,23 @@ export function Routes() {
       {getBoostRoutes()}
       {!featuresConfig.earlyRelease && getStakeRoutes()}
       {!featuresConfig.earlyRelease && getStakePolygonRoutes()}
+
+      {!featuresConfig.earlyRelease &&
+        featuresConfig.isActiveBNBStaking &&
+        getStakeBinanceRoutes()}
+
+      {!featuresConfig.earlyRelease &&
+        featuresConfig.stakeFantom &&
+        getStakeFantomRoutes()}
+
       {!featuresConfig.earlyRelease && getDashboardRoutes()}
+
       {/* TODO: STAKAN-990 remove eth2Swap flag when feature is done */}
       {!featuresConfig.earlyRelease &&
         featuresConfig.eth2Swap &&
         getETH2SwapRoutes()}
+      {featuresConfig.bridge && getBridgeRoutes()}
+
       {getPolkadotSlotAuctionRoutes()}
 
       <Route>

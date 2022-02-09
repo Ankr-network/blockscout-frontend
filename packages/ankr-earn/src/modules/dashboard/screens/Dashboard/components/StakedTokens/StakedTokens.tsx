@@ -1,8 +1,10 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
+import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
-import { AMATICBCard } from '../AMATICBCard/AMATICBCard';
+import { ABNBBCard } from '../ABNBBCard';
+import { AMATICBCard } from '../AMATICBCard';
 import { useStakedTokensStyles } from './useStakedTokensStyles';
 
 export const StakedTokens = (props: BoxProps) => {
@@ -16,6 +18,8 @@ export const StakedTokens = (props: BoxProps) => {
 
       <AssetsList noChildrenSlot={<NoAssets />}>
         <AMATICBCard />
+
+        {featuresConfig.isActiveBNBStaking && <ABNBBCard />}
       </AssetsList>
     </Box>
   );

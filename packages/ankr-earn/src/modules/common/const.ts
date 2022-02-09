@@ -10,7 +10,6 @@ export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;
-export const ETH_DIVIDER = 10 ** 18;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
@@ -44,17 +43,32 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
+  isActiveLedgerNanoX: false,
+  isActiveMyRewardsClaimModalNewParts: false,
+  isActiveBNBStaking: currentEnv === Env.Develop,
+  isActiveBNBStakingFAQ: false,
+  isActiveBNBUnstaking: false,
   liquidityMining: false,
   localeSwitcher: false,
   earlyRelease: true,
   v1banner: false,
   dashboardLiquidCrowdloanAssets: false,
-  eth2Swap: currentEnv === Env.Develop,
+  // todo: STAKAN-911 remove this flag when the feature will be done
+  stakeFantom: currentEnv !== Env.Production,
+  eth2Swap: currentEnv !== Env.Production,
+  bridge: currentEnv === Env.Develop,
 };
 
-export const transactionHistoryUrlsByNetwork: any = {
-  1: 'https://etherscan.io/tx/{value}',
-  5: 'https://goerli.etherscan.io/tx/{value}',
-  56: 'https://bscscan.com/tx/{value}',
-  97: 'https://testnet.bscscan.com/tx/{value}',
+export enum SupportedChainIDS {
+  MAINNET = 1,
+  GOERLI = 5,
+  BSC = 56,
+  BSC_TESTNET = 97,
+}
+
+export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
+  [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
+  [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
+  [SupportedChainIDS.BSC]: 'https://bscscan.com',
+  [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
 };

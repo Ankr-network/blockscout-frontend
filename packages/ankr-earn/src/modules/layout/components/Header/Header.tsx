@@ -12,12 +12,14 @@ interface IHeader {
   mainNavigationMobileSlot: ReactNode;
   mainNavigationSlot: ReactNode;
   rightComponentSlot?: ReactNode;
+  bannerSlot?: ReactNode;
 }
 
 export const Header = ({
   mainNavigationMobileSlot,
   mainNavigationSlot,
   rightComponentSlot,
+  bannerSlot,
 }: IHeader) => {
   const classes = useStyles();
   const isLGUp = useIsLGUp();
@@ -29,6 +31,8 @@ export const Header = ({
 
   return (
     <header>
+      {bannerSlot}
+
       <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
           <Logo className={classes.logo} href={EARN_PATH} />

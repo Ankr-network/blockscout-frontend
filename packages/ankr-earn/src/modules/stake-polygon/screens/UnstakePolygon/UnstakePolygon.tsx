@@ -5,6 +5,7 @@ import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t, tHTML } from 'modules/i18n/utils/intl';
@@ -13,7 +14,8 @@ import {
   IUnstakeFormValues,
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
-import React, { useCallback } from 'react';
+import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -28,6 +30,12 @@ export const UnstakePolygon = () => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
+
+  const {
+    isOpened: isSuccessOpened,
+    onClose: onSuccessClose,
+    onOpen: onSuccessOpen,
+  } = useDialog();
 
   useProviderEffect(() => {
     dispatchRequest(fetchAPY());
@@ -49,12 +57,12 @@ export const UnstakePolygon = () => {
       dispatchRequest(unstake({ amount: new BigNumber(amount) })).then(
         ({ error }) => {
           if (!error) {
-            onClose();
+            onSuccessOpen();
           }
         },
       );
     },
-    [dispatchRequest, onClose],
+    [dispatchRequest, onSuccessOpen],
   );
 
   const { loading: unstakeLoading } = useMutation({ type: unstake.toString() });
@@ -62,104 +70,114 @@ export const UnstakePolygon = () => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
-        <Queries<
-          ResponseData<typeof fetchStats>,
-          ResponseData<typeof getAnkrBalance>
-        >
-          requestActions={[fetchStats, getAnkrBalance]}
-        >
-          {({ data: statsData, loading }, { data: ankrBalance }) => (
-            <UnstakeDialog
-              submitDisabled={unstakeLoading}
-              isBalanceLoading={false}
-              isLoading={unstakeLoading}
-              balance={statsData.aMaticbBalance}
-              onClose={onClose}
-              onSubmit={onUnstakeSubmit}
-              endText={t('stake-polygon-dashboard.unstake-eta')}
-              token={Token.aMATICb}
-              extraValidation={(data, errors) => {
-                if (ankrBalance.isLessThan(statsData.unstakeFee)) {
-                  errors.amount = tHTML(
-                    'stake-polygon-dashboard.validation.is-not-enough-fee',
-                    {
-                      value: ankrBalance.toFormat(),
-                      link: ANKR_1INCH_BUY_LINK,
-                    },
-                  );
-                }
+        {!isSuccessOpened ? (
+          <Queries<
+            ResponseData<typeof fetchStats>,
+            ResponseData<typeof getAnkrBalance>
+          >
+            requestActions={[fetchStats, getAnkrBalance]}
+          >
+            {({ data: statsData, loading }, { data: ankrBalance }) => (
+              <UnstakeDialog
+                submitDisabled={unstakeLoading}
+                isBalanceLoading={false}
+                isLoading={unstakeLoading}
+                balance={statsData.aMaticbBalance}
+                onClose={onClose}
+                onSubmit={onUnstakeSubmit}
+                endText={t('stake-polygon-dashboard.unstake-eta')}
+                token={Token.aMATICb}
+                extraValidation={(_data, errors) => {
+                  if (ankrBalance.isLessThan(statsData.unstakeFee)) {
+                    errors.amount = tHTML(
+                      'stake-polygon-dashboard.validation.is-not-enough-fee',
+                      {
+                        value: ankrBalance.toFormat(),
+                        link: ANKR_1INCH_BUY_LINK,
+                      },
+                    );
+                  }
 
-                return errors;
-              }}
-              renderFormFooter={amount => (
-                <>
-                  <Box mb={2} display="flex" alignItems="center">
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      className={classes.fee}
-                    >
-                      {t('unstake-dialog.unstake-fee')}
-                      <Tooltip title={t('unstake-dialog.unstake-fee-tooltip')}>
-                        <ButtonBase className={classes.questionBtn}>
-                          <QuestionIcon
-                            size="xs"
-                            className={classes.questionIcon}
-                          />
-                        </ButtonBase>
-                      </Tooltip>
-                    </Typography>
+                  return errors;
+                }}
+                renderFormFooter={amount => (
+                  <>
+                    <Box mb={2} display="flex" alignItems="center">
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        className={classes.fee}
+                      >
+                        {t('unstake-dialog.unstake-fee')}
+                        <Tooltip
+                          title={t('unstake-dialog.unstake-fee-tooltip')}
+                        >
+                          <ButtonBase className={classes.questionBtn}>
+                            <QuestionIcon
+                              size="xs"
+                              className={classes.questionIcon}
+                            />
+                          </ButtonBase>
+                        </Tooltip>
+                      </Typography>
 
-                    <Box ml="auto" />
+                      <Box ml="auto" />
 
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      className={classes.ankrValue}
-                    >
-                      {t('unit.ankr-value', {
-                        value: statsData.unstakeFee.toNumber(),
-                      })}
-                    </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        className={classes.ankrValue}
+                      >
+                        {t('unit.ankr-value', {
+                          value: statsData.unstakeFee.toNumber(),
+                        })}
+                      </Typography>
 
-                    <Link
-                      href={ANKR_1INCH_BUY_LINK}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      underline="none"
-                    >
-                      {t('unstake-dialog.buy-ankr')}
-                    </Link>
-                  </Box>
+                      <Link
+                        href={ANKR_1INCH_BUY_LINK}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        underline="none"
+                      >
+                        {t('unstake-dialog.buy-ankr')}
+                      </Link>
+                    </Box>
 
-                  <Divider />
+                    <Divider />
 
-                  <Box mt={2} display="flex">
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      className={classes.willGet}
-                    >
-                      {t('stake.you-will-get')}
-                    </Typography>
+                    <Box mt={2} display="flex">
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        className={classes.willGet}
+                      >
+                        {t('stake.you-will-get')}
+                      </Typography>
 
-                    <Box ml="auto" />
+                      <Box ml="auto" />
 
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      className={classes.willGet}
-                    >
-                      {t('unit.matic-value', {
-                        value: amount.isNaN() ? '0' : amount.toFormat(),
-                      })}
-                    </Typography>
-                  </Box>
-                </>
-              )}
-            />
-          )}
-        </Queries>
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        className={classes.willGet}
+                      >
+                        {t('unit.matic-value', {
+                          value: amount.isNaN() ? '0' : amount.toFormat(),
+                        })}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
+              />
+            )}
+          </Queries>
+        ) : (
+          <UnstakeSuccess
+            onClose={onSuccessClose}
+            tokenName={Token.aMATICb}
+            period={t('unstake-polygon.success.period')}
+          />
+        )}
       </Container>
     </Box>
   );

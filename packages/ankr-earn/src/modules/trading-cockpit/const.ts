@@ -47,4 +47,6 @@ export const chainIdByTokenMap = {
   [AvailableTokens.aETHc]: BlockchainNetworkId.mainnet,
   [AvailableTokens.MATIC]: BlockchainNetworkId.mainnet,
   [AvailableTokens.aMATICb]: BlockchainNetworkId.mainnet,
+  [AvailableTokens.BNB]: BlockchainNetworkId.smartchain,
+  [AvailableTokens.aBNBb]: BlockchainNetworkId.smartchain,
 };

@@ -9,6 +9,7 @@ import { Header } from '../Header/index';
 import { ILayoutProps, Layout } from '../Layout';
 import { MainNavigation } from '../MainNavigation';
 import { MainNavigationMobile } from '../MainNavigationMobile';
+import { SwitchBanner } from '../SwitchBanner';
 
 export interface IDefaultLayoutProps
   extends Omit<ILayoutProps, 'headerSlot' | 'footerSlot'> {
@@ -29,6 +30,7 @@ export const DefaultLayout = ({
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
+            bannerSlot={<SwitchBanner link={STAKEFI_LINK} />}
             mainNavigationSlot={<MainNavigation />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
             rightComponentSlot={

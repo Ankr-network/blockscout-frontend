@@ -22,7 +22,7 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   },
 
   info: {
-    color: '#000',
+    color: theme.palette.common.black,
     fontSize: 16,
     lineHeight: '20.8px',
     textAlign: 'center',
@@ -36,7 +36,8 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   },
 
   chip: {
-    color: '#9AA1B0',
+    backgroundColor: 'transparent !important',
+    color: theme.palette.text.secondary,
     marginBottom: theme.spacing(1),
 
     '&:first-child': {
@@ -52,7 +53,7 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
   },
 
   amountInput: {
-    height: 80,
+    height: 76,
   },
 
   row: {
@@ -70,7 +71,7 @@ export const useMainEth2SwapStyles = makeStyles(theme => ({
 
   fee: {
     fontSize: 14,
-    color: '#000',
+    color: theme.palette.common.black,
   },
 
   result: {
