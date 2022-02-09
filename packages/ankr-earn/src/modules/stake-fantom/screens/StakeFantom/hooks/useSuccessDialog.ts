@@ -1,24 +1,24 @@
+import { useDispatchRequest } from '@redux-requests/react';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { Token } from 'modules/common/types/token';
-import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
+import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 
 export const useSuccessDialog = () => {
+  const dispatchRequest = useDispatchRequest();
+
   const {
     isOpened: isSuccessOpened,
     onClose: onSuccessClose,
     onOpen: onSuccessOpen,
   } = useDialog();
 
-  const onAddTokenClick = async () => {
-    const sdk = await PolygonSDK.getInstance();
-    return await sdk.addAmaticbToWallet();
+  const onAddTokenClick = () => {
+    dispatchRequest(addFTMTokenToWallet());
   };
 
   return {
+    isSuccessOpened,
     onSuccessOpen,
     onSuccessClose,
-    isSuccessOpened,
     onAddTokenClick,
-    token: Token.aMATICb,
   };
 };

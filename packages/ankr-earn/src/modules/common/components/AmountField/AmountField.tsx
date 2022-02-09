@@ -1,12 +1,11 @@
-import { ReactText, useCallback } from 'react';
 import { Button, Typography } from '@material-ui/core';
-import { Field } from 'react-final-form';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
+import { ReactText, useCallback } from 'react';
+import { Field } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
-import { QueryLoading } from 'uiKit/QueryLoading';
 import { useAmountFieldStyles } from './useAmountFieldStyles';
 
 const MIN_AMOUNT = 0;
@@ -87,11 +86,12 @@ export const AmountField = ({
           variant="body2"
           className={classes.balance}
           color="textSecondary"
+          component="div"
         >
           {t('stake.balance-label')}:{' '}
           {isBalanceLoading ? (
             <div className={classes.balanceLoadingBox}>
-              <QueryLoading size={16} />
+              <Skeleton width={40} />
             </div>
           ) : (
             `${roundedBalance} ${tokenName}`

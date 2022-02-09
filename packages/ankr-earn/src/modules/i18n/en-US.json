@@ -66,11 +66,7 @@
     "matic-value": "{value} MATIC",
     "~abnbb": "{value} aBNBb",
     "~polygon": "{value} aMATICb",
-    "ankr-value": "{value} ANKR",
-    "bnb-tooltip-title": "1 BNB = 1 aBNBb",
-    "bnb-tooltip-body": "aBNBb is a redeemable token. aBNBb can be redeemed at fair value into BNB tokens anytime after 3-4 days unbonding period.",
-    "matic-tooltip-title": "1 MATIC = 1 aMATICb",
-    "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period."
+    "ankr-value": "{value} ANKR"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -316,6 +312,8 @@
   },
   "stake-bnb": {
     "stake-info": "Stake at least 1 BNB on Ethereum network and claim the same amount of aBNBb liquid staking tokens (aBNBb) on Binance Smart Chain network (BEP-20 token). Your aBNBb balance will increase on a daily basis, simulating as such your aBNBb staking rewards.",
+    "bnb-tooltip-title": "1 BNB = 1 aBNBb",
+    "bnb-tooltip-body": "aBNBb is a redeemable token. aBNBb can be redeemed at fair value into BNB tokens anytime after 3-4 days unbonding period.",
     "faq": {
       "title": "FAQ",
       "question-1": "What is Polygon (MATIC) liquid staking?",
@@ -358,6 +356,8 @@
   },
   "stake-polygon": {
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
+    "matic-tooltip-title": "1 MATIC = 1 aMATICb",
+    "matic-tooltip-body": "aMATICb is a redeemable token. aMATICb can be redeemed at fair value into MATIC tokens anytime after 3-4 days unbonding period.",
     "faq": {
       "title": "FAQ",
       "question-1": "What is Polygon (MATIC) liquid staking?",
@@ -375,6 +375,10 @@
       "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
       "answer-7": "Yes, you can access a more in-depth user guide <a href=\"https://docs.ankr.com/earn/liquid-staking/polygon\">here.</a>"
     }
+  },
+  "stake-fantom": {
+    "ftm-tooltip-title": "1 FTM = 1 aFTMb",
+    "ftm-tooltip-body": "aFTMb is a redeemable token. aFTMb can be redeemed at fair value into FTM tokens anytime after unbonding period."
   },
   "eth2Swap": {
     "title": "ETH2 Swap",

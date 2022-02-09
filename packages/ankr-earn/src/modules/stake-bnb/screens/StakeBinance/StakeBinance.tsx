@@ -16,6 +16,7 @@ import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
 import React, { useCallback } from 'react';
+import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 import { fetchStats } from '../../actions/fetchStats';
@@ -63,9 +64,9 @@ export const StakeBinance = () => {
             <Tooltip
               title={
                 <div>
-                  <div>{t('unit.bnb-tooltip-title')}</div>
+                  <div>{t('stake-bnb.bnb-tooltip-title')}</div>
                   <br />
-                  <div>{t('unit.bnb-tooltip-body')}</div>
+                  <div>{t('stake-bnb.bnb-tooltip-body')}</div>
                 </div>
               }
             >
@@ -84,31 +85,34 @@ export const StakeBinance = () => {
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
         <section className={classes.root}>
-          <StakeContainer>
-            <StakeForm
-              onSubmit={handleSubmit}
-              balance={data.bnbBalance}
-              maxAmount={data.bnbBalance.toNumber()}
-              stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
-              minAmount={data.minimumStake.toNumber()}
-              loading={isStakeLoading}
-              tokenIn={t('unit.bnb')}
-              tokenOut={t('unit.abnbb')}
-              renderStats={renderStats}
-              onChange={handleFormChange}
-            />
+          {isSuccessOpened ? (
+            <Container>
+              <StakeSuccessDialog
+                tokenName={token}
+                onClose={onSuccessClose}
+                onAddTokenClick={onAddTokenClick}
+              />
+            </Container>
+          ) : (
+            <StakeContainer>
+              <StakeForm
+                balance={data.bnbBalance}
+                maxAmount={data.bnbBalance.toNumber()}
+                stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
+                minAmount={data.minimumStake.toNumber()}
+                loading={isStakeLoading}
+                tokenIn={t('unit.bnb')}
+                tokenOut={t('unit.abnbb')}
+                onSubmit={handleSubmit}
+                renderStats={renderStats}
+                onChange={handleFormChange}
+              />
 
-            <StakeStats stats={stats} />
+              <StakeStats stats={stats} />
 
-            <Faq data={faqItems} />
-
-            <StakeSuccessDialog
-              isOpened={isSuccessOpened}
-              onClose={onSuccessClose}
-              token={token}
-              onAddTokenClick={onAddTokenClick}
-            />
-          </StakeContainer>
+              <Faq data={faqItems} />
+            </StakeContainer>
+          )}
         </section>
       )}
     </Queries>

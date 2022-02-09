@@ -1,50 +1,75 @@
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { t } from 'modules/i18n/utils/intl';
+import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { stake } from 'modules/stake-fantom/actions/stake';
 import { FANTOM_STAKING_AMOUNT_STEP } from 'modules/stake-fantom/const';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useState } from 'react';
+import { ReactText, useEffect, useState } from 'react';
 
 interface IUseStakeForm {
   balance?: BigNumber;
   stakingAmountStep: number;
   minAmount?: number;
   loading: boolean;
-  tokenIn?: string;
-  tokenOut?: string;
+  isCommonDataLoading: boolean;
+  tokenIn: string;
+  tokenOut: string;
   amount: ReactText;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }
 
-export const useStakeForm = (): IUseStakeForm => {
+export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
   const [amount, setAmount] = useState<ReactText>('');
+  const dispatchRequest = useDispatchRequest();
+  const { loading: isStakeLoading } = useMutation({ type: stake });
 
-  // todo: onSubmit
-  const onSubmit = () => null;
+  const { data, loading: isCommonDataLoading } = useQuery({
+    type: getCommonData,
+  });
 
-  // todo: get actual data
-  const balance = new BigNumber(0);
+  const balance = data?.ftmBalance;
+  const minAmount = data?.minStake.toNumber() ?? 0;
 
   const onChange = (values: IStakeFormPayload) => {
     setAmount(values.amount || '');
   };
 
-  // todo: get it from the contract
-  const minAmount = 1;
+  const onSubmit = () => {
+    const stakeAmount = new BigNumber(amount);
+
+    dispatchRequest(stake(stakeAmount)).then(({ error }) => {
+      if (!error) {
+        openSuccessModal();
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    setAmount(data.aFTMbBalance.toFormat());
+  }, [data]);
 
   return {
-    onSubmit,
+    isCommonDataLoading,
     balance,
     stakingAmountStep: FANTOM_STAKING_AMOUNT_STEP,
     minAmount,
-    // todo: loading
-    loading: false,
+    loading: isStakeLoading,
     tokenIn: t('unit.ftm'),
     tokenOut: t('unit.aftmb'),
-    onChange,
     amount,
+    onChange,
+    onSubmit,
   };
 };

@@ -53,7 +53,7 @@ export const featuresConfig = {
   earlyRelease: false,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
-  stakeFantom: currentEnv === Env.Develop,
+  stakeFantom: currentEnv !== Env.Production,
   eth2Swap: currentEnv !== Env.Production,
   bridge: currentEnv === Env.Develop,
 };

@@ -1,6 +1,6 @@
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
-import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 export const useSuccessDialog = () => {
   const {
@@ -19,6 +19,6 @@ export const useSuccessDialog = () => {
     onSuccessClose,
     isSuccessOpened,
     onAddTokenClick,
-    token: AvailableTokens.aBNBb,
+    token: Token.aBNBb,
   };
 };
