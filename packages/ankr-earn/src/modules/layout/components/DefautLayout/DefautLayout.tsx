@@ -25,7 +25,6 @@ export const DefaultLayout = ({
 
   return (
     <Layout
-      oldVersionLink={featuresConfig.v1banner ? STAKEFI_LINK : undefined}
       verticalAlign={verticalAlign}
       headerSlot={
         <ThemeProvider theme={currentTheme}>
