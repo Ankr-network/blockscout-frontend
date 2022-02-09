@@ -50,7 +50,8 @@ export const featuresConfig = {
   isActiveBNBUnstaking: false,
   liquidityMining: false,
   localeSwitcher: false,
-  earlyRelease: false,
+  earlyRelease: true,
+  v1banner: false,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: currentEnv !== Env.Production,
