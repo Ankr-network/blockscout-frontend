@@ -12,7 +12,7 @@ import {
   ETH_SCALE_FACTOR,
   ONE_ETH,
 } from 'modules/common/const';
-import { AmountField } from 'modules/common/components/AmountField';
+import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { Container } from 'uiKit/Container';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -134,7 +134,7 @@ export const Main = (): JSX.Element => {
           />
         </Box>
 
-        <AmountField
+        <AmountInput
           inputClassName={classes.amountInput}
           balance={max}
           label={t('eth2Swap.amountInputTitle')}

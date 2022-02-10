@@ -1,6 +1,6 @@
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import {
-  AvailableProviders,
+  AvailableWriteProviders,
   BlockchainNetworkId,
 } from 'provider/providerManager/types';
 import { DependencyList, EffectCallback, useEffect, useMemo } from 'react';
@@ -15,7 +15,7 @@ export const useBNBNetworkEffect = (
   deps: DependencyList,
 ): void => {
   const { chainId, address } = useConnectedData(
-    AvailableProviders.ethCompatible,
+    AvailableWriteProviders.ethCompatible,
   );
 
   const isBNBNetwork: boolean = useMemo(

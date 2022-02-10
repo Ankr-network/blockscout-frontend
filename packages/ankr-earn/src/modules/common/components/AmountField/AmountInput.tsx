@@ -5,12 +5,12 @@ import { DEFAULT_FIXED } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactText, useCallback } from 'react';
 import { Field } from 'react-final-form';
-import { InputField } from 'uiKit/InputField';
 import { useAmountFieldStyles } from './useAmountFieldStyles';
+import { AmountField } from '../../../../uiKit/AmountField';
 
 const MIN_AMOUNT = 0;
 
-interface IAmountFieldProps {
+interface IAmountInputProps {
   balance?: BigNumber;
   isBalanceLoading?: boolean;
   disabled?: boolean;
@@ -23,7 +23,7 @@ interface IAmountFieldProps {
   showBalance?: boolean;
 }
 
-export const AmountField = ({
+export const AmountInput = ({
   balance,
   onMaxClick,
   isBalanceLoading = false,
@@ -34,7 +34,7 @@ export const AmountField = ({
   inputClassName,
   minAmount = MIN_AMOUNT,
   showBalance = true,
-}: IAmountFieldProps) => {
+}: IAmountInputProps) => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
   const zeroBalance = new BigNumber(0);
@@ -74,11 +74,6 @@ export const AmountField = ({
     [balance, maxAmount, minAmount, withBalance],
   );
 
-  const normalizeAmount = (value: string): string => {
-    // only numbers and dot
-    return value.replace(',', '.').replace(/[^0-9.]/g, '');
-  };
-
   return (
     <>
       {showBalance && (withBalance || isBalanceLoading) && (
@@ -100,14 +95,13 @@ export const AmountField = ({
       )}
 
       <Field
-        component={InputField}
+        component={AmountField}
         name={name}
         label={label}
         placeholder="0"
         variant="outlined"
         disabled={disabled}
         validate={validateAmount}
-        parse={normalizeAmount}
         InputProps={{
           classes: {
             input: inputClassName,

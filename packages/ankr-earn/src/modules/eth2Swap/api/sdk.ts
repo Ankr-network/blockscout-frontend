@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult, ProviderManager } from 'provider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { configFromEnv } from 'modules/api/config';
@@ -11,7 +11,7 @@ import { TSwapOption } from '../types';
 
 export interface IGetEth2SwapServiceArgs {
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export interface IGetEth2SwapServiceData {
@@ -59,7 +59,7 @@ export const fetchEth2SwapData = async ({
 export interface ISharesArgs {
   amount: string;
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export const lockShares = async ({
@@ -112,7 +112,7 @@ export const unlockShares = async ({
 
 export interface IApproveAETHCArgs {
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export const approveAETHCForAETHB = async ({
@@ -140,7 +140,7 @@ export const approveAETHCForAETHB = async ({
 
 export interface IAddTokenToWalletArgs {
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
   swapOption: TSwapOption;
 }
 

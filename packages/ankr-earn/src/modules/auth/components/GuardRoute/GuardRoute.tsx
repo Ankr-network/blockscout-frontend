@@ -3,7 +3,7 @@ import { Connect } from 'modules/auth/components/Connect';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
 import { Container } from 'uiKit/Container';
@@ -15,7 +15,7 @@ import { useKnownNetworks } from './useKnownNetworks';
 const METAMASK_WALLET_NAME = 'MetaMask';
 
 interface IGuardRouteProps extends RouteProps {
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
   openConnectInstantly?: boolean;
   availableNetworks: BlockchainNetworkId[];
 }

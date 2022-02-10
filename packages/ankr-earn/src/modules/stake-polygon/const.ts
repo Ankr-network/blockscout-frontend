@@ -1,8 +1,8 @@
 import { currentEnv } from 'modules/common/const';
 import { BlockchainNetworkId, Env, Percentage } from 'modules/common/types';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 
-export const POLYGON_PROVIDER_ID = AvailableProviders.ethCompatible;
+export const POLYGON_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const MATIC_STAKING_NETWORKS = [
   currentEnv === Env.Production

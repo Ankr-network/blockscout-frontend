@@ -1,14 +1,14 @@
 import { ProviderManager } from 'provider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
 import { configFromEnv } from 'modules/api/config';
 import { TSwapOption } from '../../types';
 import {
+  addTokenToWallet,
+  approveAETHCForAETHB,
   fetchEth2SwapData,
   lockShares,
   unlockShares,
-  approveAETHCForAETHB,
-  addTokenToWallet,
 } from '../sdk';
 
 describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
@@ -33,7 +33,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const { ratio, aethBalance, fethBalance, allowance } =
       await fetchEth2SwapData({
         providerManager: mockProviderManager as unknown as ProviderManager,
-        providerId: AvailableProviders.ethCompatible,
+        providerId: AvailableWriteProviders.ethCompatible,
       });
 
     expect(ratio.toNumber()).toBe(0);
@@ -71,7 +71,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const result = await lockShares({
       amount: '1',
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
     });
 
     const {
@@ -117,7 +117,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const result = await unlockShares({
       amount: '1',
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
     });
 
     const {
@@ -166,7 +166,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     const result = await approveAETHCForAETHB({
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
     });
 
     expect(result.transactionHash).toBe('hash');
@@ -197,7 +197,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     await addTokenToWallet({
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
       swapOption: 'aETHc',
     });
 
@@ -209,7 +209,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     await addTokenToWallet({
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
       swapOption: 'aETHb',
     });
 
@@ -232,7 +232,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     await addTokenToWallet({
       providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableProviders.ethCompatible,
+      providerId: AvailableWriteProviders.ethCompatible,
       swapOption: 'unknown' as TSwapOption,
     });
 

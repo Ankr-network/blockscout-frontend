@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { AmountField } from 'modules/common/components/AmountField';
+import { AmountInput } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
@@ -84,7 +84,7 @@ export const UnstakeDialog = ({
               id={UNSTAKE_FORM_ID}
             >
               <Box mb={4}>
-                <AmountField
+                <AmountInput
                   balance={balance}
                   onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
                   isBalanceLoading={isBalanceLoading}

@@ -1,15 +1,26 @@
 import { ThemeColors } from 'web3modal';
 import { EthereumWeb3KeyProvider } from './providers/EthereumWeb3KeyProvider';
-import { AvailableProviders } from './types';
+import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { Web3KeyProvider } from './Web3KeyProvider';
+import { Web3KeyReadProvider } from './Web3KeyReadProvider';
+import { EthereumHttpWeb3KeyProvider } from './providers/EthereumHttpWeb3KeyProvider';
+
+const ETHEREUM_MAINNET_RPC_URL = 'https://staging.multi-rpc.com/eth';
+const ETHEREUM_GOERLI_RPC_URL = 'https://eth-goerli-01.dccn.ankr.com';
+
+interface IProviders {
+  [AvailableWriteProviders.ethCompatible]: Web3KeyProvider;
+  [AvailableWriteProviders.polkadot]: Web3KeyProvider;
+  [AvailableWriteProviders.binance]: Web3KeyProvider;
+  [AvailableReadProviders.ethMainnetHttpProvider]: Web3KeyReadProvider;
+}
 
 export class ProviderManager {
-  private providers: Record<AvailableProviders, Web3KeyProvider | undefined> =
-    {} as Record<AvailableProviders, Web3KeyProvider>;
+  private providers: Partial<IProviders> = {};
 
   constructor(private web3ModalTheme: ThemeColors) {}
 
-  public async getProvider(providerId: AvailableProviders) {
+  public async getProvider(providerId: AvailableWriteProviders) {
     const provider = this.providers[providerId];
     if (provider) {
       if (!provider.isConnected()) {
@@ -19,7 +30,7 @@ export class ProviderManager {
       return provider;
     }
 
-    if (providerId === AvailableProviders.ethCompatible) {
+    if (providerId === AvailableWriteProviders.ethCompatible) {
       const newProvider = new EthereumWeb3KeyProvider({
         web3ModalTheme: this.web3ModalTheme,
       });
@@ -29,10 +40,31 @@ export class ProviderManager {
       return newProvider;
     }
 
-    throw new Error('It is not possible to get a provider');
+    throw new Error(`The provider isn't supported: ${providerId}`);
   }
 
-  public disconnect(providerId: AvailableProviders) {
+  public async getReadProvider(providerId: AvailableReadProviders) {
+    const provider = this.providers[providerId];
+    if (provider) {
+      if (!provider.isConnected()) {
+        await provider.connect();
+      }
+
+      return provider;
+    }
+
+    if (providerId === AvailableReadProviders.ethMainnetHttpProvider) {
+      return new EthereumHttpWeb3KeyProvider(ETHEREUM_MAINNET_RPC_URL);
+    }
+
+    if (providerId === AvailableReadProviders.ethGoerliHttpProvider) {
+      return new EthereumHttpWeb3KeyProvider(ETHEREUM_GOERLI_RPC_URL);
+    }
+
+    throw new Error(`The provider isn't supported: ${providerId}`);
+  }
+
+  public disconnect(providerId: AvailableWriteProviders) {
     const provider = this.providers[providerId];
 
     if (provider) {

@@ -2,7 +2,7 @@ import { useMemo, useCallback, useState, useEffect } from 'react';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
@@ -27,7 +27,7 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
   const { data, loading: isDataLoading } = useQuery({
     type: getEth2SwapData,
   });
-  const { chainId } = useAuth(AvailableProviders.ethCompatible);
+  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
 
   const [swapOption, setSwapOption] = useState<TSwapOption>('aETHb');
   const [hasApprove, setHasApprove] = useState(false);
@@ -56,7 +56,7 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
   useEffect(() => {
     dispatchRequest(
       getEth2SwapData({
-        providerId: AvailableProviders.ethCompatible,
+        providerId: AvailableWriteProviders.ethCompatible,
       }),
     );
   }, [dispatchRequest]);

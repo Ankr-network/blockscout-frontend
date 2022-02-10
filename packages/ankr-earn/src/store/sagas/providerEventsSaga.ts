@@ -21,7 +21,7 @@ import {
 } from 'provider/providerEvents/types';
 import { EVENTS, getProvider } from 'provider/providerEvents/utils';
 import { EthereumWeb3KeyProvider } from 'provider/providerManager/providers/EthereumWeb3KeyProvider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { Channel, END, eventChannel } from 'redux-saga';
 import {
   call,
@@ -36,7 +36,7 @@ import Web3 from 'web3';
 
 interface IListenProviderEventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 interface IConnectSuccessAction {
@@ -176,7 +176,7 @@ function* listenProviderEvents({
 }
 
 function* connectSuccessWorker(action: IConnectSuccessAction) {
-  const providerId: AvailableProviders | null =
+  const providerId: AvailableWriteProviders | null =
     action?.response?.data?.providerId ?? null;
 
   if (providerId === null) {

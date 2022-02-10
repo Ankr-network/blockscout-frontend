@@ -1,4 +1,9 @@
-export enum AvailableProviders {
+export enum AvailableReadProviders {
+  ethMainnetHttpProvider = 'ethMainnetHttpProvider',
+  ethGoerliHttpProvider = 'ethGoerliHttpProvider',
+}
+
+export enum AvailableWriteProviders {
   ethCompatible = 'ethCompatible',
   polkadot = 'polkadot',
   binance = 'binance',

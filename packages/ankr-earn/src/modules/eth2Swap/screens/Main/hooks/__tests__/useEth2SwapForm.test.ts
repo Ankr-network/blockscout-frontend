@@ -3,7 +3,7 @@ import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import fc from 'fast-check';
 import BigNumber from 'bignumber.js';
 
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import {
@@ -95,7 +95,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
         amount: '1',
         swapOption: 'aETHb',
         ratio: ONE_ETH,
-        providerId: AvailableProviders.ethCompatible,
+        providerId: AvailableWriteProviders.ethCompatible,
       });
     });
 
@@ -126,7 +126,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
 
       expect(approveAETHC).toBeCalledTimes(1);
       expect(approveAETHC).toBeCalledWith({
-        providerId: AvailableProviders.ethCompatible,
+        providerId: AvailableWriteProviders.ethCompatible,
       });
     });
   });

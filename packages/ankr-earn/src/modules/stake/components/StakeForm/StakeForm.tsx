@@ -2,11 +2,10 @@ import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { FormApi } from 'final-form';
-import { AmountField } from 'modules/common/components/AmountField';
+import { AmountInput } from 'modules/common/components/AmountField';
 import { FormErrors } from 'modules/common/types/FormErrors';
-import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactNode, ReactText, useCallback, useMemo } from 'react';
+import { ReactNode, ReactText, useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
@@ -85,21 +84,11 @@ export const StakeForm = ({
     [balance],
   );
 
-  const max = useMemo(
-    () =>
-      floor(maxAmount < minAmount ? minAmount : maxAmount, stakingAmountStep),
-    [maxAmount, minAmount, stakingAmountStep],
-  );
-
   const setMaxAmount = useCallback(
     (form: FormApi<IStakeFormPayload>, maxAmount: string) => () =>
       form.change('amount', maxAmount),
     [],
   );
-
-  const INIT_AMOUNT = balance.isGreaterThan(minAmount)
-    ? floor(balance.toNumber(), stakingAmountStep)
-    : minAmount;
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>
     onSubmit({
@@ -129,9 +118,9 @@ export const StakeForm = ({
               })}
             </Typography>
 
-            <AmountField
+            <AmountInput
               balance={balance}
-              onMaxClick={setMaxAmount(form, `${max}`)}
+              onMaxClick={setMaxAmount(form, `${maxAmount}`)}
               isBalanceLoading={isBalanceLoading}
               name={FieldsNames.amount}
               tokenName={tokenIn}
@@ -192,7 +181,6 @@ export const StakeForm = ({
     <Form
       onSubmit={onSubmitForm}
       render={renderForm}
-      initialValues={{ amount: INIT_AMOUNT }}
       validate={validateStakeForm}
     />
   );

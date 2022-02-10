@@ -7,14 +7,14 @@ import { IWeb3SendResult } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { lockShares, unlockShares, approveAETHCForAETHB } from '../api/sdk';
 import { TSwapOption } from '../types';
 import { getEth2SwapData } from './getEth2SwapData';
 
 export interface ISwapAssetsArgs {
   amount: string;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
   swapOption: TSwapOption;
   ratio: BigNumber;
 }
@@ -74,7 +74,9 @@ export const swapAssets = createAction<
         }
 
         store.dispatchRequest(
-          getEth2SwapData({ providerId: AvailableProviders.ethCompatible }),
+          getEth2SwapData({
+            providerId: AvailableWriteProviders.ethCompatible,
+          }),
         );
 
         return response;
@@ -84,7 +86,7 @@ export const swapAssets = createAction<
 );
 
 export interface IApproveAETHCArgs {
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export const approveAETHC = createAction<
@@ -107,7 +109,7 @@ export const approveAETHC = createAction<
       await response.data?.receiptPromise;
 
       store.dispatchRequest(
-        getEth2SwapData({ providerId: AvailableProviders.ethCompatible }),
+        getEth2SwapData({ providerId: AvailableWriteProviders.ethCompatible }),
       );
 
       return response;

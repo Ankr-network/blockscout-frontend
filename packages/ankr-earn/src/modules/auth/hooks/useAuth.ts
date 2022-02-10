@@ -1,6 +1,6 @@
 import { useDispatchRequest } from '@redux-requests/react';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
 import { connect, IConnect } from '../actions/connect';
 import { disconnect } from '../actions/disconnect';
@@ -11,7 +11,7 @@ interface IUseAuth extends IUseConnectedData {
   dispatchDisconnect: () => TActionPromise<IConnect>;
 }
 
-export const useAuth = (providerId: AvailableProviders): IUseAuth => {
+export const useAuth = (providerId: AvailableWriteProviders): IUseAuth => {
   const dispatchRequest = useDispatchRequest();
   const data = useConnectedData(providerId);
 

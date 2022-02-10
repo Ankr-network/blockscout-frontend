@@ -1,6 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import { BlockchainNetworkId } from 'modules/common/types';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { connect, IConnect } from '../actions/connect';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
@@ -14,7 +14,7 @@ export interface IUseConnectedData {
 }
 
 export const useConnectedData = (
-  providerId: AvailableProviders,
+  providerId: AvailableWriteProviders,
 ): IUseConnectedData => {
   const { data, loading } = useQuery<IConnect | null>({
     type: connect,

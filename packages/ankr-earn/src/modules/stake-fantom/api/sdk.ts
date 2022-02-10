@@ -5,13 +5,13 @@ import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { IWeb3SendResult } from 'provider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 const config = configFromEnv();
 const providerManager = ProviderManagerSingleton.getInstance();
-const providerId = AvailableProviders.ethCompatible;
+const providerId = AvailableWriteProviders.ethCompatible;
 
 export const stake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
   const { fantomConfig } = config;

@@ -280,6 +280,7 @@
     "faq-title": "FAQ",
     "stats": {
       "apy": "APY",
+      "apy-value": "{value, number, ::.0#}%",
       "yearly-earning": "Yearly earning",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding."
     },
@@ -417,7 +418,7 @@
       "description": "You will recieve {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. MATIC tokens will therefore be transferred to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Earn covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
   "unstake-polygon": {
     "success": {
@@ -442,7 +443,7 @@
     "unstake-loading": "Unstake in progress",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
-    "stakable-asset-apy": "APY: {value}%",
+    "stakable-asset-apy": "APY: {value, number, ::.0#}%",
     "stakable-asset-stake": "Stake {token}",
     "networks": "in {value} networks",
     "unstake-time": "dd.LL.yyyy, hh:mm",
@@ -459,7 +460,7 @@
     "polygon": "Polygon (MATIC)",
     "fantom": "Fantom (FTM)",
     "apy": "APY",
-    "apy-value": "{value}%",
+    "apy-value": "{value, number, ::.0#}%",
     "staked": "Staked",
     "staked-amount": "{value} {token}",
     "stake": "Stake",

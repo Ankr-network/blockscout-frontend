@@ -1,6 +1,6 @@
 import { currentEnv } from 'modules/common/const';
 import { BlockchainNetworkId, Env } from 'modules/common/types';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 
 export const ACTIONS_PREFIX = 'fantom/';
 
@@ -10,7 +10,7 @@ export const FANTOM_STAKING_NETWORKS = [
     : BlockchainNetworkId.fantomTestnet,
 ];
 
-export const FANTOM_PROVIDER_ID = AvailableProviders.ethCompatible;
+export const FANTOM_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 // todo: to clarify whether this value is correct
 export const YEARLY_INTEREST = 4.8;

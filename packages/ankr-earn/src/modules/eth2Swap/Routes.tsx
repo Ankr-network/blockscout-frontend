@@ -9,7 +9,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import {
-  AvailableProviders,
+  AvailableWriteProviders,
   BlockchainNetworkId,
 } from 'provider/providerManager/types';
 
@@ -52,7 +52,7 @@ export function getRoutes() {
       <Switch>
         <GuardRoute
           availableNetworks={AVAILABLE_NETWORKS}
-          providerId={AvailableProviders.ethCompatible}
+          providerId={AvailableWriteProviders.ethCompatible}
           path={RoutesConfig.main.path}
           exact
         >
@@ -63,7 +63,7 @@ export function getRoutes() {
 
         <GuardRoute
           availableNetworks={AVAILABLE_NETWORKS}
-          providerId={AvailableProviders.ethCompatible}
+          providerId={AvailableWriteProviders.ethCompatible}
           path={RoutesConfig.success.path}
           exact
         >

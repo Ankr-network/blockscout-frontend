@@ -7,9 +7,13 @@ import { t } from 'modules/i18n/utils/intl';
 import { ABNBBCard } from '../ABNBBCard';
 import { AMATICBCard } from '../AMATICBCard';
 import { useStakedTokensStyles } from './useStakedTokensStyles';
+import { useMaticTxHistory } from '../AMATICBCard/useMaticTxHistory';
+import { useAMATICBCard } from '../AMATICBCard/useAMATICBCard';
 
 export const StakedTokens = (props: BoxProps) => {
   const classes = useStakedTokensStyles();
+  const MATICTxHistory = useMaticTxHistory();
+  const { isShowed } = useAMATICBCard(MATICTxHistory.hasHistory);
 
   return (
     <Box {...props}>
@@ -17,11 +21,15 @@ export const StakedTokens = (props: BoxProps) => {
         {t('dashboard.assets')}
       </Typography>
 
-      <AssetsList noChildrenSlot={<NoAssets />}>
-        <AMATICBCard />
+      {isShowed ? (
+        <AssetsList>
+          <AMATICBCard />
 
-        {featuresConfig.isActiveBNBStaking && <ABNBBCard />}
-      </AssetsList>
+          {featuresConfig.isActiveBNBStaking && <ABNBBCard />}
+        </AssetsList>
+      ) : (
+        <NoAssets />
+      )}
     </Box>
   );
 };

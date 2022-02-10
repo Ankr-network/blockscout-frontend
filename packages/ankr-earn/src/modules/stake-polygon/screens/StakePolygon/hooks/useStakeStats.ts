@@ -2,13 +2,23 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
 import { YEARLY_INTEREST } from '../../../const';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { fetchAPY } from '../../../actions/fetchAPY';
+import { useProviderEffect } from '../../../../auth/hooks/useProviderEffect';
 
 export const useStakeStats = (amount: number) => {
+  const dispatchRequest = useDispatchRequest();
+  useProviderEffect(() => {
+    dispatchRequest(fetchAPY());
+  }, [dispatchRequest]);
+
+  const { data: apy } = useQuery({ type: fetchAPY });
+
   const stats: IStakeStatsItem[] = useLocaleMemo(
     () => [
       {
         label: t('stake.stats.apy'),
-        value: `${YEARLY_INTEREST}%`,
+        value: apy ? t('stake.stats.apy-value', { value: apy.toNumber() }) : '',
         tooltip: t('stake.stats.apy-tooltip'),
       },
       {
@@ -19,7 +29,7 @@ export const useStakeStats = (amount: number) => {
         }),
       },
     ],
-    [amount],
+    [amount, apy],
   );
 
   return stats;

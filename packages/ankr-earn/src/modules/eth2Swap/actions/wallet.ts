@@ -2,14 +2,14 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
 import { TSwapOption } from '../types';
 import { addTokenToWallet } from '../api/sdk';
 
 export interface IAddTokenToWalletArgs {
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
   swapOption: TSwapOption;
 }
 

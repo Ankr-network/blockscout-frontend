@@ -3,7 +3,7 @@ import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { object, number } from 'yup';
 
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { t } from 'modules/i18n/utils/intl';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
@@ -59,7 +59,7 @@ export const useEth2SwapForm = ({
 
   const handleApprove = useCallback(() => {
     dispatchRequest(
-      approveAETHC({ providerId: AvailableProviders.ethCompatible }),
+      approveAETHC({ providerId: AvailableWriteProviders.ethCompatible }),
     ).then(response => {
       setTxHash(response.data?.transactionHash ?? '');
       setTxError(response.error ?? '');
@@ -72,7 +72,7 @@ export const useEth2SwapForm = ({
         swapAssets({
           amount,
           ratio,
-          providerId: AvailableProviders.ethCompatible,
+          providerId: AvailableWriteProviders.ethCompatible,
           swapOption,
         }),
       ).then(response => {
