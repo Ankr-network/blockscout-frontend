@@ -40,7 +40,7 @@ export const FeatureItem = ({
 
       <Box className={classNames(classes.statsButtonsWrapper)}>
         <Grid spacing={3} container className={classNames(classes.stats)}>
-          {apy && (
+          {apy ? (
             <Grid item>
               <Typography className={classNames(classes.statLabel)}>
                 {t('features.apy')}
@@ -50,7 +50,7 @@ export const FeatureItem = ({
                 {t('features.apy-value', { value: apy })}
               </Typography>
             </Grid>
-          )}
+          ) : null}
 
           {staked && (
             <Grid item>
