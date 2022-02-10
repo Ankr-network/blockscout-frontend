@@ -174,7 +174,7 @@ export const UnstakePolygon = () => {
         ) : (
           <UnstakeSuccess
             onClose={onSuccessClose}
-            tokenName={Token.aMATICb}
+            tokenName={Token.MATIC}
             period={t('unstake-polygon.success.period')}
           />
         )}
