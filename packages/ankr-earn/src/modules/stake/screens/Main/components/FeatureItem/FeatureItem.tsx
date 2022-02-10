@@ -40,7 +40,7 @@ export const FeatureItem = ({
 
       <Box className={classNames(classes.statsButtonsWrapper)}>
         <Grid spacing={3} container className={classNames(classes.stats)}>
-          {apy ? (
+          {typeof apy === 'number' ? (
             <Grid item>
               <Typography className={classNames(classes.statLabel)}>
                 {t('features.apy')}
