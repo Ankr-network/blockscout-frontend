@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@material-ui/core';
-import { EToken } from 'modules/dashboard/types';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -12,13 +12,18 @@ import { ReactComponent as Copy } from './assets/copy.svg';
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
 import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
-const iconByTokenMap = {
-  [EToken.aBNBb]: BNBIcon,
-  [EToken.aMATICb]: AMATICBIcon,
+type TIconMap = Record<
+  Token.aBNBb | Token.aMATICb,
+  typeof BNBIcon | typeof AMATICBIcon
+>;
+
+const iconByTokenMap: TIconMap = {
+  [Token.aBNBb]: BNBIcon,
+  [Token.aMATICb]: AMATICBIcon,
 };
 
 interface INetworkIconTextProps {
-  token?: EToken;
+  token?: Token;
   network?: string;
   isLoading?: boolean;
   contract?: string;
@@ -48,7 +53,7 @@ export const NetworkIconText = ({
     return <NetworkIconTextSkeleton />;
   }
 
-  const Icon = iconByTokenMap[token as EToken];
+  const Icon = iconByTokenMap[token as keyof TIconMap];
 
   const Token = <Typography className={classes.token}>{token}</Typography>;
 

@@ -4,7 +4,6 @@ import { configFromEnv } from 'modules/api/config';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { Token } from 'modules/common/types/token';
-import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
@@ -13,7 +12,7 @@ import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 
 interface IUseMaticStakingAsset {
-  token: EToken;
+  token: Token;
   tokenAddress: string;
   network: string;
   amount: BigNumber;
@@ -49,12 +48,12 @@ export const useAMATICBCard = (hasHistory: boolean): IUseMaticStakingAsset => {
     isUnstakeLoading,
     isStakeLoading,
     isBalancesLoading,
-    token: EToken.aMATICb,
+    token: Token.aMATICb,
     tokenAddress: configFromEnv().contractConfig.aMaticbToken,
     network: t(`chain.${chainId}`),
     amount,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(
-      EToken.aMATICb,
+      Token.aMATICb,
       Token.MATIC,
     ),
     unstakeLink: StakePolygonRoutes.unstake.generatePath(),

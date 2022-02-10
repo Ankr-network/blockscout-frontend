@@ -4,7 +4,6 @@ import { configFromEnv } from 'modules/api/config';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { Token } from 'modules/common/types/token';
-import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake } from 'modules/stake-bnb/actions/stake';
@@ -13,7 +12,7 @@ import { BINANCE_PROVIDER_ID } from 'modules/stake-bnb/const';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 
 interface IUseABNBBCardData {
-  token: EToken;
+  token: Token;
   tokenAddress: string;
   network: string;
   amount: BigNumber;
@@ -49,11 +48,11 @@ export const useABNBBCard = (hasHistory: boolean): IUseABNBBCardData => {
     isUnstakeLoading,
     isStakeLoading,
     isBalancesLoading,
-    token: EToken.aBNBb,
+    token: Token.aBNBb,
     tokenAddress: configFromEnv().binanceConfig.aBNBbToken,
     network: t(`chain.${chainId}`),
     amount,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(EToken.aBNBb, Token.BNB),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
     pendingValue,

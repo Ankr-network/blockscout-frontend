@@ -1,4 +1,5 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
+
 import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';

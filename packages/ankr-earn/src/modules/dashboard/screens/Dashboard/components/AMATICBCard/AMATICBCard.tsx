@@ -26,7 +26,6 @@ export const AMATICBCard = (): JSX.Element | null => {
   return (
     <>
       <StakingAsset
-        onHistoryBtnClick={onOpen}
         network={aMATICbData.network}
         token={aMATICbData.token}
         tokenAddress={aMATICbData.tokenAddress}
@@ -39,12 +38,13 @@ export const AMATICBCard = (): JSX.Element | null => {
         isHistoryLoading={MATICTxHistory.loading}
         pendingSlot={renderedPendingSlot}
         isLoading={aMATICbData.isBalancesLoading}
+        onHistoryBtnClick={onOpen}
       />
 
       <HistoryDialog
         open={isOpened}
-        onClose={onClose}
         history={MATICTxHistory.transactionHistory}
+        onClose={onClose}
       />
     </>
   );

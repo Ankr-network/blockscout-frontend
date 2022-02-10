@@ -2,7 +2,7 @@ import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { EToken } from 'modules/dashboard/types';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode } from 'react';
 import { NavLink } from 'uiKit/NavLink';
@@ -13,7 +13,7 @@ import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
-  token?: EToken;
+  token?: Token;
   tokenAddress?: string;
   network?: string;
   amount?: BigNumber;

@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { NavLink } from 'uiKit/NavLink';
@@ -15,7 +14,7 @@ interface IStakableAssetProps {
   icon: JSX.Element;
   balance: BigNumber;
   networks: (INetwork | undefined)[];
-  token: Token | EToken;
+  token: Token;
   href: string;
   apy: number;
   isStakeLoading?: boolean;

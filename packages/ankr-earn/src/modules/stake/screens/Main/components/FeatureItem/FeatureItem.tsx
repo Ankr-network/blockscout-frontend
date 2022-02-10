@@ -2,7 +2,6 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Token } from 'modules/common/types/token';
-import { EToken } from 'modules/dashboard/types';
 import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { NavLink } from 'uiKit/NavLink';
@@ -13,7 +12,7 @@ interface IFeatureItemProps {
   mainHref: string;
   moreHref?: string;
   iconSlot: JSX.Element;
-  token: Token | EToken;
+  token: Token;
   apy: number;
   staked?: BigNumber;
 }
