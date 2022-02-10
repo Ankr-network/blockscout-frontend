@@ -6,6 +6,10 @@ import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
 import { ABNBBCard } from '../ABNBBCard';
 import { AMATICBCard } from '../AMATICBCard';
+import { StakedAETHB } from '../StakedAETHB';
+import { StakedAETHC } from '../StakedAETHC';
+import { StakedBNB } from '../StakedBNB';
+import { StakedMatic } from '../StakedMatic';
 import { useStakedTokensStyles } from './useStakedTokensStyles';
 import { useMaticTxHistory } from '../AMATICBCard/useMaticTxHistory';
 import { useAMATICBCard } from '../AMATICBCard/useAMATICBCard';
@@ -21,14 +25,27 @@ export const StakedTokens = (props: BoxProps) => {
         {t('dashboard.assets')}
       </Typography>
 
-      {isShowed ? (
-        <AssetsList>
-          <AMATICBCard />
+      {featuresConfig.eth2Swap && (
+        <AssetsList noChildrenSlot={<NoAssets />}>
+          <StakedMatic />
+          <StakedAETHB />
+          <StakedAETHC />
 
-          {featuresConfig.isActiveBNBStaking && <ABNBBCard />}
+          {featuresConfig.isActiveBNBStaking && <StakedBNB />}
         </AssetsList>
-      ) : (
-        <NoAssets />
+      )}
+
+      {!featuresConfig.eth2Swap && (
+        <>
+          {isShowed ? (
+            <AssetsList>
+              <AMATICBCard />
+              {featuresConfig.isActiveBNBStaking && <ABNBBCard />}
+            </AssetsList>
+          ) : (
+            <NoAssets />
+          )}
+        </>
       )}
     </Box>
   );

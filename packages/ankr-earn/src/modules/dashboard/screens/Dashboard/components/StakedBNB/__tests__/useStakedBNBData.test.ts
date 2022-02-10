@@ -10,6 +10,10 @@ jest.mock('@redux-requests/react', () => ({
   useMutation: jest.fn(),
 }));
 
+jest.mock('modules/auth/hooks/useConnectedData', () => ({
+  useConnectedData: () => ({ chainId: 1 }),
+}));
+
 jest.mock('modules/stake-bnb/Routes', () => ({
   RoutesConfig: {
     stake: { generatePath: () => '/stake' },

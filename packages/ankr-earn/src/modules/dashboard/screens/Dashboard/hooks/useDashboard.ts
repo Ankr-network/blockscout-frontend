@@ -1,6 +1,7 @@
 import { useDispatchRequest } from '@redux-requests/react';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { getCommonData as fetchFTMStats } from 'modules/stake-fantom/actions/getCommonData';
@@ -23,6 +24,11 @@ export const useDashboard = () => {
         dispatchRequest(fetchPolygonStats());
         dispatchRequest(fetchPolygonTxHistory());
         dispatchRequest(fetchPolygonAPY());
+        dispatchRequest(
+          getEth2SwapData({
+            providerId: AvailableWriteProviders.ethCompatible,
+          }),
+        );
         break;
 
       case BlockchainNetworkId.smartchain:

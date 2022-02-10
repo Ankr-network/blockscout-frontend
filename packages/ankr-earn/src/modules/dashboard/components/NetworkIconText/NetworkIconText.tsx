@@ -3,6 +3,8 @@ import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
+import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { TextButton } from 'uiKit/TextButton';
@@ -13,13 +15,15 @@ import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
 import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
 type TIconMap = Record<
-  Token.aBNBb | Token.aMATICb,
+  Token.aBNBb | Token.aMATICb | Token.aETHb | Token.aETHc,
   typeof BNBIcon | typeof AMATICBIcon
 >;
 
 const iconByTokenMap: TIconMap = {
   [Token.aBNBb]: BNBIcon,
   [Token.aMATICb]: AMATICBIcon,
+  [Token.aETHc]: AETHCIcon,
+  [Token.aETHb]: AETHBIcon,
 };
 
 interface INetworkIconTextProps {

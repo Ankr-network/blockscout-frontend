@@ -50,12 +50,12 @@ export const featuresConfig = {
   isActiveBNBUnstaking: false,
   liquidityMining: false,
   localeSwitcher: false,
-  earlyRelease: false,
+  earlyRelease: currentEnv !== Env.Develop,
   v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: currentEnv !== Env.Production,
-  eth2Swap: currentEnv !== Env.Production,
+  eth2Swap: currentEnv === Env.Develop,
   bridge: currentEnv === Env.Develop,
 };
 
