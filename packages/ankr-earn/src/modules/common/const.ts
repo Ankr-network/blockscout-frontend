@@ -48,6 +48,7 @@ export const featuresConfig = {
   isActiveBNBStaking: currentEnv === Env.Develop,
   isActiveBNBStakingFAQ: false,
   isActiveBNBUnstaking: false,
+  isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
   earlyRelease: false,

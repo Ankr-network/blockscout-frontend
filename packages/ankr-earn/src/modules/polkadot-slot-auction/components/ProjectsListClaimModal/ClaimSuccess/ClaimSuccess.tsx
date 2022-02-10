@@ -44,7 +44,7 @@ export const ClaimSuccess = ({
         )}
       </Typography>
 
-      {!featuresConfig.earlyRelease && (
+      {featuresConfig.isActiveClaimNotification && (
         <Typography className={classes.messageArea} variant="body2">
           {t(
             'polkadot-slot-auction.projects-list-claim-modal.success-section.message',
@@ -56,7 +56,7 @@ export const ClaimSuccess = ({
       )}
 
       <div className={classes.actionArea}>
-        {!featuresConfig.earlyRelease && (
+        {featuresConfig.isActiveClaimNotification && (
           <Button
             className={classes.actionBtn}
             color="primary"
