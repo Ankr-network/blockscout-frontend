@@ -1,10 +1,12 @@
-import { Box, BoxProps, Grid, Typography } from '@material-ui/core';
+import { Box, BoxProps, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { featuresConfig } from 'modules/common/const';
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
+import { StakableList } from 'modules/dashboard/components/StakableList';
 import { t } from 'modules/i18n/utils/intl';
-import { useBNBStakableAsset } from './asset-hooks/useBNBStakableAsset';
-import { useMaticStakableAsset } from './asset-hooks/useMaticStakableAsset';
+import { uid } from 'react-uid';
+import { useStakableBnb } from './hooks/useStakableBnb';
+import { useStakableFtm } from './hooks/useStakableFtm';
+import { useStakableMatic } from './hooks/useStakableMatic';
 import { useStakableTokensStyles } from './useStakableTokensStyles';
 
 const SKELETON_COUNT = 2;
@@ -12,16 +14,27 @@ const SKELETON_COUNT = 2;
 export const StakableTokens = (props: BoxProps) => {
   const classes = useStakableTokensStyles();
 
-  const bnbAsset = useBNBStakableAsset();
-  const maticAsset = useMaticStakableAsset();
+  const stakableTokens = [
+    useStakableBnb(),
+    useStakableMatic(),
+    useStakableFtm(),
+  ];
 
-  const isShowABNBB = !bnbAsset.balance.isZero();
-  const isShowAMATICB = !maticAsset.balance.isZero();
+  const { isLoading, isTokensShowed } = stakableTokens.reduce(
+    (prev, current) => {
+      const isLoading = prev.isLoading || current.isLoading;
+      return {
+        isLoading,
+        isTokensShowed: isLoading || prev.isTokensShowed || current.isShowed,
+      };
+    },
+    {
+      isLoading: false,
+      isTokensShowed: false,
+    },
+  );
 
-  const isLoading = bnbAsset.isLoading || maticAsset.isLoading;
-  const isShowStakableTokens = isShowABNBB || isShowAMATICB || isLoading;
-
-  return isShowStakableTokens ? (
+  return isTokensShowed ? (
     <Box {...props}>
       <Typography className={classes.title} component="h1" variant="h3">
         {t('dashboard.title')}
@@ -29,43 +42,33 @@ export const StakableTokens = (props: BoxProps) => {
 
       {isLoading ? (
         // todo: make actual skeleton
-        <Grid container spacing={3} className={classes.stakableAssets}>
+        <StakableList>
           {[...Array(SKELETON_COUNT)].map((_, i) => (
-            <Grid item md={6} xs={12} lg="auto" key={i}>
-              <Skeleton className={classes.skeleton} variant="rect" />
-            </Grid>
+            <Skeleton
+              className={classes.skeleton}
+              variant="rect"
+              key={uid(i)}
+            />
           ))}
-        </Grid>
+        </StakableList>
       ) : (
-        <Grid container spacing={3} className={classes.stakableAssets}>
-          {isShowAMATICB && (
-            <Grid item md={6} xs={12} lg="auto">
-              <StakableAsset
-                icon={maticAsset.icon}
-                balance={maticAsset.balance}
-                networks={maticAsset.networks}
-                token={maticAsset.token}
-                href={maticAsset.href}
-                apy={maticAsset.apy}
-                isStakeLoading={maticAsset.isStakeLoading}
-              />
-            </Grid>
+        <StakableList>
+          {stakableTokens.map(
+            asset =>
+              asset.isShowed && (
+                <StakableAsset
+                  key={uid(asset.token)}
+                  icon={asset.icon}
+                  balance={asset.balance}
+                  networks={asset.networks}
+                  token={asset.token}
+                  href={asset.href}
+                  apy={asset.apy}
+                  isStakeLoading={asset.isStakeLoading}
+                />
+              ),
           )}
-
-          {featuresConfig.isActiveBNBStaking && isShowABNBB && (
-            <Grid item md={6} xs={12} lg="auto">
-              <StakableAsset
-                icon={bnbAsset.icon}
-                balance={bnbAsset.balance}
-                networks={bnbAsset.networks}
-                token={bnbAsset.token}
-                href={bnbAsset.href}
-                apy={bnbAsset.apy}
-                isStakeLoading={bnbAsset.isStakeLoading}
-              />
-            </Grid>
-          )}
-        </Grid>
+        </StakableList>
       )}
     </Box>
   ) : null;

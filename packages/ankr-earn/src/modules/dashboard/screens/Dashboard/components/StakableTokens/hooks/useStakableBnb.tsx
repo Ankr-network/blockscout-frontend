@@ -1,16 +1,16 @@
 import { useMutation, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
 import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake } from 'modules/stake-bnb/actions/stake';
-import { BINANCE_PROVIDER_ID, YEARLY_INTEREST } from 'modules/stake-bnb/const';
+import { BNB_STAKING_NETWORKS, YEARLY_INTEREST } from 'modules/stake-bnb/const';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
+import { useMemo } from 'react';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { IUseStakableToken } from '../types';
 
-export const useBNBStakableAsset = () => {
-  const binanceProvider = useConnectedData(BINANCE_PROVIDER_ID);
+export const useStakableBnb = (): IUseStakableToken => {
   const networks = useNetworks();
   const { data, loading } = useQuery({
     type: fetchStats,
@@ -18,18 +18,25 @@ export const useBNBStakableAsset = () => {
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
-  const currentBinanceNetwork = networks.find(
-    network => network.chainId === binanceProvider.chainId,
+  const networksData = useMemo(
+    () =>
+      networks.filter(network =>
+        BNB_STAKING_NETWORKS.includes(network.chainId),
+      ),
+    [networks],
   );
+
+  const balance = data?.bnbBalance ?? ZERO;
 
   return {
     icon: <BNBIcon />,
     token: Token.BNB,
     href: StakeBinanceRoutes.stake.generatePath(),
     apy: YEARLY_INTEREST,
-    balance: data?.bnbBalance ?? new BigNumber(0),
-    networks: [currentBinanceNetwork],
+    balance,
+    networks: networksData,
     isLoading: loading,
     isStakeLoading,
+    isShowed: !balance.isZero(),
   };
 };
