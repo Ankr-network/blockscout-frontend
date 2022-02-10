@@ -1,6 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { t } from 'modules/i18n/utils/intl';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
@@ -49,7 +49,7 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     useQuery<ITxEventsHistoryData>({
       type: fetchTxHistory,
     });
-  const { chainId: network } = useAuth(AvailableProviders.ethCompatible);
+  const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
 
   const staked = getCompletedTransactions({
     data: data?.completed,

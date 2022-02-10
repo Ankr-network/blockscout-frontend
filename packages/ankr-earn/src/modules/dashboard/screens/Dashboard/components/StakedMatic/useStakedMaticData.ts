@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
@@ -35,7 +35,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
   const { loading: isStakeLoading } = useMutation({ type: stakePolygon });
   const { loading: isUnstakeLoading } = useMutation({ type: unstakePolygon });
 
-  const { chainId } = useConnectedData(AvailableProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const network = t(`chain.${chainId}`);
 
   const amount = statsData?.aMaticbBalance ?? ZERO;

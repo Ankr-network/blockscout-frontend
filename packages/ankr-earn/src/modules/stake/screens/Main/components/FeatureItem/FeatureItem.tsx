@@ -13,7 +13,7 @@ interface IFeatureItemProps {
   moreHref?: string;
   iconSlot: JSX.Element;
   token: Token;
-  apy: number;
+  apy?: number;
   staked?: BigNumber;
 }
 
