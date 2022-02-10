@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import React, { useState } from 'react';
@@ -43,25 +44,29 @@ export const ClaimSuccess = ({
         )}
       </Typography>
 
-      <Typography className={classes.messageArea} variant="body2">
-        {t(
-          'polkadot-slot-auction.projects-list-claim-modal.success-section.message',
-          {
-            bondTokenSymbol,
-          },
-        )}
-      </Typography>
+      {!featuresConfig.earlyRelease && (
+        <Typography className={classes.messageArea} variant="body2">
+          {t(
+            'polkadot-slot-auction.projects-list-claim-modal.success-section.message',
+            {
+              bondTokenSymbol,
+            },
+          )}
+        </Typography>
+      )}
 
       <div className={classes.actionArea}>
-        <Button
-          className={classes.actionBtn}
-          color="primary"
-          fullWidth
-          onClick={onGoToDashboard}
-          size="large"
-        >
-          {t('polkadot-slot-auction.button.go-to-dashboard')}
-        </Button>
+        {!featuresConfig.earlyRelease && (
+          <Button
+            className={classes.actionBtn}
+            color="primary"
+            fullWidth
+            onClick={onGoToDashboard}
+            size="large"
+          >
+            {t('polkadot-slot-auction.button.go-to-dashboard')}
+          </Button>
+        )}
 
         <Button
           className={classes.actionBtn}
