@@ -165,8 +165,8 @@ export const StakeBinance = () => {
             <StakeForm
               balance={fetchStatsData.bnbBalance}
               loading={isStakeLoading}
-              maxAmount={fetchStatsData.bnbBalance.toNumber()}
-              minAmount={fetchStatsData.minimumStake.toNumber()}
+              maxAmount={fetchStatsData.bnbBalance}
+              minAmount={fetchStatsData.minimumStake}
               renderStats={onRenderStats(fetchStatsData.relayerFee)}
               stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
               tokenIn={t('unit.bnb')}

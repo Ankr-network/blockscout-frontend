@@ -28,8 +28,8 @@ export interface IStakeFormComponentProps {
   onSubmit: (payload: IStakeSubmitPayload) => void;
   balance?: BigNumber;
   stakingAmountStep: number;
-  minAmount?: number;
-  maxAmount?: number;
+  minAmount?: BigNumber;
+  maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
   tokenIn?: string;
@@ -55,8 +55,8 @@ export const StakeForm = ({
   onSubmit,
   balance = new BigNumber(0),
   stakingAmountStep,
-  minAmount = stakingAmountStep,
-  maxAmount = balance.toNumber(),
+  minAmount = new BigNumber(stakingAmountStep),
+  maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
   tokenIn = t('unit.eth'),
@@ -120,11 +120,11 @@ export const StakeForm = ({
 
             <AmountInput
               balance={balance}
-              onMaxClick={setMaxAmount(form, `${maxAmount}`)}
+              onMaxClick={setMaxAmount(form, `${maxAmount.toString()}`)}
               isBalanceLoading={isBalanceLoading}
               name={FieldsNames.amount}
               tokenName={tokenIn}
-              minAmount={minAmount}
+              minAmount={minAmount?.toNumber()}
               label={t('stake.amount', {
                 token: tokenIn,
               })}
