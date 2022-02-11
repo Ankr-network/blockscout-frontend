@@ -5,11 +5,12 @@ import { BinanceSDK } from '../api/BinanceSDK';
 
 export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
   'bnb/fetchAPY',
-  () => ({
+  (): RequestAction => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
         const sdk: BinanceSDK = await BinanceSDK.getInstance();
-        return sdk.getaBNBbAPY();
+
+        return sdk.getABNBBAPY();
       })(),
     },
     meta: {

@@ -4,15 +4,19 @@ import { BinanceSDK, ITxEventsHistoryData } from '../api/BinanceSDK';
 
 export const fetchTxHistory = createSmartAction<
   RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
->('bnb/fetchTxHistory', () => ({
-  request: {
-    promise: (async (): Promise<ITxEventsHistoryData> => {
-      const sdk: BinanceSDK = await BinanceSDK.getInstance();
-      return sdk.getTxEventsHistory();
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
-  },
-}));
+>(
+  'bnb/fetchTxHistory',
+  (): RequestAction => ({
+    request: {
+      promise: (async (): Promise<ITxEventsHistoryData> => {
+        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+
+        return sdk.getTxEventsHistory();
+      })(),
+    },
+    meta: {
+      asMutation: false,
+      getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
+    },
+  }),
+);

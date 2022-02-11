@@ -1,5 +1,6 @@
 {
   "validation": {
+    "greater-or-equal": "Should be greater or equal to {value}",
     "greater-than-zero": "Should be greater than 0",
     "insufficient-funds": "Insufficient funds",
     "invalid-network-address": "This is invalid {network} address",
@@ -316,8 +317,7 @@
     "stake-info": "Stake at least 1 BNB on Ethereum network and claim the same amount of aBNBb liquid staking tokens (aBNBb) on Binance Smart Chain network (BEP-20 token). Your aBNBb balance will increase on a daily basis, simulating as such your aBNBb staking rewards.",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
-      "will-get-body": "aBNBb is a redeemable token. aBNBb can be redeemed at fair value into BNB tokens anytime after ~{value} {period} unbonding period.",
-      "will-get-title": "1 BNB = 1 aBNBb"
+      "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period."
     }
   },
   "stake-bnb-dashboard": {
@@ -337,10 +337,7 @@
       "fee": "As unstaking BNB tokens is a gas and time consuming process requiring sending several transactions to the BNB smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. BNB tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs.",
       "unstake": "Unstake"
     },
-    "unstake-eta": "You will receive BNB in about 3-4 days.",
-    "validation": {
-      "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
-    }
+    "unstake-info": "You will receive BNB in about ~{value} {period}."
   },
   "stake-polygon-dashboard": {
     "column": {

@@ -47,7 +47,7 @@ export const featuresConfig = {
   isActiveMyRewardsClaimModalNewParts: false,
   isActiveBNBStaking: currentEnv === Env.Develop,
   isActiveBNBStakingFAQ: false,
-  isActiveBNBUnstaking: false,
+  isActiveBNBUnstaking: currentEnv === Env.Develop,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,

@@ -107,7 +107,7 @@ export const StakeFantom = () => {
           <StakeForm
             balance={balance}
             stakingAmountStep={stakingAmountStep}
-            minAmount={minAmount}
+            minAmount={minAmount ? new BigNumber(minAmount) : new BigNumber(0)}
             loading={hasError || loading}
             isBalanceLoading={hasError || isCommonDataLoading}
             tokenIn={tokenIn}
