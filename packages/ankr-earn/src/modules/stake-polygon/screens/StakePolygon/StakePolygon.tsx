@@ -91,9 +91,9 @@ export const StakePolygon = () => {
             <StakeContainer>
               <StakeForm
                 balance={data.maticBalance}
-                maxAmount={data.maticBalance.toNumber()}
+                maxAmount={data.maticBalance}
                 stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
-                minAmount={data.minimumStake.toNumber()}
+                minAmount={data.minimumStake}
                 loading={isStakeLoading}
                 tokenIn={t('unit.polygon')}
                 tokenOut={t('unit.amaticb')}
