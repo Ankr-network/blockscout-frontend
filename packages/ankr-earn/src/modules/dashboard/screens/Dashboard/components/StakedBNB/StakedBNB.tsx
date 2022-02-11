@@ -16,7 +16,7 @@ export const StakedBNB = (): JSX.Element => {
     amount,
     pendingValue,
     network,
-    tradeLink,
+    // tradeLink,
     stakeLink,
     unstakeLink,
     isBalancesLoading,
@@ -40,7 +40,9 @@ export const StakedBNB = (): JSX.Element => {
         token={Token.aBNBb}
         tokenAddress={binanceConfig.aBNBbToken}
         amount={amount}
-        tradeLink={tradeLink}
+        tradeLink={
+          undefined /* TODO Please to add fix for it (BNB; trading-cockpit; tradeLink) */
+        }
         unstakeLink={unstakeLink}
         stakeLink={stakeLink}
         isHistoryLoading={txHistory.isHistoryDataLoading}

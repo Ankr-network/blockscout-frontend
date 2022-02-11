@@ -9,7 +9,7 @@ import {
   isMainnet,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -29,7 +29,7 @@ import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { ABNBB_REDEEM_PERIOD, BNB_STAKING_AMOUNT_STEP } from '../../const';
+import { BNB_REDEEM_PERIOD, BNB_STAKING_AMOUNT_STEP } from '../../const';
 import { getAmountData } from '../../utils/getAmountData';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -114,18 +114,10 @@ export const StakeBinance = () => {
               </span>
 
               <Tooltip
-                title={
-                  <div>
-                    <div>{t('stake-bnb.tooltips.will-get-title')}</div>
-                    <br />
-                    <div>
-                      {t('stake-bnb.tooltips.will-get-body', {
-                        value: ABNBB_REDEEM_PERIOD,
-                        period: isMainnet ? t('unit.days') : t('unit.hours'),
-                      })}
-                    </div>
-                  </div>
-                }
+                title={tHTML('stake-bnb.tooltips.you-will-get', {
+                  value: BNB_REDEEM_PERIOD,
+                  period: isMainnet ? t('unit.days') : t('unit.hours'),
+                })}
               >
                 <ButtonBase className={classes.questionBtn}>
                   <QuestionIcon size="xs" />

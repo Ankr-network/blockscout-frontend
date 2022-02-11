@@ -52,7 +52,6 @@ const MAX_EVENTS_BLOCK_RANGE: number = MAX_BINANCE_BLOCK_RANGE * 6 * 3;
 
 export class BinanceSDK {
   private readonly aBNBbTokenContract: Contract;
-  private readonly ankrTokenContract: Contract;
   private readonly apiGateWay: ApiGateway;
   private readonly binancePoolContract: Contract;
   private readonly WBNBContract: Contract;
@@ -78,11 +77,6 @@ export class BinanceSDK {
     this.WBNBContract = new Contract(
       ABI_ERC20 as AbiItem[],
       config.binanceConfig.WBNBContract,
-    );
-
-    this.ankrTokenContract = new Contract(
-      ABI_ERC20 as AbiItem[],
-      config.contractConfig.ankrContract,
     );
 
     this.apiGateWay = new ApiGateway(config.gatewayConfig);
@@ -209,7 +203,7 @@ export class BinanceSDK {
     });
   }
 
-  public async getaBNBbBalance(): Promise<BigNumber> {
+  public async getABNBBBalance(): Promise<BigNumber> {
     return new BigNumber(
       this.web3.utils.fromWei(
         await this.aBNBbTokenContract.methods
@@ -219,7 +213,7 @@ export class BinanceSDK {
     );
   }
 
-  public async getaBNBbAPY(): Promise<BigNumber> {
+  public async getABNBBAPY(): Promise<BigNumber> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
     const provider: Web3KeyProvider = await providerManager.getProvider(
@@ -425,20 +419,6 @@ export class BinanceSDK {
     return {
       completed: await this.getTxEventsHistoryGroup(completedRawEvents),
       pending: await this.getTxEventsHistoryGroup(pendingRawEvents),
-    };
-  }
-
-  public async getUnstakeFee() {
-    const data = {
-      unstakeFee: '0',
-      useBeforeBlock: 0,
-      signature: '',
-    };
-
-    return {
-      unstakeFee: data.unstakeFee,
-      useBeforeBlock: data.useBeforeBlock,
-      signature: data.signature,
     };
   }
 

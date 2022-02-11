@@ -1,36 +1,40 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+import { IStoreState } from 'store';
 import { BinanceSDK } from '../api/BinanceSDK';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
-import { getAnkrBalance } from './getAnkrBalance';
 
-interface IUnstakePayload {
-  amount: BigNumber;
+interface IRes {
+  data: void;
 }
 
-interface IUnstakeResponseData {}
+export const unstake = createSmartAction<RequestAction<void, void>>(
+  'bnb/unstake',
+  (amount: BigNumber): RequestAction => ({
+    request: {
+      promise: (async (): Promise<void> => {
+        const sdk: BinanceSDK = await BinanceSDK.getInstance();
 
-export const unstake = createSmartAction<
-  RequestAction<IUnstakeResponseData, IUnstakeResponseData>,
-  [IUnstakePayload]
->('bnb/unstake', ({ amount }) => ({
-  request: {
-    promise: (async () => {
-      const sdk = await BinanceSDK.getInstance();
-      return sdk.unstake(amount);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-    asMutation: true,
-    getData: data => data,
-    onSuccess: (response, action, store) => {
-      store.dispatchRequest(fetchStats());
-      store.dispatchRequest(fetchTxHistory());
-      store.dispatchRequest(getAnkrBalance());
-      return response;
+        return sdk.unstake(amount);
+      })(),
     },
-  },
-}));
+    meta: {
+      asMutation: true,
+      showNotificationOnError: true,
+      getData: (data: void): void => data,
+      onSuccess: (
+        response: IRes,
+        _action: RequestAction,
+        store: TStore<IStoreState>,
+      ): IRes => {
+        store.dispatchRequest(fetchStats());
+        store.dispatchRequest(fetchTxHistory());
+
+        return response;
+      },
+    },
+  }),
+);
