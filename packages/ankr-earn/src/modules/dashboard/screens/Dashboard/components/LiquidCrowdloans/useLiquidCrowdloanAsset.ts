@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { EToken } from 'modules/dashboard/types';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 
 interface IUseLiquidCrowdloanAsset {
-  token: EToken;
+  token: Token;
   network: string;
   remaining: BigNumber;
   claimable: BigNumber;
@@ -16,7 +16,7 @@ export const useLiquidCrowdloanAsset = (): IUseLiquidCrowdloanAsset => {
 
   return {
     isLoading: false,
-    token: EToken.aMATICb,
+    token: Token.aMATICb,
     network: t(`chain.1`),
     remaining: new BigNumber('0.932'),
     claimable: new BigNumber('0.932'),

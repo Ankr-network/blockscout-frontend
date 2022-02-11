@@ -1,22 +1,35 @@
 import { Grid, Typography } from '@material-ui/core';
-import { EToken } from 'modules/dashboard/types';
-import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
-import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
-import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
-import { Tooltip } from 'uiKit/Tooltip';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
+import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { TextButton } from 'uiKit/TextButton';
+import { Tooltip } from 'uiKit/Tooltip';
 import { ReactComponent as Checkmark } from './assets/checkmark.svg';
 import { ReactComponent as Copy } from './assets/copy.svg';
-import { TextButton } from 'uiKit/TextButton';
+import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
+import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
-const iconByTokenMap = {
-  [EToken.aMATICb]: AMATICBIcon,
+type TIconMap = Record<
+  Token.aBNBb | Token.aMATICb | Token.aETHb | Token.aETHc | Token.aFTMb,
+  typeof BNBIcon | typeof AMATICBIcon
+>;
+
+const iconByTokenMap: TIconMap = {
+  [Token.aBNBb]: BNBIcon,
+  [Token.aMATICb]: AMATICBIcon,
+  [Token.aETHc]: AETHCIcon,
+  [Token.aETHb]: AETHBIcon,
+  [Token.aFTMb]: AFTMBIcon,
 };
 
 interface INetworkIconTextProps {
-  token?: EToken;
+  token?: Token;
   network?: string;
   isLoading?: boolean;
   contract?: string;
@@ -46,7 +59,7 @@ export const NetworkIconText = ({
     return <NetworkIconTextSkeleton />;
   }
 
-  const Icon = iconByTokenMap[token as EToken];
+  const Icon = iconByTokenMap[token as keyof TIconMap];
 
   const Token = <Typography className={classes.token}>{token}</Typography>;
 

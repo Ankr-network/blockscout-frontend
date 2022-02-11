@@ -1,1 +1,1 @@
-export * from './AmountField';
+export * from './AmountInput';

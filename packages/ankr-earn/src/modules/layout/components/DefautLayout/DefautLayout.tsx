@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles';
-import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
+import { STAKEFI_LINK } from 'modules/common/const';
 import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
 import { useMemo } from 'react';
 import { Themes } from 'ui';
@@ -9,6 +9,7 @@ import { Header } from '../Header/index';
 import { ILayoutProps, Layout } from '../Layout';
 import { MainNavigation } from '../MainNavigation';
 import { MainNavigationMobile } from '../MainNavigationMobile';
+import { SwitchBanner } from '../SwitchBanner';
 
 export interface IDefaultLayoutProps
   extends Omit<ILayoutProps, 'headerSlot' | 'footerSlot'> {
@@ -24,16 +25,14 @@ export const DefaultLayout = ({
 
   return (
     <Layout
-      oldVersionLink={featuresConfig.v1banner ? STAKEFI_LINK : undefined}
       verticalAlign={verticalAlign}
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
+            bannerSlot={<SwitchBanner link={STAKEFI_LINK} />}
             mainNavigationSlot={<MainNavigation />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
-            rightComponentSlot={
-              featuresConfig.earlyRelease ? null : <ConnectedWallets />
-            }
+            rightComponentSlot={<ConnectedWallets />}
           />
         </ThemeProvider>
       }

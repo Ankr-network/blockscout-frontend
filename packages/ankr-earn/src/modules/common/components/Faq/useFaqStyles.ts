@@ -4,6 +4,7 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
   box: {
     position: 'relative',
     maxWidth: 700,
+    width: '100%',
     margin: theme.spacing(0, 'auto', 4, 'auto'),
     borderRadius: 18,
     border: 'none',

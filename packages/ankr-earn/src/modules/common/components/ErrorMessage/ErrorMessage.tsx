@@ -26,14 +26,9 @@ export const ErrorMessage = ({
   const classes = useErrorMessageStyles();
 
   return (
-    <Paper
-      variant="outlined"
-      square={false}
-      className={classNames(classes.root, className)}
-      {...restProps}
-    >
+    <Paper className={classNames(classes.root, className)} {...restProps}>
       {title && (
-        <Typography className={classes.title} variant="h2">
+        <Typography className={classes.title} variant="h3">
           {title}
         </Typography>
       )}

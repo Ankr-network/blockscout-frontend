@@ -1,4 +1,9 @@
-export enum AvailableProviders {
+export enum AvailableReadProviders {
+  ethMainnetHttpProvider = 'ethMainnetHttpProvider',
+  ethGoerliHttpProvider = 'ethGoerliHttpProvider',
+}
+
+export enum AvailableWriteProviders {
   ethCompatible = 'ethCompatible',
   polkadot = 'polkadot',
   binance = 'binance',
@@ -18,4 +23,6 @@ export enum BlockchainNetworkId {
   avalanche = 43114,
   avalancheTestnet = 43113,
   polygon = 137,
+  fantom = 250,
+  fantomTestnet = 4002,
 }

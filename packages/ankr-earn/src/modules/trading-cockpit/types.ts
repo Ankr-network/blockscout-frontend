@@ -6,6 +6,8 @@ export enum AvailableTokens {
   aMATICb = 'aMATICb',
   AVAX = 'AVAX',
   aAVAXb = 'aAVAXb',
+  BNB = 'BNB',
+  aBNBb = 'aBNBb',
 }
 
 export enum AvailablePlatforms {

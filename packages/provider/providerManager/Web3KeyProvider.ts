@@ -1,21 +1,13 @@
 /* eslint-disable no-console */
 import Common from '@ethereumjs/common';
 import { Transaction } from '@ethereumjs/tx';
-import BigNumber from 'bignumber.js';
 import { BN } from 'ethereumjs-util';
 import Web3 from 'web3';
-import {
-  AbstractProvider,
-  HttpProvider,
-  PromiEvent,
-  provider as Provider,
-  TransactionReceipt,
-  WebsocketProvider,
-} from 'web3-core';
-import { Contract } from 'web3-eth-contract';
+import { AbstractProvider, PromiEvent, TransactionReceipt } from 'web3-core';
 import { numberToHex } from 'web3-utils';
 import { getProviderInfo } from 'web3modal';
 import { RPCConfig } from './const';
+import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {
   description?: string;
@@ -37,24 +29,14 @@ export interface ITokenInfo {
   image?: string;
 }
 
-export abstract class Web3KeyProvider {
+export abstract class Web3KeyProvider extends Web3KeyReadProvider {
+  private walletMeta: IWalletMeta | undefined;
+
   protected accounts: string[] = [];
 
   protected _currentAccount: string | null = null;
 
-  protected _currentChain = 0;
-
-  protected provider: Provider = null;
-
-  protected web3: Web3 | null = null;
-
-  private walletMeta: IWalletMeta | undefined;
-
   public abstract inject(): Promise<void>;
-
-  public isConnected(): boolean {
-    return !!this.web3;
-  }
 
   public get currentAccount(): string {
     if (!this._currentAccount) {
@@ -67,60 +49,6 @@ export abstract class Web3KeyProvider {
     this._currentAccount = addr;
   }
 
-  public get currentChain(): number {
-    if (!this._currentChain) {
-      throw new Error(`Web3 is not connected`);
-    }
-    return this._currentChain;
-  }
-
-  public set currentChain(chainId) {
-    this._currentChain = chainId;
-  }
-
-  public async getErc20Balance(
-    contract: Contract,
-    address: string,
-  ): Promise<BigNumber> {
-    let balance = 0;
-    try {
-      balance = await contract.methods.balanceOf(address).call();
-    } catch (error) {
-      throw new Error(`Unable to get contract balance: ${error}`);
-    }
-    let decimals = 18;
-    try {
-      decimals = await contract.methods.decimals().call();
-      if (!Number(decimals)) {
-        decimals = 18;
-      }
-    } catch (e) {
-      throw new Error(`Unable to calculate contract decimals: ${e}`);
-    }
-    return new BigNumber(`${balance}`).dividedBy(
-      new BigNumber(10).pow(decimals),
-    );
-  }
-
-  public async getTokenBalance(
-    contract: Contract,
-    address: string,
-  ): Promise<BigNumber> {
-    const balance = await contract.methods.balanceOf(address).call();
-    let decimals = 18;
-    try {
-      decimals = await contract.methods.decimals().call();
-      if (!Number(decimals)) {
-        decimals = 18;
-      }
-    } catch (e) {
-      throw new Error(`Unable to calculate contract decimals: ${e}`);
-    }
-    return new BigNumber(`${balance}`).dividedBy(
-      new BigNumber(10).pow(decimals),
-    );
-  }
-
   public getWalletMeta(): IWalletMeta {
     if (!this.isConnected()) {
       throw new Error('Provider must be connected');
@@ -128,49 +56,35 @@ export abstract class Web3KeyProvider {
     return this.walletMeta;
   }
 
-  public getWeb3(): Web3 {
-    if (!this.web3) {
-      throw new Error('Web3 must be initialized');
+  private setWalletMeta() {
+    const provider = this.provider as any;
+    if (!this.isConnected() || !provider) {
+      return;
     }
 
-    return this.web3;
+    if (provider.walletMeta) {
+      this.walletMeta = provider.walletMeta as IWalletMeta;
+    } else {
+      const { logo, name } = getProviderInfo(provider);
+
+      this.walletMeta = {
+        name,
+        icons: [logo],
+      };
+    }
   }
 
   public async connect(): Promise<void> {
     const web3 = this.getWeb3();
-    this.currentChain = await web3.eth.getChainId();
+    super.connect();
     this.setWalletMeta();
     await this.getUnlockedAccounts(web3);
   }
 
-  public createContract(abi: any, address: string): Contract {
-    const web3 = this.getWeb3();
-    return new web3.eth.Contract(abi, address);
-  }
-
   public disconnect(): void {
-    this.web3 = null;
+    super.disconnect();
     this.currentAccount = null;
     this.accounts = [];
-    this.currentChain = 0;
-
-    // trying to really disconnect provider
-    if (this.provider) {
-      const isProviderHasDisconnect =
-        typeof (this.provider as HttpProvider).disconnect === 'function';
-
-      const isProviderHasReset =
-        typeof (this.provider as WebsocketProvider).reset === 'function';
-
-      if (isProviderHasReset) {
-        (this.provider as WebsocketProvider).reset();
-      }
-      if (isProviderHasDisconnect) {
-        (this.provider as HttpProvider).disconnect();
-      }
-
-      this.provider = null;
-    }
   }
 
   public async sendTransactionAsync(
@@ -243,77 +157,6 @@ export abstract class Web3KeyProvider {
     });
   }
 
-  public async watchAsset(config: {
-    type: 'ERC20';
-    address: string;
-    symbol: string;
-    decimals?: number;
-    image?: string;
-  }): Promise<void> {
-    const web3 = this.getWeb3();
-    const ethereum = web3.currentProvider as AbstractProvider;
-    const params = {
-      type: config.type,
-      options: {
-        address: config.address,
-        symbol: config.symbol,
-        decimals: config.decimals,
-        image: config.image,
-      },
-    };
-
-    const success = await ethereum.request({
-      method: 'wallet_watchAsset',
-      params,
-    });
-
-    if (!success) {
-      throw new Error(`Failed to watch asset, something went wrong`);
-    }
-  }
-
-  public async switchNetwork(chainId: number): Promise<any> {
-    const config = RPCConfig[chainId];
-    const provider = this.provider as AbstractProvider;
-
-    const isProviderHasRequest =
-      !!provider && typeof provider.request === 'function';
-
-    if (!isProviderHasRequest) {
-      throw new Error(
-        'This provider does not support the network switching method',
-      );
-    }
-
-    try {
-      return await provider.request({
-        /**
-         * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
-         */
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: config.chainId }],
-      });
-    } catch (switchError) {
-      const isChainNotAdded = switchError.code === 4902;
-
-      if (isChainNotAdded) {
-        return await provider
-          .request({
-            /**
-             * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
-             */
-            method: 'wallet_addEthereumChain',
-            params: [config],
-          })
-          .catch(() => {
-            throw new Error('addError');
-          });
-      }
-      // handle other "switch" errors
-      throw new Error('switchError');
-    }
-  }
-
   private async getUnlockedAccounts(web3: Web3): Promise<string[]> {
     let unlockedAccounts: string[] = [];
     try {
@@ -328,24 +171,6 @@ export abstract class Web3KeyProvider {
     this.currentAccount = currentAccount;
     this.accounts = unlockedAccounts;
     return unlockedAccounts;
-  }
-
-  private setWalletMeta() {
-    const provider = this.provider as any;
-    if (!this.isConnected() || !provider) {
-      return;
-    }
-
-    if (provider.walletMeta) {
-      this.walletMeta = provider.walletMeta as IWalletMeta;
-    } else {
-      const { logo, name } = getProviderInfo(provider);
-
-      this.walletMeta = {
-        name,
-        icons: [logo],
-      };
-    }
   }
 
   private tryGetRawTx(rawTx: any): string {
@@ -400,12 +225,56 @@ export abstract class Web3KeyProvider {
 
     return provider
       .request({
-        method: 'metamask_watchAsset',
+        method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
           options: tokenInfo,
         },
       })
       .catch();
+  }
+
+  public async switchNetwork(chainId: number): Promise<any> {
+    const config = RPCConfig[chainId];
+    const provider = this.provider as AbstractProvider;
+
+    const isProviderHasRequest =
+      !!provider && typeof provider.request === 'function';
+
+    if (!isProviderHasRequest) {
+      throw new Error(
+        'This provider does not support the network switching method',
+      );
+    }
+
+    try {
+      return await provider.request({
+        /**
+         * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
+         */
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: config.chainId }],
+      });
+    } catch (switchError) {
+      const isChainNotAdded = switchError.code === 4902;
+
+      if (isChainNotAdded) {
+        return provider
+          .request({
+            /**
+             * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
+             */
+            method: 'wallet_addEthereumChain',
+            params: [config],
+          })
+          .catch(() => {
+            throw new Error('addError');
+          });
+      }
+      // handle other "switch" errors
+      throw new Error(
+        'Switch network error. Perhaps the network is not added to the RPC Config.',
+      );
+    }
   }
 }

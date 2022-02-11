@@ -4,11 +4,11 @@ import BigNumber from 'bignumber.js';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { fetchEth2SwapData } from '../api/sdk';
 
 export interface IGetEth2SwapDataArgs {
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export interface IGetEth2SwapData {

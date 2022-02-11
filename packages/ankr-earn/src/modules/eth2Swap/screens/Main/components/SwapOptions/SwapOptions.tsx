@@ -5,7 +5,7 @@ import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { TSwapOption } from '../../../../types';
-import { useSwapOptionsStyles } from './styles';
+import { useSwapOptionsStyles } from './useSwapOptionsStyles';
 
 export interface ISwapOptionsProps {
   swapOption: TSwapOption;

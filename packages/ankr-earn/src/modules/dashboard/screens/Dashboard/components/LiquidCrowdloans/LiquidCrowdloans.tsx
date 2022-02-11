@@ -1,10 +1,9 @@
 import { Typography } from '@material-ui/core';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
-import { NoAssets } from 'modules/dashboard/components/NoAssets';
+import { LiquidCrowdloanAsset } from 'modules/dashboard/components/LiquidCrowdloanAsset';
 import { t } from 'modules/i18n/utils/intl';
 import { useLiquidCrowdloanAsset } from './useLiquidCrowdloanAsset';
 import { useLiquidCrowdloansStyles } from './useLiquidCrowdloansStyles';
-import { LiquidCrowdloanAsset } from 'modules/dashboard/components/LiquidCrowdloanAsset';
 
 const SKELETONS_COUNT = 1;
 
@@ -28,7 +27,7 @@ export const LiquidCrowdloans = () => {
           ))}
         </AssetsList>
       ) : (
-        <AssetsList noChildrenSlot={<NoAssets />}>
+        <AssetsList>
           {showAsset && (
             <LiquidCrowdloanAsset
               redeemDays={703}

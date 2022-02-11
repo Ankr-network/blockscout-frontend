@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useStakableTokensStyles = makeStyles<Theme>(theme => ({
+export const useStakableTokensStyles = makeStyles(theme => ({
   title: {
     fontSize: 24,
     marginBottom: theme.spacing(2.5),

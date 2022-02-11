@@ -1,6 +1,6 @@
 {
   "name": "ankr-earn",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "homepage": "/earn",
   "dependencies": {
@@ -87,6 +87,7 @@
     "build:prod": "env-cmd -f .env.prod react-app-rewired build",
     "test": "env-cmd react-app-rewired test",
     "eject": "react-app-rewired eject",
+    "types": "tsc --noEmit -p tsconfig.json",
     "format": "lint-staged",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
@@ -157,7 +158,8 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
-      "/liquid-crowdloan/"
+      "/liquid-crowdloan/",
+      "/eth2-swap/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

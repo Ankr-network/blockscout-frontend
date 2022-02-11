@@ -1,9 +1,8 @@
 import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { configFromEnv } from 'modules/api/config';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { EToken } from 'modules/dashboard/types';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode } from 'react';
 import { NavLink } from 'uiKit/NavLink';
@@ -14,7 +13,8 @@ import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
-  token?: EToken;
+  token?: Token;
+  tokenAddress?: string;
   network?: string;
   amount?: BigNumber;
   tradeLink?: string;
@@ -31,6 +31,7 @@ interface IStakingAssetProps {
 export const StakingAsset = ({
   network,
   token,
+  tokenAddress,
   amount,
   tradeLink,
   stakeLink,
@@ -48,10 +49,6 @@ export const StakingAsset = ({
     return <StakingAssetSkeleton />;
   }
 
-  const displayLinks = stakeLink || unstakeLink || tradeLink;
-
-  const aMaticbContract = configFromEnv().contractConfig.aMaticbToken;
-
   const historyButtonIcon = isHistoryLoading ? (
     <Spinner size={18} variant="circle" />
   ) : (
@@ -62,6 +59,15 @@ export const StakingAsset = ({
     if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
   };
 
+  const stakeTooltip = isStakeLoading
+    ? t('dashboard.stake-loading')
+    : t('dashboard.stake-tooltip');
+
+  const unstakeTooltip = isUnstakeLoading
+    ? t('dashboard.unstake-loading')
+    : t('dashboard.unstake-tooltip');
+  const comingSoonTooltip = t('common.tooltips.comingSoon');
+
   return (
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
@@ -70,7 +76,7 @@ export const StakingAsset = ({
             <NetworkIconText
               network={network}
               token={token}
-              contract={aMaticbContract}
+              contract={tokenAddress}
             />
           </Grid>
 
@@ -100,50 +106,40 @@ export const StakingAsset = ({
           </Typography>
         </Grid>
 
-        {displayLinks && (
-          <Grid item xs={12} sm="auto">
-            <Grid container spacing={2} alignItems="center">
-              {stakeLink && (
-                <Grid item>
-                  <PlusMinusBtn
-                    href={stakeLink}
-                    isLoading={isStakeLoading}
-                    tooltip={
-                      isStakeLoading
-                        ? t('dashboard.stake-loading')
-                        : t('dashboard.stake-tooltip')
-                    }
-                  />
-                </Grid>
-              )}
-              {unstakeLink && (
-                <Grid item>
-                  <PlusMinusBtn
-                    href={unstakeLink}
-                    isLoading={isUnstakeLoading}
-                    icon="minus"
-                    tooltip={
-                      isUnstakeLoading
-                        ? t('dashboard.unstake-loading')
-                        : t('dashboard.unstake-tooltip')
-                    }
-                  />
-                </Grid>
-              )}
-              {tradeLink && (
-                <Grid item>
-                  <NavLink
-                    variant="outlined"
-                    className={classes.tradeButton}
-                    href={tradeLink}
-                  >
-                    {t('dashboard.trade')}
-                  </NavLink>
-                </Grid>
-              )}
+        <Grid item xs={12} sm="auto">
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <PlusMinusBtn
+                href={stakeLink}
+                disabled={!stakeLink}
+                isLoading={isStakeLoading}
+                tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+              />
             </Grid>
+
+            <Grid item>
+              <PlusMinusBtn
+                href={unstakeLink}
+                disabled={!unstakeLink}
+                isLoading={isUnstakeLoading}
+                icon="minus"
+                tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
+              />
+            </Grid>
+
+            {tradeLink && (
+              <Grid item>
+                <NavLink
+                  variant="outlined"
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                >
+                  {t('dashboard.trade')}
+                </NavLink>
+              </Grid>
+            )}
           </Grid>
-        )}
+        </Grid>
       </Grid>
     </Paper>
   );

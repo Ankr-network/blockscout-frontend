@@ -1,21 +1,40 @@
-import { Box, BoxProps, Grid, Typography } from '@material-ui/core';
+import { Box, BoxProps, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
+import { StakableList } from 'modules/dashboard/components/StakableList';
 import { t } from 'modules/i18n/utils/intl';
-import { useMaticStakableAsset } from './useMaticStakableAsset';
+import { uid } from 'react-uid';
+import { useStakableBnb } from './hooks/useStakableBnb';
+import { useStakableFtm } from './hooks/useStakableFtm';
+import { useStakableMatic } from './hooks/useStakableMatic';
 import { useStakableTokensStyles } from './useStakableTokensStyles';
 
 const SKELETON_COUNT = 2;
 
 export const StakableTokens = (props: BoxProps) => {
-  const maticAsset = useMaticStakableAsset();
   const classes = useStakableTokensStyles();
 
-  const showAMAITCb = !maticAsset.balance.isZero();
-  const isLoading = maticAsset.isLoading;
-  const showStakableTokens = showAMAITCb || isLoading;
+  const stakableTokens = [
+    useStakableBnb(),
+    useStakableMatic(),
+    useStakableFtm(),
+  ];
 
-  return showStakableTokens ? (
+  const { isLoading, isTokensShowed } = stakableTokens.reduce(
+    (prev, current) => {
+      const isLoading = prev.isLoading || current.isLoading;
+      return {
+        isLoading,
+        isTokensShowed: isLoading || prev.isTokensShowed || current.isShowed,
+      };
+    },
+    {
+      isLoading: false,
+      isTokensShowed: false,
+    },
+  );
+
+  return isTokensShowed ? (
     <Box {...props}>
       <Typography className={classes.title} component="h1" variant="h3">
         {t('dashboard.title')}
@@ -23,29 +42,33 @@ export const StakableTokens = (props: BoxProps) => {
 
       {isLoading ? (
         // todo: make actual skeleton
-        <Grid container spacing={3} className={classes.stakableAssets}>
+        <StakableList>
           {[...Array(SKELETON_COUNT)].map((_, i) => (
-            <Grid item md={6} xs={12} lg="auto" key={i}>
-              <Skeleton className={classes.skeleton} variant="rect" />
-            </Grid>
+            <Skeleton
+              className={classes.skeleton}
+              variant="rect"
+              key={uid(i)}
+            />
           ))}
-        </Grid>
+        </StakableList>
       ) : (
-        <Grid container spacing={3} className={classes.stakableAssets}>
-          {showAMAITCb && (
-            <Grid item md={6} xs={12} lg="auto">
-              <StakableAsset
-                icon={maticAsset.icon}
-                balance={maticAsset.balance}
-                networks={maticAsset.networks}
-                token={maticAsset.token}
-                href={maticAsset.href}
-                apy={maticAsset.apy}
-                isStakeLoading={maticAsset.isStakeLoading}
-              />
-            </Grid>
+        <StakableList>
+          {stakableTokens.map(
+            asset =>
+              asset.isShowed && (
+                <StakableAsset
+                  key={uid(asset.token)}
+                  icon={asset.icon}
+                  balance={asset.balance}
+                  networks={asset.networks}
+                  token={asset.token}
+                  href={asset.href}
+                  apy={asset.apy}
+                  isStakeLoading={asset.isStakeLoading}
+                />
+              ),
           )}
-        </Grid>
+        </StakableList>
       )}
     </Box>
   ) : null;

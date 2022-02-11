@@ -1,0 +1,63 @@
+import { useMutation, useQuery } from '@redux-requests/react';
+import { renderHook } from '@testing-library/react-hooks';
+import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
+import { useStakedAETHBData } from '../useStakedAETHBData';
+
+jest.mock('@redux-requests/react', () => ({
+  useQuery: jest.fn(),
+  useMutation: jest.fn(),
+}));
+
+jest.mock('modules/auth/hooks/useConnectedData', () => ({
+  useConnectedData: () => ({ chainId: 1 }),
+}));
+
+jest.mock('modules/boost/Routes', () => ({
+  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
+}));
+
+describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
+  const defaultStatsData = {
+    data: { fethBalance: ONE_ETH },
+    loading: false,
+  };
+
+  const defaultMutationData = {
+    loading: false,
+  };
+
+  beforeEach(() => {
+    (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
+
+    (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test('should return data', () => {
+    const { result } = renderHook(() => useStakedAETHBData());
+
+    expect(result.current.amount).toStrictEqual(
+      ONE_ETH.dividedBy(ETH_SCALE_FACTOR),
+    );
+    expect(result.current.pendingValue).toStrictEqual(ZERO);
+    expect(result.current.tradeLink).toBe('/trade');
+    expect(result.current.isBalancesLoading).toBe(false);
+    expect(result.current.isShowed).toBe(true);
+  });
+
+  test('should return zero if there is no data', () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: null,
+      loading: false,
+    });
+
+    const { result } = renderHook(() => useStakedAETHBData());
+
+    expect(result.current.amount).toStrictEqual(ZERO);
+    expect(result.current.pendingValue).toStrictEqual(ZERO);
+    expect(result.current.isBalancesLoading).toBe(false);
+  });
+});

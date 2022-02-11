@@ -1,15 +1,17 @@
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult, ProviderManager } from 'provider';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { configFromEnv } from 'modules/api/config';
 import AETH from 'modules/api/contract/AETH.json';
 import FETH from 'modules/api/contract/FETH.json';
+import { TSwapOption } from '../types';
 
 export interface IGetEth2SwapServiceArgs {
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export interface IGetEth2SwapServiceData {
@@ -57,7 +59,7 @@ export const fetchEth2SwapData = async ({
 export interface ISharesArgs {
   amount: string;
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export const lockShares = async ({
@@ -74,7 +76,7 @@ export const lockShares = async ({
   );
 
   const data = fethContract.methods
-    .lockShares(new BigNumber(amount).multipliedBy(ETH_SCALE_FACTOR).toString())
+    .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
     .encodeABI();
 
   return provider.sendTransactionAsync(
@@ -98,9 +100,7 @@ export const unlockShares = async ({
   );
 
   const data = fethContract.methods
-    .unlockShares(
-      new BigNumber(amount).multipliedBy(ETH_SCALE_FACTOR).toString(),
-    )
+    .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
     .encodeABI();
 
   return provider.sendTransactionAsync(
@@ -112,7 +112,7 @@ export const unlockShares = async ({
 
 export interface IApproveAETHCArgs {
   providerManager: ProviderManager;
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
 }
 
 export const approveAETHCForAETHB = async ({
@@ -128,7 +128,7 @@ export const approveAETHCForAETHB = async ({
   );
 
   const data = aethContract.methods
-    .approve(contractConfig.fethContract, MAX_UINT256)
+    .approve(contractConfig.fethContract, convertNumberToHex(MAX_UINT256))
     .encodeABI();
 
   return provider.sendTransactionAsync(
@@ -136,4 +136,37 @@ export const approveAETHCForAETHB = async ({
     contractConfig.aethContract,
     { data },
   );
+};
+
+export interface IAddTokenToWalletArgs {
+  providerManager: ProviderManager;
+  providerId: AvailableWriteProviders;
+  swapOption: TSwapOption;
+}
+
+const TOKENS = {
+  aETHc: {
+    address: CONFIG.contractConfig.aethContract,
+    symbol: 'aETHc',
+    decimals: 18,
+  },
+
+  aETHb: {
+    address: CONFIG.contractConfig.fethContract,
+    symbol: 'aETHb',
+    decimals: 18,
+  },
+};
+
+export const addTokenToWallet = async ({
+  providerManager,
+  providerId,
+  swapOption,
+}: IAddTokenToWalletArgs): Promise<void> => {
+  const provider = await providerManager.getProvider(providerId);
+  const data = TOKENS[swapOption];
+
+  if (data) {
+    await provider.addTokenToWallet(data);
+  }
 };

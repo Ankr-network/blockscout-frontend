@@ -1,12 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { createAction } from 'redux-smart-actions';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
-  providerId: AvailableProviders;
+  providerId: AvailableWriteProviders;
   address: string;
 }
 

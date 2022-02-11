@@ -1,18 +1,23 @@
 import { Typography } from '@material-ui/core';
 import { ReactNode } from 'react';
-import { useStakeDescriptionValueStyles } from './StakeDescriptionValueStyles';
+import {
+  IUseStakeDescriptionValueStylesProps,
+  useStakeDescriptionValueStyles,
+} from './StakeDescriptionValueStyles';
 
-export interface IStakeDescriptionValueProps {
+export interface IStakeDescriptionValueProps
+  extends IUseStakeDescriptionValueStylesProps {
   children: ReactNode;
 }
 
 export const StakeDescriptionValue = ({
   children,
+  isBold = true,
 }: IStakeDescriptionValueProps) => {
-  const classes = useStakeDescriptionValueStyles();
+  const classes = useStakeDescriptionValueStyles({ isBold });
 
   return (
-    <Typography variant="h5" component="div" classes={{ root: classes.root }}>
+    <Typography classes={{ root: classes.root }} component="div" variant="h5">
       {children}
     </Typography>
   );

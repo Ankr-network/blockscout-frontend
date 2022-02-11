@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { EToken } from 'modules/dashboard/types';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 import { NetworkIconText } from '../NetworkIconText';
@@ -8,7 +8,7 @@ import { LiquidCrowdloanAssetSkeleton } from './LiquidCrowdloanAssetSkeleton';
 import { useLiquidCrowdloanAssetStyles as useStyles } from './useLiquidCrowdloanAssetStyles';
 
 interface ILiquidCrowdloanAssetProps {
-  token?: EToken;
+  token?: Token;
   network?: string;
   remaining?: BigNumber;
   claimable?: BigNumber;

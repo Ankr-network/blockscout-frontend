@@ -1,4 +1,5 @@
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
   DOCS_LINK,
@@ -20,9 +21,6 @@ import { useMemo } from 'react';
 
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
 
-/**
- *  TODO Please uncomment links after the release
- */
 export const useNavigationItems = () => {
   const { locale } = useLocale();
   const links: Record<string, INavItem> = useLocaleMemo(
@@ -51,6 +49,10 @@ export const useNavigationItems = () => {
         label: t('main-navigation.eth2Swap'),
         href: ETH2SwapRoutes.root,
       },
+      bridge: {
+        label: 'Bridge',
+        href: BridgeRoutes.main.generatePath(),
+      },
       docs: {
         label: t('main-navigation.docs'),
         href: DOCS_LINK,
@@ -64,19 +66,14 @@ export const useNavigationItems = () => {
   );
 
   const desktopItems: INavItem[] = useMemo(
-    () => [
-      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
-      links.parachain,
-      links.boost,
-    ],
+    () => [links.dashboard, links.stake, links.parachain, links.boost],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
-        ? []
-        : [links.eth2Swap]),
+      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
+      ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
     ],
@@ -85,12 +82,12 @@ export const useNavigationItems = () => {
 
   const mobileItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
+      links.dashboard,
+      links.stake,
       links.parachain,
       links.boost,
-      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
-        ? []
-        : [links.eth2Swap]),
+      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
+      ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
     ],

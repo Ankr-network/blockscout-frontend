@@ -6,7 +6,7 @@ import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -16,6 +16,7 @@ import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
 import React, { useCallback } from 'react';
+import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 import { fetchStats } from '../../actions/fetchStats';
@@ -61,13 +62,7 @@ export const StakePolygon = () => {
               value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
             })}
             <Tooltip
-              title={
-                <div>
-                  <div>{t('unit.matic-tooltip-title')}</div>
-                  <br />
-                  <div>{t('unit.matic-tooltip-body')}</div>
-                </div>
-              }
+              title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
             >
               <ButtonBase className={classes.questionBtn}>
                 <QuestionIcon size="xs" className={classes.questionIcon} />
@@ -84,31 +79,34 @@ export const StakePolygon = () => {
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
         <section className={classes.root}>
-          <StakeContainer>
-            <StakeForm
-              onSubmit={handleSubmit}
-              balance={data.maticBalance}
-              maxAmount={data.maticBalance.toNumber()}
-              stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
-              minAmount={data.minimumStake.toNumber()}
-              loading={isStakeLoading}
-              tokenIn={t('unit.polygon')}
-              tokenOut={t('unit.amaticb')}
-              renderStats={renderStats}
-              onChange={handleFormChange}
-            />
+          {isSuccessOpened ? (
+            <Container>
+              <StakeSuccessDialog
+                tokenName={token}
+                onClose={onSuccessClose}
+                onAddTokenClick={onAddTokenClick}
+              />
+            </Container>
+          ) : (
+            <StakeContainer>
+              <StakeForm
+                balance={data.maticBalance}
+                maxAmount={data.maticBalance}
+                stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
+                minAmount={data.minimumStake}
+                loading={isStakeLoading}
+                tokenIn={t('unit.polygon')}
+                tokenOut={t('unit.amaticb')}
+                onSubmit={handleSubmit}
+                renderStats={renderStats}
+                onChange={handleFormChange}
+              />
 
-            <StakeStats stats={stats} />
+              <StakeStats stats={stats} />
 
-            <Faq data={faqItems} />
-
-            <StakeSuccessDialog
-              isOpened={isSuccessOpened}
-              onClose={onSuccessClose}
-              token={token}
-              onAddTokenClick={onAddTokenClick}
-            />
-          </StakeContainer>
+              <Faq data={faqItems} />
+            </StakeContainer>
+          )}
         </section>
       )}
     </Queries>

@@ -1,5 +1,5 @@
-import { AvailableProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
 
-export const getAuthRequestKey = (providerId: AvailableProviders) => {
+export const getAuthRequestKey = (providerId: AvailableWriteProviders) => {
   return `/provider-${providerId}`;
 };
