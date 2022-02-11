@@ -6,7 +6,7 @@ import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -62,13 +62,7 @@ export const StakePolygon = () => {
               value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
             })}
             <Tooltip
-              title={
-                <div>
-                  <div>{t('stake-polygon.matic-tooltip-title')}</div>
-                  <br />
-                  <div>{t('stake-polygon.matic-tooltip-body')}</div>
-                </div>
-              }
+              title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
             >
               <ButtonBase className={classes.questionBtn}>
                 <QuestionIcon size="xs" className={classes.questionIcon} />
