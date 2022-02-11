@@ -1,8 +1,6 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { EARN_PATH, featuresConfig, isMainnet } from 'modules/common/const';
-import { EParachainPolkadotNetwork } from 'modules/common/types';
+import { EARN_PATH } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'uiKit/Button';
@@ -15,10 +13,6 @@ interface IPageNotFoundProps {}
 export const PageNotFound = (props: IPageNotFoundProps) => {
   const classes = usePageNotFoundStyles();
   const { goBack } = useHistory();
-
-  const polkadotSlotAuctionNetwork: string = isMainnet
-    ? EParachainPolkadotNetwork.DOT.toLowerCase()
-    : EParachainPolkadotNetwork.WND.toLowerCase();
 
   return (
     <Box component="section" className={classes.root}>
@@ -42,13 +36,7 @@ export const PageNotFound = (props: IPageNotFoundProps) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                href={
-                  featuresConfig.earlyRelease
-                    ? PolkadotSlotAuctionRoutes.crowdloans.generatePath(
-                        polkadotSlotAuctionNetwork,
-                      )
-                    : EARN_PATH
-                }
+                href={EARN_PATH}
               >
                 {t('not-found.btn-home')}
               </NavLink>

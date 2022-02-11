@@ -46,7 +46,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
     polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
-    aMaticbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
+    aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
   },
   avalancheConfig: {
     futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',

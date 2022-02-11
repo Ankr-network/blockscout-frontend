@@ -49,8 +49,6 @@ export const StakingAsset = ({
     return <StakingAssetSkeleton />;
   }
 
-  const displayLinks = stakeLink || unstakeLink || tradeLink;
-
   const historyButtonIcon = isHistoryLoading ? (
     <Spinner size={18} variant="circle" />
   ) : (
@@ -60,6 +58,15 @@ export const StakingAsset = ({
   const historyClickHandler = () => {
     if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
   };
+
+  const stakeTooltip = isStakeLoading
+    ? t('dashboard.stake-loading')
+    : t('dashboard.stake-tooltip');
+
+  const unstakeTooltip = isUnstakeLoading
+    ? t('dashboard.unstake-loading')
+    : t('dashboard.unstake-tooltip');
+  const comingSoonTooltip = t('common.tooltips.comingSoon');
 
   return (
     <Paper className={classes.root}>
@@ -99,50 +106,40 @@ export const StakingAsset = ({
           </Typography>
         </Grid>
 
-        {displayLinks && (
-          <Grid item xs={12} sm="auto">
-            <Grid container spacing={2} alignItems="center">
-              {stakeLink && (
-                <Grid item>
-                  <PlusMinusBtn
-                    href={stakeLink}
-                    isLoading={isStakeLoading}
-                    tooltip={
-                      isStakeLoading
-                        ? t('dashboard.stake-loading')
-                        : t('dashboard.stake-tooltip')
-                    }
-                  />
-                </Grid>
-              )}
-              {unstakeLink && (
-                <Grid item>
-                  <PlusMinusBtn
-                    href={unstakeLink}
-                    isLoading={isUnstakeLoading}
-                    icon="minus"
-                    tooltip={
-                      isUnstakeLoading
-                        ? t('dashboard.unstake-loading')
-                        : t('dashboard.unstake-tooltip')
-                    }
-                  />
-                </Grid>
-              )}
-              {tradeLink && (
-                <Grid item>
-                  <NavLink
-                    variant="outlined"
-                    className={classes.tradeButton}
-                    href={tradeLink}
-                  >
-                    {t('dashboard.trade')}
-                  </NavLink>
-                </Grid>
-              )}
+        <Grid item xs={12} sm="auto">
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <PlusMinusBtn
+                href={stakeLink}
+                disabled={!stakeLink}
+                isLoading={isStakeLoading}
+                tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+              />
             </Grid>
+
+            <Grid item>
+              <PlusMinusBtn
+                href={unstakeLink}
+                disabled={!unstakeLink}
+                isLoading={isUnstakeLoading}
+                icon="minus"
+                tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
+              />
+            </Grid>
+
+            {tradeLink && (
+              <Grid item>
+                <NavLink
+                  variant="outlined"
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                >
+                  {t('dashboard.trade')}
+                </NavLink>
+              </Grid>
+            )}
           </Grid>
-        )}
+        </Grid>
       </Grid>
     </Paper>
   );

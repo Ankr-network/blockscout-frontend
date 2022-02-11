@@ -1,21 +1,23 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
-
-import { ONE_ETH, ZERO } from 'modules/common/const';
+import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+import { MemoryRouter } from 'react-router';
 import { StakedMatic } from '..';
-import { useStakedMaticData, IStakedMaticData } from '../useStakedMaticData';
 import {
-  useStakedMaticTxHistory,
+  IStakedMaticData,
+  useStakedMaticData,
+} from '../../StakedTokens/hooks/useStakedMaticData';
+import {
   ITxHistoryData,
-} from '../useStakedMaticTxHistory';
+  useStakedMaticTxHistory,
+} from '../../StakedTokens/hooks/useStakedMaticTxHistory';
 
-jest.mock('../useStakedMaticData', () => ({
+jest.mock('../../StakedTokens/hooks/useStakedMaticData', () => ({
   useStakedMaticData: jest.fn(),
 }));
 
-jest.mock('../useStakedMaticTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/useStakedMaticTxHistory', () => ({
   useStakedMaticTxHistory: jest.fn(),
 }));
 
@@ -32,6 +34,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
+    isShowed: true,
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
@@ -72,27 +75,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should not render if there is no data to show', () => {
-    (useStakedMaticData as jest.Mock).mockReturnValue({
-      ...defaultStakedMaticHookData,
-      amount: ZERO,
-      pendingValue: ZERO,
-    });
-
-    (useStakedMaticTxHistory as jest.Mock).mockReturnValue({
-      ...defaultTxHistoryHookData,
-      hasHistory: false,
-    });
-
-    render(
-      <MemoryRouter>
-        <StakedMatic />
-      </MemoryRouter>,
-    );
-
-    const networkTitle = screen.queryByText('Ethereum Mainnet');
-    expect(networkTitle).not.toBeInTheDocument();
   });
 });

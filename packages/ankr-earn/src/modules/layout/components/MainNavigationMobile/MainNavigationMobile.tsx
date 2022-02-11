@@ -1,4 +1,5 @@
 import { NavigationLink } from 'modules/common/components/NavigationLink';
+import { featuresConfig } from 'modules/common/const';
 import { useNavigationItems } from 'modules/layout/hooks/useNavigationItems';
 import { LocaleSwitcherMobile } from '../LocaleSwitcherMobile';
 import { useMainNavigationMobileStyles as useStyles } from './useMainNavigationMobileStyles';
@@ -20,7 +21,7 @@ export const MainNavigationMobile = () => {
   return (
     <nav className={classes.root}>
       {renderedLinks}
-      <LocaleSwitcherMobile />
+      {featuresConfig.localeSwitcher && <LocaleSwitcherMobile />}
     </nav>
   );
 };

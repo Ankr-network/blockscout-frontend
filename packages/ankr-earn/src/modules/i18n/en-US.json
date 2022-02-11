@@ -73,7 +73,10 @@
   "common": {
     "successTx": "Transaction successful.",
     "errorTx": "Transaction failed.",
-    "explorer": "View on explorer"
+    "explorer": "View on explorer",
+    "tooltips": {
+      "comingSoon": "Coming soon"
+    }
   },
   "chain": {
     "1": "Ethereum Mainnet",

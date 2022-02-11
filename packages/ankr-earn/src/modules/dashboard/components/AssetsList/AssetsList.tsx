@@ -4,21 +4,20 @@ import { uid } from 'react-uid';
 
 interface IAssetsListProps {
   children?: ReactNode | ReactNode[];
-  noChildrenSlot?: JSX.Element;
 }
 
-export const AssetsList = ({ children, noChildrenSlot }: IAssetsListProps) => {
-  if (!Children.count(children)) {
-    return noChildrenSlot ?? null;
-  }
-
+export const AssetsList = ({ children }: IAssetsListProps) => {
   return (
     <Grid container spacing={3}>
-      {Children.map(children, (child, index) => (
-        <Grid item xs={12} lg={6} key={uid(index)}>
-          {child}
-        </Grid>
-      ))}
+      {Children.map(
+        children,
+        (child, index) =>
+          !!child && (
+            <Grid item xs={12} lg={6} key={uid(index)}>
+              {child}
+            </Grid>
+          ),
+      )}
     </Grid>
   );
 };

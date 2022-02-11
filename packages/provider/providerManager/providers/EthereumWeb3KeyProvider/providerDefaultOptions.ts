@@ -15,9 +15,9 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        1: 'https://eth-03.dccn.ankr.com',
-        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-        56: 'https://bsc-dataseed.binance.org/',
+        1: 'https://rpc.ankr.com/eth',
+        5: 'https://eth-goerli-01.dccn.ankr.com',
+        56: 'https://rpc.ankr.com/bsc',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -35,9 +35,9 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        1: 'https://eth-03.dccn.ankr.com',
-        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-        56: 'https://bsc-dataseed.binance.org/',
+        1: 'https://rpc.ankr.com/eth',
+        5: 'https://eth-goerli-01.dccn.ankr.com',
+        56: 'https://rpc.ankr.com/bsc',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -55,9 +55,9 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        1: 'https://eth-03.dccn.ankr.com',
-        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-        56: 'https://bsc-dataseed.binance.org/',
+        1: 'https://rpc.ankr.com/eth',
+        5: 'https://eth-goerli-01.dccn.ankr.com',
+        56: 'https://rpc.ankr.com/bsc',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -75,9 +75,9 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        1: 'https://eth-03.dccn.ankr.com',
-        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-        56: 'https://bsc-dataseed.binance.org/',
+        1: 'https://rpc.ankr.com/eth',
+        5: 'https://eth-goerli-01.dccn.ankr.com',
+        56: 'https://rpc.ankr.com/bsc',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -90,10 +90,9 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        1: 'https://eth-03.dccn.ankr.com',
-        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-        // TODO: Please uncomment it after the release
-        // 56: 'https://bsc-dataseed.binance.org/',
+        1: 'https://rpc.ankr.com/eth',
+        5: 'https://eth-goerli-01.dccn.ankr.com',
+        56: 'https://rpc.ankr.com/bsc',
       },
     },
   },

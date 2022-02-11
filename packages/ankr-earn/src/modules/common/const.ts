@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import packageJson from '../../../package.json';
-import { Env } from './types';
+import { BlockchainNetworkId, Env } from './types';
 
 export const EARN_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
@@ -48,22 +48,24 @@ export const featuresConfig = {
   isActiveBNBStaking: currentEnv === Env.Develop,
   isActiveBNBStakingFAQ: false,
   isActiveBNBUnstaking: false,
+  isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
-  earlyRelease: false,
   v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: currentEnv !== Env.Production,
-  eth2Swap: currentEnv !== Env.Production,
+  eth2Swap: currentEnv === Env.Develop,
   bridge: currentEnv === Env.Develop,
 };
 
 export enum SupportedChainIDS {
-  MAINNET = 1,
-  GOERLI = 5,
-  BSC = 56,
-  BSC_TESTNET = 97,
+  MAINNET = BlockchainNetworkId.mainnet,
+  GOERLI = BlockchainNetworkId.goerli,
+  BSC = BlockchainNetworkId.smartchain,
+  BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
+  FANTOM_OPERA = BlockchainNetworkId.fantom,
+  FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -71,4 +73,21 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
   [SupportedChainIDS.BSC]: 'https://bscscan.com',
   [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
+  [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
+  [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
 };
+
+export const ETH_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.mainnet
+    : BlockchainNetworkId.goerli;
+
+export const BSC_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.smartchain
+    : BlockchainNetworkId.smartchainTestnet;
+
+export const FTM_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.fantom
+    : BlockchainNetworkId.fantomTestnet;

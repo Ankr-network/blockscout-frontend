@@ -1,14 +1,9 @@
-import { currentEnv } from 'modules/common/const';
-import { BlockchainNetworkId, Env } from 'modules/common/types';
+import { FTM_NETWORK_BY_ENV } from 'modules/common/const';
 import { AvailableWriteProviders } from 'provider/providerManager/types';
 
 export const ACTIONS_PREFIX = 'fantom/';
 
-export const FANTOM_STAKING_NETWORKS = [
-  currentEnv === Env.Production
-    ? BlockchainNetworkId.fantom
-    : BlockchainNetworkId.fantomTestnet,
-];
+export const FANTOM_STAKING_NETWORKS = [FTM_NETWORK_BY_ENV];
 
 export const FANTOM_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
