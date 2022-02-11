@@ -1,8 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
-
-import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
-import { useStakedAETHCData } from '../useStakedAETHCData';
+import { ONE_ETH, ZERO } from 'modules/common/const';
+import { useStakedAFTMBData } from '../useStakedAFTMBData';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -13,13 +12,13 @@ jest.mock('modules/auth/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
-jest.mock('modules/boost/Routes', () => ({
-  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
+jest.mock('modules/stake-fantom/Routes', () => ({
+  RoutesConfig: { stake: { generatePath: () => '/stake' } },
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAETHCData', () => {
+describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAFTMBData', () => {
   const defaultStatsData = {
-    data: { aethBalance: ONE_ETH },
+    data: { aFTMbBalance: ONE_ETH },
     loading: false,
   };
 
@@ -37,12 +36,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAE
     jest.resetAllMocks();
   });
 
-  test('should return amount and pending value', () => {
-    const { result } = renderHook(() => useStakedAETHCData());
+  test('should return data', () => {
+    const { result } = renderHook(() => useStakedAFTMBData());
 
-    expect(result.current.amount).toStrictEqual(
-      ONE_ETH.dividedBy(ETH_SCALE_FACTOR),
-    );
+    expect(result.current.amount).toStrictEqual(ONE_ETH);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
@@ -54,7 +51,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAE
       loading: false,
     });
 
-    const { result } = renderHook(() => useStakedAETHCData());
+    const { result } = renderHook(() => useStakedAFTMBData());
 
     expect(result.current.amount).toStrictEqual(ZERO);
     expect(result.current.pendingValue).toStrictEqual(ZERO);

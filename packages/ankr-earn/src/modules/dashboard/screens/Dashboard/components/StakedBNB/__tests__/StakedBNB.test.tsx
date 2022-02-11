@@ -1,21 +1,23 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
-
-import { ONE_ETH, ZERO } from 'modules/common/const';
+import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
+import { MemoryRouter } from 'react-router';
 import { StakedBNB } from '..';
-import { useStakedBNBData, IStakedBNBData } from '../useStakedBNBData';
 import {
-  useStakedBNBTxHistory,
+  IStakedBNBData,
+  useStakedBNBData,
+} from '../../StakedTokens/hooks/useStakedBNBData';
+import {
   ITxHistoryData,
-} from '../useStakedBNBTxHistory';
+  useStakedBNBTxHistory,
+} from '../../StakedTokens/hooks/useStakedBNBTxHistory';
 
-jest.mock('../useStakedBNBData', () => ({
+jest.mock('../../StakedTokens/hooks/useStakedBNBData', () => ({
   useStakedBNBData: jest.fn(),
 }));
 
-jest.mock('../useStakedBNBTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
@@ -32,6 +34,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
+    isShowed: false,
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
@@ -70,27 +73,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should not render if there is no data to show', () => {
-    (useStakedBNBData as jest.Mock).mockReturnValue({
-      ...defaultStakedBNBHookData,
-      amount: ZERO,
-      pendingValue: ZERO,
-    });
-
-    (useStakedBNBTxHistory as jest.Mock).mockReturnValue({
-      ...defaultTxHistoryHookData,
-      hasHistory: false,
-    });
-
-    render(
-      <MemoryRouter>
-        <StakedBNB />
-      </MemoryRouter>,
-    );
-
-    const networkTitle = screen.queryByText('Ethereum Mainnet');
-    expect(networkTitle).not.toBeInTheDocument();
   });
 });

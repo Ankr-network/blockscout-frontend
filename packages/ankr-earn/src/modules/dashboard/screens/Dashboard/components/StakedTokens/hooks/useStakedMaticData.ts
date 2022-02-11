@@ -1,17 +1,14 @@
-import { useQuery, useMutation } from '@redux-requests/react';
+import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { ZERO } from 'modules/common/const';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
 import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 
 export interface IStakedMaticData {
   amount: BigNumber;
@@ -25,6 +22,7 @@ export interface IStakedMaticData {
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
+  isShowed: boolean;
 }
 
 export const useStakedMaticData = (): IStakedMaticData => {
@@ -35,11 +33,13 @@ export const useStakedMaticData = (): IStakedMaticData => {
   const { loading: isStakeLoading } = useMutation({ type: stakePolygon });
   const { loading: isUnstakeLoading } = useMutation({ type: unstakePolygon });
 
-  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
-  const network = t(`chain.${chainId}`);
+  const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
 
   const amount = statsData?.aMaticbBalance ?? ZERO;
   const pendingValue = statsData?.pendingClaim ?? ZERO;
+
+  const isShowed =
+    !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   return {
     amount,
@@ -56,5 +56,6 @@ export const useStakedMaticData = (): IStakedMaticData => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    isShowed,
   };
 };

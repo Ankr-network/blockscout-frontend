@@ -1,18 +1,20 @@
 import { useQuery } from '@redux-requests/react';
-
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useAuth } from 'modules/auth/hooks/useAuth';
-import { t } from 'modules/i18n/utils/intl';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
-import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
-import { ITxEventsHistoryData, ITxEventsHistoryGroupItem } from '../../types';
+import { t } from 'modules/i18n/utils/intl';
+import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
+import {
+  ITxEventsHistoryData,
+  ITxEventsHistoryGroupItem,
+} from '../../../types';
 
 interface IGetHistoryTransactionsArgs {
-  type: EBinancePoolEventsMap;
+  type: EPolygonPoolEventsMap;
   network?: number;
   data?: ITxEventsHistoryGroupItem[];
 }
@@ -44,7 +46,7 @@ export interface ITxHistoryData {
   isHistoryDataLoading: boolean;
 }
 
-export const useStakedBNBTxHistory = (): ITxHistoryData => {
+export const useStakedMaticTxHistory = (): ITxHistoryData => {
   const { data, loading: isHistoryDataLoading } =
     useQuery<ITxEventsHistoryData>({
       type: fetchTxHistory,
@@ -53,18 +55,18 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
 
   const staked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.StakePending,
+    type: EPolygonPoolEventsMap.StakePending,
     network,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.ClaimPending,
+    type: EPolygonPoolEventsMap.MaticClaimPending,
     network,
   });
 
   const pendingUnstake = data?.pending.filter(
-    ({ txType }) => txType === EBinancePoolEventsMap.ClaimPending,
+    ({ txType }) => txType === EPolygonPoolEventsMap.MaticClaimPending,
   );
 
   const pendingUnstakeHistory = pendingUnstake
@@ -74,7 +76,7 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
 
         return {
           id: index + 1,
-          token: Token.aBNBb,
+          token: Token.aMATICb,
           amount: transaction.txAmount,
           timerSlot: `${date}, ${time}`,
         };
@@ -88,6 +90,6 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     isHistoryDataLoading,
     pendingUnstakeHistory,
     hasHistory,
-    transactionHistory: { token: Token.aBNBb, staked, unstaked },
+    transactionHistory: { token: Token.aMATICb, staked, unstaked },
   };
 };

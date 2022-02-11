@@ -1,4 +1,5 @@
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
+import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
   DOCS_LINK,
@@ -10,7 +11,6 @@ import {
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
-import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
@@ -66,19 +66,13 @@ export const useNavigationItems = () => {
   );
 
   const desktopItems: INavItem[] = useMemo(
-    () => [
-      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
-      links.parachain,
-      links.boost,
-    ],
+    () => [links.dashboard, links.stake, links.parachain, links.boost],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
-        ? []
-        : [links.eth2Swap]),
+      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
@@ -88,12 +82,11 @@ export const useNavigationItems = () => {
 
   const mobileItems: INavItem[] = useMemo(
     () => [
-      ...(featuresConfig.earlyRelease ? [] : [links.dashboard, links.stake]),
+      links.dashboard,
+      links.stake,
       links.parachain,
       links.boost,
-      ...(featuresConfig.earlyRelease || !featuresConfig.eth2Swap
-        ? []
-        : [links.eth2Swap]),
+      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,

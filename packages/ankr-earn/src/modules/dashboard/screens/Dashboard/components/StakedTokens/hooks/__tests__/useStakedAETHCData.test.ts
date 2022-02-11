@@ -1,8 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
-
 import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
-import { useStakedAETHBData } from '../useStakedAETHBData';
+import { useStakedAETHCData } from '../useStakedAETHCData';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -17,9 +16,9 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
+describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAETHCData', () => {
   const defaultStatsData = {
-    data: { fethBalance: ONE_ETH },
+    data: { aethBalance: ONE_ETH },
     loading: false,
   };
 
@@ -37,14 +36,13 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
     jest.resetAllMocks();
   });
 
-  test('should return data', () => {
-    const { result } = renderHook(() => useStakedAETHBData());
+  test('should return amount and pending value', () => {
+    const { result } = renderHook(() => useStakedAETHCData());
 
     expect(result.current.amount).toStrictEqual(
       ONE_ETH.dividedBy(ETH_SCALE_FACTOR),
     );
     expect(result.current.pendingValue).toStrictEqual(ZERO);
-    expect(result.current.tradeLink).toBe('/trade');
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
   });
@@ -55,7 +53,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
       loading: false,
     });
 
-    const { result } = renderHook(() => useStakedAETHBData());
+    const { result } = renderHook(() => useStakedAETHCData());
 
     expect(result.current.amount).toStrictEqual(ZERO);
     expect(result.current.pendingValue).toStrictEqual(ZERO);

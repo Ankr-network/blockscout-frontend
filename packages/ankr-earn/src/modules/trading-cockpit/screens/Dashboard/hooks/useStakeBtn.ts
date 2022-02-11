@@ -1,4 +1,4 @@
-import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
+import { STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
@@ -7,7 +7,6 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 const STAKEFI_EHT_STAKE_URL = `${STAKEFI_LINK}/ETH`;
-const STAKEFI_MATIC_STAKE_URL = `${STAKEFI_LINK}/MATIC`;
 const STAKEFI_AVAX_STAKE_URL = `${STAKEFI_LINK}/AVAX`;
 
 interface IUseStakeBtn {
@@ -37,16 +36,12 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
         },
         [AvailableTokens.MATIC]: {
           btnText: stakeText,
-          href: featuresConfig.earlyRelease
-            ? STAKEFI_MATIC_STAKE_URL
-            : StakePolygonRoutes.stake.generatePath(),
+          href: StakePolygonRoutes.stake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.aMATICb]: {
           btnText: unstakeText,
-          href: featuresConfig.earlyRelease
-            ? STAKEFI_MATIC_STAKE_URL
-            : StakePolygonRoutes.unstake.generatePath(),
+          href: StakePolygonRoutes.unstake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.ETH]: {

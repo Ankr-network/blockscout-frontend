@@ -3,18 +3,14 @@ import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { useStakedAETHBData } from './useStakedAETHBData';
+import { useStakedAETHBData } from '../StakedTokens/hooks/useStakedAETHBData';
 
-export const StakedAETHB = (): JSX.Element | null => {
+export const StakedAETHB = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const { amount, network, tradeLink, isBalancesLoading, isShowed } =
+  const { amount, network, tradeLink, isBalancesLoading } =
     useStakedAETHBData();
   const { isOpened, onClose, onOpen } = useDialog();
-
-  if (!isShowed) {
-    return null;
-  }
 
   return (
     <>

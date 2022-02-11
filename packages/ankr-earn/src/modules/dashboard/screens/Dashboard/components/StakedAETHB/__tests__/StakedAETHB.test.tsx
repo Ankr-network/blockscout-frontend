@@ -1,11 +1,13 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
-
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { MemoryRouter } from 'react-router';
 import { StakedAETHB } from '..';
-import { useStakedAETHBData, IStakedAETHBData } from '../useStakedAETHBData';
+import {
+  IStakedAETHBData,
+  useStakedAETHBData,
+} from '../../StakedTokens/hooks/useStakedAETHBData';
 
-jest.mock('../useStakedAETHBData', () => ({
+jest.mock('../../StakedTokens/hooks/useStakedAETHBData', () => ({
   useStakedAETHBData: jest.fn(),
 }));
 
@@ -41,21 +43,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should not render if there is no data to show', () => {
-    (useStakedAETHBData as jest.Mock).mockReturnValue({
-      ...defaultStakedAETHBHookData,
-      isShowed: false,
-    });
-
-    render(
-      <MemoryRouter>
-        <StakedAETHB />
-      </MemoryRouter>,
-    );
-
-    const networkTitle = screen.queryByText('Ethereum Mainnet');
-    expect(networkTitle).not.toBeInTheDocument();
   });
 });

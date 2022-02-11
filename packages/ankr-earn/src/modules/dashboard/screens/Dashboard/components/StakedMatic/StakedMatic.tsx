@@ -5,8 +5,8 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { useStakedMaticData } from './useStakedMaticData';
-import { useStakedMaticTxHistory } from './useStakedMaticTxHistory';
+import { useStakedMaticData } from '../StakedTokens/hooks/useStakedMaticData';
+import { useStakedMaticTxHistory } from '../StakedTokens/hooks/useStakedMaticTxHistory';
 
 export const StakedMatic = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
@@ -24,16 +24,6 @@ export const StakedMatic = (): JSX.Element | null => {
     isUnstakeLoading,
   } = useStakedMaticData();
   const { isOpened, onClose, onOpen } = useDialog();
-
-  const isShowed =
-    !amount.isZero() ||
-    !pendingValue.isZero() ||
-    isBalancesLoading ||
-    txHistory.hasHistory;
-
-  if (!isShowed) {
-    return null;
-  }
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending

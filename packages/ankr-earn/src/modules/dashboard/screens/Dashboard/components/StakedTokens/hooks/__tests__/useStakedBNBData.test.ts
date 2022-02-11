@@ -1,9 +1,8 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
-
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
-import { useStakedMaticData } from '../useStakedMaticData';
+import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
+import { useStakedBNBData } from '../useStakedBNBData';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -14,7 +13,7 @@ jest.mock('modules/auth/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
-jest.mock('modules/stake-polygon/Routes', () => ({
+jest.mock('modules/stake-bnb/Routes', () => ({
   RoutesConfig: {
     stake: { generatePath: () => '/stake' },
     unstake: { generatePath: () => '/unstake' },
@@ -25,9 +24,9 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMaticData', () => {
+describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBData', () => {
   const defaultStatsData = {
-    data: { aMaticbBalance: ONE_ETH, pendingValue: ZERO },
+    data: { aBNBbBalance: ONE_ETH, pendingValue: ZERO },
     loading: false,
   };
 
@@ -46,7 +45,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMa
   });
 
   test('should return amount and pending value', () => {
-    const { result } = renderHook(() => useStakedMaticData());
+    const { result } = renderHook(() => useStakedBNBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
@@ -61,14 +60,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMa
       loading: true,
     });
 
-    const { result } = renderHook(() => useStakedMaticData());
+    const { result } = renderHook(() => useStakedBNBData());
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
     expect(result.current.tradeLink).toBe('/trade');
-    expect(result.current.stakeType).toBe(EPolygonPoolEventsMap.StakePending);
-    expect(result.current.unstakeType).toBe(
-      EPolygonPoolEventsMap.MaticClaimPending,
-    );
+    expect(result.current.stakeType).toBe(EBinancePoolEventsMap.StakePending);
+    expect(result.current.unstakeType).toBe(EBinancePoolEventsMap.ClaimPending);
   });
 });

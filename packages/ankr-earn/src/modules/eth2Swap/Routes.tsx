@@ -1,17 +1,12 @@
 import loadable from '@loadable/component';
-import { generatePath } from 'react-router';
-import { Switch, Route } from 'react-router-dom';
-
-import { currentEnv, EARN_PATH } from 'modules/common/const';
-import { Env } from 'modules/common/types';
+import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { EARN_PATH, ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { AvailableWriteProviders } from 'provider/providerManager/types';
+import { generatePath } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
-import {
-  AvailableWriteProviders,
-  BlockchainNetworkId,
-} from 'provider/providerManager/types';
 
 const ROOT = `${EARN_PATH}eth2-swap/`;
 const SUCCESS = `${ROOT}success/:txHash/:swapOption`;
@@ -40,11 +35,7 @@ const Success = loadable(
   { fallback: <QueryLoadingAbsolute /> },
 );
 
-const AVAILABLE_NETWORKS = [
-  currentEnv === Env.Production
-    ? BlockchainNetworkId.mainnet
-    : BlockchainNetworkId.goerli,
-];
+const AVAILABLE_NETWORKS = [ETH_NETWORK_BY_ENV];
 
 export function getRoutes() {
   return (

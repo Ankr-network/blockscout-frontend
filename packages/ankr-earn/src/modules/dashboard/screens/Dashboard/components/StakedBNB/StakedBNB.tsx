@@ -5,10 +5,10 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { useStakedBNBData } from './useStakedBNBData';
-import { useStakedBNBTxHistory } from './useStakedBNBTxHistory';
+import { useStakedBNBData } from '../StakedTokens/hooks/useStakedBNBData';
+import { useStakedBNBTxHistory } from '../StakedTokens/hooks/useStakedBNBTxHistory';
 
-export const StakedBNB = (): JSX.Element | null => {
+export const StakedBNB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
   const txHistory = useStakedBNBTxHistory();
@@ -24,16 +24,6 @@ export const StakedBNB = (): JSX.Element | null => {
     isUnstakeLoading,
   } = useStakedBNBData();
   const { isOpened, onClose, onOpen } = useDialog();
-
-  const isShowed =
-    !amount.isZero() ||
-    !pendingValue.isZero() ||
-    isBalancesLoading ||
-    txHistory.hasHistory;
-
-  if (!isShowed) {
-    return null;
-  }
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
