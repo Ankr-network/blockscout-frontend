@@ -1,8 +1,9 @@
 import loadable from '@loadable/component';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EARN_PATH } from 'modules/common/const';
+import { EARN_PATH, isMainnet } from 'modules/common/const';
+import { EParachainPolkadotNetwork } from 'modules/common/types';
 import React from 'react';
-import { generatePath, useParams } from 'react-router';
+import { generatePath, Redirect, useParams } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
@@ -79,10 +80,20 @@ const SupportProject = loadable(
   },
 );
 
+const PARACHAIN_NETWORK_BY_ENV = isMainnet
+  ? EParachainPolkadotNetwork.DOT.toLowerCase()
+  : EParachainPolkadotNetwork.WND.toLowerCase();
+
 export function getRoutes() {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
+        <Route path={RoutesConfig.root} exact>
+          <Redirect
+            to={RoutesConfig.crowdloans.generatePath(PARACHAIN_NETWORK_BY_ENV)}
+          />
+        </Route>
+
         <Route path={RoutesConfig.crowdloans.path} exact>
           <DefaultLayout>
             <PolkadotSlotAuction />
