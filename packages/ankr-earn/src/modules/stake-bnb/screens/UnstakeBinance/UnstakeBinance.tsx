@@ -2,7 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { DECIMAL_PLACES, isMainnet, ZERO } from 'modules/common/const';
+import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -18,8 +18,8 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { fetchStats } from '../../actions/fetchStats';
 import { unstake } from '../../actions/unstake';
-import { BNB_REDEEM_PERIOD } from '../../const';
 import { useFetchStats } from '../../hooks/useFetchStats';
+import { useRedeemData } from '../../hooks/useRedeemData';
 import { useUnstakeBinanceStyles } from './useUnstakeBinanceStyles';
 
 export const UnstakeBinance = () => {
@@ -27,13 +27,15 @@ export const UnstakeBinance = () => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
-
   const {
     error: fetchStatsError,
     isLoading: isFetchStatsLoading,
     stats: fetchStatsData,
   } = useFetchStats();
+
+  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+
+  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const onClose = (): void => {
     history.push(DashboardRoutes.dashboard.generatePath());
@@ -124,8 +126,8 @@ export const UnstakeBinance = () => {
           <UnstakeDialog
             balance={fetchStatsData.aBNBbBalance}
             endText={t('stake-bnb-dashboard.unstake-info', {
-              value: BNB_REDEEM_PERIOD,
-              period: isMainnet ? t('unit.days') : t('unit.hours'),
+              value: redeemValue,
+              period: redeemPeriod,
             })}
             extraValidation={onExtraValidation(fetchStatsData.minimumStake)}
             isLoading={isUnstakeLoading}

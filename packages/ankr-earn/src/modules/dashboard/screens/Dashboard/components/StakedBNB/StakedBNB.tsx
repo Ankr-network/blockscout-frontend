@@ -1,5 +1,6 @@
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
@@ -16,7 +17,7 @@ export const StakedBNB = (): JSX.Element => {
     amount,
     pendingValue,
     network,
-    // tradeLink,
+    tradeLink,
     stakeLink,
     unstakeLink,
     isBalancesLoading,
@@ -40,9 +41,7 @@ export const StakedBNB = (): JSX.Element => {
         token={Token.aBNBb}
         tokenAddress={binanceConfig.aBNBbToken}
         amount={amount}
-        tradeLink={
-          undefined /* TODO Please to add fix for it (BNB; trading-cockpit; tradeLink) */
-        }
+        tradeLink={featuresConfig.isActiveBNBTradeLink ? tradeLink : undefined}
         unstakeLink={unstakeLink}
         stakeLink={stakeLink}
         isHistoryLoading={txHistory.isHistoryDataLoading}
