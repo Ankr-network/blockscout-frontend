@@ -18,14 +18,14 @@ type TPastEventsData = Array<EventData | void>;
 export type TTxEventsHistoryGroupData = Array<ITxEventsHistoryGroupItem | void>;
 
 enum EBinancePoolEvents {
-  ClaimPending = 'ClaimPending',
-  RatioUpdate = 'RatioUpdate',
-  StakePending = 'StakePending',
+  RatioUpdated = 'RatioUpdated',
+  Staked = 'Staked',
+  UnstakePending = 'UnstakePending',
 }
 
 export enum EBinancePoolEventsMap {
-  ClaimPending = 'STAKE_ACTION_UNSTAKED',
-  StakePending = 'STAKE_ACTION_STAKED',
+  Staked = 'STAKE_ACTION_STAKED',
+  UnstakePending = 'STAKE_ACTION_UNSTAKED',
 }
 
 interface ITxHistoryEventData extends EventData {
@@ -170,11 +170,11 @@ export class BinanceSDK {
 
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
-      case EBinancePoolEvents.ClaimPending:
-        return EBinancePoolEventsMap.ClaimPending;
+      case EBinancePoolEvents.Staked:
+        return EBinancePoolEventsMap.Staked;
 
-      case EBinancePoolEvents.StakePending:
-        return EBinancePoolEventsMap.StakePending;
+      case EBinancePoolEvents.UnstakePending:
+        return EBinancePoolEventsMap.UnstakePending;
 
       default:
         return null;
@@ -227,7 +227,7 @@ export class BinanceSDK {
     const rawEvents: TPastEventsData = await this.getPastEvents(
       provider,
       this.aBNBbTokenContract,
-      EBinancePoolEvents.RatioUpdate,
+      EBinancePoolEvents.RatioUpdated,
       {
         newRatio: await this.aBNBbTokenContract.methods.ratio().call(),
       },
@@ -337,11 +337,11 @@ export class BinanceSDK {
     );
   }
 
-  public async getPendingClaim(): Promise<BigNumber> {
+  public async getPendingUnstakes(): Promise<BigNumber> {
     return new BigNumber(
       this.web3.utils.fromWei(
         await this.binancePoolContract.methods
-          .pendingBnbClaimsOf(this.currentAccount)
+          .pendingUnstakesOf(this.currentAccount)
           .call(),
       ),
     );
@@ -369,26 +369,26 @@ export class BinanceSDK {
       this.getPastEvents(
         provider,
         this.binancePoolContract,
-        EBinancePoolEvents.StakePending,
+        EBinancePoolEvents.Staked,
         {
-          staker: this.currentAccount,
+          delegator: this.currentAccount,
         },
       ),
       this.getPastEvents(
         provider,
         this.binancePoolContract,
-        EBinancePoolEvents.ClaimPending,
+        EBinancePoolEvents.UnstakePending,
         {
           claimer: this.currentAccount,
         },
       ),
     ]);
 
-    let pendingClaim: BigNumber = await this.getPendingClaim(),
+    let pendingUnstakes: BigNumber = await this.getPendingUnstakes(),
       pendingRawEvents: TPastEventsData = [],
       completedRawEvents: TPastEventsData;
 
-    if (pendingClaim.isGreaterThan(0)) {
+    if (pendingUnstakes.isGreaterThan(0)) {
       const unstakeRawEventsReverse: TPastEventsData =
         unstakeRawEvents.reverse();
 
@@ -399,11 +399,11 @@ export class BinanceSDK {
       ) {
         unstakeRawEventItem = unstakeRawEventsReverse[i] as EventData;
         itemAmount = this.getTxAmount(unstakeRawEventItem.returnValues.amount);
-        pendingClaim = pendingClaim.minus(itemAmount);
+        pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
 
-        if (pendingClaim.isZero()) {
+        if (pendingUnstakes.isZero()) {
           break;
         }
       }

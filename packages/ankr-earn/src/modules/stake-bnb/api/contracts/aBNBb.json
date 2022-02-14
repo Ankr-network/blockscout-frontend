@@ -28,19 +28,6 @@
 	"anonymous": false,
 	"inputs": [
 	  {
-		"indexed": false,
-		"internalType": "uint256",
-		"name": "newRatio",
-		"type": "uint256"
-	  }
-	],
-	"name": "LastConfirmedRatioUpdate",
-	"type": "event"
-  },
-  {
-	"anonymous": false,
-	"inputs": [
-	  {
 		"indexed": true,
 		"internalType": "address",
 		"name": "previousOwner",
@@ -66,7 +53,7 @@
 		"type": "uint256"
 	  }
 	],
-	"name": "RatioUpdate",
+	"name": "RatioUpdated",
 	"type": "event"
   },
   {
@@ -105,8 +92,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [],
@@ -119,8 +105,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [],
@@ -133,8 +118,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [],
@@ -154,8 +138,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -194,8 +177,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -234,8 +216,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -279,8 +260,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [],
@@ -293,8 +273,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -313,8 +292,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -387,8 +365,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -472,8 +449,7 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   },
   {
 	"inputs": [
@@ -577,6 +553,32 @@
 	"type": "function"
   },
   {
+	"inputs": [],
+	"name": "totalStaked",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "totalUnbondedBonds",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
 	"inputs": [
 	  {
 		"internalType": "address",
@@ -626,7 +628,6 @@
 	  }
 	],
 	"stateMutability": "view",
-	"type": "function",
-	"constant": true
+	"type": "function"
   }
 ]
