@@ -389,6 +389,7 @@
   },
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
+    "unstake-period": "35 days or earlier",
     "faq": {
       "question-1": "Are there any docs about the FTM staking and how I set up my wallet etc.?",
       "answer-1": "Yes – there’s a user guide you can find <a href=\"https://docs.fantom.foundation/tutorials/set-up-metamask\">here</a>.",
@@ -436,6 +437,7 @@
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
     "amount": "Amount",
+    "eta": "You will get your {token} in {period}",
     "success": {
       "title": "Unstake is pending",
       "description": "You will recieve {token} in {period}",

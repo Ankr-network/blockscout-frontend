@@ -13,7 +13,9 @@ export const StakedAFTMB = (): JSX.Element | null => {
     network,
     isBalancesLoading,
     isStakeLoading,
+    isUnstakeLoading,
     stakeLink,
+    unstakeLink,
   } = useStakedAFTMBData();
 
   const renderedPendingSlot = !pendingValue.isZero() && (
@@ -29,7 +31,9 @@ export const StakedAFTMB = (): JSX.Element | null => {
       pendingSlot={renderedPendingSlot}
       isLoading={isBalancesLoading}
       stakeLink={stakeLink}
+      unstakeLink={unstakeLink}
       isStakeLoading={isStakeLoading}
+      isUnstakeLoading={isUnstakeLoading}
     />
   );
 };

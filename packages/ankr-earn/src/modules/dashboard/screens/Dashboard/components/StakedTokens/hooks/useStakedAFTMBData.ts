@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -11,9 +11,11 @@ export interface IStakedAFTMBData {
   pendingValue: BigNumber;
   network: string;
   stakeLink: string;
+  unstakeLink?: string;
   isShowed: boolean;
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
+  isUnstakeLoading: boolean;
 }
 
 export const useStakedAFTMBData = (): IStakedAFTMBData => {
@@ -39,6 +41,11 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     isShowed,
     isBalancesLoading,
     stakeLink: RoutesConfig.stake.generatePath(),
+    unstakeLink: featuresConfig.unstakeFantom
+      ? RoutesConfig.unstake.generatePath()
+      : undefined,
     isStakeLoading,
+    // todo: add actual isUnstakeLoading
+    isUnstakeLoading: false,
   };
 };

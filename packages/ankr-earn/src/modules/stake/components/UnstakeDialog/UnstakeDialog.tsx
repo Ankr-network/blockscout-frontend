@@ -10,6 +10,7 @@ import { ReactNode, ReactText, useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { NavLink } from 'uiKit/NavLink';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
@@ -19,16 +20,17 @@ export interface IUnstakeFormValues {
 }
 
 export interface IUnstakeDialogProps {
-  renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   balance?: BigNumber;
   isLoading?: boolean;
   submitDisabled?: boolean;
   isBalanceLoading?: boolean;
-  onClose?: () => void;
-  onSubmit: (values: IUnstakeFormValues) => void;
   endDate?: Date;
   endText?: string;
   token?: Token;
+  closeHref?: string;
+  renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
+  onClose?: () => void;
+  onSubmit: (values: IUnstakeFormValues) => void;
   extraValidation?: (
     data: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
@@ -36,17 +38,18 @@ export interface IUnstakeDialogProps {
 }
 
 export const UnstakeDialog = ({
-  renderFormFooter,
   isBalanceLoading,
   isLoading,
   submitDisabled,
   balance,
-  onClose,
-  onSubmit,
+  closeHref,
   endDate,
   endText,
   token = Token.AVAX,
+  onSubmit,
+  onClose,
   extraValidation,
+  renderFormFooter,
 }: IUnstakeDialogProps) => {
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
@@ -66,6 +69,8 @@ export const UnstakeDialog = ({
     },
     [extraValidation],
   );
+
+  const CloseBtn = closeHref ? NavLink : Button;
 
   return (
     <Paper className={classes.root}>
@@ -144,9 +149,14 @@ export const UnstakeDialog = ({
         </Container>
       </div>
 
-      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
+      <CloseBtn
+        variant="outlined"
+        className={classes.closeBtn}
+        onClick={onClose}
+        href={closeHref ?? ''}
+      >
         <CloseIcon size="xxs" htmlColor="inherit" />
-      </Button>
+      </CloseBtn>
     </Paper>
   );
 };

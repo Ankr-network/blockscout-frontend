@@ -13,7 +13,10 @@ jest.mock('modules/auth/hooks/useConnectedData', () => ({
 }));
 
 jest.mock('modules/stake-fantom/Routes', () => ({
-  RoutesConfig: { stake: { generatePath: () => '/stake' } },
+  RoutesConfig: {
+    stake: { generatePath: () => '/stake' },
+    unstake: { generatePath: () => '/unstake' },
+  },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAFTMBData', () => {
@@ -43,6 +46,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
+    expect(result.current.isStakeLoading).toBe(false);
+    expect(result.current.isUnstakeLoading).toBe(false);
+    expect(result.current.stakeLink).toBe('/stake');
   });
 
   test('should return zero if there is no data', () => {
