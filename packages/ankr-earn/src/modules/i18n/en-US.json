@@ -389,7 +389,27 @@
   },
   "stake-fantom": {
     "ftm-tooltip-title": "1 FTM = 1 aFTMb",
-    "ftm-tooltip-body": "aFTMb is a redeemable token. aFTMb can be redeemed at fair value into FTM tokens anytime after unbonding period."
+    "ftm-tooltip-body": "aFTMb is a redeemable token. aFTMb can be redeemed at fair value into FTM tokens anytime after unbonding period.",
+    "faq": {
+      "question-1": "Are there any docs about the FTM staking and how I set up my wallet etc.?",
+      "answer-1": "Yes – there’s a user guide you can find <a href=\"https://docs.fantom.foundation/tutorials/set-up-metamask\">here</a>.",
+      "question-2": "What is the minimum amount of FTM I can stake?",
+      "answer-2": "{value} FTM",
+      "question-3": "What is the unstaking period of aFTMb?",
+      "answer-3": "The unstaking period is a maximum of 28 days. Every 28 days, there is at least one validator node reaching the end of its locking period. The cost of unstaking aFTMb can vary depending on the availability of FTM in the closest maturing node to avoid any liquidity risk.",
+      "question-4": "How do I receive rewards?",
+      "answer-4": "aFTMb is a rebasing token. When holding aFTMb, your balance will increase in proportion to your FTM staking rewards. A rebase runs daily, and rewards occur each time this runs. So every day, you can see that the quantity of your aFTMb has increased by a small amount.",
+      "question-5": "How soon after staking will I begin to receive rewards?",
+      "answer-5": "Your aFTMb balance will increase with every rebase; rebasing occurs daily.",
+      "question-6": "Does Ankr charge for this service?",
+      "answer-6": "Ankr does not charge any service fees for Fantom Liquid Staking. However, validators charge a delegate stake fee of 15%, representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake FTM.",
+      "question-7": "What determines the amount of rewards that I receive through rebase?",
+      "answer-7": "Staking rewards depend mostly on how long your staked FTM is locked with Ankr Earn. <br/>Staking FTM without locking provides approximately 4.5% rewards, or about 14% when locking for 365 days. You can find the most updated information about FTM staking rewards by locking period <a href=\"https://fantom.foundation/ftm-staking/\">here</a>. <br/>Ankr will aim to delegate 50% of staked FTM for the maximum possible period (approx. 1 year), 25% for 28 days, and 25% for 56 days. <br/>aFTMb holders will therefore get the average staking rewards of all staked FTM through Ankr Earn.",
+      "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
+      "answer-8": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+      "question-9": "Is there liquidity for aFTMb anywhere currently?",
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"https://www.ankr.com/earn/boost/trade/?from=FTM&to=aFTMb\">ANKR Boost</a>."
+    }
   },
   "eth2Swap": {
     "title": "ETH2 Swap",
