@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -65,15 +65,7 @@ export const StakeFantom = () => {
               value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
             })}
 
-            {/* todo: set actual tooltip text */}
-            <Tooltip
-              title={
-                <>
-                  <p>{t('stake-fantom.ftm-tooltip-title')}</p>
-                  <p>{t('stake-fantom.ftm-tooltip-body')}</p>
-                </>
-              }
-            >
+            <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
               <ButtonBase className={classes.questionBtn}>
                 <QuestionIcon size="xs" />
               </ButtonBase>

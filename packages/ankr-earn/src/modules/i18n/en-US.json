@@ -388,8 +388,7 @@
     }
   },
   "stake-fantom": {
-    "ftm-tooltip-title": "1 FTM = 1 aFTMb",
-    "ftm-tooltip-body": "aFTMb is a redeemable token. aFTMb can be redeemed at fair value into FTM tokens anytime after unbonding period.",
+    "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
     "faq": {
       "question-1": "Are there any docs about the FTM staking and how I set up my wallet etc.?",
       "answer-1": "Yes – there’s a user guide you can find <a href=\"https://docs.fantom.foundation/tutorials/set-up-metamask\">here</a>.",
