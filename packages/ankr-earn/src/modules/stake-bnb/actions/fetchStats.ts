@@ -8,7 +8,7 @@ interface IFetchStatsResponseData {
   aBNBbBalance: BigNumber;
   bnbBalance: BigNumber;
   minimumStake: BigNumber;
-  pendingClaim: BigNumber;
+  pendingUnstakes: BigNumber;
   relayerFee: BigNumber;
 }
 
@@ -25,13 +25,13 @@ export const fetchStats = createSmartAction<
           aBNBbBalance,
           bnbBalance,
           minimumStake,
-          pendingClaim,
+          pendingUnstakes,
           relayerFee,
         ] = await Promise.all([
           sdk.getABNBBBalance(),
           sdk.getBNBBalance(),
           sdk.getMinimumStake(),
-          sdk.getPendingClaim(),
+          sdk.getPendingUnstakes(),
           sdk.getRelayerFee(),
         ]);
 
@@ -39,7 +39,7 @@ export const fetchStats = createSmartAction<
           aBNBbBalance,
           bnbBalance,
           minimumStake,
-          pendingClaim,
+          pendingUnstakes,
           relayerFee,
         };
       },

@@ -52,8 +52,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
   },
   binanceConfig: {
-    aBNBbToken: '0x7F9468c21928A0BAbF4A26Fe5B578Fe6ca99cBDb',
-    binancePool: '0x6B2Fc3d494c08eFdec205EE7be5cFc09992Dd793',
+    aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
   },
   fantomConfig: {

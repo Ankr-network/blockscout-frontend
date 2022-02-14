@@ -65,7 +65,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
     expect(result.current.tradeLink).toBe('/trade');
-    expect(result.current.stakeType).toBe(EBinancePoolEventsMap.StakePending);
-    expect(result.current.unstakeType).toBe(EBinancePoolEventsMap.ClaimPending);
+    expect(result.current.stakeType).toBe(EBinancePoolEventsMap.Staked);
+    expect(result.current.unstakeType).toBe(
+      EBinancePoolEventsMap.UnstakePending,
+    );
   });
 });
