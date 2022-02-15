@@ -1,14 +1,12 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ZERO } from 'modules/common/const';
-import { floor } from 'modules/common/utils/floor';
 import { stake } from 'modules/stake-bnb/actions/stake';
-import { BNB_STAKING_AMOUNT_STEP } from 'modules/stake-bnb/const';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import { getAmountData } from '../../../utils/getAmountData';
@@ -59,20 +57,6 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
       }
     });
   };
-
-  useEffect(() => {
-    if (!fetchStatsData) {
-      return;
-    }
-
-    const { minimumStake, bnbBalance } = fetchStatsData;
-
-    const initAmount = bnbBalance.isGreaterThan(minimumStake)
-      ? floor(bnbBalance.toNumber(), BNB_STAKING_AMOUNT_STEP)
-      : minimumStake.toNumber();
-
-    setAmount(initAmount);
-  }, [fetchStatsData]);
 
   return {
     amount,

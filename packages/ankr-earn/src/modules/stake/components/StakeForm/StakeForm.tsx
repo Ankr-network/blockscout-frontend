@@ -25,9 +25,8 @@ export interface IStakeSubmitPayload extends IStakeFormPayload {
 }
 
 export interface IStakeFormComponentProps {
-  onSubmit: (payload: IStakeSubmitPayload) => void;
-  balance?: BigNumber;
   stakingAmountStep: number;
+  balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
@@ -37,6 +36,7 @@ export interface IStakeFormComponentProps {
   className?: string;
   renderStats?: (amount: number) => ReactNode;
   renderFooter?: (amount: number) => ReactNode;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }
 
@@ -52,7 +52,6 @@ const getAmountNum = (amount?: ReactText): number => {
 
 export const StakeForm = ({
   className,
-  onSubmit,
   balance = new BigNumber(0),
   stakingAmountStep,
   minAmount = new BigNumber(stakingAmountStep),
@@ -63,6 +62,7 @@ export const StakeForm = ({
   tokenOut = tokenIn,
   renderStats,
   renderFooter,
+  onSubmit,
   onChange,
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
@@ -179,9 +179,9 @@ export const StakeForm = ({
 
   return (
     <Form
-      onSubmit={onSubmitForm}
       render={renderForm}
       validate={validateStakeForm}
+      onSubmit={onSubmitForm}
     />
   );
 };
