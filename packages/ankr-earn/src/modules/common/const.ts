@@ -58,7 +58,7 @@ export const featuresConfig = {
   stakeFantom: currentEnv !== Env.Production,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: currentEnv === Env.Develop,
-  eth2Swap: currentEnv === Env.Develop,
+  eth2Swap: currentEnv !== Env.Production,
   bridge: currentEnv === Env.Develop,
 };
 

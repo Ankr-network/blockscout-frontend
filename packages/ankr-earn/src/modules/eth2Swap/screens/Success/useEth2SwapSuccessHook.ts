@@ -7,6 +7,7 @@ import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ISuccessPathParams, TSwapOption } from 'modules/eth2Swap/types';
 import { addEth2SwapTokenToWallet } from 'modules/eth2Swap/actions/wallet';
 import { SupportedChainIDS } from 'modules/common/const';
+import { TOKENS } from './const';
 
 export interface IEth2SwapSuccessHookData {
   txHash: string;
@@ -23,7 +24,7 @@ export const useEth2SwapSuccessHook = () => {
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(
       addEth2SwapTokenToWallet({
-        swapOption,
+        swapOption: TOKENS[swapOption],
         providerId: AvailableWriteProviders.ethCompatible,
       }),
     );
