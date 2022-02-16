@@ -1,4 +1,4 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { resetRequests } from '@redux-requests/core';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import {
@@ -14,18 +14,31 @@ import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetch
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { AvailableWriteProviders } from 'provider/providerManager/types';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 export const useDashboard = () => {
   const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useAppDispatch();
 
   useProviderEffect(() => {
+    dispatch(
+      resetRequests([
+        fetchPolygonStats.toString(),
+        fetchPolygonTxHistory.toString(),
+        fetchPolygonAPY.toString(),
+        getEth2SwapData.toString(),
+        fetchBNBStats.toString(),
+        fetchBNBTxHistory.toString(),
+        fetchFTMStats.toString(),
+      ]),
+    );
+
     switch (chainId) {
       case ETH_NETWORK_BY_ENV:
-        dispatchRequest(fetchPolygonStats());
-        dispatchRequest(fetchPolygonTxHistory());
-        dispatchRequest(fetchPolygonAPY());
-        dispatchRequest(
+        dispatch(fetchPolygonStats());
+        dispatch(fetchPolygonTxHistory());
+        dispatch(fetchPolygonAPY());
+        dispatch(
           getEth2SwapData({
             providerId: AvailableWriteProviders.ethCompatible,
           }),
@@ -33,16 +46,16 @@ export const useDashboard = () => {
         break;
 
       case BSC_NETWORK_BY_ENV:
-        dispatchRequest(fetchBNBStats());
-        dispatchRequest(fetchBNBTxHistory());
+        dispatch(fetchBNBStats());
+        dispatch(fetchBNBTxHistory());
         break;
 
       case FTM_NETWORK_BY_ENV:
-        dispatchRequest(fetchFTMStats());
+        dispatch(fetchFTMStats());
         break;
 
       default:
         break;
     }
-  }, [dispatchRequest]);
+  }, [dispatch]);
 };

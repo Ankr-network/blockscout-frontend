@@ -1,8 +1,11 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { Seconds } from 'modules/common/types';
 import { createAction } from 'redux-smart-actions';
 import { getAftmbBalance, getFtmBalance, getMinimumStake } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
+
+const CACHE_TIME: Seconds = 30;
 
 interface IGetCommonData {
   ftmBalance: BigNumber;
@@ -11,8 +14,9 @@ interface IGetCommonData {
 }
 
 export const getCommonData = createAction<
-  RequestAction<IGetCommonData, IGetCommonData>
->(`${ACTIONS_PREFIX}getCommonData`, () => ({
+  RequestAction<IGetCommonData, IGetCommonData>,
+  [RequestActionMeta<IGetCommonData, IGetCommonData>?]
+>(`${ACTIONS_PREFIX}getCommonData`, meta => ({
   request: {
     promise: (async (): Promise<IGetCommonData> => {
       const [ftmBalance, minStake, aFTMbBalance] = await Promise.all([
@@ -29,6 +33,8 @@ export const getCommonData = createAction<
     })(),
   },
   meta: {
+    cache: CACHE_TIME,
+    ...meta,
     asMutation: false,
     showNotificationOnError: true,
     getData: data => data,

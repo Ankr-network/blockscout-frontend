@@ -21,7 +21,7 @@ export interface IBinanceConfig {
   WBNBContract: string;
 }
 
-interface IFantomConfig {
+export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
 }

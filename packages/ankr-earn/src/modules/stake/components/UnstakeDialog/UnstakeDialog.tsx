@@ -11,9 +11,14 @@ import { Form } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
+import { OnChange } from 'uiKit/OnChange';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
+
+enum FieldsNames {
+  amount = 'amount',
+}
 
 export interface IUnstakeFormValues {
   amount?: ReactText;
@@ -35,6 +40,7 @@ export interface IUnstakeDialogProps {
     data: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
   ) => FormErrors<IUnstakeFormValues>;
+  onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
 }
 
 export const UnstakeDialog = ({
@@ -50,6 +56,7 @@ export const UnstakeDialog = ({
   onClose,
   extraValidation,
   renderFormFooter,
+  onChange,
 }: IUnstakeDialogProps) => {
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
@@ -57,7 +64,7 @@ export const UnstakeDialog = ({
 
   const setMaxAmount = useCallback(
     (form: FormApi<IUnstakeFormValues>, maxAmount: string) => () =>
-      form.change('amount', maxAmount),
+      form.change(FieldsNames.amount, maxAmount),
     [],
   );
 
@@ -82,7 +89,7 @@ export const UnstakeDialog = ({
         <Form
           validate={validate}
           onSubmit={onSubmit}
-          render={({ handleSubmit, form, values }) => (
+          render={({ handleSubmit, form, values, invalid }) => (
             <form
               onSubmit={handleSubmit}
               autoComplete="off"
@@ -93,7 +100,7 @@ export const UnstakeDialog = ({
                   balance={balance}
                   onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
                   isBalanceLoading={isBalanceLoading}
-                  name="amount"
+                  name={FieldsNames.amount}
                   tokenName={token}
                   label={t('unstake-dialog.amount')}
                   inputClassName={classes.input}
@@ -105,6 +112,14 @@ export const UnstakeDialog = ({
                   new BigNumber(values.amount ?? 0),
                   new BigNumber(maxAmount),
                 )}
+
+              {typeof onChange === 'function' && (
+                <OnChange name={FieldsNames.amount}>
+                  {() => {
+                    onChange(values, invalid);
+                  }}
+                </OnChange>
+              )}
             </form>
           )}
         />

@@ -4,6 +4,7 @@ import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
+import { unstake } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig } from 'modules/stake-fantom/Routes';
 
 export interface IStakedAFTMBData {
@@ -27,6 +28,10 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     type: stake,
   });
 
+  const { loading: isUnstakeLoading } = useMutation({
+    type: unstake,
+  });
+
   const network = t(`chain.${FTM_NETWORK_BY_ENV}`);
 
   const amount = commonData?.aFTMbBalance ?? ZERO;
@@ -45,7 +50,6 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
       ? RoutesConfig.unstake.generatePath()
       : undefined,
     isStakeLoading,
-    // todo: add actual isUnstakeLoading
-    isUnstakeLoading: false,
+    isUnstakeLoading,
   };
 };

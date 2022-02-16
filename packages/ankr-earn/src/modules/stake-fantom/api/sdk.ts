@@ -4,28 +4,20 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { IWeb3SendResult } from 'provider';
+import { IWeb3SendResult, Web3KeyProvider } from 'provider';
 import { AvailableWriteProviders } from 'provider/providerManager/types';
+import { Contract } from 'web3-eth-contract';
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
-const config = configFromEnv();
+const { fantomConfig } = configFromEnv();
 const providerManager = ProviderManagerSingleton.getInstance();
 const providerId = AvailableWriteProviders.ethCompatible;
 
 export const stake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
-  const { fantomConfig } = config;
-  const provider = await providerManager.getProvider(providerId);
-
-  if (!provider.isConnected()) {
-    await provider.connect();
-  }
-
+  const provider = await getProvider();
   const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-  const fantomPoolContract = provider.createContract(
-    FantomPoolAbi,
-    fantomConfig.fantomPool,
-  );
+  const fantomPoolContract = getFantomPoolContract(provider);
 
   return fantomPoolContract.methods.stake().send({
     from: provider.currentAccount,
@@ -33,32 +25,37 @@ export const stake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
   });
 };
 
-export const getMinimumStake = async (): Promise<BigNumber> => {
-  const { fantomConfig } = config;
-  const provider = await providerManager.getProvider(providerId);
+export const unstake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
+  const provider = await getProvider();
+  const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+  const fantomPoolContract = getFantomPoolContract(provider);
 
-  if (!provider.isConnected()) {
-    await provider.connect();
-  }
+  return fantomPoolContract.methods.burn(hexAmount).send({
+    from: provider.currentAccount,
+  });
+};
 
+export const getBurnFee = async (amount: BigNumber): Promise<BigNumber> => {
+  const provider = await getProvider();
   const web3 = provider.getWeb3();
-  const fantomPoolContract = provider.createContract(
-    FantomPoolAbi,
-    fantomConfig.fantomPool,
-  );
+  const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+  const fantomPoolContract = getFantomPoolContract(provider);
+  const burnFee = await fantomPoolContract.methods.getBurnFee(hexAmount).call();
 
+  return new BigNumber(web3.utils.fromWei(burnFee));
+};
+
+export const getMinimumStake = async (): Promise<BigNumber> => {
+  const provider = await getProvider();
+  const web3 = provider.getWeb3();
+  const fantomPoolContract = getFantomPoolContract(provider);
   const minStake = await fantomPoolContract.methods.getMinimumStake().call();
 
   return new BigNumber(web3.utils.fromWei(minStake));
 };
 
 export const addAftmbToWallet = async (): Promise<void> => {
-  const { fantomConfig } = config;
-  const provider = await providerManager.getProvider(providerId);
-
-  if (!provider.isConnected()) {
-    await provider.connect();
-  }
+  const provider = await getProvider();
 
   await provider.addTokenToWallet({
     address: fantomConfig.aftmbToken,
@@ -68,26 +65,15 @@ export const addAftmbToWallet = async (): Promise<void> => {
 };
 
 export const getFtmBalance = async (): Promise<BigNumber> => {
-  const provider = await providerManager.getProvider(providerId);
+  const provider = await getProvider();
   const web3 = provider.getWeb3();
-
-  if (!provider.isConnected()) {
-    await provider.connect();
-  }
-
   const ftmBalance = await web3.eth.getBalance(provider.currentAccount);
 
   return new BigNumber(web3.utils.fromWei(ftmBalance));
 };
 
 export const getAftmbBalance = async (): Promise<BigNumber> => {
-  const { fantomConfig } = config;
-  const provider = await providerManager.getProvider(providerId);
-
-  if (!provider.isConnected()) {
-    await provider.connect();
-  }
-
+  const provider = await getProvider();
   const web3 = provider.getWeb3();
   const aFTMbContract = provider.createContract(
     AFTMbAbi,
@@ -99,4 +85,18 @@ export const getAftmbBalance = async (): Promise<BigNumber> => {
     .call();
 
   return new BigNumber(web3.utils.fromWei(aFTMbBalance));
+};
+
+const getFantomPoolContract = (provider: Web3KeyProvider): Contract => {
+  return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
+};
+
+const getProvider = async (): Promise<Web3KeyProvider> => {
+  const provider = await providerManager.getProvider(providerId);
+
+  if (!provider.isConnected()) {
+    await provider.connect();
+  }
+
+  return provider;
 };
