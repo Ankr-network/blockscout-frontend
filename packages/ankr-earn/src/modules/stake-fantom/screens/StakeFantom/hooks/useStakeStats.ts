@@ -1,9 +1,12 @@
+import BigNumber from 'bignumber.js';
+import { ReactText } from 'react';
+import { ZERO } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
 import { YEARLY_INTEREST } from '../../../const';
 
-export const useStakeStats = (amount: number) => {
+export const useStakeStats = (amount: ReactText) => {
   const stats: IStakeStatsItem[] = useLocaleMemo(
     () => [
       {
@@ -13,10 +16,8 @@ export const useStakeStats = (amount: number) => {
       },
       {
         label: t('stake.stats.yearly-earning'),
-        value: t('unit.token-value', {
-          token: t('unit.ftm'),
-          value: calcYearlyEarning(amount),
-        }),
+        token: t('unit.ftm'),
+        value: calcYearlyEarning(amount).toFormat(),
       },
     ],
     [amount],
@@ -25,6 +26,8 @@ export const useStakeStats = (amount: number) => {
   return stats;
 };
 
-const calcYearlyEarning = (amount: number): number => {
-  return (amount * YEARLY_INTEREST) / 100;
+const calcYearlyEarning = (amount: ReactText): BigNumber => {
+  return amount
+    ? new BigNumber(amount).multipliedBy(YEARLY_INTEREST).dividedBy(100)
+    : ZERO;
 };

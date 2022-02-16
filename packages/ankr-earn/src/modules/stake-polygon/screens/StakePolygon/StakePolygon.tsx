@@ -6,9 +6,11 @@ import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
@@ -42,7 +44,7 @@ export const StakePolygon = () => {
       openSuccessModal: onSuccessOpen,
     });
 
-  const stats = useStakeStats(+amount);
+  const stats = useStakeStats(amount);
   const faqItems = useFaq();
 
   useProviderEffect(() => {
@@ -50,17 +52,21 @@ export const StakePolygon = () => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (amount: number) => {
-      const isZeroAmount: boolean = amount === 0;
+    (amount: BigNumber) => {
+      const isZeroAmount = amount.isZero();
+      const symbol = isZeroAmount ? Token.MATIC : Token.aMATICb;
 
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            {t(isZeroAmount ? 'unit.matic-value' : 'unit.~polygon', {
-              value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
-            })}
+            <StakeDescriptionAmount symbol={symbol}>
+              {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            </StakeDescriptionAmount>
+
+            <small>{symbol}</small>
+
             <Tooltip
               title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
             >

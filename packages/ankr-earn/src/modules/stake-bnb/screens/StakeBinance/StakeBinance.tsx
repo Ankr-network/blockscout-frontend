@@ -7,6 +7,7 @@ import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
@@ -65,7 +66,7 @@ export const StakeBinance = () => {
 
   const onRenderStats =
     (relayerFee: BigNumber) =>
-    (rawAmount: number): JSX.Element => {
+    (rawAmount: BigNumber): JSX.Element => {
       const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
         rawAmount,
         relayerFee,
@@ -99,19 +100,11 @@ export const StakeBinance = () => {
             </StakeDescriptionName>
 
             <StakeDescriptionValue>
-              <span>
-                {t(
-                  isLessThanOrEqualToZero
-                    ? 'unit.token-value'
-                    : 'unit.~token-value',
-                  {
-                    value: isLessThanOrEqualToZero
-                      ? 0
-                      : resultAmount.decimalPlaces(DECIMAL_PLACES),
-                    token: Token.aBNBb,
-                  },
-                )}
-              </span>
+              <StakeDescriptionAmount symbol={Token.aBNBb}>
+                {!isLessThanOrEqualToZero
+                  ? `~${resultAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}`
+                  : '0'}
+              </StakeDescriptionAmount>
 
               <Tooltip
                 title={tHTML('stake-bnb.tooltips.you-will-get', {

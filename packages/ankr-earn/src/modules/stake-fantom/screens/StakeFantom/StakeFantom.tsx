@@ -7,6 +7,7 @@ import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
@@ -46,7 +47,7 @@ export const StakeFantom = () => {
     onSubmit,
   } = useStakeForm(onSuccessOpen);
 
-  const stats = useStakeStats(+amount);
+  const stats = useStakeStats(amount);
   const faqItems = useFaq();
 
   useEffect(() => {
@@ -54,16 +55,17 @@ export const StakeFantom = () => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (amount: number) => {
+    (amount: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            {t('unit.token-value', {
-              token: tokenOut,
-              value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
-            })}
+            <StakeDescriptionAmount symbol={tokenOut}>
+              {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            </StakeDescriptionAmount>
+
+            <small>{tokenOut}</small>
 
             <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
               <ButtonBase className={classes.questionBtn}>

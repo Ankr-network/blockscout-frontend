@@ -38,7 +38,7 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
 
     const relayerFee: BigNumber = fetchStatsData?.relayerFee ?? ZERO;
     const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
-      rawAmount.toNumber(),
+      rawAmount,
       relayerFee,
     );
     const resultVal: number = isLessThanOrEqualToZero

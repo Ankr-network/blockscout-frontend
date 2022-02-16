@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { FormApi } from 'final-form';
 import { AmountInput } from 'modules/common/components/AmountField';
+import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode, ReactText, useCallback } from 'react';
@@ -21,7 +22,7 @@ export interface IStakeFormPayload {
 }
 
 export interface IStakeSubmitPayload extends IStakeFormPayload {
-  amount: number;
+  amount: string;
 }
 
 export interface IStakeFormComponentProps {
@@ -34,20 +35,20 @@ export interface IStakeFormComponentProps {
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
-  renderStats?: (amount: number) => ReactNode;
-  renderFooter?: (amount: number) => ReactNode;
+  renderStats?: (amount: BigNumber) => ReactNode;
+  renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }
 
-const getAmountNum = (amount?: ReactText): number => {
+const getAmountNum = (amount?: ReactText): BigNumber => {
   if (typeof amount === 'undefined') {
-    return 0;
+    return ZERO;
   }
 
-  const currAmount: number = +amount;
+  const currAmount = new BigNumber(amount);
 
-  return Number.isFinite(currAmount) && currAmount > 0 ? currAmount : 0;
+  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
 };
 
 export const StakeForm = ({
@@ -93,7 +94,7 @@ export const StakeForm = ({
   const onSubmitForm = (payload: IStakeFormPayload): void =>
     onSubmit({
       ...payload,
-      amount: getAmountNum(payload?.amount),
+      amount: getAmountNum(payload?.amount).toFixed(),
     } as IStakeSubmitPayload);
 
   const renderForm = ({
@@ -102,7 +103,8 @@ export const StakeForm = ({
     values,
   }: FormRenderProps<IStakeFormPayload>) => {
     const { amount } = values;
-    const amountNumber: number = getAmountNum(amount);
+    const amountNumber = getAmountNum(amount);
+
     return (
       <Paper
         className={className}
