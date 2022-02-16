@@ -45,10 +45,8 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveBNBStaking: currentEnv === Env.Develop,
-  // TODO Please to add fix for it (BNB; trading-cockpit; tradeLink; isActiveBNBTradeLink = true)
-  isActiveBNBTradeLink: false,
-  isActiveBNBUnstaking: currentEnv === Env.Develop,
+  isActiveBNBStaking: currentEnv !== Env.Production,
+  isActiveBNBUnstaking: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,

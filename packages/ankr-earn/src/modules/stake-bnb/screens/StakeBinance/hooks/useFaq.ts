@@ -1,6 +1,5 @@
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
@@ -14,12 +13,14 @@ export const useFaq = (): IFaqItem[] => {
   const { redeemPeriod, redeemValue } = useRedeemData();
 
   const tradeLink: string = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
+    // TODO Please to add fix for it (BNB; trading-cockpit)
+    // () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
+    () => BoostRoutes.tradingCockpit.generatePath(Token.aETHb, Token.ETH),
     [],
   );
 
-  return useLocaleMemo((): IFaqItem[] => {
-    const items: IFaqItem[] = [
+  return useLocaleMemo(
+    (): IFaqItem[] => [
       {
         question: t('stake-bnb.faq.question-1'),
         answer: tHTML('stake-bnb.faq.answer-1'),
@@ -57,17 +58,13 @@ export const useFaq = (): IFaqItem[] => {
         question: t('stake-bnb.faq.question-8'),
         answer: t('stake-bnb.faq.answer-8'),
       },
-    ];
-
-    if (featuresConfig.isActiveBNBTradeLink) {
-      items.push({
+      {
         question: t('stake-bnb.faq.question-9'),
         answer: tHTML('stake-bnb.faq.answer-9', {
           link: tradeLink,
         }),
-      });
-    }
-
-    return items;
-  }, [redeemPeriod, redeemValue, stats?.minimumStake, tradeLink]);
+      },
+    ],
+    [redeemPeriod, redeemValue, stats?.minimumStake, tradeLink],
+  );
 };

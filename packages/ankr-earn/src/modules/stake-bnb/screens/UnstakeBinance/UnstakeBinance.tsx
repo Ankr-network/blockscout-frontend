@@ -82,7 +82,7 @@ export const UnstakeBinance = () => {
             color="textPrimary"
             variant="body2"
           >
-            {t(isInvalidAmount ? 'unit.token-value' : 'unit.~token-value', {
+            {t('unit.token-value', {
               value: isInvalidAmount ? 0 : amount.decimalPlaces(DECIMAL_PLACES),
               token: Token.BNB,
             })}
@@ -129,9 +129,9 @@ export const UnstakeBinance = () => {
               value: redeemValue,
               period: redeemPeriod,
             })}
-            extraValidation={onExtraValidation(fetchStatsData.minimumStake)}
+            extraValidation={onExtraValidation(fetchStatsData.minimumUnstake)}
             isLoading={isUnstakeLoading}
-            renderFormFooter={onRenderFormFooter(fetchStatsData.minimumStake)}
+            renderFormFooter={onRenderFormFooter(fetchStatsData.minimumUnstake)}
             submitDisabled={isUnstakeLoading}
             token={Token.aBNBb}
             onClose={onClose}

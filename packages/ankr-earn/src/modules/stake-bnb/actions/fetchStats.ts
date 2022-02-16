@@ -8,6 +8,7 @@ interface IFetchStatsResponseData {
   aBNBbBalance: BigNumber;
   bnbBalance: BigNumber;
   minimumStake: BigNumber;
+  minimumUnstake: BigNumber;
   pendingUnstakes: BigNumber;
   relayerFee: BigNumber;
 }
@@ -38,7 +39,8 @@ export const fetchStats = createSmartAction<
         return {
           aBNBbBalance,
           bnbBalance,
-          minimumStake,
+          minimumStake: minimumStake.plus(relayerFee),
+          minimumUnstake: minimumStake,
           pendingUnstakes,
           relayerFee,
         };
