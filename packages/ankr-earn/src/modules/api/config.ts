@@ -57,8 +57,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
   },
   fantomConfig: {
-    fantomPool: '0xB18ff393C0C75E3B8A445DF3E3bD0d9Ce03Fba4b',
-    aftmbToken: '0x5bb1Ae7FaBA68CA80A88B7dF30eea239E62D502D',
+    fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
+    aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',

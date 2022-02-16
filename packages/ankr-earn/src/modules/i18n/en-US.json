@@ -408,7 +408,7 @@
       "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
       "answer-8": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"https://www.ankr.com/earn/boost/trade/?from=FTM&to=aFTMb\">ANKR Boost</a>."
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR Boost</a>."
     }
   },
   "eth2Swap": {

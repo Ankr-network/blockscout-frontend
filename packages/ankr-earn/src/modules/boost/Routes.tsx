@@ -1,6 +1,7 @@
 import loadable from '@loadable/component';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH, featuresConfig } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -18,7 +19,10 @@ export const RoutesConfig = createRouteConfig(
   {
     tradingCockpit: {
       path: TRADING_COCKPIT_PATH,
-      generatePath: (fromToken?: string, toToken?: string) =>
+      generatePath: (
+        fromToken: string = Token.ETH,
+        toToken: string = Token.aETHb,
+      ) =>
         generatePath(TRADING_COCKPIT_SPECIFIC_PATH, {
           fromToken,
           toToken,
