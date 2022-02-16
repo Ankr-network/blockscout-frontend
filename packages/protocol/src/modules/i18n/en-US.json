@@ -223,6 +223,10 @@
   "web3Schemes": {
     "web3": "Web3 (EVM)",
     "evm": "Web3 (EVM)",
-    "solana": "Web3 (Solana)"
+    "solana": "Web3 (Solana)",
+    "nervos": "Web3 (EVM)",
+    "godwoken": "Web3 (Godwoken)",
+    "iotex": "Web3 (EVM)",
+    "near": "Web3 (EVM)"
   }
 }
