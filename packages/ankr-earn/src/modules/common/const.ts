@@ -47,7 +47,7 @@ export const featuresConfig = {
   isActiveMyRewardsClaimModalNewParts: false,
   isActiveBNBStaking: currentEnv === Env.Develop,
   // TODO Please to add fix for it (BNB; trading-cockpit; tradeLink; isActiveBNBTradeLink = true)
-  isActiveBNBTradeLink: currentEnv === Env.Develop,
+  isActiveBNBTradeLink: false,
   isActiveBNBUnstaking: currentEnv === Env.Develop,
   isActiveClaimNotification: false,
   liquidityMining: false,

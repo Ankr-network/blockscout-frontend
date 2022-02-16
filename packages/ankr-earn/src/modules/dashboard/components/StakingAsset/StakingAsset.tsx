@@ -5,8 +5,10 @@ import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactNode } from 'react';
+import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
+import { Tooltip } from 'uiKit/Tooltip';
 import { NetworkIconText } from '../NetworkIconText';
 import { ReactComponent as HistoryIcon } from './assets/history.svg';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
@@ -127,8 +129,8 @@ export const StakingAsset = ({
               />
             </Grid>
 
-            {tradeLink && (
-              <Grid item>
+            <Grid item>
+              {tradeLink ? (
                 <NavLink
                   variant="outlined"
                   className={classes.tradeButton}
@@ -136,8 +138,20 @@ export const StakingAsset = ({
                 >
                   {t('dashboard.trade')}
                 </NavLink>
-              </Grid>
-            )}
+              ) : (
+                <Tooltip title={comingSoonTooltip} arrow>
+                  <Box display="flex" component="span">
+                    <Button
+                      variant="outlined"
+                      className={classes.tradeButton}
+                      disabled
+                    >
+                      {t('dashboard.trade')}
+                    </Button>
+                  </Box>
+                </Tooltip>
+              )}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
