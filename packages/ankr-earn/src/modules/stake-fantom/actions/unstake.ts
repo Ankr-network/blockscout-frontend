@@ -1,9 +1,4 @@
-import {
-  clearRequestsCache,
-  RequestAction,
-  RequestsStore,
-  resetRequests,
-} from '@redux-requests/core';
+import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from 'provider';
 import { createAction } from 'redux-smart-actions';
@@ -23,16 +18,6 @@ export const unstake = createAction<RequestAction, [BigNumber]>(
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      onRequest: (
-        request: any,
-        _action: RequestAction,
-        { dispatch }: RequestsStore,
-      ) => {
-        const actionsToResetCache = [getCommonData.toString()];
-        dispatch(clearRequestsCache(actionsToResetCache));
-
-        return request;
-      },
       onSuccess: async (response, _action, { dispatch }) => {
         dispatch(getCommonData());
         dispatch(resetRequests([getBurnFee.toString()]));
