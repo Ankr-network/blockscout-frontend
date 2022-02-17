@@ -3,7 +3,7 @@ import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES } from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -166,6 +166,7 @@ export const StakeBinance = () => {
               tokenOut={t('unit.abnbb')}
               onChange={handleFormChange}
               onSubmit={handleSubmit}
+              isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             />
 
             <StakeStats stats={stakeStats} />

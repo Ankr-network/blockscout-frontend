@@ -24,7 +24,7 @@ export const useStakeStats = (amount: ReactText) => {
         value: calcYearlyEarning(amount, APY).toFormat(),
       },
     ],
-    [amount],
+    [amount, APY],
   );
 
   return stats;

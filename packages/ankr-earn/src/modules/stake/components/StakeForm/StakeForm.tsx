@@ -35,6 +35,7 @@ export interface IStakeFormComponentProps {
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
+  isMaxBtnShowed?: boolean;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
@@ -61,6 +62,7 @@ export const StakeForm = ({
   isBalanceLoading = false,
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
+  isMaxBtnShowed = true,
   renderStats,
   renderFooter,
   onSubmit,
@@ -122,7 +124,11 @@ export const StakeForm = ({
 
             <AmountInput
               balance={balance}
-              onMaxClick={setMaxAmount(form, `${maxAmount.toString()}`)}
+              onMaxClick={
+                isMaxBtnShowed
+                  ? setMaxAmount(form, `${maxAmount.toString()}`)
+                  : undefined
+              }
               isBalanceLoading={isBalanceLoading}
               name={FieldsNames.amount}
               tokenName={tokenIn}

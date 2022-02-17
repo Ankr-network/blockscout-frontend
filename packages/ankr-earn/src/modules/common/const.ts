@@ -58,6 +58,7 @@ export const featuresConfig = {
   unstakeFantom: currentEnv !== Env.Production,
   eth2Swap: currentEnv !== Env.Production,
   bridge: currentEnv === Env.Develop,
+  maxStakeAmountBtn: false,
 };
 
 export enum SupportedChainIDS {

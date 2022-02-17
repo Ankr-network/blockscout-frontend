@@ -1,9 +1,10 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES } from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
@@ -15,7 +16,7 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -51,7 +52,7 @@ export const StakeFantom = () => {
   const stats = useStakeStats(amount);
   const faqItems = useFaq();
 
-  useEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
   }, [dispatchRequest]);
@@ -111,6 +112,7 @@ export const StakeFantom = () => {
             onSubmit={onSubmit}
             onChange={onChange}
             renderStats={renderStats}
+            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
           />
 
           <StakeStats stats={stats} />

@@ -1,12 +1,12 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { DEFAULT_FIXED } from 'modules/common/const';
+import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactText, useCallback } from 'react';
 import { Field } from 'react-final-form';
-import { useAmountFieldStyles } from './useAmountFieldStyles';
 import { AmountField } from '../../../../uiKit/AmountField';
+import { useAmountFieldStyles } from './useAmountFieldStyles';
 
 const MIN_AMOUNT = 0;
 
@@ -37,11 +37,11 @@ export const AmountInput = ({
 }: IAmountInputProps) => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
-  const zeroBalance = new BigNumber(0);
-  const maxAmount = balance || zeroBalance;
+  const maxAmount = balance || ZERO;
   const roundedBalance = balance
     ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
     : '0';
+  const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 
   const validateAmount = useCallback(
     (value?: ReactText) => {
@@ -106,7 +106,7 @@ export const AmountInput = ({
           classes: {
             input: inputClassName,
           },
-          endAdornment: withBalance && (
+          endAdornment: isMaxBtnShowed && (
             <Button
               className={classes.maxBtn}
               variant="outlined"
