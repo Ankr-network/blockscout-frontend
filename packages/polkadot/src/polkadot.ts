@@ -65,7 +65,7 @@ export class PolkadotProvider {
   }
 
   public async connect(): Promise<void> {
-    await web3Enable('StakeFi');
+    await web3Enable('Ankr Earn');
 
     const accounts = await this.getAccounts();
     console.log(`Found next polkadot accounts: ${accounts}`);

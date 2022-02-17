@@ -355,7 +355,7 @@ export class SlotAuctionSdk {
   ): Uint8Array {
     // eslint-disable-next-line no-buffer-constructor
     const header = new Buffer(
-      'Stakefi Signed Message:\nCreateClaim\n',
+      'Ankr Earn Signed Message:\nCreateClaim\n',
       'ascii',
     );
     const address = SlotAuctionSdk.ethereumAddressToBytes(ethereumAddress);
@@ -377,7 +377,7 @@ export class SlotAuctionSdk {
     if (!this.polkadotProvider.isConnected())
       throw new Error(`Polkadot must be connected`);
     const signMessage = Buffer.from(
-      `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
+      `Ankr Earn Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
         polkadotAccount,
       )}\n${ethereumAddress}\n${expirationTimestamp}`,
       'ascii',
@@ -620,7 +620,12 @@ export class SlotAuctionSdk {
       return this.keyProvider;
     }
 
-    await this.keyProvider.inject();
+    try {
+      await this.keyProvider.inject();
+    } catch {
+      throw new Error('Web3 must be injected');
+    }
+
     await this.keyProvider.connect();
 
     return this.keyProvider;

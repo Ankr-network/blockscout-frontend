@@ -22,7 +22,7 @@ describe('Test: SlotAuctionSdk', (): void => {
 
       // eslint-disable-next-line no-buffer-constructor
       const prefix: Buffer = new Buffer(
-        'Stakefi Signed Message:\nCreateClaim\n',
+        'Ankr Earn Signed Message:\nCreateClaim\n',
         'ascii',
       );
 
