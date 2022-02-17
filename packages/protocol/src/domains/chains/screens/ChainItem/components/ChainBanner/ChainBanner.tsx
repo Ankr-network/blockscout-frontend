@@ -3,11 +3,12 @@ import React from 'react';
 import { useIsSMDown } from 'ui';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
-import { SpeedIcon } from 'uiKit/Icons/SpeedIcon';
-import { ProtectIcon } from 'uiKit/Icons/ProtectIcon';
-import { ForkIcon } from 'uiKit/Icons/ForkIcon';
-import { ArrowTopIcon } from 'uiKit/Icons/ArrowTopIcon';
+
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+import { ReactComponent as SpeedIcon } from 'uiKit/Icons/speed.svg';
+import { ReactComponent as ProtectIcon } from 'uiKit/Icons/protect.svg';
+import { ReactComponent as ForkIcon } from 'uiKit/Icons/fork.svg';
+import { ReactComponent as ArrowTopIcon } from 'uiKit/Icons/arrowTop.svg';
 
 import { useStyles } from './ChainBannerStyles';
 
@@ -21,7 +22,7 @@ const ChainBannerUnblockBtn = () => {
         color="inherit"
         variant="h5"
       >
-        {t('chain-item.banner.unlockBtn')}
+        {t('chain-item.banner.unlock-btn')}
       </Typography>
       <ArrowRightIcon className={classes.unblockBtnIcon} />
     </div>
@@ -32,12 +33,11 @@ interface IChainBannerProps {
   className?: string;
 }
 
+const REQUESTS_COUNT = 57000000;
+
 export const ChainBanner = ({ className }: IChainBannerProps) => {
   const classes = useStyles();
   const isMobile = useIsSMDown();
-
-  // numberjs or own fn to format this count
-  const formatedRequestsCount = '57M';
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -115,10 +115,12 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
               color="inherit"
               variant="h4"
             >
-              {formatedRequestsCount}
+              {t('chain-item.banner.requests-count', {
+                value: REQUESTS_COUNT,
+              })}
             </Typography>
             <Typography color="inherit" variant="subtitle1">
-              {t('chain-item.banner.requestsPerDay')}
+              {t('chain-item.banner.requests-per-day')}
             </Typography>
           </>
         )}
