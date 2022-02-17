@@ -26,7 +26,7 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
     stats: fetchStatsData,
   } = useFetchStats();
 
-  const fetchAPYData: BigNumber = useFetchAPY();
+  const fetchAPYData = useFetchAPY();
 
   const [amount, setAmount] = useState(0);
 

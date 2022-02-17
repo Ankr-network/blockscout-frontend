@@ -13,7 +13,7 @@ export const useStakeStats = (
   apy: BigNumber,
 ): IStakeStatsItem[] => {
   const apyVal = useMemo(
-    () => apy.multipliedBy(100).decimalPlaces(DEFAULT_ROUNDING).toFixed(),
+    () => apy?.decimalPlaces(DEFAULT_ROUNDING).toFormat() ?? '0',
     [apy],
   );
 

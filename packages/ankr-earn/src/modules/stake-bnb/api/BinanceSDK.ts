@@ -4,14 +4,15 @@ import range from 'lodash/range';
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet, ZERO } from 'modules/common/const';
+import { isMainnet } from 'modules/common/const';
+import { getAPY } from 'modules/stake/api/getAPY';
 import { Web3KeyProvider } from 'provider';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
   BlockchainNetworkId,
 } from 'provider/providerManager/types';
-import { BlockTransactionObject } from 'web3-eth';
+import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import ABI_ABNBB from './contracts/aBNBb.json';
@@ -55,18 +56,18 @@ const MAX_BINANCE_BLOCK_RANGE = 5_000;
 const MAX_EVENTS_BLOCK_RANGE = MAX_BINANCE_BLOCK_RANGE * 6 * 3;
 
 interface BinanceSDKProviders {
-  readProvider: Web3KeyProvider;
+  readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyProvider;
 }
 
 export class BinanceSDK {
+  private static instance?: BinanceSDK;
+
   private readonly writeProvider: Web3KeyProvider;
 
-  private readonly readProvider: Web3KeyProvider;
+  private readonly readProvider: Web3KeyReadProvider;
 
   private currentAccount: string;
-
-  private static instance?: BinanceSDK;
 
   private constructor({ readProvider, writeProvider }: BinanceSDKProviders) {
     BinanceSDK.instance = this;
@@ -105,7 +106,7 @@ export class BinanceSDK {
     });
   }
 
-  private async getProvider(): Promise<Web3KeyProvider> {
+  private async getProvider(): Promise<Web3KeyProvider | Web3KeyReadProvider> {
     const web3 = this.writeProvider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -128,7 +129,7 @@ export class BinanceSDK {
   }
 
   private async getPastEvents(
-    provider: Web3KeyProvider,
+    provider: Web3KeyProvider | Web3KeyReadProvider,
     contract: Contract,
     eventName: string,
     filter?: Filter,
@@ -269,77 +270,17 @@ export class BinanceSDK {
   }
 
   public async getABNBBAPY(): Promise<BigNumber> {
-    const secOneYear = new BigNumber(31_536_000);
-    const initRatio = new BigNumber(1e18);
-    const defaultState = ZERO;
-
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aBNBbTokenContract = await this.getABNBBTokenContract();
+    const tokenContract = await this.getABNBBTokenContract();
 
-    const rawEvents: TPastEventsData = await this.getPastEvents(
-      provider,
-      aBNBbTokenContract,
-      EBinancePoolEvents.RatioUpdated,
-      { newRatio: await aBNBbTokenContract.methods.ratio().call() },
-    );
-
-    const [firstRawEvent, seventhRawEvent]: [
-      EventData | void,
-      EventData | void,
-    ] = [rawEvents[rawEvents.length - 1], rawEvents[rawEvents.length - 7]];
-
-    if (
-      typeof firstRawEvent === 'undefined' ||
-      typeof seventhRawEvent === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const [firstRawEventBlock, seventhRawEventBlock]: [
-      BlockTransactionObject,
-      BlockTransactionObject,
-    ] = await Promise.all([
-      web3.eth.getBlock(firstRawEvent.blockHash, false),
-      web3.eth.getBlock(seventhRawEvent.blockHash, false),
-    ]);
-
-    const [firstRawData, seventhRawData]: [
-      ITxHistoryEventData,
-      ITxHistoryEventData,
-    ] = [
-      {
-        ...firstRawEvent,
-        timestamp: firstRawEventBlock.timestamp as number,
-      },
-      {
-        ...seventhRawEvent,
-        timestamp: seventhRawEventBlock.timestamp as number,
-      },
-    ];
-
-    if (
-      typeof firstRawData.timestamp === 'undefined' ||
-      typeof seventhRawData.timestamp === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const ratio1 = new BigNumber(firstRawData.returnValues?.newRatio ?? 0);
-    const ratio2 = new BigNumber(seventhRawData.returnValues?.newRatio ?? 0);
-
-    const timeStamp1 = new BigNumber(firstRawData.timestamp);
-    const timeStamp2 = new BigNumber(seventhRawData.timestamp);
-
-    // Note: ((Math.abs(ratio1 - ratio2) / Math.abs(timeStamp1 - timeStamp2)) * 'seconds in one year') / 'init ratio'
-    const apyVal = ratio1
-      .minus(ratio2)
-      .abs()
-      .div(timeStamp1.minus(timeStamp2).abs())
-      .multipliedBy(secOneYear)
-      .div(initRatio);
-
-    return apyVal.isNaN() ? defaultState : apyVal;
+    return getAPY({
+      tokenContract,
+      web3,
+      batchSize: 12,
+      blocksDeep: 3000,
+      eventName: EBinancePoolEvents.RatioUpdated,
+    });
   }
 
   public async getBNBBalance(): Promise<BigNumber> {
