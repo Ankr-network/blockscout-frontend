@@ -1,4 +1,4 @@
-import { currentEnv, ZERO_ADDR } from 'modules/common/const';
+import { currentEnv } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
 export interface IContractConfig {
@@ -122,10 +122,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   },
   fantomConfig: {
-    // todo: add production addr
-    fantomPool: ZERO_ADDR,
-    // todo: add production addr
-    aftmbToken: ZERO_ADDR,
+    fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
+    aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
