@@ -9,8 +9,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     height: 164,
     overflow: 'hidden',
     display: 'flex',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
+      height: 184,
     },
     justifyContent: 'space-between',
     cursor: 'pointer',
@@ -24,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   unblockBtnLabel: {
     fontSize: 16,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: 14,
     },
   },
@@ -42,10 +43,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
   },
   center: {
+    position: 'relative',
     flex: 3,
     overflow: 'hidden',
     margin: theme.spacing(0, 4),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(2, 0),
       marginTop: theme.spacing(0),
     },
@@ -53,10 +55,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '& > div': {
       display: 'flex',
       flexWrap: 'wrap',
-      overflow: 'auto',
-      marginRight: theme.spacing(-2),
-      paddingRight: theme.spacing(2),
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         flexWrap: 'nowrap',
         overflowX: 'auto',
         marginBottom: theme.spacing(-2),
@@ -68,18 +67,21 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    [theme.breakpoints.down('sm')]: {
-      alignItems: 'flex-start',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
   },
   featureBlock: {
     display: 'flex',
     flex: 1,
-    minWidth: 166,
+    minWidth: 156,
     height: '50%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: '100%',
-      marginLeft: 0,
+      '&:first-child': {
+        marginLeft: 0,
+      },
     },
     alignItems: 'center',
     marginLeft: theme.spacing(2),
@@ -88,7 +90,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
   },
   featureBlockIcon: {
+    flexShrink: 0,
+    fontSize: 20,
     marginRight: theme.spacing(1.5),
+    [theme.breakpoints.down('md')]: {
+      fontSize: 16,
+    },
   },
   featureBlockLabel: {
     fontSize: 14,
@@ -101,14 +108,32 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     fontSize: 34,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: 24,
     },
   },
   rightCount: {
     fontSize: 45,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 14,
+      lineHeight: 1.2,
+    },
+  },
+  reqPerDay: {
+    [theme.breakpoints.down('md')]: {
+      fontSize: 12,
+    },
   },
   protectIcon: {
     color: 'transparent',
+  },
+  rightOverlay: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: '15%',
+    height: '100%',
+    background:
+      'linear-gradient(270deg, #356DF3 0%, rgba(53, 109, 243, 0) 100%)',
   },
 }));

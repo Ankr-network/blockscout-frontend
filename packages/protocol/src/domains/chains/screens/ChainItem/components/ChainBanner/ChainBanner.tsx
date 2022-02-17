@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
-import { useIsSMDown } from 'ui';
+import { useIsMDDown } from 'ui';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
 import { Link } from 'react-router-dom';
@@ -39,7 +39,7 @@ const REQUESTS_COUNT = 57000000;
 
 export const ChainBanner = ({ className }: IChainBannerProps) => {
   const classes = useStyles();
-  const isMobile = useIsSMDown();
+  const isMobile = useIsMDDown();
 
   return (
     <Link
@@ -109,26 +109,28 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
             </div>
           </div>
         </div>
+        {isMobile && <div className={classes.rightOverlay} />}
       </div>
       <div className={classNames(classes.block, classes.right)}>
-        {isMobile ? (
-          <ChainBannerUnblockBtn />
-        ) : (
-          <>
-            <Typography
-              className={classes.rightCount}
-              color="inherit"
-              variant="h4"
-            >
-              {t('chain-item.banner.requests-count', {
-                value: REQUESTS_COUNT,
-              })}
-            </Typography>
-            <Typography color="inherit" variant="subtitle1">
-              {t('chain-item.banner.requests-per-day')}
-            </Typography>
-          </>
-        )}
+        {isMobile && <ChainBannerUnblockBtn />}
+        <div>
+          <Typography
+            className={classes.rightCount}
+            color="inherit"
+            variant="h4"
+          >
+            {t('chain-item.banner.requests-count', {
+              value: REQUESTS_COUNT,
+            })}
+          </Typography>
+          <Typography
+            className={classes.reqPerDay}
+            color="inherit"
+            variant="subtitle1"
+          >
+            {t('chain-item.banner.requests-per-day')}
+          </Typography>
+        </div>
       </div>
     </Link>
   );
