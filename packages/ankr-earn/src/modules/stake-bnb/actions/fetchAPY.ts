@@ -8,14 +8,14 @@ export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
-        const sdk = await BinanceSDK.getInstance();
+        const sdk: BinanceSDK = await BinanceSDK.getInstance();
 
         return sdk.getABNBBAPY();
       })(),
     },
     meta: {
       asMutation: false,
-      getData: (data: BigNumber): BigNumber => data.multipliedBy(100),
+      getData: (data: BigNumber): BigNumber => data,
     },
   }),
 );
