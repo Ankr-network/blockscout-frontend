@@ -57,6 +57,17 @@
     "requests": "{value} reqs"
   },
   "chain-item": {
+    "banner": {
+      "plan": "Premium Plan.",
+      "unlockBtn": "Unlock",
+      "features": {
+        "block1": "Use faster global infrastructure",
+        "block2": "WebSockets (WSS) capability",
+        "block3": "Connect with a dedicated endpoint",
+        "block4": "Prioritized requests during peak traffic"
+      },
+      "requestsPerDay": "Requests per day"
+    },
     "meta": {
       "title": "{name} Public RPC | Ankr Protocol",
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
