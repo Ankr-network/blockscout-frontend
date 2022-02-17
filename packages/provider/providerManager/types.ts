@@ -1,6 +1,8 @@
 export enum AvailableReadProviders {
   ethMainnetHttpProvider = 'ethMainnetHttpProvider',
   ethGoerliHttpProvider = 'ethGoerliHttpProvider',
+  ftmOperaHttpProvider = 'ftmOperaHttpProvider',
+  ftmTestnetHttpProvider = 'ftmTestnetHttpProvider',
 }
 
 export enum AvailableWriteProviders {

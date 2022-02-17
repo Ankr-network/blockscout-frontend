@@ -1,11 +1,15 @@
 import BigNumber from 'bignumber.js';
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
+import { getAPY } from 'modules/stake/api/getAPY';
 import { IWeb3SendResult, Web3KeyProvider } from 'provider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
+import {
+  AvailableReadProviders,
+  AvailableWriteProviders,
+} from 'provider/providerManager/types';
 import { Contract } from 'web3-eth-contract';
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
@@ -75,10 +79,7 @@ export const getFtmBalance = async (): Promise<BigNumber> => {
 export const getAftmbBalance = async (): Promise<BigNumber> => {
   const provider = await getProvider();
   const web3 = provider.getWeb3();
-  const aFTMbContract = provider.createContract(
-    AFTMbAbi,
-    fantomConfig.aftmbToken,
-  );
+  const aFTMbContract = getAftmbTokenContract(provider);
 
   const aFTMbBalance = await aFTMbContract.methods
     .balanceOf(provider.currentAccount)
@@ -87,8 +88,27 @@ export const getAftmbBalance = async (): Promise<BigNumber> => {
   return new BigNumber(web3.utils.fromWei(aFTMbBalance));
 };
 
+export const getAftmbAPY = async (): Promise<BigNumber> => {
+  const provider = await providerManager.getReadProvider(
+    isMainnet
+      ? AvailableReadProviders.ftmOperaHttpProvider
+      : AvailableReadProviders.ftmTestnetHttpProvider,
+  );
+
+  const aFTMbContract = getAftmbTokenContract(provider);
+
+  return getAPY({
+    tokenContract: aFTMbContract,
+    web3: provider.getWeb3(),
+  });
+};
+
 const getFantomPoolContract = (provider: Web3KeyProvider): Contract => {
   return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
+};
+
+const getAftmbTokenContract = (provider: Web3KeyProvider): Contract => {
+  return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
 };
 
 const getProvider = async (): Promise<Web3KeyProvider> => {

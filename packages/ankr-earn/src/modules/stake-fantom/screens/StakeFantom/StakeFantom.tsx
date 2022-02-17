@@ -5,6 +5,7 @@ import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -52,6 +53,7 @@ export const StakeFantom = () => {
 
   useEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   const renderStats = useCallback(

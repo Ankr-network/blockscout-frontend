@@ -9,6 +9,7 @@ import {
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData as fetchFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
@@ -25,7 +26,6 @@ export const useDashboard = () => {
       resetRequests([
         fetchPolygonStats.toString(),
         fetchPolygonTxHistory.toString(),
-        fetchPolygonAPY.toString(),
         getEth2SwapData.toString(),
         fetchBNBStats.toString(),
         fetchBNBTxHistory.toString(),
@@ -52,6 +52,7 @@ export const useDashboard = () => {
 
       case FTM_NETWORK_BY_ENV:
         dispatch(fetchFTMStats());
+        dispatch(getAftmbAPY());
         break;
 
       default:

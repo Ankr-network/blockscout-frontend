@@ -4,15 +4,13 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Token } from 'modules/common/types/token';
+import { getAPY } from 'modules/stake/api/getAPY';
+import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
 import { POLYGON_PROVIDER_ID } from '../const';
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_POLYGON_POOL from './contracts/polygonPool.json';
-import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
-
-const BATCH_SIZE = 12;
-const BLOCKS_DEEP = 3000;
 
 export type TTxEventsHistoryGroupData = Array<ITxEventsHistoryGroupItem | void>;
 
@@ -176,10 +174,6 @@ export class PolygonSDK {
   public static async getaMaticbAPY(
     provider: Web3KeyReadProvider,
   ): Promise<BigNumber> {
-    const secOneYear: BigNumber = new BigNumber(31_536_000);
-    const initRatio: BigNumber = new BigNumber(1e18);
-    const defaultState: BigNumber = new BigNumber(0);
-
     const config = configFromEnv();
 
     const web3 = provider.getWeb3();
@@ -189,80 +183,12 @@ export class PolygonSDK {
       config.contractConfig.aMaticbToken,
     );
 
-    const blockNumber = await web3.eth.getBlockNumber();
-
-    const newRatio = await aMaticbTokenContract.methods.ratio().call();
-
-    const eventsBatch = Array(BATCH_SIZE)
-      .fill(0)
-      .map(async (_, i) =>
-        aMaticbTokenContract.getPastEvents('RatioUpdate', {
-          fromBlock: blockNumber - BLOCKS_DEEP * (i + 1),
-          toBlock: i ? blockNumber - BLOCKS_DEEP * i : undefined,
-          filter: {
-            newRatio,
-          },
-        }),
-      );
-
-    const data = await Promise.all(eventsBatch);
-    const rawEvents = data.reduce((acc, pastEvents) => [...acc, ...pastEvents]);
-
-    const [firstRawEvent, lastRawEvent]: [EventData | void, EventData | void] =
-      [rawEvents[rawEvents.length - 1], rawEvents[0]];
-
-    if (
-      typeof firstRawEvent === 'undefined' ||
-      typeof lastRawEvent === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const [timestampFirst, timestampLast] = await Promise.all([
-      web3.eth.getBlock(firstRawEvent.blockHash, false),
-      web3.eth.getBlock(lastRawEvent.blockHash, false),
-    ]);
-
-    const [firstRawData, lastRawData]: [
-      ITxHistoryEventData,
-      ITxHistoryEventData,
-    ] = [
-      {
-        ...firstRawEvent,
-        timestamp: timestampFirst.timestamp as number,
-      },
-      {
-        ...lastRawEvent,
-        timestamp: timestampLast.timestamp as number,
-      },
-    ];
-
-    if (
-      typeof firstRawData.timestamp === 'undefined' ||
-      typeof lastRawData.timestamp === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const ratio1: BigNumber = new BigNumber(
-      firstRawData.returnValues?.newRatio ?? 0,
-    );
-    const ratio2: BigNumber = new BigNumber(
-      lastRawData.returnValues?.newRatio ?? 0,
-    );
-
-    const timeStamp1: BigNumber = new BigNumber(firstRawData.timestamp);
-    const timeStamp2: BigNumber = new BigNumber(lastRawData.timestamp);
-
-    // Note: ((Math.abs(ratio1 - ratio2) / Math.abs(timeStamp1 - timeStamp2)) * 'seconds in one year') / 'init ratio'
-    const apyVal: BigNumber = ratio1
-      .minus(ratio2)
-      .abs()
-      .div(timeStamp1.minus(timeStamp2).abs())
-      .multipliedBy(secOneYear)
-      .div(initRatio);
-
-    return apyVal.isNaN() ? defaultState : apyVal;
+    return getAPY({
+      tokenContract: aMaticbTokenContract,
+      web3: provider.getWeb3(),
+      batchSize: 12,
+      blocksDeep: 3000,
+    });
   }
 
   public async getPendingClaim(): Promise<BigNumber> {
