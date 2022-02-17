@@ -23,7 +23,7 @@ export const fetchStats = createSmartAction<
 
       return {
         maticBalance: await sdk.getMaticBalance(),
-        aMaticbBalance: await sdk.getAMATICBBalance(),
+        aMaticbBalance: await sdk.getaMaticbBalance(),
         minimumStake: await sdk.getMinimumStake(),
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
         pendingClaim: await sdk.getPendingClaim(),
