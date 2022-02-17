@@ -13,11 +13,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       flexDirection: 'column',
     },
     justifyContent: 'space-between',
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.palette.common.white,
+    },
   },
   unblockBtn: {
     display: 'flex',
     alignItems: 'center',
-    cursor: 'pointer',
   },
   unblockBtnLabel: {
     fontSize: 16,

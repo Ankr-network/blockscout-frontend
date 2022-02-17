@@ -3,6 +3,8 @@ import React from 'react';
 import { useIsSMDown } from 'ui';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
+import { Link } from 'react-router-dom';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ReactComponent as SpeedIcon } from 'uiKit/Icons/speed.svg';
@@ -22,7 +24,7 @@ const ChainBannerUnblockBtn = () => {
         color="inherit"
         variant="h5"
       >
-        {t('chain-item.banner.unlock-btn')}
+        {t('chain-item.banner.more')}
       </Typography>
       <ArrowRightIcon className={classes.unblockBtnIcon} />
     </div>
@@ -40,7 +42,10 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
   const isMobile = useIsSMDown();
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <Link
+      to={PlanRoutesConfig.plan.generatePath()}
+      className={classNames(classes.root, className)}
+    >
       <div className={classNames(classes.block, classes.left)}>
         <Typography className={classes.title} color="inherit" variant="h3">
           {t('chain-item.banner.plan')}
@@ -125,6 +130,6 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
           </>
         )}
       </div>
-    </div>
+    </Link>
   );
 };

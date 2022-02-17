@@ -59,7 +59,7 @@
   "chain-item": {
     "banner": {
       "plan": "Premium Plan.",
-      "unlock-btn": "Unlock",
+      "more": "Learn more",
       "features": {
         "block1": "Use faster global infrastructure",
         "block2": "WebSockets (WSS) capability",
