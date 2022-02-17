@@ -3,6 +3,7 @@ import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -11,6 +12,7 @@ import {
   IUnstakeFormValues,
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
+import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
@@ -26,6 +28,12 @@ export const UnstakeBinance = () => {
   const classes = useUnstakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
+
+  const {
+    isOpened: isSuccessOpened,
+    onClose: onSuccessClose,
+    onOpen: onSuccessOpen,
+  } = useDialog();
 
   const {
     error: fetchStatsError,
@@ -100,7 +108,7 @@ export const UnstakeBinance = () => {
 
     dispatchRequest(unstake(resultAmount)).then(({ error }) => {
       if (!error) {
-        onClose();
+        onSuccessOpen();
       }
     });
   };
@@ -122,22 +130,35 @@ export const UnstakeBinance = () => {
       <Container>
         {fetchStatsError !== null && <QueryError error={fetchStatsError} />}
 
-        {fetchStatsError === null && fetchStatsData !== null && (
-          <UnstakeDialog
-            balance={fetchStatsData.aBNBbBalance}
-            endText={t('stake-bnb-dashboard.unstake-info', {
-              value: redeemValue,
-              period: redeemPeriod,
-            })}
-            extraValidation={onExtraValidation(fetchStatsData.minimumUnstake)}
-            isLoading={isUnstakeLoading}
-            renderFormFooter={onRenderFormFooter(fetchStatsData.minimumUnstake)}
-            submitDisabled={isUnstakeLoading}
-            token={Token.aBNBb}
-            onClose={onClose}
-            onSubmit={onUnstakeSubmit}
-          />
-        )}
+        {fetchStatsError === null &&
+          fetchStatsData !== null &&
+          (!isSuccessOpened ? (
+            <UnstakeDialog
+              balance={fetchStatsData.aBNBbBalance}
+              endText={t('stake-bnb-dashboard.unstake-info', {
+                value: redeemValue,
+                period: redeemPeriod,
+              })}
+              extraValidation={onExtraValidation(fetchStatsData.minimumUnstake)}
+              isLoading={isUnstakeLoading}
+              renderFormFooter={onRenderFormFooter(
+                fetchStatsData.minimumUnstake,
+              )}
+              submitDisabled={isUnstakeLoading}
+              token={Token.aBNBb}
+              onClose={onClose}
+              onSubmit={onUnstakeSubmit}
+            />
+          ) : (
+            <UnstakeSuccess
+              period={t('stake-bnb-dashboard.unstake-period', {
+                value: redeemValue,
+                period: redeemPeriod,
+              })}
+              tokenName={Token.BNB}
+              onClose={onSuccessClose}
+            />
+          ))}
       </Container>
     </Box>
   );

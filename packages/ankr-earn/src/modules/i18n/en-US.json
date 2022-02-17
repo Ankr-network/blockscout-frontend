@@ -341,7 +341,8 @@
       "fee": "As unstaking BNB tokens is a gas and time consuming process requiring sending several transactions to the BNB smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. BNB tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs.",
       "unstake": "Unstake"
     },
-    "unstake-info": "You will receive BNB in about ~{value} {period}."
+    "unstake-info": "You will receive BNB in about ~{value} {period}.",
+    "unstake-period": "about {value} {period}"
   },
   "stake-polygon-dashboard": {
     "column": {
@@ -441,7 +442,7 @@
     "eta": "You will get your {token} in {period}",
     "success": {
       "title": "Unstake is pending",
-      "description": "You will recieve {token} in {period}",
+      "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Earn covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
