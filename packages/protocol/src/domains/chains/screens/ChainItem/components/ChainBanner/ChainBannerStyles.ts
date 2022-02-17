@@ -46,17 +46,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     overflow: 'hidden',
     margin: theme.spacing(0, 4),
     [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(2, -2),
-      marginBottom: theme.spacing(3),
+      margin: theme.spacing(2, 0),
+      marginTop: theme.spacing(0),
     },
 
     '& > div': {
       display: 'flex',
       flexWrap: 'wrap',
+      overflow: 'auto',
+      marginRight: theme.spacing(-2),
+      paddingRight: theme.spacing(2),
       [theme.breakpoints.down('sm')]: {
         flexWrap: 'nowrap',
         overflowX: 'auto',
-        marginBottom: theme.spacing(-1),
+        marginBottom: theme.spacing(-2),
       },
     },
   },
@@ -76,6 +79,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     height: '50%',
     [theme.breakpoints.down('sm')]: {
       height: '100%',
+      marginLeft: 0,
     },
     alignItems: 'center',
     marginLeft: theme.spacing(2),
