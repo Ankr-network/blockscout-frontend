@@ -3,7 +3,6 @@ import { configFromEnv, IStkrConfig } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
 import { sleep } from 'modules/common/utils/sleep';
 import { ProviderManager, Web3KeyProvider } from 'provider';
 import Web3 from 'web3';
@@ -112,19 +111,18 @@ export class BinanceSDK {
       const fromBlock: number = i;
       const toBlock: number = i + MAX_BINANCE_BLOCK_RANGE;
 
-      // TODO Please to fix it in the future (for a quick BNB release)
-      if (isMainnet) {
-        await sleep(MAINNET_SLEEP_TIME_MS);
-      }
+      let rawEventData: TPastEventsData = [];
 
-      const rawEventData: TPastEventsData = await contract.getPastEvents(
-        eventName,
-        {
+      try {
+        rawEventData = await contract.getPastEvents(eventName, {
           fromBlock,
           toBlock,
           filter,
-        },
-      );
+        });
+      } catch {
+        // TODO Please to fix it in the future for Mainnet (for a quick BNB release only)
+        await sleep(MAINNET_SLEEP_TIME_MS);
+      }
 
       resultData = [...resultData, ...rawEventData];
     }
