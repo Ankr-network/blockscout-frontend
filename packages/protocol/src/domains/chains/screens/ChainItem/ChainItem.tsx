@@ -50,7 +50,9 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         loading={authLoading}
       />
 
-      <ChainBanner className={classes.chainBanner} />
+      {!credentials && !authLoading && (
+        <ChainBanner className={classes.chainBanner} />
+      )}
 
       {error ? (
         <div className={classes.error}>

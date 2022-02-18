@@ -75,7 +75,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   featureBlock: {
     display: 'flex',
     flex: 1,
-    minWidth: 156,
+    minWidth: 160,
     height: '50%',
     [theme.breakpoints.down('md')]: {
       height: '100%',
