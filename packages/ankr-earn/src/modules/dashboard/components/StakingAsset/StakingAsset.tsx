@@ -51,6 +51,8 @@ export const StakingAsset = ({
     return <StakingAssetSkeleton />;
   }
 
+  const isHistoryBtnActive = typeof onHistoryBtnClick === 'function';
+
   const historyButtonIcon = isHistoryLoading ? (
     <Spinner size={18} variant="circle" />
   ) : (
@@ -88,16 +90,26 @@ export const StakingAsset = ({
             </Grid>
           )}
 
-          {typeof onHistoryBtnClick === 'function' && (
-            <Grid item xs="auto">
-              <IconButton
-                className={classes.openHistory}
-                onClick={historyClickHandler}
-              >
-                {historyButtonIcon}
-              </IconButton>
-            </Grid>
-          )}
+          <Grid item xs="auto">
+            <Tooltip
+              title={
+                isHistoryBtnActive
+                  ? t('dashboard.history-tooltip')
+                  : comingSoonTooltip
+              }
+              arrow
+            >
+              <Box component="span" display="flex">
+                <IconButton
+                  className={classes.openHistory}
+                  onClick={historyClickHandler}
+                  disabled={!isHistoryBtnActive}
+                >
+                  {historyButtonIcon}
+                </IconButton>
+              </Box>
+            </Tooltip>
+          </Grid>
         </Grid>
       </Box>
 

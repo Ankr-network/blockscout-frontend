@@ -480,7 +480,8 @@
     "redeem-timer": "Redeem in {days} days",
     "reward": "{value} ACA",
     "pending-amount": "Amount",
-    "pending-time": "Requested time"
+    "pending-time": "Requested time",
+    "history-tooltip": "Transactions history"
   },
   "features": {
     "binance": "Binance (BNB)",
