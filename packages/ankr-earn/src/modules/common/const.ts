@@ -12,6 +12,8 @@ export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
+export const ACTION_CACHE_SEC = 600;
+
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
 export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);

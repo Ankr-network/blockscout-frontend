@@ -7,6 +7,7 @@ import {
   FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
+import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
@@ -48,7 +49,7 @@ export const useDashboard = () => {
         break;
 
       case BSC_NETWORK_BY_ENV:
-        // ? where is APY query?
+        dispatch(fetchBNBAPY());
         dispatch(fetchBNBStats());
         dispatch(fetchBNBTxHistory());
         break;

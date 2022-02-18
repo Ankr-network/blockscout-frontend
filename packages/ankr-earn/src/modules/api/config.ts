@@ -116,9 +116,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
   },
   binanceConfig: {
-    // TODO Please add valid addresses for the Mainnet (BNB)
-    aBNBbToken: '',
-    binancePool: '',
+    aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
+    binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   },
   fantomConfig: {
