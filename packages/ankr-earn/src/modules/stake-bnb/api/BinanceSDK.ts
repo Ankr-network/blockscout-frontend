@@ -1,9 +1,10 @@
+import asyncRetry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { configFromEnv, IStkrConfig } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { sleep } from 'modules/common/utils/sleep';
+import { isMainnet } from 'modules/common/const';
 import { ProviderManager, Web3KeyProvider } from 'provider';
 import Web3 from 'web3';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
@@ -43,13 +44,16 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
-// Note: ~4h
-const MAX_BINANCE_BLOCK_RANGE: number = 5_000;
+const NODE_MULTIPLICATOR: number = isMainnet ? 2 : 1;
+
+// Note: ~4h = 5_000 blocks
+const MAX_BINANCE_BLOCK_RANGE: number = 5_000 / NODE_MULTIPLICATOR;
 
 // Note: ~1d * 3 = 3d
-const MAX_EVENTS_BLOCK_RANGE: number = MAX_BINANCE_BLOCK_RANGE * 6 * 3;
+const MAX_EVENTS_BLOCK_RANGE: number =
+  MAX_BINANCE_BLOCK_RANGE * NODE_MULTIPLICATOR * 6 * 3;
 
-const MAINNET_SLEEP_TIME_MS = 500;
+const MAINNET_SLEEP_TIME_MS = 1_000;
 
 export class BinanceSDK {
   private readonly aBNBbTokenContract: Contract;
@@ -111,18 +115,19 @@ export class BinanceSDK {
       const fromBlock: number = i;
       const toBlock: number = i + MAX_BINANCE_BLOCK_RANGE;
 
-      let rawEventData: TPastEventsData = [];
-
-      try {
-        rawEventData = await contract.getPastEvents(eventName, {
-          fromBlock,
-          toBlock,
-          filter,
-        });
-      } catch {
-        // TODO Please to fix it in the future for Mainnet (for a quick BNB release only)
-        await sleep(MAINNET_SLEEP_TIME_MS);
-      }
+      const rawEventData: TPastEventsData = await asyncRetry(
+        async () =>
+          await contract.getPastEvents(eventName, {
+            fromBlock,
+            toBlock,
+            filter,
+          }),
+        {
+          factor: 1,
+          minTimeout: MAINNET_SLEEP_TIME_MS,
+          retries: 30,
+        },
+      );
 
       resultData = [...resultData, ...rawEventData];
     }
