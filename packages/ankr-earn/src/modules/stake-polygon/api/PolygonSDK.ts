@@ -92,6 +92,7 @@ export class PolygonSDK {
     return new BigNumber(this.web3.utils.fromWei(amount));
   }
 
+  // todo: reuse it form stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
     rawEvents?: Array<EventData | void>,
   ): Promise<TTxEventsHistoryGroupData> {

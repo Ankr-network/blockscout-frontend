@@ -4,6 +4,7 @@ import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 
 export const useFaq = () => {
   const { data } = useQuery({
@@ -26,7 +27,9 @@ export const useFaq = () => {
       },
       {
         question: t('stake-fantom.faq.question-3'),
-        answer: tHTML('stake-fantom.faq.answer-3'),
+        answer: tHTML('stake-fantom.faq.answer-3', {
+          days: FANTOM_UNSTAKE_PERIOD,
+        }),
       },
       {
         question: t('stake-fantom.faq.question-4'),

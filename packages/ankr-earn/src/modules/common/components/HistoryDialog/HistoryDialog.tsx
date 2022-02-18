@@ -1,33 +1,30 @@
 import { Container, Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { format } from 'date-fns';
+import { DECIMAL_PLACES } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { getShortStr } from 'modules/common/utils/getShortStr';
+import { t } from 'modules/i18n/utils/intl';
 import { useState } from 'react';
 import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
-import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
-import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
-import BigNumber from 'bignumber.js';
-import { Token } from 'modules/common/types/token';
-import { format } from 'date-fns';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
+
+export interface IHistoryDialogRow {
+  date?: Date;
+  link?: string;
+  hash?: string;
+  amount?: BigNumber;
+}
 
 export interface HistoryDialogData {
   token?: Token;
-  staked?: Array<{
-    date?: Date;
-    link?: string;
-    hash?: string;
-    amount?: BigNumber;
-  }>;
-  unstaked?: Array<{
-    date?: Date;
-    link?: string;
-    hash?: string;
-    amount?: BigNumber;
-  }>;
+  staked?: IHistoryDialogRow[];
+  unstaked?: IHistoryDialogRow[];
 }
 
 export interface IHistoryDialogProps {

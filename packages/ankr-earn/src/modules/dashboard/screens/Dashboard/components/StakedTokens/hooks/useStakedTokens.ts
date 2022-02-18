@@ -4,6 +4,7 @@ import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
 import { useStakedBNBData } from './useStakedBNBData';
 import { useStakedBNBTxHistory } from './useStakedBNBTxHistory';
+import { useStakedFTMTxHistory } from './useStakedFTMTxHistory';
 import { useStakedMaticData } from './useStakedMaticData';
 import { useStakedMaticTxHistory } from './useStakedMaticTxHistory';
 
@@ -17,6 +18,7 @@ export const useStakedTokens = () => {
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
+  const stakedFTMTxHistory = useStakedFTMTxHistory();
 
   const isAETHBShowed = featuresConfig.eth2Swap && stakedAETHBData.isShowed;
 
@@ -28,7 +30,9 @@ export const useStakedTokens = () => {
 
   const isMATICShowed = amaticbData.isShowed || stakedMaticTxHistory.hasHistory;
 
-  const isAFTMBShowed = featuresConfig.stakeFantom && stakedAFTMBData.isShowed;
+  const isAFTMBShowed =
+    featuresConfig.stakeFantom &&
+    (stakedAFTMBData.isShowed || stakedFTMTxHistory.hasHistory);
 
   const atLeastOneShowed =
     isAETHBShowed ||

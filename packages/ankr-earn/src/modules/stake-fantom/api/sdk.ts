@@ -1,18 +1,28 @@
 import BigNumber from 'bignumber.js';
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, isMainnet } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
+import {
+  getTxEventsHistoryGroup,
+  TTxEventsHistoryGroupData,
+} from 'modules/stake/api/getTxEventsHistoryGroup';
 import { IWeb3SendResult, Web3KeyProvider } from 'provider';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
 } from 'provider/providerManager/types';
-import { Contract } from 'web3-eth-contract';
+import { Contract, EventData } from 'web3-eth-contract';
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
+
+export enum EFantomPoolEvents {
+  TokensBurned = 'TokensBurned',
+  Withdrawn = 'Withdrawn',
+  StakeReceived = 'StakeReceived',
+}
 
 const { fantomConfig } = configFromEnv();
 const providerManager = ProviderManagerSingleton.getInstance();
@@ -101,6 +111,72 @@ export const getAftmbAPY = async (): Promise<BigNumber> => {
     tokenContract: aFTMbContract,
     web3: provider.getWeb3(),
   });
+};
+
+export const getTxHistory = async (): Promise<{
+  stakeEvents: TTxEventsHistoryGroupData;
+  pendingEvents: TTxEventsHistoryGroupData;
+  withdrawnEvents: TTxEventsHistoryGroupData;
+  totalPending: BigNumber;
+}> => {
+  const provider = await getProvider();
+  const fantomPoolContract = getFantomPoolContract(provider);
+  const web3 = provider.getWeb3();
+
+  const firstWrId: string = await fantomPoolContract.methods.firstWrId().call();
+
+  const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
+    await Promise.all([
+      // event StakeReceived is emitted once transaction is successfull
+      fantomPoolContract.getPastEvents(EFantomPoolEvents.StakeReceived, {
+        fromBlock: 'earliest',
+        toBlock: 'latest',
+        filter: {
+          staker: provider.currentAccount,
+        },
+      }),
+      // To gen pending withdrawal requests, one can get all TokensBurned events for given staker
+      fantomPoolContract.getPastEvents(EFantomPoolEvents.TokensBurned, {
+        fromBlock: 'earliest',
+        toBlock: 'latest',
+        filter: {
+          staker: provider.currentAccount,
+        },
+      }),
+      fantomPoolContract.getPastEvents(EFantomPoolEvents.Withdrawn, {
+        fromBlock: 'earliest',
+        toBlock: 'latest',
+        filter: {
+          staker: provider.currentAccount,
+        },
+      }),
+    ]);
+
+  let pendingRawEvents: EventData[] = [];
+  for (const current of unstakeRawEvents) {
+    // Events with wrId >= firstWrId are pending
+    if (+current.returnValues.wrId >= +firstWrId) {
+      pendingRawEvents.push(current);
+    }
+  }
+
+  const [stakeEvents, withdrawnEvents, pendingEvents] = await Promise.all(
+    [stakeRawEvents, withdrawnRawEvents, pendingRawEvents].map(rawEvents => {
+      return getTxEventsHistoryGroup({ rawEvents, web3 });
+    }),
+  );
+
+  let totalPending = ZERO;
+  for (const event of pendingEvents) {
+    totalPending = totalPending.plus(event.txAmount);
+  }
+
+  return {
+    stakeEvents,
+    pendingEvents,
+    withdrawnEvents,
+    totalPending,
+  };
 };
 
 const getFantomPoolContract = (provider: Web3KeyProvider): Contract => {

@@ -8,6 +8,7 @@ import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useCallback, useEffect } from 'react';
@@ -139,7 +140,9 @@ export const UnstakeFantom = (): JSX.Element => {
             balance={balance}
             endText={t('unstake-dialog.eta', {
               token: Token.FTM,
-              period: t('stake-fantom.unstake-period'),
+              period: t('stake-fantom.unstake-period', {
+                days: FANTOM_UNSTAKE_PERIOD,
+              }),
             })}
             token={Token.aFTMb}
             closeHref={closeHref}
@@ -150,7 +153,9 @@ export const UnstakeFantom = (): JSX.Element => {
         ) : (
           <UnstakeSuccess
             tokenName={Token.FTM}
-            period={t('stake-fantom.unstake-period')}
+            period={t('stake-fantom.unstake-period', {
+              days: FANTOM_UNSTAKE_PERIOD,
+            })}
             onClose={onSuccessClose}
           />
         )}

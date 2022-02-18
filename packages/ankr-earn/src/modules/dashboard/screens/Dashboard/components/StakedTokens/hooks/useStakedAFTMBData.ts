@@ -9,7 +9,6 @@ import { RoutesConfig } from 'modules/stake-fantom/Routes';
 
 export interface IStakedAFTMBData {
   amount: BigNumber;
-  pendingValue: BigNumber;
   network: string;
   stakeLink: string;
   unstakeLink?: string;
@@ -35,14 +34,11 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const network = t(`chain.${FTM_NETWORK_BY_ENV}`);
 
   const amount = commonData?.aFTMbBalance ?? ZERO;
-  const pendingValue = ZERO;
-  const isShowed =
-    !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
+  const isShowed = !amount.isZero() || isBalancesLoading;
 
   return {
     amount,
     network,
-    pendingValue,
     isShowed,
     isBalancesLoading,
     stakeLink: RoutesConfig.stake.generatePath(),

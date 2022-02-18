@@ -43,7 +43,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const { result } = renderHook(() => useStakedAFTMBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
-    expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
     expect(result.current.isStakeLoading).toBe(false);
@@ -60,7 +59,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const { result } = renderHook(() => useStakedAFTMBData());
 
     expect(result.current.amount).toStrictEqual(ZERO);
-    expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
   });
 });

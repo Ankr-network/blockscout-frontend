@@ -10,7 +10,8 @@ import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
-import { getCommonData as fetchFTMStats } from 'modules/stake-fantom/actions/getCommonData';
+import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
+import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
 import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
@@ -29,7 +30,8 @@ export const useDashboard = () => {
         getEth2SwapData.toString(),
         fetchBNBStats.toString(),
         fetchBNBTxHistory.toString(),
-        fetchFTMStats.toString(),
+        getFTMStats.toString(),
+        getFTMHistory.toString(),
       ]),
     );
 
@@ -46,12 +48,14 @@ export const useDashboard = () => {
         break;
 
       case BSC_NETWORK_BY_ENV:
+        // ? where is APY query?
         dispatch(fetchBNBStats());
         dispatch(fetchBNBTxHistory());
         break;
 
       case FTM_NETWORK_BY_ENV:
-        dispatch(fetchFTMStats());
+        dispatch(getFTMStats());
+        dispatch(getFTMHistory());
         dispatch(getAftmbAPY());
         break;
 

@@ -391,14 +391,14 @@
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
     "fee-tooltip": "Unstake fee",
-    "unstake-period": "35 days or earlier",
+    "unstake-period": "{days} days or earlier",
     "faq": {
       "question-1": "Are there any docs about the FTM staking and how I set up my wallet etc.?",
       "answer-1": "Yes – there’s a user guide you can find <a href=\"https://docs.fantom.foundation/tutorials/set-up-metamask\">here</a>.",
       "question-2": "What is the minimum amount of FTM I can stake?",
       "answer-2": "{value} FTM",
       "question-3": "What is the unstaking period of aFTMb?",
-      "answer-3": "The unstaking period is a maximum of 28 days. Every 28 days, there is at least one validator node reaching the end of its locking period. The cost of unstaking aFTMb can vary depending on the availability of FTM in the closest maturing node to avoid any liquidity risk.",
+      "answer-3": "The unstaking period is a maximum of {days} days. Every {days} days, there is at least one validator node reaching the end of its locking period. The cost of unstaking aFTMb can vary depending on the availability of FTM in the closest maturing node to avoid any liquidity risk.",
       "question-4": "How do I receive rewards?",
       "answer-4": "aFTMb is a rebasing token. When holding aFTMb, your balance will increase in proportion to your FTM staking rewards. A rebase runs daily, and rewards occur each time this runs. So every day, you can see that the quantity of your aFTMb has increased by a small amount.",
       "question-5": "How soon after staking will I begin to receive rewards?",
