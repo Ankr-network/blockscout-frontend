@@ -10,7 +10,7 @@ export const StakedAETHB = (): JSX.Element => {
 
   const { amount, network, tradeLink, isBalancesLoading } =
     useStakedAETHBData();
-  const { isOpened, onClose, onOpen } = useDialog();
+  const { isOpened, onClose } = useDialog();
 
   return (
     <>
@@ -21,7 +21,6 @@ export const StakedAETHB = (): JSX.Element => {
         amount={amount}
         tradeLink={tradeLink}
         isLoading={isBalancesLoading}
-        onHistoryBtnClick={onOpen}
       />
 
       <HistoryDialog
