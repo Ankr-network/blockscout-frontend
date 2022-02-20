@@ -21,6 +21,7 @@ const getSize = (size: StatusCircleStylesProps['size']) => {
 
 export const useStyles = makeStyles<Theme, StatusCircleStylesProps>(theme => ({
   root: ({ size, status }) => ({
+    display: 'inline-block',
     borderRadius: '50%',
     width: getSize(size),
     height: getSize(size),

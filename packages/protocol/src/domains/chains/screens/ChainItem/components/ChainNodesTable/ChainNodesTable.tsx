@@ -23,10 +23,7 @@ import { getRows, isHeightColVisibleStatus } from './ChainNodesTableUtils';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle/StatusCircle';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
-import {
-  getBaseStatusByNodeStatus,
-  getNodeStatusByScore,
-} from 'modules/common/utils/node';
+import { getStatusByNodeScore } from 'modules/common/utils/node';
 
 export const ChainNodesTable = ({
   data,
@@ -73,14 +70,13 @@ export const ChainNodesTable = ({
         </TableHead>
         <TableBody>
           {rows.map(row => {
-            const nodeStatus = getNodeStatusByScore(row.score);
-            const baseStatus = getBaseStatusByNodeStatus(nodeStatus);
+            const nodeStatus = getStatusByNodeScore(row.score);
 
             return (
               <TableRow key={row.id} className={classes.row}>
                 <TableCell padding="none" className={classes.nodeCell}>
                   <Box display="flex" alignItems="center">
-                    <StatusCircle mr={1.25} status={baseStatus} />
+                    <StatusCircle mr={1.25} status={nodeStatus} />
 
                     {capitalize(row.organization || '')}
                   </Box>
@@ -89,8 +85,8 @@ export const ChainNodesTable = ({
                 <TableCell padding="none" className={classes.heightCell}>
                   <Typography
                     style={{
-                      color: isHeightColVisibleStatus(baseStatus)
-                        ? getStatusColor(theme, baseStatus)
+                      color: isHeightColVisibleStatus(nodeStatus)
+                        ? getStatusColor(theme, nodeStatus)
                         : 'inherit',
                     }}
                     variant="inherit"

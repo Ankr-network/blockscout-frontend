@@ -1,27 +1,22 @@
-import { BaseStatus } from '../types/status';
 import { Theme } from '@material-ui/core';
+import { StatusCircleStatus } from 'uiKit/StatusCircle/StatusCircleProps';
 
-export const getStatusColor = (
-  theme: Theme,
-  _status: BaseStatus | keyof typeof BaseStatus = BaseStatus.success,
-) => {
-  const status = BaseStatus[_status] as BaseStatus;
-
+export const getStatusColor = (theme: Theme, status?: StatusCircleStatus) => {
   switch (status) {
-    case BaseStatus.success: {
+    case 'success': {
       return theme.palette.success.main;
     }
 
-    case BaseStatus.warning: {
+    case 'warning': {
       return theme.palette.warning.main;
     }
 
-    case BaseStatus.error: {
+    case 'error': {
       return theme.palette.error.main;
     }
 
     default: {
-      return theme.palette.success.main;
+      return theme.palette.primary.main;
     }
   }
 };

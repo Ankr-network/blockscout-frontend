@@ -1,4 +1,4 @@
-import { BaseStatus } from 'uiKit/types/status';
+import { StatusCircleStatus } from 'uiKit/StatusCircle/StatusCircleProps';
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { INodeEntity } from '@ankr.com/multirpc';
@@ -91,8 +91,7 @@ export const getRows = (
     });
 };
 
-export function isHeightColVisibleStatus(status: BaseStatus): boolean {
-  const visibleStatuses = [BaseStatus.warning, BaseStatus.error];
-
+export function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
+  const visibleStatuses = ['warning', 'error'];
   return visibleStatuses.includes(status);
 }

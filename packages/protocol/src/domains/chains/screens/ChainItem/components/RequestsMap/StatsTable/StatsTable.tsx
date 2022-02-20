@@ -17,6 +17,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { PALETTE } from 'ui';
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
+import { StatusCircle } from 'uiKit/StatusCircle/StatusCircle';
 
 export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
   const classes = useStyles();
@@ -57,14 +58,15 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
                   )}
                 >
                   <TableCell padding="none" className={classes.firstCell}>
-                    <div
-                      className={classes.dot}
-                      style={{
-                        backgroundColor: isSelectedCountry
+                    <StatusCircle
+                      mr={1.25}
+                      color={
+                        isSelectedCountry
                           ? (PALETTE?.primary as SimplePaletteColorOptions).main
-                          : color,
-                      }}
+                          : color
+                      }
                     />
+
                     <Typography variant="subtitle1">{name}</Typography>
                   </TableCell>
 

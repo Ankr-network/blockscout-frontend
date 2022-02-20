@@ -1,7 +1,6 @@
 import { BoxProps } from '@material-ui/core';
-import { BaseStatus } from 'uiKit/types/status';
 
-export type StatusCircleStatus = BaseStatus | keyof typeof BaseStatus;
+export type StatusCircleStatus = 'success' | 'warning' | 'info' | 'error';
 export type StatusCircleSize = 'sm';
 export type StatusCircleProps = {
   size?: StatusCircleSize;

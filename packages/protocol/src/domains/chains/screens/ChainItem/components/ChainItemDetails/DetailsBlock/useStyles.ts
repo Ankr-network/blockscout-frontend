@@ -35,20 +35,4 @@ export const useStyles = makeStyles<Theme>(theme => ({
       height: 23.3,
     },
   },
-
-  dot: {
-    position: 'relative',
-    '&:before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      width: 6,
-      height: 6,
-      borderRadius: '50%',
-      left: -10,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
 }));
