@@ -55,9 +55,9 @@ export const featuresConfig = {
   v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
-  stakeFantom: true,
+  stakeFantom: false,
   // todo: STAKAN-935 remove this flag when the feature will be done
-  unstakeFantom: true,
+  unstakeFantom: false,
   eth2Swap: true,
   bridge: currentEnv === Env.Develop,
   maxStakeAmountBtn: false,
