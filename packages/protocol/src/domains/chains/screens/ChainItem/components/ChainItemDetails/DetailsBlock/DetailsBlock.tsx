@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useStyles } from './useStyles';
 import { DetailsBlockProps } from './DetailsBlockTypes';
 import { Skeleton } from '@material-ui/lab';
-import { StatusCircle } from 'uiKit/StatusCircle/StatusCircle';
+import { StatusCircle } from 'uiKit/StatusCircle';
 
 export const DetailsBlock = ({
   title,

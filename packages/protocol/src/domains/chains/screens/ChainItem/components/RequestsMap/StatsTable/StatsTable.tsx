@@ -17,7 +17,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { PALETTE } from 'ui';
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
-import { StatusCircle } from 'uiKit/StatusCircle/StatusCircle';
+import { StatusCircle } from 'uiKit/StatusCircle';
 
 export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
   const classes = useStyles();

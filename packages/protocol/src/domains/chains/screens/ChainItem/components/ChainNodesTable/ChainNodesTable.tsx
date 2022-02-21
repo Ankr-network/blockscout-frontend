@@ -21,7 +21,7 @@ import { useStyles } from './useStyles';
 import { ChainNodesTableProps } from './ChainNodesTableProps';
 import { getRows, isHeightColVisibleStatus } from './ChainNodesTableUtils';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
-import { StatusCircle } from 'uiKit/StatusCircle/StatusCircle';
+import { StatusCircle } from 'uiKit/StatusCircle';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 

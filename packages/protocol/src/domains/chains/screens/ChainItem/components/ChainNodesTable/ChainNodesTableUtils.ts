@@ -1,4 +1,4 @@
-import { StatusCircleStatus } from 'uiKit/StatusCircle/StatusCircleProps';
+import { StatusCircleStatus } from 'uiKit/StatusCircle';
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { INodeEntity } from '@ankr.com/multirpc';
@@ -64,21 +64,22 @@ export const getRows = (
     .map(node => {
       const nodeWeight = currentNodesWeight.find(el => el.id === node.nodeId);
 
+      if (nodeWeight) {
+        const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
+
+        return {
+          ...node,
+          score: nodeWeight.score,
+          weight: new BigNumber(percentWeight),
+          height: nodeWeight.height,
+        };
+      }
+
       return {
         ...node,
-        ...(nodeWeight
-          ? {
-              score: nodeWeight.score,
-              weight: new BigNumber(
-                (100 * nodeWeight.weight) / totalWeights || 0,
-              ),
-              height: nodeWeight.height,
-            }
-          : {
-              score: 0,
-              weight: new BigNumber(0),
-              height: 0,
-            }),
+        score: 0,
+        weight: new BigNumber(0),
+        height: 0,
       };
     })
     .sort((a, b) => b.weight.toNumber() - a.weight.toNumber())
