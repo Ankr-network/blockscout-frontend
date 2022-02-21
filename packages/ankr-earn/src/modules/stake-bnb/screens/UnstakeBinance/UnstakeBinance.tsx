@@ -2,7 +2,8 @@ import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { DECIMAL_PLACES, isMainnet, ZERO } from 'modules/common/const';
+import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -11,6 +12,7 @@ import {
   IUnstakeFormValues,
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
+import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
@@ -18,8 +20,8 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { fetchStats } from '../../actions/fetchStats';
 import { unstake } from '../../actions/unstake';
-import { BNB_REDEEM_PERIOD } from '../../const';
 import { useFetchStats } from '../../hooks/useFetchStats';
+import { useRedeemData } from '../../hooks/useRedeemData';
 import { useUnstakeBinanceStyles } from './useUnstakeBinanceStyles';
 
 export const UnstakeBinance = () => {
@@ -27,13 +29,21 @@ export const UnstakeBinance = () => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+  const {
+    isOpened: isSuccessOpened,
+    onClose: onSuccessClose,
+    onOpen: onSuccessOpen,
+  } = useDialog();
 
   const {
     error: fetchStatsError,
     isLoading: isFetchStatsLoading,
     stats: fetchStatsData,
   } = useFetchStats();
+
+  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+
+  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const onClose = (): void => {
     history.push(DashboardRoutes.dashboard.generatePath());
@@ -80,7 +90,7 @@ export const UnstakeBinance = () => {
             color="textPrimary"
             variant="body2"
           >
-            {t(isInvalidAmount ? 'unit.token-value' : 'unit.~token-value', {
+            {t('unit.token-value', {
               value: isInvalidAmount ? 0 : amount.decimalPlaces(DECIMAL_PLACES),
               token: Token.BNB,
             })}
@@ -98,7 +108,7 @@ export const UnstakeBinance = () => {
 
     dispatchRequest(unstake(resultAmount)).then(({ error }) => {
       if (!error) {
-        onClose();
+        onSuccessOpen();
       }
     });
   };
@@ -120,22 +130,35 @@ export const UnstakeBinance = () => {
       <Container>
         {fetchStatsError !== null && <QueryError error={fetchStatsError} />}
 
-        {fetchStatsError === null && fetchStatsData !== null && (
-          <UnstakeDialog
-            balance={fetchStatsData.aBNBbBalance}
-            endText={t('stake-bnb-dashboard.unstake-info', {
-              value: BNB_REDEEM_PERIOD,
-              period: isMainnet ? t('unit.days') : t('unit.hours'),
-            })}
-            extraValidation={onExtraValidation(fetchStatsData.minimumStake)}
-            isLoading={isUnstakeLoading}
-            renderFormFooter={onRenderFormFooter(fetchStatsData.minimumStake)}
-            submitDisabled={isUnstakeLoading}
-            token={Token.aBNBb}
-            onClose={onClose}
-            onSubmit={onUnstakeSubmit}
-          />
-        )}
+        {fetchStatsError === null &&
+          fetchStatsData !== null &&
+          (!isSuccessOpened ? (
+            <UnstakeDialog
+              balance={fetchStatsData.aBNBbBalance}
+              endText={t('stake-bnb-dashboard.unstake-info', {
+                value: redeemValue,
+                period: redeemPeriod,
+              })}
+              extraValidation={onExtraValidation(fetchStatsData.minimumUnstake)}
+              isLoading={isUnstakeLoading}
+              renderFormFooter={onRenderFormFooter(
+                fetchStatsData.minimumUnstake,
+              )}
+              submitDisabled={isUnstakeLoading}
+              token={Token.aBNBb}
+              onClose={onClose}
+              onSubmit={onUnstakeSubmit}
+            />
+          ) : (
+            <UnstakeSuccess
+              period={t('stake-bnb-dashboard.unstake-period', {
+                value: redeemValue,
+                period: redeemPeriod,
+              })}
+              tokenName={Token.BNB}
+              onClose={onSuccessClose}
+            />
+          ))}
       </Container>
     </Box>
   );

@@ -12,7 +12,7 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useEffect, useState } from 'react';
+import { ReactText, useState } from 'react';
 
 interface IUseStakeForm {
   balance?: BigNumber;
@@ -52,13 +52,6 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
       }
     });
   };
-
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-    setAmount(data.aFTMbBalance.toFormat());
-  }, [data]);
 
   return {
     isCommonDataLoading,

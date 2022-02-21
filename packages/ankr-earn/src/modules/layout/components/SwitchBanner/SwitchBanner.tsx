@@ -1,15 +1,17 @@
 import { Typography } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { Container } from 'uiKit/Container';
+import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
 import switchImg from './assets/switch.png';
 import { useSwitchBannerStyles } from './useSwitchBannerStyles';
 
 interface ISwitchBannerProps {
   link: string;
+  onClose: () => void;
 }
 
-export const SwitchBanner = ({ link }: ISwitchBannerProps) => {
+export const SwitchBanner = ({ link, onClose }: ISwitchBannerProps) => {
   const classes = useSwitchBannerStyles();
 
   return (
@@ -33,6 +35,10 @@ export const SwitchBanner = ({ link }: ISwitchBannerProps) => {
       >
         {t('switch-banner.btn')}
       </NavLink>
+
+      <button className={classes.closeWrapper} type="button" onClick={onClose}>
+        <CloseIcon size="xxs" htmlColor="currentColor" />
+      </button>
     </Container>
   );
 };

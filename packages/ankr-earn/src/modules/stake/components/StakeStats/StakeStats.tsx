@@ -6,12 +6,15 @@ import { useStakeStats as useStyles } from './useStakeStats';
 export interface IStakeStatsItem {
   label: string;
   value: string;
+  token?: string;
   tooltip?: string;
 }
 
 export interface IStakeStats {
   stats: IStakeStatsItem[];
 }
+
+const ENTER_DELAY = 1_000;
 
 export const StakeStats = ({ stats }: IStakeStats) => {
   const classes = useStyles();
@@ -28,7 +31,17 @@ export const StakeStats = ({ stats }: IStakeStats) => {
           </Tooltip>
         ) : null}
       </div>
-      <div className={classes.statisticValue}>{stat.value}</div>
+
+      <div className={classes.statisticValueWrapper}>
+        <Tooltip
+          title={`${stat.value} ${stat.token ?? ''}`.trim()}
+          arrow
+          enterDelay={ENTER_DELAY}
+        >
+          <div className={classes.statisticValue}>{stat.value}</div>
+        </Tooltip>
+        <div className={classes.statisticToken}>{stat.token}</div>
+      </div>
     </div>
   ));
 

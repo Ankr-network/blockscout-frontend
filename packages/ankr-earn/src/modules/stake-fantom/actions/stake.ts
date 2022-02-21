@@ -1,27 +1,25 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { IWeb3SendResult } from 'provider';
 import { createAction } from 'redux-smart-actions';
 import { stake as stakeFTM } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 import { getCommonData } from './getCommonData';
 
-interface IStakeResponseData {}
-
 export const stake = createAction<
-  RequestAction<IStakeResponseData, IStakeResponseData>,
+  RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [BigNumber]
 >(`${ACTIONS_PREFIX}stake`, amount => ({
   request: {
-    promise: (async () => {
+    promise: (async (): Promise<IWeb3SendResult> => {
       return stakeFTM(amount);
     })(),
   },
   meta: {
     asMutation: true,
     showNotificationOnError: true,
-    getData: data => data,
-    onSuccess: (response, _action, store) => {
-      store.dispatchRequest(getCommonData());
+    onSuccess: (response, _action, { dispatchRequest }) => {
+      dispatchRequest(getCommonData());
       return response;
     },
   },

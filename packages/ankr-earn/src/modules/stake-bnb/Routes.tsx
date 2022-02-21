@@ -7,7 +7,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
-import { BINANCE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
+import { BINANCE_WRITE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
 const STAKE_BNB_PATH = ROOT;
@@ -47,7 +47,7 @@ export function getRoutes() {
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
-          providerId={BINANCE_PROVIDER_ID}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
           path={RoutesConfig.stake.path}
           availableNetworks={BNB_STAKING_NETWORKS}
           exact
@@ -59,7 +59,7 @@ export function getRoutes() {
 
         {featuresConfig.isActiveBNBUnstaking && (
           <GuardRoute
-            providerId={BINANCE_PROVIDER_ID}
+            providerId={BINANCE_WRITE_PROVIDER_ID}
             path={RoutesConfig.unstake.path}
             availableNetworks={BNB_STAKING_NETWORKS}
             exact

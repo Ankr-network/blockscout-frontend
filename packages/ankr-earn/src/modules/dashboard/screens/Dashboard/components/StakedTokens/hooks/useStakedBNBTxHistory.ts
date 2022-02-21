@@ -55,18 +55,18 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
 
   const staked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.StakePending,
+    type: EBinancePoolEventsMap.Staked,
     network,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.ClaimPending,
+    type: EBinancePoolEventsMap.UnstakePending,
     network,
   });
 
   const pendingUnstake = data?.pending.filter(
-    ({ txType }) => txType === EBinancePoolEventsMap.ClaimPending,
+    ({ txType }) => txType === EBinancePoolEventsMap.UnstakePending,
   );
 
   const pendingUnstakeHistory = pendingUnstake

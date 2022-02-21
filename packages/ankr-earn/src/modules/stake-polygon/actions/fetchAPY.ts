@@ -1,10 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { ACTION_CACHE_SEC, isMainnet } from 'modules/common/const';
+import { AvailableReadProviders } from 'provider/providerManager/types';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { PolygonSDK } from '../api/PolygonSDK';
-import { ProviderManagerSingleton } from '../../api/ProviderManagerSingleton';
-import { AvailableReadProviders } from 'provider/providerManager/types';
-import { isMainnet } from '../../common/const';
 
 export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
   'polygon/fetchAPY',
@@ -21,8 +21,8 @@ export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
       })(),
     },
     meta: {
-      cache: 600,
       asMutation: false,
+      cache: ACTION_CACHE_SEC,
       getData: (data: BigNumber): BigNumber => data.multipliedBy(100),
     },
   }),

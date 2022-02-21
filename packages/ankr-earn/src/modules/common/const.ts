@@ -12,6 +12,8 @@ export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 
+export const ACTION_CACHE_SEC = 600;
+
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
 export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
@@ -45,18 +47,20 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveBNBStaking: currentEnv === Env.Develop,
-  isActiveBNBStakingFAQ: false,
-  isActiveBNBUnstaking: currentEnv === Env.Develop,
+  isActiveBNBStaking: true,
+  isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
   v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
-  stakeFantom: currentEnv !== Env.Production,
-  eth2Swap: currentEnv === Env.Develop,
+  stakeFantom: true,
+  // todo: STAKAN-935 remove this flag when the feature will be done
+  unstakeFantom: true,
+  eth2Swap: true,
   bridge: currentEnv === Env.Develop,
+  maxStakeAmountBtn: false,
 };
 
 export enum SupportedChainIDS {

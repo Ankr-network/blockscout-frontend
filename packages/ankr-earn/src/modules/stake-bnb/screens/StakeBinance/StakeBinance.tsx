@@ -3,14 +3,11 @@ import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
-import {
-  DECIMAL_PLACES,
-  featuresConfig,
-  isMainnet,
-} from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
@@ -29,7 +26,8 @@ import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { BNB_REDEEM_PERIOD, BNB_STAKING_AMOUNT_STEP } from '../../const';
+import { BNB_STAKING_AMOUNT_STEP } from '../../const';
+import { useRedeemData } from '../../hooks/useRedeemData';
 import { getAmountData } from '../../utils/getAmountData';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -40,6 +38,10 @@ import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 export const StakeBinance = () => {
   const classes = useStakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
+
+  const faqItems: IFaqItem[] = useFaq();
+
+  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const {
     isSuccessOpened,
@@ -61,11 +63,10 @@ export const StakeBinance = () => {
   } = useStakeForm({ openSuccessModal: onSuccessOpen });
 
   const stakeStats: IStakeStatsItem[] = useStakeStats(amount, fetchAPYData);
-  const faqItems: IFaqItem[] = useFaq();
 
-  const renderStats =
+  const onRenderStats =
     (relayerFee: BigNumber) =>
-    (rawAmount: number): JSX.Element => {
+    (rawAmount: BigNumber): JSX.Element => {
       const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
         rawAmount,
         relayerFee,
@@ -99,24 +100,16 @@ export const StakeBinance = () => {
             </StakeDescriptionName>
 
             <StakeDescriptionValue>
-              <span>
-                {t(
-                  isLessThanOrEqualToZero
-                    ? 'unit.token-value'
-                    : 'unit.~token-value',
-                  {
-                    value: isLessThanOrEqualToZero
-                      ? 0
-                      : resultAmount.decimalPlaces(DECIMAL_PLACES),
-                    token: Token.aBNBb,
-                  },
-                )}
-              </span>
+              <StakeDescriptionAmount symbol={Token.aBNBb}>
+                {!isLessThanOrEqualToZero
+                  ? `~${resultAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}`
+                  : '0'}
+              </StakeDescriptionAmount>
 
               <Tooltip
                 title={tHTML('stake-bnb.tooltips.you-will-get', {
-                  value: BNB_REDEEM_PERIOD,
-                  period: isMainnet ? t('unit.days') : t('unit.hours'),
+                  value: redeemValue,
+                  period: redeemPeriod,
                 })}
               >
                 <ButtonBase className={classes.questionBtn}>
@@ -167,17 +160,18 @@ export const StakeBinance = () => {
               loading={isStakeLoading}
               maxAmount={fetchStatsData.bnbBalance}
               minAmount={fetchStatsData.minimumStake}
-              onChange={handleFormChange}
-              onSubmit={handleSubmit}
-              renderStats={renderStats(fetchStatsData.relayerFee)}
+              renderStats={onRenderStats(fetchStatsData.relayerFee)}
               stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
               tokenIn={t('unit.bnb')}
               tokenOut={t('unit.abnbb')}
+              onChange={handleFormChange}
+              onSubmit={handleSubmit}
+              isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             />
 
             <StakeStats stats={stakeStats} />
 
-            {featuresConfig.isActiveBNBStakingFAQ && <Faq data={faqItems} />}
+            <Faq data={faqItems} />
           </StakeContainer>
         ))}
     </section>

@@ -1,4 +1,4 @@
-import { currentEnv, ZERO_ADDR } from 'modules/common/const';
+import { currentEnv } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
 export interface IContractConfig {
@@ -21,7 +21,7 @@ export interface IBinanceConfig {
   WBNBContract: string;
 }
 
-interface IFantomConfig {
+export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
 }
@@ -52,13 +52,13 @@ const LOCAL_CONFIG: IStkrConfig = {
     futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
   },
   binanceConfig: {
-    aBNBbToken: '0x35336b3d0f5B58C3af6Ad71a3AA790256AE3B5dA',
-    binancePool: '0xb7d6325fc0dE1c6B02af8A70A23F1d0119A452C8',
+    aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
   },
   fantomConfig: {
-    fantomPool: '0xB18ff393C0C75E3B8A445DF3E3bD0d9Ce03Fba4b',
-    aftmbToken: '0x5bb1Ae7FaBA68CA80A88B7dF30eea239E62D502D',
+    fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
+    aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -116,16 +116,13 @@ const MAINNET_CONFIG: IStkrConfig = {
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
   },
   binanceConfig: {
-    // TODO Please add valid addresses for the Mainnet (BNB)
-    aBNBbToken: '',
-    binancePool: '',
+    aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
+    binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   },
   fantomConfig: {
-    // todo: add production addr
-    fantomPool: ZERO_ADDR,
-    // todo: add production addr
-    aftmbToken: ZERO_ADDR,
+    fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
+    aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

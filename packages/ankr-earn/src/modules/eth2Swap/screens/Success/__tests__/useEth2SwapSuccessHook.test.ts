@@ -57,7 +57,7 @@ describe('modules/eth2Swap/screens/Success/useEth2SwapSuccessHook', () => {
 
     expect(addEth2SwapTokenToWallet).toBeCalledTimes(1);
     expect(addEth2SwapTokenToWallet).toBeCalledWith({
-      swapOption: 'aETHb',
+      swapOption: 'aETHc',
       providerId: AvailableWriteProviders.ethCompatible,
     });
   });

@@ -36,7 +36,7 @@ export const useStakedBNBData = (): IStakedBNBData => {
   const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
 
   const amount = statsData?.aBNBbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingClaim ?? ZERO;
+  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
@@ -48,8 +48,8 @@ export const useStakedBNBData = (): IStakedBNBData => {
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
-    stakeType: EBinancePoolEventsMap.StakePending,
-    unstakeType: EBinancePoolEventsMap.ClaimPending,
+    stakeType: EBinancePoolEventsMap.Staked,
+    unstakeType: EBinancePoolEventsMap.UnstakePending,
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,

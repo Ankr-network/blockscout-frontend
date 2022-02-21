@@ -111,6 +111,10 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     paddingBottom: 0,
   },
 
+  amount: {
+    cursor: 'pointer',
+  },
+
   empty: {
     padding: theme.spacing(14, 0, 22),
     textAlign: 'center',

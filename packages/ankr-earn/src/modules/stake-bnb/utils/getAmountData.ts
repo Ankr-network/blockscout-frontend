@@ -6,11 +6,11 @@ export interface IGetAmountData {
 }
 
 export const getAmountData = (
-  rawAmount: number,
+  rawAmount: BigNumber,
   relayerFee: BigNumber,
 ): IGetAmountData => {
-  const amount: BigNumber = new BigNumber(rawAmount).minus(relayerFee);
-  const isLessThanOrEqualToZero: boolean = amount.isLessThanOrEqualTo(0);
+  const amount = rawAmount.minus(relayerFee);
+  const isLessThanOrEqualToZero = amount.isLessThanOrEqualTo(0);
 
   return {
     amount,
