@@ -52,7 +52,7 @@ export const getRows = (
   const nodes = Object.values(groupedNodes);
 
   const currentNodesWeight = nodesWeight
-    .filter(el => el.weight)
+    // .filter(el => el.weight)
     .filter(item => item.id in groupedNodes);
 
   const totalWeights = currentNodesWeight.reduce(
