@@ -8,7 +8,9 @@ export async function tryToLogin(
   key: string,
 ) {
   try {
-    return service.loginAsUser(address, key);
+    const data = await service.loginAsUser(address, key);
+
+    return data;
   } catch (error: any) {
     if (error.code === PROVIDER_ERROR_USER_DENIED) {
       throw error;
