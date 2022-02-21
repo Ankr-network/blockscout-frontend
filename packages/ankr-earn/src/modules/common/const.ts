@@ -58,7 +58,7 @@ export const featuresConfig = {
   stakeFantom: true,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
-  eth2Swap: currentEnv !== Env.Production,
+  eth2Swap: true,
   bridge: currentEnv === Env.Develop,
   maxStakeAmountBtn: false,
 };

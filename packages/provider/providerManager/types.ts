@@ -3,6 +3,8 @@ export enum AvailableReadProviders {
   ethGoerliHttpProvider = 'ethGoerliHttpProvider',
   ftmOperaHttpProvider = 'ftmOperaHttpProvider',
   ftmTestnetHttpProvider = 'ftmTestnetHttpProvider',
+  smartChainHttpProvider = 'smartChainHttpProvider',
+  smartChainTestnetHttpProvider = 'smartChainTestnetHttpProvider',
 }
 
 export enum AvailableWriteProviders {
