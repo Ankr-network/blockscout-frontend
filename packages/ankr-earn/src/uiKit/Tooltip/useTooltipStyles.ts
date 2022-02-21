@@ -40,4 +40,5 @@ export const useTooltipStyles = makeStyles<Theme, { maxHeight?: number }>(
       },
     },
   }),
+  { index: 1 },
 );

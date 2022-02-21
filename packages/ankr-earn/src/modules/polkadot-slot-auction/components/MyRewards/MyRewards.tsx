@@ -15,7 +15,6 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
-import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import {
   fetchMyRewardCrowdloans,
@@ -91,8 +90,6 @@ export const MyRewards = () => {
 
   return (
     <>
-      {error !== null && <QueryError error={error} />}
-
       {error === null && !!crowdloans?.length && (
         <Table
           customCell="minmax(200px, 1fr) 120px 150px 175px 220px 140px 150px"

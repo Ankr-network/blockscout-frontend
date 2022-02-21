@@ -12,3 +12,27 @@ intl.init({
   locales,
   fallbackLocale: 'en-US',
 });
+
+const sessionStorageMock = (function () {
+  let store: Record<string, string> = {};
+
+  return {
+    getItem: (key: string): string => {
+      return store[key];
+    },
+
+    setItem: (key: string, value: unknown): void => {
+      store[key] = String(value);
+    },
+
+    clear: (): void => {
+      store = {};
+    },
+
+    removeItem: (key: string): void => {
+      delete store[key];
+    },
+  };
+})();
+
+Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock });

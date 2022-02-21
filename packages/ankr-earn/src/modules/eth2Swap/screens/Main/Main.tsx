@@ -56,10 +56,7 @@ export const Main = (): JSX.Element => {
     handleClearTx,
   } = useEth2SwapForm({ max: balance, swapOption, ratio });
 
-  const max = useMemo(
-    () => balance.dividedBy(ETH_SCALE_FACTOR).decimalPlaces(DECIMAL_PLACES),
-    [balance],
-  );
+  const max = useMemo(() => balance.dividedBy(ETH_SCALE_FACTOR), [balance]);
   const canApprove = allowance.isZero() && swapOption === 'aETHc';
   const canShowApproveStep = swapOption === 'aETHc' && hasApprove;
   const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;

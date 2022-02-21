@@ -28,19 +28,6 @@
 	"anonymous": false,
 	"inputs": [
 	  {
-		"indexed": false,
-		"internalType": "uint256",
-		"name": "newRatio",
-		"type": "uint256"
-	  }
-	],
-	"name": "LastConfirmedRatioUpdate",
-	"type": "event"
-  },
-  {
-	"anonymous": false,
-	"inputs": [
-	  {
 		"indexed": true,
 		"internalType": "address",
 		"name": "previousOwner",
@@ -66,7 +53,7 @@
 		"type": "uint256"
 	  }
 	],
-	"name": "RatioUpdate",
+	"name": "RatioUpdated",
 	"type": "event"
   },
   {
@@ -196,7 +183,7 @@
 	"inputs": [
 	  {
 		"internalType": "uint256",
-		"name": "newRatio",
+		"name": "totalRewards",
 		"type": "uint256"
 	  }
 	],
@@ -393,7 +380,7 @@
 		"type": "uint256"
 	  }
 	],
-	"name": "lockForDelayedBurn",
+	"name": "burnAndSetPending",
 	"outputs": [],
 	"stateMutability": "nonpayable",
 	"type": "function"
@@ -411,7 +398,7 @@
 		"type": "uint256"
 	  }
 	],
-	"name": "commitDelayedBurn",
+	"name": "updatePendingBurning",
 	"outputs": [],
 	"stateMutability": "nonpayable",
 	"type": "function"
@@ -566,6 +553,32 @@
 	"type": "function"
   },
   {
+	"inputs": [],
+	"name": "totalStaked",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "totalUnbondedBonds",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
 	"inputs": [
 	  {
 		"internalType": "address",
@@ -582,11 +595,11 @@
 	"inputs": [
 	  {
 		"internalType": "address",
-		"name": "polygonPool",
+		"name": "binancePool",
 		"type": "address"
 	  }
 	],
-	"name": "changePolygonPool",
+	"name": "changeBinancePool",
 	"outputs": [],
 	"stateMutability": "nonpayable",
 	"type": "function"

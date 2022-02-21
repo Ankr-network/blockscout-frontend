@@ -1,19 +1,22 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -46,34 +49,28 @@ export const StakeFantom = () => {
     onSubmit,
   } = useStakeForm(onSuccessOpen);
 
-  const stats = useStakeStats(+amount);
+  const stats = useStakeStats(amount);
   const faqItems = useFaq();
 
-  useEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (amount: number) => {
+    (amount: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            {t('unit.token-value', {
-              token: tokenOut,
-              value: new BigNumber(amount).decimalPlaces(DECIMAL_PLACES),
-            })}
+            <StakeDescriptionAmount symbol={tokenOut}>
+              {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            </StakeDescriptionAmount>
 
-            {/* todo: set actual tooltip text */}
-            <Tooltip
-              title={
-                <>
-                  <p>{t('stake-fantom.ftm-tooltip-title')}</p>
-                  <p>{t('stake-fantom.ftm-tooltip-body')}</p>
-                </>
-              }
-            >
+            <small>{tokenOut}</small>
+
+            <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
               <ButtonBase className={classes.questionBtn}>
                 <QuestionIcon size="xs" />
               </ButtonBase>
@@ -115,6 +112,7 @@ export const StakeFantom = () => {
             onSubmit={onSubmit}
             onChange={onChange}
             renderStats={renderStats}
+            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
           />
 
           <StakeStats stats={stats} />

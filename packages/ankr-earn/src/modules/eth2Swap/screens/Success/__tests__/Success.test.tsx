@@ -36,5 +36,8 @@ describe('modules/eth2Swap/screens/Success', () => {
 
     const title = await screen.findByText('Swap successful!');
     expect(title).toBeInTheDocument();
+
+    const description = await screen.findByText('Add aETHc to wallet');
+    expect(description).toBeInTheDocument();
   });
 });

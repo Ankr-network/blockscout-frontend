@@ -12,6 +12,9 @@ export const useStakeDescriptionValueStyles = makeStyles<
   root: {
     fontWeight: ({ isBold }) => (isBold ? 'bold' : 'normal'),
 
+    alignItems: 'center',
+    display: 'flex',
+
     '&&': {
       justifySelf: 'end',
       alignSelf: 'center',

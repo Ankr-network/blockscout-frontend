@@ -10,43 +10,53 @@ import { ReactNode, ReactText, useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { NavLink } from 'uiKit/NavLink';
+import { OnChange } from 'uiKit/OnChange';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 const UNSTAKE_FORM_ID = 'unstake-form';
+
+enum FieldsNames {
+  amount = 'amount',
+}
 
 export interface IUnstakeFormValues {
   amount?: ReactText;
 }
 
 export interface IUnstakeDialogProps {
-  renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   balance?: BigNumber;
   isLoading?: boolean;
   submitDisabled?: boolean;
   isBalanceLoading?: boolean;
-  onClose?: () => void;
-  onSubmit: (values: IUnstakeFormValues) => void;
   endDate?: Date;
   endText?: string;
   token?: Token;
+  closeHref?: string;
+  renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
+  onClose?: () => void;
+  onSubmit: (values: IUnstakeFormValues) => void;
   extraValidation?: (
     data: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
   ) => FormErrors<IUnstakeFormValues>;
+  onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
 }
 
 export const UnstakeDialog = ({
-  renderFormFooter,
   isBalanceLoading,
   isLoading,
   submitDisabled,
   balance,
-  onClose,
-  onSubmit,
+  closeHref,
   endDate,
   endText,
   token = Token.AVAX,
+  onSubmit,
+  onClose,
   extraValidation,
+  renderFormFooter,
+  onChange,
 }: IUnstakeDialogProps) => {
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
@@ -54,7 +64,7 @@ export const UnstakeDialog = ({
 
   const setMaxAmount = useCallback(
     (form: FormApi<IUnstakeFormValues>, maxAmount: string) => () =>
-      form.change('amount', maxAmount),
+      form.change(FieldsNames.amount, maxAmount),
     [],
   );
 
@@ -67,6 +77,8 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
+  const CloseBtn = closeHref ? NavLink : Button;
+
   return (
     <Paper className={classes.root}>
       <Container className={classes.container}>
@@ -77,7 +89,7 @@ export const UnstakeDialog = ({
         <Form
           validate={validate}
           onSubmit={onSubmit}
-          render={({ handleSubmit, form, values }) => (
+          render={({ handleSubmit, form, values, invalid }) => (
             <form
               onSubmit={handleSubmit}
               autoComplete="off"
@@ -88,7 +100,7 @@ export const UnstakeDialog = ({
                   balance={balance}
                   onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
                   isBalanceLoading={isBalanceLoading}
-                  name="amount"
+                  name={FieldsNames.amount}
                   tokenName={token}
                   label={t('unstake-dialog.amount')}
                   inputClassName={classes.input}
@@ -100,6 +112,14 @@ export const UnstakeDialog = ({
                   new BigNumber(values.amount ?? 0),
                   new BigNumber(maxAmount),
                 )}
+
+              {typeof onChange === 'function' && (
+                <OnChange name={FieldsNames.amount}>
+                  {() => {
+                    onChange(values, invalid);
+                  }}
+                </OnChange>
+              )}
             </form>
           )}
         />
@@ -144,9 +164,14 @@ export const UnstakeDialog = ({
         </Container>
       </div>
 
-      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
+      <CloseBtn
+        variant="outlined"
+        className={classes.closeBtn}
+        onClick={onClose}
+        href={closeHref ?? ''}
+      >
         <CloseIcon size="xxs" htmlColor="inherit" />
-      </Button>
+      </CloseBtn>
     </Paper>
   );
 };

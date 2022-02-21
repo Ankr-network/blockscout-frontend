@@ -4,6 +4,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
+import { TOKENS } from './const';
 import { useEth2SwapSuccessHook } from './useEth2SwapSuccessHook';
 import { useSuccessEth2SwapStyles } from './useSuccessEth2SwapStyles';
 
@@ -21,7 +22,7 @@ export const Success = (): JSX.Element => {
           </Typography>
 
           <Typography className={classes.info}>
-            {t('eth2Swap.successInfo', { token: swapOption })}
+            {t('eth2Swap.successInfo', { token: TOKENS[swapOption] })}
           </Typography>
 
           <NavLink
@@ -44,7 +45,7 @@ export const Success = (): JSX.Element => {
             variant="outlined"
             onClick={handleAddTokenToWallet}
           >
-            {t('eth2Swap.buttons.addToWallet', { token: swapOption })}
+            {t('eth2Swap.buttons.addToWallet', { token: TOKENS[swapOption] })}
           </Button>
         </Paper>
       </Container>

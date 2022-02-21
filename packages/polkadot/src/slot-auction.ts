@@ -620,7 +620,12 @@ export class SlotAuctionSdk {
       return this.keyProvider;
     }
 
-    await this.keyProvider.inject();
+    try {
+      await this.keyProvider.inject();
+    } catch {
+      throw new Error('Web3 must be injected');
+    }
+
     await this.keyProvider.connect();
 
     return this.keyProvider;

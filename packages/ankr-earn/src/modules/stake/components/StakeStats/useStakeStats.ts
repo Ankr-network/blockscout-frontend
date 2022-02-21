@@ -20,6 +20,8 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexGrow: 1,
+    maxWidth: '50%',
+    padding: theme.spacing(0, 3),
 
     '&:after': {
       position: 'absolute',
@@ -41,6 +43,8 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
       flexDirection: 'row',
       minHeight: theme.spacing(8.5),
       justifyContent: 'space-between',
+      maxWidth: '100%',
+      padding: 0,
 
       '&:after': {
         display: 'none',
@@ -68,9 +72,36 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     },
   },
 
+  statisticValueWrapper: {
+    cursor: 'pointer',
+
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'flex-end',
+    },
+  },
+
   statisticValue: {
     fontSize: 20,
     fontWeight: 'bold',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: 120,
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+    },
+  },
+
+  statisticToken: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: theme.spacing(1),
 
     [theme.breakpoints.down('sm')]: {
       fontSize: 16,

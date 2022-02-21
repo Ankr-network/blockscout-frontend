@@ -1,15 +1,20 @@
 import BigNumber from 'bignumber.js';
+import { flatten } from 'lodash';
 import { configFromEnv, IStkrConfig } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ZERO } from 'modules/common/const';
 import { ProviderManager, Web3KeyProvider } from 'provider';
+import { EthereumHttpWeb3KeyProvider } from 'provider/providerManager/providers/EthereumHttpWeb3KeyProvider';
 import Web3 from 'web3';
-import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import { BINANCE_PROVIDER_ID } from '../const';
+import {
+  BINANCE_POOL_CONTRACT_START_BLOCK,
+  BINANCE_READ_PROVIDER_ID,
+  BINANCE_WRITE_PROVIDER_ID,
+  BNB_MAX_BLOCK_RANGE,
+} from '../const';
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
 
@@ -18,14 +23,14 @@ type TPastEventsData = Array<EventData | void>;
 export type TTxEventsHistoryGroupData = Array<ITxEventsHistoryGroupItem | void>;
 
 enum EBinancePoolEvents {
-  ClaimPending = 'ClaimPending',
-  RatioUpdate = 'RatioUpdate',
-  StakePending = 'StakePending',
+  RatioUpdated = 'RatioUpdated',
+  Staked = 'Staked',
+  UnstakePending = 'UnstakePending',
 }
 
 export enum EBinancePoolEventsMap {
-  ClaimPending = 'STAKE_ACTION_UNSTAKED',
-  StakePending = 'STAKE_ACTION_STAKED',
+  Staked = 'STAKE_ACTION_STAKED',
+  UnstakePending = 'STAKE_ACTION_UNSTAKED',
 }
 
 interface ITxHistoryEventData extends EventData {
@@ -44,37 +49,43 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
-// Note: ~4h
-const MAX_BINANCE_BLOCK_RANGE: number = 5_000;
-
-// Note: ~1d * 3 = 3d
-const MAX_EVENTS_BLOCK_RANGE: number = MAX_BINANCE_BLOCK_RANGE * 6 * 3;
-
 export class BinanceSDK {
   private readonly aBNBbTokenContract: Contract;
   private readonly apiGateWay: ApiGateway;
-  private readonly binancePoolContract: Contract;
+  private readonly binancePoolContractRead: Contract;
+  private readonly binancePoolContractWrite: Contract;
   private readonly WBNBContract: Contract;
 
   private static instance?: BinanceSDK;
 
-  private constructor(private web3: Web3, private currentAccount: string) {
+  private constructor(
+    private web3Read: Web3,
+    private web3Write: Web3,
+    private currentAccount: string,
+  ) {
     BinanceSDK.instance = this;
 
     const config: IStkrConfig = configFromEnv();
-    const { Contract } = this.web3.eth;
 
-    this.aBNBbTokenContract = new Contract(
+    const ContractRead = this.web3Read.eth.Contract;
+    const ContractWrite = this.web3Write.eth.Contract;
+
+    this.aBNBbTokenContract = new ContractWrite(
       ABI_ABNBB as AbiItem[],
       config.binanceConfig.aBNBbToken,
     );
 
-    this.binancePoolContract = new Contract(
+    this.binancePoolContractRead = new ContractRead(
       ABI_BINANCE_POOL as AbiItem[],
       config.binanceConfig.binancePool,
     );
 
-    this.WBNBContract = new Contract(
+    this.binancePoolContractWrite = new ContractWrite(
+      ABI_BINANCE_POOL as AbiItem[],
+      config.binanceConfig.binancePool,
+    );
+
+    this.WBNBContract = new ContractWrite(
       ABI_ERC20 as AbiItem[],
       config.binanceConfig.WBNBContract,
     );
@@ -82,53 +93,43 @@ export class BinanceSDK {
     this.apiGateWay = new ApiGateway(config.gatewayConfig);
   }
 
-  private getHexAmount(amount: BigNumber): string {
-    return this.web3.utils.numberToHex(amount.multipliedBy(1e18).toString(10));
-  }
-
   private async getPastEvents(
-    provider: Web3KeyProvider,
     contract: Contract,
     eventName: string,
+    startBlock: number,
     filter?: Filter,
   ): Promise<TPastEventsData> {
-    const latestBlockNumber: number = await provider
-      .getWeb3()
-      .eth.getBlockNumber();
-    const rawStartLoopBlockNumber: number =
-      latestBlockNumber - MAX_EVENTS_BLOCK_RANGE;
-    const startLoopBlockNumber: number =
-      rawStartLoopBlockNumber < 0 ? 0 : rawStartLoopBlockNumber;
+    const latestBlockNumber: number = await this.web3Read.eth.getBlockNumber();
 
-    let resultData: TPastEventsData = [];
+    let pastEventsPromises: Array<Promise<TPastEventsData> | void> = [];
 
-    for (
-      let i = startLoopBlockNumber;
-      i < latestBlockNumber;
-      i += MAX_BINANCE_BLOCK_RANGE
-    ) {
+    for (let i = startBlock; i < latestBlockNumber; i += BNB_MAX_BLOCK_RANGE) {
       const fromBlock: number = i;
-      const toBlock: number = i + MAX_BINANCE_BLOCK_RANGE;
+      const toBlock: number = i + BNB_MAX_BLOCK_RANGE;
 
-      const rawEventData: TPastEventsData = await contract.getPastEvents(
-        eventName,
-        {
+      pastEventsPromises.push(
+        contract.getPastEvents(eventName, {
           fromBlock,
           toBlock,
           filter,
-        },
+        }),
       );
-
-      resultData = [...resultData, ...rawEventData];
     }
 
-    return resultData;
+    return flatten(await Promise.all(pastEventsPromises));
+  }
+
+  private getHexAmount(amount: BigNumber): string {
+    return this.web3Write.utils.numberToHex(
+      amount.multipliedBy(1e18).toString(10),
+    );
   }
 
   private getTxAmount(amount: string): BigNumber {
-    return new BigNumber(this.web3.utils.fromWei(amount));
+    return new BigNumber(this.web3Write.utils.fromWei(amount));
   }
 
+  // todo: reuse it form stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
     rawEvents?: TPastEventsData,
   ): Promise<TTxEventsHistoryGroupData> {
@@ -143,8 +144,9 @@ export class BinanceSDK {
 
       rawData[i] = {
         ...rawEvent,
-        timestamp: (await this.web3.eth.getBlock(rawEvent.blockHash, false))
-          .timestamp as number,
+        timestamp: (
+          await this.web3Write.eth.getBlock(rawEvent.blockHash, false)
+        ).timestamp as number,
       };
     }
 
@@ -170,11 +172,11 @@ export class BinanceSDK {
 
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
-      case EBinancePoolEvents.ClaimPending:
-        return EBinancePoolEventsMap.ClaimPending;
+      case EBinancePoolEvents.Staked:
+        return EBinancePoolEventsMap.Staked;
 
-      case EBinancePoolEvents.StakePending:
-        return EBinancePoolEventsMap.StakePending;
+      case EBinancePoolEvents.UnstakePending:
+        return EBinancePoolEventsMap.UnstakePending;
 
       default:
         return null;
@@ -184,8 +186,8 @@ export class BinanceSDK {
   public async addABNBBToWallet(): Promise<void> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
+    const providerWrite: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_WRITE_PROVIDER_ID,
     );
     const aBNBbContract: string = configFromEnv().binanceConfig.aBNBbToken;
 
@@ -196,7 +198,7 @@ export class BinanceSDK {
 
     const decimals: number = parseInt(rawDecimals, 10);
 
-    await provider.addTokenToWallet({
+    await providerWrite.addTokenToWallet({
       address: aBNBbContract,
       symbol,
       decimals,
@@ -205,7 +207,7 @@ export class BinanceSDK {
 
   public async getABNBBBalance(): Promise<BigNumber> {
     return new BigNumber(
-      this.web3.utils.fromWei(
+      this.web3Write.utils.fromWei(
         await this.aBNBbTokenContract.methods
           .balanceOf(this.currentAccount)
           .call(),
@@ -213,135 +215,59 @@ export class BinanceSDK {
     );
   }
 
-  public async getABNBBAPY(): Promise<BigNumber> {
-    const providerManager: ProviderManager =
-      ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
-    );
-
-    const secOneYear: BigNumber = new BigNumber(31_536_000);
-    const initRatio: BigNumber = new BigNumber(1e18);
-    const defaultState: BigNumber = ZERO;
-
-    const rawEvents: TPastEventsData = await this.getPastEvents(
-      provider,
-      this.aBNBbTokenContract,
-      EBinancePoolEvents.RatioUpdate,
-      {
-        newRatio: await this.aBNBbTokenContract.methods.ratio().call(),
-      },
-    );
-
-    const [firstRawEvent, seventhRawEvent]: [
-      EventData | void,
-      EventData | void,
-    ] = [rawEvents[rawEvents.length - 1], rawEvents[rawEvents.length - 7]];
-
-    if (
-      typeof firstRawEvent === 'undefined' ||
-      typeof seventhRawEvent === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const [firstRawEventBlock, seventhRawEventBlock]: [
-      BlockTransactionObject,
-      BlockTransactionObject,
-    ] = await Promise.all([
-      this.web3.eth.getBlock(firstRawEvent.blockHash, false),
-      this.web3.eth.getBlock(seventhRawEvent.blockHash, false),
-    ]);
-
-    const [firstRawData, seventhRawData]: [
-      ITxHistoryEventData,
-      ITxHistoryEventData,
-    ] = [
-      {
-        ...firstRawEvent,
-        timestamp: firstRawEventBlock.timestamp as number,
-      },
-      {
-        ...seventhRawEvent,
-        timestamp: seventhRawEventBlock.timestamp as number,
-      },
-    ];
-
-    if (
-      typeof firstRawData.timestamp === 'undefined' ||
-      typeof seventhRawData.timestamp === 'undefined'
-    ) {
-      return defaultState;
-    }
-
-    const ratio1: BigNumber = new BigNumber(
-      firstRawData.returnValues?.newRatio ?? 0,
-    );
-    const ratio2: BigNumber = new BigNumber(
-      seventhRawData.returnValues?.newRatio ?? 0,
-    );
-
-    const timeStamp1: BigNumber = new BigNumber(firstRawData.timestamp);
-    const timeStamp2: BigNumber = new BigNumber(seventhRawData.timestamp);
-
-    // Note: ((Math.abs(ratio1 - ratio2) / Math.abs(timeStamp1 - timeStamp2)) * 'seconds in one year') / 'init ratio'
-    const apyVal: BigNumber = ratio1
-      .minus(ratio2)
-      .abs()
-      .div(timeStamp1.minus(timeStamp2).abs())
-      .multipliedBy(secOneYear)
-      .div(initRatio);
-
-    return apyVal.isNaN() ? defaultState : apyVal;
-  }
-
   public async getBNBBalance(): Promise<BigNumber> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
+    const providerWrite: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_WRITE_PROVIDER_ID,
     );
 
     const [currBalance, decimals] = await Promise.all([
-      this.web3.eth.getBalance(this.currentAccount),
+      this.web3Write.eth.getBalance(this.currentAccount),
       this.WBNBContract.methods.decimals().call(),
     ]);
 
-    return provider.getFormattedBalance(currBalance, decimals);
+    return providerWrite.getFormattedBalance(currBalance, decimals);
   }
 
   public static async getInstance(): Promise<BinanceSDK> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
-    );
-    const web3: Web3 = provider.getWeb3();
-    const currentAccount: string = provider.currentAccount;
-    const addrHasNotBeenUpdated: boolean =
-      BinanceSDK.instance?.currentAccount === provider.currentAccount;
-    const hasWeb3: boolean = BinanceSDK.instance?.web3 === web3;
 
-    if (BinanceSDK.instance && addrHasNotBeenUpdated && hasWeb3) {
+    const providerRead: EthereumHttpWeb3KeyProvider =
+      await providerManager.getReadProvider(BINANCE_READ_PROVIDER_ID);
+    const providerWrite: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_WRITE_PROVIDER_ID,
+    );
+
+    const web3Read: Web3 = providerRead.getWeb3();
+    const web3Write: Web3 = providerWrite.getWeb3();
+
+    const currentAccount: string = providerWrite.currentAccount;
+    const addrHasNotBeenUpdated: boolean =
+      BinanceSDK.instance?.currentAccount === providerWrite.currentAccount;
+    const hasWeb3Write: boolean = BinanceSDK.instance?.web3Write === web3Write;
+
+    if (BinanceSDK.instance && addrHasNotBeenUpdated && hasWeb3Write) {
       return BinanceSDK.instance;
     }
 
-    return new BinanceSDK(web3, currentAccount);
+    return new BinanceSDK(web3Read, web3Write, currentAccount);
   }
 
   public async getMinimumStake(): Promise<BigNumber> {
     return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.binancePoolContract.methods.getMinimumStake().call(),
+      this.web3Write.utils.fromWei(
+        await this.binancePoolContractWrite.methods.getMinimumStake().call(),
       ),
     );
   }
 
-  public async getPendingClaim(): Promise<BigNumber> {
+  public async getPendingUnstakes(): Promise<BigNumber> {
     return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.binancePoolContract.methods
-          .pendingBnbClaimsOf(this.currentAccount)
+      this.web3Write.utils.fromWei(
+        await this.binancePoolContractWrite.methods
+          .pendingUnstakesOf(this.currentAccount)
           .call(),
       ),
     );
@@ -349,46 +275,40 @@ export class BinanceSDK {
 
   public async getRelayerFee(): Promise<BigNumber> {
     return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.binancePoolContract.methods.getRelayerFee().call(),
+      this.web3Write.utils.fromWei(
+        await this.binancePoolContractWrite.methods.getRelayerFee().call(),
       ),
     );
   }
 
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
-    const providerManager: ProviderManager =
-      ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
-    );
-
     const [stakeRawEvents, unstakeRawEvents]: [
       TPastEventsData,
       TPastEventsData,
     ] = await Promise.all([
       this.getPastEvents(
-        provider,
-        this.binancePoolContract,
-        EBinancePoolEvents.StakePending,
+        this.binancePoolContractRead,
+        EBinancePoolEvents.Staked,
+        BINANCE_POOL_CONTRACT_START_BLOCK,
         {
-          staker: this.currentAccount,
+          delegator: this.currentAccount,
         },
       ),
       this.getPastEvents(
-        provider,
-        this.binancePoolContract,
-        EBinancePoolEvents.ClaimPending,
+        this.binancePoolContractRead,
+        EBinancePoolEvents.UnstakePending,
+        BINANCE_POOL_CONTRACT_START_BLOCK,
         {
           claimer: this.currentAccount,
         },
       ),
     ]);
 
-    let pendingClaim: BigNumber = await this.getPendingClaim(),
+    let pendingUnstakes: BigNumber = await this.getPendingUnstakes(),
       pendingRawEvents: TPastEventsData = [],
       completedRawEvents: TPastEventsData;
 
-    if (pendingClaim.isGreaterThan(0)) {
+    if (pendingUnstakes.isGreaterThan(0)) {
       const unstakeRawEventsReverse: TPastEventsData =
         unstakeRawEvents.reverse();
 
@@ -399,11 +319,11 @@ export class BinanceSDK {
       ) {
         unstakeRawEventItem = unstakeRawEventsReverse[i] as EventData;
         itemAmount = this.getTxAmount(unstakeRawEventItem.returnValues.amount);
-        pendingClaim = pendingClaim.minus(itemAmount);
+        pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
 
-        if (pendingClaim.isZero()) {
+        if (pendingUnstakes.isZero()) {
           break;
         }
       }
@@ -422,24 +342,20 @@ export class BinanceSDK {
     };
   }
 
-  public getWeb3(): Web3 {
-    return this.web3;
-  }
-
   public async stake(amount: BigNumber): Promise<void> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
+    const providerWrite: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_WRITE_PROVIDER_ID,
     );
 
-    if (!provider.isConnected()) {
-      await provider.connect();
+    if (!providerWrite.isConnected()) {
+      await providerWrite.connect();
     }
 
     const resultAmount: string = this.getHexAmount(amount);
 
-    await this.binancePoolContract.methods.stake().send({
+    await this.binancePoolContractWrite.methods.stake().send({
       from: this.currentAccount,
       value: resultAmount,
     });
@@ -448,17 +364,17 @@ export class BinanceSDK {
   public async unstake(amount: BigNumber): Promise<void> {
     const providerManager: ProviderManager =
       ProviderManagerSingleton.getInstance();
-    const provider: Web3KeyProvider = await providerManager.getProvider(
-      BINANCE_PROVIDER_ID,
+    const providerWrite: Web3KeyProvider = await providerManager.getProvider(
+      BINANCE_WRITE_PROVIDER_ID,
     );
 
-    if (!provider.isConnected()) {
-      await provider.connect();
+    if (!providerWrite.isConnected()) {
+      await providerWrite.connect();
     }
 
     const resultAmount: string = this.getHexAmount(amount);
 
-    await this.binancePoolContract.methods.unstake(resultAmount).send({
+    await this.binancePoolContractWrite.methods.unstake(resultAmount).send({
       from: this.currentAccount,
     });
   }

@@ -1,16 +1,29 @@
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { useMemo } from 'react';
 import { useFetchStats } from '../../../hooks/useFetchStats';
+import { useRedeemData } from '../../../hooks/useRedeemData';
 
 export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();
 
+  const { redeemPeriod, redeemValue } = useRedeemData();
+
+  const tradeLink: string = useMemo(
+    // TODO Please to add fix for it (BNB; trading-cockpit)
+    // () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
+    () => BoostRoutes.tradingCockpit.generatePath(Token.aETHb, Token.ETH),
+    [],
+  );
+
   return useLocaleMemo(
-    () => [
+    (): IFaqItem[] => [
       {
         question: t('stake-bnb.faq.question-1'),
-        answer: t('stake-bnb.faq.answer-1'),
+        answer: tHTML('stake-bnb.faq.answer-1'),
       },
       {
         question: t('stake-bnb.faq.question-2'),
@@ -20,7 +33,10 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-3'),
-        answer: t('stake-bnb.faq.answer-3'),
+        answer: t('stake-bnb.faq.answer-3', {
+          value: redeemValue,
+          period: redeemPeriod,
+        }),
       },
       {
         question: t('stake-bnb.faq.question-4'),
@@ -36,9 +52,19 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-7'),
-        answer: tHTML('stake-bnb.faq.answer-7'),
+        answer: t('stake-bnb.faq.answer-7'),
+      },
+      {
+        question: t('stake-bnb.faq.question-8'),
+        answer: t('stake-bnb.faq.answer-8'),
+      },
+      {
+        question: t('stake-bnb.faq.question-9'),
+        answer: tHTML('stake-bnb.faq.answer-9', {
+          link: tradeLink,
+        }),
       },
     ],
-    [stats],
+    [redeemPeriod, redeemValue, stats?.minimumStake, tradeLink],
   );
 };

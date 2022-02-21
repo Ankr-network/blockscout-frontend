@@ -7,6 +7,7 @@ import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { TSwapOption } from 'modules/eth2Swap/types';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 
 export interface IEth2SwapHookData {
   chainId: number;
@@ -53,7 +54,7 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
     setSwapOption('aETHc');
   }, []);
 
-  useEffect(() => {
+  useProviderEffect(() => {
     dispatchRequest(
       getEth2SwapData({
         providerId: AvailableWriteProviders.ethCompatible,

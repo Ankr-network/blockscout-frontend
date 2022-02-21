@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+import { NotificationActions } from 'store/actions/NotificationActions';
 import { IStoreState } from 'store/store';
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { setErrorMsg } from '../utils/setError';
@@ -31,6 +32,8 @@ interface IRewardPoolBalancesItem {
   balance: BigNumber;
   loanId: number;
 }
+
+const SKIPPED_ERROR_MSG = 'Web3 must be injected';
 
 export const fetchMyRewardCrowdloans = createAction<
   RequestAction<TFetchMyRewardCrowdloansData, TFetchMyRewardCrowdloansData>
@@ -135,7 +138,7 @@ export const fetchMyRewardCrowdloans = createAction<
       onError: (
         error: Error,
         _action: RequestAction,
-        _store: TStore<IStoreState>,
+        store: TStore<IStoreState>,
       ): Error => {
         const { message: currMsg } = error;
 
@@ -144,6 +147,15 @@ export const fetchMyRewardCrowdloans = createAction<
           : `Error: ${currMsg}`;
 
         error.message = setErrorMsg(error.message);
+
+        if (!error.message.includes(SKIPPED_ERROR_MSG)) {
+          store.dispatch(
+            NotificationActions.showNotification({
+              message: error.message,
+              severity: 'error',
+            }),
+          );
+        }
 
         throw error;
       },
