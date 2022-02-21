@@ -5,6 +5,9 @@ import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { Web3KeyProvider } from './Web3KeyProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
+const BINANCE_SMART_CHAIN_RPC_URL = 'https://rpc.ankr.com/bsc';
+const BINANCE_SMART_CHAIN_TESTNET_RPC_URL =
+  'https://data-seed-prebsc-2-s2.binance.org:8545';
 const ETHEREUM_MAINNET_RPC_URL = 'https://rpc.ankr.com/eth';
 const ETHEREUM_GOERLI_RPC_URL = 'https://eth-goerli-01.dccn.ankr.com';
 const FANTOM_TESTNET_RPC_URL = 'https://rpc.testnet.fantom.network';
@@ -69,6 +72,16 @@ export class ProviderManager {
 
     if (providerId === AvailableReadProviders.ftmTestnetHttpProvider) {
       return new EthereumHttpWeb3KeyProvider(FANTOM_TESTNET_RPC_URL);
+    }
+
+    if (providerId === AvailableReadProviders.smartChainHttpProvider) {
+      return new EthereumHttpWeb3KeyProvider(BINANCE_SMART_CHAIN_RPC_URL);
+    }
+
+    if (providerId === AvailableReadProviders.smartChainTestnetHttpProvider) {
+      return new EthereumHttpWeb3KeyProvider(
+        BINANCE_SMART_CHAIN_TESTNET_RPC_URL,
+      );
     }
 
     throw new Error(`The provider isn't supported: ${providerId}`);
