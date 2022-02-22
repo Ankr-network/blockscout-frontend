@@ -1,4 +1,4 @@
-import { IJwtToken } from '@ankr.com/multirpc';
+import { IJwtToken } from 'multirpc-sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 

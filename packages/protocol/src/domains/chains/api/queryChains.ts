@@ -1,4 +1,4 @@
-import { IBlockchainEntity } from '@ankr.com/multirpc';
+import { IBlockchainEntity } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {

@@ -1,4 +1,4 @@
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 
 type TimeStamp = string;
 type Count = number;

@@ -1,6 +1,7 @@
+import { StatusCircleStatus } from 'uiKit/StatusCircle';
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 
 import {
   ProviderRow,
@@ -13,6 +14,11 @@ export const getRows = (
   nodesWeight: ChainNodesTableProps['nodesWeight'],
 ): ProviderRow[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
+
+  // there is no null in types but just to be sure.. but default value for fn parameter will be pretty
+  if (!Array.isArray(nodesWeight)) {
+    nodesWeight = [];
+  }
 
   const groupedNodes = data.reduce<Record<string, GroupedNode>>(
     (result: any, node: INodeEntity | any) => {
@@ -46,32 +52,47 @@ export const getRows = (
   const nodes = Object.values(groupedNodes);
 
   const currentNodesWeight = nodesWeight
-    ?.filter(el => el.weight)
-    ?.filter(item => nodes?.find(el => el.nodeId === item.id));
+    // .filter(el => el.weight)
+    .filter(item => item.id in groupedNodes);
 
-  const totalWeights =
-    currentNodesWeight?.reduce((acc, el) => acc + el.weight, 0) || 0;
+  const totalWeights = currentNodesWeight.reduce(
+    (acc, el) => acc + el.weight,
+    0,
+  );
 
   return nodes
     .map(node => {
-      const nodeWeight = currentNodesWeight?.find(el => el.id === node.nodeId);
+      const nodeWeight = currentNodesWeight.find(el => el.id === node.nodeId);
 
-      if (!nodeWeight) return { ...node, height: 0, weight: new BigNumber(0) };
+      if (nodeWeight) {
+        const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
 
-      const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
+        return {
+          ...node,
+          score: nodeWeight.score,
+          weight: new BigNumber(percentWeight),
+          height: nodeWeight.height,
+        };
+      }
 
       return {
         ...node,
-        weight: new BigNumber(percentWeight),
-        height: nodeWeight.height,
+        score: 0,
+        weight: new BigNumber(0),
+        height: 0,
       };
     })
     .sort((a, b) => b.weight.toNumber() - a.weight.toNumber())
     .sort((a, b) => {
       if (b.weight.toNumber() === a.weight.toNumber()) {
-        return (a?.organization || '').localeCompare(b?.organization || '');
+        return (a.organization || '').localeCompare(b.organization || '');
       }
 
       return 0;
     });
 };
+
+export function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
+  const visibleStatuses = ['warning', 'error'];
+  return visibleStatuses.includes(status);
+}

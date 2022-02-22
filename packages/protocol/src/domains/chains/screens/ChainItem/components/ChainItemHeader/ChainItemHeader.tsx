@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 
 import { Preloader } from 'uiKit/Preloader';
 import { fetchChain } from 'domains/chains/actions/fetchChain';

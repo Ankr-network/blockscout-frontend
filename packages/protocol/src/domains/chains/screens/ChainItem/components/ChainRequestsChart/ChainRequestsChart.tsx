@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 
 import { Chart } from 'modules/common/components/Chart';
 import { ChartTooltip } from './ChartTooltip';
