@@ -56,13 +56,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     textAlign: 'right',
     textTransform: 'uppercase',
   },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: '50%',
-    marginRight: 10,
-  },
-
   body: {
     '& $row:first-child td': {
       paddingTop: theme.spacing(1.5),
