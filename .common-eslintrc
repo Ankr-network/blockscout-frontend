@@ -9,7 +9,7 @@
     "es6": true
   },
   "settings": {
-    "import/core-modules": [ "ui", "polkadot", "provider", "ankr-academy" ]
+    "import/core-modules": [ "ui", "polkadot", "provider", "ankr-academy", "multirpc-sdk" ]
   },
   "extends": [
     "airbnb-typescript",

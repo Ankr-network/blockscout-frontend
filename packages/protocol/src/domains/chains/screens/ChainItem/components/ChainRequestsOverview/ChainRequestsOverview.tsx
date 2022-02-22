@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
 import { t } from 'modules/i18n/utils/intl';

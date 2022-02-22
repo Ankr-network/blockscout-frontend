@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 
 export const getCachedRequestPercent = (
   totalRequests?: BigNumber,

@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { IWorkerGlobalStatus, Timeframe } from '@ankr.com/multirpc';
+import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 

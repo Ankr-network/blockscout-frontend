@@ -1,4 +1,4 @@
-import { INodeEntity as IApiNodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity as IApiNodeEntity } from 'multirpc-sdk';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 

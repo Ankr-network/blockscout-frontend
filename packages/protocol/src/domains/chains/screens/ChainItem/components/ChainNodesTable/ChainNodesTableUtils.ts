@@ -1,6 +1,6 @@
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 
 import {
   ProviderRow,
