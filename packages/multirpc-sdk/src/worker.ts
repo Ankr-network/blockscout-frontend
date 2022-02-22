@@ -63,6 +63,7 @@ export type IWorkerNodesWeight = {
   latency: number;
   timestamp: number;
   height: number;
+  score: number;
 }[];
 
 type ISO2CountryCode = string;
