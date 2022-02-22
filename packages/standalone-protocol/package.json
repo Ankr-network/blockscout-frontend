@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build:stage": "env-cmd -f .env.stage react-scripts build",
-    "build:prod": "env-cmd -f .env.prod react-scripts build",
+    "start:stage": "env-cmd -f .env.stage react-app-rewired start",
+    "start:prod": "env-cmd -f .env.prod react-app-rewired start",
+    "build:stage": "env-cmd -f .env.stage react-app-rewired build",
+    "build:prod": "env-cmd -f .env.prod react-app-rewired build",
     "build-chains:stage": "ENV=stage sh -e build-chains.sh",
     "build-chains:prod": "ENV=prod sh -e build-chains.sh",
-    "test": "react-scripts test",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
@@ -22,6 +22,7 @@
   },
   "homepage": "/",
   "dependencies": {
+    "@ankr.com/stakefi-web3": "^0.0.149",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -101,6 +102,7 @@
     "prettier": "^2.2.1",
     "react-snap": "^1.23.0",
     "source-map-explorer": "^2.5.2",
+    "react-app-rewired": "2.1.8",
     "typescript": "^4.1.2"
   },
   "browserslist": {

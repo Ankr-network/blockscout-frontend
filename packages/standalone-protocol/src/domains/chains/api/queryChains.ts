@@ -1,4 +1,4 @@
-import { Chain, IBlockchainEntity } from 'multirpc-sdk';
+import { IBlockchainEntity } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {
@@ -34,7 +34,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
 
     return {
       id,
-      icon: getChainIcon(id as Chain),
+      icon: getChainIcon(id),
       name,
       rpcUrl,
       wsUrl,

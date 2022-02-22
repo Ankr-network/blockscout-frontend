@@ -17,7 +17,7 @@ export const retry = async <T>(
         const value = await action();
         clearInterval(i);
         return resolve(value);
-      } catch (e) {
+      } catch (e: any) {
         if (!e.response?.data || !skipCondition(e.response.data)) {
           if (attempts < maxAttempts) {
             attempts++;
