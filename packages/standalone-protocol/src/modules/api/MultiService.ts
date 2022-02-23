@@ -2,7 +2,7 @@ import MultiRpcSdk, { configFromEnv } from 'multirpc-sdk';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import { API_ENV } from '../common/utils/environment';
 
-const { REACT_APP_CHAIN_ID, REACT_APP_IS_HOMEPAGE_BUILD_FOR_ERIGON } =
+const { REACT_APP_CHAIN_ID, REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE } =
   process.env;
 
 export class MultiService {
@@ -14,12 +14,11 @@ export class MultiService {
 
       let workerUrl = '/';
 
-      if (API_ENV === 'staging') {
-        workerUrl = config.workerUrl;
-      } else if (
+      const isBuildForErigonWithHomepage =
         REACT_APP_CHAIN_ID === 'erigonbsc' &&
-        REACT_APP_IS_HOMEPAGE_BUILD_FOR_ERIGON
-      ) {
+        REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE;
+
+      if (!REACT_APP_CHAIN_ID || isBuildForErigonWithHomepage) {
         workerUrl = config.workerUrl;
       }
 

@@ -16,12 +16,12 @@ export const formatChain = (data?: IApiChain): Chain | null => {
   };
 };
 
-const { REACT_APP_IS_HOMEPAGE_BUILD_FOR_ERIGON } = process.env;
+const { REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE } = process.env;
 
 export const getLink = (chainId: string): string => {
   const link = window?.location.origin || '';
 
-  if (chainId === 'erigon' && REACT_APP_IS_HOMEPAGE_BUILD_FOR_ERIGON) {
+  if (chainId === 'erigon' && REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE) {
     return `${link}/${chainId}`;
   }
 

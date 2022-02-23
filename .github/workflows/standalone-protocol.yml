@@ -8,8 +8,16 @@ on:
         description: Target
         required: true
         options:
-          - PROD # https://chainId.public-rpc.com/ | /erigonbsc
-          - BS1 # bs-1-stage.dccn.ankr.com/
+          - PROD # https://chainId.public-rpc.com/ | https://bscrpc.com/erigonbsc
+          - BS1 # https://bs-1-stage.dccn.ankr.com/chain/chainId
+          - BS4 # https://bs-4-stage.dccn.ankr.com/chain/chainId
+      api:
+        type: choice
+        description: API
+        required: true
+        options:
+          - STAGE
+          - PROD
 
 jobs:
   deploy:
@@ -22,6 +30,7 @@ jobs:
       - name: Get deployment information
         run: |
           echo "Branch: ${BRANCH_NAME}"
+          echo "Environment: ${{github.event.inputs.api}}"
           echo "Domain: ${{github.event.inputs.environment}}"
 
       - name: Setup Node.js environment
@@ -30,18 +39,24 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build stage
+      - name: Build stage with stage api
         working-directory: ./packages/standalone-protocol
-        if: ${{ github.event.inputs.environment == 'BS1' }}
+        if: ${{ (github.event.inputs.environment == 'BS1' || github.event.inputs.environment == 'BS4') && github.event.inputs.api == 'STAGE' }}
         run: |
           yarn build:stage
+
+      - name: Build stage with prod api
+        working-directory: ./packages/standalone-protocol
+        if: ${{ (github.event.inputs.environment == 'BS1' || github.event.inputs.environment == 'BS4') && github.event.inputs.api == 'PROD' }}
+        run: |
+          yarn build:prod
 
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
           NAMES: solana near arbitrum iotex avalanche nervos erigonbsc
 
-        if: ${{ github.event.inputs.environment == 'PROD' }}
+        if: ${{ github.event.inputs.environment == 'PROD' && github.event.inputs.api == 'PROD' }}
         run: |
           yarn build-chains:prod
 
@@ -71,7 +86,7 @@ jobs:
         env:
           DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
-        if: ${{ github.event.inputs.environment == 'BS1' }}
+        if: ${{ github.event.inputs.environment == 'BS1' || github.event.inputs.environment == 'BS4' }}
         run: |
           aws s3 sync --delete ./build s3://$DOMAIN/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true

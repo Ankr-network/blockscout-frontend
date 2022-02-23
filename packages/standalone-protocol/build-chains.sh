@@ -25,7 +25,7 @@ for NAME in ${NAMES}; do
   if [ $NAME = erigonbsc ]; then
     # build version with public path
     REACT_APP_CHAIN_ID=${NAME} node ./changeHomepage.js
-    REACT_APP_CHAIN_ID=${NAME} REACT_APP_IS_HOMEPAGE_BUILD_FOR_ERIGON=true yarn build:${ENV}
+    REACT_APP_CHAIN_ID=${NAME} REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE=true yarn build:${ENV}
     yarn postbuild
     node ./clearHomepage.js
 
