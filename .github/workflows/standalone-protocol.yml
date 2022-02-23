@@ -9,7 +9,7 @@ on:
         required: true
         options:
           - PROD # https://chainId.public-rpc.com/ | /erigonbsc
-          - BS5 # bs-5-stage.dccn.ankr.com/
+          - BS1 # bs-1-stage.dccn.ankr.com/
 
 jobs:
   deploy:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Build stage
         working-directory: ./packages/standalone-protocol
-        if: ${{ github.event.inputs.environment == 'BS5' }}
+        if: ${{ github.event.inputs.environment == 'BS1' }}
         run: |
           yarn build:stage
 
@@ -71,7 +71,7 @@ jobs:
         env:
           DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
-        if: ${{ github.event.inputs.environment == 'BS5' }}
+        if: ${{ github.event.inputs.environment == 'BS1' }}
         run: |
           aws s3 sync --delete ./build s3://$DOMAIN/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
