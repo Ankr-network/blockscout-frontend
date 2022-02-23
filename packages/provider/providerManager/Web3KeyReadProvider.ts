@@ -9,6 +9,10 @@ import {
 } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 
+export type TWeb3Call<T> = (callback: TWeb3BatchCallback<T>) => T;
+
+export type TWeb3BatchCallback<T> = (err: Error | null, data: T) => void;
+
 export abstract class Web3KeyReadProvider {
   protected _currentChain = 0;
 
@@ -133,5 +137,32 @@ export abstract class Web3KeyReadProvider {
     if (!success) {
       throw new Error(`Failed to watch asset, something went wrong`);
     }
+  }
+
+  /**
+   * `executeBatchCalls` is supposed to decrease calls to blockchain.
+   * It only sends one request and returns data from each call.
+   *
+   * @param calls web3 calls
+   * @returns array of return values from web3 calls
+   */
+  public async executeBatchCalls<T>(calls: TWeb3Call<T>[]): Promise<T[]> {
+    const web3 = this.getWeb3();
+    const batch = new web3.eth.BatchRequest();
+
+    const promises = calls.map(
+      call =>
+        new Promise<T>((res, rej) => {
+          const callback: TWeb3BatchCallback<T> = (err, data) =>
+            err ? rej(err) : res(data);
+
+          // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
+          batch.add(call(callback));
+        }),
+    );
+
+    batch.execute();
+
+    return Promise.all(promises);
   }
 }

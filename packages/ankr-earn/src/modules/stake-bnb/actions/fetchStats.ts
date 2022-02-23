@@ -20,7 +20,7 @@ export const fetchStats = createSmartAction<
   (): RequestAction => ({
     request: {
       promise: async (): Promise<IFetchStatsResponseData> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+        const sdk = await BinanceSDK.getInstance();
 
         const [
           aBNBbBalance,
