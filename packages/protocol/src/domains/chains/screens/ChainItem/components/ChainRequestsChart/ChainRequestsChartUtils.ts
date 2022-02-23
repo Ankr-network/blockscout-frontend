@@ -1,7 +1,7 @@
 import { IChartData } from 'modules/common/components/Chart';
 import { RequestsLog } from './ChainRequestsChartTypes';
 import { t } from 'modules/i18n/utils/intl';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 
 /* timeFrame in formatDate is used for chart labels view */
 export const formatDate = (date: Date, timeFrame?: Timeframe): string => {

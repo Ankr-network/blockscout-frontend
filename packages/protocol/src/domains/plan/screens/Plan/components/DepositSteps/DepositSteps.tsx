@@ -15,7 +15,7 @@ import { DepositStep } from 'modules/auth/actions/fetchDepositStatus';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import MetamaskIcon from './assets/metamask.svg';
 import { Query } from '@redux-requests/react';
-import { CONFIRMATION_BLOCKS } from '@ankr.com/multirpc';
+import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 
 const CREATE_ACCOUNT_BLOCKS_COUNT = CONFIRMATION_BLOCKS;
 
