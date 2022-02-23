@@ -31,11 +31,13 @@ jobs:
         run: yarn install
 
       - name: Build stage
+        working-directory: ./packages/standalone-protocol
         if: ${{ github.event.inputs.environment == 'BS5' }}
         run: |
           yarn build:stage
 
       - name: Build production
+        working-directory: ./packages/standalone-protocol
         env:
           NAMES: solana near arbitrum iotex avalanche nervos erigonbsc
 
