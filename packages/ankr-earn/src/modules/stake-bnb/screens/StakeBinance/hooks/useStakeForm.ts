@@ -1,21 +1,39 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useState } from 'react';
+
 import { ZERO } from 'modules/common/const';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { useState } from 'react';
+
 import { useFetchAPY } from '../../../hooks/useFetchAPY';
-import { useFetchStats } from '../../../hooks/useFetchStats';
+import {
+  useFetchStats,
+  IUseFetchStatsData,
+} from '../../../hooks/useFetchStats';
 import { getAmountData } from '../../../utils/getAmountData';
 
 interface IUseStakeFormArgs {
   openSuccessModal: () => void;
 }
 
-export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
+interface IUseStakeFormData {
+  amount: number;
+  fetchAPYData: BigNumber;
+  fetchStatsData: IUseFetchStatsData['stats'];
+  fetchStatsError: Error | null;
+  isStakeLoading: boolean;
+  isFetchStatsLoading: boolean;
+  handleFormChange: (values: IStakeFormPayload) => void;
+  handleSubmit: (values: IStakeSubmitPayload) => void;
+}
+
+export const useStakeForm = ({
+  openSuccessModal,
+}: IUseStakeFormArgs): IUseStakeFormData => {
   const dispatchRequest = useDispatchRequest();
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
@@ -26,30 +44,26 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
     stats: fetchStatsData,
   } = useFetchStats();
 
-  const fetchAPYData: BigNumber = useFetchAPY();
+  const fetchAPYData = useFetchAPY();
 
   const [amount, setAmount] = useState(0);
 
-  const handleFormChange = ({ amount }: IStakeFormPayload): void => {
-    let rawAmount: BigNumber;
-
-    rawAmount = new BigNumber(typeof amount === 'string' ? amount : '0');
+  const handleFormChange = ({ amount: value }: IStakeFormPayload): void => {
+    let rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
     rawAmount = rawAmount.isNaN() ? ZERO : rawAmount;
 
-    const relayerFee: BigNumber = fetchStatsData?.relayerFee ?? ZERO;
+    const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
     const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
       rawAmount,
       relayerFee,
     );
-    const resultVal: number = isLessThanOrEqualToZero
-      ? 0
-      : resultAmount.toNumber();
+    const resultVal = isLessThanOrEqualToZero ? 0 : resultAmount.toNumber();
 
     setAmount(resultVal);
   };
 
-  const handleSubmit = ({ amount }: IStakeSubmitPayload): void => {
-    const resultAmount: BigNumber = new BigNumber(amount);
+  const handleSubmit = (values: IStakeSubmitPayload): void => {
+    const resultAmount = new BigNumber(values.amount);
 
     dispatchRequest(stake(resultAmount)).then(({ error }) => {
       if (!error) {
@@ -63,9 +77,9 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
     fetchAPYData,
     fetchStatsData,
     fetchStatsError,
-    handleFormChange,
-    handleSubmit,
     isFetchStatsLoading,
     isStakeLoading,
+    handleFormChange,
+    handleSubmit,
   };
 };

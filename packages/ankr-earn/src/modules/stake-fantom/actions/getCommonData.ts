@@ -1,6 +1,7 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
+
 import { getAftmbBalance, getFtmBalance, getMinimumStake } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 

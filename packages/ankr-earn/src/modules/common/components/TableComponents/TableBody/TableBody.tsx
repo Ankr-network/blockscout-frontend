@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactNode, useContext } from 'react';
+
 import { TableContext } from '../Table/Table';
 import { ICustomProps, IStyleProps } from '../types';
+
 import { useTableBodyStyles } from './useTableBodyStyles';
 
 interface ITableBodyProps {
@@ -14,7 +16,9 @@ export const TableBodyComponent = ({
   children,
   count,
   customCell,
-}: ITableBodyProps & ICustomProps & IStyleProps & { count: number }) => {
+}: ITableBodyProps &
+  ICustomProps &
+  IStyleProps & { count: number }): JSX.Element => {
   const classes = useTableBodyStyles({
     count,
     customCell,
@@ -25,7 +29,7 @@ export const TableBodyComponent = ({
   );
 };
 
-export const TableBody = (props: ITableBodyProps) => {
+export const TableBody = (props: ITableBodyProps): JSX.Element => {
   const context = useContext(TableContext);
   return <TableBodyComponent {...context} {...props} />;
 };

@@ -6,14 +6,14 @@ interface IFeaturesProps {
   children?: ReactNode;
 }
 
-export const Features = ({ children }: IFeaturesProps) => {
+export const Features = ({ children }: IFeaturesProps): JSX.Element => {
   const renderedChildren = useMemo(
     () =>
       Children.map(
         children,
         (child, index) =>
           child && (
-            <Grid item xs={12} md={6} lg={4} key={uid(index)}>
+            <Grid key={uid(index)} item lg={4} md={6} xs={12}>
               {child}
             </Grid>
           ),

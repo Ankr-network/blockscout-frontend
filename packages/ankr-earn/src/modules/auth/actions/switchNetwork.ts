@@ -1,8 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { createAction } from 'redux-smart-actions';
+
 import { updateConnectedNetwork } from './updateConnectedNetwork';
 
 interface ISwitchNetworkArgs {

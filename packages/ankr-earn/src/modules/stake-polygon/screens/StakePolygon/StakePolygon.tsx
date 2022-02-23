@@ -1,6 +1,8 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
@@ -17,18 +19,19 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import React, { useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { fetchStats } from '../../actions/fetchStats';
+
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
 import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
-export const StakePolygon = () => {
+export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
   const {
@@ -44,16 +47,16 @@ export const StakePolygon = () => {
       openSuccessModal: onSuccessOpen,
     });
 
-  const stats = useStakeStats(amount);
   const faqItems = useFaq();
+  const stats = useStakeStats(amount);
 
   useProviderEffect(() => {
     dispatchRequest(fetchStats());
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (amount: BigNumber) => {
-      const isZeroAmount = amount.isZero();
+    (value: BigNumber) => {
+      const isZeroAmount = value.isZero();
       const symbol = isZeroAmount ? Token.MATIC : Token.aMATICb;
 
       return (
@@ -62,7 +65,7 @@ export const StakePolygon = () => {
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount symbol={symbol}>
-              {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
             </StakeDescriptionAmount>
 
             <small>{symbol}</small>
@@ -71,7 +74,7 @@ export const StakePolygon = () => {
               title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
             >
               <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" className={classes.questionIcon} />
+                <QuestionIcon className={classes.questionIcon} size="xs" />
               </ButtonBase>
             </Tooltip>
           </StakeDescriptionValue>
@@ -89,23 +92,23 @@ export const StakePolygon = () => {
             <Container>
               <StakeSuccessDialog
                 tokenName={token}
-                onClose={onSuccessClose}
                 onAddTokenClick={onAddTokenClick}
+                onClose={onSuccessClose}
               />
             </Container>
           ) : (
             <StakeContainer>
               <StakeForm
                 balance={data.maticBalance}
-                maxAmount={data.maticBalance}
-                stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
-                minAmount={data.minimumStake}
                 loading={isStakeLoading}
+                maxAmount={data.maticBalance}
+                minAmount={data.minimumStake}
+                renderStats={renderStats}
+                stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
                 tokenIn={t('unit.polygon')}
                 tokenOut={t('unit.amaticb')}
-                onSubmit={handleSubmit}
-                renderStats={renderStats}
                 onChange={handleFormChange}
+                onSubmit={handleSubmit}
               />
 
               <StakeStats stats={stats} />

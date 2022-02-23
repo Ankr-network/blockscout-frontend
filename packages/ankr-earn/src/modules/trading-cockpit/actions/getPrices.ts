@@ -1,16 +1,26 @@
 import { RequestAction } from '@redux-requests/core';
-import { Seconds } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
+
+import { Seconds } from 'modules/common/types';
+import { TStore } from 'modules/common/types/ReduxRequests';
+
 import { TExChange } from '../api/getQuotePrice';
 import { ACTIONS_PREFIX, platformsByTokenMap } from '../const';
 import { AvailableTokens } from '../types';
 import { getChainIdByToken } from '../utils/getChainIdByToken';
+
 import { getGasPrice } from './getGasPrice';
 import { getQuotePrice, IGetQuotePrice } from './getQuotePrice';
 
 const GAS_PRICE_CACHE_TIME: Seconds = 30;
+
+const getPlatformsToRequest = (
+  tokenOne: AvailableTokens,
+  tokenTwo: AvailableTokens,
+): string[] => {
+  return platformsByTokenMap[tokenOne] || platformsByTokenMap[tokenTwo];
+};
 
 interface IGetPricesArgs {
   fromToken: AvailableTokens;
@@ -29,11 +39,7 @@ export const getPrices = createAction<
     asMutation: false,
     showNotificationOnError: true,
     getData: data => data,
-    onRequest: (
-      _request: any,
-      _action: RequestAction,
-      store: TStore<IStoreState>,
-    ) => {
+    onRequest: (_request, _action, store: TStore<IStoreState>) => {
       return {
         promise: (async (): Promise<IGetQuotePrice[]> => {
           const { dispatchRequest } = store;
@@ -77,14 +83,3 @@ export const getPrices = createAction<
     },
   },
 }));
-
-const getPlatformsToRequest = (
-  tokenOne: AvailableTokens,
-  tokenTwo: AvailableTokens,
-): string[] => {
-  let platforms: string[] | undefined = platformsByTokenMap[tokenOne];
-  if (!platforms) {
-    platforms = platformsByTokenMap[tokenTwo];
-  }
-  return platforms;
-};

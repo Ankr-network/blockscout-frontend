@@ -1,20 +1,35 @@
 import { useDispatchRequest } from '@redux-requests/react';
+import { useCallback } from 'react';
+
+import { AvailableWriteProviders } from 'provider';
+
+import { IConnect } from 'modules/auth/actions/connect';
 import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { BlockchainNetworkId } from 'modules/common/types';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { useCallback } from 'react';
-import { useNetworks } from './useNetworks';
+import { TActionPromise } from 'modules/common/types/ReduxRequests';
+
+import { useNetworks, INetwork } from './useNetworks';
 
 interface IUseGuardRouteArgs {
   availableNetworks: BlockchainNetworkId[];
   providerId: AvailableWriteProviders;
 }
 
+interface IUseGuardRouteData {
+  isConnected: boolean;
+  isUnsupportedNetwork: boolean;
+  supportedNetworks: INetwork[];
+  chainId?: BlockchainNetworkId;
+  walletName?: string;
+  dispatchConnect: () => TActionPromise<IConnect>;
+  handleSwitchNetwork: (network: number) => () => void;
+}
+
 export const useGuardRoute = ({
   availableNetworks,
   providerId,
-}: IUseGuardRouteArgs) => {
+}: IUseGuardRouteArgs): IUseGuardRouteData => {
   const { isConnected, dispatchConnect, chainId, walletName } =
     useAuth(providerId);
   const networks = useNetworks();
@@ -30,8 +45,8 @@ export const useGuardRoute = ({
   );
 
   const handleSwitchNetwork = useCallback(
-    (chainId: number) => () => {
-      dispatchRequest(switchNetwork({ providerId, chainId }));
+    (network: number) => () => {
+      dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
   );
@@ -41,8 +56,8 @@ export const useGuardRoute = ({
     isUnsupportedNetwork,
     supportedNetworks,
     chainId,
+    walletName,
     dispatchConnect,
     handleSwitchNetwork,
-    walletName,
   };
 };

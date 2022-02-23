@@ -1,11 +1,7 @@
 import { Paper } from '@material-ui/core';
 import { Story } from '@storybook/react';
-import React, {
-  ChangeEvent,
-  CSSProperties,
-  useCallback,
-  useState,
-} from 'react';
+import { ChangeEvent, CSSProperties, useCallback, useState } from 'react';
+
 import { ISelectProps, Select } from './Select';
 
 export default {
@@ -28,26 +24,33 @@ const items = [
   },
 ];
 
-const Template: Story<ISelectProps> = args => {
+const Template: Story<ISelectProps> = ({ variant, ...rest }: ISelectProps) => {
   const [value, setValue] = useState<string>(items[0].value);
 
   const onChange = useCallback((event: ChangeEvent<{ value: unknown }>) => {
-    setValue(event.target.value as any);
+    setValue(event.target.value as string);
   }, []);
 
   const paperStyles: CSSProperties = {
     padding: 20,
-    background: args.variant === 'outlined' ? 'none' : '',
+    background: variant === 'outlined' ? 'none' : '',
   };
 
   return (
     <Paper style={paperStyles}>
-      <Select {...args} value={value} onChange={onChange} options={items} />
+      <Select
+        {...rest}
+        options={items}
+        value={value}
+        variant={variant}
+        onChange={onChange}
+      />
     </Paper>
   );
 };
 
 export const Default = Template.bind({});
+
 Default.args = {
   variant: 'outlined',
   fullWidth: false,

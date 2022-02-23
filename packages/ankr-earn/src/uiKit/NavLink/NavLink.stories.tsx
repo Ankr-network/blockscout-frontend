@@ -1,10 +1,8 @@
-import React from 'react';
+import { makeStyles } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
 import { NavLink } from './NavLink';
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles(theme => ({
   block: {
     '& hr': {
       display: 'block',
@@ -22,7 +20,7 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-const NavLinkStory = () => {
+const NavLinkStory = (): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
@@ -30,20 +28,25 @@ const NavLinkStory = () => {
         <NavLink className={classes.button} href="#">
           Navigation link
         </NavLink>
+
         <NavLink className={classes.button} href="https://www.ankr.com/">
           External link
         </NavLink>
       </div>
+
       <hr />
       Color
+
       <div className={classes.content}>
         <NavLink className={classes.button} href="#">
           Default link
         </NavLink>
-        <NavLink className={classes.button} href="#" color="primary">
+
+        <NavLink className={classes.button} color="primary" href="#">
           Primary link
         </NavLink>
-        <NavLink className={classes.button} href="#" color="secondary">
+
+        <NavLink className={classes.button} color="secondary" href="#">
           Secondary link
         </NavLink>
       </div>
@@ -51,7 +54,7 @@ const NavLinkStory = () => {
   );
 };
 
-export const NavLinkExample = () => <NavLinkStory />;
+export const NavLinkExample = (): JSX.Element => <NavLinkStory />;
 
 export default {
   title: 'UiKit/NavLink',

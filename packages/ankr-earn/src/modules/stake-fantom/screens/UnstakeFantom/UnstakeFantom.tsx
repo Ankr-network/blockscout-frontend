@@ -2,6 +2,8 @@ import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { useCallback, useEffect } from 'react';
+
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -11,16 +13,21 @@ import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
-import { useCallback, useEffect } from 'react';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { useUnstakeDialog } from './hooks/useUnstakeDialog';
 import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 
 // todo: remove when actual translation will be added
 const isFeeTooltipActual = false;
+
+const calculateTotalAmount = (amount: BigNumber, burnFee: BigNumber) => {
+  const result = amount.minus(burnFee);
+  return result.isLessThan(0) ? ZERO : result;
+};
 
 export const UnstakeFantom = (): JSX.Element => {
   const classes = useUnstakeFantomStyles();
@@ -55,16 +62,16 @@ export const UnstakeFantom = (): JSX.Element => {
   const renderFormFooter = useCallback(
     (amount: BigNumber, maxAmount: BigNumber) => {
       const totalAmount = maxAmount.isLessThan(amount)
-        ? calcTotalAmount(maxAmount, burnFee)
-        : calcTotalAmount(amount, burnFee);
+        ? calculateTotalAmount(maxAmount, burnFee)
+        : calculateTotalAmount(amount, burnFee);
 
       return (
         <div className={classes.formFooter}>
-          <Box mb={2} display="flex" alignItems="center">
+          <Box alignItems="center" display="flex" mb={2}>
             <Typography
-              variant="body2"
-              color="textPrimary"
               className={classes.label}
+              color="textPrimary"
+              variant="body2"
             >
               {t('unstake-dialog.unstake-fee')}
 
@@ -80,9 +87,9 @@ export const UnstakeFantom = (): JSX.Element => {
             <Box ml="auto" />
 
             <Typography
-              variant="body2"
-              color="textPrimary"
               className={classes.value}
+              color="textPrimary"
+              variant="body2"
             >
               {isBurnFeeLoading ? (
                 <Skeleton width={50} />
@@ -97,11 +104,11 @@ export const UnstakeFantom = (): JSX.Element => {
 
           <Divider />
 
-          <Box mt={2} display="flex">
+          <Box display="flex" mt={2}>
             <Typography
-              variant="body2"
-              color="textPrimary"
               className={classes.label}
+              color="textPrimary"
+              variant="body2"
             >
               {t('stake.you-will-get')}
             </Typography>
@@ -109,9 +116,9 @@ export const UnstakeFantom = (): JSX.Element => {
             <Box ml="auto" />
 
             <Typography
-              variant="body2"
-              color="textPrimary"
               className={classes.totalValue}
+              color="textPrimary"
+              variant="body2"
             >
               {isBurnFeeLoading ? (
                 <Skeleton width={50} />
@@ -134,37 +141,32 @@ export const UnstakeFantom = (): JSX.Element => {
       <Container>
         {!isSuccessOpened ? (
           <UnstakeDialog
-            submitDisabled={submitDisabled}
-            isBalanceLoading={isBalanceLoading}
-            isLoading={isLoading}
             balance={balance}
+            closeHref={closeHref}
             endText={t('unstake-dialog.eta', {
               token: Token.FTM,
               period: t('stake-fantom.unstake-period', {
                 days: FANTOM_UNSTAKE_PERIOD,
               }),
             })}
-            token={Token.aFTMb}
-            closeHref={closeHref}
-            onSubmit={onSubmit}
+            isBalanceLoading={isBalanceLoading}
+            isLoading={isLoading}
             renderFormFooter={renderFormFooter}
+            submitDisabled={submitDisabled}
+            token={Token.aFTMb}
             onChange={onChange}
+            onSubmit={onSubmit}
           />
         ) : (
           <UnstakeSuccess
-            tokenName={Token.FTM}
             period={t('stake-fantom.unstake-period', {
               days: FANTOM_UNSTAKE_PERIOD,
             })}
+            tokenName={Token.FTM}
             onClose={onSuccessClose}
           />
         )}
       </Container>
     </Box>
   );
-};
-
-const calcTotalAmount = (amount: BigNumber, burnFee: BigNumber) => {
-  const result = amount.minus(burnFee);
-  return result.isLessThan(0) ? ZERO : result;
 };

@@ -1,10 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
+import { createAction } from 'redux-smart-actions';
+
+import { AvailableWriteProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
+
 import { fetchEth2SwapData } from '../api/sdk';
 
 export interface IGetEth2SwapDataArgs {

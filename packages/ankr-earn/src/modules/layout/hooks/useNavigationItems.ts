@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
@@ -17,11 +19,26 @@ import { Locale } from 'modules/i18n/types/locale';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { useMemo } from 'react';
+
+const getLitepaperLink = (locale: Locale): string => {
+  switch (locale) {
+    case Locale.zh:
+      return LITEPAPER_CN;
+
+    default:
+      return LITEPAPER_EN;
+  }
+};
 
 interface INavItem extends Omit<INavigationLinkProps, 'className'> {}
 
-export const useNavigationItems = () => {
+interface IUseNavigationItemsData {
+  desktopItems: INavItem[];
+  desktopMenuItems: INavItem[];
+  mobileItems: INavItem[];
+}
+
+export const useNavigationItems = (): IUseNavigationItemsData => {
   const { locale } = useLocale();
   const links: Record<string, INavItem> = useLocaleMemo(
     () => ({
@@ -99,14 +116,4 @@ export const useNavigationItems = () => {
     desktopMenuItems,
     mobileItems,
   };
-};
-
-const getLitepaperLink = (locale: Locale) => {
-  switch (locale) {
-    case Locale.zh:
-      return LITEPAPER_CN;
-
-    default:
-      return LITEPAPER_EN;
-  }
 };

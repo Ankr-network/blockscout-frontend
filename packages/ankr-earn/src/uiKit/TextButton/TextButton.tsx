@@ -1,5 +1,7 @@
-import { Button, IButtonProps } from 'uiKit/Button';
 import React from 'react';
+
+import { Button, IButtonProps } from 'uiKit/Button';
+
 import { useTextButtonStyles } from './useTextButtonStyles';
 
 export const TextButton = React.forwardRef<HTMLButtonElement, IButtonProps>(
@@ -8,9 +10,9 @@ export const TextButton = React.forwardRef<HTMLButtonElement, IButtonProps>(
 
     return (
       <Button
+        ref={ref}
         classes={{ root: classes.root }}
         variant="text"
-        ref={ref}
         {...props}
       />
     );

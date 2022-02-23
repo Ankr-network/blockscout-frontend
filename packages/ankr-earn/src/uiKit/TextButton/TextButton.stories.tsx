@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 import { Story } from '@storybook/react';
+
 import { IButtonProps } from 'uiKit/Button';
+
 import { TextButton } from './TextButton';
 
 export default {
@@ -16,7 +17,7 @@ Default.args = {
   children: 'Click me!',
 };
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles(theme => ({
   block: {
     '& hr': {
       display: 'block',
@@ -37,7 +38,7 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-const ButtonsListStory = () => {
+const ButtonsListStory = (): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
@@ -49,4 +50,4 @@ const ButtonsListStory = () => {
   );
 };
 
-export const List = () => <ButtonsListStory />;
+export const List = (): JSX.Element => <ButtonsListStory />;

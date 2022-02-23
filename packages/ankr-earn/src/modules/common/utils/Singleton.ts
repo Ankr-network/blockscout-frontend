@@ -1,11 +1,13 @@
-export const SINGLETON_KEY = Symbol();
+export const SINGLETON_KEY = Symbol('Singleton');
 
-export type Singleton<T extends new (...args: any[]) => any> = T & {
-  [SINGLETON_KEY]: T extends new (...args: any[]) => infer I ? I : never;
+export type Singleton<T extends new (...args: unknown[]) => unknown> = T & {
+  [SINGLETON_KEY]: T extends new (...args: unknown[]) => infer I ? I : never;
 };
-export const singleton = <T extends new (...args: any[]) => any>(
+
+export const singleton = <T extends new (...args: unknown[]) => unknown>(
   classTarget: T,
-) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Singleton<any> =>
   new Proxy(classTarget, {
     construct(target: Singleton<T>, argumentsList, newTarget) {
       // Skip proxy for children

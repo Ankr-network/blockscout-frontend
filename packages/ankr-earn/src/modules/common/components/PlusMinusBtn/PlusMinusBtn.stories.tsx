@@ -6,6 +6,6 @@ export default {
   title: 'modules/common/components/PlusMinusBtn',
 };
 
-export const Default = () => {
+export const Default = (): JSX.Element => {
   return <PlusMinusBtn isLoading={false} tooltip="Stake" />;
 };

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+
 import { useContainerStyles } from './useContainerStyles';
 
 export interface IContainerProps {
@@ -12,7 +13,7 @@ export const Container = ({
   className,
   children,
   maxWidth,
-}: IContainerProps) => {
+}: IContainerProps): JSX.Element => {
   const classes = useContainerStyles({ maxWidth });
 
   return <div className={classNames(classes.root, className)}>{children}</div>;

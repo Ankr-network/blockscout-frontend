@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useWalletIconStyles = makeStyles<Theme>(theme => ({
+export const useWalletIconStyles = makeStyles(theme => ({
   icon: {
     display: 'block',
     width: 22,

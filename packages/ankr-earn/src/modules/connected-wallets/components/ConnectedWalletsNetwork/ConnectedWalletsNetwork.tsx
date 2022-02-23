@@ -1,16 +1,19 @@
 import { Collapse, Typography } from '@material-ui/core';
+import classNames from 'classnames';
+import { useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+
+import { getShortStr } from 'modules/common/utils/getShortStr';
+import { IAddresses } from 'modules/connected-wallets/types';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
-import { useConnectedWalletsNetworkStyles as useStyles } from './useConnectedWalletsNetworkStyles';
-import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
-import { ReactComponent as CopySVG } from '../../assets/copy.svg';
-import { WalletIcon } from '../WalletIcon';
-import { getShortStr } from 'modules/common/utils/getShortStr';
-import { useState } from 'react';
+
 import { ReactComponent as AngleDownIcon } from '../../../../assets/img/angle-down-icon.svg';
-import classNames from 'classnames';
-import { IAddresses } from 'modules/connected-wallets/types';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { ReactComponent as CopySVG } from '../../assets/copy.svg';
+import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
+import { WalletIcon } from '../WalletIcon';
+
+import { useConnectedWalletsNetworkStyles as useStyles } from './useConnectedWalletsNetworkStyles';
 
 interface IConnectedWalletsNetworkProps {
   network: string;
@@ -24,7 +27,7 @@ export const ConnectedWalletsNetwork = ({
   addresses,
   disconnect,
   className,
-}: IConnectedWalletsNetworkProps) => {
+}: IConnectedWalletsNetworkProps): JSX.Element => {
   const classes = useStyles();
   const [addressesOpen, setAddressesOpen] = useState(false);
 
@@ -37,15 +40,17 @@ export const ConnectedWalletsNetwork = ({
   const addressesHeader = (
     <Button
       className={classNames(classes.instance, classes.instanceOpener)}
-      onClick={handleHeaderClick}
       variant="text"
+      onClick={handleHeaderClick}
     >
       <div className={classes.instanceLeftSide}>
         <WalletIcon icon={addresses[0].tokenIconSrc} />
+
         <span className={classes.instanceText}>
           {getShortStr(addresses[0].address)}
         </span>
       </div>
+
       {addresses.length > 1 && (
         <AngleDownIcon
           className={
@@ -64,6 +69,7 @@ export const ConnectedWalletsNetwork = ({
       <div key={address.address} className={classes.instance}>
         <div className={classes.instanceLeftSide}>
           <WalletIcon icon={address.tokenIconSrc} />
+
           <span className={classes.instanceText}>
             {getShortStr(address.address)}
           </span>
@@ -79,8 +85,9 @@ export const ConnectedWalletsNetwork = ({
         key={`${addresses[0].address}-copy`}
         text={addresses[0].address}
       >
-        <Button variant="text" className={classes.button}>
+        <Button className={classes.button} variant="text">
           <CopySVG />
+
           <span className={classes.buttonText}>{t('wallets.copy')}</span>
         </Button>
       </CopyToClipboard>,
@@ -90,11 +97,12 @@ export const ConnectedWalletsNetwork = ({
     headerButtons.push(
       <Button
         key={`${addresses[0].address}-disconnect`}
-        variant="text"
         className={classes.button}
+        variant="text"
         onClick={disconnect}
       >
         <DisconnectSVG />
+
         <span className={classes.buttonText}>{t('wallets.disconnect')}</span>
       </Button>,
     );
@@ -105,11 +113,14 @@ export const ConnectedWalletsNetwork = ({
         <Typography className={classes.network} component="h3" variant="h3">
           {network}
         </Typography>
+
         <div className={classes.buttons}>{headerButtons}</div>
       </div>
+
       <div className={classes.instances}>
         {addressesHeader}
-        <Collapse in={addressesOpen} timeout="auto" unmountOnExit>
+
+        <Collapse unmountOnExit in={addressesOpen} timeout="auto">
           {addressesList}
         </Collapse>
       </div>

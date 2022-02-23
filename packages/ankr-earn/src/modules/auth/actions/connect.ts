@@ -1,9 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Web3Address } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { createAction } from 'redux-smart-actions';
+
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 export interface IConnect {

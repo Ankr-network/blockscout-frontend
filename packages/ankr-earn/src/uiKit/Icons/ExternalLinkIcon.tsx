@@ -2,10 +2,10 @@ import { withSvgIcon } from './withSvgIcon';
 
 export const ExternalLinkIcon = withSvgIcon(
   <svg
-    width="24"
+    fill="none"
     height="24"
     viewBox="0 0 24 24"
-    fill="none"
+    width="24"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -13,7 +13,9 @@ export const ExternalLinkIcon = withSvgIcon(
       stroke="white"
       strokeWidth="1.5"
     />
+
     <path d="M9 14.5L18 6" stroke="white" strokeWidth="1.5" />
+
     <path d="M13.7656 6H18.0009V10" stroke="white" strokeWidth="1.5" />
   </svg>,
   { viewBox: '0 0 24 24' },

@@ -1,6 +1,12 @@
 import { useCallback, useState } from 'react';
 
-export const useDialog = (defaultState = false) => {
+interface IUseDialogData {
+  isOpened: boolean;
+  onClose: () => void;
+  onOpen: () => void;
+}
+
+export const useDialog = (defaultState = false): IUseDialogData => {
   const [isOpened, setIsOpened] = useState(defaultState);
   const onClose = useCallback(() => {
     setIsOpened(false);

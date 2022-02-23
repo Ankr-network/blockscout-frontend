@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
+
 import packageJson from '../../../package.json';
+
 import { BlockchainNetworkId, Env } from './types';
 
 export const EARN_PATH = `${packageJson.homepage}/`;

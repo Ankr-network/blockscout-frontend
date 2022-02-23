@@ -1,9 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult } from 'provider';
 import { createAction } from 'redux-smart-actions';
+
+import { IWeb3SendResult } from 'provider';
+
 import { stake as stakeFTM } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
+
 import { getCommonData } from './getCommonData';
 
 export const stake = createAction<
@@ -16,8 +19,8 @@ export const stake = createAction<
     })(),
   },
   meta: {
-    asMutation: true,
     showNotificationOnError: true,
+    asMutation: true,
     onSuccess: (response, _action, { dispatchRequest }) => {
       dispatchRequest(getCommonData());
       return response;

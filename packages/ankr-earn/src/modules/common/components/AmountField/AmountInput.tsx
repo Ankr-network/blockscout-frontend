@@ -1,11 +1,13 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { ReactText, useCallback } from 'react';
 import { Field } from 'react-final-form';
-import { AmountField } from '../../../../uiKit/AmountField';
+
+import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
+import { t } from 'modules/i18n/utils/intl';
+import { AmountField } from 'uiKit/AmountField';
+
 import { useAmountFieldStyles } from './useAmountFieldStyles';
 
 const MIN_AMOUNT = 0;
@@ -34,7 +36,7 @@ export const AmountInput = ({
   inputClassName,
   minAmount = MIN_AMOUNT,
   showBalance = true,
-}: IAmountInputProps) => {
+}: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
   const maxAmount = balance || ZERO;
@@ -78,12 +80,14 @@ export const AmountInput = ({
     <>
       {showBalance && (withBalance || isBalanceLoading) && (
         <Typography
-          variant="body2"
           className={classes.balance}
           color="textSecondary"
           component="div"
+          variant="body2"
         >
-          {t('stake.balance-label')}:{' '}
+          {t('stake.balance-label')}
+
+          <>{': '}</>
           {isBalanceLoading ? (
             <div className={classes.balanceLoadingBox}>
               <Skeleton width={40} />
@@ -95,13 +99,9 @@ export const AmountInput = ({
       )}
 
       <Field
+        fullWidth
         component={AmountField}
-        name={name}
-        label={label}
-        placeholder="0"
-        variant="outlined"
         disabled={disabled}
-        validate={validateAmount}
         InputProps={{
           classes: {
             input: inputClassName,
@@ -109,16 +109,20 @@ export const AmountInput = ({
           endAdornment: isMaxBtnShowed && (
             <Button
               className={classes.maxBtn}
-              variant="outlined"
-              size="small"
-              onClick={onMaxClick}
               disabled={disabled}
+              size="small"
+              variant="outlined"
+              onClick={onMaxClick}
             >
               {t('stake.btn-max')}
             </Button>
           ),
         }}
-        fullWidth
+        label={label}
+        name={name}
+        placeholder="0"
+        validate={validateAmount}
+        variant="outlined"
       />
     </>
   );

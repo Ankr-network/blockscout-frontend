@@ -1,17 +1,21 @@
 import { ChangeEvent, useCallback } from 'react';
-import { Locale } from '../../../i18n/types/locale';
-import { t } from '../../../i18n/utils/intl';
-import { setLocale } from '../../../i18n/i18nSlice';
-import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
-import { useLocale } from '../../../i18n/hooks/useLocale';
+
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Select } from 'uiKit/Select';
+
+import { useLocale } from '../../../i18n/hooks/useLocale';
+import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
+import { setLocale } from '../../../i18n/i18nSlice';
+import { Locale } from '../../../i18n/types/locale';
+import { t } from '../../../i18n/utils/intl';
 
 export interface ILocaleSwitcher {
   className?: string;
 }
 
-export const LocaleSwitcher = ({ className = '' }: ILocaleSwitcher) => {
+export const LocaleSwitcher = ({
+  className = '',
+}: ILocaleSwitcher): JSX.Element => {
   const dispatch = useAppDispatch();
   const localeOptions = useLocaleMemo(
     () => [
@@ -39,10 +43,10 @@ export const LocaleSwitcher = ({ className = '' }: ILocaleSwitcher) => {
   return (
     <Select
       className={className}
+      fullWidth={false}
+      options={localeOptions}
       value={locale}
       onChange={onChange}
-      options={localeOptions}
-      fullWidth={false}
     />
   );
 };

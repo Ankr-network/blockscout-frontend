@@ -1,7 +1,9 @@
 import { Box, Link, Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import { FunctionComponent } from 'react';
+
 import { t } from 'modules/i18n/utils/intl';
-import React, { FunctionComponent } from 'react';
+
 import { ReactComponent as CloverWalletIcon } from './assets/cloverWallet.svg';
 import { ReactComponent as PolkadotWalletIcon } from './assets/polkadotWallet.svg';
 import { useSelectWalletStyles } from './useSelectWalletStyles';
@@ -24,7 +26,7 @@ function WalletItem({
   preferable,
   href,
   onClick,
-}: IWalletItemProps) {
+}: IWalletItemProps): JSX.Element {
   const classes = useSelectWalletStyles();
   const RootComponent = href ? 'a' : 'div';
 
@@ -41,16 +43,19 @@ function WalletItem({
           {t('polkadot-slot-auction.select-wallet.preferred')}
         </div>
       )}
+
       <Box component={Icon} mb={2} />
+
       <Typography
-        variant="subtitle1"
-        color="textPrimary"
         className={classes.walletName}
+        color="textPrimary"
+        variant="subtitle1"
       >
         {walletName}
       </Typography>
+
       {href && (
-        <Link component="div" className={classes.action}>
+        <Link className={classes.action} component="div">
           {t('polkadot-slot-auction.select-wallet.install')}
         </Link>
       )}
@@ -68,10 +73,10 @@ export const SelectWallet = ({
   isCloverWalletAvailable,
   isPolkadotWalletAvailable,
   handleConnect,
-}: ISelectWalletProps) => {
+}: ISelectWalletProps): JSX.Element => {
   return (
     <Box pt={2} textAlign="center">
-      <Box mb={7.5} ml="auto" mr="auto" maxWidth={500}>
+      <Box maxWidth={500} mb={7.5} ml="auto" mr="auto">
         {isCloverWalletAvailable || isPolkadotWalletAvailable ? (
           <Typography variant="h3">
             {t('polkadot-slot-auction.select-wallet.title-select')}
@@ -82,17 +87,19 @@ export const SelectWallet = ({
           </Typography>
         )}
       </Box>
+
       <Box display="flex" justifyContent="center" mb={10}>
         <WalletItem
+          preferable
+          href={!isCloverWalletAvailable ? CLOVER_LINK : undefined}
           Icon={CloverWalletIcon}
           walletName={t('polkadot-slot-auction.select-wallet.wallet.clover')}
-          preferable={true}
-          href={!isCloverWalletAvailable ? CLOVER_LINK : undefined}
         />
+
         <WalletItem
+          href={!isPolkadotWalletAvailable ? POLKADOT_LINK : undefined}
           Icon={PolkadotWalletIcon}
           walletName={t('polkadot-slot-auction.select-wallet.wallet.polkadot')}
-          href={!isPolkadotWalletAvailable ? POLKADOT_LINK : undefined}
           onClick={isPolkadotWalletAvailable ? handleConnect : undefined}
         />
       </Box>

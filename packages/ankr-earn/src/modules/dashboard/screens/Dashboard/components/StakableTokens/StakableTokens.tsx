@@ -1,9 +1,11 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { uid } from 'react-uid';
+
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
 import { StakableList } from 'modules/dashboard/components/StakableList';
 import { t } from 'modules/i18n/utils/intl';
-import { uid } from 'react-uid';
+
 import { useStakableBnb } from './hooks/useStakableBnb';
 import { useStakableFtm } from './hooks/useStakableFtm';
 import { useStakableMatic } from './hooks/useStakableMatic';
@@ -11,7 +13,7 @@ import { useStakableTokensStyles } from './useStakableTokensStyles';
 
 const SKELETON_COUNT = 2;
 
-export const StakableTokens = (props: BoxProps) => {
+export const StakableTokens = (props: BoxProps): JSX.Element | null => {
   const classes = useStakableTokensStyles();
 
   const stakableTokens = [
@@ -22,10 +24,10 @@ export const StakableTokens = (props: BoxProps) => {
 
   const { isLoading, isTokensShowed } = stakableTokens.reduce(
     (prev, current) => {
-      const isLoading = prev.isLoading || current.isLoading;
+      const loading = prev.isLoading || current.isLoading;
       return {
-        isLoading,
-        isTokensShowed: isLoading || prev.isTokensShowed || current.isShowed,
+        isLoading: loading,
+        isTokensShowed: loading || prev.isTokensShowed || current.isShowed,
       };
     },
     {
@@ -45,9 +47,9 @@ export const StakableTokens = (props: BoxProps) => {
         <StakableList>
           {[...Array(SKELETON_COUNT)].map((_, i) => (
             <Skeleton
+              key={uid(i)}
               className={classes.skeleton}
               variant="rect"
-              key={uid(i)}
             />
           ))}
         </StakableList>
@@ -58,13 +60,13 @@ export const StakableTokens = (props: BoxProps) => {
               asset.isShowed && (
                 <StakableAsset
                   key={uid(asset.token)}
-                  icon={asset.icon}
+                  apy={asset.apy}
                   balance={asset.balance}
+                  href={asset.href}
+                  icon={asset.icon}
+                  isStakeLoading={asset.isStakeLoading}
                   networks={asset.networks}
                   token={asset.token}
-                  href={asset.href}
-                  apy={asset.apy}
-                  isStakeLoading={asset.isStakeLoading}
                 />
               ),
           )}

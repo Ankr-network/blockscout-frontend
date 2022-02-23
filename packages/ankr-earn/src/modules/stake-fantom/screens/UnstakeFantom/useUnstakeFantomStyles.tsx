@@ -1,13 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useUnstakeFantomStyles = makeStyles(theme => ({
+export const useUnstakeFantomStyles = makeStyles(() => ({
   formFooter: {
     fontSize: 14,
   },
 
   label: {
-    fontWeight: 'bold',
     fontSize: 'inherit',
+    fontWeight: 'bold',
   },
 
   value: {
@@ -15,7 +15,7 @@ export const useUnstakeFantomStyles = makeStyles(theme => ({
   },
 
   totalValue: {
-    fontWeight: 'bold',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 }));

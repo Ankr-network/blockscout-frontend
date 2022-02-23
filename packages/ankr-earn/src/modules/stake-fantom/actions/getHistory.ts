@@ -1,14 +1,16 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { TTxEventsHistoryGroupData } from 'modules/stake/api/getTxEventsHistoryGroup';
 import { createAction } from 'redux-smart-actions';
+
+import { TTxEventsHistoryGroupData } from 'modules/stake/api/getTxEventsHistoryGroup';
+
 import { getTxHistory } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 export interface IGetHistory {
   stakeEvents: TTxEventsHistoryGroupData;
-  pendingEvents: TTxEventsHistoryGroupData;
   withdrawnEvents: TTxEventsHistoryGroupData;
+  pendingEvents: TTxEventsHistoryGroupData;
   totalPending: BigNumber;
 }
 

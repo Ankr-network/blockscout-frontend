@@ -2,13 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { ZERO, ONE_ETH } from 'modules/common/const';
+
+import { Main } from '..';
 import {
   IEth2SwapFormHookData,
   IEth2SwapHookData,
   useEth2SwapData,
   useEth2SwapForm,
 } from '../hooks';
-import { Main } from '..';
 
 jest.mock('../hooks', () => ({
   useEth2SwapData: jest.fn(),

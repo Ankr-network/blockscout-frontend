@@ -1,13 +1,14 @@
-import { useMemo, useCallback, useState, useEffect } from 'react';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo, useCallback, useState, useEffect } from 'react';
 
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { ONE_ETH, ZERO } from 'modules/common/const';
+import { AvailableWriteProviders } from 'provider';
+
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { TSwapOption } from 'modules/eth2Swap/types';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 
 export interface IEth2SwapHookData {
   chainId: number;
@@ -17,8 +18,8 @@ export interface IEth2SwapHookData {
   balance: BigNumber;
   ratio: BigNumber;
   allowance: BigNumber;
-  fethBalance?: BigNumber;
   aethBalance?: BigNumber;
+  fethBalance?: BigNumber;
   handleChooseAEthB: () => void;
   handleChooseAEthC: () => void;
 }

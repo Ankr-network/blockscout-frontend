@@ -2,6 +2,7 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { BSCIcon } from 'uiKit/Icons/BSCIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+
 import { IBridgeBlockchainPanelItem } from '../components/BridgeBlockchainPanel';
 
 export enum AvailableNewtworks {
@@ -9,8 +10,8 @@ export enum AvailableNewtworks {
   ethMain = 'ETHMain',
 }
 
-export const useBlockchainPanelOptions = () => {
-  const bondOptions: IBridgeBlockchainPanelItem[] = useLocaleMemo(
+export const useBlockchainPanelOptions = (): IBridgeBlockchainPanelItem[] => {
+  const bondOptions = useLocaleMemo(
     () => [
       {
         label: t('chain.56'),

@@ -9,8 +9,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import { ReactNode, useMemo } from 'react';
 import { uid } from 'react-uid';
+
 import { useTooltipStyles } from 'uiKit/Tooltip/useTooltipStyles';
+
 import { ReactComponent as AngleDownIcon } from '../../assets/img/angle-down-icon.svg';
+
 import { useSelectStyles } from './useSelectStyles';
 
 export interface ISelectOption {
@@ -38,7 +41,7 @@ export const Select = ({
   className,
   disabled,
   ...restProps
-}: ISelectProps) => {
+}: ISelectProps): JSX.Element => {
   const styles = useSelectStyles();
   const tooltiClasses = useTooltipStyles({});
 
@@ -46,12 +49,12 @@ export const Select = ({
     return options?.map(option => (
       <MenuItem
         key={uid(option)}
-        value={option.value}
-        disabled={option.disabled}
         classes={{
           root: styles.item,
           selected: styles.itemSelected,
         }}
+        disabled={option.disabled}
+        value={option.value}
       >
         {option.label}
       </MenuItem>
@@ -87,18 +90,18 @@ export const Select = ({
   );
 
   return (
-    <FormControl fullWidth={fullWidth} className={styles.root}>
+    <FormControl className={styles.root} fullWidth={fullWidth}>
       {label && <InputLabel>{label}</InputLabel>}
 
       <SelectComponent
         {...selectProps}
         {...restProps}
-        disabled={disabled}
         className={classNames(styles.selectRoot, className, {
           [styles.selectRootOutlined]: variant === 'outlined',
           [styles.selectRootFilled]: variant === 'filled',
           [styles.selectDisabled]: disabled,
         })}
+        disabled={disabled}
       >
         {children || items}
       </SelectComponent>

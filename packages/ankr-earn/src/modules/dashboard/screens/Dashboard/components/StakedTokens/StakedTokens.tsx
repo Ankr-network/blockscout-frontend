@@ -1,16 +1,19 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
+
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
+
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedBNB } from '../StakedBNB';
 import { StakedMatic } from '../StakedMatic';
+
 import { useStakedTokens } from './hooks/useStakedTokens';
 import { useStakedTokensStyles } from './useStakedTokensStyles';
 
-export const StakedTokens = (props: BoxProps) => {
+export const StakedTokens = (props: BoxProps): JSX.Element => {
   const classes = useStakedTokensStyles();
 
   const {
@@ -32,9 +35,13 @@ export const StakedTokens = (props: BoxProps) => {
 
           <AssetsList>
             {isMATICShowed && <StakedMatic />}
+
             {isAETHBShowed && <StakedAETHB />}
+
             {isAETHCShowed && <StakedAETHC />}
+
             {isBNBShowed && <StakedBNB />}
+
             {isAFTMBShowed && <StakedAFTMB />}
           </AssetsList>
         </>

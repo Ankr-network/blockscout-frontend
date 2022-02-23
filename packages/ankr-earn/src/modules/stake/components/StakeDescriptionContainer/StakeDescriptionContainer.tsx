@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { useStakeDescriptionContainerStyles } from './StakeDescriptionContainerStyles';
 
 export interface IStakeDescriptionContainerProps {
@@ -7,7 +8,7 @@ export interface IStakeDescriptionContainerProps {
 
 export const StakeDescriptionContainer = ({
   children,
-}: IStakeDescriptionContainerProps) => {
+}: IStakeDescriptionContainerProps): JSX.Element => {
   const classes = useStakeDescriptionContainerStyles();
 
   return <div className={classes.root}>{children}</div>;

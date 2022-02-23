@@ -45,7 +45,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     return this._currentAccount;
   }
 
-  public set currentAccount(addr) {
+  public set currentAccount(addr: string | null) {
     this._currentAccount = addr;
   }
 
@@ -53,7 +53,8 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     if (!this.isConnected()) {
       throw new Error('Provider must be connected');
     }
-    return this.walletMeta;
+
+    return this.walletMeta as IWalletMeta;
   }
 
   private setWalletMeta() {
@@ -144,7 +145,8 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
           try {
             rawTxHex = this.tryGetRawTx(rawTx);
           } catch (e) {
-            console.error(`Failed to get raw transaction: ${e.message}`);
+            const { message } = e as { message?: string };
+            console.error(`Failed to get raw transaction: ${message}`);
           }
 
           resolve({
@@ -223,20 +225,18 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
       throw new Error('This provider does not support the adding new tokens');
     }
 
-    return provider
-      .request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: tokenInfo,
-        },
-      })
-      .catch();
+    return provider.request!({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: tokenInfo,
+      },
+    }).catch();
   }
 
   public async switchNetwork(chainId: number): Promise<any> {
     const config = RPCConfig[chainId];
-    const provider = this.provider as AbstractProvider;
+    const provider = this.provider as AbstractProvider | undefined;
 
     const isProviderHasRequest =
       !!provider && typeof provider.request === 'function';
@@ -248,7 +248,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     }
 
     try {
-      return await provider.request({
+      return await provider.request?.({
         /**
          * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
          */
@@ -256,11 +256,12 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
         params: [{ chainId: config.chainId }],
       });
     } catch (switchError) {
-      const isChainNotAdded = switchError.code === 4902;
+      const isChainNotAdded =
+        (switchError as { code?: number | string }).code === 4902;
 
       if (isChainNotAdded) {
         return provider
-          .request({
+          .request?.({
             /**
              * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
              */

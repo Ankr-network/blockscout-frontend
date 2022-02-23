@@ -2,8 +2,8 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import intl from 'react-intl-universal';
 import '@testing-library/jest-dom';
+import intl from 'react-intl-universal';
 
 import { locales } from './modules/i18n';
 

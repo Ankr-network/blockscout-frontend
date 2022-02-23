@@ -1,6 +1,9 @@
 import { useQuery } from '@redux-requests/react';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { BlockchainNetworkId } from 'modules/common/types';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
+
 import { connect, IConnect } from '../actions/connect';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 

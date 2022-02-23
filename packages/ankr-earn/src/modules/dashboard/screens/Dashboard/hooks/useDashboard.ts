@@ -1,4 +1,7 @@
 import { resetRequests } from '@redux-requests/core';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import {
@@ -16,10 +19,9 @@ import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHis
 import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-export const useDashboard = () => {
+export const useDashboard = (): void => {
   const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
 
@@ -38,8 +40,8 @@ export const useDashboard = () => {
 
     switch (chainId) {
       case ETH_NETWORK_BY_ENV:
-        dispatch(fetchPolygonStats());
         dispatch(fetchPolygonTxHistory());
+        dispatch(fetchPolygonStats());
         dispatch(fetchPolygonAPY());
         dispatch(
           getEth2SwapData({

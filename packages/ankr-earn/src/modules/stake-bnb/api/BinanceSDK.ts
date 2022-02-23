@@ -1,24 +1,27 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import { BlockTransactionObject } from 'web3-eth';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
+import {
+  Web3KeyProvider,
+  TWeb3BatchCallback,
+  Web3KeyReadProvider,
+  BlockchainNetworkId,
+} from 'provider';
+
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
-import { Web3KeyProvider } from 'provider';
-import { BlockchainNetworkId } from 'provider/providerManager/types';
-import {
-  TWeb3BatchCallback,
-  Web3KeyReadProvider,
-} from 'provider/providerManager/Web3KeyReadProvider';
-import { BlockTransactionObject } from 'web3-eth';
-import { Contract, EventData, Filter } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
 import {
   BINANCE_POOL_CONTRACT_START_BLOCK,
   BINANCE_WRITE_PROVIDER_ID,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
 } from '../const';
+
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
 
@@ -53,8 +56,8 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
-interface BinanceSDKProviders {
-  readProvider: Web3KeyProvider;
+interface IBinanceSDKProviders {
+  readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyProvider;
 }
 
@@ -70,13 +73,13 @@ interface IGetPastEvents {
 export class BinanceSDK {
   private readonly writeProvider: Web3KeyProvider;
 
-  private readonly readProvider: Web3KeyProvider;
+  private readonly readProvider: Web3KeyReadProvider;
 
   private currentAccount: string;
 
   private static instance?: BinanceSDK;
 
-  private constructor({ readProvider, writeProvider }: BinanceSDKProviders) {
+  private constructor({ readProvider, writeProvider }: IBinanceSDKProviders) {
     BinanceSDK.instance = this;
 
     this.currentAccount = writeProvider.currentAccount;
@@ -111,7 +114,9 @@ export class BinanceSDK {
     return instance;
   }
 
-  private async getProvider(isForceRead = false): Promise<Web3KeyProvider> {
+  private async getProvider(
+    isForceRead = false,
+  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
@@ -189,6 +194,7 @@ export class BinanceSDK {
 
     const calls = rawEvents.map(
       event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
         web3.eth.getBlock.request(event.blockHash, false, callback),
     );
@@ -353,9 +359,9 @@ export class BinanceSDK {
       }),
     ]);
 
-    let pendingUnstakes = await this.getPendingUnstakes(),
-      pendingRawEvents: TPastEventsData = [],
-      completedRawEvents: TPastEventsData = [];
+    let pendingUnstakes = await this.getPendingUnstakes();
+    let completedRawEvents: TPastEventsData = [];
+    let pendingRawEvents: TPastEventsData = [];
 
     if (pendingUnstakes.isGreaterThan(0)) {
       const unstakeRawEventsReverse: TPastEventsData =

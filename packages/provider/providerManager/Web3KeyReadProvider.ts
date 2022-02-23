@@ -118,7 +118,12 @@ export abstract class Web3KeyReadProvider {
     image?: string;
   }): Promise<void> {
     const web3 = this.getWeb3();
-    const ethereum = web3.currentProvider as AbstractProvider;
+    const ethereum = web3.currentProvider as AbstractProvider | undefined;
+
+    if (!ethereum) {
+      throw new Error(`Failed to watch asset, there is no current provider`);
+    }
+
     const params = {
       type: config.type,
       options: {
@@ -129,7 +134,7 @@ export abstract class Web3KeyReadProvider {
       },
     };
 
-    const success = await ethereum.request({
+    const success = await ethereum.request?.({
       method: 'wallet_watchAsset',
       params,
     });

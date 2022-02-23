@@ -2,14 +2,16 @@ import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { FormApi } from 'final-form';
+import { ReactNode, ReactText, useCallback } from 'react';
+import { Form, FormRenderProps } from 'react-final-form';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactNode, ReactText, useCallback } from 'react';
-import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
+
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 enum FieldsNames {
@@ -17,8 +19,8 @@ enum FieldsNames {
 }
 
 export interface IStakeFormPayload {
-  amount?: ReactText;
   agreement: boolean;
+  amount?: ReactText;
 }
 
 export interface IStakeSubmitPayload extends IStakeFormPayload {
@@ -67,7 +69,7 @@ export const StakeForm = ({
   renderFooter,
   onSubmit,
   onChange,
-}: IStakeFormComponentProps) => {
+}: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
   const validateStakeForm = useCallback(
@@ -88,8 +90,8 @@ export const StakeForm = ({
   );
 
   const setMaxAmount = useCallback(
-    (form: FormApi<IStakeFormPayload>, maxAmount: string) => () =>
-      form.change('amount', maxAmount),
+    (form: FormApi<IStakeFormPayload>, maxValue: string) => () =>
+      form.change('amount', maxValue),
     [],
   );
 
@@ -116,7 +118,7 @@ export const StakeForm = ({
       >
         <div className={classes.body}>
           <div className={classes.wrapper}>
-            <Typography variant="h2" classes={{ root: classes.title }}>
+            <Typography classes={{ root: classes.title }} variant="h2">
               {t('stake.title', {
                 token: tokenIn,
               })}
@@ -124,26 +126,25 @@ export const StakeForm = ({
 
             <AmountInput
               balance={balance}
+              isBalanceLoading={isBalanceLoading}
+              label={t('stake.amount', {
+                token: tokenIn,
+              })}
+              minAmount={minAmount?.toNumber()}
+              name={FieldsNames.amount}
+              tokenName={tokenIn}
               onMaxClick={
                 isMaxBtnShowed
                   ? setMaxAmount(form, `${maxAmount.toString()}`)
                   : undefined
               }
-              isBalanceLoading={isBalanceLoading}
-              name={FieldsNames.amount}
-              tokenName={tokenIn}
-              minAmount={minAmount?.toNumber()}
-              label={t('stake.amount', {
-                token: tokenIn,
-              })}
-              inputClassName={classes.input}
-              disabled={loading || isBalanceLoading}
             />
 
             <div className={classes.stakingTypes}>
               <div className={classNames(classes.stakingType, 'active')}>
                 {t('stake.liquid-staking')}
               </div>
+
               <div className={classes.stakingType}>
                 {t('stake.normal-staking')}
               </div>
@@ -159,12 +160,12 @@ export const StakeForm = ({
               renderFooter(amountNumber)
             ) : (
               <Button
-                color="primary"
-                size="large"
                 className={classes.submit}
-                type="submit"
+                color="primary"
                 disabled={loading || isBalanceLoading}
                 isLoading={loading}
+                size="large"
+                type="submit"
               >
                 {t('stake.stake', {
                   token: tokenOut,

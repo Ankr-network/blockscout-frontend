@@ -1,10 +1,12 @@
-import { act, renderHook } from '@testing-library/react-hooks';
 import { useDispatchRequest } from '@redux-requests/react';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { useParams } from 'react-router';
 
-import { AvailableWriteProviders } from 'provider/providerManager/types';
+import { AvailableWriteProviders } from 'provider';
+
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { addEth2SwapTokenToWallet } from 'modules/eth2Swap/actions/wallet';
+
 import { useEth2SwapSuccessHook } from '../useEth2SwapSuccessHook';
 
 jest.mock('react-router', () => ({

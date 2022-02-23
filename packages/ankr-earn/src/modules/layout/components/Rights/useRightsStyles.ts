@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useRightsStyles = makeStyles<Theme>(theme => ({
+export const useRightsStyles = makeStyles(() => ({
   root: {
     fontWeight: 400,
     whiteSpace: 'nowrap',

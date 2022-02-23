@@ -1,8 +1,10 @@
 import { useQuery } from '@redux-requests/react';
+
 import { ResponseData } from 'modules/common/types/ResponseData';
+
 import { fetchStats } from '../actions/fetchStats';
 
-interface IUseFetchStatsData {
+export interface IUseFetchStatsData {
   error: Error | null;
   isLoading: boolean;
   stats: ResponseData<typeof fetchStats> | null;

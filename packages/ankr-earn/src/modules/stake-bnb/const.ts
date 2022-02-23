@@ -1,18 +1,16 @@
+import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
+
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
-import {
-  AvailableWriteProviders,
-  AvailableReadProviders,
-} from 'provider/providerManager/types';
 
 export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
   ? 15336167
   : 16716904;
 
-export const BINANCE_WRITE_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
-
 export const BINANCE_READ_PROVIDER_ID = isMainnet
   ? AvailableReadProviders.binanceChain
   : AvailableReadProviders.binanceChainTest;
+
+export const BINANCE_WRITE_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const BNB_STAKING_NETWORKS = [BSC_NETWORK_BY_ENV];
 

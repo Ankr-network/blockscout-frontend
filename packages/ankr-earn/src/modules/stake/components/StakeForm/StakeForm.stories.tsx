@@ -1,13 +1,12 @@
-import React from 'react';
 import { StakeForm } from './StakeForm';
 
 const StakeFormStory = () => {
   return (
-    <StakeForm stakingAmountStep={0.5} loading={false} onSubmit={() => null} />
+    <StakeForm loading={false} stakingAmountStep={0.5} onSubmit={() => null} />
   );
 };
 
-export const StakeFormExample = () => <StakeFormStory />;
+export const StakeFormExample = (): JSX.Element => <StakeFormStory />;
 
 export default {
   title: 'modules/StakeForm',

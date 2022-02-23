@@ -1,7 +1,8 @@
-import { ProviderManager } from 'provider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
+import { ProviderManager, AvailableWriteProviders } from 'provider';
+
 import { configFromEnv } from 'modules/api/config';
+import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
+
 import { TSwapOption } from '../../types';
 import {
   addTokenToWallet,

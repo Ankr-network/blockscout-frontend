@@ -1,16 +1,16 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 // TODO: VP provide theme here
-export const useNumericStepperStyles = makeStyles<Theme>(theme => ({
+export const useNumericStepperStyles = makeStyles(theme => ({
   root: {
     '& $active': {
-      color: '#fff',
+      color: theme.palette.common.white,
     },
     '& $labelContainer': {
       color: 'red',
     },
     '& $disabled span:first-child div': {
-      background: '#fff',
+      background: theme.palette.common.white,
       border: '3px solid #E2E8F3',
     },
   },

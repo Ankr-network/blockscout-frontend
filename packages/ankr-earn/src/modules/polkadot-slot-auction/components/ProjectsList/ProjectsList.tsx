@@ -1,6 +1,11 @@
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useHistory } from 'react-router';
+import { uid } from 'react-uid';
+
+import { TCrowdloanStatus } from 'polkadot';
+
 import {
   Table,
   TableBody,
@@ -13,32 +18,30 @@ import { DEFAULT_FIXED, ZERO_ADDR } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { TCrowdloanStatus } from 'polkadot';
-import React from 'react';
-import { useHistory } from 'react-router';
-import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { IFetchCrowdloanBalancesItem } from '../../actions/fetchCrowdloanBalances';
 import { ICrowdloanByStatus } from '../../actions/fetchCrowdloansByStatus';
 import { fetchProjectsListCrowdloans } from '../../actions/fetchProjectsListCrowdloans';
+import { RoutesConfig } from '../../const';
 import {
   useCrowdloanBalances,
   useProjectsListCrowdloans,
 } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { RoutesConfig } from '../../Routes';
 import { ConnectTooltip } from '../ConnectTooltip';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
+
 import { useProjectsListStyles } from './useProjectsListStyles';
 
 type CaptionType = {
   label: string;
 };
 
-export const ProjectsList = () => {
+export const ProjectsList = (): JSX.Element => {
   const classes = useProjectsListStyles();
   const dispatch = useDispatchRequest();
   const history = useHistory();
@@ -117,8 +120,8 @@ export const ProjectsList = () => {
 
       {error === null && !!crowdloans?.length && (
         <Table
-          customCell="0.8fr 0.8fr 1fr 250px"
           columnsCount={captions.length}
+          customCell="0.8fr 0.8fr 1fr 250px"
           minWidth={1100}
         >
           <TableHead>
@@ -126,6 +129,7 @@ export const ProjectsList = () => {
               <TableHeadCell key={uid(cell)} label={cell.label} />
             ))}
           </TableHead>
+
           <TableBody>
             {(crowdloans as ICrowdloanByStatus[]).map(item => {
               const { bondTokenSymbol, loanId, projectName, status } = item;
@@ -160,24 +164,26 @@ export const ProjectsList = () => {
                     )}
 
                     <ProjectMeta
+                      className={classes.projectBox}
+                      description={item.projectDescription}
                       img={item.projectLogo}
                       name={projectName}
-                      description={item.projectDescription}
-                      className={classes.projectBox}
                     />
                   </TableBodyCell>
 
                   <TableBodyCell label={captions[1].label}>
                     {t('format.date', { value: item.startLease })}
+
                     {' – '}
+
                     {t('format.date', { value: item.endLease })}
                   </TableBodyCell>
 
                   <TableBodyCell label={captions[2].label}>
                     <Typography
-                      variant="body2"
                       className={classes.bondTokenValuesCol}
                       color="textPrimary"
+                      variant="body2"
                     >
                       {t('polkadot-slot-auction.column.bond-token-values', {
                         val1: item.stakeFiContributed,
@@ -192,12 +198,12 @@ export const ProjectsList = () => {
                     <div className={classes.buttonCol}>
                       {isContributeBtn && (
                         <Button
+                          fullWidth
                           className={classes.button}
                           color="default"
                           disabled={isDisabledContributeBtn}
-                          onClick={handleContributeBtn(loanId, projectName)}
                           variant="outlined"
-                          fullWidth
+                          onClick={handleContributeBtn(loanId, projectName)}
                         >
                           {!providedBalance.isZero() ? (
                             <>
@@ -220,12 +226,12 @@ export const ProjectsList = () => {
 
                       {isClaimBtn && (
                         <Button
+                          fullWidth
                           className={classes.button}
                           color="default"
                           disabled={isDisabledClaimBtn}
-                          onClick={handleClaimBtn(loanId)}
                           variant="outlined"
-                          fullWidth
+                          onClick={handleClaimBtn(loanId)}
                         >
                           {balanceItem?.claimable instanceof BigNumber &&
                           !balanceItem.claimable.isZero()

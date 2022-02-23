@@ -1,4 +1,17 @@
+/* eslint-disable */ // TODO: temp disable eslint
 import BigNumber from 'bignumber.js';
+import {
+  AvailableReadProviders,
+  AvailableWriteProviders,
+} from 'provider/providerManager/types';
+import { Contract, EventData } from 'web3-eth-contract';
+
+import {
+  IWeb3SendResult,
+  Web3KeyProvider,
+  Web3KeyReadProvider,
+} from 'provider';
+
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
@@ -9,12 +22,6 @@ import {
   getTxEventsHistoryGroup,
   TTxEventsHistoryGroupData,
 } from 'modules/stake/api/getTxEventsHistoryGroup';
-import { IWeb3SendResult, Web3KeyProvider } from 'provider';
-import {
-  AvailableReadProviders,
-  AvailableWriteProviders,
-} from 'provider/providerManager/types';
-import { Contract, EventData } from 'web3-eth-contract';
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
@@ -108,8 +115,8 @@ export const getAftmbAPY = async (): Promise<BigNumber> => {
   const aFTMbContract = getAftmbTokenContract(provider);
 
   return getAPY({
-    tokenContract: aFTMbContract,
     web3: provider.getWeb3(),
+    tokenContract: aFTMbContract,
   });
 };
 
@@ -152,7 +159,7 @@ export const getTxHistory = async (): Promise<{
       }),
     ]);
 
-  let pendingRawEvents: EventData[] = [];
+  const pendingRawEvents: EventData[] = [];
   for (const current of unstakeRawEvents) {
     // Events with wrId >= firstWrId are pending
     if (+current.returnValues.wrId >= +firstWrId) {
@@ -183,7 +190,9 @@ const getFantomPoolContract = (provider: Web3KeyProvider): Contract => {
   return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
 };
 
-const getAftmbTokenContract = (provider: Web3KeyProvider): Contract => {
+const getAftmbTokenContract = (
+  provider: Web3KeyProvider | Web3KeyReadProvider,
+): Contract => {
   return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
 };
 

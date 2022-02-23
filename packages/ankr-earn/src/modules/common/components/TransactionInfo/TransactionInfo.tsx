@@ -1,11 +1,12 @@
 import { Paper, Typography } from '@material-ui/core';
 import cn from 'classnames';
 
-import { t } from 'modules/i18n/utils/intl';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { t } from 'modules/i18n/utils/intl';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useTransactionInfoStyles } from './useTransactionInfoStyles';
 
 export type TStatusTx = 'success' | 'failed' | 'default';
@@ -47,11 +48,12 @@ export const TransactionInfo = ({
 
         <Typography className={classes.title}>
           {t(type === 'success' ? 'common.successTx' : 'common.errorTx')}
+
           {txHash && (
             <NavLink
               className={classes.link}
-              href={getTxLinkByNetwork(txHash, chainId)}
               endIcon={<ExternalLinkIcon />}
+              href={getTxLinkByNetwork(txHash, chainId)}
             >
               {t('common.explorer')}
             </NavLink>
@@ -59,8 +61,13 @@ export const TransactionInfo = ({
         </Typography>
       </div>
 
-      <div className={classes.close} role="button" onClick={onClose}>
-        <CloseIcon size="xxs" htmlColor="#9AA1B0" />
+      <div
+        className={classes.close}
+        role="button"
+        tabIndex={0}
+        onClick={onClose}
+      >
+        <CloseIcon htmlColor="#9AA1B0" size="xxs" />
       </div>
     </Paper>
   );

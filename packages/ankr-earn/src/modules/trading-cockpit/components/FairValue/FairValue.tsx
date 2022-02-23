@@ -1,10 +1,12 @@
 import { ButtonBase, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { Skeleton } from '@material-ui/lab';
-import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
+
+import { t } from 'modules/i18n/utils/intl';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { useFairValueStyles } from './useFairValueStyles';
 
 interface IFairValue {
@@ -25,13 +27,13 @@ export const FairValue = ({
   tooltip,
   currencyFirst,
   currencySecond,
-}: IFairValue) => {
+}: IFairValue): JSX.Element => {
   const classes: ClassNameMap = useFairValueStyles();
 
   const tooltipElement = tooltip && (
     <Tooltip title={tooltip}>
       <ButtonBase className={classes.questionBtn}>
-        <QuestionIcon size="xs" className={classes.questionIcon} />
+        <QuestionIcon className={classes.questionIcon} size="xs" />
       </ButtonBase>
     </Tooltip>
   );
@@ -46,7 +48,7 @@ export const FairValue = ({
         {tooltipElement}
       </div>
 
-      <Typography variant="body2" className={classes.values}>
+      <Typography className={classes.values} variant="body2">
         {isLoading ? (
           <Skeleton width={100} />
         ) : (

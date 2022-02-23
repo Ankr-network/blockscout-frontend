@@ -1,11 +1,13 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { withStore } from 'modules/common/utils/withStore';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
+
+import { withStore } from 'modules/common/utils/withStore';
+
 import { PolygonSDK } from '../api/PolygonSDK';
 
-interface IFetchStatsResponseData {
+export interface IFetchStatsResponseData {
   maticBalance: BigNumber;
   aMaticbBalance: BigNumber;
   minimumStake: BigNumber;
@@ -17,7 +19,7 @@ export const fetchStats = createSmartAction<
   RequestAction<IFetchStatsResponseData, IFetchStatsResponseData>
 >('polygon/fetchStats', () => ({
   request: {
-    promise: async (store: RequestsStore): Promise<IFetchStatsResponseData> => {
+    promise: async (): Promise<IFetchStatsResponseData> => {
       const sdk = await PolygonSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 

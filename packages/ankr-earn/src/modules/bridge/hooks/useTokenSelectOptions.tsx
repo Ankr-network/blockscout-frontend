@@ -16,8 +16,8 @@ export enum AvailableTokens {
   aBNBb = 'aBNBb',
 }
 
-export const useTokenSelectOptions = () => {
-  const bondOptions: ITokenSelectOption[] = useLocaleMemo(
+export const useTokenSelectOptions = (): ITokenSelectOption[] => {
+  const bondOptions = useLocaleMemo(
     () => [
       {
         text: t('unit.aeth'),

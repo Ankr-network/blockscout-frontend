@@ -4,6 +4,8 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { ReactText, useState } from 'react';
+
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -12,17 +14,16 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useState } from 'react';
 
 interface IUseStakeForm {
-  balance?: BigNumber;
   stakingAmountStep: number;
-  minAmount?: number;
   loading: boolean;
   isCommonDataLoading: boolean;
   tokenIn: string;
   tokenOut: string;
   amount: ReactText;
+  balance?: BigNumber;
+  minAmount?: number;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }

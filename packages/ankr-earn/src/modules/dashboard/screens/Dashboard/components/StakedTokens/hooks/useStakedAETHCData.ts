@@ -1,5 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,

@@ -1,11 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+
 interface IReqParams {
-  limit?: number;
   offset?: number;
+  limit?: number;
 }
 
 interface IValidatorItem {
@@ -16,8 +17,8 @@ interface IValidatorItem {
   logoUrl: string | null;
   status: number;
   valName: string | 'Ankr_BSC_validator_1';
-  validator: string;
   votingPower: number;
+  validator: string;
   votingPowerProportion: number;
 }
 

@@ -1,5 +1,7 @@
 import { Typography } from '@material-ui/core';
+
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { useStakeDescriptionValueStyles } from './useStakeDescriptionAmountStyles';
 
 export interface IStakeDescriptionValueProps {
@@ -10,14 +12,14 @@ export interface IStakeDescriptionValueProps {
 const ENTER_DELAY = 1_000;
 
 export const StakeDescriptionAmount = ({
-  children,
   symbol,
-}: IStakeDescriptionValueProps) => {
+  children,
+}: IStakeDescriptionValueProps): JSX.Element => {
   const classes = useStakeDescriptionValueStyles();
 
   return (
     <Typography classes={{ root: classes.root }} component="div" variant="h5">
-      <Tooltip title={`${children} ${symbol}`} arrow enterDelay={ENTER_DELAY}>
+      <Tooltip arrow enterDelay={ENTER_DELAY} title={`${children} ${symbol}`}>
         <div className={classes.title}>{children}</div>
       </Tooltip>
     </Typography>

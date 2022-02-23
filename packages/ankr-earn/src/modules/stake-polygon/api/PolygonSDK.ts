@@ -1,18 +1,21 @@
+/* eslint-disable */ // TODO: temp disable eslint
 import BigNumber from 'bignumber.js';
+import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
+import Web3 from 'web3';
+import { Contract, EventData } from 'web3-eth-contract';
+
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake/api/getAPY';
-import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
-import Web3 from 'web3';
-import { Contract, EventData } from 'web3-eth-contract';
 import { POLYGON_PROVIDER_ID } from '../const';
+
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_POLYGON_POOL from './contracts/polygonPool.json';
 
-export type TTxEventsHistoryGroupData = Array<ITxEventsHistoryGroupItem | void>;
+export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
 enum EPolygonPoolEvents {
   MaticClaimPending = 'MaticClaimPending',
@@ -44,10 +47,15 @@ const ALLOWANCE_RATE = 5;
 
 export class PolygonSDK {
   private static instance?: PolygonSDK;
+
   private readonly maticTokenContract: Contract;
+
   private readonly aMaticbTokenContract: Contract;
+
   private readonly polygonPoolContract: Contract;
+
   private readonly ankrTokenContract: Contract;
+
   private readonly apiGateWay: ApiGateway;
 
   private constructor(private web3: Web3, private currentAccount: string) {
@@ -59,14 +67,17 @@ export class PolygonSDK {
       ABI_ERC20 as any,
       config.contractConfig.maticToken,
     );
+
     this.aMaticbTokenContract = new Contract(
       ABI_AMATICB as any,
       config.contractConfig.aMaticbToken,
     );
+
     this.polygonPoolContract = new Contract(
       ABI_POLYGON_POOL as any,
       config.contractConfig.polygonPool,
     );
+
     this.ankrTokenContract = new Contract(
       ABI_ERC20 as any,
       config.contractConfig.ankrContract,
@@ -136,7 +147,7 @@ export class PolygonSDK {
     const providerManager = ProviderManagerSingleton.getInstance();
     const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
     const web3 = provider.getWeb3();
-    const currentAccount = provider.currentAccount;
+    const { currentAccount } = provider;
     const addrHasNotBeenUpdated =
       PolygonSDK.instance?.currentAccount === provider.currentAccount;
     const hasWeb3 = PolygonSDK.instance?.web3 === web3;
@@ -234,9 +245,9 @@ export class PolygonSDK {
       ),
     ]);
 
-    let pendingClaim: BigNumber = await this.getPendingClaim(),
-      pendingRawEvents: Array<EventData | void> = [],
-      completedRawEvents: Array<EventData | void>;
+    let pendingClaim: BigNumber = await this.getPendingClaim();
+    let pendingRawEvents: Array<EventData | void> = [];
+    let completedRawEvents: Array<EventData | void>;
 
     if (pendingClaim.isGreaterThan(0)) {
       const unstakeRawEventsReverse: Array<EventData | void> =
@@ -281,9 +292,9 @@ export class PolygonSDK {
       await provider.connect();
     }
     const web3 = provider.getWeb3();
-    const polygonPoolContract = this.polygonPoolContract;
-    const maticTokenContract = this.maticTokenContract;
-    const currentAccount = this.currentAccount;
+    const { polygonPoolContract } = this;
+    const { maticTokenContract } = this;
+    const { currentAccount } = this;
     const rawAmount = amount.multipliedBy(1e18);
     // 0. Check current allowance
     const allowance = new BigNumber(
@@ -312,6 +323,7 @@ export class PolygonSDK {
 
     return { txHash };
   }
+
   public async getUnstakeFee() {
     const providerManager = ProviderManagerSingleton.getInstance();
     const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
@@ -347,7 +359,7 @@ export class PolygonSDK {
       ABI_POLYGON_POOL as any,
       polygonPoolAddress,
     );
-    const ankrTokenContract = this.ankrTokenContract;
+    const { ankrTokenContract } = this;
     const [currentAccount] = await web3.eth.getAccounts();
     const rawAmount = amount.multipliedBy(1e18);
     // Do unstaking

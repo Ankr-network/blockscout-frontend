@@ -8,13 +8,15 @@ import {
   routerMiddleware,
   RouterState,
 } from 'connected-react-router';
+import { persistReducer, persistStore } from 'redux-persist';
+import { PersistState } from 'redux-persist/es/types';
+import createSagaMiddleware from 'redux-saga';
+
 import { configFromEnv } from 'modules/api/config';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { I18nSlice, i18nSlice } from 'modules/i18n/i18nSlice';
-import { persistReducer, persistStore } from 'redux-persist';
-import { PersistState } from 'redux-persist/es/types';
-import createSagaMiddleware from 'redux-saga';
+
 import { NotificationActions } from './actions/NotificationActions';
 import { dialog } from './dialogs/reducer';
 import { IDialogState } from './dialogs/selectors';
@@ -27,8 +29,9 @@ export interface IStoreState {
   i18n: I18nSlice & {
     _persist: PersistState;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   notification: any;
-  requests: any;
+  requests: unknown;
   router: RouterState<unknown>;
   // user: IUserState; // @TODO Add a logic for this
 }

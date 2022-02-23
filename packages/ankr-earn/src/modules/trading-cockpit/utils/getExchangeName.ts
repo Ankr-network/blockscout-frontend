@@ -1,6 +1,6 @@
 import { AvailablePlatforms } from '../types';
 
-export const getExchangeName = (exchange: string) => {
+export const getExchangeName = (exchange: string): string => {
   switch (exchange) {
     case AvailablePlatforms.OpenOceanV2:
       return 'OpenOcean';

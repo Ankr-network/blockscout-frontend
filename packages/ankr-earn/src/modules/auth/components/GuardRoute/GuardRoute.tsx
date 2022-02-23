@@ -1,14 +1,18 @@
 import { Box } from '@material-ui/core';
+import { useEffect } from 'react';
+import { Route, RouteProps } from 'react-router';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { Connect } from 'modules/auth/components/Connect';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { useEffect } from 'react';
-import { Route, RouteProps } from 'react-router';
 import { Container } from 'uiKit/Container';
+
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
 import { UnsupportedNetwork } from '../UnsupportedNetwork';
+
 import { useGuardRoute } from './useGuardRoute';
 import { useKnownNetworks } from './useKnownNetworks';
 
@@ -25,7 +29,7 @@ export const GuardRoute = ({
   availableNetworks,
   openConnectInstantly,
   ...routeProps
-}: IGuardRouteProps) => {
+}: IGuardRouteProps): JSX.Element => {
   const {
     isConnected,
     isUnsupportedNetwork,
@@ -54,13 +58,13 @@ export const GuardRoute = ({
         : t('connect.current');
 
     const renderedNetworkItems = supportedNetworks.map(
-      ({ icon, title, chainId }) => (
+      ({ icon, title, chainId: network }) => (
         <NetworkSelectorItem
-          key={chainId}
+          key={network}
+          disabled={!isMetamask}
           iconSlot={icon}
           title={title}
-          onClick={handleSwitchNetwork(chainId)}
-          disabled={!isMetamask}
+          onClick={handleSwitchNetwork(network)}
         />
       ),
     );
@@ -70,10 +74,10 @@ export const GuardRoute = ({
         <Box component="section" py={{ xs: 5, md: 8 }}>
           <Container maxWidth="640px">
             <UnsupportedNetwork
+              currentNetwork={currentNetwork}
               networksSlot={
                 <NetworkSelector>{renderedNetworkItems}</NetworkSelector>
               }
-              currentNetwork={currentNetwork}
             />
           </Container>
         </Box>
@@ -89,19 +93,19 @@ export const GuardRoute = ({
     <DefaultLayout verticalAlign="center">
       <Box component="section" py={{ xs: 5, md: 8 }}>
         <Connect
-          onConnectClick={dispatchConnect}
           networksSlot={
             <NetworkSelector>
-              {supportedNetworks.map(({ icon, title, chainId }) => (
+              {supportedNetworks.map(({ icon, title, chainId: network }) => (
                 <NetworkSelectorItem
-                  key={chainId}
+                  key={network}
+                  disabled
                   iconSlot={icon}
                   title={title}
-                  disabled
                 />
               ))}
             </NetworkSelector>
           }
+          onConnectClick={dispatchConnect}
         />
       </Box>
     </DefaultLayout>

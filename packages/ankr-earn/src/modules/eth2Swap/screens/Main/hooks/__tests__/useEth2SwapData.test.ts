@@ -1,8 +1,9 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 
-import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ONE_ETH, ZERO } from 'modules/common/const';
+
 import { useEth2SwapData } from '..';
 
 jest.mock('@redux-requests/react', () => ({

@@ -1,4 +1,5 @@
 import { featuresConfig } from 'modules/common/const';
+
 import { useStakedAETHBData } from './useStakedAETHBData';
 import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
@@ -8,7 +9,16 @@ import { useStakedFTMTxHistory } from './useStakedFTMTxHistory';
 import { useStakedMaticData } from './useStakedMaticData';
 import { useStakedMaticTxHistory } from './useStakedMaticTxHistory';
 
-export const useStakedTokens = () => {
+interface IUseStakedTokensData {
+  isAssetsShowed: boolean;
+  isAETHBShowed: boolean;
+  isAETHCShowed: boolean;
+  isBNBShowed: boolean;
+  isMATICShowed: boolean;
+  isAFTMBShowed: boolean;
+}
+
+export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
   const stakedMaticTxHistory = useStakedMaticTxHistory();
 

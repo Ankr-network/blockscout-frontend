@@ -1,12 +1,17 @@
 import BigNumber from 'bignumber.js';
 
-import { IWeb3SendResult, ProviderManager } from 'provider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
-import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
+import {
+  IWeb3SendResult,
+  AvailableWriteProviders,
+  ProviderManager,
+} from 'provider';
+
 import { configFromEnv } from 'modules/api/config';
 import AETH from 'modules/api/contract/AETH.json';
 import FETH from 'modules/api/contract/FETH.json';
+import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
+
 import { TSwapOption } from '../types';
 
 export interface IGetEth2SwapServiceArgs {

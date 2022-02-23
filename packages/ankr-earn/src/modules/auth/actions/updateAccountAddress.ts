@@ -1,8 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { createAction } from 'redux-smart-actions';
+
+import { AvailableWriteProviders } from 'provider';
+
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+
 import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
@@ -32,7 +36,7 @@ export const updateAccountAddress = createAction<
       mutations: {
         [connectAction]: (data: IConnect): IConnect => ({
           ...data,
-          address: address,
+          address,
         }),
       },
     },

@@ -1,20 +1,23 @@
-import { useSocialsStyles as useStyles } from './useSocialsStyles';
+import classNames from 'classnames';
+import { useMemo } from 'react';
+
+import { SOCIAL_LINK } from 'modules/common/const';
+
 import {
   Twitter,
   Discord,
   Medium,
   Telegram,
 } from '../../../common/components/Icons/Socials';
-import { useMemo } from 'react';
+
 import { ISocialItem, SocialItem } from './SocialItem';
-import classNames from 'classnames';
-import { SOCIAL_LINK } from 'modules/common/const';
+import { useSocialsStyles as useStyles } from './useSocialsStyles';
 
 interface ISocials {
   className?: string;
 }
 
-export const Socials = ({ className = '' }: ISocials) => {
+export const Socials = ({ className = '' }: ISocials): JSX.Element => {
   const classes = useStyles();
 
   const socialList: ISocialItem[] = useMemo(
@@ -45,7 +48,7 @@ export const Socials = ({ className = '' }: ISocials) => {
 
   return (
     <div className={classNames(classes.root, className)}>
-      {socialList.map((item, index) => (
+      {socialList.map(item => (
         <SocialItem key={item.title} {...item} />
       ))}
     </div>

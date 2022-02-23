@@ -23,6 +23,11 @@ interface IProviders {
   [AvailableWriteProviders.polkadot]: Web3KeyProvider;
   [AvailableWriteProviders.binance]: Web3KeyProvider;
   [AvailableReadProviders.ethMainnetHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.ethGoerliHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.binanceChain]: Web3KeyReadProvider;
+  [AvailableReadProviders.binanceChainTest]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmOperaHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmTestnetHttpProvider]: Web3KeyReadProvider;
 }
 
 export class ProviderManager {

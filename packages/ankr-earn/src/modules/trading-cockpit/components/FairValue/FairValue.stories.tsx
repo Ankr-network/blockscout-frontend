@@ -12,12 +12,12 @@ const fairValueCurrenciesMockup = {
   },
 };
 
-export const FairValueExample = () => {
+export const FairValueExample = (): JSX.Element => {
   return (
     <FairValue
-      tooltip={fairValueCurrenciesMockup.tooltip}
       currencyFirst={fairValueCurrenciesMockup.currencyFirst}
       currencySecond={fairValueCurrenciesMockup.currencySecond}
+      tooltip={fairValueCurrenciesMockup.tooltip}
     />
   );
 };

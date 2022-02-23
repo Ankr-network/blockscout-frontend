@@ -1,5 +1,6 @@
-import { TextField } from '@material-ui/core';
-import { Box, Typography, Input } from '@material-ui/core';
+import { TextField, Box, Typography, Input } from '@material-ui/core';
+import { useState } from 'react';
+
 import {
   AvailableNewtworks,
   useBlockchainPanelOptions,
@@ -10,14 +11,15 @@ import {
 } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { t } from 'modules/i18n/utils/intl';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
-import { useState } from 'react';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { SwapIcon } from 'uiKit/Icons/SwapIcon';
+
 import { BridgeBlockchainPanel } from '../BridgeBlockchainPanel';
+
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';
 
-export const BridgeMainView = () => {
+export const BridgeMainView = (): JSX.Element => {
   const classes = useBridgeMainViewStyles();
   const options = useTokenSelectOptions();
   const networkOptions = useBlockchainPanelOptions();
@@ -32,7 +34,7 @@ export const BridgeMainView = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2" classes={{ root: classes.title }}>
+      <Typography classes={{ root: classes.title }} variant="h2">
         {t('bridge.main.title')}
       </Typography>
 
@@ -40,39 +42,40 @@ export const BridgeMainView = () => {
         <Box className={classes.tokenSelectWrapper}>
           <TokenSelect
             className={classes.tokenSelect}
+            options={options}
             value={tokenValue}
+            variant="filled"
             onChange={evt => {
               const currentValue = evt.target.value;
               setTokenValue(currentValue as AvailableTokens);
             }}
-            options={options}
-            variant="filled"
           />
         </Box>
-        <Input
-          className={classes.tokenInput}
-          type={'number'}
-          placeholder={'0'}
-        />
-        <Button className={classes.maxBtn} variant="outlined" size="small">
+
+        <Input className={classes.tokenInput} placeholder="0" type="number" />
+
+        <Button className={classes.maxBtn} size="small" variant="outlined">
           {t('bridge.main.btn-max')}
         </Button>
       </Box>
 
       <Box className={classes.balance}>
         <span>
-          {t('bridge.main.your-balance')} <span>20.33 aETHc</span>
+          {t('bridge.main.your-balance')}
+
+          <span>20.33 aETHc</span>
         </span>
       </Box>
 
       <Box className={classes.swapFields}>
         <Box className={classes.swapField}>
           <BridgeBlockchainPanel
-            value={swapNetworkItem.from}
+            direction="from"
             items={networkOptions}
-            direction={'from'}
+            value={swapNetworkItem.from}
           />
         </Box>
+
         <Box>
           <SwapIcon
             className={classes.swapBtn}
@@ -87,9 +90,9 @@ export const BridgeMainView = () => {
 
         <Box className={classes.swapField}>
           <BridgeBlockchainPanel
-            value={swapNetworkItem.to}
+            direction="to"
             items={networkOptions}
-            direction={'to'}
+            value={swapNetworkItem.to}
           />
         </Box>
       </Box>
@@ -97,18 +100,19 @@ export const BridgeMainView = () => {
       <Box className={classes.anotherCheckbox}>
         <Checkbox
           checked={isSendAnother}
+          label="Send to another address"
           onChange={() => setIsSendAnother(!isSendAnother)}
-          label={'Send to another address'}
         />
+
         {isSendAnother ? (
           <TextField className={classes.anotherAddress} />
         ) : null}
       </Box>
 
       <Button
+        className={classes.submitBtn}
         color="primary"
         size="large"
-        className={classes.submitBtn}
         type="submit"
       >
         {t('bridge.main.connectBtn')}

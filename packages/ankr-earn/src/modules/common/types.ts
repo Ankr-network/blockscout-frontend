@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider/providerManager/types';
+import { BlockchainNetworkId } from 'provider';
 
 // semantic types
 export type Timestamp = number;

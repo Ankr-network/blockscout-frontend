@@ -1,21 +1,24 @@
 import { IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+
 import { t } from 'modules/i18n/utils/intl';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+
 import { usePendingUnstakeAmountStyles } from './usePendingUnstakeAmountStyles';
 
-interface IPendingUnstakeAmountProps {
+export interface IPendingUnstakeAmountProps {
   value: BigNumber;
 }
 
-export const PendingUnstakeAmount = ({ value }: IPendingUnstakeAmountProps) => {
+export const PendingUnstakeAmount = (): JSX.Element => {
   const classes = usePendingUnstakeAmountStyles();
 
   return (
-    <Paper variant="outlined" square={false} className={classes.root}>
+    <Paper className={classes.root} square={false} variant="outlined">
       <div className={classes.top}>
-        <Typography variant="h5" className={classes.title}>
+        <Typography className={classes.title} variant="h5">
           {t('pending-unstake-amount.title')}{' '}
+
           <Tooltip title={t('pending-unstake-amount.tip.in-progress')}>
             <IconButton>
               <QuestionIcon size="xs" />

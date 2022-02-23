@@ -1,2 +1,2 @@
-export { providerEventsSaga } from './providerEvents/providerEventsSaga';
+export * from './providerEvents';
 export * from './providerManager';

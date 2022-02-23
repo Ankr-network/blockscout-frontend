@@ -1,6 +1,8 @@
 import { Button as ButtonComponent, ButtonProps } from '@material-ui/core';
-import React from 'react';
+import { forwardRef, ForwardedRef } from 'react';
+
 import { Spinner } from 'uiKit/Spinner';
+
 import { useButtonStyles } from './useButtonStyles';
 
 type ButtonsVariant = 'contained' | 'outlined' | 'text';
@@ -12,24 +14,31 @@ export interface IButtonProps extends ButtonProps {
   isLoading?: boolean;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
+export const Button = forwardRef(
   (
-    { variant = 'contained', submit, style, isLoading, endIcon, ...props },
-    ref,
+    {
+      variant = 'contained',
+      submit,
+      style,
+      isLoading,
+      endIcon,
+      ...props
+    }: IButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>,
   ) => {
     const classes = useButtonStyles();
 
     return (
       <ButtonComponent
-        variant={variant}
-        component="button"
-        type={submit ? 'submit' : 'button'}
         ref={ref}
+        component="button"
         style={style}
+        type={submit ? 'submit' : 'button'}
+        variant={variant}
         {...props}
         endIcon={
           isLoading ? (
-            <Spinner size={16} variant="circle" className={classes.loader} />
+            <Spinner className={classes.loader} size={16} variant="circle" />
           ) : (
             endIcon
           )

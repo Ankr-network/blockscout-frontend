@@ -1,12 +1,18 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText } from 'react';
+
 import { ZERO } from 'modules/common/const';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
+
 import { useProviderEffect } from '../../../../auth/hooks/useProviderEffect';
 import { fetchAPY } from '../../../actions/fetchAPY';
+
+const calculateYearlyEarning = (amount: ReactText, apy: number): BigNumber => {
+  return amount ? new BigNumber(amount).multipliedBy(apy).dividedBy(100) : ZERO;
+};
 
 export const useStakeStats = (amount: ReactText): IStakeStatsItem[] => {
   const dispatchRequest = useDispatchRequest();
@@ -28,15 +34,11 @@ export const useStakeStats = (amount: ReactText): IStakeStatsItem[] => {
       {
         label: t('stake.stats.yearly-earning'),
         token: t('unit.polygon'),
-        value: calcYearlyEarning(amount, APY).toFormat(),
+        value: calculateYearlyEarning(amount, APY).toFormat(),
       },
     ],
     [amount, APY],
   );
 
   return stats;
-};
-
-const calcYearlyEarning = (amount: ReactText, apy: number): BigNumber => {
-  return amount ? new BigNumber(amount).multipliedBy(apy).dividedBy(100) : ZERO;
 };

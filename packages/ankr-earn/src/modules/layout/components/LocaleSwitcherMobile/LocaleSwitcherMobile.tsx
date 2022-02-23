@@ -1,13 +1,16 @@
+import { Button } from '@material-ui/core';
+import classNames from 'classnames';
 import { useCallback } from 'react';
+
+import { useAppDispatch } from 'store/useAppDispatch';
+
+import { useLocale } from '../../../i18n/hooks/useLocale';
+import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
+import { setLocale } from '../../../i18n/i18nSlice';
 import { Locale } from '../../../i18n/types/locale';
 import { t } from '../../../i18n/utils/intl';
-import { setLocale } from '../../../i18n/i18nSlice';
-import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
-import { useLocale } from '../../../i18n/hooks/useLocale';
-import { useAppDispatch } from 'store/useAppDispatch';
-import { Button } from '@material-ui/core';
+
 import { useLocaleSwitcherMobileStyles as useStyles } from './useLocaleSwitcherMobileStyles';
-import classNames from 'classnames';
 
 export interface ILocaleSwitcherMobile {
   className?: string;
@@ -15,7 +18,7 @@ export interface ILocaleSwitcherMobile {
 
 export const LocaleSwitcherMobile = ({
   className = '',
-}: ILocaleSwitcherMobile) => {
+}: ILocaleSwitcherMobile): JSX.Element => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const localeOptions = useLocaleMemo(
@@ -44,12 +47,12 @@ export const LocaleSwitcherMobile = ({
   const renderedOptions = localeOptions.map(option => (
     <Button
       key={option.label}
-      variant="text"
-      onClick={() => onClick(option.value)}
       className={classNames(
         classes.button,
         option.value === locale && classes.activeButton,
       )}
+      variant="text"
+      onClick={() => onClick(option.value)}
     >
       {option.label}
     </Button>
@@ -58,6 +61,7 @@ export const LocaleSwitcherMobile = ({
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.language}>{t('language.language')}</div>
+
       <div className={classes.buttonsWrapper}>{renderedOptions}</div>
     </div>
   );
