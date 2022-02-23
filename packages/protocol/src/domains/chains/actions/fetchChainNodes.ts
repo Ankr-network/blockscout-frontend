@@ -1,5 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';

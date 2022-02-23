@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Typography } from '@material-ui/core';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';

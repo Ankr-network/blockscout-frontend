@@ -1,4 +1,4 @@
-import { Environment } from '@ankr.com/multirpc';
+import { Environment } from 'multirpc-sdk';
 import { ChainId } from '@ankr.com/stakefi-web3';
 
 export const API_ENV: Environment =

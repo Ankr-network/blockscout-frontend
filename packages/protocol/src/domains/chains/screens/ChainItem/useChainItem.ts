@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 import { useDispatchRequest } from '@redux-requests/react';
 import { getQuery } from '@redux-requests/core';
 

@@ -1,6 +1,7 @@
 import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { INodeEntity, IWorkerNodesWeight } from '@ankr.com/multirpc';
+
+import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';

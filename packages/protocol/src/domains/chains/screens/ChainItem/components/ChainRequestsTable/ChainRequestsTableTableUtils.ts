@@ -1,7 +1,7 @@
 import { capitalize } from '@material-ui/core';
 
 import { ProviderRow, ChainNodesTableProps } from './ChainRequestsTableProps';
-import { INodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity } from 'multirpc-sdk';
 
 export const getRows = (data: ChainNodesTableProps['data']): ProviderRow[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
