@@ -9,7 +9,7 @@ on:
         required: true
         options:
           - PROD # https://chainId.public-rpc.com/ | /erigonbsc
-          - BS-1 # bs-1-stage.dccn.ankr.com/
+          - BS1 # bs-1-stage.dccn.ankr.com/
 
 jobs:
   deploy:
