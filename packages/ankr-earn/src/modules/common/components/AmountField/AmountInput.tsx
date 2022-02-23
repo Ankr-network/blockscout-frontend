@@ -39,7 +39,7 @@ export const AmountInput = ({
   const withBalance = !!balance;
   const maxAmount = balance || ZERO;
   const roundedBalance = balance
-    ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
+    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
     : '0';
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 

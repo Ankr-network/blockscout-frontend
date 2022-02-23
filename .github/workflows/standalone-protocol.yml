@@ -1,4 +1,4 @@
-name: Deploy
+name: Standalone Protocol deploy
 
 on:
   workflow_dispatch:

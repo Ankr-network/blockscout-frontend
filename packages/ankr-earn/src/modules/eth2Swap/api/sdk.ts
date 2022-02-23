@@ -82,7 +82,7 @@ export const lockShares = async ({
   return provider.sendTransactionAsync(
     provider.currentAccount,
     contractConfig.fethContract,
-    { data },
+    { data, estimate: true },
   );
 };
 
@@ -106,7 +106,7 @@ export const unlockShares = async ({
   return provider.sendTransactionAsync(
     provider.currentAccount,
     contractConfig.fethContract,
-    { data },
+    { data, estimate: true },
   );
 };
 
@@ -134,7 +134,7 @@ export const approveAETHCForAETHB = async ({
   return provider.sendTransactionAsync(
     provider.currentAccount,
     contractConfig.aethContract,
-    { data },
+    { data, estimate: true },
   );
 };
 
