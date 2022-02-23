@@ -88,6 +88,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
       data: 'mock-abi',
+      estimate: true,
     });
   });
 
@@ -134,6 +135,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
       data: 'mock-abi',
+      estimate: true,
     });
   });
 
@@ -182,6 +184,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(mockSendTransactionAsync).toBeCalledTimes(1);
     expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, aethContract, {
       data: 'mock-abi',
+      estimate: true,
     });
   });
 
