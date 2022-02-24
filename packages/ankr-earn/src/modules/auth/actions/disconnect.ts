@@ -10,6 +10,7 @@ import { AvailableWriteProviders } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { setProviderStatus } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 import { connect } from './connect';
@@ -30,7 +31,19 @@ export const disconnect = createAction<
     showNotificationOnError: true,
     requestKey: getAuthRequestKey(providerId),
     onRequest: withStore,
-    onSuccess: (_response, _action, store: RequestsStore) => {
+    onSuccess: (
+      _response,
+      _action: RequestAction,
+      { dispatch }: RequestsStore,
+    ) => {
+      dispatch(
+        setProviderStatus({
+          providerId,
+          isActive: false,
+          walletId: undefined,
+        }),
+      );
+
       const requestsToReset = [
         {
           requestType: connect.toString(),
@@ -38,7 +51,7 @@ export const disconnect = createAction<
         },
       ];
 
-      store.dispatch(resetRequests(requestsToReset));
+      dispatch(resetRequests(requestsToReset));
     },
   },
 }));

@@ -10,10 +10,9 @@ import { RPCConfig } from './const';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {
-  description?: string;
-  icons: string[] | null;
+  icon: string;
   name: string;
-  url?: string;
+  id: string;
 }
 
 export interface IWeb3SendResult {
@@ -63,16 +62,13 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
       return;
     }
 
-    if (provider.walletMeta) {
-      this.walletMeta = provider.walletMeta as IWalletMeta;
-    } else {
-      const { logo, name } = getProviderInfo(provider);
+    const { logo, name, id } = getProviderInfo(provider);
 
-      this.walletMeta = {
-        name,
-        icons: [logo],
-      };
-    }
+    this.walletMeta = {
+      name,
+      icon: logo,
+      id,
+    };
   }
 
   public async connect(): Promise<void> {

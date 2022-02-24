@@ -6,7 +6,9 @@ import { AvailableWriteProviders } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { updateConnectedNetwork } from './updateConnectedNetwork';
+import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+
+import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
@@ -15,28 +17,31 @@ interface ISwitchNetworkArgs {
 
 export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
   'auth/switchNetwork',
-  ({ providerId, chainId }) => ({
-    request: {
-      promise: async () => {
-        const provider =
-          await ProviderManagerSingleton.getInstance().getProvider(providerId);
-        await provider.switchNetwork(chainId);
-        return chainId;
+  ({ providerId, chainId }) => {
+    const authRequestKey = getAuthRequestKey(providerId);
+    const connectAction = connect.toString() + authRequestKey;
+
+    return {
+      request: {
+        promise: async () => {
+          const provider =
+            await ProviderManagerSingleton.getInstance().getProvider(
+              providerId,
+            );
+          return provider.switchNetwork(chainId);
+        },
       },
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onRequest: withStore,
-      onSuccess: (response, _action, store) => {
-        store.dispatch(
-          updateConnectedNetwork({
-            providerId,
+      meta: {
+        asMutation: true,
+        showNotificationOnError: true,
+        onRequest: withStore,
+        mutations: {
+          [connectAction]: (data: IConnect): IConnect => ({
+            ...data,
             chainId,
           }),
-        );
-        return response;
+        },
       },
-    },
-  }),
+    };
+  },
 );

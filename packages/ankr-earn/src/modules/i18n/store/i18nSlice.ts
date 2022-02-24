@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Locale } from './types/locale';
+import { Locale } from '../types/locale';
 
 export interface I18nSlice {
   locale: Locale;

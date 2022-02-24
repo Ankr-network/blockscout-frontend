@@ -5,8 +5,17 @@ import imTokenLogo from './assets/im-token.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
 
+export enum WalletId {
+  imtoken = 'custom-imtoken',
+  math = 'custom-math',
+  trust = 'custom-trust',
+  huobi = 'custom-huobi',
+  walletconnect = 'walletconnect',
+  injected = 'injected',
+}
+
 export const providerDefaultOptions: IProviderOptions = {
-  'custom-imtoken': {
+  [WalletId.imtoken]: {
     display: {
       logo: imTokenLogo,
       name: 'imToken',
@@ -26,7 +35,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  'custom-math': {
+  [WalletId.math]: {
     display: {
       logo: mathLogo,
       name: 'Math Wallet',
@@ -46,7 +55,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  'custom-trust': {
+  [WalletId.trust]: {
     display: {
       logo: trustWalletLogo,
       name: 'Trust Wallet',
@@ -66,7 +75,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  'custom-huobi': {
+  [WalletId.huobi]: {
     display: {
       logo: huobiLogo,
       name: 'Huobi Wallet',
@@ -86,7 +95,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  walletconnect: {
+  [WalletId.walletconnect]: {
     package: WalletConnectProvider,
     options: {
       rpc: {

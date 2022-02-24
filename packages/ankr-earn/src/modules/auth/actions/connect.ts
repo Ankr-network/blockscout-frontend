@@ -1,4 +1,4 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { AvailableWriteProviders } from 'provider';
@@ -7,6 +7,7 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Web3Address } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { setProviderStatus } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 export interface IConnect {
@@ -15,18 +16,19 @@ export interface IConnect {
   chainId: number;
   providerId: AvailableWriteProviders;
   walletName: string;
+  walletId: string;
   walletIcon?: string;
 }
 
 export const connect = createAction<
   RequestAction<IConnect, IConnect>,
-  [AvailableWriteProviders]
->('auth/connect', (providerId: AvailableWriteProviders) => ({
+  [AvailableWriteProviders, string?]
+>('auth/connect', (providerId: AvailableWriteProviders, wallet) => ({
   request: {
     promise: async (): Promise<IConnect> => {
       const providerManager = ProviderManagerSingleton.getInstance();
-      const provider = await providerManager.getProvider(providerId);
-      const { icons, name: walletName } = provider.getWalletMeta();
+      const provider = await providerManager.getProvider(providerId, wallet);
+      const { icon, name: walletName, id: walletId } = provider.getWalletMeta();
 
       return {
         isConnected: provider.isConnected(),
@@ -34,7 +36,8 @@ export const connect = createAction<
         chainId: provider.currentChain,
         providerId,
         walletName,
-        walletIcon: icons?.length ? icons[0] : undefined,
+        walletId,
+        walletIcon: icon,
       };
     },
   },
@@ -44,5 +47,20 @@ export const connect = createAction<
     requestKey: getAuthRequestKey(providerId),
     getData: data => data,
     onRequest: withStore,
+    onSuccess: (
+      response: { data: IConnect },
+      _action: RequestAction,
+      { dispatch }: RequestsStore,
+    ) => {
+      dispatch(
+        setProviderStatus({
+          providerId,
+          isActive: true,
+          walletId: response.data.walletId,
+        }),
+      );
+
+      return response;
+    },
   },
 }));

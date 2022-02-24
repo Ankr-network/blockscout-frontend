@@ -1,11 +1,11 @@
 import { ChangeEvent, useCallback } from 'react';
 
+import { setLocale } from 'modules/i18n/store/i18nSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Select } from 'uiKit/Select';
 
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
-import { setLocale } from '../../../i18n/i18nSlice';
 import { Locale } from '../../../i18n/types/locale';
 import { t } from '../../../i18n/utils/intl';
 

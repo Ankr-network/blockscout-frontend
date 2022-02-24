@@ -11,6 +11,7 @@ import { ReactReduxContext } from 'react-redux';
 
 import { mainTheme } from 'ui';
 
+import { useRestoreConnection } from 'modules/auth/hooks/useRestoreConnection';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitializeLocale } from 'store/useAppUtils';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
@@ -38,13 +39,14 @@ interface IAppBase {
 
 export const AppBase = ({ children }: IAppBase): JSX.Element => {
   const isInitialized = useInitializeLocale();
+  const conectionRestorePending = useRestoreConnection();
 
   return (
     <StylesProvider generateClassName={createGenerateClassName()} jss={jss}>
       <MuiThemeProvider theme={mainTheme}>
         <CssBaseline />
 
-        {isInitialized ? (
+        {isInitialized && !conectionRestorePending ? (
           <ConnectedRouter
             context={ReactReduxContext}
             history={historyInstance}

@@ -35,7 +35,10 @@ export class ProviderManager {
 
   constructor(private web3ModalTheme: ThemeColors) {}
 
-  public async getProvider(providerId: AvailableWriteProviders) {
+  public async getProvider(
+    providerId: AvailableWriteProviders,
+    walletId?: string,
+  ) {
     const provider = this.providers[providerId];
 
     if (provider) {
@@ -50,7 +53,7 @@ export class ProviderManager {
       const newProvider = new EthereumWeb3KeyProvider({
         web3ModalTheme: this.web3ModalTheme,
       });
-      await newProvider.inject();
+      await newProvider.inject(walletId);
       await newProvider.connect();
       this.providers[providerId] = newProvider;
       return newProvider;

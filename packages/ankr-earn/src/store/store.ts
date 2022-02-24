@@ -8,27 +8,31 @@ import {
   routerMiddleware,
   RouterState,
 } from 'connected-react-router';
-import { persistReducer, persistStore } from 'redux-persist';
-import { PersistState } from 'redux-persist/es/types';
+import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import { configFromEnv } from 'modules/api/config';
+import {
+  authPersistReducer,
+  TAuthState,
+} from 'modules/auth/store/authPersistReducer';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { I18nSlice, i18nSlice } from 'modules/i18n/i18nSlice';
+import {
+  i18nPersistReducer,
+  Ti18nState,
+} from 'modules/i18n/store/i18nPersistReducer';
 
 import { NotificationActions } from './actions/NotificationActions';
 import { dialog } from './dialogs/reducer';
 import { IDialogState } from './dialogs/selectors';
 import { notificationReducer } from './reducers/notificationReducer';
 import { rootSagas } from './sagas';
-import { i18nPersistConfig } from './webStorageConfigs';
 
 export interface IStoreState {
+  auth: TAuthState;
   dialog: IDialogState;
-  i18n: I18nSlice & {
-    _persist: PersistState;
-  };
+  i18n: Ti18nState;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   notification: any;
   requests: unknown;
@@ -77,8 +81,9 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers<IStoreState>({
+  auth: authPersistReducer,
   dialog,
-  i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
+  i18n: i18nPersistReducer,
   notification: notificationReducer,
   requests: requestsReducer,
   router: connectRouter(historyInstance),
