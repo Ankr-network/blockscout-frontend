@@ -47,7 +47,7 @@ function getPreparedData(data?: TTxEventsHistoryGroupData): TTableData {
   if (!Array.isArray(data) || !data.length) {
     return [];
   }
-  
+
   return data.map(({ txAmount, txDate, txHash, txType }) => ({
     amount: t('unit.matic-value', { value: txAmount.toNumber() }),
     date: t('format.date-time-24', { value: txDate }),

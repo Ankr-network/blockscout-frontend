@@ -71,20 +71,20 @@ interface IGetPastEvents {
 }
 
 export class BinanceSDK {
+  private static instance?: BinanceSDK;
+
   private readonly writeProvider: Web3KeyProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
   private currentAccount: string;
 
-  private static instance?: BinanceSDK;
-
   private constructor({ readProvider, writeProvider }: IBinanceSDKProviders) {
     BinanceSDK.instance = this;
 
     this.currentAccount = writeProvider.currentAccount;
-    this.writeProvider = writeProvider;
     this.readProvider = readProvider;
+    this.writeProvider = writeProvider;
   }
 
   public static async getInstance(): Promise<BinanceSDK> {

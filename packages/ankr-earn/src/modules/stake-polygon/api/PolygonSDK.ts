@@ -1,8 +1,15 @@
-/* eslint-disable */ // TODO: temp disable eslint
 import BigNumber from 'bignumber.js';
-import { Web3KeyReadProvider } from 'provider/providerManager/Web3KeyReadProvider';
-import Web3 from 'web3';
-import { Contract, EventData } from 'web3-eth-contract';
+import flatten from 'lodash/flatten';
+import { BlockTransactionObject } from 'web3-eth';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
+import {
+  BlockchainNetworkId,
+  TWeb3BatchCallback,
+  Web3KeyProvider,
+  Web3KeyReadProvider,
+} from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
@@ -10,7 +17,13 @@ import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake/api/getAPY';
-import { POLYGON_PROVIDER_ID } from '../const';
+
+import {
+  MAX_BLOCK_RANGE,
+  POLYGON_PROVIDER_ID,
+  POLYGON_PROVIDER_READ_ID,
+  POOL_CONTRACT_START_BLOCK,
+} from '../const';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_POLYGON_POOL from './contracts/polygonPool.json';
@@ -43,47 +56,143 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
+interface IPolygonSDKProviders {
+  readProvider: Web3KeyReadProvider;
+  writeProvider: Web3KeyProvider;
+}
+
+interface IGetPastEvents {
+  provider: Web3KeyProvider | Web3KeyReadProvider;
+  contract: Contract;
+  eventName: string;
+  startBlock: number;
+  rangeStep: number;
+  filter?: Filter;
+}
+
 const ALLOWANCE_RATE = 5;
 
 export class PolygonSDK {
   private static instance?: PolygonSDK;
 
-  private readonly maticTokenContract: Contract;
+  private readonly writeProvider: Web3KeyProvider;
 
-  private readonly aMaticbTokenContract: Contract;
-
-  private readonly polygonPoolContract: Contract;
-
-  private readonly ankrTokenContract: Contract;
+  private readonly readProvider: Web3KeyReadProvider;
 
   private readonly apiGateWay: ApiGateway;
 
-  private constructor(private web3: Web3, private currentAccount: string) {
+  private currentAccount: string;
+
+  private constructor({ writeProvider, readProvider }: IPolygonSDKProviders) {
     PolygonSDK.instance = this;
 
     const config = configFromEnv();
-    const Contract = this.web3.eth.Contract as any;
-    this.maticTokenContract = new Contract(
-      ABI_ERC20 as any,
-      config.contractConfig.maticToken,
-    );
-
-    this.aMaticbTokenContract = new Contract(
-      ABI_AMATICB as any,
-      config.contractConfig.aMaticbToken,
-    );
-
-    this.polygonPoolContract = new Contract(
-      ABI_POLYGON_POOL as any,
-      config.contractConfig.polygonPool,
-    );
-
-    this.ankrTokenContract = new Contract(
-      ABI_ERC20 as any,
-      config.contractConfig.ankrContract,
-    );
-
+    this.readProvider = readProvider;
+    this.writeProvider = writeProvider;
+    this.currentAccount = this.writeProvider.currentAccount;
     this.apiGateWay = new ApiGateway(config.gatewayConfig);
+  }
+
+  public static async getInstance(): Promise<PolygonSDK> {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const [writeProvider, readProvider] = await Promise.all([
+      providerManager.getProvider(POLYGON_PROVIDER_ID),
+      providerManager.getReadProvider(POLYGON_PROVIDER_READ_ID),
+    ]);
+
+    const addrHasNotBeenUpdated =
+      PolygonSDK.instance?.currentAccount === writeProvider.currentAccount;
+    const hasNewProvider =
+      PolygonSDK.instance?.writeProvider === writeProvider &&
+      PolygonSDK.instance?.readProvider === readProvider;
+
+    if (PolygonSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+      return PolygonSDK.instance;
+    }
+
+    const instance = new PolygonSDK({ writeProvider, readProvider });
+    const isEthChain = await instance.isEthNetwork(writeProvider);
+
+    if (!isEthChain && !writeProvider.isConnected()) {
+      await writeProvider.connect();
+    }
+
+    return instance;
+  }
+
+  private async getProvider(
+    isForceRead = false,
+  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+    if (isForceRead) {
+      return this.readProvider;
+    }
+
+    const isEthChain = await this.isEthNetwork(this.writeProvider);
+
+    if (!isEthChain && !this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    if (isEthChain) {
+      return this.writeProvider;
+    }
+
+    return this.readProvider;
+  }
+
+  private async isEthNetwork(provider: Web3KeyProvider): Promise<boolean> {
+    const web3 = provider.getWeb3();
+    const chainId = await web3.eth.getChainId();
+
+    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+      chainId,
+    );
+  }
+
+  private async getMaticTokenContract(isForceRead = false): Promise<Contract> {
+    const { contractConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_ERC20 as AbiItem[],
+      contractConfig.maticToken,
+    );
+  }
+
+  private async getAMATICBTokenContract(
+    isForceRead = false,
+  ): Promise<Contract> {
+    const { contractConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_AMATICB as AbiItem[],
+      contractConfig.aMaticbToken,
+    );
+  }
+
+  private async getPolygonPoolContract(isForceRead = false): Promise<Contract> {
+    const { contractConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_POLYGON_POOL as AbiItem[],
+      contractConfig.polygonPool,
+    );
+  }
+
+  private async getAnkrTokenContract(isForceRead = false): Promise<Contract> {
+    const { contractConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_ERC20 as AbiItem[],
+      contractConfig.ankrContract,
+    );
   }
 
   private getTxType(rawTxType?: string): string | null {
@@ -99,43 +208,69 @@ export class PolygonSDK {
     }
   }
 
-  private getTxAmount(amount: string): BigNumber {
-    return new BigNumber(this.web3.utils.fromWei(amount));
+  private convertFromWei(amount: string): BigNumber {
+    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+  }
+
+  private async getPastEvents({
+    provider,
+    contract,
+    eventName,
+    startBlock,
+    rangeStep,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const eventsPromises: Promise<EventData[]>[] = [];
+
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
+
+      eventsPromises.push(
+        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+      );
+    }
+
+    const pastEvents = await Promise.all(eventsPromises);
+
+    return flatten(pastEvents);
   }
 
   // todo: reuse it form stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
-    rawEvents?: Array<EventData | void>,
+    rawEvents?: EventData[],
   ): Promise<TTxEventsHistoryGroupData> {
     if (!Array.isArray(rawEvents) || !rawEvents.length) {
       return [];
     }
 
-    const rawData: Array<ITxHistoryEventData> = [];
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
 
-    for (let i = 0, rawEvent: EventData; i < rawEvents.length; i++) {
-      rawEvent = rawEvents[i] as EventData;
+    const calls = rawEvents.map(
+      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
+        web3.eth.getBlock.request(event.blockHash, false, callback),
+    );
 
-      rawData[i] = {
-        ...rawEvent,
-        timestamp: (await this.web3.eth.getBlock(rawEvent.blockHash, false))
-          .timestamp as number,
-      };
-    }
+    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
+      calls,
+    );
+
+    const rawData: ITxHistoryEventData[] = blocks.map((block, index) => ({
+      ...rawEvents[index],
+      timestamp: block.timestamp as number,
+    }));
 
     return rawData
-      .sort(
-        (a: ITxHistoryEventData, b: ITxHistoryEventData): number =>
-          b.timestamp - a.timestamp,
-      )
+      .sort((a, b) => b.timestamp - a.timestamp)
       .map(
-        ({
-          event,
-          returnValues: { amount },
-          timestamp,
-          transactionHash,
-        }: ITxHistoryEventData): ITxEventsHistoryGroupItem => ({
-          txAmount: this.getTxAmount(amount),
+        ({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
+          txAmount: this.convertFromWei(amount),
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
@@ -143,57 +278,29 @@ export class PolygonSDK {
       );
   }
 
-  public static async getInstance() {
-    const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-    const web3 = provider.getWeb3();
-    const { currentAccount } = provider;
-    const addrHasNotBeenUpdated =
-      PolygonSDK.instance?.currentAccount === provider.currentAccount;
-    const hasWeb3 = PolygonSDK.instance?.web3 === web3;
-
-    if (PolygonSDK.instance && addrHasNotBeenUpdated && hasWeb3) {
-      return PolygonSDK.instance;
-    }
-
-    return new PolygonSDK(web3, currentAccount);
-  }
-
-  public getWeb3() {
-    return this.web3;
-  }
-
   public async getMaticBalance(): Promise<BigNumber> {
-    return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.maticTokenContract?.methods
-          .balanceOf(this.currentAccount)
-          .call(),
-      ),
-    );
+    const maticTokenContract = await this.getMaticTokenContract();
+
+    const balance = await maticTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
-  public async getaMaticbBalance() {
-    return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.aMaticbTokenContract?.methods
-          .balanceOf(this.currentAccount)
-          .call(),
-      ),
-    );
+  public async getAMaticbBalance(): Promise<BigNumber> {
+    const aMaticbTokenContract = await this.getAMATICBTokenContract();
+
+    const balance = await aMaticbTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
-  public static async getaMaticbAPY(
-    provider: Web3KeyReadProvider,
-  ): Promise<BigNumber> {
-    const config = configFromEnv();
-
-    const web3 = provider.getWeb3();
-
-    const aMaticbTokenContract = new web3.eth.Contract(
-      ABI_AMATICB as any,
-      config.contractConfig.aMaticbToken,
-    );
+  public async getAMaticbAPY(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aMaticbTokenContract = await this.getAMATICBTokenContract();
 
     return getAPY({
       tokenContract: aMaticbTokenContract,
@@ -204,67 +311,62 @@ export class PolygonSDK {
   }
 
   public async getPendingClaim(): Promise<BigNumber> {
-    return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.polygonPoolContract.methods
-          .pendingMaticClaimsOf(this.currentAccount)
-          .call(),
-      ),
-    );
+    const polygonPoolContract = await this.getPolygonPoolContract();
+
+    const pending = await polygonPoolContract.methods
+      .pendingMaticClaimsOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(pending);
   }
 
   public async getMinimumStake(): Promise<BigNumber> {
-    return new BigNumber(
-      this.web3.utils.fromWei(
-        await this.polygonPoolContract.methods.getMinimumStake().call(),
-      ),
-    );
+    const polygonPoolContract = await this.getPolygonPoolContract();
+
+    const minStake = await polygonPoolContract.methods.getMinimumStake().call();
+
+    return this.convertFromWei(minStake);
   }
 
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
-    const [stakeRawEvents, unstakeRawEvents]: [
-      Array<EventData | void>,
-      Array<EventData | void>,
-    ] = await Promise.all([
-      this.polygonPoolContract.getPastEvents(EPolygonPoolEvents.StakePending, {
-        fromBlock: 0,
-        toBlock: 'latest',
-        filter: {
-          staker: this.currentAccount,
-        },
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
+
+    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: polygonPoolContract,
+        eventName: EPolygonPoolEvents.StakePending,
+        startBlock: POOL_CONTRACT_START_BLOCK,
+        rangeStep: MAX_BLOCK_RANGE,
+        filter: { staker: this.currentAccount },
       }),
-      this.polygonPoolContract.getPastEvents(
-        EPolygonPoolEvents.MaticClaimPending,
-        {
-          fromBlock: 0,
-          toBlock: 'latest',
-          filter: {
-            claimer: this.currentAccount,
-          },
-        },
-      ),
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: polygonPoolContract,
+        eventName: EPolygonPoolEvents.MaticClaimPending,
+        startBlock: POOL_CONTRACT_START_BLOCK,
+        rangeStep: MAX_BLOCK_RANGE,
+        filter: { claimer: this.currentAccount },
+      }),
     ]);
 
-    let pendingClaim: BigNumber = await this.getPendingClaim();
-    let pendingRawEvents: Array<EventData | void> = [];
-    let completedRawEvents: Array<EventData | void>;
+    let pendingUnstakes = await this.getPendingClaim();
+    let completedRawEvents: EventData[] = [];
+    let pendingRawEvents: EventData[] = [];
 
-    if (pendingClaim.isGreaterThan(0)) {
-      const unstakeRawEventsReverse: Array<EventData | void> =
-        unstakeRawEvents.reverse();
+    if (pendingUnstakes.isGreaterThan(0)) {
+      const unstakeRawEventsReverse: EventData[] = unstakeRawEvents.reverse();
 
-      for (
-        let i = 0, unstakeRawEventItem: EventData, itemAmount: BigNumber;
-        i < unstakeRawEventsReverse.length;
-        i++
-      ) {
-        unstakeRawEventItem = unstakeRawEventsReverse[i] as EventData;
-        itemAmount = this.getTxAmount(unstakeRawEventItem.returnValues.amount);
-        pendingClaim = pendingClaim.minus(itemAmount);
+      for (let i = 0; i < unstakeRawEventsReverse.length; i += 1) {
+        const unstakeRawEventItem = unstakeRawEventsReverse[i];
+        const itemAmount = this.convertFromWei(
+          unstakeRawEventItem.returnValues.amount,
+        );
+        pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
 
-        if (pendingClaim.isZero()) {
+        if (pendingUnstakes.isZero()) {
           break;
         }
       }
@@ -277,68 +379,64 @@ export class PolygonSDK {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    return {
-      completed: await this.getTxEventsHistoryGroup(completedRawEvents),
-      pending: await this.getTxEventsHistoryGroup(pendingRawEvents),
-    };
+    const [completed, pending] = await Promise.all([
+      this.getTxEventsHistoryGroup(completedRawEvents),
+      this.getTxEventsHistoryGroup(pendingRawEvents),
+    ]);
+
+    return { completed, pending };
   }
 
-  public async stake(amount: BigNumber) {
-    const polygonPoolAddress = configFromEnv().contractConfig.polygonPool;
-    const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
+    const { contractConfig } = configFromEnv();
 
-    if (!provider.isConnected()) {
-      await provider.connect();
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
     }
-    const web3 = provider.getWeb3();
-    const { polygonPoolContract } = this;
-    const { maticTokenContract } = this;
-    const { currentAccount } = this;
+
+    const web3 = this.writeProvider.getWeb3();
+    const [polygonPoolContract, maticTokenContract] = await Promise.all([
+      this.getPolygonPoolContract(),
+      this.getMaticTokenContract(),
+    ]);
     const rawAmount = amount.multipliedBy(1e18);
     // 0. Check current allowance
     const allowance = new BigNumber(
       await maticTokenContract.methods
-        .allowance(currentAccount, polygonPoolAddress)
+        .allowance(this.currentAccount, contractConfig.polygonPool)
         .call(),
     );
     // 1. Approve MATIC token transfer to our PolygonPool contract
     if (allowance.isLessThan(rawAmount)) {
       await maticTokenContract.methods
         .approve(
-          polygonPoolAddress,
+          contractConfig.polygonPool,
           web3.utils.numberToHex(rawAmount.toString(10)),
         )
-        .send({
-          from: currentAccount,
-        });
+        .send({ from: this.currentAccount });
     }
     // 2. Do staking
     const tx2 = await polygonPoolContract.methods
       .stake(web3.utils.numberToHex(rawAmount.toString(10)))
-      .send({
-        from: currentAccount,
-      });
-    const txHash = tx2.transactionHash;
+      .send({ from: this.currentAccount });
 
-    return { txHash };
+    return { txHash: tx2.transactionHash };
   }
 
-  public async getUnstakeFee() {
-    const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-    if (!provider.isConnected()) {
-      await provider.connect();
-    }
-
+  public async getUnstakeFee(): Promise<{
+    unstakeFee: string;
+    useBeforeBlock: number;
+    signature: string;
+  }> {
     const { status, data, statusText } = await this.apiGateWay.api.get<{
       unstakeFee: string;
       useBeforeBlock: number;
       signature: string;
     }>(`/v1alpha/polygon/unstakeFee?address=${this.currentAccount}`);
 
-    if (status !== 200)
+    if (status !== 200) {
       throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    }
 
     return {
       unstakeFee: data.unstakeFee,
@@ -347,26 +445,22 @@ export class PolygonSDK {
     };
   }
 
-  public async unstake(amount: BigNumber) {
-    const polygonPoolAddress = configFromEnv().contractConfig.polygonPool;
-    const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-    if (!provider.isConnected()) {
-      await provider.connect();
+  public async unstake(amount: BigNumber): Promise<void> {
+    const { contractConfig } = configFromEnv();
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
     }
-    const web3 = provider.getWeb3();
-    const polygonPoolContract = new web3.eth.Contract(
-      ABI_POLYGON_POOL as any,
-      polygonPoolAddress,
-    );
-    const { ankrTokenContract } = this;
-    const [currentAccount] = await web3.eth.getAccounts();
+
+    const web3 = this.writeProvider.getWeb3();
+    const polygonPoolContract = await this.getPolygonPoolContract();
+    const ankrTokenContract = await this.getAnkrTokenContract();
     const rawAmount = amount.multipliedBy(1e18);
     // Do unstaking
     // 0. Check current allowance
     const allowance = new BigNumber(
       await ankrTokenContract.methods
-        .allowance(currentAccount, polygonPoolAddress)
+        .allowance(this.currentAccount, contractConfig.polygonPool)
         .call(),
     );
 
@@ -378,12 +472,10 @@ export class PolygonSDK {
     if (allowance.isLessThan(fee)) {
       await ankrTokenContract.methods
         .approve(
-          polygonPoolAddress,
+          contractConfig.polygonPool,
           web3.utils.numberToHex(fee.multipliedBy(ALLOWANCE_RATE).toString(10)),
         )
-        .send({
-          from: currentAccount,
-        });
+        .send({ from: this.currentAccount });
     }
     // 2. Call unstake method
     // Fetch fees here and make allowance one more time if required
@@ -396,18 +488,18 @@ export class PolygonSDK {
         web3.utils.numberToHex(useBeforeBlock),
         signature,
       )
-      .send({
-        from: currentAccount,
-      });
+      .send({ from: this.currentAccount });
   }
 
-  public async addAmaticbToWallet() {
-    const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
-    const amaticbContract = configFromEnv().contractConfig.aMaticbToken;
+  public async addAmaticbToWallet(): Promise<void> {
+    const { contractConfig } = configFromEnv();
 
-    await provider.addTokenToWallet({
-      address: amaticbContract,
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    await this.writeProvider.addTokenToWallet({
+      address: contractConfig.aMaticbToken,
       symbol: Token.aMATICb,
       decimals: 18,
     });

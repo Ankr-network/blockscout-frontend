@@ -41,9 +41,9 @@ export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
       url: 'https://api.binance.org/v1/staking/chains/bsc/validators',
     },
     meta: {
+      showNotificationOnError: true,
       cache: ACTION_CACHE_SEC,
       driver: 'axios',
-      showNotificationOnError: true,
       getData: (data: IResData): BigNumber => {
         const ankrValidator: IValidatorItem | undefined =
           data?.validators?.find(

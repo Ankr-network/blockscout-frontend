@@ -108,8 +108,8 @@ export const getAftmbBalance = async (): Promise<BigNumber> => {
 export const getAftmbAPY = async (): Promise<BigNumber> => {
   const provider = await providerManager.getReadProvider(
     isMainnet
-      ? AvailableReadProviders.ftmOperaHttpProvider
-      : AvailableReadProviders.ftmTestnetHttpProvider,
+      ? AvailableReadProviders.ftmOpera
+      : AvailableReadProviders.ftmTestnet,
   );
 
   const aFTMbContract = getAftmbTokenContract(provider);

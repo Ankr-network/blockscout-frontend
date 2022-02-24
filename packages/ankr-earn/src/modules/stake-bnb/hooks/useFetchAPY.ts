@@ -8,8 +8,8 @@ import { fetchAPY } from '../actions/fetchAPY';
 
 export const useFetchAPY = (): BigNumber => {
   const { data: apyVal } = useQuery<ResponseData<typeof fetchAPY>>({
-    action: fetchAPY,
     type: fetchAPY,
+    action: fetchAPY,
     defaultData: ZERO,
   });
 

@@ -17,8 +17,8 @@ interface IAmountInputProps {
   isBalanceLoading?: boolean;
   disabled?: boolean;
   onMaxClick?: () => void;
+  label: string;
   name?: string;
-  label?: string;
   tokenName?: string;
   inputClassName?: string;
   minAmount?: number;
@@ -32,7 +32,7 @@ export const AmountInput = ({
   disabled = false,
   name = 'amount',
   tokenName = 'ETH',
-  label = t('stake-avax.convert-dialog.amount'),
+  label,
   inputClassName,
   minAmount = MIN_AMOUNT,
   showBalance = true,

@@ -23,12 +23,20 @@ export const fetchStats = createSmartAction<
       const sdk = await PolygonSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 
+      const [maticBalance, aMaticbBalance, minimumStake, pendingClaim] =
+        await Promise.all([
+          sdk.getMaticBalance(),
+          sdk.getAMaticbBalance(),
+          sdk.getMinimumStake(),
+          sdk.getPendingClaim(),
+        ]);
+
       return {
-        maticBalance: await sdk.getMaticBalance(),
-        aMaticbBalance: await sdk.getaMaticbBalance(),
-        minimumStake: await sdk.getMinimumStake(),
+        maticBalance,
+        aMaticbBalance,
+        minimumStake,
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
-        pendingClaim: await sdk.getPendingClaim(),
+        pendingClaim,
       };
     },
   },

@@ -7,27 +7,25 @@ import { EthereumHttpWeb3KeyProvider } from './providers/EthereumHttpWeb3KeyProv
 import { BinanceHttpWeb3KeyProvider } from './providers/BinanceHttpWeb3KeyProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
-  [AvailableReadProviders.ethMainnetHttpProvider]: 'https://rpc.ankr.com/eth',
-  [AvailableReadProviders.ethGoerliHttpProvider]:
-    'https://eth-goerli-01.dccn.ankr.com',
+  [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
+  [AvailableReadProviders.ethGoerli]: 'https://eth-goerli-01.dccn.ankr.com',
   [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
   [AvailableReadProviders.binanceChainTest]:
     'https://data-seed-prebsc-2-s2.binance.org:8545',
-  [AvailableReadProviders.ftmOperaHttpProvider]: 'https://rpc.ankr.com/fantom',
-  [AvailableReadProviders.ftmTestnetHttpProvider]:
-    'https://rpc.testnet.fantom.network',
+  [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
+  [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
 };
 
 interface IProviders {
   [AvailableWriteProviders.ethCompatible]: Web3KeyProvider;
   [AvailableWriteProviders.polkadot]: Web3KeyProvider;
   [AvailableWriteProviders.binance]: Web3KeyProvider;
-  [AvailableReadProviders.ethMainnetHttpProvider]: Web3KeyReadProvider;
-  [AvailableReadProviders.ethGoerliHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.ethMainnet]: Web3KeyReadProvider;
+  [AvailableReadProviders.ethGoerli]: Web3KeyReadProvider;
   [AvailableReadProviders.binanceChain]: Web3KeyReadProvider;
   [AvailableReadProviders.binanceChainTest]: Web3KeyReadProvider;
-  [AvailableReadProviders.ftmOperaHttpProvider]: Web3KeyReadProvider;
-  [AvailableReadProviders.ftmTestnetHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmOpera]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
 }
 
 export class ProviderManager {
@@ -73,8 +71,8 @@ export class ProviderManager {
     }
 
     switch (providerId) {
-      case AvailableReadProviders.ethMainnetHttpProvider:
-      case AvailableReadProviders.ethGoerliHttpProvider: {
+      case AvailableReadProviders.ethMainnet:
+      case AvailableReadProviders.ethGoerli: {
         return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
@@ -82,8 +80,8 @@ export class ProviderManager {
       case AvailableReadProviders.binanceChainTest:
         return new BinanceHttpWeb3KeyProvider(RPC_URLS[providerId]);
 
-      case AvailableReadProviders.ftmOperaHttpProvider:
-      case AvailableReadProviders.ftmTestnetHttpProvider:
+      case AvailableReadProviders.ftmOpera:
+      case AvailableReadProviders.ftmTestnet:
         return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
 
       default: {

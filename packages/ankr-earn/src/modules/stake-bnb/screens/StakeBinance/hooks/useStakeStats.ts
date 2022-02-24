@@ -18,7 +18,7 @@ export const useStakeStats = (
     [apy],
   );
 
-  return useLocaleMemo(
+  const items = useLocaleMemo(
     () => [
       {
         label: t('stake.stats.apy'),
@@ -33,4 +33,6 @@ export const useStakeStats = (
     ],
     [amount, apyVal],
   );
+
+  return items;
 };

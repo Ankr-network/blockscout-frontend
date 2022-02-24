@@ -100,6 +100,7 @@ export const UnstakeDialog = ({
                   balance={balance}
                   inputClassName={classes.input}
                   isBalanceLoading={isBalanceLoading}
+                  label={t('unstake-dialog.amount')}
                   name={FieldsNames.amount}
                   tokenName={token}
                   onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
