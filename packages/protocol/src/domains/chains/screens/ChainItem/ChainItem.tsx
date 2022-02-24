@@ -10,6 +10,7 @@ import { useChainItemBreadcrumbs, useTimeframeData } from './useChainItem';
 import { IChainItemDetails } from '../../actions/fetchChain';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
+import { ChainBanner } from './components/ChainBanner';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -48,6 +49,10 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         nodes={nodes}
         loading={authLoading}
       />
+
+      {!credentials && !authLoading && (
+        <ChainBanner className={classes.chainBanner} />
+      )}
 
       {error ? (
         <div className={classes.error}>

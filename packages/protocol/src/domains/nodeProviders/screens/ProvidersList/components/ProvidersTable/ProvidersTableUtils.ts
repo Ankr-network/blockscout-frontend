@@ -1,5 +1,5 @@
 import { capitalize } from '@material-ui/core';
-import { INodeEntity } from '@ankr.com/multirpc/dist/types';
+import { INodeEntity } from 'multirpc-sdk';
 import { ProviderRow, ProvidersTableProps } from './ProvidersTableProps';
 
 export const HAS_ORGANISATION = true;

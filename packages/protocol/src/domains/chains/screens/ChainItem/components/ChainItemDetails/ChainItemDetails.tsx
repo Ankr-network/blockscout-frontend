@@ -1,7 +1,7 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { Timeframe } from '@ankr.com/multirpc';
+import { Timeframe } from 'multirpc-sdk';
 
 import { t } from 'modules/i18n/utils/intl';
 import { DetailsBlock } from './DetailsBlock';

@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IJwtToken, Web3Address } from '@ankr.com/multirpc';
+import { IJwtToken, Web3Address } from 'multirpc-sdk';
 
 import { MultiService } from '../../api/MultiService';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
