@@ -10,7 +10,6 @@ import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { MATIC_STAKING_AMOUNT_STEP } from 'modules/stake-polygon/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -104,7 +103,6 @@ export const StakePolygon = (): JSX.Element => {
                 maxAmount={data.maticBalance}
                 minAmount={data.minimumStake}
                 renderStats={renderStats}
-                stakingAmountStep={MATIC_STAKING_AMOUNT_STEP}
                 tokenIn={t('unit.polygon')}
                 tokenOut={t('unit.amaticb')}
                 onChange={handleFormChange}

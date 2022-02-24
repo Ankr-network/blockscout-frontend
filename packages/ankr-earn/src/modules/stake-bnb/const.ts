@@ -19,5 +19,3 @@ export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
 
 // Note: Mainnet = ~7 days. Testnet = ~4 hours
 export const BNB_REDEEM_PERIOD = isMainnet ? 7 : 4;
-
-export const BNB_STAKING_AMOUNT_STEP = 0.1;

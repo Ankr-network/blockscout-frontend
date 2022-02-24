@@ -14,6 +14,8 @@ import { OnChange } from 'uiKit/OnChange';
 
 import { useStakeFormStyles } from './useStakeFormStyles';
 
+const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
+
 enum FieldsNames {
   amount = 'amount',
 }
@@ -28,7 +30,6 @@ export interface IStakeSubmitPayload extends IStakeFormPayload {
 }
 
 export interface IStakeFormComponentProps {
-  stakingAmountStep: number;
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
@@ -56,9 +57,8 @@ const getAmountNum = (amount?: ReactText): BigNumber => {
 
 export const StakeForm = ({
   className,
-  balance = new BigNumber(0),
-  stakingAmountStep,
-  minAmount = new BigNumber(stakingAmountStep),
+  balance = ZERO,
+  minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,

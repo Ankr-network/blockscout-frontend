@@ -28,7 +28,6 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { BNB_STAKING_AMOUNT_STEP } from '../../const';
 import { useRedeemData } from '../../hooks/useRedeemData';
 import { getAmountData } from '../../utils/getAmountData';
 
@@ -165,7 +164,6 @@ export const StakeBinance = (): JSX.Element => {
               maxAmount={fetchStatsData.bnbBalance}
               minAmount={fetchStatsData.minimumStake}
               renderStats={onRenderStats(fetchStatsData.relayerFee)}
-              stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
               tokenIn={t('unit.bnb')}
               tokenOut={t('unit.abnbb')}
               onChange={handleFormChange}

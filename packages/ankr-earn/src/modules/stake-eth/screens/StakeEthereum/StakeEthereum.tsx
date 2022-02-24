@@ -1,37 +1,29 @@
-import { ButtonBase } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { featuresConfig, ZERO } from 'modules/common/const';
+import { t } from 'modules/i18n/utils/intl';
+import { ETokenVariant } from 'modules/stake-eth/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
-import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
-import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
-import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
-import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
 import { Container } from 'uiKit/Container';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
 
+import { FormStats } from './components/FormStats';
+import { TokenVariant } from './components/TokenVariant';
+import { TokenVariantList } from './components/TokenVariantList';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
 import { useSuccessDialog } from './hooks/useSuccessDialog';
-import { useStakeFantomStyles } from './useStakeFantomStyles';
+import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
-export const StakeFantom = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
-  const classes = useStakeFantomStyles();
+export const StakeEthereum = (): JSX.Element => {
+  const classes = useStakeEthereumStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
 
@@ -46,41 +38,42 @@ export const StakeFantom = (): JSX.Element => {
     loading,
     tokenIn,
     tokenOut,
-    onChange,
+    tokenTooltip,
+    onInputChange,
     onSubmit,
+    onTokenSelect,
   } = useStakeForm(onSuccessOpen);
 
-  const faqItems = useFaq();
   const stats = useStakeStats(amount);
-
-  useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getAPY());
-  }, [dispatchRequest]);
+  const { onQuestionClick, items: faqItems } = useFaq();
 
   const renderStats = useCallback(
-    (value: BigNumber) => {
-      return (
-        <StakeDescriptionContainer>
-          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+    (formAmount: BigNumber) => (
+      <FormStats
+        amount={formAmount}
+        tokenOut={tokenOut}
+        tokenTooltip={tokenTooltip}
+        tokenVariantsSlot={
+          <TokenVariantList>
+            <TokenVariant
+              icon={ETokenVariant.aETHb}
+              isActive={tokenOut === ETokenVariant.aETHb}
+              title={t('unit.feth')}
+              onClick={onTokenSelect(ETokenVariant.aETHb)}
+            />
 
-          <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={tokenOut}>
-              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
-            </StakeDescriptionAmount>
-
-            <small>{tokenOut}</small>
-
-            <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" />
-              </ButtonBase>
-            </Tooltip>
-          </StakeDescriptionValue>
-        </StakeDescriptionContainer>
-      );
-    },
-    [classes, tokenOut],
+            <TokenVariant
+              icon={ETokenVariant.aETHc}
+              isActive={tokenOut === ETokenVariant.aETHc}
+              title={t('unit.aeth')}
+              onClick={onTokenSelect(ETokenVariant.aETHc)}
+            />
+          </TokenVariantList>
+        }
+        onQuestionClick={onQuestionClick}
+      />
+    ),
+    [onQuestionClick, onTokenSelect, tokenOut, tokenTooltip],
   );
 
   return (
@@ -111,7 +104,7 @@ export const StakeFantom = (): JSX.Element => {
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
-            onChange={onChange}
+            onChange={onInputChange}
             onSubmit={onSubmit}
           />
 

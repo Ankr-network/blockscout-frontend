@@ -7,12 +7,15 @@ import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchAPY as getABNBBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
+import { DEMO_APY } from 'modules/stake-eth/const';
+import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
 import { getAPY as getAFTMBAPY } from 'modules/stake-fantom/actions/getAPY';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
 import { fetchAPY as getAMATICBAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
 import { Container } from 'uiKit/Container';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
@@ -36,6 +39,19 @@ export const Main = (): JSX.Element => {
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Features>
+          {featuresConfig.stakeETH && (
+            <FeatureItem
+              apy={DEMO_APY}
+              iconSlot={<EthIcon />}
+              mainHref={EthereumRoutes.stake.generatePath()}
+              moreHref={undefined}
+              staked={undefined}
+              title={t('features.ethereum')}
+              // todo: get actual staked amount
+              token={Token.ETH}
+            />
+          )}
+
           <FeatureItem
             apy={aMATICbAPY?.toNumber()}
             iconSlot={<MaticIcon />}

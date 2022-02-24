@@ -5,6 +5,7 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
+import { ChangeEvent, RefObject } from 'react';
 import { uid } from 'react-uid';
 
 import { ReactComponent as AngleDownIcon } from 'assets/img/angle-down-icon.svg';
@@ -15,6 +16,12 @@ import { useFaqStyles as useStyles } from './useFaqStyles';
 export interface IFaqItem {
   question: string;
   answer: string;
+  ref?: RefObject<unknown>;
+  expanded?: boolean;
+  onChange?: (
+    event: ChangeEvent<Record<string, unknown>>,
+    expanded: boolean,
+  ) => void;
 }
 
 export interface IFaq {
@@ -25,7 +32,12 @@ export const Faq = ({ data }: IFaq): JSX.Element => {
   const classes = useStyles();
 
   const FaqList = data.map((el, i) => (
-    <Accordion key={uid(i)}>
+    <Accordion
+      key={uid(i)}
+      ref={el.ref}
+      expanded={el.expanded}
+      onChange={el.onChange}
+    >
       <AccordionSummary
         aria-controls={`${i}-faq-content`}
         expandIcon={<AngleDownIcon />}

@@ -54,7 +54,6 @@ export const featuresConfig = {
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
-  v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: true,
@@ -63,6 +62,7 @@ export const featuresConfig = {
   eth2Swap: true,
   bridge: currentEnv === Env.Develop,
   maxStakeAmountBtn: false,
+  stakeETH: currentEnv === Env.Develop,
 };
 
 export enum SupportedChainIDS {

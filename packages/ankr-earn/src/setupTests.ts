@@ -13,7 +13,7 @@ intl.init({
   fallbackLocale: 'en-US',
 });
 
-const sessionStorageMock = (function () {
+const sessionStorageMock = (function mock() {
   let store: Record<string, string> = {};
 
   return {

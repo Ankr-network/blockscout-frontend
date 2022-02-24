@@ -823,5 +823,12 @@ export const mainTheme = createTheme({
         fontSize: 14,
       },
     },
+
+    MuiDivider: {
+      root: {
+        height: 2,
+        backgroundColor: defaultTheme.palette.background.default,
+      },
+    },
   },
 } as ThemeOptions);
