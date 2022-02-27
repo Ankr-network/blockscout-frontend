@@ -35,8 +35,6 @@ interface IChainBannerProps {
   className?: string;
 }
 
-const REQUESTS_COUNT = 57000000;
-
 export const ChainBanner = ({ className }: IChainBannerProps) => {
   const classes = useStyles();
   const isMobile = useIsMDDown();
@@ -119,9 +117,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
             color="inherit"
             variant="h4"
           >
-            {t('chain-item.banner.requests-count', {
-              value: REQUESTS_COUNT,
-            })}
+            {t('chain-item.banner.requests-count')}
           </Typography>
           <Typography
             className={classes.reqPerDay}
