@@ -2,7 +2,7 @@ import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { getAftmbBalance, getFtmBalance, getMinimumStake } from '../api/sdk';
+import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 interface IGetCommonData {
@@ -17,10 +17,12 @@ export const getCommonData = createAction<
 >(`${ACTIONS_PREFIX}getCommonData`, meta => ({
   request: {
     promise: (async (): Promise<IGetCommonData> => {
+      const sdk = await FantomSDK.getInstance();
+
       const [ftmBalance, minStake, aFTMbBalance] = await Promise.all([
-        getFtmBalance(),
-        getMinimumStake(),
-        getAftmbBalance(),
+        sdk.getFtmBalance(),
+        sdk.getMinimumStake(),
+        sdk.getAftmbBalance(),
       ]);
 
       return {

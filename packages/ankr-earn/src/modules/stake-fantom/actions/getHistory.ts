@@ -4,7 +4,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { TTxEventsHistoryGroupData } from 'modules/stake/api/getTxEventsHistoryGroup';
 
-import { getTxHistory } from '../api/sdk';
+import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 export interface IGetHistory {
@@ -19,7 +19,9 @@ export const getHistory = createAction<RequestAction<IGetHistory, IGetHistory>>(
   () => ({
     request: {
       promise: (async (): Promise<IGetHistory> => {
-        return getTxHistory();
+        const sdk = await FantomSDK.getInstance();
+
+        return sdk.getTxHistory();
       })(),
     },
     meta: {

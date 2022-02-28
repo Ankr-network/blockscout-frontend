@@ -267,6 +267,10 @@ export class BinanceSDK {
   }
 
   public async addABNBBToWallet(): Promise<void> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
     const { binanceConfig } = configFromEnv();
 
     const aBNBbTokenContract = await this.getABNBBTokenContract();

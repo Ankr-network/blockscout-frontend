@@ -4,7 +4,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
 
-import { unstake as unstakeAFTMB } from '../api/sdk';
+import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 import { getBurnFee } from './getBurnFee';
@@ -15,7 +15,9 @@ export const unstake = createAction<RequestAction, [BigNumber]>(
   amount => ({
     request: {
       promise: (async (): Promise<IWeb3SendResult> => {
-        return unstakeAFTMB(amount);
+        const sdk = await FantomSDK.getInstance();
+
+        return sdk.unstake(amount);
       })(),
     },
     meta: {

@@ -1,20 +1,17 @@
-/* eslint-disable */ // TODO: temp disable eslint
 import BigNumber from 'bignumber.js';
-import {
-  AvailableReadProviders,
-  AvailableWriteProviders,
-} from 'provider/providerManager/types';
-import { Contract, EventData } from 'web3-eth-contract';
+import flatten from 'lodash/flatten';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
   IWeb3SendResult,
   Web3KeyProvider,
   Web3KeyReadProvider,
+  BlockchainNetworkId,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -22,6 +19,14 @@ import {
   getTxEventsHistoryGroup,
   TTxEventsHistoryGroupData,
 } from 'modules/stake/api/getTxEventsHistoryGroup';
+
+import {
+  FANTOM_PROVIDER_ID,
+  FANTOM_PROVIDER_READ_ID,
+  POOL_START_BLOCK,
+  MAX_BLOCK_RANGE,
+} from '../const';
+
 import AFTMbAbi from './contracts/aFTMb.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
@@ -31,177 +36,308 @@ export enum EFantomPoolEvents {
   StakeReceived = 'StakeReceived',
 }
 
-const { fantomConfig } = configFromEnv();
-const providerManager = ProviderManagerSingleton.getInstance();
-const providerId = AvailableWriteProviders.ethCompatible;
+interface IFantomSDKProviders {
+  writeProvider: Web3KeyProvider;
+  readProvider: Web3KeyReadProvider;
+}
 
-export const stake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
-  const provider = await getProvider();
-  const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-  const fantomPoolContract = getFantomPoolContract(provider);
+interface IGetPastEvents {
+  provider: Web3KeyProvider | Web3KeyReadProvider;
+  contract: Contract;
+  eventName: string;
+  startBlock: number;
+  rangeStep: number;
+  filter?: Filter;
+}
 
-  return fantomPoolContract.methods.stake().send({
-    from: provider.currentAccount,
-    value: hexAmount,
-  });
-};
+export class FantomSDK {
+  private static instance?: FantomSDK;
 
-export const unstake = async (amount: BigNumber): Promise<IWeb3SendResult> => {
-  const provider = await getProvider();
-  const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-  const fantomPoolContract = getFantomPoolContract(provider);
+  private readonly writeProvider: Web3KeyProvider;
 
-  return fantomPoolContract.methods.burn(hexAmount).send({
-    from: provider.currentAccount,
-  });
-};
+  private readonly readProvider: Web3KeyReadProvider;
 
-export const getBurnFee = async (amount: BigNumber): Promise<BigNumber> => {
-  const provider = await getProvider();
-  const web3 = provider.getWeb3();
-  const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-  const fantomPoolContract = getFantomPoolContract(provider);
-  const burnFee = await fantomPoolContract.methods.getBurnFee(hexAmount).call();
+  private currentAccount: string;
 
-  return new BigNumber(web3.utils.fromWei(burnFee));
-};
+  private constructor({ readProvider, writeProvider }: IFantomSDKProviders) {
+    FantomSDK.instance = this;
 
-export const getMinimumStake = async (): Promise<BigNumber> => {
-  const provider = await getProvider();
-  const web3 = provider.getWeb3();
-  const fantomPoolContract = getFantomPoolContract(provider);
-  const minStake = await fantomPoolContract.methods.getMinimumStake().call();
+    this.readProvider = readProvider;
+    this.writeProvider = writeProvider;
+    this.currentAccount = this.writeProvider.currentAccount;
+  }
 
-  return new BigNumber(web3.utils.fromWei(minStake));
-};
-
-export const addAftmbToWallet = async (): Promise<void> => {
-  const provider = await getProvider();
-
-  await provider.addTokenToWallet({
-    address: fantomConfig.aftmbToken,
-    symbol: Token.aFTMb,
-    decimals: 18,
-  });
-};
-
-export const getFtmBalance = async (): Promise<BigNumber> => {
-  const provider = await getProvider();
-  const web3 = provider.getWeb3();
-  const ftmBalance = await web3.eth.getBalance(provider.currentAccount);
-
-  return new BigNumber(web3.utils.fromWei(ftmBalance));
-};
-
-export const getAftmbBalance = async (): Promise<BigNumber> => {
-  const provider = await getProvider();
-  const web3 = provider.getWeb3();
-  const aFTMbContract = getAftmbTokenContract(provider);
-
-  const aFTMbBalance = await aFTMbContract.methods
-    .balanceOf(provider.currentAccount)
-    .call();
-
-  return new BigNumber(web3.utils.fromWei(aFTMbBalance));
-};
-
-export const getAftmbAPY = async (): Promise<BigNumber> => {
-  const provider = await providerManager.getReadProvider(
-    isMainnet
-      ? AvailableReadProviders.ftmOpera
-      : AvailableReadProviders.ftmTestnet,
-  );
-
-  const aFTMbContract = getAftmbTokenContract(provider);
-
-  return getAPY({
-    web3: provider.getWeb3(),
-    tokenContract: aFTMbContract,
-  });
-};
-
-export const getTxHistory = async (): Promise<{
-  stakeEvents: TTxEventsHistoryGroupData;
-  pendingEvents: TTxEventsHistoryGroupData;
-  withdrawnEvents: TTxEventsHistoryGroupData;
-  totalPending: BigNumber;
-}> => {
-  const provider = await getProvider();
-  const fantomPoolContract = getFantomPoolContract(provider);
-  const web3 = provider.getWeb3();
-
-  const firstWrId: string = await fantomPoolContract.methods.firstWrId().call();
-
-  const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
-    await Promise.all([
-      // event StakeReceived is emitted once transaction is successfull
-      fantomPoolContract.getPastEvents(EFantomPoolEvents.StakeReceived, {
-        fromBlock: 'earliest',
-        toBlock: 'latest',
-        filter: {
-          staker: provider.currentAccount,
-        },
-      }),
-      // To gen pending withdrawal requests, one can get all TokensBurned events for given staker
-      fantomPoolContract.getPastEvents(EFantomPoolEvents.TokensBurned, {
-        fromBlock: 'earliest',
-        toBlock: 'latest',
-        filter: {
-          staker: provider.currentAccount,
-        },
-      }),
-      fantomPoolContract.getPastEvents(EFantomPoolEvents.Withdrawn, {
-        fromBlock: 'earliest',
-        toBlock: 'latest',
-        filter: {
-          staker: provider.currentAccount,
-        },
-      }),
+  public static async getInstance(): Promise<FantomSDK> {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const [writeProvider, readProvider] = await Promise.all([
+      providerManager.getProvider(FANTOM_PROVIDER_ID),
+      providerManager.getReadProvider(FANTOM_PROVIDER_READ_ID),
     ]);
 
-  const pendingRawEvents: EventData[] = [];
-  for (const current of unstakeRawEvents) {
-    // Events with wrId >= firstWrId are pending
-    if (+current.returnValues.wrId >= +firstWrId) {
-      pendingRawEvents.push(current);
+    const addrHasNotBeenUpdated =
+      FantomSDK.instance?.currentAccount === writeProvider.currentAccount;
+    const hasNewProvider =
+      FantomSDK.instance?.writeProvider === writeProvider &&
+      FantomSDK.instance?.readProvider === readProvider;
+
+    if (FantomSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+      return FantomSDK.instance;
     }
+
+    const instance = new FantomSDK({ writeProvider, readProvider });
+    const isFmtNetwork = await instance.isFmtNetwork(writeProvider);
+
+    if (!isFmtNetwork && !writeProvider.isConnected()) {
+      await writeProvider.connect();
+    }
+
+    return instance;
   }
 
-  const [stakeEvents, withdrawnEvents, pendingEvents] = await Promise.all(
-    [stakeRawEvents, withdrawnRawEvents, pendingRawEvents].map(rawEvents => {
-      return getTxEventsHistoryGroup({ rawEvents, web3 });
-    }),
-  );
+  private async getProvider(
+    isForceRead = false,
+  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+    if (isForceRead) {
+      return this.readProvider;
+    }
 
-  let totalPending = ZERO;
-  for (const event of pendingEvents) {
-    totalPending = totalPending.plus(event.txAmount);
+    const isBinanceChain = await this.isFmtNetwork(this.writeProvider);
+
+    if (!isBinanceChain && !this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    if (isBinanceChain) {
+      return this.writeProvider;
+    }
+
+    return this.readProvider;
   }
 
-  return {
-    stakeEvents,
-    pendingEvents,
-    withdrawnEvents,
-    totalPending,
-  };
-};
+  private async isFmtNetwork(provider: Web3KeyProvider): Promise<boolean> {
+    const web3 = provider.getWeb3();
+    const chainId = await web3.eth.getChainId();
 
-const getFantomPoolContract = (provider: Web3KeyProvider): Contract => {
-  return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
-};
-
-const getAftmbTokenContract = (
-  provider: Web3KeyProvider | Web3KeyReadProvider,
-): Contract => {
-  return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
-};
-
-const getProvider = async (): Promise<Web3KeyProvider> => {
-  const provider = await providerManager.getProvider(providerId);
-
-  if (!provider.isConnected()) {
-    await provider.connect();
+    return [
+      BlockchainNetworkId.fantom,
+      BlockchainNetworkId.fantomTestnet,
+    ].includes(chainId);
   }
 
-  return provider;
-};
+  private convertFromWei(amount: string): BigNumber {
+    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+  }
+
+  private getFantomPoolContract(
+    provider: Web3KeyProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { fantomConfig } = configFromEnv();
+
+    return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
+  }
+
+  private getAftmbTokenContract(
+    provider: Web3KeyProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { fantomConfig } = configFromEnv();
+
+    return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
+  }
+
+  public async getTxHistory(): Promise<{
+    stakeEvents: TTxEventsHistoryGroupData;
+    pendingEvents: TTxEventsHistoryGroupData;
+    withdrawnEvents: TTxEventsHistoryGroupData;
+    totalPending: BigNumber;
+  }> {
+    const provider = await this.getProvider();
+    const fantomPoolContract = this.getFantomPoolContract(provider);
+    const web3 = provider.getWeb3();
+
+    const firstWrId: string = await fantomPoolContract.methods
+      .firstWrId()
+      .call();
+
+    const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
+      await Promise.all([
+        // event StakeReceived is emitted once transaction is successfull
+        this.getPastEvents({
+          provider,
+          contract: fantomPoolContract,
+          startBlock: POOL_START_BLOCK,
+          rangeStep: MAX_BLOCK_RANGE,
+          eventName: EFantomPoolEvents.StakeReceived,
+          filter: {
+            staker: this.currentAccount,
+          },
+        }),
+        // To gen pending withdrawal requests, one can get all TokensBurned events for given staker
+        this.getPastEvents({
+          provider,
+          contract: fantomPoolContract,
+          startBlock: POOL_START_BLOCK,
+          rangeStep: MAX_BLOCK_RANGE,
+          eventName: EFantomPoolEvents.TokensBurned,
+          filter: {
+            staker: this.currentAccount,
+          },
+        }),
+        this.getPastEvents({
+          provider,
+          contract: fantomPoolContract,
+          startBlock: POOL_START_BLOCK,
+          rangeStep: MAX_BLOCK_RANGE,
+          eventName: EFantomPoolEvents.Withdrawn,
+          filter: {
+            staker: this.currentAccount,
+          },
+        }),
+      ]);
+
+    const pendingRawEvents: EventData[] = [];
+
+    unstakeRawEvents.forEach(current => {
+      // Events with wrId >= firstWrId are pending
+      if (+current.returnValues.wrId >= +firstWrId) {
+        pendingRawEvents.push(current);
+      }
+    });
+
+    const [stakeEvents, withdrawnEvents, pendingEvents] = await Promise.all(
+      [stakeRawEvents, withdrawnRawEvents, pendingRawEvents].map(rawEvents =>
+        getTxEventsHistoryGroup({ rawEvents, web3 }),
+      ),
+    );
+
+    const totalPending = pendingEvents.reduce(
+      (acc, { txAmount }) => acc.plus(txAmount),
+      ZERO,
+    );
+
+    return {
+      stakeEvents,
+      pendingEvents,
+      withdrawnEvents,
+      totalPending,
+    };
+  }
+
+  private async getPastEvents({
+    provider,
+    contract,
+    eventName,
+    startBlock,
+    rangeStep,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const eventsPromises: Promise<EventData[]>[] = [];
+
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
+
+      eventsPromises.push(
+        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+      );
+    }
+
+    const pastEvents = await Promise.all(eventsPromises);
+
+    return flatten(pastEvents);
+  }
+
+  public async stake(amount: BigNumber): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
+
+    return fantomPoolContract.methods.stake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+    });
+  }
+
+  public async unstake(amount: BigNumber): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
+
+    return fantomPoolContract.methods.burn(hexAmount).send({
+      from: this.currentAccount,
+    });
+  }
+
+  public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const fantomPoolContract = this.getFantomPoolContract(provider);
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const burnFee = await fantomPoolContract.methods
+      .getBurnFee(hexAmount)
+      .call();
+
+    return this.convertFromWei(burnFee);
+  }
+
+  public async getMinimumStake(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const fantomPoolContract = this.getFantomPoolContract(provider);
+
+    const minStake = await fantomPoolContract.methods.getMinimumStake().call();
+
+    return this.convertFromWei(minStake);
+  }
+
+  public async addAftmbToWallet(): Promise<void> {
+    const { fantomConfig } = configFromEnv();
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    await this.writeProvider.addTokenToWallet({
+      address: fantomConfig.aftmbToken,
+      symbol: Token.aFTMb,
+      decimals: 18,
+    });
+  }
+
+  public async getFtmBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const ftmBalance = await web3.eth.getBalance(this.currentAccount);
+
+    return this.convertFromWei(ftmBalance);
+  }
+
+  public async getAftmbBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aFTMbContract = this.getAftmbTokenContract(provider);
+
+    const aFTMbBalance = await aFTMbContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(aFTMbBalance);
+  }
+
+  public async getAftmbAPY(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+
+    const aFTMbContract = this.getAftmbTokenContract(provider);
+
+    return getAPY({
+      tokenContract: aFTMbContract,
+      web3: provider.getWeb3(),
+    });
+  }
+}

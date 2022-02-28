@@ -5,6 +5,7 @@ import { Web3KeyProvider } from './Web3KeyProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 import { EthereumHttpWeb3KeyProvider } from './providers/EthereumHttpWeb3KeyProvider';
 import { BinanceHttpWeb3KeyProvider } from './providers/BinanceHttpWeb3KeyProvider';
+import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
@@ -62,6 +63,7 @@ export class ProviderManager {
 
   public async getReadProvider(providerId: AvailableReadProviders) {
     const provider = this.providers[providerId];
+
     if (provider) {
       if (!provider.isConnected()) {
         await provider.connect();
@@ -77,12 +79,14 @@ export class ProviderManager {
       }
 
       case AvailableReadProviders.binanceChain:
-      case AvailableReadProviders.binanceChainTest:
+      case AvailableReadProviders.binanceChainTest: {
         return new BinanceHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
       case AvailableReadProviders.ftmOpera:
-      case AvailableReadProviders.ftmTestnet:
-        return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      case AvailableReadProviders.ftmTestnet: {
+        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
       default: {
         throw new Error(`The provider isn't supported: ${providerId}`);

@@ -4,7 +4,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
 
-import { stake as stakeFTM } from '../api/sdk';
+import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 import { getCommonData } from './getCommonData';
@@ -15,7 +15,9 @@ export const stake = createAction<
 >(`${ACTIONS_PREFIX}stake`, amount => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      return stakeFTM(amount);
+      const sdk = await FantomSDK.getInstance();
+
+      return sdk.stake(amount);
     })(),
   },
   meta: {
