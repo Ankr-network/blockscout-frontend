@@ -14,17 +14,19 @@ export interface IUseConnectedData {
   chainId?: BlockchainNetworkId;
   walletName?: string;
   walletIcon?: string;
+  error: unknown;
 }
 
 export const useConnectedData = (
   providerId: AvailableWriteProviders,
 ): IUseConnectedData => {
-  const { data, loading } = useQuery<IConnect | null>({
+  const { data, loading, error } = useQuery<IConnect | null>({
     type: connect,
     requestKey: getAuthRequestKey(providerId),
   });
 
   return {
+    error,
     isConnected: !!data?.isConnected,
     address: data?.address,
     isLoading: loading,

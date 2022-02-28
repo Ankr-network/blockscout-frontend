@@ -13,11 +13,12 @@ import { useProviderEffect } from './useProviderEffect';
 export const useRestoreConnection = (): boolean => {
   const dispatchRequest = useDispatchRequest();
   const ethProviderStatus = useAppSelector(selectEthProviderData);
-  const { isConnected, isLoading } = useConnectedData(
+  const { isConnected, isLoading, error } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const activeAndNotConnected = ethProviderStatus?.isActive && !isConnected;
+  const activeAndNotConnected =
+    ethProviderStatus?.isActive && !isConnected && !error;
   const shouldBeRestored = activeAndNotConnected && !isLoading;
 
   useProviderEffect(() => {
