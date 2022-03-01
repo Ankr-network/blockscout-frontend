@@ -3,8 +3,6 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
-import { AvailableWriteProviders } from 'provider';
-
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import {
@@ -97,7 +95,6 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
         amount: '1',
         swapOption: 'aETHb',
         ratio: ONE_ETH,
-        providerId: AvailableWriteProviders.ethCompatible,
       });
     });
 
@@ -127,9 +124,6 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       });
 
       expect(approveAETHC).toBeCalledTimes(1);
-      expect(approveAETHC).toBeCalledWith({
-        providerId: AvailableWriteProviders.ethCompatible,
-      });
     });
   });
 

@@ -27,7 +27,6 @@ export const useEth2SwapSuccessHook = (): IEth2SwapSuccessHookData => {
     dispatchRequest(
       addEth2SwapTokenToWallet({
         swapOption: TOKENS[swapOption],
-        providerId: AvailableWriteProviders.ethCompatible,
       }),
     );
   }, [swapOption, dispatchRequest]);

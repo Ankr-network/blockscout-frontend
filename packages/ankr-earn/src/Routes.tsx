@@ -39,9 +39,7 @@ export function Routes(): JSX.Element {
 
       {getDashboardRoutes()}
 
-      {/* TODO: STAKAN-990 remove eth2Swap flag when feature is done */}
-
-      {featuresConfig.eth2Swap && getETH2SwapRoutes()}
+      {getETH2SwapRoutes()}
 
       {featuresConfig.bridge && getBridgeRoutes()}
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { makeStyles } from '@material-ui/core';
 import { Story } from '@storybook/react';
 

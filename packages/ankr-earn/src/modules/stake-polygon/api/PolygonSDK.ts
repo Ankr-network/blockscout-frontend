@@ -113,7 +113,7 @@ export class PolygonSDK {
     const instance = new PolygonSDK({ writeProvider, readProvider });
     const isEthChain = await instance.isEthNetwork(writeProvider);
 
-    if (!isEthChain && !writeProvider.isConnected()) {
+    if (isEthChain && !writeProvider.isConnected()) {
       await writeProvider.connect();
     }
 
@@ -129,7 +129,7 @@ export class PolygonSDK {
 
     const isEthChain = await this.isEthNetwork(this.writeProvider);
 
-    if (!isEthChain && !this.writeProvider.isConnected()) {
+    if (isEthChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 

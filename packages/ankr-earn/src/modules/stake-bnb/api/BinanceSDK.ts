@@ -107,7 +107,7 @@ export class BinanceSDK {
     const instance = new BinanceSDK({ writeProvider, readProvider });
     const isBinanceChain = await instance.isBinanceNetwork(writeProvider);
 
-    if (!isBinanceChain && !writeProvider.isConnected()) {
+    if (isBinanceChain && !writeProvider.isConnected()) {
       await writeProvider.connect();
     }
 
@@ -123,7 +123,7 @@ export class BinanceSDK {
 
     const isBinanceChain = await this.isBinanceNetwork(this.writeProvider);
 
-    if (!isBinanceChain && !this.writeProvider.isConnected()) {
+    if (isBinanceChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 

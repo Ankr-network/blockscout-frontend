@@ -15,7 +15,7 @@ jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
-describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
+describe('modules/eth2Swap/screens/Main/useEth2SwapData', () => {
   beforeEach(() => {
     const dispatchRequest = jest.fn(() => Promise.resolve({}));
     (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);

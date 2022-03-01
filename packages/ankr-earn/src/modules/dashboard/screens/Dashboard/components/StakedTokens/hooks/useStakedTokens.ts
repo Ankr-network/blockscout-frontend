@@ -30,9 +30,9 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedAFTMBData = useStakedAFTMBData();
   const stakedFTMTxHistory = useStakedFTMTxHistory();
 
-  const isAETHBShowed = featuresConfig.eth2Swap && stakedAETHBData.isShowed;
+  const isAETHBShowed = stakedAETHBData.isShowed;
 
-  const isAETHCShowed = featuresConfig.eth2Swap && stakedAETHCData.isShowed;
+  const isAETHCShowed = stakedAETHCData.isShowed;
 
   const isBNBShowed =
     featuresConfig.isActiveBNBStaking &&

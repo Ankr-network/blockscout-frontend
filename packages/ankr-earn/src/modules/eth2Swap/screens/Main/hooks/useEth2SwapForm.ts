@@ -3,8 +3,6 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useCallback, useState } from 'react';
 import { object, number } from 'yup';
 
-import { AvailableWriteProviders } from 'provider';
-
 import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import {
@@ -59,9 +57,7 @@ export const useEth2SwapForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(
-      approveAETHC({ providerId: AvailableWriteProviders.ethCompatible }),
-    ).then(response => {
+    dispatchRequest(approveAETHC()).then(response => {
       setTxHash(response.data?.transactionHash ?? '');
       setTxError(response.error ?? '');
     });
@@ -73,7 +69,6 @@ export const useEth2SwapForm = ({
         swapAssets({
           amount,
           ratio,
-          providerId: AvailableWriteProviders.ethCompatible,
           swapOption,
         }),
       ).then(response => {

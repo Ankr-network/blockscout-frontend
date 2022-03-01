@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Paper } from '@material-ui/core';
 import { Story } from '@storybook/react';
 import { ChangeEvent, CSSProperties, useCallback, useState } from 'react';

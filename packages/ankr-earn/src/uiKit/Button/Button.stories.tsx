@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { makeStyles } from '@material-ui/core';
 import { Story } from '@storybook/react';
 
@@ -54,10 +55,8 @@ const ButtonsListStory = (): JSX.Element => {
           Large
         </Button>
       </div>
-
       <hr />
       Type
-
       <div className={classes.content}>
         <Button className={classes.button}>Default</Button>
 
@@ -69,10 +68,8 @@ const ButtonsListStory = (): JSX.Element => {
           Text
         </Button>
       </div>
-
       <hr />
       Color
-
       <div>
         Contained
         <div className={classes.content}>
@@ -86,10 +83,8 @@ const ButtonsListStory = (): JSX.Element => {
             Secondary
           </Button>
         </div>
-
         <hr />
         Outlined
-
         <div className={classes.content}>
           <Button className={classes.button} variant="outlined">
             Default
@@ -107,10 +102,8 @@ const ButtonsListStory = (): JSX.Element => {
             Secondary
           </Button>
         </div>
-
         <hr />
         Text
-
         <div className={classes.content}>
           <Button className={classes.button} variant="text">
             Default

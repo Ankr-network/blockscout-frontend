@@ -87,7 +87,7 @@ export class FantomSDK {
     const instance = new FantomSDK({ writeProvider, readProvider });
     const isFmtNetwork = await instance.isFmtNetwork(writeProvider);
 
-    if (!isFmtNetwork && !writeProvider.isConnected()) {
+    if (isFmtNetwork && !writeProvider.isConnected()) {
       await writeProvider.connect();
     }
 
@@ -101,13 +101,13 @@ export class FantomSDK {
       return this.readProvider;
     }
 
-    const isBinanceChain = await this.isFmtNetwork(this.writeProvider);
+    const isFmtChain = await this.isFmtNetwork(this.writeProvider);
 
-    if (!isBinanceChain && !this.writeProvider.isConnected()) {
+    if (isFmtChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    if (isBinanceChain) {
+    if (isFmtChain) {
       return this.writeProvider;
     }
 

@@ -7,6 +7,7 @@ import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
+  featuresConfig,
   FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
@@ -37,6 +38,24 @@ export const useDashboard = (): void => {
         getFTMHistory.toString(),
       ]),
     );
+
+    if (featuresConfig.multiNetwork) {
+      dispatch(fetchPolygonTxHistory());
+      dispatch(fetchPolygonStats());
+      dispatch(fetchPolygonAPY());
+
+      dispatch(getEth2SwapData());
+
+      dispatch(fetchBNBAPY());
+      dispatch(fetchBNBStats());
+      dispatch(fetchBNBTxHistory());
+
+      dispatch(getFTMStats());
+      dispatch(getFTMHistory());
+      dispatch(getAftmbAPY());
+
+      return;
+    }
 
     switch (chainId) {
       case ETH_NETWORK_BY_ENV:

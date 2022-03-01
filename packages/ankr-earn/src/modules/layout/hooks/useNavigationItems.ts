@@ -89,7 +89,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
 
   const desktopMenuItems: INavItem[] = useMemo(
     () => [
-      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
+      links.eth2Swap,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,
@@ -103,7 +103,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.stake,
       links.parachain,
       links.boost,
-      ...(!featuresConfig.eth2Swap ? [] : [links.eth2Swap]),
+      links.eth2Swap,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,

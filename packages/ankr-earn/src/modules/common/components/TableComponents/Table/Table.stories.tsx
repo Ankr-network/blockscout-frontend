@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Story } from '@storybook/react';
 import { ReactNode } from 'react';
 import { uid } from 'react-uid';
