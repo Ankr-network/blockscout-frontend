@@ -67,7 +67,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^12.1.10",
-    "@types/async-retry": "^1.4.3",
     "@types/jest": "^26.0.15",
     "@types/loadable__component": "^5.13.4",
     "@types/lodash": "^4.14.178",

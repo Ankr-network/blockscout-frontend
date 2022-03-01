@@ -3,13 +3,18 @@ import { FieldRenderProps } from 'react-final-form';
 
 import { getErrorText, hasError } from 'modules/common/utils/form';
 
-interface IFieldProps extends FieldRenderProps<string> {}
+interface IFieldProps extends FieldRenderProps<string> {
+  isIntegerOnly?: boolean;
+}
 
 export const AmountField = ({
   input: { name, value, onChange, onBlur, onFocus },
+  isIntegerOnly = false,
   meta,
   ...rest
 }: IFieldProps & TextFieldProps): JSX.Element => {
+  const regExp = isIntegerOnly ? /^(\d*$)/ : /^(\d*\.{0,1}\d{0,18}$)/;
+
   return (
     <TextField
       error={hasError(meta)}
@@ -19,7 +24,7 @@ export const AmountField = ({
       onBlur={onBlur}
       onChange={event => {
         const { value: inputValue } = event.target;
-        const validated = inputValue.match(/^(\d*\.{0,1}\d{0,18}$)/);
+        const validated = inputValue.match(regExp);
         if (validated) {
           onChange(inputValue);
         }

@@ -2,7 +2,7 @@ import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { ReactText, useCallback } from 'react';
-import { Field } from 'react-final-form';
+import { Field, FieldRenderProps } from 'react-final-form';
 
 import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
@@ -15,6 +15,7 @@ const MIN_AMOUNT = 0;
 interface IAmountInputProps {
   balance?: BigNumber;
   isBalanceLoading?: boolean;
+  isIntegerOnly?: boolean;
   disabled?: boolean;
   onMaxClick?: () => void;
   label: string;
@@ -29,6 +30,7 @@ export const AmountInput = ({
   balance,
   onMaxClick,
   isBalanceLoading = false,
+  isIntegerOnly = false,
   disabled = false,
   name = 'amount',
   tokenName = 'ETH',
@@ -123,7 +125,11 @@ export const AmountInput = ({
         placeholder="0"
         validate={validateAmount}
         variant="outlined"
-      />
+      >
+        {(props: FieldRenderProps<string>): JSX.Element => (
+          <AmountField isIntegerOnly={isIntegerOnly} {...props} />
+        )}
+      </Field>
     </>
   );
 };

@@ -49,6 +49,8 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActiveAVAXStaking: currentEnv === Env.Stage,
+  isActiveAVAXUnstaking: currentEnv === Env.Stage,
   isActiveBNBStaking: true,
   isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
@@ -87,6 +89,11 @@ export const ETH_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? BlockchainNetworkId.mainnet
     : BlockchainNetworkId.goerli;
+
+export const AVAX_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.avalanche
+    : BlockchainNetworkId.avalancheTestnet;
 
 export const BSC_NETWORK_BY_ENV =
   currentEnv === Env.Production

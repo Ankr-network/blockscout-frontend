@@ -2,6 +2,9 @@ export enum AvailableReadProviders {
   ethMainnet = 'ethMainnetHttpProvider',
   ethGoerli = 'ethGoerliHttpProvider',
 
+  avalancheChain = 'avalancheChainHttpProvider',
+  avalancheChainTest = 'avalancheChainTestHttpProvider',
+
   binanceChain = 'binanceChainHttpProvider',
   binanceChainTest = 'binanceChainTestHttpProvider',
 

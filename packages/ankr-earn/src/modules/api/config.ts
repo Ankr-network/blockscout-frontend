@@ -12,6 +12,7 @@ export interface IContractConfig {
 }
 
 export interface IAvalancheConfig {
+  avalanchePool: string;
   futureBondAVAX: string;
 }
 
@@ -49,7 +50,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
   },
   avalancheConfig: {
-    futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
+    avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
+    futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
@@ -77,19 +79,13 @@ const GOERLI_CONFIG: IStkrConfig = {
     contractConfig: {
       ...LOCAL_CONFIG.contractConfig,
       ...{
-        futureBondAVAX: '0xdb08E6fbFd8fF23BF8813968138e95304af1Ff13',
         polygonPool: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
         aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
       },
     },
   },
-  ...{
-    avalancheConfig: {
-      ...LOCAL_CONFIG.avalancheConfig,
-      ...{
-        futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
-      },
-    },
+  avalancheConfig: {
+    ...LOCAL_CONFIG.avalancheConfig,
   },
   binanceConfig: {
     ...LOCAL_CONFIG.binanceConfig,
@@ -113,6 +109,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
   },
   avalancheConfig: {
+    avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
   },
   binanceConfig: {

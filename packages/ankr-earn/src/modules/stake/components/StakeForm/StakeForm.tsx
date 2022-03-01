@@ -35,6 +35,7 @@ export interface IStakeFormComponentProps {
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
+  isIntegerOnly?: boolean;
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
@@ -62,6 +63,7 @@ export const StakeForm = ({
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
+  isIntegerOnly = false,
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
@@ -127,6 +129,7 @@ export const StakeForm = ({
             <AmountInput
               balance={balance}
               isBalanceLoading={isBalanceLoading}
+              isIntegerOnly={isIntegerOnly}
               label={t('stake.amount', {
                 token: tokenIn,
               })}

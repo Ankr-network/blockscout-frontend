@@ -1,4 +1,5 @@
 import { ThemeColors } from 'web3modal';
+import { AvalancheHttpWeb3KeyProvider } from './providers';
 import { EthereumWeb3KeyProvider } from './providers/EthereumWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { Web3KeyProvider } from './Web3KeyProvider';
@@ -10,6 +11,9 @@ import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
   [AvailableReadProviders.ethGoerli]: 'https://eth-goerli-01.dccn.ankr.com',
+  [AvailableReadProviders.avalancheChain]: 'https://rpc.ankr.com/avalanche',
+  [AvailableReadProviders.avalancheChainTest]:
+    'https://api.avax-test.network/ext/bc/C/rpc',
   [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
   [AvailableReadProviders.binanceChainTest]:
     'https://data-seed-prebsc-2-s2.binance.org:8545',
@@ -23,6 +27,8 @@ interface IProviders {
   [AvailableWriteProviders.binance]: Web3KeyProvider;
   [AvailableReadProviders.ethMainnet]: Web3KeyReadProvider;
   [AvailableReadProviders.ethGoerli]: Web3KeyReadProvider;
+  [AvailableReadProviders.avalancheChain]: Web3KeyReadProvider;
+  [AvailableReadProviders.avalancheChainTest]: Web3KeyReadProvider;
   [AvailableReadProviders.binanceChain]: Web3KeyReadProvider;
   [AvailableReadProviders.binanceChainTest]: Web3KeyReadProvider;
   [AvailableReadProviders.ftmOpera]: Web3KeyReadProvider;
@@ -77,6 +83,10 @@ export class ProviderManager {
       case AvailableReadProviders.ethGoerli: {
         return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
+
+      case AvailableReadProviders.avalancheChain:
+      case AvailableReadProviders.avalancheChainTest:
+        return new AvalancheHttpWeb3KeyProvider(RPC_URLS[providerId]);
 
       case AvailableReadProviders.binanceChain:
       case AvailableReadProviders.binanceChainTest: {

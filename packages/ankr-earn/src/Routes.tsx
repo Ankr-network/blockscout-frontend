@@ -11,6 +11,7 @@ import {
 import { getRoutes as getETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
+import { getRoutes as getStakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { getRoutes as getStakeEthereumRoutes } from 'modules/stake-eth/Routes';
 import { getRoutes as getStakeFantomRoutes } from 'modules/stake-fantom/Routes';
@@ -29,6 +30,8 @@ export function Routes(): JSX.Element {
       {getStakeRoutes()}
 
       {getStakePolygonRoutes()}
+
+      {featuresConfig.isActiveAVAXStaking && getStakeAvalancheRoutes()}
 
       {featuresConfig.isActiveBNBStaking && getStakeBinanceRoutes()}
 
