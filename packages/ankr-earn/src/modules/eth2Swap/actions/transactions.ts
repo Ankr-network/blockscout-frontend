@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from 'provider';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
+import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { lockShares, unlockShares, approveAETHCForAETHB } from '../api/sdk';
@@ -33,7 +33,7 @@ export const swapAssets = createAction<
           const inputValue = new BigNumber(amount)
             .multipliedBy(ratio)
             .dividedBy(ETH_SCALE_FACTOR)
-            .decimalPlaces(DECIMAL_PLACES)
+            .decimalPlaces(18, BigNumber.ROUND_DOWN)
             .toString(10);
 
           const result = await unlockShares({

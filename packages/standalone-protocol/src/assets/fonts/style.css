@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'SF UI Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: 'swap';
+  src: local('SF UI Display Regular'),
+    url('sf-ui-display-regular.woff2') format('woff2'),
+    url('sf-ui-display-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-style: normal;
+  font-weight: 500;
+  font-display: 'swap';
+  src: local('SF UI Display Medium'),
+    url('sf-ui-display-medium.woff2') format('woff2'),
+    url('sf-ui-display-medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-style: normal;
+  font-weight: 600;
+  font-display: 'swap';
+  src: local('SF UI Display Semibold'),
+    url('sf-ui-display-semibold.woff2') format('woff2'),
+    url('sf-ui-display-semibold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: 'swap';
+  src: local('SF UI Display Bold'),
+    url('sf-ui-display-bold.woff2') format('woff2'),
+    url('sf-ui-display-bold.woff') format('woff');
+}
