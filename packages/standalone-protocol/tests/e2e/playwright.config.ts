@@ -20,6 +20,7 @@ const config: PlaywrightTestConfig = {
     navigationTimeout: TIMEOUTS.big,
   },
   projects: [{ name: 'healthCheck', testDir: './__tests__/healthCheck' }],
+  testDir: './__tests__',
   workers: 1,
   retries: CI ? 1 : 0,
   reporter: CI

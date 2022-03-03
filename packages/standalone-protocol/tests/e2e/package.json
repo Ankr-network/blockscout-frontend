@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pretest": "yarn clean",
+    "test": "cross-env TEST_ENV=stage yarn playwright test",
     "pretest:healthCheck": "yarn clean",
     "test:healthCheck": "cross-env TEST_ENV=stage yarn playwright test --project=healthCheck",
     "clean": "rimraf ./tmp && rimraf ./test-results && rimraf ./dist/metamask"
