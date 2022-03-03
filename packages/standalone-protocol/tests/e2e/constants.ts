@@ -25,3 +25,56 @@ export const LEGACY_STANDALONES = [
   { network: 'polygon', endPoint: 'https://polygon-rpc.com/' },
   { network: 'fantom', endPoint: 'https://rpc.ftm.tools/' },
 ];
+
+export const THEME = {
+  light: {
+    palette: {
+      warning: {
+        main: 'rgb(255, 152, 0)',
+      },
+      error: {
+        main: 'rgb(255, 105, 96)',
+      },
+    },
+  },
+  light2: {
+    palette: {
+      warning: {
+        main: 'rgb(255, 152, 0)',
+      },
+      error: {
+        main: 'rgb(214, 79, 73)',
+      },
+    },
+  },
+  dark: {
+    palette: {
+      warning: {
+        main: 'rgb(255, 152, 0)',
+      },
+      error: {
+        main: 'rgb(227, 69, 61)',
+      },
+    },
+  },
+  dark2: {
+    palette: {
+      warning: {
+        main: 'rgb(255, 152, 0)',
+      },
+      error: {
+        main: 'rgb(255, 105, 96)',
+      },
+    },
+  },
+};
+
+export const NON_LEGACY_STANDALONES_THEMES = {
+  solana: { theme: THEME.dark },
+  near: { theme: THEME.light },
+  arbitrum: { theme: THEME.light },
+  iotex: { theme: THEME.dark },
+  avalanche: { theme: THEME.light2 },
+  nervos: { theme: THEME.dark2 },
+  erigonbsc: { theme: THEME.dark2 },
+};
