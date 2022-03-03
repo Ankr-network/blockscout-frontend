@@ -348,6 +348,24 @@ const fixtureWeights = [
     height_timestamp: 1646324221178,
     score: 10,
   },
+  {
+    id: '0534083b-45b5-437b-afa2-903e424c912c',
+    weight: 130,
+    latency: 178,
+    timestamp: 1646323931786,
+    height: 15741185,
+    height_timestamp: 1646324221078,
+    score: 10,
+  },
+  {
+    id: '0871df6e-055c-4bcd-b9ac-8d22dbe569d9',
+    weight: 17,
+    latency: 742,
+    timestamp: 1646323693778,
+    height: 14315041,
+    height_timestamp: 1646324221079,
+    score: 10,
+  },
 ];
 
 const fixtureWeightValues = [
