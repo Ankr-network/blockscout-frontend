@@ -2,19 +2,9 @@ import numeral from 'numeral';
 
 import { expect, test } from '@playwright/test';
 
-import { SECONDS_IN_A_DAY } from '../../constants';
+import { LEGACY_STANDALONES, NON_LEGACY_STANDALONES, SECONDS_IN_A_DAY } from '../../constants';
 import { capitalizeFirstLetter, getFloatFromString } from '../../helpers/common';
 import { round } from '../../helpers/format/number';
-
-const NON_LEGACY_STANDALONES = [
-  { network: 'solana', endPoint: 'https://solana.public-rpc.com/' },
-  { network: 'near', endPoint: 'https://near.public-rpc.com/' },
-  { network: 'arbitrum', endPoint: 'https://arbitrum.public-rpc.com/' },
-  { network: 'iotex', endPoint: 'https://iotex.public-rpc.com/' },
-  { network: 'avalanche', endPoint: 'https://avalanche.public-rpc.com/' },
-  { network: 'nervos', endPoint: 'https://nervos.public-rpc.com/', statsBlockNth: 4 },
-  { network: 'erigonbsc', endPoint: 'https://erigonbsc.public-rpc.com/' },
-];
 
 for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
   test(`non legacy standalone: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
@@ -54,7 +44,7 @@ for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
       const apiCachedRequests = round((respArr[0].totalCached / apiTotalRequests) * 100, 2);
       const apiAvgRequests = round(apiTotalRequests / SECONDS_IN_A_DAY, 5);
 
-      const requestsStatWidget = widgetLocator.nth(NON_LEGACY_STANDALONE.statsBlockNth || 2).locator('h2');
+      const requestsStatWidget = widgetLocator.nth(NON_LEGACY_STANDALONE.network === 'nervos' ? 4 : 2).locator('h2');
       const uiStatValues = await Promise.all(await requestsStatWidget.allTextContents());
 
       expect.soft(getFloatFromString(uiStatValues[0])).toBe(apiTotalRequests);
@@ -63,12 +53,6 @@ for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
     });
   });
 }
-
-const LEGACY_STANDALONES = [
-  { network: 'bsc', endPoint: 'https://bscrpc.com/' },
-  { network: 'polygon', endPoint: 'https://polygon-rpc.com/' },
-  { network: 'fantom', endPoint: 'https://rpc.ftm.tools/' },
-];
 
 for (const LEGACY_STANDALONE of LEGACY_STANDALONES) {
   test(`legacy standalone: ${LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
