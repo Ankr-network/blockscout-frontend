@@ -452,8 +452,10 @@ test.describe('node list', async () => {
       await page.goto(NON_LEGACY_STANDALONE.endPoint);
       await page.waitForLoadState('networkidle');
 
-      expect(respNodesArr.length).toBeGreaterThan(0);
-      expect(respWeightsArr.length).toBeGreaterThan(0);
+      expect(respNodesArr.length).toBe(1);
+      expect(respNodesArr[0].length).toBeGreaterThan(0);
+      expect(respWeightsArr.length).toBe(1);
+      expect(respWeightsArr[0].length).toBeGreaterThan(0);
     });
   }
 });
