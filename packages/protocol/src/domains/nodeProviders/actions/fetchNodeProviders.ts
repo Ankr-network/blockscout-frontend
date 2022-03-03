@@ -12,6 +12,7 @@ interface INodeEntity extends IApiNodeEntity {
 function getData(data: IApiNodeEntity[]): INodeEntity[] {
   return data.map(item => ({
     ...item,
+    blockchain: item.blockchain === 'eth' ? 'Ethereum' : item.blockchain,
     icon: getChainIcon(item.blockchain),
   }));
 }
