@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { NON_LEGACY_STANDALONES, NON_LEGACY_STANDALONES_THEMES, LEGACY_STANDALONES } from '../../constants';
+import { NON_LEGACY_STANDALONES, NON_LEGACY_STANDALONES_THEMES } from '../../constants';
 
 const fixtureNodes = [
   {
