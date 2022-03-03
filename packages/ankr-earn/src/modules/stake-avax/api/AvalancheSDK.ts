@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -15,11 +14,12 @@ import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
 import {
-  AVALANCHE_POOL_CONTRACT_START_BLOCK,
   AVALANCHE_READ_PROVIDER_ID,
   AVALANCHE_WRITE_PROVIDER_ID,
   AVAX_DECIMALS,
   AVAX_MAX_BLOCK_RANGE,
+  AVAX_MAX_HISTORY_RANGE,
+  AVAX_MAX_PARALLEL_REQ,
 } from '../const';
 
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
@@ -48,8 +48,6 @@ interface IGetPastEvents {
   provider: Web3KeyProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
-  startBlock: number;
-  rangeStep: number;
   filter?: Filter;
 }
 
@@ -124,27 +122,58 @@ export class AvalancheSDK {
     provider,
     contract,
     eventName,
-    startBlock,
-    rangeStep,
     filter,
   }: IGetPastEvents): Promise<TPastEventsData> {
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
+    if (latestBlockNumber <= AVAX_MAX_HISTORY_RANGE) {
+      return [];
     }
 
-    const pastEvents = await Promise.all(eventsPromises);
+    const startBlockNumber = latestBlockNumber - AVAX_MAX_HISTORY_RANGE;
 
-    return flatten(pastEvents);
+    const eventsPromises: Promise<EventData[]>[][] = [];
+
+    for (
+      let i = startBlockNumber, idx = 0, parallelReqCounter = 1;
+      i < latestBlockNumber;
+      i += AVAX_MAX_BLOCK_RANGE, parallelReqCounter += 1
+    ) {
+      const fromBlock = i;
+      const toBlock = fromBlock + AVAX_MAX_BLOCK_RANGE;
+
+      if (typeof eventsPromises[idx] === 'undefined') {
+        eventsPromises[idx] = [];
+      }
+
+      eventsPromises[idx].push(
+        contract.getPastEvents(eventName, {
+          fromBlock,
+          toBlock,
+          filter,
+        }),
+      );
+
+      if (parallelReqCounter === AVAX_MAX_PARALLEL_REQ) {
+        parallelReqCounter = 0;
+        idx += 1;
+      }
+    }
+
+    if (!eventsPromises.length || !eventsPromises[0]?.length) {
+      return [];
+    }
+
+    const pastEvents = await Promise.all(
+      eventsPromises.map(async evPromisesGroup => {
+        const eventsData = await Promise.all(evPromisesGroup);
+
+        return eventsData.flat();
+      }),
+    );
+
+    return pastEvents.flat();
   }
 
   private async getProvider(
@@ -334,16 +363,12 @@ export class AvalancheSDK {
         provider: this.readProvider,
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.StakePending,
-        startBlock: AVALANCHE_POOL_CONTRACT_START_BLOCK,
-        rangeStep: AVAX_MAX_BLOCK_RANGE,
-        filter: { delegator: this.currentAccount },
+        filter: { staker: this.currentAccount },
       }),
       this.getPastEvents({
         provider: this.readProvider,
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.AvaxClaimPending,
-        startBlock: AVALANCHE_POOL_CONTRACT_START_BLOCK,
-        rangeStep: AVAX_MAX_BLOCK_RANGE,
         filter: { claimer: this.currentAccount },
       }),
     ]);

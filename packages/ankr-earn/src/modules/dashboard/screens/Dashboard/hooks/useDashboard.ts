@@ -5,12 +5,16 @@ import { AvailableWriteProviders } from 'provider';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import {
+  AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   featuresConfig,
   FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
+import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
+import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
+import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
 import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
@@ -32,6 +36,8 @@ export const useDashboard = (): void => {
         fetchPolygonStats.toString(),
         fetchPolygonTxHistory.toString(),
         getEth2SwapData.toString(),
+        fetchAVAXStats.toString(),
+        fetchAVAXTxHistory.toString(),
         fetchBNBStats.toString(),
         fetchBNBTxHistory.toString(),
         getFTMStats.toString(),
@@ -45,6 +51,10 @@ export const useDashboard = (): void => {
       dispatch(fetchPolygonAPY());
 
       dispatch(getEth2SwapData());
+
+      dispatch(fetchAVAXAPY());
+      dispatch(fetchAVAXStats());
+      dispatch(fetchAVAXTxHistory());
 
       dispatch(fetchBNBAPY());
       dispatch(fetchBNBStats());
@@ -67,6 +77,12 @@ export const useDashboard = (): void => {
             providerId: AvailableWriteProviders.ethCompatible,
           }),
         );
+        break;
+
+      case AVAX_NETWORK_BY_ENV:
+        dispatch(fetchAVAXAPY());
+        dispatch(fetchAVAXStats());
+        dispatch(fetchAVAXTxHistory());
         break;
 
       case BSC_NETWORK_BY_ENV:

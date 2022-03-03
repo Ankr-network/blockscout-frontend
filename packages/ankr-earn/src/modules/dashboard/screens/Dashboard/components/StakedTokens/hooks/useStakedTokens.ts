@@ -3,6 +3,8 @@ import { featuresConfig } from 'modules/common/const';
 import { useStakedAETHBData } from './useStakedAETHBData';
 import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
+import { useStakedAVAXData } from './useStakedAVAXData';
+import { useStakedAVAXTxHistory } from './useStakedAVAXTxHistory';
 import { useStakedBNBData } from './useStakedBNBData';
 import { useStakedBNBTxHistory } from './useStakedBNBTxHistory';
 import { useStakedFTMTxHistory } from './useStakedFTMTxHistory';
@@ -13,6 +15,7 @@ interface IUseStakedTokensData {
   isAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
+  isAVAXShowed: boolean;
   isBNBShowed: boolean;
   isMATICShowed: boolean;
   isAFTMBShowed: boolean;
@@ -21,6 +24,9 @@ interface IUseStakedTokensData {
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
   const stakedMaticTxHistory = useStakedMaticTxHistory();
+
+  const stakedAVAXData = useStakedAVAXData();
+  const stakedAVAXTxHistory = useStakedAVAXTxHistory();
 
   const stakedBNBData = useStakedBNBData();
   const stakedBNBTxHistory = useStakedBNBTxHistory();
@@ -33,6 +39,10 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAETHBShowed = stakedAETHBData.isShowed;
 
   const isAETHCShowed = stakedAETHCData.isShowed;
+
+  const isAVAXShowed =
+    featuresConfig.isActiveAVAXStaking &&
+    (stakedAVAXData.isShowed || stakedAVAXTxHistory.hasHistory);
 
   const isBNBShowed =
     featuresConfig.isActiveBNBStaking &&
@@ -47,6 +57,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
+    isAVAXShowed ||
     isBNBShowed ||
     isMATICShowed ||
     isAFTMBShowed;
@@ -55,6 +66,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAssetsShowed: atLeastOneShowed,
     isAETHBShowed,
     isAETHCShowed,
+    isAVAXShowed,
     isBNBShowed,
     isMATICShowed,
     isAFTMBShowed,

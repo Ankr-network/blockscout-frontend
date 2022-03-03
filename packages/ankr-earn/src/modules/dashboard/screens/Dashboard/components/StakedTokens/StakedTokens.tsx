@@ -7,6 +7,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
+import { StakedAVAX } from '../StakedAVAX';
 import { StakedBNB } from '../StakedBNB';
 import { StakedMatic } from '../StakedMatic';
 
@@ -20,6 +21,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
+    isAVAXShowed,
     isBNBShowed,
     isMATICShowed,
     isAFTMBShowed,
@@ -43,6 +45,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {isBNBShowed && <StakedBNB />}
 
             {isAFTMBShowed && <StakedAFTMB />}
+
+            {isAVAXShowed && <StakedAVAX />}
           </AssetsList>
         </>
       ) : (

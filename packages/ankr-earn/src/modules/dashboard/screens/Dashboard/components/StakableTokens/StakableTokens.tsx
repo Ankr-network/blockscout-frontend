@@ -6,6 +6,7 @@ import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
 import { StakableList } from 'modules/dashboard/components/StakableList';
 import { t } from 'modules/i18n/utils/intl';
 
+import { useStakableAvax } from './hooks/useStakableAvax';
 import { useStakableBnb } from './hooks/useStakableBnb';
 import { useStakableFtm } from './hooks/useStakableFtm';
 import { useStakableMatic } from './hooks/useStakableMatic';
@@ -17,6 +18,7 @@ export const StakableTokens = (props: BoxProps): JSX.Element | null => {
   const classes = useStakableTokensStyles();
 
   const stakableTokens = [
+    useStakableAvax(),
     useStakableBnb(),
     useStakableMatic(),
     useStakableFtm(),

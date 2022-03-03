@@ -70,6 +70,8 @@ export const featuresConfig = {
 export enum SupportedChainIDS {
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
+  AVAX = BlockchainNetworkId.avalanche,
+  AVAX_TESTNET = BlockchainNetworkId.avalancheTestnet,
   BSC = BlockchainNetworkId.smartchain,
   BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
   FANTOM_OPERA = BlockchainNetworkId.fantom,
@@ -79,6 +81,8 @@ export enum SupportedChainIDS {
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
+  [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
+  [SupportedChainIDS.AVAX_TESTNET]: 'https://testnet.snowtrace.io',
   [SupportedChainIDS.BSC]: 'https://bscscan.com',
   [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
