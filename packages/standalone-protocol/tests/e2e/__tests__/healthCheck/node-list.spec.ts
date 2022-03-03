@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { NON_LEGACY_STANDALONES, NON_LEGACY_STANDALONES_THEMES } from '../../constants';
+import { NON_LEGACY_STANDALONES, NON_LEGACY_STANDALONES_THEMES, LEGACY_STANDALONES } from '../../constants';
 
 const fixtureNodes = [
   {
@@ -373,7 +373,7 @@ const fixtureWeightValues = [
 
 test.describe('node list', async () => {
   for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
-    test(`non legacy standalone: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
+    test(`checking colors and sorting: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
       for (let i = 0; i < fixtureNodes.length; i++) {
         fixtureNodes[i].blockchain = NON_LEGACY_STANDALONE.network;
       }
@@ -414,6 +414,28 @@ test.describe('node list', async () => {
         expect(weightValues).toStrictEqual(fixtureWeightValues);
         expect(weightValues.length).toEqual(fixtureWeightValues.length);
       });
+    });
+
+    test(`checking api calls: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
+      const respNodesArr = [];
+      const respWeightsArr = [];
+
+      page.on('response', async response => {
+        if (response.url().includes(`/api/v1/node?blockchain=${NON_LEGACY_STANDALONE.network}`)) {
+          const resp = await response.json();
+          respNodesArr.push(resp);
+        }
+        if (response.url().includes(`/api/v1/weight`)) {
+          const resp = await response.json();
+          respWeightsArr.push(resp);
+        }
+      });
+
+      await page.goto(NON_LEGACY_STANDALONE.endPoint);
+      await page.waitForLoadState('networkidle');
+
+      expect(respNodesArr.length).toBeGreaterThan(0);
+      expect(respWeightsArr.length).toBeGreaterThan(0);
     });
   }
 });
