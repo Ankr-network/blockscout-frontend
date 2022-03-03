@@ -61,7 +61,7 @@ export const featuresConfig = {
   stakeFantom: true,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
-  multiNetwork: currentEnv === Env.Develop,
+  multiNetwork: currentEnv !== Env.Production,
   bridge: currentEnv === Env.Develop,
   maxStakeAmountBtn: false,
   stakeETH: currentEnv === Env.Develop,

@@ -7,7 +7,9 @@ export const ACTIONS_PREFIX = 'fantom/';
 
 export const POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
 
-export const MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
+export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
+
+export const BLOCK_OFFSET = 201_600; // 7 days
 
 export const FANTOM_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 

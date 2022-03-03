@@ -23,8 +23,8 @@ import {
 import {
   FANTOM_PROVIDER_ID,
   FANTOM_PROVIDER_READ_ID,
-  POOL_START_BLOCK,
   MAX_BLOCK_RANGE,
+  BLOCK_OFFSET,
 } from '../const';
 
 import AFTMbAbi from './contracts/aFTMb.json';
@@ -158,13 +158,16 @@ export class FantomSDK {
       .firstWrId()
       .call();
 
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const startBlock = latestBlockNumber - BLOCK_OFFSET;
+
     const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
       await Promise.all([
         // event StakeReceived is emitted once transaction is successfull
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock: POOL_START_BLOCK,
+          startBlock,
           rangeStep: MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
           filter: {
@@ -175,7 +178,7 @@ export class FantomSDK {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock: POOL_START_BLOCK,
+          startBlock,
           rangeStep: MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
           filter: {
@@ -185,7 +188,7 @@ export class FantomSDK {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock: POOL_START_BLOCK,
+          startBlock,
           rangeStep: MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
           filter: {

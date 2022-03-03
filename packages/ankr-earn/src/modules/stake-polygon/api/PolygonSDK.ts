@@ -19,10 +19,10 @@ import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
+  BLOCK_OFFSET,
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_ID,
   POLYGON_PROVIDER_READ_ID,
-  POOL_CONTRACT_START_BLOCK,
 } from '../const';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
@@ -331,12 +331,17 @@ export class PolygonSDK {
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
+    const latestBlockNumber = await this.readProvider
+      .getWeb3()
+      .eth.getBlockNumber();
+    const startBlock = latestBlockNumber - BLOCK_OFFSET;
+
     const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.StakePending,
-        startBlock: POOL_CONTRACT_START_BLOCK,
+        startBlock,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { staker: this.currentAccount },
       }),
@@ -344,7 +349,7 @@ export class PolygonSDK {
         provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.MaticClaimPending,
-        startBlock: POOL_CONTRACT_START_BLOCK,
+        startBlock,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { claimer: this.currentAccount },
       }),

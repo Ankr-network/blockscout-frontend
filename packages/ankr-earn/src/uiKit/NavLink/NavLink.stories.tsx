@@ -34,8 +34,11 @@ const NavLinkStory = (): JSX.Element => {
         </NavLink>
       </div>
 
-      <hr />
-      Color
+      <div>
+        <hr />
+      </div>
+
+      <div>Color</div>
 
       <div className={classes.content}>
         <NavLink className={classes.button} href="#">

@@ -51,4 +51,8 @@ export const usePendingUnstakeAmountStyles = makeStyles(theme => ({
   title: {
     fontSize: 20,
   },
+
+  icon: {
+    marginLeft: theme.spacing(0.5),
+  },
 }));

@@ -155,9 +155,10 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={classes.fee}>
-            {fee.decimalPlaces(DECIMAL_PLACES).toNumber()}
-
-            {swapOption}
+            {t('unit.token-value', {
+              value: fee.decimalPlaces(DECIMAL_PLACES).toNumber(),
+              token: swapOption,
+            })}
           </Typography>
         </Box>
 
@@ -169,9 +170,10 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={cn(classes.result, classes.sum)}>
-            {calculateValueWithRatio(total).toNumber()}{' '}
-
-            {swapOption === 'aETHb' ? 'aETHc' : 'aETHb'}
+            {t('unit.token-value', {
+              value: calculateValueWithRatio(total).toNumber(),
+              token: swapOption === 'aETHb' ? 'aETHc' : 'aETHb',
+            })}
           </Typography>
         </Box>
 

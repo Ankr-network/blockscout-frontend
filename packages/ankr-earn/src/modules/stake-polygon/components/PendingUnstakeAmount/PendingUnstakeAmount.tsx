@@ -20,10 +20,10 @@ export const PendingUnstakeAmount = ({
     <Paper className={classes.root} square={false} variant="outlined">
       <div className={classes.top}>
         <Typography className={classes.title} variant="h5">
-          {t('pending-unstake-amount.title')}{' '}
+          {t('pending-unstake-amount.title')}
 
           <Tooltip title={t('pending-unstake-amount.tip.in-progress')}>
-            <IconButton>
+            <IconButton className={classes.icon}>
               <QuestionIcon size="xs" />
             </IconButton>
           </Tooltip>

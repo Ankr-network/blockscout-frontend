@@ -43,7 +43,8 @@ const ButtonsListStory = (): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      Size
+      <div>Size</div>
+
       <div className={classes.content}>
         <Button className={classes.button}>Default</Button>
 
@@ -55,8 +56,9 @@ const ButtonsListStory = (): JSX.Element => {
           Large
         </Button>
       </div>
-      <hr />
-      Type
+
+      <div>Type</div>
+
       <div className={classes.content}>
         <Button className={classes.button}>Default</Button>
 
@@ -68,10 +70,12 @@ const ButtonsListStory = (): JSX.Element => {
           Text
         </Button>
       </div>
-      <hr />
-      Color
+
+      <div>Color</div>
+
       <div>
-        Contained
+        <div>Contained</div>
+
         <div className={classes.content}>
           <Button className={classes.button}>Default</Button>
 
@@ -83,8 +87,9 @@ const ButtonsListStory = (): JSX.Element => {
             Secondary
           </Button>
         </div>
-        <hr />
-        Outlined
+
+        <div>Outlined</div>
+
         <div className={classes.content}>
           <Button className={classes.button} variant="outlined">
             Default
@@ -102,8 +107,9 @@ const ButtonsListStory = (): JSX.Element => {
             Secondary
           </Button>
         </div>
-        <hr />
-        Text
+
+        <div>Text</div>
+
         <div className={classes.content}>
           <Button className={classes.button} variant="text">
             Default
