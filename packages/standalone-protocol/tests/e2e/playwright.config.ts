@@ -11,7 +11,7 @@ const config: PlaywrightTestConfig = {
   use: {
     browserName: 'chromium',
     headless: false,
-    viewport: { width: 1920, height: 1080 },
+    viewport: { width: 1440, height: 900 },
     locale: 'en-US',
     trace: 'on-first-retry',
     video: 'off',
@@ -20,6 +20,7 @@ const config: PlaywrightTestConfig = {
     navigationTimeout: TIMEOUTS.big,
   },
   projects: [{ name: 'healthCheck', testDir: './__tests__/healthCheck' }],
+  testDir: './__tests__',
   workers: 1,
   retries: CI ? 1 : 0,
   reporter: CI
