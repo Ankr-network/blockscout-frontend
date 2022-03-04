@@ -27,4 +27,5 @@ export interface GroupedNode {
 
 export interface ProviderRow extends GroupedNode {
   weight: BigNumber;
+  score: number;
 }

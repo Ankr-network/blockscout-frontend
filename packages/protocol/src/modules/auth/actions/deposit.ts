@@ -5,7 +5,7 @@ import { MultiService } from '../../api/MultiService';
 import BigNumber from 'bignumber.js';
 import { connect } from './connect';
 import { ResponseData } from '../../api/utils/ResponseData';
-import { IJwtToken } from '@ankr.com/multirpc';
+import { IJwtToken } from 'multirpc-sdk';
 import { fetchCredentialsStatus } from './fetchCredentialsStatus';
 import { retry } from '../../api/utils/retry';
 import { throwIfError } from '../../api/utils/throwIfError';

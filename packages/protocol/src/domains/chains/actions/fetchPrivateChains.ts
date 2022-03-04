@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IJwtToken } from '@ankr.com/multirpc';
+import { IJwtToken } from 'multirpc-sdk';
 
 import { MultiService } from '../../../modules/api/MultiService';
 import {

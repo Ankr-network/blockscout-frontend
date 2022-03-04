@@ -1,10 +1,11 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { useStyles } from './useStyles';
 import { DetailsBlockProps } from './DetailsBlockTypes';
 import { Skeleton } from '@material-ui/lab';
+import { StatusCircle } from 'uiKit/StatusCircle';
 
 export const DetailsBlock = ({
   title,
@@ -18,11 +19,17 @@ export const DetailsBlock = ({
 
   return (
     <div className={classNames(classes.root, className)}>
-      <div className={classes.top}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        className={classes.top}
+      >
+        {hasDot && <StatusCircle mr={1.25} />}
         <Typography variant="subtitle1" color="textPrimary" noWrap>
-          <span className={hasDot ? classes.dot : ''}>{title}</span>
+          {title}
         </Typography>
-      </div>
+      </Box>
       {loading ? (
         <Skeleton className={classes.skeleton} />
       ) : (
