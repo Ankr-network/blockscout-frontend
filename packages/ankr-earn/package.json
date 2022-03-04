@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/earn",
   "dependencies": {
+    "async-retry": "^1.3.3",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.12.3",
@@ -67,6 +68,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^12.1.10",
+    "@types/async-retry": "^1.4.3",
     "@types/jest": "^26.0.15",
     "@types/loadable__component": "^5.13.4",
     "@types/lodash": "^4.14.178",
@@ -131,7 +133,8 @@
     "include": [
       "/liquid-crowdloan/",
       "/eth2-swap/",
-      "/unstake/matic/"
+      "/unstake/matic/",
+      "/bridge/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

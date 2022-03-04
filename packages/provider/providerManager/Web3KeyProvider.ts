@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-import Common from '@ethereumjs/common';
-import { Transaction } from '@ethereumjs/tx';
-import { BN } from 'ethereumjs-util';
 import Web3 from 'web3';
 import { AbstractProvider, PromiEvent, TransactionReceipt } from 'web3-core';
 import { numberToHex } from 'web3-utils';
@@ -18,7 +15,6 @@ export interface IWalletMeta {
 export interface IWeb3SendResult {
   receiptPromise: PromiEvent<TransactionReceipt>;
   transactionHash: string;
-  rawTransaction: string;
 }
 
 export interface ITokenInfo {
@@ -136,19 +132,9 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
             JSON.stringify(rawTx, null, 2),
           );
 
-          let rawTxHex = '';
-
-          try {
-            rawTxHex = this.tryGetRawTx(rawTx);
-          } catch (e) {
-            const { message } = e as { message?: string };
-            console.error(`Failed to get raw transaction: ${message}`);
-          }
-
           resolve({
             receiptPromise: promise,
             transactionHash,
-            rawTransaction: rawTxHex,
           });
         })
         .catch(reject);
@@ -169,46 +155,6 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     this.currentAccount = currentAccount;
     this.accounts = unlockedAccounts;
     return unlockedAccounts;
-  }
-
-  private tryGetRawTx(rawTx: any): string {
-    if (!Common.isSupportedChainId(new BN(this.currentChain))) {
-      console.warn(
-        `raw tx can't be created for this chain id ${this.currentChain}`,
-      );
-      return '';
-    }
-
-    const { v, r, s } = rawTx; /* this fields are not-documented */
-
-    const newTx = new Transaction(
-      {
-        gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
-        gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
-        to: rawTx.to,
-        nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
-        data: rawTx.input,
-        v,
-        r,
-        s,
-        value: this.getWeb3().utils.numberToHex(rawTx.value),
-      },
-      {
-        common: Common.custom({}, { baseChain: this.currentChain }),
-      },
-    );
-
-    if (!newTx.verifySignature()) {
-      throw new Error(`The signature is not valid for this transaction`);
-    }
-
-    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-
-    const rawTxHex = newTx.serialize().toString('hex');
-
-    console.log(`Raw transaction hex is: `, rawTxHex);
-
-    return rawTxHex;
   }
 
   public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {

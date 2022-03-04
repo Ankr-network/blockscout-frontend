@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useAmountFieldStyles = makeStyles<Theme>(theme => ({
+export const useAmountFieldStyles = makeStyles(theme => ({
   balance: {
     textAlign: 'right',
     marginBottom: -20,

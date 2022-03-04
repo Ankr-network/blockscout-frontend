@@ -1,7 +1,6 @@
 import loadable from '@loadable/component';
 import React from 'react';
-import { generatePath } from 'react-router';
-import { Route } from 'react-router-dom';
+import { generatePath, Route } from 'react-router';
 
 import { EARN_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -30,7 +29,7 @@ const BridgeMainPage = loadable(
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route exact path={RoutesConfig.main.path}>
+    <Route path={RoutesConfig.main.path}>
       <DefaultLayout>
         <BridgeMainPage />
       </DefaultLayout>

@@ -1,10 +1,10 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { ReactText, useCallback } from 'react';
-import { Field, FieldRenderProps } from 'react-final-form';
+import { Field } from 'react-final-form';
 
 import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
+import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
 import { t } from 'modules/i18n/utils/intl';
 import { AmountField } from 'uiKit/AmountField';
 
@@ -47,35 +47,10 @@ export const AmountInput = ({
     : '0';
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 
-  const validateAmount = useCallback(
-    (value?: ReactText) => {
-      let error: string | undefined;
-
-      if (!value) {
-        error = t('validation.required');
-      } else {
-        const currentAmount = new BigNumber(value);
-        const isZeroBalance = withBalance && balance?.isEqualTo(0);
-        const isTooBigAmount =
-          withBalance && currentAmount.isGreaterThan(maxAmount);
-
-        if (currentAmount.isNaN()) {
-          error = t('validation.number-only');
-        } else if (
-          currentAmount.isLessThan(minAmount) ||
-          currentAmount.isEqualTo(MIN_AMOUNT)
-        ) {
-          error = t('validation.min', {
-            value: minAmount,
-          });
-        } else if (isTooBigAmount || isZeroBalance) {
-          error = t('validation.low-balance');
-        }
-      }
-
-      return error;
-    },
-    [balance, maxAmount, minAmount, withBalance],
+  const validateAmount = useValidateAmount(
+    balance,
+    maxAmount,
+    minAmount ? new BigNumber(minAmount) : undefined,
   );
 
   return (
@@ -110,7 +85,6 @@ export const AmountInput = ({
           },
           endAdornment: isMaxBtnShowed && (
             <Button
-              className={classes.maxBtn}
               disabled={disabled}
               size="small"
               variant="outlined"
@@ -120,16 +94,13 @@ export const AmountInput = ({
             </Button>
           ),
         }}
+        isIntegerOnly={isIntegerOnly}
         label={label}
         name={name}
         placeholder="0"
         validate={validateAmount}
         variant="outlined"
-      >
-        {(props: FieldRenderProps<string>): JSX.Element => (
-          <AmountField isIntegerOnly={isIntegerOnly} {...props} />
-        )}
-      </Field>
+      />
     </>
   );
 };

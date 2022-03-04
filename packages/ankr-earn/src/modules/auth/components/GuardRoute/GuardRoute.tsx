@@ -16,8 +16,6 @@ import { UnsupportedNetwork } from '../UnsupportedNetwork';
 import { useGuardRoute } from './useGuardRoute';
 import { useKnownNetworks } from './useKnownNetworks';
 
-const METAMASK_WALLET_NAME = 'MetaMask';
-
 interface IGuardRouteProps extends RouteProps {
   providerId: AvailableWriteProviders;
   openConnectInstantly?: boolean;
@@ -35,9 +33,9 @@ export const GuardRoute = ({
     isUnsupportedNetwork,
     supportedNetworks,
     chainId,
+    isMetaMask,
     dispatchConnect,
     handleSwitchNetwork,
-    walletName,
   } = useGuardRoute({
     providerId,
     availableNetworks,
@@ -50,8 +48,6 @@ export const GuardRoute = ({
   }, [openConnectInstantly, isConnected, dispatchConnect]);
 
   if (isUnsupportedNetwork) {
-    const isMetamask = walletName === METAMASK_WALLET_NAME;
-
     const currentNetwork =
       chainId && knownNetworks[chainId]
         ? knownNetworks[chainId]
@@ -61,7 +57,7 @@ export const GuardRoute = ({
       ({ icon, title, chainId: network }) => (
         <NetworkSelectorItem
           key={network}
-          disabled={!isMetamask}
+          disabled={!isMetaMask}
           iconSlot={icon}
           title={title}
           onClick={handleSwitchNetwork(network)}

@@ -4,6 +4,7 @@ import { createAction } from 'redux-smart-actions';
 import { AvailableWriteProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { SupportedChainIDS } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
@@ -12,7 +13,7 @@ import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
-  chainId: number;
+  chainId: SupportedChainIDS;
 }
 
 export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(

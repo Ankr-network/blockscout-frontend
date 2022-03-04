@@ -107,7 +107,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     } = configFromEnv();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockLockShares).toBeCalledTimes(1);
@@ -124,7 +123,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockSendTransactionAsync = jest.fn().mockReturnValue({
       receiptPromise: {},
       transactionHash: 'hash',
-      rawTransaction: 'raw',
     });
 
     const mockUnlockShares = jest
@@ -164,7 +162,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     } = configFromEnv();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockUnlockShares).toBeCalledTimes(1);
@@ -218,7 +215,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const result = await sdk.approveAETHCForAETHB();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockApprove).toBeCalledTimes(1);

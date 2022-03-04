@@ -90,6 +90,7 @@
     "61": "Classic",
     "63": "Mordor",
     "97": "Binance SmartChain Testnet",
+    "137": "Polygon Mainnet",
     "43113": "Avalanche C-Chain",
     "43114": "Avalanche",
     "2018": "Dev",
@@ -584,12 +585,55 @@
   },
   "bridge": {
     "main": {
-      "title": "Cross Chain Bridge",
+      "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
       "btn-max": "Max",
       "your-balance": "Your balance:",
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "you-will-receive": "You will receive:",
+      "send-to-another": "Send to another address",
+      "approve": "Approve",
+      "approve-tooltip": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf",
+      "send": "Send",
+      "fee-banner": "You will need a small gas fee (of native token) to claim"
+    },
+    "banner": {
+      "footer": "Please only send your assets to wallets like MetaMask that allow you to control your private keys! Do not send your assets to crypto exchanges as they may be lost in the process"
+    },
+    "unfinished": {
+      "finish-btn": "Finish",
+      "title": "You have unfinished transfer",
+      "message": "of {token} from {from} to {to}",
+      "tx-text": "Tx ID:"
+    },
+    "tx": {
+      "close-notification": "Please do not close the window until the operation is completed",
+      "copy-tooltip": "Copy txn hash",
+      "explorer-tooltip": "See in the blockchain explorer",
+      "titles": {
+        "send-in-progress": "Sending in progress...",
+        "receive-assets": "Receive assets",
+        "receiving-in-process": "Receiving in process...",
+        "successeful": "Bridge successful!"
+      },
+      "description": {
+        "connect-wallet": "Connect a wallet that is linked with the destination blockhain",
+        "progress": "You are sending {token} to the bridge smart contract. After completed, you will able to claim {token} on {network} network.",
+        "submit-receive": "Submit receive transaction to finish your transfer",
+        "take-moment": "This may take a moment"
+      },
+      "grid": {
+        "amount": "Amount:",
+        "destination": "Destination address:",
+        "tx": "Transaction ID"
+      },
+      "buttons": {
+        "connect-wallet": "Connect wallet",
+        "receive": "Receive",
+        "add-to-metamask": "Add {token} to Metamask",
+        "switch": "Switch to {chainName}"
+      }
     }
   }
 }

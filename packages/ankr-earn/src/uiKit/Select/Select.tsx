@@ -28,6 +28,7 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
   helperText?: ReactNode;
   label?: ReactNode;
   variant?: 'filled' | 'outlined';
+  rootClassName?: string;
 }
 
 export const Select = ({
@@ -39,6 +40,7 @@ export const Select = ({
   classes,
   variant = 'outlined',
   className,
+  rootClassName,
   disabled,
   ...restProps
 }: ISelectProps): JSX.Element => {
@@ -90,7 +92,10 @@ export const Select = ({
   );
 
   return (
-    <FormControl className={styles.root} fullWidth={fullWidth}>
+    <FormControl
+      className={classNames(styles.root, rootClassName)}
+      fullWidth={fullWidth}
+    >
       {label && <InputLabel>{label}</InputLabel>}
 
       <SelectComponent

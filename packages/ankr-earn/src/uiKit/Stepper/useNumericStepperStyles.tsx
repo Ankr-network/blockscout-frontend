@@ -13,6 +13,9 @@ export const useNumericStepperStyles = makeStyles(theme => ({
       background: theme.palette.common.white,
       border: '3px solid #E2E8F3',
     },
+    '& > div > span': {
+      position: 'relative',
+    },
   },
   active: {},
   disabled: {},
@@ -31,6 +34,7 @@ export const useNumericStepperStyles = makeStyles(theme => ({
         height: 33,
       },
     },
+
     '& span + span': {
       position: 'absolute',
       marginLeft: '12.5px',

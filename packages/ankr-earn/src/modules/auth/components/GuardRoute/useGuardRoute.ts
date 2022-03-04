@@ -21,7 +21,7 @@ interface IUseGuardRouteData {
   isUnsupportedNetwork: boolean;
   supportedNetworks: INetwork[];
   chainId?: BlockchainNetworkId;
-  walletName?: string;
+  isMetaMask: boolean;
   dispatchConnect: () => TActionPromise<IConnect>;
   handleSwitchNetwork: (network: number) => () => void;
 }
@@ -30,7 +30,7 @@ export const useGuardRoute = ({
   availableNetworks,
   providerId,
 }: IUseGuardRouteArgs): IUseGuardRouteData => {
-  const { isConnected, dispatchConnect, chainId, walletName } =
+  const { isConnected, dispatchConnect, chainId, isMetaMask } =
     useAuth(providerId);
   const networks = useNetworks();
   const dispatchRequest = useDispatchRequest();
@@ -56,7 +56,7 @@ export const useGuardRoute = ({
     isUnsupportedNetwork,
     supportedNetworks,
     chainId,
-    walletName,
+    isMetaMask,
     dispatchConnect,
     handleSwitchNetwork,
   };

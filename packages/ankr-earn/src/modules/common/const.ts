@@ -62,7 +62,9 @@ export const featuresConfig = {
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
   multiNetwork: currentEnv !== Env.Production,
-  bridge: currentEnv === Env.Develop,
+  // todo: STAKAN-917 remove after complition
+  bridge: true,
+  bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   stakeETH: currentEnv === Env.Develop,
 };
@@ -76,6 +78,7 @@ export enum SupportedChainIDS {
   BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
   FANTOM_OPERA = BlockchainNetworkId.fantom,
   FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
+  POLYGON = BlockchainNetworkId.polygon,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -87,6 +90,7 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
+  [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
 };
 
 export const ETH_NETWORK_BY_ENV =
