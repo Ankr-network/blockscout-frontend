@@ -140,7 +140,7 @@ export const Main = (): JSX.Element => {
           label={t('eth2Swap.amountInputTitle')}
           name="amount"
           tokenName={swapOption}
-          onMaxClick={setMaxAmount(form, max.toString())}
+          onMaxClick={setMaxAmount(form, max.toFormat())}
         />
 
         <SwapOptions

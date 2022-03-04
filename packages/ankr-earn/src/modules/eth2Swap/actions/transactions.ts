@@ -31,7 +31,7 @@ export const swapAssets = createAction<
         const inputValue = new BigNumber(amount)
           .multipliedBy(ratio)
           .dividedBy(ETH_SCALE_FACTOR)
-          .decimalPlaces(18, BigNumber.ROUND_DOWN)
+          .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN)
           .toString(10);
 
         const result = await sdk.unlockShares({
