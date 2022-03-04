@@ -29,7 +29,9 @@ export const Main = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
   useProviderEffect(() => {
-    dispatchRequest(getAAVAXBAPY());
+    if (featuresConfig.isActiveAVAXStaking) {
+      dispatchRequest(getAAVAXBAPY());
+    }
     dispatchRequest(getABNBBAPY());
     dispatchRequest(getAFTMBAPY());
     dispatchRequest(getAMATICBAPY());
