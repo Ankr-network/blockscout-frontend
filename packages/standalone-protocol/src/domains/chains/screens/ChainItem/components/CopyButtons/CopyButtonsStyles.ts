@@ -20,7 +20,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexGrow: 1,
   },
   addNetworkButton: {
-    marginLeft: theme.spacing(2),
+    marginLeft: `${theme.spacing(2)}px !important`,
   },
   link: {
     width: '100%',

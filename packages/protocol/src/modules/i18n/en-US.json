@@ -67,7 +67,7 @@
         "block4": "Prioritized requests during peak traffic"
       },
       "requests-per-day": "Requests per day",
-      "requests-count": "{value, number, ::compact-short}"
+      "requests-count": "20 mln"
     },
     "meta": {
       "title": "{name} Public RPC | Ankr Protocol",
