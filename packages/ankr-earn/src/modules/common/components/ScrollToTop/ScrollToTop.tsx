@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 /**
  * https://reactrouter.com/web/guides/scroll-restoration
  */
-export const ScrollToTop = () => {
+export const ScrollToTop = (): null => {
   const { pathname } = useLocation();
 
   useEffect(() => {

@@ -1,31 +1,53 @@
+import { currentEnv, SupportedChainIDS } from 'modules/common/const';
+import { Env } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { BSCIcon } from 'uiKit/Icons/BSCIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+
 import { IBridgeBlockchainPanelItem } from '../components/BridgeBlockchainPanel';
+import { AvailableBridgeTokens } from '../types';
 
-export enum AvailableNewtworks {
-  bsc = 'BSC',
-  ethMain = 'ETHMain',
-}
+// todo: refactor interface
+interface IUseBlockchainPanelOptions
+  extends Record<string, IBridgeBlockchainPanelItem[] | undefined> {}
 
-export const useBlockchainPanelOptions = () => {
-  const bondOptions: IBridgeBlockchainPanelItem[] = useLocaleMemo(
-    () => [
-      {
-        label: t('chain.56'),
-        icon: <BSCIcon />,
-        value: AvailableNewtworks.bsc,
-      },
+export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
+  useLocaleMemo(() => {
+    switch (currentEnv) {
+      case Env.Production:
+        return {
+          [AvailableBridgeTokens.aMATICb]: [
+            {
+              label: t(`chain.${SupportedChainIDS.POLYGON}`),
+              icon: <MaticIcon />,
+              value: SupportedChainIDS.POLYGON,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.MAINNET}`),
+              icon: <EthIcon />,
+              value: SupportedChainIDS.MAINNET,
+            },
+          ],
+        };
 
-      {
-        label: t('chain.1'),
-        icon: <EthIcon />,
-        value: AvailableNewtworks.ethMain,
-      },
-    ],
-    [],
-  );
-
-  return bondOptions;
-};
+      case Env.Develop:
+      case Env.Stage:
+      default:
+        return {
+          [AvailableBridgeTokens.aMATICb]: [
+            {
+              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
+              icon: <BSCIcon />,
+              value: SupportedChainIDS.BSC_TESTNET,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.GOERLI}`),
+              icon: <EthIcon />,
+              value: SupportedChainIDS.GOERLI,
+            },
+          ],
+        };
+    }
+  }, []);

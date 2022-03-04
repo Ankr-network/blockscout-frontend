@@ -1,11 +1,13 @@
 import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { IGetHistory } from 'modules/stake-fantom/actions/getHistory';
 import { EFantomPoolEvents } from 'modules/stake-fantom/api/sdk';
+
 import { useStakedFTMTxHistory } from '../useStakedFTMTxHistory';
 
 jest.mock('@redux-requests/react', () => ({
@@ -24,8 +26,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       totalPending: ONE_ETH,
       stakeEvents: [
         {
-          txAmount: ONE_ETH,
           txDate: NOW,
+          txAmount: ONE_ETH,
           txHash: 'txHash1',
           txType: EFantomPoolEvents.StakeReceived,
         },

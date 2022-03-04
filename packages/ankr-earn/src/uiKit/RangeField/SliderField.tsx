@@ -1,8 +1,9 @@
 import { Slider, SliderProps } from '@material-ui/core';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
+
 import { getErrorText, hasError } from 'modules/common/utils/form';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 interface ISliderProps extends FieldRenderProps<HTMLElement>, SliderProps {
   label?: string;
@@ -14,31 +15,32 @@ export const SliderField = ({
   meta,
   label,
   ...props
-}: ISliderProps) => {
+}: ISliderProps): JSX.Element => {
   const error = hasError(meta);
   const errorText = getErrorText(meta);
 
-  const handleOnChange = (
-    event: React.ChangeEvent<any>,
-    value: number | number[],
+  const handleChange = (
+    _event: React.ChangeEvent<unknown>,
+    input: number | number[],
   ) => {
-    onChange(value as any);
+    onChange(input);
   };
 
-  const handleOnBlur = () => {
+  const handleBlur = () => {
     onBlur();
   };
 
   return (
     <>
       <Slider
-        onBlur={handleOnBlur}
         name={name}
         value={+value}
-        onChange={handleOnChange}
+        onBlur={handleBlur}
+        onChange={handleChange}
         {...props}
       />
-      {error && <FormHelperText error={true}>{errorText}</FormHelperText>}
+
+      {error && <FormHelperText error>{errorText}</FormHelperText>}
     </>
   );
 };

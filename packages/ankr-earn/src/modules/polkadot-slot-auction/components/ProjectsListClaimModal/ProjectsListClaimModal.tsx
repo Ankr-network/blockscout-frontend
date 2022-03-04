@@ -1,21 +1,24 @@
 import { IconButton } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router';
+
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { fetchCrowdloanById } from '../../actions/fetchCrowdloanById';
+import { IRouteClaimData, RoutesConfig } from '../../const';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { IRouteClaimData, RoutesConfig } from '../../Routes';
+
 import { ClaimForm } from './ClaimForm';
 import { ClaimSuccess } from './ClaimSuccess';
 import { useProjectsListClaimModalStyles } from './useProjectsListClaimModalStyles';
 
-export const ProjectsListClaimModal = () => {
+export const ProjectsListClaimModal = (): JSX.Element | null => {
   const classes = useProjectsListClaimModalStyles();
   const dispatch = useDispatchRequest();
   const history = useHistory();
@@ -26,28 +29,25 @@ export const ProjectsListClaimModal = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSuccessWindow, setIsSuccessWindow] = useState(false);
 
-  const loanId: number = Number.parseInt(id, 10);
+  const loanId = Number.parseInt(id, 10);
   const parachainBondsCrowdloansPath: string =
     RoutesConfig.crowdloans.generatePath(network);
 
   const goToParachainBondsCrowdloans = (): void =>
     history.push(parachainBondsCrowdloansPath);
 
+  const { crowdloan, isLoading: isLoadingCrowdloanById } =
+    useCrowdloanById(loanId);
+
+  useInitEffect((): void => {
+    dispatch(fetchCrowdloanById(loanId));
+  });
+
   if (Number.isNaN(loanId) || !isConnected) {
     goToParachainBondsCrowdloans();
 
     return null;
   }
-
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const { crowdloan, isLoading: isLoadingCrowdloanById } =
-    useCrowdloanById(loanId);
-  /* eslint-enable react-hooks/rules-of-hooks */
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useInitEffect((): void => {
-    dispatch(fetchCrowdloanById(loanId));
-  });
 
   if (isLoadingCrowdloanById) {
     return <QueryLoadingCentered />;

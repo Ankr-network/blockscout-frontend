@@ -1,14 +1,22 @@
 import { ButtonBase, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
+import { ReactText, useCallback } from 'react';
+import {
+  Field,
+  Form,
+  FormRenderProps,
+  FieldRenderProps,
+} from 'react-final-form';
+import { useDebouncedCallback } from 'use-debounce';
+
 import { Milliseconds } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
-import React, { ReactText, useCallback } from 'react';
-import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from 'uiKit/InputField';
 import { OnChange } from 'uiKit/OnChange';
-import { useDebouncedCallback } from 'use-debounce';
+
 import { ITokenSelectOption, TokenSelect } from '../TokenSelect';
+
 import { ReactComponent as SwapIcon } from './assets/swap.svg';
 import { useTokenFormStyles } from './useTokenFormStyles';
 
@@ -45,7 +53,7 @@ export const TokenForm = ({
   defaultFromToken = options[0].value,
   defaultToToken = options[1].value,
   defaultAmount,
-}: ITokenForm) => {
+}: ITokenForm): JSX.Element => {
   const classes = useTokenFormStyles();
 
   const handleTokenSwap = useCallback(
@@ -106,73 +114,73 @@ export const TokenForm = ({
     });
 
     return (
-      <form onSubmit={handleSubmit} autoComplete="off">
+      <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid
           container
-          spacing={1}
-          className={classes.root}
           alignItems="flex-start"
+          className={classes.root}
+          spacing={1}
         >
-          <Grid item xs={12} md="auto">
+          <Grid item md="auto" xs={12}>
             <div className={classes.tokenFrom}>
               <Field
-                name={FieldsNames.amount}
-                component={InputField}
                 className={classes.amount}
-                type="number"
-                variant="outlined"
-                placeholder="0"
+                component={InputField}
                 defaultValue={defaultAmount}
                 disabled={disabled}
-                validate={validateAmount}
-                parse={normalizeAmount}
                 InputProps={{
                   classes: {
                     root: classes.amountInputBase,
                     input: classes.amountInput,
                   },
                 }}
+                name={FieldsNames.amount}
+                parse={normalizeAmount}
+                placeholder="0"
+                type="number"
+                validate={validateAmount}
+                variant="outlined"
               />
 
               <Field
-                name={FieldsNames.fromToken}
                 defaultValue={defaultFromToken}
+                name={FieldsNames.fromToken}
               >
-                {props => (
+                {(props: FieldRenderProps<ITokenFormValues>) => (
                   <TokenSelect
-                    name={props.input.name}
-                    onChange={props.input.onChange}
-                    value={props.input.value}
                     className={classes.tokenFromSelect}
-                    options={filteredFromTokenOptions}
                     disabled={disabled}
+                    name={props.input.name}
+                    options={filteredFromTokenOptions}
+                    value={props.input.value}
                     variant="filled"
+                    onChange={props.input.onChange}
                   />
                 )}
               </Field>
             </div>
           </Grid>
 
-          <Grid item xs={12} md="auto" className={classes.swap}>
+          <Grid item className={classes.swap} md="auto" xs={12}>
             <ButtonBase
               className={classes.swapBtn}
-              onClick={handleTokenSwap(form, values)}
               disabled={disabled}
+              onClick={handleTokenSwap(form, values)}
             >
               <SwapIcon className={classes.swapIcon} />
             </ButtonBase>
           </Grid>
 
-          <Grid item xs={12} md="auto">
-            <Field name={FieldsNames.toToken} defaultValue={defaultToToken}>
+          <Grid item md="auto" xs={12}>
+            <Field defaultValue={defaultToToken} name={FieldsNames.toToken}>
               {props => (
                 <TokenSelect
-                  name={props.input.name}
-                  onChange={props.input.onChange}
-                  value={props.input.value}
-                  options={filteredToTokenOptions}
                   disabled={disabled}
+                  name={props.input.name}
+                  options={filteredToTokenOptions}
+                  value={props.input.value}
                   variant="filled"
+                  onChange={props.input.onChange}
                 />
               )}
             </Field>
@@ -190,7 +198,10 @@ export const TokenForm = ({
         <OnChange name={FieldsNames.fromToken}>
           {value => {
             if (typeof getPairedOption === 'function') {
-              const pairedOptionValue = getPairedOption(value, values.toToken);
+              const pairedOptionValue = getPairedOption(
+                value as string,
+                values.toToken,
+              );
               if (pairedOptionValue) {
                 form.change(FieldsNames.toToken, pairedOptionValue);
               }
@@ -203,7 +214,7 @@ export const TokenForm = ({
           {value => {
             if (typeof getPairedOption === 'function') {
               const pairedOptionValue = getPairedOption(
-                value,
+                value as string,
                 values.fromToken,
               );
               if (pairedOptionValue) {
@@ -218,6 +229,6 @@ export const TokenForm = ({
   };
 
   return (
-    <Form onSubmit={values => debouncedOnSubmit(values)} render={renderForm} />
+    <Form render={renderForm} onSubmit={values => debouncedOnSubmit(values)} />
   );
 };

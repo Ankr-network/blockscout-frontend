@@ -1,4 +1,5 @@
 import { Action, handleActions } from 'redux-actions';
+
 import {
   CLOSE_MODAL_ACTION,
   KnownModal,
@@ -12,11 +13,14 @@ const NO_DIALOG_OPENED: IDialogState = {
   context: undefined,
 };
 
-export const dialog = handleActions<IDialogState, any>(
+export const dialog = handleActions<
+  IDialogState,
+  { name: KnownModal; context: unknown }
+>(
   {
     [OPEN_MODAL_ACTION]: (
       state,
-      { payload }: Action<{ name: KnownModal; context: any }>,
+      { payload }: Action<{ name: KnownModal; context: unknown }>,
     ) => ({
       ...state,
       currentModal: payload.name,

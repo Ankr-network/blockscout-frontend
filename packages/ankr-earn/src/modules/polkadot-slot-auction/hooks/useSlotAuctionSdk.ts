@@ -1,4 +1,6 @@
 import { useQuery } from '@redux-requests/react';
+import { useParams } from 'react-router';
+
 import {
   DEVELOP_ROCOCO_CONFIG,
   DEVELOP_WESTEND_CONFIG,
@@ -6,7 +8,7 @@ import {
   MAINNET_POLKADOT_CONFIG,
   SlotAuctionSdk,
 } from 'polkadot';
-import { useParams } from 'react-router';
+
 import { connect } from '../actions/connect';
 import { initialize } from '../actions/initialize';
 
@@ -17,7 +19,14 @@ const configs = {
   roc: DEVELOP_ROCOCO_CONFIG,
 };
 
-export const useSlotAuctionSdk = () => {
+interface IUseSlotAuctionSdkData {
+  slotAuctionSdk: SlotAuctionSdk;
+  isConnected: boolean;
+  networkType: string;
+  polkadotAccount: string;
+}
+
+export const useSlotAuctionSdk = (): IUseSlotAuctionSdkData => {
   const { network } = useParams<{ network: keyof typeof configs }>();
 
   const config = configs[network];

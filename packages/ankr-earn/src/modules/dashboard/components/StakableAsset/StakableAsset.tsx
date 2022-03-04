@@ -1,12 +1,14 @@
 import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import React from 'react';
+
 import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
+
 import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 
 interface IStakableAssetProps {
@@ -27,7 +29,7 @@ export const StakableAsset = ({
   href,
   apy,
   isStakeLoading = false,
-}: IStakableAssetProps) => {
+}: IStakableAssetProps): JSX.Element => {
   const classes = useStyles();
 
   const networksDisplay =
@@ -40,6 +42,7 @@ export const StakableAsset = ({
               className: classes.networkIcon,
             }),
         )}
+
         {t('dashboard.networks', { value: networks.length })}
       </Typography>
     ) : (
@@ -59,7 +62,7 @@ export const StakableAsset = ({
           <Typography className={classes.balance}>
             {t('dashboard.wallet-balance', {
               value: balance.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-              token: token,
+              token,
             })}
           </Typography>
 
@@ -67,15 +70,15 @@ export const StakableAsset = ({
         </div>
 
         <NavLink
-          href={href}
           className={classNames(classes.crossIcon, classes.mobileStakeLink)}
+          href={href}
         />
       </div>
 
       <NavLink
-        href={isStakeLoading ? '#' : href}
-        className={classes.onHoverDisplay}
         classes={{ label: classes.onHoverDisplayLabel }}
+        className={classes.onHoverDisplay}
+        href={isStakeLoading ? '#' : href}
       >
         <Typography className={classes.apy}>
           {t('dashboard.stakable-asset-apy', { value: apy })}
@@ -84,15 +87,15 @@ export const StakableAsset = ({
         <Typography className={classes.stake}>
           {isStakeLoading ? (
             <Spinner
-              variant="circle"
-              size={16}
               className={classes.loaderIcon}
+              size={16}
+              variant="circle"
             />
           ) : (
             <span className={classes.crossIcon} />
           )}
 
-          {t('dashboard.stakable-asset-stake', { token: token })}
+          {t('dashboard.stakable-asset-stake', { token })}
         </Typography>
       </NavLink>
     </Paper>

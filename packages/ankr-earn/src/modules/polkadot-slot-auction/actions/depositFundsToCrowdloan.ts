@@ -1,10 +1,13 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { SlotAuctionSdk } from 'polkadot';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { NotificationActions } from 'store/actions/NotificationActions';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 export const depositFundsToCrowdloan = createAction(

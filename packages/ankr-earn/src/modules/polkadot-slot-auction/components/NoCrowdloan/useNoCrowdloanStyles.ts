@@ -1,8 +1,7 @@
-import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { alpha } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
 
-export const useNoCrowdloanStyles = makeStyles<Theme>((theme: Theme) => ({
+export const useNoCrowdloanStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'row',

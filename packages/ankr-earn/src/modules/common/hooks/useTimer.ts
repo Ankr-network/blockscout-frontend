@@ -1,12 +1,22 @@
 import { useState } from 'react';
+
 import { Seconds } from 'modules/common/types';
-import { getTimeRemaining } from 'modules/common/utils/getTimeRemaining';
-import { t } from 'modules/i18n/utils/intl';
+import {
+  getTimeRemaining,
+  IGetTimerRemainingData,
+} from 'modules/common/utils/getTimeRemaining';
 import { useInterval } from 'modules/common/utils/useInterval';
+import { t } from 'modules/i18n/utils/intl';
 
 const ONE_SECOND: Seconds = 1000;
 
-export const useTimer = (endDate: Date) => {
+interface IUseTimerData {
+  timeRemaining: IGetTimerRemainingData;
+  isTimeOver: boolean;
+  duration: string;
+}
+
+export const useTimer = (endDate: Date): IUseTimerData => {
   const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining(endDate));
 
   useInterval(() => {

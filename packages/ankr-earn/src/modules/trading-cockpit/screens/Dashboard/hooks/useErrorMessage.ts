@@ -1,9 +1,10 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useCallback } from 'react';
+
 import { getAETHCRatio } from 'modules/trading-cockpit/actions/getAETHCRatio';
 import { getPrices } from 'modules/trading-cockpit/actions/getPrices';
 import { IGetQuotePrice } from 'modules/trading-cockpit/actions/getQuotePrice';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
-import { useCallback } from 'react';
 
 interface IUseErrorMessageArgs {
   fromToken: AvailableTokens;
@@ -11,11 +12,17 @@ interface IUseErrorMessageArgs {
   amount?: number;
 }
 
+interface IUseErrorMessageData {
+  hasErrors: boolean;
+  isLoading: boolean;
+  repeatFailedRequests: () => void;
+}
+
 export const useErrorMessage = ({
   fromToken,
   toToken,
   amount,
-}: IUseErrorMessageArgs) => {
+}: IUseErrorMessageArgs): IUseErrorMessageData => {
   const dispatchRequest = useDispatchRequest();
 
   const { error: aETHcRatioDataError, loading: getAETHCRatioLoading } =

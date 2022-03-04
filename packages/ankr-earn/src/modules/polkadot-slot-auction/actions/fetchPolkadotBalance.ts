@@ -1,10 +1,14 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { PolkadotProvider, SlotAuctionSdk, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { PolkadotProvider, SlotAuctionSdk, TNetworkType } from 'polkadot';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+
 import { getDepositAddress } from './getDepositAddress';
 
 interface IReq {

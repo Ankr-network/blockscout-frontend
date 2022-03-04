@@ -2,14 +2,13 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+
 import { withStore } from 'modules/common/utils/withStore';
+
+import { EthSDK } from '../api/sdk';
 import { TSwapOption } from '../types';
-import { addTokenToWallet } from '../api/sdk';
 
 export interface IAddTokenToWalletArgs {
-  providerId: AvailableWriteProviders;
   swapOption: TSwapOption;
 }
 
@@ -18,14 +17,14 @@ export const addEth2SwapTokenToWallet = createAction<
   [IAddTokenToWalletArgs]
 >(
   'eth2-swap/addEth2SwapTokenToWallet',
-  ({ providerId, swapOption }: IAddTokenToWalletArgs) => ({
+  ({ swapOption }: IAddTokenToWalletArgs) => ({
     request: {
-      promise: async () =>
-        addTokenToWallet({
-          providerManager: ProviderManagerSingleton.getInstance(),
-          providerId,
+      promise: async (): Promise<void> => {
+        const sdk = await EthSDK.getInstance();
+        return sdk.addTokenToWallet({
           swapOption,
-        }),
+        });
+      },
     },
     meta: {
       asMutation: false,

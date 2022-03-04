@@ -1,12 +1,17 @@
 import { RequestAction } from '@redux-requests/core';
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+import { TransactionReceipt } from 'web3-core';
+
+import { SlotAuctionSdk } from 'polkadot';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { validETHChainId } from '../const';
 import { getETHNetworkErrMsg } from '../utils/getETHNetworkErrMsg';
 import { setErrorMsg } from '../utils/setError';
+
 import { fetchCrowdloanBalances } from './fetchCrowdloanBalances';
 import { fetchProjectsListCrowdloans } from './fetchProjectsListCrowdloans';
 
@@ -18,7 +23,7 @@ interface IClaimRewardPoolTokensProps {
 
 interface IClaimRewardPoolTokensData {
   transactionHash: string;
-  transactionReceipt: any;
+  transactionReceipt: TransactionReceipt;
 }
 
 interface IReq {
@@ -49,13 +54,13 @@ export const claimRewardPoolTokens = createAction<
         const slotAuctionSdk: SlotAuctionSdk =
           await SlotAuctionSdkSingleton.getInstance();
 
-        let ethereumAddress: string,
-          data: IClaimRewardPoolTokensData | undefined;
+        let ethereumAddress: string;
+        let data: IClaimRewardPoolTokensData | undefined;
 
         try {
           ethereumAddress = await slotAuctionSdk.getEthereumAccount();
-        } catch (e: any | string) {
-          throw new Error(e?.message ?? e);
+        } catch (e) {
+          throw new Error((e as Error)?.message ?? e);
         }
 
         const currChainId: number = await slotAuctionSdk
@@ -81,8 +86,8 @@ export const claimRewardPoolTokens = createAction<
                 polkadotAccount,
                 loanId,
               );
-        } catch (e: any | string) {
-          throw new Error(e?.message ?? e);
+        } catch (e) {
+          throw new Error((e as Error)?.message ?? e);
         }
 
         return data;

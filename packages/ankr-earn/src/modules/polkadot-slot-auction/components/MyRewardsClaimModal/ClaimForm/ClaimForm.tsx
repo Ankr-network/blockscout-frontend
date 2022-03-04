@@ -1,11 +1,5 @@
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
-import { featuresConfig } from 'modules/common/const';
-import { FormErrors } from 'modules/common/types/FormErrors';
-import { ResponseData } from 'modules/common/types/ResponseData';
-import { isValidETHAddress } from 'modules/common/utils/isValidETHAddress';
-import { t } from 'modules/i18n/utils/intl';
-import { PolkadotProvider } from 'polkadot';
 import React, { useMemo } from 'react';
 import {
   Field,
@@ -13,16 +7,27 @@ import {
   Form,
   FormRenderProps,
 } from 'react-final-form';
+import { AnyAction } from 'redux';
+
+import { PolkadotProvider } from 'polkadot';
+
+import { featuresConfig } from 'modules/common/const';
+import { FormErrors } from 'modules/common/types/FormErrors';
+import { ResponseData } from 'modules/common/types/ResponseData';
+import { isValidETHAddress } from 'modules/common/utils/isValidETHAddress';
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { InputField } from 'uiKit/InputField';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { claimStakingRewards } from '../../../actions/claimStakingRewards';
 import { connect } from '../../../actions/connect';
 import { IFetchPolkadotAccountsDataItem } from '../../../actions/fetchPolkadotAccounts';
 import { TPolkadotAccounts } from '../../../hooks/useFetchPolkadotAccounts';
 import { ProviderName } from '../../../utils/isProviderAvailable';
 import { WalletSwitcher } from '../../WalletSwitcher';
+
 import { useClaimFormStyles } from './useClaimFormStyles';
 
 type TSetActiveFn = (isActive: boolean) => void;
@@ -50,7 +55,7 @@ interface IFormPayload {
 interface IClaimData {
   data?: ResponseData<typeof claimStakingRewards>;
   error?: Error;
-  action: any;
+  action: AnyAction;
 }
 
 export const ClaimForm = ({
@@ -65,7 +70,7 @@ export const ClaimForm = ({
   setLoadingFn,
   setNewWindowFn,
   setSuccessLinkFn,
-}: IClaimFormProps) => {
+}: IClaimFormProps): JSX.Element => {
   const classes = useClaimFormStyles();
   const dispatch = useDispatchRequest();
 
@@ -78,6 +83,11 @@ export const ClaimForm = ({
       )?.providerName,
     [polkadotAccount, polkadotAccounts],
   );
+
+  const onWalletSwitcherItemClick =
+    (account: string) => async (): Promise<void> => {
+      await dispatch(connect(account));
+    };
 
   const onRender = ({
     handleSubmit,
@@ -124,8 +134,8 @@ export const ClaimForm = ({
                   currentProvider={providerName}
                   currentWallet={polkadotAccount}
                   isDisabled={values?.isExternalWallet}
-                  onConnect={onWalletSwitcherItemClick}
                   wallets={polkadotAccounts}
+                  onConnect={onWalletSwitcherItemClick}
                 />
               </div>
 
@@ -189,11 +199,11 @@ export const ClaimForm = ({
 
           <div className={classes.actionArea}>
             <Button
+              fullWidth
               className={classes.actionBtn}
               color="primary"
-              fullWidth
-              onClick={handleSubmit}
               size="large"
+              onClick={handleSubmit}
             >
               {t('polkadot-slot-auction.button.continue')}
             </Button>
@@ -210,10 +220,10 @@ export const ClaimForm = ({
     const targetWallet: string = isExternalWallet
       ? (inputWallet as string)
       : polkadotAccount;
-    const tokenNameSubdomain: string = !!rewardTokenName.length
+    const tokenNameSubdomain: string = rewardTokenName.length
       ? `${rewardTokenName.toLowerCase()}.`
       : '';
-    const newSuccessLink: string = `https://${tokenNameSubdomain}subscan.io/account/${targetWallet}`;
+    const newSuccessLink = `https://${tokenNameSubdomain}subscan.io/account/${targetWallet}`;
 
     const setLoading: TSetActiveFn =
       typeof setLoadingFn === 'function' ? setLoadingFn : () => {};
@@ -247,7 +257,7 @@ export const ClaimForm = ({
         errors.inputWallet = t('validation.required');
       } else if (isETHProject && !isValidETHAddress(inputWallet)) {
         errors.inputWallet = t('validation.invalid-network-address', {
-          network: !!rewardTokenName.length ? rewardTokenName : t('unit.eth'),
+          network: rewardTokenName.length ? rewardTokenName : t('unit.eth'),
         });
       } else if (
         !isETHProject &&
@@ -262,19 +272,14 @@ export const ClaimForm = ({
     return errors;
   };
 
-  const onWalletSwitcherItemClick =
-    (account: string) => async (): Promise<void> => {
-      await dispatch(connect(account));
-    };
-
   return (
     <Form
       initialValues={{
         isExternalWallet: !featuresConfig.isActiveMyRewardsClaimModalNewParts,
       }}
-      onSubmit={onSubmit}
       render={onRender}
       validate={onValidate}
+      onSubmit={onSubmit}
     />
   );
 };

@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
+import { useMemo } from 'react';
+
 import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -7,8 +9,8 @@ import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
 import { MATIC_STAKING_NETWORKS } from 'modules/stake-polygon/const';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
-import { useMemo } from 'react';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+
 import { IUseStakableToken } from '../types';
 
 export const useStakableMatic = (): IUseStakableToken => {

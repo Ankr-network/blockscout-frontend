@@ -5,6 +5,9 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+import { useDebouncedCallback } from 'use-debounce/lib';
+
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { RoutesConfig } from 'modules/dashboard/Routes';
@@ -15,9 +18,7 @@ import {
   IUnstakeDialogProps,
   IUnstakeFormValues,
 } from 'modules/stake/components/UnstakeDialog';
-import { useCallback } from 'react';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useDebouncedCallback } from 'use-debounce/lib';
 
 const DEBOUNCE_TIME: Milliseconds = 1_000;
 
@@ -27,8 +28,8 @@ interface IUseUnstakeDialog
   isBalanceLoading: boolean;
   isBurnFeeLoading: boolean;
   isLoading: boolean;
-  balance: BigNumber;
   burnFee: BigNumber;
+  balance: BigNumber;
   closeHref: string;
 }
 

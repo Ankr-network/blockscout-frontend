@@ -1,13 +1,10 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles, StyleRules } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useConnectTooltipStyles = makeStyles<Theme>(
-  (theme: Theme): StyleRules => ({
-    root: {},
+export const useConnectTooltipStyles = makeStyles(() => ({
+  root: {},
 
-    tooltip: {
-      padding: 0,
-      border: 'none',
-    },
-  }),
-);
+  tooltip: {
+    padding: 0,
+    border: 'none',
+  },
+}));

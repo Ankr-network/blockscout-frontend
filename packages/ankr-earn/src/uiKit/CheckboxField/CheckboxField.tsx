@@ -1,8 +1,10 @@
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { getErrorText, hasError } from 'modules/common/utils/form';
 import React, { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
+
+import { getErrorText, hasError } from 'modules/common/utils/form';
+
 import { useCheckboxStyles } from './useCheckboxStyles';
 
 interface ISwitchFieldProps extends FieldRenderProps<HTMLElement> {
@@ -15,7 +17,7 @@ export const CheckboxField = ({
   input,
   label,
   meta,
-}: ISwitchFieldProps & any) => {
+}: ISwitchFieldProps): JSX.Element => {
   const classes = useCheckboxStyles();
 
   return (
@@ -27,7 +29,7 @@ export const CheckboxField = ({
       />
 
       {hasError(meta) && (
-        <FormHelperText error={true}>{getErrorText(meta)}</FormHelperText>
+        <FormHelperText error>{getErrorText(meta)}</FormHelperText>
       )}
     </div>
   );

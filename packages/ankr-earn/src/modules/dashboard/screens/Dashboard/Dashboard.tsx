@@ -1,12 +1,14 @@
 import { Box } from '@material-ui/core';
+
 import { featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
+
 import { LiquidCrowdloans } from './components/LiquidCrowdloans';
 import { StakableTokens } from './components/StakableTokens';
 import { StakedTokens } from './components/StakedTokens';
 import { useDashboard } from './hooks/useDashboard';
 
-export const Dashboard = () => {
+export const Dashboard = (): JSX.Element => {
   useDashboard();
 
   return (

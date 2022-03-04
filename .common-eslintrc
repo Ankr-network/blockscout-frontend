@@ -9,7 +9,14 @@
     "es6": true
   },
   "settings": {
-    "import/core-modules": [ "ui", "polkadot", "provider", "ankr-academy", "multirpc-sdk" ]
+    "import/core-modules": [
+      "ui",
+      "polkadot",
+      "provider",
+      "ankr-academy",
+      "ankr-earn",
+      "multirpc-sdk"
+    ]
   },
   "extends": [
     "airbnb-typescript",
@@ -53,7 +60,17 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "import/no-extraneous-dependencies": [
-      "warn"
+      "warn",
+      {
+        "bundledDependencies": false,
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/setupTests.ts",
+          "src/**/*.stories.ts",
+          "src/**/*.stories.tsx"
+        ]
+      }
     ],
     "react/jsx-one-expression-per-line": "off",
     "react/static-property-placement": [

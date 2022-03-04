@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/earn",
   "dependencies": {
+    "async-retry": "^1.3.3",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.12.3",
@@ -24,10 +25,12 @@
     "ethereumjs-tx": "^2.1.2",
     "final-form": "^4.20.6",
     "history": "4.10.1",
+    "jss": "^10.9.0",
     "jss-preset-default": "^10.9.0",
     "limit-concurrency-decorator": "^0.5.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.2",
     "react-final-form": "^6.5.7",
     "react-intl-universal": "^2.4.8",
@@ -37,6 +40,7 @@
     "react-scripts": "4.0.3",
     "react-shallow-context": "^1.0.1",
     "react-uid": "^2.3.1",
+    "redux": "^4.1.2",
     "redux-action": "^1.2.2",
     "redux-actions": "^2.6.5",
     "redux-persist": "^6.0.0",
@@ -46,6 +50,10 @@
     "use-debounce": "^7.0.1",
     "web-vitals": "^1.0.1",
     "web3": "^1.6.1",
+    "web3-core": "^1.7.0",
+    "web3-eth": "^1.7.0",
+    "web3-eth-contract": "^1.6.1",
+    "web3-utils": "^1.3.5",
     "web3modal": "^1.9.4",
     "yup": "^0.32.11"
   },
@@ -71,6 +79,7 @@
     "@types/react-router-dom": "^5.3.2",
     "@types/redux-actions": "^2.6.2",
     "babel-loader": "8.1.0",
+    "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "fast-check": "^2.21.0",
     "lint-staged": "^12.1.2",
@@ -87,8 +96,10 @@
     "build:stage": "env-cmd -f .env.stage react-app-rewired build",
     "build:prod": "env-cmd -f .env.prod react-app-rewired build",
     "test": "env-cmd react-app-rewired test",
-    "eject": "react-app-rewired eject",
+    "test:coverage": "yarn test --coverage",
     "types": "tsc --noEmit -p tsconfig.json",
+    "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
+    "lint:js:fix": "yarn lint:js --fix",
     "format": "lint-staged",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
@@ -96,47 +107,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "prettier --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts?(x)"
-        ],
-        "rules": {
-          "@typescript-eslint/ban-types": [
-            "error",
-            {
-              "types": {
-                "React.FC": {
-                  "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
-                }
-              }
-            }
-          ],
-          "@typescript-eslint/ban-ts-ignore": "off",
-          "@typescript-eslint/no-empty-interface": "off",
-          "@typescript-eslint/explicit-function-return-type": "off",
-          "@typescript-eslint/no-explicit-any": "off",
-          "@typescript-eslint/camelcase": "off",
-          "@typescript-eslint/explicit-module-boundary-types": "off",
-          "import/no-anonymous-default-export": "off"
-        }
-      },
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
+      "prettier --write",
+      "cross-env NODE_ENV=production eslint --ext=ts,tsx,js,jsx --fix"
     ]
   },
   "browserslist": {
@@ -161,7 +133,8 @@
     "include": [
       "/liquid-crowdloan/",
       "/eth2-swap/",
-      "/unstake/matic/"
+      "/unstake/matic/",
+      "/bridge/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

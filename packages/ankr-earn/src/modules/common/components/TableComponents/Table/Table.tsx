@@ -2,7 +2,9 @@ import { Paper } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { createPureContext } from 'react-shallow-context';
+
 import { ICustomProps, IStyleProps } from '../types';
+
 import { useTableStyles } from './useTableStyles';
 
 type TableContextType = {
@@ -16,7 +18,7 @@ export const TableContext = createPureContext<TableContextType>({
   count: 0,
 } as TableContextType);
 
-interface ITableComponentProps extends ICustomProps, IStyleProps {
+export interface ITableComponentProps extends ICustomProps, IStyleProps {
   className?: string;
   columnsCount: number;
   children: ReactNode;
@@ -28,7 +30,7 @@ const TableComponent = ({
   children,
   minWidth,
   dense,
-}: ITableComponentProps) => {
+}: ITableComponentProps): JSX.Element => {
   const classes = useTableStyles({ minWidth });
 
   return (
@@ -44,21 +46,35 @@ const TableComponent = ({
   );
 };
 
-export type ITableProps = ITableComponentProps;
-
-export const Table = (props: ITableProps) => {
+export const Table = ({
+  dense,
+  paddingCollapse,
+  customCell,
+  alignCell,
+  columnsCount,
+  stickyHeader,
+  ...rest
+}: ITableComponentProps): JSX.Element => {
   return (
     <TableContext.Provider
       value={{
-        dense: props.dense,
-        paddingCollapse: props.dense || props.paddingCollapse,
-        customCell: props.customCell,
-        alignCell: props.alignCell,
-        count: props.columnsCount,
-        stickyHeader: props.stickyHeader,
+        dense,
+        paddingCollapse: dense || paddingCollapse,
+        customCell,
+        alignCell,
+        count: columnsCount,
+        stickyHeader,
       }}
     >
-      <TableComponent {...props} />
+      <TableComponent
+        alignCell={alignCell}
+        columnsCount={columnsCount}
+        customCell={customCell}
+        dense={dense}
+        paddingCollapse={paddingCollapse}
+        stickyHeader={stickyHeader}
+        {...rest}
+      />
     </TableContext.Provider>
   );
 };

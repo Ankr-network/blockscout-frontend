@@ -4,25 +4,24 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { ReactText, useState } from 'react';
+
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
-import { FANTOM_STAKING_AMOUNT_STEP } from 'modules/stake-fantom/const';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useState } from 'react';
 
 interface IUseStakeForm {
-  balance?: BigNumber;
-  stakingAmountStep: number;
-  minAmount?: number;
   loading: boolean;
   isCommonDataLoading: boolean;
   tokenIn: string;
   tokenOut: string;
   amount: ReactText;
+  balance?: BigNumber;
+  minAmount?: number;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }
@@ -56,7 +55,6 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
   return {
     isCommonDataLoading,
     balance,
-    stakingAmountStep: FANTOM_STAKING_AMOUNT_STEP,
     minAmount,
     loading: isStakeLoading,
     tokenIn: t('unit.ftm'),

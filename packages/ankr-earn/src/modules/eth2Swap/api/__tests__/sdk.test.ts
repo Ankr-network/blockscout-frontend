@@ -1,15 +1,13 @@
-import { ProviderManager } from 'provider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
 import { configFromEnv } from 'modules/api/config';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
+
 import { TSwapOption } from '../../types';
-import {
-  addTokenToWallet,
-  approveAETHCForAETHB,
-  fetchEth2SwapData,
-  lockShares,
-  unlockShares,
-} from '../sdk';
+import { EthSDK } from '../sdk';
+
+jest.mock('modules/api/ProviderManagerSingleton', () => ({
+  ProviderManagerSingleton: { getInstance: jest.fn() },
+}));
 
 describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
   test('should return contracts data', async () => {
@@ -20,6 +18,23 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => false,
+        connect: jest.fn(),
+        createContract: () => ({
+          methods: {
+            balanceOf: mockBalanceOf,
+            ratio: mockRatio,
+            allowance: mockAllowance,
+          },
+        }),
+      }),
+      getReadProvider: () => ({
+        getWeb3: () => ({
+          eth: { getChainId: () => 1 },
+        }),
         createContract: () => ({
           methods: {
             balanceOf: mockBalanceOf,
@@ -30,11 +45,14 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       }),
     };
 
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    const sdk = await EthSDK.getInstance();
+
     const { ratio, aethBalance, fethBalance, allowance } =
-      await fetchEth2SwapData({
-        providerManager: mockProviderManager as unknown as ProviderManager,
-        providerId: AvailableWriteProviders.ethCompatible,
-      });
+      await sdk.fetchEth2SwapData();
 
     expect(ratio.toNumber()).toBe(0);
     expect(allowance.toNumber()).toBe(0);
@@ -59,6 +77,11 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => true,
+        connect: jest.fn(),
         createContract: () => ({
           methods: {
             lockShares: mockLockShares,
@@ -66,12 +89,17 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
         }),
         sendTransactionAsync: mockSendTransactionAsync,
       }),
+      getReadProvider: jest.fn(),
     };
 
-    const result = await lockShares({
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.lockShares({
       amount: '1',
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
     });
 
     const {
@@ -79,7 +107,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     } = configFromEnv();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockLockShares).toBeCalledTimes(1);
@@ -96,7 +123,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockSendTransactionAsync = jest.fn().mockReturnValue({
       receiptPromise: {},
       transactionHash: 'hash',
-      rawTransaction: 'raw',
     });
 
     const mockUnlockShares = jest
@@ -106,6 +132,11 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => true,
+        connect: jest.fn(),
         createContract: () => ({
           methods: {
             unlockShares: mockUnlockShares,
@@ -113,12 +144,17 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
         }),
         sendTransactionAsync: mockSendTransactionAsync,
       }),
+      getReadProvider: jest.fn(),
     };
 
-    const result = await unlockShares({
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.unlockShares({
       amount: '1',
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
     });
 
     const {
@@ -126,7 +162,6 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     } = configFromEnv();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockUnlockShares).toBeCalledTimes(1);
@@ -153,6 +188,10 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => true,
         createContract: () => ({
           methods: {
             approve: mockApprove,
@@ -160,19 +199,22 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
         }),
         sendTransactionAsync: mockSendTransactionAsync,
       }),
+      getReadProvider: jest.fn(),
     };
+
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
 
     const {
       contractConfig: { fethContract, aethContract },
     } = configFromEnv();
 
-    const result = await approveAETHCForAETHB({
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
-    });
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.approveAETHCForAETHB();
 
     expect(result.transactionHash).toBe('hash');
-    expect(result.rawTransaction).toBe('raw');
     expect(result.receiptPromise).toStrictEqual({});
 
     expect(mockApprove).toBeCalledTimes(1);
@@ -194,15 +236,26 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => true,
         addTokenToWallet: mockAddTokenToWallet,
       }),
+      getReadProvider: jest.fn(),
     };
 
-    await addTokenToWallet({
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
-      swapOption: 'aETHc',
-    });
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    {
+      const sdk = await EthSDK.getInstance();
+
+      await sdk.addTokenToWallet({
+        swapOption: 'aETHc',
+      });
+    }
 
     expect(mockAddTokenToWallet).toBeCalledWith({
       address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
@@ -210,11 +263,13 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       decimals: 18,
     });
 
-    await addTokenToWallet({
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
-      swapOption: 'aETHb',
-    });
+    {
+      const sdk = await EthSDK.getInstance();
+
+      await sdk.addTokenToWallet({
+        swapOption: 'aETHb',
+      });
+    }
 
     expect(mockAddTokenToWallet).toBeCalledWith({
       address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -229,13 +284,23 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
+        getWeb3: () => ({
+          eth: { getChainId: () => 56 },
+        }),
+        isConnected: () => false,
+        connect: jest.fn(),
         addTokenToWallet: mockAddTokenToWallet,
       }),
+      getReadProvider: jest.fn(),
     };
 
-    await addTokenToWallet({
-      providerManager: mockProviderManager as unknown as ProviderManager,
-      providerId: AvailableWriteProviders.ethCompatible,
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    const sdk = await EthSDK.getInstance();
+
+    await sdk.addTokenToWallet({
       swapOption: 'unknown' as TSwapOption,
     });
 

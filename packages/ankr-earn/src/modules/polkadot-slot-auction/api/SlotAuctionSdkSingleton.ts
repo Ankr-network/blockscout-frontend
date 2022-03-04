@@ -1,6 +1,7 @@
-import { web3ModalTheme } from 'modules/api/ProviderManagerSingleton';
 import { ISlotAuctionConfig, SlotAuctionSdk } from 'polkadot';
-import { EthereumWeb3KeyProvider } from 'provider/providerManager/providers/EthereumWeb3KeyProvider';
+import { EthereumWeb3KeyProvider } from 'provider';
+
+import { web3ModalTheme } from 'modules/api/ProviderManagerSingleton';
 
 export class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;

@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useSupportProjectStyles = makeStyles((theme: Theme) => ({
+export const useSupportProjectStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     maxWidth: 700,

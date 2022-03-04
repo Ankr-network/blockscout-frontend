@@ -1,14 +1,17 @@
 import { IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { ReactNode } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+
 import { RoutesConfig } from '../../Routes';
+
 import { useBalanceStyles } from './BalanceStyles';
 
 export enum EBalancePropsVariants {
@@ -34,14 +37,14 @@ export const Balance = ({
   value,
   variant,
   actions,
-}: IBalanceProps) => {
+}: IBalanceProps): JSX.Element => {
   const classes = useBalanceStyles();
 
   return (
     <Paper
-      variant="outlined"
-      square={false}
       className={classNames(classes.root)}
+      square={false}
+      variant="outlined"
     >
       <div className={classes.top}>
         <div className={classes.titleContainerArea}>
@@ -64,9 +67,9 @@ export const Balance = ({
 
           {price instanceof BigNumber && (
             <Typography
-              variant="subtitle1"
-              color="textSecondary"
               className={classes.price}
+              color="textSecondary"
+              variant="subtitle1"
             >
               {t(`balance.price.${variant}`, {
                 value: price.decimalPlaces(DEFAULT_FIXED).toNumber(),
@@ -92,6 +95,7 @@ export const Balance = ({
               tooltip={t('staker-dashboard.stake')}
             />
           </RouterLink>
+
           {actions}
         </div>
       </div>

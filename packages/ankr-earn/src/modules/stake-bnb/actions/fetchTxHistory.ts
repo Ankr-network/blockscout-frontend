@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
 import { BinanceSDK, ITxEventsHistoryData } from '../api/BinanceSDK';
 
 export const fetchTxHistory = createSmartAction<

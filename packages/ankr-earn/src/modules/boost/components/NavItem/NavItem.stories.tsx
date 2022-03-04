@@ -4,4 +4,4 @@ export default {
   title: 'modules/Boost/components/NavItem',
 };
 
-export const Default = () => <NavItem href="#">Some text</NavItem>;
+export const Default = (): JSX.Element => <NavItem href="#">Some text</NavItem>;

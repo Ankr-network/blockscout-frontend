@@ -1,8 +1,10 @@
 import { Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
+
+import { t } from 'modules/i18n/utils/intl';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useClaimSuccessStyles } from './useClaimSuccessStyles';
 
 interface IClaimSuccessProps {
@@ -17,7 +19,7 @@ export const ClaimSuccess = ({
   rewardTokenName,
   rewardTokenSymbol,
   successLink,
-}: IClaimSuccessProps) => {
+}: IClaimSuccessProps): JSX.Element => {
   const classes = useClaimSuccessStyles();
 
   return (

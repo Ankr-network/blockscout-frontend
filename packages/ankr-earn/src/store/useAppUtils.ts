@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import intl from 'react-intl-universal';
 
-import { useLocale } from '../modules/i18n/hooks/useLocale';
 import { locales } from '../modules/i18n';
+import { useLocale } from '../modules/i18n/hooks/useLocale';
 
-export const useInitializeLocale = () => {
+export const useInitializeLocale = (): boolean => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const { locale } = useLocale();
 

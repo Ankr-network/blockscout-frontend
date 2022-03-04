@@ -1,9 +1,10 @@
 import { Paper, Typography, Box, Container } from '@material-ui/core';
 
-import { t } from 'modules/i18n/utils/intl';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
+
 import { TOKENS } from './const';
 import { useEth2SwapSuccessHook } from './useEth2SwapSuccessHook';
 import { useSuccessEth2SwapStyles } from './useSuccessEth2SwapStyles';
@@ -17,7 +18,7 @@ export const Success = (): JSX.Element => {
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Paper className={classes.root} component="div" variant="elevation">
-          <Typography variant="h2" className={classes.title}>
+          <Typography className={classes.title} variant="h2">
             {t('eth2Swap.successTitle')}
           </Typography>
 

@@ -1,14 +1,11 @@
-import { AnyAction } from 'redux';
+type Reducer<S, A> = (state: S, action: A) => S;
 
-type Reducer<State> = (State: any, Action: any) => State;
-
-export const createReducer = (
-  initialState: any,
-  handlers: { [key: string]: Reducer<any> },
-): Reducer<any> => {
-  return (state: any = initialState, action: AnyAction): any => {
-    return handlers.hasOwnProperty(action.type)
-      ? handlers[action.type](state, action)
-      : state;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const createReducer = <S, A extends { type: string; payload: any }>(
+  initialState: S,
+  handlers: Record<string, Reducer<S, A>>,
+): Reducer<S, A> => {
+  return (state: S = initialState, action: A): S => {
+    return handlers[action.type] ? handlers[action.type](state, action) : state;
   };
 };

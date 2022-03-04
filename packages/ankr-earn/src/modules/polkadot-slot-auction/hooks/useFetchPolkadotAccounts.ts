@@ -1,5 +1,7 @@
 import { useQuery } from '@redux-requests/react';
+
 import { ResponseData } from 'modules/common/types/ResponseData';
+
 import {
   fetchPolkadotAccounts,
   IFetchPolkadotAccountsDataItem,

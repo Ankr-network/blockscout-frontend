@@ -1,13 +1,21 @@
 import { RequestActionMeta, success } from '@redux-requests/core';
-import { CancelledEffect } from '@redux-saga/core/effects';
-import { Task } from '@redux-saga/types';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { connect, IConnect } from 'modules/auth/actions/connect';
-import { disconnect } from 'modules/auth/actions/disconnect';
-import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
-import { updateConnectedNetwork } from 'modules/auth/actions/updateConnectedNetwork';
-import { ProviderManager } from 'provider';
+import { Channel, END, eventChannel, Task } from 'redux-saga';
 import {
+  call,
+  cancel,
+  cancelled,
+  fork,
+  put,
+  take,
+  takeEvery,
+  CancelledEffect,
+  ForkEffect,
+} from 'redux-saga/effects';
+import Web3 from 'web3';
+
+import {
+  ProviderManager,
+  AvailableWriteProviders,
   AccountChangedEventData,
   EventProvider,
   IAccountChangedEvent,
@@ -18,21 +26,16 @@ import {
   ProviderEvent,
   ProviderEvents,
   ProviderRpcError,
-} from 'provider/providerEvents/types';
-import { EVENTS, getProvider } from 'provider/providerEvents/utils';
-import { EthereumWeb3KeyProvider } from 'provider/providerManager/providers/EthereumWeb3KeyProvider';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { Channel, END, eventChannel } from 'redux-saga';
-import {
-  call,
-  cancel,
-  cancelled,
-  fork,
-  put,
-  take,
-  takeEvery,
-} from 'redux-saga/effects';
-import Web3 from 'web3';
+  EVENTS,
+  getProvider,
+  EthereumWeb3KeyProvider,
+} from 'provider';
+
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { connect, IConnect } from 'modules/auth/actions/connect';
+import { disconnect } from 'modules/auth/actions/disconnect';
+import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
+import { updateConnectedNetwork } from 'modules/auth/actions/updateConnectedNetwork';
 
 interface IListenProviderEventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
@@ -115,7 +118,8 @@ function* listenProviderEvents({
   // Note: Hypothetical "throw new Error" with unavailable "Web3"
   try {
     web3 = ethWeb3KeyProvider.getWeb3();
-  } catch (e: Error | any) {
+  } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
 
     yield put(disconnect(providerId));
@@ -133,7 +137,7 @@ function* listenProviderEvents({
       const event: ProviderEvent = yield take(chan);
 
       switch (event.type) {
-        case ProviderEvents.AccountsChanged:
+        case ProviderEvents.AccountsChanged: {
           const selectedAccount = event.data[0];
           yield put(
             updateAccountAddress({
@@ -142,9 +146,10 @@ function* listenProviderEvents({
             }),
           );
           break;
+        }
 
-        case ProviderEvents.ChainChanged:
-          const selectedChainId: number = parseInt(event.data, 16);
+        case ProviderEvents.ChainChanged: {
+          const selectedChainId = Number.parseInt(event.data, 16);
 
           yield put(
             updateConnectedNetwork({
@@ -153,6 +158,7 @@ function* listenProviderEvents({
             }),
           );
           break;
+        }
 
         case ProviderEvents.Disconnect:
           yield put(disconnect(providerId));
@@ -190,10 +196,11 @@ function* connectSuccessWorker(action: IConnectSuccessAction) {
 
   // Note: Hypothetical "throw new Error" with invalid "providerId"
   try {
-    ethWeb3KeyProvider = yield call(
-      async () => await providerManager.getProvider(providerId),
+    ethWeb3KeyProvider = yield call(() =>
+      providerManager.getProvider(providerId),
     );
-  } catch (e: Error | any) {
+  } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
 
     // @TODO Please to think about "disconnectAll" hook for this
@@ -211,6 +218,6 @@ function* connectSuccessWorker(action: IConnectSuccessAction) {
   yield cancel(listenProviderEventsTask);
 }
 
-export function* providerEventsSaga() {
+export function* providerEventsSaga(): Generator<ForkEffect, void> {
   yield takeEvery(success(connectAction), connectSuccessWorker);
 }

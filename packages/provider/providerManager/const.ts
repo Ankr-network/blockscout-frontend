@@ -75,8 +75,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'AVAX',
       decimals: 18,
     },
-    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-    blockExplorerUrls: ['https://cchain.explorer.avax.network/'],
+    rpcUrls: ['https://rpc.ankr.com/avalanche'],
+    blockExplorerUrls: ['https://snowtrace.io/'],
   },
 
   [BlockchainNetworkId.avalancheTestnet]: {
@@ -87,8 +87,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'AVAX',
       decimals: 18,
     },
-    rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
-    blockExplorerUrls: ['https://cchain.explorer.avax-test.network'],
+    rpcUrls: ['https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://testnet.snowtrace.io/'],
   },
 
   [BlockchainNetworkId.fantom]: {
@@ -112,5 +112,16 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     },
     rpcUrls: ['https://rpc.testnet.fantom.network/'],
     blockExplorerUrls: ['https://testnet.ftmscan.com/'],
+  },
+  [BlockchainNetworkId.polygon]: {
+    chainId: numberToHex(BlockchainNetworkId.polygon),
+    chainName: 'Polygon Mainnet',
+    nativeCurrency: {
+      name: 'MATIC',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+    rpcUrls: ['https://polygon-rpc.com/'],
+    blockExplorerUrls: ['https://polygonscan.com'],
   },
 };

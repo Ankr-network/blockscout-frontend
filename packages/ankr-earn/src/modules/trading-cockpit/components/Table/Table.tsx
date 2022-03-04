@@ -1,5 +1,10 @@
 import { ButtonBase } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { ReactNode, ReactText, useMemo } from 'react';
+import { uid } from 'react-uid';
+
+import { WithUseStyles } from 'ui';
+
 import {
   Table as BasicTable,
   TableBody,
@@ -10,13 +15,12 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactNode, ReactText, useMemo } from 'react';
-import { uid } from 'react-uid';
-import { WithUseStyles } from 'ui';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { CellPercentageValue } from '../CellPercentageValue';
 import { ExChange } from '../ExChange';
+
 import { useTableStyles } from './useTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
@@ -41,7 +45,11 @@ interface ITableProps extends Partial<WithUseStyles<typeof useTableStyles>> {
   isLoading?: boolean;
 }
 
-export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
+export const TableComponent = ({
+  data,
+  outToken,
+  isLoading,
+}: ITableProps): JSX.Element | null => {
   const classes = useTableStyles();
 
   const captions = useLocaleMemo(
@@ -75,7 +83,7 @@ export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
       SKELETON_ROWS.map((columnWidths, i) => (
         <TableRow key={uid(i)}>
           {columnWidths.map((width, j) => (
-            <TableBodyCell label={captions[j].label} key={uid(`${i}-${j}`)}>
+            <TableBodyCell key={uid(`${i}-${j}`)} label={captions[j].label}>
               <Skeleton width={width} />
             </TableBodyCell>
           ))}
@@ -83,9 +91,9 @@ export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
           <TableBodyCell label={captions[columnWidths.length].label}>
             <Skeleton
               className={classes.btnSkeleton}
-              width="100%"
               height={40}
               variant="rect"
+              width="100%"
             />
           </TableBodyCell>
         </TableRow>
@@ -139,8 +147,8 @@ export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
               <TableBodyCell label={`${captions[0].label}`}>
                 <ExChange
                   className={classes.platform}
-                  title={row.paltform}
                   iconSlot={row.iconSlot}
+                  title={row.paltform}
                 />
               </TableBodyCell>
 
@@ -150,12 +158,12 @@ export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
 
               <TableBodyCell label={`${captions[2].label}`}>
                 <CellPercentageValue
-                  value={row.fairValue}
                   text={
                     row.fairValue === 0
                       ? t('trading-cockpit.table.fair-value')
                       : ''
                   }
+                  value={row.fairValue}
                 />
               </TableBodyCell>
 
@@ -177,7 +185,7 @@ export const TableComponent = ({ data, outToken, isLoading }: ITableProps) => {
                 </span>
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[5].label}`} align="right">
+              <TableBodyCell align="right" label={`${captions[5].label}`}>
                 {row.btnSlot}
               </TableBodyCell>
             </TableRow>

@@ -1,8 +1,11 @@
 import classNames from 'classnames';
-import { WithUseStyles } from 'ui';
 import React, { useContext } from 'react';
+
+import { WithUseStyles } from 'ui';
+
 import { TableContext } from '../Table/Table';
 import { AlignType, IStyleProps } from '../types';
+
 import { useTableHeadCellStyles } from './useTableHeadCellStyles';
 
 interface ITableHeadCellProps
@@ -19,7 +22,7 @@ const TableHeadCellComponent = ({
   label,
   dense,
   paddingCollapse,
-}: ITableHeadCellProps & IStyleProps) => {
+}: ITableHeadCellProps & IStyleProps): JSX.Element => {
   const classes = useTableHeadCellStyles({
     dense,
     paddingCollapse,
@@ -41,7 +44,7 @@ const TableHeadCellComponent = ({
   );
 };
 
-export const TableHeadCell = (props: ITableHeadCellProps) => {
+export const TableHeadCell = (props: ITableHeadCellProps): JSX.Element => {
   const context = useContext(TableContext);
   return <TableHeadCellComponent {...context} {...props} />;
 };

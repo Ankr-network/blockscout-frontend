@@ -1,14 +1,12 @@
-import React from 'react';
+import { makeStyles } from '@material-ui/core';
 
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import { Toggle } from './Toggle';
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles(() => ({
   block: {},
 }));
 
-const ToggleStory = () => {
+const ToggleStory = (): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -18,7 +16,7 @@ const ToggleStory = () => {
   );
 };
 
-export const ToggleExample = () => <ToggleStory />;
+export const ToggleExample = (): JSX.Element => <ToggleStory />;
 
 export default {
   title: 'modules/Layout/components/Toggle',

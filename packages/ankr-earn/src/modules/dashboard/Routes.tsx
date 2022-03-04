@@ -1,10 +1,13 @@
 import loadable from '@loadable/component';
+import { generatePath, Route, Switch } from 'react-router-dom';
+
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+
 import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
 const ROOT = `${EARN_PATH}dashboard/`;
@@ -26,7 +29,7 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-export function getRoutes() {
+export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>

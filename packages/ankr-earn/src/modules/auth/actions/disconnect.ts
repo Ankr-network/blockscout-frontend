@@ -3,11 +3,16 @@ import {
   RequestsStore,
   resetRequests,
 } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { createAction } from 'redux-smart-actions';
+
+import { setProviderStatus } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+
 import { connect } from './connect';
 
 export const disconnect = createAction<
@@ -27,10 +32,18 @@ export const disconnect = createAction<
     requestKey: getAuthRequestKey(providerId),
     onRequest: withStore,
     onSuccess: (
-      _response: any,
+      _response,
       _action: RequestAction,
-      store: RequestsStore,
+      { dispatch }: RequestsStore,
     ) => {
+      dispatch(
+        setProviderStatus({
+          providerId,
+          isActive: false,
+          walletId: undefined,
+        }),
+      );
+
       const requestsToReset = [
         {
           requestType: connect.toString(),
@@ -38,7 +51,7 @@ export const disconnect = createAction<
         },
       ];
 
-      store.dispatch(resetRequests(requestsToReset));
+      dispatch(resetRequests(requestsToReset));
     },
   },
 }));

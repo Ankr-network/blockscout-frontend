@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactNode, useContext } from 'react';
+
 import { TableContext } from '../Table/Table';
 import { ICustomProps, IStyleProps } from '../types';
+
 import { useTableRowStyles } from './useTableRowStyles';
 
 interface ITableRowProps {
@@ -14,7 +16,7 @@ export const TableRowComponent = ({
   className,
   hover,
   children,
-}: ITableRowProps & ICustomProps & IStyleProps) => {
+}: ITableRowProps & ICustomProps & IStyleProps): JSX.Element => {
   const classes = useTableRowStyles();
 
   return (
@@ -30,7 +32,9 @@ export const TableRowComponent = ({
   );
 };
 
-export const TableRow = (props: Omit<ITableRowProps, 'tableWidth'>) => {
+export const TableRow = (
+  props: Omit<ITableRowProps, 'tableWidth'>,
+): JSX.Element => {
   const context = useContext(TableContext);
   return <TableRowComponent {...context} {...props} />;
 };

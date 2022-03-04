@@ -1,14 +1,22 @@
-import { FTM_NETWORK_BY_ENV } from 'modules/common/const';
+import { AvailableReadProviders, AvailableWriteProviders } from 'provider';
+
+import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 
 export const ACTIONS_PREFIX = 'fantom/';
 
-export const FANTOM_STAKING_NETWORKS = [FTM_NETWORK_BY_ENV];
+export const POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
+
+export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
+
+export const BLOCK_OFFSET = 201_600; // 7 days
 
 export const FANTOM_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
-export const FANTOM_UNSTAKE_PERIOD: Days = 35;
+export const FANTOM_PROVIDER_READ_ID = isMainnet
+  ? AvailableReadProviders.ftmOpera
+  : AvailableReadProviders.ftmTestnet;
 
-// todo: to clarify whether this value is correct
-export const FANTOM_STAKING_AMOUNT_STEP = 0.1;
+export const FANTOM_STAKING_NETWORKS = [FTM_NETWORK_BY_ENV];
+
+export const FANTOM_UNSTAKE_PERIOD: Days = 35;

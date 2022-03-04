@@ -1,6 +1,8 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
-import { BlockchainNetworkId } from 'modules/common/types';
 import { createAction } from 'redux-smart-actions';
+
+import { BlockchainNetworkId } from 'modules/common/types';
+
 import {
   IGetQuotePriceParams,
   IGetQuotePriceReply,
@@ -91,8 +93,9 @@ export const getQuotePrice = createAction<
         // to look at the https://github.com/klis87/redux-requests/discussions/470
         // todo: throw exception
         if (!data) {
+          // eslint-disable-next-line no-console
           console.error(`${getQuotePrice.toString()}: ${error?.message}`);
-          return;
+          return undefined;
         }
 
         return data;

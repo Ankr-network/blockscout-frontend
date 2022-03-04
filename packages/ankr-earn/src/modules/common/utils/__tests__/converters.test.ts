@@ -1,4 +1,5 @@
 import { ETH_SCALE_FACTOR, MAX_UINT256 } from 'modules/common/const';
+
 import { convertNumberToHex } from '../numbers/converters';
 
 describe('modules/common/utils/numbers/converters', () => {

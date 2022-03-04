@@ -1,6 +1,10 @@
-import { Theme } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/styles';
+import { Theme, ThemeProvider } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
+import React, { ReactNode, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { Themes } from 'ui';
+
 import { getTheme } from 'modules/common/utils/getTheme';
 import { t } from 'modules/i18n/utils/intl';
 import { Footer } from 'modules/layout/components/Footer';
@@ -8,13 +12,11 @@ import { Header } from 'modules/layout/components/Header';
 import { ILayoutProps, Layout } from 'modules/layout/components/Layout';
 import { MainNavigation } from 'modules/layout/components/MainNavigation';
 import { MainNavigationMobile } from 'modules/layout/components/MainNavigationMobile';
-import React, { ReactNode, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import { DIALOG_POLKADOT_EXTENSION } from 'store/dialogs/actions';
 import { useDialog } from 'store/dialogs/selectors';
-import { Themes } from 'ui';
 import { Button } from 'uiKit/Button';
 import { QueryLoading } from 'uiKit/QueryLoading';
+
 import { connect } from '../../actions/connect';
 import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccounts';
 import { useFetchPolkadotAccounts } from '../../hooks/useFetchPolkadotAccounts';
@@ -23,6 +25,7 @@ import { initConnect } from '../../sagas/polkadotSlotAuctionSaga';
 import { ProviderName } from '../../utils/isProviderAvailable';
 import { SelectWalletModal } from '../SelectWalletModal';
 import { WalletSwitcher } from '../WalletSwitcher';
+
 import { useDefaultLayoutStyles } from './useDefaultLayoutStyles';
 
 interface IDialog {
@@ -40,7 +43,7 @@ export const DefaultLayout = ({
   children,
   theme = Themes.light,
   verticalAlign = 'top',
-}: IDefaultLayout) => {
+}: IDefaultLayout): JSX.Element => {
   const classes = useDefaultLayoutStyles();
   const dispatch = useDispatch();
 
@@ -76,15 +79,15 @@ export const DefaultLayout = ({
   const renderedHeader = (
     <ThemeProvider theme={currentTheme}>
       <Header
-        mainNavigationSlot={<MainNavigation />}
         mainNavigationMobileSlot={<MainNavigationMobile />}
+        mainNavigationSlot={<MainNavigation />}
         rightComponentSlot={
           isConnected ? (
             <WalletSwitcher
               currentProvider={providerName}
               currentWallet={polkadotAccount}
-              onConnect={handleConnect}
               wallets={polkadotAccounts as IFetchPolkadotAccountsDataItem[]}
+              onConnect={handleConnect}
             />
           ) : (
             <div className={classes.buttonArea}>
@@ -92,8 +95,8 @@ export const DefaultLayout = ({
                 className={classes.button}
                 color="primary"
                 disabled={isLoading}
-                onClick={handleInitConnect}
                 variant="text"
+                onClick={handleInitConnect}
               >
                 {t('polkadot-slot-auction.button.connect')}
 
@@ -114,9 +117,9 @@ export const DefaultLayout = ({
 
   return (
     <Layout
-      verticalAlign={verticalAlign}
-      headerSlot={renderedHeader}
       footerSlot={renderedFooter}
+      headerSlot={renderedHeader}
+      verticalAlign={verticalAlign}
     >
       <ThemeProvider theme={currentTheme}>
         {children}

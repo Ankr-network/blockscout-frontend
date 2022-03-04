@@ -6,12 +6,11 @@
     "composite": true,
     "outDir": "out"
   },
-  "include": [
-    "."
-  ],
+  "include": ["."],
   "exclude": [
     "node_modules",
-    "out"
+    "out",
+    "**/*.test.*"
   ],
   "references": []
 }

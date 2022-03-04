@@ -1,17 +1,20 @@
 import loadable from '@loadable/component';
+import { generatePath, Route, Switch } from 'react-router-dom';
+
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+
 import { BINANCE_WRITE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
-const STAKE_BNB_PATH = ROOT;
 const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
+const STAKE_BNB_PATH = ROOT;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -42,15 +45,15 @@ const Unstake = loadable(
   },
 );
 
-export function getRoutes() {
+export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
-          providerId={BINANCE_WRITE_PROVIDER_ID}
-          path={RoutesConfig.stake.path}
-          availableNetworks={BNB_STAKING_NETWORKS}
           exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={RoutesConfig.stake.path}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -59,10 +62,10 @@ export function getRoutes() {
 
         {featuresConfig.isActiveBNBUnstaking && (
           <GuardRoute
-            providerId={BINANCE_WRITE_PROVIDER_ID}
-            path={RoutesConfig.unstake.path}
-            availableNetworks={BNB_STAKING_NETWORKS}
             exact
+            availableNetworks={BNB_STAKING_NETWORKS}
+            path={RoutesConfig.unstake.path}
+            providerId={BINANCE_WRITE_PROVIDER_ID}
           >
             <DefaultLayout>
               <Unstake />

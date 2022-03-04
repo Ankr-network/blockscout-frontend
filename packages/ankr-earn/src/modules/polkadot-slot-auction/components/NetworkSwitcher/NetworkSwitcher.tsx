@@ -1,16 +1,23 @@
 import classNames from 'classnames';
-import { isMainnet } from 'modules/common/const';
+import { ReactNode, useState } from 'react';
+import { uid } from 'react-uid';
+
 import { TNetworkType } from 'polkadot';
-import React, { ReactNode, useState } from 'react';
+
+import { isMainnet } from 'modules/common/const';
+
+import { RoutesConfig } from '../../const';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { RoutesConfig } from '../../Routes';
+
 import { useNetworkSwitcherStyles } from './useNetworkSwitcherStyles';
 
 interface INetworkSwitcherProps {
   classRoot?: string;
 }
 
-export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
+export const NetworkSwitcher = ({
+  classRoot,
+}: INetworkSwitcherProps): JSX.Element | null => {
   // TODO: fix 'a' switcher, implement proper navlink and check that it doesn't break the parachain, add animation
   const classes = useNetworkSwitcherStyles();
 
@@ -34,10 +41,10 @@ export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
         if (!isActiveNetwork) {
           return (
             <a
+              key={uid(idx)}
               href={RoutesConfig.crowdloans.generatePath(network.toLowerCase())}
-              key={idx}
-              onClick={handleCurrentActionChange(network)}
               rel="noopener noreferrer"
+              onClick={handleCurrentActionChange(network)}
             >
               <div className={classNames(classes.networkButton)}>{network}</div>
             </a>
@@ -46,11 +53,11 @@ export const NetworkSwitcher = ({ classRoot }: INetworkSwitcherProps) => {
 
         return (
           <div
+            key={uid(idx)}
             className={classNames(
               classes.networkButton,
               classes.networkButtonActive,
             )}
-            key={idx}
           >
             {network}
           </div>

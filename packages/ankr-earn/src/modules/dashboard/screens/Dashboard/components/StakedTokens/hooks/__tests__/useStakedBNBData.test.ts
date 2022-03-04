@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
+
 import { useStakedBNBData } from '../useStakedBNBData';
 
 jest.mock('@redux-requests/react', () => ({

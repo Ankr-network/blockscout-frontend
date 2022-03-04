@@ -1,7 +1,9 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
+
 import { isExternalPath } from '../../utils/isExternalPath';
+
 import { useNavigationLinkStyles as useStyles } from './useNavigationLinkStyles';
 
 export interface INavigationLinkProps {
@@ -16,20 +18,20 @@ export const NavigationLink = ({
   href = '',
   isDisabled,
   className,
-}: INavigationLinkProps) => {
+}: INavigationLinkProps): JSX.Element => {
   const classes = useStyles();
 
   if (isExternalPath(href)) {
     return (
       <Button
         key={label}
-        component="a"
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        variant="text"
         className={classNames(classes.link, className)}
+        component="a"
         disabled={!href || isDisabled}
+        href={href}
+        rel="noopener noreferrer"
+        target="_blank"
+        variant="text"
       >
         {label}
       </Button>
@@ -39,12 +41,12 @@ export const NavigationLink = ({
   return (
     <Button
       key={label}
-      component={NavLink}
-      to={href}
-      variant="text"
       activeClassName={classes.activeLink}
       className={classNames(classes.link, className)}
+      component={NavLink}
       disabled={!href || isDisabled}
+      to={href}
+      variant="text"
     >
       {label}
     </Button>

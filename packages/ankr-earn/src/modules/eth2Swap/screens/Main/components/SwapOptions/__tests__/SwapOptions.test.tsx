@@ -4,7 +4,7 @@ import { SwapOptions } from '..';
 
 describe('modules/eth2Swap/screens/Main/components/SwapOptions', () => {
   const defaultProps = {
-    swapOption: 'aETHc' as 'aETHc',
+    swapOption: 'aETHc' as const,
     onChooseAEthB: jest.fn(),
     onChooseAEthC: jest.fn(),
   };

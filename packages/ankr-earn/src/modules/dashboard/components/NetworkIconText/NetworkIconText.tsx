@@ -1,31 +1,46 @@
 import { Grid, Typography } from '@material-ui/core';
+import {
+  ForwardRefExoticComponent,
+  MemoExoticComponent,
+  useEffect,
+  useState,
+} from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
-import { useEffect, useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 import { TextButton } from 'uiKit/TextButton';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { ReactComponent as Checkmark } from './assets/checkmark.svg';
 import { ReactComponent as Copy } from './assets/copy.svg';
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
 import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
 type TIconMap = Record<
-  Token.aBNBb | Token.aMATICb | Token.aETHb | Token.aETHc | Token.aFTMb,
-  typeof BNBIcon | typeof AMATICBIcon
+  | Token.aAVAXb
+  | Token.aBNBb
+  | Token.aETHb
+  | Token.aETHc
+  | Token.aFTMb
+  | Token.aMATICb,
+  MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
 const iconByTokenMap: TIconMap = {
+  [Token.aAVAXb]: AvaxIcon,
   [Token.aBNBb]: BNBIcon,
-  [Token.aMATICb]: AMATICBIcon,
-  [Token.aETHc]: AETHCIcon,
   [Token.aETHb]: AETHBIcon,
+  [Token.aETHc]: AETHCIcon,
   [Token.aFTMb]: AFTMBIcon,
+  [Token.aMATICb]: AMATICBIcon,
 };
 
 interface INetworkIconTextProps {
@@ -40,7 +55,7 @@ export const NetworkIconText = ({
   network,
   isLoading,
   contract,
-}: INetworkIconTextProps) => {
+}: INetworkIconTextProps): JSX.Element => {
   const classes = useNetworkIconTextStyles();
   const [copiedTooltipOpen, setCopiedTooltipOpen] = useState(false);
 
@@ -61,35 +76,39 @@ export const NetworkIconText = ({
 
   const Icon = iconByTokenMap[token as keyof TIconMap];
 
-  const Token = <Typography className={classes.token}>{token}</Typography>;
+  const TokenSymbol = (
+    <Typography className={classes.token}>{token}</Typography>
+  );
 
   const ContractCopyTooltip = contract && (
     <Tooltip
       interactive
       title={
         <Tooltip
-          open={copiedTooltipOpen}
-          onClose={handleCopiedClose}
           disableFocusListener
           disableHoverListener
           disableTouchListener
+          open={copiedTooltipOpen}
           title={
             <div className={classes.copied}>
               <Checkmark />
+
               {t('dashboard.copied')}
             </div>
           }
+          onClose={handleCopiedClose}
         >
           <CopyToClipboard text={contract}>
             <TextButton className={classes.tooltip} onClick={handleCopiedOpen}>
               <Copy />
+
               {t('dashboard.copy')}
             </TextButton>
           </CopyToClipboard>
         </Tooltip>
       }
     >
-      {Token}
+      {TokenSymbol}
     </Tooltip>
   );
 
@@ -100,7 +119,8 @@ export const NetworkIconText = ({
       </Grid>
 
       <Grid item>
-        {ContractCopyTooltip || Token}
+        {ContractCopyTooltip || TokenSymbol}
+
         <Typography className={classes.network}>{network}</Typography>
       </Grid>
     </Grid>

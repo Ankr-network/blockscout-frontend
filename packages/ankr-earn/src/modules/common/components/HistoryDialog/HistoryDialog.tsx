@@ -2,22 +2,24 @@ import { Container, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { format } from 'date-fns';
+import { useState } from 'react';
+import { uid } from 'react-uid';
+
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortStr } from 'modules/common/utils/getShortStr';
 import { t } from 'modules/i18n/utils/intl';
-import { useState } from 'react';
-import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
 
 export interface IHistoryDialogRow {
   date?: Date;
-  link?: string;
   hash?: string;
+  link?: string;
   amount?: BigNumber;
 }
 
@@ -37,7 +39,7 @@ export const HistoryDialog = ({
   open,
   onClose,
   history,
-}: IHistoryDialogProps) => {
+}: IHistoryDialogProps): JSX.Element => {
   const classes = useStyles();
 
   const [showType, setShowType] = useState<'staked' | 'unstaked'>('staked');
@@ -47,7 +49,7 @@ export const HistoryDialog = ({
 
   const tableRows = history[showType]?.map(
     ({ date, link, hash, amount }, index) => (
-      <tr className={classes.tr} key={uid(index)}>
+      <tr key={uid(index)} className={classes.tr}>
         <td className={classes.td}>
           {date
             ? t('history-dialog.date-cell', {
@@ -60,7 +62,7 @@ export const HistoryDialog = ({
 
         <td className={classes.td}>
           {link && hash ? (
-            <NavLink href={link} className={classes.txLink}>
+            <NavLink className={classes.txLink} href={link}>
               {t('history-dialog.hash-cell', { hash: getShortStr(hash) })}
             </NavLink>
           ) : (
@@ -70,7 +72,7 @@ export const HistoryDialog = ({
 
         <td className={classNames(classes.td, classes.amount)}>
           {amount ? (
-            <Tooltip title={`${amount.toFormat()} ${history.token}`} arrow>
+            <Tooltip arrow title={`${amount.toFormat()} ${history.token}`}>
               <div>
                 {t('history-dialog.amount-cell', {
                   value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
@@ -95,16 +97,19 @@ export const HistoryDialog = ({
       <thead className={classes.thead}>
         <tr className={classes.theadTr}>
           <th className={classes.th}>{t('history-dialog.date')}</th>
+
           <th className={classes.th}>{t('history-dialog.hash')}</th>
+
           <th className={classes.th}>{t('history-dialog.amount')}</th>
         </tr>
       </thead>
+
       <tbody>{tableRows}</tbody>
     </table>
   );
 
   return (
-    <Dialog open={open} onClose={onClose} className={classes.root}>
+    <Dialog className={classes.root} open={open} onClose={onClose}>
       <Container className={classes.container}>
         <Typography className={classes.header} variant="h3">
           {t('history-dialog.header')}
@@ -113,21 +118,21 @@ export const HistoryDialog = ({
         <div className={classes.transactionTypeWrapper}>
           <div className={classes.transactionType}>
             <Button
-              onClick={handleSetStakedType}
               className={classNames(
                 classes.typeButton,
                 showType === 'staked' && classes.typeButtonActive,
               )}
+              onClick={handleSetStakedType}
             >
               {t('history-dialog.staking')}
             </Button>
 
             <Button
-              onClick={handleSetUnstakedType}
               className={classNames(
                 classes.typeButton,
                 showType === 'unstaked' && classes.typeButtonActive,
               )}
+              onClick={handleSetUnstakedType}
             >
               {t('history-dialog.unstaking')}
             </Button>

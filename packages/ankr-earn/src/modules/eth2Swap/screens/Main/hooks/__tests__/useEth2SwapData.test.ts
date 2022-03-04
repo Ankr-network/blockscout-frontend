@@ -1,8 +1,9 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 
-import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ONE_ETH, ZERO } from 'modules/common/const';
+
 import { useEth2SwapData } from '..';
 
 jest.mock('@redux-requests/react', () => ({
@@ -14,7 +15,7 @@ jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
-describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
+describe('modules/eth2Swap/screens/Main/useEth2SwapData', () => {
   beforeEach(() => {
     const dispatchRequest = jest.fn(() => Promise.resolve({}));
     (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+
 import { useProjectMetaStyles } from './useProjectMetaStyles';
 
 interface IProjectMetaProps {
@@ -14,12 +14,13 @@ export const ProjectMeta = ({
   name,
   description,
   className,
-}: IProjectMetaProps) => {
+}: IProjectMetaProps): JSX.Element => {
   const classes = useProjectMetaStyles();
 
   return (
     <div className={classNames(classes.root, className)}>
-      <img src={img} alt={description ?? name} className={classes.img} />
+      <img alt={description ?? name} className={classes.img} src={img} />
+
       {name}
     </div>
   );

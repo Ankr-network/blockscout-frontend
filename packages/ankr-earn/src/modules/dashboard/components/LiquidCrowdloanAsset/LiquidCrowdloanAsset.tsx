@@ -1,9 +1,12 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
+
 import { NetworkIconText } from '../NetworkIconText';
+
 import { LiquidCrowdloanAssetSkeleton } from './LiquidCrowdloanAssetSkeleton';
 import { useLiquidCrowdloanAssetStyles as useStyles } from './useLiquidCrowdloanAssetStyles';
 
@@ -16,7 +19,7 @@ interface ILiquidCrowdloanAssetProps {
   redeemDays?: number;
   isLoading?: boolean;
   isStakeLoading?: boolean;
-  onHistoryBtnClick?: () => void;
+  // onHistoryBtnClick?: () => void;
 }
 
 export const LiquidCrowdloanAsset = ({
@@ -26,11 +29,12 @@ export const LiquidCrowdloanAsset = ({
   remaining,
   claimLink,
   redeemDays,
+  isStakeLoading,
   isLoading = false,
-}: ILiquidCrowdloanAssetProps) => {
+}: ILiquidCrowdloanAssetProps): JSX.Element => {
   const classes = useStyles();
 
-  if (isLoading) {
+  if (isLoading || isStakeLoading) {
     return <LiquidCrowdloanAssetSkeleton />;
   }
 
@@ -38,7 +42,7 @@ export const LiquidCrowdloanAsset = ({
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm>
+          <Grid item sm xs={12}>
             <NetworkIconText network={network} token={token} />
           </Grid>
 
@@ -53,19 +57,22 @@ export const LiquidCrowdloanAsset = ({
       </Box>
 
       <Grid container alignItems="flex-end" spacing={2}>
-        <Grid item xs={12} sm className={classes.rewards}>
+        <Grid item sm className={classes.rewards} xs={12}>
           <div className={classes.reward}>
             <Typography className={classes.rewardsLabel}>
               {t('dashboard.remaining-rewards')}
             </Typography>
+
             <Typography className={classes.rewardsValue}>
               {t('dashboard.reward', { value: remaining?.toFormat() })}
             </Typography>
           </div>
+
           <div className={classes.reward}>
             <Typography className={classes.rewardsLabel}>
               {t('dashboard.claimable-rewards')}
             </Typography>
+
             <Typography className={classes.rewardsValue}>
               {t('dashboard.reward', { value: claimable?.toFormat() })}
             </Typography>
@@ -73,13 +80,13 @@ export const LiquidCrowdloanAsset = ({
         </Grid>
 
         {claimLink && (
-          <Grid item xs={12} sm="auto">
-            <Grid container spacing={2} alignItems="center">
+          <Grid item sm="auto" xs={12}>
+            <Grid container alignItems="center" spacing={2}>
               <Grid item>
                 <NavLink
-                  variant="outlined"
                   className={classes.claimButton}
                   href={claimLink}
+                  variant="outlined"
                 >
                   {t('dashboard.claim')}
                 </NavLink>

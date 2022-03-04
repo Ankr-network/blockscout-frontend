@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 

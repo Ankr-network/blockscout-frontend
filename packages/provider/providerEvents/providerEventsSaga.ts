@@ -1,5 +1,5 @@
 import { success } from '@redux-requests/core';
-import { END, eventChannel } from 'redux-saga';
+import { END, eventChannel, Task, Channel } from 'redux-saga';
 import {
   call,
   cancel,
@@ -47,7 +47,7 @@ function* listenProviderEvents(
   provider: Web3KeyProvider,
   actions: ProviderActions,
 ) {
-  const channel = yield call(createEventChannel, provider);
+  const channel: Channel<string> = yield call(createEventChannel, provider);
 
   const { chainChanged, accountsChanged, message, disconnect } = actions;
 
@@ -85,7 +85,8 @@ function* listenProviderEvents(
       yield put(disconnect());
     }
   } finally {
-    if (yield cancelled()) {
+    const isCancelled: boolean = yield cancelled();
+    if (isCancelled) {
       channel.close();
     }
   }
@@ -97,7 +98,7 @@ function* onConnectSuccess({
   provider,
   actions,
 }: ProviderEventsSagaParams) {
-  const listenProviderEventsTask = yield fork(
+  const listenProviderEventsTask: Task = yield fork(
     listenProviderEvents,
     provider,
     actions,

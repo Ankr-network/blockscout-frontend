@@ -1,11 +1,12 @@
 import { RoutesConfig } from 'modules/boost/Routes';
 import { featuresConfig } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
-import { NavComponent } from '.';
+
 import { NavItem } from '../NavItem';
 
-export const Nav = () => {
+import { NavComponent } from '.';
+
+export const Nav = (): JSX.Element => {
   return (
     <NavComponent mb={4}>
       <NavItem href={RoutesConfig.tradingCockpit.path}>

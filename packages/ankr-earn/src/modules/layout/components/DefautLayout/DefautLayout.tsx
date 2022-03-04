@@ -1,12 +1,15 @@
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/core';
+import { useMemo, useCallback, useState } from 'react';
+
+import { Themes } from 'ui';
+
 import { STAKEFI_LINK } from 'modules/common/const';
 import {
   sessionServiceInstance,
   SessionServiceKeys,
 } from 'modules/common/services';
 import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
-import { useCallback, useMemo, useState } from 'react';
-import { Themes } from 'ui';
+
 import { getTheme } from '../../../common/utils/getTheme';
 import { Footer } from '../Footer';
 import { Header } from '../Header';
@@ -21,10 +24,10 @@ export interface IDefaultLayoutProps
 }
 
 export const DefaultLayout = ({
-  theme = Themes.light,
   children,
+  theme = Themes.light,
   verticalAlign = 'top',
-}: IDefaultLayoutProps) => {
+}: IDefaultLayoutProps): JSX.Element => {
   const [canShowBanner, setShowBanner] = useState(
     !sessionServiceInstance.getItem(SessionServiceKeys.HIDE_OLD_UI_POPUP),
   );
@@ -37,7 +40,11 @@ export const DefaultLayout = ({
 
   return (
     <Layout
-      verticalAlign={verticalAlign}
+      footerSlot={
+        <ThemeProvider theme={currentTheme}>
+          <Footer />
+        </ThemeProvider>
+      }
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
@@ -49,17 +56,13 @@ export const DefaultLayout = ({
                 />
               ) : null
             }
-            mainNavigationSlot={<MainNavigation />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
+            mainNavigationSlot={<MainNavigation />}
             rightComponentSlot={<ConnectedWallets />}
           />
         </ThemeProvider>
       }
-      footerSlot={
-        <ThemeProvider theme={currentTheme}>
-          <Footer />
-        </ThemeProvider>
-      }
+      verticalAlign={verticalAlign}
     >
       {children}
     </Layout>

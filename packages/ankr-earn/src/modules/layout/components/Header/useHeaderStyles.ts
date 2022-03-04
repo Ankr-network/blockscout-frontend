@@ -10,7 +10,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     paddingBottom: theme.spacing(2.5),
     [theme.breakpoints.up('lg')]: {
       display: 'grid',
-      gridTemplateColumns: '1fr 2fr 1fr',
+      gridTemplateColumns: '1fr 2.9fr 1fr',
     },
   },
   center: {

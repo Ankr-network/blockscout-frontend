@@ -1,5 +1,6 @@
 import { Box, BoxProps, Grid, Paper } from '@material-ui/core';
 import React, { ReactNode } from 'react';
+
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IHeaderProps extends BoxProps {
@@ -11,18 +12,18 @@ export const Header = ({
   formSlot,
   fairValueSlot,
   ...boxProps
-}: IHeaderProps) => {
+}: IHeaderProps): JSX.Element => {
   const classes = useHeaderStyles();
 
   return (
     <Box {...boxProps}>
       <Paper className={classes.paper}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md>
+          <Grid item md xs={12}>
             {formSlot}
           </Grid>
 
-          <Grid item xs={12} md="auto">
+          <Grid item md="auto" xs={12}>
             {fairValueSlot}
           </Grid>
         </Grid>
