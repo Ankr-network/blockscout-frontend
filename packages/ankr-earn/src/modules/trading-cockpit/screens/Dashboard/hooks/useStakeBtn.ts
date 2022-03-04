@@ -67,14 +67,14 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
           href: featuresConfig.isActiveAVAXStaking
             ? StakeAvalancheRoutes.stake.generatePath()
             : STAKEFI_AVAX_STAKE_URL,
-          disabled: !featuresConfig.isActiveAVAXStaking,
+          disabled: false,
         },
         [AvailableTokens.aAVAXb]: {
           btnText: unstakeText,
           href: featuresConfig.isActiveAVAXUnstaking
             ? StakeAvalancheRoutes.unstake.generatePath()
             : STAKEFI_AVAX_STAKE_URL,
-          disabled: !featuresConfig.isActiveAVAXUnstaking,
+          disabled: false,
         },
       };
     }, []);
