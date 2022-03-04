@@ -1,4 +1,4 @@
-import { STAKEFI_LINK } from 'modules/common/const';
+import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
@@ -8,6 +8,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 const STAKEFI_EHT_STAKE_URL = `${STAKEFI_LINK}/ETH`;
+const STAKEFI_AVAX_STAKE_URL = `${STAKEFI_LINK}/AVAX`;
 
 interface IUseStakeBtn {
   href: string;
@@ -63,13 +64,17 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
         },
         [AvailableTokens.AVAX]: {
           btnText: stakeText,
-          href: StakeAvalancheRoutes.stake.generatePath(),
-          disabled: false,
+          href: featuresConfig.isActiveAVAXStaking
+            ? StakeAvalancheRoutes.stake.generatePath()
+            : STAKEFI_AVAX_STAKE_URL,
+          disabled: !featuresConfig.isActiveAVAXStaking,
         },
         [AvailableTokens.aAVAXb]: {
           btnText: unstakeText,
-          href: StakeAvalancheRoutes.unstake.generatePath(),
-          disabled: false,
+          href: featuresConfig.isActiveAVAXUnstaking
+            ? StakeAvalancheRoutes.unstake.generatePath()
+            : STAKEFI_AVAX_STAKE_URL,
+          disabled: !featuresConfig.isActiveAVAXUnstaking,
         },
       };
     }, []);
