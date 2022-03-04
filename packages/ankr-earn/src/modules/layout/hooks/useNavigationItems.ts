@@ -67,7 +67,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
         href: ETH2SwapRoutes.root,
       },
       bridge: {
-        label: 'Bridge',
+        label: t('main-navigation.bridge'),
         href: BridgeRoutes.main.generatePath(),
       },
       docs: {
@@ -83,17 +83,18 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
   );
 
   const desktopItems: INavItem[] = useMemo(
-    () => [links.dashboard, links.stake, links.parachain, links.boost],
+    () => [
+      links.dashboard,
+      links.stake,
+      links.parachain,
+      links.boost,
+      ...(!featuresConfig.bridge ? [] : [links.bridge]),
+    ],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
-    () => [
-      links.eth2Swap,
-      ...(!featuresConfig.bridge ? [] : [links.bridge]),
-      links.docs,
-      links.litepaper,
-    ],
+    () => [links.eth2Swap, links.docs, links.litepaper],
     [links],
   );
 

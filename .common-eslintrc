@@ -14,7 +14,8 @@
       "polkadot",
       "provider",
       "ankr-academy",
-      "ankr-earn"
+      "ankr-earn",
+      "multirpc-sdk"
     ]
   },
   "extends": [

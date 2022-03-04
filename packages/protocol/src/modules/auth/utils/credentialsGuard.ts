@@ -1,7 +1,7 @@
 import { DispatchRequest, getQuery, RequestAction } from '@redux-requests/core';
 import { connect } from '../actions/connect';
 import { t } from '../../i18n/utils/intl';
-import { IJwtToken } from '@ankr.com/multirpc/dist/types';
+import { IJwtToken } from 'multirpc-sdk';
 import { IFetchChainsResponseData } from '../../../domains/chains/api/queryChains';
 import { Store } from '../../../store';
 

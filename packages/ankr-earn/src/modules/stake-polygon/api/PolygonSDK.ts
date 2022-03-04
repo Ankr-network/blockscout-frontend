@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import Web3 from 'web3';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -160,12 +161,8 @@ export class PolygonSDK {
     );
   }
 
-  private async getAMATICBTokenContract(
-    isForceRead = false,
-  ): Promise<Contract> {
+  private static getAMATICBTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
-    const provider = await this.getProvider(isForceRead);
-    const web3 = provider.getWeb3();
 
     return new web3.eth.Contract(
       ABI_AMATICB as AbiItem[],
@@ -289,7 +286,9 @@ export class PolygonSDK {
   }
 
   public async getAMaticbBalance(): Promise<BigNumber> {
-    const aMaticbTokenContract = await this.getAMATICBTokenContract();
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
 
     const balance = await aMaticbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -298,13 +297,12 @@ export class PolygonSDK {
     return this.convertFromWei(balance);
   }
 
-  public async getAMaticbAPY(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aMaticbTokenContract = await this.getAMATICBTokenContract();
+  public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
 
     return getAPY({
       tokenContract: aMaticbTokenContract,
-      web3: provider.getWeb3(),
+      web3,
       batchSize: 12,
       blocksDeep: 3000,
     });

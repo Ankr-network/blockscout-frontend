@@ -20,6 +20,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     maxWidth: '100%',
   },
   chainItemHeader: {},
+  chainBanner: {
+    marginTop: theme.spacing(3.25),
+  },
   chainRequestsOverview: {
     marginTop: theme.spacing(3.25),
     marginBottom: theme.spacing(3.5),

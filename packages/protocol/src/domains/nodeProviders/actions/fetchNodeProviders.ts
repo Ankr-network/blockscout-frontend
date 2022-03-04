@@ -1,4 +1,4 @@
-import { INodeEntity as IApiNodeEntity } from '@ankr.com/multirpc';
+import { INodeEntity as IApiNodeEntity } from 'multirpc-sdk';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
@@ -12,6 +12,7 @@ interface INodeEntity extends IApiNodeEntity {
 function getData(data: IApiNodeEntity[]): INodeEntity[] {
   return data.map(item => ({
     ...item,
+    blockchain: item.blockchain === 'eth' ? 'Ethereum' : item.blockchain,
     icon: getChainIcon(item.blockchain),
   }));
 }
