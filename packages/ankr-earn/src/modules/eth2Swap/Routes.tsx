@@ -10,7 +10,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${EARN_PATH}eth2-swap/`;
+const ROOT = `${EARN_PATH}switch/`;
 const SUCCESS = `${ROOT}success/:txHash/:swapOption`;
 
 export const RoutesConfig = createRouteConfig(

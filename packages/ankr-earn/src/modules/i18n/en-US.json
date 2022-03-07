@@ -27,9 +27,9 @@
     "stake": "Stake",
     "dashboard": "Dashboard",
     "parachain": "Liquid Crowdloan",
-    "boost": "Boost",
+    "boost": "DeFi",
     "more": "More",
-    "eth2Swap": "ETH2 Swap",
+    "eth2Swap": "Switch",
     "docs": "Docs",
     "litepaper": "Litepaper",
     "bridge": "Bridge"
@@ -367,7 +367,7 @@
       "question-8": "Is there any risk from staking, like slashing or any penalties?",
       "answer-8": "The only risk for stakers is missing out on rewards during any time the validator their BNB is staked with is “in jail” (slashed). However, delegated staked BNB will not be slashed, and slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-9": "Is there any liquidity for aBNBb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\" rel='noopener noreferrer' target='_blank'>ANKR Boost</a>."
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\" rel='noopener noreferrer' target='_blank'>ANKR Switch</a>."
     },
     "relayer-fee": "Relayer Fee",
     "stake-info": "Stake at least 1 BNB on Ethereum network and claim the same amount of aBNBb liquid staking tokens (aBNBb) on Binance Smart Chain network (BEP-20 token). Your aBNBb balance will increase on a daily basis, simulating as such your aBNBb staking rewards.",
@@ -462,7 +462,7 @@
       "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
       "answer-8": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR Boost</a>."
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR Switch</a>."
     }
   },
   "stake-ethereum": {
@@ -477,14 +477,15 @@
     }
   },
   "eth2Swap": {
-    "title": "ETH2 Swap",
-    "info": "Swap ETH liquid staking tokens at fair value any time.",
+    "title": "ANKR Switch",
+    "info": "Switch Reward Bearing and Reward Earning Liquid Staking",
     "fee": "Service fee ({fee}%)",
     "willGet": "You will get",
     "amountInputTitle": "Amount",
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
-      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned."
+      "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
+      "approve": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
     },
     "buttons": {
       "approve": "Approve",
