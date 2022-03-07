@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIsMDDown } from 'ui';
 import classNames from 'classnames';
@@ -6,9 +6,9 @@ import { t } from 'modules/i18n/utils/intl';
 import { Link } from 'react-router-dom';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 
-import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ReactComponent as SpeedIcon } from 'uiKit/Icons/speed.svg';
 import { ReactComponent as ProtectIcon } from 'uiKit/Icons/protect.svg';
+import { ReactComponent as InfinityIcon } from 'uiKit/Icons/infinity.svg';
 import { ReactComponent as ForkIcon } from 'uiKit/Icons/fork.svg';
 import { ReactComponent as ArrowTopIcon } from 'uiKit/Icons/arrowTop.svg';
 
@@ -18,19 +18,13 @@ const ChainBannerUnblockBtn = () => {
   const classes = useStyles();
 
   return (
-    <Link
-      to={PlanRoutesConfig.plan.generatePath()}
-      className={classes.unblockBtn}
-    >
-      <Typography
-        className={classes.unblockBtnLabel}
-        color="inherit"
-        variant="h5"
-      >
-        {t('chain-item.banner.more')}
-      </Typography>
-      <ArrowRightIcon className={classes.unblockBtnIcon} />
-    </Link>
+    <Box mt={1.5}>
+      <Link to={PlanRoutesConfig.plan.generatePath()}>
+        <Button size="small" variant="text" className={classes.unblockBtn}>
+          {t('chain-item.banner.more')}
+        </Button>
+      </Link>
+    </Box>
   );
 };
 
@@ -79,7 +73,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
           </div>
           <div className={classes.featureBlock}>
             <div className={classes.featureBlockWrapper}>
-              <ProtectIcon
+              <InfinityIcon
                 className={classNames(
                   classes.protectIcon,
                   classes.featureBlockIcon,
@@ -96,13 +90,30 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
           </div>
           <div className={classes.featureBlock}>
             <div className={classes.featureBlockWrapper}>
-              <ArrowTopIcon className={classes.featureBlockIcon} />
+              <ProtectIcon
+                className={classNames(
+                  classes.protectIcon,
+                  classes.featureBlockIcon,
+                )}
+              />
               <Typography
                 className={classes.featureBlockLabel}
                 color="inherit"
                 variant="body2"
               >
                 {t('chain-item.banner.features.block4')}
+              </Typography>
+            </div>
+          </div>
+          <div className={classes.featureBlock}>
+            <div className={classes.featureBlockWrapper}>
+              <ArrowTopIcon className={classes.featureBlockIcon} />
+              <Typography
+                className={classes.featureBlockLabel}
+                color="inherit"
+                variant="body2"
+              >
+                {t('chain-item.banner.features.block5')}
               </Typography>
             </div>
           </div>
