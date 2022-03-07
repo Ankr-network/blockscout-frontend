@@ -1,6 +1,9 @@
 import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+import { useHistory } from 'react-router';
+
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
@@ -15,18 +18,18 @@ import {
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
-import { useCallback } from 'react';
-import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 import { fetchTxHistory } from '../../actions/fetchTxHistory';
 import { unstake } from '../../actions/unstake';
+
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
 
-export const UnstakePolygon = () => {
+export const UnstakePolygon = (): JSX.Element => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
@@ -77,16 +80,10 @@ export const UnstakePolygon = () => {
           >
             requestActions={[fetchStats, getAnkrBalance]}
           >
-            {({ data: statsData, loading }, { data: ankrBalance }) => (
+            {({ data: statsData }, { data: ankrBalance }) => (
               <UnstakeDialog
-                submitDisabled={unstakeLoading}
-                isBalanceLoading={false}
-                isLoading={unstakeLoading}
                 balance={statsData.aMaticbBalance}
-                onClose={onClose}
-                onSubmit={onUnstakeSubmit}
                 endText={t('stake-polygon-dashboard.unstake-eta')}
-                token={Token.aMATICb}
                 extraValidation={(_data, errors) => {
                   if (ankrBalance.isLessThan(statsData.unstakeFee)) {
                     errors.amount = tHTML(
@@ -100,22 +97,25 @@ export const UnstakePolygon = () => {
 
                   return errors;
                 }}
+                isBalanceLoading={false}
+                isLoading={unstakeLoading}
                 renderFormFooter={amount => (
                   <>
-                    <Box mb={2} display="flex" alignItems="center">
+                    <Box alignItems="center" display="flex" mb={2}>
                       <Typography
-                        variant="body2"
-                        color="textPrimary"
                         className={classes.fee}
+                        color="textPrimary"
+                        variant="body2"
                       >
                         {t('unstake-dialog.unstake-fee')}
+
                         <Tooltip
                           title={t('unstake-dialog.unstake-fee-tooltip')}
                         >
                           <ButtonBase className={classes.questionBtn}>
                             <QuestionIcon
-                              size="xs"
                               className={classes.questionIcon}
+                              size="xs"
                             />
                           </ButtonBase>
                         </Tooltip>
@@ -124,9 +124,9 @@ export const UnstakePolygon = () => {
                       <Box ml="auto" />
 
                       <Typography
-                        variant="body2"
-                        color="textPrimary"
                         className={classes.ankrValue}
+                        color="textPrimary"
+                        variant="body2"
                       >
                         {t('unit.ankr-value', {
                           value: statsData.unstakeFee.toNumber(),
@@ -145,11 +145,11 @@ export const UnstakePolygon = () => {
 
                     <Divider />
 
-                    <Box mt={2} display="flex">
+                    <Box display="flex" mt={2}>
                       <Typography
-                        variant="body2"
-                        color="textPrimary"
                         className={classes.willGet}
+                        color="textPrimary"
+                        variant="body2"
                       >
                         {t('stake.you-will-get')}
                       </Typography>
@@ -157,9 +157,9 @@ export const UnstakePolygon = () => {
                       <Box ml="auto" />
 
                       <Typography
-                        variant="body2"
-                        color="textPrimary"
                         className={classes.willGet}
+                        color="textPrimary"
+                        variant="body2"
                       >
                         {t('unit.matic-value', {
                           value: amount.isNaN() ? '0' : amount.toFormat(),
@@ -168,14 +168,18 @@ export const UnstakePolygon = () => {
                     </Box>
                   </>
                 )}
+                submitDisabled={unstakeLoading}
+                token={Token.aMATICb}
+                onClose={onClose}
+                onSubmit={onUnstakeSubmit}
               />
             )}
           </Queries>
         ) : (
           <UnstakeSuccess
-            onClose={onSuccessClose}
-            tokenName={Token.MATIC}
             period={t('unstake-polygon.success.period')}
+            tokenName={Token.MATIC}
+            onClose={onSuccessClose}
           />
         )}
       </Container>

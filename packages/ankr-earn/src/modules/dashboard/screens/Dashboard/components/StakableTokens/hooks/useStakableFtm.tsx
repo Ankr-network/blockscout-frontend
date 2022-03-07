@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
+import { useMemo } from 'react';
+
 import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -7,8 +9,8 @@ import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { FANTOM_STAKING_NETWORKS } from 'modules/stake-fantom/const';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
-import { useMemo } from 'react';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+
 import { IUseStakableToken } from '../types';
 
 export const useStakableFtm = (): IUseStakableToken => {

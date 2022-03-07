@@ -3,6 +3,7 @@ import { Alert } from '@material-ui/lab';
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { uid } from 'react-uid';
+
 import { NotificationActions } from 'store/actions/NotificationActions';
 import {
   INotificationProps,
@@ -11,7 +12,7 @@ import {
 
 interface IItemProps {
   data: INotificationProps;
-  onClose: (key?: any) => void;
+  onClose: (key?: string) => void;
 }
 
 function Item({ data, onClose }: IItemProps) {
@@ -20,7 +21,7 @@ function Item({ data, onClose }: IItemProps) {
   }, [data.key, onClose]);
 
   return (
-    <Snackbar open={true} {...data}>
+    <Snackbar open {...data}>
       <Alert severity={data.severity} onClose={handleClose}>
         {data.message}
       </Alert>
@@ -37,8 +38,8 @@ const NotificationsComponent = ({
   notifications,
   hideNotification,
 }: INotifications) => {
-  const handleClose = (id: string) => {
-    hideNotification(id);
+  const handleClose = (id?: string) => {
+    hideNotification(id as string);
   };
 
   return (

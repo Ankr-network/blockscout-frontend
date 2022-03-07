@@ -1,15 +1,19 @@
 import { IconButton, Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
-import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
+
+import { t } from 'modules/i18n/utils/intl';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+
 import { useConnectTooltipStyles } from './useConnectTooltipStyles';
 
 interface IConnectTooltipProps {
   rootClass?: string;
 }
 
-export const ConnectTooltip = ({ rootClass }: IConnectTooltipProps) => {
+export const ConnectTooltip = ({
+  rootClass,
+}: IConnectTooltipProps): JSX.Element => {
   const classes = useConnectTooltipStyles();
 
   return (

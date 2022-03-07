@@ -1,10 +1,10 @@
-import { act, renderHook } from '@testing-library/react-hooks';
 import { useDispatchRequest } from '@redux-requests/react';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { useParams } from 'react-router';
 
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { addEth2SwapTokenToWallet } from 'modules/eth2Swap/actions/wallet';
+
 import { useEth2SwapSuccessHook } from '../useEth2SwapSuccessHook';
 
 jest.mock('react-router', () => ({
@@ -58,7 +58,6 @@ describe('modules/eth2Swap/screens/Success/useEth2SwapSuccessHook', () => {
     expect(addEth2SwapTokenToWallet).toBeCalledTimes(1);
     expect(addEth2SwapTokenToWallet).toBeCalledWith({
       swapOption: 'aETHc',
-      providerId: AvailableWriteProviders.ethCompatible,
     });
   });
 });

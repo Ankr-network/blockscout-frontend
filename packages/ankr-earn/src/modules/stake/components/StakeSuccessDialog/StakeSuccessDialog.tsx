@@ -1,10 +1,12 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
+
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useStakeSuccessDialogStyles } from './useStakeSuccessDialogStyles';
 
 export interface IStakeSuccessful {
@@ -17,13 +19,13 @@ export const StakeSuccessDialog = ({
   tokenName,
   onClose,
   onAddTokenClick,
-}: IStakeSuccessful) => {
+}: IStakeSuccessful): JSX.Element => {
   const classes = useStakeSuccessDialogStyles();
 
   return (
     <Paper className={classes.root}>
       <Container className={classes.wrapper}>
-        <Typography variant="h1" className={classes.title}>
+        <Typography className={classes.title} variant="h1">
           {t('stake.success.title')}
         </Typography>
 
@@ -34,9 +36,9 @@ export const StakeSuccessDialog = ({
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <NavLink
-              variant="contained"
               fullWidth
               href={DashboardRoutes.dashboard.generatePath()}
+              variant="contained"
             >
               {t('stake.success.return')}
             </NavLink>
@@ -44,7 +46,7 @@ export const StakeSuccessDialog = ({
 
           {typeof onAddTokenClick === 'function' && (
             <Grid item xs={12}>
-              <Button variant="outlined" fullWidth onClick={onAddTokenClick}>
+              <Button fullWidth variant="outlined" onClick={onAddTokenClick}>
                 {t('stake.success.add-to-wallet', { token: tokenName })}
               </Button>
             </Grid>
@@ -52,8 +54,8 @@ export const StakeSuccessDialog = ({
         </Grid>
       </Container>
 
-      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
-        <CloseIcon size="xxs" htmlColor="inherit" />
+      <Button className={classes.closeBtn} variant="outlined" onClick={onClose}>
+        <CloseIcon htmlColor="inherit" size="xxs" />
       </Button>
     </Paper>
   );

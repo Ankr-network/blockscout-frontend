@@ -1,9 +1,11 @@
-import { Box } from '@material-ui/core';
+import { cloneElement, ReactText } from 'react';
+
 import { t } from 'modules/i18n/utils/intl';
+
 import { useBridgeBlockchainPanelStyles } from './useBridgeBlockchainPanelStyles';
 
 export interface IBridgeBlockchainPanelItem {
-  value: string;
+  value: ReactText;
   label: string;
   icon: JSX.Element;
 }
@@ -18,7 +20,7 @@ export const BridgeBlockchainPanel = ({
   direction,
   items = [],
   value,
-}: IBridgeBlockchainPanelProps) => {
+}: IBridgeBlockchainPanelProps): JSX.Element => {
   const classes = useBridgeBlockchainPanelStyles();
   const title =
     direction === 'from' ? t('bridge.main.from') : t('bridge.main.to');
@@ -27,15 +29,17 @@ export const BridgeBlockchainPanel = ({
 
   return (
     <div className={classes.root}>
-      <Box className={classes.rootRow}>
-        <Box>
-          <Box className={classes.icon}>{currentItem?.icon}</Box>
-        </Box>
-        <Box>
-          <Box className={classes.title}>{title}</Box>
-          <Box>{currentItem?.label}</Box>
-        </Box>
-      </Box>
+      {currentItem
+        ? cloneElement(currentItem.icon, {
+            className: classes.icon,
+          })
+        : null}
+
+      <div>
+        <div className={classes.title}>{title}</div>
+
+        <div>{currentItem?.label}</div>
+      </div>
     </div>
   );
 };

@@ -9,8 +9,9 @@ export interface IStepperProps extends Omit<StepperProps, 'children'> {
   steps?: { label?: string }[];
 }
 
-export const Stepper = (props: IStepperProps) => {
+export const Stepper = (props: IStepperProps): JSX.Element => {
   const { steps = [], ...rest } = props;
+
   return (
     <StepperComponent {...rest}>
       {steps.map(item => (

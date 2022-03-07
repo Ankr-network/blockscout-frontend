@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+
 import { Blockchain, Provider } from 'modules/common/types';
 
 export interface IUserInfo {

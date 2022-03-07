@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { Success } from '..';
 import {
   useEth2SwapSuccessHook,
   IEth2SwapSuccessHookData,
 } from '../useEth2SwapSuccessHook';
-import { Success } from '..';
 
 jest.mock('../useEth2SwapSuccessHook', () => ({
   useEth2SwapSuccessHook: jest.fn(),

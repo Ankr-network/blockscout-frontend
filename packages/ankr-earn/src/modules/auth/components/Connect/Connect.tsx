@@ -1,15 +1,17 @@
 import { Paper, Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
 import React, { ReactNode } from 'react';
+
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
+
 import { useConnectStyles } from './useConnectStyles';
 
 interface IConnectProps {
-  onConnectClick?: () => void;
   btnDisabled?: boolean;
   info?: ReactNode;
   networksSlot?: ReactNode;
+  onConnectClick?: () => void;
 }
 
 export const Connect = ({
@@ -17,7 +19,7 @@ export const Connect = ({
   btnDisabled,
   info,
   networksSlot,
-}: IConnectProps) => {
+}: IConnectProps): JSX.Element => {
   const classes = useConnectStyles();
 
   return (
@@ -32,12 +34,12 @@ export const Connect = ({
         </Typography>
 
         <Button
-          color="primary"
-          size="large"
           fullWidth
-          onClick={onConnectClick}
           className={classes.button}
+          color="primary"
           disabled={btnDisabled}
+          size="large"
+          onClick={onConnectClick}
         >
           {t('connect.grant')}
         </Button>
@@ -48,7 +50,7 @@ export const Connect = ({
 
         {networksSlot && (
           <div className={classes.networksWrapper}>
-            <Typography variant="h5" className={classes.networksTitle}>
+            <Typography className={classes.networksTitle} variant="h5">
               {t('connect.available-networks')}
             </Typography>
 

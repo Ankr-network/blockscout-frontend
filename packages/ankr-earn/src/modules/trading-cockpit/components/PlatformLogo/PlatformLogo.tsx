@@ -1,6 +1,8 @@
 import classNames from 'classnames';
-import { AvailablePlatforms } from 'modules/trading-cockpit/types';
 import React, { FC, SVGProps } from 'react';
+
+import { AvailablePlatforms } from 'modules/trading-cockpit/types';
+
 import { ReactComponent as AnkrIcon } from './assets/ankr.svg';
 import { ReactComponent as CurveIcon } from './assets/curve.svg';
 import LydiaIcon from './assets/lydia.png';
@@ -31,16 +33,19 @@ interface IPlatformLogoProps {
   name: AvailablePlatforms;
 }
 
-export const PlatformLogo = ({ className, name }: IPlatformLogoProps) => {
+export const PlatformLogo = ({
+  className,
+  name,
+}: IPlatformLogoProps): JSX.Element => {
   const platformLogo = PlatformLogoMap[name];
   const classes = usePlatformLogoStyles();
 
   if (typeof platformLogo === 'string') {
     return (
       <img
+        alt={name}
         className={classNames(className, classes.icon, classes.iconImg)}
         src={platformLogo}
-        alt={name}
       />
     );
   }

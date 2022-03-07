@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
 import { ITxEventsHistoryData, PolygonSDK } from '../api/PolygonSDK';
 
 export const fetchTxHistory = createSmartAction<
@@ -8,7 +9,7 @@ export const fetchTxHistory = createSmartAction<
   request: {
     promise: (async (): Promise<ITxEventsHistoryData> => {
       const sdk: PolygonSDK = await PolygonSDK.getInstance();
-      return await sdk.getTxEventsHistory();
+      return sdk.getTxEventsHistory();
     })(),
   },
   meta: {

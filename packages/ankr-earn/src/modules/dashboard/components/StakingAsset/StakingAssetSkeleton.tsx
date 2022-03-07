@@ -1,20 +1,22 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+
 import { NetworkIconText } from '../NetworkIconText';
+
 import { useStakingAssetStyles } from './useStakingAssetStyles';
 
-export const StakingAssetSkeleton = () => {
+export const StakingAssetSkeleton = (): JSX.Element => {
   const classes = useStakingAssetStyles();
 
   return (
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm>
+          <Grid item sm xs={12}>
             <NetworkIconText isLoading />
           </Grid>
 
-          <Grid item xs="auto" className={classes.pendingCol}>
+          <Grid item className={classes.pendingCol} xs="auto">
             <Skeleton width={150} />
           </Grid>
         </Grid>
@@ -22,8 +24,8 @@ export const StakingAssetSkeleton = () => {
 
       <Grid
         container
-        justifyContent="space-between"
         alignItems="center"
+        justifyContent="space-between"
         spacing={2}
       >
         <Grid item xs>
@@ -35,10 +37,10 @@ export const StakingAssetSkeleton = () => {
         <Grid item xs="auto">
           <Typography>
             <Skeleton
+              className={classes.btnSkeleton}
+              height={40}
               variant="rect"
               width={115}
-              height={40}
-              className={classes.btnSkeleton}
             />
           </Typography>
         </Grid>

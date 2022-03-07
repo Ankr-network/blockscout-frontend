@@ -1,6 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
+
 import { ETHHttpProviderSingleton } from '../api/ETHHttpProviderSingleton';
 import { ACTIONS_PREFIX } from '../const';
 
@@ -18,7 +19,7 @@ export const getAETHCRatio = createAction<RequestAction<BigNumber, BigNumber>>(
         return {
           promise: (async (): Promise<BigNumber> => {
             const httpProvider = new ETHHttpProviderSingleton();
-            return await httpProvider.getAETHCRatio();
+            return httpProvider.getAETHCRatio();
           })(),
         };
       },

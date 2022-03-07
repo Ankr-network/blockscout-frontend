@@ -1,9 +1,12 @@
 import { Paper } from '@material-ui/core';
+
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+
 import { ITokenSelectOption } from '../TokenSelect';
+
 import { TokenForm } from './TokenForm';
 
 export default {
@@ -33,7 +36,7 @@ const tokenSelectMockup: ITokenSelectOption[] = [
   },
 ];
 
-const getPairedOption = (value: string) => {
+const getPairedOption = (value: string): string => {
   switch (value) {
     case 'ETH':
       return 'aETHb';
@@ -44,24 +47,25 @@ const getPairedOption = (value: string) => {
     case 'aMATICb':
       return 'MATIC';
     default:
-      return;
+      return '';
   }
 };
 
-export const Default = () => {
-  const onSubmit = (values: any) => {
+export const Default = (): JSX.Element => {
+  const onSubmit = (values: unknown) => {
+    // eslint-disable-next-line no-console
     console.log({ values });
   };
 
   return (
     <Paper style={{ padding: 20 }}>
       <TokenForm
-        onSubmit={onSubmit}
-        options={tokenSelectMockup}
         defaultFromToken={tokenSelectMockup[0].value}
         defaultToToken={tokenSelectMockup[1].value}
         disabled={false}
         getPairedOption={getPairedOption}
+        options={tokenSelectMockup}
+        onSubmit={onSubmit}
       />
     </Paper>
   );

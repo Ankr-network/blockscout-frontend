@@ -2,12 +2,14 @@ import { Box } from '@material-ui/core';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
 import { ReactElement, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
+
 import { QueryLoading } from 'uiKit/QueryLoading';
+
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
 
 interface ILoadingProps<T1, T2, T3, T4, T5> {
-  requestActions: ((...args: any[]) => RequestAction)[];
+  requestActions: ((...args: unknown[]) => RequestAction)[];
   requestKeys?: string[];
   children: (
     ...a: [
@@ -23,15 +25,15 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   suppressErrorMessage?: boolean;
 }
 
-function isLoading(queries: QueryState<any>[]) {
+function isLoading(queries: QueryState<unknown>[]) {
   return queries.find(item => item.loading || item.pristine);
 }
 
-function hasError(queries: QueryState<any>[]) {
+function hasError(queries: QueryState<unknown>[]) {
   return queries.find(item => item.error);
 }
 
-function isDataEmpty(data: any) {
+function isDataEmpty(data: unknown) {
   if (!data) {
     return true;
   }
@@ -39,7 +41,7 @@ function isDataEmpty(data: any) {
   return data instanceof Array && data.length === 0;
 }
 
-function isEmpty(queries: QueryState<any>[]) {
+function isEmpty(queries: QueryState<unknown>[]) {
   return queries.every(item => isDataEmpty(item.data));
 }
 
@@ -50,7 +52,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   noDataMessage,
   showLoaderDuringRefetch = true,
   suppressErrorMessage = false,
-}: ILoadingProps<T1, T2, T3, T4, T5>) {
+}: ILoadingProps<T1, T2, T3, T4, T5>): JSX.Element | null {
   const queries = useSelector(state =>
     requestActions.map((item, index) =>
       getQuery(state, {
@@ -65,11 +67,11 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
     return (
       noDataMessage || (
         <Box
-          py={5}
-          position="relative"
-          width="100%"
           display="flex"
           justifyContent="center"
+          position="relative"
+          py={5}
+          width="100%"
         >
           <QueryLoading />
         </Box>
@@ -91,5 +93,5 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
     return <QueryEmpty />;
   }
 
-  return <>{(children as any)(...queries)}</>;
+  return <>{(children as (...args: unknown[]) => ReactNode)(...queries)}</>;
 }

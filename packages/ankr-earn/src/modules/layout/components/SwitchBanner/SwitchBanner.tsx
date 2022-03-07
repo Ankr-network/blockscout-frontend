@@ -1,9 +1,11 @@
 import { Typography } from '@material-ui/core';
+
 import { t } from 'modules/i18n/utils/intl';
 import { Container } from 'uiKit/Container';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
-import switchImg from './assets/switch.png';
+
+import switchIcon from './assets/switch.png';
 import { useSwitchBannerStyles } from './useSwitchBannerStyles';
 
 interface ISwitchBannerProps {
@@ -11,16 +13,19 @@ interface ISwitchBannerProps {
   onClose: () => void;
 }
 
-export const SwitchBanner = ({ link, onClose }: ISwitchBannerProps) => {
+export const SwitchBanner = ({
+  link,
+  onClose,
+}: ISwitchBannerProps): JSX.Element => {
   const classes = useSwitchBannerStyles();
 
   return (
-    <Container maxWidth="none" className={classes.root}>
+    <Container className={classes.root} maxWidth="none">
       <img
-        src={switchImg}
-        className={classes.image}
         alt={t('switch-banner.img-alt')}
+        className={classes.image}
         loading="lazy"
+        src={switchIcon}
       />
 
       <Typography className={classes.text}>
@@ -28,16 +33,16 @@ export const SwitchBanner = ({ link, onClose }: ISwitchBannerProps) => {
       </Typography>
 
       <NavLink
+        className={classes.btn}
         href={link}
         size="small"
         variant="contained"
-        className={classes.btn}
       >
         {t('switch-banner.btn')}
       </NavLink>
 
       <button className={classes.closeWrapper} type="button" onClick={onClose}>
-        <CloseIcon size="xxs" htmlColor="currentColor" />
+        <CloseIcon htmlColor="currentColor" size="xxs" />
       </button>
     </Container>
   );

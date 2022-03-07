@@ -10,8 +10,8 @@ import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
-export const useTokenSelectOptions = () => {
-  const bondOptions: ITokenSelectOption[] = useLocaleMemo(
+export const useTokenSelectOptions = (): ITokenSelectOption[] => {
+  const bondOptions = useLocaleMemo(
     () => [
       {
         text: t('unit.eth'),

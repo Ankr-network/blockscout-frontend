@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
+
 import packageJson from '../../../package.json';
+
 import { BlockchainNetworkId, Env } from './types';
 
 export const EARN_PATH = `${packageJson.homepage}/`;
@@ -47,44 +49,59 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActiveAVAXStaking: currentEnv !== Env.Production,
+  isActiveAVAXUnstaking: currentEnv !== Env.Production,
   isActiveBNBStaking: true,
   isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
-  v1banner: true,
   dashboardLiquidCrowdloanAssets: false,
   // todo: STAKAN-911 remove this flag when the feature will be done
   stakeFantom: true,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
-  eth2Swap: true,
-  bridge: currentEnv === Env.Develop,
+  multiNetwork: currentEnv !== Env.Production,
+  // todo: STAKAN-917 remove after complition
+  bridge: true,
+  bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
+  stakeETH: currentEnv === Env.Develop,
 };
 
 export enum SupportedChainIDS {
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
+  AVAX = BlockchainNetworkId.avalanche,
+  AVAX_TESTNET = BlockchainNetworkId.avalancheTestnet,
   BSC = BlockchainNetworkId.smartchain,
   BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
   FANTOM_OPERA = BlockchainNetworkId.fantom,
   FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
+  POLYGON = BlockchainNetworkId.polygon,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
+  [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
+  [SupportedChainIDS.AVAX_TESTNET]: 'https://testnet.snowtrace.io',
   [SupportedChainIDS.BSC]: 'https://bscscan.com',
   [SupportedChainIDS.BSC_TESTNET]: 'https://testnet.bscscan.com',
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
+  [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
 };
 
 export const ETH_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? BlockchainNetworkId.mainnet
     : BlockchainNetworkId.goerli;
+
+export const AVAX_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.avalanche
+    : BlockchainNetworkId.avalancheTestnet;
 
 export const BSC_NETWORK_BY_ENV =
   currentEnv === Env.Production

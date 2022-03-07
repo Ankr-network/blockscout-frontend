@@ -4,11 +4,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
-import { getShortStr } from 'modules/common/utils/getShortStr';
 import React, { useState } from 'react';
+
+import { getShortStr } from 'modules/common/utils/getShortStr';
 import { Button } from 'uiKit/Button';
+
 import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccounts';
 import { ProviderName } from '../../utils/isProviderAvailable';
+
 import { ReactComponent as CloverWalletIcon } from './assets/clover.svg';
 import { ReactComponent as PolkadotWalletIcon } from './assets/polkadot.svg';
 import { useWalletSwitcherStyles } from './useWalletSwitcherStyles';
@@ -23,8 +26,8 @@ interface WalletSwitcherProps {
   wallets: Array<IFetchPolkadotAccountsDataItem | void>;
   classMenu?: string;
   currentWallet: string;
-  onConnect: (account: string) => () => void;
   currentProvider?: ProviderName;
+  onConnect: (account: string) => () => void;
 }
 
 export const WalletSwitcher = ({
@@ -34,7 +37,7 @@ export const WalletSwitcher = ({
   currentWallet,
   currentProvider,
   onConnect,
-}: WalletSwitcherProps) => {
+}: WalletSwitcherProps): JSX.Element | null => {
   const classes = useWalletSwitcherStyles();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const isOpened = !!anchorEl;
@@ -56,7 +59,7 @@ export const WalletSwitcher = ({
     return null;
   }
 
-  const isAvailableWallets: boolean = !!wallets?.length;
+  const isAvailableWallets = !!wallets?.length;
   const endIcon: JSX.Element = isOpened ? (
     <ExpandLessIcon />
   ) : (
@@ -67,42 +70,44 @@ export const WalletSwitcher = ({
   return (
     <>
       <Button
-        variant="outlined"
-        color="primary"
         className={classes.button}
-        onClick={handleClick}
-        endIcon={isAvailableWallets ? endIcon : null}
+        color="primary"
         disabled={isDisabled}
+        endIcon={isAvailableWallets ? endIcon : null}
+        variant="outlined"
+        onClick={handleClick}
       >
         <Box mr={1}>{icon}</Box>
+
         {getShortStr(currentWallet)}
       </Button>
 
       {isAvailableWallets && (
         <Menu
+          keepMounted
+          anchorEl={anchorEl}
           classes={{
             paper: classNames(classes.menu, classMenu),
             list: classes.menuList,
           }}
           id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
           open={isOpened}
           onClose={handleClose}
         >
           {(wallets as IFetchPolkadotAccountsDataItem[]).map(wallet => (
             <MenuItem
-              onClick={handleMenuItemClick(wallet.address)}
               key={wallet.address}
               className={classNames({
                 [classes.walletSelected]: wallet.address === currentWallet,
               })}
+              onClick={handleMenuItemClick(wallet.address)}
             >
               {ICONS[wallet.providerName] && (
-                <Box mr={1} display="inherit">
+                <Box display="inherit" mr={1}>
                   {ICONS[wallet.providerName]}
                 </Box>
               )}
+
               {getShortStr(wallet.address)}
             </MenuItem>
           ))}

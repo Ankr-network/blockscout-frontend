@@ -1,12 +1,15 @@
 import loadable from '@loadable/component';
+import { generatePath, Route, Switch } from 'react-router-dom';
+
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { generatePath, Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+
 import { MATIC_STAKING_NETWORKS, POLYGON_PROVIDER_ID } from './const';
 
 const ROOT = `${StakeRoutes.main.path}matic/`;
@@ -43,15 +46,15 @@ const Unstake = loadable(
   },
 );
 
-export function getRoutes() {
+export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
-          providerId={POLYGON_PROVIDER_ID}
-          path={RoutesConfig.stake.path}
-          availableNetworks={MATIC_STAKING_NETWORKS}
           exact
+          availableNetworks={MATIC_STAKING_NETWORKS}
+          path={RoutesConfig.stake.path}
+          providerId={POLYGON_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -59,10 +62,10 @@ export function getRoutes() {
         </GuardRoute>
 
         <GuardRoute
-          providerId={POLYGON_PROVIDER_ID}
-          path={RoutesConfig.unstake.path}
-          availableNetworks={MATIC_STAKING_NETWORKS}
           exact
+          availableNetworks={MATIC_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={POLYGON_PROVIDER_ID}
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />

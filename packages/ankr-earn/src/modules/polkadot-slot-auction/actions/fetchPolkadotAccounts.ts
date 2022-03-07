@@ -1,7 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
-import { Web3Address } from 'modules/common/types';
-import { PolkadotProvider, SlotAuctionSdk } from 'polkadot';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
+import { PolkadotProvider, SlotAuctionSdk } from 'polkadot';
+
+import { Web3Address } from 'modules/common/types';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { ProviderName } from '../utils/isProviderAvailable';
 

@@ -15,7 +15,7 @@ export class EthereumWeb3KeyProvider extends Web3KeyProvider {
     this.web3ModalTheme = web3ModalTheme;
   }
 
-  async inject() {
+  async inject(walletId?: string) {
     // create Web3Modal instance
     const web3Modal = new Web3Modal({
       cacheProvider: false,
@@ -24,10 +24,13 @@ export class EthereumWeb3KeyProvider extends Web3KeyProvider {
     });
 
     // get provider after user selects the provider and grants access
-    const provider = await web3Modal.connect();
+    const provider = walletId
+      ? await web3Modal.connectTo(walletId)
+      : await web3Modal.connect();
+
     this.provider = provider;
 
     // inject web3
-    this.web3 = new Web3(provider);
+    this.web3 = new Web3(this.provider);
   }
 }

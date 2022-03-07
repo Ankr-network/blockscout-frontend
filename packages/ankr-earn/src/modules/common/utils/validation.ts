@@ -1,6 +1,6 @@
-import { AnySchema, ValidationError } from 'yup';
 import { ValidationErrors } from 'final-form';
 import set from 'lodash/set';
+import { AnySchema, ValidationError } from 'yup';
 
 export type TValidationHandler = (
   values: unknown,

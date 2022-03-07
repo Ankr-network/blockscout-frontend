@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';

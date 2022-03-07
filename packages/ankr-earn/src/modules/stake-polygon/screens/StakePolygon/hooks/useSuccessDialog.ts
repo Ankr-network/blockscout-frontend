@@ -2,7 +2,15 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 
-export const useSuccessDialog = () => {
+interface IUseSuccessDialog {
+  isSuccessOpened: boolean;
+  token: Token;
+  onSuccessClose: () => void;
+  onSuccessOpen: () => void;
+  onAddTokenClick: () => Promise<void>;
+}
+
+export const useSuccessDialog = (): IUseSuccessDialog => {
   const {
     isOpened: isSuccessOpened,
     onClose: onSuccessClose,
@@ -11,14 +19,14 @@ export const useSuccessDialog = () => {
 
   const onAddTokenClick = async () => {
     const sdk = await PolygonSDK.getInstance();
-    return await sdk.addAmaticbToWallet();
+    return sdk.addAmaticbToWallet();
   };
 
   return {
-    onSuccessOpen,
-    onSuccessClose,
     isSuccessOpened,
-    onAddTokenClick,
     token: Token.aMATICb,
+    onSuccessClose,
+    onSuccessOpen,
+    onAddTokenClick,
   };
 };

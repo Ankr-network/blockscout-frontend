@@ -1,7 +1,8 @@
 import { alpha, lighten } from '@material-ui/core';
-import { mainTheme } from 'ui';
-import { ProviderManager } from 'provider';
 import { ThemeColors } from 'web3modal';
+
+import { ProviderManager } from 'provider';
+import { mainTheme } from 'ui';
 
 export const web3ModalTheme: ThemeColors = {
   background: mainTheme.palette.background.paper,
@@ -14,7 +15,7 @@ export const web3ModalTheme: ThemeColors = {
 export class ProviderManagerSingleton {
   private static instance: ProviderManager;
 
-  public static getInstance() {
+  public static getInstance(): ProviderManager {
     if (ProviderManagerSingleton.instance) {
       return ProviderManagerSingleton.instance;
     }

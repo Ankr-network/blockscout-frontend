@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+
 import { IGatewayConfig } from './config';
 
 export type SidecarStatus =
@@ -12,6 +13,7 @@ export type SidecarStatus =
 
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
+
   public api: AxiosInstance;
 
   constructor(gatewayConfig: IGatewayConfig) {

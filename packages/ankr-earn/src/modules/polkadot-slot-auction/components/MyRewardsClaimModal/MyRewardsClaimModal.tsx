@@ -1,23 +1,26 @@
 import { IconButton } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import React, { useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
+
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { fetchCrowdloanById } from '../../actions/fetchCrowdloanById';
+import { IRouteClaimData, RoutesConfig } from '../../const';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useFetchPolkadotAccounts } from '../../hooks/useFetchPolkadotAccounts';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { IRouteClaimData, RoutesConfig } from '../../Routes';
+
 import { ClaimForm } from './ClaimForm';
 import { ClaimSuccess } from './ClaimSuccess';
 import { useMyRewardsClaimModalStyles } from './useMyRewardsClaimModalStyles';
 
 const ETH_PROJECTS: string[] = ['moonbeam'];
 
-export const MyRewardsClaimModal = () => {
+export const MyRewardsClaimModal = (): JSX.Element | null => {
   const classes = useMyRewardsClaimModalStyles();
   const dispatch = useDispatchRequest();
   const history = useHistory();
@@ -29,10 +32,20 @@ export const MyRewardsClaimModal = () => {
   const [isSuccessWindow, setIsSuccessWindow] = useState(false);
   const [successLink, setSuccessLink] = useState('');
 
-  const loanId: number = Number.parseInt(id, 10);
+  const loanId = Number.parseInt(id, 10);
   const parachainBondsCrowdloansPath: string = useMemo(
     (): string => RoutesConfig.crowdloans.generatePath(network),
     [network],
+  );
+
+  const { crowdloan, isLoading: isLoadingCrowdloanById } =
+    useCrowdloanById(loanId);
+  const { isLoading: isLoadingFetchPolkadotAccounts, polkadotAccounts } =
+    useFetchPolkadotAccounts();
+
+  const isETHProject = useMemo(
+    () => ETH_PROJECTS.includes(crowdloan?.rewardTokenName?.toLowerCase()),
+    [crowdloan?.rewardTokenName],
   );
 
   const goToParachainBondsCrowdloans = (): void =>
@@ -43,20 +56,6 @@ export const MyRewardsClaimModal = () => {
 
     return null;
   }
-
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const { crowdloan, isLoading: isLoadingCrowdloanById } =
-    useCrowdloanById(loanId);
-  const { isLoading: isLoadingFetchPolkadotAccounts, polkadotAccounts } =
-    useFetchPolkadotAccounts();
-  /* eslint-enable react-hooks/rules-of-hooks */
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const isETHProject: boolean = useMemo(
-    (): boolean =>
-      ETH_PROJECTS.includes(crowdloan?.rewardTokenName?.toLowerCase()),
-    [crowdloan?.rewardTokenName],
-  );
 
   if (!polkadotAccounts.length) {
     goToParachainBondsCrowdloans();

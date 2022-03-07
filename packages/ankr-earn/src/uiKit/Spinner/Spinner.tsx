@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+
 import { ReactComponent as SpinnerIcon } from './assets/spinner.svg';
 import { ReactComponent as ViciousCircleIcon } from './assets/vicious-circle.svg';
 import { useSpinnerStyles } from './useSpinnerStyles';
@@ -24,18 +25,18 @@ export const Spinner = ({
   centered = false,
   className = '',
   variant = 'viciousCircle',
-}: ISpinnerProps) => {
+}: ISpinnerProps): JSX.Element => {
   const classes = useSpinnerStyles({ size });
   const IconComponent = spinnerIconsMap[variant] || 'span';
 
   return (
     <IconComponent
-      data-testid="spinner"
       className={classNames(
         classes.root,
         centered && classes.centered,
         className,
       )}
+      data-testid="spinner"
     />
   );
 };

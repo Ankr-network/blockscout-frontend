@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
+
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
-import { MemoryRouter } from 'react-router';
+
 import { StakedMatic } from '..';
 import {
   IStakedMaticData,

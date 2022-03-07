@@ -1,16 +1,18 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+
 import { NetworkIconText } from '../NetworkIconText';
+
 import { useLiquidCrowdloanAssetStyles } from './useLiquidCrowdloanAssetStyles';
 
-export const LiquidCrowdloanAssetSkeleton = () => {
+export const LiquidCrowdloanAssetSkeleton = (): JSX.Element => {
   const classes = useLiquidCrowdloanAssetStyles();
 
   return (
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm>
+          <Grid item sm xs={12}>
             <NetworkIconText isLoading />
           </Grid>
 
@@ -22,14 +24,15 @@ export const LiquidCrowdloanAssetSkeleton = () => {
 
       <Grid
         container
-        justifyContent="space-between"
         alignItems="center"
+        justifyContent="space-between"
         spacing={2}
       >
         <Grid item xs className={classes.rewards}>
           <Typography className={classes.reward}>
             <Skeleton width={80} />
           </Typography>
+
           <Typography className={classes.reward}>
             <Skeleton width={80} />
           </Typography>
@@ -38,10 +41,10 @@ export const LiquidCrowdloanAssetSkeleton = () => {
         <Grid item xs="auto">
           <Typography>
             <Skeleton
+              className={classes.btnSkeleton}
+              height={40}
               variant="rect"
               width={115}
-              height={40}
-              className={classes.btnSkeleton}
             />
           </Typography>
         </Grid>

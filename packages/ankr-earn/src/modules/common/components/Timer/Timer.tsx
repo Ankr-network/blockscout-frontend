@@ -1,12 +1,13 @@
 import { Box, BoxProps } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
+
 import { useTimer } from 'modules/common/hooks/useTimer';
+import { t } from 'modules/i18n/utils/intl';
 
 interface ITimerProps extends BoxProps {
   endTime: Date;
 }
 
-export const Timer = ({ endTime, ...restProps }: ITimerProps) => {
+export const Timer = ({ endTime, ...restProps }: ITimerProps): JSX.Element => {
   const { duration, isTimeOver } = useTimer(endTime);
 
   return (

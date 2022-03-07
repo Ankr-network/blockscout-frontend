@@ -1,10 +1,12 @@
-import { useCallback } from 'react';
 import { Box, Chip } from '@material-ui/core';
+import { useCallback } from 'react';
 
-import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
+
 import { TSwapOption } from '../../../../types';
+
 import { useSwapOptionsStyles } from './useSwapOptionsStyles';
 
 export interface ISwapOptionsProps {
@@ -32,19 +34,19 @@ export const SwapOptions = ({
   const renderChip = (predicate: boolean): JSX.Element =>
     predicate ? (
       <Chip
+        className={classes.swapChip}
+        clickable={false}
         data-testid="aETHb-chip"
         icon={<AETHBIcon />}
-        clickable={false}
-        className={classes.swapChip}
         label="aETHb"
         onClick={onChooseAEthB}
       />
     ) : (
       <Chip
+        className={classes.swapChip}
+        clickable={false}
         data-testid="aETHc-chip"
         icon={<AETHCIcon />}
-        clickable={false}
-        className={classes.swapChip}
         label="aETHc"
         onClick={onChooseAEthC}
       />
@@ -55,9 +57,10 @@ export const SwapOptions = ({
       {renderChip(swapOption === 'aETHb')}
 
       <div
-        data-testid="arrow-chip"
         className={classes.arrowIconWrapper}
+        data-testid="arrow-chip"
         role="button"
+        tabIndex={0}
         onClick={handleChooseSwapOption}
       >
         <ArrowIcon />

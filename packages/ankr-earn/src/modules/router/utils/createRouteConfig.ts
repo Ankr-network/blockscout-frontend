@@ -1,17 +1,16 @@
+type TRouteConfig<T> = {
+  [K in keyof T]: T[K] extends {
+    path: string;
+    generatePath: (...args: unknown[]) => string;
+    useParams?: (...args: unknown[]) => unknown;
+  }
+    ? T[K]
+    : T[K];
+};
+
 export function createRouteConfig<T>(
-  config: {
-    [K in keyof T]: T[K] extends {
-      path: string;
-      generatePath: (...args: any) => string;
-      useParams?: (...args: any) => any;
-    }
-      ? T[K]
-      : never;
-  },
+  config: TRouteConfig<T>,
   root: string,
-) {
-  return {
-    ...config,
-    root,
-  };
+): TRouteConfig<T> & { root: string } {
+  return { ...config, root };
 }

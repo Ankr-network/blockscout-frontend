@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { t } from 'modules/i18n/utils/intl';
 import { FairValue } from 'modules/trading-cockpit/components/FairValue';
@@ -6,14 +7,16 @@ import { Header } from 'modules/trading-cockpit/components/Header';
 import { TableComponent } from 'modules/trading-cockpit/components/Table';
 import { TokenForm } from 'modules/trading-cockpit/components/TokenForm';
 import { getPairedToken } from 'modules/trading-cockpit/utils/getPairedToken';
+
+import { NoReactSnap } from '../../../common/components/NoReactSnap';
+
 import { useDefaultFormState } from './hooks/useDefaultFormState';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFairValue } from './hooks/useFairValue';
 import { useTable } from './hooks/useTable';
 import { useTokenForm } from './hooks/useTokenForm';
-import { NoReactSnap } from '../../../common/components/NoReactSnap';
 
-export const Dashboard = () => {
+export const Dashboard = (): JSX.Element => {
   const { defaultAmount, defaultFromToken, defaultToToken } =
     useDefaultFormState();
 
@@ -50,22 +53,8 @@ export const Dashboard = () => {
   return (
     <>
       <Header
-        mb={3}
-        formSlot={
-          <TokenForm
-            onSubmit={handleSubmit}
-            options={options}
-            defaultFromToken={defaultFromToken}
-            defaultToToken={defaultToToken}
-            disabled={isLoading}
-            getPairedOption={getPairedToken}
-            defaultAmount={defaultAmount}
-          />
-        }
         fairValueSlot={
           <FairValue
-            tooltip={tooltip}
-            isLoading={isFairValueLoading}
             currencyFirst={{
               amount: '1',
               label: fromToken,
@@ -74,25 +63,39 @@ export const Dashboard = () => {
               amount: `${fairValue}`,
               label: toToken,
             }}
+            isLoading={isFairValueLoading}
+            tooltip={tooltip}
           />
         }
+        formSlot={
+          <TokenForm
+            defaultAmount={defaultAmount}
+            defaultFromToken={defaultFromToken}
+            defaultToToken={defaultToToken}
+            disabled={isLoading}
+            getPairedOption={getPairedToken}
+            options={options}
+            onSubmit={handleSubmit}
+          />
+        }
+        mb={3}
       />
 
       {hasErrors ? (
         <NoReactSnap>
           <Box mb={3}>
             <ErrorMessage
+              isLoading={isFailedRequestsLoading}
               title={t('error.some')}
               onClick={repeatFailedRequests}
-              isLoading={isFailedRequestsLoading}
             />
           </Box>
         </NoReactSnap>
       ) : (
         <NoReactSnap>
           <TableComponent
-            isLoading={isLoading}
             data={data}
+            isLoading={isLoading}
             outToken={toToken}
           />
         </NoReactSnap>

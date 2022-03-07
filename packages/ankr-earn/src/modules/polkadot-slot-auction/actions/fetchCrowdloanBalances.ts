@@ -1,7 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { ICrowdloanType, SlotAuctionSdk, TNetworkType } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { ICrowdloanType, SlotAuctionSdk, TNetworkType } from 'polkadot';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 type TFetchCrowdloanBalancesData = Record<number, IFetchCrowdloanBalancesItem>;

@@ -1,6 +1,7 @@
+import { BlockchainNetworkId } from 'provider';
+
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { BlockchainNetworkId } from 'provider/providerManager/types';
 
 export const useKnownNetworks = (): Record<number, string> =>
   useLocaleMemo(() => {
@@ -8,7 +9,7 @@ export const useKnownNetworks = (): Record<number, string> =>
     const knownNetworksMap = networkIdKeys.reduce<Record<number, string>>(
       (acc, key) => {
         const chainKey = +key;
-        if (isNaN(chainKey)) {
+        if (Number.isNaN(chainKey)) {
           return acc;
         }
 

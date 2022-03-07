@@ -1,9 +1,13 @@
 import { useDispatchRequest } from '@redux-requests/react';
-import { TActionPromise } from 'modules/common/types/ReduxRequests';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
 import { useCallback } from 'react';
+
+import { AvailableWriteProviders } from 'provider';
+
+import { TActionPromise } from 'modules/common/types/ReduxRequests';
+
 import { connect, IConnect } from '../actions/connect';
 import { disconnect } from '../actions/disconnect';
+
 import { IUseConnectedData, useConnectedData } from './useConnectedData';
 
 interface IUseAuth extends IUseConnectedData {

@@ -1,22 +1,20 @@
-import { darken, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { darken, makeStyles, Theme } from '@material-ui/core';
 
-export const useTableHeadStyles = makeStyles<
-  Theme,
-  {
-    count: number;
-    customCell?: string;
-    paddingCollapse?: boolean;
-    dense?: boolean;
-  }
->(theme => ({
+interface ITableHeadProps {
+  count: number;
+  customCell?: string;
+  paddingCollapse?: boolean;
+  dense?: boolean;
+}
+
+export const useTableHeadStyles = makeStyles<Theme, ITableHeadProps>(theme => ({
   head: {
     display: 'none',
 
     [theme.breakpoints.up('md')]: {
       display: 'grid',
       gridTemplateColumns: ({ customCell, count }) =>
-        customCell ? customCell : `repeat(${count}, 1fr)`,
+        customCell || `repeat(${count}, 1fr)`,
       alignItems: 'stretch',
       boxSizing: 'border-box',
       marginBottom: ({ dense }) => (dense ? -1 : theme.spacing(1)),

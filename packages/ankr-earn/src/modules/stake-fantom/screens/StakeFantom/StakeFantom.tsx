@@ -1,10 +1,12 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
@@ -16,10 +18,10 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { useCallback } from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -27,7 +29,7 @@ import { useStakeStats } from './hooks/useStakeStats';
 import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
-export const StakeFantom = () => {
+export const StakeFantom = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
   const classes = useStakeFantomStyles();
 
@@ -40,7 +42,6 @@ export const StakeFantom = () => {
     isCommonDataLoading,
     amount,
     balance,
-    stakingAmountStep,
     minAmount,
     loading,
     tokenIn,
@@ -49,8 +50,8 @@ export const StakeFantom = () => {
     onSubmit,
   } = useStakeForm(onSuccessOpen);
 
-  const stats = useStakeStats(amount);
   const faqItems = useFaq();
+  const stats = useStakeStats(amount);
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
@@ -58,14 +59,14 @@ export const StakeFantom = () => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (amount: BigNumber) => {
+    (value: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount symbol={tokenOut}>
-              {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
             </StakeDescriptionAmount>
 
             <small>{tokenOut}</small>
@@ -88,8 +89,8 @@ export const StakeFantom = () => {
         <Container>
           <StakeSuccessDialog
             tokenName={tokenOut}
-            onClose={onSuccessClose}
             onAddTokenClick={onAddTokenClick}
+            onClose={onSuccessClose}
           />
         </Container>
       ) : (
@@ -103,16 +104,15 @@ export const StakeFantom = () => {
 
           <StakeForm
             balance={balance}
-            stakingAmountStep={stakingAmountStep}
-            minAmount={minAmount ? new BigNumber(minAmount) : new BigNumber(0)}
-            loading={hasError || loading}
             isBalanceLoading={hasError || isCommonDataLoading}
+            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
+            loading={hasError || loading}
+            minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
+            renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
-            onSubmit={onSubmit}
             onChange={onChange}
-            renderStats={renderStats}
-            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
+            onSubmit={onSubmit}
           />
 
           <StakeStats stats={stats} />
