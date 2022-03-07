@@ -18,7 +18,10 @@ const ChainBannerUnblockBtn = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.unblockBtn}>
+    <Link
+      to={PlanRoutesConfig.plan.generatePath()}
+      className={classes.unblockBtn}
+    >
       <Typography
         className={classes.unblockBtnLabel}
         color="inherit"
@@ -27,7 +30,7 @@ const ChainBannerUnblockBtn = () => {
         {t('chain-item.banner.more')}
       </Typography>
       <ArrowRightIcon className={classes.unblockBtnIcon} />
-    </div>
+    </Link>
   );
 };
 
@@ -40,10 +43,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
   const isMobile = useIsMDDown();
 
   return (
-    <Link
-      to={PlanRoutesConfig.plan.generatePath()}
-      className={classNames(classes.root, className)}
-    >
+    <div className={classNames(classes.root, className)}>
       <div className={classNames(classes.block, classes.left)}>
         <Typography className={classes.title} color="inherit" variant="h3">
           {t('chain-item.banner.plan')}
@@ -109,25 +109,6 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
         </div>
         {isMobile && <div className={classes.rightOverlay} />}
       </div>
-      <div className={classNames(classes.block, classes.right)}>
-        {isMobile && <ChainBannerUnblockBtn />}
-        <div>
-          <Typography
-            className={classes.rightCount}
-            color="inherit"
-            variant="h4"
-          >
-            {t('chain-item.banner.requests-count')}
-          </Typography>
-          <Typography
-            className={classes.reqPerDay}
-            color="inherit"
-            variant="subtitle1"
-          >
-            {t('chain-item.banner.requests-per-day')}
-          </Typography>
-        </div>
-      </div>
-    </Link>
+    </div>
   );
 };

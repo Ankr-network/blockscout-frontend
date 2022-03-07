@@ -14,7 +14,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
       height: 184,
     },
     justifyContent: 'space-between',
-    cursor: 'pointer',
     '&:hover': {
       color: theme.palette.common.white,
     },
@@ -76,6 +75,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flex: 1,
     minWidth: 160,
+    maxWidth: 220,
     height: '50%',
     [theme.breakpoints.down('md')]: {
       height: '100%',
