@@ -89,12 +89,13 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.parachain,
       links.boost,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
+      links.eth2Swap,
     ],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
-    () => [links.eth2Swap, links.docs, links.litepaper],
+    () => [links.docs, links.litepaper],
     [links],
   );
 
