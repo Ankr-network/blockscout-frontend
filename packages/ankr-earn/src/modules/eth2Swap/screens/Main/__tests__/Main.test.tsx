@@ -160,7 +160,7 @@ describe('modules/eth2Swap/screens/Main', () => {
     const input = await screen.findByDisplayValue('10');
     expect(input).toBeInTheDocument();
 
-    const button = await screen.findByText('Swap');
+    const button = await screen.findByText('Switch');
     button.click();
 
     expect(defaultFormData.handleSwap).toBeCalledTimes(1);

@@ -452,12 +452,13 @@
     "willGet": "You will get",
     "amountInputTitle": "Amount",
     "tooltips": {
+      "approve": "You have to provide Ankr Switch smart contracts permission to use your {token} (known as an “allowance”). You only have to do this once per token.",
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned."
     },
     "buttons": {
       "approve": "Approve",
-      "swap": "Swap",
+      "switch": "Switch",
       "explorer": "View on explorer",
       "dashboard": "Go to dashboard",
       "addToWallet": "Add {token} to wallet"
