@@ -5,7 +5,7 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { ChangeEvent, RefObject } from 'react';
+import { ChangeEvent, ReactChild, RefObject } from 'react';
 import { uid } from 'react-uid';
 
 import { ReactComponent as AngleDownIcon } from 'assets/img/angle-down-icon.svg';
@@ -15,7 +15,7 @@ import { useFaqStyles as useStyles } from './useFaqStyles';
 
 export interface IFaqItem {
   question: string;
-  answer: string;
+  answer: ReactChild;
   ref?: RefObject<unknown>;
   expanded?: boolean;
   onChange?: (
