@@ -4,7 +4,7 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML, tHTMLWithRouter } from 'modules/i18n/utils/intl';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import { useRedeemData } from '../../../hooks/useRedeemData';
@@ -62,7 +62,7 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-9'),
-        answer: tHTML('stake-bnb.faq.answer-9', {
+        answer: tHTMLWithRouter('stake-bnb.faq.answer-9', {
           link: tradeLink,
         }),
       },
