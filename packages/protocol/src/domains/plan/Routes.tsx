@@ -6,6 +6,7 @@ import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_PLAN = '/plan/';
+export const PATH_PLAN_DEPOSIT = '/plan/deposit/';
 
 export const PlanRoutesConfig = createRouteConfig(
   {
@@ -14,12 +15,24 @@ export const PlanRoutesConfig = createRouteConfig(
       generatePath: () => PATH_PLAN,
       breadcrumbs: 'plan.breadcrumbs',
     },
+    planDeposit: {
+      path: PATH_PLAN_DEPOSIT,
+      generatePath: () => PATH_PLAN_DEPOSIT,
+      breadcrumbs: 'plan.deposit.breadcrumbs',
+    },
   },
   PATH_PLAN,
 );
 
 const LoadablePlanContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/Plan').then(module => module.Plan),
+  async () => import('./screens/Plan/Plan').then(module => module.Plan),
+  {
+    fallback: <Spinner />,
+  },
+);
+
+const LoadablePlanDepositContainer: LoadableComponent<any> = loadable(
+  async () => import('./screens/Plan/Deposit').then(module => module.Deposit),
   {
     fallback: <Spinner />,
   },
@@ -32,6 +45,11 @@ export function PlanRoutes() {
         exact
         path={PlanRoutesConfig.plan.path}
         component={LoadablePlanContainer}
+      />
+      <Route
+        exact
+        path={PlanRoutesConfig.planDeposit.path}
+        component={LoadablePlanDepositContainer}
       />
     </>
   );

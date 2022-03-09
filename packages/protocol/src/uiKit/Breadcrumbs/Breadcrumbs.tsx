@@ -11,10 +11,12 @@ import { AngleRightIcon } from 'uiKit/Icons/AngleRightIcon';
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'ui';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const classes = useStyles();
   const isMobile = useIsMDDown();
+  const { loading } = useAuth();
 
   return (
     <BreadcrumbsBase
@@ -32,7 +34,9 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
             <Link
               color="inherit"
               to={link}
-              className={classNames(classes.link, 'custom-link')}
+              className={classNames(classes.link, 'custom-link', {
+                [classes.disabled]: loading,
+              })}
               key={title}
             >
               {isMobile ? (

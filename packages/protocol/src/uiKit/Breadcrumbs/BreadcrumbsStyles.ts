@@ -33,4 +33,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   mobileBackButton: {
     transform: 'rotate(180deg)',
   },
+  disabled: {
+    pointerEvents: 'none',
+    opacity: 0.5,
+  },
 }));

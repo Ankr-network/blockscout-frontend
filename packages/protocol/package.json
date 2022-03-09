@@ -135,7 +135,8 @@
       "/public/near/",
       "/public/bsc/",
       "/public/iotex/",
-      "/public/nervos/"
+      "/public/nervos/",
+      "/plan/deposit/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
