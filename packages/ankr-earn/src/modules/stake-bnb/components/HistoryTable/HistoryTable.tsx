@@ -1,7 +1,9 @@
 import { Typography } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/styles/withStyles';
 import { QueryState } from '@redux-requests/core';
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { uid } from 'react-uid';
+
 import {
   Table,
   TableBody,
@@ -15,28 +17,19 @@ import { getShortStr } from 'modules/common/utils/getShortStr';
 import { getTxLink } from 'modules/common/utils/getTxLink';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { useEffect, useState } from 'react';
 import { NavLink } from 'uiKit/NavLink';
+
 import {
   ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
   TTxEventsHistoryGroupData,
 } from '../../api/BinanceSDK';
+
 import { useHistoryTableStyles } from './useHistoryTableStyles';
 
-type TTableData = Array<ITableDataItem | void>;
+type TTableData = ITableDataItem[];
 
 interface IHistoryTableProps {
   query: QueryState<ITxEventsHistoryData>;
-}
-
-interface ISwitcherCaptionsItem {
-  label: string;
-}
-
-interface IHeaderCaptionsItem {
-  align?: AlignType;
-  label: string;
 }
 
 interface ITableDataItem {
@@ -55,21 +48,14 @@ function getPreparedData(data?: TTxEventsHistoryGroupData): TTableData {
     return [];
   }
 
-  return (data as Array<ITxEventsHistoryGroupItem>).map(
-    ({
-      txAmount,
-      txDate,
-      txHash,
-      txType,
-    }: ITxEventsHistoryGroupItem): ITableDataItem => ({
-      amount: t('unit.bnb-value', { value: txAmount.toNumber() }),
-      date: t('format.date-time-24', { value: txDate }),
-      shortTxHash: getShortStr(txHash),
-      txHash,
-      txLink: getTxLink(txHash),
-      type: typeof txType === 'string' ? t(`stake-statuses.${txType}`) : '',
-    }),
-  );
+  return data.map(({ txAmount, txDate, txHash, txType }) => ({
+    amount: t('unit.bnb-value', { value: txAmount.toNumber() }),
+    date: t('format.date-time-24', { value: txDate }),
+    shortTxHash: getShortStr(txHash),
+    txHash,
+    txLink: getTxLink(txHash),
+    type: typeof txType === 'string' ? t(`stake-statuses.${txType}`) : '',
+  }));
 }
 
 export const HistoryTable = ({
@@ -81,10 +67,10 @@ export const HistoryTable = ({
   const [completedData, setCompletedData] = useState<TTableData>([]);
   const [pendingData, setPendingData] = useState<TTableData>([]);
   const [data, setData] = useState<TTableData>([]);
-  const classes: ClassNameMap = useHistoryTableStyles();
+  const classes = useHistoryTableStyles();
 
-  const switcherCaptions: Array<ISwitcherCaptionsItem> = useLocaleMemo(
-    (): Array<ISwitcherCaptionsItem> => [
+  const switcherCaptions = useLocaleMemo(
+    () => [
       {
         label: t('stake-bnb-dashboard.switcher.completed-title'),
       },
@@ -95,8 +81,8 @@ export const HistoryTable = ({
     [],
   );
 
-  const headerCaptions: Array<IHeaderCaptionsItem> = useLocaleMemo(
-    (): Array<IHeaderCaptionsItem> => [
+  const headerCaptions = useLocaleMemo(
+    () => [
       {
         label: t('stake-bnb-dashboard.column.tx-date'),
       },
@@ -146,15 +132,15 @@ export const HistoryTable = ({
     <div className={classes.root}>
       <div className={classes.switcherArea}>
         {switcherCaptions.map(
-          ({ label }: ISwitcherCaptionsItem, idx: number): JSX.Element => (
+          ({ label }, idx): JSX.Element => (
             <Typography
+              key={uid(idx)}
               className={classNames(
                 classes.switcherTitle,
                 idx === activeSwitcherId && classes.switcherTitleActive,
               )}
-              key={idx}
-              onClick={onSwitcherItemClick(idx)}
               variant="body1"
+              onClick={onSwitcherItemClick(idx)}
             >
               {label}
             </Typography>
@@ -163,18 +149,18 @@ export const HistoryTable = ({
       </div>
 
       <Table
+        paddingCollapse
         columnsCount={headerCaptions.length}
         customCell="1fr 1fr 1fr 1fr"
         minWidth={0}
-        paddingCollapse
       >
         <TableHead>
           {headerCaptions.map(
-            (headerCaption: IHeaderCaptionsItem, idx: number): JSX.Element => (
+            (headerCaption, idx): JSX.Element => (
               <TableHeadCell
-                align={headerCaption.align}
+                key={uid(idx)}
+                align={headerCaption.align as AlignType | undefined}
                 classes={{ content: classes.tableHeadCellContent }}
-                key={idx}
                 label={headerCaption.label}
               />
             ),
@@ -182,7 +168,7 @@ export const HistoryTable = ({
         </TableHead>
 
         <TableBody>
-          {(data as Array<ITableDataItem>).map(
+          {data.map(
             ({
               amount,
               date,
@@ -190,7 +176,7 @@ export const HistoryTable = ({
               txHash,
               txLink,
               type,
-            }: ITableDataItem): JSX.Element => (
+            }): JSX.Element => (
               <TableRow key={txHash}>
                 <TableBodyCell>{date}</TableBodyCell>
 

@@ -1,15 +1,20 @@
 import { RequestAction } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
+import { TransactionReceipt } from 'web3-core';
+
+import { SlotAuctionSdk } from 'polkadot';
+
 import { isMainnet } from 'modules/common/const';
 import { TStore } from 'modules/common/types/ReduxRequests';
-import { SlotAuctionSdk } from 'polkadot';
-import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+
 import { fetchMyRewardCrowdloans } from './fetchMyRewardCrowdloans';
 
 interface IClaimStakingRewardsData {
   transactionHash: string;
-  transactionReceipt: any;
+  transactionReceipt: TransactionReceipt;
 }
 
 interface IReq {
@@ -34,8 +39,8 @@ export const claimStakingRewards = createAction<
             loanId,
             isMainnet ? undefined : 'ERC20',
           );
-        } catch (e: any) {
-          throw new Error(e.message);
+        } catch (e) {
+          throw new Error((e as Error).message);
         }
 
         return data;

@@ -1,4 +1,7 @@
 import { useQuery } from '@redux-requests/react';
+
+import { AvailableWriteProviders } from 'provider';
+
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
@@ -7,7 +10,7 @@ import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
+
 import {
   ITxEventsHistoryData,
   ITxEventsHistoryGroupItem,

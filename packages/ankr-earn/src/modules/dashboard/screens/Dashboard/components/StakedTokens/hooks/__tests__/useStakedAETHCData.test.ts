@@ -1,6 +1,8 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
+
 import { useStakedAETHCData } from '../useStakedAETHCData';
 
 jest.mock('@redux-requests/react', () => ({

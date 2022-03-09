@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+
 import { useLayoutStyles } from './useLayoutStyles';
 
 export interface ILayoutProps {
@@ -14,12 +15,13 @@ export const Layout = ({
   headerSlot,
   footerSlot,
   verticalAlign,
-}: ILayoutProps) => {
+}: ILayoutProps): JSX.Element => {
   const classes = useLayoutStyles();
 
   return (
     <div className={classes.root}>
       {headerSlot}
+
       <main
         className={classNames({
           [classes.mainAlignTop]: verticalAlign === 'top',
@@ -27,6 +29,7 @@ export const Layout = ({
       >
         {children}
       </main>
+
       {footerSlot}
     </div>
   );

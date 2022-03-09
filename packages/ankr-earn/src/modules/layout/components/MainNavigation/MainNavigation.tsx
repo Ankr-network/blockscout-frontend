@@ -1,19 +1,23 @@
 import { Button, Popover } from '@material-ui/core';
-import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import classNames from 'classnames';
+import { useMemo, useState, MouseEvent as ReactMouseEvent } from 'react';
+
+import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
 import { t } from 'modules/i18n/utils/intl';
 import { useNavigationItems } from 'modules/layout/hooks/useNavigationItems';
-import { useMemo, useState } from 'react';
+
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';
 
-export const MainNavigation = () => {
+export const MainNavigation = (): JSX.Element => {
   const { desktopItems, desktopMenuItems } = useNavigationItems();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const classes = useStyles();
 
-  const handleMenuClick = (event: any) => {
+  const handleMenuClick = (
+    event: ReactMouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -41,34 +45,34 @@ export const MainNavigation = () => {
       <Navigation items={desktopItems} />
 
       <Button
+        aria-describedby={id}
         className={classNames(
           classes.button,
           popoverOpen && classes.buttonActive,
         )}
-        aria-describedby={id}
+        endIcon={<AngleDownIconSmall />}
         variant="text"
         onClick={handleMenuClick}
-        endIcon={<AngleDownIconSmall />}
       >
         {t('main-navigation.more')}
       </Button>
 
       <Popover
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        className={classes.popover}
         id={id}
         open={popoverOpen}
-        anchorEl={anchorEl}
-        className={classes.popover}
-        onClose={handlePopupClose}
         PaperProps={{
           elevation: 0,
           classes: {
             root: classes.menuPaper,
           },
         }}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
+        onClose={handlePopupClose}
       >
         {moreOptionsRenderedList}
       </Popover>

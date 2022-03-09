@@ -1,6 +1,8 @@
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useHistory } from 'react-router';
+
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -13,18 +15,18 @@ import {
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
-import React from 'react';
-import { useHistory } from 'react-router';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { fetchStats } from '../../actions/fetchStats';
 import { unstake } from '../../actions/unstake';
 import { useFetchStats } from '../../hooks/useFetchStats';
 import { useRedeemData } from '../../hooks/useRedeemData';
+
 import { useUnstakeBinanceStyles } from './useUnstakeBinanceStyles';
 
-export const UnstakeBinance = () => {
+export const UnstakeBinance = (): JSX.Element => {
   const classes = useUnstakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
@@ -36,8 +38,8 @@ export const UnstakeBinance = () => {
   } = useDialog();
 
   const {
-    error: fetchStatsError,
     isLoading: isFetchStatsLoading,
+    error: fetchStatsError,
     stats: fetchStatsData,
   } = useFetchStats();
 
@@ -71,7 +73,8 @@ export const UnstakeBinance = () => {
   const onRenderFormFooter =
     (minAmount: BigNumber) =>
     (amount: BigNumber): JSX.Element => {
-      const isInvalidAmount = amount.isNaN() || amount.isLessThan(minAmount);
+      const value = amount;
+      const isInvalidAmount = value.isNaN() || value.isLessThan(minAmount);
 
       return (
         <Box display="flex" mt={2}>
@@ -91,7 +94,7 @@ export const UnstakeBinance = () => {
             variant="body2"
           >
             {t('unit.token-value', {
-              value: isInvalidAmount ? 0 : amount.decimalPlaces(DECIMAL_PLACES),
+              value: isInvalidAmount ? 0 : value.decimalPlaces(DECIMAL_PLACES),
               token: Token.BNB,
             })}
           </Typography>

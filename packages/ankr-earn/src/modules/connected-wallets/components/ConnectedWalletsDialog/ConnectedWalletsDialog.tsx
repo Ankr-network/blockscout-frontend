@@ -1,12 +1,15 @@
 import { Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
-import { Dialog } from 'uiKit/Dialog';
-import { ConnectedWalletsNetwork } from '../ConnectedWalletsNetwork';
-import { useConnectedWalletsDialogStyles as useStyles } from './useConnectedWalletsDialogStyles';
-import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
-import { Button } from 'uiKit/Button';
-import { IAddresses } from 'modules/connected-wallets/types';
 import { useEffect } from 'react';
+
+import { IAddresses } from 'modules/connected-wallets/types';
+import { t } from 'modules/i18n/utils/intl';
+import { Button } from 'uiKit/Button';
+import { Dialog } from 'uiKit/Dialog';
+
+import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
+import { ConnectedWalletsNetwork } from '../ConnectedWalletsNetwork';
+
+import { useConnectedWalletsDialogStyles as useStyles } from './useConnectedWalletsDialogStyles';
 
 interface IConnectedWalletsDialogProps {
   open: boolean;
@@ -22,16 +25,16 @@ export const ConnectedWalletsDialog = ({
   open,
   onClose,
   networks,
-}: IConnectedWalletsDialogProps) => {
+}: IConnectedWalletsDialogProps): JSX.Element => {
   const classes = useStyles();
 
   const connectedWallets = networks.map(network => (
     <ConnectedWalletsNetwork
       key={network.network}
-      network={network.network}
       addresses={network.addresses}
       className={classes.network}
       disconnect={network.disconnect}
+      network={network.network}
     />
   ));
 
@@ -48,19 +51,22 @@ export const ConnectedWalletsDialog = ({
   }, [networks, onClose]);
 
   return (
-    <Dialog open={open} onClose={onClose} className={classes.root}>
+    <Dialog className={classes.root} open={open} onClose={onClose}>
       <div className={classes.wrapper}>
-        <Typography variant="h2" component="h2" className={classes.header}>
+        <Typography className={classes.header} component="h2" variant="h2">
           {t('wallets.connected-wallets')}
         </Typography>
+
         {connectedWallets}
+
         {disconnectsCount > 1 && (
           <Button
-            variant="text"
             className={classes.button}
+            variant="text"
             onClick={disconnectAll}
           >
             <DisconnectSVG />
+
             <span className={classes.buttonText}>
               {t('wallets.disconnect-all')}
             </span>

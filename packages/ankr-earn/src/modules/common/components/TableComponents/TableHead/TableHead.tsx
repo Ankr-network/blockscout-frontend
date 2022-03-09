@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactNode, useContext } from 'react';
+
 import { TableContext } from '../Table/Table';
 import { ICustomProps, IStyleProps } from '../types';
+
 import { useTableHeadStyles } from './useTableHeadStyles';
 
 interface ITableHeadProps {
@@ -17,7 +19,9 @@ export const TableHeadComponent = ({
   count,
   stickyHeader,
   dense,
-}: ITableHeadProps & ICustomProps & IStyleProps & { count: number }) => {
+}: ITableHeadProps &
+  ICustomProps &
+  IStyleProps & { count: number }): JSX.Element => {
   const classes = useTableHeadStyles({
     count,
     customCell,
@@ -39,7 +43,7 @@ export const TableHeadComponent = ({
   );
 };
 
-export const TableHead = (props: ITableHeadProps) => {
+export const TableHead = (props: ITableHeadProps): JSX.Element => {
   const context = useContext(TableContext);
   return <TableHeadComponent {...context} {...props} />;
 };

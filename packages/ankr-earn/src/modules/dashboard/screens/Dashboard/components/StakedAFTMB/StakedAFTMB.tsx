@@ -5,6 +5,7 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+
 import { useStakedAFTMBData } from '../StakedTokens/hooks/useStakedAFTMBData';
 import { useStakedFTMTxHistory } from '../StakedTokens/hooks/useStakedFTMTxHistory';
 
@@ -20,42 +21,42 @@ export const StakedAFTMB = (): JSX.Element | null => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
-    stakeLink,
     unstakeLink,
+    stakeLink,
   } = useStakedAFTMBData();
 
   const renderedPendingSlot = !history.pendingValue.isZero() && (
     <Pending
-      value={history.pendingValue}
       token={Token.aFTMb}
       tooltip={<PendingTable data={history.pendingUnstakeHistory} />}
+      value={history.pendingValue}
     />
   );
 
   return (
     <>
       <StakingAsset
-        network={network}
-        token={Token.aFTMb}
-        tokenAddress={fantomConfig.aftmbToken}
         amount={amount}
-        pendingSlot={renderedPendingSlot}
+        isHistoryLoading={history.isHistoryLoading}
         isLoading={isBalancesLoading}
-        stakeLink={stakeLink}
-        unstakeLink={unstakeLink}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        network={network}
+        pendingSlot={renderedPendingSlot}
+        stakeLink={stakeLink}
+        token={Token.aFTMb}
+        tokenAddress={fantomConfig.aftmbToken}
+        unstakeLink={unstakeLink}
         onHistoryBtnClick={onOpen}
-        isHistoryLoading={history.isHistoryLoading}
       />
 
       <HistoryDialog
-        open={isOpened}
         history={{
           token: Token.aFTMb,
           staked: history.staked,
           unstaked: history.unstaked,
         }}
+        open={isOpened}
         onClose={onClose}
       />
     </>

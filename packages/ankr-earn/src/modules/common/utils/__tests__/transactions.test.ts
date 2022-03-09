@@ -1,4 +1,5 @@
 import { PromiEvent, TransactionReceipt } from 'web3-core';
+
 import EventEmitter from 'events';
 
 import { waitForTx } from '../transactions';
@@ -22,7 +23,7 @@ describe('modules/common/utils/transactions', () => {
     expect(await result).toBe('error');
   });
 
-  test('should wait for tx', async () => {
+  test('should wait for tx properly', async () => {
     const receiptPromise = new EventEmitter();
 
     const result = waitForTx({

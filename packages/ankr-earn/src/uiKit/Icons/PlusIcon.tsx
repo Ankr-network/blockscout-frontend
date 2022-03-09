@@ -1,15 +1,17 @@
 import React from 'react';
+
 import { withSvgIcon } from './withSvgIcon';
 
 export const PlusIcon = withSvgIcon(
   <>
-    <rect x="11" width="3" height="25" fill="currentColor" fillRule="evenodd" />
+    <rect fill="currentColor" fillRule="evenodd" height="25" width="3" x="11" />
+
     <rect
-      y="14"
-      width="3"
+      fill="currentColor"
       height="25"
       transform="rotate(-90 0 14)"
-      fill="currentColor"
+      width="3"
+      y="14"
     />
   </>,
   { viewBox: '0 0 25 25' },

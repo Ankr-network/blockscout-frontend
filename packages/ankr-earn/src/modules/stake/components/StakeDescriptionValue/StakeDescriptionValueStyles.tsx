@@ -1,5 +1,4 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export interface IUseStakeDescriptionValueStylesProps {
   isBold?: boolean;

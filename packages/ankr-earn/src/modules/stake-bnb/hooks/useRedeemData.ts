@@ -1,6 +1,7 @@
 import { isMainnet } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+
 import { BNB_REDEEM_PERIOD } from '../const';
 
 interface IUseRedeemData {

@@ -1,5 +1,5 @@
 import { DispatchRequest } from '@redux-requests/core';
-import { Store } from 'redux';
+import { AnyAction, Store } from 'redux';
 
 export type TStore<T> = Store<T> & {
   dispatchRequest: DispatchRequest;
@@ -7,7 +7,7 @@ export type TStore<T> = Store<T> & {
 
 export type TActionPromise<T> = Promise<{
   data?: T | undefined;
-  error?: any;
+  error?: Error;
   isAborted?: true | undefined;
-  action: any;
+  action: AnyAction;
 }>;

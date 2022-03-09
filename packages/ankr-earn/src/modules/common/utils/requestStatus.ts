@@ -33,7 +33,7 @@ export enum RequestStatusType {
   successful = 'successful',
 }
 
-export const extractRequestError = (action: any): string => t('error.unknown');
+export const extractRequestError = (): string => t('error.unknown');
 
 export function requestInProgress(progress?: number): RequestStatus {
   return {
@@ -71,26 +71,26 @@ export function requestSuccessful(): RequestStatus {
   };
 }
 
-export function isRequestInProgress(status: RequestStatus) {
+export function isRequestInProgress(status: RequestStatus): boolean {
   return status.type === RequestStatusType.active;
 }
 
-export function isRequestFailed(status: RequestStatus) {
+export function isRequestFailed(status: RequestStatus): boolean {
   return status.type === RequestStatusType.failed;
 }
 
-export function isRequestSuccessful(status: RequestStatus) {
+export function isRequestSuccessful(status: RequestStatus): boolean {
   return status.type === RequestStatusType.successful;
 }
 
-export function isRequestInactive(status: RequestStatus) {
+export function isRequestInactive(status: RequestStatus): boolean {
   return status.type === RequestStatusType.inactive;
 }
 
-export function getRequestError(...statuses: RequestStatus[]) {
-  const status = statuses.find(
-    status => status.type === RequestStatusType.failed,
-  );
+export function getRequestError(
+  ...statuses: RequestStatus[]
+): string | undefined {
+  const status = statuses.find(({ type }) => type === RequestStatusType.failed);
 
   if (status && status.type === RequestStatusType.failed) {
     return status.error ? status.error : 'Error';

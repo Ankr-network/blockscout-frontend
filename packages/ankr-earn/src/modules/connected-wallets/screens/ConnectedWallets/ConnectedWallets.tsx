@@ -8,7 +8,9 @@ interface IConnectedWalletsProps {
   className?: string;
 }
 
-export const ConnectedWallets = ({ className }: IConnectedWalletsProps) => {
+export const ConnectedWallets = ({
+  className,
+}: IConnectedWalletsProps): JSX.Element => {
   const { onOpen, onClose, isOpened } = useDialog();
 
   // TODO: add more providers in the future
@@ -32,11 +34,12 @@ export const ConnectedWallets = ({ className }: IConnectedWalletsProps) => {
   return (
     <>
       <ConnectedWalletsButton
+        className={className}
+        connectHandler={polygonAuth.dispatchConnect}
         networks={networks}
         onClick={onOpen}
-        connectHandler={polygonAuth.dispatchConnect}
-        className={className}
       />
+
       <ConnectedWalletsDialog
         networks={networks}
         open={isOpened}

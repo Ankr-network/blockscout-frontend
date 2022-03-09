@@ -1,7 +1,9 @@
 import { Dialog, IconButton } from '@material-ui/core';
-import React from 'react';
+
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
+
 import { SelectWallet } from '../SelectWallet';
+
 import { useSelectWalletModalStyles } from './useSelectWalletModalStyles';
 
 export interface IPolkadotExtensionModal {
@@ -18,25 +20,26 @@ export const SelectWalletModal = ({
   isCloverWalletAvailable,
   isPolkadotWalletAvailable,
   handleConnect,
-}: IPolkadotExtensionModal) => {
+}: IPolkadotExtensionModal): JSX.Element => {
   const classes = useSelectWalletModalStyles();
 
   return (
     <Dialog
-      open={isOpened}
-      onClose={onClose}
-      scroll="body"
-      fullWidth={true}
-      PaperProps={{ square: false }}
+      fullWidth
       classes={{ paper: classes.root }}
+      open={isOpened}
+      PaperProps={{ square: false }}
+      scroll="body"
+      onClose={onClose}
     >
       <IconButton className={classes.close} onClick={onClose}>
         <CancelIcon size="md" />
       </IconButton>
+
       <SelectWallet
+        handleConnect={handleConnect}
         isCloverWalletAvailable={isCloverWalletAvailable}
         isPolkadotWalletAvailable={isPolkadotWalletAvailable}
-        handleConnect={handleConnect}
       />
     </Dialog>
   );

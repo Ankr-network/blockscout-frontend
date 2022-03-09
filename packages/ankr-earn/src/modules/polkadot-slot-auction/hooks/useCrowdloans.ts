@@ -1,6 +1,9 @@
 import { useQuery } from '@redux-requests/react';
-import { ResponseData } from 'modules/common/types/ResponseData';
+
 import { ICrowdloanType } from 'polkadot';
+
+import { ResponseData } from 'modules/common/types/ResponseData';
+
 import {
   fetchCrowdloanBalances,
   IFetchCrowdloanBalancesItem,

@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { ONE_ETH, ZERO } from 'modules/common/const';
 import { MemoryRouter } from 'react-router';
+
+import { ONE_ETH, ZERO } from 'modules/common/const';
+
 import { StakedAETHB } from '..';
 import {
   IStakedAETHBData,

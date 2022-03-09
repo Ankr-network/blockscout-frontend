@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { ReactNode } from 'react';
+
 import {
   IUseStakeDescriptionValueStylesProps,
   useStakeDescriptionValueStyles,
@@ -13,7 +14,7 @@ export interface IStakeDescriptionValueProps
 export const StakeDescriptionValue = ({
   children,
   isBold = true,
-}: IStakeDescriptionValueProps) => {
+}: IStakeDescriptionValueProps): JSX.Element => {
   const classes = useStakeDescriptionValueStyles({ isBold });
 
   return (

@@ -1,7 +1,6 @@
-import { alpha, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { alpha, makeStyles } from '@material-ui/core';
 
-export const useTableRowStyles = makeStyles<Theme>(theme => ({
+export const useTableRowStyles = makeStyles(theme => ({
   row: {
     display: 'block',
     listStyle: 'none',

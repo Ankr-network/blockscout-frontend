@@ -1,13 +1,16 @@
-import { PolkadotProvider } from 'polkadot';
 import { Action } from 'redux';
-import { put, take, takeEvery } from 'redux-saga/effects';
+import { ForkEffect, put, take, takeEvery } from 'redux-saga/effects';
 import { createAction } from 'redux-smart-actions';
+
+import { PolkadotProvider } from 'polkadot';
+
 import {
   closeModalAction,
   DIALOG_POLKADOT_EXTENSION,
   OPEN_MODAL_ACTION,
   openModalAction,
 } from 'store/dialogs/actions';
+
 import { connect } from '../actions/connect';
 import {
   isProviderAvailable,
@@ -49,10 +52,9 @@ function* connectNotification() {
         isPolkadotWalletAvailable: false,
       }),
     );
-    return;
   }
 }
 
-export function* polkadotSlotAuctionSaga() {
+export function* polkadotSlotAuctionSaga(): Generator<ForkEffect, void> {
   yield takeEvery(initConnect.toString(), connectNotification);
 }

@@ -1,7 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
 import { PolygonSDK } from '../api/PolygonSDK';
+
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
@@ -18,7 +20,7 @@ export const stake = createSmartAction<
   request: {
     promise: (async () => {
       const sdk = await PolygonSDK.getInstance();
-      return await sdk.stake(amount);
+      return sdk.stake(amount);
     })(),
   },
   meta: {

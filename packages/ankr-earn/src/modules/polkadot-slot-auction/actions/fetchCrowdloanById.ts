@@ -1,6 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
-import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 interface FetchCrowdloanByIdData {

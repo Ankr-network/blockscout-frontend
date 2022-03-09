@@ -8,7 +8,9 @@ export const getPairedToken = (
 
   if (typeof pairedToken === 'string') {
     return pairedToken;
-  } else if (Array.isArray(pairedToken)) {
+  }
+
+  if (Array.isArray(pairedToken)) {
     const isAlreadyCompatible = toToken && pairedToken.find(t => t === toToken);
 
     if (isAlreadyCompatible) {

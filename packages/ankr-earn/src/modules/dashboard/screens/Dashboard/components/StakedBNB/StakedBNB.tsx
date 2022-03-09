@@ -5,6 +5,7 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+
 import { useStakedBNBData } from '../StakedTokens/hooks/useStakedBNBData';
 import { useStakedBNBTxHistory } from '../StakedTokens/hooks/useStakedBNBTxHistory';
 
@@ -16,7 +17,6 @@ export const StakedBNB = (): JSX.Element => {
     amount,
     pendingValue,
     network,
-    // tradeLink,
     stakeLink,
     unstakeLink,
     isBalancesLoading,
@@ -27,35 +27,35 @@ export const StakedBNB = (): JSX.Element => {
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
-      value={pendingValue}
       token={Token.aBNBb}
       tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
+      value={pendingValue}
     />
   );
 
   return (
     <>
       <StakingAsset
+        amount={amount}
+        isHistoryLoading={txHistory.isHistoryDataLoading}
+        isLoading={isBalancesLoading}
+        isStakeLoading={isStakeLoading}
+        isUnstakeLoading={isUnstakeLoading}
         network={network}
+        pendingSlot={renderedPendingSlot}
+        stakeLink={stakeLink}
         token={Token.aBNBb}
         tokenAddress={binanceConfig.aBNBbToken}
-        amount={amount}
         tradeLink={
           undefined /* TODO Please to add fix for it (BNB; trading-cockpit; tradeLink) */
         }
         unstakeLink={unstakeLink}
-        stakeLink={stakeLink}
-        isHistoryLoading={txHistory.isHistoryDataLoading}
-        pendingSlot={renderedPendingSlot}
-        isStakeLoading={isStakeLoading}
-        isUnstakeLoading={isUnstakeLoading}
-        isLoading={isBalancesLoading}
         onHistoryBtnClick={onOpen}
       />
 
       <HistoryDialog
-        open={isOpened}
         history={txHistory.transactionHistory}
+        open={isOpened}
         onClose={onClose}
       />
     </>

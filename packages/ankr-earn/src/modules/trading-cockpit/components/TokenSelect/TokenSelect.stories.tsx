@@ -1,14 +1,16 @@
 import { Paper } from '@material-ui/core';
 import { ChangeEvent, useMemo, useState } from 'react';
+
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+
 import { ITokenSelectOption, TokenSelect } from './TokenSelect';
 
 export default {
   title: 'modules/TradingCockpit/components/TokenSelect',
 };
 
-export const Default = () => {
+export const Default = (): JSX.Element => {
   const [value, setValue] = useState('1');
 
   const options: ITokenSelectOption[] = useMemo(
@@ -29,17 +31,17 @@ export const Default = () => {
     [],
   );
 
-  const onChange = (event: ChangeEvent<{ value: any }>) => {
-    setValue(event.target.value);
+  const onChange = (event: ChangeEvent<{ value: unknown }>) => {
+    setValue(event.target.value as string);
   };
 
   return (
     <Paper style={{ padding: 20 }}>
       <TokenSelect
-        value={value}
-        onChange={onChange}
         options={options}
+        value={value}
         variant="filled"
+        onChange={onChange}
       />
     </Paper>
   );

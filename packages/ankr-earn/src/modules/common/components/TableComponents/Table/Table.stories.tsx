@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Story } from '@storybook/react';
+import { ReactNode } from 'react';
 import { uid } from 'react-uid';
-import { Table } from '.';
+
 import {
   TableBody,
   TableBodyCell,
@@ -15,7 +17,10 @@ import {
   ITablesCaptionProps,
   ITablesRowProps,
 } from '../types';
-import { ITableProps } from './Table';
+
+import { ITableComponentProps } from './Table';
+
+import { Table } from '.';
 
 export default {
   title: 'modules/common/components/Table',
@@ -28,14 +33,19 @@ interface IDataTableProps extends ICustomProps, IStyleProps {
   rows: ITablesRowProps[];
 }
 
-const DataTable = ({ captions, rows, ...rest }: IDataTableProps) => {
+const DataTable = ({
+  captions,
+  rows,
+  ...rest
+}: IDataTableProps): JSX.Element => {
   return (
     <Table columnsCount={captions.length} {...rest}>
       <TableHead>
         {captions.map(cell => (
-          <TableHeadCell key={cell.key} label={cell.label} align={cell.align} />
+          <TableHeadCell key={cell.key} align={cell.align} label={cell.label} />
         ))}
       </TableHead>
+
       {rows && (
         <TableBody>
           {rows.map(row => (
@@ -46,7 +56,7 @@ const DataTable = ({ captions, rows, ...rest }: IDataTableProps) => {
                   align={cell.align}
                   label={`${cell.label}`}
                 >
-                  {row.data[cell.key]}
+                  {row.data[cell.key] as ReactNode}
                 </TableBodyCell>
               ))}
             </TableRow>
@@ -57,16 +67,18 @@ const DataTable = ({ captions, rows, ...rest }: IDataTableProps) => {
   );
 };
 
-const Template: Story<ITableProps> = args => {
+const Template: Story<ITableComponentProps> = args => {
   return (
     <>
       <DataTable captions={CAPTIONS} {...args} rows={DATA} />
+
       <div style={{ height: '100vh' }} />
     </>
   );
 };
 
 export const Default = Template.bind({});
+
 Default.args = {
   dense: false,
   stickyHeader: false,
@@ -76,6 +88,6 @@ Default.args = {
   minWidth: 810,
 };
 
-export const ContentDisplayOnDifferentSide = () => (
+export const ContentDisplayOnDifferentSide = (): JSX.Element => (
   <DataTable captions={CAPTIONS_2} rows={DATA} />
 );

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import cn from 'classnames';
+import { useEffect, useState } from 'react';
 
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
+
 import { useEth2SwapStepperStyles } from './useSwapOptionsStyles';
 
 export interface IStepperProps {
@@ -19,15 +20,15 @@ export const Stepper = ({ allowance }: IStepperProps): JSX.Element => {
 
   return (
     <div className={classes.root}>
-      <div data-testid="step" className={cn(classes.step, classes.approved)}>
+      <div className={cn(classes.step, classes.approved)} data-testid="step">
         {isApproved ? <CompleteIcon size="xxs" /> : '1'}
       </div>
 
       <div className={classes.line} />
 
       <div
-        data-testid="step"
         className={cn(classes.step, isApproved && classes.approved)}
+        data-testid="step"
       >
         2
       </div>

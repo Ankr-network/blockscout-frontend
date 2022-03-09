@@ -1,6 +1,8 @@
+import { AnyAction } from 'redux';
 import { Action } from 'redux-actions';
 import { END, eventChannel } from 'redux-saga';
-import { put, race, take, takeEvery } from 'redux-saga/effects';
+import { ForkEffect, put, race, take, takeEvery } from 'redux-saga/effects';
+
 import {
   NotificationActions,
   NotificationActionsTypes,
@@ -51,7 +53,7 @@ function* showNotification(action: Action<INotificationProps>) {
     yield race([
       take(channel),
       take(
-        (filterAction: any) =>
+        (filterAction: AnyAction) =>
           filterAction.type === NotificationActionsTypes.HIDE_NOTIFICATION &&
           notification.key === filterAction.payload,
       ),
@@ -61,6 +63,6 @@ function* showNotification(action: Action<INotificationProps>) {
   }
 }
 
-export function* notificationSaga() {
+export function* notificationSaga(): Generator<ForkEffect, void> {
   yield takeEvery(NotificationActionsTypes.SHOW_NOTIFICATION, showNotification);
 }

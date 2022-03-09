@@ -1,7 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
-import { getBurnFee as getBurnFeeFTM } from '../api/sdk';
+
+import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 export const getBurnFee = createAction<
@@ -10,12 +11,14 @@ export const getBurnFee = createAction<
 >(`${ACTIONS_PREFIX}getBurnFee`, amount => ({
   request: {
     promise: (async (): Promise<BigNumber> => {
-      return getBurnFeeFTM(amount);
+      const sdk = await FantomSDK.getInstance();
+
+      return sdk.getBurnFee(amount);
     })(),
   },
   meta: {
-    asMutation: false,
     showNotificationOnError: true,
+    asMutation: false,
     getData: data => data,
   },
 }));

@@ -10,7 +10,10 @@ interface INoReactSnapProps {
  * from [MUI](https://material-ui.com) but for
  * [react-snap](https://github.com/stereobooster/react-snap)
  */
-export const NoReactSnap = ({ children, fallback }: INoReactSnapProps) => {
+export const NoReactSnap = ({
+  children,
+  fallback,
+}: INoReactSnapProps): JSX.Element | null => {
   const isReactSnap = navigator.userAgent === 'ReactSnap';
 
   if (isReactSnap && fallback) {

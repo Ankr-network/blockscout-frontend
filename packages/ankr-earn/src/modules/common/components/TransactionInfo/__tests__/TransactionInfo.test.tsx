@@ -8,9 +8,9 @@ describe('modules/common/components/TransactionInfo', () => {
     render(
       <MemoryRouter>
         <TransactionInfo
-          type="success"
           chainId={1}
           txHash="hash"
+          type="success"
           onClose={jest.fn()}
         />
       </MemoryRouter>,
@@ -24,9 +24,9 @@ describe('modules/common/components/TransactionInfo', () => {
     render(
       <MemoryRouter>
         <TransactionInfo
-          type="default"
           chainId={1}
           txHash="hash"
+          type="default"
           onClose={jest.fn()}
         />
       </MemoryRouter>,
@@ -39,7 +39,7 @@ describe('modules/common/components/TransactionInfo', () => {
   test('should render properly without tx hash', () => {
     render(
       <MemoryRouter>
-        <TransactionInfo type="failed" chainId={1} onClose={jest.fn()} />
+        <TransactionInfo chainId={1} type="failed" onClose={jest.fn()} />
       </MemoryRouter>,
     );
 
@@ -51,9 +51,9 @@ describe('modules/common/components/TransactionInfo', () => {
     render(
       <MemoryRouter>
         <TransactionInfo
-          type="failed"
-          txHash="hash"
           chainId={1}
+          txHash="hash"
+          type="failed"
           onClose={jest.fn()}
         />
       </MemoryRouter>,
@@ -66,7 +66,7 @@ describe('modules/common/components/TransactionInfo', () => {
   test('should not render if there is no error and tx hash', () => {
     render(
       <MemoryRouter>
-        <TransactionInfo type="failed" chainId={1} onClose={jest.fn()} />
+        <TransactionInfo chainId={1} type="failed" onClose={jest.fn()} />
       </MemoryRouter>,
     );
 

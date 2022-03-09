@@ -1,25 +1,22 @@
 import { IconButton, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { useHistory, useParams } from 'react-router';
+
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
-import { useHistory, useParams } from 'react-router';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import { fetchCrowdloanById } from '../../actions/fetchCrowdloanById';
+import { RoutesConfig } from '../../const';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { RoutesConfig } from '../../Routes';
+
 import { SupportProjectForm } from './components/SupportProjectForm/SupportProjectForm';
 import { useSupportProjectStyles } from './useSupportProjectStyles';
 
-export interface FormPayload {
-  agreement: boolean;
-  contributeValue: string;
-}
-
-export const SupportProject = () => {
+export const SupportProject = (): JSX.Element => {
   const classes = useSupportProjectStyles();
   const dispatch = useDispatchRequest();
 
@@ -31,7 +28,13 @@ export const SupportProject = () => {
 
   const ParachainBondsCrowdloansPath =
     RoutesConfig.crowdloans.generatePath(network);
-  const loanId = Number.parseInt(id);
+  const loanId = Number.parseInt(id, 10);
+
+  const { crowdloan, isLoading } = useCrowdloanById(loanId);
+
+  useInitEffect((): void => {
+    dispatch(fetchCrowdloanById(loanId));
+  });
 
   const goToParachainBondsCrowdloans = () => {
     history.push(ParachainBondsCrowdloansPath);
@@ -40,12 +43,6 @@ export const SupportProject = () => {
   if (Number.isNaN(loanId) || !isConnected) {
     goToParachainBondsCrowdloans();
   }
-
-  const { crowdloan, isLoading } = useCrowdloanById(loanId);
-
-  useInitEffect((): void => {
-    dispatch(fetchCrowdloanById(loanId));
-  });
 
   return isLoading ? (
     <QueryLoadingCentered />
@@ -57,7 +54,7 @@ export const SupportProject = () => {
         </NavLink>
       </IconButton>
 
-      <Typography variant="h3" className={classes.title}>
+      <Typography className={classes.title} variant="h3">
         {t('polkadot-slot-auction.support-project-form.title', {
           value: crowdloan.projectName,
         })}

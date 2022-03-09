@@ -1,10 +1,12 @@
 import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { ReactChild, ReactFragment } from 'react';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactChild, ReactFragment } from 'react';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { usePendingStyles as useStyles } from './usePendingStyles';
 
 interface IPendingProps {
@@ -13,7 +15,11 @@ interface IPendingProps {
   tooltip?: boolean | ReactChild | ReactFragment;
 }
 
-export const Pending = ({ value, token, tooltip }: IPendingProps) => {
+export const Pending = ({
+  value,
+  token,
+  tooltip,
+}: IPendingProps): JSX.Element => {
   const classes = useStyles();
   const hasTooltip = !!tooltip;
 
@@ -31,9 +37,9 @@ export const Pending = ({ value, token, tooltip }: IPendingProps) => {
   return hasTooltip ? (
     <Tooltip
       arrow
-      title={<div className={classes.scroll}>{tooltip}</div>}
       interactive
       maxHeight={200}
+      title={<div className={classes.scroll}>{tooltip}</div>}
     >
       {renderedPending}
     </Tooltip>

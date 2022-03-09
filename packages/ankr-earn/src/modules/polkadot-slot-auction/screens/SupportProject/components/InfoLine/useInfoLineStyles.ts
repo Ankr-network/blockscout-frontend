@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useInfoLineStyles = makeStyles(theme => ({
+export const useInfoLineStyles = makeStyles(() => ({
   line: {
     display: 'flex',
     justifyContent: 'space-between',

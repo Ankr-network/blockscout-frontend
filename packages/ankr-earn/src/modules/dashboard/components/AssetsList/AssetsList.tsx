@@ -6,14 +6,14 @@ interface IAssetsListProps {
   children?: ReactNode | ReactNode[];
 }
 
-export const AssetsList = ({ children }: IAssetsListProps) => {
+export const AssetsList = ({ children }: IAssetsListProps): JSX.Element => {
   return (
     <Grid container spacing={3}>
       {Children.map(
         children,
         (child, index) =>
           !!child && (
-            <Grid item xs={12} lg={6} key={uid(index)}>
+            <Grid key={uid(index)} item lg={6} xs={12}>
               {child}
             </Grid>
           ),

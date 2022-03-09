@@ -1,4 +1,4 @@
-import { currentEnv } from 'modules/common/const';
+import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
 export interface IContractConfig {
@@ -9,21 +9,31 @@ export interface IContractConfig {
   aMaticbToken: string;
   polygonPool: string;
   ankrContract: string;
+  bridge: string;
 }
 
 export interface IAvalancheConfig {
+  avalanchePool: string;
   futureBondAVAX: string;
 }
 
 export interface IBinanceConfig {
   aBNBbToken: string;
+  aMATICbToken: string;
+  aETHcToken: string;
   binancePool: string;
   WBNBContract: string;
+  bridge: string;
 }
 
 export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
+}
+
+interface IPolygonConfig {
+  bridge: string;
+  aMATICbToken: string;
 }
 
 export interface IGatewayConfig {
@@ -36,6 +46,7 @@ export interface IStkrConfig {
   avalancheConfig: IAvalancheConfig;
   binanceConfig: IBinanceConfig;
   fantomConfig: IFantomConfig;
+  polygonConfig: IPolygonConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -47,18 +58,28 @@ const LOCAL_CONFIG: IStkrConfig = {
     polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
+    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   avalancheConfig: {
-    futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
+    avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
+    futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
+    aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
+    // todo: add actual dev aETHc token address
+    aETHcToken: ZERO_ADDR,
+    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   fantomConfig: {
     fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
     aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
+  },
+  polygonConfig: {
+    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    aMATICbToken: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -77,25 +98,22 @@ const GOERLI_CONFIG: IStkrConfig = {
     contractConfig: {
       ...LOCAL_CONFIG.contractConfig,
       ...{
-        futureBondAVAX: '0xdb08E6fbFd8fF23BF8813968138e95304af1Ff13',
         polygonPool: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
         aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
       },
     },
   },
-  ...{
-    avalancheConfig: {
-      ...LOCAL_CONFIG.avalancheConfig,
-      ...{
-        futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
-      },
-    },
+  avalancheConfig: {
+    ...LOCAL_CONFIG.avalancheConfig,
   },
   binanceConfig: {
     ...LOCAL_CONFIG.binanceConfig,
   },
   fantomConfig: {
     ...LOCAL_CONFIG.fantomConfig,
+  },
+  polygonConfig: {
+    ...LOCAL_CONFIG.polygonConfig,
   },
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
@@ -111,18 +129,30 @@ const MAINNET_CONFIG: IStkrConfig = {
     polygonPool: '0xCfD4B4Bc15C8bF0Fd820B0D4558c725727B3ce89',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
+    bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
   },
   avalancheConfig: {
+    avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
   },
   binanceConfig: {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+    // todo: add actual production aMATICb token address
+    aMATICbToken: ZERO_ADDR,
+    // todo: add actual production aETHc token address
+    aETHcToken: ZERO_ADDR,
+    // todo: add actual production bridge address
+    bridge: ZERO_ADDR,
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
+  },
+  polygonConfig: {
+    bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
+    aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

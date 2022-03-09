@@ -1,3 +1,5 @@
+import { Redirect, Route, Switch } from 'react-router-dom';
+
 import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
@@ -9,30 +11,41 @@ import {
 import { getRoutes as getETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
+import { getRoutes as getStakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
+import { getRoutes as getStakeEthereumRoutes } from 'modules/stake-eth/Routes';
 import { getRoutes as getStakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
-import { Redirect, Route, Switch } from 'react-router-dom';
 
-export function Routes() {
+export function Routes(): JSX.Element {
   return (
     <Switch>
-      <Route path={['/', EARN_PATH]} exact>
+      <Route exact path={['/', EARN_PATH]}>
         <Redirect to={DashboardRoutes.dashboard.generatePath()} />
       </Route>
 
       {getBoostRoutes()}
+
       {getStakeRoutes()}
+
       {getStakePolygonRoutes()}
+
+      {featuresConfig.isActiveAVAXStaking && getStakeAvalancheRoutes()}
+
       {featuresConfig.isActiveBNBStaking && getStakeBinanceRoutes()}
+
       {featuresConfig.stakeFantom && getStakeFantomRoutes()}
+
       {getDashboardRoutes()}
 
-      {/* TODO: STAKAN-990 remove eth2Swap flag when feature is done */}
-      {featuresConfig.eth2Swap && getETH2SwapRoutes()}
+      {getETH2SwapRoutes()}
+
       {featuresConfig.bridge && getBridgeRoutes()}
+
       {getPolkadotSlotAuctionRoutes()}
+
+      {featuresConfig.stakeETH && getStakeEthereumRoutes()}
 
       <Route>
         <DefaultLayout>

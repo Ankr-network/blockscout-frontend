@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
+
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
-import { MemoryRouter } from 'react-router';
+
 import { StakedBNB } from '..';
 import {
   IStakedBNBData,

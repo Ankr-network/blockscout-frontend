@@ -1,8 +1,11 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+
+import checkedIcon from '../Icons/CheckedIcon.svg';
+
 import checkboxChecked from './assets/checkbox-checked.svg';
 
 // TODO: VP provide under theme
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles(theme => ({
   labelActive: {
     fontSize: '14px',
     color: '#356DF3',
@@ -37,7 +40,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
         height: 22,
         top: '3px',
         left: '2px',
-        backgroundImage: `url(${require('../Icons/CheckedIcon.svg').default})`,
+        backgroundImage: `url(${checkedIcon})`,
       },
     },
   },

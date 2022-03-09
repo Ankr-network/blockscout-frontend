@@ -1,3 +1,5 @@
+import { Action } from 'redux-actions';
+
 import {
   extractRequestError,
   requestFailed,
@@ -5,15 +7,14 @@ import {
   requestInProgress,
   requestSuccessful,
 } from '../requestStatus';
-import { Action } from 'redux-actions';
 
 export const createAPIReducer = <
   STATE,
-  SUCCESS = any,
-  ERROR = any,
-  RESET = any
+  SUCCESS = unknown,
+  ERROR = unknown,
+  RESET = unknown,
 >(
-  action: string,
+  key: string,
   statusProperty: keyof STATE,
   subReducers?: {
     onRequest?: (state: STATE) => STATE;
@@ -22,8 +23,11 @@ export const createAPIReducer = <
     onReset?: (state: STATE, action: Action<RESET>) => STATE;
     onAbort?: (state: STATE, action: Action<RESET>) => STATE;
   },
-) => ({
-  [action]: (state: STATE): STATE => {
+): Record<
+  string,
+  <T extends SUCCESS & ERROR & RESET>(state: STATE, action: Action<T>) => STATE
+> => ({
+  [key]: (state: STATE): STATE => {
     const newState: STATE = {
       ...state,
       [statusProperty]: requestInProgress(),
@@ -34,7 +38,7 @@ export const createAPIReducer = <
         : newState),
     };
   },
-  [`${action}_SUCCESS`]: (state: STATE, action: Action<SUCCESS>): STATE => {
+  [`${key}_SUCCESS`]: (state: STATE, action: Action<SUCCESS>): STATE => {
     const newState: STATE = {
       ...state,
       [statusProperty]: requestSuccessful(),
@@ -45,10 +49,10 @@ export const createAPIReducer = <
         : newState),
     };
   },
-  [`${action}_ERROR`]: (state: STATE, action: Action<ERROR>): STATE => {
+  [`${key}_ERROR`]: (state: STATE, action: Action<ERROR>): STATE => {
     const newState: STATE = {
       ...state,
-      [statusProperty]: requestFailed(extractRequestError(action)),
+      [statusProperty]: requestFailed(extractRequestError()),
     };
     return {
       ...(subReducers && subReducers.onError
@@ -56,7 +60,7 @@ export const createAPIReducer = <
         : newState),
     };
   },
-  [`${action}_RESET`]: (state: STATE, action: Action<RESET>): STATE => {
+  [`${key}_RESET`]: (state: STATE, action: Action<RESET>): STATE => {
     const newState: STATE = {
       ...state,
       [statusProperty]: requestInactive(),
@@ -67,7 +71,7 @@ export const createAPIReducer = <
         : newState),
     };
   },
-  [`${action}_ABORT`]: (state: STATE, action: Action<RESET>): STATE => {
+  [`${key}_ABORT`]: (state: STATE, action: Action<RESET>): STATE => {
     const newState: STATE = {
       ...state,
       [statusProperty]: requestInactive(),

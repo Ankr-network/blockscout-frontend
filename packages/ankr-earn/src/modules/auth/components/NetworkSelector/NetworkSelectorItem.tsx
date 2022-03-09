@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
+
 import { useNetworkSelectorStyles } from './useNetworkSelectorStyles';
 
 interface INetworkSelectorItemProps {
@@ -15,18 +16,19 @@ export const NetworkSelectorItem = ({
   title,
   onClick,
   disabled,
-}: INetworkSelectorItemProps) => {
+}: INetworkSelectorItemProps): JSX.Element => {
   const classes = useNetworkSelectorStyles();
 
   return (
     <button
       className={classNames(classes.item, !disabled && classes.itemClickable)}
-      onClick={onClick}
-      type="button"
       disabled={disabled}
+      type="button"
+      onClick={onClick}
     >
       {iconSlot}
-      <Typography variant="body2" className={classes.itemTitle}>
+
+      <Typography className={classes.itemTitle} variant="body2">
         {title}
       </Typography>
     </button>

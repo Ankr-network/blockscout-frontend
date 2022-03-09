@@ -1,5 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
@@ -7,10 +8,16 @@ import { getAETHCRatio } from 'modules/trading-cockpit/actions/getAETHCRatio';
 import { BOND_TOKENS_RATIO } from 'modules/trading-cockpit/const';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
+interface IUseFairValueData {
+  fairValue: number;
+  tooltip: string;
+  isLoading: boolean;
+}
+
 export const useFairValue = (
   fromToken: AvailableTokens,
   toToken: AvailableTokens,
-) => {
+): IUseFairValueData => {
   const dispatchRequest = useDispatchRequest();
   let fairValue = 0;
   let tooltip = '';

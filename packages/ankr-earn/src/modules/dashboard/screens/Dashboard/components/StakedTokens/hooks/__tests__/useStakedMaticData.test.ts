@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+
 import { useStakedMaticData } from '../useStakedMaticData';
 
 jest.mock('@redux-requests/react', () => ({

@@ -1,10 +1,13 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { NotificationActions } from 'store/actions/NotificationActions';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 import { setErrorMsg } from '../utils/setError';
 
@@ -49,8 +52,8 @@ export const fetchMyRewardCrowdloans = createAction<
 
         try {
           ethAddress = await slotAuctionSdk.getEthereumAccount();
-        } catch (e: any | string) {
-          throw new Error(e?.message ?? e);
+        } catch (e) {
+          throw new Error((e as Error)?.message ?? e);
         }
 
         const [
@@ -100,35 +103,30 @@ export const fetchMyRewardCrowdloans = createAction<
             [],
           );
 
-        (rawResultData as IFetchMyRewardCrowdloansItem[]).sort(
-          (
-            a: IFetchMyRewardCrowdloansItem,
-            b: IFetchMyRewardCrowdloansItem,
-          ): number => {
-            if (
-              a.claimableRewardsAmount.isGreaterThan(0) &&
-              b.claimableRewardsAmount.isGreaterThan(0)
-            ) {
-              return 0;
-            }
-
-            if (
-              a.claimableRewardsAmount.isGreaterThan(0) &&
-              !b.claimableRewardsAmount.isGreaterThan(0)
-            ) {
-              return -1;
-            }
-
-            if (
-              !a.claimableRewardsAmount.isGreaterThan(0) &&
-              b.claimableRewardsAmount.isGreaterThan(0)
-            ) {
-              return 1;
-            }
-
+        (rawResultData as IFetchMyRewardCrowdloansItem[]).sort((a, b) => {
+          if (
+            a.claimableRewardsAmount.isGreaterThan(0) &&
+            b.claimableRewardsAmount.isGreaterThan(0)
+          ) {
             return 0;
-          },
-        );
+          }
+
+          if (
+            a.claimableRewardsAmount.isGreaterThan(0) &&
+            !b.claimableRewardsAmount.isGreaterThan(0)
+          ) {
+            return -1;
+          }
+
+          if (
+            !a.claimableRewardsAmount.isGreaterThan(0) &&
+            b.claimableRewardsAmount.isGreaterThan(0)
+          ) {
+            return 1;
+          }
+
+          return 0;
+        });
 
         return rawResultData;
       })(),

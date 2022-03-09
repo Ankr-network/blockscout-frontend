@@ -75,7 +75,9 @@ export interface IGetQuotePriceParams {
   chainId?: number;
   gasPrice?: number;
   slippage?: number;
+  // eslint-disable-next-line camelcase
   in_token_decimals?: number;
+  // eslint-disable-next-line camelcase
   out_token_decimals?: number;
 }
 

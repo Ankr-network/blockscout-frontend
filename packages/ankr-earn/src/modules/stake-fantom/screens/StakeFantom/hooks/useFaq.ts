@@ -1,4 +1,5 @@
 import { useQuery } from '@redux-requests/react';
+
 import { RoutesConfig } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
@@ -6,14 +7,14 @@ import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 
-export const useFaq = () => {
+export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({
     type: getCommonData,
   });
 
   const minAmount = data?.minStake.toNumber() || 0;
 
-  const faqItems: IFaqItem[] = useLocaleMemo(
+  const faqItems = useLocaleMemo(
     () => [
       {
         question: t('stake-fantom.faq.question-1'),

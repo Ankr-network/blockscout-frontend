@@ -7,8 +7,7 @@ interface IGuardComponentProps {
 
 // @TODO Add implementation for this when we will have a common solution for Guards
 export const GuardComponent = ({
-  availableNetworks,
   componentSlot,
-}: IGuardComponentProps) => {
+}: IGuardComponentProps): JSX.Element => {
   return componentSlot;
 };

@@ -1,5 +1,7 @@
 import { useQuery } from '@redux-requests/react';
+
 import { ResponseData } from 'modules/common/types/ResponseData';
+
 import { fetchWeb3WalletData } from '../actions/fetchWeb3WalletData';
 
 type TUseWeb3WalletData = ResponseData<typeof fetchWeb3WalletData>;

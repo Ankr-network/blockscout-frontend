@@ -1,6 +1,8 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
+
 import { useStakedAFTMBData } from '../useStakedAFTMBData';
 
 jest.mock('@redux-requests/react', () => ({

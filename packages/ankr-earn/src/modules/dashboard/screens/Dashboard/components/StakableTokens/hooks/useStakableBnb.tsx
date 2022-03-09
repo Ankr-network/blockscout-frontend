@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
+import { useMemo } from 'react';
+
 import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -7,8 +9,8 @@ import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
-import { useMemo } from 'react';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+
 import { IUseStakableToken } from '../types';
 
 export const useStakableBnb = (): IUseStakableToken => {

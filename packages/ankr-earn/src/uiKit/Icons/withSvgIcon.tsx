@@ -1,7 +1,13 @@
-import { forwardRef, memo, ReactNode } from 'react';
-import { SvgIcon, Theme, useTheme } from '@material-ui/core';
+import { SvgIcon, Theme, useTheme, makeStyles } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
-import { CSSProperties, makeStyles } from '@material-ui/styles';
+import {
+  ForwardedRef,
+  forwardRef,
+  memo,
+  ReactNode,
+  MemoExoticComponent,
+  ForwardRefExoticComponent,
+} from 'react';
 
 export type IconSize =
   | 'xxs'
@@ -13,7 +19,7 @@ export type IconSize =
   | 'xl'
   | number;
 
-const styles: { [key in IconSize]: CSSProperties } = {
+const styles = {
   xxs: {
     fontSize: 12,
   },
@@ -38,35 +44,42 @@ const styles: { [key in IconSize]: CSSProperties } = {
 };
 
 const useStyles = makeStyles<Theme, ISvgIconProps>(() => ({
-  root: ({ size = 'sm' }) =>
-    ({
-      ...(typeof size === 'number' ? { fontSize: size } : styles[size]),
-    } as any),
+  root: ({ size = 'sm' }) => ({
+    ...(typeof size === 'number' ? { fontSize: size } : styles[size]),
+  }),
 }));
 
 export interface ISvgIconProps extends SvgIconProps {
   size?: IconSize;
 }
 
-export const withSvgIcon = (element: ReactNode, extraProps?: SvgIconProps) => {
+export const withSvgIcon = (
+  element: ReactNode,
+  extraProps?: SvgIconProps,
+): MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>> => {
   return memo(
-    forwardRef((props: ISvgIconProps, ref) => {
-      const theme = useTheme();
-      const { htmlColor = theme.palette.grey['700'], ...rest } = props;
+    forwardRef(
+      (
+        // False positive due to memo
+        // eslint-disable-next-line react/prop-types
+        { htmlColor, size, ...rest }: ISvgIconProps,
+        ref: ForwardedRef<SVGSVGElement>,
+      ) => {
+        const theme = useTheme();
+        const classes = useStyles({ size });
 
-      const classes = useStyles(props);
-
-      return (
-        <SvgIcon
-          classes={{ root: classes.root }}
-          htmlColor={htmlColor}
-          innerRef={ref}
-          {...extraProps}
-          {...rest}
-        >
-          {element}
-        </SvgIcon>
-      );
-    }),
+        return (
+          <SvgIcon
+            classes={{ root: classes.root }}
+            htmlColor={htmlColor || theme.palette.grey['700']}
+            innerRef={ref}
+            {...(extraProps || {})}
+            {...rest}
+          >
+            {element}
+          </SvgIcon>
+        );
+      },
+    ),
   );
 };

@@ -1,15 +1,18 @@
 import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactNode } from 'react';
 import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { NetworkIconText } from '../NetworkIconText';
+
 import { ReactComponent as HistoryIcon } from './assets/history.svg';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
@@ -25,8 +28,8 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
-  isUnstakeLoading?: boolean;
   isHistoryLoading?: boolean;
+  isUnstakeLoading?: boolean;
   onHistoryBtnClick?: () => void;
 }
 
@@ -44,7 +47,7 @@ export const StakingAsset = ({
   isUnstakeLoading = false,
   isHistoryLoading = false,
   onHistoryBtnClick,
-}: IStakingAssetProps) => {
+}: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
   if (isLoading) {
@@ -76,11 +79,11 @@ export const StakingAsset = ({
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm>
+          <Grid item sm xs={12}>
             <NetworkIconText
+              contract={tokenAddress}
               network={network}
               token={token}
-              contract={tokenAddress}
             />
           </Grid>
 
@@ -92,18 +95,18 @@ export const StakingAsset = ({
 
           <Grid item xs="auto">
             <Tooltip
+              arrow
               title={
                 isHistoryBtnActive
                   ? t('dashboard.history-tooltip')
                   : comingSoonTooltip
               }
-              arrow
             >
               <Box component="span" display="flex">
                 <IconButton
                   className={classes.openHistory}
-                  onClick={historyClickHandler}
                   disabled={!isHistoryBtnActive}
+                  onClick={historyClickHandler}
                 >
                   {historyButtonIcon}
                 </IconButton>
@@ -114,18 +117,18 @@ export const StakingAsset = ({
       </Box>
 
       <Grid container alignItems="center" spacing={2}>
-        <Grid item xs={12} sm>
+        <Grid item sm xs={12}>
           <Typography className={classes.amount}>
             {amount ? amount.decimalPlaces(DEFAULT_FIXED).toFormat() : '-'}
           </Typography>
         </Grid>
 
-        <Grid item xs={12} sm="auto">
-          <Grid container spacing={2} alignItems="center">
+        <Grid item sm="auto" xs={12}>
+          <Grid container alignItems="center" spacing={2}>
             <Grid item>
               <PlusMinusBtn
-                href={stakeLink}
                 disabled={!stakeLink}
+                href={stakeLink}
                 isLoading={isStakeLoading}
                 tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
               />
@@ -133,10 +136,10 @@ export const StakingAsset = ({
 
             <Grid item>
               <PlusMinusBtn
-                href={unstakeLink}
                 disabled={!unstakeLink}
-                isLoading={isUnstakeLoading}
+                href={unstakeLink}
                 icon="minus"
+                isLoading={isUnstakeLoading}
                 tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
               />
             </Grid>
@@ -144,19 +147,19 @@ export const StakingAsset = ({
             <Grid item>
               {tradeLink ? (
                 <NavLink
-                  variant="outlined"
                   className={classes.tradeButton}
                   href={tradeLink}
+                  variant="outlined"
                 >
                   {t('dashboard.trade')}
                 </NavLink>
               ) : (
-                <Tooltip title={comingSoonTooltip} arrow>
-                  <Box display="flex" component="span">
+                <Tooltip arrow title={comingSoonTooltip}>
+                  <Box component="span" display="flex">
                     <Button
-                      variant="outlined"
-                      className={classes.tradeButton}
                       disabled
+                      className={classes.tradeButton}
+                      variant="outlined"
                     >
                       {t('dashboard.trade')}
                     </Button>

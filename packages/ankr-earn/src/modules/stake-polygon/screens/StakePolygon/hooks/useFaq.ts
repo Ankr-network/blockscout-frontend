@@ -1,15 +1,16 @@
 import { useQuery } from '@redux-requests/react';
+
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
-export const useFaq = () => {
+export const useFaq = (): IFaqItem[] => {
   const { data: fetchStatsData } = useQuery({
     type: fetchStats,
   });
 
-  const faqItems: IFaqItem[] = useLocaleMemo(
+  const faqItems = useLocaleMemo(
     () => [
       {
         question: t('stake-polygon.faq.question-1'),

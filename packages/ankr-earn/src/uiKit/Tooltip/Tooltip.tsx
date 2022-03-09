@@ -1,12 +1,16 @@
 import { Tooltip as MUITooltip, TooltipProps } from '@material-ui/core';
 import classNames from 'classnames';
+
 import { useTooltipStyles } from './useTooltipStyles';
 
 interface ITooltipProps extends TooltipProps {
   maxHeight?: number;
 }
 
-export const Tooltip = ({ maxHeight, ...restProps }: ITooltipProps) => {
+export const Tooltip = ({
+  maxHeight,
+  ...restProps
+}: ITooltipProps): JSX.Element => {
   const classes = useTooltipStyles({ maxHeight });
 
   return (

@@ -5,6 +5,7 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+
 import { useStakedMaticData } from '../StakedTokens/hooks/useStakedMaticData';
 import { useStakedMaticTxHistory } from '../StakedTokens/hooks/useStakedMaticTxHistory';
 
@@ -27,33 +28,33 @@ export const StakedMatic = (): JSX.Element | null => {
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
-      value={pendingValue}
       token={Token.aMATICb}
       tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
+      value={pendingValue}
     />
   );
 
   return (
     <>
       <StakingAsset
-        network={network}
-        token={Token.aMATICb}
-        tokenAddress={contractConfig.aMaticbToken}
         amount={amount}
-        tradeLink={tradeLink}
-        unstakeLink={unstakeLink}
-        stakeLink={stakeLink}
         isHistoryLoading={txHistory.isHistoryDataLoading}
-        pendingSlot={renderedPendingSlot}
+        isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
-        isLoading={isBalancesLoading}
+        network={network}
+        pendingSlot={renderedPendingSlot}
+        stakeLink={stakeLink}
+        token={Token.aMATICb}
+        tokenAddress={contractConfig.aMaticbToken}
+        tradeLink={tradeLink}
+        unstakeLink={unstakeLink}
         onHistoryBtnClick={onOpen}
       />
 
       <HistoryDialog
-        open={isOpened}
         history={txHistory.transactionHistory}
+        open={isOpened}
         onClose={onClose}
       />
     </>

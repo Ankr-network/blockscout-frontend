@@ -1,6 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
-import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { SlotAuctionSdk } from 'polkadot';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 interface IFetchWeb3WalletData {
