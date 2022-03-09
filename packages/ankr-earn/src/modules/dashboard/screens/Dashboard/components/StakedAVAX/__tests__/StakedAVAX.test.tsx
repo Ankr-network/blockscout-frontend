@@ -15,6 +15,10 @@ import {
   useStakedAVAXTxHistory,
 } from '../../StakedTokens/hooks/useStakedAVAXTxHistory';
 
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
+}));
+
 jest.mock('../../StakedTokens/hooks/useStakedAVAXData', () => ({
   useStakedAVAXData: jest.fn(),
 }));
@@ -77,5 +81,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
+  });
+
+  test('should open history dialog properly', async () => {
+    render(
+      <MemoryRouter>
+        <StakedAVAX />
+      </MemoryRouter>,
+    );
+
+    const historyButton = await screen.findByTestId('history-button');
+    historyButton.click();
+
+    const historyDialog = await screen.findByTestId('history-dialog');
+    expect(historyDialog).toBeInTheDocument();
   });
 });

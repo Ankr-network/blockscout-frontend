@@ -304,7 +304,7 @@ export class PolygonSDK {
       tokenContract: aMaticbTokenContract,
       web3,
       batchSize: 12,
-      blocksDeep: 3000,
+      blocksDepth: 3000,
     });
   }
 

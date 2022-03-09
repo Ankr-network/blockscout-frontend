@@ -18,10 +18,16 @@ interface IPendingTableProps {
   data: IPendingTableRow[];
 }
 
-export const PendingTable = ({ data }: IPendingTableProps): JSX.Element => {
+export const PendingTable = ({
+  data,
+}: IPendingTableProps): JSX.Element | null => {
   const classes = usePendingTableStyles();
 
   const captions = [t('dashboard.pending-amount'), t('dashboard.pending-time')];
+
+  if (data.length === 0) {
+    return null;
+  }
 
   return (
     <table className={classes.table}>

@@ -61,8 +61,7 @@ export const featuresConfig = {
   stakeFantom: true,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
-  multiNetwork: currentEnv !== Env.Production,
-  // todo: STAKAN-917 remove after complition
+  // todo: STAKAN-917 remove after completion
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,

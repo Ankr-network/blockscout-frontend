@@ -12,6 +12,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
+import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
@@ -31,12 +32,14 @@ export interface HistoryDialogData {
 
 export interface IHistoryDialogProps {
   open: boolean;
+  isHistoryLoading: boolean;
   onClose?: () => void;
   history: HistoryDialogData;
 }
 
 export const HistoryDialog = ({
   open,
+  isHistoryLoading,
   onClose,
   history,
 }: IHistoryDialogProps): JSX.Element => {
@@ -89,7 +92,9 @@ export const HistoryDialog = ({
   );
 
   const EmptyTransactionHistory = (
-    <div className={classes.empty}>{t('history-dialog.empty')}</div>
+    <div className={classes.empty}>
+      {isHistoryLoading ? <Spinner /> : t('history-dialog.empty')}
+    </div>
   );
 
   const TransactionHistory = (
@@ -110,7 +115,7 @@ export const HistoryDialog = ({
 
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
-      <Container className={classes.container}>
+      <Container className={classes.container} data-testid="history-dialog">
         <Typography className={classes.header} variant="h3">
           {t('history-dialog.header')}
         </Typography>

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -5,6 +7,8 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { fetchTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedAVAXData } from '../StakedTokens/hooks/useStakedAVAXData';
 import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/useStakedAVAXTxHistory';
@@ -25,12 +29,28 @@ export const StakedAVAX = (): JSX.Element => {
     isUnstakeLoading,
   } = useStakedAVAXData();
   const { isOpened, onClose, onOpen } = useDialog();
+  const dispatch = useAppDispatch();
+
+  const handleLoadTxHistory = useCallback(() => {
+    dispatch(fetchTxHistory());
+  }, [dispatch]);
+
+  const handleOpenHistoryDialog = useCallback(() => {
+    onOpen();
+    handleLoadTxHistory();
+  }, [handleLoadTxHistory, onOpen]);
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
+      isLoading={txHistory.isHistoryDataLoading}
       token={Token.aAVAXb}
-      tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
+      tooltip={
+        txHistory.pendingUnstakeHistory.length ? (
+          <PendingTable data={txHistory.pendingUnstakeHistory} />
+        ) : undefined
+      }
       value={pendingValue}
+      onLoadHistory={handleOpenHistoryDialog}
     />
   );
 
@@ -49,11 +69,12 @@ export const StakedAVAX = (): JSX.Element => {
         tokenAddress={avalancheConfig.futureBondAVAX}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
-        onHistoryBtnClick={onOpen}
+        onHistoryBtnClick={handleOpenHistoryDialog}
       />
 
       <HistoryDialog
         history={txHistory.transactionHistory}
+        isHistoryLoading={txHistory.isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}
       />
