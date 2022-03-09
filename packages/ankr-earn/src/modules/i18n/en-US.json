@@ -1,4 +1,12 @@
 {
+  "time": {
+    "days-short": "{days}d",
+    "hours-short": "{hours}h",
+    "minutes-short": "{minutes}m",
+    "seconds-short": "{seconds}s",
+    "time-left-short": "{days} {hours} {minutes} {seconds}",
+    "time-is-up": "Time is up!"
+  },
   "validation": {
     "greater-or-equal": "Should be greater or equal to {value}",
     "greater-than-zero": "Should be greater than 0",
@@ -67,7 +75,6 @@
     "aavaxb": "aAVAXb",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
-    "avax-value": "{value} AVAX",
     "bnb-value": "{value} BNB",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
@@ -276,7 +283,7 @@
     }
   },
   "stake": {
-    "title": "{token} Staking",
+    "title": "{token} Liquid Staking",
     "amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
@@ -300,56 +307,35 @@
   },
   "stake-avax": {
     "faq": {
-      "title": "FAQ",
       "question-1": "Are there any docs about the AVAX staking and how I set up my wallet etc.?",
-      "answer-1": "Yes – there’s a user guide you can find <a href='https://docs.binance.org/smart-chain/wallet/metamask.html' rel='noopener noreferrer' target='_blank'>here</a>.",
+      "answer-1": "Yes - there’s a user guide you can find <a href='https://docs.avax.network/build/tutorials/smart-contracts/deploy-a-smart-contract-on-avalanche-using-remix-and-metamask' rel='noopener noreferrer' target='_blank'>here</a>.",
       "question-2": "What is the minimum amount of AVAX I can stake?",
       "answer-2": "{value} AVAX",
-      "question-3": "What is the unbonding period of aAVAXb?",
-      "answer-3": "~{value} {period}",
+      "question-3": "What is the unstaking period of aAVAXb?",
+      "answer-3": "The unstaking period is a maximum of 28 days. Every 28 days, there is at least one validator node reaching the end of its locking period.",
       "question-4": "How do I receive rewards?",
-      "answer-4": "aAVAXb is a rebasing token. When holding aAVAXb, your balance will increase in proportion to your AVAX staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aAVAXb increase by a small amount.",
+      "answer-4": "aAVAXb is a rebasing token. When holding aAVAXb, your balance will increase in proportion to your AVAX staking rewards. A rebase runs daily, and rewards occur each time this runs. So every day, you can see that the quantity of your aAVAXb has increased by a small amount.",
       "question-5": "How soon after staking will I begin to receive rewards?",
-      "answer-5": "aAVAXb will increase with every rebase; rebasing occurs daily.",
+      "answer-5": "Your aAVAXb balance will increase with every rebase; rebasing occurs daily.",
       "question-6": "Does Ankr charge for this service?",
-      "answer-6": "ANKR does not charge any service fees for AVAX Liquid Staking. However, validators charge a delegate stake fee (Ankr’s validator node charges 2%), representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake AVAX.",
-      "question-7": "What determines the amount of reward I receive each rebase?",
-      "answer-7": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-8": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-8": "The only risk for stakers is missing out on rewards during any time the validator their AVAX is staked with is “in jail” (slashed). However, delegated staked AVAX will not be slashed, and slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-9": "Is there any liquidity for aAVAXb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\" rel='noopener noreferrer' target='_blank'>ANKR Boost</a>."
+      "answer-6": "Ankr takes 2% of AVAX liquid Staking reward as a service fee.",
+      "question-7": "What determines the amount of rewards that I receive through rebase?",
+      "answer-7": "Staking rewards depend mostly on how long your staked AVAX is locked. Ankr Earn splits the total staking amount between two nodes with a lock period of 56 days with a time shift of 28 days from one another.<br/><br/>aAVAXb holders will therefore get the average staking rewards of all staked AVAX through Ankr Earn and ability to unstake any tyme with an unbonding period not more than 28 days.",
+      "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
+      "answer-8": "The only risk for stakers is reducing out on rewards if Validator node users are offline 20% of the time relative to other Validator nodes.<br/><br/>However, staked AVAX will not be slashed. Ankr only delegates to his own Validator nodes and has a dedicated developers’ team who monitor node performance!",
+      "question-9": "Is there liquidity for aAVAXb anywhere currently?",
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR Boost</a>."
     },
-    "relayer-fee": "Relayer Fee",
-    "stake-info": "Stake at least 1 AVAX on Ethereum network and claim the same amount of aAVAXb liquid staking tokens (aAVAXb) on Binance Smart Chain network (BEP-20 token). Your aAVAXb balance will increase on a daily basis, simulating as such your aAVAXb staking rewards.",
     "tooltips": {
-      "relayer-fee": "As staking itself going on Binance chain unlike AVAX on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
-      "you-will-get": "aAVAXb grows daily just being in your wallet. It represents your staked AVAX plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aAVAXb = 1 AVAX anytime after ~{value} {period} unbonding period."
+      "you-will-get": "aAVAXb represents your staked AVAX plus accumulated staking rewards. Your wallet’s aAVAXb balance will grow daily to reflect earned rewards.<br/><br/>You can unstake it at fair value (1 aAVAXb = 1 AVAX) anytime after the unbonding period (1-28 days depending on validator's closest unlocking date)."
+    },
+    "unstake": {
+      "timer": "You will get your AVAX in: {duration}",
+      "timer-off": "You will get your AVAX shortly"
     }
-  },
-  "stake-avax-dashboard": {
-    "column": {
-      "amount": "Amount",
-      "tx-date": "Transaction Date",
-      "tx-hash": "Transaction Hash",
-      "tx-type": "Transaction Type"
-    },
-    "switcher": {
-      "completed-title": "Completed transactions",
-      "pending-title": "Pending transactions"
-    },
-    "title": "AVAX Staking",
-    "tooltip": {
-      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned AVAX over the last 7 days, net of delegation fees from Binance Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending AVAX rewards, earned AVAX will be staked to generate compounding effect.",
-      "fee": "As unstaking AVAX tokens is a gas and time consuming process requiring sending several transactions to the AVAX smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. AVAX tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs.",
-      "unstake": "Unstake"
-    },
-    "unstake-info": "You will receive AVAX in about ~{value} {period}.",
-    "unstake-period": "about {value} {period}"
   },
   "stake-bnb": {
     "faq": {
-      "title": "FAQ",
       "question-1": "Are there any docs about the BNB staking and how I set up my wallet etc.?",
       "answer-1": "Yes – there’s a user guide you can find <a href='https://docs.binance.org/smart-chain/wallet/metamask.html' rel='noopener noreferrer' target='_blank'>here</a>.",
       "question-2": "What is the minimum amount of BNB I can stake?",
@@ -370,31 +356,14 @@
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\" rel='noopener noreferrer' target='_blank'>ANKR Boost</a>."
     },
     "relayer-fee": "Relayer Fee",
-    "stake-info": "Stake at least 1 BNB on Ethereum network and claim the same amount of aBNBb liquid staking tokens (aBNBb) on Binance Smart Chain network (BEP-20 token). Your aBNBb balance will increase on a daily basis, simulating as such your aBNBb staking rewards.",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
       "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period."
+    },
+    "unstake": {
+      "info": "You will receive BNB in about ~{value} {period}.",
+      "period": "about {value} {period}"
     }
-  },
-  "stake-bnb-dashboard": {
-    "column": {
-      "amount": "Amount",
-      "tx-date": "Transaction Date",
-      "tx-hash": "Transaction Hash",
-      "tx-type": "Transaction Type"
-    },
-    "switcher": {
-      "completed-title": "Completed transactions",
-      "pending-title": "Pending transactions"
-    },
-    "title": "BNB Staking",
-    "tooltip": {
-      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned BNB over the last 7 days, net of delegation fees from Binance Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending BNB rewards, earned BNB will be staked to generate compounding effect.",
-      "fee": "As unstaking BNB tokens is a gas and time consuming process requiring sending several transactions to the BNB smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses. BNB tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs.",
-      "unstake": "Unstake"
-    },
-    "unstake-info": "You will receive BNB in about ~{value} {period}.",
-    "unstake-period": "about {value} {period}"
   },
   "stake-polygon-dashboard": {
     "column": {
@@ -407,7 +376,7 @@
       "completed-title": "Completed transactions",
       "pending-title": "Pending transactions"
     },
-    "title": "MATIC Staking",
+    "title": "MATIC Liquid Staking",
     "unstake-eta": "You will receive MATIC in about 3-4 days.",
     "tooltip": {
       "apy": "The Annual Percentage Yield (APY) represents the average annualized earned MATIC over the last 7 days, net of delegation fees from Polygon Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending MATIC rewards, earned MATIC will be staked to generate compounding effect.",

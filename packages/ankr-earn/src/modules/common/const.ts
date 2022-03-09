@@ -49,8 +49,8 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveAVAXStaking: currentEnv !== Env.Production,
-  isActiveAVAXUnstaking: currentEnv !== Env.Production,
+  isActiveAVAXStaking: true,
+  isActiveAVAXUnstaking: true,
   isActiveBNBStaking: true,
   isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,

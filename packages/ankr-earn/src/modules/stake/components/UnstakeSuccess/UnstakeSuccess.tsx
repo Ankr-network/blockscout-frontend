@@ -9,15 +9,17 @@ import { NavLink } from 'uiKit/NavLink';
 import { useUnstakeSuccessStyles } from './useUnstakeSuccessStyles';
 
 interface IUnstakeSuccessProps {
-  onClose?: () => void;
-  tokenName: string;
+  infoText?: string;
   period?: string;
+  tokenName?: string;
+  onClose?: () => void;
 }
 
 export const UnstakeSuccess = ({
-  onClose,
-  tokenName,
+  infoText,
   period,
+  tokenName,
+  onClose,
 }: IUnstakeSuccessProps): JSX.Element => {
   const classes = useUnstakeSuccessStyles();
 
@@ -28,10 +30,12 @@ export const UnstakeSuccess = ({
       </Typography>
 
       <Typography className={classes.text}>
-        {t('unstake-dialog.success.description', {
-          token: tokenName,
-          period,
-        })}
+        {typeof infoText === 'string'
+          ? infoText
+          : t('unstake-dialog.success.description', {
+              token: tokenName,
+              period,
+            })}
       </Typography>
 
       <NavLink
