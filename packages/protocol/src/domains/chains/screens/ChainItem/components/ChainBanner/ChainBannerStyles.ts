@@ -28,6 +28,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.common.white,
     },
+    marginTop: theme.spacing(1.5),
+    [theme.breakpoints.down('md')]: {
+      height: 34,
+      marginTop: 0,
+    },
   },
   unblockBtnIcon: {
     marginLeft: theme.spacing(1),
