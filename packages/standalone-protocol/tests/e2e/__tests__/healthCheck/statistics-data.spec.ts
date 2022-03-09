@@ -36,6 +36,12 @@ test.describe('statistics data', async () => {
           await expect.soft(widgetLocator.locator('button').nth(i)).toBeVisible();
           await expect.soft(widgetLocator.locator('button').nth(i)).toBeEnabled();
         }
+
+        const anchors = page.locator('//a');
+        const anchorsCount = await anchors.count();
+        for (let i = 0; i < anchorsCount; i++) {
+          await expect.soft(anchors.nth(i)).toBeVisible();
+        }
       });
 
       await test.step('verify api request', async () => {
@@ -82,6 +88,12 @@ test.describe('statistics data', async () => {
         for (let i = 0; i < buttonsCount; i++) {
           await expect.soft(headerLocator.locator('button').nth(i)).toBeVisible();
           await expect.soft(headerLocator.locator('button').nth(i)).toBeEnabled();
+        }
+
+        const anchors = page.locator('//a');
+        const anchorsCount = await anchors.count();
+        for (let i = 0; i < anchorsCount; i++) {
+          await expect.soft(anchors.nth(i)).toBeVisible();
         }
       });
 
