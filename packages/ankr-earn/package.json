@@ -133,7 +133,6 @@
     ],
     "include": [
       "/liquid-crowdloan/",
-      "/eth2-swap/",
       "/unstake/matic/",
       "/bridge/"
     ],

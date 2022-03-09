@@ -21,7 +21,7 @@ const { REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE } = process.env;
 export const getLink = (chainId: string): string => {
   const link = window?.location.origin || '';
 
-  if (chainId === 'erigon' && REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE) {
+  if (chainId === 'erigonbsc' && REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE) {
     return `${link}/${chainId}`;
   }
 
