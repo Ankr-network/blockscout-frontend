@@ -64,7 +64,7 @@ describe('modules/eth2Swap/screens/Main', () => {
       </MemoryRouter>,
     );
 
-    const title = await screen.findByText('ETH2 Swap');
+    const title = await screen.findByText('ANKR Switch');
     expect(title).toBeInTheDocument();
   });
 
