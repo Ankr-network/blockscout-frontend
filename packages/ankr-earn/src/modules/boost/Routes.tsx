@@ -10,7 +10,7 @@ import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${EARN_PATH}boost/`;
+const ROOT = `${EARN_PATH}defi/`;
 const TRADING_COCKPIT_PATH = `${ROOT}trade/`;
 const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
 const LIQUIDITY_MINING_PATH = `${ROOT}liquidity-mining/`;
@@ -67,6 +67,20 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
+        <Route exact path={RoutesConfig.tradingCockpit.path}>
+          <DefaultLayout>
+            <TradingCockpit />
+          </DefaultLayout>
+        </Route>
+
+        {featuresConfig.liquidityMining && (
+          <Route exact path={RoutesConfig.liquidityMining.path}>
+            <DefaultLayout>
+              <LiquidityMining />
+            </DefaultLayout>
+          </Route>
+        )}
+
         <Route exact path={RoutesConfig.root}>
           <Redirect to={RoutesConfig.tradingCockpit.path} />
         </Route>

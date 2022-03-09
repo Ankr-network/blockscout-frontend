@@ -5,8 +5,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.common.white,
     backgroundColor: theme.palette.primary.main,
     borderRadius: 18,
-    padding: theme.spacing(2.5, 3.5),
-    height: 164,
+    padding: theme.spacing(3, 3.5),
+    height: 180,
     overflow: 'hidden',
     display: 'flex',
     [theme.breakpoints.down('md')]: {
@@ -14,7 +14,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
       height: 184,
     },
     justifyContent: 'space-between',
-    cursor: 'pointer',
     '&:hover': {
       color: theme.palette.common.white,
     },
@@ -22,11 +21,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
   unblockBtn: {
     display: 'flex',
     alignItems: 'center',
-  },
-  unblockBtnLabel: {
+    height: 40,
+    padding: theme.spacing(1, 2),
     fontSize: 16,
-    [theme.breakpoints.down('md')]: {
-      fontSize: 14,
+    color: theme.palette.common.black,
+    '&:hover': {
+      backgroundColor: theme.palette.common.white,
     },
   },
   unblockBtnIcon: {
@@ -46,19 +46,21 @@ export const useStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     flex: 3,
     overflow: 'hidden',
-    margin: theme.spacing(0, 4),
+    margin: theme.spacing(0, 2),
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(2, 0),
       marginTop: theme.spacing(0),
     },
 
     '& > div': {
+      marginTop: theme.spacing(2),
       display: 'flex',
       flexWrap: 'wrap',
       [theme.breakpoints.down('md')]: {
         flexWrap: 'nowrap',
         overflowX: 'auto',
         marginBottom: theme.spacing(-2),
+        marginTop: 0,
       },
     },
   },
@@ -74,17 +76,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   featureBlock: {
     display: 'flex',
-    flex: 1,
+    flex: '1 0 33%',
     minWidth: 160,
+    maxWidth: 198,
     height: '50%',
     [theme.breakpoints.down('md')]: {
       height: '100%',
       '&:first-child': {
         marginLeft: 0,
       },
+      alignItems: 'center',
+      marginLeft: theme.spacing(2),
     },
-    alignItems: 'center',
-    marginLeft: theme.spacing(2),
+    alignItems: 'flex-start',
+    marginLeft: 0,
   },
   featureBlockWrapper: {
     display: 'flex',
@@ -131,7 +136,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
-    width: '15%',
+    width: '10%',
     height: '100%',
     background:
       'linear-gradient(270deg, #356DF3 0%, rgba(53, 109, 243, 0) 100%)',

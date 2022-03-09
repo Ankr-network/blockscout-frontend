@@ -10,10 +10,10 @@ on:
         options:
           - STAGE # www-stage.ankr.com/protocol/
           - PROD # www.ankr.com/protocol/
-          - BS5 # bs-5-stage.dccn.ankr.com/protocol
-          - BS6 # bs-6-stage.dccn.ankr.com/protocol
-          - BS7 # bs-7-stage.dccn.ankr.com/protocol
-          - BS8 # bs-8-stage.dccn.ankr.com/protocol
+          - BS1 # bs-1-stage.dccn.ankr.com/protocol
+          - BS2 # bs-2-stage.dccn.ankr.com/protocol
+          - BS3 # bs-3-stage.dccn.ankr.com/protocol
+          - BS4 # bs-4-stage.dccn.ankr.com/protocol
       api:
         type: choice
         description: API

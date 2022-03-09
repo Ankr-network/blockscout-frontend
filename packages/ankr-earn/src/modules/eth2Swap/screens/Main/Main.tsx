@@ -185,6 +185,13 @@ export const Main = (): JSX.Element => {
             <Button
               className={classes.button}
               disabled={isApproveLoading || !canApprove}
+              endIcon={
+                <Tooltip arrow title={t('eth2Swap.tooltips.approve')}>
+                  <Box component="span" display="flex">
+                    <QuestionIcon htmlColor="inherit" size="xs" />
+                  </Box>
+                </Tooltip>
+              }
               isLoading={isApproveLoading}
               onClick={handleSubmit}
             >
