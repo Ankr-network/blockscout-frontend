@@ -1,7 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
 import { PolygonSDK } from '../api/PolygonSDK';
+
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 import { getAnkrBalance } from './getAnkrBalance';
@@ -19,7 +21,7 @@ export const unstake = createSmartAction<
   request: {
     promise: (async () => {
       const sdk = await PolygonSDK.getInstance();
-      return await sdk.unstake(amount);
+      return sdk.unstake(amount);
     })(),
   },
   meta: {

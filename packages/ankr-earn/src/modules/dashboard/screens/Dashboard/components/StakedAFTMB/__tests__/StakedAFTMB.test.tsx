@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { ONE_ETH } from 'modules/common/const';
 import { MemoryRouter } from 'react-router';
+
+import { ONE_ETH } from 'modules/common/const';
+
 import { StakedAFTMB } from '..';
 import {
   IStakedAFTMBData,
@@ -22,8 +24,8 @@ jest.mock('../../StakedTokens/hooks/useStakedFTMTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
   const defaultStakedAFTMBHookData: IStakedAFTMBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
-    network: 'Fantom Opera',
     isShowed: true,
+    network: 'Fantom Opera',
     isBalancesLoading: false,
     stakeLink: '/stake',
     isStakeLoading: false,

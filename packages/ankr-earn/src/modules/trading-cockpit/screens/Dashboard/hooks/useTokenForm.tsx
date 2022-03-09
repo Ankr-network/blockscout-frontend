@@ -1,11 +1,14 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useCallback, useState } from 'react';
+import { useHistory } from 'react-router';
+
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { getPrices } from 'modules/trading-cockpit/actions/getPrices';
 import { ITokenFormValues } from 'modules/trading-cockpit/components/TokenForm/TokenForm';
+import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
-import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
+
 import { useTokenSelectOptions } from './useTokenSelectOptions';
 
 interface IUseTokenFormArgs {
@@ -14,11 +17,20 @@ interface IUseTokenFormArgs {
   defaultToToken: AvailableTokens;
 }
 
+interface IUseTokenFormData {
+  amount: string;
+  fromToken: AvailableTokens;
+  toToken: AvailableTokens;
+  options: ITokenSelectOption[];
+  isLoading: boolean;
+  handleSubmit: (values: ITokenFormValues) => void;
+}
+
 export const useTokenForm = ({
   defaultAmount,
   defaultFromToken,
   defaultToToken,
-}: IUseTokenFormArgs) => {
+}: IUseTokenFormArgs): IUseTokenFormData => {
   const [fromToken, setFromToken] = useState(defaultFromToken);
   const [toToken, setToToken] = useState(defaultToToken);
   const [amount, setAmount] = useState(defaultAmount);

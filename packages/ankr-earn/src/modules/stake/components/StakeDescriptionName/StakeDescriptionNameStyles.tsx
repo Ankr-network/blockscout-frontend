@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useStakeTermStyles = makeStyles<Theme>(theme => ({
+export const useStakeTermStyles = makeStyles(() => ({
   root: {
     alignSelf: 'center',
     fontSize: 14,

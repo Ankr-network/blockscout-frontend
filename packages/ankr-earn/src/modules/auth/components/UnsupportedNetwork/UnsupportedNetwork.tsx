@@ -1,6 +1,8 @@
 import { Paper, Typography } from '@material-ui/core';
-import { tHTML } from 'modules/i18n/utils/intl';
 import React, { ReactNode } from 'react';
+
+import { tHTML } from 'modules/i18n/utils/intl';
+
 import { useUnsupportedNetworkStyles } from './UnsupportedNetworkStyles';
 
 export interface IUnsupportedNetwork {
@@ -11,12 +13,12 @@ export interface IUnsupportedNetwork {
 export const UnsupportedNetwork = ({
   networksSlot,
   currentNetwork,
-}: IUnsupportedNetwork) => {
+}: IUnsupportedNetwork): JSX.Element => {
   const classes = useUnsupportedNetworkStyles();
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h5" className={classes.header}>
+      <Typography className={classes.header} variant="h5">
         {tHTML('connect.unsupported-network', {
           network: currentNetwork,
         })}

@@ -1,9 +1,12 @@
 import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
+
 import { configFromEnv } from 'modules/api/config';
 import { currentEnv, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { singleton } from 'modules/common/utils/Singleton';
-import Web3 from 'web3';
+
 import ABI_AETH from '../../api/contract/AETH.json';
 
 @singleton
@@ -16,7 +19,7 @@ export class ETHHttpProviderSingleton {
     const web3 = new Web3(ethHttpProviderUrl);
 
     this.aETHcContract = new web3.eth.Contract(
-      ABI_AETH as any,
+      ABI_AETH as AbiItem[],
       config.contractConfig.aethContract,
     );
   }

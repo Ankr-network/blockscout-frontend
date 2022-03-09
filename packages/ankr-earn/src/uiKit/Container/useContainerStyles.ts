@@ -4,8 +4,7 @@ export const useContainerStyles = makeStyles<Theme, { maxWidth?: string }>(
   theme => ({
     root: {
       width: '100%',
-      maxWidth: ({ maxWidth }) =>
-        maxWidth ? maxWidth : 1160 + theme.spacing(5 * 2),
+      maxWidth: ({ maxWidth }) => maxWidth || 1160 + theme.spacing(5 * 2),
 
       marginLeft: 'auto',
       marginRight: 'auto',

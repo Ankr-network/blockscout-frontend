@@ -63,8 +63,9 @@
       "features": {
         "block1": "Use faster global infrastructure",
         "block2": "WebSockets (WSS) capability",
-        "block3": "Connect with a dedicated endpoint",
-        "block4": "Prioritized requests during peak traffic"
+        "block3": "No request rate limits",
+        "block4": "Connect with a dedicated endpoint",
+        "block5": "Prioritized requests during peak traffic"
       },
       "requests-per-day": "Requests per day",
       "requests-count": "20 mln"

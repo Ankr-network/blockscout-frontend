@@ -1,4 +1,15 @@
-export function getTimeRemaining(endTime: Date, startTime: Date = new Date()) {
+export interface IGetTimerRemainingData {
+  total: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export function getTimeRemaining(
+  endTime: Date,
+  startTime: Date = new Date(),
+): IGetTimerRemainingData {
   const total =
     Date.parse(endTime.toString()) - Date.parse(startTime.toString());
   const seconds = Math.floor((total / 1000) % 60);

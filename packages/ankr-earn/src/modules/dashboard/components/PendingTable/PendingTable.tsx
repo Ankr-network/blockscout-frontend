@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { ReactNode, ReactText } from 'react';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
-import { ReactNode, ReactText } from 'react';
+
 import { usePendingTableStyles } from './usePendingTableStyles';
 
 export interface IPendingTableRow {
@@ -16,7 +18,7 @@ interface IPendingTableProps {
   data: IPendingTableRow[];
 }
 
-export const PendingTable = ({ data }: IPendingTableProps) => {
+export const PendingTable = ({ data }: IPendingTableProps): JSX.Element => {
   const classes = usePendingTableStyles();
 
   const captions = [t('dashboard.pending-amount'), t('dashboard.pending-time')];
@@ -26,7 +28,7 @@ export const PendingTable = ({ data }: IPendingTableProps) => {
       <thead>
         <tr className={classes.tr}>
           {captions.map(caption => (
-            <th className={classNames(classes.th, classes.tCell)} key={caption}>
+            <th key={caption} className={classNames(classes.th, classes.tCell)}>
               {caption}
             </th>
           ))}
@@ -35,7 +37,7 @@ export const PendingTable = ({ data }: IPendingTableProps) => {
 
       <tbody>
         {data.map(({ amount, timerSlot, id, token }) => (
-          <tr className={classes.tr} key={id}>
+          <tr key={id} className={classes.tr}>
             <td
               className={classNames(classes.td, classes.tCell)}
               title={amount.toFormat()}

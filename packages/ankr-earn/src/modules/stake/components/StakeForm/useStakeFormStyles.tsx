@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useStakeFormStyles = makeStyles<Theme>(theme => {
+export const useStakeFormStyles = makeStyles(theme => {
   return {
     box: {
       margin: theme.spacing(0, 'auto', 4, 'auto'),

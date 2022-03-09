@@ -1,12 +1,14 @@
 import loadable from '@loadable/component';
+import { generatePath, Redirect, useParams } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
+
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH, isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
-import React from 'react';
-import { generatePath, Redirect, useParams } from 'react-router';
-import { Route, Switch } from 'react-router-dom';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { createRouteConfig } from '../router/utils/createRouteConfig';
+
 import { DefaultLayout } from './components/DefautLayout';
 import { MyRewardsClaimModal } from './components/MyRewardsClaimModal';
 import { ProjectsListClaimModal } from './components/ProjectsListClaimModal';
@@ -19,8 +21,8 @@ export interface IRouteClaimData {
 const ROOT = `${EARN_PATH}liquid-crowdloan/`;
 const CROWDLOANS_PATH = `${ROOT}:network/`;
 const LEND_PATH = `${CROWDLOANS_PATH}lend/:id/:name/`;
-const PROJECTS_CLAIM_PATH = `${CROWDLOANS_PATH}projects-claim/:id/`;
 const REWARDS_CLAIM_PATH = `${CROWDLOANS_PATH}rewards-claim/:id/`;
+const PROJECTS_CLAIM_PATH = `${CROWDLOANS_PATH}projects-claim/:id/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -84,35 +86,35 @@ const PARACHAIN_NETWORK_BY_ENV = isMainnet
   ? EParachainPolkadotNetwork.DOT.toLowerCase()
   : EParachainPolkadotNetwork.WND.toLowerCase();
 
-export function getRoutes() {
+export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <Route path={RoutesConfig.root} exact>
+        <Route exact path={RoutesConfig.root}>
           <Redirect
             to={RoutesConfig.crowdloans.generatePath(PARACHAIN_NETWORK_BY_ENV)}
           />
         </Route>
 
-        <Route path={RoutesConfig.crowdloans.path} exact>
+        <Route exact path={RoutesConfig.crowdloans.path}>
           <DefaultLayout>
             <PolkadotSlotAuction />
           </DefaultLayout>
         </Route>
 
-        <Route path={RoutesConfig.lend.path} exact>
+        <Route exact path={RoutesConfig.lend.path}>
           <DefaultLayout>
             <SupportProject />
           </DefaultLayout>
         </Route>
 
-        <Route path={RoutesConfig.projectsClaim.path} exact>
+        <Route exact path={RoutesConfig.projectsClaim.path}>
           <DefaultLayout>
             <ProjectsListClaimModal />
           </DefaultLayout>
         </Route>
 
-        <Route path={RoutesConfig.rewardsClaim.path} exact>
+        <Route exact path={RoutesConfig.rewardsClaim.path}>
           <DefaultLayout>
             <MyRewardsClaimModal />
           </DefaultLayout>

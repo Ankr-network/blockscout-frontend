@@ -1,4 +1,5 @@
 import { BlockchainNetworkId } from 'modules/common/types';
+
 import { AvailablePlatforms, AvailableTokens } from './types';
 
 export const ACTIONS_PREFIX = 'tradingCockpit/';

@@ -1,6 +1,7 @@
-import { STAKEFI_LINK } from 'modules/common/const';
+import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
@@ -63,12 +64,16 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
         },
         [AvailableTokens.AVAX]: {
           btnText: stakeText,
-          href: STAKEFI_AVAX_STAKE_URL,
+          href: featuresConfig.isActiveAVAXStaking
+            ? StakeAvalancheRoutes.stake.generatePath()
+            : STAKEFI_AVAX_STAKE_URL,
           disabled: false,
         },
         [AvailableTokens.aAVAXb]: {
           btnText: unstakeText,
-          href: STAKEFI_AVAX_STAKE_URL,
+          href: featuresConfig.isActiveAVAXUnstaking
+            ? StakeAvalancheRoutes.unstake.generatePath()
+            : STAKEFI_AVAX_STAKE_URL,
           disabled: false,
         },
       };

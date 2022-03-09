@@ -1,6 +1,8 @@
 import { Box, ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
@@ -18,24 +20,24 @@ import {
   StakeStats,
 } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import React from 'react';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
+
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { BNB_STAKING_AMOUNT_STEP } from '../../const';
 import { useRedeemData } from '../../hooks/useRedeemData';
 import { getAmountData } from '../../utils/getAmountData';
+
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
 import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
-export const StakeBinance = () => {
+export const StakeBinance = (): JSX.Element => {
   const classes = useStakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
 
@@ -148,25 +150,24 @@ export const StakeBinance = () => {
         (isSuccessOpened ? (
           <Container>
             <StakeSuccessDialog
+              tokenName={token}
               onAddTokenClick={onAddTokenClick}
               onClose={onSuccessClose}
-              tokenName={token}
             />
           </Container>
         ) : (
           <StakeContainer>
             <StakeForm
               balance={fetchStatsData.bnbBalance}
+              isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
               loading={isStakeLoading}
               maxAmount={fetchStatsData.bnbBalance}
               minAmount={fetchStatsData.minimumStake}
               renderStats={onRenderStats(fetchStatsData.relayerFee)}
-              stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
               tokenIn={t('unit.bnb')}
               tokenOut={t('unit.abnbb')}
               onChange={handleFormChange}
               onSubmit={handleSubmit}
-              isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             />
 
             <StakeStats stats={stakeStats} />

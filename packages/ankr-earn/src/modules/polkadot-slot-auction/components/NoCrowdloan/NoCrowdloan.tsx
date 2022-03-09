@@ -1,12 +1,13 @@
 import { Typography } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/styles/withStyles';
 import classNames from 'classnames';
+import React from 'react';
+
 import { useCurrentNetwork } from 'modules/common/hooks/useCurrentNetwork';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
+
 import { useNoCrowdloanStyles } from './useNoCrowdloanStyles';
 
 interface INoCrowdloanProps {
@@ -29,8 +30,8 @@ const ICONS_MAP = {
 export const NoCrowdloan = ({
   classRoot,
   type = ENoCrowdloanTypes.ProjectsList,
-}: INoCrowdloanProps) => {
-  const classes: ClassNameMap = useNoCrowdloanStyles();
+}: INoCrowdloanProps): JSX.Element | null => {
+  const classes = useNoCrowdloanStyles();
   const network: EParachainPolkadotNetwork =
     useCurrentNetwork<EParachainPolkadotNetwork>().toUpperCase() as EParachainPolkadotNetwork;
   const Icon = ICONS_MAP[network];

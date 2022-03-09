@@ -1,10 +1,15 @@
 export enum AvailableReadProviders {
-  ethMainnetHttpProvider = 'ethMainnetHttpProvider',
-  ethGoerliHttpProvider = 'ethGoerliHttpProvider',
-  ftmOperaHttpProvider = 'ftmOperaHttpProvider',
-  ftmTestnetHttpProvider = 'ftmTestnetHttpProvider',
-  smartChainHttpProvider = 'smartChainHttpProvider',
-  smartChainTestnetHttpProvider = 'smartChainTestnetHttpProvider',
+  ethMainnet = 'ethMainnetHttpProvider',
+  ethGoerli = 'ethGoerliHttpProvider',
+
+  avalancheChain = 'avalancheChainHttpProvider',
+  avalancheChainTest = 'avalancheChainTestHttpProvider',
+
+  binanceChain = 'binanceChainHttpProvider',
+  binanceChainTest = 'binanceChainTestHttpProvider',
+
+  ftmOpera = 'ftmOperaHttpProvider',
+  ftmTestnet = 'ftmTestnetHttpProvider',
 }
 
 export enum AvailableWriteProviders {

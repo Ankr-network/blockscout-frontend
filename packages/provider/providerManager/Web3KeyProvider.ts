@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-import Common from '@ethereumjs/common';
-import { Transaction } from '@ethereumjs/tx';
-import { BN } from 'ethereumjs-util';
 import Web3 from 'web3';
 import { AbstractProvider, PromiEvent, TransactionReceipt } from 'web3-core';
 import { numberToHex } from 'web3-utils';
@@ -10,16 +7,14 @@ import { RPCConfig } from './const';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {
-  description?: string;
-  icons: string[] | null;
+  icon: string;
   name: string;
-  url?: string;
+  id: string;
 }
 
 export interface IWeb3SendResult {
   receiptPromise: PromiEvent<TransactionReceipt>;
   transactionHash: string;
-  rawTransaction: string;
 }
 
 export interface ITokenInfo {
@@ -45,7 +40,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     return this._currentAccount;
   }
 
-  public set currentAccount(addr) {
+  public set currentAccount(addr: string | null) {
     this._currentAccount = addr;
   }
 
@@ -53,7 +48,8 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     if (!this.isConnected()) {
       throw new Error('Provider must be connected');
     }
-    return this.walletMeta;
+
+    return this.walletMeta as IWalletMeta;
   }
 
   private setWalletMeta() {
@@ -62,16 +58,13 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
       return;
     }
 
-    if (provider.walletMeta) {
-      this.walletMeta = provider.walletMeta as IWalletMeta;
-    } else {
-      const { logo, name } = getProviderInfo(provider);
+    const { logo, name, id } = getProviderInfo(provider);
 
-      this.walletMeta = {
-        name,
-        icons: [logo],
-      };
-    }
+    this.walletMeta = {
+      name,
+      icon: logo,
+      id,
+    };
   }
 
   public async connect(): Promise<void> {
@@ -139,18 +132,9 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
             JSON.stringify(rawTx, null, 2),
           );
 
-          let rawTxHex = '';
-
-          try {
-            rawTxHex = this.tryGetRawTx(rawTx);
-          } catch (e) {
-            console.error(`Failed to get raw transaction: ${e.message}`);
-          }
-
           resolve({
             receiptPromise: promise,
             transactionHash,
-            rawTransaction: rawTxHex,
           });
         })
         .catch(reject);
@@ -173,46 +157,6 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     return unlockedAccounts;
   }
 
-  private tryGetRawTx(rawTx: any): string {
-    if (!Common.isSupportedChainId(new BN(this.currentChain))) {
-      console.warn(
-        `raw tx can't be created for this chain id ${this.currentChain}`,
-      );
-      return '';
-    }
-
-    const { v, r, s } = rawTx; /* this fields are not-documented */
-
-    const newTx = new Transaction(
-      {
-        gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
-        gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
-        to: rawTx.to,
-        nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
-        data: rawTx.input,
-        v,
-        r,
-        s,
-        value: this.getWeb3().utils.numberToHex(rawTx.value),
-      },
-      {
-        common: Common.custom({}, { baseChain: this.currentChain }),
-      },
-    );
-
-    if (!newTx.verifySignature()) {
-      throw new Error(`The signature is not valid for this transaction`);
-    }
-
-    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-
-    const rawTxHex = newTx.serialize().toString('hex');
-
-    console.log(`Raw transaction hex is: `, rawTxHex);
-
-    return rawTxHex;
-  }
-
   public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
     const provider = this.provider as AbstractProvider;
 
@@ -223,20 +167,18 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
       throw new Error('This provider does not support the adding new tokens');
     }
 
-    return provider
-      .request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: tokenInfo,
-        },
-      })
-      .catch();
+    return provider.request!({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: tokenInfo,
+      },
+    }).catch();
   }
 
   public async switchNetwork(chainId: number): Promise<any> {
     const config = RPCConfig[chainId];
-    const provider = this.provider as AbstractProvider;
+    const provider = this.provider as AbstractProvider | undefined;
 
     const isProviderHasRequest =
       !!provider && typeof provider.request === 'function';
@@ -248,7 +190,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     }
 
     try {
-      return await provider.request({
+      return await provider.request?.({
         /**
          * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
          */
@@ -256,11 +198,12 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
         params: [{ chainId: config.chainId }],
       });
     } catch (switchError) {
-      const isChainNotAdded = switchError.code === 4902;
+      const isChainNotAdded =
+        (switchError as { code?: number | string }).code === 4902;
 
       if (isChainNotAdded) {
         return provider
-          .request({
+          .request?.({
             /**
              * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
              */

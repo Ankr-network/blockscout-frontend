@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

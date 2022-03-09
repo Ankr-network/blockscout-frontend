@@ -1,5 +1,8 @@
 import { Box, Tooltip } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { useHistory } from 'react-router';
+import { uid } from 'react-uid';
+
 import {
   Table,
   TableBody,
@@ -11,21 +14,20 @@ import {
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
-import { useHistory } from 'react-router';
-import { uid } from 'react-uid';
 import { Button } from 'uiKit/Button';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
 import {
   fetchMyRewardCrowdloans,
   IFetchMyRewardCrowdloansItem,
 } from '../../actions/fetchMyRewardCrowdloans';
+import { RoutesConfig } from '../../const';
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { RoutesConfig } from '../../Routes';
 import { ConnectTooltip } from '../ConnectTooltip';
 import { ENoCrowdloanTypes, NoCrowdloan } from '../NoCrowdloan';
 import { ProjectMeta } from '../ProjectMeta';
+
 import { useMyRewardsStyles } from './useMyRewardsStyles';
 
 type CaptionType = {
@@ -35,7 +37,7 @@ type CaptionType = {
 /**
  *  @TODO Add data for skipped columns with a valid logic for end users
  */
-export const MyRewards = () => {
+export const MyRewards = (): JSX.Element => {
   const classes = useMyRewardsStyles();
   const dispatch = useDispatchRequest();
   const history = useHistory();
@@ -92,8 +94,8 @@ export const MyRewards = () => {
     <>
       {error === null && !!crowdloans?.length && (
         <Table
-          customCell="minmax(200px, 1fr) 120px 150px 175px 220px 140px 150px"
           columnsCount={captions.length}
+          customCell="minmax(200px, 1fr) 120px 150px 175px 220px 140px 150px"
           minWidth={1120}
         >
           <TableHead>
@@ -101,6 +103,7 @@ export const MyRewards = () => {
               <TableHeadCell key={uid(cell)} label={cell.label} />
             ))}
           </TableHead>
+
           <TableBody>
             {(crowdloans as IFetchMyRewardCrowdloansItem[]).map(
               (item: IFetchMyRewardCrowdloansItem): JSX.Element => {
@@ -109,7 +112,7 @@ export const MyRewards = () => {
 
                 const isDisabledClaimBtn: boolean =
                   !isConnected || !claimableRewardsAmount.isGreaterThan(0);
-                const isShowConnectTooltip: boolean = !isConnected;
+                const isShowConnectTooltip = !isConnected;
 
                 const endDateVal: string = t('format.date', {
                   value: item.endTime,
@@ -123,16 +126,16 @@ export const MyRewards = () => {
                   },
                 );
 
-                const claimableRewardsVal: string = `${claimableRewardsAmount.toFixed()} ${rewardTokenSymbol}`;
+                const claimableRewardsVal = `${claimableRewardsAmount.toFixed()} ${rewardTokenSymbol}`;
 
                 return (
                   <TableRow key={uid(item)}>
                     <TableBodyCell label={captions[0].label}>
                       <ProjectMeta
+                        className={classes.projectBox}
+                        description={item.projectDescription}
                         img={item.projectLogo}
                         name={item.projectName}
-                        description={item.projectDescription}
-                        className={classes.projectBox}
                       />
                     </TableBodyCell>
 
@@ -182,15 +185,15 @@ export const MyRewards = () => {
                       })}
                     </TableBodyCell>
 
-                    <TableBodyCell label={captions[6].label} align="right">
+                    <TableBodyCell align="right" label={captions[6].label}>
                       <div className={classes.buttonCol}>
                         <Button
+                          fullWidth
                           className={classes.button}
                           color="default"
                           disabled={isDisabledClaimBtn}
-                          onClick={handleClaimBtn(loanId)}
                           variant="outlined"
-                          fullWidth
+                          onClick={handleClaimBtn(loanId)}
                         >
                           {t('polkadot-slot-auction.button.claim')}
                         </Button>

@@ -1,5 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -13,10 +14,19 @@ export interface IUseStakedFTMTxHistory {
   staked: IHistoryDialogRow[];
   unstaked: IHistoryDialogRow[];
   pendingUnstakeHistory: IPendingTableRow[];
-  isHistoryLoading: boolean;
   hasHistory: boolean;
+  isHistoryLoading: boolean;
   pendingValue: BigNumber;
 }
+
+const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
+  return {
+    date: data.txDate,
+    link: getTxLinkByNetwork(data.txHash, FTM_NETWORK_BY_ENV),
+    hash: data.txHash,
+    amount: data.txAmount,
+  };
+};
 
 export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
   const { data: historyData, loading: isHistoryLoading } = useQuery({
@@ -55,14 +65,5 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
     isHistoryLoading,
     pendingUnstakeHistory,
     pendingValue,
-  };
-};
-
-const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
-  return {
-    date: data.txDate,
-    link: getTxLinkByNetwork(data.txHash, FTM_NETWORK_BY_ENV),
-    hash: data.txHash,
-    amount: data.txAmount,
   };
 };

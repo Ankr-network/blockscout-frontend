@@ -1,8 +1,9 @@
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+
 import { ExChange } from '.';
 
-export const Default = () => {
-  return <ExChange title="StakeFi" iconSlot={<AETHCIcon />} />;
+export const Default = (): JSX.Element => {
+  return <ExChange iconSlot={<AETHCIcon />} title="StakeFi" />;
 };
 
 export default {

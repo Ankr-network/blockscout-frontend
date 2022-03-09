@@ -1,9 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { TStore } from 'modules/common/types/ReduxRequests';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
+
 import { BinanceSDK } from '../api/BinanceSDK';
+
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 

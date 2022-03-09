@@ -1,21 +1,19 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const useTableBodyStyles = makeStyles<
-  Theme,
-  {
-    count: number;
-    customCell?: string;
-  }
->(theme => ({
+interface ITableBodyProps {
+  count: number;
+  customCell?: string;
+}
+
+export const useTableBodyStyles = makeStyles(theme => ({
   body: {
     display: 'block',
     width: '100%',
 
     [theme.breakpoints.up('md')]: {
       display: 'grid',
-      gridTemplateColumns: props =>
-        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+      gridTemplateColumns: ({ count, customCell }: ITableBodyProps) =>
+        customCell || `repeat(${count}, 1fr)`,
       alignItems: 'stretch',
     },
   },

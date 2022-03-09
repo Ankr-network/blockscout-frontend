@@ -1,15 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
+import { createAction } from 'redux-smart-actions';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { withStore } from 'modules/common/utils/withStore';
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { fetchEth2SwapData } from '../api/sdk';
 
-export interface IGetEth2SwapDataArgs {
-  providerId: AvailableWriteProviders;
-}
+import { EthSDK } from '../api/sdk';
 
 export interface IGetEth2SwapData {
   ratio: BigNumber;
@@ -19,15 +14,14 @@ export interface IGetEth2SwapData {
 }
 
 export const getEth2SwapData = createAction<
-  RequestAction<IGetEth2SwapData, IGetEth2SwapData>,
-  [IGetEth2SwapDataArgs]
->('eth2-swap/getEth2SwapData', ({ providerId }) => ({
+  RequestAction<IGetEth2SwapData, IGetEth2SwapData>
+>('eth2-swap/getEth2SwapData', () => ({
   request: {
-    promise: async () =>
-      fetchEth2SwapData({
-        providerManager: ProviderManagerSingleton.getInstance(),
-        providerId,
-      }),
+    promise: async (): Promise<IGetEth2SwapData> => {
+      const sdk = await EthSDK.getInstance();
+
+      return sdk.fetchEth2SwapData();
+    },
   },
   meta: {
     asMutation: false,

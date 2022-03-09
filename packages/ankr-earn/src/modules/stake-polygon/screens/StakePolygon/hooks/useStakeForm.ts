@@ -4,19 +4,37 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
+import { ReactText, useState } from 'react';
+
+import {
+  fetchStats,
+  IFetchStatsResponseData,
+} from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { ReactText, useState } from 'react';
 
 interface IUseStakeFormArgs {
   openSuccessModal: () => void;
 }
 
-export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
+interface IUseStakeFormData {
+  amount: ReactText;
+  isStakeLoading: boolean;
+  isFetchStatsLoading: boolean;
+  fetchStatsData: IFetchStatsResponseData | null;
+  fetchStatsError?: Error;
+  handleFormChange: (values: IStakeFormPayload) => void;
+  handleSubmit: (values: IStakeSubmitPayload) => void;
+}
+
+export const useStakeForm = ({
+  openSuccessModal,
+}: IUseStakeFormArgs): IUseStakeFormData => {
+  const [amount, setAmount] = useState<ReactText>('');
+
   const dispatchRequest = useDispatchRequest();
   const { loading: isStakeLoading } = useMutation({ type: stake });
   const {
@@ -27,14 +45,12 @@ export const useStakeForm = ({ openSuccessModal }: IUseStakeFormArgs) => {
     type: fetchStats,
   });
 
-  const [amount, setAmount] = useState<ReactText>('');
-
   const handleFormChange = (values: IStakeFormPayload) => {
     setAmount(values.amount || '');
   };
 
-  const handleSubmit = ({ amount }: IStakeSubmitPayload): void => {
-    dispatchRequest(stake({ amount: new BigNumber(amount) })).then(
+  const handleSubmit = (values: IStakeSubmitPayload): void => {
+    dispatchRequest(stake({ amount: new BigNumber(values.amount) })).then(
       ({ error }) => {
         if (!error) {
           openSuccessModal();

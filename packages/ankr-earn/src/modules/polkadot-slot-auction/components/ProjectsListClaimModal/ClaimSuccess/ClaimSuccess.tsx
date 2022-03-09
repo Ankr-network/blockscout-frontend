@@ -1,13 +1,16 @@
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+
 import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import { Button } from 'uiKit/Button';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { addTokenWeb3Wallet } from '../../../actions/addTokenWeb3Wallet';
+
 import { useClaimSuccessStyles } from './useClaimSuccessStyles';
 
 interface IClaimSuccessProps {
@@ -18,7 +21,7 @@ interface IClaimSuccessProps {
 export const ClaimSuccess = ({
   bondTokenSymbol,
   loanId,
-}: IClaimSuccessProps) => {
+}: IClaimSuccessProps): JSX.Element => {
   const classes = useClaimSuccessStyles();
   const dispatch = useDispatchRequest();
   const history = useHistory();
@@ -58,23 +61,23 @@ export const ClaimSuccess = ({
       <div className={classes.actionArea}>
         {featuresConfig.isActiveClaimNotification && (
           <Button
+            fullWidth
             className={classes.actionBtn}
             color="primary"
-            fullWidth
-            onClick={onGoToDashboard}
             size="large"
+            onClick={onGoToDashboard}
           >
             {t('polkadot-slot-auction.button.go-to-dashboard')}
           </Button>
         )}
 
         <Button
+          fullWidth
           className={classes.actionBtn}
           disabled={isLoadingBtn}
-          fullWidth
-          onClick={onAddToWallet}
           size="large"
           variant="outlined"
+          onClick={onAddToWallet}
         >
           <span className={classes.actionBtnTxt}>
             {t('polkadot-slot-auction.button.add-to-wallet', {

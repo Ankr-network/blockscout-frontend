@@ -1,14 +1,6 @@
 import { AvailableTokens } from '../types';
 
-export const getExchangeLink = (
-  fromToken: AvailableTokens,
-  toToken: AvailableTokens,
-): string => {
-  const mainTokenName = getMainTokenName(fromToken);
-  return `https://openocean.finance/classic#/${mainTokenName}/${fromToken.toUpperCase()}/${toToken.toUpperCase()}`;
-};
-
-const getMainTokenName = (token?: AvailableTokens) => {
+function getMainTokenName(token?: AvailableTokens): string {
   switch (token) {
     case AvailableTokens.AVAX:
     case AvailableTokens.aAVAXb:
@@ -16,4 +8,12 @@ const getMainTokenName = (token?: AvailableTokens) => {
     default:
       return 'ETH';
   }
-};
+}
+
+export function getExchangeLink(
+  fromToken: AvailableTokens,
+  toToken: AvailableTokens,
+): string {
+  const mainTokenName = getMainTokenName(fromToken);
+  return `https://openocean.finance/classic#/${mainTokenName}/${fromToken.toUpperCase()}/${toToken.toUpperCase()}`;
+}

@@ -8,7 +8,19 @@ const defaultFormState = {
   toToken: AvailableTokens.ETH,
 };
 
-export const useDefaultFormState = () => {
+const getIsTokenValid = (token?: string): boolean => {
+  return token
+    ? Object.values(AvailableTokens).includes(token as AvailableTokens)
+    : false;
+};
+
+interface IUseDefaultFormState {
+  defaultAmount: string;
+  defaultFromToken: AvailableTokens;
+  defaultToToken: AvailableTokens;
+}
+
+export const useDefaultFormState = (): IUseDefaultFormState => {
   const { fromToken: fromTokenQuery, toToken: toTokenQuery } =
     BoostRoutes.tradingCockpit.useParams();
 
@@ -27,11 +39,4 @@ export const useDefaultFormState = () => {
     defaultFromToken,
     defaultToToken,
   };
-};
-
-const getIsTokenValid = (token?: string): boolean => {
-  if (token && Object.values(AvailableTokens).includes(token as any)) {
-    return true;
-  }
-  return false;
 };

@@ -5,7 +5,10 @@ interface ICellFairValue {
   text?: string;
 }
 
-export const CellPercentageValue = ({ value, text }: ICellFairValue) => {
+export const CellPercentageValue = ({
+  value,
+  text,
+}: ICellFairValue): JSX.Element => {
   const classes = useCellPercentageValueStyles();
   const sign = value > 0 ? '+' : '';
   const renderedValue = `${sign}${value}%`;
@@ -13,7 +16,9 @@ export const CellPercentageValue = ({ value, text }: ICellFairValue) => {
   if (text) {
     return (
       <>
-        {renderedValue} <span className={classes.text}>({text})</span>
+        {renderedValue}
+
+        <span className={classes.text}>({text})</span>
       </>
     );
   }

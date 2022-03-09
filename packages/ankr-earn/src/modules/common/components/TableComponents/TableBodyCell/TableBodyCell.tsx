@@ -1,8 +1,11 @@
 import classNames from 'classnames';
-import { WithUseStyles } from 'ui';
 import React, { CSSProperties, useContext } from 'react';
+
+import { WithUseStyles } from 'ui';
+
 import { TableContext } from '../Table/Table';
 import { AlignType, IStyleProps } from '../types';
+
 import { useTableBodyCellStyles } from './useTableBodyCellStyles';
 
 interface ITableBodyCellProps
@@ -24,7 +27,7 @@ export const TableBodyCellComponent = ({
   style,
   label,
   ...rest
-}: ITableBodyCellProps & IStyleProps) => {
+}: ITableBodyCellProps & IStyleProps): JSX.Element => {
   const classes = useTableBodyCellStyles({
     dense,
     paddingCollapse,
@@ -44,16 +47,16 @@ export const TableBodyCellComponent = ({
           [classes.leftCell]: alignCell === 'left' || align === 'left',
         },
       )}
+      data-label={label}
       role="cell"
       style={style}
-      data-label={label}
     >
       <div className={classes.cellWrapper}>{children}</div>
     </td>
   );
 };
 
-export const TableBodyCell = (props: ITableBodyCellProps) => {
+export const TableBodyCell = (props: ITableBodyCellProps): JSX.Element => {
   const context = useContext(TableContext);
   return <TableBodyCellComponent {...context} {...props} />;
 };

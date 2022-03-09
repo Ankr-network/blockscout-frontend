@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { withSvgIcon } from './withSvgIcon';
 
 export const BSCIcon = withSvgIcon(

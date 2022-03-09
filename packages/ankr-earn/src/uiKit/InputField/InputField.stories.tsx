@@ -1,10 +1,10 @@
-import { Paper, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import React from 'react';
+/* eslint-disable no-console */
+import { Paper, makeStyles } from '@material-ui/core';
 import { Field, Form, FormRenderProps } from 'react-final-form';
+
 import { InputField } from './InputField';
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles(() => ({
   block: {},
 
   input: {
@@ -16,29 +16,30 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-const InputFieldStory = () => {
+const InputFieldStory = (): JSX.Element => {
   const classes = useStyles();
 
-  const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
+  const renderForm = ({ handleSubmit }: FormRenderProps<unknown>) => {
     return (
       <Paper className={classes.form} component="form" onSubmit={handleSubmit}>
         <Field
-          id={1}
           className={classes.input}
-          component={InputField}
-          name="email"
-          type="email"
-          placeholder="Your email address"
           color="primary"
-        />
-        <Field
-          id={1}
-          className={classes.input}
           component={InputField}
-          name="email2"
-          type="email"
+          id={1}
+          name="email"
           placeholder="Your email address"
+          type="email"
+        />
+
+        <Field
+          className={classes.input}
           color="secondary"
+          component={InputField}
+          id={1}
+          name="email2"
+          placeholder="Your email address"
+          type="email"
         />
       </Paper>
     );
@@ -46,12 +47,12 @@ const InputFieldStory = () => {
 
   return (
     <div className={classes.block}>
-      <Form onSubmit={() => alert('Submit')} render={renderForm} />
+      <Form render={renderForm} onSubmit={() => console.log('Submit')} />
     </div>
   );
 };
 
-export const InputFieldExample = () => <InputFieldStory />;
+export const InputFieldExample = (): JSX.Element => <InputFieldStory />;
 
 export default {
   title: 'UiKit/InputField',

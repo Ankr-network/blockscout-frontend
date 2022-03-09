@@ -1,19 +1,22 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useBridgeBlockchainPanelStyles = makeStyles<Theme>(theme => ({
+export const useBridgeBlockchainPanelStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(1),
-    borderRadius: '9px',
-    background: theme.palette.background.default,
-  },
-  rootRow: {
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
     alignItems: 'center',
+    gap: theme.spacing(0, 1.25),
+    padding: theme.spacing(2.5, 2),
+
+    borderRadius: '9px',
+    background: theme.palette.background.default,
   },
+
   icon: {
-    margin: theme.spacing(1.6),
+    width: 32,
+    height: 32,
   },
+
   title: {
     color: theme.palette.text.secondary,
     fontWeight: 500,

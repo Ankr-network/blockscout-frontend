@@ -1,7 +1,19 @@
 import { RequestAction } from '@redux-requests/core';
-import { ICrowdloanType, SlotAuctionSdk, TCrowdloanStatus } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { ICrowdloanType, SlotAuctionSdk, TCrowdloanStatus } from 'polkadot';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+
+export const mapCrowdloan = (data: ICrowdloanType): ICrowdloanByStatus => {
+  return {
+    ...data,
+    endLease: new Date(data.endLease * 1000),
+    endTime: new Date(data.endTime * 1000),
+    startLease: new Date(data.startLease * 1000),
+    startTime: new Date(data.startTime * 1000),
+  };
+};
 
 export interface ICrowdloanByStatus
   extends Omit<
@@ -30,13 +42,3 @@ export const fetchCrowdloansByStatus = createAction<
     getData: data => data.map(mapCrowdloan),
   },
 }));
-
-export const mapCrowdloan = (data: ICrowdloanType): ICrowdloanByStatus => {
-  return {
-    ...data,
-    endLease: new Date(data.endLease * 1000),
-    endTime: new Date(data.endTime * 1000),
-    startLease: new Date(data.startLease * 1000),
-    startTime: new Date(data.startTime * 1000),
-  };
-};

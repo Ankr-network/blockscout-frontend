@@ -1,15 +1,19 @@
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import React from 'react';
+import { Field, Form, FormRenderProps } from 'react-final-form';
+import { AnyAction } from 'redux';
+
 import { featuresConfig } from 'modules/common/const';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { getShortStr } from 'modules/common/utils/getShortStr';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
-import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+
 import { claimRewardPoolTokens } from '../../../actions/claimRewardPoolTokens';
+
 import { useClaimFormStyles } from './useClaimFormStyles';
 
 type TSetActiveFn = (isActive: boolean) => void;
@@ -30,7 +34,7 @@ interface IFormPayload {
 interface IClaimData {
   data?: ResponseData<typeof claimRewardPoolTokens>;
   error?: Error;
-  action: any;
+  action: AnyAction;
 }
 
 export const ClaimForm = ({
@@ -40,7 +44,7 @@ export const ClaimForm = ({
   polkadotAccount,
   setLoadingFn,
   setNewWindowFn,
-}: IClaimFormProps) => {
+}: IClaimFormProps): JSX.Element => {
   const classes = useClaimFormStyles();
   const dispatch = useDispatchRequest();
 
@@ -62,8 +66,8 @@ export const ClaimForm = ({
           className={classes.actionBtn}
           color="primary"
           disabled={isLoading}
-          onClick={handleSubmit}
           size="large"
+          onClick={handleSubmit}
         >
           <span className={classes.actionBtnTxt}>
             {t('polkadot-slot-auction.button.claim')}
@@ -131,5 +135,5 @@ export const ClaimForm = ({
     setLoading(false);
   };
 
-  return <Form onSubmit={onFormSubmit} render={onFormRender} />;
+  return <Form render={onFormRender} onSubmit={onFormSubmit} />;
 };

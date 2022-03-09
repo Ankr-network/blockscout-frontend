@@ -1,7 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+
 import { ResponseData } from 'modules/common/types/ResponseData';
+
 import { fetchPolkadotBalance } from '../actions/fetchPolkadotBalance';
+
 import { useSlotAuctionSdk } from './useSlotAuctionSdk';
 
 export const usePolkadotBalance = (): {

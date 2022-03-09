@@ -1,29 +1,34 @@
 import { TextField, TextFieldProps } from '@material-ui/core';
-import { getErrorText, hasError } from 'modules/common/utils/form';
-import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 
-interface IFieldProps extends FieldRenderProps<string> {}
+import { getErrorText, hasError } from 'modules/common/utils/form';
+
+interface IFieldProps extends FieldRenderProps<string> {
+  isIntegerOnly?: boolean;
+}
 
 export const AmountField = ({
   input: { name, value, onChange, onBlur, onFocus },
+  isIntegerOnly = false,
   meta,
   ...rest
-}: IFieldProps & TextFieldProps) => {
+}: IFieldProps & TextFieldProps): JSX.Element => {
+  const regExp = isIntegerOnly ? /^(\d*$)/ : /^(\d*\.{0,1}\d{0,18}$)/;
+
   return (
     <TextField
-      name={name}
       error={hasError(meta)}
-      value={value}
       helperText={getErrorText(meta)}
+      name={name}
+      value={value}
+      onBlur={onBlur}
       onChange={event => {
-        const value = event.target.value;
-        const validated = value.match(/^(\d*\.{0,1}\d{0,18}$)/);
+        const { value: inputValue } = event.target;
+        const validated = inputValue.match(regExp);
         if (validated) {
-          onChange(value);
+          onChange(inputValue);
         }
       }}
-      onBlur={onBlur}
       onFocus={onFocus}
       {...rest}
     />

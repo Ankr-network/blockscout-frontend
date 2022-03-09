@@ -1,6 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Checkbox, CheckboxProps } from '@material-ui/core';
 import { Story } from '@storybook/react';
-import React from 'react';
 
 export default {
   title: 'UiKit/Checkbox',

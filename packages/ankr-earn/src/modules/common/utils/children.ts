@@ -5,7 +5,7 @@ export type TNodeWithType = ReactNode & {
 };
 
 // not used function
-export const isChildNull = (children?: TNodeWithType) => {
+export const isChildNull = (children?: TNodeWithType): boolean => {
   if (!children) return true;
 
   return children.type() === null;

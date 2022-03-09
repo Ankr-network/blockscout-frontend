@@ -1,7 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { withStore } from 'modules/common/utils/withStore';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
+import { withStore } from 'modules/common/utils/withStore';
+
 import { BinanceSDK } from '../api/BinanceSDK';
 
 interface IFetchStatsResponseData {
@@ -20,7 +22,7 @@ export const fetchStats = createSmartAction<
   (): RequestAction => ({
     request: {
       promise: async (): Promise<IFetchStatsResponseData> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+        const sdk = await BinanceSDK.getInstance();
 
         const [
           aBNBbBalance,

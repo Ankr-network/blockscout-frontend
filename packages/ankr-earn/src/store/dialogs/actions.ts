@@ -1,3 +1,5 @@
+import { AnyAction, Action } from 'redux';
+
 export type KnownModal =
   | typeof DIALOG_PRESENTATION
   | typeof DIALOG_GOVERNANCE_RULES_OF_PROPOSAL
@@ -23,17 +25,23 @@ export const OPEN_MODAL_ACTION = 'modal/OPEN';
 export const CLOSE_MODAL_ACTION = 'modal/CLOSE';
 export const RESET_STORE = 'reset/all';
 
-export const openModalAction = (name: KnownModal, context?: any) => ({
+export const openModalAction = (
+  name: KnownModal,
+  context?: unknown,
+): AnyAction => ({
   type: OPEN_MODAL_ACTION,
   payload: { name, context },
 });
 
-export const closeModalAction = () => ({ type: CLOSE_MODAL_ACTION });
+export const closeModalAction = (): Action<string> => ({
+  type: CLOSE_MODAL_ACTION,
+});
 
-export const openPresentationModal = () => openModalAction(DIALOG_PRESENTATION);
+export const openPresentationModal = (): AnyAction =>
+  openModalAction(DIALOG_PRESENTATION);
 
-export const openGovernanceRulesOfProposalModal = () =>
+export const openGovernanceRulesOfProposalModal = (): AnyAction =>
   openModalAction(DIALOG_GOVERNANCE_RULES_OF_PROPOSAL);
 
-export const openGovernanceProjectCreatedModal = () =>
+export const openGovernanceProjectCreatedModal = (): AnyAction =>
   openModalAction(DIALOG_GOVERNANCE_PROJECT_CREATED);

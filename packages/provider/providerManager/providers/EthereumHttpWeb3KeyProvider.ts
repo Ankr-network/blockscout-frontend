@@ -1,5 +1,5 @@
-import { Web3KeyReadProvider } from '../Web3KeyReadProvider';
 import Web3 from 'web3';
+import { Web3KeyReadProvider } from '../Web3KeyReadProvider';
 
 export class EthereumHttpWeb3KeyProvider extends Web3KeyReadProvider {
   constructor(private url: string) {

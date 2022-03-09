@@ -1,5 +1,6 @@
 import { ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
+
 import { configFromEnv } from '../../api/config';
 import { AvailableTokens } from '../types';
 

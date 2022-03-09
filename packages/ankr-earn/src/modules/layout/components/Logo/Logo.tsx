@@ -1,8 +1,11 @@
 import { Divider, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import { t } from 'modules/i18n/utils/intl';
 import { Link } from 'react-router-dom';
+
+import { t } from 'modules/i18n/utils/intl';
+
 import { ReactComponent as AnkrLogoIcon } from '../../../../assets/img/logo.svg';
+
 import { useLogoStyles as useStyles } from './useLogoStyles';
 
 export interface ILogo {
@@ -10,17 +13,19 @@ export interface ILogo {
   href: string;
 }
 
-export const Logo = ({ className = '', href }: ILogo) => {
+export const Logo = ({ className = '', href }: ILogo): JSX.Element => {
   const classes = useStyles();
 
   return (
     <Link className={classNames(classes.root, className)} to={href}>
       <AnkrLogoIcon className={classes.logo} />
-      <Divider orientation="vertical" flexItem className={classes.divider} />
+
+      <Divider flexItem className={classes.divider} orientation="vertical" />
+
       <Typography
-        variant="body2"
-        color="textSecondary"
         className={classes.title}
+        color="textSecondary"
+        variant="body2"
       >
         {t('logo.earn')}
       </Typography>

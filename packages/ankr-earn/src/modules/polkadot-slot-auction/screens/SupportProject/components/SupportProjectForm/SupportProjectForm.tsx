@@ -1,9 +1,6 @@
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { DispatchRequest } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
-import { FormErrors } from 'modules/common/types/FormErrors';
-import { t } from 'modules/i18n/utils/intl';
-import { ICrowdloanType } from 'polkadot';
 import React, { useCallback, useState } from 'react';
 import {
   Field,
@@ -11,17 +8,24 @@ import {
   Form,
   FormRenderProps,
 } from 'react-final-form';
+
+import { ICrowdloanType } from 'polkadot';
+
+import { FormErrors } from 'modules/common/types/FormErrors';
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { InputField } from 'uiKit/InputField';
 import { QueryLoading } from 'uiKit/QueryLoading';
+
 import { depositFundsToCrowdloan } from '../../../../actions/depositFundsToCrowdloan';
 import { fetchCrowdloanBalances } from '../../../../actions/fetchCrowdloanBalances';
 import { usePolkadotBalance } from '../../../../hooks/usePolkadotBalance';
 import { useSlotAuctionSdk } from '../../../../hooks/useSlotAuctionSdk';
-import { FormPayload } from '../../SupportProject';
+import { FormPayload } from '../../types';
 import { InfoLine } from '../InfoLine/InfoLine';
+
 import { useSupportProjectFormStyles } from './useSupportProjectFormStyles';
 
 interface ISupportProjectFormProps {
@@ -34,7 +38,7 @@ const ENABLE_YOU_WILL_GET = false;
 export const SupportProjectForm = ({
   crowdloan,
   goToParachainBondsCrowdloans,
-}: ISupportProjectFormProps) => {
+}: ISupportProjectFormProps): JSX.Element => {
   const classes = useSupportProjectFormStyles();
   const dispatchRequest: DispatchRequest = useDispatchRequest();
 
@@ -51,7 +55,7 @@ export const SupportProjectForm = ({
     ? undefined
     : crowdloan.rewardRate.toString(10);
 
-  const handleSubmit = async (payload: FormPayload): Promise<void> => {
+  const onSubmit = async (payload: FormPayload): Promise<void> => {
     setIsLoading(true);
 
     const { error } = await dispatchRequest(
@@ -83,7 +87,7 @@ export const SupportProjectForm = ({
       } else {
         const value = Number(contributeValue);
 
-        if (isNaN(value)) {
+        if (Number.isNaN(value)) {
           errors.contributeValue = t('validation.number-only');
         } else if (value <= 0) {
           errors.contributeValue = t('validation.greater-than-zero');
@@ -105,10 +109,13 @@ export const SupportProjectForm = ({
 
   const validateNumber = useCallback((value: string) => {
     if (!value) return undefined;
+
     const result = Number(value);
-    if (isNaN(result)) {
+    if (Number.isNaN(result)) {
       return t('validation.number-only');
     }
+
+    return undefined;
   }, []);
 
   const renderForm = ({
@@ -145,6 +152,8 @@ export const SupportProjectForm = ({
 
                     <div
                       className={classes.inputCurrBalanceVal}
+                      role="button"
+                      tabIndex={0}
                       onClick={onMaxValClick(input.onChange)}
                     >
                       {t(
@@ -193,26 +202,25 @@ export const SupportProjectForm = ({
           value={values.contributeValue ?? 0}
         />
       )}
+
       <InfoLine
         title={t('polkadot-slot-auction.support-project-form.initial-reward', {
           rewardTokenSymbol: crowdloan.rewardTokenSymbol,
         })}
-        value={
-          initialReward ? initialReward : t('support-project-form.coming-soon')
-        }
+        value={initialReward || t('support-project-form.coming-soon')}
       />
+
       <InfoLine
         title={t('polkadot-slot-auction.support-project-form.daily-reward', {
           rewardTokenSymbol: crowdloan.rewardTokenSymbol,
         })}
-        value={
-          dailyReward ? dailyReward : t('support-project-form.coming-soon')
-        }
+        value={dailyReward || t('support-project-form.coming-soon')}
       />
+
       <div className={classes.footer}>
         <div className={classes.disclaimerInput}>
           <Field component={CheckboxField} name="agreement" type="checkbox">
-            <Typography color="secondary" className={classes.disclaimerText}>
+            <Typography className={classes.disclaimerText} color="secondary">
               {t('polkadot-slot-auction.support-project-form.disclaimer', {
                 currency,
                 project: crowdloan.projectName,
@@ -225,9 +233,9 @@ export const SupportProjectForm = ({
           className={classes.button}
           color="primary"
           disabled={!values.agreement || !values.contributeValue || isLoading}
-          onClick={handleSubmit}
           size="large"
           type="submit"
+          onClick={handleSubmit}
         >
           {t('polkadot-slot-auction.button.contribute-form')}
 
@@ -239,10 +247,10 @@ export const SupportProjectForm = ({
 
   return (
     <Form
-      onSubmit={handleSubmit}
+      initialValues={{ agreement: false }}
       render={renderForm}
       validate={validate}
-      initialValues={{ agreement: false }}
+      onSubmit={onSubmit}
     />
   );
 };

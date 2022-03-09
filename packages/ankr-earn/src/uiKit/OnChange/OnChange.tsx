@@ -3,18 +3,18 @@ import { Field } from 'react-final-form';
 
 interface IOnChangeProps {
   name: string;
-  children: (value: any, previous: any) => void;
+  children: (value: unknown, previous: unknown) => void;
 }
 
 interface IOnChangeStateProps {
-  children: (value: any, previous: any) => void;
   input: {
-    value: any;
+    value: unknown;
   };
+  children: (value: unknown, previous: unknown) => void;
 }
 
 interface IState {
-  previous: any;
+  previous: unknown;
 }
 
 class OnChangeState extends React.Component<IOnChangeStateProps, IState> {
@@ -47,7 +47,7 @@ class OnChangeState extends React.Component<IOnChangeStateProps, IState> {
  *
  * [Readme](https://github.com/final-form/react-final-form-listeners#usage)
  */
-export const OnChange = ({ name, children }: IOnChangeProps) =>
+export const OnChange = ({ name, children }: IOnChangeProps): JSX.Element =>
   React.createElement(Field, {
     name,
     subscription: { value: true },

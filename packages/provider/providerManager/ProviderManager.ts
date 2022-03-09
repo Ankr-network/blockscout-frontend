@@ -1,23 +1,40 @@
 import { ThemeColors } from 'web3modal';
-import { EthereumHttpWeb3KeyProvider } from './providers/EthereumHttpWeb3KeyProvider';
-import { EthereumWeb3KeyProvider } from './providers/EthereumWeb3KeyProvider';
+import {
+  AvalancheHttpWeb3KeyProvider,
+  BinanceHttpWeb3KeyProvider,
+  EthereumHttpWeb3KeyProvider,
+  EthereumWeb3KeyProvider,
+} from './providers';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { Web3KeyProvider } from './Web3KeyProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
+import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
 
-const BINANCE_SMART_CHAIN_RPC_URL = 'https://rpc.ankr.com/bsc';
-const BINANCE_SMART_CHAIN_TESTNET_RPC_URL =
-  'https://data-seed-prebsc-2-s2.binance.org:8545';
-const ETHEREUM_MAINNET_RPC_URL = 'https://rpc.ankr.com/eth';
-const ETHEREUM_GOERLI_RPC_URL = 'https://eth-goerli-01.dccn.ankr.com';
-const FANTOM_TESTNET_RPC_URL = 'https://rpc.testnet.fantom.network';
-const FANTOM_OPERA_RPC_URL = 'https://rpc.ankr.com/fantom';
+const RPC_URLS: Record<AvailableReadProviders, string> = {
+  [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
+  [AvailableReadProviders.ethGoerli]: 'https://eth-goerli-01.dccn.ankr.com',
+  [AvailableReadProviders.avalancheChain]: 'https://rpc.ankr.com/avalanche',
+  [AvailableReadProviders.avalancheChainTest]:
+    'https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc',
+  [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
+  [AvailableReadProviders.binanceChainTest]:
+    'https://data-seed-prebsc-2-s2.binance.org:8545',
+  [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
+  [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
+};
 
 interface IProviders {
   [AvailableWriteProviders.ethCompatible]: Web3KeyProvider;
   [AvailableWriteProviders.polkadot]: Web3KeyProvider;
   [AvailableWriteProviders.binance]: Web3KeyProvider;
-  [AvailableReadProviders.ethMainnetHttpProvider]: Web3KeyReadProvider;
+  [AvailableReadProviders.ethMainnet]: Web3KeyReadProvider;
+  [AvailableReadProviders.ethGoerli]: Web3KeyReadProvider;
+  [AvailableReadProviders.avalancheChain]: Web3KeyReadProvider;
+  [AvailableReadProviders.avalancheChainTest]: Web3KeyReadProvider;
+  [AvailableReadProviders.binanceChain]: Web3KeyReadProvider;
+  [AvailableReadProviders.binanceChainTest]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmOpera]: Web3KeyReadProvider;
+  [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
 }
 
 export class ProviderManager {
@@ -25,8 +42,12 @@ export class ProviderManager {
 
   constructor(private web3ModalTheme: ThemeColors) {}
 
-  public async getProvider(providerId: AvailableWriteProviders) {
+  public async getProvider(
+    providerId: AvailableWriteProviders,
+    walletId?: string,
+  ) {
     const provider = this.providers[providerId];
+
     if (provider) {
       if (!provider.isConnected()) {
         await provider.connect();
@@ -39,7 +60,7 @@ export class ProviderManager {
       const newProvider = new EthereumWeb3KeyProvider({
         web3ModalTheme: this.web3ModalTheme,
       });
-      await newProvider.inject();
+      await newProvider.inject(walletId);
       await newProvider.connect();
       this.providers[providerId] = newProvider;
       return newProvider;
@@ -50,6 +71,7 @@ export class ProviderManager {
 
   public async getReadProvider(providerId: AvailableReadProviders) {
     const provider = this.providers[providerId];
+
     if (provider) {
       if (!provider.isConnected()) {
         await provider.connect();
@@ -58,33 +80,31 @@ export class ProviderManager {
       return provider;
     }
 
-    if (providerId === AvailableReadProviders.ethMainnetHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(ETHEREUM_MAINNET_RPC_URL);
-    }
+    switch (providerId) {
+      case AvailableReadProviders.ethMainnet:
+      case AvailableReadProviders.ethGoerli: {
+        return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
-    if (providerId === AvailableReadProviders.ethGoerliHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(ETHEREUM_GOERLI_RPC_URL);
-    }
+      case AvailableReadProviders.avalancheChain:
+      case AvailableReadProviders.avalancheChainTest: {
+        return new AvalancheHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
-    if (providerId === AvailableReadProviders.ftmOperaHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(FANTOM_OPERA_RPC_URL);
-    }
+      case AvailableReadProviders.binanceChain:
+      case AvailableReadProviders.binanceChainTest: {
+        return new BinanceHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
-    if (providerId === AvailableReadProviders.ftmTestnetHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(FANTOM_TESTNET_RPC_URL);
-    }
+      case AvailableReadProviders.ftmOpera:
+      case AvailableReadProviders.ftmTestnet: {
+        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
 
-    if (providerId === AvailableReadProviders.smartChainHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(BINANCE_SMART_CHAIN_RPC_URL);
+      default: {
+        throw new Error(`The provider isn't supported: ${providerId}`);
+      }
     }
-
-    if (providerId === AvailableReadProviders.smartChainTestnetHttpProvider) {
-      return new EthereumHttpWeb3KeyProvider(
-        BINANCE_SMART_CHAIN_TESTNET_RPC_URL,
-      );
-    }
-
-    throw new Error(`The provider isn't supported: ${providerId}`);
   }
 
   public disconnect(providerId: AvailableWriteProviders) {

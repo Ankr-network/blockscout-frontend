@@ -1,4 +1,5 @@
 import { Button } from 'uiKit/Button';
+
 import { ITableRow, TableComponent } from '.';
 
 export default {
@@ -14,7 +15,7 @@ const dataMockup: ITableRow[] = [
     priceDiff: 0,
     youGet: '2',
     btnSlot: (
-      <Button variant="outlined" color="primary" fullWidth>
+      <Button fullWidth color="primary" variant="outlined">
         Stake now
       </Button>
     ),
@@ -27,17 +28,17 @@ const dataMockup: ITableRow[] = [
     priceDiff: 0,
     youGet: '0.6',
     btnSlot: (
-      <Button variant="outlined" color="secondary" fullWidth>
+      <Button fullWidth color="secondary" variant="outlined">
         Exchange
       </Button>
     ),
   },
 ];
 
-export const Default = () => {
-  return <TableComponent data={dataMockup} outToken="ETH" isLoading={false} />;
+export const Default = (): JSX.Element => {
+  return <TableComponent data={dataMockup} isLoading={false} outToken="ETH" />;
 };
 
-export const LoadingState = () => {
-  return <TableComponent outToken="aETHb" isLoading />;
+export const LoadingState = (): JSX.Element => {
+  return <TableComponent isLoading outToken="aETHb" />;
 };

@@ -2,10 +2,11 @@ import { Box, BoxProps } from '@material-ui/core';
 import { ErrorProps } from '@redux-requests/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { t } from 'modules/i18n/utils/intl';
 import { NotificationActions } from 'store/actions/NotificationActions';
 
-export function getErrorMessage(props: ErrorProps | Error) {
+export function getErrorMessage(props: ErrorProps | Error): string {
   if (props instanceof Error) {
     return props.toString();
   }
@@ -35,7 +36,10 @@ export function getErrorMessage(props: ErrorProps | Error) {
 
 interface ILoadingProps extends ErrorProps, BoxProps {}
 
-export const QueryError = ({ error, ...boxProps }: ILoadingProps) => {
+export const QueryError = ({
+  error,
+  ...boxProps
+}: ILoadingProps): JSX.Element => {
   const message = getErrorMessage({ error });
   const dispatch = useDispatch();
 

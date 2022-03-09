@@ -1,11 +1,15 @@
 import { Drawer } from '@material-ui/core';
-import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { ReactNode, useState } from 'react';
+
 import { useIsLGUp } from 'ui';
+
+import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
+
 import { LocaleSwitcher } from '../LocaleSwitcher';
 import { Logo } from '../Logo';
 import { Toggle } from '../Toggle';
+
 import { useHeaderStyles as useStyles } from './useHeaderStyles';
 
 interface IHeader {
@@ -20,7 +24,7 @@ export const Header = ({
   mainNavigationSlot,
   rightComponentSlot,
   bannerSlot,
-}: IHeader) => {
+}: IHeader): JSX.Element => {
   const classes = useStyles();
   const isLGUp = useIsLGUp();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -54,8 +58,8 @@ export const Header = ({
           {!isLGUp && (
             <Toggle
               className={classes.toggle}
-              onClick={toggleDrawer}
               opened={drawerOpen}
+              onClick={toggleDrawer}
             />
           )}
         </div>

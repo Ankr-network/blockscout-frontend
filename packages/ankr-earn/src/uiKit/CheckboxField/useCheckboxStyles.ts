@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const useCheckboxStyles = makeStyles<Theme>(theme => ({
+export const useCheckboxStyles = makeStyles(() => ({
   labelRoot: {
     alignItems: 'flex-start',
 

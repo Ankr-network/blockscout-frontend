@@ -1,7 +1,8 @@
 import { Button, ButtonProps } from '@material-ui/core';
 import classNames from 'classnames';
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, ForwardedRef } from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+
 import { QueryLoading } from 'uiKit/QueryLoading';
 
 type NavLinksVariant = 'contained' | 'outlined' | 'text';
@@ -10,28 +11,27 @@ export interface INavLinkProps {
   component?: string | React.ComponentType;
   href: string;
   variant?: NavLinksVariant;
-  onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   activeClassName?: string;
   exactMatch?: boolean;
   isLoading?: boolean;
+  onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
-export const NavLink = React.forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
-  ButtonProps & INavLinkProps
->(
+type Props = ButtonProps & INavLinkProps;
+
+export const NavLink = React.forwardRef(
   (
     {
       href,
       variant = 'text',
-      onClick,
       activeClassName,
       className,
       exactMatch = false,
       isLoading,
+      onClick,
       ...props
-    },
-    ref,
+    }: Props,
+    ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>,
   ) => {
     const isLink =
       href.startsWith('http') ||
@@ -48,31 +48,31 @@ export const NavLink = React.forwardRef<
     if (isLink) {
       return (
         <Button
-          component="a"
-          href={href}
-          variant={variant}
-          onClick={onClick}
-          role="link"
-          rel="noopener noreferrer"
-          target="_blank"
           ref={ref as MutableRefObject<HTMLAnchorElement>}
           className={className}
+          component="a"
           endIcon={endIcon}
-          {...(props as any)}
+          href={href}
+          rel="noopener noreferrer"
+          role="link"
+          target="_blank"
+          variant={variant}
+          onClick={onClick}
+          {...(props as unknown)}
         />
       );
     }
 
     return (
       <Button
-        component={RouterLink as any}
+        ref={ref as MutableRefObject<HTMLAnchorElement>}
+        className={classNames(className, match && activeClassName)}
+        component={RouterLink}
+        endIcon={endIcon}
         to={href}
         variant={variant}
         onClick={onClick}
-        ref={ref}
-        className={classNames(className, match && activeClassName)}
-        endIcon={endIcon}
-        {...props}
+        {...(props as unknown)}
       />
     );
   },

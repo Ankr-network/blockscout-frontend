@@ -1,8 +1,10 @@
 import { Box, Paper, PaperProps, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
+
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+
 import { useErrorMessageStyles } from './useErrorMessageStyles';
 
 interface IErrorMessageProps extends PaperProps {
@@ -22,7 +24,7 @@ export const ErrorMessage = ({
   children,
   isLoading = false,
   ...restProps
-}: IErrorMessageProps) => {
+}: IErrorMessageProps): JSX.Element => {
   const classes = useErrorMessageStyles();
 
   return (
@@ -40,12 +42,12 @@ export const ErrorMessage = ({
       {typeof onClick === 'function' && (
         <Box mt={4}>
           <Button
-            variant="contained"
             color="primary"
-            onClick={onClick}
-            size="large"
-            isLoading={isLoading}
             disabled={isLoading}
+            isLoading={isLoading}
+            size="large"
+            variant="contained"
+            onClick={onClick}
           >
             {btnText || t('error.btn')}
           </Button>

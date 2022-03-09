@@ -1,4 +1,5 @@
 import React from 'react';
+
 export type AlignType = 'center' | 'right' | 'left';
 
 export interface IStyleProps {
@@ -18,7 +19,7 @@ export interface ITablesCaptionProps {
   align?: AlignType;
 }
 
-export type IDataProps = Record<string, any>;
+export type IDataProps = Record<string, unknown>;
 
 export interface ITableRowProps {
   data: IDataProps;

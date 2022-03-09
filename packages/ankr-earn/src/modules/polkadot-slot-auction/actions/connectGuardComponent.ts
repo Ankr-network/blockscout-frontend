@@ -1,9 +1,13 @@
 import { RequestAction } from '@redux-requests/core';
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { SlotAuctionSdk } from 'polkadot';
 import { createAction } from 'redux-smart-actions';
+
+import { SlotAuctionSdk } from 'polkadot';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 import { IStoreState } from 'store/store';
+
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
+
 import { fetchWeb3WalletData } from './fetchWeb3WalletData';
 
 interface IReq {

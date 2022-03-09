@@ -1,10 +1,12 @@
 import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+
 import { useStakedMaticTxHistory } from '../useStakedMaticTxHistory';
 
 jest.mock('@redux-requests/react', () => ({

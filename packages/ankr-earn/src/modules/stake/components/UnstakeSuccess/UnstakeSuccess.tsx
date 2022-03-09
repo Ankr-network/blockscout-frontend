@@ -1,9 +1,11 @@
 import { Paper, Typography } from '@material-ui/core';
+
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useUnstakeSuccessStyles } from './useUnstakeSuccessStyles';
 
 interface IUnstakeSuccessProps {
@@ -16,12 +18,12 @@ export const UnstakeSuccess = ({
   onClose,
   tokenName,
   period,
-}: IUnstakeSuccessProps) => {
+}: IUnstakeSuccessProps): JSX.Element => {
   const classes = useUnstakeSuccessStyles();
 
   return (
     <Paper className={classes.root}>
-      <Typography variant="h1" component="h2" className={classes.title}>
+      <Typography className={classes.title} component="h2" variant="h1">
         {t('unstake-dialog.success.title')}
       </Typography>
 
@@ -33,17 +35,17 @@ export const UnstakeSuccess = ({
       </Typography>
 
       <NavLink
-        variant="contained"
-        href={DashboardRoutes.dashboard.generatePath()}
-        className={classes.btn}
-        size="large"
         fullWidth
+        className={classes.btn}
+        href={DashboardRoutes.dashboard.generatePath()}
+        size="large"
+        variant="contained"
       >
         {t('unstake-dialog.success.return')}
       </NavLink>
 
-      <Button variant="outlined" className={classes.closeBtn} onClick={onClose}>
-        <CloseIcon size="xxs" htmlColor="inherit" />
+      <Button className={classes.closeBtn} variant="outlined" onClick={onClose}>
+        <CloseIcon htmlColor="inherit" size="xxs" />
       </Button>
     </Paper>
   );

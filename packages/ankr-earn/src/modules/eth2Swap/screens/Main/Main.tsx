@@ -1,27 +1,29 @@
-import { useCallback, useMemo } from 'react';
 import { Box, Paper, Typography, Chip } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { FormApi } from 'final-form';
-import { Form, FormRenderProps } from 'react-final-form';
 import cn from 'classnames';
+import { FormApi } from 'final-form';
 import noop from 'lodash/noop';
+import { useCallback, useMemo } from 'react';
+import { Form, FormRenderProps } from 'react-final-form';
 
-import { t } from 'modules/i18n/utils/intl';
+import { AmountInput } from 'modules/common/components/AmountField';
+import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import {
   DECIMAL_PLACES,
   ETH_SCALE_FACTOR,
   ONE_ETH,
 } from 'modules/common/const';
-import { AmountInput } from 'modules/common/components/AmountField';
-import { TransactionInfo } from 'modules/common/components/TransactionInfo';
-import { Container } from 'uiKit/Container';
-import { Tooltip } from 'uiKit/Tooltip';
+import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+import { Tooltip } from 'uiKit/Tooltip';
+
 import { ISwapFormPayload } from '../../types';
-import { useEth2SwapData, useEth2SwapForm } from './hooks';
+
 import { SwapOptions, Stepper } from './components';
+import { useEth2SwapData, useEth2SwapForm } from './hooks';
 import { useMainEth2SwapStyles } from './useMainEth2SwapStyles';
 
 const FEE_BASIS_POINTS = 30;
@@ -95,7 +97,7 @@ export const Main = (): JSX.Element => {
         variant="elevation"
         onSubmit={handleSubmit}
       >
-        <Typography variant="h2" className={classes.title}>
+        <Typography className={classes.title} variant="h2">
           {t('eth2Swap.title')}
         </Typography>
 
@@ -104,41 +106,44 @@ export const Main = (): JSX.Element => {
         <Box className={classes.chips}>
           <Chip
             className={classes.chip}
-            label="1 aETHb = 1 ETH"
-            variant="outlined"
             clickable={false}
             deleteIcon={
               <Tooltip title={t('eth2Swap.tooltips.aETHb')}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
+            label="1 aETHb = 1 ETH"
+            variant="outlined"
             onDelete={noop}
           />
 
           <Chip
             className={classes.chip}
-            label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
-              .decimalPlaces(DECIMAL_PLACES)
-              .toNumber()} ETH`}
-            variant="outlined"
             clickable={false}
             deleteIcon={
               <Tooltip title={t('eth2Swap.tooltips.aETHc')}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
+            label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
+              .decimalPlaces(DECIMAL_PLACES)
+              .toNumber()} ETH`}
+            variant="outlined"
             onDelete={noop}
           />
         </Box>
 
         <AmountInput
-          inputClassName={classes.amountInput}
           balance={max}
+          inputClassName={classes.amountInput}
+          isBalanceLoading={false}
           label={t('eth2Swap.amountInputTitle')}
           name="amount"
-          isBalanceLoading={false}
           tokenName={swapOption}
-          onMaxClick={setMaxAmount(form, max.toString())}
+          onMaxClick={setMaxAmount(
+            form,
+            max.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
+          )}
         />
 
         <SwapOptions
@@ -153,7 +158,10 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={classes.fee}>
-            {fee.decimalPlaces(DECIMAL_PLACES).toNumber()} {swapOption}
+            {t('unit.token-value', {
+              value: fee.decimalPlaces(DECIMAL_PLACES).toNumber(),
+              token: swapOption,
+            })}
           </Typography>
         </Box>
 
@@ -165,8 +173,10 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={cn(classes.result, classes.sum)}>
-            {calculateValueWithRatio(total).toNumber()}{' '}
-            {swapOption === 'aETHb' ? 'aETHc' : 'aETHb'}
+            {t('unit.token-value', {
+              value: calculateValueWithRatio(total).toNumber(),
+              token: swapOption === 'aETHb' ? 'aETHc' : 'aETHb',
+            })}
           </Typography>
         </Box>
 
@@ -175,6 +185,13 @@ export const Main = (): JSX.Element => {
             <Button
               className={classes.button}
               disabled={isApproveLoading || !canApprove}
+              endIcon={
+                <Tooltip arrow title={t('eth2Swap.tooltips.approve')}>
+                  <Box component="span" display="flex">
+                    <QuestionIcon htmlColor="inherit" size="xs" />
+                  </Box>
+                </Tooltip>
+              }
               isLoading={isApproveLoading}
               onClick={handleSubmit}
             >
@@ -201,10 +218,10 @@ export const Main = (): JSX.Element => {
     <Box component="section" py={{ xs: 5, md: 8 }}>
       <Container>
         <TransactionInfo
-          type={txError ? 'failed' : 'success'}
           chainId={chainId}
-          txHash={txHash}
           txError={txError}
+          txHash={txHash}
+          type={txError ? 'failed' : 'success'}
           onClose={handleClearTx}
         />
 
@@ -213,8 +230,8 @@ export const Main = (): JSX.Element => {
         {!canShowSpinner && (
           <Form
             initialValues={{ amount: '' }}
-            validate={validate}
             render={renderForm}
+            validate={validate}
             onSubmit={onSubmit}
           />
         )}

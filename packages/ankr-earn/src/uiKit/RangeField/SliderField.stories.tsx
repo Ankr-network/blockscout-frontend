@@ -1,8 +1,12 @@
-import { SliderField } from './SliderField';
+/* eslint-disable no-console */
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
-const SliderFieldStory = () => {
-  const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
+import { SliderField } from './SliderField';
+
+const SliderFieldStory = (): JSX.Element => {
+  const renderForm = ({
+    handleSubmit,
+  }: FormRenderProps<unknown>): JSX.Element => {
     return (
       <form onSubmit={handleSubmit}>
         <Field component={SliderField} name="foobar" />
@@ -12,12 +16,12 @@ const SliderFieldStory = () => {
 
   return (
     <div>
-      <Form onSubmit={() => alert('Submit')} render={renderForm} />
+      <Form render={renderForm} onSubmit={() => console.log('Submit')} />
     </div>
   );
 };
 
-export const SliderFieldExample = () => <SliderFieldStory />;
+export const SliderFieldExample = (): JSX.Element => <SliderFieldStory />;
 
 export default {
   title: 'UiKit/SliderField',

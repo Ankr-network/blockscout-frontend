@@ -1,10 +1,12 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import React from 'react';
+
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
-import React from 'react';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useFeatureItemStyles } from './useFeatureItemStyles';
 
 interface IFeatureItemProps {
@@ -25,7 +27,7 @@ export const FeatureItem = ({
   token,
   apy,
   staked,
-}: IFeatureItemProps) => {
+}: IFeatureItemProps): JSX.Element => {
   const classes = useFeatureItemStyles();
 
   return (
@@ -39,7 +41,7 @@ export const FeatureItem = ({
       </Box>
 
       <Box className={classNames(classes.statsButtonsWrapper)}>
-        <Grid spacing={3} container className={classNames(classes.stats)}>
+        <Grid container className={classNames(classes.stats)} spacing={3}>
           {typeof apy === 'number' ? (
             <Grid item>
               <Typography className={classNames(classes.statLabel)}>
@@ -61,20 +63,20 @@ export const FeatureItem = ({
               <Typography className={classNames(classes.statValue)}>
                 {t('features.staked-amount', {
                   value: staked.toFormat(),
-                  token: token,
+                  token,
                 })}
               </Typography>
             </Grid>
           )}
         </Grid>
 
-        <Grid spacing={2} container className={classNames(classes.buttons)}>
+        <Grid container className={classNames(classes.buttons)} spacing={2}>
           <Grid item xs>
             <NavLink
-              href={mainHref}
-              variant="contained"
               fullWidth
               className={classes.button}
+              href={mainHref}
+              variant="contained"
             >
               {t('features.stake')}
             </NavLink>
@@ -83,10 +85,10 @@ export const FeatureItem = ({
           {moreHref && (
             <Grid item xs>
               <NavLink
-                href={moreHref}
-                variant="outlined"
                 fullWidth
                 className={classes.button}
+                href={moreHref}
+                variant="outlined"
               >
                 {t('features.learn-more')}
               </NavLink>

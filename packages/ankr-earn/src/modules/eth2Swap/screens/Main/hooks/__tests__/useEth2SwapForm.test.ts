@@ -1,15 +1,15 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
-import fc from 'fast-check';
+import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
+import fc from 'fast-check';
 
-import { AvailableWriteProviders } from 'provider/providerManager/types';
-import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import {
   approveAETHC,
   swapAssets,
 } from 'modules/eth2Swap/actions/transactions';
+
 import { useEth2SwapForm, IEth2SwapFormHookArgs } from '..';
 
 jest.mock('@redux-requests/react', () => ({
@@ -95,7 +95,6 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
         amount: '1',
         swapOption: 'aETHb',
         ratio: ONE_ETH,
-        providerId: AvailableWriteProviders.ethCompatible,
       });
     });
 
@@ -125,9 +124,6 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       });
 
       expect(approveAETHC).toBeCalledTimes(1);
-      expect(approveAETHC).toBeCalledWith({
-        providerId: AvailableWriteProviders.ethCompatible,
-      });
     });
   });
 
