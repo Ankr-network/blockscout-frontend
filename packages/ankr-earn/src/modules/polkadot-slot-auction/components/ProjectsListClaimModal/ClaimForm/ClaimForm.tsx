@@ -6,7 +6,7 @@ import { AnyAction } from 'redux';
 
 import { featuresConfig } from 'modules/common/const';
 import { ResponseData } from 'modules/common/types/ResponseData';
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
@@ -100,7 +100,7 @@ export const ClaimForm = ({
               {t(
                 'polkadot-slot-auction.projects-list-claim-modal.claim-section.ledger-wallet',
                 {
-                  shortAccount: getShortStr(polkadotAccount),
+                  shortAccount: getShortTxHash(polkadotAccount),
                 },
               )}
             </Typography>

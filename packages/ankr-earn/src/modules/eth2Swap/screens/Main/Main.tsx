@@ -186,10 +186,7 @@ export const Main = (): JSX.Element => {
               className={classes.button}
               disabled={isApproveLoading || !canApprove}
               endIcon={
-                <Tooltip
-                  arrow
-                  title={t('eth2Swap.tooltips.approve', { token: swapOption })}
-                >
+                <Tooltip arrow title={t('eth2Swap.tooltips.approve')}>
                   <Box component="span" display="flex">
                     <QuestionIcon htmlColor="inherit" size="xs" />
                   </Box>

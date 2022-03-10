@@ -7,7 +7,7 @@ import { uid } from 'react-uid';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
@@ -66,7 +66,7 @@ export const HistoryDialog = ({
         <td className={classes.td}>
           {link && hash ? (
             <NavLink className={classes.txLink} href={link}>
-              {t('history-dialog.hash-cell', { hash: getShortStr(hash) })}
+              {t('history-dialog.hash-cell', { hash: getShortTxHash(hash) })}
             </NavLink>
           ) : (
             t('history-dialog.error-cell')

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { IAddresses } from 'modules/connected-wallets/types';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
@@ -47,7 +47,7 @@ export const ConnectedWalletsNetwork = ({
         <WalletIcon icon={addresses[0].tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getShortStr(addresses[0].address)}
+          {getShortTxHash(addresses[0].address)}
         </span>
       </div>
 
@@ -71,7 +71,7 @@ export const ConnectedWalletsNetwork = ({
           <WalletIcon icon={address.tokenIconSrc} />
 
           <span className={classes.instanceText}>
-            {getShortStr(address.address)}
+            {getShortTxHash(address.address)}
           </span>
         </div>
       </div>
