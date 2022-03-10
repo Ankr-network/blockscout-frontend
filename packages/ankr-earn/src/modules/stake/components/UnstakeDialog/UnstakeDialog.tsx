@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback } from 'react';
+import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
 import { Form } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
@@ -63,6 +63,8 @@ export const UnstakeDialog = ({
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
   const maxAmount = balance || zeroBalance;
+  const formRef =
+    useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
   const setMaxAmount = useCallback(
     (form: FormApi<IUnstakeFormValues>, max: string) => () =>
@@ -79,6 +81,13 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
+  useEffect(() => {
+    const shouldResetTheForm = !!balance;
+    if (shouldResetTheForm) {
+      formRef.current?.reset();
+    }
+  }, [balance]);
+
   const CloseBtn = closeHref ? NavLink : Button;
 
   return (
@@ -89,39 +98,42 @@ export const UnstakeDialog = ({
         </Typography>
 
         <Form
-          render={({ handleSubmit, form, values, invalid }) => (
-            <form
-              autoComplete="off"
-              id={UNSTAKE_FORM_ID}
-              onSubmit={handleSubmit}
-            >
-              <Box mb={4}>
-                <AmountInput
-                  balance={balance}
-                  inputClassName={classes.input}
-                  isBalanceLoading={isBalanceLoading}
-                  label={t('unstake-dialog.amount')}
-                  name={FieldsNames.amount}
-                  tokenName={token}
-                  onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
-                />
-              </Box>
+          render={({ handleSubmit, form, values, invalid }) => {
+            formRef.current = form;
+            return (
+              <form
+                autoComplete="off"
+                id={UNSTAKE_FORM_ID}
+                onSubmit={handleSubmit}
+              >
+                <Box mb={4}>
+                  <AmountInput
+                    balance={balance}
+                    inputClassName={classes.input}
+                    isBalanceLoading={isBalanceLoading}
+                    label={t('unstake-dialog.amount')}
+                    name={FieldsNames.amount}
+                    tokenName={token}
+                    onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
+                  />
+                </Box>
 
-              {renderFormFooter &&
-                renderFormFooter(
-                  new BigNumber(values.amount ?? 0),
-                  new BigNumber(maxAmount),
+                {renderFormFooter &&
+                  renderFormFooter(
+                    new BigNumber(values.amount ?? 0),
+                    new BigNumber(maxAmount),
+                  )}
+
+                {typeof onChange === 'function' && (
+                  <OnChange name={FieldsNames.amount}>
+                    {() => {
+                      onChange(values, invalid);
+                    }}
+                  </OnChange>
                 )}
-
-              {typeof onChange === 'function' && (
-                <OnChange name={FieldsNames.amount}>
-                  {() => {
-                    onChange(values, invalid);
-                  }}
-                </OnChange>
-              )}
-            </form>
-          )}
+              </form>
+            );
+          }}
           validate={validate}
           onSubmit={onSubmit}
         />
