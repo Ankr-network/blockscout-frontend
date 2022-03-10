@@ -1,5 +1,5 @@
 {
-  "title": "V2",
+  "title": "Protocol",
   "validation": {
     "required": "This field is required"
   },
@@ -59,7 +59,7 @@
   },
   "chains": {
     "breadcrumbs": "Public RPCs",
-    "title": "Choose Network",
+    "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
     "requests": "{value} reqs"
@@ -84,6 +84,7 @@
     },
     "header": {
       "public-endpoints": "Public RPC Endpoint{plural}",
+      "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
       "private-endpoints": "Exclusive RPC Endpoint{plural}",
       "plural": "s",
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
