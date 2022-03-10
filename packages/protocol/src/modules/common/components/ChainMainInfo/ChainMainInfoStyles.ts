@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const LOGO_WIDTH = 50;
 const LOGO_MARGIN = 15;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme>(() => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -21,18 +21,5 @@ export const useStyles = makeStyles<Theme>(theme => ({
   right: {
     flex: 1,
     maxWidth: `calc(100% - ${LOGO_WIDTH}px - ${LOGO_MARGIN}px)`,
-  },
-  req: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  day: {
-    marginLeft: 6,
-    padding: '4px 8px',
-    color: theme.palette.text.primary,
-    opacity: 0.5,
-    fontSize: 12,
-    border: `1px solid rgba(31, 34, 38, 0.1)`,
-    borderRadius: 18,
   },
 }));

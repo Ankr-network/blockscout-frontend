@@ -56,10 +56,10 @@ export function Routes() {
       />
       <GuardAuthRoute
         exact
-        path={[PlanRoutesConfig.plan.path]}
+        path={PlanRoutesConfig.plan.path}
         hasCachedCredentials={Boolean(cachedCredentials)}
         render={() => (
-          <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
+          <DefaultLayout theme={Themes.light}>
             <PlanRoutes />
           </DefaultLayout>
         )}

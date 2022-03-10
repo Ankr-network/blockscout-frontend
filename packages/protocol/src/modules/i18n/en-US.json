@@ -1,5 +1,5 @@
 {
-  "title": "Protocol",
+  "title": "V2",
   "validation": {
     "required": "This field is required"
   },
@@ -43,23 +43,15 @@
   },
   "header": {
     "wallet-button": "Connect Wallet",
-    "disconnect": "Disconnect",
-    "already-premium": "Already Premium?"
+    "disconnect": "Disconnect"
   },
   "dashboard": {
     "breadcrumbs": "My exclusive RPCs",
     "title": "My exclusive RPCs"
   },
-  "30-days-statistics": {
-    "30days": "30d",
-    "title": "30 days statistics",
-    "total-requests-made": "Total Requests Made",
-    "unique-users-served": "Unique Users Served",
-    "total-asset-value-transferred": "Total Asset Value Transferred"
-  },
   "chains": {
     "breadcrumbs": "Public RPCs",
-    "title": "Choose Your Network",
+    "title": "Choose Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
     "requests": "{value} reqs"
@@ -84,7 +76,6 @@
     },
     "header": {
       "public-endpoints": "Public RPC Endpoint{plural}",
-      "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
       "private-endpoints": "Exclusive RPC Endpoint{plural}",
       "plural": "s",
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
@@ -145,79 +136,8 @@
     }
   },
   "plan": {
-    "cost-usd": "≈ {value, number, USD}",
     "breadcrumbs": "Premium Plan",
-    "unlock-btn": "Unlock Premium",
-    "more-questions": "Have more questions? Let's hear them!",
-    "contact-discord": "Contact Support on Discord",
-    "header": {
-      "title": "Ship fast, scale and save with Premium features.",
-      "sub-title": "Connect to the network of your choice and build with our fast, reliable, and decentralized infrastructure. Supercharge your dApp with premium features with an annual Premium Plan.",
-      "cost": "{value, number, ::compact-short}",
-      "period": "year",
-      "until": "Valid until the end of 2022",
-      "sub-title2": "Limited-time, developer-first pricing that crushes the competition"
-    },
-    "purchase-block": {
-      "title": "Purchase an Annual Premium Plan for {value, number, ::compact-short} ANKR.",
-      "sub-title": "Developer-first pricing to scale your project fast. Use ANKR to pay for premium access to leading Web3 infrastructure.",
-      "feature1": "No signup",
-      "feature2": "No logins",
-      "feature3": "Just building"
-    },
-    "features-block": {
-      "feature1": "WebSockets (WS) Capabilities",
-      "feature2": "More Requests To Power Your Project",
-      "feature3": "View Blockchain Analytics",
-      "feature4": "Globally Distributed Multi-Chain Infrastructure",
-      "feature5": "Prioritized Requests During Peak Traffic",
-      "feature6": "Dedicated Endpoints For All Supported Chains",
-      "feature-full1": "Provide a constant stream of blockchain data to your application so your applications and platforms can be updated in real-time.",
-      "feature-full2": "Scale your application to handle any amount of blockchain requests. Our premium plan serves dApps and platforms of all sizes.",
-      "feature-full3": "See all on-chain activity and stay up to date on network activity with our analytics tools.",
-      "feature-full4": "Our infrastructure is ready to serve your needs with lightning-fast and reliable returns no matter your location. Ankr removes the need for developers to run their own blockchain nodes, freeing up more time and money to focus on building!",
-      "feature-full5": "Ankr Protocol will always prioritize our Premium users to ensure they receive every resource they need to develop and connect with chains.",
-      "feature-full6": "Access to dedicated endpoints ensures that your project always has node resources to power it at the highest level of performance.  Build easier on any network with multi-chain infrastructure ready to handle any application’s needs."
-    },
-    "table": {
-      "archive-data-info": "Developers can access and query on-chain information stretching all the way back to the genesis block.",
-      "advanced-api-info": "Our Advanced API enables simultaneous data querying across multiple chains, allowing developers to build faster with fewer requests.",
-      "high-traffic-info": "During peak RPC traffic times, public users are rate-limited to prioritize Premium users with node resources.",
-      "rate-limit-info": "Rate limits cap the amount of request traffic on the public RPC to keep node resources balanced and available to all.",
-      "choose-plan": "Choose your plan",
-      "included": "What’s included",
-      "public": "Public",
-      "premium": "Premium",
-      "free": "Free",
-      "current-plan": "Current plan",
-      "cost": "{value, number} ANKR / year",
-      "row1-col1": "Full and archive data",
-      "row2-col1": "Advanced API",
-      "row2-col1-sub": "Coming soon",
-      "row3-col1": "Rate limit",
-      "row4-col1": "Requests per day",
-      "row5-col1": "Connection",
-      "row6-col1": "Latency",
-      "row7-col1": "Support",
-      "row3-col2": "Limited during high traffic",
-      "row4-col2": "Soft limit of 1M requests per day",
-      "row5-col2": "HTTPS",
-      "row6-col2": "US / EU based nodes",
-      "row7-col2": "Discord Support",
-      "row3-col3": "Unlimited",
-      "row4-col3": "Unlimited requests",
-      "row5-col3": "HTTPS and WebSockets",
-      "row6-col3": "Global node coverage",
-      "row7-col3": "Custom SLA",
-      "no-rate-limit": "No rate limits",
-      "unlimited-requests": "Unlimited Requests",
-      "https-and-ws": "HTTPS & WebSockets requests",
-      "https": "HTTPS requests",
-      "global-coverage": "Global node coverage for low  latency",
-      "sla": "SLA guaranteed support"
-    },
     "deposit": {
-      "breadcrumbs": "Deposit",
       "title": "Annual plan",
       "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to <b>Premium&nbsp;features</b>",
       "remaining-block": "Remaining blocks: {value, number}",
@@ -286,22 +206,21 @@
     "label": "Premium features"
   },
   "deposit-steps": {
-    "title": "Unlocking Premium",
+    "title": "Becoming Premium",
     "metamask": "Metamask",
     "step-content": {
-      "0": "I understand my wallet will make a non-refundable deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated Premium account",
-      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
-      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
-      "3": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
-      "4": "Thank you! Operation will take 2-4 minutes.",
-      "5": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
+      "0": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
+      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
+      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
+      "3": "Thank you! Operation will take 2-4 minutes.",
+      "4": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
     },
     "step-notice": {
-      "1": "To enable Ankr to securely enable your deposit.",
-      "2": "So we could take your deposit.",
-      "3": "Operation will take a while (2-4 min).",
-      "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
-      "5": "The last step in&nbsp;your sign in&nbsp;process."
+      "0": "To enable Ankr to securely enable your deposit.",
+      "1": "So we could take your deposit.",
+      "2": "Operation will take a while (2-4 min).",
+      "3": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
+      "4": "The last step in&nbsp;your sign in&nbsp;process."
     },
     "next": "Next"
   },

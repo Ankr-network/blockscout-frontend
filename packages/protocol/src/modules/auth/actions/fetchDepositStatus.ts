@@ -17,7 +17,6 @@ import { withStore } from '../utils/withStore';
 // Decrypt request
 
 export enum DepositStep {
-  start,
   publicKey,
   allowance,
   deposit,
@@ -65,7 +64,7 @@ export const fetchDepositStatus = createSmartAction<
       });
 
       if (!encryptionKeyData?.key) {
-        return { step: DepositStep.start };
+        return { step: DepositStep.publicKey };
       }
 
       if (!isUserHasDeposit) {

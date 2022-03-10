@@ -28,9 +28,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   button: {
     width: '100%',
-    '&:hover': {
-      color: theme.palette.text.primary,
-    },
   },
   links: {
     width: '100%',
