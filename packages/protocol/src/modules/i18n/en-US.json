@@ -50,6 +50,13 @@
     "breadcrumbs": "My exclusive RPCs",
     "title": "My exclusive RPCs"
   },
+  "30-days-statistics": {
+    "30days": "30d",
+    "title": "30 days statistics",
+    "total-requests-made": "Total Requests Made",
+    "unique-users-served": "Unique Users Served",
+    "total-asset-value-transferred": "Total Asset Value Transferred"
+  },
   "chains": {
     "breadcrumbs": "Public RPCs",
     "title": "Choose Network",

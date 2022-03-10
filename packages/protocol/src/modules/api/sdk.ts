@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Web3KeyProvider } from 'provider';
+import { Web3KeyReadProvider } from 'provider';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AvailableReadProviders } from 'provider/providerManager/types';
@@ -12,7 +12,9 @@ import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 
 const providerManager = ProviderManagerSingleton.getInstance();
 
-const EACAggregatorProxyContract = (provider: Web3KeyProvider): Contract => {
+const EACAggregatorProxyContract = (
+  provider: Web3KeyReadProvider,
+): Contract => {
   return provider.createContract(
     EACAggregatorProxyContractAbi,
     configFromEnv.contractConfig.EACAggregatorProxyContract,
@@ -21,7 +23,7 @@ const EACAggregatorProxyContract = (provider: Web3KeyProvider): Contract => {
 
 export const getAnkrUsdt = async (): Promise<BigNumber> => {
   const provider = await providerManager.getReadProvider(
-    AvailableReadProviders.ethMainnetHttpProvider,
+    AvailableReadProviders.ethMainnet,
   );
 
   const contract = EACAggregatorProxyContract(provider);

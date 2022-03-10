@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemProps {
@@ -8,4 +9,5 @@ export interface ChainsItemProps {
   links: string[];
   onButtonClick: () => void;
   chain: Chain;
+  totalRequests?: string | number;
 }
