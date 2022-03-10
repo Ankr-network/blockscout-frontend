@@ -10,9 +10,6 @@ todo.md
 yarn-error.log
 .eslintcache
 
-# e2e
-test-results
-
 # Allow any `.sh` file(s)
 !*.sh
 build-chains

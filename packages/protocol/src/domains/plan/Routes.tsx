@@ -14,17 +14,12 @@ export const PlanRoutesConfig = createRouteConfig(
       generatePath: () => PATH_PLAN,
       breadcrumbs: 'plan.breadcrumbs',
     },
-    planDeposit: {
-      path: PATH_PLAN,
-      generatePath: () => PATH_PLAN,
-      breadcrumbs: 'plan.deposit.breadcrumbs',
-    },
   },
   PATH_PLAN,
 );
 
 const LoadablePlanContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/Plan/Plan').then(module => module.Plan),
+  async () => import('./screens/Plan').then(module => module.Plan),
   {
     fallback: <Spinner />,
   },
@@ -32,10 +27,12 @@ const LoadablePlanContainer: LoadableComponent<any> = loadable(
 
 export function PlanRoutes() {
   return (
-    <Route
-      exact
-      path={PlanRoutesConfig.plan.path}
-      component={LoadablePlanContainer}
-    />
+    <>
+      <Route
+        exact
+        path={PlanRoutesConfig.plan.path}
+        component={LoadablePlanContainer}
+      />
+    </>
   );
 }

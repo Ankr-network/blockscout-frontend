@@ -5,5 +5,4 @@ export interface ChainMainInfoProps {
   name: string;
   description: ReactNode;
   className?: string;
-  totalRequests?: string | number;
 }

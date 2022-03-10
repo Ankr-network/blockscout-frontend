@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
-  Container,
   LinearProgress,
   Paper,
   Step,
@@ -28,35 +27,20 @@ interface IDepositStepsProps {
 }
 
 export const DepositSteps = ({
-  step: outerStep,
+  step,
   onDeposit,
   onConnect,
   loading,
 }: IDepositStepsProps) => {
   const classes = useStyles();
-  const [step, setStep] = useState<DepositStep>(outerStep);
-
-  useEffect(() => {
-    setStep(outerStep);
-  }, [outerStep]);
-
-  useEffect(() => {
-    if (step !== DepositStep.start && !loading) {
-      onDeposit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
-    <Container className={classes.root}>
+    <div className={classes.root}>
       <Paper variant="elevation" className={classes.paper} elevation={0}>
         <Typography variant="h4" color="primary">
           {t('deposit-steps.title')}
         </Typography>
         <Stepper activeStep={step} nonLinear className={classes.stepper}>
-          <Step key={DepositStep.start} completed={step >= DepositStep.start}>
-            <StepLabel />
-          </Step>
           <Step
             key={DepositStep.publicKey}
             completed={step >= DepositStep.publicKey}
@@ -85,10 +69,7 @@ export const DepositSteps = ({
             <StepLabel />
           </Step>
         </Stepper>
-        <Typography
-          variant={step === DepositStep.start ? 'body1' : 'h3'}
-          className={classes.content}
-        >
+        <Typography variant="h3" className={classes.content}>
           {tHTML(`deposit-steps.step-content.${step}`, {
             src: MetamaskIcon,
             alt: t('deposit-steps.metamask'),
@@ -99,8 +80,7 @@ export const DepositSteps = ({
           color="textSecondary"
           className={classes.notice}
         >
-          {step !== DepositStep.start &&
-            tHTML(`deposit-steps.step-notice.${step}`)}
+          {tHTML(`deposit-steps.step-notice.${step}`)}
         </Typography>
         {step === DepositStep.waitTransactionConfirming && (
           <Query
@@ -136,26 +116,12 @@ export const DepositSteps = ({
         )}
 
         <Box maxWidth={210} width="100%">
-          {step === DepositStep.start && (
-            <Button
-              fullWidth
-              onClick={() => {
-                setStep(DepositStep.publicKey);
-                onDeposit();
-              }}
-            >
-              {t('deposit-steps.next')}
-            </Button>
-          )}
-          {![
-            DepositStep.waitTransactionConfirming,
-            DepositStep.login,
-            DepositStep.start,
-          ].includes(step) && (
-            <Button fullWidth disabled={loading} onClick={onDeposit}>
-              {t('deposit-steps.next')}
-            </Button>
-          )}
+          {step !== DepositStep.waitTransactionConfirming &&
+            step !== DepositStep.login && (
+              <Button fullWidth disabled={loading} onClick={onDeposit}>
+                {t('deposit-steps.next')}
+              </Button>
+            )}
           {step === DepositStep.login && (
             <Button fullWidth disabled={loading} onClick={onConnect}>
               {t('deposit-steps.next')}
@@ -163,6 +129,6 @@ export const DepositSteps = ({
           )}
         </Box>
       </Paper>
-    </Container>
+    </div>
   );
 };
