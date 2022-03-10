@@ -44,13 +44,9 @@ export const StakedAVAX = (): JSX.Element => {
     <Pending
       isLoading={txHistory.isHistoryDataLoading}
       token={Token.aAVAXb}
-      tooltip={
-        txHistory.pendingUnstakeHistory.length ? (
-          <PendingTable data={txHistory.pendingUnstakeHistory} />
-        ) : undefined
-      }
+      tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
       value={pendingValue}
-      onLoadHistory={handleOpenHistoryDialog}
+      onLoadHistory={handleLoadTxHistory}
     />
   );
 

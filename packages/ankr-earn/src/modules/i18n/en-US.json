@@ -324,7 +324,7 @@
       "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
       "answer-8": "The only risk for stakers is reducing out on rewards if Validator node users are offline 20% of the time relative to other Validator nodes.<br/><br/>However, staked AVAX will not be slashed. Ankr only delegates to his own Validator nodes and has a dedicated developers’ team who monitor node performance!",
       "question-9": "Is there liquidity for aAVAXb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR Boost</a>."
+      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
     },
     "tooltips": {
       "you-will-get": "aAVAXb represents your staked AVAX plus accumulated staking rewards. Your wallet’s aAVAXb balance will grow daily to reflect earned rewards.<br/><br/>You can unstake it at fair value (1 aAVAXb = 1 AVAX) anytime after the unbonding period (1-28 days depending on validator's closest unlocking date)."
