@@ -13,6 +13,7 @@ const {
     maticToken,
   },
   avalancheConfig: { futureBondAVAX },
+  binanceConfig: { aBNBbToken },
 } = configFromEnv(Env.Production);
 
 export const getTokenAddr = (token: AvailableTokens): string => {
@@ -34,6 +35,9 @@ export const getTokenAddr = (token: AvailableTokens): string => {
 
     case AvailableTokens.AVAX:
       return ZERO_ADDR as string;
+
+    case AvailableTokens.aBNBb:
+      return aBNBbToken as string;
 
     default:
       return ETHContract as string;

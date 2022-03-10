@@ -54,7 +54,7 @@ export const getPrices = createAction<
             }),
           );
 
-          const requests = platformsToRequest.map(paltform => {
+          const requests = platformsToRequest.map(platform => {
             return dispatchRequest(
               getQuotePrice(
                 {
@@ -63,7 +63,7 @@ export const getPrices = createAction<
                   toToken,
                   amount,
                   gasPrice,
-                  exChange: paltform as TExChange,
+                  exChange: platform as TExChange,
                 },
                 { asMutation: true, silent: true },
               ),

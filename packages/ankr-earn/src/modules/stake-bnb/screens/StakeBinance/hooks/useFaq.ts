@@ -15,9 +15,7 @@ export const useFaq = (): IFaqItem[] => {
   const { redeemPeriod, redeemValue } = useRedeemData();
 
   const tradeLink: string = useMemo(
-    // TODO Please to add fix for it (BNB; trading-cockpit)
-    // () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
-    () => BoostRoutes.tradingCockpit.generatePath(Token.aETHb, Token.ETH),
+    () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
     [],
   );
 
