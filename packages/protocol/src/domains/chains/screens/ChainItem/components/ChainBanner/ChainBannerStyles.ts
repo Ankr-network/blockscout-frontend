@@ -22,6 +22,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     height: 40,
+    width: 120,
     padding: theme.spacing(1, 2),
     fontSize: 16,
     color: theme.palette.common.black,

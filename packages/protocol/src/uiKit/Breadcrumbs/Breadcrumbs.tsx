@@ -11,12 +11,10 @@ import { AngleRightIcon } from 'uiKit/Icons/AngleRightIcon';
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'ui';
-import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const classes = useStyles();
   const isMobile = useIsMDDown();
-  const { loading } = useAuth();
 
   return (
     <BreadcrumbsBase
@@ -27,16 +25,14 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
       }}
     >
       {items.map(item => {
-        const { title, link } = item;
+        const { title, link, onClick } = item;
 
         if (link) {
           return (
             <Link
               color="inherit"
               to={link}
-              className={classNames(classes.link, 'custom-link', {
-                [classes.disabled]: loading,
-              })}
+              className={classNames(classes.link, 'custom-link')}
               key={title}
             >
               {isMobile ? (
@@ -49,7 +45,16 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         }
 
         return (
-          <Typography color="textPrimary" variant="h3" key={title}>
+          <Typography
+            onClick={onClick}
+            className={classNames({
+              [classes.link]: onClick,
+              'custom-link': onClick,
+            })}
+            color={onClick ? 'inherit' : 'textPrimary'}
+            variant="h3"
+            key={title}
+          >
             {capitalize(title)}
           </Typography>
         );

@@ -17,20 +17,29 @@ import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { useIsXSDown } from 'ui';
 import { FeatureTableMobile } from './FeatureTableMobile';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { Link } from 'react-router-dom';
 
 interface FeatureTableProps {
   costInAnkr: number;
   costInUsd?: string;
+  onClickPremium: () => void;
 }
 
-export const FeatureTable = ({ costInAnkr, costInUsd }: FeatureTableProps) => {
+export const FeatureTable = ({
+  costInAnkr,
+  costInUsd,
+  onClickPremium,
+}: FeatureTableProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
 
   if (isMobile) {
-    return <FeatureTableMobile costInAnkr={costInAnkr} costInUsd={costInUsd} />;
+    return (
+      <FeatureTableMobile
+        onClickPremium={onClickPremium}
+        costInAnkr={costInAnkr}
+        costInUsd={costInUsd}
+      />
+    );
   }
 
   return (
@@ -82,8 +91,7 @@ export const FeatureTable = ({ costInAnkr, costInUsd }: FeatureTableProps) => {
               </Typography>
             </Box>
             <Button
-              component={Link}
-              to={PlanRoutesConfig.planDeposit.generatePath()}
+              onClick={onClickPremium}
               variant="text"
               endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
               className={classes.unblockBtn}

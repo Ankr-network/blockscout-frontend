@@ -4,7 +4,7 @@ import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { fetchRates } from 'modules/common/actions/fetchRates';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIsXSDown } from 'ui';
 import { ReactComponent as DiscordIcon } from 'uiKit/Icons/discord.svg';
 import { FeatureBlock } from './components/FeatureBlock';
@@ -12,18 +12,46 @@ import { FeatureTable } from './components/FeatureTable';
 import { Header } from './components/Header';
 import { PurchaseBlock } from './components/PurchaseBlock';
 import { PREMIUM_COST } from './const';
+import { Deposit } from './Deposit';
 import { useStyles } from './useStyles';
 
 export const Plan = () => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
   const dispatchRequest = useDispatchRequest();
+  const [isDepositInProgress, setIsDepositInProgress] = useState(false);
 
-  useSetBreadcrumbs([
-    {
-      title: t(PlanRoutesConfig.plan.breadcrumbs),
-    },
-  ]);
+  const handlePremiumClick = useCallback(() => {
+    setIsDepositInProgress(true);
+  }, []);
+
+  const handleClickBreadcrubms = useCallback(() => {
+    setIsDepositInProgress(false);
+  }, []);
+
+  const { setBreadcrumbs } = useSetBreadcrumbs([]);
+
+  useEffect(() => {
+    if (isDepositInProgress) {
+      setBreadcrumbs([
+        {
+          title: t(PlanRoutesConfig.plan.breadcrumbs),
+          link: '',
+          onClick: handleClickBreadcrubms,
+        },
+        {
+          title: t(PlanRoutesConfig.planDeposit.breadcrumbs),
+        },
+      ]);
+    } else {
+      setBreadcrumbs([
+        {
+          title: t(PlanRoutesConfig.plan.breadcrumbs),
+        },
+      ]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDepositInProgress]);
 
   useEffect(() => {
     dispatchRequest(fetchRates());
@@ -42,9 +70,17 @@ export const Plan = () => {
     [rates?.ankrUsdt],
   );
 
+  if (isDepositInProgress) {
+    return <Deposit />;
+  }
+
   return (
     <Box overflow="hidden">
-      <Header costInAnkr={PREMIUM_COST} costInUsd={premiumCostInUsd} />
+      <Header
+        onClickPremium={handlePremiumClick}
+        costInAnkr={PREMIUM_COST}
+        costInUsd={premiumCostInUsd}
+      />
 
       <Container className={classes.container}>
         <Box
@@ -84,13 +120,17 @@ export const Plan = () => {
 
           <Box mt={isMobile ? 7.5 : 15}>
             <FeatureTable
+              onClickPremium={handlePremiumClick}
               costInAnkr={PREMIUM_COST}
               costInUsd={premiumCostInUsd}
             />
           </Box>
 
           <Box mt={isMobile ? 7.5 : 15}>
-            <PurchaseBlock costInAnkr={PREMIUM_COST} />
+            <PurchaseBlock
+              onClickPremium={handlePremiumClick}
+              costInAnkr={PREMIUM_COST}
+            />
           </Box>
 
           <Box mt={isMobile ? 7.5 : 15} className={classes.contactBlock}>

@@ -41,7 +41,7 @@ export const DepositSteps = ({
   }, [outerStep]);
 
   useEffect(() => {
-    if (step !== DepositStep.start) {
+    if (step !== DepositStep.start && !loading) {
       onDeposit();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

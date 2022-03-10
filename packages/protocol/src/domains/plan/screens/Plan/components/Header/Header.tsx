@@ -8,15 +8,18 @@ import DeskFoldHeaderLeft from 'assets/img/premium/desk-fold-header-left.png';
 import DeskFoldHeaderRight from 'assets/img/premium/desk-fold-header-right.png';
 
 import { useStyles } from './usePlanHeaderStyles';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   costInAnkr: number;
   costInUsd?: string;
+  onClickPremium: () => void;
 }
 
-export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
+export const Header = ({
+  costInAnkr,
+  costInUsd,
+  onClickPremium,
+}: HeaderProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
   const isTablet = useIsMDDown();
@@ -81,8 +84,7 @@ export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
               </Box>
             </Box>
             <Button
-              component={Link}
-              to={PlanRoutesConfig.planDeposit.generatePath()}
+              onClick={onClickPremium}
               size="large"
               // onClick={onClickPremiumBtn}
               className={classes.unlockBtn}

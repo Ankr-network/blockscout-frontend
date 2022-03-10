@@ -2,6 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   link: {
+    cursor: 'pointer',
     fontSize: 30,
     fontWeight: 'bold',
     lineHeight: 1.167,
@@ -32,9 +33,5 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   mobileBackButton: {
     transform: 'rotate(180deg)',
-  },
-  disabled: {
-    pointerEvents: 'none',
-    opacity: 0.5,
   },
 }));
