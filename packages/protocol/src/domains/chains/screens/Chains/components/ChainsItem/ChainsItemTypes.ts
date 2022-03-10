@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemProps {

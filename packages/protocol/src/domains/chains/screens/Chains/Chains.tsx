@@ -36,58 +36,68 @@ export const Chains = () => {
   }, [dispatchRequest]);
 
   const [totalRequestsData, setTotalRequestsData] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const setTotalData = (totalRequest: string) => {
+    setTotalRequestsData(totalRequest);
+    setLoading(false);
+  };
 
   return (
     <>
-      <Typography variant="h5" noWrap className={classes.title}>
-        {t('30-days-statistics.title')}
-      </Typography>
-      <div className={classes.blockList}>
-        <div className={classes.block}>
-          <Typography variant="subtitle1" className={classes.subtitle}>
-            {t('30-days-statistics.total-requests-made')}
+      {!loading && (
+        <>
+          <Typography variant="h5" noWrap className={classes.title}>
+            {t('30-days-statistics.title')}
           </Typography>
-          <Typography variant="h4" className={classes.text}>
-            {totalRequestsData}
-          </Typography>
-        </div>
-        {SHOW_UNIQUE_USERS_SERVED && (
-          <div className={classes.block}>
-            <Typography variant="subtitle1" className={classes.subtitle}>
-              {t('30-days-statistics.unique-users-served')}
-            </Typography>
-            <Typography variant="h4" className={classes.text}>
-              41,462,731
-            </Typography>
+          <div className={classes.blockList}>
+            <div className={classes.block}>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                {t('30-days-statistics.total-requests-made')}
+              </Typography>
+              <Typography variant="h4" className={classes.text}>
+                {totalRequestsData}
+              </Typography>
+            </div>
+            {SHOW_UNIQUE_USERS_SERVED && (
+              <div className={classes.block}>
+                <Typography variant="subtitle1" className={classes.subtitle}>
+                  {t('30-days-statistics.unique-users-served')}
+                </Typography>
+                <Typography variant="h4" className={classes.text}>
+                  41,462,731
+                </Typography>
+              </div>
+            )}
+            {SHOW_TOTAL_ASSET_VALUE_TRANSFERRED && (
+              <div className={classes.block}>
+                <Typography variant="subtitle1" className={classes.subtitle}>
+                  {t('30-days-statistics.total-asset-value-transferred')}
+                </Typography>
+                <Typography variant="h4" className={classes.text}>
+                  $135,564,991,200
+                </Typography>
+              </div>
+            )}
           </div>
-        )}
-        {SHOW_TOTAL_ASSET_VALUE_TRANSFERRED && (
-          <div className={classes.block}>
-            <Typography variant="subtitle1" className={classes.subtitle}>
-              {t('30-days-statistics.total-asset-value-transferred')}
-            </Typography>
-            <Typography variant="h4" className={classes.text}>
-              $135,564,991,200
-            </Typography>
-          </div>
-        )}
-      </div>
-      <PageHeader
-        title={t('chains.title')}
-        select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
-        button={
-          ENABLE_HOW_TO_INTEGRATE && (
-            <Button variant="text" color="primary" disabled>
-              {t('chains.integrate-button')}
-            </Button>
-          )
-        }
-      />
+          <PageHeader
+            title={t('chains.title')}
+            select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
+            button={
+              ENABLE_HOW_TO_INTEGRATE && (
+                <Button variant="text" color="primary" disabled>
+                  {t('chains.integrate-button')}
+                </Button>
+              )
+            }
+          />
+        </>
+      )}
       <Queries<ResponseData<typeof fetchPublicChains>>
         requestActions={[fetchPublicChains]}
       >
         {({ data }) => (
-          <ChainsList data={data} setTotalRequestsData={setTotalRequestsData} />
+          <ChainsList data={data} setTotalRequestsData={setTotalData} />
         )}
       </Queries>
     </>
