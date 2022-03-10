@@ -42,6 +42,8 @@ export const useSetBreadcrumbs = (breadcrumbs: BreadcrumbItem[]) => {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useOnMount(() => setBreadcrumbs(breadcrumbs));
+
+  return { setBreadcrumbs };
 };
 
 export const Breadcrumbs = () => {
