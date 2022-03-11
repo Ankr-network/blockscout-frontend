@@ -204,7 +204,6 @@
     "projects-list-claim-modal": {
       "claim-section": {
         "ledger-wallet": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
-        "ledger-wallet-hint": "Ledger Nano X support would be available soon",
         "title": "Сlaim {bondTokenSymbol} to Ethereum network"
       },
       "success-section": {
