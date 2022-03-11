@@ -11,6 +11,7 @@ import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
+import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { useProgressStepHook } from './useProgressStepHook';
 import { useProgressStepStyles } from './useProgressStepStyles';
@@ -20,10 +21,12 @@ export interface IProgressStepProps {
   hint: ReactNode;
   buttonTitle: ReactNode;
   isPending: boolean;
+  isLoading?: boolean;
   amount?: BigNumber;
   symbol?: string;
   txHash?: string;
   destinationAddress?: string;
+  error?: Error;
   onAddTokenToWallet: () => void;
 }
 
@@ -31,11 +34,13 @@ export const ProgressStep = ({
   title,
   hint,
   isPending,
+  isLoading = false,
   amount,
   symbol = '',
   txHash,
   destinationAddress,
   buttonTitle,
+  error,
   onAddTokenToWallet,
 }: IProgressStepProps): JSX.Element => {
   const classes = useProgressStepStyles();
@@ -46,6 +51,44 @@ export const ProgressStep = ({
     handleCopyTxHash,
     handleCopyDestinationAddress,
   } = useProgressStepHook();
+
+  if (isLoading) {
+    return (
+      <Box
+        component="section"
+        data-testid="progress-step-loading"
+        py={{ xs: 5, md: 10 }}
+      >
+        <Container>
+          <Paper className={classes.root} component="div" variant="elevation">
+            <QueryLoadingCentered />
+          </Paper>
+        </Container>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        component="section"
+        data-testid="progress-step-loading"
+        py={{ xs: 5, md: 10 }}
+      >
+        <Container>
+          <Paper className={classes.root} component="div" variant="elevation">
+            <Typography className={classes.title} variant="h2">
+              {t('progress.errorTitle')}
+            </Typography>
+
+            <Typography className={classes.info}>
+              {t('progress.errorInfo')}
+            </Typography>
+          </Paper>
+        </Container>
+      </Box>
+    );
+  }
 
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>

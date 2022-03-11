@@ -5,13 +5,18 @@ import { Route, Switch } from 'react-router-dom';
 import { AvailableWriteProviders } from 'provider';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { EARN_PATH, ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import {
+  EARN_PATH,
+  ETH_NETWORK_BY_ENV,
+  featuresConfig,
+} from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}switch/`;
 const SUCCESS = `${ROOT}success/:txHash/:swapOption`;
+const TEMP_SUCCESS = `${ROOT}temp-success/:txHash/:swapOption`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -22,6 +27,10 @@ export const RoutesConfig = createRouteConfig(
     success: {
       path: SUCCESS,
       generatePath: () => generatePath(SUCCESS),
+    },
+    tempSuccess: {
+      path: TEMP_SUCCESS,
+      generatePath: () => generatePath(TEMP_SUCCESS),
     },
   },
   ROOT,
@@ -34,6 +43,12 @@ const Main = loadable(
 
 const Success = loadable(
   async () => import('./screens/Success').then(module => module.Success),
+  { fallback: <QueryLoadingAbsolute /> },
+);
+
+const TempSuccess = loadable(
+  async () =>
+    import('./screens/TransactionStep').then(module => module.TransactionStep),
   { fallback: <QueryLoadingAbsolute /> },
 );
 
@@ -53,6 +68,19 @@ export function getRoutes(): JSX.Element {
             <Main />
           </DefaultLayout>
         </GuardRoute>
+
+        {featuresConfig.progressStep && (
+          <GuardRoute
+            exact
+            availableNetworks={AVAILABLE_NETWORKS}
+            path={RoutesConfig.tempSuccess.path}
+            providerId={AvailableWriteProviders.ethCompatible}
+          >
+            <DefaultLayout>
+              <TempSuccess />
+            </DefaultLayout>
+          </GuardRoute>
+        )}
 
         <GuardRoute
           exact

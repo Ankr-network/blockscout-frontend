@@ -50,6 +50,52 @@ describe('modules/common/components/ProgressStep', () => {
     expect(txHash).toBeInTheDocument();
   });
 
+  test('should render loading state properly', async () => {
+    const props = {
+      amount: ZERO,
+      destinationAddress: 'address',
+      txHash: 'hash',
+      title: 'Switch',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      buttonTitle: 'Add aMATICb to wallet',
+      isPending: true,
+      isLoading: true,
+      onAddTokenToWallet: jest.fn(),
+    };
+
+    render(
+      <MemoryRouter>
+        <ProgressStep {...props} />
+      </MemoryRouter>,
+    );
+
+    const loadingState = await screen.findByTestId('progress-step-loading');
+    expect(loadingState).toBeInTheDocument();
+  });
+
+  test('should render error state properly', async () => {
+    const props = {
+      amount: ZERO,
+      destinationAddress: 'address',
+      txHash: 'hash',
+      title: 'Switch',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      buttonTitle: 'Add aMATICb to wallet',
+      isPending: true,
+      error: new Error('error'),
+      onAddTokenToWallet: jest.fn(),
+    };
+
+    render(
+      <MemoryRouter>
+        <ProgressStep {...props} />
+      </MemoryRouter>,
+    );
+
+    const errorTitle = await screen.findByText('An error has occurred');
+    expect(errorTitle).toBeInTheDocument();
+  });
+
   test('should add token to wallet', async () => {
     const props = {
       title: 'Title',

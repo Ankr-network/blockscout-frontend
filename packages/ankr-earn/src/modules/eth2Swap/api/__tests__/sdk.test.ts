@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
@@ -61,6 +63,53 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     expect(mockBalanceOf).toBeCalledTimes(2);
     expect(mockRatio).toBeCalledTimes(1);
     expect(mockAllowance).toBeCalledTimes(1);
+  });
+
+  test('should return tx data', async () => {
+    const amount = '8.4919';
+
+    const mockWeb3 = {
+      utils: { fromWei: () => amount },
+      eth: {
+        getChainId: () => 1,
+        getTransaction: () =>
+          Promise.resolve({
+            to: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+            input:
+              '0x6482a22f00000000000000000000000000000000000000000000000075d94a0ed823c000',
+          }),
+        abi: {
+          decodeParameters: () => ({
+            0: new BigNumber(amount).multipliedBy(10 ** 18),
+          }),
+        },
+      },
+    };
+
+    const mockProviderManager = {
+      getProvider: () => ({
+        currentAccount: ZERO_ADDR,
+        getWeb3: () => mockWeb3,
+        isConnected: () => false,
+        connect: jest.fn(),
+      }),
+      getReadProvider: () => ({
+        getWeb3: () => mockWeb3,
+      }),
+    };
+
+    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
+      mockProviderManager,
+    );
+
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.fetchTxData('txHash');
+
+    expect(result.amount).toStrictEqual(new BigNumber('8.4919'));
+    expect(result.destinationAddress).toBe(
+      '0xe64FCf6327bB016955EFd36e75a852085270c374',
+    );
   });
 
   test('should lock shares', async () => {

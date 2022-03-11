@@ -164,6 +164,24 @@ export class EthSDK {
     };
   }
 
+  public async fetchTxData(
+    txHash: string,
+  ): Promise<{ amount: BigNumber; destinationAddress?: string }> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+    const tx = await web3.eth.getTransaction(txHash);
+    const { 0: lockShares } = web3.eth.abi.decodeParameters(
+      ['uint256'],
+      tx.input.slice(10),
+    );
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      destinationAddress: tx.to as string | undefined,
+    };
+  }
+
   public async approveAETHCForAETHB(): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 

@@ -450,11 +450,13 @@
     "info": "Switch Reward Bearing and Reward Earning Liquid Staking",
     "fee": "Service fee ({fee}%)",
     "willGet": "You will get",
+    "progressTitle": "Switch",
     "amountInputTitle": "Amount",
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
-      "approve": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
+      "approve": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf.",
+      "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
       "approve": "Approve",
@@ -467,6 +469,8 @@
     "successInfo": "Check out your new {token} exposure on the Ankr Earn Dashboard any time."
   },
   "progress": {
+    "errorTitle": "An error has occurred",
+    "errorInfo": "Something went wrong. Try to reload browser and check transaction hash in URL.",
     "pendingTitle": "{title} is pending...",
     "successTitle": "{title} successful!",
     "tx": {
