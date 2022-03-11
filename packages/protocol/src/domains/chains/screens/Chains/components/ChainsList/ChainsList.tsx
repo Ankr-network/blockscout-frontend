@@ -18,6 +18,8 @@ import { formatChains, PERIOD } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
 import BigNumber from 'bignumber.js';
 
+const SHOULD_LOAD_ALL_DATA = false;
+
 export const ChainsList = ({ data, setTotalRequestsData }: ChainsListProps) => {
   const classes = useStyles();
   const history = useHistory();
@@ -39,7 +41,7 @@ export const ChainsList = ({ data, setTotalRequestsData }: ChainsListProps) => {
   });
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && SHOULD_LOAD_ALL_DATA) {
       dispatchRequest(fetchChainTotalRequests(chains.map(item => item.id)));
     }
     // eslint-disable-next-line
@@ -75,26 +77,40 @@ export const ChainsList = ({ data, setTotalRequestsData }: ChainsListProps) => {
 
         return (
           <div className={classes.wrapper} key={id}>
-            <Queries<ResponseData<typeof fetchChainTotalRequests>>
-              requestActions={[fetchChainTotalRequests]}
-            >
-              {({ data: totalRequestsData }) => (
-                <ChainsItem
-                  logoSrc={item.icon}
-                  name={name}
-                  period={PERIOD}
-                  links={rpcLinks}
-                  onButtonClick={() => handleClick(id)}
-                  description={
-                    requests ? t('chains.requests', { value: requests }) : ''
-                  }
-                  chain={item}
-                  totalRequests={formatNumber(
-                    queryTotalRequest(id, totalRequestsData),
-                  )}
-                />
-              )}
-            </Queries>
+            {SHOULD_LOAD_ALL_DATA ? (
+              <Queries<ResponseData<typeof fetchChainTotalRequests>>
+                requestActions={[fetchChainTotalRequests]}
+              >
+                {({ data: totalRequestsData }) => (
+                  <ChainsItem
+                    logoSrc={item.icon}
+                    name={name}
+                    period={PERIOD}
+                    links={rpcLinks}
+                    onButtonClick={() => handleClick(id)}
+                    description={
+                      requests ? t('chains.requests', { value: requests }) : ''
+                    }
+                    chain={item}
+                    totalRequests={formatNumber(
+                      queryTotalRequest(id, totalRequestsData),
+                    )}
+                  />
+                )}
+              </Queries>
+            ) : (
+              <ChainsItem
+                logoSrc={item.icon}
+                name={name}
+                period={PERIOD}
+                links={rpcLinks}
+                onButtonClick={() => handleClick(id)}
+                description={
+                  requests ? t('chains.requests', { value: requests }) : ''
+                }
+                chain={item}
+              />
+            )}
           </div>
         );
       })}

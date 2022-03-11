@@ -20,6 +20,8 @@ const ENABLE_HOW_TO_INTEGRATE = false;
 const SHOW_UNIQUE_USERS_SERVED = false;
 const SHOW_TOTAL_ASSET_VALUE_TRANSFERRED = false;
 
+const SHOULD_LOAD_ALL_DATA = false;
+
 export const Chains = () => {
   const classes = useChainsStyles();
 
@@ -36,7 +38,7 @@ export const Chains = () => {
   }, [dispatchRequest]);
 
   const [totalRequestsData, setTotalRequestsData] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const setTotalData = (totalRequest: string) => {
     setTotalRequestsData(totalRequest);
@@ -45,7 +47,7 @@ export const Chains = () => {
 
   return (
     <>
-      {!loading && (
+      {!loading && SHOULD_LOAD_ALL_DATA && (
         <>
           <Typography variant="h5" noWrap className={classes.title}>
             {t('30-days-statistics.title')}
