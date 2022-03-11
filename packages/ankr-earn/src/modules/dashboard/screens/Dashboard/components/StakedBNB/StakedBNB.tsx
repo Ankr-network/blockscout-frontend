@@ -26,6 +26,7 @@ export const StakedBNB = (): JSX.Element => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    tradeLink,
   } = useStakedBNBData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
@@ -62,9 +63,7 @@ export const StakedBNB = (): JSX.Element => {
         stakeLink={stakeLink}
         token={Token.aBNBb}
         tokenAddress={binanceConfig.aBNBbToken}
-        tradeLink={
-          undefined /* TODO Please to add fix for it (BNB; trading-cockpit; tradeLink) */
-        }
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />

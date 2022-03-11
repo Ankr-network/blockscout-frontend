@@ -13,6 +13,8 @@ export const pairedTokensMap: Record<string, string | string[]> = {
   [AvailableTokens.aMATICb]: AvailableTokens.MATIC,
   [AvailableTokens.AVAX]: AvailableTokens.aAVAXb,
   [AvailableTokens.aAVAXb]: AvailableTokens.AVAX,
+  [AvailableTokens.aBNBb]: AvailableTokens.BNB,
+  [AvailableTokens.BNB]: AvailableTokens.aBNBb,
 };
 
 export const platformsByTokenMap: Record<string, string[]> = {
@@ -38,6 +40,7 @@ export const platformsByTokenMap: Record<string, string[]> = {
     AvailablePlatforms.Pangolin,
     AvailablePlatforms.OpenOceanV2,
   ],
+  [AvailableTokens.aBNBb]: [AvailablePlatforms.OpenOceanV2],
 };
 
 export const chainIdByTokenMap = {
