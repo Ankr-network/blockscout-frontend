@@ -25,7 +25,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
       }}
     >
       {items.map(item => {
-        const { title, link } = item;
+        const { title, link, onClick } = item;
 
         if (link) {
           return (
@@ -45,7 +45,16 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         }
 
         return (
-          <Typography color="textPrimary" variant="h3" key={title}>
+          <Typography
+            onClick={onClick}
+            className={classNames({
+              [classes.link]: onClick,
+              'custom-link': onClick,
+            })}
+            color={onClick ? 'inherit' : 'textPrimary'}
+            variant="h3"
+            key={title}
+          >
             {capitalize(title)}
           </Typography>
         );

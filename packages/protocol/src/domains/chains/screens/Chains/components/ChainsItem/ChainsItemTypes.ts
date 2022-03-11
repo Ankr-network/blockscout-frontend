@@ -8,4 +8,5 @@ export interface ChainsItemProps {
   links: string[];
   onButtonClick: () => void;
   chain: Chain;
+  totalRequests?: string | number;
 }

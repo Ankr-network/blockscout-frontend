@@ -10,9 +10,9 @@ export const ChainMainInfo = ({
   name,
   description,
   className = '',
+  totalRequests,
 }: ChainMainInfoProps) => {
   const classes = useStyles();
-
   return (
     <div className={classNames(classes.root, className)}>
       <img className={classes.logo} src={logoSrc} alt={name} />
@@ -20,6 +20,11 @@ export const ChainMainInfo = ({
         <Typography variant="h4" noWrap className={classes.title}>
           {name}
         </Typography>
+        {totalRequests && (
+          <div className={classes.req}>
+            {totalRequests} req <span className={classes.day}>30d</span>
+          </div>
+        )}
         {description}
       </div>
     </div>
