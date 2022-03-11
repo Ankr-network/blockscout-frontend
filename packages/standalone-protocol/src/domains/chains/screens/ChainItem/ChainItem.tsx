@@ -11,6 +11,7 @@ import { ChainHeader } from './components/ChainHeader';
 import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { Crosslink } from './components/Crosslink';
+import { CrossMenu } from './components/CrossMenu';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -23,6 +24,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   return (
     <ThemeProvider theme={getTheme(chainId)}>
       <Container className={classes.main}>
+        <CrossMenu chainId={chainId} />
         <ChainHeader className={classes.header} chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />

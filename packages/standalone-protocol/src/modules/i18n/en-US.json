@@ -91,6 +91,9 @@
     "name": "<span>{name}</span> is&nbsp;joining forces with <span>ANKR</span>!🎉<br />Read the announcement",
     "link": "here"
   },
+  "cross-menu": {
+    "ankr-protocol": "More on Ankr Protocol"
+  },
   "footer": {
     "supported": "Made with",
     "by": "by",
