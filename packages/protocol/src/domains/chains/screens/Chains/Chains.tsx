@@ -47,7 +47,7 @@ export const Chains = () => {
 
   return (
     <>
-      {!loading && SHOULD_LOAD_ALL_DATA && (
+      {!loading && SHOULD_LOAD_ALL_DATA ? (
         <>
           <Typography variant="h5" noWrap className={classes.title}>
             {t('30-days-statistics.title')}
@@ -94,6 +94,18 @@ export const Chains = () => {
             }
           />
         </>
+      ) : (
+        <PageHeader
+          title={t('chains.title')}
+          select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}
+          button={
+            ENABLE_HOW_TO_INTEGRATE && (
+              <Button variant="text" color="primary" disabled>
+                {t('chains.integrate-button')}
+              </Button>
+            )
+          }
+        />
       )}
       <Queries<ResponseData<typeof fetchPublicChains>>
         requestActions={[fetchPublicChains]}
