@@ -40,6 +40,7 @@ export interface IStakeFormComponentProps {
   tokenOut?: string;
   className?: string;
   isMaxBtnShowed?: boolean;
+  feeSlot?: ReactNode;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
@@ -67,6 +68,7 @@ export const StakeForm = ({
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
+  feeSlot,
   renderStats,
   renderFooter,
   onSubmit,
@@ -154,6 +156,8 @@ export const StakeForm = ({
             </div>
 
             {renderStats && renderStats(amountNumber)}
+
+            {feeSlot}
           </div>
         </div>
 

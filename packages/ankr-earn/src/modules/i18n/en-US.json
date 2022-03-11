@@ -296,7 +296,8 @@
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
       "yearly-earning": "Yearly earning",
-      "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding."
+      "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
+      "fee": "Est Network Fee: {value}"
     },
     "success": {
       "title": "Stake successful",
@@ -435,11 +436,10 @@
     }
   },
   "stake-ethereum": {
-    "aethb-tooltip": "aETHb is a reward earning bond, meaning that the staking reward distribution is simulated through rebasing.<br /><br />In other words, by holding aETHb, you can see your aETHb balance increasing on a daily basis.",
-    "aethc-tooltip": "With aETHc, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETHc for your original ETH plus accumulated rewards.",
+    "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
+    "aethc-descr": "aETHс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
-    "token-select-label": "I want to recieve",
-    "difference": "What is the difference?",
+    "token-select-label": "Choose token",
     "faq": {
       "question-1": "Question?",
       "answer-1": "Answer."
