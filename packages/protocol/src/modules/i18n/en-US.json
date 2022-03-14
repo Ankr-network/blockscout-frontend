@@ -62,7 +62,10 @@
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
-    "requests": "{value} reqs"
+    "requests": "{value} reqs",
+    "archive": "Archive",
+    "req": "req",
+    "30d": "30d"
   },
   "chain-item": {
     "banner": {

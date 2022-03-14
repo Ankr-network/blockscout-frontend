@@ -18,6 +18,7 @@ export interface IApiChain {
   name: string;
   rpcUrls: string[];
   wsUrls: string[];
+  isArchive?: boolean;
   requests?: number;
 }
 

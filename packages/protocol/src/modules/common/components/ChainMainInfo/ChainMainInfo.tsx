@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
+import { StatusCircle } from 'uiKit/StatusCircle';
+import { t } from 'modules/i18n/utils/intl';
 
 export const ChainMainInfo = ({
   logoSrc,
@@ -11,8 +13,10 @@ export const ChainMainInfo = ({
   description,
   className = '',
   totalRequests,
+  isArchive,
 }: ChainMainInfoProps) => {
   const classes = useStyles();
+
   return (
     <div className={classNames(classes.root, className)}>
       <img className={classes.logo} src={logoSrc} alt={name} />
@@ -20,9 +24,15 @@ export const ChainMainInfo = ({
         <Typography variant="h4" noWrap className={classes.title}>
           {name}
         </Typography>
+        {isArchive && (
+          <Typography variant="body2" className={classes.archive}>
+            <StatusCircle mr={0.4} status="success" /> {t('chains.archive')}
+          </Typography>
+        )}
         {totalRequests && (
           <div className={classes.req}>
-            {totalRequests} req <span className={classes.day}>30d</span>
+            {totalRequests} {t('chains.req')}
+            <span className={classes.day}>{t('chains.30d')}</span>
           </div>
         )}
         {description}

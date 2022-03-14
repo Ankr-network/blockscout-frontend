@@ -9,7 +9,7 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ChainsList } from './components/ChainsList';
-import { fetchPublicChains } from '../../actions/fetchPublicChains';
+import { fetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { useChainsStyles } from './ChainsStyles';
@@ -34,7 +34,7 @@ export const Chains = () => {
   ]);
 
   useEffect(() => {
-    dispatchRequest(fetchPublicChains());
+    dispatchRequest(fetchPublicChainsInfo());
   }, [dispatchRequest]);
 
   const [totalRequestsData, setTotalRequestsData] = useState('');
@@ -107,8 +107,8 @@ export const Chains = () => {
           }
         />
       )}
-      <Queries<ResponseData<typeof fetchPublicChains>>
-        requestActions={[fetchPublicChains]}
+      <Queries<ResponseData<typeof fetchPublicChainsInfo>>
+        requestActions={[fetchPublicChainsInfo]}
       >
         {({ data }) => (
           <ChainsList data={data} setTotalRequestsData={setTotalData} />

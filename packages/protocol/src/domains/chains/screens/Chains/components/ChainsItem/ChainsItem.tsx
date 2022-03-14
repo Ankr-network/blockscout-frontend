@@ -33,6 +33,7 @@ export const ChainsItem = ({
         name={name}
         className={classes.mainInfo}
         totalRequests={totalRequests}
+        isArchive={chain.isArchive}
         description={
           description && (
             <ChainRequestsLabel description={description} label={period} />
