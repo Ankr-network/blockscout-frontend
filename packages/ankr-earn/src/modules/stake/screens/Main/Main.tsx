@@ -18,11 +18,14 @@ import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
 import { Container } from 'uiKit/Container';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 import { FeatureItem } from './components/FeatureItem';
+import { FeatureLegacyItem } from './components/FeatureLegacyItem';
 import { Features } from './components/Features';
 
 export const Main = (): JSX.Element => {
@@ -108,6 +111,30 @@ export const Main = (): JSX.Element => {
               token={Token.AVAX}
             />
           )}
+
+          <FeatureLegacyItem
+            iconSlot={<EthIcon />}
+            mainHref="https://stakefi.ankr.com/liquid-staking/ETH"
+            title={t('features.ethereum')}
+          />
+
+          <FeatureLegacyItem
+            iconSlot={<DotIcon />}
+            mainHref="https://stakefi.ankr.com/liquid-staking/DOT"
+            title={t('features.polkadot')}
+          />
+
+          <FeatureLegacyItem
+            iconSlot={<AvaxIcon />}
+            mainHref="https://stakefi.ankr.com/liquid-staking/AVAX"
+            title={t('features.avalanche')}
+          />
+
+          <FeatureLegacyItem
+            iconSlot={<KsmIcon />}
+            mainHref="https://stakefi.ankr.com/liquid-staking/KSM"
+            title={t('features.ksm')}
+          />
         </Features>
       </Container>
     </Box>

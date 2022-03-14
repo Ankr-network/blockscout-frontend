@@ -535,12 +535,15 @@
     "binance": "Binance (BNB)",
     "polygon": "Polygon (MATIC)",
     "fantom": "Fantom (FTM)",
+    "polkadot": "Polkadot (DOT)",
     "ethereum": "Ethereum (ETH)",
+    "ksm": "Kusama (KSM)",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
     "staked": "Staked",
     "staked-amount": "{value} {token}",
     "stake": "Stake",
+    "stake-old": "Stake at old version",
     "learn-more": "Learn more"
   },
   "wallets": {
