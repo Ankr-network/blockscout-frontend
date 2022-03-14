@@ -5,8 +5,9 @@ import { getQuery } from '@redux-requests/core';
 
 import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
 import { store } from 'store';
+import { ChainId } from 'domains/chains/api/chain';
 
-export const useTimeframeData = (chainId: string) => {
+export const useTimeframeData = (chainId: ChainId) => {
   const dispatchRequest = useDispatchRequest();
   const [timeframe, setTimeframe] = useState<Timeframe>('30d');
 

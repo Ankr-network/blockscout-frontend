@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
+import { ChainId } from '../api/chain';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -32,7 +33,7 @@ export interface IApiChainDetails {
 
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->('chains/fetchChainDetails', (chainId: string, timeframe: Timeframe) => ({
+>('chains/fetchChainDetails', (chainId: ChainId, timeframe: Timeframe) => ({
   request: {
     promise: (async () => null)(),
   },

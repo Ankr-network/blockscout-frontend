@@ -11,11 +11,12 @@ import { ChainHeader } from './components/ChainHeader';
 import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { Crosslink } from './components/Crosslink';
+import { ChainId } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
@@ -31,7 +32,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainItemDetailsQuery chainId={chainId} />
         <ChainNodesTableQuery chainId={chainId} />
       </Container>
-      {chainId === 'erigonbsc' && <Crosslink />}
+      {chainId === ChainId.Erigonbsc && <Crosslink />}
     </ThemeProvider>
   );
 };

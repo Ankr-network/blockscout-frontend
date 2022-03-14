@@ -9,9 +9,10 @@ import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface INervosButtonsProps {
-  chainId: string;
+  chainId: ChainId;
   onCopy: () => void;
   isXSDown: boolean;
   netLink: string;

@@ -7,9 +7,10 @@ import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainButtonsProps {
-  chainId: string;
+  chainId: ChainId;
   onCopy: () => void;
   isXSDown: boolean;
   netLink: string;
