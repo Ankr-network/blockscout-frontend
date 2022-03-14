@@ -21,6 +21,7 @@ describe('modules/eth2Swap/screens/TransactionStep', () => {
     amount: ZERO,
     destinationAddress: 'address',
     isLoading: false,
+    isPending: false,
     handleAddTokenToWallet: jest.fn(),
   };
 

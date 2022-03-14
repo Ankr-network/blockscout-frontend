@@ -16,7 +16,6 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}switch/`;
 const SUCCESS = `${ROOT}success/:txHash/:swapOption`;
-const TEMP_SUCCESS = `${ROOT}temp-success/:txHash/:swapOption`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -27,10 +26,6 @@ export const RoutesConfig = createRouteConfig(
     success: {
       path: SUCCESS,
       generatePath: () => generatePath(SUCCESS),
-    },
-    tempSuccess: {
-      path: TEMP_SUCCESS,
-      generatePath: () => generatePath(TEMP_SUCCESS),
     },
   },
   ROOT,
@@ -46,7 +41,7 @@ const Success = loadable(
   { fallback: <QueryLoadingAbsolute /> },
 );
 
-const TempSuccess = loadable(
+const TransactionStep = loadable(
   async () =>
     import('./screens/TransactionStep').then(module => module.TransactionStep),
   { fallback: <QueryLoadingAbsolute /> },
@@ -73,25 +68,27 @@ export function getRoutes(): JSX.Element {
           <GuardRoute
             exact
             availableNetworks={AVAILABLE_NETWORKS}
-            path={RoutesConfig.tempSuccess.path}
+            path={RoutesConfig.success.path}
             providerId={AvailableWriteProviders.ethCompatible}
           >
             <DefaultLayout>
-              <TempSuccess />
+              <TransactionStep />
             </DefaultLayout>
           </GuardRoute>
         )}
 
-        <GuardRoute
-          exact
-          availableNetworks={AVAILABLE_NETWORKS}
-          path={RoutesConfig.success.path}
-          providerId={AvailableWriteProviders.ethCompatible}
-        >
-          <DefaultLayout>
-            <Success />
-          </DefaultLayout>
-        </GuardRoute>
+        {!featuresConfig.progressStep && (
+          <GuardRoute
+            exact
+            availableNetworks={AVAILABLE_NETWORKS}
+            path={RoutesConfig.success.path}
+            providerId={AvailableWriteProviders.ethCompatible}
+          >
+            <DefaultLayout>
+              <Success />
+            </DefaultLayout>
+          </GuardRoute>
+        )}
       </Switch>
     </Route>
   );

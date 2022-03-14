@@ -5,7 +5,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
 
-import { ETH_SCALE_FACTOR } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, featuresConfig } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { EthSDK } from '../api/sdk';
@@ -60,13 +60,15 @@ export const swapAssets = createAction<
         swapOption: option,
       } = response.data || {};
 
-      await receiptPromise.catch((error: Error) => {
-        response.error = error;
-      });
+      if (!featuresConfig.progressStep) {
+        await receiptPromise.catch((error: Error) => {
+          response.error = error;
+        });
+      }
 
       if (transactionHash && swapOption && !response.error) {
         store.dispatch(
-          push(`/earn/eth2-swap/success/${transactionHash}/${option}`),
+          push(`/earn/switch/success/${transactionHash}/${option}`),
         );
       }
 

@@ -75,8 +75,13 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
         getTransaction: () =>
           Promise.resolve({
             to: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+            transactionIndex: null,
             input:
               '0x6482a22f00000000000000000000000000000000000000000000000075d94a0ed823c000',
+          }),
+        getTransactionReceipt: () =>
+          Promise.resolve({
+            status: true,
           }),
         abi: {
           decodeParameters: () => ({
@@ -106,7 +111,9 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     const result = await sdk.fetchTxData('txHash');
 
+    expect(await sdk.fetchTxReceipt('txHash')).toBeDefined();
     expect(result.amount).toStrictEqual(new BigNumber('8.4919'));
+    expect(result.isPending).toBe(true);
     expect(result.destinationAddress).toBe(
       '0xe64FCf6327bB016955EFd36e75a852085270c374',
     );

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { TransactionReceipt } from 'web3-core';
 
 import {
   IWeb3SendResult,
@@ -29,6 +30,12 @@ export interface IGetEth2SwapServiceData {
   aethBalance: BigNumber;
   fethBalance: BigNumber;
   allowance: BigNumber;
+}
+
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
 }
 
 export interface IAddTokenToWalletArgs {
@@ -164,9 +171,7 @@ export class EthSDK {
     };
   }
 
-  public async fetchTxData(
-    txHash: string,
-  ): Promise<{ amount: BigNumber; destinationAddress?: string }> {
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
     const provider = await this.getProvider();
 
     const web3 = provider.getWeb3();
@@ -179,7 +184,19 @@ export class EthSDK {
     return {
       amount: new BigNumber(web3.utils.fromWei(lockShares)),
       destinationAddress: tx.to as string | undefined,
+      isPending: tx.transactionIndex === null,
     };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
   }
 
   public async approveAETHCForAETHB(): Promise<IWeb3SendResult> {

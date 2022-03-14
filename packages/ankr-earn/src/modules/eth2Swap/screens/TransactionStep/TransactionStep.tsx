@@ -3,7 +3,6 @@ import { t } from 'modules/i18n/utils/intl';
 
 import { useTransactionStepHook } from './useTransactionStepHook';
 
-// TODO: add route after component is ready
 export const TransactionStep = (): JSX.Element => {
   const {
     txHash,
@@ -11,6 +10,7 @@ export const TransactionStep = (): JSX.Element => {
     amount,
     destinationAddress,
     isLoading,
+    isPending,
     error,
     handleAddTokenToWallet,
   } = useTransactionStepHook();
@@ -23,7 +23,7 @@ export const TransactionStep = (): JSX.Element => {
       error={error}
       hint={t('eth2Swap.tooltips.pendingTx', { token: symbol })}
       isLoading={isLoading}
-      isPending={false}
+      isPending={isPending}
       symbol={symbol}
       title={t('eth2Swap.progressTitle')}
       txHash={txHash}

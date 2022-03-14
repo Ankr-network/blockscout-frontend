@@ -16,6 +16,10 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
+}));
+
 jest.mock('modules/auth/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
@@ -40,7 +44,9 @@ describe('modules/eth2Swap/screens/Progress/useTransactionStepHook', () => {
 
     (useQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
+      stopPolling: jest.fn(),
       data: {
+        isPending: true,
         amount: new BigNumber('8.4919'),
         destinationAddress: '0xe64FCf6327bB016955EFd36e75a852085270c374',
       },
@@ -58,6 +64,7 @@ describe('modules/eth2Swap/screens/Progress/useTransactionStepHook', () => {
     expect(result.current.symbol).toBe('aETHb');
     expect(result.current.amount).toStrictEqual(new BigNumber('8.4919'));
     expect(result.current.isLoading).toBe(false);
+    expect(result.current.isPending).toBe(false);
     expect(result.current.destinationAddress).toBe(
       '0xe64FCf6327bB016955EFd36e75a852085270c374',
     );
@@ -75,7 +82,7 @@ describe('modules/eth2Swap/screens/Progress/useTransactionStepHook', () => {
       result.current.handleAddTokenToWallet();
     });
 
-    expect(mockDispatch).toBeCalledTimes(2);
+    expect(mockDispatch).toBeCalledTimes(3);
   });
 
   test('should return error if there is provider error', async () => {
