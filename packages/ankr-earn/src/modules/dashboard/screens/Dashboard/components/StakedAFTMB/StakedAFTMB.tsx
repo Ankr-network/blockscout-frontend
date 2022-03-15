@@ -28,6 +28,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     isUnstakeLoading,
     unstakeLink,
     stakeLink,
+    tradeLink,
   } = useStakedAFTMBData();
 
   const handleLoadTxHistory = useCallback(() => {
@@ -66,6 +67,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
         stakeLink={stakeLink}
         token={Token.aFTMb}
         tokenAddress={fantomConfig.aftmbToken}
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />

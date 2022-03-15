@@ -52,6 +52,8 @@ export const featuresConfig = {
   isActiveAVAXUnstaking: true,
   isActiveBNBStaking: true,
   isActiveBNBUnstaking: true,
+  isActiveFTMStaking: true,
+  isActiveFTMUnstaking: true,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
