@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import Web3 from 'web3';
 import { Contract, EventData } from 'web3-eth-contract';
 
@@ -43,23 +44,19 @@ export const getAPY = async ({
     return ZERO;
   }
 
-  const [firstEvents, lastEvents] = await Promise.all([
-    tokenContract.getPastEvents(eventName, {
-      fromBlock: blockNumber - blocksDepth,
-      filter: {
-        newRatio,
-      },
-    }),
-    tokenContract.getPastEvents(eventName, {
-      fromBlock: fromBlockLast,
-      toBlock: toBlockLast,
-      filter: {
-        newRatio,
-      },
-    }),
-  ]);
+  const eventsBatch = Array(batchSize)
+    .fill(0)
+    .map((_, index) =>
+      tokenContract.getPastEvents(eventName, {
+        fromBlock: blockNumber - blocksDepth * (index + 1),
+        toBlock: index ? blockNumber - blocksDepth * index : undefined,
+        filter: {
+          newRatio,
+        },
+      }),
+    );
 
-  const rawEvents = firstEvents.concat(lastEvents);
+  const rawEvents = flatten(await Promise.all(eventsBatch));
 
   const [firstRawEvent, lastRawEvent]: [EventData | void, EventData | void] = [
     rawEvents[rawEvents.length - 1],
