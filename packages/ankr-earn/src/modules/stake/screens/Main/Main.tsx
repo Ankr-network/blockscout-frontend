@@ -125,12 +125,6 @@ export const Main = (): JSX.Element => {
           />
 
           <FeatureLegacyItem
-            iconSlot={<AvaxIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/AVAX"
-            title={t('features.avalanche')}
-          />
-
-          <FeatureLegacyItem
             iconSlot={<KsmIcon />}
             mainHref="https://stakefi.ankr.com/liquid-staking/KSM"
             title={t('features.ksm')}

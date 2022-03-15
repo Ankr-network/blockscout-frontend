@@ -43,11 +43,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     <Pending
       isLoading={history.isHistoryLoading}
       token={Token.aFTMb}
-      tooltip={
-        history.pendingUnstakeHistory.length ? (
-          <PendingTable data={history.pendingUnstakeHistory} />
-        ) : undefined
-      }
+      tooltip={<PendingTable data={history.pendingUnstakeHistory} />}
       value={history.pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />
