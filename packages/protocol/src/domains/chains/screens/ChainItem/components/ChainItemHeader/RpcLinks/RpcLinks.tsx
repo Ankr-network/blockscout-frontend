@@ -1,10 +1,10 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import classNames from 'classnames';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './RpcLinksStyles';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 
 interface RpcLinksProps {
   rpcLinks: string[];
@@ -16,14 +16,16 @@ export const RpcLinks = ({ rpcLinks, isNervos }: RpcLinksProps) => {
 
   return (
     <>
-      <Typography
-        variant="body2"
-        className={classNames(classes.text, classes.textPublic)}
+      <TooltipWrapper
+        className={classes.tooltip}
+        tooltipText={t('chain-item.header.public-endpoints-tip')}
       >
-        {t('chain-item.header.public-endpoints', {
-          plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',
-        })}
-      </Typography>
+        <Typography variant="body2" className={classes.text}>
+          {t('chain-item.header.public-endpoints', {
+            plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',
+          })}
+        </Typography>
+      </TooltipWrapper>
       <div className={classes.root}>
         {rpcLinks.map((link, index) => {
           return (

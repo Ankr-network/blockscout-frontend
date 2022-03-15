@@ -18,12 +18,16 @@ export interface ILayoutProps {
   theme?: Themes;
   isLayoutDefaultColor?: boolean;
   withNoReactSnap?: boolean;
+  disableGutters?: boolean;
+  isPremiumPlanPage?: boolean;
 }
 
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
   withNoReactSnap = true,
+  disableGutters = false,
+  isPremiumPlanPage,
 }: ILayoutProps) => {
   const classes = useStyles();
 
@@ -35,12 +39,18 @@ export const DefaultLayout = ({
       <ThemeProvider theme={currentTheme}>
         <SideBar className={classes.sidebar} />
         <div className={classes.body}>
-          <Header className={classes.header} />
+          <Header
+            isPremiumPlanPage={isPremiumPlanPage}
+            className={classes.header}
+          />
           <MobileHeader className={classes.mobileHeader} />
-          <Container className={classes.main}>
-            <div className={classes.mobileBreadcrumbs}>
+          <Container disableGutters={disableGutters} className={classes.main}>
+            <Container
+              disableGutters={!disableGutters}
+              className={classes.mobileBreadcrumbs}
+            >
               <Breadcrumbs />
-            </div>
+            </Container>
             {withNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>

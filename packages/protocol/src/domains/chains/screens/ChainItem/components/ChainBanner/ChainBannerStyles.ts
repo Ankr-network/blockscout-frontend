@@ -22,11 +22,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     height: 40,
+    width: 120,
     padding: theme.spacing(1, 2),
     fontSize: 16,
     color: theme.palette.common.black,
     '&:hover': {
       backgroundColor: theme.palette.common.white,
+    },
+    marginTop: theme.spacing(1.5),
+    [theme.breakpoints.down('md')]: {
+      height: 34,
+      marginTop: 0,
     },
   },
   unblockBtnIcon: {

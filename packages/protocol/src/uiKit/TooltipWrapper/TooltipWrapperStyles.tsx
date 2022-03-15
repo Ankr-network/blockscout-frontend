@@ -6,6 +6,7 @@ export const useTooltipWrapperStyles = makeStyles<Theme>(theme => ({
   tooltipItem: {
     display: 'inline-flex',
     alignItems: 'center',
+    cursor: 'pointer',
     '&:hover $informationIcon': {
       color: 'black',
     },

@@ -67,10 +67,6 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
       onRequest: withStore,
       asMutation: false,
       getData: data => data,
-      onSuccess: (response, action, store) => {
-        store.dispatchRequest(fetchDepositStatus());
-        return response;
-      },
     },
   }),
 );
