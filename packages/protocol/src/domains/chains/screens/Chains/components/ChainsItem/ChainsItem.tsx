@@ -17,6 +17,7 @@ export const ChainsItem = ({
   links,
   onButtonClick,
   chain,
+  totalRequests,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -31,6 +32,7 @@ export const ChainsItem = ({
         logoSrc={logoSrc}
         name={name}
         className={classes.mainInfo}
+        totalRequests={totalRequests}
         description={
           description && (
             <ChainRequestsLabel description={description} label={period} />

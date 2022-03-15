@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIsMDDown } from 'ui';
 import classNames from 'classnames';
@@ -18,13 +18,15 @@ const ChainBannerUnblockBtn = () => {
   const classes = useStyles();
 
   return (
-    <Box mt={1.5}>
-      <Link to={PlanRoutesConfig.plan.generatePath()}>
-        <Button size="small" variant="text" className={classes.unblockBtn}>
-          {t('chain-item.banner.more')}
-        </Button>
-      </Link>
-    </Box>
+    <Button
+      component={Link}
+      to={PlanRoutesConfig.plan.generatePath()}
+      size="small"
+      variant="text"
+      className={classes.unblockBtn}
+    >
+      {t('chain-item.banner.more')}
+    </Button>
   );
 };
 
@@ -120,6 +122,11 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
         </div>
         {isMobile && <div className={classes.rightOverlay} />}
       </div>
+      {isMobile && (
+        <div className={classNames(classes.block, classes.right)}>
+          <ChainBannerUnblockBtn />
+        </div>
+      )}
     </div>
   );
 };

@@ -5,7 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   text: {
     fontWeight: 600,
   },
-  textPublic: {
+  tooltip: {
     marginBottom: theme.spacing(2),
   },
   copyToClip: {
