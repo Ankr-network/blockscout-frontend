@@ -49,6 +49,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     expect(result.current.isShowed).toBe(true);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);
+    expect(result.current.tradeLink).toBe('/trade');
     expect(result.current.stakeLink).toBe('/stake');
   });
 
