@@ -5,6 +5,7 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     padding: theme.spacing(6, 3),
     backgroundColor: theme.palette.background.paper,
     borderRadius: 18,
+    position: 'relative',
 
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(6, 6),
@@ -157,5 +158,11 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       gap: theme.spacing(0, 3),
     },
+  },
+
+  finishBridge: {
+    position: 'absolute',
+    top: theme.spacing(2.5),
+    right: theme.spacing(2.5),
   },
 }));

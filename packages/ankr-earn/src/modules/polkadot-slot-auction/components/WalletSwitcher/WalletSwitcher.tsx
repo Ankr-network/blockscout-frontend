@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { Button } from 'uiKit/Button';
 
 import { IFetchPolkadotAccountsDataItem } from '../../actions/fetchPolkadotAccounts';
@@ -79,7 +79,7 @@ export const WalletSwitcher = ({
       >
         <Box mr={1}>{icon}</Box>
 
-        {getShortStr(currentWallet)}
+        {getShortTxHash(currentWallet)}
       </Button>
 
       {isAvailableWallets && (
@@ -108,7 +108,7 @@ export const WalletSwitcher = ({
                 </Box>
               )}
 
-              {getShortStr(wallet.address)}
+              {getShortTxHash(wallet.address)}
             </MenuItem>
           ))}
         </Menu>

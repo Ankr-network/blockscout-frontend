@@ -239,6 +239,7 @@ export class SlotAuctionSdk {
 
     const data = SlotAuctionSdk.createRemarkPayload(
       ethereumAddress,
+      loanId,
       scaledAmount,
     );
     const {
@@ -256,7 +257,7 @@ export class SlotAuctionSdk {
     const sleep = (ms: number) => {
       return new Promise(resolve => setTimeout(resolve, ms));
     };
-    await sleep(1000); // This is small hack to allow backend to process transaction in case of race conditions
+    await sleep(3000); // This is small hack to allow backend to process transaction in case of race conditions
 
     claims = await this.apiGateway.getClaims({
       network: currentNetwork,
@@ -351,21 +352,28 @@ export class SlotAuctionSdk {
 
   protected static createRemarkPayload(
     ethereumAddress: string,
+    loanId: number,
     amount: BigNumber,
   ): Uint8Array {
-    // eslint-disable-next-line no-buffer-constructor
-    const header = new Buffer(
+    const header = Buffer.from(
       'Stakefi Signed Message:\nCreateClaim\n',
       'ascii',
     );
     const address = SlotAuctionSdk.ethereumAddressToBytes(ethereumAddress);
-    // eslint-disable-next-line no-buffer-constructor
-    const lineBreak = new Buffer('\n', 'ascii');
+    const lineBreak = Buffer.from('\n', 'ascii');
     let amountHex = amount.toString(16);
     amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
+    let loanIdHex = loanId.toString(16);
+    loanIdHex = '0'.repeat(8 - loanIdHex.length) + loanIdHex;
     return Uint8Array.from(
-      // eslint-disable-next-line no-buffer-constructor
-      Buffer.concat([header, address, lineBreak, new Buffer(amountHex, 'hex')]),
+      Buffer.concat([
+        header,
+        address,
+        lineBreak,
+        Buffer.from(loanIdHex, 'hex'),
+        lineBreak,
+        Buffer.from(amountHex, 'hex'),
+      ]),
     );
   }
 

@@ -1,6 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+
 import { BinanceSDK, ITxEventsHistoryData } from '../api/BinanceSDK';
 
 export const fetchTxHistory = createSmartAction<
@@ -18,6 +20,7 @@ export const fetchTxHistory = createSmartAction<
     meta: {
       asMutation: false,
       getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
+      cache: ACTION_CACHE_SEC,
     },
   }),
 );

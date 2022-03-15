@@ -1,4 +1,6 @@
+import { Box } from '@material-ui/core';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 import { Button } from 'uiKit/Button';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
@@ -17,6 +19,7 @@ interface ITokenVariantProps {
   title: string;
   icon: TTokenVariantIcon;
   isActive?: boolean;
+  description?: ReactNode;
   onClick?: () => void;
 }
 
@@ -24,6 +27,7 @@ export const TokenVariant = ({
   icon,
   title,
   isActive,
+  description,
   onClick,
 }: ITokenVariantProps): JSX.Element => {
   const classes = useTokenVariantStyles();
@@ -32,13 +36,23 @@ export const TokenVariant = ({
 
   return (
     <Button
+      fullWidth
+      classes={{
+        label: classes.label,
+      }}
       className={classNames(classes.root, isActive && classes.active)}
       variant="outlined"
       onClick={onClick}
     >
-      <Icon className={classes.icon} size="sm" />
+      <Box alignItems="center" component="span" display="flex" mb={1}>
+        <Icon className={classes.icon} size="sm" />
 
-      {title}
+        <b>{title}</b>
+      </Box>
+
+      <Box component="span" display="block" lineHeight={1.4}>
+        {description}
+      </Box>
     </Button>
   );
 };

@@ -13,6 +13,10 @@ import {
   useStakedFTMTxHistory,
 } from '../../StakedTokens/hooks/useStakedFTMTxHistory';
 
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
+}));
+
 jest.mock('../../StakedTokens/hooks/useStakedAFTMBData', () => ({
   useStakedAFTMBData: jest.fn(),
 }));
@@ -67,5 +71,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
+  });
+
+  test('should open history dialog properly', async () => {
+    render(
+      <MemoryRouter>
+        <StakedAFTMB />
+      </MemoryRouter>,
+    );
+
+    const historyButton = await screen.findByTestId('history-button');
+    historyButton.click();
+
+    const historyDialog = await screen.findByTestId('history-dialog');
+    expect(historyDialog).toBeInTheDocument();
   });
 });

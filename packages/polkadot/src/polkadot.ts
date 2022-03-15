@@ -13,7 +13,7 @@ import { encodeAddress } from '@polkadot/keyring';
 import { GenericExtrinsic } from '@polkadot/types/extrinsic';
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { ISubmittableResult } from '@polkadot/types/types/extrinsic';
-import { hexToU8a, isHex } from '@polkadot/util';
+import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import { blake2AsHex, decodeAddress } from '@polkadot/util-crypto';
 import BigNumber from 'bignumber.js';
 import { TNetworkType } from './entity';
@@ -246,7 +246,7 @@ export class PolkadotProvider {
 
     console.log(`Creating system.remark from ${sender} with data ${data}`);
 
-    const remarkCall = api.tx.system.remark(data);
+    const remarkCall = api.tx.system.remark(u8aToHex(data));
     const signerOptions = {
       nonce: -1,
     };

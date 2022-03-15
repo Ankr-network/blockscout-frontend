@@ -2,6 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { TTxEventsHistoryGroupData } from 'modules/stake/api/getTxEventsHistoryGroup';
 
 import { FantomSDK } from '../api/sdk';
@@ -28,6 +29,7 @@ export const getHistory = createAction<RequestAction<IGetHistory, IGetHistory>>(
       asMutation: false,
       showNotificationOnError: true,
       getData: data => data,
+      cache: ACTION_CACHE_SEC,
     },
   }),
 );

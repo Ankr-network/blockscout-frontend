@@ -3,10 +3,12 @@ import { t } from 'modules/i18n/utils/intl';
 import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
+import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
@@ -47,6 +49,16 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
         text: t('unit.aavaxb'),
         iconSlot: <AAvaxBIcon />,
         value: AvailableTokens.aAVAXb,
+      },
+      {
+        text: t('unit.abnbb'),
+        iconSlot: <ABNBBIcon />,
+        value: AvailableTokens.aBNBb,
+      },
+      {
+        text: t('unit.bnb'),
+        iconSlot: <BNBIcon />,
+        value: AvailableTokens.BNB,
       },
     ],
     [],

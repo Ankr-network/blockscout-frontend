@@ -5,7 +5,8 @@ import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
 
-import { TOKENS } from './const';
+import { TOKENS } from '../../const';
+
 import { useEth2SwapSuccessHook } from './useEth2SwapSuccessHook';
 import { useSuccessEth2SwapStyles } from './useSuccessEth2SwapStyles';
 

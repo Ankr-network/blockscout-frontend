@@ -2,8 +2,9 @@ import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -51,7 +52,7 @@ export const UnstakeFantom = (): JSX.Element => {
     onChange,
   } = useUnstakeDialog(onSuccessOpen);
 
-  useEffect(() => {
+  useProviderEffect(() => {
     dispatch(getCommonData());
 
     return function reset() {

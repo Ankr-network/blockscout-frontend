@@ -21,6 +21,8 @@ import {
   useValidateAmount,
 } from 'modules/common/hooks/useAmountValidation';
 
+import { getWithdrawalQuery } from '../../../../utils/getWithdrawalQuery';
+
 interface ISwapNetworkItemState {
   from: SupportedChainIDS;
   to: SupportedChainIDS;
@@ -115,14 +117,18 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   const onSuccessDeposit = useCallback(
     (transactionHash: string) => {
-      const url = new URLSearchParams(document.location.search);
-      url.set('tx', transactionHash);
-      url.set('amount', `${inputValue}`);
-      url.set('token', tokenValue);
-      url.set('chainIdFrom', `${swapNetworkItem.from}`);
-      url.set('chainIdTo', `${swapNetworkItem.to}`);
-
-      history.push({ search: `?${url.toString()}` });
+      history.push({
+        search: `?${getWithdrawalQuery(
+          {
+            tx: transactionHash,
+            amount: `${inputValue}`,
+            token: tokenValue,
+            chainIdFrom: swapNetworkItem.from,
+            chainIdTo: swapNetworkItem.to,
+          },
+          document.location.search,
+        )}`,
+      });
     },
     [history, inputValue, swapNetworkItem, tokenValue],
   );

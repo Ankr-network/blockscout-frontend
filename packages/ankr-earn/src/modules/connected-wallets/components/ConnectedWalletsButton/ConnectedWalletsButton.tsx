@@ -1,8 +1,10 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { getExtraShortStr } from 'modules/common/utils/getExtraShortStr';
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import {
+  getShortTxHash,
+  getExtraShortStr,
+} from 'modules/common/utils/getShortStr';
 import { IAddresses } from 'modules/connected-wallets/types';
 import { t } from 'modules/i18n/utils/intl';
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
@@ -38,7 +40,7 @@ export const ConnectedWalletsButton = ({
         <WalletIcon icon={networks[0].addresses[0].tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getShortStr(networks[0].addresses[0].address)}
+          {getShortTxHash(networks[0].addresses[0].address)}
         </span>
       </>
     );

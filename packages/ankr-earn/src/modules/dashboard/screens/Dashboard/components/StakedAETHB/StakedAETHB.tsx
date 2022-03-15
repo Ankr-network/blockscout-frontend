@@ -26,6 +26,7 @@ export const StakedAETHB = (): JSX.Element => {
 
       <HistoryDialog
         history={{ token: Token.aETHb, staked: [], unstaked: [] }}
+        isHistoryLoading={false}
         open={isOpened}
         onClose={onClose}
       />

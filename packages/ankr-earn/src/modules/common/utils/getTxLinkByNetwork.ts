@@ -1,6 +1,12 @@
 import { EXPLORER_URLS, SupportedChainIDS } from '../const';
 
-export function getTxLinkByNetwork(txHash: string, network: number): string {
+export type TLinkType = 'tx' | 'address' | 'block';
+
+export function getTxLinkByNetwork(
+  txHash: string,
+  network: number,
+  type: TLinkType = 'tx',
+): string {
   const url = EXPLORER_URLS[network as SupportedChainIDS] ?? EXPLORER_URLS[1];
-  return `${url}/tx/${txHash}`;
+  return `${url}/${type}/${txHash}`;
 }

@@ -15,6 +15,10 @@ import {
   useStakedMaticTxHistory,
 } from '../../StakedTokens/hooks/useStakedMaticTxHistory';
 
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
+}));
+
 jest.mock('../../StakedTokens/hooks/useStakedMaticData', () => ({
   useStakedMaticData: jest.fn(),
 }));
@@ -77,5 +81,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
+  });
+
+  test('should open history dialog properly', async () => {
+    render(
+      <MemoryRouter>
+        <StakedMatic />
+      </MemoryRouter>,
+    );
+
+    const historyButton = await screen.findByTestId('history-button');
+    historyButton.click();
+
+    const historyDialog = await screen.findByTestId('history-dialog');
+    expect(historyDialog).toBeInTheDocument();
   });
 });

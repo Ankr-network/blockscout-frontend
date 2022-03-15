@@ -1,4 +1,5 @@
-import { Box, ButtonBase, Divider, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -8,73 +9,43 @@ import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptio
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
-import { Button } from 'uiKit/Button';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
-
-import { useFormStatsStyles } from './useFormStatsStyles';
 
 interface IFormStatsProps {
   amount: BigNumber;
   tokenOut: string;
-  tokenTooltip: string;
   tokenVariantsSlot?: ReactNode;
-  onQuestionClick?: () => void;
+  isLoading?: boolean;
 }
 
 export const FormStats = ({
   amount,
   tokenOut,
-  tokenTooltip,
   tokenVariantsSlot,
-  onQuestionClick,
+  isLoading,
 }: IFormStatsProps): JSX.Element => {
-  const classes = useFormStatsStyles();
   return (
     <>
-      <Box mb={3} mt={5}>
-        <Grid container alignItems="center" spacing={3}>
-          <Grid item sm xs={12}>
-            <StakeDescriptionName>
-              {t('stake-ethereum.token-select-label')}
-            </StakeDescriptionName>
-          </Grid>
-
-          <Grid item sm="auto" xs={12}>
-            {tokenVariantsSlot}
-          </Grid>
-
-          <Grid item xs={12}>
-            <Box mt={-1} textAlign={{ xs: 'left', sm: 'right' }}>
-              <Button
-                className={classes.link}
-                variant="text"
-                onClick={onQuestionClick}
-              >
-                {t('stake-ethereum.difference')}
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+      <Box mb={1.5} mt={5}>
+        <StakeDescriptionName>
+          {t('stake-ethereum.token-select-label')}
+        </StakeDescriptionName>
       </Box>
 
-      <Divider />
+      <Box mb={5}>{tokenVariantsSlot}</Box>
 
       <StakeDescriptionContainer>
         <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount symbol={tokenOut}>
-            {amount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            {isLoading ? (
+              <Skeleton width={30} />
+            ) : (
+              amount.decimalPlaces(DECIMAL_PLACES).toFormat()
+            )}
           </StakeDescriptionAmount>
 
-          <small>{tokenOut}</small>
-
-          <Tooltip arrow title={tokenTooltip}>
-            <ButtonBase className={classes.questionBtn}>
-              <QuestionIcon size="xs" />
-            </ButtonBase>
-          </Tooltip>
+          {tokenOut}
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     </>

@@ -1,23 +1,15 @@
 import loadable from '@loadable/component';
 import React from 'react';
-import { generatePath, Route } from 'react-router';
+import { Route } from 'react-router';
+import { Switch } from 'react-router-dom';
 
-import { EARN_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
-const ROOT = `${EARN_PATH}bridge/`;
+import { PageNotFound } from '../common/components/PageNotFound';
 
-export const RoutesConfig = createRouteConfig(
-  {
-    main: {
-      path: ROOT,
-      generatePath: () => generatePath(ROOT),
-    },
-  },
-  ROOT,
-);
+import { RoutesConfig } from './RoutesConfig';
+import { Restore } from './screens/Restore';
 
 const BridgeMainPage = loadable(
   async () =>
@@ -29,10 +21,26 @@ const BridgeMainPage = loadable(
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={RoutesConfig.main.path}>
-      <DefaultLayout>
-        <BridgeMainPage />
-      </DefaultLayout>
+    <Route path={RoutesConfig.root}>
+      <Switch>
+        <Route exact path={RoutesConfig.main.path}>
+          <DefaultLayout>
+            <BridgeMainPage />
+          </DefaultLayout>
+        </Route>
+
+        <Route path={RoutesConfig.restore.path}>
+          <DefaultLayout>
+            <Restore />
+          </DefaultLayout>
+        </Route>
+
+        <Route>
+          <DefaultLayout>
+            <PageNotFound />
+          </DefaultLayout>
+        </Route>
+      </Switch>
     </Route>
   );
 }

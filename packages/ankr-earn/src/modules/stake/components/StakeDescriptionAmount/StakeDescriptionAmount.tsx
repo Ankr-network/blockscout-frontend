@@ -1,11 +1,12 @@
 import { Typography } from '@material-ui/core';
+import { ReactNode } from 'react';
 
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useStakeDescriptionValueStyles } from './useStakeDescriptionAmountStyles';
 
 export interface IStakeDescriptionValueProps {
-  children: string;
+  children: ReactNode;
   symbol: string;
 }
 

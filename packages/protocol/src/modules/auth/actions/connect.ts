@@ -6,7 +6,7 @@ import { MultiService } from '../../api/MultiService';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
 import { withStore } from '../utils/withStore';
 import { fetchEncryptionKey } from './fetchEncryptionKey';
-import { throwIfError } from '../../api/utils/throwIfError';
+import { throwIfError } from 'common';
 import { hasMetamask } from '../utils/hasMetamask';
 import { selectCredentials, setCredentials } from 'modules/user/userSlice';
 import { tryToLogin } from '../utils/tryToLogin';

@@ -15,6 +15,10 @@ import {
   useStakedBNBTxHistory,
 } from '../../StakedTokens/hooks/useStakedBNBTxHistory';
 
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
+}));
+
 jest.mock('../../StakedTokens/hooks/useStakedBNBData', () => ({
   useStakedBNBData: jest.fn(),
 }));
@@ -75,5 +79,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
+  });
+
+  test('should open history dialog properly', async () => {
+    render(
+      <MemoryRouter>
+        <StakedBNB />
+      </MemoryRouter>,
+    );
+
+    const historyButton = await screen.findByTestId('history-button');
+    historyButton.click();
+
+    const historyDialog = await screen.findByTestId('history-dialog');
+    expect(historyDialog).toBeInTheDocument();
   });
 });

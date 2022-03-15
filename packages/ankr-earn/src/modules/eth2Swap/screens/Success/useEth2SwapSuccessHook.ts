@@ -9,7 +9,7 @@ import { SupportedChainIDS } from 'modules/common/const';
 import { addEth2SwapTokenToWallet } from 'modules/eth2Swap/actions/wallet';
 import { ISuccessPathParams, TSwapOption } from 'modules/eth2Swap/types';
 
-import { TOKENS } from './const';
+import { TOKENS } from '../../const';
 
 export interface IEth2SwapSuccessHookData {
   txHash: string;

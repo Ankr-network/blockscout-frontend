@@ -205,7 +205,7 @@ export const Main = (): JSX.Element => {
             isLoading={isSwapLoading}
             onClick={handleSubmit}
           >
-            {t('eth2Swap.buttons.swap')}
+            {t('eth2Swap.buttons.switch')}
           </Button>
         </Box>
 

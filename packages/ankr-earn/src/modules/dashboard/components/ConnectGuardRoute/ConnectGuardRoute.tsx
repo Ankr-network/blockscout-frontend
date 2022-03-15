@@ -10,7 +10,6 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
-  featuresConfig,
 } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -34,7 +33,7 @@ export const ConnectGuardRoute = ({
     AvailableWriteProviders.ethCompatible,
   );
 
-  if (isConnected && featuresConfig.multiNetwork) {
+  if (isConnected) {
     return (
       <GuardRoute
         exact
@@ -45,10 +44,6 @@ export const ConnectGuardRoute = ({
         <Route {...routeProps} />
       </GuardRoute>
     );
-  }
-
-  if (isConnected) {
-    return <Route {...routeProps} />;
   }
 
   return (
