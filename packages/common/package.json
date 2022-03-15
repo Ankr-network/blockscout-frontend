@@ -1,7 +1,7 @@
 {
-  "name": "multirpc-sdk",
-  "version": "0.0.152",
-  "description": "SDK for Multi RPC",
+  "name": "common",
+  "version": "0.0.1",
+  "description": "Common module",
   "private": true,
   "keywords": [
     "ankr",
@@ -11,11 +11,7 @@
   "scripts": {
     "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
     "prebuild": "rimraf dist",
-    "build": "tsc && cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
     "precommit": "lint-staged; npm run test",
-    "preversion": "npm run lint",
-    "prepublish": "tsc && cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
-    "publish": "yarn publish",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch"
   },
@@ -26,27 +22,24 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
     "@types/jest": "^27.0.2",
-    "@types/node": "^14.14.41",
     "cpy-cli": "^3.1.1",
     "jest": "^27.2.5",
     "prettier": "^2.2.1",
-    "lerna": "^3.22.1",
     "ts-jest": "^26.4.2",
     "ts-node": "^7.0.1",
-    "eslint-config-prettier": "^7.2.0"
+    "eslint-config-prettier": "^7.2.0",
+    "lint-staged": "^10.5.4",
+    "typescript": "^4.1.2"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "@ankr.com/stakefi-web3": "^0.0.152",
-    "@types/node": "^14.14.41",
-    "bignumber.js": "^9.0.1",
-    "ethereumjs-tx": "^2.1.2",
-    "web3": "^1.3.5",
-    "web3-eth-contract": "^1.3.5",
-    "typescript": "^4.1.2",
-    "uuid": "8.3.2",
-    "@types/uuid": "8.3.4"
+    "react": "^17.0.2",
+    "react-router": "^5.2.1",
+    "react-intl-universal": "^2.4.8"
   },
   "directories": {
     "test": "test"

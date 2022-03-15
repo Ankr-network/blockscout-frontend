@@ -16,7 +16,8 @@
     "min": "Should be greater than {value}",
     "max": "Should be less than {value}",
     "number-only": "Must be a number",
-    "required": "This field is required"
+    "required": "This field is required",
+    "invalid-transaction": "This transaction hash is invalid"
   },
   "meta": {
     "title": "Ankr Earn",
@@ -573,6 +574,7 @@
   },
   "bridge": {
     "main": {
+      "finish-bridge": "Finish Bridge",
       "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
       "btn-max": "Max",
@@ -621,6 +623,21 @@
         "receive": "Receive",
         "add-to-metamask": "Add {token} to Metamask",
         "switch": "Switch to {chainName}"
+      }
+    },
+    "restore": {
+      "title": "Finish Bridge",
+      "label": {
+        "transaction-id": "Transaction ID"
+      },
+      "note": "To complete the bridging process, please enter the transaction ID of the deposit transaction on the initial network",
+      "connect": "Connect wallet",
+      "submit": "Proceed bridge"
+    },
+    "fetch-transaction": {
+      "error": {
+        "transaction-not-found": "Transaction not found",
+        "wrong-transaction": "This is not a deposit transaction. Please enter deposit transaction hash"
       }
     }
   }

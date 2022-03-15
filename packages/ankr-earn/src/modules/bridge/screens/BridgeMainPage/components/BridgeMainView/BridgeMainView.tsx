@@ -1,6 +1,6 @@
 import { Box, ButtonBase, TextField, Typography } from '@material-ui/core';
 import { FormApi } from 'final-form';
-import { ReactText, useCallback } from 'react';
+import React, { ReactText, useCallback } from 'react';
 import {
   Field,
   FieldRenderProps,
@@ -13,6 +13,7 @@ import { useIsMDUp } from 'ui';
 import { BridgeBlockchainPanel } from 'modules/bridge/components/BridgeBlockchainPanel';
 import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
+import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { featuresConfig } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
@@ -22,6 +23,7 @@ import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { SwapIcon } from 'uiKit/Icons/SwapIcon';
+import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
 import { NumericStepper } from 'uiKit/Stepper';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -103,6 +105,14 @@ export const BridgeMainView = (): JSX.Element => {
       <form className={classes.root} onSubmit={handleSubmit}>
         <Typography classes={{ root: classes.title }} variant="h3">
           {t('bridge.main.title')}
+
+          <NavLink
+            className={classes.finishBridge}
+            href={RoutesConfig.restore.generatePath()}
+            variant="outlined"
+          >
+            {t('bridge.main.finish-bridge')}
+          </NavLink>
         </Typography>
 
         {!isViewportMDUp && (

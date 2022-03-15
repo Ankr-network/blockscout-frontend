@@ -6,7 +6,7 @@ import { MultiService } from '../../api/MultiService';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
 import { withStore } from '../utils/withStore';
 import { fetchEncryptionKey } from './fetchEncryptionKey';
-import { throwIfError } from '../../api/utils/throwIfError';
+import { throwIfError } from 'common';
 // eslint-disable-next-line import/no-cycle
 import { fetchDepositStatus } from './fetchDepositStatus';
 import { hasMetamask } from '../utils/hasMetamask';

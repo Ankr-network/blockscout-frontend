@@ -4,14 +4,15 @@ import { FormApi } from 'final-form';
 import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
 import { Form } from 'react-final-form';
 
+import { Notice } from 'ui';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
-import { CloseIcon } from 'uiKit/Icons/CloseIcon';
-import { NavLink } from 'uiKit/NavLink';
+import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
@@ -88,8 +89,6 @@ export const UnstakeDialog = ({
     }
   }, [balance]);
 
-  const CloseBtn = closeHref ? NavLink : Button;
-
   return (
     <Paper className={classes.root}>
       <Container className={classes.container}>
@@ -155,11 +154,7 @@ export const UnstakeDialog = ({
                 </Typography>
               )}
 
-              {endText && (
-                <Typography className={classes.info} variant="body2">
-                  {endText}
-                </Typography>
-              )}
+              {endText && <Notice>{endText}</Notice>}
             </Grid>
 
             <Grid item xs>
@@ -179,14 +174,7 @@ export const UnstakeDialog = ({
         </Container>
       </div>
 
-      <CloseBtn
-        className={classes.closeBtn}
-        href={closeHref ?? ''}
-        variant="outlined"
-        onClick={onClose}
-      >
-        <CloseIcon htmlColor="inherit" size="xxs" />
-      </CloseBtn>
+      <CloseButton href={closeHref ?? ''} onClose={onClose} />
     </Paper>
   );
 };

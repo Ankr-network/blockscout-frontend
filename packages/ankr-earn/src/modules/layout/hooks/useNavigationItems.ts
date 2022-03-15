@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
-import { RoutesConfig as BridgeRoutes } from 'modules/bridge/Routes';
+import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
   DOCS_LINK,
