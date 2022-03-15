@@ -34,6 +34,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     stakeLink: '/stake',
     isStakeLoading: false,
     isUnstakeLoading: false,
+    tradeLink: '/trade',
   };
 
   const defaultStakedFTMTxHistory: IUseStakedFTMTxHistory = {
