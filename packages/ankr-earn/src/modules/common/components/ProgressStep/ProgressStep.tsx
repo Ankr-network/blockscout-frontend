@@ -30,6 +30,10 @@ export interface IProgressStepProps {
   onAddTokenToWallet: () => void;
 }
 
+export enum TxErrorCodes {
+  TX_FAILED = 'tx-fail',
+}
+
 export const ProgressStep = ({
   title,
   hint,
@@ -52,6 +56,11 @@ export const ProgressStep = ({
     handleCopyDestinationAddress,
   } = useProgressStepHook();
 
+  const pageTitle = isPending
+    ? t('progress.pendingTitle', { title })
+    : t('progress.successTitle', { title });
+  const isError = Boolean(error);
+
   if (isLoading) {
     return (
       <Box
@@ -68,40 +77,24 @@ export const ProgressStep = ({
     );
   }
 
-  if (error) {
-    return (
-      <Box
-        component="section"
-        data-testid="progress-step-loading"
-        py={{ xs: 5, md: 10 }}
-      >
-        <Container>
-          <Paper className={classes.root} component="div" variant="elevation">
-            <Typography className={classes.title} variant="h2">
-              {t('progress.errorTitle')}
-            </Typography>
-
-            <Typography className={classes.info}>
-              {t('progress.errorInfo')}
-            </Typography>
-          </Paper>
-        </Container>
-      </Box>
-    );
-  }
-
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Paper className={classes.root} component="div" variant="elevation">
           <Typography className={classes.title} variant="h2">
-            {isPending
-              ? t('progress.pendingTitle', { title })
-              : t('progress.successTitle', { title })}
+            {isError ? t('progress.errorTitle') : pageTitle}
           </Typography>
 
           {isPending && (
             <Typography className={classes.info}>{hint}</Typography>
+          )}
+
+          {isError && (
+            <Typography className={classes.info}>
+              {error?.message === TxErrorCodes.TX_FAILED
+                ? t('progress.errorTxFail')
+                : t('progress.errorGeneralInfo')}
+            </Typography>
           )}
 
           <div className={classes.table}>

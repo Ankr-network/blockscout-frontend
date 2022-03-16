@@ -5,6 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { getTxData, getTxReceipt } from 'modules/eth2Swap/actions/getTxData';
 import { addEth2SwapTokenToWallet } from 'modules/eth2Swap/actions/wallet';
 import { TSwapOption } from 'modules/eth2Swap/types';
@@ -35,6 +36,9 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
+  const txFailError =
+    receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
+
   useProviderEffect(() => {
     dispatchRequest(getTxData({ txHash }));
     dispatchRequest(getTxReceipt({ txHash }));
@@ -62,7 +66,7 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
     txHash,
     symbol: TOKENS[swapOption],
     isLoading,
-    error,
+    error: error || txFailError,
     isPending: !receipt,
     amount: data?.amount,
     destinationAddress: data?.destinationAddress,

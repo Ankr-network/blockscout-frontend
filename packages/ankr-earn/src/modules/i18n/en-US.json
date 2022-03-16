@@ -470,7 +470,8 @@
   },
   "progress": {
     "errorTitle": "An error has occurred",
-    "errorInfo": "Something went wrong. Try to reload browser and check transaction hash in URL.",
+    "errorTxFail": "Transaction failed.",
+    "errorGeneralInfo": "Something went wrong. Try to reload browser and check transaction hash in URL.",
     "pendingTitle": "{title} is pending...",
     "successTitle": "{title} successful!",
     "tx": {

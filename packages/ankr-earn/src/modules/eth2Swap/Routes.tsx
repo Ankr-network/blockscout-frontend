@@ -5,11 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { AvailableWriteProviders } from 'provider';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import {
-  EARN_PATH,
-  ETH_NETWORK_BY_ENV,
-  featuresConfig,
-} from 'modules/common/const';
+import { EARN_PATH, ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
@@ -36,11 +32,6 @@ const Main = loadable(
   { fallback: <QueryLoadingAbsolute /> },
 );
 
-const Success = loadable(
-  async () => import('./screens/Success').then(module => module.Success),
-  { fallback: <QueryLoadingAbsolute /> },
-);
-
 const TransactionStep = loadable(
   async () =>
     import('./screens/TransactionStep').then(module => module.TransactionStep),
@@ -64,31 +55,16 @@ export function getRoutes(): JSX.Element {
           </DefaultLayout>
         </GuardRoute>
 
-        {featuresConfig.progressStep && (
-          <GuardRoute
-            exact
-            availableNetworks={AVAILABLE_NETWORKS}
-            path={RoutesConfig.success.path}
-            providerId={AvailableWriteProviders.ethCompatible}
-          >
-            <DefaultLayout>
-              <TransactionStep />
-            </DefaultLayout>
-          </GuardRoute>
-        )}
-
-        {!featuresConfig.progressStep && (
-          <GuardRoute
-            exact
-            availableNetworks={AVAILABLE_NETWORKS}
-            path={RoutesConfig.success.path}
-            providerId={AvailableWriteProviders.ethCompatible}
-          >
-            <DefaultLayout>
-              <Success />
-            </DefaultLayout>
-          </GuardRoute>
-        )}
+        <GuardRoute
+          exact
+          availableNetworks={AVAILABLE_NETWORKS}
+          path={RoutesConfig.success.path}
+          providerId={AvailableWriteProviders.ethCompatible}
+        >
+          <DefaultLayout>
+            <TransactionStep />
+          </DefaultLayout>
+        </GuardRoute>
       </Switch>
     </Route>
   );

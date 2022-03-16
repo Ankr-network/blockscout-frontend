@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 
 import { useTransactionStepHook } from '../useTransactionStepHook';
 
@@ -94,5 +95,16 @@ describe('modules/eth2Swap/screens/Progress/useTransactionStepHook', () => {
     const { result } = renderHook(() => useTransactionStepHook());
 
     expect(result.current.error).toBeDefined();
+  });
+
+  test('should return error if there is transaction fail error', async () => {
+    (useQuery as jest.Mock).mockImplementation(() => ({
+      loading: false,
+      data: { status: false },
+    }));
+
+    const { result } = renderHook(() => useTransactionStepHook());
+
+    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
   });
 });
