@@ -2,7 +2,6 @@ import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
-import { ZERO } from 'modules/common/const';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -14,7 +13,6 @@ import {
   useFetchStats,
   IUseFetchStatsData,
 } from '../../../hooks/useFetchStats';
-import { getAmountData } from '../../../utils/getAmountData';
 
 interface IUseStakeFormArgs {
   openSuccessModal: () => void;
@@ -49,16 +47,8 @@ export const useStakeForm = ({
   const [amount, setAmount] = useState(0);
 
   const handleFormChange = ({ amount: value }: IStakeFormPayload): void => {
-    let rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
-
-    rawAmount = rawAmount.isNaN() ? ZERO : rawAmount;
-
-    const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
-    const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
-      rawAmount,
-      relayerFee,
-    );
-    const resultVal = isLessThanOrEqualToZero ? 0 : resultAmount.toNumber();
+    const rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
+    const resultVal = rawAmount.isNaN() ? 0 : rawAmount.toNumber();
 
     setAmount(resultVal);
   };
@@ -69,6 +59,8 @@ export const useStakeForm = ({
     dispatchRequest(stake(resultAmount)).then(({ error }) => {
       if (!error) {
         openSuccessModal();
+
+        setAmount(0);
       }
     });
   };

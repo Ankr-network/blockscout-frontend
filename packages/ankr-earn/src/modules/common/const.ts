@@ -47,10 +47,9 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveLedgerNanoX: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveAVAXStaking: currentEnv !== Env.Production,
-  isActiveAVAXUnstaking: currentEnv !== Env.Production,
+  isActiveAVAXStaking: true,
+  isActiveAVAXUnstaking: true,
   isActiveBNBStaking: true,
   isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
@@ -61,12 +60,12 @@ export const featuresConfig = {
   stakeFantom: true,
   // todo: STAKAN-935 remove this flag when the feature will be done
   unstakeFantom: true,
-  multiNetwork: currentEnv !== Env.Production,
-  // todo: STAKAN-917 remove after complition
+  // todo: STAKAN-917 remove after completion
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   stakeETH: currentEnv === Env.Develop,
+  progressStep: currentEnv === Env.Develop,
 };
 
 export enum SupportedChainIDS {

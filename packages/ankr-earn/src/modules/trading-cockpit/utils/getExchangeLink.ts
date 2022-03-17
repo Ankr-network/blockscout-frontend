@@ -2,6 +2,9 @@ import { AvailableTokens } from '../types';
 
 function getMainTokenName(token?: AvailableTokens): string {
   switch (token) {
+    case AvailableTokens.aBNBb:
+    case AvailableTokens.BNB:
+      return 'BSC';
     case AvailableTokens.AVAX:
     case AvailableTokens.aAVAXb:
       return 'AVAX';

@@ -1,18 +1,10 @@
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 
-const DIFFERENCE_QUESTION_ID = 'diff-question';
-
-interface IUseFaq {
-  items: IFaqItem[];
-  onQuestionClick: () => void;
-}
-
-export const useFaq = (): IUseFaq => {
-  const ref = useRef<HTMLDivElement>();
+export const useFaq = (): IFaqItem[] => {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange = useCallback(
@@ -23,19 +15,11 @@ export const useFaq = (): IUseFaq => {
     [],
   );
 
-  const onQuestionClick = useCallback(() => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-    setExpanded(DIFFERENCE_QUESTION_ID);
-  }, []);
-
   const items = useLocaleMemo<IFaqItem[]>(
     () => [
       {
         question: t('stake-ethereum.faq.question-1'),
         answer: tHTML('stake-ethereum.faq.answer-1'),
-        ref,
-        expanded: expanded === DIFFERENCE_QUESTION_ID,
-        onChange: handleChange(DIFFERENCE_QUESTION_ID),
       },
       {
         question: t('stake-fantom.faq.question-8'),
@@ -45,8 +29,5 @@ export const useFaq = (): IUseFaq => {
     [expanded, handleChange],
   );
 
-  return {
-    items,
-    onQuestionClick,
-  };
+  return items;
 };

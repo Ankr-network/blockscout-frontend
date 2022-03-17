@@ -138,7 +138,7 @@ export const UnstakeBinance = (): JSX.Element => {
           (!isSuccessOpened ? (
             <UnstakeDialog
               balance={fetchStatsData.aBNBbBalance}
-              endText={t('stake-bnb-dashboard.unstake-info', {
+              endText={t('stake-bnb.unstake.info', {
                 value: redeemValue,
                 period: redeemPeriod,
               })}
@@ -154,7 +154,7 @@ export const UnstakeBinance = (): JSX.Element => {
             />
           ) : (
             <UnstakeSuccess
-              period={t('stake-bnb-dashboard.unstake-period', {
+              period={t('stake-bnb.unstake.period', {
                 value: redeemValue,
                 period: redeemPeriod,
               })}

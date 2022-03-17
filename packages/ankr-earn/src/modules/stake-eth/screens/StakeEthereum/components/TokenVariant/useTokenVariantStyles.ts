@@ -2,8 +2,11 @@ import { makeStyles } from '@material-ui/core';
 
 export const useTokenVariantStyles = makeStyles(theme => ({
   root: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     fontWeight: 'normal',
+    height: '100%',
+    padding: theme.spacing(3, 2.5),
+    alignItems: 'flex-start',
   },
 
   active: {
@@ -15,6 +18,13 @@ export const useTokenVariantStyles = makeStyles(theme => ({
       transform: 'none',
     },
   },
+
+  label: {
+    display: 'block',
+    whiteSpace: 'normal',
+    textAlign: 'left',
+  },
+
   icon: {
     marginRight: theme.spacing(1),
   },

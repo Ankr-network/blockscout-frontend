@@ -5,6 +5,7 @@ import {
   useMutation,
   useQuery,
 } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
@@ -14,10 +15,7 @@ import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
-import {
-  notarize,
-  notarize as notarizeAction,
-} from 'modules/bridge/actions/notarize';
+import { notarize } from 'modules/bridge/actions/notarize';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { Notification } from 'modules/bridge/components/Notification';
@@ -37,7 +35,7 @@ import { useTxViewStyles } from './useTxViewStyles';
 
 export interface ITxViewProps {
   token: AvailableBridgeTokens;
-  amount: number;
+  amount: BigNumber;
   tx: string;
   chainIdFrom: number;
   chainIdTo: number;
@@ -57,7 +55,7 @@ export const TxView = ({
   const dispatch = useAppDispatch();
 
   const { loading: isNotarizeLoading, data: notarizeData } = useQuery({
-    type: notarizeAction,
+    type: notarize,
   });
   const [depositTx, setDepositTx] = useState('');
   const dispatchRequest = useDispatchRequest();
@@ -139,7 +137,7 @@ export const TxView = ({
       return;
     }
 
-    dispatchRequest(notarizeAction(tx, chainIdFrom)).then(({ error }) => {
+    dispatchRequest(notarize(tx, chainIdFrom)).then(({ error }) => {
       if (!error) {
         setStep(EStep.Receive);
       }
@@ -188,7 +186,12 @@ export const TxView = ({
               {t('bridge.tx.grid.amount')}
             </Box>
 
-            <Box className={classes.gridCellValue}>{`${amount} ${token}`}</Box>
+            <Box className={classes.gridCellValue}>
+              {t('unit.token-value', {
+                value: amount.toFormat(),
+                token,
+              })}
+            </Box>
           </Box>
 
           {destinationAddress && (

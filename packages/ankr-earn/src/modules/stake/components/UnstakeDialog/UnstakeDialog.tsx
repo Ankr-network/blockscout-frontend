@@ -1,8 +1,10 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback } from 'react';
+import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
 import { Form } from 'react-final-form';
+
+import { Notice } from 'ui';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
@@ -10,8 +12,7 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
-import { CloseIcon } from 'uiKit/Icons/CloseIcon';
-import { NavLink } from 'uiKit/NavLink';
+import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
@@ -63,6 +64,8 @@ export const UnstakeDialog = ({
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
   const maxAmount = balance || zeroBalance;
+  const formRef =
+    useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
   const setMaxAmount = useCallback(
     (form: FormApi<IUnstakeFormValues>, max: string) => () =>
@@ -79,7 +82,12 @@ export const UnstakeDialog = ({
     [extraValidation],
   );
 
-  const CloseBtn = closeHref ? NavLink : Button;
+  useEffect(() => {
+    const shouldResetTheForm = !!balance;
+    if (shouldResetTheForm) {
+      formRef.current?.reset();
+    }
+  }, [balance]);
 
   return (
     <Paper className={classes.root}>
@@ -89,39 +97,42 @@ export const UnstakeDialog = ({
         </Typography>
 
         <Form
-          render={({ handleSubmit, form, values, invalid }) => (
-            <form
-              autoComplete="off"
-              id={UNSTAKE_FORM_ID}
-              onSubmit={handleSubmit}
-            >
-              <Box mb={4}>
-                <AmountInput
-                  balance={balance}
-                  inputClassName={classes.input}
-                  isBalanceLoading={isBalanceLoading}
-                  label={t('unstake-dialog.amount')}
-                  name={FieldsNames.amount}
-                  tokenName={token}
-                  onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
-                />
-              </Box>
+          render={({ handleSubmit, form, values, invalid }) => {
+            formRef.current = form;
+            return (
+              <form
+                autoComplete="off"
+                id={UNSTAKE_FORM_ID}
+                onSubmit={handleSubmit}
+              >
+                <Box mb={4}>
+                  <AmountInput
+                    balance={balance}
+                    inputClassName={classes.input}
+                    isBalanceLoading={isBalanceLoading}
+                    label={t('unstake-dialog.amount')}
+                    name={FieldsNames.amount}
+                    tokenName={token}
+                    onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
+                  />
+                </Box>
 
-              {renderFormFooter &&
-                renderFormFooter(
-                  new BigNumber(values.amount ?? 0),
-                  new BigNumber(maxAmount),
+                {renderFormFooter &&
+                  renderFormFooter(
+                    new BigNumber(values.amount ?? 0),
+                    new BigNumber(maxAmount),
+                  )}
+
+                {typeof onChange === 'function' && (
+                  <OnChange name={FieldsNames.amount}>
+                    {() => {
+                      onChange(values, invalid);
+                    }}
+                  </OnChange>
                 )}
-
-              {typeof onChange === 'function' && (
-                <OnChange name={FieldsNames.amount}>
-                  {() => {
-                    onChange(values, invalid);
-                  }}
-                </OnChange>
-              )}
-            </form>
-          )}
+              </form>
+            );
+          }}
           validate={validate}
           onSubmit={onSubmit}
         />
@@ -143,11 +154,7 @@ export const UnstakeDialog = ({
                 </Typography>
               )}
 
-              {endText && (
-                <Typography className={classes.info} variant="body2">
-                  {endText}
-                </Typography>
-              )}
+              {endText && <Notice>{endText}</Notice>}
             </Grid>
 
             <Grid item xs>
@@ -167,14 +174,7 @@ export const UnstakeDialog = ({
         </Container>
       </div>
 
-      <CloseBtn
-        className={classes.closeBtn}
-        href={closeHref ?? ''}
-        variant="outlined"
-        onClick={onClose}
-      >
-        <CloseIcon htmlColor="inherit" size="xxs" />
-      </CloseBtn>
+      <CloseButton href={closeHref ?? ''} onClose={onClose} />
     </Paper>
   );
 };

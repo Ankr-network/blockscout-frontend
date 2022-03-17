@@ -5,9 +5,8 @@ import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
@@ -21,10 +20,11 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { fetchStats } from '../../actions/fetchStats';
+import { fetchUnstakeEndDate } from '../../actions/fetchUnstakeEndDate';
 import { unstake } from '../../actions/unstake';
 import { useFetchStats } from '../../hooks/useFetchStats';
-import { useRedeemData } from '../../hooks/useRedeemData';
 
+import { useUnstakeTimer } from './hooks/useUnstakeTimer';
 import { useUnstakeAvalancheStyles } from './useUnstakeAvalancheStyles';
 
 export const UnstakeAvalanche = (): JSX.Element => {
@@ -46,62 +46,36 @@ export const UnstakeAvalanche = (): JSX.Element => {
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
-  const { redeemPeriod, redeemValue } = useRedeemData();
+  const { duration, isTimeOver } = useUnstakeTimer();
 
   const onClose = useCallback((): void => {
     history.push(DashboardRoutes.dashboard.generatePath());
   }, [history]);
 
-  const onExtraValidation =
-    (minAmount: BigNumber) =>
-    (
-      { amount }: Partial<IUnstakeFormValues>,
-      errors: FormErrors<IUnstakeFormValues>,
-    ): FormErrors<IUnstakeFormValues> => {
-      const currAmount = new BigNumber(
-        typeof amount === 'string' && amount.length ? amount : NaN,
-      );
+  const onRenderFormFooter = (amount: BigNumber): JSX.Element => (
+    <Box display="flex" mt={2}>
+      <Typography
+        className={classes.infoItem}
+        color="textPrimary"
+        variant="body2"
+      >
+        {t('stake.you-will-get')}
+      </Typography>
 
-      if (currAmount.isGreaterThan(ZERO) && currAmount.isLessThan(minAmount)) {
-        errors.amount = t('validation.greater-or-equal', {
-          value: minAmount,
-        });
-      }
+      <Box ml="auto" />
 
-      return errors;
-    };
-
-  const onRenderFormFooter =
-    (minAmount: BigNumber) =>
-    (amount: BigNumber): JSX.Element => {
-      const value = amount;
-      const isInvalidAmount = value.isNaN() || value.isLessThan(minAmount);
-
-      return (
-        <Box display="flex" mt={2}>
-          <Typography
-            className={classes.infoItem}
-            color="textPrimary"
-            variant="body2"
-          >
-            {t('stake.you-will-get')}
-          </Typography>
-
-          <Box ml="auto" />
-
-          <Typography
-            className={classes.infoItem}
-            color="textPrimary"
-            variant="body2"
-          >
-            {t('unit.token-value', {
-              value: isInvalidAmount ? 0 : value.decimalPlaces(DECIMAL_PLACES),
-              token: Token.AVAX,
-            })}
-          </Typography>
-        </Box>
-      );
-    };
+      <Typography
+        className={classes.infoItem}
+        color="textPrimary"
+        variant="body2"
+      >
+        {t('unit.token-value', {
+          value: amount.isNaN() ? 0 : amount.decimalPlaces(DECIMAL_PLACES),
+          token: Token.AVAX,
+        })}
+      </Typography>
+    </Box>
+  );
 
   const onUnstakeSubmit = ({ amount }: IUnstakeFormValues): void => {
     if (typeof amount !== 'string') {
@@ -119,6 +93,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(fetchStats());
+    dispatchRequest(fetchUnstakeEndDate());
   }, [dispatchRequest]);
 
   if (isFetchStatsLoading) {
@@ -139,15 +114,15 @@ export const UnstakeAvalanche = (): JSX.Element => {
           (!isSuccessOpened ? (
             <UnstakeDialog
               balance={fetchStatsData.aAVAXbBalance}
-              endText={t('stake-avax-dashboard.unstake-info', {
-                value: redeemValue,
-                period: redeemPeriod,
-              })}
-              extraValidation={onExtraValidation(fetchStatsData.minimumUnstake)}
+              endText={
+                isTimeOver
+                  ? undefined
+                  : t('stake-avax.unstake.timer', {
+                      duration,
+                    })
+              }
               isLoading={isUnstakeLoading}
-              renderFormFooter={onRenderFormFooter(
-                fetchStatsData.minimumUnstake,
-              )}
+              renderFormFooter={onRenderFormFooter}
               submitDisabled={isUnstakeLoading}
               token={Token.aAVAXb}
               onClose={onClose}
@@ -155,11 +130,13 @@ export const UnstakeAvalanche = (): JSX.Element => {
             />
           ) : (
             <UnstakeSuccess
-              period={t('stake-avax-dashboard.unstake-period', {
-                value: redeemValue,
-                period: redeemPeriod,
-              })}
-              tokenName={Token.AVAX}
+              infoText={
+                isTimeOver
+                  ? t('stake-avax.unstake.timer-off')
+                  : t('stake-avax.unstake.timer', {
+                      duration,
+                    })
+              }
               onClose={onSuccessClose}
             />
           ))}

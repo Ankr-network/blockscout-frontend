@@ -105,6 +105,7 @@ export const StakingAsset = ({
               <Box component="span" display="flex">
                 <IconButton
                   className={classes.openHistory}
+                  data-testid="history-button"
                   disabled={!isHistoryBtnActive}
                   onClick={historyClickHandler}
                 >

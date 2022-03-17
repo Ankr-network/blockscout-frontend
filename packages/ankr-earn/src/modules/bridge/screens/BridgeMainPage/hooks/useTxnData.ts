@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+import { t } from 'common';
 import { useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
@@ -25,10 +27,10 @@ export const useTxnData = (): ITxViewProps | undefined => {
           chainIdTo: +`${chainIdTo}`,
           tx: `${queryTx}`,
           token,
-          amount: +`${amount}`,
+          amount: new BigNumber(amount ?? 0),
         });
-      } catch {
-        throw new Error('some');
+      } catch (error) {
+        throw new Error(t('error.unexpected'));
       }
     }
   }, [query]);

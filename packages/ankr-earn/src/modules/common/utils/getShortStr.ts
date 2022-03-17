@@ -1,4 +1,4 @@
-export function getShortStr(str?: string): string {
+export function getShortTxHash(str?: string, len = 5): string {
   if (typeof str !== 'string') {
     return '';
   }
@@ -7,5 +7,17 @@ export function getShortStr(str?: string): string {
     return str;
   }
 
-  return `${str.slice(0, 5)}...${str.slice(-4)}`;
+  return `${str.slice(0, len)}...${str.slice(-len)}`;
+}
+
+export function getExtraShortStr(str?: string): string {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  if (str.length <= 5) {
+    return str;
+  }
+
+  return `${str.slice(0, 5)}...`;
 }
