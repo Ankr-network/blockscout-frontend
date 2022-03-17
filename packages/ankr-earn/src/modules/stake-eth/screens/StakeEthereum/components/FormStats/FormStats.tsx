@@ -1,5 +1,4 @@
 import { Box } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -37,13 +36,14 @@ export const FormStats = ({
         <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
         <StakeDescriptionValue>
-          <StakeDescriptionAmount symbol={tokenOut}>
-            {isLoading ? (
-              <Skeleton width={30} />
-            ) : (
-              amount.decimalPlaces(DECIMAL_PLACES).toFormat()
-            )}
-          </StakeDescriptionAmount>
+          <StakeDescriptionAmount
+            symbol={tokenOut}
+            value={
+              isLoading
+                ? '...'
+                : amount.decimalPlaces(DECIMAL_PLACES).toFormat()
+            }
+          />
 
           {tokenOut}
         </StakeDescriptionValue>

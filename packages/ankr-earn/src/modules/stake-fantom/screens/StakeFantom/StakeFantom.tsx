@@ -59,17 +59,16 @@ export const StakeFantom = (): JSX.Element => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (value: BigNumber) => {
+    (formAmount: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={tokenOut}>
-              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
-            </StakeDescriptionAmount>
-
-            <small>{tokenOut}</small>
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
 
             <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
               <ButtonBase className={classes.questionBtn}>

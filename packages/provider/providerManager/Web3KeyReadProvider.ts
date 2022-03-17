@@ -9,6 +9,8 @@ import {
 } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 
+const ADDITIONAL_SAFE_GAS_PRICE_WEI = 25_000;
+
 export type TWeb3Call<T> = (callback: TWeb3BatchCallback<T>) => T;
 
 export type TWeb3BatchCallback<T> = (err: Error | null, data: T) => void;
@@ -169,5 +171,20 @@ export abstract class Web3KeyReadProvider {
     batch.execute();
 
     return Promise.all(promises);
+  }
+
+  public async getContractMethodFee(
+    methodEstimateGas: number,
+  ): Promise<BigNumber> {
+    const rawGasPriceWei: BigNumber = await this.getSafeGasPriceWei();
+    const gasPrice = this.getWeb3().utils.fromWei(rawGasPriceWei.toString());
+
+    return new BigNumber(gasPrice).multipliedBy(methodEstimateGas);
+  }
+
+  public async getSafeGasPriceWei(): Promise<BigNumber> {
+    const pureGasPriceWei = await this.getWeb3().eth.getGasPrice();
+
+    return new BigNumber(pureGasPriceWei).plus(ADDITIONAL_SAFE_GAS_PRICE_WEI);
   }
 }

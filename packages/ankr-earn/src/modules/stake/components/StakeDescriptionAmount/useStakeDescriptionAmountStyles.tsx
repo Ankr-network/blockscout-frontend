@@ -2,25 +2,19 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStakeDescriptionValueStyles = makeStyles(theme => ({
   root: {
-    cursor: 'pointer',
-    marginRight: theme.spacing(1),
-
-    '&&': {
-      justifySelf: 'end',
-      alignSelf: 'center',
-      fontSize: 16,
-      textAlign: 'right',
-    },
+    fontSize: 16,
+    cursor: 'help',
   },
 
   title: {
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    maxWidth: 200,
+    marginRight: '0.3em',
+    maxWidth: 100,
 
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: 100,
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 200,
     },
   },
 }));

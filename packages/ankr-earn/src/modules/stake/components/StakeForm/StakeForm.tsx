@@ -40,11 +40,12 @@ export interface IStakeFormComponentProps {
   tokenOut?: string;
   className?: string;
   isMaxBtnShowed?: boolean;
+  maxAmountDecimals?: number;
   feeSlot?: ReactNode;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: IStakeFormPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
 const getAmountNum = (amount?: ReactText): BigNumber => {
@@ -68,6 +69,7 @@ export const StakeForm = ({
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
+  maxAmountDecimals,
   feeSlot,
   renderStats,
   renderFooter,
@@ -109,6 +111,7 @@ export const StakeForm = ({
     form,
     handleSubmit,
     values,
+    invalid,
   }: FormRenderProps<IStakeFormPayload>) => {
     const { amount } = values;
     const amountNumber = getAmountNum(amount);
@@ -135,6 +138,7 @@ export const StakeForm = ({
               label={t('stake.amount', {
                 token: tokenIn,
               })}
+              maxDecimals={maxAmountDecimals}
               minAmount={minAmount?.toNumber()}
               name={FieldsNames.amount}
               tokenName={tokenIn}
@@ -185,7 +189,7 @@ export const StakeForm = ({
         <OnChange name={FieldsNames.amount}>
           {() => {
             if (typeof onChange === 'function') {
-              onChange(values);
+              onChange(values, invalid);
             }
           }}
         </OnChange>

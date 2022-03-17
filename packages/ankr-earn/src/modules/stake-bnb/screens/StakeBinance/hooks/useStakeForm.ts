@@ -1,41 +1,55 @@
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import { resetRequests } from '@redux-requests/core';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { ZERO } from 'modules/common/const';
+import { Milliseconds } from 'modules/common/types';
+import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import {
-  useFetchStats,
   IUseFetchStatsData,
+  useFetchStats,
 } from '../../../hooks/useFetchStats';
-import { getAmountData } from '../../../utils/getAmountData';
+
+const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeFormArgs {
   openSuccessModal: () => void;
 }
 
 interface IUseStakeFormData {
-  amount: number;
+  amount: string;
   fetchAPYData: BigNumber;
+  stakeGas: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isStakeLoading: boolean;
+  isStakeGasLoading: boolean;
   isFetchStatsLoading: boolean;
-  handleFormChange: (values: IStakeFormPayload) => void;
+  totalAmount: BigNumber;
+  handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
 }
 
 export const useStakeForm = ({
   openSuccessModal,
 }: IUseStakeFormArgs): IUseStakeFormData => {
+  const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
-
+  const [amount, setAmount] = useState('0');
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const {
@@ -44,28 +58,47 @@ export const useStakeForm = ({
     stats: fetchStatsData,
   } = useFetchStats();
 
+  const { data: stakeGasFee, loading: isStakeGasLoading } = useQuery({
+    type: getStakeGasFee,
+  });
+
   const fetchAPYData = useFetchAPY();
 
-  const [amount, setAmount] = useState(0);
+  const handleFormChange = (
+    { amount: formAmount }: IStakeFormPayload,
+    invalid: boolean,
+  ): void => {
+    if (invalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (formAmount) {
+      const readyAmount = new BigNumber(formAmount);
+      dispatch(getStakeGasFee(readyAmount));
+    }
 
-  const handleFormChange = ({ amount: value }: IStakeFormPayload): void => {
-    let rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
-    rawAmount = rawAmount.isNaN() ? ZERO : rawAmount;
-
-    const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
-    const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
-      rawAmount,
-      relayerFee,
-    );
-    const resultVal = isLessThanOrEqualToZero ? 0 : resultAmount.toNumber();
-
-    setAmount(resultVal);
+    setAmount(formAmount ? `${formAmount}` : '');
   };
 
-  const handleSubmit = (values: IStakeSubmitPayload): void => {
-    const resultAmount = new BigNumber(values.amount);
+  const debouncedOnChange = useDebouncedCallback(
+    handleFormChange,
+    DEBOUNCE_TIME,
+  );
 
-    dispatchRequest(stake(resultAmount)).then(({ error }) => {
+  const totalAmount = useMemo(
+    () =>
+      fetchStatsData && stakeGasFee
+        ? calcTotalAmount(
+            new BigNumber(amount),
+            fetchStatsData.relayerFee,
+            stakeGasFee,
+          )
+        : ZERO,
+    [amount, fetchStatsData, stakeGasFee],
+  );
+
+  const handleSubmit = ({ amount: formAmount }: IStakeSubmitPayload): void => {
+    const stakeAmount = new BigNumber(formAmount);
+
+    dispatchRequest(stake(stakeAmount)).then(({ error }) => {
       if (!error) {
         openSuccessModal();
       }
@@ -77,9 +110,21 @@ export const useStakeForm = ({
     fetchAPYData,
     fetchStatsData,
     fetchStatsError,
+    handleFormChange: debouncedOnChange,
     isFetchStatsLoading,
     isStakeLoading,
-    handleFormChange,
+    isStakeGasLoading,
+    totalAmount,
+    stakeGas: stakeGasFee ?? ZERO,
     handleSubmit,
   };
 };
+
+function calcTotalAmount(
+  amount: BigNumber,
+  relayerFee: BigNumber,
+  methodGasFee: BigNumber,
+): BigNumber {
+  const result = amount.minus(relayerFee).minus(methodGasFee);
+  return result.isLessThan(0) ? ZERO : result;
+}

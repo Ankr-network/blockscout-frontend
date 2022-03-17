@@ -5,15 +5,17 @@ import { getErrorText, hasError } from 'modules/common/utils/form';
 
 interface IFieldProps extends FieldRenderProps<string> {
   isIntegerOnly?: boolean;
+  maxDecimalsLen?: number;
 }
 
 export const AmountField = ({
   input: { name, value, onChange, onBlur, onFocus },
   isIntegerOnly = false,
+  maxDecimalsLen = 18,
   meta,
   ...rest
 }: IFieldProps & TextFieldProps): JSX.Element => {
-  const regExp = isIntegerOnly ? /^(\d*$)/ : /^(\d*\.{0,1}\d{0,18}$)/;
+  const regExp = isIntegerOnly ? /^(\d*$)/ : new RegExp(`^(\\d*\\.{0,1}\\d{0,${maxDecimalsLen}}$)`);
 
   return (
     <TextField

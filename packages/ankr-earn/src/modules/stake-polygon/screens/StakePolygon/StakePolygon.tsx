@@ -8,7 +8,6 @@ import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -54,20 +53,16 @@ export const StakePolygon = (): JSX.Element => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (value: BigNumber) => {
-      const isZeroAmount = value.isZero();
-      const symbol = isZeroAmount ? Token.MATIC : Token.aMATICb;
-
+    (formAmount: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={symbol}>
-              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
-            </StakeDescriptionAmount>
-
-            <small>{symbol}</small>
+            <StakeDescriptionAmount
+              symbol={t('unit.amaticb')}
+              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
 
             <Tooltip
               title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}

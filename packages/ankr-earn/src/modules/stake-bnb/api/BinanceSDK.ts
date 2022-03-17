@@ -20,6 +20,7 @@ import {
   BINANCE_WRITE_PROVIDER_ID,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
+  BNB_SAFE_PRECISION,
 } from '../const';
 
 import ABI_ABNBB from './contracts/aBNBb.json';
@@ -78,6 +79,8 @@ export class BinanceSDK {
   private readonly readProvider: Web3KeyReadProvider;
 
   private currentAccount: string;
+
+  private stakeGasFee?: BigNumber;
 
   private constructor({ readProvider, writeProvider }: IBinanceSDKProviders) {
     BinanceSDK.instance = this;
@@ -338,6 +341,28 @@ export class BinanceSDK {
     return this.convertFromWei(relayerFee);
   }
 
+  public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const binancePoolContract = await this.getBinancePoolContract();
+
+    const bnbSpecificAmount = new BigNumber(
+      amount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_HALF_DOWN),
+    );
+
+    const estimatedGas: number = await binancePoolContract.methods
+      .stake()
+      .estimateGas({
+        from: this.currentAccount,
+        value: this.convertToHex(bnbSpecificAmount),
+      });
+
+    const stakeGasFee = await provider.getContractMethodFee(estimatedGas);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
+  }
+
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const binancePoolContract = await this.getBinancePoolContract(true);
 
@@ -406,11 +431,31 @@ export class BinanceSDK {
       await this.writeProvider.connect();
     }
 
+    let gasFee = this.stakeGasFee;
+    if (!gasFee) {
+      gasFee = await this.getStakeGasFee(amount);
+    }
+
+    const balance = await this.getBNBBalance();
+    const maxAmount = balance.minus(gasFee);
+    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
     const binancePoolContract = await this.getBinancePoolContract();
+
+    const bnbSpecificAmount = new BigNumber(
+      stakeAmount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_HALF_DOWN),
+    );
+
+    const gasLimit: number = await binancePoolContract.methods
+      .stake()
+      .estimateGas({
+        from: this.currentAccount,
+        value: this.convertToHex(bnbSpecificAmount),
+      });
 
     await binancePoolContract.methods.stake().send({
       from: this.currentAccount,
-      value: this.convertToHex(amount),
+      value: this.convertToHex(bnbSpecificAmount),
+      gas: gasLimit,
     });
   }
 

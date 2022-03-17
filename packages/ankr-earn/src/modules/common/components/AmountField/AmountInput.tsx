@@ -24,6 +24,7 @@ interface IAmountInputProps {
   inputClassName?: string;
   minAmount?: number;
   showBalance?: boolean;
+  maxDecimals?: number;
 }
 
 export const AmountInput = ({
@@ -38,6 +39,7 @@ export const AmountInput = ({
   inputClassName,
   minAmount = MIN_AMOUNT,
   showBalance = true,
+  maxDecimals,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
@@ -96,6 +98,7 @@ export const AmountInput = ({
         }}
         isIntegerOnly={isIntegerOnly}
         label={label}
+        maxDecimalsLen={maxDecimals}
         name={name}
         placeholder="0"
         validate={validateAmount}
