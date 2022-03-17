@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { IBlockchainEntity } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
@@ -20,6 +21,7 @@ export interface IApiChain {
   wsUrls: string[];
   isArchive?: boolean;
   requests?: number;
+  totalRequest?: BigNumber;
 }
 
 export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {

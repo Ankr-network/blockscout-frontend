@@ -64,7 +64,7 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "archive": "Archive",
-    "req": "req",
+    "req": "{value, number, ::compact-short} req",
     "30d": "30d"
   },
   "chain-item": {

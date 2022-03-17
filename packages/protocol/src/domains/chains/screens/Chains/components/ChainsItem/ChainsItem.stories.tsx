@@ -8,6 +8,8 @@ import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.
 import { ChainsItem } from './ChainsItem';
 
 const chain = {
+  isLoading: false,
+  totalRequests: '10000',
   id: 'id',
   name: 'namenamenamename',
   icon: chainLogo,
@@ -19,6 +21,8 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
         <ChainsItem
+          totalRequests={chain.totalRequests}
+          isLoading={chain.isLoading}
           logoSrc={chain.icon}
           name={chain.name}
           description="requestInforequestInforequestInforequestInfo"

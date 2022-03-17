@@ -6,13 +6,15 @@ import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { t } from 'modules/i18n/utils/intl';
+import { Skeleton } from '@material-ui/lab';
 
 export const ChainMainInfo = ({
+  isLoading,
   logoSrc,
   name,
   description,
   className = '',
-  totalRequests,
+  totalRequests = '',
   isArchive,
 }: ChainMainInfoProps) => {
   const classes = useStyles();
@@ -25,16 +27,30 @@ export const ChainMainInfo = ({
           {name}
         </Typography>
         {isArchive && (
-          <Typography variant="body2" className={classes.archive}>
+          <Typography
+            variant="body2"
+            className={classes.archive}
+            component="div"
+          >
             <StatusCircle mr={0.4} status="success" /> {t('chains.archive')}
           </Typography>
         )}
-        {totalRequests && (
-          <div className={classes.req}>
-            {totalRequests} {t('chains.req')}
-            <span className={classes.day}>{t('chains.30d')}</span>
-          </div>
-        )}
+        <div className={classes.req}>
+          {isLoading ? (
+            <Skeleton className={classes.skeleton} />
+          ) : (
+            <>
+              {!!totalRequests && (
+                <>
+                  {t('chains.req', {
+                    value: totalRequests,
+                  })}
+                  <span className={classes.day}>{t('chains.30d')}</span>
+                </>
+              )}
+            </>
+          )}
+        </div>
         {description}
       </div>
     </div>

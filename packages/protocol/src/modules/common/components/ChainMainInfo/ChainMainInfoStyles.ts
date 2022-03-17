@@ -49,4 +49,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     border: `1px solid rgba(31, 34, 38, 0.1)`,
     borderRadius: 18,
   },
+  skeleton: {
+    width: '100%',
+    maxWidth: 140,
+    height: 20,
+    transform: 'none',
+  },
 }));

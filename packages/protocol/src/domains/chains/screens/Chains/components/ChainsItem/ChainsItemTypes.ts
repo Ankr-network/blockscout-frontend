@@ -1,6 +1,8 @@
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemProps {
+  totalRequests: string;
+  isLoading: boolean;
   logoSrc: string;
   name: string;
   description?: string;
@@ -8,5 +10,4 @@ export interface ChainsItemProps {
   links: string[];
   onButtonClick: () => void;
   chain: Chain;
-  totalRequests?: string | number;
 }
