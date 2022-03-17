@@ -1,16 +1,10 @@
+
 import BigNumber from 'bignumber.js';
-import { IBlockchainEntity } from 'multirpc-sdk';
+import { BlockchainType, FetchBlockchainUrlsResult } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {
-  chains: Record<
-    string,
-    {
-      blockchain: IBlockchainEntity & { extends?: string };
-      rpcUrl: string;
-      wsUrl: string;
-    }
-  >;
+  chains: FetchBlockchainUrlsResult;
 }
 
 export interface IApiChain {
@@ -22,6 +16,9 @@ export interface IApiChain {
   isArchive?: boolean;
   requests?: number;
   totalRequest?: BigNumber;
+  chainExtends?: string;
+  testnets?: IApiChain[];
+  type: BlockchainType;
 }
 
 export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
@@ -29,10 +26,10 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
 
   const chainsArray = Object.values(chains);
 
-  const mappedData = chainsArray.map(item => {
+  const mappedData = chainsArray.map<IApiChain>(item => {
     const { blockchain, rpcUrl, wsUrl } = item;
 
-    const { id, stats, name, extends: chainExtends } = blockchain;
+    const { id, stats, name, extends: chainExtends, type } = blockchain;
 
     const requests = stats?.reqs;
 
@@ -44,6 +41,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
       wsUrls: wsUrl ? [wsUrl] : [],
       requests,
       chainExtends,
+      type,
     };
   });
 
@@ -56,8 +54,14 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
         const chain = mappedData.find(el => el.id === item.chainExtends);
 
         if (chain) {
-          chain.rpcUrls = [...chain.rpcUrls, ...rpcUrls];
-          chain.wsUrls = [...chain.wsUrls, ...wsUrls];
+          if (item.type === BlockchainType.Mainnet) {
+            chain.rpcUrls = [...chain.rpcUrls, ...rpcUrls];
+            chain.wsUrls = [...chain.wsUrls, ...wsUrls];
+          } else if (item.type === BlockchainType.Testnet) {
+            chain.testnets = chain.testnets
+              ? [...chain.testnets, item]
+              : [item];
+          }
 
           return null;
         }

@@ -14,6 +14,14 @@ import {
 } from './worker';
 import { IManagedPromise, ManagedPromise } from './stepper';
 
+export interface BlockchainUrls {
+  blockchain: IBlockchainEntity;
+  rpcUrl: string;
+  wsUrl: string;
+}
+
+export type FetchBlockchainUrlsResult = Record<string, BlockchainUrls>;
+
 export default class MultiRpcSdk {
   private workerGateway?: WorkerGateway;
 
@@ -183,21 +191,9 @@ export default class MultiRpcSdk {
     return jwtToken;
   }
 
-  public async fetchPublicUrls(): Promise<
-    Record<
-      string,
-      { blockchain: IBlockchainEntity; rpcUrl: string; wsUrl: string }
-    >
-  > {
+  public async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().apiGetBlockchains();
-    const result: Record<
-      string,
-      {
-        blockchain: IBlockchainEntity;
-        rpcUrl: string;
-        wsUrl: string;
-      }
-    > = {};
+    const result: FetchBlockchainUrlsResult = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const blockchain of blockchains) {
       const hasRpc = blockchain.features.includes('rpc');
@@ -217,21 +213,9 @@ export default class MultiRpcSdk {
 
   public async fetchPrivateUrls(
     jwtToken: IJwtToken,
-  ): Promise<
-    Record<
-      string,
-      { blockchain: IBlockchainEntity; rpcUrl: string; wsUrl: string }
-    >
-  > {
+  ): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().apiGetBlockchains();
-    const result: Record<
-      string,
-      {
-        blockchain: IBlockchainEntity;
-        rpcUrl: string;
-        wsUrl: string;
-      }
-    > = {};
+    const result: FetchBlockchainUrlsResult = {};
     const tokenHash = await this.calcJwtTokenHash(jwtToken);
     // eslint-disable-next-line no-restricted-syntax
     for (const blockchain of blockchains) {

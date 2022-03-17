@@ -19,13 +19,20 @@ export interface INodeEntity {
 
 export type TBlockchainFeature = 'rpc' | 'ws';
 
+export enum BlockchainType {
+  Mainnet = 'mainnet',
+  Testnet = 'testnet',
+}
+
 export interface IBlockchainEntity {
+  extends?: string;
   id: string;
+  features: TBlockchainFeature[];
+  name: string;
   stats?: {
     reqs: number;
   };
-  features: TBlockchainFeature[];
-  name: string;
+  type: BlockchainType;
 }
 
 export type IWorkerGlobalStatus = {
