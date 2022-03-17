@@ -29,6 +29,7 @@ export interface IBinanceConfig {
 export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
+  ftmToken: string;
 }
 
 interface IPolygonConfig {
@@ -76,6 +77,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   fantomConfig: {
     fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
     aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
+    ftmToken: ZERO_ADDR,
   },
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
@@ -149,6 +151,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
+    ftmToken: ZERO_ADDR,
   },
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',

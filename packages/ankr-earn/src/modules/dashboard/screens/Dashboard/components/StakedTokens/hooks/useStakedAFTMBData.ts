@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -11,6 +13,7 @@ import { RoutesConfig } from 'modules/stake-fantom/Routes';
 export interface IStakedAFTMBData {
   amount: BigNumber;
   network: string;
+  tradeLink: string;
   stakeLink: string;
   unstakeLink?: string;
   isShowed: boolean;
@@ -40,6 +43,7 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   return {
     amount,
     network,
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMb, Token.FTM),
     isShowed,
     isBalancesLoading,
     stakeLink: RoutesConfig.stake.generatePath(),
