@@ -10,3 +10,4 @@ yarn-error.log
 .eslintcache
 .idea
 coverage
+lerna-debug.log

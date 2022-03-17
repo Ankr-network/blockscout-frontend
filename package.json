@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "clean": "lerna clean && rm -rf node_modules",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "lerna version --yes --conventional-commits -m \"chore(release): publish %s\""
   },
   "workspaces": {
     "packages": [
@@ -12,6 +13,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
     "eslint-plugin-import": "^2.25.3",
     "husky": "^7.0.4",
     "lerna": "^4.0.0"

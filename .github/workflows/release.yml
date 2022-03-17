@@ -1,0 +1,20 @@
+name: Release
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: egordm/gha-yarn-node-cache@v1
+      - uses: actions/setup-node@v2.5.0
+
+      - name: Prevent wrong version releasing
+        if: ${{ github.event.pull_request.merged }}
+        run: |
+          yarn release
