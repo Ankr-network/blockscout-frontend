@@ -21,6 +21,10 @@ jest.mock('modules/stake-fantom/Routes', () => ({
   },
 }));
 
+jest.mock('modules/boost/Routes', () => ({
+  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAFTMBData', () => {
   const defaultStatsData = {
     data: { aFTMbBalance: ONE_ETH },
