@@ -36,7 +36,6 @@ export const Plan = () => {
       setBreadcrumbs([
         {
           title: t(PlanRoutesConfig.plan.breadcrumbs),
-          link: '',
           onClick: handleClickBreadcrubms,
         },
         {

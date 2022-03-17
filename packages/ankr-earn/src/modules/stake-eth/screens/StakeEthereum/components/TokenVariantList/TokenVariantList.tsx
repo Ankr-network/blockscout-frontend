@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React, { Children, ReactNode } from 'react';
+import { Children, ReactNode } from 'react';
 import { uid } from 'react-uid';
 
 interface ITokenVariantListProps {
@@ -15,7 +15,7 @@ export const TokenVariantList = ({
         children,
         (child, index) =>
           !!child && (
-            <Grid key={uid(index)} item xs="auto">
+            <Grid key={uid(index)} item sm={6} xs={12}>
               {child}
             </Grid>
           ),

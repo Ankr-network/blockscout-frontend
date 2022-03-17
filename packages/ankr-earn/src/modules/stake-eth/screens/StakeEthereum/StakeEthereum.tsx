@@ -4,9 +4,10 @@ import { useCallback } from 'react';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { featuresConfig, ZERO } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ETokenVariant } from 'modules/stake-eth/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
@@ -32,30 +33,34 @@ export const StakeEthereum = (): JSX.Element => {
 
   const {
     isCommonDataLoading,
+    isEthRatioLoading,
+    isFeeLoading,
     amount,
     balance,
+    fee,
+    ethRatio,
     minAmount,
     loading,
     tokenIn,
     tokenOut,
-    tokenTooltip,
     onInputChange,
     onSubmit,
     onTokenSelect,
   } = useStakeForm(onSuccessOpen);
 
   const stats = useStakeStats(amount);
-  const { onQuestionClick, items: faqItems } = useFaq();
+  const faqItems = useFaq();
 
   const renderStats = useCallback(
     (formAmount: BigNumber) => (
       <FormStats
         amount={formAmount}
+        isLoading={isFeeLoading}
         tokenOut={tokenOut}
-        tokenTooltip={tokenTooltip}
         tokenVariantsSlot={
           <TokenVariantList>
             <TokenVariant
+              description={tHTML('stake-ethereum.aethb-descr')}
               icon={ETokenVariant.aETHb}
               isActive={tokenOut === ETokenVariant.aETHb}
               title={t('unit.feth')}
@@ -63,6 +68,9 @@ export const StakeEthereum = (): JSX.Element => {
             />
 
             <TokenVariant
+              description={tHTML('stake-ethereum.aethc-descr', {
+                ethRate: isEthRatioLoading ? '...' : ethRatio,
+              })}
               icon={ETokenVariant.aETHc}
               isActive={tokenOut === ETokenVariant.aETHc}
               title={t('unit.aeth')}
@@ -70,10 +78,9 @@ export const StakeEthereum = (): JSX.Element => {
             />
           </TokenVariantList>
         }
-        onQuestionClick={onQuestionClick}
       />
     ),
-    [onQuestionClick, onTokenSelect, tokenOut, tokenTooltip],
+    [ethRatio, isEthRatioLoading, isFeeLoading, onTokenSelect, tokenOut],
   );
 
   return (
@@ -97,6 +104,15 @@ export const StakeEthereum = (): JSX.Element => {
 
           <StakeForm
             balance={balance}
+            feeSlot={
+              <StakeFeeInfo
+                isLoading={isFeeLoading}
+                value={t('unit.token-value', {
+                  token: t('unit.eth'),
+                  value: fee.toFormat(),
+                })}
+              />
+            }
             isBalanceLoading={hasError || isCommonDataLoading}
             isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             loading={hasError || loading}

@@ -3,8 +3,6 @@ import { ReactText, useCallback, useState } from 'react';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { ETokenVariant } from 'modules/stake-eth/const';
 import {
   IStakeFormPayload,
@@ -13,13 +11,16 @@ import {
 
 interface IUseStakeForm {
   balance: BigNumber;
+  fee: BigNumber;
   minAmount: number;
   loading: boolean;
   isCommonDataLoading: boolean;
+  isFeeLoading: boolean;
+  isEthRatioLoading: boolean;
   tokenIn: string;
   tokenOut: string;
-  tokenTooltip: string;
   amount: ReactText;
+  ethRatio: ReactText;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onInputChange: (values: IStakeFormPayload) => void;
   onTokenSelect: (token: ETokenVariant) => () => void;
@@ -32,6 +33,10 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
   const loading = false;
   const balance = ZERO;
   const minAmount = 0.1;
+  const fee = ZERO;
+  const isEthRatioLoading = false;
+  const isFeeLoading = false;
+  const ethRatio = 1.14;
 
   const onInputChange = (values: IStakeFormPayload) => {
     setAmount(values.amount || '');
@@ -48,23 +53,18 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
     [],
   );
 
-  const tooltipsMap = useLocaleMemo(
-    () => ({
-      [ETokenVariant.aETHb]: t('aETHb tooltip'),
-      [ETokenVariant.aETHc]: t('aETHc tooltip'),
-    }),
-    [],
-  );
-
   return {
     isCommonDataLoading,
+    isEthRatioLoading,
+    isFeeLoading,
     amount,
     balance,
+    fee,
+    ethRatio,
     minAmount,
     loading,
     tokenIn: Token.ETH,
     tokenOut: selectedToken,
-    tokenTooltip: tooltipsMap[selectedToken],
     onInputChange,
     onSubmit,
     onTokenSelect,

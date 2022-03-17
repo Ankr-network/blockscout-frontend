@@ -26,6 +26,7 @@ module.exports = function (config) {
       path.resolve('../polkadot'),
       path.resolve('../provider'),
       path.resolve('../multirpc-sdk'),
+      path.resolve('../common'),
     ]),
   )(config);
 };

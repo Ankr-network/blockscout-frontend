@@ -20,6 +20,7 @@ import {
   AVAX_MAX_BLOCK_RANGE,
   AVAX_MAX_HISTORY_RANGE,
   AVAX_MAX_PARALLEL_REQ,
+  AVAX_SCALE_FACTOR,
 } from '../const';
 
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
@@ -91,7 +92,7 @@ export class AvalancheSDK {
   private convertToHex(amount: BigNumber): string {
     return this.readProvider
       .getWeb3()
-      .utils.numberToHex(amount.multipliedBy(1e18).toString(10));
+      .utils.numberToHex(amount.multipliedBy(AVAX_SCALE_FACTOR).toString(10));
   }
 
   private async getAAVAXBTokenContract(isForceRead = false): Promise<Contract> {
@@ -346,10 +347,6 @@ export class AvalancheSDK {
       .call();
 
     return this.convertFromWei(pending);
-  }
-
-  public async getRelayerFee(): Promise<BigNumber> {
-    return this.convertFromWei('0');
   }
 
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {

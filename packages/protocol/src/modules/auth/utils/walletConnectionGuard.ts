@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { connect } from '../actions/connect';
-import { throwIfError } from '../../api/utils/throwIfError';
+import { throwIfError } from 'common';
 
 export function walletConnectionGuard(
   request: any,

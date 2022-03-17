@@ -4,12 +4,8 @@ import { useStakedAETHBData } from './useStakedAETHBData';
 import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
 import { useStakedAVAXData } from './useStakedAVAXData';
-import { useStakedAVAXTxHistory } from './useStakedAVAXTxHistory';
 import { useStakedBNBData } from './useStakedBNBData';
-import { useStakedBNBTxHistory } from './useStakedBNBTxHistory';
-import { useStakedFTMTxHistory } from './useStakedFTMTxHistory';
 import { useStakedMaticData } from './useStakedMaticData';
-import { useStakedMaticTxHistory } from './useStakedMaticTxHistory';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
@@ -23,36 +19,26 @@ interface IUseStakedTokensData {
 
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
-  const stakedMaticTxHistory = useStakedMaticTxHistory();
-
   const stakedAVAXData = useStakedAVAXData();
-  const stakedAVAXTxHistory = useStakedAVAXTxHistory();
-
   const stakedBNBData = useStakedBNBData();
-  const stakedBNBTxHistory = useStakedBNBTxHistory();
 
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
-  const stakedFTMTxHistory = useStakedFTMTxHistory();
 
   const isAETHBShowed = stakedAETHBData.isShowed;
 
   const isAETHCShowed = stakedAETHCData.isShowed;
 
   const isAVAXShowed =
-    featuresConfig.isActiveAVAXStaking &&
-    (stakedAVAXData.isShowed || stakedAVAXTxHistory.hasHistory);
+    featuresConfig.isActiveAVAXStaking && stakedAVAXData.isShowed;
 
   const isBNBShowed =
-    featuresConfig.isActiveBNBStaking &&
-    (stakedBNBData.isShowed || stakedBNBTxHistory.hasHistory);
+    featuresConfig.isActiveBNBStaking && stakedBNBData.isShowed;
 
-  const isMATICShowed = amaticbData.isShowed || stakedMaticTxHistory.hasHistory;
+  const isMATICShowed = amaticbData.isShowed;
 
-  const isAFTMBShowed =
-    featuresConfig.stakeFantom &&
-    (stakedAFTMBData.isShowed || stakedFTMTxHistory.hasHistory);
+  const isAFTMBShowed = featuresConfig.stakeFantom && stakedAFTMBData.isShowed;
 
   const atLeastOneShowed =
     isAETHBShowed ||

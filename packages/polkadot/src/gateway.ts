@@ -1,4 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { setupCache } from 'axios-cache-adapter';
+import BigNumber from 'bignumber.js';
 import {
   IClaim,
   ICrowdloanType,
@@ -8,8 +10,6 @@ import {
   TCrowdloanStatus,
   TNetworkType,
 } from './entity';
-import BigNumber from 'bignumber.js';
-import { setupCache } from 'axios-cache-adapter';
 
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
@@ -330,10 +330,7 @@ export class ApiGateway {
     };
   }
 
-  private static mapClaimResponse(response: AxiosResponse): IClaim {
-    const {
-      data: { claim, tokenAddress },
-    } = response;
+  private static mapClaimResponse(claim: any): IClaim {
     return {
       claim: {
         address: claim.address,
@@ -344,12 +341,12 @@ export class ApiGateway {
           issueBlock: Number(claim.data.issueBlock),
           claimBeforeBlock: Number(claim.data.claimBeforeBlock),
           amount: new BigNumber(claim.data.amount),
-          signature: claim.signature,
+          signature: claim.data.signature,
         },
         createdTimestamp: claim.createdTimestamp,
         expiresTimestamp: claim.expiresTimestamp,
       },
-      tokenAddress,
+      tokenAddress: claim.tokenAddress,
     };
   }
 }

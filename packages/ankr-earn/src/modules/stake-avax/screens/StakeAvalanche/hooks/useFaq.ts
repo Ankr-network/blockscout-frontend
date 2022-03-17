@@ -7,15 +7,12 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
-import { useRedeemData } from '../../../hooks/useRedeemData';
 
 export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();
 
-  const { redeemPeriod, redeemValue } = useRedeemData();
-
   const tradeLink = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.AVAX, Token.aAVAXb),
+    () => BoostRoutes.tradingCockpit.generatePath(Token.aAVAXb, Token.AVAX),
     [],
   );
 
@@ -33,10 +30,7 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-avax.faq.question-3'),
-        answer: t('stake-avax.faq.answer-3', {
-          value: redeemValue,
-          period: redeemPeriod,
-        }),
+        answer: t('stake-avax.faq.answer-3'),
       },
       {
         question: t('stake-avax.faq.question-4'),
@@ -52,11 +46,11 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-avax.faq.question-7'),
-        answer: t('stake-avax.faq.answer-7'),
+        answer: tHTML('stake-avax.faq.answer-7'),
       },
       {
         question: t('stake-avax.faq.question-8'),
-        answer: t('stake-avax.faq.answer-8'),
+        answer: tHTML('stake-avax.faq.answer-8'),
       },
       {
         question: t('stake-avax.faq.question-9'),
@@ -65,6 +59,6 @@ export const useFaq = (): IFaqItem[] => {
         }),
       },
     ],
-    [redeemPeriod, redeemValue, stats?.minimumStake, tradeLink],
+    [stats?.minimumStake, tradeLink],
   );
 };

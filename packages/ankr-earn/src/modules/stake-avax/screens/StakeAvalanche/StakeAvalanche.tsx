@@ -5,14 +5,13 @@ import React from 'react';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, featuresConfig } from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
-import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
@@ -25,8 +24,6 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { useRedeemData } from '../../hooks/useRedeemData';
-import { getAmountData } from '../../utils/getAmountData';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -39,8 +36,6 @@ export const StakeAvalanche = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
   const faqItems = useFaq();
-
-  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const {
     isSuccessOpened,
@@ -63,63 +58,23 @@ export const StakeAvalanche = (): JSX.Element => {
 
   const stakeStats = useStakeStats(amount, fetchAPYData);
 
-  const onRenderStats =
-    (relayerFee: BigNumber) =>
-    (rawAmount: BigNumber): JSX.Element => {
-      const { amount: resultAmount, isLessThanOrEqualToZero } = getAmountData(
-        rawAmount,
-        relayerFee,
-      );
+  const onRenderStats = (rawAmount: BigNumber): JSX.Element => (
+    <StakeDescriptionContainer>
+      <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
-      return (
-        <>
-          <StakeDescriptionContainer>
-            <StakeDescriptionName>
-              <span>{t('stake-avax.relayer-fee')}</span>
+      <StakeDescriptionValue>
+        <StakeDescriptionAmount symbol={Token.aAVAXb}>
+          {rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+        </StakeDescriptionAmount>
 
-              <Tooltip title={t('stake-avax.tooltips.relayer-fee')}>
-                <ButtonBase className={classes.questionBtn}>
-                  <QuestionIcon size="xs" />
-                </ButtonBase>
-              </Tooltip>
-            </StakeDescriptionName>
-
-            <StakeDescriptionValue isBold={false}>
-              {t('unit.avax-value', {
-                value: relayerFee,
-              })}
-            </StakeDescriptionValue>
-          </StakeDescriptionContainer>
-
-          <StakeDescriptionSeparator />
-
-          <StakeDescriptionContainer>
-            <StakeDescriptionName>
-              {t('stake.you-will-get')}
-            </StakeDescriptionName>
-
-            <StakeDescriptionValue>
-              <StakeDescriptionAmount symbol={Token.aAVAXb}>
-                {!isLessThanOrEqualToZero
-                  ? `~${resultAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}`
-                  : '0'}
-              </StakeDescriptionAmount>
-
-              <Tooltip
-                title={tHTML('stake-avax.tooltips.you-will-get', {
-                  value: redeemValue,
-                  period: redeemPeriod,
-                })}
-              >
-                <ButtonBase className={classes.questionBtn}>
-                  <QuestionIcon size="xs" />
-                </ButtonBase>
-              </Tooltip>
-            </StakeDescriptionValue>
-          </StakeDescriptionContainer>
-        </>
-      );
-    };
+        <Tooltip title={tHTML('stake-avax.tooltips.you-will-get')}>
+          <ButtonBase className={classes.questionBtn}>
+            <QuestionIcon size="xs" />
+          </ButtonBase>
+        </Tooltip>
+      </StakeDescriptionValue>
+    </StakeDescriptionContainer>
+  );
 
   useProviderEffect((): void => {
     dispatchRequest(fetchAPY());
@@ -160,8 +115,8 @@ export const StakeAvalanche = (): JSX.Element => {
               isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
               loading={isStakeLoading}
               maxAmount={fetchStatsData.avaxBalance}
-              minAmount={fetchStatsData.minimumStake}
-              renderStats={onRenderStats(fetchStatsData.relayerFee)}
+              minAmount={ZERO}
+              renderStats={onRenderStats}
               tokenIn={t('unit.avax')}
               tokenOut={t('unit.aavaxb')}
               onChange={handleFormChange}

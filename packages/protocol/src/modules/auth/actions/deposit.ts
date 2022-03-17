@@ -8,7 +8,7 @@ import { ResponseData } from '../../api/utils/ResponseData';
 import { IJwtToken } from 'multirpc-sdk';
 import { fetchCredentialsStatus } from './fetchCredentialsStatus';
 import { retry } from '../../api/utils/retry';
-import { throwIfError } from '../../api/utils/throwIfError';
+import { throwIfError } from 'common';
 import { fetchEncryptionKey } from './fetchEncryptionKey';
 import { DepositStep, fetchDepositStatus } from './fetchDepositStatus';
 import { setDepositStatus } from './setDepositStatus';

@@ -13,7 +13,7 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { AlignType } from 'modules/common/components/TableComponents/types';
-import { getShortStr } from 'modules/common/utils/getShortStr';
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTxLink } from 'modules/common/utils/getTxLink';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -51,7 +51,7 @@ function getPreparedData(data?: TTxEventsHistoryGroupData): TTableData {
   return data.map(({ txAmount, txDate, txHash, txType }) => ({
     amount: t('unit.matic-value', { value: txAmount.toNumber() }),
     date: t('format.date-time-24', { value: txDate }),
-    shortTxHash: getShortStr(txHash),
+    shortTxHash: getShortTxHash(txHash),
     txHash,
     txLink: getTxLink(txHash),
     type: typeof txType === 'string' ? t(`stake-statuses.${txType}`) : '',
