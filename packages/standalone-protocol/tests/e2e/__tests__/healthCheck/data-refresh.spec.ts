@@ -35,13 +35,13 @@ async function testFn(page: Page, NON_LEGACY_STANDALONE: { network: string; endP
   await test.step(`navigate to ${NON_LEGACY_STANDALONE.endPoint} and wait`, async () => {
     await page.goto(NON_LEGACY_STANDALONE.endPoint);
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(TIMEOUTS.oneMinute);
+    await page.waitForTimeout(TIMEOUTS.oneMinute * 1.5);
   });
 
   await test.step('verify api requests', async () => {
-    expect.soft(respArr1.length).toBe(3);
-    expect.soft(respArr2.length).toBe(3);
-    expect.soft(respArr3.length).toBe(3);
-    expect.soft(respArr4.length).toBe(3);
+    expect.soft(respArr1.length).toBeGreaterThanOrEqual(3);
+    expect.soft(respArr2.length).toBeGreaterThanOrEqual(3);
+    expect.soft(respArr3.length).toBeGreaterThanOrEqual(3);
+    expect.soft(respArr4.length).toBeGreaterThanOrEqual(3);
   });
 }
