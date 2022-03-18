@@ -8,9 +8,6 @@ export interface IContractConfig {
   maticToken: string;
   aMaticbToken: string;
   polygonPool: string;
-  globalPoolDepositContract: string;
-  ethereumPool: string;
-  systemContract: string;
   ankrContract: string;
   bridge: string;
 }
@@ -55,10 +52,6 @@ export interface IStkrConfig {
 
 const LOCAL_CONFIG: IStkrConfig = {
   contractConfig: {
-    // for eth staking
-    systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
-    ethereumPool: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
-    globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
     ankrContract: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
@@ -131,10 +124,6 @@ const GOERLI_CONFIG: IStkrConfig = {
 
 const MAINNET_CONFIG: IStkrConfig = {
   contractConfig: {
-    // for eth staking
-    systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
-    ethereumPool: '0x84db6eE82b7Cf3b47E8F19270abdE5718B936670',
-    globalPoolDepositContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
     ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',

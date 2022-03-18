@@ -27,7 +27,7 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
 
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
 
-  const amount = statsData?.aETHbBalance ?? ZERO;
+  const amount = statsData?.fethBalance ?? ZERO;
   const pendingValue = ZERO;
 
   const isShowed =

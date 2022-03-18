@@ -23,8 +23,6 @@ export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
 
-export const RPC_GOERLI = process.env.REACT_APP_RPC_GOERLI as string;
-
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
   : Env.Stage;
@@ -67,7 +65,6 @@ export const featuresConfig = {
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   stakeETH: currentEnv === Env.Develop,
-  stakeETHFee: false,
 };
 
 export enum SupportedChainIDS {

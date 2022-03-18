@@ -36,7 +36,6 @@ export interface IStakeFormComponentProps {
   loading?: boolean;
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
-  isDisabled?: boolean;
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
@@ -67,7 +66,6 @@ export const StakeForm = ({
   loading = false,
   isBalanceLoading = false,
   isIntegerOnly = false,
-  isDisabled = false,
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
@@ -135,13 +133,11 @@ export const StakeForm = ({
 
             <AmountInput
               balance={balance}
-              disabled={isDisabled}
               isBalanceLoading={isBalanceLoading}
               isIntegerOnly={isIntegerOnly}
               label={t('stake.amount', {
                 token: tokenIn,
               })}
-              maxAmount={maxAmount}
               maxDecimals={maxAmountDecimals}
               minAmount={minAmount?.toNumber()}
               name={FieldsNames.amount}
@@ -177,7 +173,7 @@ export const StakeForm = ({
               <Button
                 className={classes.submit}
                 color="primary"
-                disabled={isDisabled || loading || isBalanceLoading}
+                disabled={loading || isBalanceLoading}
                 isLoading={loading}
                 size="large"
                 type="submit"

@@ -5,7 +5,6 @@ import fc from 'fast-check';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
 import {
   approveAETHC,
   swapAssets,
@@ -30,7 +29,7 @@ jest.mock('modules/auth/hooks/useAuth', () => ({
 describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
   const defaultHookProps: IEth2SwapFormHookArgs = {
     ratio: ONE_ETH,
-    swapOption: Token.aETHb,
+    swapOption: 'aETHb',
     max: ONE_ETH,
   };
 
@@ -190,7 +189,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
       const { result } = renderHook(() =>
         useEth2SwapForm({
           ...defaultHookProps,
-          swapOption: Token.aETHc,
+          swapOption: 'aETHc',
           ratio: new BigNumber('940763088322812800'),
         }),
       );

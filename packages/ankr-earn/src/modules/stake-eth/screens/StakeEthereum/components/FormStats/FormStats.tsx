@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -36,10 +37,15 @@ export const FormStats = ({
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount
-            isLoading={isLoading}
             symbol={tokenOut}
-            value={amount.toFormat()}
+            value={
+              isLoading
+                ? '...'
+                : amount.decimalPlaces(DECIMAL_PLACES).toFormat()
+            }
           />
+
+          {tokenOut}
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     </>

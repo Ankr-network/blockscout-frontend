@@ -1,11 +1,10 @@
 import { configFromEnv } from 'modules/api/config';
-import { Token } from 'modules/common/types/token';
 
 import { TSwapOption } from './types';
 
 export const TOKENS: Record<TSwapOption, TSwapOption> = {
-  aETHc: Token.aETHb,
-  aETHb: Token.aETHc,
+  aETHc: 'aETHb',
+  aETHb: 'aETHc',
 };
 
 const { contractConfig } = configFromEnv();

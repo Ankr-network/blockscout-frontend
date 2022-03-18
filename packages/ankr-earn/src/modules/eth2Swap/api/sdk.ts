@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 
 import {
   IWeb3SendResult,
@@ -13,17 +12,13 @@ import {
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import AETHC_CONTRACT from 'modules/api/contract/AETH.json';
-import EHT_POOL_CONTRACT from 'modules/api/contract/EthereumPool.json';
-import AETHB_CONTRACT from 'modules/api/contract/FETH.json';
-import ABI_SYSTEM from 'modules/api/contract/SystemParameters.json';
+import AETH from 'modules/api/contract/AETH.json';
+import FETH from 'modules/api/contract/FETH.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
-import { Token } from '../common/types/token';
-
-export type TEthToken = Token.aETHb | Token.aETHc;
+import { TSwapOption } from '../types';
 
 export interface IGetEth2SwapServiceArgs {
   providerManager: ProviderManager;
@@ -44,7 +39,7 @@ export interface IGetTxData {
 }
 
 export interface IAddTokenToWalletArgs {
-  swapOption: TEthToken;
+  swapOption: TSwapOption;
 }
 
 export interface ISharesArgs {
@@ -111,7 +106,7 @@ export class EthSDK {
     }
 
     const instance = new EthSDK({ writeProvider, readProvider });
-    const isEthChain = instance.getIsEthChain();
+    const isEthChain = await instance.isEthChain(writeProvider);
 
     if (isEthChain && !writeProvider.isConnected()) {
       await writeProvider.connect();
@@ -120,22 +115,17 @@ export class EthSDK {
     return instance;
   }
 
-  private getIsEthChain(): boolean {
+  private async isEthChain(provider: Web3KeyProvider): Promise<boolean> {
+    const web3 = provider.getWeb3();
+    const chainId = await web3.eth.getChainId();
+
     return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
-      this.writeProvider.currentChain,
+      chainId,
     );
   }
 
-  public async getEthBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-    const balance = await web3.eth.getBalance(this.currentAccount);
-
-    return new BigNumber(web3.utils.fromWei(balance));
-  }
-
   private async getProvider(): Promise<Web3KeyProvider | Web3KeyReadProvider> {
-    const isEthChain = this.getIsEthChain();
+    const isEthChain = await this.isEthChain(this.writeProvider);
 
     if (isEthChain) {
       await this.connectWriteProvider();
@@ -145,131 +135,40 @@ export class EthSDK {
     return this.readProvider;
   }
 
-  public async getAethbBalance(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aETHbContract = EthSDK.getAethbContract(provider);
-    const web3 = provider.getWeb3();
-
-    const rawBalance = await aETHbContract.methods
-      .balanceOf(this.currentAccount)
-      .call();
-
-    const balance = isFormatted ? web3.utils.fromWei(rawBalance) : rawBalance;
-
-    return new BigNumber(balance);
-  }
-
-  private static getAethbContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
-  ): Contract {
-    const { contractConfig } = CONFIG;
-
-    return provider.createContract(AETHB_CONTRACT, contractConfig.aethContract);
-  }
-
-  public async getAethcBalance(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aETHcContract = EthSDK.getAethcContract(provider);
-    const web3 = provider.getWeb3();
-
-    const rawBalance = await aETHcContract.methods
-      .balanceOf(this.currentAccount)
-      .call();
-
-    const balance = isFormatted ? web3.utils.fromWei(rawBalance) : rawBalance;
-
-    return new BigNumber(balance);
-  }
-
-  private static getAethcContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
-  ): Contract {
-    const { contractConfig } = CONFIG;
-
-    return provider.createContract(AETHC_CONTRACT, contractConfig.aethContract);
-  }
-
-  public async getAethcRatio(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aETHcContract = EthSDK.getAethcContract(provider);
-    const web3 = provider.getWeb3();
-
-    const rawRatio = await aETHcContract.methods.ratio().call();
-    const ratio = isFormatted ? web3.utils.fromWei(rawRatio) : rawRatio;
-
-    return new BigNumber(ratio);
-  }
-
-  public async addTokenToWallet({
-    swapOption,
-  }: IAddTokenToWalletArgs): Promise<void> {
-    await this.connectWriteProvider();
-
-    const data = TOKENS[swapOption];
-
-    if (data) {
-      await this.writeProvider.addTokenToWallet(data);
-    }
-  }
-
   private async connectWriteProvider(): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
   }
 
-  public async getAllowance(): Promise<BigNumber> {
+  public async fetchEth2SwapData(): Promise<IGetEth2SwapServiceData> {
     const provider = await this.getProvider();
-    const aETHcContract = EthSDK.getAethcContract(provider);
     const { contractConfig } = CONFIG;
 
-    const allowance = await aETHcContract.methods
-      .allowance(this.currentAccount, contractConfig.fethContract)
-      .call();
-
-    return new BigNumber(allowance);
-  }
-
-  public async stake(
-    amount: BigNumber,
-    token: TEthToken,
-  ): Promise<IWeb3SendResult> {
-    await this.connectWriteProvider();
-    const { contractConfig } = CONFIG;
-
-    const ethPoolContract = this.writeProvider.createContract(
-      EHT_POOL_CONTRACT,
-      contractConfig.ethereumPool,
+    const aethContract = provider.createContract(
+      AETH,
+      contractConfig.aethContract,
+    );
+    const fethContract = provider.createContract(
+      FETH,
+      contractConfig.fethContract,
     );
 
-    const stakeMethodByTokenMap = {
-      [Token.aETHb]: 'stakeAndClaimAethB',
-      [Token.aETHc]: 'stakeAndClaimAethC',
+    const [aethBalance, fethBalance, ratio, allowance] = await Promise.all([
+      aethContract.methods.balanceOf(this.currentAccount).call(),
+      fethContract.methods.balanceOf(this.currentAccount).call(),
+      aethContract.methods.ratio().call(),
+      aethContract.methods
+        .allowance(this.currentAccount, contractConfig.fethContract)
+        .call(),
+    ]);
+
+    return {
+      ratio: new BigNumber(ratio),
+      aethBalance: new BigNumber(aethBalance),
+      fethBalance: new BigNumber(fethBalance),
+      allowance: new BigNumber(allowance),
     };
-
-    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-
-    return ethPoolContract.methods[stakeMethodByTokenMap[token]]().send({
-      from: this.currentAccount,
-      value: hexAmount,
-    });
-  }
-
-  public async getMinStake(): Promise<BigNumber> {
-    const { contractConfig } = CONFIG;
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-
-    const systemContract = provider.createContract(
-      ABI_SYSTEM,
-      contractConfig.systemContract,
-    );
-
-    const minStake = await systemContract.methods
-      .REQUESTER_MINIMUM_POOL_STAKING()
-      .call();
-
-    return new BigNumber(web3.utils.fromWei(minStake));
   }
 
   public async fetchTxData(txHash: string): Promise<IGetTxData> {
@@ -305,9 +204,12 @@ export class EthSDK {
 
     const { contractConfig } = CONFIG;
 
-    const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
+    const aethContract = this.writeProvider.createContract(
+      AETH,
+      contractConfig.aethContract,
+    );
 
-    const data = aETHcContract.methods
+    const data = aethContract.methods
       .approve(contractConfig.fethContract, convertNumberToHex(MAX_UINT256))
       .encodeABI();
 
@@ -320,10 +222,15 @@ export class EthSDK {
 
   public async lockShares({ amount }: ISharesArgs): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
-    const aETHbContract = EthSDK.getAethbContract(this.writeProvider);
+
     const { contractConfig } = CONFIG;
 
-    const data = aETHbContract.methods
+    const fethContract = this.writeProvider.createContract(
+      FETH,
+      contractConfig.fethContract,
+    );
+
+    const data = fethContract.methods
       .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
       .encodeABI();
 
@@ -336,10 +243,15 @@ export class EthSDK {
 
   public async unlockShares({ amount }: ISharesArgs): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
-    const aETHbContract = EthSDK.getAethbContract(this.writeProvider);
+
     const { contractConfig } = CONFIG;
 
-    const data = aETHbContract.methods
+    const fethContract = this.writeProvider.createContract(
+      FETH,
+      contractConfig.fethContract,
+    );
+
+    const data = fethContract.methods
       .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
       .encodeABI();
 
@@ -348,5 +260,17 @@ export class EthSDK {
       contractConfig.fethContract,
       { data, estimate: true },
     );
+  }
+
+  public async addTokenToWallet({
+    swapOption,
+  }: IAddTokenToWalletArgs): Promise<void> {
+    await this.connectWriteProvider();
+
+    const data = TOKENS[swapOption];
+
+    if (data) {
+      await this.writeProvider.addTokenToWallet(data);
+    }
   }
 }

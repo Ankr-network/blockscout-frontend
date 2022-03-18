@@ -1,12 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
-import { Token } from 'modules/common/types/token';
-
 import { SwapOptions } from '..';
 
 describe('modules/eth2Swap/screens/Main/components/SwapOptions', () => {
   const defaultProps = {
-    swapOption: Token.aETHc as const,
+    swapOption: 'aETHc' as const,
     onChooseAEthB: jest.fn(),
     onChooseAEthC: jest.fn(),
   };
@@ -39,7 +37,7 @@ describe('modules/eth2Swap/screens/Main/components/SwapOptions', () => {
   });
 
   test('should choose aETHc chip when clicking on arrow', () => {
-    render(<SwapOptions {...defaultProps} swapOption={Token.aETHb} />);
+    render(<SwapOptions {...defaultProps} swapOption="aETHb" />);
 
     const arrow = screen.getByTestId('arrow-chip');
     arrow.click();
@@ -48,7 +46,7 @@ describe('modules/eth2Swap/screens/Main/components/SwapOptions', () => {
   });
 
   test('should choose aETHb chip when clicking on arrow', () => {
-    render(<SwapOptions {...defaultProps} swapOption={Token.aETHc} />);
+    render(<SwapOptions {...defaultProps} swapOption="aETHc" />);
 
     const arrow = screen.getByTestId('arrow-chip');
     arrow.click();

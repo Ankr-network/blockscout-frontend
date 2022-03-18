@@ -1,14 +1,11 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DEFAULT_FIXED, featuresConfig } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { getAPY } from 'modules/stake-eth/actions/getAPY';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { ETokenVariant } from 'modules/stake-eth/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
@@ -27,7 +24,6 @@ import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
 export const StakeEthereum = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
   const classes = useStakeEthereumStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
@@ -39,14 +35,11 @@ export const StakeEthereum = (): JSX.Element => {
     isCommonDataLoading,
     isEthRatioLoading,
     isFeeLoading,
-    isTokenVariantDisabled,
-    resultAmount,
+    amount,
     balance,
     fee,
     ethRatio,
-    amount,
     minAmount,
-    maxAmount,
     loading,
     tokenIn,
     tokenOut,
@@ -58,53 +51,36 @@ export const StakeEthereum = (): JSX.Element => {
   const stats = useStakeStats(amount);
   const faqItems = useFaq();
 
-  useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getAPY());
-  }, [dispatchRequest]);
-
   const renderStats = useCallback(
-    () => (
+    (formAmount: BigNumber) => (
       <FormStats
-        amount={resultAmount}
+        amount={formAmount}
         isLoading={isFeeLoading}
         tokenOut={tokenOut}
         tokenVariantsSlot={
           <TokenVariantList>
             <TokenVariant
               description={tHTML('stake-ethereum.aethb-descr')}
-              icon={Token.aETHb}
-              isActive={tokenOut === Token.aETHb}
-              isDisabled={isTokenVariantDisabled}
+              icon={ETokenVariant.aETHb}
+              isActive={tokenOut === ETokenVariant.aETHb}
               title={t('unit.feth')}
-              onClick={onTokenSelect(Token.aETHb)}
+              onClick={onTokenSelect(ETokenVariant.aETHb)}
             />
 
             <TokenVariant
               description={tHTML('stake-ethereum.aethc-descr', {
-                ethRate: isEthRatioLoading
-                  ? '...'
-                  : ethRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+                ethRate: isEthRatioLoading ? '...' : ethRatio,
               })}
-              icon={Token.aETHc}
-              isActive={tokenOut === Token.aETHc}
-              isDisabled={isTokenVariantDisabled}
+              icon={ETokenVariant.aETHc}
+              isActive={tokenOut === ETokenVariant.aETHc}
               title={t('unit.aeth')}
-              onClick={onTokenSelect(Token.aETHc)}
+              onClick={onTokenSelect(ETokenVariant.aETHc)}
             />
           </TokenVariantList>
         }
       />
     ),
-    [
-      ethRatio,
-      isEthRatioLoading,
-      isFeeLoading,
-      isTokenVariantDisabled,
-      onTokenSelect,
-      resultAmount,
-      tokenOut,
-    ],
+    [ethRatio, isEthRatioLoading, isFeeLoading, onTokenSelect, tokenOut],
   );
 
   return (
@@ -129,22 +105,18 @@ export const StakeEthereum = (): JSX.Element => {
           <StakeForm
             balance={balance}
             feeSlot={
-              featuresConfig.stakeETHFee && (
-                <StakeFeeInfo
-                  isLoading={isFeeLoading}
-                  value={t('unit.token-value', {
-                    token: t('unit.eth'),
-                    value: fee.toFormat(),
-                  })}
-                />
-              )
+              <StakeFeeInfo
+                isLoading={isFeeLoading}
+                value={t('unit.token-value', {
+                  token: t('unit.eth'),
+                  value: fee.toFormat(),
+                })}
+              />
             }
             isBalanceLoading={hasError || isCommonDataLoading}
-            isDisabled={loading}
             isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             loading={hasError || loading}
-            maxAmount={maxAmount}
-            minAmount={minAmount}
+            minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
