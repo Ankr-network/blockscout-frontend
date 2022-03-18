@@ -2,14 +2,13 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { EthSDK } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
-
-import { EthSDK } from '../api/sdk';
 
 export interface IGetEth2SwapData {
   ratio: BigNumber;
-  fethBalance: BigNumber;
-  aethBalance: BigNumber;
+  aETHbBalance: BigNumber;
+  aETHcBalance: BigNumber;
   allowance: BigNumber;
 }
 
@@ -20,7 +19,19 @@ export const getEth2SwapData = createAction<
     promise: async (): Promise<IGetEth2SwapData> => {
       const sdk = await EthSDK.getInstance();
 
-      return sdk.fetchEth2SwapData();
+      const [aETHcBalance, aETHbBalance, ratio, allowance] = await Promise.all([
+        sdk.getAethcBalance(),
+        sdk.getAethbBalance(),
+        sdk.getAethcRatio(),
+        sdk.getAllowance(),
+      ]);
+
+      return {
+        ratio,
+        aETHcBalance,
+        aETHbBalance,
+        allowance,
+      };
     },
   },
   meta: {

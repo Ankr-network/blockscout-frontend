@@ -3,13 +3,11 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
 
+import { EthSDK, TEthToken } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { EthSDK } from '../api/sdk';
-import { TSwapOption } from '../types';
-
 export interface IAddTokenToWalletArgs {
-  swapOption: TSwapOption;
+  swapOption: TEthToken;
 }
 
 export const addEth2SwapTokenToWallet = createAction<

@@ -8,10 +8,4 @@ export const ETH_STAKING_NETWORKS = [ETH_NETWORK_BY_ENV];
 
 export const ETH_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
-// todo: use the actual value
-export const DEMO_APY = 4;
-
-export enum ETokenVariant {
-  aETHb = 'aETHb',
-  aETHc = 'aETHc',
-}
+export const MAX_ETH_STAKE_AMOUNT = 32;

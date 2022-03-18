@@ -3,9 +3,8 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
+import { EthSDK } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
-
-import { EthSDK } from '../api/sdk';
 
 export interface IGetEth2SwapData {
   amount: BigNumber;

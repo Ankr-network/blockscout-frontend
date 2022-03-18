@@ -17,4 +17,9 @@ export const useStakeDescriptionValueStyles = makeStyles(theme => ({
       maxWidth: 200,
     },
   },
+
+  titleSkeleton: {
+    display: 'inline-flex',
+    marginRight: '0.5em',
+  },
 }));

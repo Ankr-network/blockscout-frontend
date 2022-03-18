@@ -5,17 +5,16 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
 
+import { EthSDK, TEthToken } from 'modules/api/EthSDK';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
-
-import { EthSDK } from '../api/sdk';
-import { TSwapOption } from '../types';
 
 import { getEth2SwapData } from './getEth2SwapData';
 
 export interface ISwapAssetsArgs {
   amount: string;
-  swapOption: TSwapOption;
+  swapOption: TEthToken;
   ratio: BigNumber;
 }
 
@@ -27,7 +26,7 @@ export const swapAssets = createAction<
     promise: async () => {
       const sdk = await EthSDK.getInstance();
 
-      if (swapOption === 'aETHb') {
+      if (swapOption === Token.aETHb) {
         const inputValue = new BigNumber(amount)
           .multipliedBy(ratio)
           .dividedBy(ETH_SCALE_FACTOR)

@@ -3,26 +3,33 @@ import BigNumber from 'bignumber.js';
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 
-import { TSwapOption } from '../../types';
-import { EthSDK } from '../sdk';
+import { EthSDK, TEthToken } from '../EthSDK';
 
 jest.mock('modules/api/ProviderManagerSingleton', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
-describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
+describe('ankr-earn/src/modules/api/EthSDK', () => {
   test('should return contracts data', async () => {
+    const ethAmount = '8';
     const mockBalanceOf = jest.fn().mockReturnValue({ call: () => 1 });
     const mockRatio = jest.fn().mockReturnValue({ call: () => 0 });
     const mockAllowance = jest.fn().mockReturnValue({ call: () => 0 });
 
+    const mockWeb3 = {
+      utils: { fromWei: () => ethAmount },
+      eth: {
+        getChainId: () => 1,
+        getBalance: () => `${ethAmount}${new Array(17).fill(0).join('')}`,
+      },
+    };
+
     const mockProviderManager = {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 56 },
-        }),
+        getWeb3: () => mockWeb3,
         isConnected: () => false,
         connect: jest.fn(),
         createContract: () => ({
@@ -34,9 +41,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
         }),
       }),
       getReadProvider: () => ({
-        getWeb3: () => ({
-          eth: { getChainId: () => 1 },
-        }),
+        getWeb3: () => mockWeb3,
         createContract: () => ({
           methods: {
             balanceOf: mockBalanceOf,
@@ -53,13 +58,20 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const { ratio, aethBalance, fethBalance, allowance } =
-      await sdk.fetchEth2SwapData();
+    const [ratio, aETHcBalance, aETHbBalance, allowance, ethBalance] =
+      await Promise.all([
+        sdk.getAethcRatio(),
+        sdk.getAethcBalance(),
+        sdk.getAethbBalance(),
+        sdk.getAllowance(),
+        sdk.getEthBalance(),
+      ]);
 
+    expect(ethBalance.toString()).toBe(ethAmount);
     expect(ratio.toNumber()).toBe(0);
     expect(allowance.toNumber()).toBe(0);
-    expect(aethBalance.toNumber()).toBe(1);
-    expect(fethBalance.toNumber()).toBe(1);
+    expect(aETHcBalance.toNumber()).toBe(1);
+    expect(aETHbBalance.toNumber()).toBe(1);
     expect(mockBalanceOf).toBeCalledTimes(2);
     expect(mockRatio).toBeCalledTimes(1);
     expect(mockAllowance).toBeCalledTimes(1);
@@ -189,7 +201,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
         getWeb3: () => ({
-          eth: { getChainId: () => 56 },
+          eth: { getChainId: () => 1 },
         }),
         isConnected: () => true,
         connect: jest.fn(),
@@ -245,7 +257,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       getProvider: () => ({
         currentAccount: ZERO_ADDR,
         getWeb3: () => ({
-          eth: { getChainId: () => 56 },
+          eth: { getChainId: () => 1 },
         }),
         isConnected: () => true,
         createContract: () => ({
@@ -309,7 +321,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       const sdk = await EthSDK.getInstance();
 
       await sdk.addTokenToWallet({
-        swapOption: 'aETHc',
+        swapOption: Token.aETHc,
       });
     }
 
@@ -323,7 +335,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
       const sdk = await EthSDK.getInstance();
 
       await sdk.addTokenToWallet({
-        swapOption: 'aETHb',
+        swapOption: Token.aETHb,
       });
     }
 
@@ -357,7 +369,7 @@ describe('ankr-earn/src/modules/eth2Swap/api/sdk', () => {
     const sdk = await EthSDK.getInstance();
 
     await sdk.addTokenToWallet({
-      swapOption: 'unknown' as TSwapOption,
+      swapOption: 'unknown' as TEthToken,
     });
 
     expect(mockAddTokenToWallet).not.toBeCalled();

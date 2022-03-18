@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { ZERO, ONE_ETH } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 
 import { Main } from '..';
 import {
@@ -18,7 +19,7 @@ jest.mock('../hooks', () => ({
 
 describe('modules/eth2Swap/screens/Main', () => {
   const defaultHookData: IEth2SwapHookData = {
-    swapOption: 'aETHb',
+    swapOption: Token.aETHb,
     chainId: 1,
     allowance: ZERO,
     ratio: ZERO,

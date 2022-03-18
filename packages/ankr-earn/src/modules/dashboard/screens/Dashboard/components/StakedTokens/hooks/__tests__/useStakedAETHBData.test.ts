@@ -20,7 +20,7 @@ jest.mock('modules/boost/Routes', () => ({
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
   const defaultStatsData = {
-    data: { fethBalance: ONE_ETH },
+    data: { aETHbBalance: ONE_ETH },
     loading: false,
   };
 
