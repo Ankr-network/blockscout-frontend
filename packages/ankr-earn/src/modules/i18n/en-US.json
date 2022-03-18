@@ -530,7 +530,12 @@
     "reward": "{value} ACA",
     "pending-amount": "Amount",
     "pending-time": "Requested time",
-    "history-tooltip": "Transactions history"
+    "history-tooltip": "Transactions history",
+    "card": {
+      "stakingHistory": "Staking history",
+      "stakingHistoryComingSoon": "Staking history (coming soon)",
+      "copyTokenAddress": "Copy token address"
+    }
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",

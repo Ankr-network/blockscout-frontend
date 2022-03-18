@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -7,13 +7,13 @@ import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
-import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { CopyTokenAddress } from '../CopyTokenAddress';
 import { NetworkIconText } from '../NetworkIconText';
 
-import { ReactComponent as HistoryIcon } from './assets/history.svg';
 import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
@@ -54,15 +54,7 @@ export const StakingAsset = ({
     return <StakingAssetSkeleton />;
   }
 
-  const isHistoryBtnActive = typeof onHistoryBtnClick === 'function';
-
-  const historyButtonIcon = isHistoryLoading ? (
-    <Spinner size={18} variant="circle" />
-  ) : (
-    <HistoryIcon />
-  );
-
-  const historyClickHandler = () => {
+  const handleHistoryClick = () => {
     if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
   };
 
@@ -94,25 +86,20 @@ export const StakingAsset = ({
           )}
 
           <Grid item xs="auto">
-            <Tooltip
-              arrow
-              title={
-                isHistoryBtnActive
-                  ? t('dashboard.history-tooltip')
-                  : comingSoonTooltip
-              }
-            >
-              <Box component="span" display="flex">
-                <IconButton
-                  className={classes.openHistory}
-                  data-testid="history-button"
-                  disabled={!isHistoryBtnActive}
-                  onClick={historyClickHandler}
+            <Box component="span" display="flex">
+              <Menu>
+                <Menu.Item
+                  disabled={!onHistoryBtnClick}
+                  onClick={handleHistoryClick}
                 >
-                  {historyButtonIcon}
-                </IconButton>
-              </Box>
-            </Tooltip>
+                  {onHistoryBtnClick
+                    ? t('dashboard.card.stakingHistory')
+                    : t('dashboard.card.stakingHistoryComingSoon')}
+                </Menu.Item>
+
+                <CopyTokenAddress address={tokenAddress ?? ''} />
+              </Menu>
+            </Box>
           </Grid>
         </Grid>
       </Box>

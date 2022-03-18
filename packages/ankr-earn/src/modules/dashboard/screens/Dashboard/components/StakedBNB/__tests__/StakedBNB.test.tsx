@@ -88,7 +88,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
       </MemoryRouter>,
     );
 
-    const historyButton = await screen.findByTestId('history-button');
+    const menuButton = await screen.findByTestId('menu-button');
+    menuButton.click();
+
+    const historyButton = await screen.findByText('Staking history');
     historyButton.click();
 
     const historyDialog = await screen.findByTestId('history-dialog');
