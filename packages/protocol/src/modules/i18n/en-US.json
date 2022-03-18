@@ -86,6 +86,8 @@
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
     "header": {
+      "mainnet-tab-title": "Mainnet",
+      "testnet-tab-title": "Testnet",
       "public-endpoints": "Public RPC Endpoint{plural}",
       "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
       "private-endpoints": "Exclusive RPC Endpoint{plural}",
