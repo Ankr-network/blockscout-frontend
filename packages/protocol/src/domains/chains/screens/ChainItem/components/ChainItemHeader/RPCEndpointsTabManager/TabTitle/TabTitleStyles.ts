@@ -14,10 +14,6 @@ export const useBaseStyles = makeStyles(theme => ({
 
     cursor: 'pointer',
 
-    // '&:last-child': {
-    //   marginRight: 0,
-    // },
-
     [theme.breakpoints.down('xs')]: {
       margin: '0 6px',
       fontSize: 12,
