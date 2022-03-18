@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { useBaseStyles, useSelectedStyles } from './TabTitleStyles';
 
 export interface TabTitleProps {
-  content: React.ReactNode;
+  content: ReactNode;
   isSelected?: boolean;
 }
 
-export function TabTitle({ content, isSelected }: TabTitleProps) {
+export const TabTitle = ({ content, isSelected }: TabTitleProps) => {
   const baseClasses = useBaseStyles();
   const selectedClasess = useSelectedStyles();
 
@@ -17,4 +17,4 @@ export function TabTitle({ content, isSelected }: TabTitleProps) {
   });
 
   return <div className={className}>{content}</div>;
-}
+};

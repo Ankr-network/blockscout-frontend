@@ -1,25 +1,18 @@
+import { ReactNode } from 'react';
+
 export type TabID = string | number;
 
 export interface Tab {
-  content: React.ReactNode;
+  content: ReactNode;
   id: TabID;
   isDisabled?: boolean;
-  title: React.ReactNode;
-}
-
-export enum TabsManagerGapSize {
-  DEFAULT,
+  title: ReactNode;
 }
 
 export interface TabsManagerProps {
-  additionalContent?: React.ReactNode;
-  gapSize?: TabsManagerGapSize;
+  additionalContent?: ReactNode;
   initialTabID?: TabID;
   onTabSelect?: (id: TabID) => void;
   tabs: Tab[];
-  title?: React.ReactNode;
-}
-
-export interface TabsManagerStylesProps {
-  gapSize: TabsManagerGapSize;
+  title?: ReactNode;
 }

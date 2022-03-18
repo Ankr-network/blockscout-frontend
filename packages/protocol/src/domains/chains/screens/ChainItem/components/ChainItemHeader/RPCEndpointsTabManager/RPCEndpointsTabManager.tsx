@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { useStyles } from './RPCEndpointsTabsManagerStyles';
 import { Tab, TabsManager } from 'uiKit/TabsManager';
@@ -6,10 +6,10 @@ import { TabTitle } from './TabTitle';
 import { t } from 'modules/i18n/utils/intl';
 
 export interface RPCEndpointsTabsManagerProps {
-  additionalContent?: React.ReactNode;
-  mainnetEndpoints: React.ReactNode;
-  testnetEndpoints?: React.ReactNode;
-  title: React.ReactNode;
+  additionalContent?: ReactNode;
+  mainnetEndpoints: ReactNode;
+  testnetEndpoints?: ReactNode;
+  title: ReactNode;
 }
 
 // to avoid unnecessary re-creations
@@ -26,12 +26,12 @@ const testnetEndpointsTitleRenderFn = (isSelected: boolean) => (
   />
 );
 
-export function RPCEndpointsTabsManager({
+export const RPCEndpointsTabsManager = ({
   additionalContent,
   mainnetEndpoints,
   testnetEndpoints,
   title,
-}: RPCEndpointsTabsManagerProps) {
+}: RPCEndpointsTabsManagerProps) => {
   const classes = useStyles();
 
   const tabs: Tab[] = [
@@ -56,4 +56,4 @@ export function RPCEndpointsTabsManager({
       tabs={tabs}
     />
   );
-}
+};

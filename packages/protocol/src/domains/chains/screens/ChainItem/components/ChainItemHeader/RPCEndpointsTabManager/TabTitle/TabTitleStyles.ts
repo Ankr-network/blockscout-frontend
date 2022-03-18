@@ -10,7 +10,16 @@ export const useBaseStyles = makeStyles(theme => ({
     fontSize: 14,
     lineHeight: '20px',
 
+    margin: '0 15px',
+
+    cursor: 'pointer',
+
+    // '&:last-child': {
+    //   marginRight: 0,
+    // },
+
     [theme.breakpoints.down('xs')]: {
+      margin: '0 6px',
       fontSize: 12,
     },
   },
@@ -18,6 +27,7 @@ export const useBaseStyles = makeStyles(theme => ({
 
 export const useSelectedStyles = makeStyles(theme => ({
   selected: {
+    margin: '0 6px',
     padding: '3px 9px',
 
     borderRadius: 6,
@@ -29,6 +39,7 @@ export const useSelectedStyles = makeStyles(theme => ({
     fontWeight: 700,
 
     [theme.breakpoints.down('xs')]: {
+      margin: 0,
       padding: '0 6px',
 
       fontSize: 12,
