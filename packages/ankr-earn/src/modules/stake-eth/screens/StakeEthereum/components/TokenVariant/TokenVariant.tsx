@@ -19,6 +19,7 @@ interface ITokenVariantProps {
   title: string;
   icon: TTokenVariantIcon;
   isActive?: boolean;
+  isDisabled?: boolean;
   description?: ReactNode;
   onClick?: () => void;
 }
@@ -28,6 +29,7 @@ export const TokenVariant = ({
   title,
   isActive,
   description,
+  isDisabled,
   onClick,
 }: ITokenVariantProps): JSX.Element => {
   const classes = useTokenVariantStyles();
@@ -41,6 +43,7 @@ export const TokenVariant = ({
         label: classes.label,
       }}
       className={classNames(classes.root, isActive && classes.active)}
+      disabled={isDisabled}
       variant="outlined"
       onClick={onClick}
     >

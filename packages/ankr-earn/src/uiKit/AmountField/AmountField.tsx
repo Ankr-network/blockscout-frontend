@@ -15,7 +15,9 @@ export const AmountField = ({
   meta,
   ...rest
 }: IFieldProps & TextFieldProps): JSX.Element => {
-  const regExp = isIntegerOnly ? /^(\d*$)/ : new RegExp(`^(\\d*\\.{0,1}\\d{0,${maxDecimalsLen}}$)`);
+  const regExp = isIntegerOnly
+    ? /^(\d*$)/
+    : new RegExp(`^(\\d*\\.{0,1}\\d{0,${maxDecimalsLen}}$)`);
 
   return (
     <TextField

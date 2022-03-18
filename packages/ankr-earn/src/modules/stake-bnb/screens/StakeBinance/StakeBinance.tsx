@@ -1,5 +1,4 @@
 import { Box, ButtonBase } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
@@ -107,14 +106,11 @@ export const StakeBinance = (): JSX.Element => {
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            {isStakeGasLoading ? (
-              <Skeleton width={50} />
-            ) : (
-              <StakeDescriptionAmount
-                symbol={t('unit.abnbb')}
-                value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
-              />
-            )}
+            <StakeDescriptionAmount
+              isLoading={isStakeGasLoading}
+              symbol={t('unit.abnbb')}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
 
             <Tooltip
               title={tHTML('stake-bnb.tooltips.you-will-get', {

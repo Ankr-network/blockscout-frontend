@@ -157,7 +157,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
     return unlockedAccounts;
   }
 
-  public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+  public async addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
     const provider = this.provider as AbstractProvider;
 
     const isProviderHasRequest =
@@ -173,7 +173,7 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
         type: 'ERC20',
         options: tokenInfo,
       },
-    }).catch();
+    });
   }
 
   public async switchNetwork(chainId: number): Promise<any> {

@@ -7,6 +7,7 @@ import { AvailableWriteProviders } from 'provider';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
 import { TSwapOption } from 'modules/eth2Swap/types';
 
@@ -31,10 +32,10 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
   });
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
 
-  const [swapOption, setSwapOption] = useState<TSwapOption>('aETHb');
+  const [swapOption, setSwapOption] = useState<TSwapOption>(Token.aETHb);
   const [hasApprove, setHasApprove] = useState(false);
   const balance =
-    swapOption === 'aETHb' ? data?.fethBalance : data?.aethBalance;
+    swapOption === Token.aETHb ? data?.aETHbBalance : data?.aETHcBalance;
   const ratio = useMemo(() => data?.ratio ?? ONE_ETH, [data?.ratio]);
   const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
   const max = useMemo(() => balance ?? ZERO, [balance]);
@@ -48,11 +49,11 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
   }, [hasApprove, data?.allowance]);
 
   const handleChooseAEthB = useCallback(() => {
-    setSwapOption('aETHb');
+    setSwapOption(Token.aETHb);
   }, []);
 
   const handleChooseAEthC = useCallback(() => {
-    setSwapOption('aETHc');
+    setSwapOption(Token.aETHc);
   }, []);
 
   useProviderEffect(() => {
@@ -71,8 +72,8 @@ export const useEth2SwapData = (): IEth2SwapHookData => {
     ratio,
     allowance,
     balance: max,
-    aethBalance: data?.aethBalance,
-    fethBalance: data?.fethBalance,
+    aethBalance: data?.aETHcBalance,
+    fethBalance: data?.aETHbBalance,
     handleChooseAEthB,
     handleChooseAEthC,
   };

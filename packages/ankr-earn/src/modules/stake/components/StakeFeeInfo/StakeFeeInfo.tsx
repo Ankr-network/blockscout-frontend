@@ -25,7 +25,7 @@ export const StakeFeeInfo = ({
         <>
           {t('stake.stats.fee', { value: '' })}
 
-          <Box component={Skeleton} ml={1} width={20} />
+          <Box component={Skeleton} ml={1} width={40} />
         </>
       ) : (
         t('stake.stats.fee', { value })

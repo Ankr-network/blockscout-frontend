@@ -9,7 +9,7 @@ import { fetchAPY as getAAVAXBAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchAPY as getABNBBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
-import { DEMO_APY } from 'modules/stake-eth/const';
+import { getAPY as getETHAPY } from 'modules/stake-eth/actions/getAPY';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
 import { getAPY as getAFTMBAPY } from 'modules/stake-fantom/actions/getAPY';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
@@ -32,9 +32,8 @@ export const Main = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
   useProviderEffect(() => {
-    if (featuresConfig.isActiveAVAXStaking) {
-      dispatchRequest(getAAVAXBAPY());
-    }
+    if (featuresConfig.stakeETH) dispatchRequest(getETHAPY());
+    if (featuresConfig.isActiveAVAXStaking) dispatchRequest(getAAVAXBAPY());
     dispatchRequest(getABNBBAPY());
     dispatchRequest(getAFTMBAPY());
     dispatchRequest(getAMATICBAPY());
@@ -44,21 +43,25 @@ export const Main = (): JSX.Element => {
   const { data: aBNBbAPY } = useQuery({ type: getABNBBAPY });
   const { data: aFTMbAPY } = useQuery({ type: getAFTMBAPY });
   const { data: aMATICbAPY } = useQuery({ type: getAMATICBAPY });
+  const { data: ethAPY } = useQuery({ type: getETHAPY });
 
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Features>
-          {featuresConfig.stakeETH && (
+          {featuresConfig.stakeETH ? (
             <FeatureItem
-              apy={DEMO_APY}
+              apy={ethAPY ?? undefined}
               iconSlot={<EthIcon />}
               mainHref={EthereumRoutes.stake.generatePath()}
-              moreHref={undefined}
-              staked={undefined}
               title={t('features.ethereum')}
-              // todo: get actual staked amount
               token={Token.ETH}
+            />
+          ) : (
+            <FeatureLegacyItem
+              iconSlot={<EthIcon />}
+              mainHref="https://stakefi.ankr.com/liquid-staking/ETH"
+              title={t('features.ethereum')}
             />
           )}
 
@@ -66,10 +69,7 @@ export const Main = (): JSX.Element => {
             apy={aMATICbAPY?.toNumber()}
             iconSlot={<MaticIcon />}
             mainHref={PolygonRoutes.stake.generatePath()}
-            moreHref={undefined}
-            staked={undefined}
             title={t('features.polygon')}
-            // todo: get actual staked amount
             token={Token.MATIC}
           />
 
@@ -78,10 +78,7 @@ export const Main = (): JSX.Element => {
               apy={aBNBbAPY?.toNumber()}
               iconSlot={<BNBIcon />}
               mainHref={BinanceRoutes.stake.generatePath()}
-              moreHref={undefined}
-              staked={undefined}
               title={t('features.binance')}
-              // todo: get actual staked amount
               token={Token.BNB}
             />
           )}
@@ -91,10 +88,7 @@ export const Main = (): JSX.Element => {
               apy={aFTMbAPY?.toNumber()}
               iconSlot={<FantomIcon />}
               mainHref={FantomRoutes.stake.generatePath()}
-              moreHref={undefined}
-              staked={undefined}
               title={t('features.fantom')}
-              // todo: get actual staked amount
               token={Token.FTM}
             />
           ) : null}
@@ -104,19 +98,10 @@ export const Main = (): JSX.Element => {
               apy={aAVAXbAPY?.toNumber()}
               iconSlot={<AvaxIcon />}
               mainHref={AvalancheRoutes.stake.generatePath()}
-              moreHref={undefined}
-              // todo: get actual staked amount
-              staked={undefined}
               title={t('features.avalanche')}
               token={Token.AVAX}
             />
           )}
-
-          <FeatureLegacyItem
-            iconSlot={<EthIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/ETH"
-            title={t('features.ethereum')}
-          />
 
           <FeatureLegacyItem
             iconSlot={<DotIcon />}
