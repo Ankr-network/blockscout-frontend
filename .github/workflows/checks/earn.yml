@@ -1,6 +1,6 @@
 name: Run build and tests
 on:
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   check:
