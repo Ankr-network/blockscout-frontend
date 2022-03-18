@@ -7,6 +7,17 @@ export const useStyles = makeStyles<Theme, { chainId?: string }>(theme => ({
     paddingBottom: theme.spacing(8),
     textAlign: 'center',
   },
+  banner: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    zIndex: 100,
+    textAlign: 'center',
+    padding: '1em',
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.primary.main,
+  },
   title: {
     marginBottom: 20,
     textTransform: 'uppercase',
