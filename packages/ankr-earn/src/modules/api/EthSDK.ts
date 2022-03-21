@@ -284,7 +284,7 @@ export class EthSDK {
 
     return {
       amount: new BigNumber(web3.utils.fromWei(lockShares)),
-      destinationAddress: tx.to as string | undefined,
+      destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };
   }
