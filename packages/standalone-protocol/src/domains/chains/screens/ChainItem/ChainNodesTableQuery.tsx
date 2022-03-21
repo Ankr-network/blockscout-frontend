@@ -9,9 +9,10 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainNodesTable } from './components/ChainNodesTable';
 import { Spinner } from 'uiKit/Spinner';
 import { useStyles } from './ChainItemStyles';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemProps {
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {

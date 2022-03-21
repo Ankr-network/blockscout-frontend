@@ -7,10 +7,11 @@ import { useIsXSDown } from 'modules/themes/useTheme';
 import { copyEndpointEvent } from 'modules/analytics/trackMixpanel';
 import { NervosButtons } from './NervosButtons';
 import { ChainButtons } from './ChainButtons';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ICopyButtonsProps {
   data?: IChainItemDetails;
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const CopyButtons = ({ data, chainId }: ICopyButtonsProps) => {
@@ -23,7 +24,7 @@ export const CopyButtons = ({ data, chainId }: ICopyButtonsProps) => {
 
   if (IS_REACT_SNAP) return null;
 
-  if (chainId === 'nervos') {
+  if (chainId === ChainId.Nervos) {
     return (
       <NervosButtons
         chain={formattedChain}

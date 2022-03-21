@@ -9,9 +9,10 @@ import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { useStyles } from './ChainItemStyles';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainItem } from './ChainItem';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemProps {
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {

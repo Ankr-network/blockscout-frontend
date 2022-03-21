@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
 import { t } from 'modules/i18n/utils/intl';
+import { ChainId } from 'domains/chains/api/chain';
 
-export const useMetatags = (chainId: string) => {
+export const useMetatags = (chainId: ChainId) => {
   useEffect(() => {
     const name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
     const descriptionTag = document.getElementById(
@@ -29,14 +30,14 @@ export const useMetatags = (chainId: string) => {
   }, [chainId]);
 };
 
-export const hasAnnounce = (chainId: string): boolean => {
+export const hasAnnounce = (chainId: ChainId): boolean => {
   switch (chainId) {
-    case 'polygon':
-    case 'solana':
+    case ChainId.Polygon:
+    case ChainId.Solana:
       return false;
 
-    case 'near':
-    case 'arbitrum':
+    case ChainId.Near:
+    case ChainId.Arbitrum:
       return false;
 
     default:
