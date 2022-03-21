@@ -1,4 +1,3 @@
-
 import BigNumber from 'bignumber.js';
 import { BlockchainType, FetchBlockchainUrlsResult } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
@@ -27,7 +26,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
   const chainsArray = Object.values(chains);
 
   const mappedData = chainsArray.map<IApiChain>(item => {
-    const { blockchain, rpcUrl, wsUrl } = item;
+    const { blockchain, rpcURLs, wsURLs } = item;
 
     const { id, stats, name, extends: chainExtends, type } = blockchain;
 
@@ -37,8 +36,8 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
       id,
       icon: getChainIcon(id),
       name,
-      rpcUrls: rpcUrl ? [rpcUrl] : [],
-      wsUrls: wsUrl ? [wsUrl] : [],
+      rpcUrls: rpcURLs,
+      wsUrls: wsURLs,
       requests,
       chainExtends,
       type,

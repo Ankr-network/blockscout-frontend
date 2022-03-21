@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { RPCEndpointsTabsManager } from '../RPCEndpointsTabManager';
+import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './PublicRPCEndpointsStyles';
@@ -24,15 +24,16 @@ export const PublicRPCEndpoints = ({
     ({ rpcUrls, wsUrls }) => [...rpcUrls, ...wsUrls],
   );
 
+  const isTitlePlural = mainnetLinks.length > 1 || testnetLinks.length > 0;
   const title = (
     <Typography variant="body2" className={classes.text}>
       {t('chain-item.header.public-endpoints', {
-        plural: t('chain-item.header.plural'),
+        plural: isTitlePlural ? t('chain-item.header.plural') : '',
       })}
     </Typography>
   );
 
-  const mainnetEndponts = (
+  const mainnetEndpoints = (
     <div className={classes.root}>
       {mainnetLinks.map((link, index) => {
         return (
@@ -91,7 +92,7 @@ export const PublicRPCEndpoints = ({
   return (
     <RPCEndpointsTabsManager
       title={title}
-      mainnetEndpoints={mainnetEndponts}
+      mainnetEndpoints={mainnetEndpoints}
       testnetEndpoints={testnetEndpoints}
     />
   );

@@ -10,7 +10,7 @@ import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateCha
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
-import { RPCEndpointsTabsManager } from '../RPCEndpointsTabManager';
+import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -39,16 +39,19 @@ export const ExclusiveRPCEndpoints = ({
       {({ data }) => {
         const { rpcUrls, wsUrls, testnets } = data;
 
+        const isTitlePlural =
+          [...rpcUrls, ...wsUrls].length > 1 ||
+          (testnets && testnets.length > 0);
         const title = (
           <Typography variant="body2" className={classes.text}>
             {t('chain-item.header.private-endpoints', {
-              plural: t('chain-item.header.plural'),
+              plural: isTitlePlural ? t('chain-item.header.plural') : '',
             })}
           </Typography>
         );
 
         const mainnetEndpoints = (
-          <div className={classes.bottom}>
+          <div className={classes.root}>
             {rpcUrls.map(item => {
               return (
                 <CopyToClipIcon
@@ -78,7 +81,7 @@ export const ExclusiveRPCEndpoints = ({
 
         const testnetEndpoints =
           testnets && testnets.length > 0 ? (
-            <div className={classes.bottom}>
+            <div className={classes.root}>
               {testnets.map((testnet, index) => (
                 <React.Fragment key={index}>
                   {testnet.rpcUrls?.map(item => (

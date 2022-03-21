@@ -21,7 +21,7 @@ export const ChainMainInfo = ({
 
   return (
     <div className={classNames(classes.root, className)}>
-      <img className={classes.logo} src={logoSrc} alt={name} />
+      {logoSrc && <img className={classes.logo} src={logoSrc} alt="" />}
       <div className={classes.right}>
         <Typography variant="h4" noWrap className={classes.title}>
           {name}

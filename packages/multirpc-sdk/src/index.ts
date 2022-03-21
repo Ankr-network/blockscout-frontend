@@ -1,5 +1,7 @@
+import { RpcGateway } from './rpc/RpcGateway';
 import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
+
 import { ApiGateway } from './gateway';
 import { IConfig } from './config';
 import { ContractManager } from './contract';
@@ -11,13 +13,18 @@ import {
   WorkerGateway,
   IWorkerNodesWeight,
   IWorkerUserLocation,
+  IWorkerEndpoint,
+  IProvider,
+  IPrivateEndpoint,
+  IRestrictedDomains,
+  IRestrictedIps,
 } from './worker';
 import { IManagedPromise, ManagedPromise } from './stepper';
 
 export interface BlockchainUrls {
   blockchain: IBlockchainEntity;
-  rpcUrl: string;
-  wsUrl: string;
+  rpcURLs: string[];
+  wsURLs: string[];
 }
 
 export type FetchBlockchainUrlsResult = Record<string, BlockchainUrls>;
@@ -26,6 +33,8 @@ export default class MultiRpcSdk {
   private workerGateway?: WorkerGateway;
 
   private apiGateway?: ApiGateway;
+
+  private rpcGateway?: RpcGateway;
 
   private contractManager?: ContractManager;
 
@@ -193,49 +202,50 @@ export default class MultiRpcSdk {
 
   public async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().apiGetBlockchains();
-    const result: FetchBlockchainUrlsResult = {};
-    // eslint-disable-next-line no-restricted-syntax
-    for (const blockchain of blockchains) {
-      const hasRpc = blockchain.features.includes('rpc');
-      const hasWs = blockchain.features.includes('ws');
-      result[blockchain.id] = {
-        blockchain,
-        rpcUrl: hasRpc
-          ? this.config.publicRpcUrl.replace('{blockchain}', blockchain.id)
-          : '',
-        wsUrl: hasWs
-          ? this.config.publicWsUrl.replace('{blockchain}', blockchain.id)
-          : '',
-      };
-    }
-    return result;
+
+    return blockchains.reduce<FetchBlockchainUrlsResult>(
+      (result, blockchain) => {
+        const hasRPC = blockchain.features.includes('rpc');
+
+        const rpcURLs: string[] = hasRPC ? blockchain.paths.map(
+          path => this.config.publicRpcUrl.replace('{blockchain}', path),
+        ) : [];
+        const wsURLs: string[] = [];
+
+        result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+
+        return result;
+      },
+      {},
+    );
   }
 
   public async fetchPrivateUrls(
     jwtToken: IJwtToken,
   ): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().apiGetBlockchains();
-    const result: FetchBlockchainUrlsResult = {};
     const tokenHash = await this.calcJwtTokenHash(jwtToken);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const blockchain of blockchains) {
-      const hasRpc = blockchain.features.includes('rpc');
-      const hasWs = blockchain.features.includes('ws');
-      result[blockchain.id] = {
-        blockchain,
-        rpcUrl: hasRpc
-          ? this.config.privateRpcUrl
-              .replace('{blockchain}', blockchain.id)
-              .replace('{user}', tokenHash)
-          : '',
-        wsUrl: hasWs
-          ? this.config.privateWsUrl
-              .replace('{blockchain}', blockchain.id)
-              .replace('{user}', tokenHash)
-          : '',
-      };
-    }
-    return result;
+
+    return blockchains.reduce<FetchBlockchainUrlsResult>(
+      (result, blockchain) => {
+        const hasRPC = blockchain.features.includes('rpc');
+        const hasWS = blockchain.features.includes('ws');
+
+        const rpcURLs: string[] = hasRPC ? blockchain.paths.map(
+          path => this.config.privateRpcUrl.replace('{blockchain}', path)
+            .replace('{user}', tokenHash),
+        ) : [];
+        const wsURLs: string[] = hasWS ? blockchain.paths.map(
+          path => this.config.privateWsUrl.replace('{blockchain}', path)
+            .replace('{user}', tokenHash),
+        ) : [];
+
+        result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+
+        return result;
+      },
+      {},
+    );
   }
 
   public async getBlockchainStats(
@@ -353,6 +363,18 @@ export default class MultiRpcSdk {
     return this.apiGateway;
   }
 
+  public getRpcGateway(): RpcGateway {
+    if (this.rpcGateway) {
+      return this.rpcGateway;
+    }
+
+    this.rpcGateway = new RpcGateway({
+      baseURL: this.config.publicRpcUrl,
+    });
+
+    return this.rpcGateway;
+  }
+
   /**
    * @internal for internal usage, try to avoid
    */
@@ -375,6 +397,88 @@ export default class MultiRpcSdk {
 
   public getKeyProvider(): IWeb3KeyProvider {
     return this.keyProvider;
+  }
+
+  public async fetchProvider(jwtToken: IJwtToken): Promise<IProvider> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiGetProvider();
+  }
+
+  public async fetchPrivateEndpoints(
+    jwtToken: IJwtToken,
+  ): Promise<IWorkerEndpoint> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiGetEndpoints();
+  }
+
+  public async addPrivateEndpoint(
+    jwtToken: IJwtToken,
+    endpoint: IPrivateEndpoint,
+  ): Promise<IWorkerEndpoint> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiAddPrivateEndpoint(endpoint);
+  }
+
+  public async editPrivateEndpoint(
+    jwtToken: IJwtToken,
+    endpoint: IPrivateEndpoint,
+  ): Promise<IWorkerEndpoint> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiEditPrivateEndpoint(endpoint);
+  }
+
+  public async deletePrivateEndpoint(
+    jwtToken: IJwtToken,
+    endpointId: string,
+  ): Promise<void> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiDeletePrivateEndpoint(endpointId);
+  }
+
+  public async getChainRestrictedDomains(
+    jwtToken: IJwtToken,
+    chainId: string,
+  ): Promise<IRestrictedDomains> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().getChainRestrictedDomains(chainId);
+  }
+
+  public async getChainRestrictedIps(
+    jwtToken: IJwtToken,
+    chainId: string,
+  ): Promise<IRestrictedIps> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().getChainRestrictedIps(chainId);
+  }
+
+  public async editChainRestrictedDomains(
+    jwtToken: IJwtToken,
+    chainId: string,
+    domains: string[],
+  ): Promise<IRestrictedDomains> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiEditChainRestrictedDomains(
+      chainId,
+      domains,
+    );
+  }
+
+  public async editChainRestrictedIps(
+    jwtToken: IJwtToken,
+    chainId: string,
+    domains: string[],
+  ): Promise<IRestrictedIps> {
+    this.getWorkerGateway().addJwtToken(jwtToken);
+
+    return this.getWorkerGateway().apiEditChainRestrictedIps(chainId, domains);
   }
 }
 

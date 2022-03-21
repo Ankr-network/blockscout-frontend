@@ -13,8 +13,8 @@ const ERIGON_CHAIN = {
   icon: '',
   id: 'erigonbsc',
   name: 'Erigon bsc',
-  rpcUrl: 'https://erigonbsc.public-rpc.com',
-  wsUrl: '',
+  rpcUrls: ['https://erigonbsc.public-rpc.com'],
+  wsUrls: [],
 };
 
 export const fetchChain = createSmartAction<
@@ -47,7 +47,7 @@ export const fetchChain = createSmartAction<
             return {
               chain: {
                 ...ERIGON_CHAIN,
-                rpcUrl,
+                rpcUrls: [rpcUrl],
               },
             };
           }
@@ -59,7 +59,7 @@ export const fetchChain = createSmartAction<
           return {
             chain: {
               ...chain,
-              rpcUrl,
+              rpcUrls: [rpcUrl],
             },
           };
         })(),

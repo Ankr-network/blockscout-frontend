@@ -1,7 +1,13 @@
 {
   "title": "Protocol",
   "validation": {
-    "required": "This field is required"
+    "required": "This field is required",
+    "domain-validation": "Use the following URL format: example.com",
+    "url-validation": "Should be a valid URL",
+    "https-validation": "Should be a valid https URL",
+    "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
+    "ip-validation": "Should be a valid IP address",
+    "url-chain-validation": "URL must contain {chainId}"
   },
   "meta": {
     "title": "Ankr Protocol",
@@ -48,7 +54,8 @@
   },
   "dashboard": {
     "breadcrumbs": "My exclusive RPCs",
-    "title": "My exclusive RPCs"
+    "title": "My exclusive RPCs",
+    "provider-title": "Dashboard"
   },
   "30-days-statistics": {
     "30days": "30d",
@@ -239,6 +246,9 @@
         "checkbox": "Please, check this box to proceed"
       }
     },
+    "add-endpoint": {
+      "breadcrumbs": "Add Endpoint"
+    },
     "deposit-success": {
       "title": "Deposited Successfully",
       "subtitle": "We&nbsp;need your email so&nbsp;you can receive updates.",
@@ -261,7 +271,8 @@
   "common": {
     "copy-message": "Copied!",
     "copy-text": "Public Link",
-    "empty": "Empty..."
+    "empty": "Empty...",
+    "copy": "Copy"
   },
   "providers": {
     "breadcrumbs": "Node Providers",
@@ -278,6 +289,56 @@
       "pagination": {
         "previous-button": "Previous",
         "next-button": "Next"
+      }
+    },
+    "endpoint": {
+      "more-btn": "More",
+      "title": "My endpoints",
+      "button": "Add Endpoint",
+      "tooltip-text": "You have reached the maximum number of endpoints ({limit})",
+      "chain-tooltip-text": "You don't have an access to add {chainId} endpoint",
+      "delete-dialog": {
+        "info": "Are you sure you&rsquo;d like to&nbsp;remove {name} endpoint?",
+        "remove": "Remove",
+        "cancel": "Cancel"
+      },
+      "security": {
+        "title": "Security",
+        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist",
+        "domain": {
+          "address-title": "Add website address",
+          "address-count": "{value} max",
+          "domains-title": "List of allowed websites"
+        },
+        "add-button": "Add",
+        "ip": {
+          "address-title": "Add IP address",
+          "address-count": "{value} max",
+          "domains-title": "List of allowed IP addresses"
+        }
+      }
+    },
+    "private-endpoints": {
+      "title": "Exclusive RPC Endpoint{plural}",
+      "plural": "s",
+      "user-endpoint": "My endpoints"
+    },
+    "editable-endpoints": {
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "paste": "Paste"
+    },
+    "chains": {
+      "title": "Select Chain",
+      "button": "RPC Endpoint"
+    },
+    "add-endpoint": {
+      "description": "You can import your personal endpoint, which will be used to process requests that are sent to your exclusive ANKR endpoint. In case of an error, the request will be processed by our nodes for premium users. Please enter a valid https endpoint address and the system will check it.",
+      "http-input": "Endpoint address",
+      "agreement": {
+        "text": "I&nbsp;understand",
+        "button": "Finish"
       }
     }
   },

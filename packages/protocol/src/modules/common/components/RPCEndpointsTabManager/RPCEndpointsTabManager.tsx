@@ -1,9 +1,15 @@
 import React, { ReactNode } from 'react';
 
-import { useStyles } from './RPCEndpointsTabsManagerStyles';
 import { Tab, TabsManager } from 'uiKit/TabsManager';
 import { TabTitle } from './TabTitle';
 import { t } from 'modules/i18n/utils/intl';
+
+import { useStyles } from './RPCEndpointsTabsManagerStyles';
+
+export enum RPCEndpointsTabID {
+  MAINNET = 'mainnet',
+  TESTNET = 'testnet',
+}
 
 export interface RPCEndpointsTabsManagerProps {
   additionalContent?: ReactNode;
@@ -36,12 +42,12 @@ export const RPCEndpointsTabsManager = ({
 
   const tabs: Tab[] = [
     {
-      id: 'public',
+      id: RPCEndpointsTabID.MAINNET,
       content: mainnetEndpoints,
       title: mainnetEndpointsTitleRenderFn,
     },
     {
-      id: 'testnet',
+      id: RPCEndpointsTabID.TESTNET,
       content: testnetEndpoints,
       title: testnetEndpointsTitleRenderFn,
     },

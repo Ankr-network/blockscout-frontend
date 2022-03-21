@@ -8,6 +8,7 @@ import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/Cha
 
 import { useStyles } from './RpcItemStyles';
 import { RpcItemProps } from './RpcItemTypes';
+import { Button } from '@material-ui/core';
 
 export const RpcItem = ({
   logoSrc,
@@ -18,11 +19,19 @@ export const RpcItem = ({
   extraDescription,
   extraLabel,
   className = '',
+  onClick,
 }: RpcItemProps) => {
-  const classes = useStyles();
+  const hasOnClick = typeof onClick === 'function';
+
+  const classes = useStyles({ hasOnClick });
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div
+      className={classNames(classes.root, className)}
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+    >
       <ChainMainInfo
         logoSrc={logoSrc}
         name={name}
@@ -58,6 +67,11 @@ export const RpcItem = ({
             className={classes.item}
           />
         ))}
+        {hasOnClick && (
+          <Button className={classes.moreBtn} variant="outlined">
+            {t('providers.endpoint.more-btn')}
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -22,8 +22,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   root: {
     display: 'flex',
-    gap: theme.spacing(0, 2),
-    marginTop: 21,
+    gap: theme.spacing(2),
+    margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
 
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
@@ -34,7 +34,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'flex-start',
   },
   section: {
-    marginBottom: theme.spacing(3),
     flex: 1,
     minWidth: 0,
   },
