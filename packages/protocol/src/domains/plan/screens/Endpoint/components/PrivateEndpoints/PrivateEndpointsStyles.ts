@@ -30,7 +30,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     gap: theme.spacing(2),
 
-    marginTop: 16,
+    marginTop: theme.spacing(3),
 
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
