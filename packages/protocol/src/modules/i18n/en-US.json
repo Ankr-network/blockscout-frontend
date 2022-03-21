@@ -388,5 +388,8 @@
     "godwoken": "Web3 (Godwoken)",
     "iotex": "Web3 (EVM)",
     "near": "Web3 (EVM)"
+  },
+  "zendesk": {
+    "get-help": "Help"
   }
 }

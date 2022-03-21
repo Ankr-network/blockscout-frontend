@@ -12,6 +12,7 @@ import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
+import { ZendeskMounter } from 'modules/common/components/ZendeskMounter';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
+            <ZendeskMounter />
             <ScrollToTop />
             <BreadcrumbsProvider>
               <Routes />

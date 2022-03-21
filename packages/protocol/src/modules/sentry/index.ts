@@ -14,14 +14,12 @@ export const initializeSentry = () => {
       environment: window?.location?.host,
       integrations: [new Integrations.BrowserTracing()],
       release: `${REACT_APP_NAME}-${REACT_APP_VERSION}`,
-
       beforeSend(event) {
         if (DEBUG) {
           // eslint-disable-next-line no-console
           console.error(event.message, event);
           return null;
         }
-
         return event;
       },
     });

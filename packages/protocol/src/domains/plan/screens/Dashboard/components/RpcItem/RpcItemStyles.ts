@@ -71,6 +71,6 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
     },
     [theme.breakpoints.down('sm')]: {
       flex: '1 0 auto',
-    }
+    },
   },
 }));
