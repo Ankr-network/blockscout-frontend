@@ -29,7 +29,7 @@ export interface IBlockchainEntity {
   id: string;
   features: TBlockchainFeature[];
   name: string;
-  paths: string[];
+  paths?: string[];
   stats?: {
     reqs: number;
   };

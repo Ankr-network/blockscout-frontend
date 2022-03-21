@@ -207,9 +207,11 @@ export default class MultiRpcSdk {
       (result, blockchain) => {
         const hasRPC = blockchain.features.includes('rpc');
 
-        const rpcURLs: string[] = hasRPC ? blockchain.paths.map(
-          path => this.config.publicRpcUrl.replace('{blockchain}', path),
-        ) : [];
+        const rpcURLs: string[] = hasRPC
+          ? blockchain?.paths?.map(path =>
+              this.config.publicRpcUrl.replace('{blockchain}', path),
+            ) || []
+          : [];
         const wsURLs: string[] = [];
 
         result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
@@ -231,14 +233,21 @@ export default class MultiRpcSdk {
         const hasRPC = blockchain.features.includes('rpc');
         const hasWS = blockchain.features.includes('ws');
 
-        const rpcURLs: string[] = hasRPC ? blockchain.paths.map(
-          path => this.config.privateRpcUrl.replace('{blockchain}', path)
-            .replace('{user}', tokenHash),
-        ) : [];
-        const wsURLs: string[] = hasWS ? blockchain.paths.map(
-          path => this.config.privateWsUrl.replace('{blockchain}', path)
-            .replace('{user}', tokenHash),
-        ) : [];
+        const rpcURLs: string[] = hasRPC
+          ? blockchain?.paths?.map(path =>
+              this.config.privateRpcUrl
+                .replace('{blockchain}', path)
+                .replace('{user}', tokenHash),
+            ) || []
+          : [];
+
+        const wsURLs: string[] = hasWS
+          ? blockchain?.paths?.map(path =>
+              this.config.privateWsUrl
+                .replace('{blockchain}', path)
+                .replace('{user}', tokenHash),
+            ) || []
+          : [];
 
         result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
 
