@@ -30,7 +30,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.common.white,
     color: theme.palette.text.primary,
     '&:hover': {
-      backgroundColor: `${theme.palette.common.white} !important`,
+      backgroundColor: `${theme.palette.common.white}`,
       color: theme.palette.text.primary,
     },
   },
