@@ -11,10 +11,12 @@ import { ChainHeader } from './components/ChainHeader';
 import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { Crosslink } from './components/Crosslink';
+import { ChainId } from 'domains/chains/api/chain';
+import { CrossMenu } from './components/CrossMenu';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
@@ -23,13 +25,14 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   return (
     <ThemeProvider theme={getTheme(chainId)}>
       <Container className={classes.main}>
+        <CrossMenu chainId={chainId} />
         <ChainHeader className={classes.header} chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
         <ChainItemDetailsQuery chainId={chainId} />
         <ChainNodesTableQuery chainId={chainId} />
       </Container>
-      {chainId === 'erigonbsc' && <Crosslink />}
+      {chainId === ChainId.Erigonbsc && <Crosslink />}
     </ThemeProvider>
   );
 };

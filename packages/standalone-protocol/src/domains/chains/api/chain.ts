@@ -1,0 +1,15 @@
+export enum ChainId {
+  Avalanche = 'avalanche',
+  Arbitrum = 'arbitrum',
+  BSC = 'bsc',
+  Celo = 'celo',
+  Ethereum = 'eth',
+  Fantom = 'fantom',
+  IoTeX = 'iotex',
+  Near = 'near',
+  Nervos = 'nervos',
+  Nervos_GW = 'nervos_gw',
+  Polygon = 'polygon',
+  Solana = 'solana',
+  Erigonbsc = 'erigonbsc',
+}
