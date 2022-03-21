@@ -73,45 +73,49 @@ export const ChainNodesTable = ({
             const nodeStatus = getStatusByNodeScore(row.score);
 
             return (
-              <TableRow key={row.id} className={classes.row}>
-                <TableCell padding="none" className={classes.nodeCell}>
-                  <Box display="flex" alignItems="center">
-                    <StatusCircle mr={1.25} status={nodeStatus} />
+              <>
+                {!!row.height && (
+                  <TableRow key={row.id} className={classes.row}>
+                    <TableCell padding="none" className={classes.nodeCell}>
+                      <Box display="flex" alignItems="center">
+                        <StatusCircle mr={1.25} status={nodeStatus} />
 
-                    {capitalize(row.organization || '')}
-                  </Box>
-                </TableCell>
+                        {capitalize(row.organization || '')}
+                      </Box>
+                    </TableCell>
 
-                <TableCell padding="none" className={classes.heightCell}>
-                  <Typography
-                    style={{
-                      color: isHeightColVisibleStatus(nodeStatus)
-                        ? getStatusColor(theme, nodeStatus)
-                        : 'inherit',
-                    }}
-                    variant="inherit"
-                  >
-                    {row.height}
-                  </Typography>
-                </TableCell>
+                    <TableCell padding="none" className={classes.heightCell}>
+                      <Typography
+                        style={{
+                          color: isHeightColVisibleStatus(nodeStatus)
+                            ? getStatusColor(theme, nodeStatus)
+                            : 'inherit',
+                        }}
+                        variant="inherit"
+                      >
+                        {row.height}
+                      </Typography>
+                    </TableCell>
 
-                {row.country && (
-                  <TableCell padding="none" className={classes.countryCell}>
-                    <ReactCountryFlag
-                      svg
-                      className={classes.flag}
-                      countryCode={row.country}
-                    />
-                    &nbsp; &nbsp;
-                    {row.city}
-                    &nbsp; ({t(`continents.${row.continent}`)})
-                  </TableCell>
+                    {row.country && (
+                      <TableCell padding="none" className={classes.countryCell}>
+                        <ReactCountryFlag
+                          svg
+                          className={classes.flag}
+                          countryCode={row.country}
+                        />
+                        &nbsp; &nbsp;
+                        {row.city}
+                        &nbsp; ({t(`continents.${row.continent}`)})
+                      </TableCell>
+                    )}
+
+                    <TableCell className={classes.weightCell}>
+                      {`${row?.weight?.toFixed(0)}%`}
+                    </TableCell>
+                  </TableRow>
                 )}
-
-                <TableCell className={classes.weightCell}>
-                  {`${row?.weight?.toFixed(0)}%`}
-                </TableCell>
-              </TableRow>
+              </>
             );
           })}
         </TableBody>

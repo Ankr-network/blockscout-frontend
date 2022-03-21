@@ -19,13 +19,21 @@ export interface INodeEntity {
 
 export type TBlockchainFeature = 'rpc' | 'ws';
 
+export enum BlockchainType {
+  Mainnet = 'mainnet',
+  Testnet = 'testnet',
+}
+
 export interface IBlockchainEntity {
+  extends?: string;
   id: string;
+  features: TBlockchainFeature[];
+  name: string;
+  paths?: string[];
   stats?: {
     reqs: number;
   };
-  features: TBlockchainFeature[];
-  name: string;
+  type: BlockchainType;
 }
 
 export type IWorkerGlobalStatus = {
@@ -77,6 +85,24 @@ export type IWorkerUserLocation = {
   timezone: string;
 };
 
+export type IWorkerEndpoint = {
+  blockchain: string;
+  scheme: string;
+  requestUrl: string;
+  id: string;
+  owner: string;
+  user: string;
+};
+
+export type IProvider =
+  | {
+      address: string;
+      blockchains: string[];
+      id: string;
+      limit: number;
+    }
+  | string;
+
 const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
   headers: {
     'Content-Type': 'application/json',
@@ -85,6 +111,17 @@ const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
 };
 
 export type Timeframe = '24h' | '7d' | '30d';
+
+export type IPrivateEndpoint = {
+  id?: string;
+  blockchain: string;
+  scheme: string;
+  requestUrl: string;
+};
+
+export type IRestrictedDomains = string[];
+
+export type IRestrictedIps = string[];
 
 export class WorkerGateway {
   public api: AxiosInstance;
@@ -248,6 +285,82 @@ export class WorkerGateway {
     const { data } = await this.api.delete<INodeEntity>('/backoffice/v1/node', {
       params: { id: node.id },
     });
+    return data;
+  }
+
+  public async apiGetProvider(): Promise<IProvider> {
+    const { data } = await this.api.get<IProvider>('/api/v1/provider');
+
+    return data;
+  }
+
+  public async apiGetEndpoints(): Promise<IWorkerEndpoint> {
+    const { data } = await this.api.get<IWorkerEndpoint>(
+      '/api/v1/private/node',
+    );
+
+    return data;
+  }
+
+  public async apiAddPrivateEndpoint(
+    endpoint: IPrivateEndpoint,
+  ): Promise<IWorkerEndpoint> {
+    const { data } = await this.api.post('/api/v1/private/node', endpoint);
+
+    return data;
+  }
+
+  public async apiEditPrivateEndpoint(
+    endpoint: IPrivateEndpoint,
+  ): Promise<IWorkerEndpoint> {
+    const { data } = await this.api.post('/api/v1/private/node', endpoint);
+
+    return data;
+  }
+
+  public async apiDeletePrivateEndpoint(id: string): Promise<void> {
+    await this.api.delete<IPrivateEndpoint>('/api/v1/private/node', {
+      params: { id },
+    });
+  }
+
+  public async getChainRestrictedDomains(
+    chainId: string,
+  ): Promise<IRestrictedDomains> {
+    const { data } = await this.api.get(
+      `/api/v1/user/whitelist/${chainId}/referer`,
+    );
+
+    return data;
+  }
+
+  public async getChainRestrictedIps(chainId: string): Promise<IRestrictedIps> {
+    const { data } = await this.api.get(`/api/v1/user/whitelist/${chainId}/ip`);
+
+    return data;
+  }
+
+  public async apiEditChainRestrictedDomains(
+    chainId: string,
+    domains: IRestrictedDomains,
+  ): Promise<IRestrictedDomains> {
+    const { data } = await this.api.post(
+      `/api/v1/user/whitelist/${chainId}/referer`,
+      domains,
+    );
+
+    return data;
+  }
+
+  public async apiEditChainRestrictedIps(
+    chainId: string,
+    ips: IRestrictedDomains,
+  ): Promise<IRestrictedIps> {
+    const { data } = await this.api.post(
+      `/api/v1/user/whitelist/${chainId}/ip`,
+      ips,
+    );
+
     return data;
   }
 }

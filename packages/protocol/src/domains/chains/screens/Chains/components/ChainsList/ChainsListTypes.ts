@@ -1,9 +1,9 @@
-import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
-import { ResponseData } from 'modules/api/utils/ResponseData';
+import { IApiChain } from 'domains/chains/api/queryChains';
 
 export interface ChainsListProps {
-  data: ResponseData<typeof fetchPublicChains>;
-  setTotalRequestsData: (totalRequest: string) => void;
+  outLoading: boolean;
+  data: IApiChain[];
+  handleChainInfo: (totalRequest: string) => void;
 }
 
 export interface Chain {
@@ -12,4 +12,5 @@ export interface Chain {
   rpcLinks: string[];
   name: string;
   requests?: number;
+  isArchive?: boolean;
 }

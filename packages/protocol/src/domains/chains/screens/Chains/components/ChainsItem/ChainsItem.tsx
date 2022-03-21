@@ -10,6 +10,8 @@ import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
 
 export const ChainsItem = ({
+  totalRequests,
+  isLoading,
   logoSrc,
   name,
   description,
@@ -17,7 +19,6 @@ export const ChainsItem = ({
   links,
   onButtonClick,
   chain,
-  totalRequests,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -29,10 +30,12 @@ export const ChainsItem = ({
       className={classes.root}
     >
       <ChainMainInfo
+        isLoading={isLoading}
         logoSrc={logoSrc}
         name={name}
         className={classes.mainInfo}
         totalRequests={totalRequests}
+        isArchive={chain.isArchive}
         description={
           description && (
             <ChainRequestsLabel description={description} label={period} />

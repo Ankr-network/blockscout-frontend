@@ -21,6 +21,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
   right: {
     flex: 1,
     maxWidth: `calc(100% - ${LOGO_WIDTH}px - ${LOGO_MARGIN}px)`,
+    position: 'relative',
+  },
+  archive: {
+    fontSize: 12,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(0.5, 1),
+    borderRadius: 6,
+    '@media (max-width: 850px) and (min-width: 768px)': {
+      display: 'none',
+    },
   },
   req: {
     display: 'flex',
@@ -34,5 +48,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 12,
     border: `1px solid rgba(31, 34, 38, 0.1)`,
     borderRadius: 18,
+  },
+  skeleton: {
+    width: '100%',
+    maxWidth: 140,
+    height: 20,
+    transform: 'none',
   },
 }));
