@@ -1,3 +1,4 @@
+import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
@@ -11,7 +12,8 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -59,12 +61,24 @@ export class FantomSDK {
 
   private currentAccount: string;
 
+  private readonly api: AxiosInstance;
+
   private constructor({ readProvider, writeProvider }: IFantomSDKProviders) {
     FantomSDK.instance = this;
+    const { gatewayConfig } = configFromEnv(
+      isMainnet ? Env.Production : Env.Develop,
+    );
 
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
     this.currentAccount = this.writeProvider.currentAccount;
+    this.api = axios.create({
+      baseURL: gatewayConfig.baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    });
   }
 
   public static async getInstance(): Promise<FantomSDK> {
@@ -331,6 +345,13 @@ export class FantomSDK {
       .call();
 
     return this.convertFromWei(aFTMbBalance);
+  }
+
+  public async getPendingUnstakes(): Promise<BigNumber> {
+    return this.api
+      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}`)
+      .then(({ data }) => new BigNumber(data.unstakingAmount))
+      .catch(() => ZERO);
   }
 
   public async getAftmbAPY(): Promise<BigNumber> {

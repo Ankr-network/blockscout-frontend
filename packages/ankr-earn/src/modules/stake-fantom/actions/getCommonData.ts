@@ -9,6 +9,7 @@ interface IGetCommonData {
   ftmBalance: BigNumber;
   minStake: BigNumber;
   aFTMbBalance: BigNumber;
+  pendingUnstakes: BigNumber;
 }
 
 export const getCommonData = createAction<
@@ -19,16 +20,19 @@ export const getCommonData = createAction<
     promise: (async (): Promise<IGetCommonData> => {
       const sdk = await FantomSDK.getInstance();
 
-      const [ftmBalance, minStake, aFTMbBalance] = await Promise.all([
-        sdk.getFtmBalance(),
-        sdk.getMinimumStake(),
-        sdk.getAftmbBalance(),
-      ]);
+      const [ftmBalance, minStake, aFTMbBalance, pendingUnstakes] =
+        await Promise.all([
+          sdk.getFtmBalance(),
+          sdk.getMinimumStake(),
+          sdk.getAftmbBalance(),
+          sdk.getPendingUnstakes(),
+        ]);
 
       return {
         ftmBalance,
         minStake,
         aFTMbBalance,
+        pendingUnstakes,
       };
     })(),
   },

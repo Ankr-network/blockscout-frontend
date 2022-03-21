@@ -12,6 +12,7 @@ import { RoutesConfig } from 'modules/stake-fantom/Routes';
 
 export interface IStakedAFTMBData {
   amount: BigNumber;
+  pendingUnstakes: BigNumber;
   network: string;
   tradeLink: string;
   stakeLink: string;
@@ -38,10 +39,12 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const network = t(`chain.${FTM_NETWORK_BY_ENV}`);
 
   const amount = commonData?.aFTMbBalance ?? ZERO;
+  const pendingUnstakes = commonData?.pendingUnstakes ?? ZERO;
   const isShowed = !amount.isZero() || isBalancesLoading;
 
   return {
     amount,
+    pendingUnstakes,
     network,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMb, Token.FTM),
     isShowed,

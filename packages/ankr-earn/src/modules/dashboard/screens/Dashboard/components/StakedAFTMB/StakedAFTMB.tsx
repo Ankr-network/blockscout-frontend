@@ -22,6 +22,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
 
   const {
     amount,
+    pendingUnstakes,
     network,
     isBalancesLoading,
     isStakeLoading,
@@ -40,12 +41,12 @@ export const StakedAFTMB = (): JSX.Element | null => {
     dispatch(getHistory());
   }, [dispatch, onOpen]);
 
-  const renderedPendingSlot = !history.pendingValue.isZero() && (
+  const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
       isLoading={history.isHistoryLoading}
       token={Token.aFTMb}
       tooltip={<PendingTable data={history.pendingUnstakeHistory} />}
-      value={history.pendingValue}
+      value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />
   );

@@ -28,6 +28,7 @@ jest.mock('../../StakedTokens/hooks/useStakedFTMTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
   const defaultStakedAFTMBHookData: IStakedAFTMBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
+    pendingUnstakes: ONE_ETH.dividedBy(10 ** 17),
     isShowed: true,
     network: 'Fantom Opera',
     isBalancesLoading: false,
