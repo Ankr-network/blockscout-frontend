@@ -44,6 +44,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   countryCell: {
     width: '35%',
+    paddingRight: theme.spacing(1),
   },
 
   weightCell: {
