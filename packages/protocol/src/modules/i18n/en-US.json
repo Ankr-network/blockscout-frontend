@@ -138,7 +138,7 @@
     },
     "nodes-table": {
       "header": "Nodes",
-      "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location",
+      "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location.",
       "head": {
         "node": "Node",
         "height": "Height",
@@ -295,8 +295,8 @@
       "more-btn": "More",
       "title": "My endpoints",
       "button": "Add Endpoint",
-      "tooltip-text": "You have reached the maximum number of endpoints ({limit})",
-      "chain-tooltip-text": "You don't have an access to add {chainId} endpoint",
+      "tooltip-text": "You have reached the maximum number of endpoints ({limit}).",
+      "chain-tooltip-text": "You don't have an access to add {chainId} endpoint.",
       "delete-dialog": {
         "info": "Are you sure you&rsquo;d like to&nbsp;remove {name} endpoint?",
         "remove": "Remove",
@@ -304,7 +304,7 @@
       },
       "security": {
         "title": "Security",
-        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist",
+        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist.",
         "domain": {
           "address-title": "Add website address",
           "address-count": "{value} max",
