@@ -108,6 +108,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
   },
   current: {
     opacity: 1,
+    '& svg': {
+      width: 36,
+      height: 36,
+    },
   },
   name: {
     fontSize: 19,
