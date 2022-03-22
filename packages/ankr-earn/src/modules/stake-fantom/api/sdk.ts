@@ -99,9 +99,9 @@ export class FantomSDK {
     }
 
     const instance = new FantomSDK({ writeProvider, readProvider });
-    const isFmtNetwork = await instance.isFmtNetwork(writeProvider);
+    const isFtmNetwork = await instance.isFtmNetwork(writeProvider);
 
-    if (isFmtNetwork && !writeProvider.isConnected()) {
+    if (isFtmNetwork && !writeProvider.isConnected()) {
       await writeProvider.connect();
     }
 
@@ -115,7 +115,7 @@ export class FantomSDK {
       return this.readProvider;
     }
 
-    const isFmtChain = await this.isFmtNetwork(this.writeProvider);
+    const isFmtChain = await this.isFtmNetwork(this.writeProvider);
 
     if (isFmtChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -128,7 +128,7 @@ export class FantomSDK {
     return this.readProvider;
   }
 
-  private async isFmtNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isFtmNetwork(provider: Web3KeyProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -325,6 +325,9 @@ export class FantomSDK {
       address: fantomConfig.aftmbToken,
       symbol: Token.aFTMb,
       decimals: 18,
+      chainId: isMainnet
+        ? BlockchainNetworkId.fantom
+        : BlockchainNetworkId.fantomTestnet,
     });
   }
 

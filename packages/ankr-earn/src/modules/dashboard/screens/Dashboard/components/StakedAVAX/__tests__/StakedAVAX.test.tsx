@@ -43,6 +43,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     isShowed: false,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {

@@ -1,5 +1,9 @@
-import { useMutation, useQuery } from '@redux-requests/react';
-import { renderHook } from '@testing-library/react-hooks';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
 
@@ -8,6 +12,7 @@ import { useStakedAETHBData } from '../useStakedAETHBData';
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
   useMutation: jest.fn(),
+  useDispatchRequest: jest.fn(),
 }));
 
 jest.mock('modules/auth/hooks/useConnectedData', () => ({
@@ -32,6 +37,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+
+    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -61,5 +68,18 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
     expect(result.current.amount).toStrictEqual(ZERO);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
+  });
+
+  test('should handle add token to metamask', () => {
+    const mockDispatch = jest.fn();
+    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedAETHBData());
+
+    act(() => {
+      result.current.handleAddTokenToWallet();
+    });
+
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 });

@@ -1,10 +1,16 @@
-import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
 import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake';
@@ -24,9 +30,11 @@ export interface IStakedMaticData {
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   isShowed: boolean;
+  handleAddTokenToWallet: () => void;
 }
 
 export const useStakedMaticData = (): IStakedMaticData => {
+  const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakePolygonStats,
   });
@@ -41,6 +49,10 @@ export const useStakedMaticData = (): IStakedMaticData => {
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
+
+  const handleAddTokenToWallet = useCallback(() => {
+    dispatchRequest(addMATICTokenToWallet());
+  }, [dispatchRequest]);
 
   return {
     amount,
@@ -58,5 +70,6 @@ export const useStakedMaticData = (): IStakedMaticData => {
     isStakeLoading,
     isUnstakeLoading,
     isShowed,
+    handleAddTokenToWallet,
   };
 };

@@ -16,6 +16,7 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isMainnet } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake/api/getAPY';
 
@@ -505,6 +506,9 @@ export class PolygonSDK {
       address: contractConfig.aMaticbToken,
       symbol: Token.aMATICb,
       decimals: 18,
+      chainId: isMainnet
+        ? BlockchainNetworkId.mainnet
+        : BlockchainNetworkId.goerli,
     });
   }
 }

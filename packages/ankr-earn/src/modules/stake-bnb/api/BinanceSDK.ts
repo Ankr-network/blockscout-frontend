@@ -14,6 +14,7 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isMainnet } from 'modules/common/const';
 
 import {
   BINANCE_POOL_CONTRACT_START_BLOCK,
@@ -289,6 +290,9 @@ export class BinanceSDK {
       address: binanceConfig.aBNBbToken,
       symbol,
       decimals,
+      chainId: isMainnet
+        ? BlockchainNetworkId.smartchain
+        : BlockchainNetworkId.smartchainTestnet,
     });
   }
 

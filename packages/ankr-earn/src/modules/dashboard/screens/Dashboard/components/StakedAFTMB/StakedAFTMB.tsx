@@ -30,6 +30,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     unstakeLink,
     stakeLink,
     tradeLink,
+    handleAddTokenToWallet,
   } = useStakedAFTMBData();
 
   const handleLoadTxHistory = useCallback(() => {
@@ -66,6 +67,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
         tokenAddress={fantomConfig.aftmbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />
 

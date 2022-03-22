@@ -27,6 +27,7 @@ export const StakedAVAX = (): JSX.Element => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    handleAddTokenToWallet,
   } = useStakedAVAXData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
@@ -65,6 +66,7 @@ export const StakedAVAX = (): JSX.Element => {
         tokenAddress={avalancheConfig.futureBondAVAX}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />
 

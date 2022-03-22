@@ -33,7 +33,7 @@ export const useMenuStyles = makeStyles(theme => ({
 
   menuItem: {
     color: theme.palette.text.primary,
-    fontSize: 16,
+    fontSize: 13,
     padding: theme.spacing(1.5, 2),
 
     '&:first-child': {

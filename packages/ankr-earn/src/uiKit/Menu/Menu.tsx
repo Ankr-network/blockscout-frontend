@@ -1,5 +1,5 @@
 import { IconButton, Menu as MenuUI } from '@material-ui/core';
-import { Children, ReactElement, useCallback, useState } from 'react';
+import { Children, ReactNode, useCallback, useState } from 'react';
 import { uid } from 'react-uid';
 
 import { KebabIcon } from 'uiKit/Icons/KebabIcon';
@@ -8,7 +8,7 @@ import { MenuItem } from './MenuItem';
 import { useMenuStyles } from './useMenuStyles';
 
 export interface IMenuProps {
-  children: ReactElement[];
+  children: ReactNode[];
 }
 
 const VERTICAL_MARGIN = -56;
@@ -17,7 +17,7 @@ export const Menu = ({ children }: IMenuProps): JSX.Element => {
   const classes = useMenuStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
-  const size = Children.count(children);
+  const size = Children.count(children.filter(Boolean));
 
   const handleOpenMenu = useCallback(
     event => {
@@ -60,13 +60,17 @@ export const Menu = ({ children }: IMenuProps): JSX.Element => {
         }}
         onClose={handleClose}
       >
-        {Children.map(children, (child, index) => (
-          <div key={uid(index)}>
-            {child}
+        {Children.map(
+          children,
+          (child, index) =>
+            Boolean(child) && (
+              <div key={uid(index)}>
+                {child}
 
-            {index !== size - 1 && <div className={classes.divider} />}
-          </div>
-        ))}
+                {index !== size - 1 && <div className={classes.divider} />}
+              </div>
+            ),
+        )}
       </MenuUI>
     </div>
   );

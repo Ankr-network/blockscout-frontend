@@ -36,6 +36,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     tradeLink: '/trade',
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultStakedFTMTxHistory: IUseStakedFTMTxHistory = {

@@ -1,5 +1,9 @@
-import { useMutation, useQuery } from '@redux-requests/react';
-import { renderHook } from '@testing-library/react-hooks';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
@@ -9,6 +13,7 @@ import { useStakedBNBData } from '../useStakedBNBData';
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
   useMutation: jest.fn(),
+  useDispatchRequest: jest.fn(),
 }));
 
 jest.mock('modules/auth/hooks/useConnectedData', () => ({
@@ -40,6 +45,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+
+    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -71,5 +78,18 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
     expect(result.current.unstakeType).toBe(
       EBinancePoolEventsMap.UnstakePending,
     );
+  });
+
+  test('should handle add token to metamask', () => {
+    const mockDispatch = jest.fn();
+    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedBNBData());
+
+    act(() => {
+      result.current.handleAddTokenToWallet();
+    });
+
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 });

@@ -41,6 +41,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     isShowed: true,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {

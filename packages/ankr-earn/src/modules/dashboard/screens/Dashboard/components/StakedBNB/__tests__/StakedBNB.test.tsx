@@ -41,6 +41,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     isShowed: false,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {

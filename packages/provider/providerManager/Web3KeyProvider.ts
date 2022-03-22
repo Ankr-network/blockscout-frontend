@@ -22,7 +22,10 @@ export interface ITokenInfo {
   symbol?: string;
   decimals?: number;
   image?: string;
+  chainId?: number;
 }
+
+const WATCH_ASSET_TIMEOUT = 500;
 
 export abstract class Web3KeyProvider extends Web3KeyReadProvider {
   private walletMeta: IWalletMeta | undefined;
@@ -167,13 +170,19 @@ export abstract class Web3KeyProvider extends Web3KeyReadProvider {
       throw new Error('This provider does not support the adding new tokens');
     }
 
+    if (tokenInfo.chainId) {
+      await this.switchNetwork(tokenInfo.chainId);
+      // need to wait before triggering wallet_watchAsset to keep wallet window open
+      await new Promise(resolve => setTimeout(resolve, WATCH_ASSET_TIMEOUT));
+    }
+
     return provider.request!({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20',
         options: tokenInfo,
       },
-    });
+    }).catch(() => false);
   }
 
   public async switchNetwork(chainId: number): Promise<any> {

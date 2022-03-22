@@ -1,10 +1,16 @@
-import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
@@ -21,9 +27,12 @@ export interface IStakedAFTMBData {
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
+  handleAddTokenToWallet: () => void;
 }
 
 export const useStakedAFTMBData = (): IStakedAFTMBData => {
+  const dispatchRequest = useDispatchRequest();
+
   const { data: commonData, loading: isBalancesLoading } = useQuery({
     type: getCommonData,
   });
@@ -42,6 +51,10 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const pendingUnstakes = commonData?.pendingUnstakes ?? ZERO;
   const isShowed = !amount.isZero() || isBalancesLoading;
 
+  const handleAddTokenToWallet = useCallback(() => {
+    dispatchRequest(addFTMTokenToWallet());
+  }, [dispatchRequest]);
+
   return {
     amount,
     pendingUnstakes,
@@ -55,5 +68,6 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
       : undefined,
     isStakeLoading,
     isUnstakeLoading,
+    handleAddTokenToWallet,
   };
 };

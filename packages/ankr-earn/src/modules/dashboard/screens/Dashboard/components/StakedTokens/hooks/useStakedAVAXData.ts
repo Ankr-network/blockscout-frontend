@@ -1,10 +1,16 @@
-import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
@@ -24,9 +30,11 @@ export interface IStakedAVAXData {
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   isShowed: boolean;
+  handleAddTokenToWallet: () => void;
 }
 
 export const useStakedAVAXData = (): IStakedAVAXData => {
+  const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeAVAXStats,
   });
@@ -41,6 +49,10 @@ export const useStakedAVAXData = (): IStakedAVAXData => {
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
+
+  const handleAddTokenToWallet = useCallback(() => {
+    dispatchRequest(addAVAXTokenToWallet());
+  }, [dispatchRequest]);
 
   return {
     amount,
@@ -58,5 +70,6 @@ export const useStakedAVAXData = (): IStakedAVAXData => {
     isStakeLoading,
     isUnstakeLoading,
     isShowed,
+    handleAddTokenToWallet,
   };
 };

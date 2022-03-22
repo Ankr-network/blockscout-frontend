@@ -27,6 +27,7 @@ export const StakedBNB = (): JSX.Element => {
     isStakeLoading,
     isUnstakeLoading,
     tradeLink,
+    handleAddTokenToWallet,
   } = useStakedBNBData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
@@ -65,6 +66,7 @@ export const StakedBNB = (): JSX.Element => {
         tokenAddress={binanceConfig.aBNBbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />
 

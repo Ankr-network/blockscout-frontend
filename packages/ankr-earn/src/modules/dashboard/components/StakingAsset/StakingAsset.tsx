@@ -28,10 +28,14 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
+  onAddTokenToWallet?: () => void;
   isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
   onHistoryBtnClick?: () => void;
 }
+
+const FIREFOX = 'Firefox';
+const isFirefox = navigator.userAgent.includes(FIREFOX);
 
 export const StakingAsset = ({
   network,
@@ -47,6 +51,7 @@ export const StakingAsset = ({
   isUnstakeLoading = false,
   isHistoryLoading = false,
   onHistoryBtnClick,
+  onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
@@ -98,6 +103,12 @@ export const StakingAsset = ({
                 </Menu.Item>
 
                 <CopyTokenAddress address={tokenAddress ?? ''} />
+
+                {!isFirefox ? (
+                  <Menu.Item onClick={onAddTokenToWallet}>
+                    {t('dashboard.card.addToMetamask')}
+                  </Menu.Item>
+                ) : null}
               </Menu>
             </Box>
           </Grid>

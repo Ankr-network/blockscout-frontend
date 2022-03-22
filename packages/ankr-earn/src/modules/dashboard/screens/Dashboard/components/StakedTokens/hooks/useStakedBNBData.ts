@@ -1,10 +1,16 @@
-import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
 import { unstake as unstakeBNB } from 'modules/stake-bnb/actions/unstake';
@@ -24,9 +30,11 @@ export interface IStakedBNBData {
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   isShowed: boolean;
+  handleAddTokenToWallet: () => void;
 }
 
 export const useStakedBNBData = (): IStakedBNBData => {
+  const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeBNBStats,
   });
@@ -42,6 +50,10 @@ export const useStakedBNBData = (): IStakedBNBData => {
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
+  const handleAddTokenToWallet = useCallback(() => {
+    dispatchRequest(addBNBTokenToWallet());
+  }, [dispatchRequest]);
+
   return {
     amount,
     network,
@@ -55,5 +67,6 @@ export const useStakedBNBData = (): IStakedBNBData => {
     isStakeLoading,
     isUnstakeLoading,
     isShowed,
+    handleAddTokenToWallet,
   };
 };

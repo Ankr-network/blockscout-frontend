@@ -10,8 +10,13 @@ export const StakedAETHC = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
   const { isOpened, onClose } = useDialog();
-  const { amount, network, tradeLink, isBalancesLoading } =
-    useStakedAETHCData();
+  const {
+    amount,
+    network,
+    tradeLink,
+    isBalancesLoading,
+    handleAddTokenToWallet,
+  } = useStakedAETHCData();
 
   return (
     <>
@@ -22,6 +27,7 @@ export const StakedAETHC = (): JSX.Element => {
         token={Token.aETHc}
         tokenAddress={contractConfig.aethContract}
         tradeLink={tradeLink}
+        onAddTokenToWallet={handleAddTokenToWallet}
       />
 
       <HistoryDialog

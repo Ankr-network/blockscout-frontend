@@ -12,6 +12,7 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isMainnet } from 'modules/common/const';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -308,6 +309,9 @@ export class AvalancheSDK {
       address: avalancheConfig.futureBondAVAX,
       symbol,
       decimals,
+      chainId: isMainnet
+        ? BlockchainNetworkId.avalanche
+        : BlockchainNetworkId.avalancheTestnet,
     });
   }
 

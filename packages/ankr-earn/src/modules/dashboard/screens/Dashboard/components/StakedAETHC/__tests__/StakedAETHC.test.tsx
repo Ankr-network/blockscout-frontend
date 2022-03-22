@@ -21,6 +21,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     tradeLink: '/trade',
     isShowed: true,
     isBalancesLoading: false,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   beforeEach(() => {

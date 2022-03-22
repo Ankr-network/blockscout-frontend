@@ -534,6 +534,7 @@
     "card": {
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
+      "addToMetamask": "Add token to Metamask",
       "copyTokenAddress": "Copy token address"
     }
   },

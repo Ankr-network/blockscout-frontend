@@ -27,6 +27,7 @@ export const StakedMatic = (): JSX.Element | null => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    handleAddTokenToWallet,
   } = useStakedMaticData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
@@ -65,6 +66,7 @@ export const StakedMatic = (): JSX.Element | null => {
         tokenAddress={contractConfig.aMaticbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
       />
 
