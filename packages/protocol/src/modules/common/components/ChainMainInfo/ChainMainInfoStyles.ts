@@ -23,19 +23,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     maxWidth: `calc(100% - ${LOGO_WIDTH}px - ${LOGO_MARGIN}px)`,
     position: 'relative',
   },
-  archive: {
-    fontSize: 12,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0.5, 1),
-    borderRadius: 6,
-    '@media (max-width: 850px) and (min-width: 768px)': {
-      display: 'none',
-    },
-  },
   req: {
     display: 'flex',
     alignItems: 'center',

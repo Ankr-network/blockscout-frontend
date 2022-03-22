@@ -1,12 +1,11 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import { Skeleton } from '@material-ui/lab';
 
 import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
-import { StatusCircle } from 'uiKit/StatusCircle';
 import { t } from 'modules/i18n/utils/intl';
-import { Skeleton } from '@material-ui/lab';
 
 export const ChainMainInfo = ({
   isLoading,
@@ -15,7 +14,7 @@ export const ChainMainInfo = ({
   description,
   className = '',
   totalRequests = '',
-  isArchive,
+  label,
 }: ChainMainInfoProps) => {
   const classes = useStyles();
 
@@ -26,15 +25,7 @@ export const ChainMainInfo = ({
         <Typography variant="h4" noWrap className={classes.title}>
           {name}
         </Typography>
-        {isArchive && (
-          <Typography
-            variant="body2"
-            className={classes.archive}
-            component="div"
-          >
-            <StatusCircle mr={0.4} status="success" /> {t('chains.archive')}
-          </Typography>
-        )}
+        {label}
         <div className={classes.req}>
           {isLoading ? (
             <Skeleton className={classes.skeleton} />

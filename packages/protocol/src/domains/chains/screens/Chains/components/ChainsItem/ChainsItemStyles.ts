@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { BREAKPOINTS } from 'ui';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -47,5 +48,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  archive: {
+    position: 'absolute',
+    top: -2,
+    right: 0,
+
+    [theme.breakpoints.between(BREAKPOINTS.values.md, 850)]: {
+      display: 'none',
+    },
   },
 }));

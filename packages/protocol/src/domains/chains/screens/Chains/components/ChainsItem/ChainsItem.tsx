@@ -4,6 +4,7 @@ import { Button, Typography } from '@material-ui/core';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
+import { ArchiveLabel } from 'modules/common/components/ChainMainInfo/ArchiveLabel';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
@@ -35,7 +36,7 @@ export const ChainsItem = ({
         name={name}
         className={classes.mainInfo}
         totalRequests={totalRequests}
-        isArchive={chain.isArchive}
+        label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
         description={
           description && (
             <ChainRequestsLabel description={description} label={period} />
