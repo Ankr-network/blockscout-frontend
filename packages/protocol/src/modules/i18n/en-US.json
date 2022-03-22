@@ -126,7 +126,7 @@
       "calls-count": "{value, number, ::compact-short}"
     },
     "map": {
-      "header": "Top 10 countries with most requests",
+      "header": "Top 10 countries by requests",
       "stats-table": {
         "head": {
           "country": "Country",
