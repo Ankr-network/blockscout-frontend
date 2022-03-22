@@ -153,16 +153,6 @@ export const StakeForm = ({
               }
             />
 
-            <div className={classes.stakingTypes}>
-              <div className={classNames(classes.stakingType, 'active')}>
-                {t('stake.liquid-staking')}
-              </div>
-
-              <div className={classes.stakingType}>
-                {t('stake.normal-staking')}
-              </div>
-            </div>
-
             {renderStats && renderStats(amountNumber)}
 
             {feeSlot}
