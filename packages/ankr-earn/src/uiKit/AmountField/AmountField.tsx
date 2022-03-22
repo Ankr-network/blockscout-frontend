@@ -5,7 +5,8 @@ import { getErrorText, hasError } from 'modules/common/utils/form';
 
 interface IFieldProps extends FieldRenderProps<string> {
   isIntegerOnly?: boolean;
-  maxDecimalsLen?: number;
+  autoComplete?: string; 
+  maxDecimalsLen?: number; 
 }
 
 export const AmountField = ({
@@ -13,6 +14,7 @@ export const AmountField = ({
   isIntegerOnly = false,
   maxDecimalsLen = 18,
   meta,
+  autoComplete = 'off',
   ...rest
 }: IFieldProps & TextFieldProps): JSX.Element => {
   const regExp = isIntegerOnly
@@ -21,6 +23,7 @@ export const AmountField = ({
 
   return (
     <TextField
+      autoComplete={autoComplete}
       error={hasError(meta)}
       helperText={getErrorText(meta)}
       name={name}
