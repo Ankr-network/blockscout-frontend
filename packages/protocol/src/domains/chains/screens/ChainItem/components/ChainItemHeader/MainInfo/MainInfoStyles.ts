@@ -5,12 +5,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   description: {
     display: 'flex',
   },
-  archived: {
+  archive: {
     marginLeft: theme.spacing(1),
-    borderRadius: 6,
-    lineHeight: 1,
-    padding: '4px 6px',
-    background: theme.palette.background.default,
     cursor: 'pointer',
   },
 }));

@@ -25,15 +25,14 @@ export const fetchPublicChainsInfo = createSmartAction<
             store.dispatchRequest(fetchChainNodes()),
           ]);
 
-          const data: IApiChain[] = chains
-            ? chains?.map((chain: IApiChain) => ({
-                ...chain,
-                isArchive: nodes?.find(item => item.blockchain === chain.id)
-                  ?.isArchive,
-              }))
-            : [];
+          if (!chains) return [];
 
-          return data;
+          return chains?.map((chain: IApiChain) => ({
+            ...chain,
+            isArchive: nodes?.some(
+              item => item.blockchain === chain.id && item.isArchive,
+            ),
+          }));
         })(),
       };
     },

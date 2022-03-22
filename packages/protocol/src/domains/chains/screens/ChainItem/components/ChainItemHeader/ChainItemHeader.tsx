@@ -57,12 +57,7 @@ export const ChainItemHeader = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
         <div className={classes.left}>
-          <MainInfo
-            name={name}
-            hasCredentials={hasCredentials}
-            icon={icon}
-            nodes={nodes}
-          />
+          <MainInfo name={name} icon={icon} nodes={nodes} />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
         <div className={classes.right}>

@@ -7,5 +7,5 @@ export interface ChainMainInfoProps {
   description: ReactNode;
   className?: string;
   totalRequests?: string;
-  isArchive?: boolean;
+  label?: ReactNode;
 }
