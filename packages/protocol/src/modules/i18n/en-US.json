@@ -321,9 +321,13 @@
       }
     },
     "private-endpoints": {
-      "title": "Exclusive RPC Endpoint{plural}",
-      "plural": "s",
-      "user-endpoint": "My endpoints"
+      "title": "Premium Endpoint{plural}",
+      "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use Private Endpoint directly",
+      "plural": "s"
+    },
+    "user-endpoints": {
+      "title": "My endpoints",
+      "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic"
     },
     "editable-endpoints": {
       "edit": "Edit",
