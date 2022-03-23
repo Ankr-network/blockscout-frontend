@@ -9,11 +9,15 @@ import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
 interface UserEndpointsFormContainerProps {
   endpoints: IUserEndpoint[];
   chainId: string;
+  privateUrls: string[];
+  publicUrls: string[];
 }
 
 export const UserEndpointsFormContainer = ({
   endpoints,
   chainId,
+  privateUrls,
+  publicUrls,
 }: UserEndpointsFormContainerProps) => {
   const dispatchRequest = useDispatchRequest();
 
@@ -33,6 +37,8 @@ export const UserEndpointsFormContainer = ({
       endpoints={endpoints}
       chainId={chainId}
       onSubmit={onSubmit}
+      privateUrls={privateUrls}
+      publicUrls={publicUrls}
     />
   );
 };

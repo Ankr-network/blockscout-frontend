@@ -11,6 +11,9 @@ interface RowInputFieldProps {
   chainId: string;
   formEndpoint: any;
   onSubmit: () => void;
+  privateUrls: string[];
+  publicUrls: string[];
+  endpoints: string[];
 }
 
 export const RowInputField = ({
@@ -19,6 +22,9 @@ export const RowInputField = ({
   chainId,
   formEndpoint,
   onSubmit,
+  privateUrls,
+  publicUrls,
+  endpoints,
 }: RowInputFieldProps) => {
   const classes = useStyles();
   const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
@@ -33,6 +39,9 @@ export const RowInputField = ({
           setIsReadOnly={setIsReadOnly}
           isReadOnly={isReadOnly}
           onSubmit={onSubmit}
+          privateUrls={privateUrls}
+          endpoints={endpoints}
+          publicUrls={publicUrls}
         />
       </div>
       {!isReadOnly && (

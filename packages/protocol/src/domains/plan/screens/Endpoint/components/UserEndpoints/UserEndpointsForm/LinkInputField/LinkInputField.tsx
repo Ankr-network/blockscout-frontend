@@ -14,6 +14,9 @@ interface LinkInputFieldProps {
   chainId: string;
   isReadOnly: boolean;
   setIsReadOnly: (isReadOnly: boolean) => void;
+  privateUrls: string[];
+  publicUrls: string[];
+  endpoints: string[];
 }
 
 export const LinkInputField = ({
@@ -23,6 +26,9 @@ export const LinkInputField = ({
   chainId,
   setIsReadOnly,
   isReadOnly,
+  privateUrls,
+  endpoints,
+  publicUrls,
 }: LinkInputFieldProps) => {
   const form = useForm();
   const classes = useStyles();
@@ -57,7 +63,8 @@ export const LinkInputField = ({
       variant="outlined"
       placeholder="https://"
       validate={(data, _v, meta) =>
-        meta?.modified && validateUserEndpoint(data, chainId)
+        meta?.modified &&
+        validateUserEndpoint(data, chainId, privateUrls, endpoints, publicUrls)
       }
       InputProps={{
         classes: {

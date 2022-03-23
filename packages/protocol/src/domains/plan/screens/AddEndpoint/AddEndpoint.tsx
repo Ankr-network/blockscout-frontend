@@ -10,6 +10,8 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { getScheme } from './AddEndpointUtils';
 import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { getChainById } from '../Endpoint/EndpointUtils';
+import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
 
 export const AddEndpoint = () => {
   const dispatchRequest = useDispatchRequest();
@@ -18,27 +20,46 @@ export const AddEndpoint = () => {
   useOnMount(() => {
     dispatchRequest(fetchChainNodes(chainId));
     dispatchRequest(fetchPrivateChains());
+    dispatchRequest(fetchEndpoints());
+    dispatchRequest(fetchPublicChains());
   });
 
   return (
     <>
       <Queries<
         ResponseData<typeof fetchChainNodes>,
-        ResponseData<typeof fetchPrivateChains>
+        ResponseData<typeof fetchPrivateChains>,
+        ResponseData<typeof fetchEndpoints>,
+        ResponseData<typeof fetchPublicChains>
       >
-        requestActions={[fetchChainNodes, fetchPrivateChains]}
+        requestActions={[
+          fetchChainNodes,
+          fetchPrivateChains,
+          fetchEndpoints,
+          fetchPublicChains,
+        ]}
         isPreloadDisabled
       >
-        {({ data }, { data: privateChains }) => {
+        {(
+          { data },
+          { data: privateChains },
+          { data: endpoints },
+          { data: publicChains },
+        ) => {
           const privateChain = getChainById(privateChains, chainId);
+          const publicChain = getChainById(publicChains, chainId);
 
           const scheme = getScheme(data);
+
+          const userEndpoints = endpoints?.[chainId];
 
           return (
             <AddEndpointForm
               chainId={chainId}
               scheme={scheme}
               privateChain={privateChain}
+              publicChain={publicChain}
+              userEndpoints={userEndpoints}
             />
           );
         }}

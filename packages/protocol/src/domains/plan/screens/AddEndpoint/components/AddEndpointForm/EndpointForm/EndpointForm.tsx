@@ -11,13 +11,21 @@ import { isFirefox } from 'modules/common/utils/browserDetect';
 
 interface EndpointFormProps {
   chainId: string;
+  privateUrls: string[];
+  publicUrls: string[];
+  endpoints: string[];
 }
 
 const SHOULD_SHOW = true;
 // https://stackoverflow.com/questions/67440036/navigator-clipboard-readtext-is-not-working-in-js
 const canShowPasteButton = SHOULD_SHOW || !isFirefox();
 
-export const EndpointForm = ({ chainId }: EndpointFormProps) => {
+export const EndpointForm = ({
+  chainId,
+  privateUrls,
+  publicUrls,
+  endpoints,
+}: EndpointFormProps) => {
   const form = useForm();
   const classes = useStyles();
 
@@ -42,7 +50,15 @@ export const EndpointForm = ({ chainId }: EndpointFormProps) => {
         variant="outlined"
         placeholder="https://"
         defaultValue="https://"
-        validate={data => validateUserEndpoint(data, chainId)}
+        validate={data =>
+          validateUserEndpoint(
+            data,
+            chainId,
+            privateUrls,
+            endpoints,
+            publicUrls,
+          )
+        }
         InputProps={{
           classes: {
             label: classes.label,

@@ -7,7 +7,10 @@
     "https-validation": "Should be a valid https URL",
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
-    "url-chain-validation": "URL must contain {chainId}"
+    "url-chain-validation": "URL must contain {chainId}",
+    "public-url-validation": "Should not be a public endpoint of Ankr",
+    "premium-url-validation": "Should not be a premium endpoint of Ankr",
+    "duplicate-url-validation": "This endpoint has already been added"
   },
   "meta": {
     "title": "Ankr Protocol",

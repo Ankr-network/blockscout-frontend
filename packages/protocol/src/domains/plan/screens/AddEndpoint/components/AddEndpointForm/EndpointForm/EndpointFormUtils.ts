@@ -14,16 +14,33 @@ const validateNode = debouncePromise((value: string, chainId: string) => {
 export const validateUserEndpoint = async (
   value: string | undefined,
   chainId: string,
+  privateUrls: string[],
+  endpoints: string[],
+  publicUrls: string[],
 ) => {
   if (typeof value !== 'string') {
     return t('validation.required');
   }
 
-  if (!isHttpsUri(value)) {
+  const preparedValue = value.toLowerCase().replace(/\/$/, '');
+
+  if (!isHttpsUri(preparedValue)) {
     return t('validation.https-validation');
   }
 
-  const isAlive = await validateNode(value, chainId);
+  if (privateUrls.includes(preparedValue)) {
+    return t('validation.premium-url-validation');
+  }
+
+  if (endpoints.includes(preparedValue)) {
+    return t('validation.duplicate-url-validation');
+  }
+
+  if (publicUrls.includes(preparedValue)) {
+    return t('validation.public-url-validation');
+  }
+
+  const isAlive = await validateNode(preparedValue, chainId);
 
   if (!isAlive) {
     return t('validation.url-check-health');

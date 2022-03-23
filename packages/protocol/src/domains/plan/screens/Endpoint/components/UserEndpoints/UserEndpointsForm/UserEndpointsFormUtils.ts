@@ -23,3 +23,7 @@ export const formatDataForRequest = (data: IUserEndpoint): IPrivateEndpoint => {
     blockchain,
   };
 };
+
+export const getRpcLinks = (values: UserEndpointsFormData['rpcLinks']) => {
+  return values.map(item => item.requestUrl);
+};

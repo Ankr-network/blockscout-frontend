@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { IProvider } from 'multirpc-sdk';
 
 import { useStyles } from './EndpointStyles';
@@ -19,6 +19,7 @@ interface EndpointInfoProps {
   chainId: string;
   endpoints: IEndpoint;
   privateChain: IApiChain;
+  publicChain: IApiChain;
 }
 
 export const EndpointInfo = ({
@@ -26,6 +27,7 @@ export const EndpointInfo = ({
   chainId,
   endpoints,
   privateChain,
+  publicChain,
 }: EndpointInfoProps) => {
   const classes = useStyles();
 
@@ -36,6 +38,16 @@ export const EndpointInfo = ({
 
   const hasChain = canAddEndpoint(providerData, chainId);
   const userEndpoints = endpoints?.[chainId];
+
+  const privateUrls = useMemo(
+    () => [...(privateChain?.rpcUrls || []), ...(privateChain?.wsUrls || [])],
+    [privateChain],
+  );
+
+  const publicUrls = useMemo(
+    () => [...(publicChain?.rpcUrls || []), ...(publicChain?.wsUrls || [])],
+    [publicChain],
+  );
 
   return (
     <>
@@ -49,6 +61,8 @@ export const EndpointInfo = ({
           hasChain={hasChain}
           isMoreThanLimit={isMoreThanLimit}
           limit={limit}
+          privateUrls={privateUrls}
+          publicUrls={publicUrls}
         />
       </div>
     </>

@@ -13,11 +13,17 @@ import { initialValues } from './AddEndpointFormUtils';
 export interface AddEndpointFormProps {
   onSubmit: (httpAddress: string) => void;
   chainId: string;
+  privateUrls: string[];
+  publicUrls: string[];
+  endpoints: string[];
 }
 
 export const AddEndpointForm = ({
   onSubmit,
   chainId,
+  privateUrls,
+  publicUrls,
+  endpoints,
 }: AddEndpointFormProps) => {
   const classes = useStyles();
 
@@ -32,13 +38,18 @@ export const AddEndpointForm = ({
     ({ handleSubmit }: FormRenderProps<AddEndpointFormData>) => {
       return (
         <form onSubmit={handleSubmit}>
-          <EndpointForm chainId={chainId} />
+          <EndpointForm
+            chainId={chainId}
+            privateUrls={privateUrls}
+            publicUrls={publicUrls}
+            endpoints={endpoints}
+          />
           <Divider className={classes.divider} />
           <AgreementForm />
         </form>
       );
     },
-    [classes.divider, chainId],
+    [classes.divider, chainId, privateUrls, endpoints, publicUrls],
   );
 
   return (
