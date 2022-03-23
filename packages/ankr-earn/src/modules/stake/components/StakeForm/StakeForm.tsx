@@ -8,6 +8,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
+import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
@@ -21,7 +22,6 @@ enum FieldsNames {
 }
 
 export interface IStakeFormPayload {
-  agreement: boolean;
   amount?: ReactText;
 }
 
@@ -43,6 +43,7 @@ export interface IStakeFormComponentProps {
   isMaxBtnShowed?: boolean;
   maxAmountDecimals?: number;
   feeSlot?: ReactNode;
+  stakingAmountStep?: number;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
@@ -73,6 +74,7 @@ export const StakeForm = ({
   isMaxBtnShowed = true,
   maxAmountDecimals,
   feeSlot,
+  stakingAmountStep,
   renderStats,
   renderFooter,
   onSubmit,
@@ -80,27 +82,31 @@ export const StakeForm = ({
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
+  const balanceRoundedByStep = stakingAmountStep
+    ? `${floor(balance.toNumber(), stakingAmountStep)}`
+    : balance.toString();
+
+  const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
+    ? balanceRoundedByStep
+    : maxAmount.toString();
+
   const validateStakeForm = useCallback(
     ({ amount }: IStakeFormPayload) => {
       const errors: FormErrors<IStakeFormPayload> = {};
 
-      if (!amount) {
-        errors.amount = t('validation.required');
-      } else if (+amount <= 0) {
-        errors.amount = t('validation.greater-than-zero');
-      } else if (balance?.isLessThan(amount)) {
-        errors.amount = t('stake.validation.balance-exceed');
+      const withAmountStep = !!stakingAmountStep;
+      const isMultipleOf =
+        amount && stakingAmountStep ? +amount % stakingAmountStep === 0 : false;
+
+      if (withAmountStep && !isMultipleOf) {
+        errors.amount = t('validation.multiple-of', {
+          value: stakingAmountStep,
+        });
       }
 
       return errors;
     },
-    [balance],
-  );
-
-  const setMaxAmount = useCallback(
-    (form: FormApi<IStakeFormPayload>, maxValue: string) => () =>
-      form.change('amount', maxValue),
-    [],
+    [stakingAmountStep],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>
@@ -147,9 +153,7 @@ export const StakeForm = ({
               name={FieldsNames.amount}
               tokenName={tokenIn}
               onMaxClick={
-                isMaxBtnShowed
-                  ? setMaxAmount(form, `${maxAmount.toString()}`)
-                  : undefined
+                isMaxBtnShowed ? setMaxAmount(form, maxStakeAmount) : undefined
               }
             />
 
@@ -199,3 +203,7 @@ export const StakeForm = ({
     />
   );
 };
+
+function setMaxAmount(form: FormApi<IStakeFormPayload>, maxValue: string) {
+  return () => form.change(FieldsNames.amount, maxValue);
+}

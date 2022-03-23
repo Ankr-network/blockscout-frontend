@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { ReactText } from 'react';
+import BigNumber from 'bignumber.js';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -7,7 +7,7 @@ import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
 import { calcYearlyEarning } from 'modules/stake/utils/calcYearlyEarning';
 
-export const useStakeStats = (amount: ReactText): IStakeStatsItem[] => {
+export const useStakeStats = (amount: BigNumber): IStakeStatsItem[] => {
   const { data: APYData } = useQuery({
     type: getAPY,
   });

@@ -17,6 +17,7 @@
     "max": "Should be less than {value}",
     "number-only": "Must be a number",
     "required": "This field is required",
+    "multiple-of": "Value must be multiple of {value}",
     "invalid-transaction": "This transaction hash is invalid"
   },
   "meta": {

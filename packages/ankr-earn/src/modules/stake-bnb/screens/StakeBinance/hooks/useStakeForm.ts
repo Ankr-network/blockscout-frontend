@@ -5,13 +5,14 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
+import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -86,11 +87,12 @@ export const useStakeForm = ({
   const totalAmount = useMemo(
     () =>
       fetchStatsData && stakeGasFee
-        ? calcTotalAmount(
-            new BigNumber(amount),
-            fetchStatsData.relayerFee,
+        ? calcTotalAmount({
+            amount: new BigNumber(amount),
+            relayerFee: fetchStatsData.relayerFee,
+            balance: fetchStatsData.bnbBalance,
             stakeGasFee,
-          )
+          })
         : ZERO,
     [amount, fetchStatsData, stakeGasFee],
   );
@@ -110,21 +112,12 @@ export const useStakeForm = ({
     fetchAPYData,
     fetchStatsData,
     fetchStatsError,
-    handleFormChange: debouncedOnChange,
     isFetchStatsLoading,
     isStakeLoading,
     isStakeGasLoading,
     totalAmount,
     stakeGas: stakeGasFee ?? ZERO,
+    handleFormChange: debouncedOnChange,
     handleSubmit,
   };
 };
-
-function calcTotalAmount(
-  amount: BigNumber,
-  relayerFee: BigNumber,
-  methodGasFee: BigNumber,
-): BigNumber {
-  const result = amount.minus(relayerFee).minus(methodGasFee);
-  return result.isLessThan(0) ? ZERO : result;
-}

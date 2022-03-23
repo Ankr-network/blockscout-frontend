@@ -1,14 +1,17 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DEFAULT_FIXED, featuresConfig } from 'modules/common/const';
+import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
+import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
@@ -27,7 +30,7 @@ import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
 export const StakeEthereum = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
   const classes = useStakeEthereumStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
@@ -40,13 +43,12 @@ export const StakeEthereum = (): JSX.Element => {
     isEthRatioLoading,
     isFeeLoading,
     isTokenVariantDisabled,
-    resultAmount,
+    totalAmount,
     balance,
     fee,
     ethRatio,
     amount,
     minAmount,
-    maxAmount,
     loading,
     tokenIn,
     tokenOut,
@@ -55,18 +57,22 @@ export const StakeEthereum = (): JSX.Element => {
     onTokenSelect,
   } = useStakeForm(onSuccessOpen);
 
-  const stats = useStakeStats(amount);
+  const stats = useStakeStats(amount ?? ZERO);
   const faqItems = useFaq();
 
   useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getAPY());
-  }, [dispatchRequest]);
+    dispatch(getCommonData());
+    dispatch(getAPY());
+
+    return () => {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    };
+  }, [dispatch]);
 
   const renderStats = useCallback(
     () => (
       <FormStats
-        amount={resultAmount}
+        amount={totalAmount}
         isLoading={isFeeLoading}
         tokenOut={tokenOut}
         tokenVariantsSlot={
@@ -102,7 +108,7 @@ export const StakeEthereum = (): JSX.Element => {
       isFeeLoading,
       isTokenVariantDisabled,
       onTokenSelect,
-      resultAmount,
+      totalAmount,
       tokenOut,
     ],
   );
@@ -127,25 +133,21 @@ export const StakeEthereum = (): JSX.Element => {
           )}
 
           <StakeForm
+            isMaxBtnShowed
             balance={balance}
             feeSlot={
-              featuresConfig.stakeETHFee && (
-                <StakeFeeInfo
-                  isLoading={isFeeLoading}
-                  value={t('unit.token-value', {
-                    token: t('unit.eth'),
-                    value: fee.toFormat(),
-                  })}
-                />
-              )
+              <StakeFeeInfo
+                isLoading={isFeeLoading}
+                token={t('unit.eth')}
+                value={fee}
+              />
             }
             isBalanceLoading={hasError || isCommonDataLoading}
             isDisabled={loading}
-            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
             loading={hasError || loading}
-            maxAmount={maxAmount}
             minAmount={minAmount}
             renderStats={renderStats}
+            stakingAmountStep={ETH_STAKING_AMOUNT_STEP}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
             onChange={onInputChange}

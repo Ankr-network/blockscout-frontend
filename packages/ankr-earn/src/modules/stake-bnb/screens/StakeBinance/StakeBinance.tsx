@@ -1,11 +1,13 @@
 import { Box, ButtonBase } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -38,7 +40,7 @@ import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
 export const StakeBinance = (): JSX.Element => {
   const classes = useStakeBinanceStyles();
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
   const faqItems: IFaqItem[] = useFaq();
   const { redeemPeriod, redeemValue } = useRedeemData();
 
@@ -66,10 +68,14 @@ export const StakeBinance = (): JSX.Element => {
 
   const stakeStats: IStakeStatsItem[] = useStakeStats(fetchAPYData, amount);
 
-  useProviderEffect((): void => {
-    dispatchRequest(fetchAPY());
-    dispatchRequest(fetchStats());
-  }, [dispatchRequest]);
+  useProviderEffect(() => {
+    dispatch(fetchAPY());
+    dispatch(fetchStats());
+
+    return () => {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    };
+  }, [dispatch]);
 
   if (isFetchStatsLoading) {
     return (
@@ -154,10 +160,8 @@ export const StakeBinance = (): JSX.Element => {
               feeSlot={
                 <StakeFeeInfo
                   isLoading={isStakeGasLoading}
-                  value={t('unit.token-value', {
-                    token: t('unit.bnb'),
-                    value: stakeGas.toFormat(),
-                  })}
+                  token={t('unit.bnb')}
+                  value={stakeGas}
                 />
               }
               loading={isStakeLoading}

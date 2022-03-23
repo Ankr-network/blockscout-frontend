@@ -81,6 +81,8 @@ export class EthSDK {
 
   private currentAccount: string;
 
+  private stakeGasFee?: BigNumber;
+
   private constructor({ readProvider, writeProvider }: IEthSDKProviders) {
     EthSDK.instance = this;
 
@@ -235,24 +237,75 @@ export class EthSDK {
     token: TEthToken,
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
-    const { contractConfig } = CONFIG;
 
-    const ethPoolContract = this.writeProvider.createContract(
-      EHT_POOL_CONTRACT,
-      contractConfig.ethereumPool,
-    );
+    let gasFee = this.stakeGasFee;
+    if (!gasFee) {
+      gasFee = await this.getStakeGasFee(amount, token);
+    }
 
-    const stakeMethodByTokenMap = {
-      [Token.aETHb]: 'stakeAndClaimAethB',
-      [Token.aETHc]: 'stakeAndClaimAethC',
-    };
+    const balance = await this.getEthBalance();
+    const maxAmount = balance.minus(gasFee);
+    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+    const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
 
-    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
 
-    return ethPoolContract.methods[stakeMethodByTokenMap[token]]().send({
+    const contractStake =
+      ethPoolContract.methods[this.getStakeMethodName(token)];
+
+    const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
       value: hexAmount,
     });
+
+    return contractStake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+      gas: gasLimit,
+    });
+  }
+
+  private getStakeMethodName(token: TEthToken) {
+    switch (token) {
+      case Token.aETHc:
+        return 'stakeAndClaimAethC';
+
+      default:
+        return 'stakeAndClaimAethB';
+    }
+  }
+
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TEthToken,
+  ): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthSDK.getEthPoolContract(provider);
+
+    const contractStake =
+      ethPoolContract.methods[this.getStakeMethodName(token)];
+
+    const estimatedGas: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: convertNumberToHex(amount, ETH_SCALE_FACTOR),
+    });
+
+    const stakeGasFee = await provider.getContractMethodFee(estimatedGas);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
+  }
+
+  private static getEthPoolContract(
+    provider: Web3KeyProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { contractConfig } = CONFIG;
+
+    return provider.createContract(
+      EHT_POOL_CONTRACT,
+      contractConfig.ethereumPool,
+    );
   }
 
   public async getMinStake(): Promise<BigNumber> {

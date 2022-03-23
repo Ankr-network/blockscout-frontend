@@ -1,21 +1,28 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { TEthToken } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
+import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
-import { MAX_ETH_STAKE_AMOUNT } from 'modules/stake-eth/const';
+import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { useAppDispatch } from 'store/useAppDispatch';
+
+const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeForm {
   balance?: BigNumber;
@@ -27,19 +34,19 @@ interface IUseStakeForm {
   isTokenVariantDisabled: boolean;
   tokenIn: string;
   tokenOut: string;
-  amount: ReactText;
+  amount?: BigNumber;
   minAmount?: BigNumber;
-  maxAmount: BigNumber;
   ethRatio: BigNumber;
-  resultAmount: BigNumber;
+  totalAmount: BigNumber;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onInputChange: (values: IStakeFormPayload) => void;
+  onInputChange: (values: IStakeFormPayload, invalid: boolean) => void;
   onTokenSelect: (token: TEthToken) => () => void;
 }
 
 export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
+  const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
-  const [amount, setAmount] = useState<ReactText>('');
+  const [amount, setAmount] = useState<BigNumber>();
   const [selectedToken, setSelectedToken] = useState<TEthToken>(Token.aETHb);
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
@@ -50,14 +57,15 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
     type: stake,
   });
 
-  // todo: actual fee
-  const fee = ZERO;
-
-  const onInputChange = (values: IStakeFormPayload) => {
-    setAmount(values.amount || '');
-  };
+  const { data: stakeGasFee, loading: isFeeLoading } = useQuery({
+    type: getStakeGasFee,
+  });
 
   const onSubmit = () => {
+    if (!amount) {
+      return;
+    }
+
     dispatchRequest(
       stake({ token: selectedToken, amount: new BigNumber(amount) }),
     ).then(({ error }) => {
@@ -67,45 +75,64 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
     });
   };
 
+  const totalAmount = useMemo(
+    () =>
+      commonData && stakeGasFee
+        ? calcTotalAmount({
+            selectedToken,
+            stakeGasFee,
+            amount,
+            ethBalance: commonData?.ethBalance,
+            aETHcRatio: commonData?.aETHcRatio,
+          })
+        : ZERO,
+    [amount, commonData, selectedToken, stakeGasFee],
+  );
+
   const onTokenSelect = useCallback(
     (token: TEthToken) => () => {
       setSelectedToken(token);
+      if (!totalAmount.isZero() && amount) {
+        dispatch(getStakeGasFee({ amount, token }));
+      }
     },
-    [],
+    [amount, dispatch, totalAmount],
   );
 
-  const resultAmount = useMemo(() => {
-    if (!amount) {
-      return ZERO;
+  const handleFormChange = (
+    { amount: formAmount }: IStakeFormPayload,
+    invalid: boolean,
+  ): void => {
+    if (invalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (formAmount) {
+      const readyAmount = new BigNumber(formAmount);
+      dispatch(getStakeGasFee({ amount: readyAmount, token: selectedToken }));
     }
 
-    let readyAmount = new BigNumber(amount);
-    if (selectedToken === Token.aETHc) {
-      readyAmount = commonData
-        ? readyAmount.multipliedBy(commonData.aETHcRatio)
-        : ZERO;
-    }
+    setAmount(formAmount ? new BigNumber(formAmount) : undefined);
+  };
 
-    return readyAmount.minus(fee);
-  }, [amount, commonData, fee, selectedToken]);
+  const debouncedOnChange = useDebouncedCallback(
+    handleFormChange,
+    DEBOUNCE_TIME,
+  );
 
   return {
     amount,
     balance: commonData?.ethBalance,
     ethRatio: commonData ? new BigNumber(1).div(commonData.aETHcRatio) : ZERO,
-    fee,
+    fee: stakeGasFee ?? ZERO,
     isCommonDataLoading,
     isEthRatioLoading: isCommonDataLoading,
-    // todo: actual isFeeLoading
-    isFeeLoading: false,
+    isFeeLoading,
     isTokenVariantDisabled: isStakeLoading,
     loading: isCommonDataLoading || isStakeLoading,
-    maxAmount: new BigNumber(MAX_ETH_STAKE_AMOUNT),
     minAmount: commonData?.minStake,
-    resultAmount,
+    totalAmount,
     tokenIn: Token.ETH,
     tokenOut: selectedToken,
-    onInputChange,
+    onInputChange: debouncedOnChange,
     onSubmit,
     onTokenSelect,
   };

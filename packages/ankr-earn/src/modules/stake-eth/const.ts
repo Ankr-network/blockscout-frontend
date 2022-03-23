@@ -8,4 +8,4 @@ export const ETH_STAKING_NETWORKS = [ETH_NETWORK_BY_ENV];
 
 export const ETH_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
-export const MAX_ETH_STAKE_AMOUNT = 32;
+export const ETH_STAKING_AMOUNT_STEP = 0.5;
