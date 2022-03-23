@@ -6,6 +6,7 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
+import { useHistory } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { TEthToken } from 'modules/api/EthSDK';
@@ -15,6 +16,7 @@ import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
+import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
@@ -47,7 +49,8 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState<BigNumber>();
-  const [selectedToken, setSelectedToken] = useState<TEthToken>(Token.aETHb);
+  const { replace } = useHistory();
+  const selectedToken = RoutesConfig.stake.useParams().token ?? Token.aETHb;
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -91,12 +94,13 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
 
   const onTokenSelect = useCallback(
     (token: TEthToken) => () => {
-      setSelectedToken(token);
+      replace(RoutesConfig.stake.generatePath(token));
+
       if (!totalAmount.isZero() && amount) {
         dispatch(getStakeGasFee({ amount, token }));
       }
     },
-    [amount, dispatch, totalAmount],
+    [amount, dispatch, replace, totalAmount],
   );
 
   const handleFormChange = (
