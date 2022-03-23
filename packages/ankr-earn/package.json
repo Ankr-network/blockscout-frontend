@@ -132,9 +132,12 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
+      "/bridge/",
       "/liquid-crowdloan/",
-      "/unstake/matic/",
-      "/bridge/"
+      "/unstake/avax/",
+      "/unstake/bnb/",
+      "/unstake/fantom/",
+      "/unstake/matic/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
