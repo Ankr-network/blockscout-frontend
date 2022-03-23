@@ -1,3 +1,4 @@
+import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemProps {
@@ -7,6 +8,6 @@ export interface ChainsItemProps {
   name: string;
   description?: string;
   period: string;
-  links: string[];
+  links: IApiChainURL[];
   chain: Chain;
 }

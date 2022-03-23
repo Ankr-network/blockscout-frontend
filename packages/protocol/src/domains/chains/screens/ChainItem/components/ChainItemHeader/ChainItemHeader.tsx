@@ -36,10 +36,7 @@ export const ChainItemHeader = ({
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
-  const { rpcLinks, name } = formattedChain;
-  const { id } = chain;
-
-  const isNervos = id === 'nervos';
+  const { name, urls } = chain;
 
   const exclusivePartPreloader = (
     <div className={classes.preloaderWrapper}>
@@ -50,7 +47,7 @@ export const ChainItemHeader = ({
   const exclusivePart = hasCredentials ? (
     <ExclusiveRPCEndpoints chainId={chainId} />
   ) : (
-    <PublicHeader isPlural={rpcLinks.length > 1} />
+    <PublicHeader isPlural={urls.length > 1} />
   );
 
   return (
@@ -61,7 +58,7 @@ export const ChainItemHeader = ({
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
         <div className={classes.right}>
-          <PublicRPCEndpoints chain={chain} isNervos={isNervos} />
+          <PublicRPCEndpoints chain={chain} />
         </div>
       </div>
       {loading ? exclusivePartPreloader : exclusivePart}

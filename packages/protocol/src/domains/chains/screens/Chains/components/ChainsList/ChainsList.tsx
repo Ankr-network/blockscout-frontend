@@ -44,7 +44,7 @@ export const ChainsList = ({
   return (
     <div className={classes.root}>
       {chains.map(item => {
-        const { id, name, requests, rpcLinks } = item;
+        const { id, name, requests, urls } = item;
 
         return (
           <div className={classes.wrapper} key={id}>
@@ -54,7 +54,7 @@ export const ChainsList = ({
               logoSrc={item.icon}
               name={name}
               period={PERIOD}
-              links={rpcLinks}
+              links={urls}
               description={
                 requests ? t('chains.requests', { value: requests }) : ''
               }

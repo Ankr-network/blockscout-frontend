@@ -28,20 +28,21 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   root: {
     display: 'flex',
+    flexDirection: 'column',
     gap: theme.spacing(2),
 
     marginTop: theme.spacing(3),
-
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-    },
   },
   link: {
     display: 'flex',
     alignItems: 'flex-start',
   },
   section: {
+    display: 'flex',
+    gap: theme.spacing(2),
+
     flex: 1,
+
     minWidth: 0,
   },
   label: {

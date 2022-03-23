@@ -6,69 +6,131 @@ export interface IFetchChainsResponseData {
   chains: FetchBlockchainUrlsResult;
 }
 
+export interface IApiChainURL {
+  rpc: string;
+  ws?: string;
+}
+
 export interface IApiChain {
-  id: string;
-  icon: string;
-  name: string;
-  rpcUrls: string[];
-  wsUrls: string[];
-  isArchive?: boolean;
-  requests?: number;
-  totalRequest?: BigNumber;
   chainExtends?: string;
+  extenders?: IApiChain[];
+  extensions?: IApiChain[];
+  icon: string;
+  id: string;
+  isArchive?: boolean;
+  name: string;
+  requests?: number;
   testnets?: IApiChain[];
+  totalRequest?: BigNumber;
   type: BlockchainType;
+  urls: IApiChainURL[];
 }
 
 export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
-  const { chains } = data;
-
-  const chainsArray = Object.values(chains);
-
-  const mappedData = chainsArray.map<IApiChain>(item => {
-    const { blockchain, rpcURLs, wsURLs } = item;
-
+  const chains = Object.values(data.chains).map<IApiChain>(chain => {
+    const { blockchain, rpcURLs, wsURLs } = chain;
     const { id, stats, name, extends: chainExtends, type } = blockchain;
 
     const requests = stats?.reqs;
 
     return {
+      chainExtends,
       id,
       icon: getChainIcon(id),
       name,
-      rpcUrls: rpcURLs,
-      wsUrls: wsURLs,
       requests,
-      chainExtends,
       type,
+      urls: rpcURLs.map<IApiChainURL>((url, index) => ({
+        rpc: url,
+        ws: wsURLs[index],
+      })),
     };
   });
 
-  // @ts-ignore
-  return mappedData
-    .map(item => {
-      if (item.chainExtends) {
-        const { rpcUrls, wsUrls } = item;
+  const extensions = chains.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { type, chainExtends } = chain;
 
-        const chain = mappedData.find(el => el.id === item.chainExtends);
-
-        if (chain) {
-          if (item.type === BlockchainType.Mainnet) {
-            chain.rpcUrls = [...chain.rpcUrls, ...rpcUrls];
-            chain.wsUrls = [...chain.wsUrls, ...wsUrls];
-          } else if (item.type === BlockchainType.Testnet) {
-            chain.testnets = chain.testnets
-              ? [...chain.testnets, item]
-              : [item];
-          }
-
-          return null;
-        }
-
-        return item;
+      if (type === BlockchainType.Extension && chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
       }
 
-      return item;
-    })
-    .filter(Boolean);
+      return result;
+    },
+    {},
+  );
+
+  const extendedChains = chains.reduce<IApiChain[]>((result, chain) => {
+    const { id, type } = chain;
+
+    if (type !== BlockchainType.Extension) {
+      result.push({
+        ...chain,
+        extensions: extensions[id],
+      });
+    }
+
+    return result;
+  }, []);
+
+  const testnets = extendedChains.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { chainExtends, type } = chain;
+
+      if (type === BlockchainType.Testnet && chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
+      }
+
+      return result;
+    },
+    {},
+  );
+
+  const chainsWithTestnets = extendedChains.reduce<IApiChain[]>(
+    (result, chain) => {
+      const { id, type } = chain;
+
+      if (type !== BlockchainType.Testnet) {
+        result.push({
+          ...chain,
+          testnets: testnets[id],
+        });
+      }
+
+      return result;
+    },
+    [],
+  );
+
+  const extenders = chainsWithTestnets.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { chainExtends } = chain;
+
+      if (chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
+      }
+
+      return result;
+    },
+    {},
+  );
+
+  return chainsWithTestnets.reduce<IApiChain[]>((result, chain) => {
+    const { chainExtends, id } = chain;
+
+    if (!chainExtends) {
+      result.push({
+        ...chain,
+        extenders: extenders[id],
+      });
+    }
+
+    return result;
+  }, []);
 };

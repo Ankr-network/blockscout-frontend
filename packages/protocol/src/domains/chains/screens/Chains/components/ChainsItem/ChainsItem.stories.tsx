@@ -13,7 +13,7 @@ const chain = {
   id: 'id',
   name: 'namenamenamename',
   icon: chainLogo,
-  rpcLinks: ['chainLinkchainLinkchainLinkchainLinkchainLink'],
+  urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],
 };
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
@@ -27,7 +27,7 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           name={chain.name}
           description="requestInforequestInforequestInforequestInfo"
           period="24h"
-          links={chain.rpcLinks}
+          links={chain.urls}
           chain={chain}
         />
       </Box>

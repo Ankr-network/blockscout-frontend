@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 import { t } from 'modules/i18n/utils/intl';
 
@@ -15,11 +15,17 @@ interface PrivateEndpointsProps {
 export const PrivateEndpoints = ({ chain }: PrivateEndpointsProps) => {
   const classes = useStyles();
 
-  const mainnetURLs = [...chain.rpcUrls, ...chain.wsUrls];
-  const testnetURLs = (chain.testnets || []).flatMap(({ rpcUrls, wsUrls }) => [
-    ...rpcUrls,
-    ...wsUrls,
-  ]);
+  const mainnetURLs = [
+    ...chain.urls,
+    ...(chain.extensions || []).flatMap<IApiChainURL>(({ urls }) => urls),
+    ...(chain.extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
+  ];
+  const testnetURLs = (chain.testnets || []).flatMap<IApiChainURL>(
+    ({ extensions, urls }) => [
+      ...urls,
+      ...(extensions || []).flatMap<IApiChainURL>(extension => extension.urls),
+    ],
+  );
 
   const isTitlePlural = mainnetURLs.length > 1 || testnetURLs.length > 0;
   const title = (
@@ -32,18 +38,24 @@ export const PrivateEndpoints = ({ chain }: PrivateEndpointsProps) => {
 
   const mainnetEndpoints = (
     <div className={classes.root}>
-      {mainnetURLs.map(link => (
-        <div className={classes.section} key={link}>
-          <div className={classes.link}>
+      {mainnetURLs.map(({ rpc, ws }) => (
+        <div className={classes.section} key={rpc + ws}>
+          <CopyToClipIcon
+            className={classes.copyToClip}
+            message={t('common.copy-message')}
+            size="l"
+            text={rpc}
+            textColor="textPrimary"
+          />
+          {ws && (
             <CopyToClipIcon
-              text={link}
-              message={t('common.copy-message')}
-              copyText={t('common.copy')}
-              size="l"
-              textColor="textPrimary"
               className={classes.copyToClip}
+              message={t('common.copy-message')}
+              size="l"
+              text={ws}
+              textColor="textPrimary"
             />
-          </div>
+          )}
         </div>
       ))}
     </div>
@@ -52,18 +64,24 @@ export const PrivateEndpoints = ({ chain }: PrivateEndpointsProps) => {
   const testnetEndpoints =
     testnetURLs.length > 0 ? (
       <div className={classes.root}>
-        {testnetURLs.map(link => (
-          <div className={classes.section} key={link}>
-            <div className={classes.link}>
+        {testnetURLs.map(({ rpc, ws }) => (
+          <div className={classes.section} key={rpc + ws}>
+            <CopyToClipIcon
+              className={classes.copyToClip}
+              message={t('common.copy-message')}
+              size="l"
+              text={rpc}
+              textColor="textPrimary"
+            />
+            {ws && (
               <CopyToClipIcon
-                text={link}
-                message={t('common.copy-message')}
-                copyText={t('common.copy')}
-                size="l"
-                textColor="textPrimary"
                 className={classes.copyToClip}
+                message={t('common.copy-message')}
+                size="l"
+                text={ws}
+                textColor="textPrimary"
               />
-            </div>
+            )}
           </div>
         ))}
       </div>
