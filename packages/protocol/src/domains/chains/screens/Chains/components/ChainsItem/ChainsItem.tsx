@@ -9,6 +9,8 @@ import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { NavLink } from 'ui';
 
 export const ChainsItem = ({
   totalRequests,
@@ -18,15 +20,14 @@ export const ChainsItem = ({
   description,
   period,
   links,
-  onButtonClick,
   chain,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
   return (
-    <div
-      onClick={onButtonClick}
-      role="button"
+    <NavLink
+      isRouterLink
+      href={ChainsRoutesConfig.chainDetails.generatePath(chain.id)}
       tabIndex={0}
       className={classes.root}
     >
@@ -71,16 +72,11 @@ export const ChainsItem = ({
             size="medium"
             className={classes.buttonAddNetwork}
           />
-          <Button
-            variant="outlined"
-            color="primary"
-            className={classes.button}
-            onClick={onButtonClick}
-          >
+          <Button variant="outlined" color="primary" className={classes.button}>
             {t('chains.more-details')}
           </Button>
         </div>
       </div>
-    </div>
+    </NavLink>
   );
 };

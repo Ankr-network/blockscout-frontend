@@ -7,5 +7,6 @@ export interface RpcItemProps {
   className?: string;
   extraDescription?: string;
   extraLabel?: string;
-  onClick?: () => void;
+  hasOnClick?: boolean;
+  id: string;
 }

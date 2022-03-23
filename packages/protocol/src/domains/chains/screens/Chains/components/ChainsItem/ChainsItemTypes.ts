@@ -8,6 +8,5 @@ export interface ChainsItemProps {
   description?: string;
   period: string;
   links: string[];
-  onButtonClick: () => void;
   chain: Chain;
 }

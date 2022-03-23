@@ -28,7 +28,6 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           description="requestInforequestInforequestInforequestInfo"
           period="24h"
           links={chain.rpcLinks}
-          onButtonClick={() => null}
           chain={chain}
         />
       </Box>

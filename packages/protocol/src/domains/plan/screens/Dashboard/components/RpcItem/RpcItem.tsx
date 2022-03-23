@@ -5,10 +5,13 @@ import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { NavLink } from 'ui';
 
 import { useStyles } from './RpcItemStyles';
 import { RpcItemProps } from './RpcItemTypes';
 import { Button } from '@material-ui/core';
+
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 export const RpcItem = ({
   logoSrc,
@@ -19,18 +22,18 @@ export const RpcItem = ({
   extraDescription,
   extraLabel,
   className = '',
-  onClick,
+  hasOnClick = false,
+  id,
 }: RpcItemProps) => {
-  const hasOnClick = typeof onClick === 'function';
-
   const classes = useStyles({ hasOnClick });
 
   return (
-    <div
+    <NavLink
+      isRouterLink
+      href={PlanRoutesConfig.endpoint.generatePath(id)}
+      disabled={!hasOnClick}
       className={classNames(classes.root, className)}
-      role="button"
       tabIndex={0}
-      onClick={onClick}
     >
       <ChainMainInfo
         logoSrc={logoSrc}
@@ -73,6 +76,6 @@ export const RpcItem = ({
           </Button>
         )}
       </div>
-    </div>
+    </NavLink>
   );
 };
