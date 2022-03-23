@@ -43,8 +43,8 @@ export const ChainsList = ({
 
   useEffect(() => {
     const allRequsts = calcuateTotalRequest(chainInfo);
-    handleChainInfo(formatNumber(allRequsts));
-  }, [chainInfo, handleChainInfo]);
+    handleChainInfo(formatNumber(allRequsts), loading);
+  }, [loading, chainInfo, handleChainInfo]);
 
   const getTotalRequest = useCallback(
     (id: string): string =>
