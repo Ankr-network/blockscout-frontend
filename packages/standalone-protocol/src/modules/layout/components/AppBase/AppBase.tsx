@@ -8,10 +8,11 @@ import { historyInstance } from 'modules/common/utils/historyInstance';
 import '../../../../assets/fonts/style.css';
 import { getCurrentChainId, useInitialaizeLocale } from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface IAppBaseProps {
   children: ReactNode;
-  chainId?: string;
+  chainId?: ChainId;
 }
 
 export const AppBase = ({ children, chainId }: IAppBaseProps) => {

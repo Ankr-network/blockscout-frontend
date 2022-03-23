@@ -1,10 +1,11 @@
+import { ChainId } from 'domains/chains/api/chain';
 import { Route, Switch } from 'react-router-dom';
 
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 
-export function Routes({ chainId }: { chainId?: string }) {
+export function Routes({ chainId }: { chainId?: ChainId }) {
   return (
     <Switch>
       <Route
