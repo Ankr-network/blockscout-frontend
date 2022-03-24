@@ -4,8 +4,9 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
+import BigNumber from 'bignumber.js';
 
-import { ETH_SCALE_FACTOR, ONE_ETH, ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 
 import { useStakedAETHBData } from '../useStakedAETHBData';
 
@@ -19,13 +20,19 @@ jest.mock('modules/auth/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
+jest.mock('modules/stake-eth/Routes', () => ({
+  RoutesConfig: {
+    stake: { generatePath: () => '/stake' },
+  },
+}));
+
 jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
   const defaultStatsData = {
-    data: { aETHbBalance: ONE_ETH },
+    data: { aETHbBalance: new BigNumber(1) },
     loading: false,
   };
 
@@ -47,14 +54,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
 
   test('should return data', () => {
     const { result } = renderHook(() => useStakedAETHBData());
+    const expectedStakeLink = featuresConfig.stakeETH ? '/stake' : undefined;
 
-    expect(result.current.amount).toStrictEqual(
-      ONE_ETH.dividedBy(ETH_SCALE_FACTOR),
-    );
+    expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.tradeLink).toBe('/trade');
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
+    expect(result.current.isStakeLoading).toBe(false);
+    expect(result.current.stakeLink).toBe(expectedStakeLink);
   });
 
   test('should return zero if there is no data', () => {

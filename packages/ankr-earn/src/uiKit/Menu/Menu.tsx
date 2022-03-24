@@ -38,7 +38,7 @@ export const Menu = ({ children }: IMenuProps): JSX.Element => {
         id="menu-button"
         onClick={handleOpenMenu}
       >
-        <KebabIcon />
+        <KebabIcon htmlColor="inherit" />
       </IconButton>
 
       <MenuUI

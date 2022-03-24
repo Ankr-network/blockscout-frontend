@@ -1,13 +1,15 @@
 import { resetRequests } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
+import { featuresConfig } from 'modules/common/const';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
 import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { getAPY as getEthAPY } from 'modules/stake-eth/actions/getAPY';
+import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
@@ -24,7 +26,7 @@ export const useDashboard = (): void => {
       resetRequests([
         fetchPolygonStats.toString(),
         fetchPolygonTxHistory.toString(),
-        getEth2SwapData.toString(),
+        getEthCommonData.toString(),
         fetchAVAXStats.toString(),
         fetchAVAXTxHistory.toString(),
         fetchBNBStats.toString(),
@@ -34,10 +36,13 @@ export const useDashboard = (): void => {
       ]),
     );
 
+    dispatch(getEthCommonData());
+    if (featuresConfig.stakeETH) {
+      dispatch(getEthAPY());
+    }
+
     dispatch(fetchPolygonStats());
     dispatch(fetchPolygonAPY());
-
-    dispatch(getEth2SwapData());
 
     dispatch(fetchAVAXAPY());
     dispatch(fetchAVAXStats());

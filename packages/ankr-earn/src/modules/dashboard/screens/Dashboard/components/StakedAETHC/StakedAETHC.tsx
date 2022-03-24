@@ -16,6 +16,8 @@ export const StakedAETHC = (): JSX.Element => {
     amount,
     network,
     tradeLink,
+    stakeLink,
+    isStakeLoading,
     isBalancesLoading,
     walletName,
     address,
@@ -45,7 +47,9 @@ export const StakedAETHC = (): JSX.Element => {
       <StakingAsset
         amount={amount}
         isLoading={isBalancesLoading}
+        isStakeLoading={isStakeLoading}
         network={network}
+        stakeLink={stakeLink}
         token={Token.aETHc}
         tokenAddress={contractConfig.aethContract}
         tradeLink={tradeLink}

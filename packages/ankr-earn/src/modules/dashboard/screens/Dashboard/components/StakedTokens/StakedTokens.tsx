@@ -36,11 +36,11 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           </Typography>
 
           <AssetsList>
-            {isMATICShowed && <StakedMatic />}
-
             {isAETHBShowed && <StakedAETHB />}
 
             {isAETHCShowed && <StakedAETHC />}
+
+            {isMATICShowed && <StakedMatic />}
 
             {isBNBShowed && <StakedBNB />}
 

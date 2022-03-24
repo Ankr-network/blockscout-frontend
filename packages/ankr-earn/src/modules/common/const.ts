@@ -29,7 +29,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
 
 export const isMainnet = currentEnv === Env.Production;
 
-export const RPC_GOERLI = process.env.REACT_APP_RPC_GOERLI as string;
+export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
 
 export const LITEPAPER_EN =

@@ -16,8 +16,9 @@ export const useMenuStyles = makeStyles(theme => ({
     width: 32,
 
     '&:hover': {
+      backgroundColor: theme.palette.background.default,
       borderColor: theme.palette.background.default,
-      color: theme.palette.primary.main,
+      color: theme.palette.text.primary,
     },
   },
 

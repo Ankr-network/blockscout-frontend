@@ -3,7 +3,7 @@ import { createAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 
 import { configFromEnv } from 'modules/api/config';
-import { ACTION_CACHE_SEC, isMainnet, RPC_GOERLI } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ETH_RPC_URL } from 'modules/common/const';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
 import { getAprFromBalance } from '../utils/getAprFromBalance';
@@ -16,9 +16,8 @@ export const getAPY = createAction<RequestAction<number, number>>(
         const {
           contractConfig: { globalPoolDepositContract },
         } = configFromEnv();
-        const url = isMainnet ? 'https://eth-03.dccn.ankr.com/' : RPC_GOERLI;
 
-        if (!url) {
+        if (!ETH_RPC_URL) {
           throw new Error('getAPY: the url is not specified');
         }
 
@@ -36,7 +35,7 @@ export const getAPY = createAction<RequestAction<number, number>>(
             }),
           };
 
-          const response = await fetch(url, requestOptions);
+          const response = await fetch(ETH_RPC_URL, requestOptions);
           const { result } = await response.json();
 
           const balance = Web3.utils.fromWei(
