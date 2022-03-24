@@ -5,10 +5,13 @@ import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { NavLink } from 'ui';
 
 import { useStyles } from './RpcItemStyles';
 import { RpcItemProps } from './RpcItemTypes';
 import { Button } from '@material-ui/core';
+
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 export const RpcItem = ({
   logoSrc,
@@ -19,18 +22,20 @@ export const RpcItem = ({
   extraDescription,
   extraLabel,
   className = '',
-  onClick,
+  hasOnClick = false,
+  id,
 }: RpcItemProps) => {
-  const hasOnClick = typeof onClick === 'function';
-
   const classes = useStyles({ hasOnClick });
 
+  const urls = links.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]));
+
   return (
-    <div
+    <NavLink
+      isRouterLink
+      href={PlanRoutesConfig.endpoint.generatePath(id)}
+      disabled={!hasOnClick}
       className={classNames(classes.root, className)}
-      role="button"
       tabIndex={0}
-      onClick={onClick}
     >
       <ChainMainInfo
         logoSrc={logoSrc}
@@ -58,11 +63,11 @@ export const RpcItem = ({
         }
       />
       <div className={classes.right}>
-        {links.map(link => (
+        {urls.slice(0, 2).map(url => (
           <CopyToClipIcon
-            text={link}
+            text={url}
             message={t('common.copy-message')}
-            key={link}
+            key={url}
             textColor="textPrimary"
             className={classes.item}
           />
@@ -73,6 +78,6 @@ export const RpcItem = ({
           </Button>
         )}
       </div>
-    </div>
+    </NavLink>
   );
 };

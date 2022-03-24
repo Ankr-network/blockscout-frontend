@@ -32,7 +32,10 @@ export const CopyToClipIcon = ({
       role="button"
       tabIndex={0}
       /* stop propagation for click event to avoid parent element click */
-      onClick={event => event.stopPropagation()}
+      onClick={event => {
+        event.preventDefault();
+        event.stopPropagation();
+      }}
       className={classNames(classes.container, className)}
     >
       {isCopied ? (

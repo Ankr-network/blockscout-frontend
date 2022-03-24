@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { IProvider } from 'multirpc-sdk';
 
 import { useStyles } from './EndpointStyles';
@@ -11,7 +11,7 @@ import {
   getLimit,
 } from 'domains/plan/screens/Dashboard/DashboardUtils';
 import { IEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { useEndpointBreadcrumbs } from './EndpointUtils';
 
 interface EndpointInfoProps {
@@ -19,6 +19,7 @@ interface EndpointInfoProps {
   chainId: string;
   endpoints: IEndpoint;
   privateChain: IApiChain;
+  publicChain: IApiChain;
 }
 
 export const EndpointInfo = ({
@@ -26,6 +27,7 @@ export const EndpointInfo = ({
   chainId,
   endpoints,
   privateChain,
+  publicChain,
 }: EndpointInfoProps) => {
   const classes = useStyles();
 
@@ -36,6 +38,34 @@ export const EndpointInfo = ({
 
   const hasChain = canAddEndpoint(providerData, chainId);
   const userEndpoints = endpoints?.[chainId];
+
+  const privateUrls = useMemo(
+    () =>
+      [
+        ...(privateChain?.urls || []),
+        ...(privateChain?.extensions || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+        ...(privateChain?.extenders || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
+    [privateChain],
+  );
+
+  const publicUrls = useMemo(
+    () =>
+      [
+        ...(publicChain?.urls || []),
+        ...(publicChain?.extensions || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+        ...(publicChain?.extenders || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
+    [publicChain],
+  );
 
   return (
     <>
@@ -49,6 +79,8 @@ export const EndpointInfo = ({
           hasChain={hasChain}
           isMoreThanLimit={isMoreThanLimit}
           limit={limit}
+          privateUrls={privateUrls}
+          publicUrls={publicUrls}
         />
       </div>
     </>

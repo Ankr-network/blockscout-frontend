@@ -1,11 +1,14 @@
+import { IApiChainURL } from 'domains/chains/api/queryChains';
+
 export interface RpcItemProps {
   logoSrc: string;
   name: string;
   description: string;
   period: string;
-  links: string[];
+  links: IApiChainURL[];
   className?: string;
   extraDescription?: string;
   extraLabel?: string;
-  onClick?: () => void;
+  hasOnClick?: boolean;
+  id: string;
 }

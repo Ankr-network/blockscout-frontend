@@ -15,6 +15,8 @@ interface UserEndpointsProps {
   hasChain?: boolean;
   isMoreThanLimit: boolean;
   limit?: number;
+  privateUrls: string[];
+  publicUrls: string[];
 }
 
 export const UserEndpoints = ({
@@ -22,6 +24,8 @@ export const UserEndpoints = ({
   hasChain,
   isMoreThanLimit,
   limit,
+  privateUrls,
+  publicUrls,
 }: UserEndpointsProps) => {
   const classes = useStyles();
 
@@ -62,7 +66,12 @@ export const UserEndpoints = ({
         )}
       </Box>
       {rpcLinks.length > 0 && (
-        <UserEndpointsForm endpoints={data} chainId={chainId} />
+        <UserEndpointsForm
+          endpoints={data}
+          chainId={chainId}
+          privateUrls={privateUrls}
+          publicUrls={publicUrls}
+        />
       )}
     </>
   );

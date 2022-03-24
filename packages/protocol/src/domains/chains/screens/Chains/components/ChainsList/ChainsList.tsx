@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { fetchChainTotalRequests } from 'domains/chains/actions/fetchChainTotalRequests';
-import { useHistory } from 'react-router-dom';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsItem } from '../ChainsItem';
 import { useChainListStyles } from './ChainsListStyles';
@@ -16,19 +14,9 @@ export const ChainsList = ({
   handleChainInfo,
 }: ChainsListProps) => {
   const classes = useChainListStyles();
-  const history = useHistory();
   const chains = formatChains(data);
 
   const dispatchRequest = useDispatchRequest();
-
-  const handleClick = useCallback(
-    (chainId: string) => {
-      const link = ChainsRoutesConfig.chainDetails.generatePath(chainId);
-
-      history.push(link);
-    },
-    [history],
-  );
 
   useEffect(() => {
     if (outLoading) {
@@ -43,8 +31,8 @@ export const ChainsList = ({
 
   useEffect(() => {
     const allRequsts = calcuateTotalRequest(chainInfo);
-    handleChainInfo(formatNumber(allRequsts));
-  }, [chainInfo, handleChainInfo]);
+    handleChainInfo(formatNumber(allRequsts), loading);
+  }, [loading, chainInfo, handleChainInfo]);
 
   const getTotalRequest = useCallback(
     (id: string): string =>
@@ -56,7 +44,7 @@ export const ChainsList = ({
   return (
     <div className={classes.root}>
       {chains.map(item => {
-        const { id, name, requests, rpcLinks } = item;
+        const { id, name, requests, urls } = item;
 
         return (
           <div className={classes.wrapper} key={id}>
@@ -66,8 +54,7 @@ export const ChainsList = ({
               logoSrc={item.icon}
               name={name}
               period={PERIOD}
-              links={rpcLinks}
-              onButtonClick={() => handleClick(id)}
+              links={urls}
               description={
                 requests ? t('chains.requests', { value: requests }) : ''
               }

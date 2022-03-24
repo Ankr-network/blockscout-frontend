@@ -4,10 +4,10 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import arrayMutators from 'final-form-arrays';
 import setFieldTouched from 'final-form-set-field-touched';
+import { Mutator } from 'final-form';
 
 import { useStyles } from './UserEndpointsFormStyles';
-import { getInitialValues } from './UserEndpointsFormUtils';
-
+import { getInitialValues, getRpcLinks } from './UserEndpointsFormUtils';
 import {
   UserEndpointsFormData,
   UserEndpointsFormFields,
@@ -15,12 +15,13 @@ import {
 } from './UserEndpointsFormTypes';
 import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
 import { RowInputField } from './RowInputField';
-import { Mutator } from 'final-form';
 
 export const UserEndpointsForm = ({
   endpoints,
   chainId,
   onSubmit: onUpdateEndpoint,
+  privateUrls,
+  publicUrls,
 }: UserEndpointsProps) => {
   const classes = useStyles();
 
@@ -32,7 +33,13 @@ export const UserEndpointsForm = ({
   );
 
   const renderForm = useCallback(
-    ({ form, handleSubmit }: FormRenderProps<UserEndpointsFormData>) => {
+    ({
+      form,
+      handleSubmit,
+      values,
+    }: FormRenderProps<UserEndpointsFormData>) => {
+      const rpcLinks = getRpcLinks(values.rpcLinks);
+
       return (
         <form onSubmit={handleSubmit}>
           <FormGroup>
@@ -68,6 +75,9 @@ export const UserEndpointsForm = ({
                         chainId={chainId}
                         formEndpoint={formEndpoint}
                         onSubmit={onInputSubmit}
+                        privateUrls={privateUrls}
+                        endpoints={rpcLinks}
+                        publicUrls={publicUrls}
                       />
                     );
                   })
@@ -78,7 +88,7 @@ export const UserEndpointsForm = ({
         </form>
       );
     },
-    [classes.root, onSubmit, chainId],
+    [classes.root, onSubmit, chainId, privateUrls, publicUrls],
   );
 
   return (

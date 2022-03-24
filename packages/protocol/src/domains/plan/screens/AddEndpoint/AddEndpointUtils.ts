@@ -14,7 +14,7 @@ export const getScheme = (data: INodeEntity[] = []): string => {
   return item?.scheme || '';
 };
 
-export const useEndpointBreadcrumbs = (chainName: string, id: string) => {
+export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   const hasBreadcrumbsRef = useRef<boolean>(false);

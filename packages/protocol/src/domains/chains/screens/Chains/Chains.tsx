@@ -40,9 +40,9 @@ export const Chains = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [totalRequestsData, setTotalRequestData] = useState<string>('');
 
-  const handleChainInfo = (totalRequest: string) => {
+  const handleChainInfo = (totalRequest: string, loadingStatus: boolean) => {
     setTotalRequestData(totalRequest);
-    setLoading(false);
+    setLoading(loadingStatus);
   };
 
   return (

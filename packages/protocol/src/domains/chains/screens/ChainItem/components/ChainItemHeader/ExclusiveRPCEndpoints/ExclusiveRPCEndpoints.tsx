@@ -11,6 +11,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -37,11 +38,23 @@ export const ExclusiveRPCEndpoints = ({
       }
     >
       {({ data }) => {
-        const { rpcUrls, wsUrls, testnets } = data;
+        const { extenders, extensions, testnets, urls } = data;
 
-        const isTitlePlural =
-          [...rpcUrls, ...wsUrls].length > 1 ||
-          (testnets && testnets.length > 0);
+        const mainnetURLs = [
+          ...urls,
+          ...(extensions || []).flatMap<IApiChainURL>(
+            extension => extension.urls,
+          ),
+          ...(extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
+        ];
+        const testnetURLs = (testnets || []).flatMap<IApiChainURL>(testnet => [
+          ...testnet.urls,
+          ...(testnet.extensions || []).flatMap<IApiChainURL>(
+            extension => extension.urls,
+          ),
+        ]);
+
+        const isTitlePlural = mainnetURLs.length > 1 || testnetURLs.length > 0;
         const title = (
           <Typography variant="body2" className={classes.text}>
             {t('chain-item.header.private-endpoints', {
@@ -52,59 +65,51 @@ export const ExclusiveRPCEndpoints = ({
 
         const mainnetEndpoints = (
           <div className={classes.root}>
-            {rpcUrls.map(item => {
-              return (
+            {mainnetURLs.map(({ rpc, ws }) => (
+              <div className={classes.section} key={rpc + ws}>
                 <CopyToClipIcon
-                  text={item}
+                  className={classes.copyToClip}
                   message={t('common.copy-message')}
                   size="l"
+                  text={rpc}
                   textColor="textPrimary"
-                  className={classes.copyToClip}
-                  key={item}
                 />
-              );
-            })}
-            {wsUrls.map(item => {
-              return (
-                <CopyToClipIcon
-                  text={item}
-                  message={t('common.copy-message')}
-                  size="l"
-                  textColor="textPrimary"
-                  className={classes.copyToClip}
-                  key={item}
-                />
-              );
-            })}
+                {ws && (
+                  <CopyToClipIcon
+                    className={classes.copyToClip}
+                    message={t('common.copy-message')}
+                    size="l"
+                    text={ws}
+                    textColor="textPrimary"
+                  />
+                )}
+              </div>
+            ))}
           </div>
         );
 
         const testnetEndpoints =
-          testnets && testnets.length > 0 ? (
+          testnetURLs.length > 0 ? (
             <div className={classes.root}>
-              {testnets.map((testnet, index) => (
-                <React.Fragment key={index}>
-                  {testnet.rpcUrls?.map(item => (
+              {testnetURLs.map(({ rpc, ws }) => (
+                <div className={classes.section} key={rpc + ws}>
+                  <CopyToClipIcon
+                    className={classes.copyToClip}
+                    message={t('common.copy-message')}
+                    size="l"
+                    text={rpc}
+                    textColor="textPrimary"
+                  />
+                  {ws && (
                     <CopyToClipIcon
-                      text={item}
+                      className={classes.copyToClip}
                       message={t('common.copy-message')}
                       size="l"
+                      text={ws}
                       textColor="textPrimary"
-                      className={classes.copyToClip}
-                      key={item}
                     />
-                  ))}
-                  {testnet.wsUrls?.map(item => (
-                    <CopyToClipIcon
-                      text={item}
-                      message={t('common.copy-message')}
-                      size="l"
-                      textColor="textPrimary"
-                      className={classes.copyToClip}
-                      key={item}
-                    />
-                  ))}
-                </React.Fragment>
+                  )}
+                </div>
               ))}
             </div>
           ) : null;

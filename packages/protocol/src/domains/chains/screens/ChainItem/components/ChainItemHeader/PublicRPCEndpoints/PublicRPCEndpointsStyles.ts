@@ -22,19 +22,30 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   root: {
     display: 'flex',
+    flexDirection: 'column',
     gap: theme.spacing(2),
-    margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
 
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-    },
+    margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
+  },
+  nervos: {
+    display: 'flex',
+    gap: theme.spacing(2),
+
+    margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
   },
   link: {
     display: 'flex',
     alignItems: 'flex-start',
+    flexDirection: 'column',
+
+    width: '100%',
   },
   section: {
+    display: 'flex',
+    gap: theme.spacing(2),
+
     flex: 1,
+
     minWidth: 0,
   },
   label: {

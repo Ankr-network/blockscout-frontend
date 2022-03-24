@@ -36,4 +36,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       fontSize: 12,
     },
   },
+  section: {
+    display: 'flex',
+    gap: theme.spacing(2),
+    flex: 1,
+
+    maxWidth: '100%',
+  },
 }));

@@ -24,7 +24,7 @@ const config: PlaywrightTestConfig = {
   workers: 1,
   retries: CI ? 1 : 0,
   reporter: CI
-    ? [['github'], ['list']]
+    ? [['github'], ['list'], ['html', { outputFolder: './test-results/html-report', open: 'on-failure' }]]
     : [['list'], ['html', { outputFolder: './test-results/html-report', open: 'on-failure' }]],
 };
 export default config;

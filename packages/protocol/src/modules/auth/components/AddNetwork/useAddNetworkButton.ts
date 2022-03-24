@@ -12,6 +12,7 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
     event: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
     /* stop propagation for click event to avoid parent element click */
+    event.preventDefault();
     event.stopPropagation();
     if (isWalletConnected) {
       return handleAddNetwork(mappedNetwork);
