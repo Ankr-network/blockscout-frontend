@@ -1,3 +1,5 @@
+import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
+import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -15,8 +17,28 @@ export const StakedAETHC = (): JSX.Element => {
     network,
     tradeLink,
     isBalancesLoading,
+    walletName,
+    address,
     handleAddTokenToWallet,
   } = useStakedAETHCData();
+
+  const onTradeClick = () => {
+    trackClickTrade({
+      walletType: walletName,
+      walletPublicAddress: address,
+      stakeToken: Token.aETHc,
+      stakedBalance: amount?.toFixed(),
+    });
+  };
+
+  const onAddStakingClick = () => {
+    trackEnterStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'add_stake',
+      tokenName: Token.aETHc,
+    });
+  };
 
   return (
     <>
@@ -27,7 +49,9 @@ export const StakedAETHC = (): JSX.Element => {
         token={Token.aETHc}
         tokenAddress={contractConfig.aethContract}
         tradeLink={tradeLink}
+        onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
+        onTradeClick={onTradeClick}
       />
 
       <HistoryDialog

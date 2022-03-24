@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
+import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -27,10 +29,30 @@ export const StakedMatic = (): JSX.Element | null => {
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    walletName,
+    address,
     handleAddTokenToWallet,
   } = useStakedMaticData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
+
+  const onTradeClick = () => {
+    trackClickTrade({
+      walletType: walletName,
+      walletPublicAddress: address,
+      stakeToken: Token.aMATICb,
+      stakedBalance: amount?.toFixed(),
+    });
+  };
+
+  const onAddStakingClick = () => {
+    trackEnterStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'add_stake',
+      tokenName: Token.aMATICb,
+    });
+  };
 
   const handleLoadTxHistory = useCallback(() => {
     dispatch(fetchTxHistory());
@@ -66,8 +88,10 @@ export const StakedMatic = (): JSX.Element | null => {
         tokenAddress={contractConfig.aMaticbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTradeClick={onTradeClick}
       />
 
       <HistoryDialog

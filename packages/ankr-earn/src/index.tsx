@@ -1,10 +1,13 @@
-import React from 'react';
 import { hydrate, render } from 'react-dom';
+
+import { initializeAnalytics } from 'modules/analytics';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const rootElement = document.getElementById('root');
+
+initializeAnalytics();
 
 if (rootElement?.hasChildNodes()) {
   hydrate(<App />, rootElement);

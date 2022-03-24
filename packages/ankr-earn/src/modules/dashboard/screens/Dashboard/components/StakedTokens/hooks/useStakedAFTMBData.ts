@@ -6,6 +6,9 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -27,6 +30,8 @@ export interface IStakedAFTMBData {
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
+  walletName?: string;
+  address?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -40,10 +45,12 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const { loading: isStakeLoading } = useMutation({
     type: stake,
   });
-
   const { loading: isUnstakeLoading } = useMutation({
     type: unstake,
   });
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const network = t(`chain.${FTM_NETWORK_BY_ENV}`);
 
@@ -68,6 +75,8 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
       : undefined,
     isStakeLoading,
     isUnstakeLoading,
+    walletName,
+    address,
     handleAddTokenToWallet,
   };
 };

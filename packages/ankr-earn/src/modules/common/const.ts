@@ -23,13 +23,14 @@ export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
 
-export const RPC_GOERLI = process.env.REACT_APP_RPC_GOERLI as string;
-
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
+
+export const RPC_GOERLI = process.env.REACT_APP_RPC_GOERLI as string;
+export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
 
 export const LITEPAPER_EN =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';

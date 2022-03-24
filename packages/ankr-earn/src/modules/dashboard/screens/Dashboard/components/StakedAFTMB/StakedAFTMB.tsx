@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
+import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -29,9 +31,29 @@ export const StakedAFTMB = (): JSX.Element | null => {
     isUnstakeLoading,
     unstakeLink,
     stakeLink,
+    walletName,
+    address,
     tradeLink,
     handleAddTokenToWallet,
   } = useStakedAFTMBData();
+
+  const onTradeClick = () => {
+    trackClickTrade({
+      walletType: walletName,
+      walletPublicAddress: address,
+      stakeToken: Token.aFTMb,
+      stakedBalance: amount?.toFixed(),
+    });
+  };
+
+  const onAddStakingClick = () => {
+    trackEnterStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'add_stake',
+      tokenName: Token.aFTMb,
+    });
+  };
 
   const handleLoadTxHistory = useCallback(() => {
     dispatch(getHistory());
@@ -67,8 +89,10 @@ export const StakedAFTMB = (): JSX.Element | null => {
         tokenAddress={fantomConfig.aftmbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTradeClick={onTradeClick}
       />
 
       <HistoryDialog

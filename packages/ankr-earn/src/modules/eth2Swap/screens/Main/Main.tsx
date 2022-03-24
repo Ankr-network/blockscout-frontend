@@ -23,7 +23,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { ISwapFormPayload } from '../../types';
 
 import { SwapOptions, Stepper } from './components';
-import { useEth2SwapData, useEth2SwapForm } from './hooks';
+import { useEth2SwapData, useEth2SwapForm, useSendAnalytics } from './hooks';
 import { useMainEth2SwapStyles } from './useMainEth2SwapStyles';
 
 const FEE_BASIS_POINTS = 30;
@@ -45,6 +45,14 @@ export const Main = (): JSX.Element => {
     handleChooseAEthC,
   } = useEth2SwapData();
 
+  const { sendAnalytics } = useSendAnalytics({
+    swapOption,
+    feeBasisPoints: FEE_BASIS_POINTS,
+    ratio,
+    aethBalance,
+    fethBalance,
+  });
+
   const {
     txHash,
     txError,
@@ -56,7 +64,12 @@ export const Main = (): JSX.Element => {
     handleApprove,
     handleSwap,
     handleClearTx,
-  } = useEth2SwapForm({ max: balance, swapOption, ratio });
+  } = useEth2SwapForm({
+    max: balance,
+    swapOption,
+    ratio,
+    onSuccessSwap: sendAnalytics,
+  });
 
   const max = useMemo(() => balance.dividedBy(ETH_SCALE_FACTOR), [balance]);
   const canApprove = allowance.isZero() && swapOption === 'aETHc';
@@ -127,7 +140,7 @@ export const Main = (): JSX.Element => {
             }
             label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
               .decimalPlaces(DECIMAL_PLACES)
-              .toNumber()} ETH`}
+              .toFixed()} ETH`}
             variant="outlined"
             onDelete={noop}
           />
@@ -159,7 +172,7 @@ export const Main = (): JSX.Element => {
 
           <Typography className={classes.fee}>
             {t('unit.token-value', {
-              value: fee.decimalPlaces(DECIMAL_PLACES).toNumber(),
+              value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
               token: swapOption,
             })}
           </Typography>
@@ -174,7 +187,7 @@ export const Main = (): JSX.Element => {
 
           <Typography className={cn(classes.result, classes.sum)}>
             {t('unit.token-value', {
-              value: calculateValueWithRatio(total).toNumber(),
+              value: calculateValueWithRatio(total).toFixed(),
               token: swapOption === 'aETHb' ? 'aETHc' : 'aETHb',
             })}
           </Typography>

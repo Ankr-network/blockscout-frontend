@@ -8,10 +8,17 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
+import { Token } from 'modules/common/types/token';
+import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
+import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
@@ -65,6 +72,12 @@ export const useStakeForm = ({
 
   const fetchAPYData = useFetchAPY();
 
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const stakableBNBData = useStakableBnb();
+
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
     invalid: boolean,
@@ -97,11 +110,31 @@ export const useStakeForm = ({
     [amount, fetchStatsData, stakeGasFee],
   );
 
+  const sendAnalytics = async () => {
+    const currentAmount = new BigNumber(amount).plus(
+      fetchStatsData?.relayerFee ?? ZERO,
+    );
+    const binanceSDK = await BinanceSDK.getInstance();
+    const abnbbBalance = await binanceSDK.getABNBBBalance();
+
+    trackStake({
+      address,
+      walletType: walletName,
+      amount: currentAmount,
+      willGetAmount: currentAmount,
+      tokenIn: Token.BNB,
+      tokenOut: Token.aBNBb,
+      prevStakedAmount: stakableBNBData.balance,
+      synthBalance: abnbbBalance,
+    });
+  };
+
   const handleSubmit = ({ amount: formAmount }: IStakeSubmitPayload): void => {
     const stakeAmount = new BigNumber(formAmount);
 
     dispatchRequest(stake(stakeAmount)).then(({ error }) => {
       if (!error) {
+        sendAnalytics();
         openSuccessModal();
       }
     });

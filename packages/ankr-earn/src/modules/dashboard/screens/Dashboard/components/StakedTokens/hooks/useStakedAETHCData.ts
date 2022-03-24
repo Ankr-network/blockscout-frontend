@@ -2,6 +2,9 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,
@@ -20,6 +23,8 @@ export interface IStakedAETHCData {
   tradeLink: string;
   isShowed: boolean;
   isBalancesLoading: boolean;
+  walletName?: string;
+  address?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -27,6 +32,9 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: getEth2SwapData,
   });
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
   const dispatchRequest = useDispatchRequest();
 
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
@@ -47,6 +55,8 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aETHc, Token.ETH),
     isShowed,
     isBalancesLoading,
+    walletName,
+    address,
     handleAddTokenToWallet,
   };
 };

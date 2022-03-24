@@ -6,6 +6,9 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -30,6 +33,8 @@ export interface IStakedBNBData {
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   isShowed: boolean;
+  walletName?: string;
+  address?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -41,6 +46,9 @@ export const useStakedBNBData = (): IStakedBNBData => {
 
   const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
   const { loading: isUnstakeLoading } = useMutation({ type: unstakeBNB });
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
 
@@ -67,6 +75,8 @@ export const useStakedBNBData = (): IStakedBNBData => {
     isStakeLoading,
     isUnstakeLoading,
     isShowed,
+    walletName,
+    address,
     handleAddTokenToWallet,
   };
 };

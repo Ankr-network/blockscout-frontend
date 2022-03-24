@@ -57,7 +57,12 @@ export const PlusMinusBtn = ({
     };
 
     return href ? (
-      <NavLink {...commonBtnProps} href={href}>
+      <NavLink
+        {...commonBtnProps}
+        href={href}
+        onMouseDown={onClick}
+        onTouchStart={onClick}
+      >
         {renderedIcon}
       </NavLink>
     ) : (

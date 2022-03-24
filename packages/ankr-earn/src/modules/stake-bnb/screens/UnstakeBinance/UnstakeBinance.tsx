@@ -3,12 +3,17 @@ import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useHistory } from 'react-router';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { useStakedBNBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedBNBData';
 import { t } from 'modules/i18n/utils/intl';
 import {
   IUnstakeFormValues,
@@ -30,6 +35,7 @@ export const UnstakeBinance = (): JSX.Element => {
   const classes = useUnstakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
+  const stakedBNBData = useStakedBNBData();
 
   const {
     isOpened: isSuccessOpened,
@@ -102,6 +108,10 @@ export const UnstakeBinance = (): JSX.Element => {
       );
     };
 
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
   const onUnstakeSubmit = ({ amount }: IUnstakeFormValues): void => {
     if (typeof amount !== 'string') {
       return;
@@ -112,6 +122,17 @@ export const UnstakeBinance = (): JSX.Element => {
     dispatchRequest(unstake(resultAmount)).then(({ error }) => {
       if (!error) {
         onSuccessOpen();
+
+        trackUnstake({
+          address,
+          name: walletName,
+          amount: resultAmount,
+          stakeToken: Token.BNB,
+          syntheticToken: Token.aBNBb,
+          newTokenBalance: fetchStatsData?.bnbBalance ?? ZERO,
+          newStakedBalance: stakedBNBData.amount,
+          newSynthTokens: fetchStatsData?.aBNBbBalance ?? ZERO,
+        });
       }
     });
   };

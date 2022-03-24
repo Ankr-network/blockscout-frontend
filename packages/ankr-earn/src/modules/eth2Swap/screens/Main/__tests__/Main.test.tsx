@@ -10,11 +10,14 @@ import {
   IEth2SwapHookData,
   useEth2SwapData,
   useEth2SwapForm,
+  useSendAnalytics,
 } from '../hooks';
+import { ISendAnalyticsHookData } from '../hooks/useSendAnalytics';
 
 jest.mock('../hooks', () => ({
   useEth2SwapData: jest.fn(),
   useEth2SwapForm: jest.fn(),
+  useSendAnalytics: jest.fn(),
 }));
 
 describe('modules/eth2Swap/screens/Main', () => {
@@ -48,10 +51,16 @@ describe('modules/eth2Swap/screens/Main', () => {
     handleClearTx: jest.fn(),
   };
 
+  const defaultSendAnalyticsData: ISendAnalyticsHookData = {
+    sendAnalytics: jest.fn(),
+  };
+
   beforeEach(() => {
     (useEth2SwapData as jest.Mock).mockReturnValue(defaultHookData);
 
     (useEth2SwapForm as jest.Mock).mockReturnValue(defaultFormData);
+
+    (useSendAnalytics as jest.Mock).mockReturnValue(defaultSendAnalyticsData);
   });
 
   afterEach(() => {

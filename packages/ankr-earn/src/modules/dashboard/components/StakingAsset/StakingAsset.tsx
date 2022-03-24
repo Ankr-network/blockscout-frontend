@@ -32,6 +32,8 @@ interface IStakingAssetProps {
   isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
   onHistoryBtnClick?: () => void;
+  onTradeClick?: () => void;
+  onAddStakingClick?: () => void;
 }
 
 const FIREFOX = 'Firefox';
@@ -51,6 +53,8 @@ export const StakingAsset = ({
   isUnstakeLoading = false,
   isHistoryLoading = false,
   onHistoryBtnClick,
+  onTradeClick,
+  onAddStakingClick,
   onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
@@ -130,6 +134,7 @@ export const StakingAsset = ({
                 href={stakeLink}
                 isLoading={isStakeLoading}
                 tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+                onClick={onAddStakingClick}
               />
             </Grid>
 
@@ -149,6 +154,7 @@ export const StakingAsset = ({
                   className={classes.tradeButton}
                   href={tradeLink}
                   variant="outlined"
+                  onClick={onTradeClick}
                 >
                   {t('dashboard.trade')}
                 </NavLink>

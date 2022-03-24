@@ -32,6 +32,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
     ratio: ONE_ETH,
     swapOption: Token.aETHb,
     max: ONE_ETH,
+    onSuccessSwap: jest.fn(),
   };
 
   beforeEach(() => {

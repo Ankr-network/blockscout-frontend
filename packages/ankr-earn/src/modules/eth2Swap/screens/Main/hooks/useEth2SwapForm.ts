@@ -1,9 +1,8 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo, useCallback, useState } from 'react';
-import { object, number } from 'yup';
+import { useCallback, useMemo, useState } from 'react';
+import { number, object } from 'yup';
 
-import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import {
   approveAETHC,
@@ -16,10 +15,16 @@ import {
 } from 'modules/eth2Swap/types';
 import { t } from 'modules/i18n/utils/intl';
 
+import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
+import { calcValueWithRatio } from '../utils/calcValueWithRatio';
+
+import { ISendAnalyticsEventArg } from './useSendAnalytics';
+
 export interface IEth2SwapFormHookArgs {
   max: BigNumber;
   ratio: BigNumber;
   swapOption: TSwapOption;
+  onSuccessSwap: (data: ISendAnalyticsEventArg) => void;
 }
 
 export interface IEth2SwapFormHookData {
@@ -48,6 +53,7 @@ export const useEth2SwapForm = ({
   max,
   swapOption,
   ratio,
+  onSuccessSwap,
 }: IEth2SwapFormHookArgs): IEth2SwapFormHookData => {
   const dispatchRequest = useDispatchRequest();
   const { loading: isApproveLoading } = useMutation({ type: approveAETHC });
@@ -63,9 +69,27 @@ export const useEth2SwapForm = ({
     });
   }, [dispatchRequest]);
 
+  const calculateFeeAndTotal = useCallback(
+    ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {
+      return calcFeeAndTotal({ feeBP, amount });
+    },
+    [],
+  );
+
+  const calculateValueWithRatio = useCallback(
+    (total: BigNumber) => {
+      return calcValueWithRatio({
+        total,
+        ratio,
+        swapOption,
+      });
+    },
+    [ratio, swapOption],
+  );
+
   const handleSwap = useCallback(
-    (amount: string) => {
-      dispatchRequest(
+    async amount => {
+      await dispatchRequest(
         swapAssets({
           amount,
           ratio,
@@ -75,10 +99,14 @@ export const useEth2SwapForm = ({
         if (response.error) {
           setTxHash(response.data?.transactionHash ?? '');
           setTxError(response.error);
+        } else {
+          onSuccessSwap({
+            amount,
+          });
         }
       });
     },
-    [swapOption, ratio, dispatchRequest],
+    [dispatchRequest, ratio, swapOption, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {
@@ -89,32 +117,6 @@ export const useEth2SwapForm = ({
   const schema = useMemo(() => createSchema({ max }), [max]);
   const validateHandler = useMemo(() => validate(schema), [schema]);
   const handleValidate = useCallback(validateHandler, [validateHandler]);
-
-  const calculateFeeAndTotal = useCallback(
-    ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {
-      const fee = amount.multipliedBy(feeBP).div(10_000);
-
-      return { fee, total: amount.minus(fee) };
-    },
-    [],
-  );
-
-  const calculateValueWithRatio = useCallback(
-    (total: BigNumber) => {
-      const amount = total.multipliedBy(ETH_SCALE_FACTOR);
-
-      if (!ratio.isZero() && swapOption === 'aETHc') {
-        return amount.dividedBy(ratio).decimalPlaces(DECIMAL_PLACES);
-      }
-
-      return amount
-        .multipliedBy(ratio)
-        .dividedBy(ETH_SCALE_FACTOR)
-        .dividedBy(ETH_SCALE_FACTOR)
-        .decimalPlaces(DECIMAL_PLACES);
-    },
-    [ratio, swapOption],
-  );
 
   return {
     txHash,
