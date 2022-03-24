@@ -63,15 +63,17 @@ export const RpcItem = ({
         }
       />
       <div className={classes.right}>
-        {urls.slice(0, 2).map(url => (
-          <CopyToClipIcon
-            text={url}
-            message={t('common.copy-message')}
-            key={url}
-            textColor="textPrimary"
-            className={classes.item}
-          />
-        ))}
+        <div className={classes.endpointsList}>
+          {urls.slice(0, 2).map(url => (
+            <CopyToClipIcon
+              text={url}
+              message={t('common.copy-message')}
+              key={url}
+              textColor="textPrimary"
+              className={classes.item}
+            />
+          ))}
+        </div>
         {hasOnClick && (
           <Button className={classes.moreBtn} variant="outlined">
             {t('providers.endpoint.more-btn')}
