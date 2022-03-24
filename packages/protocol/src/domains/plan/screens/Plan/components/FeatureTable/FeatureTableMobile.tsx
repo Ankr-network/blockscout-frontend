@@ -19,17 +19,17 @@ import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
 import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { Link } from 'react-router-dom';
 
 interface FeatureTableProps {
   costInAnkr: number;
   costInUsd?: string;
-  onClickPremium: () => void;
 }
 
 export const FeatureTableMobile = ({
   costInAnkr,
   costInUsd,
-  onClickPremium,
 }: FeatureTableProps) => {
   const classes = useStyles();
   const classesMobile = useMobileStyles();
@@ -177,7 +177,8 @@ export const FeatureTableMobile = ({
               </Typography>
             </Box>
             <Button
-              onClick={onClickPremium}
+              component={Link}
+              to={PlanRoutesConfig.planDeposit.path}
               variant="text"
               endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
               className={classes.unblockBtn}
