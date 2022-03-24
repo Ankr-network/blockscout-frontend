@@ -19,7 +19,7 @@ export const MobileDetails = ({ isOpened, onClose }: MobileDetailsProps) => {
       fullScreen
       onBackdropClick={onClose}
       // @ts-ignore
-      style={{ zIndex: '0!important', inset: '64px 0 80px' }}
+      style={{ zIndex: 0, inset: '64px 0 80px' }}
       classes={{
         root: classNames(classes.root, classes.details),
         paper: classes.paper,

@@ -1,7 +1,16 @@
 {
   "title": "Protocol",
   "validation": {
-    "required": "This field is required"
+    "required": "This field is required",
+    "domain-validation": "Use the following URL format: example.com",
+    "url-validation": "Should be a valid URL",
+    "https-validation": "Should be a valid https URL",
+    "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
+    "ip-validation": "Should be a valid IP address",
+    "url-chain-validation": "URL must contain {chainId}",
+    "public-url-validation": "Should not be a public endpoint of Ankr",
+    "premium-url-validation": "Should not be a premium endpoint of Ankr",
+    "duplicate-url-validation": "This endpoint has already been added"
   },
   "meta": {
     "title": "Ankr Protocol",
@@ -48,7 +57,8 @@
   },
   "dashboard": {
     "breadcrumbs": "My exclusive RPCs",
-    "title": "My exclusive RPCs"
+    "title": "My exclusive RPCs",
+    "provider-title": "Dashboard"
   },
   "30-days-statistics": {
     "30days": "30d",
@@ -62,7 +72,11 @@
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
-    "requests": "{value} reqs"
+    "requests": "{value} reqs",
+    "req": "{value, number, ::compact-short} req",
+    "30d": "30d",
+    "archive": "Archive",
+    "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
   },
   "chain-item": {
     "banner": {
@@ -83,15 +97,15 @@
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
     "header": {
+      "mainnet-tab-title": "Mainnet",
+      "testnet-tab-title": "Testnet",
       "public-endpoints": "Public RPC Endpoint{plural}",
       "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
       "private-endpoints": "Exclusive RPC Endpoint{plural}",
       "plural": "s",
       "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
       "button": "Unlock Premium Features",
-      "settings-button": "Settings",
-      "archived": "Archived",
-      "archived-node-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
+      "settings-button": "Settings"
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
@@ -115,7 +129,7 @@
       "calls-count": "{value, number, ::compact-short}"
     },
     "map": {
-      "header": "Top 10 countries with most requests",
+      "header": "Top 10 countries by requests",
       "stats-table": {
         "head": {
           "country": "Country",
@@ -126,7 +140,7 @@
     },
     "nodes-table": {
       "header": "Nodes",
-      "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location",
+      "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location.",
       "head": {
         "node": "Node",
         "height": "Height",
@@ -234,6 +248,9 @@
         "checkbox": "Please, check this box to proceed"
       }
     },
+    "add-endpoint": {
+      "breadcrumbs": "Add Endpoint"
+    },
     "deposit-success": {
       "title": "Deposited Successfully",
       "subtitle": "We&nbsp;need your email so&nbsp;you can receive updates.",
@@ -256,7 +273,8 @@
   "common": {
     "copy-message": "Copied!",
     "copy-text": "Public Link",
-    "empty": "Empty..."
+    "empty": "Empty...",
+    "copy": "Copy"
   },
   "providers": {
     "breadcrumbs": "Node Providers",
@@ -273,6 +291,56 @@
       "pagination": {
         "previous-button": "Previous",
         "next-button": "Next"
+      }
+    },
+    "endpoint": {
+      "more-btn": "More",
+      "title": "My endpoints",
+      "button": "Add Endpoint",
+      "tooltip-text": "You have reached the maximum number of endpoints ({limit}).",
+      "chain-tooltip-text": "You don't have an access to add {chainId} endpoint.",
+      "delete-dialog": {
+        "info": "Are you sure you&rsquo;d like to&nbsp;remove {name} endpoint?",
+        "remove": "Remove",
+        "cancel": "Cancel"
+      },
+      "security": {
+        "title": "Security",
+        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist.",
+        "domain": {
+          "address-title": "Add website address",
+          "address-count": "{value} max",
+          "domains-title": "List of allowed websites"
+        },
+        "add-button": "Add",
+        "ip": {
+          "address-title": "Add IP address",
+          "address-count": "{value} max",
+          "domains-title": "List of allowed IP addresses"
+        }
+      }
+    },
+    "private-endpoints": {
+      "title": "Exclusive RPC Endpoint{plural}",
+      "plural": "s",
+      "user-endpoint": "My endpoints"
+    },
+    "editable-endpoints": {
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "paste": "Paste"
+    },
+    "chains": {
+      "title": "Select Chain",
+      "button": "RPC Endpoint"
+    },
+    "add-endpoint": {
+      "description": "You can import your personal endpoint, which will be used to process requests that are sent to your exclusive ANKR endpoint. In case of an error, the request will be processed by our nodes for premium users. Please enter a valid https endpoint address and the system will check it.",
+      "http-input": "Endpoint address",
+      "agreement": {
+        "text": "I&nbsp;understand",
+        "button": "Finish"
       }
     }
   },
@@ -321,6 +389,10 @@
     "nervos": "Web3 (EVM)",
     "godwoken": "Web3 (Godwoken)",
     "iotex": "Web3 (EVM)",
-    "near": "Web3 (EVM)"
+    "near": "Web3 (EVM)",
+    "harmony": "Web3 (EVM)"
+  },
+  "zendesk": {
+    "get-help": "Help"
   }
 }

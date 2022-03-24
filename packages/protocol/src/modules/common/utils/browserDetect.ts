@@ -3,7 +3,7 @@ import Bowser from 'bowser';
 export const browser = Bowser.getParser(window.navigator.userAgent);
 export const browserName = browser.getBrowserName();
 
-const isFirefox = (): boolean =>
+export const isFirefox = (): boolean =>
   browser.getBrowserName(true).includes('firefox');
 
 // browser features

@@ -3,6 +3,7 @@ import {
   Breadcrumbs as BreadcrumbsBase,
   Typography,
   capitalize,
+  useMediaQuery,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -13,8 +14,13 @@ import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'ui';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
-  const classes = useStyles();
   const isMobile = useIsMDDown();
+  const isLessThanMaxWidth = useMediaQuery('(max-width:1100px)');
+
+  const shouldShowMobileBreadcrumbs =
+    isMobile || (isLessThanMaxWidth && items.length > 2);
+
+  const classes = useStyles({ shouldShowMobileBreadcrumbs });
 
   return (
     <BreadcrumbsBase
@@ -24,10 +30,14 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         ol: classes.breadcrumbs,
       }}
     >
-      {items.map(item => {
+      {items.map((item, index) => {
         const { title, link, onClick } = item;
 
+        const isLastIcon = index === items.length - 2;
+
         if (link || onClick) {
+          if (!isLastIcon && shouldShowMobileBreadcrumbs) return null;
+
           return (
             <Typography
               component={link ? Link : Typography}
@@ -37,7 +47,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               className={classNames(classes.link, 'custom-link')}
               key={title}
             >
-              {isMobile ? (
+              {shouldShowMobileBreadcrumbs ? (
                 <AngleRightIcon className={classes.mobileBackButton} />
               ) : (
                 capitalize(title)

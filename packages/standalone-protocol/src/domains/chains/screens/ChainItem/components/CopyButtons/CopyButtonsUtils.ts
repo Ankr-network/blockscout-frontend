@@ -5,8 +5,8 @@ import { ChainId } from 'domains/chains/api/chain';
 export const formatChain = (data?: IApiChain): Chain | null => {
   if (!data) return null;
 
-  const { id, icon, name, rpcUrl, wsUrl, requests } = data;
-  const rpcLinks = wsUrl ? [rpcUrl, wsUrl] : [rpcUrl];
+  const { id, icon, name, rpcUrls, wsUrls, requests } = data;
+  const rpcLinks = [...rpcUrls, ...wsUrls];
 
   return {
     id,
