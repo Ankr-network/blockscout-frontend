@@ -56,8 +56,8 @@
     "already-premium": "Already Premium?"
   },
   "dashboard": {
-    "breadcrumbs": "My exclusive RPCs",
-    "title": "My exclusive RPCs",
+    "breadcrumbs": "Premium Endpoints",
+    "title": "Premium Endpoints",
     "provider-title": "Dashboard"
   },
   "30-days-statistics": {
@@ -101,9 +101,9 @@
       "testnet-tab-title": "Testnet",
       "public-endpoints": "Public RPC Endpoint{plural}",
       "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
-      "private-endpoints": "Exclusive RPC Endpoint{plural}",
+      "private-endpoints": "Premium Endpoint{plural}",
       "plural": "s",
-      "tooltipText": "Reach an exclusive RPC endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
+      "tooltipText": "Reach a Premium Endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
       "button": "Unlock Premium Features",
       "settings-button": "Settings"
     },
@@ -322,12 +322,12 @@
     },
     "private-endpoints": {
       "title": "Premium Endpoint{plural}",
-      "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use Private Endpoint directly",
+      "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "plural": "s"
     },
     "user-endpoints": {
-      "title": "My endpoints",
-      "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic"
+      "title": "My Endpoints",
+      "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
     },
     "editable-endpoints": {
       "edit": "Edit",
