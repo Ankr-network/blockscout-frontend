@@ -10,12 +10,14 @@ import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as BinanceLogo } from 'assets/img/logo/binance.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
 import { ReactComponent as NervosLogo } from 'assets/img/logo/nervos.svg';
+import { ReactComponent as HarmonyLogo } from 'assets/img/logo/harmony.svg';
 import { ReactComponent as FantomLogo } from 'assets/img/logo/fantom.svg';
 import { ReactComponent as AvalancheLogo } from 'assets/img/logo/avalanche.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import classNames from 'classnames';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ICrossMenuProps {
   chainId: string;
@@ -27,55 +29,61 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   const MENU_LIST = useMemo(
     () => [
       {
-        chainId: 'solana',
+        chainId: ChainId.Solana,
         name: 'Solana',
         logo: <SolanaLogo />,
         url: 'https://solana.public-rpc.com/ ',
       },
       {
-        chainId: 'bsc',
+        chainId: ChainId.BSC,
         name: 'Binance Smart Chain',
         logo: <BinanceLogo />,
         url: 'https://bscrpc.com/ ',
       },
       {
-        chainId: 'polygon',
+        chainId: ChainId.Polygon,
         name: 'Polygon',
         logo: <PolygonLogo />,
         url: 'https://polygon-rpc.com/ ',
       },
       {
-        chainId: 'nervos',
+        chainId: ChainId.Nervos,
         name: 'Nervos',
         logo: <NervosLogo />,
         url: 'https://nervos.public-rpc.com/',
       },
       {
-        chainId: 'fantom',
+        chainId: ChainId.Harmony,
+        name: 'Harmony',
+        logo: <HarmonyLogo />,
+        url: '', // TODO Harmony url
+      },
+      {
+        chainId: ChainId.Fantom,
         name: 'Fantom',
         logo: <FantomLogo />,
         url: 'https://rpc.ftm.tools/ ',
       },
       {
-        chainId: 'avalanche',
+        chainId: ChainId.Avalanche,
         name: 'Avalanche',
         logo: <AvalancheLogo />,
         url: 'https://avalanche.public-rpc.com/',
       },
       {
-        chainId: 'iotex',
+        chainId: ChainId.IoTeX,
         name: 'IoTeX',
         logo: <IoTexLogo />,
         url: 'https://iotexrpc.com/',
       },
       {
-        chainId: 'arbitrum',
+        chainId: ChainId.Arbitrum,
         name: 'Arbitrum',
         logo: <ArbitrumLogo />,
         url: 'https://arbitrum.public-rpc.com/',
       },
       {
-        chainId: 'near',
+        chainId: ChainId.Near,
         name: 'Near',
         logo: <NearLogo />,
         url: 'https://near.public-rpc.com/',

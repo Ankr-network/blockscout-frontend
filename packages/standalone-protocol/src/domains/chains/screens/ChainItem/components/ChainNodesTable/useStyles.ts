@@ -7,6 +7,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingRight: theme.spacing(3),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    '&.harmony': {
+      border: `2px solid ${theme.palette.grey[300]}`,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),
