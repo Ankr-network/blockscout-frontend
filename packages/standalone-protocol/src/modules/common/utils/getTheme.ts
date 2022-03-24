@@ -7,32 +7,37 @@ import { iotexTheme } from '../../themes/iotexTheme';
 import { avalancheTheme } from '../../themes/avalancheTheme';
 import { nervosTheme } from '../../themes/nervosTheme';
 import { erigonTheme } from '../../themes/erigonTheme';
+import { ChainId } from 'domains/chains/api/chain';
+import { harmonyTheme } from 'modules/themes/harmonyTheme';
 
-export const getTheme = (chainId?: string) => {
+export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
-    case 'polygon':
+    case ChainId.Polygon:
       return polygonTheme;
 
-    case 'solana':
+    case ChainId.Solana:
       return solanaTheme;
 
-    case 'near':
+    case ChainId.Near:
       return nearTheme;
 
-    case 'arbitrum':
+    case ChainId.Arbitrum:
       return arbitrumTheme;
 
-    case 'iotex':
+    case ChainId.IoTeX:
       return iotexTheme;
 
-    case 'avalanche':
+    case ChainId.Avalanche:
       return avalancheTheme;
 
-    case 'nervos':
+    case ChainId.Nervos:
       return nervosTheme;
 
-    case 'erigonbsc':
+    case ChainId.Erigonbsc:
       return erigonTheme;
+
+    case ChainId.Harmony:
+      return harmonyTheme;
 
     default:
       return mainTheme;

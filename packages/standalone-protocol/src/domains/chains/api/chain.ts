@@ -5,6 +5,7 @@ export enum ChainId {
   Celo = 'celo',
   Ethereum = 'eth',
   Fantom = 'fantom',
+  Harmony = 'harmony',
   IoTeX = 'iotex',
   Near = 'near',
   Nervos = 'nervos',

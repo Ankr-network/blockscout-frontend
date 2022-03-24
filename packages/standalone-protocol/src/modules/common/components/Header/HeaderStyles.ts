@@ -31,6 +31,11 @@ export const useStyles = makeStyles<Theme, { chainId?: string }>(theme => ({
       '-webkit-background-clip': 'text',
       '-webkit-text-fill-color': 'transparent',
     },
+    '&.harmony': {
+      background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
+      '-webkit-background-clip': 'text',
+      '-webkit-text-fill-color': 'transparent',
+    },
 
     '&.avalanche span span': {
       color: theme.palette.primary.main,
