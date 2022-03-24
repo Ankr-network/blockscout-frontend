@@ -11,7 +11,7 @@ import {
   getLimit,
 } from 'domains/plan/screens/Dashboard/DashboardUtils';
 import { IEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { useEndpointBreadcrumbs } from './EndpointUtils';
 
 interface EndpointInfoProps {
@@ -40,12 +40,30 @@ export const EndpointInfo = ({
   const userEndpoints = endpoints?.[chainId];
 
   const privateUrls = useMemo(
-    () => [...(privateChain?.rpcUrls || []), ...(privateChain?.wsUrls || [])],
+    () =>
+      [
+        ...(privateChain?.urls || []),
+        ...(privateChain?.extensions || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+        ...(privateChain?.extenders || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
     [privateChain],
   );
 
   const publicUrls = useMemo(
-    () => [...(publicChain?.rpcUrls || []), ...(publicChain?.wsUrls || [])],
+    () =>
+      [
+        ...(publicChain?.urls || []),
+        ...(publicChain?.extensions || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+        ...(publicChain?.extenders || []).flatMap<IApiChainURL>(
+          ({ urls }) => urls,
+        ),
+      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
     [publicChain],
   );
 

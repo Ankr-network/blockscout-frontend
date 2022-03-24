@@ -21,6 +21,7 @@ export type TBlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {
   Mainnet = 'mainnet',
+  Extension = 'extension',
   Testnet = 'testnet',
 }
 

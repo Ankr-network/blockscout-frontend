@@ -27,6 +27,8 @@ export const RpcItem = ({
 }: RpcItemProps) => {
   const classes = useStyles({ hasOnClick });
 
+  const urls = links.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]));
+
   return (
     <NavLink
       isRouterLink
@@ -61,11 +63,11 @@ export const RpcItem = ({
         }
       />
       <div className={classes.right}>
-        {links.map(link => (
+        {urls.slice(0, 2).map(url => (
           <CopyToClipIcon
-            text={link}
+            text={url}
             message={t('common.copy-message')}
-            key={link}
+            key={url}
             textColor="textPrimary"
             className={classes.item}
           />

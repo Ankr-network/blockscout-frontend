@@ -6,6 +6,7 @@ import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
 import { useProvider } from 'modules/auth/hooks/useProvider';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
 
 export const RpcList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
@@ -15,14 +16,22 @@ export const RpcList = ({ data }: RpcsListProps) => {
   return (
     <div>
       {chains.map(item => {
-        const { id, icon, name, requests, rpcLinks } = item;
+        const { id, icon, extenders, extensions, name, requests, urls } = item;
+
+        const links = [
+          ...urls,
+          ...(extensions || []).flatMap<IApiChainURL>(
+            extension => extension.urls,
+          ),
+          ...(extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
+        ];
 
         return (
           <RpcItem
             logoSrc={icon}
             period=""
             name={name}
-            links={rpcLinks}
+            links={links}
             key={id}
             id={id}
             className={classes.item}

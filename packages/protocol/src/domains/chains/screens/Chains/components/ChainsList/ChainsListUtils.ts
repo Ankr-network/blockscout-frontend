@@ -9,25 +9,27 @@ export const formatChains = (data: ChainsListProps['data']): Chain[] => {
 
   return data.map(item => {
     const {
-      id,
       icon,
+      id,
+      isArchive,
+      extenders,
+      extensions,
       name,
-      rpcUrls,
-      wsUrls,
       requests,
       totalRequest,
-      isArchive,
+      urls,
     } = item;
-    const rpcLinks = wsUrls.length > 0 ? [...rpcUrls, ...wsUrls] : rpcUrls;
 
     return {
-      id,
       icon,
+      id,
+      isArchive,
+      extenders,
+      extensions,
       name,
-      rpcLinks,
       requests,
       totalRequest,
-      isArchive,
+      urls,
     };
   });
 };
