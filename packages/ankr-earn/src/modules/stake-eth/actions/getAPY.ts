@@ -16,10 +16,13 @@ export const getAPY = createAction<RequestAction<number, number>>(
         const {
           contractConfig: { globalPoolDepositContract },
         } = configFromEnv();
+        const url = isMainnet ? 'https://eth-03.dccn.ankr.com/' : RPC_GOERLI;
+
+        if (!url) {
+          throw new Error('getAPY: the url is not specified');
+        }
 
         try {
-          const url = isMainnet ? 'https://eth-03.dccn.ankr.com/' : RPC_GOERLI;
-
           const requestOptions = {
             method: 'POST',
             headers: {

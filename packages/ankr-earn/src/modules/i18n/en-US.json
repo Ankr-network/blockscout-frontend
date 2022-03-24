@@ -182,9 +182,10 @@
     "my-rewards-claim-modal": {
       "select-section": {
         "external-wallet": "Address",
-        "hint-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
-        "hint-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
         "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
+        "info-message-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
+        "info-message-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
+        "info-warn-message": "Please note that Ledger wallets are not supported by {rewardTokenName} at all, even if they are connected to the Polkadot.js wallet",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
         "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address"
