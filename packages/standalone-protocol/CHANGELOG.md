@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.6 (2022-03-24)
+
+
+### Bug Fixes
+
+* **standalone-protocol:** MRPC-698 add harmony link to crossmenu ([#585](https://github.com/Ankr-network/ankr-web/issues/585)) ([c981bdc](https://github.com/Ankr-network/ankr-web/commit/c981bdc8b299b27040fd01b4bd82d2baf2eba1fb))
+
+
+
+
+
 ## 1.0.5 (2022-03-24)
 
 **Note:** Version bump only for package standalone-protocol
