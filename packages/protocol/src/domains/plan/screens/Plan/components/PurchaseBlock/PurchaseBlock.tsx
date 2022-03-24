@@ -4,16 +4,14 @@ import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
 import { t } from 'modules/i18n/utils/intl';
 import { useIsXSDown } from 'ui';
+import { Link } from 'react-router-dom';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 interface PurchaseBlockProps {
   costInAnkr: number;
-  onClickPremium: () => void;
 }
 
-export const PurchaseBlock = ({
-  costInAnkr,
-  onClickPremium,
-}: PurchaseBlockProps) => {
+export const PurchaseBlock = ({ costInAnkr }: PurchaseBlockProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
 
@@ -53,7 +51,8 @@ export const PurchaseBlock = ({
 
         <Box className={classes.unlockContainer}>
           <Button
-            onClick={onClickPremium}
+            component={Link}
+            to={PlanRoutesConfig.planDeposit.path}
             fullWidth={false}
             className={classes.unlockBtn}
             startIcon={<PremiumIcon />}
