@@ -41,11 +41,13 @@ export const UserEndpoints = ({
   return (
     <>
       <Box className={classes.top}>
-        <Typography variant="body2" className={classes.text}>
-          {t('providers.private-endpoints.user-endpoint', {
-            plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',
-          })}
-        </Typography>
+        <TooltipWrapper tooltipText={tHTML('providers.user-endpoints.tooltip')}>
+          <Typography variant="body2" className={classes.text}>
+            {t('providers.user-endpoints.title', {
+              plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',
+            })}
+          </Typography>
+        </TooltipWrapper>
 
         {isMoreThanLimit || !hasChain ? (
           <TooltipWrapper

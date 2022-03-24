@@ -4,7 +4,8 @@ import { Typography } from '@material-ui/core';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
-import { t } from 'modules/i18n/utils/intl';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './PrivateEndpointsStyles';
 
@@ -27,13 +28,18 @@ export const PrivateEndpoints = ({ chain }: PrivateEndpointsProps) => {
     ],
   );
 
-  const isTitlePlural = mainnetURLs.length > 1 || testnetURLs.length > 0;
+  const isTitlePlural =
+    mainnetURLs.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]))
+      .length > 1 || testnetURLs.length > 0;
+
   const title = (
-    <Typography variant="body2" className={classes.text}>
-      {t('providers.private-endpoints.title', {
-        plural: isTitlePlural ? t('providers.private-endpoints.plural') : '',
-      })}
-    </Typography>
+    <TooltipWrapper tooltipText={tHTML('providers.private-endpoints.tooltip')}>
+      <Typography variant="body2" className={classes.text}>
+        {t('providers.private-endpoints.title', {
+          plural: isTitlePlural ? t('providers.private-endpoints.plural') : '',
+        })}
+      </Typography>
+    </TooltipWrapper>
   );
 
   const mainnetEndpoints = (
