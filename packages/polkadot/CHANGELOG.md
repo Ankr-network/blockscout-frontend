@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.1 (2022-03-25)
+
+
+### Bug Fixes
+
+* **Clover:** STAKAN-1257 Added a fix for input validation ([#588](https://github.com/Ankr-network/ankr-web/issues/588)) ([672d107](https://github.com/Ankr-network/ankr-web/commit/672d10730e5e91e868c29b8ce43d5ecaf41a0d82))
+
+
+
+
+
 # 1.1.0 (2022-03-25)
 
 
