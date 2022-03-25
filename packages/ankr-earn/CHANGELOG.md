@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.5.5 (2022-03-25)
+
+
+### Bug Fixes
+
+* **statistics:** STAKAN-713 Temporary hide total request ([#604](https://github.com/Ankr-network/ankr-web/issues/604)) ([3de2441](https://github.com/Ankr-network/ankr-web/commit/3de24410cf31b50c7119ea9a8a0c1abe010092b5))
+
+
+
+
+
 ## 2.5.4 (2022-03-25)
 
 
