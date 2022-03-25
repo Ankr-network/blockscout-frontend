@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Typography, Button } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { Link } from 'react-router-dom';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Preloader } from 'uiKit/Preloader';
@@ -12,6 +13,9 @@ import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { useProvider } from 'modules/auth/hooks/useProvider';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -21,12 +25,14 @@ export const ExclusiveRPCEndpoints = ({
   chainId,
 }: ExclusiveRPCEndpointsProps) => {
   const classes = useStyles();
+  const { handleFetchProvider, providerData } = useProvider();
 
   const dispatchRequest = useDispatchRequest();
 
-  useEffect(() => {
+  useOnMount(() => {
     dispatchRequest(fetchPrivateChainDetails(chainId));
-  }, [dispatchRequest, chainId]);
+    handleFetchProvider();
+  });
 
   return (
     <Queries<ResponseData<typeof fetchPrivateChainDetails>>
@@ -117,7 +123,13 @@ export const ExclusiveRPCEndpoints = ({
           ) : null;
 
         const additionalContent = (
-          <Button variant="text" disabled className={classes.button}>
+          <Button
+            variant="text"
+            disabled={!providerData}
+            className={classes.button}
+            component={Link}
+            to={PlanRoutesConfig.endpoint.generatePath(chainId)}
+          >
             {t('chain-item.header.settings-button')}
           </Button>
         );
