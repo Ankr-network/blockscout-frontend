@@ -67,7 +67,7 @@ export const featuresConfig = {
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  stakeETH: currentEnv === Env.Develop,
+  stakeETH: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {

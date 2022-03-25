@@ -24,6 +24,8 @@ import {
 } from 'modules/stake/components/StakeForm';
 import { useAppDispatch } from 'store/useAppDispatch';
 
+import { useStakeEthAnalytics } from './useStakeEthAnalytics';
+
 const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeForm {
@@ -45,7 +47,7 @@ interface IUseStakeForm {
   onTokenSelect: (token: TEthToken) => () => void;
 }
 
-export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
+export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState<BigNumber>();
@@ -64,20 +66,6 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
     type: getStakeGasFee,
   });
 
-  const onSubmit = () => {
-    if (!amount) {
-      return;
-    }
-
-    dispatchRequest(
-      stake({ token: selectedToken, amount: new BigNumber(amount) }),
-    ).then(({ error }) => {
-      if (!error) {
-        openSuccessModal();
-      }
-    });
-  };
-
   const totalAmount = useMemo(
     () =>
       commonData && stakeGasFee
@@ -91,6 +79,27 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
         : ZERO,
     [amount, commonData, selectedToken, stakeGasFee],
   );
+
+  const { sendAnalytics } = useStakeEthAnalytics({
+    amount: amount ?? ZERO,
+    willGetAmount: totalAmount,
+    tokenOut: selectedToken,
+  });
+
+  const onSubmit = useCallback(() => {
+    if (!amount) {
+      return;
+    }
+
+    dispatchRequest(
+      stake({ token: selectedToken, amount: new BigNumber(amount) }),
+    ).then(({ error }) => {
+      if (!error) {
+        onSuccessStake();
+        sendAnalytics();
+      }
+    });
+  }, [amount, dispatchRequest, onSuccessStake, selectedToken, sendAnalytics]);
 
   const onTokenSelect = useCallback(
     (token: TEthToken) => () => {

@@ -2,12 +2,12 @@ import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
 import { Token } from 'modules/common/types/token';
+import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
-import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
-import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
@@ -24,8 +24,8 @@ type TIconMap = Record<
 >;
 
 const iconByTokenMap: TIconMap = {
-  [Token.aAVAXb]: AvaxIcon,
-  [Token.aBNBb]: BNBIcon,
+  [Token.aAVAXb]: AAvaxBIcon,
+  [Token.aBNBb]: ABNBBIcon,
   [Token.aETHb]: AETHBIcon,
   [Token.aETHc]: AETHCIcon,
   [Token.aFTMb]: AFTMBIcon,
