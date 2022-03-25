@@ -1,4 +1,4 @@
-name: Release
+name: Versioning
 on:
   pull_request:
     branches:

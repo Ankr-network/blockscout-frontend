@@ -56,7 +56,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         chainId: ChainId.Harmony,
         name: 'Harmony',
         logo: <HarmonyLogo />,
-        url: '', // TODO Harmony url
+        url: 'https://harmony.public-rpc.com/',
       },
       {
         chainId: ChainId.Fantom,
