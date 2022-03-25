@@ -58,6 +58,16 @@ interface IClaimData {
   action: AnyAction;
 }
 
+const CLOVER_PROJECT = 'Clover';
+const CLOVER_SAFE_START_ADDR_VAL = '5';
+
+const isInvalidCloverAddress = (
+  rewardTokenName: string,
+  inputWallet: string,
+): boolean =>
+  rewardTokenName === CLOVER_PROJECT &&
+  !inputWallet.startsWith(CLOVER_SAFE_START_ADDR_VAL);
+
 export const ClaimForm = ({
   isETHProject,
   isLoading,
@@ -255,6 +265,13 @@ export const ClaimForm = ({
     if (isExternalWallet) {
       if (typeof inputWallet !== 'string' || inputWallet === ' ') {
         errors.inputWallet = t('validation.required');
+      } else if (isInvalidCloverAddress(rewardTokenName, inputWallet)) {
+        errors.inputWallet = t(
+          'polkadot-slot-auction.my-rewards-claim-modal.validation.invalid-clover-address',
+          {
+            value: CLOVER_SAFE_START_ADDR_VAL,
+          },
+        );
       } else if (isETHProject && !isValidETHAddress(inputWallet)) {
         errors.inputWallet = t('validation.invalid-network-address', {
           network: rewardTokenName.length ? rewardTokenName : t('unit.eth'),

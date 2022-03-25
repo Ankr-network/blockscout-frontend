@@ -192,6 +192,9 @@
         "hint-eth": "You have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your wallet",
         "message": "You can check your wallet on {rewardTokenName} parachain in about 3-5 minutes",
         "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
+      },
+      "validation": {
+        "invalid-clover-address": "Clover address should starts with {value}"
       }
     },
     "no-crowdloan": {
