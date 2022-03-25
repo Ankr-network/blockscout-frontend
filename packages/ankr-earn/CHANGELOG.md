@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.5.2 (2022-03-25)
+
+
+### Bug Fixes
+
+* **Clover:** STAKAN-1257 Added updates for texts ([#590](https://github.com/Ankr-network/ankr-web/issues/590)) ([c9cbbcc](https://github.com/Ankr-network/ankr-web/commit/c9cbbcca1d25415500c4d581643da2a8c25b554a))
+
+
+
+
+
 ## 2.5.1 (2022-03-25)
 
 
