@@ -8,6 +8,8 @@ describe('modules/common/utils/children', () => {
 
   test('should return true if child is not null', () => {
     expect(isChildNull({ type: () => '' } as TNodeWithType)).toBe(false);
-    expect(isChildNull({ type: () => 'element' } as TNodeWithType)).toBe(false);
+    expect(isChildNull({ type: () => '2element' } as TNodeWithType)).toBe(
+      false,
+    );
   });
 });
