@@ -27,6 +27,7 @@ import { IFetchPolkadotAccountsDataItem } from '../../../actions/fetchPolkadotAc
 import { TPolkadotAccounts } from '../../../hooks/useFetchPolkadotAccounts';
 import { ProviderName } from '../../../utils/isProviderAvailable';
 import { WalletSwitcher } from '../../WalletSwitcher';
+import { CLOVER_PROJECT, CLOVER_SAFE_START_ADDR_VAL } from '../const';
 
 import { useClaimFormStyles } from './useClaimFormStyles';
 
@@ -36,6 +37,7 @@ type TSetSuccessLinkFn = (successLink: string) => void;
 interface IClaimFormProps {
   isETHProject: boolean;
   isLoading: boolean;
+  isMainnetChainProject: boolean;
   loanId: number;
   network: string;
   polkadotAccount: string;
@@ -58,9 +60,6 @@ interface IClaimData {
   action: AnyAction;
 }
 
-const CLOVER_PROJECT = 'Clover';
-const CLOVER_SAFE_START_ADDR_VAL = '5';
-
 const isInvalidCloverAddress = (
   rewardTokenName: string,
   inputWallet: string,
@@ -71,6 +70,7 @@ const isInvalidCloverAddress = (
 export const ClaimForm = ({
   isETHProject,
   isLoading,
+  isMainnetChainProject,
   loanId,
   network,
   polkadotAccount,
@@ -110,6 +110,11 @@ export const ClaimForm = ({
           {
             rewardTokenSymbol,
             rewardTokenName,
+            network: t(
+              isMainnetChainProject
+                ? 'polkadot-slot-auction.my-rewards-claim-modal.networks.mainnet'
+                : 'polkadot-slot-auction.my-rewards-claim-modal.networks.parachain',
+            ),
           },
         )}
       </Typography>

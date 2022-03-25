@@ -9,6 +9,7 @@ import { useClaimSuccessStyles } from './useClaimSuccessStyles';
 
 interface IClaimSuccessProps {
   isETHProject: boolean;
+  isMainnetChainProject: boolean;
   rewardTokenName: string;
   rewardTokenSymbol: string;
   successLink: string;
@@ -16,6 +17,7 @@ interface IClaimSuccessProps {
 
 export const ClaimSuccess = ({
   isETHProject,
+  isMainnetChainProject,
   rewardTokenName,
   rewardTokenSymbol,
   successLink,
@@ -38,6 +40,11 @@ export const ClaimSuccess = ({
           'polkadot-slot-auction.my-rewards-claim-modal.success-section.message',
           {
             rewardTokenName,
+            network: t(
+              isMainnetChainProject
+                ? 'polkadot-slot-auction.my-rewards-claim-modal.networks.mainnet'
+                : 'polkadot-slot-auction.my-rewards-claim-modal.networks.parachain',
+            ),
           },
         )}
       </Typography>
