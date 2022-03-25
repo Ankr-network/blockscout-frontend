@@ -6,6 +6,7 @@ import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_PLAN = '/plan/';
+export const PATH_PLAN_DEPOSIT = '/plan/deposit';
 export const PATH_PROVIDERS_CHAINS = `${PATH_PLAN}chains/`;
 export const PATH_PROVIDER_ENDPOINT = `${PATH_PLAN}endpoints/:chainId`;
 export const PATH_ADD_ENDPOINT = `${PATH_PROVIDER_ENDPOINT}/add`;
@@ -18,8 +19,8 @@ export const PlanRoutesConfig = createRouteConfig(
       breadcrumbs: 'plan.breadcrumbs',
     },
     planDeposit: {
-      path: PATH_PLAN,
-      generatePath: () => PATH_PLAN,
+      path: PATH_PLAN_DEPOSIT,
+      generatePath: () => PATH_PLAN_DEPOSIT,
       breadcrumbs: 'plan.deposit.breadcrumbs',
     },
     chains: {
@@ -27,7 +28,6 @@ export const PlanRoutesConfig = createRouteConfig(
       generatePath: () => PATH_PROVIDERS_CHAINS,
       breadcrumbs: 'providers.chains.breadcrumbs',
     },
-
     addEndpoint: {
       path: PATH_ADD_ENDPOINT,
       breadcrumbs: 'plan.add-endpoint.breadcrumbs',
@@ -65,13 +65,12 @@ const LoadablePlanContainer: LoadableComponent<any> = loadable(
   },
 );
 
-// const LoadableProvidersChainsContainer: LoadableComponent<any> = loadable(
-//   async () =>
-//     import('./screens/ProvidersChains').then(module => module.ProvidersChains),
-//   {
-//     fallback: <Spinner />,
-//   },
-// );
+const LoadablePlanDepositContainer: LoadableComponent<any> = loadable(
+  async () => import('./screens/Plan/Deposit').then(module => module.Deposit),
+  {
+    fallback: <Spinner />,
+  },
+);
 
 const LoadableAddEndpointContainer: LoadableComponent<any> = loadable(
   async () =>
@@ -90,22 +89,24 @@ const LoadableEndpointContainer: LoadableComponent<any> = loadable(
 
 export function PlanRoutes() {
   return (
-    <Route
-      exact
-      path={PlanRoutesConfig.plan.path}
-      component={LoadablePlanContainer}
-    />
+    <>
+      <Route
+        exact
+        path={PlanRoutesConfig.plan.path}
+        component={LoadablePlanContainer}
+      />
+      <Route
+        exact
+        path={PlanRoutesConfig.planDeposit.path}
+        component={LoadablePlanDepositContainer}
+      />
+    </>
   );
 }
 
 export function ProvidersPrivateRoutes() {
   return (
     <>
-      {/* <Route
-        exact
-        path={PlanRoutesConfig.chains.path}
-        component={LoadableProvidersChainsContainer}
-      /> */}
       <Route
         exact
         path={PlanRoutesConfig.addEndpoint.path}
