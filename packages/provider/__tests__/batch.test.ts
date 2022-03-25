@@ -30,7 +30,7 @@ describe('packages/ankr-earn/src/modules/common/utils/batch', () => {
 
     const result = await provider.executeBatchCalls(calls);
 
-    expect(result).toStrictEqual([1, 2, 3]);
+    expect(result).toStrictEqual([2, 2, 3]);
   });
 
   test('should reject batch requests properly', async () => {
