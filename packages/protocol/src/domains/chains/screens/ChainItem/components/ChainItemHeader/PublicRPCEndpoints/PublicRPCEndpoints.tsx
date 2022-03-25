@@ -28,7 +28,9 @@ export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
     ],
   );
 
-  const isTitlePlural = mainnetURLs.length > 1 || testnetURLs.length > 0;
+  const isTitlePlural =
+    mainnetURLs.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]))
+      .length > 1 || testnetURLs.length > 0;
   const title = (
     <Typography variant="body2" className={classes.text}>
       {t('chain-item.header.public-endpoints', {
