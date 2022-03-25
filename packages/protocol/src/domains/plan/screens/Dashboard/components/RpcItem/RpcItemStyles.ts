@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
     borderRadius: 18,
     padding: theme.spacing(3),
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
     },
 
@@ -23,36 +23,40 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
     cursor: ({ hasOnClick }) => (hasOnClick ? 'pointer' : 'default'),
   },
   mainInfo: {
-    minWidth: '35%',
+    maxWidth: '30%',
     paddingRight: theme.spacing(1),
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       minWidth: '100%',
       paddingRight: 0,
     },
   },
   right: {
     display: 'flex',
+    width: '70%',
+    gap: theme.spacing(2.5),
+
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+    },
+  },
+  endpointsList: {
+    display: 'flex',
     justifyContent: 'flex-end',
-    width: '65%',
+    gap: theme.spacing(2.5),
+    width: `calc(100% - 120px - ${theme.spacing(2.5)}px)`,
 
     '& > *': {
-      marginLeft: theme.spacing(2.5),
-      flex: 1 / 2,
+      flex: '0 0 50%',
     },
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'flex',
       flexDirection: 'column',
       marginTop: theme.spacing(4),
       width: '100%',
-    },
-  },
-  item: {
-    [theme.breakpoints.down('sm')]: {
-      '&:not(:last-child)': {
-        marginBottom: theme.spacing(2),
-      },
     },
   },
   description: {
@@ -69,7 +73,7 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
     '&:hover': {
       color: theme.palette.text.primary,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flex: '1 0 auto',
     },
   },
