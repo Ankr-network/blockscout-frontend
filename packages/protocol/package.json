@@ -146,6 +146,7 @@
       "/public/bsc/",
       "/public/iotex/",
       "/public/nervos/",
+      "/plan/deposit/",
       "/plan/endpoints/avalanche/",
       "/plan/endpoints/eth/",
       "/plan/endpoints/fantom/",
