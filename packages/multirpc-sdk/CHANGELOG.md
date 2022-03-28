@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.6 (2022-03-28)
+
+
+### Bug Fixes
+
+* **protocol:** MRPC-715 deposit page after refresh ([#605](https://github.com/Ankr-network/ankr-web/issues/605)) ([a0fc016](https://github.com/Ankr-network/ankr-web/commit/a0fc016991c267822a323b295168d01d7a6b3ff7))
+
+
+
+
+
 ## 0.1.5 (2022-03-25)
 
 
