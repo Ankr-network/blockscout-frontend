@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStakeDescriptionValueStyles = makeStyles(theme => ({
   root: {
+    display: 'flex',
     fontSize: 16,
     cursor: 'help',
   },

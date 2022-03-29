@@ -70,6 +70,7 @@
     "bnb": "BNB",
     "polygon": "MATIC",
     "abnbb": "aBNBb",
+    "abnbc": "aBNBc",
     "amaticb": "aMATICb",
     "ftm": "FTM",
     "aftmb": "aFTMb",
@@ -366,6 +367,8 @@
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
     },
     "relayer-fee": "Relayer Fee",
+    "abnbb-descr": "aBNBb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
+    "abnbc-descr": "aBNBс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aBNBc={rate} BNB</b>",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
       "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period."

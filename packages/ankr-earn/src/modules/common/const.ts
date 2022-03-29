@@ -53,21 +53,17 @@ export const featuresConfig = {
   isActiveMyRewardsClaimModalNewParts: false,
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
-  isActiveBNBStaking: true,
-  isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-911 remove this flag when the feature will be done
-  stakeFantom: true,
-  // todo: STAKAN-935 remove this flag when the feature will be done
-  unstakeFantom: true,
   // todo: STAKAN-917 remove after completion
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   stakeETH: currentEnv !== Env.Production,
+  // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
+  stakeAbnbc: currentEnv === Env.Develop,
 };
 
 export enum SupportedChainIDS {

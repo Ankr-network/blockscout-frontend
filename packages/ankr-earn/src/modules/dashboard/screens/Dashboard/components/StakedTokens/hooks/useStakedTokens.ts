@@ -33,12 +33,11 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAVAXShowed =
     featuresConfig.isActiveAVAXStaking && stakedAVAXData.isShowed;
 
-  const isBNBShowed =
-    featuresConfig.isActiveBNBStaking && stakedBNBData.isShowed;
+  const isBNBShowed = stakedBNBData.isShowed;
 
   const isMATICShowed = amaticbData.isShowed;
 
-  const isAFTMBShowed = featuresConfig.stakeFantom && stakedAFTMBData.isShowed;
+  const isAFTMBShowed = stakedAFTMBData.isShowed;
 
   const atLeastOneShowed =
     isAETHBShowed ||

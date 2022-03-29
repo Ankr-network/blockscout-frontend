@@ -8,6 +8,7 @@ export enum Token {
   aMATICb = 'aMATICb',
   BNB = 'BNB',
   aBNBb = 'aBNBb',
+  aBNBc = 'aBNBc',
   FTM = 'FTM',
   aFTMb = 'aFTMb',
 }

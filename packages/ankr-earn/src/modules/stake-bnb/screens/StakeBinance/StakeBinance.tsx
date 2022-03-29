@@ -1,14 +1,20 @@
-import { Box, ButtonBase } from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
-import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_FIXED,
+  featuresConfig,
+} from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
+import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -17,21 +23,20 @@ import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescrip
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
-import {
-  IStakeStatsItem,
-  StakeStats,
-} from 'modules/stake/components/StakeStats';
+import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
+import { TokenVariant } from 'modules/stake/components/TokenVariant';
+import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { Container } from 'uiKit/Container';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
+import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { QueryError } from 'uiKit/QueryError';
-import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
-import { useRedeemData } from '../../hooks/useRedeemData';
 
+import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
@@ -42,31 +47,32 @@ export const StakeBinance = (): JSX.Element => {
   const classes = useStakeBinanceStyles();
   const dispatch = useDispatch();
   const faqItems: IFaqItem[] = useFaq();
+  const { onErroMessageClick, hasError } = useErrorMessage();
   const { redeemPeriod, redeemValue } = useRedeemData();
 
-  const {
-    isSuccessOpened,
-    onAddTokenClick,
-    onSuccessClose,
-    onSuccessOpen,
-    token,
-  } = useSuccessDialog();
+  const { isSuccessOpened, onAddTokenClick, onSuccessClose, onSuccessOpen } =
+    useSuccessDialog();
 
   const {
     amount,
     fetchAPYData,
-    fetchStatsData,
-    fetchStatsError,
+    relayerFee,
+    bnbBalance,
+    minimumStake,
     isFetchStatsLoading,
     isStakeLoading,
     totalAmount,
     stakeGas,
     isStakeGasLoading,
+    tokenIn,
+    tokenOut,
+    aBNBcRatio,
     handleSubmit,
     handleFormChange,
+    onTokenSelect,
   } = useStakeForm({ openSuccessModal: onSuccessOpen });
 
-  const stakeStats: IStakeStatsItem[] = useStakeStats(fetchAPYData, amount);
+  const stakeStats = useStakeStats(fetchAPYData, amount);
 
   useProviderEffect(() => {
     dispatch(fetchAPY());
@@ -77,17 +83,33 @@ export const StakeBinance = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  if (isFetchStatsLoading) {
-    return (
-      <Box mt={5}>
-        <QueryLoadingCentered />
-      </Box>
-    );
-  }
-
-  const onRenderStats = (relayerFee: BigNumber) => (): JSX.Element => {
+  const onRenderStats = (): JSX.Element => {
     return (
       <>
+        {featuresConfig.stakeAbnbc && (
+          <TokenVariantList my={5}>
+            <TokenVariant
+              description={tHTML('stake-bnb.abnbb-descr')}
+              iconSlot={<ABNBBIcon />}
+              isActive={tokenOut === Token.aBNBb}
+              isDisabled={isStakeLoading}
+              title={t('unit.abnbb')}
+              onClick={onTokenSelect(Token.aBNBb)}
+            />
+
+            <TokenVariant
+              description={tHTML('stake-bnb.abnbc-descr', {
+                rate: aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+              })}
+              iconSlot={<ABNBCIcon />}
+              isActive={tokenOut === Token.aBNBc}
+              isDisabled={isStakeLoading}
+              title={t('unit.abnbc')}
+              onClick={onTokenSelect(Token.aBNBc)}
+            />
+          </TokenVariantList>
+        )}
+
         <StakeDescriptionContainer>
           <StakeDescriptionName>
             <span>{t('stake-bnb.relayer-fee')}</span>
@@ -114,20 +136,22 @@ export const StakeBinance = (): JSX.Element => {
           <StakeDescriptionValue>
             <StakeDescriptionAmount
               isLoading={isStakeGasLoading}
-              symbol={t('unit.abnbb')}
+              symbol={tokenOut}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
 
-            <Tooltip
-              title={tHTML('stake-bnb.tooltips.you-will-get', {
-                value: redeemValue,
-                period: redeemPeriod,
-              })}
-            >
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" />
-              </ButtonBase>
-            </Tooltip>
+            {!featuresConfig.stakeAbnbc && (
+              <Tooltip
+                title={tHTML('stake-bnb.tooltips.you-will-get', {
+                  value: redeemValue,
+                  period: redeemPeriod,
+                })}
+              >
+                <ButtonBase className={classes.questionBtn}>
+                  <QuestionIcon size="xs" />
+                </ButtonBase>
+              </Tooltip>
+            )}
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>
@@ -136,50 +160,51 @@ export const StakeBinance = (): JSX.Element => {
 
   return (
     <section className={classes.root}>
-      {fetchStatsError !== null && (
+      {isSuccessOpened ? (
+        <Container>
+          <StakeSuccessDialog
+            tokenName={tokenOut}
+            onAddTokenClick={onAddTokenClick}
+            onClose={onSuccessClose}
+          />
+        </Container>
+      ) : (
         <StakeContainer>
-          <QueryError error={fetchStatsError} />
+          {hasError && (
+            <ErrorMessage
+              title={t('error.some')}
+              onClick={onErroMessageClick}
+            />
+          )}
+
+          <StakeForm
+            isMaxBtnShowed
+            balance={bnbBalance}
+            feeSlot={
+              <StakeFeeInfo
+                isLoading={isStakeGasLoading}
+                token={t('unit.bnb')}
+                value={stakeGas}
+              />
+            }
+            isBalanceLoading={hasError || isFetchStatsLoading}
+            isDisabled={isStakeLoading || isFetchStatsLoading}
+            loading={hasError || isStakeLoading || isFetchStatsLoading}
+            maxAmount={bnbBalance}
+            maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
+            minAmount={minimumStake}
+            renderStats={onRenderStats}
+            tokenIn={tokenIn}
+            tokenOut={tokenOut}
+            onChange={handleFormChange}
+            onSubmit={handleSubmit}
+          />
+
+          <StakeStats stats={stakeStats} />
+
+          <Faq data={faqItems} />
         </StakeContainer>
       )}
-
-      {fetchStatsError === null &&
-        fetchStatsData !== null &&
-        (isSuccessOpened ? (
-          <Container>
-            <StakeSuccessDialog
-              tokenName={token}
-              onAddTokenClick={onAddTokenClick}
-              onClose={onSuccessClose}
-            />
-          </Container>
-        ) : (
-          <StakeContainer>
-            <StakeForm
-              isMaxBtnShowed
-              balance={fetchStatsData.bnbBalance}
-              feeSlot={
-                <StakeFeeInfo
-                  isLoading={isStakeGasLoading}
-                  token={t('unit.bnb')}
-                  value={stakeGas}
-                />
-              }
-              loading={isStakeLoading}
-              maxAmount={fetchStatsData.bnbBalance}
-              maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
-              minAmount={fetchStatsData.minimumStake}
-              renderStats={onRenderStats(fetchStatsData.relayerFee)}
-              tokenIn={t('unit.bnb')}
-              tokenOut={t('unit.abnbb')}
-              onChange={handleFormChange}
-              onSubmit={handleSubmit}
-            />
-
-            <StakeStats stats={stakeStats} />
-
-            <Faq data={faqItems} />
-          </StakeContainer>
-        ))}
     </section>
   );
 };

@@ -22,3 +22,5 @@ export const BNB_REDEEM_PERIOD = isMainnet ? '7-15' : '4';
 
 export const BNB_STAKING_MAX_DECIMALS_LEN = 8;
 export const BNB_SAFE_PRECISION = BNB_STAKING_MAX_DECIMALS_LEN + 1;
+// todo: use actual data, remove hardcode
+export const DEMO_ABNBC_RATE = 0.7;

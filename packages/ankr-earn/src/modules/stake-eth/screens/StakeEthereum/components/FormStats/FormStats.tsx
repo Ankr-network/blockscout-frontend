@@ -1,4 +1,3 @@
-import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -23,13 +22,7 @@ export const FormStats = ({
 }: IFormStatsProps): JSX.Element => {
   return (
     <>
-      <Box mb={1.5} mt={5}>
-        <StakeDescriptionName>
-          {t('stake-ethereum.token-select-label')}
-        </StakeDescriptionName>
-      </Box>
-
-      <Box mb={5}>{tokenVariantsSlot}</Box>
+      {tokenVariantsSlot}
 
       <StakeDescriptionContainer>
         <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>

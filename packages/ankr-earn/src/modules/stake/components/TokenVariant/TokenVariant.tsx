@@ -1,23 +1,15 @@
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { cloneElement, ReactElement, ReactNode } from 'react';
 
 import { Button } from 'uiKit/Button';
-import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
-import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
 import { useTokenVariantStyles } from './useTokenVariantStyles';
 
-const iconsMap = {
-  aETHb: AETHBIcon,
-  aETHc: AETHCIcon,
-};
-
-type TTokenVariantIcon = keyof typeof iconsMap;
-
 interface ITokenVariantProps {
   title: string;
-  icon: TTokenVariantIcon;
+  iconSlot: ReactElement;
   isActive?: boolean;
   isDisabled?: boolean;
   description?: ReactNode;
@@ -25,16 +17,14 @@ interface ITokenVariantProps {
 }
 
 export const TokenVariant = ({
-  icon,
   title,
   isActive,
+  iconSlot,
   description,
   isDisabled,
   onClick,
 }: ITokenVariantProps): JSX.Element => {
   const classes = useTokenVariantStyles();
-
-  const Icon = iconsMap[icon];
 
   return (
     <Button
@@ -45,10 +35,13 @@ export const TokenVariant = ({
       className={classNames(classes.root, isActive && classes.active)}
       disabled={isDisabled}
       variant="outlined"
-      onClick={onClick}
+      onClick={isActive ? undefined : onClick}
     >
       <Box alignItems="center" component="span" display="flex" mb={1}>
-        <Icon className={classes.icon} size="sm" />
+        {cloneElement<ISvgIconProps>(iconSlot, {
+          className: classes.icon,
+          size: 'sm',
+        })}
 
         <b>{title}</b>
       </Box>

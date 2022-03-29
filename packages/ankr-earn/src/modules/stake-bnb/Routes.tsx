@@ -3,25 +3,35 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
 import { BINANCE_WRITE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
+import { TBnbSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
 const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
-const STAKE_BNB_PATH = ROOT;
+const STAKE_BNB_PATH = `${ROOT}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
   {
     stake: {
-      path: STAKE_BNB_PATH,
-      generatePath: () => generatePath(STAKE_BNB_PATH),
+      path: ROOT,
+      generatePath: (token?: TBnbSyntToken) => {
+        return token
+          ? generatePath(STAKE_BNB_PATH, { token })
+          : generatePath(ROOT);
+      },
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
     },
+
     unstake: {
       path: UNSTAKE_BNB_PATH,
       generatePath: () => generatePath(UNSTAKE_BNB_PATH),
@@ -60,18 +70,16 @@ export function getRoutes(): JSX.Element {
           </DefaultLayout>
         </GuardRoute>
 
-        {featuresConfig.isActiveBNBUnstaking && (
-          <GuardRoute
-            exact
-            availableNetworks={BNB_STAKING_NETWORKS}
-            path={RoutesConfig.unstake.path}
-            providerId={BINANCE_WRITE_PROVIDER_ID}
-          >
-            <DefaultLayout>
-              <Unstake />
-            </DefaultLayout>
-          </GuardRoute>
-        )}
+        <GuardRoute
+          exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Unstake />
+          </DefaultLayout>
+        </GuardRoute>
 
         <Route>
           <DefaultLayout>

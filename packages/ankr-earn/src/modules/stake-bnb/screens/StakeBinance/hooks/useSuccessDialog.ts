@@ -1,10 +1,8 @@
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 
 interface IUseSuccessDiaglog {
   isSuccessOpened: boolean;
-  token: Token;
   onSuccessOpen: () => void;
   onSuccessClose: () => void;
   onAddTokenClick: () => Promise<void>;
@@ -24,7 +22,6 @@ export const useSuccessDialog = (): IUseSuccessDiaglog => {
 
   return {
     isSuccessOpened,
-    token: Token.aBNBb,
     onSuccessOpen,
     onSuccessClose,
     onAddTokenClick,

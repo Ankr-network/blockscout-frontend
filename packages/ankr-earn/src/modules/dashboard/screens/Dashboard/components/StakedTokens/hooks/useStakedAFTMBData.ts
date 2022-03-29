@@ -10,7 +10,7 @@ import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
-import { featuresConfig, FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
@@ -70,9 +70,7 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     isShowed,
     isBalancesLoading,
     stakeLink: RoutesConfig.stake.generatePath(),
-    unstakeLink: featuresConfig.unstakeFantom
-      ? RoutesConfig.unstake.generatePath()
-      : undefined,
+    unstakeLink: RoutesConfig.unstake.generatePath(),
     isStakeLoading,
     isUnstakeLoading,
     walletName,

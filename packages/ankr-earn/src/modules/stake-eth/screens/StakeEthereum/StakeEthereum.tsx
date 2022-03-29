@@ -17,11 +17,13 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
+import { TokenVariant } from 'modules/stake/components/TokenVariant';
+import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { Container } from 'uiKit/Container';
+import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
+import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 
 import { FormStats } from './components/FormStats';
-import { TokenVariant } from './components/TokenVariant';
-import { TokenVariantList } from './components/TokenVariantList';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -76,10 +78,10 @@ export const StakeEthereum = (): JSX.Element => {
         isLoading={isFeeLoading}
         tokenOut={tokenOut}
         tokenVariantsSlot={
-          <TokenVariantList>
+          <TokenVariantList my={5}>
             <TokenVariant
               description={tHTML('stake-ethereum.aethb-descr')}
-              icon={Token.aETHb}
+              iconSlot={<AETHBIcon />}
               isActive={tokenOut === Token.aETHb}
               isDisabled={isTokenVariantDisabled}
               title={t('unit.feth')}
@@ -92,7 +94,7 @@ export const StakeEthereum = (): JSX.Element => {
                   ? '...'
                   : ethRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
               })}
-              icon={Token.aETHc}
+              iconSlot={<AETHCIcon />}
               isActive={tokenOut === Token.aETHc}
               isDisabled={isTokenVariantDisabled}
               title={t('unit.aeth')}

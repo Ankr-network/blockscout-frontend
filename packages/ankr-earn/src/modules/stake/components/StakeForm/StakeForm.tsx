@@ -50,16 +50,6 @@ export interface IStakeFormComponentProps {
   onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
-const getAmountNum = (amount?: ReactText): BigNumber => {
-  if (typeof amount === 'undefined') {
-    return ZERO;
-  }
-
-  const currAmount = new BigNumber(amount);
-
-  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
-};
-
 export const StakeForm = ({
   className,
   balance = ZERO,
@@ -206,4 +196,14 @@ export const StakeForm = ({
 
 function setMaxAmount(form: FormApi<IStakeFormPayload>, maxValue: string) {
   return () => form.change(FieldsNames.amount, maxValue);
+}
+
+function getAmountNum(amount?: ReactText): BigNumber {
+  if (typeof amount === 'undefined') {
+    return ZERO;
+  }
+
+  const currAmount = new BigNumber(amount);
+
+  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
 }

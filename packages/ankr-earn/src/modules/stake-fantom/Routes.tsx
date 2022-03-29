@@ -3,7 +3,7 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
@@ -48,12 +48,7 @@ const Unstake = loadable(
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route
-      path={[
-        RoutesConfig.root,
-        ...(featuresConfig.unstakeFantom ? [RoutesConfig.unstake.path] : []),
-      ]}
-    >
+    <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardRoute
           exact
@@ -66,18 +61,16 @@ export function getRoutes(): JSX.Element {
           </DefaultLayout>
         </GuardRoute>
 
-        {featuresConfig.unstakeFantom ? (
-          <GuardRoute
-            exact
-            availableNetworks={FANTOM_STAKING_NETWORKS}
-            path={RoutesConfig.unstake.path}
-            providerId={FANTOM_PROVIDER_ID}
-          >
-            <DefaultLayout verticalAlign="center">
-              <Unstake />
-            </DefaultLayout>
-          </GuardRoute>
-        ) : null}
+        <GuardRoute
+          exact
+          availableNetworks={FANTOM_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={FANTOM_PROVIDER_ID}
+        >
+          <DefaultLayout verticalAlign="center">
+            <Unstake />
+          </DefaultLayout>
+        </GuardRoute>
 
         <Route>
           <DefaultLayout>

@@ -19,22 +19,22 @@ export function calcTotalAmount({
   aETHcRatio = ZERO,
   stakeGasFee = ZERO,
 }: ICalcTotalAmountArgs): BigNumber {
-  if (!amount) {
+  if (!amount || amount.isZero()) {
     return ZERO;
   }
+
   const maxStakingAmount = ethBalance.minus(stakeGasFee);
-  const isGreaterThanMax = amount.isGreaterThanOrEqualTo(maxStakingAmount);
+  const shouldUseSafeAmount = amount.isGreaterThanOrEqualTo(maxStakingAmount);
+
+  let resultAmount = amount;
+
+  if (shouldUseSafeAmount) {
+    resultAmount = maxStakingAmount;
+  }
 
   if (selectedToken === Token.aETHc) {
-    if (isGreaterThanMax) {
-      return maxStakingAmount.multipliedBy(aETHcRatio);
-    }
-    return amount.multipliedBy(aETHcRatio);
+    resultAmount = resultAmount.multipliedBy(aETHcRatio);
   }
 
-  if (isGreaterThanMax) {
-    return maxStakingAmount;
-  }
-
-  return amount;
+  return resultAmount;
 }

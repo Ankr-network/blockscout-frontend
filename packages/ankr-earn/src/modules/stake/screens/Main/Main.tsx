@@ -73,25 +73,21 @@ export const Main = (): JSX.Element => {
             token={Token.MATIC}
           />
 
-          {featuresConfig.isActiveBNBStaking && (
-            <FeatureItem
-              apy={aBNBbAPY?.toNumber()}
-              iconSlot={<BNBIcon />}
-              mainHref={BinanceRoutes.stake.generatePath()}
-              title={t('features.binance')}
-              token={Token.BNB}
-            />
-          )}
+          <FeatureItem
+            apy={aBNBbAPY?.toNumber()}
+            iconSlot={<BNBIcon />}
+            mainHref={BinanceRoutes.stake.generatePath()}
+            title={t('features.binance')}
+            token={Token.BNB}
+          />
 
-          {featuresConfig.stakeFantom ? (
-            <FeatureItem
-              apy={aFTMbAPY?.toNumber()}
-              iconSlot={<FantomIcon />}
-              mainHref={FantomRoutes.stake.generatePath()}
-              title={t('features.fantom')}
-              token={Token.FTM}
-            />
-          ) : null}
+          <FeatureItem
+            apy={aFTMbAPY?.toNumber()}
+            iconSlot={<FantomIcon />}
+            mainHref={FantomRoutes.stake.generatePath()}
+            title={t('features.fantom')}
+            token={Token.FTM}
+          />
 
           {featuresConfig.isActiveAVAXStaking && (
             <FeatureItem

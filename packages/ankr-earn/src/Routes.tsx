@@ -33,9 +33,9 @@ export function Routes(): JSX.Element {
 
       {featuresConfig.isActiveAVAXStaking && getStakeAvalancheRoutes()}
 
-      {featuresConfig.isActiveBNBStaking && getStakeBinanceRoutes()}
+      {getStakeBinanceRoutes()}
 
-      {featuresConfig.stakeFantom && getStakeFantomRoutes()}
+      {getStakeFantomRoutes()}
 
       {getDashboardRoutes()}
 

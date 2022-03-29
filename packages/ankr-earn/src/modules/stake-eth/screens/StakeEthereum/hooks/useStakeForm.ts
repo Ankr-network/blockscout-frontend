@@ -18,6 +18,7 @@ import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
+import { getValidSelectedToken } from 'modules/stake-eth/utils/getValidSelectedToken';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -50,9 +51,11 @@ interface IUseStakeForm {
 export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
-  const [amount, setAmount] = useState<BigNumber>();
+  const [amount, setAmount] = useState(ZERO);
   const { replace } = useHistory();
-  const selectedToken = RoutesConfig.stake.useParams().token ?? Token.aETHb;
+
+  const stakeParamsToken = RoutesConfig.stake.useParams().token;
+  const selectedToken = getValidSelectedToken(stakeParamsToken);
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -81,7 +84,7 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   );
 
   const { sendAnalytics } = useStakeEthAnalytics({
-    amount: amount ?? ZERO,
+    amount,
     willGetAmount: totalAmount,
     tokenOut: selectedToken,
   });
@@ -91,14 +94,14 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
       return;
     }
 
-    dispatchRequest(
-      stake({ token: selectedToken, amount: new BigNumber(amount) }),
-    ).then(({ error }) => {
-      if (!error) {
-        onSuccessStake();
-        sendAnalytics();
-      }
-    });
+    dispatchRequest(stake({ token: selectedToken, amount })).then(
+      ({ error }) => {
+        if (!error) {
+          onSuccessStake();
+          sendAnalytics();
+        }
+      },
+    );
   }, [amount, dispatchRequest, onSuccessStake, selectedToken, sendAnalytics]);
 
   const onTokenSelect = useCallback(
@@ -123,7 +126,7 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
       dispatch(getStakeGasFee({ amount: readyAmount, token: selectedToken }));
     }
 
-    setAmount(formAmount ? new BigNumber(formAmount) : undefined);
+    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
 
   const debouncedOnChange = useDebouncedCallback(
