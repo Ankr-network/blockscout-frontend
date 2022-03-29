@@ -18,7 +18,11 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
       return handleAddNetwork(mappedNetwork);
     }
 
-    return handleConnect();
+    return handleConnect().then(({ error }) => {
+      if (!error) {
+        handleAddNetwork(mappedNetwork);
+      }
+    });
   };
 
   return {

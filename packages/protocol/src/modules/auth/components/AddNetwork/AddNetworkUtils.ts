@@ -1,5 +1,7 @@
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { IChainParams } from '../../actions/addNetwork';
+import { flatNetworkURLs } from 'modules/auth/utils/flatNetworkURLs';
 
 const toHex = (num: number): string => {
   return `0x${num.toString(16)}`;
@@ -155,7 +157,9 @@ const mapParams = (
   return {
     ...networkData,
     chainId: toHex(networkData.chainId),
-    rpcUrls: chain.urls.map(({ rpc }) => rpc),
+    rpcUrls: flatNetworkURLs<IApiChainURL, Chain>(chain).mainnetURLs.map(
+      ({ rpc }) => rpc,
+    ),
   };
 };
 

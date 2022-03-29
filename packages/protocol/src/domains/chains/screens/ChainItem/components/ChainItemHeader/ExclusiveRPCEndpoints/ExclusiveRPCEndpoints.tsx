@@ -7,11 +7,12 @@ import { Preloader } from 'uiKit/Preloader';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateChainDetails';
+import { flatNetworkURLs } from 'modules/auth/utils/flatNetworkURLs';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
-import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -38,25 +39,12 @@ export const ExclusiveRPCEndpoints = ({
       }
     >
       {({ data }) => {
-        const { extenders, extensions, testnets, urls } = data;
+        const { mainnetURLs, mainnetURLsCount, testnetURLs } = flatNetworkURLs<
+          IApiChainURL,
+          IApiChain
+        >(data);
 
-        const mainnetURLs = [
-          ...urls,
-          ...(extensions || []).flatMap<IApiChainURL>(
-            extension => extension.urls,
-          ),
-          ...(extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
-        ];
-        const testnetURLs = (testnets || []).flatMap<IApiChainURL>(testnet => [
-          ...testnet.urls,
-          ...(testnet.extensions || []).flatMap<IApiChainURL>(
-            extension => extension.urls,
-          ),
-        ]);
-
-        const isTitlePlural =
-          mainnetURLs.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]))
-            .length > 1 || testnetURLs.length > 0;
+        const isTitlePlural = mainnetURLsCount > 1 || testnetURLs.length > 0;
         const title = (
           <Typography variant="body2" className={classes.text}>
             {t('chain-item.header.private-endpoints', {
