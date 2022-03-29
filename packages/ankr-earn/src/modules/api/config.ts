@@ -88,7 +88,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
-    aMATICbToken: ZERO_ADDR,
+    aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',

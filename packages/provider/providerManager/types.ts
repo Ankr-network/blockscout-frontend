@@ -2,6 +2,9 @@ export enum AvailableReadProviders {
   ethMainnet = 'ethMainnetHttpProvider',
   ethGoerli = 'ethGoerliHttpProvider',
 
+  mumbai = 'polygonHttpWeb3KeyProvider',
+  polygon = 'polygonHttpWeb3KeyProvider',
+
   avalancheChain = 'avalancheChainHttpProvider',
   avalancheChainTest = 'avalancheChainTestHttpProvider',
 
@@ -34,4 +37,5 @@ export enum BlockchainNetworkId {
   polygon = 137,
   fantom = 250,
   fantomTestnet = 4002,
+  mumbai = 80001,
 }

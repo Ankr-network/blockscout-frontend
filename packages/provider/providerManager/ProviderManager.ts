@@ -9,6 +9,7 @@ import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { Web3KeyProvider } from './Web3KeyProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
+import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
@@ -21,6 +22,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
     'https://data-seed-prebsc-2-s2.binance.org:8545',
   [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
   [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
+  [AvailableReadProviders.mumbai]: 'https://rpc-mumbai.matic.today',
+  [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
 };
 
 interface IProviders {
@@ -35,6 +38,7 @@ interface IProviders {
   [AvailableReadProviders.binanceChainTest]: Web3KeyReadProvider;
   [AvailableReadProviders.ftmOpera]: Web3KeyReadProvider;
   [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
+  [AvailableReadProviders.mumbai]: Web3KeyReadProvider;
 }
 
 export class ProviderManager {
@@ -84,6 +88,11 @@ export class ProviderManager {
       case AvailableReadProviders.ethMainnet:
       case AvailableReadProviders.ethGoerli: {
         return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
+
+      case AvailableReadProviders.mumbai:
+      case AvailableReadProviders.polygon: {
+        return new PolygonHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
       case AvailableReadProviders.avalancheChain:

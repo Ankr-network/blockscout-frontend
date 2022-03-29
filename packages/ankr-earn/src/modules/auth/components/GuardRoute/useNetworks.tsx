@@ -2,6 +2,7 @@ import { BlockchainNetworkId } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
 import { ReactComponent as AvaxIcon } from '../../assets/avaxIcon.svg';
 import { ReactComponent as BinanceSmartChainIcon } from '../../assets/binanceSmartChainIcon.svg';
@@ -55,6 +56,16 @@ export const useNetworks = (): INetwork[] =>
         title: t('connect.networks.fantom-testnet'),
         icon: <FantomIcon htmlColor="#1969FF" size="xmd" />,
         chainId: BlockchainNetworkId.fantomTestnet,
+      },
+      {
+        title: t('connect.networks.polygon'),
+        icon: <PolygonIcon size="xmd" />,
+        chainId: BlockchainNetworkId.polygon,
+      },
+      {
+        title: t('connect.networks.mumbai'),
+        icon: <PolygonIcon size="xmd" />,
+        chainId: BlockchainNetworkId.mumbai,
       },
     ],
     [],

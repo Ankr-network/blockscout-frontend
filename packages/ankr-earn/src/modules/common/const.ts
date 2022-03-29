@@ -109,3 +109,8 @@ export const FTM_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? BlockchainNetworkId.fantom
     : BlockchainNetworkId.fantomTestnet;
+
+export const POLYGON_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.polygon
+    : BlockchainNetworkId.smartchainTestnet;

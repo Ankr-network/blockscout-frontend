@@ -1,7 +1,8 @@
 import { resetRequests } from '@redux-requests/core';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect'; 
+import { featuresConfig } from 'modules/common/const'; 
+import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged'; 
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
@@ -25,6 +26,7 @@ export const useDashboard = (): void => {
     dispatch(
       resetRequests([
         fetchPolygonStats.toString(),
+        fetchAMATICBBridged.toString(),
         fetchPolygonTxHistory.toString(),
         getEthCommonData.toString(),
         fetchAVAXStats.toString(),
@@ -42,6 +44,7 @@ export const useDashboard = (): void => {
     }
 
     dispatch(fetchPolygonStats());
+    dispatch(fetchAMATICBBridged());
     dispatch(fetchPolygonAPY());
 
     dispatch(fetchAVAXAPY());

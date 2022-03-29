@@ -106,7 +106,8 @@
     "43114": "Avalanche",
     "2018": "Dev",
     "250": "Fantom Opera",
-    "4002": "Fantom Testnet"
+    "4002": "Fantom Testnet",
+    "80001": "Mumbai"
   },
   "not-found": {
     "title": "Page not found",
@@ -137,7 +138,9 @@
       "avax-chain": "AVAX C Chain",
       "avax-fuji-testnet": "AVAX Fuji Testnet",
       "fantom": "Fantom Opera",
-      "fantom-testnet": "Fantom Testnet"
+      "fantom-testnet": "Fantom Testnet",
+      "polygon": "Polygon",
+      "mumbai": "Mumbai"
     }
   },
   "polkadot-slot-auction": {
@@ -302,6 +305,7 @@
     "balance-label": "Your balance",
     "btn-max": "Max",
     "faq-title": "FAQ",
+    "bridge-btn": "Bridge",
     "stats": {
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",

@@ -10,6 +10,7 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -24,6 +25,7 @@ const AVAILABLE_NETWORKS = [
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  POLYGON_NETWORK_BY_ENV,
 ];
 
 export const ConnectGuardRoute = ({
