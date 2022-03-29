@@ -1,116 +1,65 @@
 import React, { useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatchRequest } from '@redux-requests/react';
-import {
-  fetchChainTotalRequests,
-  IChainTotalRequests,
-} from 'domains/chains/actions/fetchChainTotalRequests';
-import { getQuery } from '@redux-requests/core';
-import { store } from 'store';
-import { formatNumber } from 'domains/chains/screens/ChainItem/components/ChainItemDetails/ChainItemDetailsUtils';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { fetchChainTotalRequests } from 'domains/chains/actions/fetchChainTotalRequests';
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsItem } from '../ChainsItem';
-import { useStyles } from './ChainsListStyles';
-import { formatChains, PERIOD } from './ChainsListUtils';
+import { useChainListStyles } from './ChainsListStyles';
+import { calcuateTotalRequest, formatChains, PERIOD } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
-import BigNumber from 'bignumber.js';
+import { formatNumber } from 'domains/chains/screens/ChainItem/components/ChainItemDetails/ChainItemDetailsUtils';
 
-const SHOULD_LOAD_ALL_DATA = false;
-
-export const ChainsList = ({ data, setTotalRequestsData }: ChainsListProps) => {
-  const classes = useStyles();
-  const history = useHistory();
+export const ChainsList = ({
+  outLoading,
+  data,
+  handleChainInfo,
+}: ChainsListProps) => {
+  const classes = useChainListStyles();
   const chains = formatChains(data);
 
   const dispatchRequest = useDispatchRequest();
 
-  const handleClick = useCallback(
-    (chainId: string) => {
-      const link = ChainsRoutesConfig.chainDetails.generatePath(chainId);
+  useEffect(() => {
+    if (outLoading) {
+      dispatchRequest(fetchChainTotalRequests());
+    }
+  }, [outLoading, dispatchRequest]);
 
-      history.push(link);
-    },
-    [history],
-  );
-
-  const { loading, data: requestData } = getQuery(store.getState(), {
+  const { loading, data: chainInfo } = useQuery({
     type: fetchChainTotalRequests.toString(),
+    action: fetchChainTotalRequests,
   });
 
   useEffect(() => {
-    if (!loading && SHOULD_LOAD_ALL_DATA) {
-      dispatchRequest(fetchChainTotalRequests(chains.map(item => item.id)));
-    }
-    // eslint-disable-next-line
-  }, []);
+    const allRequsts = calcuateTotalRequest(chainInfo);
+    handleChainInfo(formatNumber(allRequsts), loading);
+  }, [loading, chainInfo, handleChainInfo]);
 
-  const queryTotalRequest = (
-    id: string,
-    totalRequestsData: IChainTotalRequests[],
-  ) => {
-    const requestItem = totalRequestsData.find(
-      (item: IChainTotalRequests) => item.chainId === id,
-    );
-    return requestItem?.totalRequests;
-  };
-
-  useEffect(() => {
-    if (requestData) {
-      const allRequsts = requestData
-        .map((item: IChainTotalRequests) => item.totalRequests)
-        .reduce(
-          (request: BigNumber, totalRequests: BigNumber) =>
-            request.plus(totalRequests),
-          new BigNumber(0),
-        );
-      setTotalRequestsData(formatNumber(allRequsts));
-    }
-  }, [requestData, setTotalRequestsData]);
+  const getTotalRequest = useCallback(
+    (id: string): string =>
+      chainInfo?.find(item => item.chainId === id)?.totalRequests.toString() ??
+      '',
+    [chainInfo],
+  );
 
   return (
     <div className={classes.root}>
       {chains.map(item => {
-        const { id, name, requests, rpcLinks } = item;
+        const { id, name, requests, urls } = item;
 
         return (
           <div className={classes.wrapper} key={id}>
-            {SHOULD_LOAD_ALL_DATA ? (
-              <Queries<ResponseData<typeof fetchChainTotalRequests>>
-                requestActions={[fetchChainTotalRequests]}
-              >
-                {({ data: totalRequestsData }) => (
-                  <ChainsItem
-                    logoSrc={item.icon}
-                    name={name}
-                    period={PERIOD}
-                    links={rpcLinks}
-                    onButtonClick={() => handleClick(id)}
-                    description={
-                      requests ? t('chains.requests', { value: requests }) : ''
-                    }
-                    chain={item}
-                    totalRequests={formatNumber(
-                      queryTotalRequest(id, totalRequestsData),
-                    )}
-                  />
-                )}
-              </Queries>
-            ) : (
-              <ChainsItem
-                logoSrc={item.icon}
-                name={name}
-                period={PERIOD}
-                links={rpcLinks}
-                onButtonClick={() => handleClick(id)}
-                description={
-                  requests ? t('chains.requests', { value: requests }) : ''
-                }
-                chain={item}
-              />
-            )}
+            <ChainsItem
+              totalRequests={getTotalRequest(id)}
+              isLoading={loading}
+              logoSrc={item.icon}
+              name={name}
+              period={PERIOD}
+              links={urls}
+              description={
+                requests ? t('chains.requests', { value: requests }) : ''
+              }
+              chain={item}
+            />
           </div>
         );
       })}

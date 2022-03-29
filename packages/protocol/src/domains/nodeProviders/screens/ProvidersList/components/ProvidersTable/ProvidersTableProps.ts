@@ -1,5 +1,5 @@
-import { ResponseData } from '../../../../../../modules/api/utils/ResponseData';
-import { fetchNodeProviders } from '../../../../actions/fetchNodeProviders';
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { fetchNodeProviders } from 'domains/nodeProviders/actions/fetchNodeProviders';
 
 export interface ProvidersTableProps {
   data: ResponseData<typeof fetchNodeProviders>;

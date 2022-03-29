@@ -7,14 +7,16 @@ import { ChainsSortSelect } from 'domains/chains/screens/Chains/components/Chain
 import { RpcList } from './components/RpcsList';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchPrivateChains } from '../../../chains/actions/fetchPrivateChains';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
+import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
+import { useProvider } from 'modules/auth/hooks/useProvider';
 
 const HAS_SORT_SELECT = false;
 
 export const Dashboard = () => {
   const dispatchRequest = useDispatchRequest();
+  const { handleFetchProvider } = useProvider();
 
   useSetBreadcrumbs([
     {
@@ -24,7 +26,8 @@ export const Dashboard = () => {
 
   useEffect(() => {
     dispatchRequest(fetchPrivateChains());
-  }, [dispatchRequest]);
+    handleFetchProvider();
+  }, [dispatchRequest, handleFetchProvider]);
 
   return (
     <>

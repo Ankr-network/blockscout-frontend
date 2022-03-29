@@ -1,15 +1,16 @@
 import { Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 import { RequestsLog } from './ChainRequestsChartTypes';
 
-export const getTotalRequestsColor = (chainId: string, theme: Theme) => {
+export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
-    case 'near':
+    case ChainId.Near:
       return '#668BF2';
 
-    case 'arbitrum':
+    case ChainId.Arbitrum:
       return '#4EA0EA';
 
-    case 'erigonbsc':
+    case ChainId.Erigonbsc:
       return theme.palette.common.white;
 
     default:
@@ -17,17 +18,17 @@ export const getTotalRequestsColor = (chainId: string, theme: Theme) => {
   }
 };
 
-export const getCachedRequestsColor = (chainId: string, theme: Theme) => {
+export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
-    case 'near':
+    case ChainId.Near:
       return '#9B68AC';
 
-    case 'erigonbsc':
-    case 'arbitrum':
+    case ChainId.Erigonbsc:
+    case ChainId.Arbitrum:
       return theme.palette.primary.main;
 
-    case 'iotex':
-    case 'nervos':
+    case ChainId.IoTeX:
+    case ChainId.Nervos:
       return theme.palette.common.white;
 
     default:
@@ -35,12 +36,12 @@ export const getCachedRequestsColor = (chainId: string, theme: Theme) => {
   }
 };
 
-export const hasGradient = (chainId: string) => {
+export const hasGradient = (chainId: ChainId) => {
   switch (chainId) {
-    case 'near':
-    case 'iotex':
-    case 'avalanche':
-    case 'nervos':
+    case ChainId.Near:
+    case ChainId.IoTeX:
+    case ChainId.Avalanche:
+    case ChainId.Nervos:
       return false;
 
     default:

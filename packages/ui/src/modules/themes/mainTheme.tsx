@@ -156,6 +156,9 @@ export const mainTheme = createTheme({
             color: 'inherit',
           },
         },
+        '#launcher': {
+          display: 'none',
+        },
       },
     },
 

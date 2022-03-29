@@ -28,6 +28,7 @@ import { IFetchPolkadotAccountsDataItem } from '../../../actions/fetchPolkadotAc
 import { TPolkadotAccounts } from '../../../hooks/useFetchPolkadotAccounts';
 import { ProviderName } from '../../../utils/isProviderAvailable';
 import { WalletSwitcher } from '../../WalletSwitcher';
+import { CLOVER_PROJECT, CLOVER_SAFE_START_ADDR_VAL } from '../const';
 
 import { useClaimFormStyles } from './useClaimFormStyles';
 
@@ -37,6 +38,7 @@ type TSetSuccessLinkFn = (successLink: string) => void;
 interface IClaimFormProps {
   isETHProject: boolean;
   isLoading: boolean;
+  isMainnetChainProject: boolean;
   loanId: number;
   network: string;
   polkadotAccount: string;
@@ -59,11 +61,19 @@ interface IClaimData {
   action: AnyAction;
 }
 
+const isInvalidCloverAddress = (
+  rewardTokenName: string,
+  inputWallet: string,
+): boolean =>
+  rewardTokenName === CLOVER_PROJECT &&
+  !inputWallet.startsWith(CLOVER_SAFE_START_ADDR_VAL);
+
 const ACALA_PROJECT = 'Acala';
 
 export const ClaimForm = ({
   isETHProject,
   isLoading,
+  isMainnetChainProject,
   loanId,
   network,
   polkadotAccount,
@@ -103,6 +113,11 @@ export const ClaimForm = ({
           {
             rewardTokenSymbol,
             rewardTokenName,
+            network: t(
+              isMainnetChainProject
+                ? 'polkadot-slot-auction.my-rewards-claim-modal.networks.mainnet'
+                : 'polkadot-slot-auction.my-rewards-claim-modal.networks.parachain',
+            ),
           },
         )}
       </Typography>
@@ -283,6 +298,13 @@ export const ClaimForm = ({
     if (isExternalWallet) {
       if (typeof inputWallet !== 'string' || inputWallet === ' ') {
         errors.inputWallet = t('validation.required');
+      } else if (isInvalidCloverAddress(rewardTokenName, inputWallet)) {
+        errors.inputWallet = t(
+          'polkadot-slot-auction.my-rewards-claim-modal.validation.invalid-clover-address',
+          {
+            value: CLOVER_SAFE_START_ADDR_VAL,
+          },
+        );
       } else if (isETHProject && !isValidETHAddress(inputWallet)) {
         errors.inputWallet = t('validation.invalid-network-address', {
           network: rewardTokenName.length ? rewardTokenName : t('unit.eth'),

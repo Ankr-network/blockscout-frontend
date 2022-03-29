@@ -155,7 +155,7 @@ const mapParams = (
   return {
     ...networkData,
     chainId: toHex(networkData.chainId),
-    rpcUrls: chain.rpcLinks,
+    rpcUrls: chain.urls.map(({ rpc }) => rpc),
   };
 };
 

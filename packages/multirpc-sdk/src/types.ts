@@ -4,6 +4,18 @@ export type Web3Address = string;
 export type Base64 = string;
 export type PrefixedHex = string;
 
+export type Network =
+  | 'solana'
+  | 'near'
+  | 'celo'
+  | 'avalanche'
+  | 'fantom'
+  | 'polygon'
+  | 'arbitrum'
+  | 'bsc'
+  | 'iotex'
+  | 'nervos';
+
 export type TBlockchain = 'BLOCKCHAIN_WEB3' | 'BLOCKCHAIN_SUBSTRATE';
 
 export type TCrypto =

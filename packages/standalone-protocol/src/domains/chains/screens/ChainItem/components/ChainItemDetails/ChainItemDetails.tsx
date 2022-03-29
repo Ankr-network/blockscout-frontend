@@ -11,6 +11,7 @@ import {
   getAvarageRequests,
   getCachedRequestPercent,
 } from './ChainItemDetailsUtils';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemDetailsProps {
   totalRequests?: BigNumber;
@@ -18,7 +19,7 @@ interface ChainItemDetailsProps {
   className?: string;
   timeframe: Timeframe;
   loading: boolean;
-  chainId: string;
+  chainId: ChainId;
 }
 
 export const ChainItemDetails = ({

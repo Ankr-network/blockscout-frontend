@@ -9,6 +9,7 @@ import { useInputFieldStyles } from './InputFieldStyles';
 
 interface IFieldProps extends FieldRenderProps<string> {
   showLimitCounter: boolean;
+  isHelperTextVisible?: boolean;
 }
 
 const getHelperString = (
@@ -28,9 +29,10 @@ const getHelperString = (
 };
 
 export const InputField = ({
-  input: { name, onChange, value, type, placeholder },
+  input: { name, onBlur, onChange, value, type, placeholder },
   meta,
   showLimitCounter = false,
+  isHelperTextVisible,
   ...rest
 }: IFieldProps & TextFieldProps) => {
   const classes = useInputFieldStyles();
@@ -44,8 +46,12 @@ export const InputField = ({
       error={hasError(meta)}
       value={value}
       placeholder={placeholder}
-      helperText={getHelperString(value, meta, maxLength, showLimitCounter)}
+      helperText={
+        getHelperString(value, meta, maxLength, showLimitCounter) ||
+        (isHelperTextVisible && <>&nbsp;</>)
+      }
       onChange={onChange}
+      onBlur={onBlur}
       className={classes.root}
       onWheel={(event: any) => event.target.blur()}
       {...rest}

@@ -4,7 +4,7 @@ export function createRouteConfig<T>(
       path: string;
       generatePath: (...args: any) => string;
       useParams?: (...args: any) => any;
-      breadcrumbs?: string;
+      breadcrumbs?: string | ((data: any) => void);
     }
       ? T[K]
       : never;

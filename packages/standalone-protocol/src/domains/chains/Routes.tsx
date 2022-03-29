@@ -4,6 +4,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 
 import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import { ChainId } from './api/chain';
 
 export const PATH_CHAINS = '/chain/';
 export const PATH_CHAIN_DETAILS = '/chain/:chainId/';
@@ -14,12 +15,13 @@ export const ChainsRoutesConfig = createRouteConfig(
   {
     chainDetails: {
       path: PATH_CHAIN_DETAILS,
-      generatePath: (chainId: string) =>
+      generatePath: (chainId: ChainId) =>
         generatePath(PATH_CHAIN_DETAILS, { chainId }),
       useParams: () => {
-        const { chainId } = useParams<{ chainId: string }>();
+        const { chainId } = useParams<{ chainId: ChainId }>();
 
-        if (REACT_APP_CHAIN_ID) return { chainId: REACT_APP_CHAIN_ID };
+        if (REACT_APP_CHAIN_ID)
+          return { chainId: REACT_APP_CHAIN_ID as ChainId };
 
         return {
           chainId,

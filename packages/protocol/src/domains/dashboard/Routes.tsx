@@ -5,7 +5,7 @@ import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { Route } from 'react-router-dom';
 
-const PATH_DASHBOARD = '/private/';
+const PATH_DASHBOARD = '/plan/';
 
 export const DashboardRoutesConfig = createRouteConfig(
   {

@@ -6,8 +6,6 @@ interface SpinnerStyleProps {
 
 export const useStyles = makeStyles<Theme, SpinnerStyleProps>(theme => ({
   root: {
-    background: 'transparent !important',
-    padding: '0 !important',
     animationName: '$spin',
     animationDuration: '1s',
     animationDelay: '0s',

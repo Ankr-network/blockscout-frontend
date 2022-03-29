@@ -16,6 +16,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: 'repeat(1, 1fr)',
     },
 
+    '&.harmony $block': {
+      border: `2px solid ${theme.palette.grey[300]}`,
+    },
+
     '&.arbitrum $block': {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,

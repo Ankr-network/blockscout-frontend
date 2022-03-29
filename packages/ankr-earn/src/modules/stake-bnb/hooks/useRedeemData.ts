@@ -6,7 +6,7 @@ import { BNB_REDEEM_PERIOD } from '../const';
 
 interface IUseRedeemData {
   redeemPeriod: string;
-  redeemValue: number;
+  redeemValue: string;
 }
 
 export const useRedeemData = (): IUseRedeemData =>

@@ -16,9 +16,8 @@ import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 
 import { ClaimForm } from './ClaimForm';
 import { ClaimSuccess } from './ClaimSuccess';
+import { ETH_PROJECTS, MAINNET_CHAIN_PROJECTS } from './const';
 import { useMyRewardsClaimModalStyles } from './useMyRewardsClaimModalStyles';
-
-const ETH_PROJECTS: string[] = ['moonbeam'];
 
 export const MyRewardsClaimModal = (): JSX.Element | null => {
   const classes = useMyRewardsClaimModalStyles();
@@ -45,6 +44,13 @@ export const MyRewardsClaimModal = (): JSX.Element | null => {
 
   const isETHProject = useMemo(
     () => ETH_PROJECTS.includes(crowdloan?.rewardTokenName?.toLowerCase()),
+    [crowdloan?.rewardTokenName],
+  );
+  const isMainnetChainProject = useMemo(
+    () =>
+      MAINNET_CHAIN_PROJECTS.includes(
+        crowdloan?.rewardTokenName?.toLowerCase(),
+      ),
     [crowdloan?.rewardTokenName],
   );
 
@@ -90,6 +96,7 @@ export const MyRewardsClaimModal = (): JSX.Element | null => {
             <ClaimForm
               isETHProject={isETHProject}
               isLoading={isSubmitted}
+              isMainnetChainProject={isMainnetChainProject}
               loanId={loanId}
               network={network}
               polkadotAccount={polkadotAccount}
@@ -103,6 +110,7 @@ export const MyRewardsClaimModal = (): JSX.Element | null => {
           ) : (
             <ClaimSuccess
               isETHProject={isETHProject}
+              isMainnetChainProject={isMainnetChainProject}
               rewardTokenName={crowdloan?.rewardTokenName ?? ''}
               rewardTokenSymbol={crowdloan?.rewardTokenSymbol ?? ''}
               successLink={successLink}
