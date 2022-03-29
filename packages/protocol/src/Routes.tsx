@@ -15,6 +15,7 @@ import { Themes } from 'ui';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
 import { selectCredentials } from 'modules/user/userSlice';
+import { GuardProviderRoute } from 'modules/auth/components/GuardProviderRoute';
 
 export function Routes() {
   const { handleConnect } = useAuth();
@@ -56,11 +57,23 @@ export function Routes() {
       />
       <GuardAuthRoute
         exact
-        path={[PlanRoutesConfig.plan.path]}
+        path={[PlanRoutesConfig.plan.path, PlanRoutesConfig.planDeposit.path]}
         hasCachedCredentials={Boolean(cachedCredentials)}
         render={() => (
           <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
             <PlanRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <GuardProviderRoute
+        exact
+        path={[
+          PlanRoutesConfig.addEndpoint.path,
+          PlanRoutesConfig.endpoint.path,
+        ]}
+        render={() => (
+          <DefaultLayout>
+            <PageNotFound />
           </DefaultLayout>
         )}
       />

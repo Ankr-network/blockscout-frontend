@@ -11,9 +11,10 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainRequestsChart } from './components/ChainRequestsChart';
 import { useStyles } from './ChainItemStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemProps {
-  chainId: string;
+  chainId: ChainId;
 }
 
 const TIMEFRAME: Timeframe = '24h';

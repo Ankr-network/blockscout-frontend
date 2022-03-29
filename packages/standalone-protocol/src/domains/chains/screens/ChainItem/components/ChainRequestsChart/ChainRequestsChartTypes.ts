@@ -1,3 +1,5 @@
+import { ChainId } from 'domains/chains/api/chain';
+
 type TimeStamp = string;
 type Count = number;
 
@@ -8,5 +10,5 @@ export interface ChainRequestsChartProps {
   totalCachedHistory: RequestsLog;
   className?: string;
   loading?: boolean;
-  chainId: string;
+  chainId: ChainId;
 }

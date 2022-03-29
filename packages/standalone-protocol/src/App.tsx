@@ -11,6 +11,7 @@ import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 import packageJson from '../package.json';
+import { ChainId } from 'domains/chains/api/chain';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 
@@ -19,9 +20,9 @@ function App() {
     <Router basename={packageJson.homepage}>
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
-          <AppBase chainId={REACT_APP_CHAIN_ID}>
+          <AppBase chainId={REACT_APP_CHAIN_ID as ChainId}>
             <ScrollToTop />
-            <Routes chainId={REACT_APP_CHAIN_ID} />
+            <Routes chainId={REACT_APP_CHAIN_ID as ChainId} />
             <NoSsr>
               <Notifications />
             </NoSsr>

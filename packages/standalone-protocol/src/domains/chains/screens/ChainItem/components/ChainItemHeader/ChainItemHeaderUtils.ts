@@ -9,8 +9,8 @@ export const formatChains = (
   if (!Array.isArray(data) || data.length === 0) return [];
 
   return data.map(item => {
-    const { id, icon, name, rpcUrl, wsUrl, requests } = item;
-    const rpcLinks = wsUrl ? [rpcUrl, wsUrl] : [rpcUrl];
+    const { id, icon, name, rpcUrls, wsUrls, requests } = item;
+    const rpcLinks = [...rpcUrls, ...wsUrls];
 
     return {
       id,

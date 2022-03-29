@@ -180,6 +180,10 @@
       "winner": "Winner"
     },
     "my-rewards-claim-modal": {
+      "networks": {
+        "mainnet": "mainnet",
+        "parachain": "parachain"
+      },
       "select-section": {
         "external-wallet": "Address",
         "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
@@ -188,12 +192,15 @@
         "info-warn-message": "Please note that Ledger wallets are not supported by {rewardTokenName} at all, even if they are connected to the Polkadot.js wallet",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
-        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} parachain address"
+        "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} {network} address"
       },
       "success-section": {
         "hint-eth": "You have to add {rewardTokenName} network to see {rewardTokenSymbol} tokens in your wallet",
-        "message": "You can check your wallet on {rewardTokenName} parachain in about 3-5 minutes",
+        "message": "You can check your wallet on {rewardTokenName} {network} in about 3-5 minutes",
         "title": "Your {rewardTokenSymbol} rewards are on the way to your wallet!"
+      },
+      "validation": {
+        "invalid-clover-address": "Clover mainnet address should starts with {value}"
       }
     },
     "no-crowdloan": {

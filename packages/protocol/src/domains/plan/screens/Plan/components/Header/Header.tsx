@@ -2,24 +2,21 @@ import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
 import { useIsMDDown, useIsXSDown } from 'ui';
+import { Link } from 'react-router-dom';
 
 import MobileHeader from 'assets/img/premium/mobile-fold-header-1.png';
 import DeskFoldHeaderLeft from 'assets/img/premium/desk-fold-header-left.png';
 import DeskFoldHeaderRight from 'assets/img/premium/desk-fold-header-right.png';
 
 import { useStyles } from './usePlanHeaderStyles';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 interface HeaderProps {
   costInAnkr: number;
   costInUsd?: string;
-  onClickPremium: () => void;
 }
 
-export const Header = ({
-  costInAnkr,
-  costInUsd,
-  onClickPremium,
-}: HeaderProps) => {
+export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
   const isTablet = useIsMDDown();
@@ -84,7 +81,8 @@ export const Header = ({
               </Box>
             </Box>
             <Button
-              onClick={onClickPremium}
+              component={Link}
+              to={PlanRoutesConfig.planDeposit.path}
               size="large"
               // onClick={onClickPremiumBtn}
               className={classes.unlockBtn}

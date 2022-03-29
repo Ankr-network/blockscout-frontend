@@ -8,10 +8,12 @@ import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.
 import { ChainsItem } from './ChainsItem';
 
 const chain = {
+  isLoading: false,
+  totalRequests: '10000',
   id: 'id',
   name: 'namenamenamename',
   icon: chainLogo,
-  rpcLinks: ['chainLinkchainLinkchainLinkchainLinkchainLink'],
+  urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],
 };
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
@@ -19,12 +21,13 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
         <ChainsItem
+          totalRequests={chain.totalRequests}
+          isLoading={chain.isLoading}
           logoSrc={chain.icon}
           name={chain.name}
           description="requestInforequestInforequestInforequestInfo"
           period="24h"
-          links={chain.rpcLinks}
-          onButtonClick={() => null}
+          links={chain.urls}
           chain={chain}
         />
       </Box>

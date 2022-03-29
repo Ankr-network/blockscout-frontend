@@ -6,6 +6,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexGrow: 1,
     position: 'relative',
     maxWidth: 1110,
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: 84,
+    },
   },
   header: {
     marginTop: theme.spacing(5),

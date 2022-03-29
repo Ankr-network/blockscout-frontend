@@ -11,6 +11,7 @@ import nearIcon from './near.svg';
 import bscIcon from './bsc.svg';
 import iotexIcon from './iotex.svg';
 import nervosIcon from './nervos.svg';
+import harmonyIcon from './harmony.svg';
 
 const chainIcons = {
   avalanche: avaxIcon,
@@ -26,6 +27,7 @@ const chainIcons = {
   iotex: iotexIcon,
   nervos: nervosIcon,
   nervos_gw: nervosIcon,
+  harmony: harmonyIcon,
 };
 
 export function getChainIcon(name: string) {

@@ -5,6 +5,7 @@ import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 import { Store } from 'store';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchNodesWeight } from './fetchNodesWeight';
+import { ChainId } from '../api/chain';
 
 export interface IChainItemDetails {
   nodes?: INodeEntity[];
@@ -13,7 +14,7 @@ export interface IChainItemDetails {
 
 export const fetchChainNodesData = createSmartAction<
   RequestAction<null, IChainItemDetails>
->('chains/fetchChainNodesData', (chainId: string) => ({
+>('chains/fetchChainNodesData', (chainId: ChainId) => ({
   request: {
     promise: (async () => null)(),
   },

@@ -26,6 +26,9 @@
       "title": "Your Instant RPC<br />Gateway To <span>{name}</span>",
       "description": "Welcome to&nbsp;the fastest, free-est, and most reliable RPC endpoint for the <p>{network}</p> network."
     },
+    "banner": {
+      "polygon": "There is an unstable operation of the blockchain network itself. The endpoints work in standard mode. More information can be found on the official social media pagesclasses."
+    },
     "erigonbsc": {
       "header": {
         "title": "Erigon for BSC",
@@ -90,6 +93,9 @@
   "announce": {
     "name": "<span>{name}</span> is&nbsp;joining forces with <span>ANKR</span>!🎉<br />Read the announcement",
     "link": "here"
+  },
+  "cross-menu": {
+    "ankr-protocol": "More on Ankr Protocol"
   },
   "footer": {
     "supported": "Made with",

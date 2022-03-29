@@ -12,6 +12,16 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     overflow: 'hidden',
     padding: 0,
     marginTop: '0!important',
+    '&.harmony': {
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.text.secondary,
+      },
+      '& $button': {
+        color: theme.palette.common.white,
+        background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
+      },
+    },
 
     '&.near': {
       borderRadius: 36,

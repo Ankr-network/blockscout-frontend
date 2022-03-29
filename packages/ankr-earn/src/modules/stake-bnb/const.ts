@@ -17,8 +17,8 @@ export const BNB_STAKING_NETWORKS = [BSC_NETWORK_BY_ENV];
 // Note: ~4h = 5_000 blocks, ~2.5h = 2_500 blocks
 export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
 
-// Note: Mainnet = ~7 days. Testnet = ~4 hours
-export const BNB_REDEEM_PERIOD = isMainnet ? 7 : 4;
+// Note: Mainnet = ~7-15 days. Testnet = ~4 hours
+export const BNB_REDEEM_PERIOD = isMainnet ? '7-15' : '4';
 
 export const BNB_STAKING_MAX_DECIMALS_LEN = 8;
 export const BNB_SAFE_PRECISION = BNB_STAKING_MAX_DECIMALS_LEN + 1;
