@@ -6,22 +6,24 @@ import { IStoreState } from 'store';
 import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { BinanceSDK } from '../api/BinanceSDK';
+import { TBnbSyntToken } from '../types';
 
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
-interface IRes {
-  data: void;
+interface IStakeArgs {
+  amount: BigNumber;
+  token: TBnbSyntToken;
 }
 
-export const stake = createSmartAction<RequestAction<void, void>>(
+export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
   'bnb/stake',
-  (amount: BigNumber): RequestAction => ({
+  ({ amount, token }): RequestAction => ({
     request: {
       promise: (async (): Promise<void> => {
         const sdk: BinanceSDK = await BinanceSDK.getInstance();
 
-        return sdk.stake(amount);
+        return sdk.stake(amount, token);
       })(),
     },
     meta: {
@@ -29,10 +31,10 @@ export const stake = createSmartAction<RequestAction<void, void>>(
       showNotificationOnError: true,
       getData: (data: void): void => data,
       onSuccess: (
-        response: IRes,
+        response,
         _action: RequestAction,
         store: TStore<IStoreState>,
-      ): IRes => {
+      ) => {
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchTxHistory());
 

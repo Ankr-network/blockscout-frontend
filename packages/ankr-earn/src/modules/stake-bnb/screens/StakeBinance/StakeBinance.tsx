@@ -99,7 +99,9 @@ export const StakeBinance = (): JSX.Element => {
 
             <TokenVariant
               description={tHTML('stake-bnb.abnbc-descr', {
-                rate: aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+                rate: isFetchStatsLoading
+                  ? '...'
+                  : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
               })}
               iconSlot={<ABNBCIcon />}
               isActive={tokenOut === Token.aBNBc}

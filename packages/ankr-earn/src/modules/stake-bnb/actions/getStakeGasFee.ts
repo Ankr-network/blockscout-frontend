@@ -3,16 +3,22 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
 import { BinanceSDK } from '../api/BinanceSDK';
+import { TBnbSyntToken } from '../types';
+
+interface IGetStakeGasFeeArgs {
+  amount: BigNumber;
+  token: TBnbSyntToken;
+}
 
 export const getStakeGasFee = createAction<
   RequestAction<BigNumber, BigNumber>,
-  [BigNumber]
->(`bnb/getStakeGasFee`, amount => ({
+  [IGetStakeGasFeeArgs]
+>(`bnb/getStakeGasFee`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<BigNumber> => {
       const sdk = await BinanceSDK.getInstance();
 
-      return sdk.getStakeGasFee(amount);
+      return sdk.getStakeGasFee(amount, token);
     })(),
   },
   meta: {

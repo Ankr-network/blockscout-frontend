@@ -22,6 +22,7 @@ export interface IAvalancheConfig {
 
 export interface IBinanceConfig {
   aBNBbToken: string;
+  aBNBcToken: string;
   aMATICbToken: string;
   aETHcToken: string;
   binancePool: string;
@@ -74,6 +75,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
@@ -150,6 +152,8 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   binanceConfig: {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
+    // todo: add actual
+    aBNBcToken: ZERO_ADDR,
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     // todo: add actual production aMATICb token address

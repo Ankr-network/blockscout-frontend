@@ -37,10 +37,11 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {t('dashboard.assets')}
           </Typography>
 
-          <AssetsList> 
+          <AssetsList>
             {isMATICShowed && <StakedMatic />}
 
-            {isAMATICBPolygonShowed && <StakedBridgeMatic />} 
+            {isAMATICBPolygonShowed && <StakedBridgeMatic />}
+
             {isAETHBShowed && <StakedAETHB />}
 
             {isAETHCShowed && <StakedAETHC />}
