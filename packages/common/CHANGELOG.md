@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.2.0 (2022-03-29)
+
+
+### Features
+
+* **protocol:** MRPC-729 Hide faq link ([#617](https://github.com/Ankr-network/ankr-web/issues/617)) ([e4ba428](https://github.com/Ankr-network/ankr-web/commit/e4ba4282bab188207ffa56655be3a3fb65e78c75))
+
+
+
+
+
 ## 0.1.6 (2022-03-28)
 
 
