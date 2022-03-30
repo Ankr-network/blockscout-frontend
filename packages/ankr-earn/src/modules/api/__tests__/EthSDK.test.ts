@@ -2,9 +2,10 @@ import BigNumber from 'bignumber.js';
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { MAX_UINT256, ZERO_ADDR } from 'modules/common/const';
+import { MAX_UINT256, ZERO, ZERO_ADDR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
+import { ETH_POOL_START_BLOCK } from '../const';
 import { EthSDK, TEthToken } from '../EthSDK';
 
 jest.mock('modules/api/ProviderManagerSingleton', () => ({
@@ -12,50 +13,168 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
 }));
 
 describe('ankr-earn/src/modules/api/EthSDK', () => {
-  test('should return contracts data', async () => {
-    const ethAmount = '8';
-    const mockBalanceOf = jest.fn().mockReturnValue({ call: () => 1 });
-    const mockRatio = jest.fn().mockReturnValue({ call: () => 0 });
-    const mockAllowance = jest.fn().mockReturnValue({ call: () => 0 });
+  const ethAmount = '8';
+  const timestamp = Math.floor(+new Date() / 1000);
 
-    const mockWeb3 = {
-      utils: { fromWei: () => ethAmount },
-      eth: {
-        getChainId: () => 1,
-        getBalance: () => `${ethAmount}${new Array(17).fill(0).join('')}`,
+  const mockWeb3 = {
+    utils: {
+      fromWei: () => ethAmount,
+    },
+
+    eth: {
+      getChainId: () => 1,
+
+      getBalance: () =>
+        new BigNumber(ethAmount).multipliedBy(10 ** 18).toFixed(),
+
+      getBlock: () => Promise.resolve({ timestamp, transactionHash: 'hash1' }),
+
+      getBlockNumber: () => Promise.resolve(ETH_POOL_START_BLOCK + 10_000),
+
+      getTransaction: () =>
+        Promise.resolve({
+          from: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+          transactionIndex: null,
+          input:
+            '0x6482a22f00000000000000000000000000000000000000000000000075d94a0ed823c000',
+        }),
+
+      getTransactionReceipt: () => Promise.resolve({ status: true }),
+
+      abi: {
+        decodeParameters: () => ({
+          0: new BigNumber(ethAmount).multipliedBy(10 ** 18),
+        }),
       },
+    },
+  };
+
+  const defaultContract = {
+    getPastEvents: jest.fn(),
+    methods: {
+      balanceOf: jest.fn(),
+      ratio: jest.fn(),
+      allowance: jest.fn(),
+      claimableAETHFRewardOf: jest.fn(),
+      approve: jest.fn(),
+      lockShares: jest.fn(),
+      unlockShares: jest.fn(),
+      stakeAndClaimAethC: jest.fn(),
+      stakeAndClaimAethB: jest.fn(),
+      REQUESTER_MINIMUM_POOL_STAKING: jest.fn(),
+    },
+  };
+
+  const defaultProvider = {
+    currentAccount: ZERO_ADDR,
+    getWeb3: jest.fn(),
+    isConnected: jest.fn(),
+    connect: jest.fn(),
+    sendTransactionAsync: jest.fn(),
+    addTokenToWallet: jest.fn(),
+    createContract: jest.fn(),
+    getContractMethodFee: jest.fn(),
+  };
+
+  beforeEach(() => {
+    const mockProviderManager = {
+      getProvider: () => defaultProvider,
+      getReadProvider: () => defaultProvider,
     };
 
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => mockWeb3,
-        isConnected: () => false,
-        connect: jest.fn(),
-        createContract: () => ({
-          methods: {
-            balanceOf: mockBalanceOf,
-            ratio: mockRatio,
-            allowance: mockAllowance,
-          },
+    defaultContract.methods.lockShares.mockReturnValue({
+      encodeABI: () => 'mock-abi',
+    });
+
+    defaultContract.methods.approve.mockReturnValue({
+      encodeABI: () => 'mock-abi',
+    });
+
+    defaultContract.methods.lockShares.mockReturnValue({
+      encodeABI: () => 'mock-abi',
+    });
+
+    defaultContract.methods.unlockShares.mockReturnValue({
+      encodeABI: () => 'mock-abi',
+    });
+
+    defaultContract.methods.allowance.mockReturnValue({
+      call: () => Promise.resolve(0),
+    });
+
+    defaultContract.methods.ratio.mockReturnValue({
+      call: () => Promise.resolve(0),
+    });
+
+    defaultContract.methods.balanceOf.mockReturnValue({
+      call: () => Promise.resolve(1),
+    });
+
+    defaultContract.methods.claimableAETHFRewardOf.mockReturnValue({
+      call: () => Promise.resolve(ZERO),
+    });
+
+    defaultContract.methods.stakeAndClaimAethC.mockReturnValue({
+      estimateGas: () => Promise.resolve(ZERO),
+      send: () =>
+        Promise.resolve({
+          receiptPromise: {},
+          transactionHash: 'hash1',
         }),
-      }),
-      getReadProvider: () => ({
-        getWeb3: () => mockWeb3,
-        createContract: () => ({
-          methods: {
-            balanceOf: mockBalanceOf,
-            ratio: mockRatio,
-            allowance: mockAllowance,
-          },
+    });
+
+    defaultContract.methods.stakeAndClaimAethB.mockReturnValue({
+      estimateGas: () => Promise.resolve(ZERO),
+      send: () =>
+        Promise.resolve({
+          receiptPromise: {},
+          transactionHash: 'hash1',
         }),
+    });
+
+    defaultContract.methods.REQUESTER_MINIMUM_POOL_STAKING.mockReturnValue({
+      call: () => Promise.resolve(new BigNumber(10 ** 18).multipliedBy(8)),
+    });
+
+    defaultContract.getPastEvents.mockReturnValue(
+      Promise.resolve([
+        {
+          event: 'event1',
+          returnValues: { amount: 10 ** 18 },
+          timestamp,
+          transactionHash: 'hash1',
+        },
+      ]),
+    );
+
+    defaultProvider.createContract.mockReturnValue(defaultContract);
+
+    defaultProvider.isConnected.mockReturnValue(true);
+
+    defaultProvider.getWeb3.mockReturnValue(mockWeb3);
+
+    defaultProvider.getContractMethodFee.mockReturnValue(
+      new BigNumber(10 ** 6),
+    );
+
+    defaultProvider.sendTransactionAsync.mockReturnValue(
+      Promise.resolve({
+        receiptPromise: {},
+        transactionHash: 'hash',
+        rawTransaction: 'raw',
       }),
-    };
+    );
 
     (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
       mockProviderManager,
     );
+  });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test('should return contracts data', async () => {
     const sdk = await EthSDK.getInstance();
 
     const [ratio, aETHcBalance, aETHbBalance, allowance, ethBalance] =
@@ -72,59 +191,18 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     expect(allowance.toNumber()).toBe(0);
     expect(aETHcBalance.toNumber()).toBe(1);
     expect(aETHbBalance.toNumber()).toBe(1);
-    expect(mockBalanceOf).toBeCalledTimes(2);
-    expect(mockRatio).toBeCalledTimes(1);
-    expect(mockAllowance).toBeCalledTimes(1);
+    expect(defaultContract.methods.balanceOf).toBeCalledTimes(2);
+    expect(defaultContract.methods.ratio).toBeCalledTimes(1);
+    expect(defaultContract.methods.allowance).toBeCalledTimes(1);
   });
 
   test('should return tx data', async () => {
-    const amount = '8.4919';
-
-    const mockWeb3 = {
-      utils: { fromWei: () => amount },
-      eth: {
-        getChainId: () => 1,
-        getTransaction: () =>
-          Promise.resolve({
-            from: '0xe64FCf6327bB016955EFd36e75a852085270c374',
-            transactionIndex: null,
-            input:
-              '0x6482a22f00000000000000000000000000000000000000000000000075d94a0ed823c000',
-          }),
-        getTransactionReceipt: () =>
-          Promise.resolve({
-            status: true,
-          }),
-        abi: {
-          decodeParameters: () => ({
-            0: new BigNumber(amount).multipliedBy(10 ** 18),
-          }),
-        },
-      },
-    };
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => mockWeb3,
-        isConnected: () => false,
-        connect: jest.fn(),
-      }),
-      getReadProvider: () => ({
-        getWeb3: () => mockWeb3,
-      }),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.fetchTxData('txHash');
 
     expect(await sdk.fetchTxReceipt('txHash')).toBeDefined();
-    expect(result.amount).toStrictEqual(new BigNumber('8.4919'));
+    expect(result.amount).toStrictEqual(new BigNumber(ethAmount));
     expect(result.isPending).toBe(true);
     expect(result.destinationAddress).toBe(
       '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -132,38 +210,6 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
   });
 
   test('should lock shares', async () => {
-    const mockSendTransactionAsync = jest.fn().mockReturnValue({
-      receiptPromise: {},
-      transactionHash: 'hash',
-      rawTransaction: 'raw',
-    });
-
-    const mockLockShares = jest
-      .fn()
-      .mockReturnValue({ encodeABI: () => 'mock-abi' });
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 56 },
-        }),
-        isConnected: () => true,
-        connect: jest.fn(),
-        createContract: () => ({
-          methods: {
-            lockShares: mockLockShares,
-          },
-        }),
-        sendTransactionAsync: mockSendTransactionAsync,
-      }),
-      getReadProvider: jest.fn(),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.lockShares({
@@ -177,48 +223,23 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
 
-    expect(mockLockShares).toBeCalledTimes(1);
-    expect(mockLockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
+    expect(defaultContract.methods.lockShares).toBeCalledTimes(1);
+    expect(defaultContract.methods.lockShares).toBeCalledWith(
+      '0xde0b6b3a7640000', // 10 ** 18
+    );
 
-    expect(mockSendTransactionAsync).toBeCalledTimes(1);
-    expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
-      data: 'mock-abi',
-      estimate: true,
-    });
+    expect(defaultProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(defaultProvider.sendTransactionAsync).toBeCalledWith(
+      ZERO_ADDR,
+      fethContract,
+      {
+        data: 'mock-abi',
+        estimate: true,
+      },
+    );
   });
 
   test('should unlock shares', async () => {
-    const mockSendTransactionAsync = jest.fn().mockReturnValue({
-      receiptPromise: {},
-      transactionHash: 'hash',
-    });
-
-    const mockUnlockShares = jest
-      .fn()
-      .mockReturnValue({ encodeABI: () => 'mock-abi' });
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 1 },
-        }),
-        isConnected: () => true,
-        connect: jest.fn(),
-        createContract: () => ({
-          methods: {
-            unlockShares: mockUnlockShares,
-          },
-        }),
-        sendTransactionAsync: mockSendTransactionAsync,
-      }),
-      getReadProvider: jest.fn(),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.unlockShares({
@@ -232,48 +253,23 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
 
-    expect(mockUnlockShares).toBeCalledTimes(1);
-    expect(mockUnlockShares).toBeCalledWith('0xde0b6b3a7640000'); // 10 ** 18
+    expect(defaultContract.methods.unlockShares).toBeCalledTimes(1);
+    expect(defaultContract.methods.unlockShares).toBeCalledWith(
+      '0xde0b6b3a7640000', // 10 ** 18
+    );
 
-    expect(mockSendTransactionAsync).toBeCalledTimes(1);
-    expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, fethContract, {
-      data: 'mock-abi',
-      estimate: true,
-    });
+    expect(defaultProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(defaultProvider.sendTransactionAsync).toBeCalledWith(
+      ZERO_ADDR,
+      fethContract,
+      {
+        data: 'mock-abi',
+        estimate: true,
+      },
+    );
   });
 
   test('should approve aETHc for aETHb', async () => {
-    const mockSendTransactionAsync = jest.fn().mockReturnValue({
-      receiptPromise: {},
-      transactionHash: 'hash',
-      rawTransaction: 'raw',
-    });
-
-    const mockApprove = jest
-      .fn()
-      .mockReturnValue({ encodeABI: () => 'mock-abi' });
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 1 },
-        }),
-        isConnected: () => true,
-        createContract: () => ({
-          methods: {
-            approve: mockApprove,
-          },
-        }),
-        sendTransactionAsync: mockSendTransactionAsync,
-      }),
-      getReadProvider: jest.fn(),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     const {
       contractConfig: { fethContract, aethContract },
     } = configFromEnv();
@@ -285,51 +281,34 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
 
-    expect(mockApprove).toBeCalledTimes(1);
-    expect(mockApprove).toBeCalledWith(
+    expect(defaultContract.methods.approve).toBeCalledTimes(1);
+    expect(defaultContract.methods.approve).toBeCalledWith(
       fethContract,
       `0x${MAX_UINT256.toString(16)}`,
     );
 
-    expect(mockSendTransactionAsync).toBeCalledTimes(1);
-    expect(mockSendTransactionAsync).toBeCalledWith(ZERO_ADDR, aethContract, {
-      data: 'mock-abi',
-      estimate: true,
-    });
+    expect(defaultProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(defaultProvider.sendTransactionAsync).toBeCalledWith(
+      ZERO_ADDR,
+      aethContract,
+      { data: 'mock-abi', estimate: true },
+    );
   });
 
   test('should add token to wallet', async () => {
-    const mockAddTokenToWallet = jest.fn();
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 56 },
-        }),
-        isConnected: () => true,
-        addTokenToWallet: mockAddTokenToWallet,
-      }),
-      getReadProvider: jest.fn(),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     {
       const sdk = await EthSDK.getInstance();
 
       await sdk.addTokenToWallet({
         swapOption: Token.aETHc,
       });
-    }
 
-    expect(mockAddTokenToWallet).toBeCalledWith({
-      address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
-      symbol: 'aETHc',
-      decimals: 18,
-    });
+      expect(defaultProvider.addTokenToWallet).toBeCalledWith({
+        address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
+        symbol: 'aETHc',
+        decimals: 18,
+      });
+    }
 
     {
       const sdk = await EthSDK.getInstance();
@@ -337,41 +316,63 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       await sdk.addTokenToWallet({
         swapOption: Token.aETHb,
       });
-    }
 
-    expect(mockAddTokenToWallet).toBeCalledWith({
-      address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
-      symbol: 'aETHb',
-      decimals: 18,
-    });
+      expect(defaultProvider.addTokenToWallet).toBeCalledWith({
+        address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+        symbol: 'aETHb',
+        decimals: 18,
+      });
+    }
   });
 
   test('should not add unknown token to wallet', async () => {
-    const mockAddTokenToWallet = jest.fn();
-
-    const mockProviderManager = {
-      getProvider: () => ({
-        currentAccount: ZERO_ADDR,
-        getWeb3: () => ({
-          eth: { getChainId: () => 56 },
-        }),
-        isConnected: () => false,
-        connect: jest.fn(),
-        addTokenToWallet: mockAddTokenToWallet,
-      }),
-      getReadProvider: jest.fn(),
-    };
-
-    (ProviderManagerSingleton.getInstance as jest.Mock).mockReturnValue(
-      mockProviderManager,
-    );
-
     const sdk = await EthSDK.getInstance();
 
     await sdk.addTokenToWallet({
       swapOption: 'unknown' as TEthToken,
     });
 
-    expect(mockAddTokenToWallet).not.toBeCalled();
+    expect(defaultProvider.addTokenToWallet).not.toBeCalled();
+  });
+
+  test('should return tx history for aETHb', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const { completedAETHB, completedAETHC, totalPending } =
+      await sdk.getTxEventsHistory();
+
+    expect(completedAETHB[0]).toStrictEqual({
+      txAmount: new BigNumber(ethAmount),
+      txDate: new Date(timestamp * 1_000),
+      txHash: 'hash1',
+      txType: 'event1',
+    });
+    expect(completedAETHB).toHaveLength(14);
+    expect(completedAETHC).toHaveLength(0);
+    expect(totalPending).toStrictEqual(ZERO);
+  });
+
+  test('should get min stake with read provider', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.getMinStake();
+
+    expect(result).toStrictEqual(new BigNumber('8'));
+  });
+
+  test('should stake and claim aETHb', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.stake(new BigNumber(10), Token.aETHb);
+
+    expect(result.transactionHash).toBe('hash1');
+  });
+
+  test('should stake and claim aETHc', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.stake(new BigNumber(10), Token.aETHc);
+
+    expect(result.transactionHash).toBe('hash1');
   });
 });

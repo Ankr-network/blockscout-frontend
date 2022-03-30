@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
   IWeb3SendResult,
@@ -18,10 +19,18 @@ import EHT_POOL_CONTRACT from 'modules/api/contract/EthereumPool.json';
 import AETHB_CONTRACT from 'modules/api/contract/FETH.json';
 import ABI_SYSTEM from 'modules/api/contract/SystemParameters.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import {
+  ETH_SCALE_FACTOR,
+  isMainnet,
+  MAX_UINT256,
+  ZERO,
+} from 'modules/common/const';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
+import { getTxEventsHistoryGroup } from 'modules/stake/api/getTxEventsHistoryGroup';
 
 import { Token } from '../common/types/token';
+
+import { ETH_BLOCK_OFFSET, ETH_HISTORY_RANGE_STEP } from './const';
 
 export type TEthToken = Token.aETHb | Token.aETHc;
 
@@ -54,6 +63,35 @@ export interface ISharesArgs {
 export interface IEthSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyProvider;
+}
+
+export interface ITxEventsHistoryGroupItem {
+  txAmount: BigNumber;
+  txDate: Date;
+  txHash: string;
+  txType: string | null;
+}
+
+export interface ITxEventsHistoryData {
+  completedAETHC: ITxEventsHistoryGroupItem[];
+  completedAETHB: ITxEventsHistoryGroupItem[];
+  pending: ITxEventsHistoryGroupItem[];
+  totalPending: BigNumber;
+}
+
+interface IGetPastEvents {
+  provider: Web3KeyProvider | Web3KeyReadProvider;
+  contract: Contract;
+  eventName: string;
+  startBlock: number;
+  rangeStep: number;
+  filter?: Filter;
+}
+
+enum EPoolEvents {
+  StakeConfirmed = 'StakeConfirmed',
+  StakePending = 'StakePending',
+  RewardClaimed = 'RewardClaimed',
 }
 
 const CONFIG = configFromEnv();
@@ -351,6 +389,85 @@ export class EthSDK {
     const receipt = await web3.eth.getTransactionReceipt(txHash);
 
     return receipt as TransactionReceipt | null;
+  }
+
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const ethPoolContract = EthSDK.getEthPoolContract(provider);
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const startBlock = latestBlockNumber - ETH_BLOCK_OFFSET;
+
+    const [claimEvents, ratio] = await Promise.all([
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: ethPoolContract,
+        eventName: EPoolEvents.RewardClaimed,
+        startBlock,
+        rangeStep: ETH_HISTORY_RANGE_STEP,
+        filter: {
+          staker: this.currentAccount,
+        },
+      }),
+      this.getAethcRatio(),
+    ]);
+
+    const mapEvents = (events: EventData[]): EventData[] =>
+      events.map(event => ({
+        ...event,
+        returnValues: {
+          ...event.returnValues,
+          amount: new BigNumber(event.returnValues.amount)
+            .dividedBy(ratio)
+            .multipliedBy(10 ** 18)
+            .toFixed(),
+        },
+      }));
+
+    const [completedAETHC, completedAETHB] = await Promise.all([
+      getTxEventsHistoryGroup({
+        rawEvents: mapEvents(
+          claimEvents.filter(({ returnValues }) => returnValues.isAETH),
+        ),
+        web3,
+      }),
+      getTxEventsHistoryGroup({
+        rawEvents: mapEvents(
+          claimEvents.filter(({ returnValues }) => !returnValues.isAETH),
+        ),
+        web3,
+      }),
+    ]);
+
+    return { completedAETHC, completedAETHB, pending: [], totalPending: ZERO };
+  }
+
+  private async getPastEvents({
+    provider,
+    contract,
+    eventName,
+    startBlock,
+    rangeStep,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const eventsPromises: Promise<EventData[]>[] = [];
+
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
+
+      eventsPromises.push(
+        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+      );
+    }
+
+    const pastEvents = await Promise.all(eventsPromises);
+
+    return flatten(pastEvents);
   }
 
   public async approveAETHCForAETHB(): Promise<IWeb3SendResult> {
