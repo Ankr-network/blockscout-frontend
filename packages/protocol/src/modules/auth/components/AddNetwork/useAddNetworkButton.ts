@@ -4,8 +4,8 @@ import { getMappedNetwork } from './AddNetworkUtils';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 
 export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
-  const { handleAddNetwork, isWalletConnected, handleConnect, loading } =
-    useAuth();
+  const { handleAddNetwork, isWalletConnected, loading } = useAuth();
+
   const mappedNetwork = useMemo(() => getMappedNetwork(chain), [chain]);
 
   const handleButtonClick = (
@@ -14,15 +14,8 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
     /* stop propagation for click event to avoid parent element click */
     event.preventDefault();
     event.stopPropagation();
-    if (isWalletConnected) {
-      return handleAddNetwork(mappedNetwork);
-    }
 
-    return handleConnect().then(({ error }) => {
-      if (!error) {
-        handleAddNetwork(mappedNetwork);
-      }
-    });
+    return handleAddNetwork(mappedNetwork);
   };
 
   return {

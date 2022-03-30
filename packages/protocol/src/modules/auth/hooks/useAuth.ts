@@ -14,7 +14,7 @@ export function useAuth() {
   const dispatchRequest = useDispatchRequest();
 
   const handleConnect = useCallback(() => {
-    return dispatchRequest(connect());
+    dispatchRequest(connect());
   }, [dispatchRequest]);
 
   const handleDisconnect = useCallback(() => {

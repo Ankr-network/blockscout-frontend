@@ -2,6 +2,8 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { RequestAction } from '@redux-requests/core';
 import { MultiService } from '../../api/MultiService';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { hasMetamask } from 'modules/auth/utils/hasMetamask';
+import { injectWeb3Modal } from 'modules/api/Web3ModalKeyProvider';
 
 export interface IChainParams {
   chainId: string; // 0x + hex string
@@ -21,7 +23,18 @@ export const addNetwork = createSmartAction<
   request: {
     promise: (async () => {
       const { service } = MultiService.getInstance();
-      const { givenProvider } = service.getKeyProvider().getWeb3();
+      const keyProvider = service.getKeyProvider();
+
+      if (!hasMetamask()) {
+        throw new Error('no metamask extension found');
+      }
+
+      if (!keyProvider.isConnected()) {
+        await keyProvider.connect(await injectWeb3Modal());
+      }
+
+      const { givenProvider } = keyProvider.getWeb3();
+
       givenProvider.request({
         method: 'wallet_addEthereumChain',
         params: [chainParams],
