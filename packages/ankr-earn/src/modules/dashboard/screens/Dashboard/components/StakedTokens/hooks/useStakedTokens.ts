@@ -1,10 +1,11 @@
 import { featuresConfig } from 'modules/common/const';
 
+import { useStakedABNBBData } from './useStakedABNBBData';
+import { useStakedABNBCData } from './useStakedABNBCData';
 import { useStakedAETHBData } from './useStakedAETHBData';
 import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
 import { useStakedAVAXData } from './useStakedAVAXData';
-import { useStakedBNBData } from './useStakedBNBData';
 import { useStakedBridgeMaticData } from './useStakedBridgeMatic';
 import { useStakedMaticData } from './useStakedMaticData';
 
@@ -13,7 +14,8 @@ interface IUseStakedTokensData {
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
   isAVAXShowed: boolean;
-  isBNBShowed: boolean;
+  isABNBBShowed: boolean;
+  isABNBCShowed: boolean;
   isMATICShowed: boolean;
   isAMATICBPolygonShowed: boolean;
   isAFTMBShowed: boolean;
@@ -23,7 +25,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
   const amaticbPolygonData = useStakedBridgeMaticData();
   const stakedAVAXData = useStakedAVAXData();
-  const stakedBNBData = useStakedBNBData();
+  const stakedBNBData = useStakedABNBBData();
+  const stakedABNBCData = useStakedABNBCData();
 
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
@@ -36,19 +39,22 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAVAXShowed =
     featuresConfig.isActiveAVAXStaking && stakedAVAXData.isShowed;
 
-  const isBNBShowed = stakedBNBData.isShowed;
+  const isABNBBShowed = stakedBNBData.isShowed;
+
+  const isABNBCShowed = featuresConfig.stakeAbnbc && stakedABNBCData.isShowed;
 
   const isMATICShowed = amaticbData.isShowed;
- 
+
   const isAMATICBPolygonShowed = amaticbPolygonData.isShowed;
- 
-  const isAFTMBShowed = stakedAFTMBData.isShowed; 
+
+  const isAFTMBShowed = stakedAFTMBData.isShowed;
 
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
     isAVAXShowed ||
-    isBNBShowed ||
+    isABNBBShowed ||
+    isABNBCShowed ||
     isMATICShowed ||
     isAMATICBPolygonShowed ||
     isAFTMBShowed;
@@ -58,7 +64,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAETHBShowed,
     isAETHCShowed,
     isAVAXShowed,
-    isBNBShowed,
+    isABNBBShowed,
+    isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
     isAMATICBPolygonShowed,

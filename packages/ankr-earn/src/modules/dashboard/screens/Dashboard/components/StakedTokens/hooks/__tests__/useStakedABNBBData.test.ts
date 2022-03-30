@@ -8,7 +8,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 
-import { useStakedBNBData } from '../useStakedBNBData';
+import { useStakedABNBBData } from '../useStakedABNBBData';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -31,7 +31,7 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBData', () => {
+describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedABNBBData', () => {
   const defaultStatsData = {
     data: { aBNBbBalance: ONE_ETH, pendingValue: ZERO },
     loading: false,
@@ -54,7 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
   });
 
   test('should return amount and pending value', () => {
-    const { result } = renderHook(() => useStakedBNBData());
+    const { result } = renderHook(() => useStakedABNBBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
@@ -69,7 +69,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
       loading: true,
     });
 
-    const { result } = renderHook(() => useStakedBNBData());
+    const { result } = renderHook(() => useStakedABNBBData());
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
@@ -84,7 +84,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB/useStakedBNBD
     const mockDispatch = jest.fn();
     (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
 
-    const { result } = renderHook(() => useStakedBNBData());
+    const { result } = renderHook(() => useStakedABNBBData());
 
     act(() => {
       result.current.handleAddTokenToWallet();

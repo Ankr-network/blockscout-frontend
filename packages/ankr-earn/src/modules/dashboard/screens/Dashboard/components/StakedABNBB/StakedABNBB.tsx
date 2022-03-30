@@ -12,10 +12,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedBNBData } from '../StakedTokens/hooks/useStakedBNBData';
+import { useStakedABNBBData } from '../StakedTokens/hooks/useStakedABNBBData';
 import { useStakedBNBTxHistory } from '../StakedTokens/hooks/useStakedBNBTxHistory';
 
-export const StakedBNB = (): JSX.Element => {
+export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
   const txHistory = useStakedBNBTxHistory();
@@ -32,7 +32,7 @@ export const StakedBNB = (): JSX.Element => {
     walletName,
     address,
     handleAddTokenToWallet,
-  } = useStakedBNBData();
+  } = useStakedABNBBData();
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
 

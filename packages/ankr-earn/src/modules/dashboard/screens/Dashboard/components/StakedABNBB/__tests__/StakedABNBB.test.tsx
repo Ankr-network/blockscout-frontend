@@ -5,11 +5,11 @@ import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 
-import { StakedBNB } from '..';
+import { StakedABNBB } from '..';
 import {
-  IStakedBNBData,
-  useStakedBNBData,
-} from '../../StakedTokens/hooks/useStakedBNBData';
+  IStakedABNBBData,
+  useStakedABNBBData,
+} from '../../StakedTokens/hooks/useStakedABNBBData';
 import {
   ITxHistoryData,
   useStakedBNBTxHistory,
@@ -19,16 +19,16 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedBNBData', () => ({
-  useStakedBNBData: jest.fn(),
+jest.mock('../../StakedTokens/hooks/useStakedABNBBData', () => ({
+  useStakedABNBBData: jest.fn(),
 }));
 
 jest.mock('../../StakedTokens/hooks/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
-  const defaultStakedBNBHookData: IStakedBNBData = {
+describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
+  const defaultStakedBNBHookData: IStakedABNBBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
@@ -57,7 +57,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
   };
 
   beforeEach(() => {
-    (useStakedBNBData as jest.Mock).mockReturnValue(defaultStakedBNBHookData);
+    (useStakedABNBBData as jest.Mock).mockReturnValue(defaultStakedBNBHookData);
 
     (useStakedBNBTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
@@ -71,7 +71,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
   test('should render properly', async () => {
     render(
       <MemoryRouter>
-        <StakedBNB />
+        <StakedABNBB />
       </MemoryRouter>,
     );
 
@@ -85,7 +85,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedBNB', () => {
   test('should open history dialog properly', async () => {
     render(
       <MemoryRouter>
-        <StakedBNB />
+        <StakedABNBB />
       </MemoryRouter>,
     );
 

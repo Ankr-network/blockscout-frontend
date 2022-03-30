@@ -4,11 +4,12 @@ import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
 
+import { StakedABNBB } from '../StakedABNBB';
+import { StakedABNBC } from '../StakedABNBC';
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedAVAX } from '../StakedAVAX';
-import { StakedBNB } from '../StakedBNB';
 import { StakedBridgeMatic } from '../StakedBridgeMatic/StakedBridgeToken';
 import { StakedMatic } from '../StakedMatic';
 
@@ -23,7 +24,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAETHBShowed,
     isAETHCShowed,
     isAVAXShowed,
-    isBNBShowed,
+    isABNBBShowed,
+    isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
     isAMATICBPolygonShowed,
@@ -48,7 +50,9 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isMATICShowed && <StakedMatic />}
 
-            {isBNBShowed && <StakedBNB />}
+            {isABNBBShowed && <StakedABNBB />}
+
+            {isABNBCShowed && <StakedABNBC />}
 
             {isAFTMBShowed && <StakedAFTMB />}
 

@@ -20,7 +20,7 @@ import { unstake as unstakeBNB } from 'modules/stake-bnb/actions/unstake';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 
-export interface IStakedBNBData {
+export interface IStakedABNBBData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
@@ -38,7 +38,7 @@ export interface IStakedBNBData {
   handleAddTokenToWallet: () => void;
 }
 
-export const useStakedBNBData = (): IStakedBNBData => {
+export const useStakedABNBBData = (): IStakedABNBBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeBNBStats,

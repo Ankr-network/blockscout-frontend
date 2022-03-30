@@ -13,7 +13,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { useStakedBNBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedBNBData';
+import { useStakedABNBBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedABNBBData';
 import { t } from 'modules/i18n/utils/intl';
 import {
   IUnstakeFormValues,
@@ -35,7 +35,7 @@ export const UnstakeBinance = (): JSX.Element => {
   const classes = useUnstakeBinanceStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
-  const stakedBNBData = useStakedBNBData();
+  const stakedBNBData = useStakedABNBBData();
 
   const {
     isOpened: isSuccessOpened,
