@@ -320,6 +320,12 @@
         }
       }
     },
+    "traffic-flow": {
+      "title": "Your traffic flow",
+      "learn-more-button": {
+        "title": "Learn More"
+      }
+    },
     "private-endpoints": {
       "title": "Premium Endpoint{plural}",
       "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
@@ -328,6 +334,9 @@
     "user-endpoints": {
       "title": "My Endpoints",
       "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
+    },
+    "community-endpoints": {
+      "title": "Community Endpoints"
     },
     "editable-endpoints": {
       "edit": "Edit",
