@@ -21,6 +21,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     left: 0,
     zIndex: 100,
     backgroundColor: theme.palette.background.default,
+
+    '&.gnosis': {
+      backgroundColor: theme.palette.common.white,
+    },
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -125,6 +129,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     left: 62,
     backgroundColor: theme.palette.background.default,
     display: 'none',
+
+    '&.gnosis': {
+      backgroundColor: theme.palette.common.white,
+    },
   },
   protocol: {
     position: 'absolute',
@@ -145,6 +153,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
       boxSizing: 'border-box',
       textAlign: 'left',
       margin: '0 20px',
+    },
+
+    '&.gnosis': {
+      backgroundColor: theme.palette.common.white,
     },
   },
   desc: {

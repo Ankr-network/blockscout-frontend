@@ -48,7 +48,10 @@ export const CopyToClipIcon = ({
       className={classNames(classes.container, className, chainId)}
     >
       {isCopied ? (
-        <Typography variant="body2" className={classes.message}>
+        <Typography
+          variant="body2"
+          className={classNames(classes.message, chainId)}
+        >
           {message}
         </Typography>
       ) : (

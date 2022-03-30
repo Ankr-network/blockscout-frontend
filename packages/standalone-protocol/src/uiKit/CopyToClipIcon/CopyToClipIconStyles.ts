@@ -42,6 +42,16 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
         backgroundColor: theme.palette.background.paper,
       },
     },
+
+    '&.gnosis': {
+      '& $content': {
+        backgroundColor: theme.palette.common.white,
+
+        '&:hover': {
+          background: darken(theme.palette.background.paper, 0.2),
+        },
+      },
+    },
   },
 
   message: {
@@ -57,6 +67,10 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+
+    '&.gnosis': {
+      backgroundColor: theme.palette.common.white,
+    },
   },
 
   content: {

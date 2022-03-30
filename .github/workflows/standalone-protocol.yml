@@ -60,7 +60,7 @@ jobs:
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
-          NAMES: solana near arbitrum iotex avalanche nervos erigonbsc harmony
+          NAMES: solana near arbitrum iotex avalanche nervos erigonbsc harmony gnosis
 
         if: ${{ github.event.inputs.environment == 'STANDALONE_PROD' && github.event.inputs.api == 'PROD' }}
         run: |

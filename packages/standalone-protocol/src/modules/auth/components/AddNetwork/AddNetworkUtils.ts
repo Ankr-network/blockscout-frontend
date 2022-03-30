@@ -135,6 +135,17 @@ const ERIGON_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://bscscan.com'],
 };
 
+const GNOSIS_NETWORK_PARAMS = {
+  chainId: 100,
+  chainName: 'Gnosis Chain by Ankr Protocol',
+  nativeCurrency: {
+    name: 'xDAI Chain',
+    symbol: 'xDAI',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -176,6 +187,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
     case 'erigonbsc':
       return mapParams(chain, ERIGON_NETWORK_PARAMS);
+    case 'gnosis':
+      return mapParams(chain, GNOSIS_NETWORK_PARAMS);
     default:
       return undefined;
   }

@@ -13,4 +13,5 @@ export enum ChainId {
   Polygon = 'polygon',
   Solana = 'solana',
   Erigonbsc = 'erigonbsc',
+  Gnosis = 'gnosis',
 }

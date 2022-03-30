@@ -1,5 +1,7 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { IconButton } from '@material-ui/core';
+import classNames from 'classnames';
+
 import { t } from 'modules/i18n/utils/intl';
 import { useCrossMenuStyles } from './CrossMenuStyles';
 import { useIsMDUp } from 'ui';
@@ -16,7 +18,7 @@ import { ReactComponent as AvalancheLogo } from 'assets/img/logo/avalanche.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
-import classNames from 'classnames';
+import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ChainId } from 'domains/chains/api/chain';
 
 interface ICrossMenuProps {
@@ -88,6 +90,12 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         logo: <NearLogo />,
         url: 'https://near.public-rpc.com/',
       },
+      {
+        chainId: ChainId.Gnosis,
+        name: 'Gnosis',
+        logo: <GnosisLogo />,
+        url: 'https://gnosis.public-rpc.com/',
+      },
     ],
     [],
   );
@@ -114,7 +122,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
       <IconButton onClick={handleMenuClick} className={classes.dropMenu}>
         {open ? <CloseIcon /> : <MenuIcon />}
       </IconButton>
-      <div className={classNames(classes.root, open && classes.open)}>
+      <div className={classNames(classes.root, open && classes.open, chainId)}>
         <div className={classes.menu}>
           {MENU_LIST.map(item => (
             <a
@@ -133,12 +141,14 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
               >
                 {item.logo}
               </div>
-              <div className={classes.name}>{item.name}</div>
+              <div className={classNames(classes.name, chainId)}>
+                {item.name}
+              </div>
             </a>
           ))}
         </div>
         <a
-          className={classes.protocol}
+          className={classNames(classes.protocol, chainId)}
           href="https://www.ankr.com/protocol/public/"
           target="_blank"
           rel="noopener noreferrer"
