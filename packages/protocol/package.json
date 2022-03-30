@@ -145,6 +145,7 @@
       "/public/near/",
       "/public/bsc/",
       "/public/iotex/",
+      "/public/moonbeam/",
       "/public/nervos/",
       "/plan/endpoints/avalanche/",
       "/plan/endpoints/eth/",
@@ -157,6 +158,7 @@
       "/plan/endpoints/near/",
       "/plan/endpoints/bsc/",
       "/plan/endpoints/iotex/",
+      "/plan/endpoints/moonbeam/",
       "/plan/endpoints/nervos/",
       "/plan/endpoints/avalanche/add",
       "/plan/endpoints/eth/add",
@@ -169,6 +171,7 @@
       "/plan/endpoints/near/add",
       "/plan/endpoints/bsc/add",
       "/plan/endpoints/iotex/add",
+      "/plan/endpoints/moonbeam/add",
       "/plan/endpoints/nervos/add"
     ],
     "skipThirdPartyRequests": true,
