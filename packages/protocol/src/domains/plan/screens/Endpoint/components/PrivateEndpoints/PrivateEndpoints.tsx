@@ -34,7 +34,7 @@ export const PrivateEndpoints = ({ chain }: PrivateEndpointsProps) => {
 
   const title = (
     <TooltipWrapper tooltipText={tHTML('providers.private-endpoints.tooltip')}>
-      <Typography variant="body2" className={classes.text}>
+      <Typography variant="body2" className={classes.title}>
         {t('providers.private-endpoints.title', {
           plural: isTitlePlural ? t('providers.private-endpoints.plural') : '',
         })}

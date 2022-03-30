@@ -58,17 +58,22 @@ export const ExclusiveRPCEndpoints = ({
           mainnetURLs.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]))
             .length > 1 || testnetURLs.length > 0;
         const title = (
-          <Typography variant="body2" className={classes.text}>
+          <Typography variant="body2" className={classes.title}>
             {t('chain-item.header.private-endpoints', {
               plural: isTitlePlural ? t('chain-item.header.plural') : '',
             })}
           </Typography>
         );
 
+        const isNervos = data.id === 'nervos';
+        const [root, section] = isNervos
+          ? [classes.nervos, undefined]
+          : [classes.root, classes.section];
+
         const mainnetEndpoints = (
-          <div className={classes.root}>
+          <div className={root}>
             {mainnetURLs.map(({ rpc, ws }) => (
-              <div className={classes.section} key={rpc + ws}>
+              <div className={section} key={rpc + ws}>
                 <CopyToClipIcon
                   className={classes.copyToClip}
                   message={t('common.copy-message')}
@@ -92,9 +97,9 @@ export const ExclusiveRPCEndpoints = ({
 
         const testnetEndpoints =
           testnetURLs.length > 0 ? (
-            <div className={classes.root}>
+            <div className={root}>
               {testnetURLs.map(({ rpc, ws }) => (
-                <div className={classes.section} key={rpc + ws}>
+                <div className={section} key={rpc + ws}>
                   <CopyToClipIcon
                     className={classes.copyToClip}
                     message={t('common.copy-message')}

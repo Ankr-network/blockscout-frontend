@@ -2,28 +2,11 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  text: {
+  title: {
     fontWeight: 600,
 
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
-    },
-  },
-
-  copyToClip: {
-    minWidth: 330,
-    height: 52,
-    width: '100%',
-    borderRadius: 16,
-
-    '& h6': {
-      display: 'inline-flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-
-    [theme.breakpoints.down('lg')]: {
-      minWidth: 'auto',
     },
   },
   root: {
@@ -33,17 +16,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     marginTop: theme.spacing(3),
   },
-  link: {
-    display: 'flex',
-    alignItems: 'flex-start',
-  },
   section: {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     gap: theme.spacing(2),
 
-    flex: 1,
-
-    minWidth: 0,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(0, 1fr))',
+    },
+  },
+  copyToClip: {
+    width: '100%',
   },
   label: {
     marginTop: theme.spacing(1),
