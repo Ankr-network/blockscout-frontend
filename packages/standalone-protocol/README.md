@@ -13,6 +13,7 @@ Script will create `chains` folders with `chainName` subfolders
 
 ### Prod is available on this domains (Standalone chains list)
 
+moonbeam - https://moonbeam.public-rpc.com/
 solana - https://solana.public-rpc.com/
 near - https://near.public-rpc.com/
 arbitrum - https://arbitrum.public-rpc.com/

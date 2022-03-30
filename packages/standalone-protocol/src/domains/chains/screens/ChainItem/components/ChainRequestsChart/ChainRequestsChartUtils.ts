@@ -4,6 +4,9 @@ import { RequestsLog } from './ChainRequestsChartTypes';
 
 export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
+    case ChainId.Moonbeam:
+      return '#74C8C7';
+
     case ChainId.Near:
       return '#668BF2';
 
@@ -32,6 +35,7 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.IoTeX:
     case ChainId.Nervos:
+    case ChainId.Moonbeam:
       return theme.palette.common.white;
 
     case ChainId.Gnosis:

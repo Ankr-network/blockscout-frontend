@@ -9,6 +9,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&.near $title': {
       color: '#668BF2',
     },
+    '&.moonbeam $title': {
+      color: '#74C8C7',
+    },
   },
   title: {
     marginBottom: 20,

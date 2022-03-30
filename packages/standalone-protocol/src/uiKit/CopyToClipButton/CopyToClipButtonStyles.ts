@@ -12,6 +12,15 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     overflow: 'hidden',
     padding: 0,
     marginTop: '0!important',
+
+    '&.moonbeam': {
+      border: `1px solid ${theme.palette.common.white}`,
+      '& $content': {
+        padding: 0,
+        backgroundColor: 'transparent',
+      },
+    },
+
     '&.harmony': {
       '& $content': {
         padding: 0,

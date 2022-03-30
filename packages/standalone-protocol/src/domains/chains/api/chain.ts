@@ -12,6 +12,7 @@ export enum ChainId {
   Nervos_GW = 'nervos_gw',
   Polygon = 'polygon',
   Solana = 'solana',
+  Moonbeam = 'moonbeam',
   Erigonbsc = 'erigonbsc',
   Gnosis = 'gnosis',
 }

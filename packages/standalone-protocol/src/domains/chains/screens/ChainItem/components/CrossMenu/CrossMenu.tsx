@@ -16,6 +16,7 @@ import { ReactComponent as HarmonyLogo } from 'assets/img/logo/harmony.svg';
 import { ReactComponent as FantomLogo } from 'assets/img/logo/fantom.svg';
 import { ReactComponent as AvalancheLogo } from 'assets/img/logo/avalanche.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
+import { ReactComponent as MoonBeamLogo } from 'assets/img/logo/moonbeam.svg';
 import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
@@ -77,6 +78,12 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         name: 'IoTeX',
         logo: <IoTexLogo />,
         url: 'https://iotexrpc.com/',
+      },
+      {
+        chainId: ChainId.Moonbeam,
+        name: 'MoonBeam',
+        logo: <MoonBeamLogo />,
+        url: 'https://moonbeam.network/',
       },
       {
         chainId: ChainId.Arbitrum,

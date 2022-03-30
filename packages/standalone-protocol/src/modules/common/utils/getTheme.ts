@@ -1,5 +1,6 @@
 import { mainTheme } from '../../themes/mainTheme';
 import { polygonTheme } from '../../themes/polygonTheme';
+import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { solanaTheme } from '../../themes/solanaTheme';
 import { nearTheme } from '../../themes/nearTheme';
 import { arbitrumTheme } from '../../themes/arbitrumTheme';
@@ -13,6 +14,9 @@ import { gnosisTheme } from 'modules/themes/gnosisTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
+    case ChainId.Moonbeam:
+      return moonbeamTheme;
+
     case ChainId.Polygon:
       return polygonTheme;
 
