@@ -12,6 +12,7 @@ import bscIcon from './bsc.svg';
 import iotexIcon from './iotex.svg';
 import nervosIcon from './nervos.svg';
 import harmonyIcon from './harmony.svg';
+import syscoinIcon from './syscoin.svg';
 import moonbeamIcon from './moonbeam.svg';
 
 const chainIcons = {
@@ -29,6 +30,7 @@ const chainIcons = {
   nervos: nervosIcon,
   nervos_gw: nervosIcon,
   harmony: harmonyIcon,
+  syscoin: syscoinIcon,
   moonbeam: moonbeamIcon,
 };
 
