@@ -1,11 +1,12 @@
 import { useQuery } from '@redux-requests/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedMaticTxHistory } from '../useStakedMaticTxHistory';
 
@@ -15,6 +16,10 @@ jest.mock('@redux-requests/react', () => ({
 
 jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: jest.fn(),
+}));
+
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory', () => {
@@ -58,6 +63,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
 
     (useQuery as jest.Mock).mockReturnValue(defaultData);
+
+    (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -98,6 +105,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
         },
       ],
     });
+  });
+
+  test('should handle load history data', () => {
+    const mockDispatch = jest.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedMaticTxHistory());
+
+    act(() => {
+      result.current.handleLoadTxHistory();
+    });
+
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {

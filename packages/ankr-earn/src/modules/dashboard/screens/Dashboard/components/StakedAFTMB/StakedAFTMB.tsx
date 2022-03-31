@@ -9,18 +9,21 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { getHistory } from 'modules/stake-fantom/actions/getHistory';
-import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedAFTMBData } from '../StakedTokens/hooks/useStakedAFTMBData';
-import { useStakedFTMTxHistory } from '../StakedTokens/hooks/useStakedFTMTxHistory';
+import { useStakedAFTMBData } from '../StakedTokens/hooks/FTM/useStakedAFTMBData';
+import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 export const StakedAFTMB = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
   const { isOpened, onClose, onOpen } = useDialog();
-  const dispatch = useAppDispatch();
 
-  const history = useStakedFTMTxHistory();
+  const {
+    pendingUnstakeHistory,
+    staked,
+    unstaked,
+    isHistoryLoading,
+    handleLoadTxHistory,
+  } = useStakedFTMTxHistory();
 
   const {
     amount,
@@ -55,20 +58,16 @@ export const StakedAFTMB = (): JSX.Element | null => {
     });
   };
 
-  const handleLoadTxHistory = useCallback(() => {
-    dispatch(getHistory());
-  }, [dispatch]);
-
   const handleOpenHistoryDialog = useCallback(() => {
     onOpen();
-    dispatch(getHistory());
-  }, [dispatch, onOpen]);
+    handleLoadTxHistory();
+  }, [handleLoadTxHistory, onOpen]);
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
-      isLoading={history.isHistoryLoading}
+      isLoading={isHistoryLoading}
       token={Token.aFTMb}
-      tooltip={<PendingTable data={history.pendingUnstakeHistory} />}
+      tooltip={<PendingTable data={pendingUnstakeHistory} />}
       value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -78,7 +77,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     <>
       <StakingAsset
         amount={amount}
-        isHistoryLoading={history.isHistoryLoading}
+        isHistoryLoading={isHistoryLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
@@ -98,10 +97,10 @@ export const StakedAFTMB = (): JSX.Element | null => {
       <HistoryDialog
         history={{
           token: Token.aFTMb,
-          staked: history.staked,
-          unstaked: history.unstaked,
+          staked,
+          unstaked,
         }}
-        isHistoryLoading={history.isHistoryLoading}
+        isHistoryLoading={isHistoryLoading}
         open={isOpened}
         onClose={onClose}
       />

@@ -1,4 +1,5 @@
 import { useQuery } from '@redux-requests/react';
+import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
@@ -8,16 +9,17 @@ import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
-import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
+import { fetchTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
+import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import {
   ITxEventsHistoryData,
   ITxEventsHistoryGroupItem,
-} from '../../../types';
+} from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
-  type: EBinancePoolEventsMap;
+  type: EAvalanchePoolEventsMap;
   network?: number;
   data?: ITxEventsHistoryGroupItem[];
 }
@@ -47,29 +49,31 @@ export interface ITxHistoryData {
   transactionHistory: HistoryDialogData;
   hasHistory: boolean;
   isHistoryDataLoading: boolean;
+  handleLoadTxHistory: () => void;
 }
 
-export const useStakedBNBTxHistory = (): ITxHistoryData => {
+export const useStakedAVAXTxHistory = (): ITxHistoryData => {
   const { data, loading: isHistoryDataLoading } =
     useQuery<ITxEventsHistoryData>({
       type: fetchTxHistory,
     });
   const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
+  const dispatch = useAppDispatch();
 
   const staked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.Staked,
+    type: EAvalanchePoolEventsMap.StakePending,
     network: network as number,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
-    type: EBinancePoolEventsMap.UnstakePending,
+    type: EAvalanchePoolEventsMap.AvaxClaimPending,
     network: network as number,
   });
 
   const pendingUnstake = data?.pending.filter(
-    ({ txType }) => txType === EBinancePoolEventsMap.UnstakePending,
+    ({ txType }) => txType === EAvalanchePoolEventsMap.AvaxClaimPending,
   );
 
   const pendingUnstakeHistory = pendingUnstake
@@ -79,7 +83,7 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
 
         return {
           id: index + 1,
-          token: Token.aBNBb,
+          token: Token.aAVAXb,
           amount: transaction.txAmount,
           timerSlot: `${date}, ${time}`,
         };
@@ -88,11 +92,16 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
 
   const hasHistory = !!staked?.length || !!unstaked?.length;
 
+  const handleLoadTxHistory = useCallback(() => {
+    dispatch(fetchTxHistory());
+  }, [dispatch]);
+
   return {
     txHistory: data,
     isHistoryDataLoading,
     pendingUnstakeHistory,
     hasHistory,
-    transactionHistory: { token: Token.aBNBb, staked, unstaked },
+    transactionHistory: { token: Token.aAVAXb, staked, unstaked },
+    handleLoadTxHistory,
   };
 };

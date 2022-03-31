@@ -1,12 +1,17 @@
 import { useQuery } from '@redux-requests/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedTxHistoryETH } from '../useStakedTxHistoryETH';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
+}));
+
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedTxHistoryETH', () => {
@@ -45,6 +50,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultData);
+
+    (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -72,6 +79,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         link: 'https://testnet.ftmscan.com/tx/txHash1',
       },
     ]);
+  });
+
+  test('should handle load history data', () => {
+    const mockDispatch = jest.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedTxHistoryETH());
+
+    act(() => {
+      result.current.handleLoadTxHistory();
+    });
+
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {

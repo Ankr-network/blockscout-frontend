@@ -9,16 +9,21 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { fetchTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
-import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedAVAXData } from '../StakedTokens/hooks/useStakedAVAXData';
-import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/useStakedAVAXTxHistory';
+import { useStakedAVAXData } from '../StakedTokens/hooks/AVAX/useStakedAVAXData';
+import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
 
 export const StakedAVAX = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
 
-  const txHistory = useStakedAVAXTxHistory();
+  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    transactionHistory,
+    pendingUnstakeHistory,
+    isHistoryDataLoading,
+    handleLoadTxHistory,
+  } = useStakedAVAXTxHistory();
+
   const {
     amount,
     pendingValue,
@@ -33,8 +38,6 @@ export const StakedAVAX = (): JSX.Element => {
     address,
     handleAddTokenToWallet,
   } = useStakedAVAXData();
-  const { isOpened, onClose, onOpen } = useDialog();
-  const dispatch = useAppDispatch();
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -54,10 +57,6 @@ export const StakedAVAX = (): JSX.Element => {
     });
   };
 
-  const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
-  }, [dispatch]);
-
   const handleOpenHistoryDialog = useCallback(() => {
     onOpen();
     handleLoadTxHistory();
@@ -65,9 +64,9 @@ export const StakedAVAX = (): JSX.Element => {
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
-      isLoading={txHistory.isHistoryDataLoading}
+      isLoading={isHistoryDataLoading}
       token={Token.aAVAXb}
-      tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
+      tooltip={<PendingTable data={pendingUnstakeHistory} />}
       value={pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -77,7 +76,7 @@ export const StakedAVAX = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
-        isHistoryLoading={txHistory.isHistoryDataLoading}
+        isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
@@ -95,8 +94,8 @@ export const StakedAVAX = (): JSX.Element => {
       />
 
       <HistoryDialog
-        history={txHistory.transactionHistory}
-        isHistoryLoading={txHistory.isHistoryDataLoading}
+        history={transactionHistory}
+        isHistoryLoading={isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}
       />

@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -7,11 +7,16 @@ import { t } from 'modules/i18n/utils/intl';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { IGetHistory } from 'modules/stake-fantom/actions/getHistory';
 import { EFantomPoolEvents } from 'modules/stake-fantom/api/sdk';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedFTMTxHistory } from '../useStakedFTMTxHistory';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
+}));
+
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedFTMTxHistory.ts', () => {
@@ -53,6 +58,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultData);
+
+    (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -90,6 +97,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         link: 'https://testnet.ftmscan.com/tx/txHash3',
       },
     ]);
+  });
+
+  test('should handle load history data', () => {
+    const mockDispatch = jest.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedFTMTxHistory());
+
+    act(() => {
+      result.current.handleLoadTxHistory();
+    });
+
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {

@@ -7,14 +7,14 @@ import { Token } from 'modules/common/types/token';
 import {
   IStakedABNBCData,
   useStakedABNBCData,
-} from '../../StakedTokens/hooks/useStakedABNBCData';
+} from '../../StakedTokens/hooks/BNB/useStakedABNBCData';
 import { StakedABNBC } from '../StakedABNBC';
 import {
   IUseStakedABNBCAnalytics,
   useStakedABNBCAnalytics,
 } from '../useStakedABNBCAnalytics';
 
-jest.mock('../../StakedTokens/hooks/useStakedABNBCData', () => ({
+jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBCData', () => ({
   useStakedABNBCData: jest.fn(),
 }));
 

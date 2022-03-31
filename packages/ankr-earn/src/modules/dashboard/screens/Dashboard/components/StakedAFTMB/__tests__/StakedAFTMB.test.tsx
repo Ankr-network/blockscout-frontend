@@ -7,21 +7,21 @@ import { StakedAFTMB } from '..';
 import {
   IStakedAFTMBData,
   useStakedAFTMBData,
-} from '../../StakedTokens/hooks/useStakedAFTMBData';
+} from '../../StakedTokens/hooks/FTM/useStakedAFTMBData';
 import {
   IUseStakedFTMTxHistory,
   useStakedFTMTxHistory,
-} from '../../StakedTokens/hooks/useStakedFTMTxHistory';
+} from '../../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedAFTMBData', () => ({
+jest.mock('../../StakedTokens/hooks/FTM/useStakedAFTMBData', () => ({
   useStakedAFTMBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedFTMTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/FTM/useStakedFTMTxHistory', () => ({
   useStakedFTMTxHistory: jest.fn(),
 }));
 
@@ -46,6 +46,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     hasHistory: false,
     isHistoryLoading: false,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {

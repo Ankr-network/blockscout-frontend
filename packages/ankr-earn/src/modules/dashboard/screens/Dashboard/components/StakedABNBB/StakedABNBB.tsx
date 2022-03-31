@@ -9,16 +9,15 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
-import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedABNBBData } from '../StakedTokens/hooks/useStakedABNBBData';
-import { useStakedBNBTxHistory } from '../StakedTokens/hooks/useStakedBNBTxHistory';
+import { useStakedABNBBData } from '../StakedTokens/hooks/BNB/useStakedABNBBData';
+import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
 
 export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
-  const txHistory = useStakedBNBTxHistory();
+  const { isOpened, onClose, onOpen } = useDialog();
+
   const {
     amount,
     pendingValue,
@@ -33,8 +32,13 @@ export const StakedABNBB = (): JSX.Element => {
     address,
     handleAddTokenToWallet,
   } = useStakedABNBBData();
-  const { isOpened, onClose, onOpen } = useDialog();
-  const dispatch = useAppDispatch();
+
+  const {
+    isHistoryDataLoading,
+    pendingUnstakeHistory,
+    transactionHistory,
+    handleLoadTxHistory,
+  } = useStakedBNBTxHistory();
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -54,10 +58,6 @@ export const StakedABNBB = (): JSX.Element => {
     });
   };
 
-  const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
-  }, [dispatch]);
-
   const handleOpenHistoryDialog = useCallback(() => {
     onOpen();
     handleLoadTxHistory();
@@ -65,9 +65,9 @@ export const StakedABNBB = (): JSX.Element => {
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
-      isLoading={txHistory.isHistoryDataLoading}
+      isLoading={isHistoryDataLoading}
       token={Token.aBNBb}
-      tooltip={<PendingTable data={txHistory.pendingUnstakeHistory} />}
+      tooltip={<PendingTable data={pendingUnstakeHistory} />}
       value={pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -77,7 +77,7 @@ export const StakedABNBB = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
-        isHistoryLoading={txHistory.isHistoryDataLoading}
+        isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
@@ -95,8 +95,8 @@ export const StakedABNBB = (): JSX.Element => {
       />
 
       <HistoryDialog
-        history={txHistory.transactionHistory}
-        isHistoryLoading={txHistory.isHistoryDataLoading}
+        history={transactionHistory}
+        isHistoryLoading={isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}
       />

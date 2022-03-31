@@ -1,4 +1,5 @@
 import { useQuery } from '@redux-requests/react';
+import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
@@ -10,11 +11,12 @@ import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import {
   ITxEventsHistoryData,
   ITxEventsHistoryGroupItem,
-} from '../../../types';
+} from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
   type: EPolygonPoolEventsMap;
@@ -47,6 +49,7 @@ export interface ITxHistoryData {
   transactionHistory: HistoryDialogData;
   hasHistory: boolean;
   isHistoryDataLoading: boolean;
+  handleLoadTxHistory: () => void;
 }
 
 export const useStakedMaticTxHistory = (): ITxHistoryData => {
@@ -55,6 +58,7 @@ export const useStakedMaticTxHistory = (): ITxHistoryData => {
       type: fetchTxHistory,
     });
   const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
+  const dispatch = useAppDispatch();
 
   const staked = getCompletedTransactions({
     data: data?.completed,
@@ -88,11 +92,16 @@ export const useStakedMaticTxHistory = (): ITxHistoryData => {
 
   const hasHistory = !!staked?.length || !!unstaked?.length;
 
+  const handleLoadTxHistory = useCallback(() => {
+    dispatch(fetchTxHistory());
+  }, [dispatch]);
+
   return {
     txHistory: data,
     isHistoryDataLoading,
     pendingUnstakeHistory,
     hasHistory,
     transactionHistory: { token: Token.aMATICb, staked, unstaked },
+    handleLoadTxHistory,
   };
 };

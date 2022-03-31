@@ -1,6 +1,6 @@
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 
-import { useStakedABNBCData } from '../StakedTokens/hooks/useStakedABNBCData';
+import { useStakedABNBCData } from '../StakedTokens/hooks/BNB/useStakedABNBCData';
 
 import { useStakedABNBCAnalytics } from './useStakedABNBCAnalytics';
 

@@ -10,16 +10,13 @@ import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
-import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
-import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedAETHCData } from '../StakedTokens/hooks/useStakedAETHCData';
-import { useStakedTxHistoryETH } from '../StakedTokens/hooks/useStakedTxHistoryETH';
+import { useStakedAETHCData } from '../StakedTokens/hooks/ETH/useStakedAETHCData';
+import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
 
 export const StakedAETHC = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const dispatch = useAppDispatch();
   const { isOpened, onOpen, onClose } = useDialog();
   const {
     amount,
@@ -33,17 +30,18 @@ export const StakedAETHC = (): JSX.Element => {
     handleAddTokenToWallet,
   } = useStakedAETHCData();
 
-  const { stakedAETHC, pendingUnstakeHistory, pendingValue, isHistoryLoading } =
-    useStakedTxHistoryETH();
-
-  const handleLoadTxHistory = useCallback(() => {
-    dispatch(getTxHistoryETH());
-  }, [dispatch]);
+  const {
+    stakedAETHC,
+    pendingUnstakeHistory,
+    pendingValue,
+    isHistoryLoading,
+    handleLoadTxHistory,
+  } = useStakedTxHistoryETH();
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpen();
-    dispatch(getTxHistoryETH());
-  }, [dispatch, onOpen]);
+    handleLoadTxHistory();
+  }, [handleLoadTxHistory, onOpen]);
 
   const onTradeClick = () => {
     trackClickTrade({

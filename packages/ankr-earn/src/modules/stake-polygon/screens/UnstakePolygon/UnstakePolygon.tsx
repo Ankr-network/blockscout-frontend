@@ -19,7 +19,7 @@ import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { useStakedMaticData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedMaticData';
+import { useStakedMaticData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/MATIC/useStakedMaticData';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import {

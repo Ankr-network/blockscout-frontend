@@ -13,7 +13,7 @@ import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { useStakedAVAXData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAVAXData';
+import { useStakedAVAXData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/AVAX/useStakedAVAXData';
 import { t } from 'modules/i18n/utils/intl';
 import {
   IUnstakeFormValues,

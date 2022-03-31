@@ -9,21 +9,17 @@ import { StakedABNBB } from '..';
 import {
   IStakedABNBBData,
   useStakedABNBBData,
-} from '../../StakedTokens/hooks/useStakedABNBBData';
+} from '../../StakedTokens/hooks/BNB/useStakedABNBBData';
 import {
   ITxHistoryData,
   useStakedBNBTxHistory,
-} from '../../StakedTokens/hooks/useStakedBNBTxHistory';
+} from '../../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
 
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: () => jest.fn(),
-}));
-
-jest.mock('../../StakedTokens/hooks/useStakedABNBBData', () => ({
+jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBBData', () => ({
   useStakedABNBBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedBNBTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
@@ -54,6 +50,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     },
     hasHistory: false,
     isHistoryDataLoading: false,
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {

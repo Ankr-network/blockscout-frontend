@@ -7,12 +7,8 @@ import { StakedAETHC } from '..';
 import {
   IStakedAETHCData,
   useStakedAETHCData,
-} from '../../StakedTokens/hooks/useStakedAETHCData';
-import { useStakedTxHistoryETH } from '../../StakedTokens/hooks/useStakedTxHistoryETH';
-
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: () => jest.fn(),
-}));
+} from '../../StakedTokens/hooks/ETH/useStakedAETHCData';
+import { useStakedTxHistoryETH } from '../../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
 
 jest.mock('modules/common/const', () => ({
   ...jest.requireActual('modules/common/const'),
@@ -21,11 +17,11 @@ jest.mock('modules/common/const', () => ({
   },
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedAETHCData', () => ({
+jest.mock('../../StakedTokens/hooks/ETH/useStakedAETHCData', () => ({
   useStakedAETHCData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedTxHistoryETH', () => ({
+jest.mock('../../StakedTokens/hooks/ETH/useStakedTxHistoryETH', () => ({
   useStakedTxHistoryETH: jest.fn(),
 }));
 
@@ -48,6 +44,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     hasHistory: false,
     isHistoryLoading: false,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {

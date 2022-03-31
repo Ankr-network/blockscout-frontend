@@ -1,14 +1,14 @@
 import { featuresConfig } from 'modules/common/const';
 
-import { useStakedABNBBData } from './useStakedABNBBData';
-import { useStakedABNBCData } from './useStakedABNBCData';
-import { useStakedAETHBData } from './useStakedAETHBData';
-import { useStakedAETHCData } from './useStakedAETHCData';
-import { useStakedAFTMBData } from './useStakedAFTMBData';
-import { useStakedAVAXData } from './useStakedAVAXData';
+import { useStakedAVAXData } from './AVAX/useStakedAVAXData';
+import { useStakedABNBBData } from './BNB/useStakedABNBBData';
+import { useStakedABNBCData } from './BNB/useStakedABNBCData';
+import { useStakedAETHBData } from './ETH/useStakedAETHBData';
+import { useStakedAETHCData } from './ETH/useStakedAETHCData';
+import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
+import { useStakedMaticData } from './MATIC/useStakedMaticData';
 import { useStakedBridgeAETHBData } from './useStakedBridgeAETHBData';
 import { useStakedBridgeMaticData } from './useStakedBridgeMatic';
-import { useStakedMaticData } from './useStakedMaticData';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;

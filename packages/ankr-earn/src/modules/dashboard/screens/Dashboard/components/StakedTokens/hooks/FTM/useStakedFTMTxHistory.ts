@@ -1,5 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
 
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
@@ -9,6 +10,7 @@ import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
 import { getHistory } from 'modules/stake-fantom/actions/getHistory';
 import { ITxEventsHistoryGroupItem } from 'modules/stake/api/getTxEventsHistoryGroup';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
   staked: IHistoryDialogRow[];
@@ -17,6 +19,7 @@ export interface IUseStakedFTMTxHistory {
   hasHistory: boolean;
   isHistoryLoading: boolean;
   pendingValue: BigNumber;
+  handleLoadTxHistory: () => void;
 }
 
 const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
@@ -32,6 +35,7 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
   const { data: historyData, loading: isHistoryLoading } = useQuery({
     type: getHistory,
   });
+  const dispatch = useAppDispatch();
 
   const mapPending = (data: ITxEventsHistoryGroupItem): IPendingTableRow => {
     const date = t('format.date', { value: data.txDate });
@@ -58,6 +62,10 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
     !pendingValue.isZero() ||
     isHistoryLoading;
 
+  const handleLoadTxHistory = useCallback(() => {
+    dispatch(getHistory());
+  }, [dispatch]);
+
   return {
     hasHistory,
     staked,
@@ -65,5 +73,6 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
     isHistoryLoading,
     pendingUnstakeHistory,
     pendingValue,
+    handleLoadTxHistory,
   };
 };
