@@ -35,7 +35,7 @@ export const addNetwork = createSmartAction<
 
       const { givenProvider } = keyProvider.getWeb3();
 
-      givenProvider.request({
+      await givenProvider.request({
         method: 'wallet_addEthereumChain',
         params: [chainParams],
       });
