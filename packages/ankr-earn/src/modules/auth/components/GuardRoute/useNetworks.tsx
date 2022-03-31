@@ -1,7 +1,9 @@
 import { BlockchainNetworkId } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
 import { ReactComponent as AvaxIcon } from '../../assets/avaxIcon.svg';
@@ -17,6 +19,7 @@ export interface INetwork {
 export const useNetworks = (): INetwork[] =>
   useLocaleMemo(
     () => [
+      // EVM Compatible
       {
         title: t('connect.networks.ethereum-mainnet'),
         icon: <EthereumMainnetIcon />,
@@ -66,6 +69,28 @@ export const useNetworks = (): INetwork[] =>
         title: t('connect.networks.mumbai'),
         icon: <PolygonIcon size="xmd" />,
         chainId: BlockchainNetworkId.mumbai,
+      },
+
+      // Polkadot Compatible
+      {
+        title: t('connect.networks.polkadot'),
+        icon: <DotIcon />,
+        chainId: BlockchainNetworkId.polkadot,
+      },
+      {
+        title: t('connect.networks.kusama'),
+        icon: <KsmIcon />,
+        chainId: BlockchainNetworkId.kusama,
+      },
+      {
+        title: t('connect.networks.westend'),
+        icon: <DotIcon />,
+        chainId: BlockchainNetworkId.westend,
+      },
+      {
+        title: t('connect.networks.rococo'),
+        icon: <DotIcon />,
+        chainId: BlockchainNetworkId.rococo,
       },
     ],
     [],

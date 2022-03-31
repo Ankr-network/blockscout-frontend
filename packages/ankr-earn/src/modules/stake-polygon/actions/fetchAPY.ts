@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { AvailableReadProviders, AvailableWriteProviders } from 'provider';
+import { AvailableReadProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ACTION_CACHE_SEC, isMainnet } from 'modules/common/const';
@@ -13,8 +13,6 @@ const readProviderId = isMainnet
   ? AvailableReadProviders.ethMainnet
   : AvailableReadProviders.ethGoerli;
 
-const writeProviderId = AvailableWriteProviders.ethCompatible;
-
 export const fetchAPY = createSmartAction<
   RequestAction<BigNumber, BigNumber>,
   [boolean?]
@@ -24,10 +22,11 @@ export const fetchAPY = createSmartAction<
       const providerManager = ProviderManagerSingleton.getInstance();
 
       let provider;
+      
       if (isWriteProvider) {
-        provider = await providerManager.getProvider(writeProviderId);
+        provider = await providerManager.getETHWriteProvider();
       } else {
-        provider = await providerManager.getReadProvider(readProviderId);
+        provider = await providerManager.getETHReadProvider(readProviderId);
       }
 
       const web3 = provider.getWeb3();

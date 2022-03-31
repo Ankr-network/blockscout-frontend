@@ -10,6 +10,7 @@ import {
 
 import { useIsMDUp } from 'ui';
 
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { BridgeBlockchainPanel } from 'modules/bridge/components/BridgeBlockchainPanel';
 import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
@@ -53,12 +54,14 @@ export const BridgeMainView = (): JSX.Element => {
     tokenValue,
     isSendAnother,
     isApproved,
+    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
+    walletsGroupTypes,
     onChangeNetwork,
     onChangeToken,
     validateAmount,
@@ -66,8 +69,9 @@ export const BridgeMainView = (): JSX.Element => {
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
+    onCloseModal,
+    onOpenModal,
     onSwapClick,
-    dispatchConnect,
   } = useBridgeMainView();
 
   const setMaxAmount = useCallback(
@@ -269,7 +273,7 @@ export const BridgeMainView = (): JSX.Element => {
             className={classes.submitBtn}
             color="primary"
             size="large"
-            onClick={dispatchConnect}
+            onClick={onOpenModal}
           >
             {t('bridge.main.connectBtn')}
           </Button>
@@ -290,5 +294,15 @@ export const BridgeMainView = (): JSX.Element => {
     );
   };
 
-  return <Form render={renderForm} onSubmit={onSubmit} />;
+  return (
+    <>
+      <Form render={renderForm} onSubmit={onSubmit} />
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
+      />
+    </>
+  );
 };

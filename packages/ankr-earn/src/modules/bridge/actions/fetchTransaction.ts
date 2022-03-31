@@ -70,9 +70,7 @@ export const fetchTransaction = createSmartAction<
   request: {
     promise: async () => {
       const providerManager = ProviderManagerSingleton.getInstance();
-      const provider = await providerManager.getProvider(
-        AvailableWriteProviders.ethCompatible,
-      );
+      const provider = await providerManager.getETHWriteProvider();
 
       const web3 = provider.getWeb3();
 

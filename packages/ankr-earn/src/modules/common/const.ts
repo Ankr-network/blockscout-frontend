@@ -50,10 +50,11 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveMyRewardsClaimModalNewParts: false,
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
+  isActivePolkadotWallet: currentEnv !== Env.Production,
+  isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
@@ -67,6 +68,7 @@ export const featuresConfig = {
 };
 
 export enum SupportedChainIDS {
+  // EVM Compatible
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
   AVAX = BlockchainNetworkId.avalanche,
@@ -76,6 +78,12 @@ export enum SupportedChainIDS {
   FANTOM_OPERA = BlockchainNetworkId.fantom,
   FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
   POLYGON = BlockchainNetworkId.polygon,
+
+  // Polkadot Compatible
+  KUSAMA = BlockchainNetworkId.kusama,
+  POLKADOT = BlockchainNetworkId.polkadot,
+  ROCOCO = BlockchainNetworkId.rococo,
+  WESTEND = BlockchainNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {

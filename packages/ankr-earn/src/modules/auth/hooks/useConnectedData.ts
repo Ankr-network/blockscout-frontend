@@ -7,6 +7,7 @@ import { BlockchainNetworkId } from 'modules/common/types';
 import { connect, IConnect } from '../actions/connect';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 import { getIsMetaMask } from '../utils/getIsMetaMask';
+import { getIsPolkadot } from '../utils/getIsPolkadot';
 
 export interface IUseConnectedData {
   isConnected: boolean;
@@ -17,6 +18,7 @@ export interface IUseConnectedData {
   walletIcon?: string;
   error: unknown;
   isMetaMask: boolean;
+  isPolkadot: boolean;
 }
 
 export const useConnectedData = (
@@ -38,5 +40,6 @@ export const useConnectedData = (
     walletName,
     walletIcon: data?.walletIcon,
     isMetaMask: walletName ? getIsMetaMask(walletName) : false,
+    isPolkadot: walletName ? getIsPolkadot(walletName) : false,
   };
 };

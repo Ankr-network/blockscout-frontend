@@ -27,7 +27,7 @@ export interface ITokenInfo {
 
 const WATCH_ASSET_TIMEOUT = 500;
 
-export abstract class Web3KeyProvider extends Web3KeyReadProvider {
+export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
   private walletMeta: IWalletMeta | undefined;
 
   protected accounts: string[] = [];

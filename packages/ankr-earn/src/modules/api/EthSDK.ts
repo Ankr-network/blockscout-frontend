@@ -4,13 +4,13 @@ import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  IWeb3SendResult,
-  AvailableWriteProviders,
-  ProviderManager,
-  Web3KeyProvider,
-  Web3KeyReadProvider,
   AvailableReadProviders,
+  AvailableWriteProviders,
   BlockchainNetworkId,
+  IWeb3SendResult,
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -62,7 +62,7 @@ export interface ISharesArgs {
 
 export interface IEthSDKProviders {
   readProvider: Web3KeyReadProvider;
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
 }
 
 export interface ITxEventsHistoryGroupItem {
@@ -80,7 +80,7 @@ export interface ITxEventsHistoryData {
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -113,7 +113,7 @@ const TOKENS = {
 export class EthSDK {
   private static instance?: EthSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -132,8 +132,8 @@ export class EthSDK {
   public static async getInstance(): Promise<EthSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(AvailableWriteProviders.ethCompatible),
-      providerManager.getReadProvider(
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(
         isMainnet
           ? AvailableReadProviders.ethMainnet
           : AvailableReadProviders.ethGoerli,
@@ -174,7 +174,9 @@ export class EthSDK {
     return new BigNumber(web3.utils.fromWei(balance));
   }
 
-  private async getProvider(): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  private async getProvider(): Promise<
+    Web3KeyWriteProvider | Web3KeyReadProvider
+  > {
     const isEthChain = this.getIsEthChain();
 
     if (isEthChain) {
@@ -200,7 +202,7 @@ export class EthSDK {
   }
 
   private static getAethbContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { contractConfig } = CONFIG;
 
@@ -222,7 +224,7 @@ export class EthSDK {
   }
 
   private static getAethcContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { contractConfig } = CONFIG;
 
@@ -336,7 +338,7 @@ export class EthSDK {
   }
 
   private static getEthPoolContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { contractConfig } = CONFIG;
 

@@ -78,8 +78,8 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
   beforeEach(() => {
     const mockProviderManager = {
-      getProvider: () => defaultProvider,
-      getReadProvider: () => defaultProvider,
+      getETHWriteProvider: () => defaultProvider,
+      getETHReadProvider: () => defaultProvider,
     };
 
     defaultContract.methods.lockShares.mockReturnValue({

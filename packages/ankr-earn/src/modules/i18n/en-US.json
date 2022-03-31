@@ -140,7 +140,11 @@
       "fantom": "Fantom Opera",
       "fantom-testnet": "Fantom Testnet",
       "polygon": "Polygon",
-      "mumbai": "Mumbai"
+      "mumbai": "Mumbai",
+      "kusama": "Kusama",
+      "polkadot": "Polkadot",
+      "rococo": "Rococo",
+      "westend": "Westend"
     }
   },
   "polkadot-slot-auction": {
@@ -571,11 +575,14 @@
     "learn-more": "Learn more"
   },
   "wallets": {
+    "add-btn-tooltip": "Connect another wallet",
     "connect-btn": "Connect wallet",
+    "connected-wallets": "Connected wallets",
     "copy": "Copy",
     "disconnect": "Disconnect",
     "disconnect-all": "Disconnect all",
-    "connected-wallets": "Connected wallets"
+    "modal-title": "Connect wallet to continue",
+    "wallet-install": "Install"
   },
   "history-dialog": {
     "header": "Transactions History",

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult, Web3KeyProvider } from 'provider';
+import { IWeb3SendResult, Web3KeyWriteProvider } from 'provider';
 import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
@@ -13,14 +13,14 @@ const isZeroAddress = (address: string): boolean =>
   address === '0x0000000000000000000000000000000000000000';
 
 export class SlotAuctionSdk {
-  private keyProvider: Web3KeyProvider;
+  private keyProvider: Web3KeyWriteProvider;
 
   private polkadotProvider: PolkadotProvider;
 
   private readonly apiGateway: ApiGateway;
 
   public constructor(
-    keyProvider: Web3KeyProvider,
+    keyProvider: Web3KeyWriteProvider,
     private readonly config: ISlotAuctionConfig = DEVELOP_CONFIG,
   ) {
     this.keyProvider = keyProvider;
@@ -34,7 +34,7 @@ export class SlotAuctionSdk {
     });
   }
 
-  public getKeyProvider(): Web3KeyProvider {
+  public getKeyProvider(): Web3KeyWriteProvider {
     return this.keyProvider;
   }
 
@@ -47,14 +47,10 @@ export class SlotAuctionSdk {
   }
 
   public isConnected(): boolean {
-    return this.polkadotProvider.isConnected();
+    return this.polkadotProvider.isAPIConnected();
   }
 
   public async connect(): Promise<void> {
-    /* console.log(`Checking Web3 is connected`);
-    if (!this.keyProvider.isConnected()) {
-      await this.keyProvider.connectFromInjected(config);
-    } */
     console.log(`Checking PolkadotJS is connected`);
     await this.polkadotProvider.connect();
   }
@@ -127,7 +123,7 @@ export class SlotAuctionSdk {
     loanId: number,
     amount: BigNumber,
   ): Promise<void> {
-    if (!this.polkadotProvider.isConnected())
+    if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
     await this.checkCrowdloanStatus(
       await this.getCrowdloanById(loanId),
@@ -173,7 +169,7 @@ export class SlotAuctionSdk {
     polkadotAccount: string,
     loanId: number,
   ): Promise<{ claimable: BigNumber; total: BigNumber }> {
-    if (!this.polkadotProvider.isConnected())
+    if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
     const crowdloan = await this.getCrowdloanById(loanId);
     await this.checkCrowdloanStatus(crowdloan, 'SUCCEEDED');
@@ -382,7 +378,7 @@ export class SlotAuctionSdk {
     ethereumAddress: string,
     expirationTimestamp: number,
   ): Promise<string> {
-    if (!this.polkadotProvider.isConnected())
+    if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
     const signMessage = Buffer.from(
       `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
@@ -405,7 +401,7 @@ export class SlotAuctionSdk {
     ethereumAddress: string,
     expirationTimestamp: number,
   ): Promise<string> {
-    if (!this.polkadotProvider.isConnected())
+    if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
     const signature = await this.createRawTokenSignature(
       polkadotAccount,
@@ -623,7 +619,7 @@ export class SlotAuctionSdk {
     return { transactionReceipt, transactionHash: sendResult.transactionHash };
   }
 
-  private async injectedWeb3KeyProvider(): Promise<Web3KeyProvider> {
+  private async injectedWeb3KeyProvider(): Promise<Web3KeyWriteProvider> {
     if (this.keyProvider.isConnected()) {
       return this.keyProvider;
     }
@@ -643,7 +639,8 @@ export class SlotAuctionSdk {
     loanId: number,
     isBondToken = true,
   ): Promise<void> {
-    const keyProvider: Web3KeyProvider = await this.injectedWeb3KeyProvider();
+    const keyProvider: Web3KeyWriteProvider =
+      await this.injectedWeb3KeyProvider();
     const crowdloan: ICrowdloanType = await this.getCrowdloanById(loanId);
 
     let tokenAddr: string | null;

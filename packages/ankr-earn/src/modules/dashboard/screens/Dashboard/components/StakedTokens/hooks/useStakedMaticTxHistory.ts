@@ -59,13 +59,13 @@ export const useStakedMaticTxHistory = (): ITxHistoryData => {
   const staked = getCompletedTransactions({
     data: data?.completed,
     type: EPolygonPoolEventsMap.StakePending,
-    network,
+    network: network as number,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
     type: EPolygonPoolEventsMap.MaticClaimPending,
-    network,
+    network: network as number,
   });
 
   const pendingUnstake = data?.pending.filter(

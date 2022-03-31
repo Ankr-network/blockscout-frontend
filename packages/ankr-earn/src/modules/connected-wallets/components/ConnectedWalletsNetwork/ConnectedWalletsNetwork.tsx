@@ -1,12 +1,13 @@
-import { Collapse, Typography } from '@material-ui/core';
+import { ButtonBase, Collapse, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { IAddresses } from 'modules/connected-wallets/types';
+import { TAddresses } from 'modules/connected-wallets/types';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 
 import { ReactComponent as AngleDownIcon } from '../../../../assets/img/angle-down-icon.svg';
 import { ReactComponent as CopySVG } from '../../assets/copy.svg';
@@ -17,41 +18,72 @@ import { useConnectedWalletsNetworkStyles as useStyles } from './useConnectedWal
 
 interface IConnectedWalletsNetworkProps {
   network: string;
-  addresses: IAddresses;
-  disconnect?: () => void;
+  addresses: TAddresses;
   className?: string;
+  onAddressUpdate?: (address: string) => void;
+  onDisconnect?: () => void;
 }
 
 export const ConnectedWalletsNetwork = ({
   network,
   addresses,
-  disconnect,
   className,
-}: IConnectedWalletsNetworkProps): JSX.Element => {
+  onAddressUpdate,
+  onDisconnect,
+}: IConnectedWalletsNetworkProps): JSX.Element | null => {
   const classes = useStyles();
   const [addressesOpen, setAddressesOpen] = useState(false);
 
-  const handleHeaderClick = () => {
+  const isManyAddresses = addresses.length > 1;
+
+  const activeAddressData = useMemo(
+    () => addresses.find(address => address.isActive),
+    [addresses],
+  );
+
+  if (typeof activeAddressData === 'undefined') {
+    return null;
+  }
+
+  const handleHeaderClick = (): void => {
     if (addresses.length <= 1) return;
 
     setAddressesOpen(!addressesOpen);
   };
 
+  const onSelectItemClick = (address: string) => (): void => {
+    if (address === activeAddressData.address) {
+      setAddressesOpen(false);
+
+      return;
+    }
+
+    if (typeof onAddressUpdate === 'function') {
+      onAddressUpdate(address);
+    }
+
+    setAddressesOpen(false);
+  };
+
   const addressesHeader = (
     <Button
-      className={classNames(classes.instance, classes.instanceOpener)}
+      className={classNames(
+        classes.instance,
+        classes.instanceOpener,
+        isManyAddresses && classes.instanceOpenerOn,
+      )}
       variant="text"
       onClick={handleHeaderClick}
     >
       <div className={classes.instanceLeftSide}>
-        <WalletIcon icon={addresses[0].tokenIconSrc} />
+        <WalletIcon icon={activeAddressData.tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getShortTxHash(addresses[0].address)}
+          {getShortTxHash(activeAddressData.address)}
         </span>
       </div>
 
-      {addresses.length > 1 && (
+      {isManyAddresses && (
         <AngleDownIcon
           className={
             addressesOpen
@@ -64,42 +96,48 @@ export const ConnectedWalletsNetwork = ({
   );
 
   const addressesList =
-    addresses.length > 1 &&
-    addresses.map(address => (
-      <div key={address.address} className={classes.instance}>
-        <div className={classes.instanceLeftSide}>
-          <WalletIcon icon={address.tokenIconSrc} />
+    isManyAddresses &&
+    addresses.map(
+      (address): JSX.Element => (
+        <ButtonBase
+          key={address.address}
+          className={classNames(classes.instance, classes.instanceInner)}
+          component="div"
+          onClick={onSelectItemClick(address.address)}
+        >
+          <div className={classes.instanceLeftSide}>
+            <WalletIcon icon={address.tokenIconSrc} />
 
-          <span className={classes.instanceText}>
-            {getShortTxHash(address.address)}
-          </span>
-        </div>
-      </div>
-    ));
+            <span className={classes.instanceText}>
+              {getShortTxHash(address.address)}
+            </span>
+          </div>
 
-  const headerButtons = [];
-
-  if (addresses.length === 1)
-    headerButtons.push(
-      <CopyToClipboard
-        key={`${addresses[0].address}-copy`}
-        text={addresses[0].address}
-      >
-        <Button className={classes.button} variant="text">
-          <CopySVG />
-
-          <span className={classes.buttonText}>{t('wallets.copy')}</span>
-        </Button>
-      </CopyToClipboard>,
+          {address.isActive && <CompleteIcon size={14} />}
+        </ButtonBase>
+      ),
     );
 
-  if (disconnect)
+  const headerButtons = [
+    <CopyToClipboard
+      key={`${activeAddressData.address}-copy`}
+      text={activeAddressData.address}
+    >
+      <Button className={classes.button} variant="text">
+        <CopySVG />
+
+        <span className={classes.buttonText}>{t('wallets.copy')}</span>
+      </Button>
+    </CopyToClipboard>,
+  ];
+
+  if (onDisconnect)
     headerButtons.push(
       <Button
-        key={`${addresses[0].address}-disconnect`}
+        key={`${activeAddressData.address}-disconnect`}
         className={classes.button}
         variant="text"
-        onClick={disconnect}
+        onClick={onDisconnect}
       >
         <DisconnectSVG />
 

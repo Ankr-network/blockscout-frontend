@@ -8,8 +8,8 @@ import { AbiItem } from 'web3-utils';
 import {
   BlockchainNetworkId,
   TWeb3BatchCallback,
-  Web3KeyProvider,
   Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -23,7 +23,6 @@ import { getAPY } from 'modules/stake/api/getAPY';
 import {
   BLOCK_OFFSET,
   MAX_BLOCK_RANGE,
-  POLYGON_PROVIDER_ID,
   POLYGON_PROVIDER_READ_ID,
 } from '../const';
 
@@ -60,11 +59,11 @@ export interface ITxEventsHistoryData {
 
 interface IPolygonSDKProviders {
   readProvider: Web3KeyReadProvider;
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -77,7 +76,7 @@ const ALLOWANCE_RATE = 5;
 export class PolygonSDK {
   private static instance?: PolygonSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -98,8 +97,8 @@ export class PolygonSDK {
   public static async getInstance(): Promise<PolygonSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(POLYGON_PROVIDER_ID),
-      providerManager.getReadProvider(POLYGON_PROVIDER_READ_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -124,7 +123,7 @@ export class PolygonSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
@@ -142,7 +141,7 @@ export class PolygonSDK {
     return this.readProvider;
   }
 
-  private async isEthNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isEthNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -507,8 +506,8 @@ export class PolygonSDK {
       symbol: Token.aMATICb,
       decimals: 18,
       chainId: isMainnet
-        ? BlockchainNetworkId.mainnet
-        : BlockchainNetworkId.goerli,
+        ? (BlockchainNetworkId.mainnet as number)
+        : (BlockchainNetworkId.goerli as number),
     });
   }
 }

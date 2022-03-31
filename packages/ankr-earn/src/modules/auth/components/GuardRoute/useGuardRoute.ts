@@ -3,13 +3,17 @@ import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { IConnect } from 'modules/auth/actions/connect';
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 
-import { useNetworks, INetwork } from './useNetworks';
+import { connect, IConnect } from '../../actions/connect';
+import { switchNetwork } from '../../actions/switchNetwork';
+import { useWalletsGroupTypes } from '../../hooks/useWalletsGroupTypes';
+import { getIsMetaMask } from '../../utils/getIsMetaMask';
+import { getIsPolkadot } from '../../utils/getIsPolkadot';
+
+import { INetwork, useNetworks } from './useNetworks';
 
 interface IUseGuardRouteArgs {
   availableNetworks: BlockchainNetworkId[];
@@ -18,46 +22,89 @@ interface IUseGuardRouteArgs {
 
 interface IUseGuardRouteData {
   isConnected: boolean;
+  isOpenedModal: boolean;
   isUnsupportedNetwork: boolean;
   supportedNetworks: INetwork[];
   chainId?: BlockchainNetworkId;
-  isMetaMask: boolean;
+  isValidWallet: boolean;
   dispatchConnect: () => TActionPromise<IConnect>;
-  handleSwitchNetwork: (network: number) => () => void;
+  handleSwitchNetwork: (network: BlockchainNetworkId) => () => void;
+  walletsGroupTypes?: AvailableWriteProviders[];
+  onCloseModal: () => void;
+  onOpenModal: () => void;
 }
 
 export const useGuardRoute = ({
   availableNetworks,
   providerId,
 }: IUseGuardRouteArgs): IUseGuardRouteData => {
-  const { isConnected, dispatchConnect, chainId, isMetaMask } =
-    useAuth(providerId);
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
   const networks = useNetworks();
   const dispatchRequest = useDispatchRequest();
 
-  const isUnsupportedNetwork =
-    isConnected &&
-    chainId !== undefined &&
-    !availableNetworks.includes(chainId);
+  let isConnected = false;
+  let isMetaMask = false;
+  let isPolkadot = false;
+  let chainId: number | undefined;
+  let chainType: string | null = null;
+  let walletId: string | undefined;
+
+  let isUnsupportedNetwork = false;
+
+  const { walletsGroupTypes } = useWalletsGroupTypes({
+    postProcessingFn: (providerKey, data): void => {
+      if (providerKey !== providerId) {
+        return;
+      }
+
+      isConnected = data.isConnected;
+      isMetaMask = getIsMetaMask(data.walletName);
+      isPolkadot = getIsPolkadot(data.walletName);
+      chainId = data.chainId;
+      chainType = data.chainType;
+      walletId = data.walletId;
+    },
+  });
+
+  if (isConnected) {
+    if (typeof chainId === 'number' && chainId !== 0) {
+      isUnsupportedNetwork = !availableNetworks.includes(chainId);
+    } else if (chainType !== null) {
+      isUnsupportedNetwork = !availableNetworks.includes(chainType);
+    }
+  }
 
   const supportedNetworks = networks.filter(network =>
     availableNetworks.includes(network.chainId),
   );
 
   const handleSwitchNetwork = useCallback(
-    (network: number) => () => {
+    (network: BlockchainNetworkId) => () => {
       dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
   );
 
+  const dispatchConnect = useCallback(
+    () => dispatchRequest(connect(providerId, walletId)),
+    [dispatchRequest, providerId, walletId],
+  );
+
   return {
     isConnected,
+    isOpenedModal,
     isUnsupportedNetwork,
     supportedNetworks,
     chainId,
-    isMetaMask,
+    isValidWallet: isMetaMask || isPolkadot,
     dispatchConnect,
     handleSwitchNetwork,
+    walletsGroupTypes,
+    onCloseModal,
+    onOpenModal,
   };
 };

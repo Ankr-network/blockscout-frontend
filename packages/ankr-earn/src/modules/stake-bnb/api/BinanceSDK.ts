@@ -5,10 +5,10 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  Web3KeyProvider,
+  BlockchainNetworkId,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
-  BlockchainNetworkId,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -19,7 +19,6 @@ import { Token } from 'modules/common/types/token';
 
 import {
   BINANCE_POOL_CONTRACT_START_BLOCK,
-  BINANCE_WRITE_PROVIDER_ID,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
@@ -63,11 +62,11 @@ export interface ITxEventsHistoryData {
 
 interface IBinanceSDKProviders {
   readProvider: Web3KeyReadProvider;
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -78,7 +77,7 @@ interface IGetPastEvents {
 export class BinanceSDK {
   private static instance?: BinanceSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -97,8 +96,8 @@ export class BinanceSDK {
   public static async getInstance(): Promise<BinanceSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(BINANCE_WRITE_PROVIDER_ID),
-      providerManager.getReadProvider(BINANCE_READ_PROVIDER_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(BINANCE_READ_PROVIDER_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -123,7 +122,7 @@ export class BinanceSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
@@ -141,7 +140,9 @@ export class BinanceSDK {
     return this.readProvider;
   }
 
-  private async isBinanceNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isBinanceNetwork(
+    provider: Web3KeyWriteProvider,
+  ): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -296,7 +297,7 @@ export class BinanceSDK {
 
     const decimals = Number.parseInt(rawDecimals, 10);
 
-    const chainId = isMainnet
+    const chainId: number = isMainnet
       ? BlockchainNetworkId.smartchain
       : BlockchainNetworkId.smartchainTestnet;
 
@@ -515,7 +516,7 @@ export class BinanceSDK {
   }
 
   private static getABNBCContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { binanceConfig } = configFromEnv();
 

@@ -2,10 +2,9 @@ import { BigNumber } from 'bignumber.js';
 
 import {
   AvailableReadProviders,
-  AvailableWriteProviders,
   BlockchainNetworkId,
-  Web3KeyProvider,
   Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -67,7 +66,7 @@ export class DashboardSDK {
 
   private constructor(
     private readonly provider: Web3KeyReadProvider,
-    private readonly writeProvider: Web3KeyProvider,
+    private readonly writeProvider: Web3KeyWriteProvider,
   ) {
     DashboardSDK.instance = this;
     this.currentAccount = writeProvider.currentAccount;
@@ -75,15 +74,13 @@ export class DashboardSDK {
 
   public static async getInstance(): Promise<DashboardSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getReadProvider(
+    const provider = await providerManager.getETHReadProvider(
       currentEnv === Env.Production
         ? AvailableReadProviders.polygon
         : AvailableReadProviders.binanceChainTest,
     );
 
-    const writeProvider = await providerManager.getProvider(
-      AvailableWriteProviders.ethCompatible,
-    );
+    const writeProvider = await providerManager.getETHWriteProvider();
 
     const isActualProvider = DashboardSDK.instance?.provider === provider;
 

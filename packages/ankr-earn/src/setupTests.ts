@@ -36,3 +36,6 @@ const sessionStorageMock = (function mock() {
 })();
 
 Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock });
+
+// Mocks for libraries
+jest.mock('polkadot', () => jest.fn());

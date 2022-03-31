@@ -6,8 +6,9 @@ import { useHistory } from 'react-router';
 import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { getIsMetaMask } from 'modules/auth/utils/getIsMetaMask';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
@@ -23,6 +24,7 @@ import {
   TUseValidateAmount,
   useValidateAmount,
 } from 'modules/common/hooks/useAmountValidation';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { getWithdrawalQuery } from '../../../../utils/getWithdrawalQuery';
 
@@ -45,6 +47,7 @@ interface IUseBridgeMainView {
   isConnected: boolean;
   isApproved: boolean;
   isMetaMask: boolean;
+  isOpenedModal: boolean;
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
@@ -58,12 +61,14 @@ interface IUseBridgeMainView {
     direction: IBridgeBlockchainPanelProps['direction'],
   ) => void;
   onChangeInputValue: (value: ReactText) => void;
+  onCloseModal: () => void;
+  onOpenModal: () => void;
   onSwapClick: () => void;
   onSubmit: () => void;
   onSwitchNetworkClick: () => void;
   onAddrCheckboxClick: () => void;
-  dispatchConnect: () => void;
   validateAmount: TUseValidateAmount;
+  walletsGroupTypes?: AvailableWriteProviders[];
 }
 
 const defaultFrom = isMainnet
@@ -90,9 +95,12 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
-  const { dispatchConnect, isConnected, chainId, isMetaMask } = useAuth(
-    AvailableWriteProviders.ethCompatible,
-  );
+
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
 
   const { data: approveData, loading: isApproveButtonLoading } = useQuery({
     type: approve,
@@ -100,6 +108,20 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   const { loading: isSendButtonLoading } = useQuery({
     type: deposit,
+  });
+
+  let isConnected = false;
+  let isMetaMask = false;
+  let chainId: BlockchainNetworkId | undefined;
+
+  const { walletsGroupTypes } = useWalletsGroupTypes({
+    postProcessingFn: (providerKey, data): void => {
+      if (providerKey === AvailableWriteProviders.ethCompatible) {
+        isConnected = data.isConnected;
+        isMetaMask = getIsMetaMask(data.walletName);
+        chainId = data.chainId;
+      }
+    },
   });
 
   // TODO: bind by <env> to default value
@@ -195,7 +217,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     dispatchRequest(
       switchNetwork({
         providerId: AvailableWriteProviders.ethCompatible,
-        chainId: swapNetworkItem.from,
+        chainId: swapNetworkItem.from as number,
       }),
     );
   };
@@ -214,7 +236,9 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     }
 
     if (chainId) {
-      dispatchRequest(fetchBalance({ token: tokenValue, network: chainId }));
+      dispatchRequest(
+        fetchBalance({ token: tokenValue, network: chainId as number }),
+      );
     }
   }, [dispatchRequest, tokenValue, isConnected, isActualNetwork, chainId]);
 
@@ -254,12 +278,14 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     isSendAnother,
     isApproved,
     isActualNetwork,
+    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
+    walletsGroupTypes,
     onChangeNetwork,
     onChangeToken,
     validateAmount,
@@ -267,7 +293,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
+    onCloseModal,
+    onOpenModal,
     onSwapClick,
-    dispatchConnect,
   };
 };

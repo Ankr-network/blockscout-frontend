@@ -5,8 +5,8 @@ import { getErrorText, hasError } from 'modules/common/utils/form';
 
 interface IFieldProps extends FieldRenderProps<string> {
   isIntegerOnly?: boolean;
-  autoComplete?: string; 
-  maxDecimalsLen?: number; 
+  autoComplete?: string;
+  maxDecimalsLen?: number;
 }
 
 export const AmountField = ({

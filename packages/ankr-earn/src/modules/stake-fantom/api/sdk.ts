@@ -4,10 +4,10 @@ import flatten from 'lodash/flatten';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  IWeb3SendResult,
-  Web3KeyProvider,
-  Web3KeyReadProvider,
   BlockchainNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -23,7 +23,6 @@ import {
 } from 'modules/stake/api/getTxEventsHistoryGroup';
 
 import {
-  FANTOM_PROVIDER_ID,
   FANTOM_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
   BLOCK_OFFSET,
@@ -39,12 +38,12 @@ export enum EFantomPoolEvents {
 }
 
 interface IFantomSDKProviders {
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
   readProvider: Web3KeyReadProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -55,7 +54,7 @@ interface IGetPastEvents {
 export class FantomSDK {
   private static instance?: FantomSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -84,8 +83,8 @@ export class FantomSDK {
   public static async getInstance(): Promise<FantomSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(FANTOM_PROVIDER_ID),
-      providerManager.getReadProvider(FANTOM_PROVIDER_READ_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(FANTOM_PROVIDER_READ_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -110,25 +109,25 @@ export class FantomSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
 
-    const isFmtChain = await this.isFtmNetwork(this.writeProvider);
+    const isFtmChain = await this.isFtmNetwork(this.writeProvider);
 
-    if (isFmtChain && !this.writeProvider.isConnected()) {
+    if (isFtmChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    if (isFmtChain) {
+    if (isFtmChain) {
       return this.writeProvider;
     }
 
     return this.readProvider;
   }
 
-  private async isFtmNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isFtmNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -143,7 +142,7 @@ export class FantomSDK {
   }
 
   private getFantomPoolContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
 
@@ -151,7 +150,7 @@ export class FantomSDK {
   }
 
   private getAftmbTokenContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
 
@@ -326,8 +325,8 @@ export class FantomSDK {
       symbol: Token.aFTMb,
       decimals: 18,
       chainId: isMainnet
-        ? BlockchainNetworkId.fantom
-        : BlockchainNetworkId.fantomTestnet,
+        ? (BlockchainNetworkId.fantom as number)
+        : (BlockchainNetworkId.fantomTestnet as number),
     });
   }
 
