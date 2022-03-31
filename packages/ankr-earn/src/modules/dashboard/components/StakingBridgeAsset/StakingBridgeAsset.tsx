@@ -5,11 +5,14 @@ import { ReactNode } from 'react';
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { isFirefox } from 'modules/common/utils/isFirefox';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { CopyTokenAddress } from '../CopyTokenAddress';
 import { NetworkIconText } from '../NetworkIconText';
 import { StakingAssetSkeleton } from '../StakingAsset/StakingAssetSkeleton';
 
@@ -23,6 +26,7 @@ interface IStakingAssetProps {
   tradeLink?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;
+  onAddTokenToWallet: () => void;
 }
 
 export const StakingBridgeAsset = ({
@@ -33,6 +37,7 @@ export const StakingBridgeAsset = ({
   tradeLink,
   pendingSlot,
   isLoading = false,
+  onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
@@ -59,6 +64,20 @@ export const StakingBridgeAsset = ({
               {pendingSlot}
             </Grid>
           )}
+
+          <Grid item xs="auto">
+            <Box component="span" display="flex">
+              <Menu>
+                <CopyTokenAddress address={tokenAddress ?? ''} />
+
+                {!isFirefox ? (
+                  <Menu.Item onClick={onAddTokenToWallet}>
+                    {t('dashboard.card.addToMetamask')}
+                  </Menu.Item>
+                ) : null}
+              </Menu>
+            </Box>
+          </Grid>
         </Grid>
       </Box>
 

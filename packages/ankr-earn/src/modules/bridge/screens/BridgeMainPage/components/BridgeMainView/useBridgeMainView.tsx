@@ -11,7 +11,10 @@ import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
-import { IBridgeBlockchainPanelItem } from 'modules/bridge/components/BridgeBlockchainPanel';
+import {
+  IBridgeBlockchainPanelItem,
+  IBridgeBlockchainPanelProps,
+} from 'modules/bridge/components/BridgeBlockchainPanel';
 import { useBalance } from 'modules/bridge/hooks/useBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
@@ -47,8 +50,13 @@ interface IUseBridgeMainView {
   balance?: BigNumber;
   isSendButtonLoading: boolean;
   isApproveButtonLoading: boolean;
-  networksOptions: IBridgeBlockchainPanelItem[];
+  networksOptionsFrom: IBridgeBlockchainPanelItem[];
+  networksOptionsTo: IBridgeBlockchainPanelItem[];
   onChangeToken: (token: string) => void;
+  onChangeNetwork: (
+    networkItem: IBridgeBlockchainPanelItem,
+    direction: IBridgeBlockchainPanelProps['direction'],
+  ) => void;
   onChangeInputValue: (value: ReactText) => void;
   onSwapClick: () => void;
   onSubmit: () => void;
@@ -58,19 +66,33 @@ interface IUseBridgeMainView {
   validateAmount: TUseValidateAmount;
 }
 
+const defaultFrom = isMainnet
+  ? SupportedChainIDS.MAINNET
+  : SupportedChainIDS.GOERLI;
+
+const defaultTo = isMainnet
+  ? SupportedChainIDS.POLYGON
+  : SupportedChainIDS.BSC_TESTNET;
+
 export const useBridgeMainView = (): IUseBridgeMainView => {
+  const balance = useBalance();
+  const networkAvailable = useBlockchainPanelOptions();
+
   const [tokenValue, setTokenValue] = useState(AvailableBridgeTokens.aMATICb);
   const [inputValue, setInputValue] = useState<string>();
+  const [networksOptionsFrom, setNetworksOptionsFrom] = useState(
+    networkAvailable[tokenValue] || [],
+  );
+  const [networksOptionsTo, setNetworksOptionsTo] = useState(
+    networkAvailable[tokenValue] || [],
+  );
+
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
   const { dispatchConnect, isConnected, chainId, isMetaMask } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
-  const balance = useBalance();
-  const networkAvailable = useBlockchainPanelOptions();
-
-  const networksOptions = networkAvailable[tokenValue] || [];
 
   const { data: approveData, loading: isApproveButtonLoading } = useQuery({
     type: approve,
@@ -81,15 +103,30 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   });
 
   // TODO: bind by <env> to default value
-  const [swapNetworkItem, setSwapNetworkItem] = useState({
-    from: isMainnet ? SupportedChainIDS.MAINNET : SupportedChainIDS.GOERLI,
-    to: isMainnet ? SupportedChainIDS.POLYGON : SupportedChainIDS.BSC_TESTNET,
+  const [swapNetworkItem, setSwapNetworkItem] = useState<{
+    from: SupportedChainIDS;
+    to: SupportedChainIDS;
+  }>({
+    from: defaultFrom,
+    to: defaultTo,
   });
+
+  const [isActualNetwork, setActualNetwork] = useState<boolean>(
+    (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+  );
 
   const isApproved = !!approveData;
 
   const onChangeToken = (token: string) => {
     setTokenValue(token as AvailableBridgeTokens);
+    setSwapNetworkItem({ from: defaultFrom, to: defaultTo });
+  };
+
+  const onChangeNetwork: IUseBridgeMainView['onChangeNetwork'] = (
+    networkItem,
+    direction,
+  ) => {
+    setSwapNetworkItem({ ...swapNetworkItem, [direction]: networkItem.value });
   };
 
   const onChangeInputValue = (value: ReactText) => {
@@ -171,9 +208,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     }
   };
 
-  const isActualNetwork =
-    (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId;
-
   useProviderEffect(() => {
     if (!isConnected || !isActualNetwork) {
       return;
@@ -183,6 +217,35 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
       dispatchRequest(fetchBalance({ token: tokenValue, network: chainId }));
     }
   }, [dispatchRequest, tokenValue, isConnected, isActualNetwork, chainId]);
+
+  useProviderEffect(() => {
+    const newNetworks = networkAvailable[tokenValue];
+
+    setNetworksOptionsFrom(newNetworks || []);
+    setNetworksOptionsTo(newNetworks || []);
+  }, [tokenValue]);
+
+  useProviderEffect(() => {
+    setNetworksOptionsFrom(
+      networksOptionsFrom.map(item => {
+        item.disabled = item.value === swapNetworkItem.to;
+        return { ...item };
+      }),
+    );
+
+    setNetworksOptionsTo(
+      networksOptionsTo.map(item => {
+        item.disabled = item.value === swapNetworkItem.from;
+        return { ...item };
+      }),
+    );
+  }, [swapNetworkItem]);
+
+  useProviderEffect(() => {
+    setActualNetwork(
+      (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+    );
+  }, [chainId, swapNetworkItem]);
 
   return {
     isConnected,
@@ -195,7 +258,9 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
-    networksOptions,
+    networksOptionsFrom,
+    networksOptionsTo,
+    onChangeNetwork,
     onChangeToken,
     validateAmount,
     onSubmit,

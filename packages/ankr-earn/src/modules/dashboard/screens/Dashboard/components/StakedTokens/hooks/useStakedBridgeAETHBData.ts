@@ -4,14 +4,14 @@ import BigNumber from 'bignumber.js';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
-  POLYGON_NETWORK_BY_ENV,
+  BSC_NETWORK_BY_ENV,
   ZERO,
   SupportedChainIDS,
 } from 'modules/common/const';
-import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
+import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { t } from 'modules/i18n/utils/intl';
 
-export interface IStakedMaticData {
+export interface IStakedAETHBData {
   amount: BigNumber;
   network: string;
   isBalancesLoading: boolean;
@@ -19,14 +19,14 @@ export interface IStakedMaticData {
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeMaticData = (): IStakedMaticData => {
+export const useStakedBridgeAETHBData = (): IStakedAETHBData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchAMATICBBridged,
+    type: fetchAETHBBridged,
   });
 
   const dispatchRequest = useDispatchRequest();
 
-  const network = t(`chain.${POLYGON_NETWORK_BY_ENV}`);
+  const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
   const amount = statsData ?? ZERO;
 
   const isShowed = !amount.isZero() || isBalancesLoading;
@@ -35,7 +35,7 @@ export const useStakedBridgeMaticData = (): IStakedMaticData => {
     dispatchRequest(
       watchAsset({
         token: AvailableBridgeTokens.aMATICb,
-        chainId: POLYGON_NETWORK_BY_ENV as unknown as SupportedChainIDS,
+        chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
       }),
     );
   };

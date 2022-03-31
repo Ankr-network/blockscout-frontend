@@ -2,21 +2,21 @@ import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
 import { StakingBridgeAsset } from 'modules/dashboard/components/StakingBridgeAsset';
 
-import { useStakedBridgeMaticData } from '../StakedTokens/hooks/useStakedBridgeMatic';
+import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/useStakedBridgeAETHBData';
 
-export const StakedBridgeMatic = (): JSX.Element => {
-  const { contractConfig } = configFromEnv();
+export const StakedBridgeAETHB = (): JSX.Element => {
+  const { binanceConfig } = configFromEnv();
 
   const { amount, network, isBalancesLoading, onAddTokenClick } =
-    useStakedBridgeMaticData();
+    useStakedBridgeAETHBData();
 
   return (
     <StakingBridgeAsset
       amount={amount}
       isLoading={isBalancesLoading}
       network={network}
-      token={Token.aMATICb}
-      tokenAddress={contractConfig.polygonPool}
+      token={Token.aETHb}
+      tokenAddress={binanceConfig.aETHbToken}
       onAddTokenToWallet={onAddTokenClick}
     />
   );

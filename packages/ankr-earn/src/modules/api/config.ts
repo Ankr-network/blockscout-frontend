@@ -24,6 +24,7 @@ export interface IBinanceConfig {
   aBNBbToken: string;
   aBNBcToken: string;
   aMATICbToken: string;
+  aETHbToken: string;
   aETHcToken: string;
   binancePool: string;
   WBNBContract: string;
@@ -82,6 +83,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     // todo: add actual dev aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
   fantomConfig: {
     fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
@@ -162,6 +164,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     aETHcToken: ZERO_ADDR,
     // todo: add actual production bridge address
     bridge: ZERO_ADDR,
+    // todo: add actual production aETHb address
+    aETHbToken: ZERO_ADDR,
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',

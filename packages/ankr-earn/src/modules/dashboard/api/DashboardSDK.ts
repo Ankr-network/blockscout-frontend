@@ -23,6 +23,43 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
   : Env.Stage;
 
+export const addressMapForTokenBSC: {
+  [token in Token]?: { abi: unknown; address: string };
+} = {
+  [Token.aMATICb]: {
+    abi: ABI_ERC20,
+    address: config.binanceConfig.aMATICbToken,
+  },
+
+  [Token.aETHb]: {
+    abi: ABI_ERC20,
+    address: config.binanceConfig.aETHbToken,
+  },
+};
+
+export const addressMapForTokenGoerli: {
+  [token in Token]?: { abi: unknown; address: string };
+} = {
+  [Token.aMATICb]: {
+    abi: ABI_ERC20,
+    address: config.contractConfig.aMaticbToken,
+  },
+
+  [Token.aETHb]: {
+    abi: ABI_ERC20,
+    address: config.contractConfig.fethContract,
+  },
+};
+
+export const addressMapForTokenPolygon: {
+  [token in Token]?: { abi: unknown; address: string };
+} = {
+  [Token.aMATICb]: {
+    abi: AMATICB_ABI,
+    address: config.polygonConfig.aMATICbToken,
+  },
+};
+
 export class DashboardSDK {
   private static instance?: DashboardSDK;
 
@@ -89,43 +126,23 @@ export class DashboardSDK {
     token: Token;
     networkID: BlockchainNetworkId;
   }): { abi: unknown; address: string } {
+    const EMPTY = { abi: ABI_ERC20, address: '' };
+
     switch (networkID) {
       case BlockchainNetworkId.smartchainTestnet: {
-        switch (token) {
-          case Token.aMATICb: {
-            return {
-              abi: ABI_ERC20,
-              address: config.binanceConfig.aMATICbToken,
-            };
-          }
-
-          default: {
-            return { abi: ABI_ERC20, address: '' };
-          }
-        }
+        return addressMapForTokenBSC[token] || EMPTY;
       }
 
       case BlockchainNetworkId.goerli: {
-        switch (token) {
-          case Token.aMATICb: {
-            return {
-              abi: ABI_ERC20,
-              address: config.contractConfig.aMaticbToken,
-            };
-          }
-
-          default: {
-            return { abi: ABI_ERC20, address: '' };
-          }
-        }
+        return addressMapForTokenGoerli[token] || EMPTY;
       }
 
       case BlockchainNetworkId.polygon: {
-        return { abi: AMATICB_ABI, address: config.polygonConfig.aMATICbToken };
+        return addressMapForTokenPolygon[token] || EMPTY;
       }
 
       default: {
-        return { abi: ABI_ERC20, address: '' };
+        return EMPTY;
       }
     }
   }

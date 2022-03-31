@@ -57,7 +57,9 @@ export const BridgeMainView = (): JSX.Element => {
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
-    networksOptions,
+    networksOptionsFrom,
+    networksOptionsTo,
+    onChangeNetwork,
     onChangeToken,
     validateAmount,
     onSubmit,
@@ -166,8 +168,9 @@ export const BridgeMainView = (): JSX.Element => {
         <Box className={classes.swapFields}>
           <BridgeBlockchainPanel
             direction="from"
-            items={networksOptions}
+            items={networksOptionsFrom}
             value={swapNetworkItem.from}
+            onClick={item => onChangeNetwork(item, 'from')}
           />
 
           <ButtonBase
@@ -180,8 +183,9 @@ export const BridgeMainView = (): JSX.Element => {
 
           <BridgeBlockchainPanel
             direction="to"
-            items={networksOptions}
+            items={networksOptionsTo}
             value={swapNetworkItem.to}
+            onClick={item => onChangeNetwork(item, 'to')}
           />
         </Box>
 

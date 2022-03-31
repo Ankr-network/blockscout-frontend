@@ -10,6 +10,7 @@ import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedAVAX } from '../StakedAVAX';
+import { StakedBridgeAETHB } from '../StakedBridgeAETHB/StakedBridgeAETHB';
 import { StakedBridgeMatic } from '../StakedBridgeMatic/StakedBridgeToken';
 import { StakedMatic } from '../StakedMatic';
 
@@ -29,6 +30,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isMATICShowed,
     isAFTMBShowed,
     isAMATICBPolygonShowed,
+    isAETHBBridgedShowed,
   } = useStakedTokens();
 
   return (
@@ -44,11 +46,11 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isAMATICBPolygonShowed && <StakedBridgeMatic />}
 
+            {isAETHBBridgedShowed && <StakedBridgeAETHB />}
+
             {isAETHBShowed && <StakedAETHB />}
 
             {isAETHCShowed && <StakedAETHC />}
-
-            {isMATICShowed && <StakedMatic />}
 
             {isABNBBShowed && <StakedABNBB />}
 

@@ -6,6 +6,7 @@ import { useStakedAETHBData } from './useStakedAETHBData';
 import { useStakedAETHCData } from './useStakedAETHCData';
 import { useStakedAFTMBData } from './useStakedAFTMBData';
 import { useStakedAVAXData } from './useStakedAVAXData';
+import { useStakedBridgeAETHBData } from './useStakedBridgeAETHBData';
 import { useStakedBridgeMaticData } from './useStakedBridgeMatic';
 import { useStakedMaticData } from './useStakedMaticData';
 
@@ -18,12 +19,14 @@ interface IUseStakedTokensData {
   isABNBCShowed: boolean;
   isMATICShowed: boolean;
   isAMATICBPolygonShowed: boolean;
+  isAETHBBridgedShowed: boolean;
   isAFTMBShowed: boolean;
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
   const amaticbPolygonData = useStakedBridgeMaticData();
+  const aethbBridgedData = useStakedBridgeAETHBData();
   const stakedAVAXData = useStakedAVAXData();
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
@@ -47,6 +50,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAMATICBPolygonShowed = amaticbPolygonData.isShowed;
 
+  const isAETHBBridgedShowed = aethbBridgedData.isShowed;
+
   const isAFTMBShowed = stakedAFTMBData.isShowed;
 
   const atLeastOneShowed =
@@ -57,6 +62,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isABNBCShowed ||
     isMATICShowed ||
     isAMATICBPolygonShowed ||
+    isAETHBBridgedShowed ||
     isAFTMBShowed;
 
   return {
@@ -69,5 +75,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isMATICShowed,
     isAFTMBShowed,
     isAMATICBPolygonShowed,
+    isAETHBBridgedShowed,
   };
 };

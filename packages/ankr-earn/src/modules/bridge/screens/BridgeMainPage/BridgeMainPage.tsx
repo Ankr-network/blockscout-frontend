@@ -6,6 +6,9 @@ import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { approve } from 'modules/bridge/actions/approve';
+import { deposit } from 'modules/bridge/actions/deposit';
+import { notarize } from 'modules/bridge/actions/notarize';
+import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { Notification } from 'modules/bridge/components/Notification';
 import { TxView } from 'modules/bridge/screens/BridgeMainPage/components/TxView';
@@ -28,7 +31,14 @@ export const BridgeMainPage = (): JSX.Element => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetRequests([approve.toString()]));
+      dispatch(
+        resetRequests([
+          notarize.toString(),
+          withdrawal.toString(),
+          approve.toString(),
+          deposit.toString(),
+        ]),
+      );
     };
   }, [dispatch]);
 

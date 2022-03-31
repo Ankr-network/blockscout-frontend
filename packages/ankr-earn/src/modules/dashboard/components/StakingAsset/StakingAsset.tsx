@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { isFirefox } from 'modules/common/utils/isFirefox';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
@@ -35,9 +36,6 @@ interface IStakingAssetProps {
   onTradeClick?: () => void;
   onAddStakingClick?: () => void;
 }
-
-const FIREFOX = 'Firefox';
-const isFirefox = navigator.userAgent.includes(FIREFOX);
 
 export const StakingAsset = ({
   network,
