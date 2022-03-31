@@ -1,6 +1,6 @@
 {
   "name": "standalone-protocol",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-app-rewired start",
