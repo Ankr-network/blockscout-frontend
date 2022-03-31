@@ -21,9 +21,11 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     left: 0,
     zIndex: 100,
     backgroundColor: theme.palette.background.default,
-
     '&.gnosis': {
       backgroundColor: theme.palette.common.white,
+    },
+    '&.syscoin': {
+      borderRight: `1px solid ${theme.palette.primary.light}`,
     },
     [theme.breakpoints.down('sm')]: {
       display: 'none',
@@ -33,6 +35,9 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     display: 'block',
     width: `calc(100% - 20px)`,
     paddingBottom: 0,
+    '&&': {
+      borderRight: 'none',
+    },
     '& $menu': {
       left: 20,
     },
@@ -65,10 +70,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     },
   },
   menu: {
-    height: 432,
+    height: 576,
     position: 'fixed',
     top: `calc(50% - 33px)`,
-    marginTop: -216,
+    marginTop: -288,
     '@media (max-height: 500px)': {
       top: 0,
       marginTop: 0,
@@ -143,6 +148,9 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     padding: '18px 0',
     margin: '0 6px',
     borderTop: `1px solid ${theme.palette.background.paper}`,
+    '&.syscoin': {
+      borderTop: `1px solid ${theme.palette.primary.light}`,
+    },
     backgroundColor: theme.palette.background.default,
     textAlign: 'center',
     '&:hover $desc': {

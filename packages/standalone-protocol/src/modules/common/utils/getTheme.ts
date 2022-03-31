@@ -11,6 +11,7 @@ import { erigonTheme } from '../../themes/erigonTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { harmonyTheme } from 'modules/themes/harmonyTheme';
 import { gnosisTheme } from 'modules/themes/gnosisTheme';
+import { syscoinTheme } from 'modules/themes/syscoinTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -46,6 +47,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Gnosis:
       return gnosisTheme;
+
+    case ChainId.Syscoin:
+      return syscoinTheme;
 
     default:
       return mainTheme;

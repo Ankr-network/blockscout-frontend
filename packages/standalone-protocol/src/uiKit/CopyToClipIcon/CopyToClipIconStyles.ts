@@ -18,6 +18,14 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
+    '&.syscoin': {
+      border: `1px solid #33373B`,
+      borderRadius: 50,
+      '& svg': {
+        color: '#33373B',
+      },
+    },
+
     '&.near': {
       '& $content': {
         '&:hover': {

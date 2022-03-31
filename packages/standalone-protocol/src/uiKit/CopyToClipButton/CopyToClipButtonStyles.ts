@@ -135,6 +135,20 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         padding: '11px 16px 11px 32px',
       },
     },
+
+    '&.syscoin': {
+      '& $content': {
+        padding: 0,
+        border: '1px solid #33373B',
+        borderRadius: 50,
+        '& button': {
+          borderRadius: 50,
+        },
+      },
+      '& $button': {
+        backgroundColor: '#1E41A5',
+      },
+    },
   },
   content: ({ isCopied }) => ({
     display: 'flex',
