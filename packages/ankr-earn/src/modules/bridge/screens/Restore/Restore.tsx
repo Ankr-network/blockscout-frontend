@@ -86,7 +86,7 @@ export const Restore = (): JSX.Element => {
           const query = getWithdrawalQuery(
             {
               tx: formData.tx,
-              token: AvailableBridgeTokens.aMATICb,
+              token: data.token as AvailableBridgeTokens,
               chainIdFrom: data.chainIdFrom,
               chainIdTo: data.chainIdTo,
               amount: data.amount.toString(10),
