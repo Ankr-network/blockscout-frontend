@@ -1,10 +1,15 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton, useMediaQuery } from '@material-ui/core';
 import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useCrossMenuStyles } from './CrossMenuStyles';
-import { useIsMDUp } from 'ui';
+import {
+  ITEM_HEIGHT,
+  ANKR_LINK_HEIGHT,
+  useCrossMenuStyles,
+} from './CrossMenuStyles';
+import { useIsMDUp, useIsSMDown } from 'ui';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
@@ -28,8 +33,6 @@ interface ICrossMenuProps {
 }
 
 export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
-  const classes = useCrossMenuStyles();
-
   const MENU_LIST = useMemo(
     () => [
       {
@@ -114,6 +117,14 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
     [],
   );
 
+  const MENU_HEIGHT = MENU_LIST.length * ITEM_HEIGHT + ANKR_LINK_HEIGHT;
+
+  const classes = useCrossMenuStyles({ menuHeight: MENU_HEIGHT });
+  const isSMDown = useIsSMDown();
+  const isLessThanMaxMenuHeight = useMediaQuery(
+    `@media (max-height: ${MENU_HEIGHT}px)`,
+  );
+
   const [open, setOpen] = useState(false);
 
   const handleMenuClick = useCallback(() => {
@@ -138,28 +149,39 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
       </IconButton>
       <div className={classNames(classes.root, open && classes.open, chainId)}>
         <div className={classes.menu}>
-          {MENU_LIST.map(item => (
-            <a
-              key={item.chainId}
-              className={classes.item}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleCloseMenu}
-            >
-              <div
-                className={classNames(
-                  classes.logo,
-                  chainId === item.chainId && classes.current,
-                )}
+          <Scrollbars
+            autoHeightMax={MENU_HEIGHT}
+            autoHeight={!isLessThanMaxMenuHeight && !isSMDown}
+            className={!isLessThanMaxMenuHeight && !isSMDown ? classes.bar : ''}
+            style={
+              isLessThanMaxMenuHeight && !isSMDown
+                ? { height: `calc(100vh - ${ANKR_LINK_HEIGHT}px)` }
+                : {}
+            }
+          >
+            {MENU_LIST.map(item => (
+              <a
+                key={item.chainId}
+                className={classes.item}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleCloseMenu}
               >
-                {item.logo}
-              </div>
-              <div className={classNames(classes.name, chainId)}>
-                {item.name}
-              </div>
-            </a>
-          ))}
+                <div
+                  className={classNames(
+                    classes.logo,
+                    chainId === item.chainId && classes.current,
+                  )}
+                >
+                  {item.logo}
+                </div>
+                <div className={classNames(classes.name, chainId)}>
+                  {item.name}
+                </div>
+              </a>
+            ))}
+          </Scrollbars>
         </div>
         <a
           className={classNames(classes.protocol, chainId)}

@@ -13,7 +13,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&.syscoin $title': {
       color: '#1E41A5',
     },
-    
     '&.moonbeam $title': {
       color: '#74C8C7',
     },
