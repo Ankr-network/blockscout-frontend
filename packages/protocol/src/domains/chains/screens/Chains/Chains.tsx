@@ -19,7 +19,9 @@ import { useChainsStyles } from './ChainsStyles';
 const HAS_SORT_SELECT = false;
 const ENABLE_HOW_TO_INTEGRATE = false;
 
+const SHOW_STATISTICS = false;
 const SHOW_UNIQUE_USERS_SERVED = false;
+const SHOW_TOTAL_REQUESTS_MADE = false;
 const SHOW_TOTAL_ASSET_VALUE_TRANSFERRED = false;
 
 export const Chains = () => {
@@ -47,30 +49,36 @@ export const Chains = () => {
 
   return (
     <>
-      <Typography variant="h5" noWrap className={classes.title}>
-        {t('30-days-statistics.title')}
-      </Typography>
-      <div className={classes.blockList}>
-        <ChainBlock
-          isLoading={loading}
-          subtitle={t('30-days-statistics.total-requests-made')}
-          value={totalRequestsData}
-        />
-        {SHOW_UNIQUE_USERS_SERVED && (
-          <ChainBlock
-            isLoading={loading}
-            subtitle={t('30-days-statistics.unique-users-served')}
-            value="41,462,731"
-          />
-        )}
-        {SHOW_TOTAL_ASSET_VALUE_TRANSFERRED && (
-          <ChainBlock
-            isLoading={loading}
-            subtitle={t('30-days-statistics.total-asset-value-transferred')}
-            value="$135,564,991,200"
-          />
-        )}
-      </div>
+      {SHOW_STATISTICS && (
+        <>
+          <Typography variant="h5" noWrap className={classes.title}>
+            {t('30-days-statistics.title')}
+          </Typography>
+          <div className={classes.blockList}>
+            {SHOW_TOTAL_REQUESTS_MADE && (
+              <ChainBlock
+                isLoading={loading}
+                subtitle={t('30-days-statistics.total-requests-made')}
+                value={totalRequestsData}
+              />
+            )}
+            {SHOW_UNIQUE_USERS_SERVED && (
+              <ChainBlock
+                isLoading={loading}
+                subtitle={t('30-days-statistics.unique-users-served')}
+                value="41,462,731"
+              />
+            )}
+            {SHOW_TOTAL_ASSET_VALUE_TRANSFERRED && (
+              <ChainBlock
+                isLoading={loading}
+                subtitle={t('30-days-statistics.total-asset-value-transferred')}
+                value="$135,564,991,200"
+              />
+            )}
+          </div>
+        </>
+      )}
       <PageHeader
         title={t('chains.title')}
         select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}

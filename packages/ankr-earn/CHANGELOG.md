@@ -3,7 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 2.4.5 (2022-03-24)
+# 2.7.0 (2022-04-01)
+
+
+### Features
+
+* **protocol-backoffice:** MRPC-718 Add ci for backoffice ([#634](https://github.com/Ankr-network/ankr-web/issues/634)) ([b2bc671](https://github.com/Ankr-network/ankr-web/commit/b2bc671ca589782649eb305d1eeb99087722e51e))
+
+
+
+
+
+## 2.6.1 (2022-03-31)
 
 **Note:** Version bump only for package ankr-earn
 
@@ -11,33 +22,50 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## 2.4.4 (2022-03-24)
-
-**Note:** Version bump only for package ankr-earn
+# 2.6.0 (2022-03-29)
 
 
+### Features
+
+* **protocol:** MRPC-729 Hide faq link ([#617](https://github.com/Ankr-network/ankr-web/issues/617)) ([e4ba428](https://github.com/Ankr-network/ankr-web/commit/e4ba4282bab188207ffa56655be3a3fb65e78c75))
 
 
 
-## 2.4.3 (2022-03-22)
+
+
+## 2.5.6 (2022-03-28)
 
 
 ### Bug Fixes
 
-* **protocol:** MRPC-663, MRPC-661 archive label fixes and updates ([#564](https://github.com/Ankr-network/ankr-web/issues/564)) ([51825a2](https://github.com/Ankr-network/ankr-web/commit/51825a22fe08cf403ff8f3d8833f98bba5cead19))
+* **protocol:** MRPC-715 deposit page after refresh ([#605](https://github.com/Ankr-network/ankr-web/issues/605)) ([a0fc016](https://github.com/Ankr-network/ankr-web/commit/a0fc016991c267822a323b295168d01d7a6b3ff7))
 
 
 
 
 
-## 2.4.2 (2022-03-21)
-
-**Note:** Version bump only for package ankr-earn
+## 2.5.5 (2022-03-25)
 
 
+### Bug Fixes
+
+* **statistics:** STAKAN-713 Temporary hide total request ([#604](https://github.com/Ankr-network/ankr-web/issues/604)) ([3de2441](https://github.com/Ankr-network/ankr-web/commit/3de24410cf31b50c7119ea9a8a0c1abe010092b5))
 
 
 
-## 2.4.1 (2022-03-21)
+
+
+## 2.5.4 (2022-03-25)
+
+
+### Bug Fixes
+
+* **avalanche:** STAKAN-712 Add network ([#603](https://github.com/Ankr-network/ankr-web/issues/603)) ([acaa54e](https://github.com/Ankr-network/ankr-web/commit/acaa54e82d5f58c1b478bea23fac4cb7e400acd8))
+
+
+
+
+
+## 2.5.3 (2022-03-25)
 
 **Note:** Version bump only for package ankr-earn

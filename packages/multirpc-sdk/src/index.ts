@@ -201,11 +201,24 @@ export default class MultiRpcSdk {
   }
 
   public async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
-    const blockchains = await this.getWorkerGateway().apiGetBlockchains();
+    const blockchainsApiResponse =
+      await this.getWorkerGateway().apiGetBlockchains();
+
+    const avalancheEvmItem = blockchainsApiResponse.find(
+      item => item.id === 'avalanche-evm',
+    );
+
+    const blockchains = blockchainsApiResponse.filter(
+      item => item.id !== 'avalanche-evm',
+    );
 
     return blockchains.reduce<FetchBlockchainUrlsResult>(
       (result, blockchain) => {
         const hasRPC = blockchain.features.includes('rpc');
+
+        if (blockchain.id === 'avalanche') {
+          blockchain.paths = avalancheEvmItem?.paths ?? [];
+        }
 
         const rpcURLs: string[] = hasRPC
           ? blockchain?.paths?.map(path =>
