@@ -13,8 +13,8 @@ const validateNode = debouncePromise((value: string, chainId: string) => {
 
 const matchEndpoint = (endpoints: string[] = [], url: string) => {
   return (
-    endpoints.filter(endpoint =>
-      endpoint.toLowerCase().replace(/\/$/, '').includes(url),
+    endpoints.filter(
+      endpoint => endpoint.toLowerCase().replace(/\/+$/, '') === url,
     ).length > 0
   );
 };
@@ -30,7 +30,7 @@ export const validateUserEndpoint = async (
     return t('validation.required');
   }
 
-  const preparedValue = value.toLowerCase().replace(/\/$/, '');
+  const preparedValue = value.toLowerCase().replace(/\/+$/, '');
 
   if (!isHttpsUri(preparedValue)) {
     return t('validation.https-validation');
