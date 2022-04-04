@@ -71,7 +71,7 @@ export const ChainNodesTable = ({
             const nodeStatus = getStatusByNodeScore(row.score);
 
             return (
-              <>
+              <React.Fragment key={row.id}>
                 {!!row.height && (
                   <TableRow key={row.id} className={classes.row}>
                     <TableCell padding="none" className={classes.nodeCell}>
@@ -113,7 +113,7 @@ export const ChainNodesTable = ({
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </TableBody>
