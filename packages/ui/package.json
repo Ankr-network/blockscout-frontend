@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "1.0.5",
+  "version": "1.3.0",
   "scripts": {
     "format": "lint-staged"
   },

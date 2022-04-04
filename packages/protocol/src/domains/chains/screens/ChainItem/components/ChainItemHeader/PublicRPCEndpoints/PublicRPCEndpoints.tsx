@@ -24,18 +24,22 @@ export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
 
   const isTitlePlural = mainnetURLsCount > 1 || testnetURLs.length > 0;
   const title = (
-    <Typography variant="body2" className={classes.text}>
+    <Typography variant="body2" className={classes.title}>
       {t('chain-item.header.public-endpoints', {
         plural: isTitlePlural ? t('chain-item.header.plural') : '',
       })}
     </Typography>
   );
 
+  const [root, section] = isNervos
+    ? [classes.nervos, undefined]
+    : [classes.root, classes.section];
+
   const mainnetEndpoints = (
-    <div className={isNervos ? classes.nervos : classes.root}>
+    <div className={root}>
       {mainnetURLs.map(({ rpc, ws }, index) => {
         return (
-          <div className={classes.section} key={rpc + ws}>
+          <div className={section} key={rpc + ws}>
             <div className={classes.link}>
               <CopyToClipIcon
                 text={rpc}

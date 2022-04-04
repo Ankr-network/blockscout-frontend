@@ -7,6 +7,7 @@ import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from '../../../common/hooks/useMenu';
 import { useStyles } from './useStyles';
 import { ReactComponent as MetamaskIcon } from '../../../../assets/img/metamask.svg';
+import { LoadableButton } from 'uiKit/LoadableButton';
 
 interface ConnectButtonProps {
   isMobile?: boolean;
@@ -57,14 +58,16 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
       </Menu>
     </>
   ) : (
-    <Button
+    <LoadableButton
       variant="text"
       color="primary"
+      className={classes.button}
       disableElevation={false}
       onClick={handleConnect}
       disabled={loading}
+      loading={loading}
     >
       {t('header.wallet-button')}
-    </Button>
+    </LoadableButton>
   );
 };

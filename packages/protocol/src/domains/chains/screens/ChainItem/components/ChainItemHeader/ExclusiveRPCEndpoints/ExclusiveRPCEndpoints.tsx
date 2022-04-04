@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Typography, Button } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { Link } from 'react-router-dom';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Preloader } from 'uiKit/Preloader';
@@ -13,6 +14,9 @@ import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { useProvider } from 'modules/auth/hooks/useProvider';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { PlanRoutesConfig } from 'domains/plan/Routes';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -22,12 +26,14 @@ export const ExclusiveRPCEndpoints = ({
   chainId,
 }: ExclusiveRPCEndpointsProps) => {
   const classes = useStyles();
+  const { handleFetchProvider, providerData } = useProvider();
 
   const dispatchRequest = useDispatchRequest();
 
-  useEffect(() => {
+  useOnMount(() => {
     dispatchRequest(fetchPrivateChainDetails(chainId));
-  }, [dispatchRequest, chainId]);
+    handleFetchProvider();
+  });
 
   return (
     <Queries<ResponseData<typeof fetchPrivateChainDetails>>
@@ -46,17 +52,22 @@ export const ExclusiveRPCEndpoints = ({
 
         const isTitlePlural = mainnetURLsCount > 1 || testnetURLs.length > 0;
         const title = (
-          <Typography variant="body2" className={classes.text}>
+          <Typography variant="body2" className={classes.title}>
             {t('chain-item.header.private-endpoints', {
               plural: isTitlePlural ? t('chain-item.header.plural') : '',
             })}
           </Typography>
         );
 
+        const isNervos = data.id === 'nervos';
+        const [root, section] = isNervos
+          ? [classes.nervos, undefined]
+          : [classes.root, classes.section];
+
         const mainnetEndpoints = (
-          <div className={classes.root}>
+          <div className={root}>
             {mainnetURLs.map(({ rpc, ws }) => (
-              <div className={classes.section} key={rpc + ws}>
+              <div className={section} key={rpc + ws}>
                 <CopyToClipIcon
                   className={classes.copyToClip}
                   message={t('common.copy-message')}
@@ -80,9 +91,9 @@ export const ExclusiveRPCEndpoints = ({
 
         const testnetEndpoints =
           testnetURLs.length > 0 ? (
-            <div className={classes.root}>
+            <div className={root}>
               {testnetURLs.map(({ rpc, ws }) => (
-                <div className={classes.section} key={rpc + ws}>
+                <div className={section} key={rpc + ws}>
                   <CopyToClipIcon
                     className={classes.copyToClip}
                     message={t('common.copy-message')}
@@ -105,7 +116,13 @@ export const ExclusiveRPCEndpoints = ({
           ) : null;
 
         const additionalContent = (
-          <Button variant="text" disabled className={classes.button}>
+          <Button
+            variant="text"
+            disabled={!providerData}
+            className={classes.button}
+            component={Link}
+            to={PlanRoutesConfig.endpoint.generatePath(chainId)}
+          >
             {t('chain-item.header.settings-button')}
           </Button>
         );

@@ -7,6 +7,17 @@ const toHex = (num: number): string => {
   return `0x${num.toString(16)}`;
 };
 
+// harmony
+export const HARMONY_MAINNET_PARAMS = {
+  chainId: 1666600000,
+  chainName: 'Harmony by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Harmony',
+    symbol: 'ONE',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.harmony.one/'],
+};
 // avalanche
 export const AVALANCHE_MAINNET_PARAMS = {
   chainId: 43114,
@@ -166,6 +177,8 @@ const mapParams = (
 /* map network data for using addNetwork action */
 export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
   switch (chain.id) {
+    case 'harmony':
+      return mapParams(chain, HARMONY_MAINNET_PARAMS);
     case 'avalanche':
       return mapParams(chain, AVALANCHE_MAINNET_PARAMS);
     /* adding ethereum network got error: MetaMask - RPC Error: May not specify default MetaMask chain. */
