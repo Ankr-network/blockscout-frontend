@@ -24,10 +24,8 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { Container } from 'uiKit/Container';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -40,7 +38,6 @@ import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
-import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
 export const StakeBinance = (): JSX.Element => {
@@ -49,9 +46,6 @@ export const StakeBinance = (): JSX.Element => {
   const faqItems: IFaqItem[] = useFaq();
   const { onErroMessageClick, hasError } = useErrorMessage();
   const { redeemPeriod, redeemValue } = useRedeemData();
-
-  const { isSuccessOpened, onAddTokenClick, onSuccessClose, onSuccessOpen } =
-    useSuccessDialog();
 
   const {
     amount,
@@ -70,7 +64,7 @@ export const StakeBinance = (): JSX.Element => {
     handleSubmit,
     handleFormChange,
     onTokenSelect,
-  } = useStakeForm({ openSuccessModal: onSuccessOpen });
+  } = useStakeForm();
 
   const stakeStats = useStakeStats(fetchAPYData, amount);
 
@@ -162,51 +156,38 @@ export const StakeBinance = (): JSX.Element => {
 
   return (
     <section className={classes.root}>
-      {isSuccessOpened ? (
-        <Container>
-          <StakeSuccessDialog
-            tokenName={tokenOut}
-            onAddTokenClick={onAddTokenClick}
-            onClose={onSuccessClose}
-          />
-        </Container>
-      ) : (
-        <StakeContainer>
-          {hasError && (
-            <ErrorMessage
-              title={t('error.some')}
-              onClick={onErroMessageClick}
+      <StakeContainer>
+        {hasError && (
+          <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
+        )}
+
+        <StakeForm
+          isMaxBtnShowed
+          balance={bnbBalance}
+          feeSlot={
+            <StakeFeeInfo
+              isLoading={isStakeGasLoading}
+              token={t('unit.bnb')}
+              value={stakeGas}
             />
-          )}
+          }
+          isBalanceLoading={hasError || isFetchStatsLoading}
+          isDisabled={isStakeLoading || isFetchStatsLoading}
+          loading={hasError || isStakeLoading || isFetchStatsLoading}
+          maxAmount={bnbBalance}
+          maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
+          minAmount={minimumStake}
+          renderStats={onRenderStats}
+          tokenIn={tokenIn}
+          tokenOut={tokenOut}
+          onChange={handleFormChange}
+          onSubmit={handleSubmit}
+        />
 
-          <StakeForm
-            isMaxBtnShowed
-            balance={bnbBalance}
-            feeSlot={
-              <StakeFeeInfo
-                isLoading={isStakeGasLoading}
-                token={t('unit.bnb')}
-                value={stakeGas}
-              />
-            }
-            isBalanceLoading={hasError || isFetchStatsLoading}
-            isDisabled={isStakeLoading || isFetchStatsLoading}
-            loading={hasError || isStakeLoading || isFetchStatsLoading}
-            maxAmount={bnbBalance}
-            maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
-            minAmount={minimumStake}
-            renderStats={onRenderStats}
-            tokenIn={tokenIn}
-            tokenOut={tokenOut}
-            onChange={handleFormChange}
-            onSubmit={handleSubmit}
-          />
+        <StakeStats stats={stakeStats} />
 
-          <StakeStats stats={stakeStats} />
-
-          <Faq data={faqItems} />
-        </StakeContainer>
-      )}
+        <Faq data={faqItems} />
+      </StakeContainer>
     </section>
   );
 };

@@ -17,6 +17,7 @@ import { TBnbSyntToken } from './types';
 const ROOT = `${StakeRoutes.main.path}bnb/`;
 const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
 const STAKE_BNB_PATH = `${ROOT}?token=:token?`;
+const STEP_STAKE_BNB_PATH = `${ROOT}:tokenOut/:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -36,6 +37,11 @@ export const RoutesConfig = createRouteConfig(
       path: UNSTAKE_BNB_PATH,
       generatePath: () => generatePath(UNSTAKE_BNB_PATH),
     },
+
+    stakeSteps: {
+      path: STEP_STAKE_BNB_PATH,
+      generatePath: () => generatePath(STEP_STAKE_BNB_PATH),
+    },
   },
   ROOT,
 );
@@ -50,6 +56,16 @@ const Stake = loadable(
 const Unstake = loadable(
   () =>
     import('./screens/UnstakeBinance').then(module => module.UnstakeBinance),
+  {
+    fallback: <QueryLoadingAbsolute />,
+  },
+);
+
+const StakeSteps = loadable(
+  () =>
+    import('./screens/StakeBinanceSteps').then(
+      module => module.StakeBinanceSteps,
+    ),
   {
     fallback: <QueryLoadingAbsolute />,
   },
@@ -78,6 +94,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Unstake />
+          </DefaultLayout>
+        </GuardRoute>
+
+        <GuardRoute
+          exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={RoutesConfig.stakeSteps.path}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
           </DefaultLayout>
         </GuardRoute>
 

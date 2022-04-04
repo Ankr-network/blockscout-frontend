@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -53,6 +54,12 @@ export interface ITxEventsHistoryGroupItem {
   txDate: Date;
   txHash: string;
   txType: string | null;
+}
+
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
 }
 
 export interface ITxEventsHistoryData {
@@ -457,7 +464,35 @@ export class BinanceSDK {
     return { completed, pending };
   }
 
-  public async stake(amount: BigNumber, token: TBnbSyntToken): Promise<void> {
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    return {
+      amount: this.convertFromWei(tx.value),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TBnbSyntToken,
+  ): Promise<{ txHash: string }> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -484,11 +519,13 @@ export class BinanceSDK {
       value: this.convertToHex(bnbSpecificAmount),
     });
 
-    await contractStake().send({
+    const tx = await contractStake().send({
       from: this.currentAccount,
       value: this.convertToHex(bnbSpecificAmount),
       gas: gasLimit,
     });
+
+    return { txHash: tx.transactionHash };
   }
 
   public async unstake(amount: BigNumber): Promise<void> {

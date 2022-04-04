@@ -293,6 +293,7 @@
   },
   "stake": {
     "title": "{token} Liquid Staking",
+    "progressTitle": "Stake",
     "amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
@@ -309,11 +310,17 @@
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
       "fee": "Est Network Fee: {value}"
     },
+    "buttons": {
+      "addToWallet": "Add {token} to wallet",
+      "return": "Go to dashboard"
+    },
     "success": {
       "title": "Stake successful",
       "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
-      "return": "Go to dashboard",
       "add-to-wallet": "Add {token} to wallet"
+    },
+    "pending": {
+      "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the dashboard."
     }
   },
   "stake-avax": {

@@ -34,10 +34,6 @@ import { useSelectedToken } from './useSelectedToken';
 
 const DEBOUNCE_TIME: Milliseconds = 1_000;
 
-interface IUseStakeFormArgs {
-  openSuccessModal: () => void;
-}
-
 interface IUseStakeFormData {
   amount: BigNumber;
   fetchAPYData: BigNumber;
@@ -57,9 +53,7 @@ interface IUseStakeFormData {
   onTokenSelect: (token: TBnbSyntToken) => () => void;
 }
 
-export const useStakeForm = ({
-  openSuccessModal,
-}: IUseStakeFormArgs): IUseStakeFormData => {
+export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState(ZERO);
@@ -141,7 +135,6 @@ export const useStakeForm = ({
       ({ error }) => {
         if (!error) {
           sendAnalytics();
-          openSuccessModal();
         }
       },
     );
