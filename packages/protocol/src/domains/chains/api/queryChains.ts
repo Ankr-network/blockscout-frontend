@@ -66,9 +66,20 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
     const { id, type } = chain;
 
     if (type !== BlockchainType.Extension) {
+      const evmExtension = (extensions[id] || []).find(extension =>
+        extension.id.includes('evm'),
+      );
+
       result.push({
         ...chain,
-        extensions: extensions[id],
+        extensions: evmExtension
+          ? [
+              evmExtension,
+              ...extensions[id].filter(
+                extension => !extension.id.includes('evm'),
+              ),
+            ]
+          : extensions[id],
       });
     }
 

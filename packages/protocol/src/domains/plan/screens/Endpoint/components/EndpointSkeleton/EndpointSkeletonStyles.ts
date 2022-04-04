@@ -19,10 +19,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   links: {
     display: 'flex',
     gap: theme.spacing(0, 2),
-
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-    },
   },
   endpoints: {
     marginTop: theme.spacing(4),
