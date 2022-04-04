@@ -178,7 +178,7 @@
       "/plan/endpoints/bsc/add",
       "/plan/endpoints/iotex/add",
       "/plan/endpoints/nervos/add",
-      "/plan/endpoints/gnosis/add"
+      "/plan/endpoints/gnosis/add",
       "/plan/endpoints/moonbeam/add",
       "/plan/endpoints/nervos/add"
     ],
