@@ -30,11 +30,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   text: {
     fontWeight: 600,
   },
-  right: {
-    '& $copyToClip:not(:last-child)': {
-      marginBottom: theme.spacing(1.5),
-    },
-  },
   preloaderWrapper: {
     minHeight: 85,
     position: 'relative',

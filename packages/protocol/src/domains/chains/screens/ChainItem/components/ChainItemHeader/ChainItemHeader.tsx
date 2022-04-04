@@ -57,9 +57,7 @@ export const ChainItemHeader = ({
           <MainInfo name={name} icon={icon} nodes={nodes} />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
-        <div className={classes.right}>
-          <PublicRPCEndpoints chain={chain} />
-        </div>
+        <PublicRPCEndpoints chain={chain} />
       </div>
       {loading ? exclusivePartPreloader : exclusivePart}
     </div>

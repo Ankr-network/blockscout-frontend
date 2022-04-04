@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
+import { flatNetworkURLs } from 'modules/auth/utils/flatNetworkURLs';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './PublicRPCEndpointsStyles';
@@ -15,21 +16,13 @@ interface PublicRPCEndpointsProps {
 export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
   const classes = useStyles();
 
-  const mainnetURLs = [
-    ...chain.urls,
-    ...(chain.extensions || []).flatMap<IApiChainURL>(({ urls }) => urls),
-    ...(chain.extenders || []).flatMap<IApiChainURL>(({ urls }) => urls),
-  ];
-  const testnetURLs = (chain.testnets || []).flatMap<IApiChainURL>(
-    ({ extensions, urls }) => [
-      ...urls,
-      ...(extensions || []).flatMap<IApiChainURL>(extension => extension.urls),
-    ],
-  );
+  const isNervos = chain.id === 'nervos';
+  const { mainnetURLs, mainnetURLsCount, testnetURLs } = flatNetworkURLs<
+    IApiChainURL,
+    IApiChain
+  >(chain);
 
-  const isTitlePlural =
-    mainnetURLs.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]))
-      .length > 1 || testnetURLs.length > 0;
+  const isTitlePlural = mainnetURLsCount > 1 || testnetURLs.length > 0;
   const title = (
     <Typography variant="body2" className={classes.title}>
       {t('chain-item.header.public-endpoints', {
@@ -38,7 +31,6 @@ export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
     </Typography>
   );
 
-  const isNervos = chain.id === 'nervos';
   const [root, section] = isNervos
     ? [classes.nervos, undefined]
     : [classes.root, classes.section];
