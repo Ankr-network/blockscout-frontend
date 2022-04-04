@@ -1,6 +1,6 @@
 import { Box, ButtonBase, TextField, Typography } from '@material-ui/core';
 import { FormApi } from 'final-form';
-import React, { ReactText, useCallback } from 'react';
+import { ReactText, useCallback } from 'react';
 import {
   Field,
   FieldRenderProps,
@@ -11,6 +11,7 @@ import {
 import { useIsMDUp } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeBlockchainPanel } from 'modules/bridge/components/BridgeBlockchainPanel';
 import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
@@ -278,6 +279,8 @@ export const BridgeMainView = (): JSX.Element => {
             {t('bridge.main.connectBtn')}
           </Button>
         )}
+
+        <AuditedLabel />
 
         <OnChange name={EFieldName.token}>
           {value => {

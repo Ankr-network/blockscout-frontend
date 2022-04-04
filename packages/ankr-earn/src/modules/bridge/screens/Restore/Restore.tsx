@@ -10,6 +10,7 @@ import { Notice } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -143,7 +144,7 @@ export const Restore = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 8 }}>
       <BridgeContainer>
-        <Box component={Paper} pb={6} pl={7} position="relative" pr={7} pt={6}>
+        <Box component={Paper} pb={2} pl={7} position="relative" pr={7} pt={6}>
           <CloseButton onClose={handleClose} />
 
           <Form
@@ -152,6 +153,8 @@ export const Restore = (): JSX.Element => {
             validate={validate}
             onSubmit={onSubmit}
           />
+
+          <AuditedLabel />
         </Box>
       </BridgeContainer>
 

@@ -85,7 +85,7 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
   });
 
   describe('handle swap', () => {
-    test('should handle assets swap properly', () => {
+    test('should handle assets swap properly', async () => {
       const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       act(() => {
@@ -107,18 +107,22 @@ describe('modules/eth2Swap/screens/Main/useEth2SwapHook', () => {
 
       (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
 
-      const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
+      const { result, waitForNextUpdate } = renderHook(() =>
+        useEth2SwapForm(defaultHookProps),
+      );
 
-      await act(() => {
+      act(() => {
         result.current.handleSwap('1');
       });
+
+      await waitForNextUpdate();
 
       expect(result.current.txError).toBe('error');
     });
   });
 
   describe('handle approve', () => {
-    test('should handle approve aETHc for aETHb properly', () => {
+    test('should handle approve aETHc for aETHb properly', async () => {
       const { result } = renderHook(() => useEth2SwapForm(defaultHookProps));
 
       act(() => {

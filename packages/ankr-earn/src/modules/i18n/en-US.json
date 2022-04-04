@@ -604,6 +604,7 @@
   },
   "bridge": {
     "main": {
+      "audited": "Audited by Beosin",
       "finish-bridge": "Finish Bridge",
       "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
