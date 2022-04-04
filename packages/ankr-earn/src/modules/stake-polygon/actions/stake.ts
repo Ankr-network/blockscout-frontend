@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { PolygonSDK } from '../api/PolygonSDK';
@@ -18,7 +19,7 @@ export const stake = createSmartAction<
   [IStakePayload]
 >('polygon/stake', ({ amount }) => ({
   request: {
-    promise: (async () => {
+    promise: (async (): Promise<{ txHash: string }> => {
       const sdk = await PolygonSDK.getInstance();
       return sdk.stake(amount);
     })(),
@@ -30,6 +31,10 @@ export const stake = createSmartAction<
     onSuccess: (response, _action, store) => {
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());
+
+      if (response.data.txHash) {
+        store.dispatch(push(response.data.txHash));
+      }
       return response;
     },
   },

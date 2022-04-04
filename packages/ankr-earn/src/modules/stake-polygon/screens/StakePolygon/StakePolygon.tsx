@@ -16,8 +16,6 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -26,24 +24,14 @@ import { fetchStats } from '../../actions/fetchStats';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
-import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
-  const {
-    token,
-    onAddTokenClick,
-    onSuccessOpen,
-    onSuccessClose,
-    isSuccessOpened,
-  } = useSuccessDialog();
 
   const { amount, handleFormChange, handleSubmit, isStakeLoading } =
-    useStakeForm({
-      openSuccessModal: onSuccessOpen,
-    });
+    useStakeForm();
 
   const faqItems = useFaq();
   const stats = useStakeStats(amount);
@@ -82,33 +70,23 @@ export const StakePolygon = (): JSX.Element => {
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
         <section className={classes.root}>
-          {isSuccessOpened ? (
-            <Container>
-              <StakeSuccessDialog
-                tokenName={token}
-                onAddTokenClick={onAddTokenClick}
-                onClose={onSuccessClose}
-              />
-            </Container>
-          ) : (
-            <StakeContainer>
-              <StakeForm
-                balance={data.maticBalance}
-                loading={isStakeLoading}
-                maxAmount={data.maticBalance}
-                minAmount={data.minimumStake}
-                renderStats={renderStats}
-                tokenIn={t('unit.polygon')}
-                tokenOut={t('unit.amaticb')}
-                onChange={handleFormChange}
-                onSubmit={handleSubmit}
-              />
+          <StakeContainer>
+            <StakeForm
+              balance={data.maticBalance}
+              loading={isStakeLoading}
+              maxAmount={data.maticBalance}
+              minAmount={data.minimumStake}
+              renderStats={renderStats}
+              tokenIn={t('unit.polygon')}
+              tokenOut={t('unit.amaticb')}
+              onChange={handleFormChange}
+              onSubmit={handleSubmit}
+            />
 
-              <StakeStats stats={stats} />
+            <StakeStats stats={stats} />
 
-              <Faq data={faqItems} />
-            </StakeContainer>
-          )}
+            <Faq data={faqItems} />
+          </StakeContainer>
         </section>
       )}
     </Queries>

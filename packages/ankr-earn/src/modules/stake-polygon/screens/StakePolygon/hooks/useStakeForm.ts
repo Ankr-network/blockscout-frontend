@@ -23,10 +23,6 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 
-interface IUseStakeFormArgs {
-  openSuccessModal: () => void;
-}
-
 interface IUseStakeFormData {
   amount: ReactText;
   isStakeLoading: boolean;
@@ -37,9 +33,7 @@ interface IUseStakeFormData {
   handleSubmit: (values: IStakeSubmitPayload) => void;
 }
 
-export const useStakeForm = ({
-  openSuccessModal,
-}: IUseStakeFormArgs): IUseStakeFormData => {
+export const useStakeForm = (): IUseStakeFormData => {
   const [amount, setAmount] = useState<ReactText>('');
 
   const dispatchRequest = useDispatchRequest();
@@ -84,7 +78,6 @@ export const useStakeForm = ({
       ({ error }) => {
         if (!error) {
           sendAnalytics();
-          openSuccessModal();
         }
       },
     );
