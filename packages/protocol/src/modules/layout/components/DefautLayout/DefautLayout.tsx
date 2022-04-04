@@ -16,7 +16,6 @@ import { Breadcrumbs } from '../Breadcrumbs';
 export interface ILayoutProps {
   children?: ReactChild;
   theme?: Themes;
-  isLayoutDefaultColor?: boolean;
   withNoReactSnap?: boolean;
   disableGutters?: boolean;
   isPremiumPlanPage?: boolean;
