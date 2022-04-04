@@ -24,8 +24,8 @@ import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as MoonBeamLogo } from 'assets/img/logo/moonbeam.svg';
 import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
-import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
-import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
+// import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
+// import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ChainId } from 'domains/chains/api/chain';
 
 interface ICrossMenuProps {
@@ -87,7 +87,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         chainId: ChainId.Moonbeam,
         name: 'MoonBeam',
         logo: <MoonBeamLogo />,
-        url: 'https://moonbeam.network/',
+        url: 'https://moonbeam.public-rpc.com/',
       },
       {
         chainId: ChainId.Arbitrum,
@@ -101,18 +101,18 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         logo: <NearLogo />,
         url: 'https://near.public-rpc.com/',
       },
-      {
-        chainId: ChainId.Gnosis,
-        name: 'Gnosis',
-        logo: <GnosisLogo />,
-        url: 'https://gnosis.public-rpc.com/',
-      },
-      {
-        chainId: ChainId.Syscoin,
-        name: 'Syscoin',
-        logo: <SyscoinLogo />,
-        url: 'https://syscoin.public-rpc.com/',
-      },
+      // {
+      //   chainId: ChainId.Gnosis,
+      //   name: 'Gnosis',
+      //   logo: <GnosisLogo />,
+      //   url: 'https://gnosis.public-rpc.com/',
+      // },
+      // {
+      //   chainId: ChainId.Syscoin,
+      //   name: 'Syscoin',
+      //   logo: <SyscoinLogo />,
+      //   url: 'https://syscoin.public-rpc.com/',
+      // },
     ],
     [],
   );
