@@ -27,6 +27,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginBottom: 10,
   },
   btnUnlock: {
+    width: '50%',
     marginTop: theme.spacing(2),
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
 }));

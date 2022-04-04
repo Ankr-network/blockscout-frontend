@@ -2,6 +2,7 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IJwtToken, Web3Address } from 'multirpc-sdk';
 
+import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
 import { MultiService } from '../../api/MultiService';
 import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
 import { withStore } from '../utils/withStore';
@@ -30,6 +31,17 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
         }
 
         await service.getKeyProvider().connect(await injectWeb3Modal());
+
+        const { givenProvider } = service.getKeyProvider().getWeb3();
+
+        await givenProvider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [
+            {
+              chainId: `0x${getExpectedChainId(API_ENV)}`,
+            },
+          ],
+        });
 
         // TODO: try to avoid this timeout in the future PROTOCOL-244
         await timeout();

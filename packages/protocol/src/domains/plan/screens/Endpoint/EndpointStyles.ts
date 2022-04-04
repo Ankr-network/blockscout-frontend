@@ -1,6 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
+  trafficFlow: {
+    marginBottom: theme.spacing(3),
+  },
   section: {
     background: theme.palette.background.paper,
     borderRadius: 18,

@@ -2,22 +2,11 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  text: {
+  title: {
     fontWeight: 600,
 
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
-    },
-  },
-  tooltip: {
-    marginBottom: theme.spacing(2),
-  },
-  copyToClip: {
-    minWidth: 330,
-    width: '100%',
-
-    [theme.breakpoints.down('lg')]: {
-      minWidth: 'auto',
     },
   },
   root: {
@@ -28,10 +17,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
   },
   nervos: {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     gap: theme.spacing(2),
 
     margin: `${theme.spacing(2)}px 0 ${theme.spacing(3)}px`,
+  },
+  section: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: theme.spacing(2),
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(0, 1fr))',
+    },
   },
   link: {
     display: 'flex',
@@ -40,13 +39,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     width: '100%',
   },
-  section: {
-    display: 'flex',
-    gap: theme.spacing(2),
-
-    flex: 1,
-
-    minWidth: 0,
+  copyToClip: {
+    width: '100%',
   },
   label: {
     marginTop: theme.spacing(1),
