@@ -1,4 +1,4 @@
-const POLKADOT_WALLET_NAME = 'Polkadot';
+import { DEFAULT_WALLET_NAME } from 'polkadot';
 
 export const getIsPolkadot = (walletName: string): boolean =>
-  walletName === POLKADOT_WALLET_NAME;
+  walletName === DEFAULT_WALLET_NAME;

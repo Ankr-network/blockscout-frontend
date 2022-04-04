@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 
-import { PolkadotProvider } from 'polkadot';
+import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 import {
   AvailableWriteProviders,
   EWalletId,
@@ -118,7 +118,7 @@ const POLKADOT_COMPATIBLE_WALLETS: TWallets = [
       },
       href: 'https://polkadot.js.org/extension/',
       providerId: AvailableWriteProviders.polkadotCompatible,
-      title: 'Polkadot{.js}',
+      title: DEFAULT_WALLET_NAME,
       walletId: 'polkadot',
     },
   ],

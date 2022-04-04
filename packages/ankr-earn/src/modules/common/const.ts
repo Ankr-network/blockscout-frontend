@@ -56,6 +56,8 @@ export const featuresConfig = {
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
+  isActivePolkadotStaking: currentEnv !== Env.Production,
+  isActivePolkadotUnstaking: currentEnv !== Env.Production,
   isActivePolkadotWallet: currentEnv !== Env.Production,
   isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,

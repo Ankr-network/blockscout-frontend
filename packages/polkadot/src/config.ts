@@ -8,6 +8,8 @@ export interface ISlotAuctionConfig {
   networkType?: TNetworkType;
 }
 
+export const DEFAULT_WALLET_NAME = 'Polkadot{.js}';
+
 export const CURRENT_ENV: EEnvTypes = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as EEnvTypes)
   : EEnvTypes.Develop;

@@ -20,6 +20,7 @@ import { IProvider } from 'provider';
 import PolkadotIcon from './assets/polkadot-icon.svg';
 import {
   CURRENT_ENV,
+  DEFAULT_WALLET_NAME,
   DEVELOP_ROCOCO_CONFIG,
   DEVELOP_WESTEND_CONFIG,
   ISlotAuctionConfig,
@@ -103,7 +104,7 @@ export class PolkadotProvider implements IProvider {
     return {
       icon: PolkadotIcon,
       id: 'polkadot-js',
-      name: 'Polkadot{.js}',
+      name: DEFAULT_WALLET_NAME,
     };
   }
 
