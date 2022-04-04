@@ -28,7 +28,7 @@ export const getRows = (data: ChainNodesTableProps['data']): ProviderRow[] => {
           archiveNodes: 0,
           icon: node.icon,
           organization: node.organization,
-          chainName: capitalize(node.blockchain),
+          chainName: node.blockchain ? capitalize(node.blockchain) : '',
         };
       result[groupBy].totalNodes++;
 

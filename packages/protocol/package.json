@@ -148,6 +148,7 @@
       "/public/iotex/",
       "/public/moonbeam/",
       "/public/nervos/",
+      "/public/gnosis/",
       "/plan/deposit/",
       "/plan/endpoints/avalanche/",
       "/plan/endpoints/eth/",
@@ -163,6 +164,7 @@
       "/plan/endpoints/iotex/",
       "/plan/endpoints/moonbeam/",
       "/plan/endpoints/nervos/",
+      "/plan/endpoints/gnosis/",
       "/plan/endpoints/avalanche/add",
       "/plan/endpoints/eth/add",
       "/plan/endpoints/fantom/add",
@@ -175,6 +177,8 @@
       "/plan/endpoints/near/add",
       "/plan/endpoints/bsc/add",
       "/plan/endpoints/iotex/add",
+      "/plan/endpoints/nervos/add",
+      "/plan/endpoints/gnosis/add"
       "/plan/endpoints/moonbeam/add",
       "/plan/endpoints/nervos/add"
     ],
