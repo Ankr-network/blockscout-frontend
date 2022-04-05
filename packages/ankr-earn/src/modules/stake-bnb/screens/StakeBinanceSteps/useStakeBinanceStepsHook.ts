@@ -62,7 +62,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     dispatchRequest(addBNBTokenToWallet(tokenOut));
   };
 
-  const amount = getAmount(stats?.aBNBcRatio, data?.amount);
+  const amount = getAmount(stats?.aBNBcRatio, data?.amount, stats?.relayerFee);
 
   return {
     amount,
@@ -76,16 +76,18 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   };
 };
 
+// todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
 function getAmount(
   ratio?: BigNumber,
   value?: BigNumber,
+  relayerFee?: BigNumber,
 ): BigNumber | undefined {
   if (!value) {
     return undefined;
   }
 
-  if (ratio) {
-    return value.multipliedBy(ratio);
+  if (ratio && relayerFee) {
+    return value.minus(relayerFee).multipliedBy(ratio);
   }
 
   return value;
