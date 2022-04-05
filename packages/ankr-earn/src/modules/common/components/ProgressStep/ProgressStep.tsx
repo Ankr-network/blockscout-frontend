@@ -195,7 +195,7 @@ export const ProgressStep = ({
             href="/earn/dashboard"
             variant="contained"
           >
-            {t('eth2Swap.buttons.dashboard')}
+            {t('switcher.buttons.dashboard')}
           </NavLink>
 
           <Button

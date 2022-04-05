@@ -34,12 +34,12 @@ import { ETH_BLOCK_OFFSET, ETH_HISTORY_RANGE_STEP } from './const';
 
 export type TEthToken = Token.aETHb | Token.aETHc;
 
-export interface IGetEth2SwapServiceArgs {
+export interface IGetSwitcherServiceArgs {
   providerManager: ProviderManager;
   providerId: AvailableWriteProviders;
 }
 
-export interface IGetEth2SwapServiceData {
+export interface IGetSwitcherServiceData {
   ratio: BigNumber;
   aethBalance: BigNumber;
   fethBalance: BigNumber;

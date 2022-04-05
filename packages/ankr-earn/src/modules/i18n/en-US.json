@@ -39,7 +39,7 @@
     "parachain": "Liquid Crowdloan",
     "boost": "DeFi",
     "more": "More",
-    "eth2Swap": "Switch",
+    "switcher": "Switch",
     "docs": "Docs",
     "litepaper": "Litepaper",
     "bridge": "Bridge"
@@ -468,7 +468,7 @@
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
-    "aethc-descr": "aETHс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
+    "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
     "faq": {
@@ -476,7 +476,7 @@
       "answer-1": "Answer."
     }
   },
-  "eth2Swap": {
+  "switcher": {
     "title": "ANKR Switch",
     "info": "Switch Reward Bearing and Reward Earning Liquid Staking",
     "fee": "Service fee ({fee}%)",

@@ -1,4 +1,4 @@
-import { TSwapOption } from 'modules/eth2Swap/types';
+import { TSwapOption } from 'modules/switcher/types';
 
 import { IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
