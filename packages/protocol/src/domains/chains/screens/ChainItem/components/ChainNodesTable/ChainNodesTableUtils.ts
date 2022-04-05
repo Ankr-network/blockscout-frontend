@@ -82,13 +82,14 @@ export const getRows = (
         height: 0,
       };
     })
-    .sort((a, b) => b.weight.toNumber() - a.weight.toNumber())
     .sort((a, b) => {
-      if (b.weight.toNumber() === a.weight.toNumber()) {
-        return (a.organization || '').localeCompare(b.organization || '');
-      }
+      const firstLevel = b.height - a.height;
+      const secondLevel = b.weight.toNumber() - a.weight.toNumber();
+      const thirdLevel = (a.organization || '').localeCompare(
+        b.organization || '',
+      );
 
-      return 0;
+      return firstLevel || secondLevel || thirdLevel;
     });
 };
 
