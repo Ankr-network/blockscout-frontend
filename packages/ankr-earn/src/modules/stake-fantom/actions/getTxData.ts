@@ -5,7 +5,7 @@ import { TransactionReceipt } from 'web3-eth';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-import { BinanceSDK } from '../api/BinanceSDK';
+import { FantomSDK } from '../api/sdk';
 
 export interface IGetTXData {
   amount: BigNumber;
@@ -14,11 +14,11 @@ export interface IGetTXData {
 }
 
 export const getTxData = createAction<RequestAction<IGetTXData, IGetTXData>>(
-  'bnb/getTxData',
+  'fantom/getTxData',
   ({ txHash }: { txHash: string }) => ({
     request: {
       promise: async (): Promise<IGetTXData> => {
-        const sdk = await BinanceSDK.getInstance();
+        const sdk = await FantomSDK.getInstance();
 
         return sdk.fetchTxData(txHash);
       },
@@ -35,7 +35,7 @@ const POLL_INTERVAL_SECONDS = 3;
 
 export const getTxReceipt = createAction<
   RequestAction<TransactionReceipt, TransactionReceipt>
->('bnb/getTxReceipt', ({ txHash }: { txHash: string }) => ({
+>('fantom/getTxReceipt', ({ txHash }: { txHash: string }) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -45,7 +45,7 @@ export const getTxReceipt = createAction<
     poll: POLL_INTERVAL_SECONDS,
     getData: data => data,
     onRequest: request => {
-      request.promise = BinanceSDK.getInstance().then(sdk =>
+      request.promise = FantomSDK.getInstance().then(sdk =>
         sdk.fetchTxReceipt(txHash),
       );
 

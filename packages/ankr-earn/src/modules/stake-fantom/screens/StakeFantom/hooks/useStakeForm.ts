@@ -32,7 +32,7 @@ interface IUseStakeForm {
   onChange?: (values: IStakeFormPayload) => void;
 }
 
-export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
+export const useStakeForm = (): IUseStakeForm => {
   const [amount, setAmount] = useState<ReactText>('');
   const dispatchRequest = useDispatchRequest();
   const { loading: isStakeLoading } = useMutation({ type: stake });
@@ -75,7 +75,6 @@ export const useStakeForm = (openSuccessModal: () => void): IUseStakeForm => {
     dispatchRequest(stake(stakeAmount)).then(({ error }) => {
       if (!error) {
         sendAnalytics();
-        openSuccessModal();
       }
     });
   };

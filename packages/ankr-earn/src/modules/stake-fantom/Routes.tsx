@@ -15,6 +15,7 @@ import { FANTOM_PROVIDER_ID, FANTOM_STAKING_NETWORKS } from './const';
 const ROOT = `${StakeRoutes.main.path}fantom/`;
 const STAKE_FANTOM_PATH = ROOT;
 const UNSTAKE_FANTOM_PATH = `${UNSTAKE_PATH}fantom/`;
+const STEP_STAKE_FANTOM_PATH = `${ROOT}:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -25,6 +26,10 @@ export const RoutesConfig = createRouteConfig(
     unstake: {
       path: UNSTAKE_FANTOM_PATH,
       generatePath: () => generatePath(UNSTAKE_FANTOM_PATH),
+    },
+    stakeStep: {
+      path: STEP_STAKE_FANTOM_PATH,
+      generatePath: () => generatePath(STEP_STAKE_FANTOM_PATH),
     },
   },
   ROOT,
@@ -41,6 +46,16 @@ const Stake = loadable(
 const Unstake = loadable(
   async () =>
     import('./screens/UnstakeFantom').then(module => module.UnstakeFantom),
+  {
+    fallback: <QueryLoadingAbsolute />,
+  },
+);
+
+const StakeSteps = loadable(
+  async () =>
+    import('./screens/StakeFantomSteps').then(
+      module => module.StakeFantomSteps,
+    ),
   {
     fallback: <QueryLoadingAbsolute />,
   },
@@ -69,6 +84,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />
+          </DefaultLayout>
+        </GuardRoute>
+
+        <GuardRoute
+          exact
+          availableNetworks={FANTOM_STAKING_NETWORKS}
+          path={RoutesConfig.stakeStep.path}
+          providerId={FANTOM_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
           </DefaultLayout>
         </GuardRoute>
 

@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
@@ -49,6 +50,12 @@ interface IGetPastEvents {
   startBlock: number;
   rangeStep: number;
   filter?: Filter;
+}
+
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
 }
 
 export class FantomSDK {
@@ -263,6 +270,30 @@ export class FantomSDK {
     const pastEvents = await Promise.all(eventsPromises);
 
     return flatten(pastEvents);
+  }
+
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
   }
 
   public async stake(amount: BigNumber): Promise<IWeb3SendResult> {
