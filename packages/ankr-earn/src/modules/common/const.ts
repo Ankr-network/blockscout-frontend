@@ -69,7 +69,7 @@ export const featuresConfig = {
   maxStakeAmountBtn: false,
   stakeETH: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
-  stakeAbnbc: currentEnv === Env.Develop,
+  stakeAbnbc: currentEnv !== Env.Production,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
 };
