@@ -161,8 +161,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICbToken: ZERO_ADDR,
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
-    // todo: add actual production bridge address
-    bridge: ZERO_ADDR,
+    bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     // todo: add actual production aETHb address
     aETHbToken: ZERO_ADDR,
   },
