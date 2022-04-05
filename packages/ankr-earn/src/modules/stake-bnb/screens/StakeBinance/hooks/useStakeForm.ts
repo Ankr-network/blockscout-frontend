@@ -56,6 +56,7 @@ interface IUseStakeFormData {
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
+  const [hasErrors, setHasErrors] = useState(false);
   const [amount, setAmount] = useState(ZERO);
   const { loading: isStakeLoading } = useMutation({ type: stake });
   const { selectedToken, handleTokenSelect } = useSelectedToken();
@@ -79,14 +80,15 @@ export const useStakeForm = (): IUseStakeFormData => {
     { amount: formAmount }: IStakeFormPayload,
     invalid: boolean,
   ): void => {
+    setHasErrors(invalid);
+    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
+
     if (invalid) {
       dispatch(resetRequests([getStakeGasFee.toString()]));
     } else if (formAmount) {
       const readyAmount = new BigNumber(formAmount);
       dispatch(getStakeGasFee({ amount: readyAmount, token: selectedToken }));
     }
-
-    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
 
   const debouncedOnChange = useDebouncedCallback(
@@ -144,11 +146,12 @@ export const useStakeForm = (): IUseStakeFormData => {
     (token: TBnbSyntToken) => () => {
       handleTokenSelect(token);
 
-      if (!totalAmount.isZero() && amount) {
+      const shouldUpdateGasFee = !totalAmount.isZero() && amount && !hasErrors;
+      if (shouldUpdateGasFee) {
         dispatch(getStakeGasFee({ amount, token }));
       }
     },
-    [amount, dispatch, handleTokenSelect, totalAmount],
+    [amount, dispatch, handleTokenSelect, hasErrors, totalAmount],
   );
 
   return {

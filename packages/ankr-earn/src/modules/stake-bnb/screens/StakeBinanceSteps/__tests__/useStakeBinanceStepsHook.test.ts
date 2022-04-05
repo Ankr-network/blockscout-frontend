@@ -74,6 +74,8 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
     expect(result.current.error).toBeUndefined();
   });
 
+  // todo: add case with aBNBc value
+
   test('should return error if there is provider error', async () => {
     (useQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
