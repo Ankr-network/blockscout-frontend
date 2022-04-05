@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { ONE_ETH } from 'modules/common/const';
+import { featuresConfig, ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 
 import { StakedABNBB } from '..';
 import {
@@ -31,8 +30,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     tradeLink: 'trade',
     unstakeLink: 'unstake',
     stakeLink: 'stake',
-    stakeType: EBinancePoolEventsMap.Staked,
-    unstakeType: EBinancePoolEventsMap.UnstakePending,
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
@@ -80,6 +77,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
   });
 
   test('should open history dialog properly', async () => {
+    if (!featuresConfig.bnbHistory) {
+      return;
+    }
+
     render(
       <MemoryRouter>
         <StakedABNBB />

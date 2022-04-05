@@ -70,6 +70,8 @@ export const featuresConfig = {
   stakeETH: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: currentEnv === Env.Develop,
+  // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
+  bnbHistory: false,
 };
 
 export enum SupportedChainIDS {

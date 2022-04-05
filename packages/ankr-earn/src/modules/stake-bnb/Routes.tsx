@@ -15,9 +15,10 @@ import { BINANCE_WRITE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
 import { TBnbSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
-const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
 const STAKE_BNB_PATH = `${ROOT}?token=:token?`;
 const STEP_STAKE_BNB_PATH = `${ROOT}:tokenOut/:txHash/`;
+const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
+const UNSTAKE_BNB_BY_TOKEN_PATH = `${UNSTAKE_BNB_PATH}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -35,7 +36,14 @@ export const RoutesConfig = createRouteConfig(
 
     unstake: {
       path: UNSTAKE_BNB_PATH,
-      generatePath: () => generatePath(UNSTAKE_BNB_PATH),
+      generatePath: (token?: TBnbSyntToken) => {
+        return token
+          ? generatePath(UNSTAKE_BNB_BY_TOKEN_PATH, { token })
+          : generatePath(UNSTAKE_BNB_PATH);
+      },
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
     },
 
     stakeSteps: {

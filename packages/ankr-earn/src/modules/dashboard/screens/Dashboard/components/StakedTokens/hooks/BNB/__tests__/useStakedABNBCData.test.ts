@@ -19,6 +19,7 @@ jest.mock('@redux-requests/react', () => ({
 jest.mock('modules/stake-bnb/Routes', () => ({
   RoutesConfig: {
     stake: { generatePath: () => '/stake' },
+    unstake: { generatePath: () => '/unstake' },
   },
 }));
 
@@ -64,6 +65,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const { result } = renderHook(() => useStakedABNBCData());
 
     expect(result.current.stakeLink).toBe('/stake');
+    expect(result.current.unstakeLink).toBe('/unstake');
   });
 
   test('should handle add token to metamask', () => {

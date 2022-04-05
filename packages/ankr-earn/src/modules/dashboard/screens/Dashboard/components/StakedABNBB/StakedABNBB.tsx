@@ -4,9 +4,13 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { Pending } from 'modules/dashboard/components/Pending';
+import {
+  Pending,
+  PendingTemporary,
+} from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 
@@ -63,15 +67,21 @@ export const StakedABNBB = (): JSX.Element => {
     handleLoadTxHistory();
   }, [handleLoadTxHistory, onOpen]);
 
-  const renderedPendingSlot = !pendingValue.isZero() && (
-    <Pending
-      isLoading={isHistoryDataLoading}
-      token={Token.aBNBb}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
-      value={pendingValue}
-      onLoadHistory={handleLoadTxHistory}
-    />
-  );
+  const preventHistoryLoading =
+    !!pendingUnstakeHistory.length || isHistoryDataLoading;
+
+  const renderedPendingSlot =
+    !pendingValue.isZero() && featuresConfig.bnbHistory ? (
+      <Pending
+        isLoading={isHistoryDataLoading}
+        token={Token.aBNBb}
+        tooltip={<PendingTable data={pendingUnstakeHistory} />}
+        value={pendingValue}
+        onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+      />
+    ) : (
+      <PendingTemporary />
+    );
 
   return (
     <>
@@ -90,7 +100,9 @@ export const StakedABNBB = (): JSX.Element => {
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
-        onHistoryBtnClick={handleOpenHistoryDialog}
+        onHistoryBtnClick={
+          featuresConfig.bnbHistory ? handleOpenHistoryDialog : undefined
+        }
         onTradeClick={onTradeClick}
       />
 

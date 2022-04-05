@@ -88,7 +88,8 @@
     "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
     "tooltips": {
-      "comingSoon": "Coming soon"
+      "comingSoon": "Coming soon",
+      "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
     }
   },
   "chain": {
@@ -486,7 +487,6 @@
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
-      "approve": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
@@ -516,6 +516,7 @@
   "unstake-dialog": {
     "title": "How many {token} do you want to redeem?",
     "unstake-fee": "Unstake Fee",
+    "btn-approve": "Approve",
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
     "amount": "Amount",
@@ -543,6 +544,7 @@
     "assets": "Staked tokens",
     "assets-crowdloans": "Liquid crowdloan assets",
     "pending": "Unstaking in progress {value} {token}",
+    "pending-temp": "Unstaking in progress",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
     "stake": "Stake",
@@ -631,7 +633,6 @@
       "you-will-receive": "You will receive:",
       "send-to-another": "Send to another address",
       "approve": "Approve",
-      "approve-tooltip": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf",
       "send": "Send",
       "fee-banner": "You will need a small gas fee (of native token) to claim"
     },

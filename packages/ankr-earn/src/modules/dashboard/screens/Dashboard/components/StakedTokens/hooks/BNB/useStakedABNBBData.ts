@@ -14,10 +14,9 @@ import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
 import { unstake as unstakeBNB } from 'modules/stake-bnb/actions/unstake';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 
 export interface IStakedABNBBData {
@@ -27,8 +26,6 @@ export interface IStakedABNBBData {
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;
-  stakeType: string;
-  unstakeType: string;
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
@@ -41,7 +38,7 @@ export interface IStakedABNBBData {
 export const useStakedABNBBData = (): IStakedABNBBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchStakeBNBStats,
+    type: fetchStats,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
@@ -69,8 +66,6 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
-    stakeType: EBinancePoolEventsMap.Staked,
-    unstakeType: EBinancePoolEventsMap.UnstakePending,
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,

@@ -53,26 +53,25 @@ export interface ITxHistoryData {
 }
 
 export const useStakedBNBTxHistory = (): ITxHistoryData => {
-  const { data, loading: isHistoryDataLoading } =
-    useQuery<ITxEventsHistoryData>({
-      type: fetchTxHistory,
-    });
+  const { data: txHistory, loading: isHistoryDataLoading } = useQuery({
+    type: fetchTxHistory,
+  });
   const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
 
   const staked = getCompletedTransactions({
-    data: data?.completed,
+    data: txHistory?.completed,
     type: EBinancePoolEventsMap.Staked,
     network: network as number,
   });
 
   const unstaked = getCompletedTransactions({
-    data: data?.completed,
+    data: txHistory?.completed,
     type: EBinancePoolEventsMap.UnstakePending,
     network: network as number,
   });
 
-  const pendingUnstake = data?.pending.filter(
+  const pendingUnstake = txHistory?.pending.filter(
     ({ txType }) => txType === EBinancePoolEventsMap.UnstakePending,
   );
 
@@ -97,7 +96,7 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
   }, [dispatch]);
 
   return {
-    txHistory: data,
+    txHistory,
     isHistoryDataLoading,
     pendingUnstakeHistory,
     hasHistory,

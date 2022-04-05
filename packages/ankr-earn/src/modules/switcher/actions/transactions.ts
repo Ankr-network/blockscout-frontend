@@ -70,10 +70,6 @@ export const swapAssets = createAction<
   },
 }));
 
-export interface IApproveAETHCArgs {
-  providerId: AvailableWriteProviders;
-}
-
 export const approve = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
 >('switcher/approve', () => ({

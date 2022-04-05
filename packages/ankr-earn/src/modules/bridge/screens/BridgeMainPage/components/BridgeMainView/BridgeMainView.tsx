@@ -224,7 +224,7 @@ export const BridgeMainView = (): JSX.Element => {
                   color="primary"
                   disabled={isApproved || isApproveButtonLoading}
                   endIcon={
-                    <Tooltip arrow title={tHTML('bridge.main.approve-tooltip')}>
+                    <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                       <Box component="span" display="flex">
                         <QuestionIcon htmlColor="inherit" size="xs" />
                       </Box>

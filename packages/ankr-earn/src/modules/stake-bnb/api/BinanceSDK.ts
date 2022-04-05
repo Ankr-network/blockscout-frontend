@@ -248,7 +248,7 @@ export class BinanceSDK {
     }
   }
 
-  private async getABNBBTokenContract(isForceRead = false): Promise<Contract> {
+  private async getABNBBContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
@@ -290,8 +290,8 @@ export class BinanceSDK {
     const isAbnbb = token === Token.aBNBb;
 
     const tokenContract = isAbnbb
-      ? await this.getABNBBTokenContract()
-      : BinanceSDK.getABNBCContract(this.writeProvider);
+      ? await this.getABNBBContract()
+      : await this.getABNBCContract();
 
     const address = isAbnbb
       ? binanceConfig.aBNBbToken
@@ -317,7 +317,7 @@ export class BinanceSDK {
   }
 
   public async getABNBBBalance(): Promise<BigNumber> {
-    const aBNBbTokenContract = await this.getABNBBTokenContract();
+    const aBNBbTokenContract = await this.getABNBBContract();
 
     const balance = await aBNBbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -528,22 +528,35 @@ export class BinanceSDK {
     return { txHash: tx.transactionHash };
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  public async unstake(amount: BigNumber, token: TBnbSyntToken): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
     const binancePoolContract = await this.getBinancePoolContract();
-    const value = this.convertToHex(amount);
+    const hexAmount = this.convertToHex(amount);
 
-    await binancePoolContract.methods.unstake(value).send({
+    const contractUnstake =
+      binancePoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(hexAmount).send({
       from: this.currentAccount,
     });
   }
 
+  private getUnstakeMethodName(token: TBnbSyntToken) {
+    switch (token) {
+      case Token.aBNBc:
+        return 'unstakeCerts';
+
+      default:
+        return 'unstakeBonds';
+    }
+  }
+
   public async getABNBCRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
-    const aBNBcContract = BinanceSDK.getABNBCContract(provider);
+    const aBNBcContract = await this.getABNBCContract();
     const web3 = provider.getWeb3();
 
     const rawRatio = await aBNBcContract.methods.ratio().call();
@@ -552,22 +565,72 @@ export class BinanceSDK {
     return new BigNumber(ratio);
   }
 
-  private static getABNBCContract(
-    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
-  ): Contract {
+  private async getABNBCContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
 
     return provider.createContract(ABI_ABNBC, binanceConfig.aBNBcToken);
   }
 
   public async getABNBCBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aBNBcContract = BinanceSDK.getABNBCContract(provider);
+    const aBNBcContract = await this.getABNBCContract();
 
     const rawBalance = await aBNBcContract.methods
       .balanceOf(this.currentAccount)
       .call();
 
     return this.convertFromWei(rawBalance);
+  }
+
+  public async approveABNBCUnstake(amount: BigNumber): Promise<boolean> {
+    const isAllowed = await this.checkAllowance(amount);
+
+    if (isAllowed) {
+      return true;
+    }
+
+    const { binanceConfig } = configFromEnv();
+
+    const aBNBcContract = await this.getABNBCContract();
+    const web3 = this.writeProvider.getWeb3();
+
+    const rawAmount = web3.utils.toWei(amount.toString());
+
+    const data = aBNBcContract.methods
+      .approve(binanceConfig.aBNBbToken, rawAmount)
+      .encodeABI();
+
+    const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aBNBcToken,
+      { data, estimate: true },
+    );
+
+    const result = await receiptPromise;
+
+    return !!result;
+  }
+
+  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aBNBcContract = await this.getABNBCContract();
+    const web3 = this.writeProvider.getWeb3();
+    const { binanceConfig } = configFromEnv();
+
+    const allowance = new BigNumber(
+      await aBNBcContract.methods
+        .allowance(this.writeProvider.currentAccount, binanceConfig.aBNBbToken)
+        .call(),
+    );
+    const rawAmount = web3.utils.toWei(amount.toString());
+
+    try {
+      return allowance.isGreaterThanOrEqualTo(rawAmount);
+    } catch (error) {
+      throw new Error(`checkAllowance error. ${error}`);
+    }
   }
 }

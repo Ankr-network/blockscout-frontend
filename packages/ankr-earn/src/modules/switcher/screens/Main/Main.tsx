@@ -13,7 +13,7 @@ import {
   ETH_SCALE_FACTOR,
   ONE_ETH,
 } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -199,7 +199,7 @@ export const Main = (): JSX.Element => {
               className={classes.button}
               disabled={isApproveLoading || !canApprove}
               endIcon={
-                <Tooltip arrow title={t('switcher.tooltips.approve')}>
+                <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                   <Box component="span" display="flex">
                     <QuestionIcon htmlColor="inherit" size="xs" />
                   </Box>

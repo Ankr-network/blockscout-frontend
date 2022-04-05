@@ -6,7 +6,6 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 
 import { useStakedABNBBData } from '../useStakedABNBBData';
 
@@ -74,10 +73,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedAB
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
     expect(result.current.tradeLink).toBe('/trade');
-    expect(result.current.stakeType).toBe(EBinancePoolEventsMap.Staked);
-    expect(result.current.unstakeType).toBe(
-      EBinancePoolEventsMap.UnstakePending,
-    );
   });
 
   test('should handle add token to metamask', () => {
