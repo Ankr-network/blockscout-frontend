@@ -173,7 +173,6 @@ export const StakeBinance = (): JSX.Element => {
           }
           isBalanceLoading={hasError || isFetchStatsLoading}
           isDisabled={isStakeLoading || isFetchStatsLoading}
-          isFeeLoading={isStakeGasLoading}
           loading={hasError || isStakeLoading || isFetchStatsLoading}
           maxAmount={bnbBalance}
           maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}

@@ -37,8 +37,6 @@ export interface IStakeFormComponentProps {
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
   isDisabled?: boolean;
-  isFeeLoading?: boolean;
-  fee?: BigNumber;
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
@@ -66,8 +64,6 @@ export const StakeForm = ({
   isMaxBtnShowed = true,
   maxAmountDecimals,
   feeSlot,
-  fee,
-  isFeeLoading,
   stakingAmountStep,
   renderStats,
   renderFooter,
@@ -92,25 +88,15 @@ export const StakeForm = ({
       const isMultipleOf =
         amount && stakingAmountStep ? +amount % stakingAmountStep === 0 : false;
 
-      const shouldUseFeeValidation =
-        typeof isFeeLoading !== 'undefined' && !isFeeLoading;
-
       if (withAmountStep && !isMultipleOf) {
         errors.amount = t('validation.multiple-of', {
           value: stakingAmountStep,
         });
       }
 
-      if (shouldUseFeeValidation) {
-        const bigAmount = amount && new BigNumber(+amount);
-        if (bigAmount && fee && !balance.isGreaterThan(bigAmount.plus(fee))) {
-          errors.amount = t('validation.fee-plus-amount-wrong');
-        }
-      }
-
       return errors;
     },
-    [stakingAmountStep, isFeeLoading, fee, balance],
+    [stakingAmountStep],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>
@@ -189,10 +175,9 @@ export const StakeForm = ({
         </div>
 
         <OnChange name={FieldsNames.amount}>
-          {(value, previous) => {
-            const isForceUpdateFee = !(value === '0' || value === previous);
+          {() => {
             if (typeof onChange === 'function') {
-              onChange(values, isForceUpdateFee ? false : invalid);
+              onChange(values, invalid);
             }
           }}
         </OnChange>
