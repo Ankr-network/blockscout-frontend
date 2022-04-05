@@ -137,6 +137,7 @@ export const StakeEthereum = (): JSX.Element => {
           <StakeForm
             isMaxBtnShowed
             balance={balance}
+            fee={fee}
             feeSlot={
               <StakeFeeInfo
                 isLoading={isFeeLoading}
@@ -146,6 +147,7 @@ export const StakeEthereum = (): JSX.Element => {
             }
             isBalanceLoading={hasError || isCommonDataLoading}
             isDisabled={loading}
+            isFeeLoading={isFeeLoading}
             loading={hasError || loading}
             minAmount={minAmount}
             renderStats={renderStats}

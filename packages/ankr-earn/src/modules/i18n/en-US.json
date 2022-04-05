@@ -18,7 +18,8 @@
     "number-only": "Must be a number",
     "required": "This field is required",
     "multiple-of": "Value must be multiple of {value}",
-    "invalid-transaction": "This transaction hash is invalid"
+    "invalid-transaction": "This transaction hash is invalid",
+    "fee-plus-amount-wrong": "Amount with fee greater than your balance"
   },
   "meta": {
     "title": "Ankr Earn",
