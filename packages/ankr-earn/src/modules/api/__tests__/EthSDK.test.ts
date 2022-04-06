@@ -299,9 +299,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     {
       const sdk = await EthSDK.getInstance();
 
-      await sdk.addTokenToWallet({
-        swapOption: Token.aETHc,
-      });
+      await sdk.addTokenToWallet(Token.aETHc);
 
       expect(defaultProvider.addTokenToWallet).toBeCalledWith({
         address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
@@ -313,9 +311,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     {
       const sdk = await EthSDK.getInstance();
 
-      await sdk.addTokenToWallet({
-        swapOption: Token.aETHb,
-      });
+      await sdk.addTokenToWallet(Token.aETHb);
 
       expect(defaultProvider.addTokenToWallet).toBeCalledWith({
         address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -328,11 +324,9 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
   test('should not add unknown token to wallet', async () => {
     const sdk = await EthSDK.getInstance();
 
-    await sdk.addTokenToWallet({
-      swapOption: 'unknown' as TEthToken,
-    });
-
-    expect(defaultProvider.addTokenToWallet).not.toBeCalled();
+    expect(async () => {
+      await sdk.addTokenToWallet('unknown' as TEthToken);
+    }).rejects.toThrow();
   });
 
   test('should return tx history for aETHb', async () => {

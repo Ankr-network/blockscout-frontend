@@ -6,7 +6,6 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
-import { useHistory } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { TEthToken } from 'modules/api/EthSDK';
@@ -16,15 +15,14 @@ import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
-import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
-import { getValidSelectedToken } from 'modules/stake-eth/utils/getValidSelectedToken';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 import { useAppDispatch } from 'store/useAppDispatch';
 
+import { useSelectedToken } from './useSelectedToken';
 import { useStakeEthAnalytics } from './useStakeEthAnalytics';
 
 const DEBOUNCE_TIME: Milliseconds = 1_000;
@@ -52,10 +50,7 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState(ZERO);
-  const { replace } = useHistory();
-
-  const stakeParamsToken = RoutesConfig.stake.useParams().token;
-  const selectedToken = getValidSelectedToken(stakeParamsToken);
+  const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -106,13 +101,13 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
 
   const onTokenSelect = useCallback(
     (token: TEthToken) => () => {
-      replace(RoutesConfig.stake.generatePath(token));
+      handleTokenSelect(token);
 
       if (!totalAmount.isZero() && amount) {
         dispatch(getStakeGasFee({ amount, token }));
       }
     },
-    [amount, dispatch, replace, totalAmount],
+    [amount, dispatch, handleTokenSelect, totalAmount],
   );
 
   const handleFormChange = (

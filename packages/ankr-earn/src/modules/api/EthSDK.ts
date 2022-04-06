@@ -52,10 +52,6 @@ export interface IGetTxData {
   destinationAddress?: string;
 }
 
-export interface IAddTokenToWalletArgs {
-  swapOption: TEthToken;
-}
-
 export interface ISharesArgs {
   amount: string;
 }
@@ -96,7 +92,7 @@ enum EPoolEvents {
 
 const CONFIG = configFromEnv();
 
-const TOKENS = {
+const tokensConfigMap = {
   aETHc: {
     address: CONFIG.contractConfig.aethContract,
     symbol: 'aETHc',
@@ -242,16 +238,16 @@ export class EthSDK {
     return new BigNumber(ratio);
   }
 
-  public async addTokenToWallet({
-    swapOption,
-  }: IAddTokenToWalletArgs): Promise<void> {
+  public async addTokenToWallet(token: TEthToken): Promise<boolean> {
     await this.connectWriteProvider();
 
-    const data = TOKENS[swapOption];
+    const data = tokensConfigMap[token];
 
-    if (data) {
-      await this.writeProvider.addTokenToWallet(data);
+    if (!data) {
+      throw new Error('Failed to add token to wallet');
     }
+
+    return this.writeProvider.addTokenToWallet(data);
   }
 
   private async connectWriteProvider(): Promise<void> {
