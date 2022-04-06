@@ -157,13 +157,11 @@ const MAINNET_CONFIG: IStkrConfig = {
     aBNBcToken: '0xE85aFCcDaFBE7F2B096f268e31ccE3da8dA2990A',
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    // todo: add actual production aMATICb token address
-    aMATICbToken: ZERO_ADDR,
+    aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
-    // todo: add actual production aETHb address
-    aETHbToken: ZERO_ADDR,
+    aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
