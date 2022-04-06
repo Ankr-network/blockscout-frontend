@@ -161,8 +161,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
-    // todo: add actual production aETHb address
-    aETHbToken: ZERO_ADDR,
+    aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
