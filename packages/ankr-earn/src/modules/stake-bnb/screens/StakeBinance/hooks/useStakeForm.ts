@@ -154,12 +154,16 @@ export const useStakeForm = (): IUseStakeFormData => {
     [amount, dispatch, handleTokenSelect, hasErrors, totalAmount],
   );
 
+  const minimumStake = fetchStatsData
+    ? fetchStatsData.minStake.plus(fetchStatsData.relayerFee)
+    : undefined;
+
   return {
     amount,
     fetchAPYData,
     relayerFee,
     bnbBalance,
-    minimumStake: fetchStatsData?.minimumStake,
+    minimumStake,
     tokenIn: Token.BNB,
     aBNBcRatio: aBNBcRatio ? new BigNumber(1).div(aBNBcRatio) : ZERO,
     tokenOut: selectedToken,
