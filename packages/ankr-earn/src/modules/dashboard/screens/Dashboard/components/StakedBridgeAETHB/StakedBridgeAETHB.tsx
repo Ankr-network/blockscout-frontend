@@ -2,7 +2,7 @@ import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
 import { StakingBridgeAsset } from 'modules/dashboard/components/StakingBridgeAsset';
 
-import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/useStakedBridgeAETHBData';
+import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/ETH/useStakedBridgeAETHBData';
 
 export const StakedBridgeAETHB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();

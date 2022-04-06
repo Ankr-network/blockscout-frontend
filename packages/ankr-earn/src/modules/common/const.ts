@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { AvailableReadProviders } from 'provider';
+
 import packageJson from '../../../package.json';
 
 import { BlockchainNetworkId, Env } from './types';
@@ -129,3 +131,28 @@ export const POLYGON_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? BlockchainNetworkId.polygon
     : BlockchainNetworkId.smartchainTestnet;
+
+export const ETH_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.ethMainnet
+    : AvailableReadProviders.ethGoerli;
+
+export const AVAX_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.avalancheChain
+    : AvailableReadProviders.avalancheChainTest;
+
+export const BSC_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.binanceChain
+    : AvailableReadProviders.binanceChainTest;
+
+export const FTM_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.ftmOpera
+    : AvailableReadProviders.ftmTestnet;
+
+export const POLYGON_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.polygon
+    : AvailableReadProviders.mumbai;
