@@ -30,6 +30,8 @@ import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_ABNBC from './contracts/aBNBc.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
 
+const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+
 type TPastEventsData = EventData[];
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
@@ -384,7 +386,9 @@ export class BinanceSDK {
       value: this.convertToHex(bnbSpecificAmount),
     });
 
-    const stakeGasFee = await provider.getContractMethodFee(estimatedGas);
+    const increasedGasLimit = this.getIncreasedGasLimit(estimatedGas);
+
+    const stakeGasFee = await provider.getContractMethodFee(increasedGasLimit);
 
     this.stakeGasFee = stakeGasFee;
 
@@ -399,6 +403,10 @@ export class BinanceSDK {
       default:
         return 'stakeAndClaimBonds';
     }
+  }
+
+  private getIncreasedGasLimit(gasLimit: number) {
+    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -522,7 +530,7 @@ export class BinanceSDK {
     const tx = await contractStake().send({
       from: this.currentAccount,
       value: this.convertToHex(bnbSpecificAmount),
-      gas: gasLimit,
+      gas: this.getIncreasedGasLimit(gasLimit),
     });
 
     return { txHash: tx.transactionHash };

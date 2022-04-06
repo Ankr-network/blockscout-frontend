@@ -1,11 +1,12 @@
 import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { getTxData, getTxReceipt } from 'modules/stake-bnb/actions/getTxData';
@@ -62,10 +63,28 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     dispatchRequest(addBNBTokenToWallet(tokenOut));
   };
 
-  const amount = getAmount(stats?.aBNBcRatio, data?.amount, stats?.relayerFee);
+  // todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
+  const calculatedAmount = useMemo(() => {
+    const amount = data?.amount;
+    const ratio = stats?.aBNBcRatio;
+    const relayerFee = stats?.relayerFee;
+
+    if (!amount || !relayerFee) {
+      return undefined;
+    }
+
+    const amountWithoutFee = amount.minus(relayerFee);
+
+    const shouldCalcForAbnbc = tokenOut === Token.aBNBc && ratio;
+    if (shouldCalcForAbnbc) {
+      return amountWithoutFee.multipliedBy(ratio);
+    }
+
+    return amountWithoutFee;
+  }, [data?.amount, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
 
   return {
-    amount,
+    amount: calculatedAmount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: tokenOut,
@@ -75,20 +94,3 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     handleAddTokenToWallet: onAddTokenClick,
   };
 };
-
-// todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
-function getAmount(
-  ratio?: BigNumber,
-  value?: BigNumber,
-  relayerFee?: BigNumber,
-): BigNumber | undefined {
-  if (!value) {
-    return undefined;
-  }
-
-  if (ratio && relayerFee) {
-    return value.minus(relayerFee).multipliedBy(ratio);
-  }
-
-  return value;
-}
