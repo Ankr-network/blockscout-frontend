@@ -11,7 +11,7 @@ interface IFetchStatsResponseData {
   aBNBbBalance: BigNumber;
   aBNBcBalance: BigNumber;
   bnbBalance: BigNumber;
-  minimumStake: BigNumber;
+  minStake: BigNumber;
   minAbnbbUnstake: BigNumber;
   minAbnbcUnstake: BigNumber;
   pendingUnstakes: BigNumber;
@@ -51,7 +51,7 @@ export const fetchStats = createSmartAction<
           aBNBbBalance,
           aBNBcBalance,
           bnbBalance,
-          minimumStake: minimumStake.plus(relayerFee),
+          minStake: minimumStake,
           minAbnbbUnstake: minimumStake,
           minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
           pendingUnstakes,

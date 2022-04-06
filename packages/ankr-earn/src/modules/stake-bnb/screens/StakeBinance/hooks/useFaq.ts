@@ -14,7 +14,7 @@ export const useFaq = (): IFaqItem[] => {
 
   const { redeemPeriod, redeemValue } = useRedeemData();
 
-  const tradeLink: string = useMemo(
+  const aBNBbLink: string = useMemo(
     () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
     [],
   );
@@ -28,15 +28,14 @@ export const useFaq = (): IFaqItem[] => {
       {
         question: t('stake-bnb.faq.question-2'),
         answer: t('stake-bnb.faq.answer-2', {
-          value: stats?.minimumStake ?? 1,
+          total: stats ? stats.minStake.plus(stats.relayerFee) : 1,
+          minStake: stats?.minStake ?? 1,
+          relayerFee: stats?.relayerFee ?? 0,
         }),
       },
       {
         question: t('stake-bnb.faq.question-3'),
-        answer: t('stake-bnb.faq.answer-3', {
-          value: redeemValue,
-          period: redeemPeriod,
-        }),
+        answer: tHTML('stake-bnb.faq.answer-3'),
       },
       {
         question: t('stake-bnb.faq.question-4'),
@@ -44,11 +43,14 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-5'),
-        answer: t('stake-bnb.faq.answer-5'),
+        answer: t('stake-bnb.faq.answer-5', {
+          period: redeemPeriod,
+          value: redeemValue,
+        }),
       },
       {
         question: t('stake-bnb.faq.question-6'),
-        answer: t('stake-bnb.faq.answer-6'),
+        answer: tHTML('stake-bnb.faq.answer-6'),
       },
       {
         question: t('stake-bnb.faq.question-7'),
@@ -60,11 +62,19 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-9'),
-        answer: tHTMLWithRouter('stake-bnb.faq.answer-9', {
-          link: tradeLink,
+        answer: t('stake-bnb.faq.answer-9'),
+      },
+      {
+        question: t('stake-bnb.faq.question-10'),
+        answer: t('stake-bnb.faq.answer-10'),
+      },
+      {
+        question: t('stake-bnb.faq.question-11'),
+        answer: tHTMLWithRouter('stake-bnb.faq.answer-11', {
+          aBNBbLink,
         }),
       },
     ],
-    [redeemPeriod, redeemValue, stats?.minimumStake, tradeLink],
+    [redeemPeriod, redeemValue, stats, aBNBbLink],
   );
 };
