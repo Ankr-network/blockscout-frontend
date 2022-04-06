@@ -5,10 +5,11 @@ import { useStakedABNBBData } from './BNB/useStakedABNBBData';
 import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
 import { useStakedAETHCData } from './ETH/useStakedAETHCData';
+import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
+import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
+import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedMaticData } from './MATIC/useStakedMaticData';
-import { useStakedBridgeAETHBData } from './useStakedBridgeAETHBData';
-import { useStakedBridgeMaticData } from './useStakedBridgeMatic';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
@@ -19,6 +20,7 @@ interface IUseStakedTokensData {
   isABNBCShowed: boolean;
   isMATICShowed: boolean;
   isAMATICBPolygonShowed: boolean;
+  isAMATICBBSCShowed: boolean;
   isAETHBBridgedShowed: boolean;
   isAFTMBShowed: boolean;
 }
@@ -26,6 +28,7 @@ interface IUseStakedTokensData {
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedMaticData();
   const amaticbPolygonData = useStakedBridgeMaticData();
+  const amaticbBSCData = useStakedBridgeBSCMaticData();
   const aethbBridgedData = useStakedBridgeAETHBData();
   const stakedAVAXData = useStakedAVAXData();
   const stakedBNBData = useStakedABNBBData();
@@ -50,6 +53,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAMATICBPolygonShowed = amaticbPolygonData.isShowed;
 
+  const isAMATICBBSCShowed = amaticbBSCData.isShowed;
+
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
 
   const isAFTMBShowed = stakedAFTMBData.isShowed;
@@ -62,6 +67,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isABNBCShowed ||
     isMATICShowed ||
     isAMATICBPolygonShowed ||
+    isAMATICBBSCShowed ||
     isAETHBBridgedShowed ||
     isAFTMBShowed;
 
@@ -76,5 +82,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAFTMBShowed,
     isAMATICBPolygonShowed,
     isAETHBBridgedShowed,
+    isAMATICBBSCShowed,
   };
 };

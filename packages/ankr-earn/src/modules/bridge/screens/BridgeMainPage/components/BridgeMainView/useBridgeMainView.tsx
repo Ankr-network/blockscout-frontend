@@ -76,7 +76,7 @@ const defaultFrom = isMainnet
   : SupportedChainIDS.GOERLI;
 
 const defaultTo = isMainnet
-  ? SupportedChainIDS.POLYGON
+  ? SupportedChainIDS.BSC
   : SupportedChainIDS.BSC_TESTNET;
 
 export const useBridgeMainView = (): IUseBridgeMainView => {
@@ -140,8 +140,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const isApproved = !!approveData;
 
   const onChangeToken = (token: string) => {
-    setTokenValue(token as AvailableBridgeTokens);
     setSwapNetworkItem({ from: defaultFrom, to: defaultTo });
+    setTokenValue(token as AvailableBridgeTokens);
   };
 
   const onChangeNetwork: IUseBridgeMainView['onChangeNetwork'] = (
@@ -243,27 +243,22 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   }, [dispatchRequest, tokenValue, isConnected, isActualNetwork, chainId]);
 
   useProviderEffect(() => {
-    const newNetworks = networkAvailable[tokenValue];
+    const newNetworks = networkAvailable[tokenValue] || [];
 
-    setNetworksOptionsFrom(newNetworks || []);
-    setNetworksOptionsTo(newNetworks || []);
-  }, [tokenValue]);
-
-  useProviderEffect(() => {
     setNetworksOptionsFrom(
-      networksOptionsFrom.map(item => {
+      [...newNetworks].map(item => {
         item.disabled = item.value === swapNetworkItem.to;
         return { ...item };
       }),
     );
 
     setNetworksOptionsTo(
-      networksOptionsTo.map(item => {
+      [...newNetworks].map(item => {
         item.disabled = item.value === swapNetworkItem.from;
         return { ...item };
       }),
     );
-  }, [swapNetworkItem]);
+  }, [tokenValue, swapNetworkItem]);
 
   useProviderEffect(() => {
     setActualNetwork(

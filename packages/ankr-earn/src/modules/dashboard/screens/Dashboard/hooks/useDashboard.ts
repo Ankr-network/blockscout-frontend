@@ -4,6 +4,7 @@ import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
+import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
@@ -29,6 +30,7 @@ export const useDashboard = (): void => {
       resetRequests([
         fetchPolygonStats.toString(),
         fetchAMATICBBridged.toString(),
+        fetchAMATICBBridgedBSC.toString(),
         fetchAETHBBridged.toString(),
         fetchPolygonTxHistory.toString(),
         getEthCommonData.toString(),
@@ -49,6 +51,7 @@ export const useDashboard = (): void => {
 
     dispatch(fetchPolygonStats());
     dispatch(fetchAMATICBBridged());
+    dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAETHBBridged());
     dispatch(fetchPolygonAPY());
 

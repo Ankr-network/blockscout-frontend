@@ -34,7 +34,7 @@ export const useStakedBridgeAETHBData = (): IStakedAETHBData => {
   const onAddTokenClick = () => {
     dispatchRequest(
       watchAsset({
-        token: AvailableBridgeTokens.aMATICb,
+        token: AvailableBridgeTokens.aETHb,
         chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
       }),
     );
