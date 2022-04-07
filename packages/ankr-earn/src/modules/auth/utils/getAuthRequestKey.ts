@@ -5,3 +5,7 @@ export const getAuthRequestKey = (
 ): string => {
   return `/provider-${providerId}`;
 };
+
+export const getFullAuthRequestKey = (
+  providerId: AvailableWriteProviders,
+): string => `auth/connect${getAuthRequestKey(providerId)}`;

@@ -8,15 +8,18 @@ import { useDispatch } from 'react-redux';
 import { AvailableWriteProviders } from 'provider';
 import { Notice } from 'ui';
 
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
+import { isValidETHTransaction } from 'modules/common/utils/isValidETHTransaction';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';
 
-import { CloseButton } from '../../../../uiKit/CloseButton';
-import { useAuth } from '../../../auth/hooks/useAuth';
-import { isValidETHTransaction } from '../../../common/utils/isValidETHTransaction';
 import { fetchTransaction } from '../../actions/fetchTransaction';
 import { RoutesConfig } from '../../RoutesConfig';
 import { AvailableBridgeTokens } from '../../types';
@@ -45,9 +48,23 @@ export const Restore = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
 
-  const { isConnected } = useAuth(AvailableWriteProviders.ethCompatible);
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
 
   const { loading } = useQuery({ type: fetchTransaction.toString() });
+
+  let isConnected = false;
+
+  const { walletsGroupTypes } = useWalletsGroupTypes({
+    postProcessingFn: (providerKey, data): void => {
+      if (providerKey === AvailableWriteProviders.ethCompatible) {
+        isConnected = data.isConnected;
+      }
+    },
+  });
 
   const handleClose = useCallback(() => {
     dispatch(goBack());
@@ -59,12 +76,18 @@ export const Restore = (): JSX.Element => {
         return;
       }
 
+      if (!isConnected) {
+        onOpenModal();
+
+        return;
+      }
+
       dispatchRequest(fetchTransaction(formData)).then(({ error, data }) => {
         if (!error && data) {
           const query = getWithdrawalQuery(
             {
               tx: formData.tx,
-              token: AvailableBridgeTokens.aMATICb,
+              token: data.token as AvailableBridgeTokens,
               chainIdFrom: data.chainIdFrom,
               chainIdTo: data.chainIdTo,
               amount: data.amount.toString(10),
@@ -76,7 +99,7 @@ export const Restore = (): JSX.Element => {
         }
       });
     },
-    [dispatch, dispatchRequest, loading],
+    [dispatch, dispatchRequest, isConnected, loading, onOpenModal],
   );
 
   const renderForm = useCallback(
@@ -121,7 +144,7 @@ export const Restore = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 8 }}>
       <BridgeContainer>
-        <Box component={Paper} pb={6} pl={7} position="relative" pr={7} pt={6}>
+        <Box component={Paper} pb={2} pl={7} position="relative" pr={7} pt={6}>
           <CloseButton onClose={handleClose} />
 
           <Form
@@ -130,8 +153,16 @@ export const Restore = (): JSX.Element => {
             validate={validate}
             onSubmit={onSubmit}
           />
+
+          <AuditedLabel />
         </Box>
       </BridgeContainer>
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
+      />
     </Box>
   );
 };

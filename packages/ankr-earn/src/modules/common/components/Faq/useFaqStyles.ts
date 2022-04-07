@@ -31,5 +31,11 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
         color: theme.palette.primary.main,
       },
     },
+
+    '& code': {
+      background: theme.palette.grey[200],
+      fontSize: '0.8em',
+      padding: '0.1em 0.3em',
+    },
   },
 }));

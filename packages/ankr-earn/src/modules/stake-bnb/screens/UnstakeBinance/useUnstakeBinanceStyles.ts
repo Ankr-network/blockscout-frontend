@@ -1,8 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useUnstakeBinanceStyles = makeStyles(() => ({
-  infoItem: {
+  infoLabel: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: 700,
+  },
+
+  infoValue: {
+    fontSize: 16,
+    fontWeight: 700,
   },
 }));

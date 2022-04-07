@@ -82,3 +82,9 @@ export interface IClaim {
 }
 
 export type TClaimMethod = 'ERC20' | 'PARACHAIN';
+
+export enum EEnvTypes {
+  Develop = 'develop',
+  Production = 'prod',
+  Stage = 'staging',
+}

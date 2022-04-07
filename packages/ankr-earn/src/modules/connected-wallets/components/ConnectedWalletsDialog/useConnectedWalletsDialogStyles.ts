@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { darken, makeStyles } from '@material-ui/core';
 
-export const useConnectedWalletsDialogStyles = makeStyles<Theme>(theme => ({
+export const useConnectedWalletsDialogStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(5, 5, 0, 5),
   },
@@ -10,10 +10,35 @@ export const useConnectedWalletsDialogStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     alignItems: 'start',
   },
+  headerArea: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(4.25),
+  },
   header: {
     fontSize: 30,
-    marginBottom: theme.spacing(4.25),
     textAlign: 'left',
+  },
+  addWalletButton: {
+    margin: theme.spacing(0, 0, 0, 1.5),
+
+    '& > button': {
+      width: 36,
+      minWidth: 36,
+      height: 36,
+      margin: 0,
+      backgroundColor: theme.palette.background.default,
+
+      '&:hover': {
+        backgroundColor: darken(theme.palette.background.default, 0.03),
+        borderColor: darken(theme.palette.background.default, 0.03),
+      },
+    },
+    '& span > svg': {
+      fontSize: 14,
+    },
   },
   network: {
     marginBottom: theme.spacing(4.25),

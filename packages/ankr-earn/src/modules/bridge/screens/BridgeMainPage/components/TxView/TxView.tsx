@@ -18,6 +18,7 @@ import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { withdrawal } from 'modules/bridge/actions/withdrawal';
+import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { Notification } from 'modules/bridge/components/Notification';
 import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
@@ -273,6 +274,8 @@ export const TxView = ({
             <CloseIcon htmlColor="inherit" size="xxs" />
           </Button>
         )}
+
+        <AuditedLabel />
       </Paper>
 
       {currentStep !== EStep.Finish && (

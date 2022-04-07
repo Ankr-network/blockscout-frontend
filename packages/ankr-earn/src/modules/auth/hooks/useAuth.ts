@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
+import { trackConnect } from 'modules/analytics/tracking-actions/trackConnect';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 
 import { connect, IConnect } from '../actions/connect';
@@ -17,12 +18,19 @@ interface IUseAuth extends IUseConnectedData {
 
 export const useAuth = (providerId: AvailableWriteProviders): IUseAuth => {
   const dispatchRequest = useDispatchRequest();
-  const data = useConnectedData(providerId);
+  const connectedData = useConnectedData(providerId);
 
-  const dispatchConnect = useCallback(
-    () => dispatchRequest(connect(providerId)),
-    [dispatchRequest, providerId],
-  );
+  const dispatchConnect = useCallback(() => {
+    const result = dispatchRequest(connect(providerId));
+
+    result.then(({ data, error }) => {
+      if (!error && data) {
+        trackConnect(data.address, data.walletName);
+      }
+    });
+
+    return result;
+  }, [dispatchRequest, providerId]);
 
   const dispatchDisconnect = useCallback(
     () => dispatchRequest(disconnect(providerId)),
@@ -30,7 +38,7 @@ export const useAuth = (providerId: AvailableWriteProviders): IUseAuth => {
   );
 
   return {
-    ...data,
+    ...connectedData,
     dispatchConnect,
     dispatchDisconnect,
   };

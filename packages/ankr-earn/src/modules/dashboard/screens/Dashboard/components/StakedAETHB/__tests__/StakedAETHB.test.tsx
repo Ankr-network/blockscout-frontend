@@ -7,10 +7,22 @@ import { StakedAETHB } from '..';
 import {
   IStakedAETHBData,
   useStakedAETHBData,
-} from '../../StakedTokens/hooks/useStakedAETHBData';
+} from '../../StakedTokens/hooks/ETH/useStakedAETHBData';
+import { useStakedTxHistoryETH } from '../../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
 
-jest.mock('../../StakedTokens/hooks/useStakedAETHBData', () => ({
+jest.mock('modules/common/const', () => ({
+  ...jest.requireActual('modules/common/const'),
+  featuresConfig: {
+    stakeETH: true,
+  },
+}));
+
+jest.mock('../../StakedTokens/hooks/ETH/useStakedAETHBData', () => ({
   useStakedAETHBData: jest.fn(),
+}));
+
+jest.mock('../../StakedTokens/hooks/ETH/useStakedTxHistoryETH', () => ({
+  useStakedTxHistoryETH: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
@@ -21,11 +33,27 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
     tradeLink: '/trade',
     isShowed: true,
     isBalancesLoading: false,
+    isStakeLoading: false,
+    handleAddTokenToWallet: jest.fn(),
+  };
+
+  const defaultStakedTxHistoryData = {
+    stakedAETB: [],
+    stakedAETC: [],
+    pendingUnstakeHistory: [],
+    hasHistory: false,
+    isHistoryLoading: false,
+    pendingValue: ONE_ETH.dividedBy(10 ** 17),
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {
     (useStakedAETHBData as jest.Mock).mockReturnValue(
       defaultStakedAETHBHookData,
+    );
+
+    (useStakedTxHistoryETH as jest.Mock).mockReturnValue(
+      defaultStakedTxHistoryData,
     );
   });
 
@@ -45,5 +73,22 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
+  });
+
+  test('should open history dialog properly', async () => {
+    render(
+      <MemoryRouter>
+        <StakedAETHB />
+      </MemoryRouter>,
+    );
+
+    const menuButton = await screen.findByTestId('menu-button');
+    menuButton.click();
+
+    const historyButton = await screen.findByText('Staking history');
+    historyButton.click();
+
+    const historyDialog = await screen.findByTestId('history-dialog');
+    expect(historyDialog).toBeInTheDocument();
   });
 });

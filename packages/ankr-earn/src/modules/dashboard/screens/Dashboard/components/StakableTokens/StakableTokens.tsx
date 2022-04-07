@@ -8,6 +8,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 import { useStakableAvax } from './hooks/useStakableAvax';
 import { useStakableBnb } from './hooks/useStakableBnb';
+import { useStakableEth } from './hooks/useStakableEth';
 import { useStakableFtm } from './hooks/useStakableFtm';
 import { useStakableMatic } from './hooks/useStakableMatic';
 import { useStakableTokensStyles } from './useStakableTokensStyles';
@@ -18,10 +19,11 @@ export const StakableTokens = (props: BoxProps): JSX.Element | null => {
   const classes = useStakableTokensStyles();
 
   const stakableTokens = [
-    useStakableAvax(),
-    useStakableBnb(),
+    useStakableEth(),
     useStakableMatic(),
+    useStakableBnb(),
     useStakableFtm(),
+    useStakableAvax(),
   ];
 
   const { isLoading, isTokensShowed } = stakableTokens.reduce(

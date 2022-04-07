@@ -10,6 +10,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
 
+import { ConnectWalletsModal } from '../ConnectWalletsModal';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
 import { UnsupportedNetwork } from '../UnsupportedNetwork';
 
@@ -30,12 +31,16 @@ export const GuardRoute = ({
 }: IGuardRouteProps): JSX.Element => {
   const {
     isConnected,
+    isOpenedModal,
     isUnsupportedNetwork,
     supportedNetworks,
     chainId,
-    isMetaMask,
+    isValidWallet,
     dispatchConnect,
     handleSwitchNetwork,
+    walletsGroupTypes,
+    onCloseModal,
+    onOpenModal,
   } = useGuardRoute({
     providerId,
     availableNetworks,
@@ -49,7 +54,7 @@ export const GuardRoute = ({
 
   if (isUnsupportedNetwork) {
     const currentNetwork =
-      chainId && knownNetworks[chainId]
+      typeof chainId === 'number' && knownNetworks[chainId]
         ? knownNetworks[chainId]
         : t('connect.current');
 
@@ -57,7 +62,7 @@ export const GuardRoute = ({
       ({ icon, title, chainId: network }) => (
         <NetworkSelectorItem
           key={network}
-          disabled={!isMetaMask}
+          disabled={!isValidWallet}
           iconSlot={icon}
           title={title}
           onClick={handleSwitchNetwork(network)}
@@ -101,9 +106,15 @@ export const GuardRoute = ({
               ))}
             </NetworkSelector>
           }
-          onConnectClick={dispatchConnect}
+          onConnectClick={onOpenModal}
         />
       </Box>
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
+      />
     </DefaultLayout>
   );
 };

@@ -9,10 +9,11 @@ export const getChartOptions = (
   hasGradient: boolean,
   theme?: Theme,
   isSMDown?: boolean,
+  foreColor = '#fff',
 ): Partial<Props['options']> => {
   return {
     chart: {
-      foreColor: theme?.palette?.text?.primary || '#fff',
+      foreColor,
       toolbar: {
         show: false,
       },

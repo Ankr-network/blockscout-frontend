@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.2 (2022-04-07)
+
+
+### Bug Fixes
+
+* **protocol:** MRPC-747 Fix browserlist ([#679](https://github.com/Ankr-network/ankr-web/issues/679)) ([b0151f3](https://github.com/Ankr-network/ankr-web/commit/b0151f31a9b4b8ee92f4584bdd4780db9dfb1914))
+
+
+
+
+
+## 1.3.1 (2022-04-04)
+
+**Note:** Version bump only for package polkadot
+
+
+
+
+
 # 1.3.0 (2022-04-01)
 
 

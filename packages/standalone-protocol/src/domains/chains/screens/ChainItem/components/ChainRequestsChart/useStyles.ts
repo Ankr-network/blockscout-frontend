@@ -8,6 +8,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&.harmony': {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
+    '&.syscoin': {
+      borderRadius: 0,
+      border: `1px solid ${theme.palette.grey[300]}`,
+    },
   },
   header: {
     paddingBottom: theme.spacing(3),

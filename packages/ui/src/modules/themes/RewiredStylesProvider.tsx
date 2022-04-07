@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core';
 import { StylesProviderProps } from '@material-ui/styles';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { create } from 'jss';
 
 const generateClassName = createGenerateClassName({

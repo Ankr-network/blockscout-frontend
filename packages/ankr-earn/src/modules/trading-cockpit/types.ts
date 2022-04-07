@@ -8,6 +8,8 @@ export enum AvailableTokens {
   aAVAXb = 'aAVAXb',
   BNB = 'BNB',
   aBNBb = 'aBNBb',
+  FTM = 'FTM',
+  aFTMb = 'aFTMb',
 }
 
 export enum AvailablePlatforms {

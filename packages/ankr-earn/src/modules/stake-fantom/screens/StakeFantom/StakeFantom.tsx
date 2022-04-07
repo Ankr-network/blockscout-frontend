@@ -17,8 +17,6 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -26,7 +24,6 @@ import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStats } from './hooks/useStakeStats';
-import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
 export const StakeFantom = (): JSX.Element => {
@@ -34,9 +31,6 @@ export const StakeFantom = (): JSX.Element => {
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
-
-  const { isSuccessOpened, onAddTokenClick, onSuccessClose, onSuccessOpen } =
-    useSuccessDialog();
 
   const {
     isCommonDataLoading,
@@ -48,7 +42,7 @@ export const StakeFantom = (): JSX.Element => {
     tokenOut,
     onChange,
     onSubmit,
-  } = useStakeForm(onSuccessOpen);
+  } = useStakeForm();
 
   const faqItems = useFaq();
   const stats = useStakeStats(amount);
@@ -59,17 +53,16 @@ export const StakeFantom = (): JSX.Element => {
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
-    (value: BigNumber) => {
+    (formAmount: BigNumber) => {
       return (
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={tokenOut}>
-              {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
-            </StakeDescriptionAmount>
-
-            <small>{tokenOut}</small>
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
 
             <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
               <ButtonBase className={classes.questionBtn}>
@@ -85,41 +78,28 @@ export const StakeFantom = (): JSX.Element => {
 
   return (
     <section className={classes.root}>
-      {isSuccessOpened ? (
-        <Container>
-          <StakeSuccessDialog
-            tokenName={tokenOut}
-            onAddTokenClick={onAddTokenClick}
-            onClose={onSuccessClose}
-          />
-        </Container>
-      ) : (
-        <StakeContainer>
-          {hasError && (
-            <ErrorMessage
-              title={t('error.some')}
-              onClick={onErroMessageClick}
-            />
-          )}
+      <StakeContainer>
+        {hasError && (
+          <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
+        )}
 
-          <StakeForm
-            balance={balance}
-            isBalanceLoading={hasError || isCommonDataLoading}
-            isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
-            loading={hasError || loading}
-            minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
-            renderStats={renderStats}
-            tokenIn={tokenIn}
-            tokenOut={tokenOut}
-            onChange={onChange}
-            onSubmit={onSubmit}
-          />
+        <StakeForm
+          balance={balance}
+          isBalanceLoading={hasError || isCommonDataLoading}
+          isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
+          loading={hasError || loading}
+          minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
+          renderStats={renderStats}
+          tokenIn={tokenIn}
+          tokenOut={tokenOut}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
 
-          <StakeStats stats={stats} />
+        <StakeStats stats={stats} />
 
-          <Faq data={faqItems} />
-        </StakeContainer>
-      )}
+        <Faq data={faqItems} />
+      </StakeContainer>
     </section>
   );
 };

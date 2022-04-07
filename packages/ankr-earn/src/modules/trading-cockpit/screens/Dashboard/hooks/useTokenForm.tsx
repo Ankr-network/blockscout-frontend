@@ -36,7 +36,7 @@ export const useTokenForm = ({
   const [amount, setAmount] = useState(defaultAmount);
   const dispatchRequest = useDispatchRequest();
   const options = useTokenSelectOptions();
-  const { push } = useHistory();
+  const { replace } = useHistory();
 
   const { loading } = useQuery({
     type: getPrices,
@@ -48,7 +48,7 @@ export const useTokenForm = ({
       setToToken(values.toToken as AvailableTokens);
       setAmount(values.amount);
 
-      push(
+      replace(
         BoostRoutes.tradingCockpit.generatePath(
           values.fromToken,
           values.toToken,
@@ -63,11 +63,11 @@ export const useTokenForm = ({
         }),
       );
     },
-    [dispatchRequest, push],
+    [dispatchRequest, replace],
   );
 
   useInitEffect(() => {
-    push(BoostRoutes.tradingCockpit.generatePath(fromToken, toToken));
+    replace(BoostRoutes.tradingCockpit.generatePath(fromToken, toToken));
     dispatchRequest(
       getPrices({
         fromToken,

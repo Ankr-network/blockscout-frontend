@@ -1,16 +1,25 @@
 import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
-import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
+import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { useStakedMaticData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/MATIC/useStakedMaticData';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import {
@@ -33,12 +42,17 @@ export const UnstakePolygon = (): JSX.Element => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
+  const amaticbData = useStakedMaticData();
 
   const {
     isOpened: isSuccessOpened,
     onClose: onSuccessClose,
     onOpen: onSuccessOpen,
   } = useDialog();
+
+  const { data: fetchStatsData } = useQuery({
+    type: fetchStats,
+  });
 
   useProviderEffect(() => {
     dispatchRequest(fetchAPY());
@@ -51,21 +65,49 @@ export const UnstakePolygon = (): JSX.Element => {
     history.push(DashboardRoutes.dashboard.generatePath());
   }, [history]);
 
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const sendAnalytics = useCallback(
+    (amount: BigNumber) => {
+      trackUnstake({
+        address,
+        name: walletName,
+        amount,
+        stakeToken: Token.MATIC,
+        syntheticToken: Token.aMATICb,
+        fee: fetchStatsData?.unstakeFee,
+        newTokenBalance: fetchStatsData?.maticBalance ?? ZERO,
+        newStakedBalance: amaticbData.amount,
+        newSynthTokens: fetchStatsData?.aMaticbBalance ?? ZERO,
+      });
+    },
+    [
+      address,
+      amaticbData.amount,
+      fetchStatsData?.aMaticbBalance,
+      fetchStatsData?.maticBalance,
+      fetchStatsData?.unstakeFee,
+      walletName,
+    ],
+  );
+
   const onUnstakeSubmit = useCallback(
     ({ amount }: IUnstakeFormValues) => {
       if (!amount) {
         return;
       }
 
-      dispatchRequest(unstake({ amount: new BigNumber(amount) })).then(
-        ({ error }) => {
-          if (!error) {
-            onSuccessOpen();
-          }
-        },
-      );
+      const resultAmount = new BigNumber(amount);
+      dispatchRequest(unstake({ amount: resultAmount })).then(({ error }) => {
+        if (!error) {
+          sendAnalytics(resultAmount);
+          onSuccessOpen();
+        }
+      });
     },
-    [dispatchRequest, onSuccessOpen],
+    [dispatchRequest, onSuccessOpen, sendAnalytics],
   );
 
   const { loading: unstakeLoading } = useMutation({ type: unstake.toString() });

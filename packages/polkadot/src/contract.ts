@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import bs58 from 'bs58';
-import { IWeb3SendResult, Web3KeyProvider } from 'provider';
+import { IWeb3SendResult, Web3KeyWriteProvider } from 'provider';
 import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import ABI_REWARD_POOL from './abi/RewardPool.json';
@@ -33,7 +33,7 @@ export class ContractManager {
   private readonly rewardPool: Contract;
 
   public constructor(
-    private readonly keyProvider: Web3KeyProvider,
+    private readonly keyProvider: Web3KeyWriteProvider,
     config: {
       rewardPoolAddress: string;
     },

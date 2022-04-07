@@ -10,6 +10,6 @@ export const useStakeBinanceStyles = makeStyles(theme => ({
   },
 
   questionBtn: {
-    margin: 5,
+    margin: theme.spacing(0, 0, 0, 0.75),
   },
 }));

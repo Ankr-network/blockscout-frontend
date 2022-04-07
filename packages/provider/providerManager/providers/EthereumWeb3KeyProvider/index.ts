@@ -1,13 +1,13 @@
 import Web3 from 'web3';
 import Web3Modal, { ThemeColors } from 'web3modal';
-import { Web3KeyProvider } from '../../Web3KeyProvider';
+import { Web3KeyWriteProvider } from '../../Web3KeyWriteProvider';
 import { providerDefaultOptions } from './providerDefaultOptions';
 
 interface IEthereumWeb3KeyProviderArgs {
   web3ModalTheme: ThemeColors;
 }
 
-export class EthereumWeb3KeyProvider extends Web3KeyProvider {
+export class EthereumWeb3KeyProvider extends Web3KeyWriteProvider {
   private web3ModalTheme: ThemeColors;
 
   constructor({ web3ModalTheme }: IEthereumWeb3KeyProviderArgs) {
@@ -24,11 +24,9 @@ export class EthereumWeb3KeyProvider extends Web3KeyProvider {
     });
 
     // get provider after user selects the provider and grants access
-    const provider = walletId
+    this.provider = walletId
       ? await web3Modal.connectTo(walletId)
       : await web3Modal.connect();
-
-    this.provider = provider;
 
     // inject web3
     this.web3 = new Web3(this.provider);

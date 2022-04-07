@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ChainId } from 'domains/chains/api/chain';
 
 export const useMetatags = (chainId: ChainId) => {
@@ -42,5 +42,27 @@ export const hasAnnounce = (chainId: ChainId): boolean => {
 
     default:
       return false;
+  }
+};
+
+export const hasBanner = (chainId?: string): boolean => {
+  switch (chainId) {
+    case ChainId.Polygon:
+      return true;
+
+    default:
+      return false;
+  }
+};
+
+export const getBannerContent = (chainId?: string): string => {
+  switch (chainId) {
+    case ChainId.Polygon:
+      return t('chain-item.banner.polygon');
+    case ChainId.Moonbeam:
+      return tHTML('chain-item.banner.moonbeam');
+
+    default:
+      return '';
   }
 };

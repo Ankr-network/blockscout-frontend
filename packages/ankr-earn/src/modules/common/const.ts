@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { AvailableReadProviders } from 'provider';
+
 import packageJson from '../../../package.json';
 
 import { BlockchainNetworkId, Env } from './types';
@@ -29,10 +31,16 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
 
 export const isMainnet = currentEnv === Env.Production;
 
+export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
+export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
+
 export const LITEPAPER_EN =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';
 export const LITEPAPER_CN =
   'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
+
+export const BRIDGE_AUDIT_LINK =
+  'https://assets.ankr.com/earn/ankr_bridge_security_audit.pdf';
 
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/uYaNu23Ww7',
@@ -47,28 +55,29 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveMyRewardsClaimModalNewParts: false,
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
-  isActiveBNBStaking: true,
-  isActiveBNBUnstaking: true,
   isActiveClaimNotification: false,
+  isActivePolkadotStaking: currentEnv !== Env.Production,
+  isActivePolkadotUnstaking: currentEnv !== Env.Production,
+  isActivePolkadotWallet: currentEnv !== Env.Production,
+  isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-911 remove this flag when the feature will be done
-  stakeFantom: true,
-  // todo: STAKAN-935 remove this flag when the feature will be done
-  unstakeFantom: true,
   // todo: STAKAN-917 remove after completion
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  stakeETH: currentEnv === Env.Develop,
-  progressStep: currentEnv === Env.Develop,
+  stakeETH: currentEnv !== Env.Production,
+  // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
+  stakeAbnbc: true,
+  // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
+  bnbHistory: false,
 };
 
 export enum SupportedChainIDS {
+  // EVM Compatible
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
   AVAX = BlockchainNetworkId.avalanche,
@@ -78,6 +87,12 @@ export enum SupportedChainIDS {
   FANTOM_OPERA = BlockchainNetworkId.fantom,
   FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
   POLYGON = BlockchainNetworkId.polygon,
+
+  // Polkadot Compatible
+  KUSAMA = BlockchainNetworkId.kusama,
+  POLKADOT = BlockchainNetworkId.polkadot,
+  ROCOCO = BlockchainNetworkId.rococo,
+  WESTEND = BlockchainNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -111,3 +126,33 @@ export const FTM_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? BlockchainNetworkId.fantom
     : BlockchainNetworkId.fantomTestnet;
+
+export const POLYGON_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? BlockchainNetworkId.polygon
+    : BlockchainNetworkId.smartchainTestnet;
+
+export const ETH_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.ethMainnet
+    : AvailableReadProviders.ethGoerli;
+
+export const AVAX_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.avalancheChain
+    : AvailableReadProviders.avalancheChainTest;
+
+export const BSC_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.binanceChain
+    : AvailableReadProviders.binanceChainTest;
+
+export const FTM_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.ftmOpera
+    : AvailableReadProviders.ftmTestnet;
+
+export const POLYGON_PROVIDER_BY_ENV =
+  currentEnv === Env.Production
+    ? AvailableReadProviders.polygon
+    : AvailableReadProviders.mumbai;

@@ -4,6 +4,9 @@ import { RequestsLog } from './ChainRequestsChartTypes';
 
 export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
+    case ChainId.Moonbeam:
+      return '#74C8C7';
+
     case ChainId.Near:
       return '#668BF2';
 
@@ -12,6 +15,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.Erigonbsc:
       return theme.palette.common.white;
+
+    case ChainId.Gnosis:
+      return '#439AB1';
 
     default:
       return theme.palette.primary.main;
@@ -29,7 +35,11 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.IoTeX:
     case ChainId.Nervos:
+    case ChainId.Moonbeam:
       return theme.palette.common.white;
+
+    case ChainId.Gnosis:
+      return theme.palette.error.main;
 
     default:
       return theme.palette.primary.dark;
@@ -42,10 +52,21 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.IoTeX:
     case ChainId.Avalanche:
     case ChainId.Nervos:
+    case ChainId.Gnosis:
       return false;
 
     default:
       return true;
+  }
+};
+
+export const getForeColor = (chainId: ChainId, theme: Theme) => {
+  switch (chainId) {
+    case ChainId.Gnosis:
+      return theme.palette.grey['500'];
+
+    default:
+      return theme.palette.text.primary;
   }
 };
 

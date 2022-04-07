@@ -21,6 +21,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   addNetworkButton: {
     marginLeft: `${theme.spacing(2)}px !important`,
+
+    '&.gnosis': {
+      backgroundColor: theme.palette.common.white,
+      borderRadius: 9,
+    },
   },
   link: {
     width: '100%',

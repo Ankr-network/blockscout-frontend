@@ -3,7 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { Field } from 'react-final-form';
 
-import { DEFAULT_FIXED, ZERO } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
 import { t } from 'modules/i18n/utils/intl';
 import { AmountField } from 'uiKit/AmountField';
@@ -17,18 +17,20 @@ interface IAmountInputProps {
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
   disabled?: boolean;
-  onMaxClick?: () => void;
   label: string;
   name?: string;
   tokenName?: string;
   inputClassName?: string;
   minAmount?: number;
+  maxAmount?: BigNumber;
   showBalance?: boolean;
+  maxDecimals?: number;
+  onMaxClick?: () => void;
 }
 
 export const AmountInput = ({
   balance,
-  onMaxClick,
+  maxAmount = balance,
   isBalanceLoading = false,
   isIntegerOnly = false,
   disabled = false,
@@ -38,10 +40,11 @@ export const AmountInput = ({
   inputClassName,
   minAmount = MIN_AMOUNT,
   showBalance = true,
+  maxDecimals,
+  onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
-  const maxAmount = balance || ZERO;
   const roundedBalance = balance
     ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_HALF_DOWN).toFormat()
     : '0';
@@ -96,6 +99,7 @@ export const AmountInput = ({
         }}
         isIntegerOnly={isIntegerOnly}
         label={label}
+        maxDecimalsLen={maxDecimals}
         name={name}
         placeholder="0"
         validate={validateAmount}
