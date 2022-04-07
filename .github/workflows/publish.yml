@@ -40,13 +40,8 @@ jobs:
 
       - name: Publish
         working-directory: ./packages/${{ github.event.inputs.package }}/
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm config set scope @ankr.com --global
-          npm config set @ankr.com:registry https://registry.npmjs.org
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
           yarn build
