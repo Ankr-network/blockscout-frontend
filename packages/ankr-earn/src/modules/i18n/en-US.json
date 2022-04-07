@@ -361,7 +361,7 @@
       "answer-2": "{total} BNB: {minStake} BNB, plus the relayer fee — {relayerFee} BNB. You must also count in the gas fee on top for sending the transaction.",
       "question-3": "Why do I get less aBNBc than aBNBb for my 1 BNB?",
       "answer-3": "aBNBb is a rebasing token that changes in number, which is why we decided 1 aBNBb is equal to 1 BNB. However, aBNBc only changes in value, which is why the amount of aBNBc you get when staking is calculated by the formula <code>stake * exchange_ratio</code>. The exchange ratio is calculated like this: <code>totals_supply_of_abnbc / (total_staked_bnb + total_rewards_for_staked_bnb - total_unstaked_abnbb_and_abnbc)</code>.",
-      "question-4": "Is there a maximum amount I can stake",
+      "question-4": "Is there a maximum amount I can stake?",
       "answer-4": "No, you can stake at your discretion, unlimited.",
       "question-5": "What is the unbonding period for aBNBb/aBNBc?",
       "answer-5": "~{value} {period}",
