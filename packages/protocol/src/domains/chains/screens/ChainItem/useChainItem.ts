@@ -36,7 +36,9 @@ export const useChainItemBreadcrumbs = (chainName: string) => {
     [setBreadcrumbs],
   );
 
-  handleSetBreadcrumbs(chainName);
+  useEffect(() => {
+    handleSetBreadcrumbs(chainName);
+  }, [handleSetBreadcrumbs, chainName]);
 };
 
 export const useTimeframeData = (chainId: string, date: Timeframe = '24h') => {

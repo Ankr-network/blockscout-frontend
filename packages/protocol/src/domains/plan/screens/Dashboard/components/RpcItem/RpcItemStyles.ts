@@ -59,6 +59,14 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
       width: '100%',
     },
   },
+  item: {
+    [theme.breakpoints.down('sm')]: {
+      '&:not(:last-child)': {
+        marginBottom: theme.spacing(2),
+      },
+      width: '100%',
+    },
+  },
   description: {
     display: 'flex',
 

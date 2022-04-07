@@ -1,9 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, { chainId?: string }>(theme => ({
+export const useStyles = makeStyles<
+  Theme,
+  { chainId?: string; bannerHeight: number }
+>(theme => ({
   root: {
     width: '100%',
-    paddingTop: theme.spacing(8),
+    paddingTop: ({ bannerHeight }) => `${theme.spacing(3) + bannerHeight}px`,
     paddingBottom: theme.spacing(8),
     textAlign: 'center',
   },
@@ -17,6 +20,16 @@ export const useStyles = makeStyles<Theme, { chainId?: string }>(theme => ({
     padding: '1em',
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.primary.main,
+    fontSize: 16,
+
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing(9),
+    },
+
+    '&.moonbeam': {
+      backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.text.primary,
+    },
   },
   title: {
     marginBottom: 20,
@@ -43,6 +56,9 @@ export const useStyles = makeStyles<Theme, { chainId?: string }>(theme => ({
   },
   description: {
     '&.avalanche span': {
+      color: theme.palette.text.primary,
+    },
+    '&.moonbeam span': {
       color: theme.palette.text.primary,
     },
 

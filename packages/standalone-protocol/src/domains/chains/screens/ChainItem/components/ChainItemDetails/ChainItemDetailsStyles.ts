@@ -54,6 +54,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
         },
       },
     },
+
+    '&.syscoin $block': {
+      borderRadius: 0,
+      backgroundColor: theme.palette.grey['200'],
+    },
   },
 
   block: {},

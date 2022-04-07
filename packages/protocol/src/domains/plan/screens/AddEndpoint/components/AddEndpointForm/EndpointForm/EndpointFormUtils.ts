@@ -11,6 +11,14 @@ const validateNode = debouncePromise((value: string, chainId: string) => {
   return rpcGateway.validateNode(value);
 }, 400);
 
+const matchEndpoint = (endpoints: string[] = [], url: string) => {
+  return (
+    endpoints.filter(
+      endpoint => endpoint.toLowerCase().replace(/\/+$/, '') === url,
+    ).length > 0
+  );
+};
+
 export const validateUserEndpoint = async (
   value: string | undefined,
   chainId: string,
@@ -22,21 +30,21 @@ export const validateUserEndpoint = async (
     return t('validation.required');
   }
 
-  const preparedValue = value.toLowerCase().replace(/\/$/, '');
+  const preparedValue = value.toLowerCase().replace(/\/+$/, '');
 
   if (!isHttpsUri(preparedValue)) {
     return t('validation.https-validation');
   }
 
-  if (privateUrls.includes(preparedValue)) {
+  if (matchEndpoint(privateUrls, preparedValue)) {
     return t('validation.premium-url-validation');
   }
 
-  if (endpoints.includes(preparedValue)) {
+  if (matchEndpoint(endpoints, preparedValue)) {
     return t('validation.duplicate-url-validation');
   }
 
-  if (publicUrls.includes(preparedValue)) {
+  if (matchEndpoint(publicUrls, preparedValue)) {
     return t('validation.public-url-validation');
   }
 

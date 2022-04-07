@@ -4,6 +4,7 @@ import { IProvider } from 'multirpc-sdk';
 import { useStyles } from './EndpointStyles';
 import { PrivateEndpoints } from './components/PrivateEndpoints';
 import { ChainMainInfo } from './components/ChainMainInfo';
+import { TrafficFlow } from './components/TrafficFlow';
 import { UserEndpoints } from './components/UserEndpoints';
 import {
   canAddEndpoint,
@@ -70,6 +71,9 @@ export const EndpointInfo = ({
   return (
     <>
       <ChainMainInfo name={privateChain.name} logoSrc={privateChain.icon} />
+      <div className={classes.trafficFlow}>
+        <TrafficFlow />
+      </div>
       <div className={classes.section}>
         <PrivateEndpoints chain={privateChain} />
       </div>

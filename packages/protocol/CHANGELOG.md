@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.1 (2022-04-04)
+
+**Note:** Version bump only for package ankr-protocol-web
+
+
+
+
+
+# 1.3.0 (2022-04-01)
+
+
+### Features
+
+* **protocol-backoffice:** MRPC-718 Add ci for backoffice ([#634](https://github.com/Ankr-network/ankr-web/issues/634)) ([b2bc671](https://github.com/Ankr-network/ankr-web/commit/b2bc671ca589782649eb305d1eeb99087722e51e))
+
+
+
+
+
+## 1.2.1 (2022-03-31)
+
+**Note:** Version bump only for package ankr-protocol-web
+
+
+
+
+
+# 1.2.0 (2022-03-29)
+
+
+### Features
+
+* **protocol:** MRPC-729 Hide faq link ([#617](https://github.com/Ankr-network/ankr-web/issues/617)) ([e4ba428](https://github.com/Ankr-network/ankr-web/commit/e4ba4282bab188207ffa56655be3a3fb65e78c75))
+
+
+
+
+
 ## 1.1.6 (2022-03-28)
 
 

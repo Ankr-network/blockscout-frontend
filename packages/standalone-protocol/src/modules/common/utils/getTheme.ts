@@ -1,5 +1,6 @@
 import { mainTheme } from '../../themes/mainTheme';
 import { polygonTheme } from '../../themes/polygonTheme';
+import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { solanaTheme } from '../../themes/solanaTheme';
 import { nearTheme } from '../../themes/nearTheme';
 import { arbitrumTheme } from '../../themes/arbitrumTheme';
@@ -9,9 +10,14 @@ import { nervosTheme } from '../../themes/nervosTheme';
 import { erigonTheme } from '../../themes/erigonTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { harmonyTheme } from 'modules/themes/harmonyTheme';
+import { gnosisTheme } from 'modules/themes/gnosisTheme';
+import { syscoinTheme } from 'modules/themes/syscoinTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
+    case ChainId.Moonbeam:
+      return moonbeamTheme;
+
     case ChainId.Polygon:
       return polygonTheme;
 
@@ -38,6 +44,12 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Harmony:
       return harmonyTheme;
+
+    case ChainId.Gnosis:
+      return gnosisTheme;
+
+    case ChainId.Syscoin:
+      return syscoinTheme;
 
     default:
       return mainTheme;

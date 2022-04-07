@@ -12,6 +12,7 @@ import {
   getTotalRequestsColor,
   hasGradient,
   processData,
+  getForeColor,
 } from './ChainRequestsChartUtils';
 
 export const ChainRequestsChart = ({
@@ -76,6 +77,7 @@ export const ChainRequestsChart = ({
           series={chartSeries}
           theme={theme}
           hasGradient={hasGradient(chainId)}
+          foreColor={getForeColor(chainId, theme)}
         />
       )}
     </div>
