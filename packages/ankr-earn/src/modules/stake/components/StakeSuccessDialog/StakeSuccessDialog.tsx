@@ -40,7 +40,7 @@ export const StakeSuccessDialog = ({
               href={DashboardRoutes.dashboard.generatePath()}
               variant="contained"
             >
-              {t('stake.success.return')}
+              {t('stake.buttons.return')}
             </NavLink>
           </Grid>
 

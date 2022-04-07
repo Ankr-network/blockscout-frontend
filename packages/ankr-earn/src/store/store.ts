@@ -35,7 +35,8 @@ export interface IStoreState {
   i18n: Ti18nState;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   notification: any;
-  requests: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  requests: any;
   router: RouterState<unknown>;
   // user: IUserState; // @TODO Add a logic for this
 }

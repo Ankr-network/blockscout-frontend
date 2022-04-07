@@ -14,7 +14,7 @@ interface IPendingProps {
   token: string;
   tooltip?: boolean | ReactChild | ReactFragment;
   isLoading: boolean;
-  onLoadHistory: () => void;
+  onLoadHistory?: () => void;
 }
 
 export const Pending = ({

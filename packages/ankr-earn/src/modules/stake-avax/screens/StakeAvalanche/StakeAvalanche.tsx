@@ -63,9 +63,10 @@ export const StakeAvalanche = (): JSX.Element => {
       <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
       <StakeDescriptionValue>
-        <StakeDescriptionAmount symbol={Token.aAVAXb}>
-          {rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
-        </StakeDescriptionAmount>
+        <StakeDescriptionAmount
+          symbol={Token.aAVAXb}
+          value={rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+        />
 
         <Tooltip title={tHTML('stake-avax.tooltips.you-will-get')}>
           <ButtonBase className={classes.questionBtn}>

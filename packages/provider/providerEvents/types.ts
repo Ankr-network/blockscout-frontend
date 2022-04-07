@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { IpcProvider, WebsocketProvider } from 'web3-core';
-import { Web3KeyProvider } from '../providerManager';
+import { Web3KeyWriteProvider } from '../providerManager';
 
 export interface EventProvider
   extends Omit<IpcProvider | WebsocketProvider, 'on'> {
@@ -62,6 +62,6 @@ export interface ProviderActions {
 export interface ProviderEventsSagaParams {
   connectAction: string;
   disconnectAction: string;
-  provider: Web3KeyProvider;
+  provider: Web3KeyWriteProvider;
   actions: ProviderActions;
 }

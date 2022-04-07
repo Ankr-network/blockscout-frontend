@@ -15,6 +15,7 @@ import { MATIC_STAKING_NETWORKS, POLYGON_PROVIDER_ID } from './const';
 const ROOT = `${StakeRoutes.main.path}matic/`;
 const STAKE_MATIC_PATH = ROOT;
 const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/`;
+const STEP_STAKE_MATIC_PATH = `${ROOT}:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -26,6 +27,10 @@ export const RoutesConfig = createRouteConfig(
       path: UNSTAKE_MATIC_PATH,
       generatePath: () => generatePath(UNSTAKE_MATIC_PATH),
     },
+    stakeStep: {
+      path: STEP_STAKE_MATIC_PATH,
+      generatePath: () => generatePath(STEP_STAKE_MATIC_PATH),
+    },
   },
   ROOT,
 );
@@ -33,6 +38,16 @@ export const RoutesConfig = createRouteConfig(
 const Stake = loadable(
   async () =>
     import('./screens/StakePolygon').then(module => module.StakePolygon),
+  {
+    fallback: <QueryLoadingAbsolute />,
+  },
+);
+
+const StakeSteps = loadable(
+  async () =>
+    import('./screens/StakePolygonSteps').then(
+      module => module.StakePolygonSteps,
+    ),
   {
     fallback: <QueryLoadingAbsolute />,
   },
@@ -69,6 +84,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />
+          </DefaultLayout>
+        </GuardRoute>
+
+        <GuardRoute
+          exact
+          availableNetworks={MATIC_STAKING_NETWORKS}
+          path={RoutesConfig.stakeStep.path}
+          providerId={POLYGON_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
           </DefaultLayout>
         </GuardRoute>
 

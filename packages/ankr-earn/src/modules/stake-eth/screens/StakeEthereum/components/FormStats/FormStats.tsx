@@ -1,9 +1,6 @@
-import { Box } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
-import { DECIMAL_PLACES } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -25,27 +22,17 @@ export const FormStats = ({
 }: IFormStatsProps): JSX.Element => {
   return (
     <>
-      <Box mb={1.5} mt={5}>
-        <StakeDescriptionName>
-          {t('stake-ethereum.token-select-label')}
-        </StakeDescriptionName>
-      </Box>
-
-      <Box mb={5}>{tokenVariantsSlot}</Box>
+      {tokenVariantsSlot}
 
       <StakeDescriptionContainer>
         <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
         <StakeDescriptionValue>
-          <StakeDescriptionAmount symbol={tokenOut}>
-            {isLoading ? (
-              <Skeleton width={30} />
-            ) : (
-              amount.decimalPlaces(DECIMAL_PLACES).toFormat()
-            )}
-          </StakeDescriptionAmount>
-
-          {tokenOut}
+          <StakeDescriptionAmount
+            isLoading={isLoading}
+            symbol={tokenOut}
+            value={amount.toFormat()}
+          />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     </>

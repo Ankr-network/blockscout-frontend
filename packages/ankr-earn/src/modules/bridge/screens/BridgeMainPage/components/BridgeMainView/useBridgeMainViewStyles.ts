@@ -2,13 +2,13 @@ import { makeStyles } from '@material-ui/core';
 
 export const useBridgeMainViewStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(6, 3),
+    padding: theme.spacing(6, 3, 3),
     backgroundColor: theme.palette.background.paper,
     borderRadius: 18,
     position: 'relative',
 
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(6, 6),
+      padding: theme.spacing(6, 6, 3),
     },
   },
 

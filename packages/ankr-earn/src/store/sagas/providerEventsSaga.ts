@@ -1,23 +1,26 @@
 import { RequestActionMeta, success } from '@redux-requests/core';
+import { SelectEffect, TakeEffect } from '@redux-saga/core/effects';
 import { Channel, END, eventChannel, Task } from 'redux-saga';
 import {
   call,
   cancel,
   cancelled,
-  fork,
-  put,
-  take,
-  takeEvery,
   CancelledEffect,
+  fork,
   ForkEffect,
+  put,
+  select,
+  take,
 } from 'redux-saga/effects';
 import Web3 from 'web3';
 
 import {
-  ProviderManager,
-  AvailableWriteProviders,
   AccountChangedEventData,
+  AvailableWriteProviders,
+  EthereumWeb3KeyProvider,
   EventProvider,
+  EVENTS,
+  getProvider,
   IAccountChangedEvent,
   IChainChangedEvent,
   IDisconnectEvent,
@@ -25,10 +28,8 @@ import {
   MessageEventData,
   ProviderEvent,
   ProviderEvents,
+  ProviderManager,
   ProviderRpcError,
-  EVENTS,
-  getProvider,
-  EthereumWeb3KeyProvider,
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
@@ -36,8 +37,12 @@ import { connect, IConnect } from 'modules/auth/actions/connect';
 import { disconnect } from 'modules/auth/actions/disconnect';
 import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
 import { updateConnectedNetwork } from 'modules/auth/actions/updateConnectedNetwork';
+import {
+  IProviderStatus,
+  selectEthProviderData,
+} from 'modules/auth/store/authSlice';
 
-interface IListenProviderEventsArgs {
+interface IListenProviderWeb3EventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
   providerId: AvailableWriteProviders;
 }
@@ -52,7 +57,7 @@ interface IConnectSuccessAction {
 
 const connectAction: string = connect.toString();
 
-const createEventsChannel = (web3: Web3) =>
+const createWeb3EventsChannel = (web3: Web3) =>
   eventChannel(emitter => {
     const eventProvider: EventProvider | null = getProvider(
       web3?.currentProvider,
@@ -109,10 +114,10 @@ const createEventsChannel = (web3: Web3) =>
     };
   });
 
-function* listenProviderEvents({
+function* listenProviderWeb3Events({
   ethWeb3KeyProvider,
   providerId,
-}: IListenProviderEventsArgs) {
+}: IListenProviderWeb3EventsArgs) {
   let web3: Web3 | null;
 
   // Note: Hypothetical "throw new Error" with unavailable "Web3"
@@ -128,17 +133,25 @@ function* listenProviderEvents({
   }
 
   const chan: Channel<ProviderEvent | END> = yield call(
-    createEventsChannel,
+    createWeb3EventsChannel,
     web3,
   );
 
   try {
     while (true) {
       const event: ProviderEvent = yield take(chan);
+      const ethAuthState: IProviderStatus | undefined = yield select(
+        selectEthProviderData,
+      );
+
+      if (!ethAuthState?.isActive) {
+        yield cancel();
+      }
 
       switch (event.type) {
         case ProviderEvents.AccountsChanged: {
           const selectedAccount = event.data[0];
+
           yield put(
             updateAccountAddress({
               address: selectedAccount,
@@ -160,9 +173,10 @@ function* listenProviderEvents({
           break;
         }
 
-        case ProviderEvents.Disconnect:
+        case ProviderEvents.Disconnect: {
           yield put(disconnect(providerId));
           break;
+        }
 
         case ProviderEvents.Message:
           break;
@@ -181,14 +195,7 @@ function* listenProviderEvents({
   }
 }
 
-function* connectSuccessWorker(action: IConnectSuccessAction) {
-  const providerId: AvailableWriteProviders | null =
-    action?.response?.data?.providerId ?? null;
-
-  if (providerId === null) {
-    return;
-  }
-
+function* connectSuccessWeb3Worker(providerId: AvailableWriteProviders) {
   const providerManager: ProviderManager =
     ProviderManagerSingleton.getInstance();
 
@@ -197,27 +204,70 @@ function* connectSuccessWorker(action: IConnectSuccessAction) {
   // Note: Hypothetical "throw new Error" with invalid "providerId"
   try {
     ethWeb3KeyProvider = yield call(() =>
-      providerManager.getProvider(providerId),
+      providerManager.getETHWriteProvider(),
     );
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
 
-    // @TODO Please to think about "disconnectAll" hook for this
     yield put(disconnect(providerId));
 
     return;
   }
 
-  const listenProviderEventsTask: Task = yield fork(listenProviderEvents, {
+  const task: Task = yield fork(listenProviderWeb3Events, {
     ethWeb3KeyProvider,
     providerId,
   });
 
   yield take(connectAction);
-  yield cancel(listenProviderEventsTask);
+  yield cancel(task);
 }
 
-export function* providerEventsSaga(): Generator<ForkEffect, void> {
-  yield takeEvery(success(connectAction), connectSuccessWorker);
+export function* providerEventsSaga(): Generator<
+  TakeEffect | SelectEffect | ForkEffect<void>,
+  void,
+  IConnectSuccessAction & IProviderStatus & Task
+> {
+  let ethProviderId: AvailableWriteProviders | undefined;
+  let ethTask: Task | undefined;
+
+  try {
+    while (true) {
+      const actionData: IConnectSuccessAction = yield take(
+        success(connectAction),
+      );
+      const ethAuthState: IProviderStatus | undefined = yield select(
+        selectEthProviderData,
+      );
+      const providerId: AvailableWriteProviders | null =
+        actionData?.response?.data?.providerId ?? null;
+
+      if (!ethAuthState?.isActive) {
+        ethProviderId = undefined;
+
+        ethTask?.cancel();
+      }
+
+      if (providerId === null) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (providerId === AvailableWriteProviders.ethCompatible) {
+        ethProviderId = providerId;
+      }
+
+      if (typeof ethProviderId !== 'undefined') {
+        ethTask?.cancel();
+
+        ethTask = yield fork(connectSuccessWeb3Worker, ethProviderId);
+      }
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  } finally {
+    ethTask?.cancel();
+  }
 }

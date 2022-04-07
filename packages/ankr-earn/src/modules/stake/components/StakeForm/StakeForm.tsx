@@ -8,6 +8,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
+import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
@@ -21,7 +22,6 @@ enum FieldsNames {
 }
 
 export interface IStakeFormPayload {
-  agreement: boolean;
   amount?: ReactText;
 }
 
@@ -36,26 +36,19 @@ export interface IStakeFormComponentProps {
   loading?: boolean;
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
+  isDisabled?: boolean;
   tokenIn?: string;
   tokenOut?: string;
   className?: string;
   isMaxBtnShowed?: boolean;
+  maxAmountDecimals?: number;
   feeSlot?: ReactNode;
+  stakingAmountStep?: number;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: IStakeFormPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
-
-const getAmountNum = (amount?: ReactText): BigNumber => {
-  if (typeof amount === 'undefined') {
-    return ZERO;
-  }
-
-  const currAmount = new BigNumber(amount);
-
-  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
-};
 
 export const StakeForm = ({
   className,
@@ -65,10 +58,13 @@ export const StakeForm = ({
   loading = false,
   isBalanceLoading = false,
   isIntegerOnly = false,
+  isDisabled = false,
   tokenIn = t('unit.eth'),
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
+  maxAmountDecimals,
   feeSlot,
+  stakingAmountStep,
   renderStats,
   renderFooter,
   onSubmit,
@@ -76,27 +72,31 @@ export const StakeForm = ({
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
+  const balanceRoundedByStep = stakingAmountStep
+    ? `${floor(balance.toNumber(), stakingAmountStep)}`
+    : balance.toString();
+
+  const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
+    ? balanceRoundedByStep
+    : maxAmount.toString();
+
   const validateStakeForm = useCallback(
     ({ amount }: IStakeFormPayload) => {
       const errors: FormErrors<IStakeFormPayload> = {};
 
-      if (!amount) {
-        errors.amount = t('validation.required');
-      } else if (+amount <= 0) {
-        errors.amount = t('validation.greater-than-zero');
-      } else if (balance?.isLessThan(amount)) {
-        errors.amount = t('stake.validation.balance-exceed');
+      const withAmountStep = !!stakingAmountStep;
+      const isMultipleOf =
+        amount && stakingAmountStep ? +amount % stakingAmountStep === 0 : false;
+
+      if (withAmountStep && !isMultipleOf) {
+        errors.amount = t('validation.multiple-of', {
+          value: stakingAmountStep,
+        });
       }
 
       return errors;
     },
-    [balance],
-  );
-
-  const setMaxAmount = useCallback(
-    (form: FormApi<IStakeFormPayload>, maxValue: string) => () =>
-      form.change('amount', maxValue),
-    [],
+    [stakingAmountStep],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>
@@ -109,6 +109,7 @@ export const StakeForm = ({
     form,
     handleSubmit,
     values,
+    invalid,
   }: FormRenderProps<IStakeFormPayload>) => {
     const { amount } = values;
     const amountNumber = getAmountNum(amount);
@@ -130,30 +131,21 @@ export const StakeForm = ({
 
             <AmountInput
               balance={balance}
+              disabled={isDisabled}
               isBalanceLoading={isBalanceLoading}
               isIntegerOnly={isIntegerOnly}
               label={t('stake.amount', {
                 token: tokenIn,
               })}
+              maxAmount={maxAmount}
+              maxDecimals={maxAmountDecimals}
               minAmount={minAmount?.toNumber()}
               name={FieldsNames.amount}
               tokenName={tokenIn}
               onMaxClick={
-                isMaxBtnShowed
-                  ? setMaxAmount(form, `${maxAmount.toString()}`)
-                  : undefined
+                isMaxBtnShowed ? setMaxAmount(form, maxStakeAmount) : undefined
               }
             />
-
-            <div className={classes.stakingTypes}>
-              <div className={classNames(classes.stakingType, 'active')}>
-                {t('stake.liquid-staking')}
-              </div>
-
-              <div className={classes.stakingType}>
-                {t('stake.normal-staking')}
-              </div>
-            </div>
 
             {renderStats && renderStats(amountNumber)}
 
@@ -169,7 +161,7 @@ export const StakeForm = ({
               <Button
                 className={classes.submit}
                 color="primary"
-                disabled={loading || isBalanceLoading}
+                disabled={isDisabled || loading || isBalanceLoading}
                 isLoading={loading}
                 size="large"
                 type="submit"
@@ -185,7 +177,7 @@ export const StakeForm = ({
         <OnChange name={FieldsNames.amount}>
           {() => {
             if (typeof onChange === 'function') {
-              onChange(values);
+              onChange(values, invalid);
             }
           }}
         </OnChange>
@@ -201,3 +193,17 @@ export const StakeForm = ({
     />
   );
 };
+
+function setMaxAmount(form: FormApi<IStakeFormPayload>, maxValue: string) {
+  return () => form.change(FieldsNames.amount, maxValue);
+}
+
+function getAmountNum(amount?: ReactText): BigNumber {
+  if (typeof amount === 'undefined') {
+    return ZERO;
+  }
+
+  const currAmount = new BigNumber(amount);
+
+  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
+}

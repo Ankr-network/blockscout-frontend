@@ -1,6 +1,6 @@
 import { Box, ButtonBase, TextField, Typography } from '@material-ui/core';
 import { FormApi } from 'final-form';
-import React, { ReactText, useCallback } from 'react';
+import { ReactText, useCallback } from 'react';
 import {
   Field,
   FieldRenderProps,
@@ -10,6 +10,8 @@ import {
 
 import { useIsMDUp } from 'ui';
 
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeBlockchainPanel } from 'modules/bridge/components/BridgeBlockchainPanel';
 import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
@@ -53,19 +55,24 @@ export const BridgeMainView = (): JSX.Element => {
     tokenValue,
     isSendAnother,
     isApproved,
+    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
-    networksOptions,
+    networksOptionsFrom,
+    networksOptionsTo,
+    walletsGroupTypes,
+    onChangeNetwork,
     onChangeToken,
     validateAmount,
     onSubmit,
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
+    onCloseModal,
+    onOpenModal,
     onSwapClick,
-    dispatchConnect,
   } = useBridgeMainView();
 
   const setMaxAmount = useCallback(
@@ -166,8 +173,9 @@ export const BridgeMainView = (): JSX.Element => {
         <Box className={classes.swapFields}>
           <BridgeBlockchainPanel
             direction="from"
-            items={networksOptions}
+            items={networksOptionsFrom}
             value={swapNetworkItem.from}
+            onClick={item => onChangeNetwork(item, 'from')}
           />
 
           <ButtonBase
@@ -180,8 +188,9 @@ export const BridgeMainView = (): JSX.Element => {
 
           <BridgeBlockchainPanel
             direction="to"
-            items={networksOptions}
+            items={networksOptionsTo}
             value={swapNetworkItem.to}
+            onClick={item => onChangeNetwork(item, 'to')}
           />
         </Box>
 
@@ -215,7 +224,7 @@ export const BridgeMainView = (): JSX.Element => {
                   color="primary"
                   disabled={isApproved || isApproveButtonLoading}
                   endIcon={
-                    <Tooltip arrow title={tHTML('bridge.main.approve-tooltip')}>
+                    <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                       <Box component="span" display="flex">
                         <QuestionIcon htmlColor="inherit" size="xs" />
                       </Box>
@@ -265,11 +274,13 @@ export const BridgeMainView = (): JSX.Element => {
             className={classes.submitBtn}
             color="primary"
             size="large"
-            onClick={dispatchConnect}
+            onClick={onOpenModal}
           >
             {t('bridge.main.connectBtn')}
           </Button>
         )}
+
+        <AuditedLabel />
 
         <OnChange name={EFieldName.token}>
           {value => {
@@ -286,5 +297,15 @@ export const BridgeMainView = (): JSX.Element => {
     );
   };
 
-  return <Form render={renderForm} onSubmit={onSubmit} />;
+  return (
+    <>
+      <Form render={renderForm} onSubmit={onSubmit} />
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
+      />
+    </>
+  );
 };

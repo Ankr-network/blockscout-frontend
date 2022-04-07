@@ -15,6 +15,8 @@ export const pairedTokensMap: Record<string, string | string[]> = {
   [AvailableTokens.aAVAXb]: AvailableTokens.AVAX,
   [AvailableTokens.aBNBb]: AvailableTokens.BNB,
   [AvailableTokens.BNB]: AvailableTokens.aBNBb,
+  [AvailableTokens.FTM]: AvailableTokens.aFTMb,
+  [AvailableTokens.aFTMb]: AvailableTokens.FTM,
 };
 
 export const platformsByTokenMap: Record<string, string[]> = {
@@ -41,6 +43,7 @@ export const platformsByTokenMap: Record<string, string[]> = {
     AvailablePlatforms.OpenOceanV2,
   ],
   [AvailableTokens.aBNBb]: [AvailablePlatforms.OpenOceanV2],
+  [AvailableTokens.aFTMb]: [AvailablePlatforms.OpenOceanV2],
 };
 
 export const chainIdByTokenMap = {
@@ -53,4 +56,6 @@ export const chainIdByTokenMap = {
   [AvailableTokens.aMATICb]: BlockchainNetworkId.mainnet,
   [AvailableTokens.BNB]: BlockchainNetworkId.smartchain,
   [AvailableTokens.aBNBb]: BlockchainNetworkId.smartchain,
+  [AvailableTokens.FTM]: BlockchainNetworkId.fantom,
+  [AvailableTokens.aFTMb]: BlockchainNetworkId.fantom,
 };

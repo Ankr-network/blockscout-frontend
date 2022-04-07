@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core';
 
-export const useConnectedWalletsNetworkStyles = makeStyles<Theme>(theme => ({
+export const useConnectedWalletsNetworkStyles = makeStyles(theme => ({
   root: {},
   header: {
     display: 'flex',
@@ -40,7 +40,6 @@ export const useConnectedWalletsNetworkStyles = makeStyles<Theme>(theme => ({
   },
   instances: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(0, 2.5),
     background: theme.palette.background.default,
   },
   instance: {
@@ -48,7 +47,7 @@ export const useConnectedWalletsNetworkStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     fontSize: 16,
-    borderBottom: `1px solid ${theme.palette.text.secondary}`,
+    borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
     padding: theme.spacing(1.75, 0),
 
     '&:last-child': {
@@ -68,9 +67,8 @@ export const useConnectedWalletsNetworkStyles = makeStyles<Theme>(theme => ({
     transform: 'rotate(180deg)',
   },
   instanceOpener: {
-    cursor: 'pointer',
     background: 'none',
-    padding: theme.spacing(1.75, 0),
+    padding: theme.spacing(1.75, 2.5),
     height: 'auto',
     width: '100%',
     borderRadius: 0,
@@ -78,10 +76,28 @@ export const useConnectedWalletsNetworkStyles = makeStyles<Theme>(theme => ({
     lineHeight: 'inherit',
     color: theme.palette.text.primary,
     fontWeight: 400,
+    cursor: 'default',
     transition: '0.2s all',
 
+    '&:active': {
+      transform: 'none',
+    },
     '&:hover': {
       background: 'none',
+    },
+  },
+  instanceOpenerOn: {
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+  },
+  instanceInner: {
+    margin: theme.spacing(0, 2.5, 0, 2.5),
+    cursor: 'pointer',
+
+    '&:hover': {
       color: theme.palette.primary.main,
     },
   },

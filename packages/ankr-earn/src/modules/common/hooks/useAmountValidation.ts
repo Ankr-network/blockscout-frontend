@@ -14,29 +14,38 @@ export const useValidateAmount = (
 ): TUseValidateAmount =>
   useCallback(
     (value?: ReactText) => {
-      let error: string | undefined;
-      const withBalance = !!balance;
-
       if (!value) {
-        error = t('validation.required');
-      } else {
-        const currentAmount = new BigNumber(value);
-        const isZeroBalance = withBalance && balance?.isEqualTo(0);
-        const isTooBigAmount =
-          withBalance && currentAmount.isGreaterThan(maxAmount);
-
-        if (currentAmount.isNaN()) {
-          error = t('validation.number-only');
-        } else if (currentAmount.isLessThan(minAmount)) {
-          error = t('validation.min', {
-            value: minAmount.toFormat(),
-          });
-        } else if (isTooBigAmount || isZeroBalance) {
-          error = t('validation.low-balance');
-        }
+        return t('validation.required');
       }
 
-      return error;
+      const currentAmount = new BigNumber(value);
+
+      if (currentAmount.isNaN()) {
+        return t('validation.number-only');
+      }
+
+      if (currentAmount.isLessThan(minAmount) || currentAmount.isZero()) {
+        return t('validation.min', {
+          value: minAmount.toFormat(),
+        });
+      }
+
+      const withBalance = !!balance;
+      const isZeroBalance = withBalance && balance?.isEqualTo(0);
+      const isGraterThanBalance =
+        withBalance && currentAmount.isGreaterThan(balance);
+
+      if (isZeroBalance || isGraterThanBalance) {
+        return t('validation.low-balance');
+      }
+
+      if (currentAmount.isGreaterThan(maxAmount)) {
+        return t('validation.max', {
+          value: maxAmount.toFormat(),
+        });
+      }
+
+      return undefined;
     },
     [balance, maxAmount, minAmount],
   );

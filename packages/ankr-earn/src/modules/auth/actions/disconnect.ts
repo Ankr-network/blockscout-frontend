@@ -40,6 +40,7 @@ export const disconnect = createAction<
         setProviderStatus({
           providerId,
           isActive: false,
+          address: undefined,
           walletId: undefined,
         }),
       );

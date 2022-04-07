@@ -8,6 +8,9 @@ export interface IContractConfig {
   maticToken: string;
   aMaticbToken: string;
   polygonPool: string;
+  globalPoolDepositContract: string;
+  ethereumPool: string;
+  systemContract: string;
   ankrContract: string;
   bridge: string;
 }
@@ -19,7 +22,9 @@ export interface IAvalancheConfig {
 
 export interface IBinanceConfig {
   aBNBbToken: string;
+  aBNBcToken: string;
   aMATICbToken: string;
+  aETHbToken: string;
   aETHcToken: string;
   binancePool: string;
   WBNBContract: string;
@@ -29,6 +34,7 @@ export interface IBinanceConfig {
 export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
+  ftmToken: string;
 }
 
 interface IPolygonConfig {
@@ -51,6 +57,10 @@ export interface IStkrConfig {
 
 const LOCAL_CONFIG: IStkrConfig = {
   contractConfig: {
+    // for eth staking
+    systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
+    ethereumPool: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
+    globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
     ankrContract: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
@@ -66,20 +76,23 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
     // todo: add actual dev aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
   fantomConfig: {
     fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
     aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
+    ftmToken: ZERO_ADDR,
   },
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
-    aMATICbToken: ZERO_ADDR,
+    aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -122,6 +135,10 @@ const GOERLI_CONFIG: IStkrConfig = {
 
 const MAINNET_CONFIG: IStkrConfig = {
   contractConfig: {
+    // for eth staking
+    systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
+    ethereumPool: '0x84db6eE82b7Cf3b47E8F19270abdE5718B936670',
+    globalPoolDepositContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
     ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
@@ -137,18 +154,19 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   binanceConfig: {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
+    aBNBcToken: '0xE85aFCcDaFBE7F2B096f268e31ccE3da8dA2990A',
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    // todo: add actual production aMATICb token address
-    aMATICbToken: ZERO_ADDR,
+    aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
-    // todo: add actual production bridge address
-    bridge: ZERO_ADDR,
+    bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
+    aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
+    ftmToken: ZERO_ADDR,
   },
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',

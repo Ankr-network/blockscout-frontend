@@ -3,14 +3,17 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
@@ -24,14 +27,27 @@ const AVAILABLE_NETWORKS = [
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  POLYGON_NETWORK_BY_ENV,
 ];
 
 export const ConnectGuardRoute = ({
   ...routeProps
 }: IConnectGuardRouteProps): JSX.Element => {
-  const { dispatchConnect, isConnected } = useAuth(
-    AvailableWriteProviders.ethCompatible,
-  );
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
+
+  let isConnected = false;
+
+  const { walletsGroupTypes } = useWalletsGroupTypes({
+    postProcessingFn: (providerKey, data): void => {
+      if (providerKey === AvailableWriteProviders.ethCompatible) {
+        isConnected = data.isConnected;
+      }
+    },
+  });
 
   if (isConnected) {
     return (
@@ -52,14 +68,18 @@ export const ConnectGuardRoute = ({
         <Container>
           <Placeholder
             btnSlot={
-              <Button onClick={dispatchConnect}>
-                {t('Connect to a wallet')}
-              </Button>
+              <Button onClick={onOpenModal}>{t('Connect to a wallet')}</Button>
             }
             title={t('Please connect your wallet to continue')}
           />
         </Container>
       </Box>
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
+      />
     </DefaultLayout>
   );
 };

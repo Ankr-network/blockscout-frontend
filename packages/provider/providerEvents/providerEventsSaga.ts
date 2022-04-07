@@ -9,7 +9,7 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { Web3KeyProvider } from '../providerManager';
+import { Web3KeyWriteProvider } from '../providerManager';
 import {
   ProviderActions,
   ProviderEvent,
@@ -18,7 +18,7 @@ import {
 } from './types';
 import { EVENTS, getProvider } from './utils';
 
-function createEventChannel(keyProvider: Web3KeyProvider) {
+function createEventChannel(keyProvider: Web3KeyWriteProvider) {
   return eventChannel(emitter => {
     const web3 = keyProvider.getWeb3();
     const provider = getProvider(web3.currentProvider);
@@ -44,7 +44,7 @@ function createEventChannel(keyProvider: Web3KeyProvider) {
 }
 
 function* listenProviderEvents(
-  provider: Web3KeyProvider,
+  provider: Web3KeyWriteProvider,
   actions: ProviderActions,
 ) {
   const channel: Channel<string> = yield call(createEventChannel, provider);

@@ -1,10 +1,15 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
+import {
+  IProviderStatus,
+  selectProvidersData,
+  setProviderStatus,
+} from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 import { connect, IConnect } from './connect';
@@ -38,6 +43,28 @@ export const updateAccountAddress = createAction<
           ...data,
           address,
         }),
+      },
+      onSuccess: (
+        response: { data: undefined },
+        _action: RequestAction,
+        store: RequestsStore,
+      ) => {
+        const providersData = selectProvidersData(store.getState());
+        const currProviderState: IProviderStatus | undefined =
+          providersData[providerId];
+
+        if (typeof currProviderState !== 'undefined') {
+          store.dispatch(
+            setProviderStatus({
+              providerId,
+              isActive: currProviderState.isActive,
+              address,
+              walletId: currProviderState.walletId,
+            }),
+          );
+        }
+
+        return response;
       },
     },
   };

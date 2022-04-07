@@ -1,80 +1,106 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import {
   getShortTxHash,
   getExtraShortStr,
 } from 'modules/common/utils/getShortStr';
-import { IAddresses } from 'modules/connected-wallets/types';
 import { t } from 'modules/i18n/utils/intl';
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 
+import { IWalletItem } from '../../hooks/useAuthWallets';
+import { IAddress, TAddresses } from '../../types';
 import { WalletIcon } from '../WalletIcon';
 
 import { useConnectedWalletsButtonStyles as useStyles } from './useConnectedWalletsButtonStyles';
 
 interface IConnectedWalletsButtonProps {
-  onClick: () => void;
-  networks: Array<{
-    network: string;
-    addresses: IAddresses;
-    disconnect?: () => void;
-  }>;
   className?: string;
   connectHandler: () => void;
+  networks: IWalletItem[];
+  walletsGroupTypes?: AvailableWriteProviders[];
+  onClick: () => void;
 }
 
+const getAddressData = (addresses: TAddresses): IAddress => {
+  const data = addresses.find(address => address.isActive);
+
+  return typeof data !== 'undefined' ? data : addresses[0];
+};
+
 export const ConnectedWalletsButton = ({
-  onClick,
-  networks,
   className,
   connectHandler,
+  networks,
+  walletsGroupTypes,
+  onClick,
 }: IConnectedWalletsButtonProps): JSX.Element => {
   const classes = useStyles();
 
   let leftSide;
 
   if (networks.length === 1) {
+    const currAddress = getAddressData(networks[0].addresses);
+
     leftSide = (
       <>
-        <WalletIcon icon={networks[0].addresses[0].tokenIconSrc} />
+        <WalletIcon icon={currAddress.tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getShortTxHash(networks[0].addresses[0].address)}
+          {getShortTxHash(currAddress.address)}
         </span>
       </>
     );
   } else if (networks.length === 2) {
+    const [firstAddress, secondAddress] = [
+      getAddressData(networks[0].addresses),
+      getAddressData(networks[1].addresses),
+    ];
+
     leftSide = (
       <>
-        <WalletIcon icon={networks[0].addresses[0].tokenIconSrc} />
+        <WalletIcon icon={firstAddress.tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getExtraShortStr(networks[0].addresses[0].address)}
+          {getExtraShortStr(firstAddress.address)}
         </span>
 
-        <WalletIcon icon={networks[1].addresses[0].tokenIconSrc} />
+        <WalletIcon icon={secondAddress.tokenIconSrc} />
 
         <span className={classes.instanceText}>
-          {getExtraShortStr(networks[1].addresses[0].address)}
+          {getExtraShortStr(secondAddress.address)}
         </span>
       </>
     );
   } else {
     leftSide = networks.map(network => (
-      <WalletIcon icon={network.addresses[0].tokenIconSrc} />
+      <WalletIcon icon={getAddressData(network.addresses).tokenIconSrc} />
     ));
   }
 
   return networks.length > 0 ? (
-    <Button className={classNames(classes.root, className)} onClick={onClick}>
-      {leftSide}
+    <div className={classes.root}>
+      <Button className={classNames(classes.btn, className)} onClick={onClick}>
+        {leftSide}
 
-      <AngleDownIcon className={classes.arrowIcon} />
-    </Button>
+        <AngleDownIcon className={classes.arrowIcon} />
+      </Button>
+
+      {walletsGroupTypes?.length ? (
+        <PlusMinusBtn
+          className={classes.addWalletButton}
+          icon="plus"
+          tooltip={t('wallets.add-btn-tooltip')}
+          onClick={connectHandler}
+        />
+      ) : null}
+    </div>
   ) : (
     <Button
-      className={classNames(classes.root, classes.connectButton, className)}
+      className={classNames(classes.btn, classes.connectButton, className)}
       onClick={connectHandler}
     >
       {t('wallets.connect-btn')}

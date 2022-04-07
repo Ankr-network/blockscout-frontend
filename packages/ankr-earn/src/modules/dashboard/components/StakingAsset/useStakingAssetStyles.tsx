@@ -28,21 +28,4 @@ export const useStakingAssetStyles = makeStyles<Theme>(theme => ({
   btnSkeleton: {
     borderRadius: 12,
   },
-
-  openHistory: {
-    width: 32,
-    height: 32,
-    borderRadius: 6,
-    marginTop: -3,
-    background: theme.palette.common.white,
-    border: `2px solid ${theme.palette.background.default}`,
-    padding: 0,
-    color: theme.palette.text.secondary,
-    transition: '0.2s all',
-
-    '&:hover': {
-      borderColor: theme.palette.background.default,
-      color: theme.palette.primary.main,
-    },
-  },
 }));
