@@ -5,10 +5,6 @@ export const useSwapOptionsStyles = makeStyles(theme => ({
     alignItems: 'center',
     display: 'flex',
     margin: theme.spacing(6, 0),
-
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-    },
   },
 
   swapChip: {

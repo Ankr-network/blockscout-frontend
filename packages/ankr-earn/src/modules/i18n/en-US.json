@@ -87,6 +87,10 @@
     "successTx": "Transaction successful.",
     "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
+    "labels": {
+      "from": "From",
+      "to": "To"
+    },
     "tooltips": {
       "comingSoon": "Coming soon",
       "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
@@ -652,8 +656,6 @@
       "connectBtn": "Connect your wallet",
       "btn-max": "Max",
       "your-balance": "Your balance:",
-      "from": "From",
-      "to": "To",
       "you-will-receive": "You will receive:",
       "send-to-another": "Send to another address",
       "approve": "Approve",

@@ -1,9 +1,10 @@
-import { Box, Chip } from '@material-ui/core';
-import { useCallback } from 'react';
+import { Box } from '@material-ui/core';
+import { useCallback, useMemo } from 'react';
 
+import { Token } from 'modules/common/types/token';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
-import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
+import { SwitchSelect } from 'uiKit/SwitchSelect';
 
 import { TSwapOption } from '../../../../types';
 
@@ -15,6 +16,26 @@ export interface ISwapOptionsProps {
   onChooseAEthC: () => void;
 }
 
+const DEFAULT_ICON_PROPS = {
+  size: 32,
+};
+
+const FROM_TOKENS = [
+  {
+    label: Token.aETHb,
+    value: Token.aETHb,
+    icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
+  },
+];
+
+const TO_TOKENS = [
+  {
+    label: Token.aETHc,
+    value: Token.aETHc,
+    icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
+  },
+];
+
 export const SwapOptions = ({
   swapOption,
   onChooseAEthB,
@@ -22,8 +43,26 @@ export const SwapOptions = ({
 }: ISwapOptionsProps): JSX.Element => {
   const classes = useSwapOptionsStyles();
 
+  const fromOptions = useMemo(
+    () => (swapOption === Token.aETHb ? FROM_TOKENS : TO_TOKENS),
+    [swapOption],
+  );
+
+  const toOptions = useMemo(
+    () => (swapOption === Token.aETHb ? TO_TOKENS : FROM_TOKENS),
+    [swapOption],
+  );
+
+  const values = useMemo(
+    () => ({
+      from: swapOption === Token.aETHb ? Token.aETHb : Token.aETHc,
+      to: swapOption === Token.aETHb ? Token.aETHc : Token.aETHb,
+    }),
+    [swapOption],
+  );
+
   const handleChooseSwapOption = useCallback(() => {
-    if (swapOption === 'aETHb') {
+    if (swapOption === Token.aETHb) {
       onChooseAEthC();
       return;
     }
@@ -31,42 +70,16 @@ export const SwapOptions = ({
     onChooseAEthB();
   }, [swapOption, onChooseAEthC, onChooseAEthB]);
 
-  const renderChip = (predicate: boolean): JSX.Element =>
-    predicate ? (
-      <Chip
-        className={classes.swapChip}
-        clickable={false}
-        data-testid="aETHb-chip"
-        icon={<AETHBIcon />}
-        label="aETHb"
-        onClick={onChooseAEthB}
-      />
-    ) : (
-      <Chip
-        className={classes.swapChip}
-        clickable={false}
-        data-testid="aETHc-chip"
-        icon={<AETHCIcon />}
-        label="aETHc"
-        onClick={onChooseAEthC}
-      />
-    );
-
   return (
     <Box className={classes.swapChips}>
-      {renderChip(swapOption === 'aETHb')}
-
-      <div
-        className={classes.arrowIconWrapper}
-        data-testid="arrow-chip"
-        role="button"
-        tabIndex={0}
-        onClick={handleChooseSwapOption}
-      >
-        <ArrowIcon />
-      </div>
-
-      {renderChip(swapOption === 'aETHc')}
+      <SwitchSelect
+        from={fromOptions}
+        to={toOptions}
+        values={values}
+        onChangeFrom={onChooseAEthB}
+        onChangeSwitch={handleChooseSwapOption}
+        onChangeTo={onChooseAEthC}
+      />
     </Box>
   );
 };
