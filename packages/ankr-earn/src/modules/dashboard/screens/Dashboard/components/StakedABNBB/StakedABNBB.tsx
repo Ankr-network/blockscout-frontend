@@ -71,7 +71,8 @@ export const StakedABNBB = (): JSX.Element => {
     !!pendingUnstakeHistory.length || isHistoryDataLoading;
 
   const renderedPendingSlot =
-    !pendingValue.isZero() && featuresConfig.bnbHistory ? (
+    !pendingValue.isZero() &&
+    (featuresConfig.bnbHistory ? (
       <Pending
         isLoading={isHistoryDataLoading}
         token={Token.aBNBb}
@@ -81,7 +82,7 @@ export const StakedABNBB = (): JSX.Element => {
       />
     ) : (
       <PendingTemporary />
-    );
+    ));
 
   return (
     <>
