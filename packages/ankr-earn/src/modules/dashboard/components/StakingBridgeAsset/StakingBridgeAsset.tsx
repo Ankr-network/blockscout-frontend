@@ -2,6 +2,8 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -23,6 +25,7 @@ interface IStakingAssetProps {
   tokenAddress?: string;
   network?: string;
   amount?: BigNumber;
+  chainId?: BlockchainNetworkId;
   tradeLink?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;
@@ -33,6 +36,7 @@ export const StakingBridgeAsset = ({
   network,
   token,
   tokenAddress,
+  chainId,
   amount,
   tradeLink,
   pendingSlot,
@@ -53,6 +57,7 @@ export const StakingBridgeAsset = ({
         <Grid container spacing={2}>
           <Grid item sm xs={12}>
             <NetworkIconText
+              chainId={chainId}
               contract={tokenAddress}
               network={network}
               token={token}

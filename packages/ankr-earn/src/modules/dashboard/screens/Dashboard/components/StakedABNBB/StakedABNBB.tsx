@@ -26,6 +26,7 @@ export const StakedABNBB = (): JSX.Element => {
     amount,
     pendingValue,
     network,
+    chainId,
     stakeLink,
     unstakeLink,
     isBalancesLoading,
@@ -88,6 +89,7 @@ export const StakedABNBB = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
+        chainId={chainId}
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}

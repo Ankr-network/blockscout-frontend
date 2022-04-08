@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { BlockchainNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { t } from 'modules/i18n/utils/intl';
@@ -22,6 +23,7 @@ interface IStakingAssetProps {
   token?: Token;
   tokenAddress?: string;
   network?: string;
+  chainId?: BlockchainNetworkId;
   amount?: BigNumber;
   tradeLink?: string;
   stakeLink?: string;
@@ -42,6 +44,7 @@ export const StakingAsset = ({
   token,
   tokenAddress,
   amount,
+  chainId,
   tradeLink,
   stakeLink,
   unstakeLink,
@@ -80,6 +83,7 @@ export const StakingAsset = ({
         <Grid container spacing={2}>
           <Grid item sm xs={12}>
             <NetworkIconText
+              chainId={chainId}
               contract={tokenAddress}
               network={network}
               token={token}

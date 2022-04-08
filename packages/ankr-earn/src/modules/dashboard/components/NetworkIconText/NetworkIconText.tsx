@@ -1,6 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { Token } from 'modules/common/types/token';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
@@ -9,6 +11,11 @@ import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
+import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
@@ -25,6 +32,12 @@ type TIconMap = Record<
   MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
+type TNetworkIconMap = {
+  [chainID in BlockchainNetworkId]?: MemoExoticComponent<
+    ForwardRefExoticComponent<ISvgIconProps>
+  >;
+};
+
 const iconByTokenMap: TIconMap = {
   [Token.aAVAXb]: AAvaxBIcon,
   [Token.aBNBb]: ABNBBIcon,
@@ -35,9 +48,23 @@ const iconByTokenMap: TIconMap = {
   [Token.aMATICb]: AMATICBIcon,
 };
 
+const iconByNetworkMap: TNetworkIconMap = {
+  1: EthIcon,
+  5: EthIcon,
+  56: BNBIcon,
+  97: BNBIcon,
+  43114: AvaxIcon,
+  43113: AvaxIcon,
+  137: MaticIcon,
+  250: FantomIcon,
+  4002: FantomIcon,
+  80001: MaticIcon,
+};
+
 interface INetworkIconTextProps {
   token?: Token;
   network?: string;
+  chainId?: BlockchainNetworkId;
   isLoading?: boolean;
   contract?: string;
 }
@@ -45,6 +72,7 @@ interface INetworkIconTextProps {
 export const NetworkIconText = ({
   token,
   network,
+  chainId,
   isLoading,
   contract,
 }: INetworkIconTextProps): JSX.Element => {
@@ -55,6 +83,7 @@ export const NetworkIconText = ({
   }
 
   const Icon = iconByTokenMap[token as keyof TIconMap];
+  const NetworkIcon = chainId && iconByNetworkMap[chainId];
 
   const TokenSymbol = (
     <Typography className={classes.token}>{token}</Typography>
@@ -64,8 +93,10 @@ export const NetworkIconText = ({
 
   return (
     <Grid container alignItems="center" spacing={2}>
-      <Grid item>
+      <Grid item className={classes.iconContainer}>
         <Icon className={classes.icon} />
+
+        {NetworkIcon ? <NetworkIcon className={classes.networkIcon} /> : null}
       </Grid>
 
       <Grid item>
