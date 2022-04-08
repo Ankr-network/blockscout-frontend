@@ -1,14 +1,13 @@
-import loadable from '@loadable/component';
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { TEthToken } from 'modules/api/EthSDK';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { Token } from 'modules/common/types/token';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -40,12 +39,8 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Stake = loadable(
-  async () =>
-    import('./screens/StakeEthereum').then(module => module.StakeEthereum),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Stake = loadComponent(() =>
+  import('./screens/StakeEthereum').then(module => module.StakeEthereum),
 );
 
 export function getRoutes(): JSX.Element {
