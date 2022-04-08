@@ -51,6 +51,13 @@ export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
 };
 
+export const STAKE_LEGACY_LINKS = {
+  DOT: 'https://stakefi.ankr.com/liquid-staking/DOT',
+  ETH: 'https://stakefi.ankr.com/liquid-staking/ETH',
+  KSM: 'https://stakefi.ankr.com/liquid-staking/KSM',
+  WND: 'https://stakefi.ankr.com/liquid-staking/WND',
+};
+
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
@@ -77,7 +84,7 @@ export const featuresConfig = {
 };
 
 export enum SupportedChainIDS {
-  // EVM Compatible
+  // ETH Compatible
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
   AVAX = BlockchainNetworkId.avalanche,
@@ -89,13 +96,14 @@ export enum SupportedChainIDS {
   POLYGON = BlockchainNetworkId.polygon,
 
   // Polkadot Compatible
-  KUSAMA = BlockchainNetworkId.kusama,
-  POLKADOT = BlockchainNetworkId.polkadot,
-  ROCOCO = BlockchainNetworkId.rococo,
-  WESTEND = BlockchainNetworkId.westend,
+  DOT = BlockchainNetworkId.polkadot,
+  KSM = BlockchainNetworkId.kusama,
+  ROC = BlockchainNetworkId.rococo,
+  WND = BlockchainNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
+  // ETH Compatible
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
   [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
@@ -105,6 +113,12 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
+
+  // Polkadot Compatible
+  [SupportedChainIDS.DOT]: 'https://polkadot.subscan.io',
+  [SupportedChainIDS.KSM]: 'https://kusama.subscan.io',
+  [SupportedChainIDS.ROC]: 'https://rococo.subscan.io',
+  [SupportedChainIDS.WND]: 'https://westend.subscan.io',
 };
 
 export const ETH_NETWORK_BY_ENV =

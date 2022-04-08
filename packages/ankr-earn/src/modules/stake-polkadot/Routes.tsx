@@ -10,7 +10,11 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-import { POLKADOT_WRITE_PROVIDER_ID } from './const';
+import {
+  ETH_NETWORKS,
+  ETH_WRITE_PROVIDER_ID,
+  POLKADOT_WRITE_PROVIDER_ID,
+} from './const';
 import { EPolkadotNetworks } from './types';
 import { getPolkadotPath } from './utils/getPolkadotPath';
 import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
@@ -22,7 +26,10 @@ export const RoutesConfig = createRouteConfig(
   {
     unstake: {
       path: UNSTAKE_POLKADOT_PATH,
-      generatePath: () => generatePath(UNSTAKE_POLKADOT_PATH),
+      generatePath: (network: EPolkadotNetworks) =>
+        generatePath(UNSTAKE_POLKADOT_PATH, {
+          network: network.toLowerCase(),
+        }),
     },
   },
   ROOT,
@@ -62,9 +69,16 @@ export function getRoutes(): JSX.Element {
                   path={path}
                   providerId={POLKADOT_WRITE_PROVIDER_ID}
                 >
-                  <DefaultLayout>
-                    <Unstake network={network as EPolkadotNetworks} />
-                  </DefaultLayout>
+                  <GuardRoute
+                    exact
+                    availableNetworks={ETH_NETWORKS}
+                    path={path}
+                    providerId={ETH_WRITE_PROVIDER_ID}
+                  >
+                    <DefaultLayout>
+                      <Unstake network={network as EPolkadotNetworks} />
+                    </DefaultLayout>
+                  </GuardRoute>
                 </GuardRoute>
               );
             }}

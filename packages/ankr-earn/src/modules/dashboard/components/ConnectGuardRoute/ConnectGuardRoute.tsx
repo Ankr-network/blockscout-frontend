@@ -3,13 +3,17 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import {
+  AVAILABLE_WALLETS_GROUP_TYPES,
+  ConnectWalletsModal,
+} from 'modules/auth/components/ConnectWalletsModal';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
+  featuresConfig,
   FTM_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
@@ -39,15 +43,18 @@ export const ConnectGuardRoute = ({
     onOpen: onOpenModal,
   } = useDialog();
 
-  let isConnected = false;
+  const providersPool: AvailableWriteProviders[] = [];
 
   const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = data.isConnected;
+    postProcessingFn: (providerKey): void => {
+      if (!providersPool.includes(providerKey)) {
+        providersPool.push(providerKey);
       }
     },
   });
+
+  const isConnected =
+    AVAILABLE_WALLETS_GROUP_TYPES.length === providersPool.length;
 
   if (isConnected) {
     return (
@@ -68,9 +75,15 @@ export const ConnectGuardRoute = ({
         <Container>
           <Placeholder
             btnSlot={
-              <Button onClick={onOpenModal}>{t('Connect to a wallet')}</Button>
+              <Button onClick={onOpenModal}>
+                {t('dashboard.guard.connect-btn')}
+              </Button>
             }
-            title={t('Please connect your wallet to continue')}
+            title={t(
+              featuresConfig.isActivePolkadotStaking
+                ? 'dashboard.guard.title'
+                : 'dashboard.guard.title-old',
+            )}
           />
         </Container>
       </Box>

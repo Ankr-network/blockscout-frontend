@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+export type TPolkadotAddress = string;
+
 export type TNetworkType = 'DOT' | 'KSM' | 'WND' | 'ROC';
 
 export type TActionStatus =

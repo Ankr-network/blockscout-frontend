@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
@@ -30,6 +32,7 @@ jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
   const defaultStakedMaticHookData: IStakedMaticData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
+    chainId: BlockchainNetworkId.goerli,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
     tradeLink: 'trade',

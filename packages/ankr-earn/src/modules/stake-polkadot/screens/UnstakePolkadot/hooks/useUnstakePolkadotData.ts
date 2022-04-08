@@ -5,7 +5,6 @@ import { useHistory } from 'react-router';
 
 import { PolkadotProvider } from 'polkadot';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
@@ -17,6 +16,7 @@ import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUs
 
 import { fetchStats } from '../../../actions/fetchStats';
 import { unstake } from '../../../actions/unstake';
+import { useETHPolkadotProvidersEffect } from '../../../hooks/useETHPolkadotProvidersEffect';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import {
   EPolkadotETHReverseMap,
@@ -141,18 +141,20 @@ export const useUnstakePolkadotData = (
       return;
     }
 
-    dispatchRequest(unstake(userWallet, userAmount)).then(({ error }): void => {
-      if (!error) {
-        onUserWalletClose();
+    dispatchRequest(unstake(network, userWallet, userAmount)).then(
+      ({ error }): void => {
+        if (!error) {
+          onUserWalletClose();
 
-        onSuccessOpen();
-      }
-    });
+          onSuccessOpen();
+        }
+      },
+    );
   };
 
-  useProviderEffect(() => {
+  useETHPolkadotProvidersEffect(() => {
     dispatchRequest(fetchStats());
-  }, [dispatchRequest]);
+  }, [dispatchRequest, fetchStats]);
 
   return {
     ethToken,

@@ -7,14 +7,18 @@ import { Token } from 'modules/common/types/token';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
+import { ADOTBIcon } from 'uiKit/Icons/ADOTBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
@@ -25,10 +29,16 @@ type TIconMap = Record<
   | Token.aAVAXb
   | Token.aBNBb
   | Token.aBNBc
+  | Token.aDOTb
   | Token.aETHb
   | Token.aETHc
   | Token.aFTMb
-  | Token.aMATICb,
+  | Token.aKSMb
+  | Token.aMATICb
+  | Token.aWNDb
+  | Token.DOT
+  | Token.KSM
+  | Token.WND,
   MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
@@ -42,10 +52,16 @@ const iconByTokenMap: TIconMap = {
   [Token.aAVAXb]: AAvaxBIcon,
   [Token.aBNBb]: ABNBBIcon,
   [Token.aBNBc]: ABNBCIcon,
+  [Token.aDOTb]: ADOTBIcon,
   [Token.aETHb]: AETHBIcon,
   [Token.aETHc]: AETHCIcon,
   [Token.aFTMb]: AFTMBIcon,
+  [Token.aKSMb]: AKSMBIcon,
   [Token.aMATICb]: AMATICBIcon,
+  [Token.aWNDb]: ADOTBIcon,
+  [Token.DOT]: DotIcon,
+  [Token.KSM]: KsmIcon,
+  [Token.WND]: DotIcon,
 };
 
 const iconByNetworkMap: TNetworkIconMap = {
@@ -62,19 +78,19 @@ const iconByNetworkMap: TNetworkIconMap = {
 };
 
 interface INetworkIconTextProps {
-  token?: Token;
-  network?: string;
   chainId?: BlockchainNetworkId;
-  isLoading?: boolean;
   contract?: string;
+  isLoading?: boolean;
+  network?: string;
+  token?: Token;
 }
 
 export const NetworkIconText = ({
-  token,
-  network,
   chainId,
-  isLoading,
   contract,
+  isLoading,
+  network,
+  token,
 }: INetworkIconTextProps): JSX.Element => {
   const classes = useNetworkIconTextStyles();
 

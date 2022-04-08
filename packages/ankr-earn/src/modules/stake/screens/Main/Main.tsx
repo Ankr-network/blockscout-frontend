@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
+import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchAPY as getAAVAXBAPY } from 'modules/stake-avax/actions/fetchAPY';
@@ -60,7 +60,7 @@ export const Main = (): JSX.Element => {
           ) : (
             <FeatureLegacyItem
               iconSlot={<EthIcon />}
-              mainHref="https://stakefi.ankr.com/liquid-staking/ETH"
+              mainHref={STAKE_LEGACY_LINKS.ETH}
               title={t('features.ethereum')}
             />
           )}
@@ -101,13 +101,13 @@ export const Main = (): JSX.Element => {
 
           <FeatureLegacyItem
             iconSlot={<DotIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/DOT"
+            mainHref={STAKE_LEGACY_LINKS.DOT}
             title={t('features.polkadot')}
           />
 
           <FeatureLegacyItem
             iconSlot={<KsmIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/KSM"
+            mainHref={STAKE_LEGACY_LINKS.KSM}
             title={t('features.ksm')}
           />
         </Features>

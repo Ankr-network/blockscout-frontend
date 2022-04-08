@@ -1,3 +1,5 @@
+import { Address } from 'provider';
+
 import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
@@ -37,6 +39,13 @@ export interface IFantomConfig {
   ftmToken: string;
 }
 
+interface IPolkadotConfig {
+  aDOTbToken: Address | null;
+  aKSMbToken: Address | null;
+  aWNDbToken: Address | null;
+  polkadotPool: Address;
+}
+
 interface IPolygonConfig {
   bridge: string;
   aMATICbToken: string;
@@ -52,6 +61,7 @@ export interface IStkrConfig {
   avalancheConfig: IAvalancheConfig;
   binanceConfig: IBinanceConfig;
   fantomConfig: IFantomConfig;
+  polkadotConfig: IPolkadotConfig;
   polygonConfig: IPolygonConfig;
 }
 
@@ -90,6 +100,12 @@ const LOCAL_CONFIG: IStkrConfig = {
     aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
     ftmToken: ZERO_ADDR,
   },
+  polkadotConfig: {
+    aDOTbToken: null,
+    aKSMbToken: null,
+    aWNDbToken: '0x1f8e7d70ee7198401b3703f7d3caf3d6ca4353d9',
+    polkadotPool: '0xe9d7CE920317dba4aDe1921F40f0c4A1Bbb1024E',
+  },
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
@@ -124,6 +140,9 @@ const GOERLI_CONFIG: IStkrConfig = {
   },
   fantomConfig: {
     ...LOCAL_CONFIG.fantomConfig,
+  },
+  polkadotConfig: {
+    ...LOCAL_CONFIG.polkadotConfig,
   },
   polygonConfig: {
     ...LOCAL_CONFIG.polygonConfig,
@@ -167,6 +186,12 @@ const MAINNET_CONFIG: IStkrConfig = {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
     ftmToken: ZERO_ADDR,
+  },
+  polkadotConfig: {
+    aDOTbToken: '0x5cc56c266143f29a5054b9ae07f3ac3513a7965e',
+    aKSMbToken: '0x84da8e731172827fcb233b911678e2a82e27baf2',
+    aWNDbToken: null,
+    polkadotPool: '0x59f767EC659E9FE01ebCf930465E2aD4Cc0F208e',
   },
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',

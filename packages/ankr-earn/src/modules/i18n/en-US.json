@@ -579,6 +579,8 @@
     "copy": "Copy contract address",
     "unknown-network": "Current network",
     "copied": "Copied!",
+    "claim-token": "Claim {token}",
+    "claim-tooltip": "Get liquid staking tokens to your Ethereum wallet",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
@@ -598,10 +600,17 @@
     "pending-time": "Requested time",
     "history-tooltip": "Transactions history",
     "card": {
+      "claiming-info": "Need to be claimed",
+      "network-info": "{network} Network",
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
       "addToMetamask": "Add token to Metamask",
       "copyTokenAddress": "Copy token address"
+    },
+    "guard": {
+      "connect-btn": "Connect to wallet",
+      "title": "Please connect your Ethereum and Polkadot compatible wallets to continue",
+      "title-old": "Please connect your wallet to continue"
     }
   },
   "features": {

@@ -9,43 +9,28 @@ import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 interface IFetchStatsResponseData {
   ethTokenBalance: BigNumber;
   minimumStake: BigNumber;
-  pendingUnstakes: BigNumber;
-  polkadotTokenBalance: BigNumber;
 }
 
 export const fetchStats = createSmartAction<
   RequestAction<IFetchStatsResponseData, IFetchStatsResponseData>
->(
-  'polkadot/fetchStats',
-  (): RequestAction => ({
-    request: {
-      promise: async (): Promise<IFetchStatsResponseData> => {
-        const sdk = await PolkadotStakeSDK.getInstance();
+>('polkadot/fetchStats', () => ({
+  request: {
+    promise: async (): Promise<IFetchStatsResponseData> => {
+      const sdk = await PolkadotStakeSDK.getInstance();
 
-        const [
-          ethTokenBalance,
-          minimumStake,
-          pendingUnstakes,
-          polkadotTokenBalance,
-        ] = await Promise.all([
-          sdk.getETHTokenBalance(),
-          sdk.getMinimumStake(),
-          sdk.getPendingUnstakes(),
-          sdk.getPolkadotTokenBalance(),
-        ]);
+      const [ethTokenBalance, minimumStake] = await Promise.all([
+        sdk.getETHTokenBalance(),
+        sdk.getMinimumStake(),
+      ]);
 
-        return {
-          ethTokenBalance,
-          minimumStake,
-          pendingUnstakes,
-          polkadotTokenBalance,
-        };
-      },
+      return {
+        ethTokenBalance,
+        minimumStake,
+      };
     },
-    meta: {
-      asMutation: false,
-      getData: (data: IFetchStatsResponseData): IFetchStatsResponseData => data,
-      onRequest: withStore,
-    },
-  }),
-);
+  },
+  meta: {
+    asMutation: false,
+    onRequest: withStore,
+  },
+}));
