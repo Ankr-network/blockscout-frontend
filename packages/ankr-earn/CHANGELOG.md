@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.7.3 (2022-04-08)
+
+
+### Bug Fixes
+
+* **protocol:** MRPC-785 fix title ([#689](https://github.com/Ankr-network/ankr-web/issues/689)) ([4fb6d8c](https://github.com/Ankr-network/ankr-web/commit/4fb6d8ca4ffe385f569c15b2b57cd250abf15912))
+
+
+
+
+
 ## 2.7.2 (2022-04-07)
 
 
