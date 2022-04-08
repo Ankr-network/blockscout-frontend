@@ -13,6 +13,7 @@ import {
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export const ANKR_SCAN_LINK = 'https://ankrscan.io/';
 
@@ -38,6 +39,11 @@ export const MainNavigation = () => {
         label: t('main-navigation.ankr-scan'),
         StartIcon: StatIcon,
         href: ANKR_SCAN_LINK,
+      },
+      {
+        label: t('main-navigation.account-details'),
+        StartIcon: DiamondIcon,
+        href: AccountRoutesConfig.accountDetails.generatePath(),
       },
     ],
     [],

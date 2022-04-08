@@ -8,8 +8,6 @@ import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
 import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
-const ENABLE_STAKING_BANNER = true;
-
 interface SidebarProps {
   className?: string;
 }
@@ -25,7 +23,7 @@ export const SideBar = ({ className = '' }: SidebarProps) => {
           <div className={classes.bottom}>
             <MainNavigation />
             <div>
-              {ENABLE_STAKING_BANNER && <StakingInfo />}
+              <StakingInfo />
               <ExtraNavigation />
             </div>
           </div>

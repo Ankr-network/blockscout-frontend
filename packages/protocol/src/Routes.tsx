@@ -8,6 +8,7 @@ import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
 } from './domains/nodeProviders/Routes';
+import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
@@ -83,6 +84,15 @@ export function Routes() {
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <ProvidersRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[AccountRoutesConfig.accountDetails.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <AccountRoutes />
           </DefaultLayout>
         )}
       />

@@ -29,7 +29,8 @@
     "staking": "Staking",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "ankr-scan": "Ankr Scan"
+    "ankr-scan": "Ankr Scan",
+    "account-details": "Account Details"
   },
   "extra-navigation": {
     "docs": "Docs",
@@ -355,6 +356,12 @@
         "text": "I&nbsp;understand",
         "button": "Finish"
       }
+    }
+  },
+  "account": {
+    "accountDetails": {
+      "breadcrumbs": "Account Details",
+      "title": "Account Details"
     }
   },
   "mobile-details": {
