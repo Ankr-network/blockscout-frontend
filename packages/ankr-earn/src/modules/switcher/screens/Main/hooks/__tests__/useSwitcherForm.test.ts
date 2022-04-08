@@ -27,7 +27,8 @@ jest.mock('modules/auth/hooks/useAuth', () => ({
 describe('modules/switcher/screens/Main/useSwitcherHook', () => {
   const defaultHookProps: ISwitcherFormHookArgs = {
     ratio: ONE_ETH,
-    swapOption: Token.aETHb,
+    from: Token.aETHb,
+    to: Token.aETHc,
     max: ONE_ETH,
     onSuccessSwap: jest.fn(),
   };
@@ -92,7 +93,8 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       expect(swapAssets).toBeCalledTimes(1);
       expect(swapAssets).toBeCalledWith({
         amount: '1',
-        swapOption: 'aETHb',
+        from: Token.aETHb,
+        to: Token.aETHc,
         ratio: ONE_ETH,
       });
     });
@@ -192,7 +194,8 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       const { result } = renderHook(() =>
         useSwitcherForm({
           ...defaultHookProps,
-          swapOption: Token.aETHc,
+          from: Token.aETHc,
+          to: Token.aETHb,
           ratio: new BigNumber('940763088322812800'),
         }),
       );

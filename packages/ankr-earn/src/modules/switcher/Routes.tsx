@@ -11,7 +11,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}switch/`;
-const SUCCESS = `${ROOT}:swapOption/:txHash`;
+const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
   {

@@ -6,14 +6,13 @@ import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitch
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { TOKENS } from 'modules/switcher/const';
-import { TSwapOption } from 'modules/switcher/types';
 
 import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
 export interface ISendAnalyticsHookArgs {
-  swapOption: TSwapOption;
+  from: Token;
+  to: Token;
   feeBasisPoints: number;
   ratio: BigNumber;
   fethBalance?: BigNumber;
@@ -29,7 +28,8 @@ export interface ISendAnalyticsHookData {
 }
 
 export const useSendAnalytics = ({
-  swapOption,
+  from,
+  to,
   feeBasisPoints,
   ratio,
   fethBalance = ZERO,
@@ -45,8 +45,7 @@ export const useSendAnalytics = ({
       feeBP: new BigNumber(feeBasisPoints),
     });
 
-    const inputTokenBalance =
-      swapOption === Token.aETHb ? fethBalance : aethBalance;
+    const inputTokenBalance = from === Token.aETHb ? fethBalance : aethBalance;
 
     const switchProportion = !inputTokenBalance.isZero()
       ? new BigNumber(amount).div(inputTokenBalance).multipliedBy(100).toFixed()
@@ -55,12 +54,12 @@ export const useSendAnalytics = ({
     trackSwitchToken({
       walletType: walletName,
       walletPublicAddress: address,
-      inputToken: swapOption,
+      inputToken: from,
       inputTokenBalance: inputTokenBalance.toFixed(),
-      ouputToken: TOKENS[swapOption],
+      ouputToken: to,
       inputAmount: amount,
       serviceFee: fee.toFixed(),
-      outputAmount: calcValueWithRatio({ total, ratio, swapOption }).toFixed(),
+      outputAmount: calcValueWithRatio({ total, ratio, from }).toFixed(),
       switchProportion,
     });
   };

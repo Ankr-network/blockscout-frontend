@@ -6,14 +6,13 @@ import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
 
-import { TSwapOption } from '../../../../types';
-
 import { useSwapOptionsStyles } from './useSwapOptionsStyles';
 
 export interface ISwapOptionsProps {
-  swapOption: TSwapOption;
-  onChooseAEthB: () => void;
-  onChooseAEthC: () => void;
+  from: Token;
+  to: Token;
+  onChooseFrom: (value: string) => void;
+  onChooseTo: (value: string) => void;
 }
 
 const DEFAULT_ICON_PROPS = {
@@ -37,38 +36,29 @@ const TO_TOKENS = [
 ];
 
 export const SwapOptions = ({
-  swapOption,
-  onChooseAEthB,
-  onChooseAEthC,
+  from,
+  to,
+  onChooseFrom,
+  onChooseTo,
 }: ISwapOptionsProps): JSX.Element => {
   const classes = useSwapOptionsStyles();
 
   const fromOptions = useMemo(
-    () => (swapOption === Token.aETHb ? FROM_TOKENS : TO_TOKENS),
-    [swapOption],
+    () => (from === Token.aETHb ? FROM_TOKENS : TO_TOKENS),
+    [from],
   );
 
   const toOptions = useMemo(
-    () => (swapOption === Token.aETHb ? TO_TOKENS : FROM_TOKENS),
-    [swapOption],
+    () => (from === Token.aETHb ? TO_TOKENS : FROM_TOKENS),
+    [from],
   );
 
-  const values = useMemo(
-    () => ({
-      from: swapOption === Token.aETHb ? Token.aETHb : Token.aETHc,
-      to: swapOption === Token.aETHb ? Token.aETHc : Token.aETHb,
-    }),
-    [swapOption],
-  );
+  const values = useMemo(() => ({ from, to }), [from, to]);
 
   const handleChooseSwapOption = useCallback(() => {
-    if (swapOption === Token.aETHb) {
-      onChooseAEthC();
-      return;
-    }
-
-    onChooseAEthB();
-  }, [swapOption, onChooseAEthC, onChooseAEthB]);
+    onChooseFrom(to);
+    onChooseTo(from);
+  }, [from, to, onChooseFrom, onChooseTo]);
 
   return (
     <Box className={classes.swapChips}>
@@ -76,9 +66,9 @@ export const SwapOptions = ({
         from={fromOptions}
         to={toOptions}
         values={values}
-        onChangeFrom={onChooseAEthB}
+        onChangeFrom={onChooseFrom}
         onChangeSwitch={handleChooseSwapOption}
-        onChangeTo={onChooseAEthC}
+        onChangeTo={onChooseTo}
       />
     </Box>
   );

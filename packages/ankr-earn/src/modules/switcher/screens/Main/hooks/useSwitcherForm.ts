@@ -3,14 +3,11 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { number, object } from 'yup';
 
+import { Token } from 'modules/common/types/token';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { t } from 'modules/i18n/utils/intl';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
-import {
-  IFeeAndAmount,
-  IFeeAndTotal,
-  TSwapOption,
-} from 'modules/switcher/types';
+import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
 
 import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
@@ -20,7 +17,8 @@ import { ISendAnalyticsEventArg } from './useSendAnalytics';
 export interface ISwitcherFormHookArgs {
   max: BigNumber;
   ratio: BigNumber;
-  swapOption: TSwapOption;
+  from: Token;
+  to: Token;
   onSuccessSwap: (data: ISendAnalyticsEventArg) => void;
 }
 
@@ -48,7 +46,8 @@ const createSchema = ({ max }: { max: BigNumber }) =>
 
 export const useSwitcherForm = ({
   max,
-  swapOption,
+  from,
+  to,
   ratio,
   onSuccessSwap,
 }: ISwitcherFormHookArgs): ISwitcherFormHookData => {
@@ -78,10 +77,10 @@ export const useSwitcherForm = ({
       return calcValueWithRatio({
         total,
         ratio,
-        swapOption,
+        from,
       });
     },
-    [ratio, swapOption],
+    [ratio, from],
   );
 
   const handleSwap = useCallback(
@@ -90,7 +89,8 @@ export const useSwitcherForm = ({
         swapAssets({
           amount,
           ratio,
-          swapOption,
+          from,
+          to,
         }),
       ).then(response => {
         if (response.error) {
@@ -103,7 +103,7 @@ export const useSwitcherForm = ({
         }
       });
     },
-    [dispatchRequest, ratio, swapOption, onSuccessSwap],
+    [ratio, from, to, dispatchRequest, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {
