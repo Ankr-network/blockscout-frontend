@@ -238,10 +238,10 @@ export class EthSDK {
     return new BigNumber(ratio);
   }
 
-  public async addTokenToWallet(token: Token): Promise<boolean> {
+  public async addTokenToWallet(token: TEthToken): Promise<boolean> {
     await this.connectWriteProvider();
 
-    const data = tokensConfigMap[token as keyof typeof tokensConfigMap];
+    const data = tokensConfigMap[token];
 
     if (!data) {
       throw new Error('Failed to add token to wallet');

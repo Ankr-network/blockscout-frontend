@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { Token } from 'modules/common/types/token';
+import { TEthToken } from 'modules/api/EthSDK';
+
+export type TSwapOption = TEthToken;
 
 export interface ISwapFormPayload {
   amount?: string;
@@ -18,6 +20,5 @@ export interface IFeeAndAmount {
 
 export interface ISuccessPathParams {
   txHash: string;
-  from: Token;
-  to: Token;
+  swapOption: TSwapOption;
 }

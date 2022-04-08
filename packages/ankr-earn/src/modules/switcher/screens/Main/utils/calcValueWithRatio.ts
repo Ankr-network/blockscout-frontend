@@ -1,22 +1,22 @@
 import BigNumber from 'bignumber.js';
 
 import { DECIMAL_PLACES, ETH_SCALE_FACTOR } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
+import { TSwapOption } from 'modules/switcher/types';
 
 export interface ICalcValueWithRatioData {
   total: BigNumber;
   ratio: BigNumber;
-  from: Token;
+  swapOption: TSwapOption;
 }
 
 export const calcValueWithRatio = ({
   total,
   ratio,
-  from,
+  swapOption,
 }: ICalcValueWithRatioData): BigNumber => {
   const amount = total.multipliedBy(ETH_SCALE_FACTOR);
 
-  if (!ratio.isZero() && from === Token.aETHc) {
+  if (!ratio.isZero() && swapOption === 'aETHc') {
     return amount.dividedBy(ratio).decimalPlaces(DECIMAL_PLACES);
   }
 

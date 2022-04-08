@@ -1,12 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { EthSDK } from 'modules/api/EthSDK';
-import { Token } from 'modules/common/types/token';
+import { EthSDK, TEthToken } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
 
 interface IAddTokenToWalletArgs {
-  swapOption: Token;
+  swapOption: TEthToken;
 }
 
 export const addSwitcherTokenToWallet = createAction<

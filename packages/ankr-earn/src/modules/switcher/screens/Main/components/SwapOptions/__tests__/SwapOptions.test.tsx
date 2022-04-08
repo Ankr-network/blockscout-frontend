@@ -6,10 +6,9 @@ import { SwapOptions } from '..';
 
 describe('modules/switcher/screens/Main/components/SwapOptions', () => {
   const defaultProps = {
-    from: Token.aETHc,
-    to: Token.aETHb,
-    onChooseFrom: jest.fn(),
-    onChooseTo: jest.fn(),
+    swapOption: Token.aETHc as const,
+    onChooseAEthB: jest.fn(),
+    onChooseAEthC: jest.fn(),
   };
 
   afterEach(() => {
@@ -27,16 +26,20 @@ describe('modules/switcher/screens/Main/components/SwapOptions', () => {
   });
 
   test('should choose aETHc chip when clicking on arrow', () => {
-    render(
-      <SwapOptions {...defaultProps} from={Token.aETHb} to={Token.aETHc} />,
-    );
+    render(<SwapOptions {...defaultProps} swapOption={Token.aETHb} />);
 
     const arrow = screen.getByTestId('switch-icon');
     arrow.click();
 
-    expect(defaultProps.onChooseFrom).toBeCalledTimes(1);
-    expect(defaultProps.onChooseFrom).toBeCalledWith(Token.aETHc);
-    expect(defaultProps.onChooseTo).toBeCalledTimes(1);
-    expect(defaultProps.onChooseTo).toBeCalledWith(Token.aETHb);
+    expect(defaultProps.onChooseAEthC).toBeCalledTimes(1);
+  });
+
+  test('should choose aETHb chip when clicking on arrow', () => {
+    render(<SwapOptions {...defaultProps} swapOption={Token.aETHc} />);
+
+    const arrow = screen.getByTestId('switch-icon');
+    arrow.click();
+
+    expect(defaultProps.onChooseAEthB).toBeCalledTimes(1);
   });
 });

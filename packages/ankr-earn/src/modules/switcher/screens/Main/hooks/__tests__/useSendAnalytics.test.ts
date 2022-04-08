@@ -17,8 +17,7 @@ jest.mock('modules/analytics/tracking-actions/trackSwitchToken', () => ({
 
 describe('modules/switcher/screens/Main/useSendAnalytics', () => {
   const defaultHookProps: ISendAnalyticsHookArgs = {
-    from: Token.aETHb,
-    to: Token.aETHc,
+    swapOption: Token.aETHb,
     feeBasisPoints: 30,
     ratio: new BigNumber(10 ** 18),
     fethBalance: new BigNumber(9000),
@@ -65,8 +64,7 @@ describe('modules/switcher/screens/Main/useSendAnalytics', () => {
     const { result } = renderHook(() =>
       useSendAnalytics({
         ...defaultHookProps,
-        from: Token.aETHc,
-        to: Token.aETHb,
+        swapOption: Token.aETHc,
       }),
     );
 

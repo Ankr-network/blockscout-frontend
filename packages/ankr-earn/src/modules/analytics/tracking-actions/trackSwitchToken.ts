@@ -1,12 +1,12 @@
-import { Token } from 'modules/common/types/token';
+import { TSwapOption } from 'modules/switcher/types';
 
 import { IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface ISwitchTokenEvent extends IBaseWaletData {
-  inputToken: Token;
+  inputToken: TSwapOption;
   inputTokenBalance: string;
-  ouputToken: Token;
+  ouputToken: TSwapOption;
   inputAmount: string;
   serviceFee: string;
   outputAmount: string;
