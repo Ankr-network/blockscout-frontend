@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
 
     width: ({ isMobile }) => (isMobile ? 345 : 360),
     height: '100%',
-    padding: ({ isMobile }) => theme.spacing(isMobile ? 2.2 : 3.8, 3, 0, 3),
+    padding: ({ isMobile }) => theme.spacing(isMobile ? 2.2 : 3.8, 0, 0),
 
     '& a': {
       textDecoration: 'none',
@@ -44,7 +44,7 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
       alignSelf: 'flex-start',
       padding: 0,
       marginBottom: theme.spacing(3),
-      marginLeft: theme.spacing(-1.5),
+      marginLeft: theme.spacing(1.5),
       border: 'none',
     },
   },
@@ -66,7 +66,7 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
       fontSize: ({ isMobile }) => (isMobile ? 20 : 24),
       fontWeight: 500,
       background: 'none',
-      padding: 0,
+      padding: theme.spacing(0, 3),
       '& svg': {
         fontSize: 16,
         marginLeft: theme.spacing(1),
@@ -76,7 +76,7 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
   menuItem: {
     display: 'flex',
 
-    padding: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3, 0),
+    padding: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3, 3),
 
     '&:not(:last-child)': {
       marginBottom: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3),
@@ -107,5 +107,6 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
     fontSize: 14,
     fontWeight: 400,
     marginBottom: ({ isMobile }) => theme.spacing(isMobile ? 1 : 0.8),
+    padding: theme.spacing(0, 3),
   },
 }));
