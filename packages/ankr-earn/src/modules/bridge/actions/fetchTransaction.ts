@@ -1,11 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { t } from 'common';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 
+import { t } from 'common';
 import { Address, AvailableWriteProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';

@@ -54,6 +54,26 @@ export const NavLink = React.forwardRef(
 
     const endIcon = isLoading ? loader || <Spinner size={16} /> : undefined;
 
+    if (isRouterLink) {
+      return createElement(
+        isLink
+          ? 'a'
+          : props.disabled
+          ? typeof props.component === 'string'
+            ? props.component
+            : 'span'
+          : RouterLink,
+        {
+          to: href,
+          href,
+          children: props.children,
+          className,
+          ref: ref as MutableRefObject<HTMLAnchorElement>,
+          ...routerLinkProps,
+        },
+      );
+    }
+
     if (isLink) {
       return (
         <Button
@@ -69,23 +89,6 @@ export const NavLink = React.forwardRef(
           onClick={onClick}
           {...(props as unknown)}
         />
-      );
-    }
-
-    if (isRouterLink) {
-      return createElement(
-        props.disabled
-          ? typeof props.component === 'string'
-            ? props.component
-            : 'span'
-          : RouterLink,
-        {
-          to: href,
-          children: props.children,
-          className,
-          ref: ref as MutableRefObject<HTMLAnchorElement>,
-          ...routerLinkProps,
-        },
       );
     }
 
