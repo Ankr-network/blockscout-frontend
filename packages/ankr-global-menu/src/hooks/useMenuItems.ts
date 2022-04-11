@@ -88,7 +88,7 @@ export const useMenuItems = ({
             items: [
               {
                 label: AnkrIntl.t('global-menu.gaming.item-1'),
-                link: '/game/',
+                link: '/gaming/',
                 project: 'landing',
               },
             ],
