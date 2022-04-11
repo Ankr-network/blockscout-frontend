@@ -48,24 +48,18 @@ export const usePolkadot = (): void => {
   );
 
   // ETH
-  useProviderEffect(
-    () => {
-      dispatch(
-        resetRequests(
-          getPolkadotResetRequests([
-            fetchETHTokenBalance.toString(),
-            fetchTxHistory.toString(),
-          ]),
-        ),
-      );
+  useProviderEffect(() => {
+    dispatch(
+      resetRequests(
+        getPolkadotResetRequests([
+          fetchETHTokenBalance.toString(),
+          fetchTxHistory.toString(),
+        ]),
+      ),
+    );
 
-      (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach(
-        (network): void => {
-          dispatch(fetchETHTokenBalance(network));
-        },
-      );
-    },
-    [dispatch, fetchETHTokenBalance, fetchTxHistory],
-    AvailableWriteProviders.ethCompatible,
-  );
+    (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach((network): void => {
+      dispatch(fetchETHTokenBalance(network));
+    });
+  }, [dispatch, fetchETHTokenBalance, fetchTxHistory]);
 };

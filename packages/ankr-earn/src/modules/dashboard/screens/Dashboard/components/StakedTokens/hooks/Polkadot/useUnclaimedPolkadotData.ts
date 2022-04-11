@@ -31,7 +31,7 @@ interface IUseClaimedPolkadotData {
 /**
  *  TODO Add logic for this beta version (Polkadot claiming)
  */
-export const useClaimedPolkadotData = ({
+export const useUnclaimedPolkadotData = ({
   ethToken,
   network,
   polkadotToken,

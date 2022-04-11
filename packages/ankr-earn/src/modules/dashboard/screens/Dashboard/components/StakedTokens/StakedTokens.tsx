@@ -5,9 +5,6 @@ import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
 
-import { ClaimedDOT } from '../ClaimedDOT';
-import { ClaimedKSM } from '../ClaimedKSM';
-import { ClaimedWND } from '../ClaimedWND';
 import { StakedABNBB } from '../StakedABNBB';
 import { StakedABNBC } from '../StakedABNBC';
 import { StakedADOTB } from '../StakedADOTB';
@@ -17,10 +14,14 @@ import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
-import { StakedBridgeAETHB } from '../StakedBridgeAETHB/StakedBridgeAETHB';
-import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC/StakedBridgeAMATICBBSC';
-import { StakedBridgeMatic } from '../StakedBridgeMatic/StakedBridgeToken';
+import { StakedBridgeAETHB } from '../StakedBridgeAETHB';
+import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC';
+import { StakedBridgeMatic } from '../StakedBridgeMatic';
 import { StakedMatic } from '../StakedMatic';
+import { UnclaimedDOT } from '../UnclaimedDOT';
+import { UnclaimedETH } from '../UnclaimedETH';
+import { UnclaimedKSM } from '../UnclaimedKSM';
+import { UnclaimedWND } from '../UnclaimedWND';
 
 import { useStakedTokens } from './hooks/useStakedTokens';
 import { useStakedTokensStyles } from './useStakedTokensStyles';
@@ -46,6 +47,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isDOTShowed,
     isKSMShowed,
     isWNDShowed,
+    isUnclaimedEthShowed,
   } = useStakedTokens();
 
   return (
@@ -57,16 +59,18 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           </Typography>
 
           <AssetsList>
+            {isUnclaimedEthShowed && <UnclaimedETH />}
+
             {featuresConfig.isActivePolkadotStaking && isDOTShowed && (
-              <ClaimedDOT />
+              <UnclaimedDOT />
             )}
 
             {featuresConfig.isActivePolkadotStaking && isKSMShowed && (
-              <ClaimedKSM />
+              <UnclaimedKSM />
             )}
 
             {featuresConfig.isActivePolkadotStaking && isWNDShowed && (
-              <ClaimedWND />
+              <UnclaimedWND />
             )}
 
             {isMATICShowed && <StakedMatic />}

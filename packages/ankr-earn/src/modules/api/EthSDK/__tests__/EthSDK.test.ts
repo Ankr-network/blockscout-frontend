@@ -5,8 +5,8 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { MAX_UINT256, ZERO, ZERO_ADDR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
+import { EthSDK, TEthToken } from '..';
 import { ETH_POOL_START_BLOCK } from '../const';
-import { EthSDK, TEthToken } from '../EthSDK';
 
 jest.mock('modules/api/ProviderManagerSingleton', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
@@ -56,11 +56,14 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       ratio: jest.fn(),
       allowance: jest.fn(),
       claimableAETHFRewardOf: jest.fn(),
+      claimableAETHRewardOf: jest.fn(),
       approve: jest.fn(),
       lockShares: jest.fn(),
       unlockShares: jest.fn(),
       stakeAndClaimAethC: jest.fn(),
       stakeAndClaimAethB: jest.fn(),
+      claimFETH: jest.fn(),
+      claimAETH: jest.fn(),
       REQUESTER_MINIMUM_POOL_STAKING: jest.fn(),
     },
   };
@@ -114,6 +117,10 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       call: () => Promise.resolve(ZERO),
     });
 
+    defaultContract.methods.claimableAETHRewardOf.mockReturnValue({
+      call: () => Promise.resolve(ZERO),
+    });
+
     defaultContract.methods.stakeAndClaimAethC.mockReturnValue({
       estimateGas: () => Promise.resolve(ZERO),
       send: () =>
@@ -130,6 +137,26 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
           receiptPromise: {},
           transactionHash: 'hash1',
         }),
+    });
+
+    defaultContract.methods.claimFETH.mockReturnValue({
+      estimateGas: () => Promise.resolve(ZERO),
+      send: () =>
+        Promise.resolve({
+          receiptPromise: {},
+          transactionHash: 'hash1',
+        }),
+      encodeABI: () => 'mock-abi',
+    });
+
+    defaultContract.methods.claimAETH.mockReturnValue({
+      estimateGas: () => Promise.resolve(ZERO),
+      send: () =>
+        Promise.resolve({
+          receiptPromise: {},
+          transactionHash: 'hash1',
+        }),
+      encodeABI: () => 'mock-abi',
     });
 
     defaultContract.methods.REQUESTER_MINIMUM_POOL_STAKING.mockReturnValue({
@@ -177,23 +204,36 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
   test('should return contracts data', async () => {
     const sdk = await EthSDK.getInstance();
 
-    const [ratio, aETHcBalance, aETHbBalance, allowance, ethBalance] =
-      await Promise.all([
-        sdk.getAethcRatio(),
-        sdk.getAethcBalance(),
-        sdk.getAethbBalance(),
-        sdk.getAllowance(),
-        sdk.getEthBalance(),
-      ]);
+    const [
+      ratio,
+      aETHcBalance,
+      aETHbBalance,
+      allowance,
+      ethBalance,
+      claimableAETHB,
+      claimableAETHC,
+    ] = await Promise.all([
+      sdk.getAethcRatio(),
+      sdk.getAethcBalance(),
+      sdk.getAethbBalance(),
+      sdk.getAllowance(),
+      sdk.getEthBalance(),
+      sdk.getClaimable(Token.aETHb),
+      sdk.getClaimable(Token.aETHc),
+    ]);
 
     expect(ethBalance.toString()).toBe(ethAmount);
     expect(ratio.toNumber()).toBe(0);
     expect(allowance.toNumber()).toBe(0);
     expect(aETHcBalance.toNumber()).toBe(1);
     expect(aETHbBalance.toNumber()).toBe(1);
+    expect(claimableAETHB.toNumber()).toBe(8);
+    expect(claimableAETHC.toNumber()).toBe(8);
     expect(defaultContract.methods.balanceOf).toBeCalledTimes(2);
     expect(defaultContract.methods.ratio).toBeCalledTimes(1);
     expect(defaultContract.methods.allowance).toBeCalledTimes(1);
+    expect(defaultContract.methods.claimableAETHFRewardOf).toBeCalledTimes(1);
+    expect(defaultContract.methods.claimableAETHRewardOf).toBeCalledTimes(1);
   });
 
   test('should return tx data', async () => {
@@ -368,5 +408,21 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     const result = await sdk.stake(new BigNumber(10), Token.aETHc);
 
     expect(result.transactionHash).toBe('hash1');
+  });
+
+  test('should claim aETHc', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.claim(Token.aETHc);
+
+    expect(result.transactionHash).toBe('hash');
+  });
+
+  test('should claim aETHb', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.claim(Token.aETHb);
+
+    expect(result.transactionHash).toBe('hash');
   });
 });

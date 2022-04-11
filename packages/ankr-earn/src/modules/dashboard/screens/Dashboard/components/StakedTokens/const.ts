@@ -1,8 +1,8 @@
 import { Token } from 'modules/common/types/token';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 
-import { IUseClaimedPolkadotDataProps } from './components/ClaimedTokens/hooks/Polkadot/useClaimedPolkadotData';
-import { IUseStakedPolkadotDataProps } from './components/StakedTokens/hooks/Polkadot/useStakedPolkadotData';
+import { IUseStakedPolkadotDataProps } from './hooks/Polkadot/useStakedPolkadotData';
+import { IUseClaimedPolkadotDataProps } from './hooks/Polkadot/useUnclaimedPolkadotData';
 
 export const DOT_PROPS: IUseClaimedPolkadotDataProps &
   IUseStakedPolkadotDataProps = {

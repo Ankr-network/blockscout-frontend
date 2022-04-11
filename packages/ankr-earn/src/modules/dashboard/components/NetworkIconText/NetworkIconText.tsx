@@ -4,6 +4,7 @@ import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 import { BlockchainNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
+import { t } from 'modules/i18n/utils/intl';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
@@ -38,7 +39,8 @@ type TIconMap = Record<
   | Token.aWNDb
   | Token.DOT
   | Token.KSM
-  | Token.WND,
+  | Token.WND
+  | Token.ETH,
   MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
@@ -62,6 +64,7 @@ const iconByTokenMap: TIconMap = {
   [Token.DOT]: DotIcon,
   [Token.KSM]: KsmIcon,
   [Token.WND]: DotIcon,
+  [Token.ETH]: EthIcon,
 };
 
 const iconByNetworkMap: TNetworkIconMap = {
@@ -79,15 +82,17 @@ const iconByNetworkMap: TNetworkIconMap = {
 
 interface INetworkIconTextProps {
   chainId?: BlockchainNetworkId;
-  contract?: string;
   isLoading?: boolean;
+  /**
+   * Please use chainId prop.
+   * @deprecated
+   */
   network?: string;
   token?: Token;
 }
 
 export const NetworkIconText = ({
   chainId,
-  contract,
   isLoading,
   network,
   token,
@@ -98,14 +103,8 @@ export const NetworkIconText = ({
     return <NetworkIconTextSkeleton />;
   }
 
-  const Icon = iconByTokenMap[token as keyof TIconMap];
+  const Icon = iconByTokenMap[token as keyof TIconMap] ?? 'span';
   const NetworkIcon = chainId && iconByNetworkMap[chainId];
-
-  const TokenSymbol = (
-    <Typography className={classes.token}>{token}</Typography>
-  );
-
-  const ContractCopyTooltip = contract && TokenSymbol;
 
   return (
     <Grid container alignItems="center" spacing={2}>
@@ -116,9 +115,13 @@ export const NetworkIconText = ({
       </Grid>
 
       <Grid item>
-        {ContractCopyTooltip || TokenSymbol}
+        <Typography className={classes.token}>{token}</Typography>
 
-        <Typography className={classes.network}>{network}</Typography>
+        {(network || chainId) && (
+          <Typography className={classes.network}>
+            {network ?? t(`chain.${chainId}`)}
+          </Typography>
+        )}
       </Grid>
     </Grid>
   );

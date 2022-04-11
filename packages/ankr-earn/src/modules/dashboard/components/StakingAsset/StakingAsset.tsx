@@ -1,9 +1,8 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { DEFAULT_FIXED } from 'modules/common/const';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
@@ -14,9 +13,9 @@ import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { CopyTokenAddress } from '../CopyTokenAddress';
+import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
-import { StakingAssetSkeleton } from './StakingAssetSkeleton';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
@@ -61,7 +60,7 @@ export const StakingAsset = ({
   const classes = useStyles();
 
   if (isLoading) {
-    return <StakingAssetSkeleton />;
+    return <DashboardCardSkeleton />;
   }
 
   const handleHistoryClick = () => {
@@ -78,105 +77,82 @@ export const StakingAsset = ({
   const comingSoonTooltip = t('common.tooltips.comingSoon');
 
   return (
-    <Paper className={classes.root}>
-      <Box mb={{ xs: 3, sm: 'auto' }}>
-        <Grid container spacing={2}>
-          <Grid item sm xs={12}>
-            <NetworkIconText
-              chainId={chainId}
-              contract={tokenAddress}
-              network={network}
-              token={token}
+    <DashboardCard
+      amount={amount}
+      badgeSlot={pendingSlot}
+      buttonsSlot={
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item>
+            <PlusMinusBtn
+              disabled={!stakeLink}
+              href={stakeLink}
+              isLoading={isStakeLoading}
+              tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+              onClick={onAddStakingClick}
             />
           </Grid>
 
-          {pendingSlot && (
-            <Grid item xs="auto">
-              {pendingSlot}
-            </Grid>
-          )}
+          <Grid item>
+            <PlusMinusBtn
+              disabled={!unstakeLink}
+              href={unstakeLink}
+              icon="minus"
+              isLoading={isUnstakeLoading}
+              tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
+            />
+          </Grid>
 
-          <Grid item xs="auto">
-            <Box component="span" display="flex">
-              <Menu>
-                <Menu.Item
-                  disabled={!onHistoryBtnClick}
-                  onClick={handleHistoryClick}
-                >
-                  {onHistoryBtnClick
-                    ? t('dashboard.card.stakingHistory')
-                    : t('dashboard.card.stakingHistoryComingSoon')}
-                </Menu.Item>
-
-                <CopyTokenAddress address={tokenAddress ?? ''} />
-
-                {!isFirefox ? (
-                  <Menu.Item onClick={onAddTokenToWallet}>
-                    {t('dashboard.card.addToMetamask')}
-                  </Menu.Item>
-                ) : null}
-              </Menu>
-            </Box>
+          <Grid item>
+            {tradeLink ? (
+              <NavLink
+                className={classes.tradeButton}
+                href={tradeLink}
+                variant="outlined"
+                onClick={onTradeClick}
+              >
+                {t('dashboard.trade')}
+              </NavLink>
+            ) : (
+              <Tooltip arrow title={comingSoonTooltip}>
+                <Box component="span" display="flex">
+                  <Button
+                    disabled
+                    className={classes.tradeButton}
+                    variant="outlined"
+                  >
+                    {t('dashboard.trade')}
+                  </Button>
+                </Box>
+              </Tooltip>
+            )}
           </Grid>
         </Grid>
-      </Box>
+      }
+      menuSlot={
+        <Box component="span" display="flex">
+          <Menu>
+            <Menu.Item
+              disabled={!onHistoryBtnClick}
+              onClick={handleHistoryClick}
+            >
+              {onHistoryBtnClick
+                ? t('dashboard.card.stakingHistory')
+                : t('dashboard.card.stakingHistoryComingSoon')}
+            </Menu.Item>
 
-      <Grid container alignItems="center" spacing={2}>
-        <Grid item sm xs={12}>
-          <Typography className={classes.amount}>
-            {amount ? amount.decimalPlaces(DEFAULT_FIXED).toFormat() : '-'}
-          </Typography>
-        </Grid>
+            <CopyTokenAddress address={tokenAddress ?? ''} />
 
-        <Grid item sm="auto" xs={12}>
-          <Grid container alignItems="center" spacing={2}>
-            <Grid item>
-              <PlusMinusBtn
-                disabled={!stakeLink}
-                href={stakeLink}
-                isLoading={isStakeLoading}
-                tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
-                onClick={onAddStakingClick}
-              />
-            </Grid>
-
-            <Grid item>
-              <PlusMinusBtn
-                disabled={!unstakeLink}
-                href={unstakeLink}
-                icon="minus"
-                isLoading={isUnstakeLoading}
-                tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
-              />
-            </Grid>
-
-            <Grid item>
-              {tradeLink ? (
-                <NavLink
-                  className={classes.tradeButton}
-                  href={tradeLink}
-                  variant="outlined"
-                  onClick={onTradeClick}
-                >
-                  {t('dashboard.trade')}
-                </NavLink>
-              ) : (
-                <Tooltip arrow title={comingSoonTooltip}>
-                  <Box component="span" display="flex">
-                    <Button
-                      disabled
-                      className={classes.tradeButton}
-                      variant="outlined"
-                    >
-                      {t('dashboard.trade')}
-                    </Button>
-                  </Box>
-                </Tooltip>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Paper>
+            {!isFirefox ? (
+              <Menu.Item onClick={onAddTokenToWallet}>
+                {t('dashboard.card.addToMetamask')}
+              </Menu.Item>
+            ) : null}
+          </Menu>
+        </Box>
+      }
+      networkAndIconSlot={
+        <NetworkIconText chainId={chainId} network={network} token={token} />
+      }
+    />
   );
 };

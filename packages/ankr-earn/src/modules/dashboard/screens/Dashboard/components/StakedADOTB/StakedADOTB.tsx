@@ -13,7 +13,7 @@ import {
 } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 
-import { DOT_PROPS } from '../../const';
+import { DOT_PROPS } from '../StakedTokens/const';
 import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotData';
 
 /**

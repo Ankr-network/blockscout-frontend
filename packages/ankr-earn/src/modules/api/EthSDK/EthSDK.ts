@@ -25,12 +25,15 @@ import {
   MAX_UINT256,
   ZERO,
 } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getTxEventsHistoryGroup } from 'modules/stake/api/getTxEventsHistoryGroup';
 
-import { Token } from '../common/types/token';
-
-import { ETH_BLOCK_OFFSET, ETH_HISTORY_RANGE_STEP } from './const';
+import {
+  ETH_BLOCK_OFFSET,
+  ETH_HISTORY_RANGE_STEP,
+  methodNameMap,
+} from './const';
 
 export type TEthToken = Token.aETHb | Token.aETHc;
 
@@ -286,8 +289,7 @@ export class EthSDK {
 
     const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
 
-    const contractStake =
-      ethPoolContract.methods[this.getStakeMethodName(token)];
+    const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
 
     const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
@@ -301,16 +303,6 @@ export class EthSDK {
     });
   }
 
-  private getStakeMethodName(token: TEthToken) {
-    switch (token) {
-      case Token.aETHc:
-        return 'stakeAndClaimAethC';
-
-      default:
-        return 'stakeAndClaimAethB';
-    }
-  }
-
   public async getStakeGasFee(
     amount: BigNumber,
     token: TEthToken,
@@ -318,8 +310,7 @@ export class EthSDK {
     const provider = await this.getProvider();
     const ethPoolContract = EthSDK.getEthPoolContract(provider);
 
-    const contractStake =
-      ethPoolContract.methods[this.getStakeMethodName(token)];
+    const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
 
     const estimatedGas: number = await contractStake().estimateGas({
       from: this.currentAccount,
@@ -515,6 +506,33 @@ export class EthSDK {
       this.currentAccount,
       contractConfig.fethContract,
       { data, estimate: true },
+    );
+  }
+
+  public async getClaimable(token: TEthToken): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthSDK.getEthPoolContract(provider);
+    const web3 = provider.getWeb3();
+
+    const contractGetClaimable =
+      ethPoolContract.methods[methodNameMap[token].claimable];
+
+    const rawValue = await contractGetClaimable(this.currentAccount).call();
+
+    return new BigNumber(web3.utils.fromWei(rawValue));
+  }
+
+  public async claim(token: TEthToken): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+    const { contractConfig } = CONFIG;
+    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+    const contractClaim = ethPoolContract.methods[methodNameMap[token].claim];
+    const data: string = contractClaim().encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.ethereumPool,
+      { data },
     );
   }
 }

@@ -1,7 +1,6 @@
 import { featuresConfig } from 'modules/common/const';
 
-import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../../../const';
-import { useClaimedPolkadotData } from '../../ClaimedTokens/hooks/Polkadot/useClaimedPolkadotData';
+import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
 import { useStakedAVAXData } from './AVAX/useStakedAVAXData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
@@ -9,11 +8,13 @@ import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
 import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
+import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
 import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedMaticData } from './MATIC/useStakedMaticData';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
+import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
@@ -33,6 +34,7 @@ interface IUseStakedTokensData {
   isDOTShowed: boolean;
   isKSMShowed: boolean;
   isWNDShowed: boolean;
+  isUnclaimedEthShowed: boolean;
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
@@ -43,18 +45,18 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedAVAXData = useStakedAVAXData();
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
-
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
+  const unclaimedEthData = useUnclaimedEth();
 
-  const claimedDOTData = useClaimedPolkadotData(DOT_PROPS);
+  const claimedDOTData = useUnclaimedPolkadotData(DOT_PROPS);
   const stakedADOTBData = useStakedPolkadotData(DOT_PROPS);
 
-  const claimedKSMData = useClaimedPolkadotData(KSM_PROPS);
+  const claimedKSMData = useUnclaimedPolkadotData(KSM_PROPS);
   const stakedAKSMBData = useStakedPolkadotData(KSM_PROPS);
 
-  const claimedWNDData = useClaimedPolkadotData(WND_PROPS);
+  const claimedWNDData = useUnclaimedPolkadotData(WND_PROPS);
   const stakedAWNDBData = useStakedPolkadotData(WND_PROPS);
 
   const isAETHBShowed = stakedAETHBData.isShowed;
@@ -87,6 +89,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAWNDBShowed = stakedAWNDBData.isShowed;
   const isWNDShowed = claimedWNDData.isShowed;
 
+  const isUnclaimedEthShowed = unclaimedEthData.isShowed;
+
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
@@ -103,7 +107,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAKSMBShowed ||
     isKSMShowed ||
     isAWNDBShowed ||
-    isWNDShowed;
+    isWNDShowed ||
+    isUnclaimedEthShowed;
 
   return {
     isAssetsShowed: atLeastOneShowed,
@@ -123,5 +128,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isDOTShowed,
     isKSMShowed,
     isWNDShowed,
+    isUnclaimedEthShowed,
   };
 };

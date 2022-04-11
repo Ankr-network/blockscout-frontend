@@ -27,10 +27,10 @@ export const useNetworkIconTextStyles = makeStyles<Theme>(theme => ({
     fontSize: 18,
     fontWeight: 'bold',
     lineHeight: 1,
-    marginBottom: theme.spacing(1),
   },
 
   network: {
+    marginTop: theme.spacing(1),
     fontSize: 13,
     color: theme.palette.text.secondary,
     lineHeight: 1,
