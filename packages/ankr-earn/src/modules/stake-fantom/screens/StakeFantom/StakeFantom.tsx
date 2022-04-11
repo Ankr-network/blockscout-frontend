@@ -8,6 +8,7 @@ import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -40,16 +41,21 @@ export const StakeFantom = (): JSX.Element => {
     loading,
     tokenIn,
     tokenOut,
+    apy,
     onChange,
     onSubmit,
   } = useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats(amount);
+  const stats = useStakeStats({
+    amount,
+    apy,
+  });
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
+    dispatchRequest(fetchValidatorsDetails());
   }, [dispatchRequest]);
 
   const renderStats = useCallback(

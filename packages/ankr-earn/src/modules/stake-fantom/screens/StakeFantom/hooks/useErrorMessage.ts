@@ -1,5 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 
@@ -19,6 +20,10 @@ export const useErrorMessage = (): IUseErrorMessageData => {
     type: getCommonData,
   });
 
+  const { error: validatorDetailsError } = useQuery({
+    type: fetchValidatorsDetails,
+  });
+
   const onErroMessageClick = () => {
     if (commonDataError) {
       dispatchRequest(getCommonData());
@@ -27,9 +32,13 @@ export const useErrorMessage = (): IUseErrorMessageData => {
     if (apyError) {
       dispatchRequest(getAPY());
     }
+
+    if (validatorDetailsError) {
+      dispatchRequest(fetchValidatorsDetails());
+    }
   };
 
-  const hasError = !!commonDataError || !!apyError;
+  const hasError = !!commonDataError || !!apyError || !!validatorDetailsError;
 
   return {
     hasError,

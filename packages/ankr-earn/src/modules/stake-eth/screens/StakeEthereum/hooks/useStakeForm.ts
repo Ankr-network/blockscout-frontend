@@ -12,6 +12,7 @@ import { TEthToken } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
@@ -41,6 +42,7 @@ interface IUseStakeForm {
   minAmount?: BigNumber;
   ethRatio: BigNumber;
   totalAmount: BigNumber;
+  apy: number;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onInputChange: (values: IStakeFormPayload, invalid: boolean) => void;
   onTokenSelect: (token: TEthToken) => () => void;
@@ -55,6 +57,8 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
+
+  const { data: apy } = useQuery({ type: getAPY });
 
   const { loading: isStakeLoading } = useMutation({
     type: stake,
@@ -144,6 +148,7 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
     tokenIn: Token.ETH,
     tokenOut: selectedToken,
     onInputChange: debouncedOnChange,
+    apy: apy ?? 0,
     onSubmit,
     onTokenSelect,
   };

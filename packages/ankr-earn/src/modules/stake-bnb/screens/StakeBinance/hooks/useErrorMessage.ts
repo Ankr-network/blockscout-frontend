@@ -1,5 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 
@@ -15,6 +16,10 @@ export const useErrorMessage = (): IUseErrorMessage => {
     type: fetchAPY,
   });
 
+  const { error: detailsError } = useQuery({
+    type: fetchValidatorsDetails,
+  });
+
   const { error: commonDataError } = useQuery({
     type: fetchStats,
   });
@@ -27,9 +32,13 @@ export const useErrorMessage = (): IUseErrorMessage => {
     if (apyError) {
       dispatchRequest(fetchAPY());
     }
+
+    if (detailsError) {
+      dispatchRequest(fetchValidatorsDetails());
+    }
   };
 
-  const hasError = !!commonDataError || !!apyError;
+  const hasError = !!commonDataError || !!apyError || !!detailsError;
 
   return {
     hasError,

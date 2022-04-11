@@ -12,6 +12,7 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
 import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
@@ -66,9 +67,13 @@ export const StakeBinance = (): JSX.Element => {
     onTokenSelect,
   } = useStakeForm();
 
-  const stakeStats = useStakeStats(fetchAPYData, amount);
+  const stakeStats = useStakeStats({
+    apy: fetchAPYData,
+    amount,
+  });
 
   useProviderEffect(() => {
+    dispatch(fetchValidatorsDetails());
     dispatch(fetchAPY());
     dispatch(fetchStats());
 

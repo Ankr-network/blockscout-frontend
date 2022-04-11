@@ -312,6 +312,8 @@
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
       "yearly-earning": "Yearly earning",
+      "staked": "Staked with ANKR",
+      "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
       "fee": "Est Network Fee: {value}"
     },
@@ -627,10 +629,10 @@
     "ksm": "Kusama (KSM)",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
-    "staked": "Staked",
     "staked-amount": "{value} {token}",
     "stake": "Stake",
     "stake-old": "Stake at old version",
+    "staked-tvl": "Staked (TVL)",
     "learn-more": "Learn more"
   },
   "wallets": {
