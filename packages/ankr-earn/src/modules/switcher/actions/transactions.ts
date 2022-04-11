@@ -5,7 +5,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
 
-import { EthSDK, TEthToken } from 'modules/api/EthSDK';
+import { EthSDK } from 'modules/api/EthSDK';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
@@ -14,19 +14,20 @@ import { getSwitcherData } from './getSwitcherData';
 
 export interface ISwapAssetsArgs {
   amount: string;
-  swapOption: TEthToken;
+  from: Token;
+  to: Token;
   ratio: BigNumber;
 }
 
 export const swapAssets = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [ISwapAssetsArgs]
->('switcher/swapAssets', ({ swapOption, amount, ratio }: ISwapAssetsArgs) => ({
+>('switcher/swapAssets', ({ from, to, amount, ratio }: ISwapAssetsArgs) => ({
   request: {
     promise: async () => {
       const sdk = await EthSDK.getInstance();
 
-      if (swapOption === Token.aETHb) {
+      if (from === Token.aETHb) {
         const inputValue = new BigNumber(amount)
           .multipliedBy(ratio)
           .dividedBy(ETH_SCALE_FACTOR)
@@ -37,14 +38,14 @@ export const swapAssets = createAction<
           amount: inputValue,
         });
 
-        return { ...result, swapOption };
+        return { ...result, from, to };
       }
 
       const result = await sdk.lockShares({
         amount,
       });
 
-      return { ...result, swapOption };
+      return { ...result, from, to };
     },
   },
   meta: {
@@ -53,10 +54,14 @@ export const swapAssets = createAction<
     onRequest: withStore,
     getData: data => data,
     onSuccess: async (response, _action, store) => {
-      const { transactionHash, swapOption: option } = response.data || {};
+      const {
+        transactionHash,
+        from: optionFrom,
+        to: optionTo,
+      } = response.data || {};
 
-      if (transactionHash && swapOption) {
-        store.dispatch(push(`${option}/${transactionHash}`));
+      if (transactionHash && optionFrom && optionTo) {
+        store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
       }
 
       store.dispatchRequest(

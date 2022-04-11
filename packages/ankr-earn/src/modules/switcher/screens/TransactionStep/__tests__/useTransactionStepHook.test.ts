@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 
 import { useTransactionStepHook } from '../useTransactionStepHook';
 
@@ -32,7 +33,8 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
 describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   beforeEach(() => {
     (useParams as jest.Mock).mockImplementation(() => ({
-      swapOption: 'aETHc',
+      from: Token.aETHc,
+      to: Token.aETHb,
       txHash: 'hash',
     }));
 

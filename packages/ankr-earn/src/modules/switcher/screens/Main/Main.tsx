@@ -23,7 +23,12 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { ISwapFormPayload } from '../../types';
 
 import { SwapOptions, Stepper } from './components';
-import { useSwitcherData, useSwitcherForm, useSendAnalytics } from './hooks';
+import {
+  useSwitcherData,
+  useSwitcherForm,
+  useSendAnalytics,
+  useSwitcherUrlParams,
+} from './hooks';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
 
 const FEE_BASIS_POINTS = 30;
@@ -31,9 +36,10 @@ const FEE_BASIS_POINTS = 30;
 export const Main = (): JSX.Element => {
   const classes = useMainSwitcherStyles();
 
+  const { from, to, onChangeFrom, onChangeTo } = useSwitcherUrlParams();
+
   const {
     allowance,
-    swapOption,
     ratio,
     chainId,
     balance,
@@ -41,12 +47,11 @@ export const Main = (): JSX.Element => {
     aethBalance,
     fethBalance,
     hasApprove,
-    handleChooseAEthB,
-    handleChooseAEthC,
-  } = useSwitcherData();
+  } = useSwitcherData({ from });
 
   const { sendAnalytics } = useSendAnalytics({
-    swapOption,
+    from,
+    to,
     feeBasisPoints: FEE_BASIS_POINTS,
     ratio,
     aethBalance,
@@ -66,14 +71,15 @@ export const Main = (): JSX.Element => {
     handleClearTx,
   } = useSwitcherForm({
     max: balance,
-    swapOption,
+    from,
+    to,
     ratio,
     onSuccessSwap: sendAnalytics,
   });
 
   const max = useMemo(() => balance.dividedBy(ETH_SCALE_FACTOR), [balance]);
-  const canApprove = allowance.isZero() && swapOption === 'aETHc';
-  const canShowApproveStep = swapOption === 'aETHc' && hasApprove;
+  const canApprove = allowance.isZero() && from === 'aETHc';
+  const canShowApproveStep = from === 'aETHc' && hasApprove;
   const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
 
   const onSubmit = useCallback(
@@ -152,7 +158,7 @@ export const Main = (): JSX.Element => {
           isBalanceLoading={false}
           label={t('switcher.amountInputTitle')}
           name="amount"
-          tokenName={swapOption}
+          tokenName={from}
           onMaxClick={setMaxAmount(
             form,
             max.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
@@ -160,9 +166,10 @@ export const Main = (): JSX.Element => {
         />
 
         <SwapOptions
-          swapOption={swapOption}
-          onChooseAEthB={handleChooseAEthB}
-          onChooseAEthC={handleChooseAEthC}
+          from={from}
+          to={to}
+          onChooseFrom={onChangeFrom}
+          onChooseTo={onChangeTo}
         />
 
         <Box className={classes.row}>
@@ -173,7 +180,7 @@ export const Main = (): JSX.Element => {
           <Typography className={classes.fee}>
             {t('unit.token-value', {
               value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
-              token: swapOption,
+              token: from,
             })}
           </Typography>
         </Box>
@@ -188,7 +195,7 @@ export const Main = (): JSX.Element => {
           <Typography className={cn(classes.result, classes.sum)}>
             {t('unit.token-value', {
               value: calculateValueWithRatio(total).toFixed(),
-              token: swapOption === 'aETHb' ? 'aETHc' : 'aETHb',
+              token: to,
             })}
           </Typography>
         </Box>

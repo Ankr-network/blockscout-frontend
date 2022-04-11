@@ -1,8 +1,9 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 
 import { useSwitcherData } from '..';
 
@@ -33,7 +34,7 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
   });
 
   test('should return initial data', () => {
-    const { result } = renderHook(() => useSwitcherData());
+    const { result } = renderHook(() => useSwitcherData({ from: Token.aETHb }));
     const {
       ratio,
       chainId,
@@ -41,10 +42,7 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
       aethBalance,
       fethBalance,
       isDataLoading,
-      swapOption,
       balance,
-      handleChooseAEthB,
-      handleChooseAEthC,
     } = result.current;
 
     expect(ratio.toNumber()).toBe(ONE_ETH.toNumber());
@@ -53,27 +51,7 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
     expect(aethBalance).toBeUndefined();
     expect(fethBalance).toBeUndefined();
     expect(isDataLoading).toBe(false);
-    expect(swapOption).toBeDefined();
     expect(balance.toNumber()).toBe(0);
-    expect(handleChooseAEthB).toBeDefined();
-    expect(handleChooseAEthC).toBeDefined();
-  });
-
-  describe('swap option', () => {
-    test('should change swap option properly', () => {
-      const { result } = renderHook(() => useSwitcherData());
-      const { handleChooseAEthB, handleChooseAEthC } = result.current;
-
-      expect(result.current.swapOption).toBe('aETHb');
-
-      act(() => handleChooseAEthC());
-
-      expect(result.current.swapOption).toBe('aETHc');
-
-      act(() => handleChooseAEthB());
-
-      expect(result.current.swapOption).toBe('aETHb');
-    });
   });
 
   describe('allowance', () => {
@@ -83,7 +61,9 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
         loading: false,
       });
 
-      const { result } = renderHook(() => useSwitcherData());
+      const { result } = renderHook(() =>
+        useSwitcherData({ from: Token.aETHb }),
+      );
 
       expect(result.current.hasApprove).toBe(true);
     });

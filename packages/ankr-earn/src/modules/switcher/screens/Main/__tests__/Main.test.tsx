@@ -11,6 +11,8 @@ import {
   useSwitcherData,
   useSwitcherForm,
   useSendAnalytics,
+  IUseSwitcherUrlParamsData,
+  useSwitcherUrlParams,
 } from '../hooks';
 import { ISendAnalyticsHookData } from '../hooks/useSendAnalytics';
 
@@ -18,11 +20,11 @@ jest.mock('../hooks', () => ({
   useSwitcherData: jest.fn(),
   useSwitcherForm: jest.fn(),
   useSendAnalytics: jest.fn(),
+  useSwitcherUrlParams: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main', () => {
   const defaultHookData: ISwitcherHookData = {
-    swapOption: Token.aETHb,
     chainId: 1,
     allowance: ZERO,
     ratio: ZERO,
@@ -31,8 +33,6 @@ describe('modules/switcher/screens/Main', () => {
     balance: ZERO,
     hasApprove: false,
     isDataLoading: false,
-    handleChooseAEthC: jest.fn(),
-    handleChooseAEthB: jest.fn(),
   };
 
   const defaultFormData: ISwitcherFormHookData = {
@@ -51,6 +51,13 @@ describe('modules/switcher/screens/Main', () => {
     handleClearTx: jest.fn(),
   };
 
+  const defaultUrlParamsData: IUseSwitcherUrlParamsData = {
+    from: Token.aETHb,
+    to: Token.aETHc,
+    onChangeFrom: jest.fn(),
+    onChangeTo: jest.fn(),
+  };
+
   const defaultSendAnalyticsData: ISendAnalyticsHookData = {
     sendAnalytics: jest.fn(),
   };
@@ -61,6 +68,8 @@ describe('modules/switcher/screens/Main', () => {
     (useSwitcherForm as jest.Mock).mockReturnValue(defaultFormData);
 
     (useSendAnalytics as jest.Mock).mockReturnValue(defaultSendAnalyticsData);
+
+    (useSwitcherUrlParams as jest.Mock).mockReturnValue(defaultUrlParamsData);
   });
 
   afterEach(() => {
@@ -153,9 +162,14 @@ describe('modules/switcher/screens/Main', () => {
   test('should handle swap properly', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
-      swapOption: 'aETHb',
       ratio: ONE_ETH,
       balance: ONE_ETH.multipliedBy(10),
+    });
+
+    (useSwitcherUrlParams as jest.Mock).mockReturnValue({
+      ...defaultUrlParamsData,
+      from: Token.aETHb,
+      to: Token.aETHc,
     });
 
     render(
@@ -180,11 +194,16 @@ describe('modules/switcher/screens/Main', () => {
   test('should handle approve properly', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
-      swapOption: 'aETHc',
       hasApprove: true,
       allowance: ZERO,
       ratio: ONE_ETH,
       balance: ONE_ETH.multipliedBy(10),
+    });
+
+    (useSwitcherUrlParams as jest.Mock).mockReturnValue({
+      ...defaultUrlParamsData,
+      from: Token.aETHc,
+      to: Token.aETHb,
     });
 
     render(

@@ -10,7 +10,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 const ROOT = `${EARN_PATH}switch/`;
-const SUCCESS = `${ROOT}:swapOption/:txHash`;
+const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
   {
