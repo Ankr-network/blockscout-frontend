@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.8.2 (2022-04-11)
+
+
+### Bug Fixes
+
+* **global-menu:** styles ([#693](https://github.com/Ankr-network/ankr-web/issues/693)) ([f173888](https://github.com/Ankr-network/ankr-web/commit/f173888f9553a34f59d3d25ecd5fe42294f9bf63))
+
+
+
+
+
 ## 2.8.1 (2022-04-11)
 
 **Note:** Version bump only for package ankr-earn
