@@ -36,7 +36,7 @@ export const getSwitcherData = createAction<
   },
   meta: {
     asMutation: false,
-    showNotificationOnError: true,
+    showNotificationOnError: false,
     onRequest: withStore,
   },
 }));

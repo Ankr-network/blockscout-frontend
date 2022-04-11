@@ -1,6 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
@@ -42,7 +42,7 @@ export const useSwitcherData = ({
     from === Token.aETHb ? data?.aETHbBalance : data?.aETHcBalance;
   const max = useMemo(() => balance ?? ZERO, [balance]);
 
-  useEffect(() => {
+  useProviderEffect(() => {
     if (hasApprove || !data?.allowance) {
       return;
     }

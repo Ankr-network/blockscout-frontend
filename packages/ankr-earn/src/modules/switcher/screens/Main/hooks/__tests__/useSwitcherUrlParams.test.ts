@@ -43,6 +43,19 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     expect(result.current.onChangeTo).toBeDefined();
   });
 
+  test('should return initial data for binance chain', () => {
+    (useAuth as jest.Mock).mockReturnValue({
+      chainId: BlockchainNetworkId.smartchain,
+    });
+
+    const { result } = renderHook(() => useSwitcherUrlParams());
+
+    expect(result.current.from).toBe(Token.aBNBb);
+    expect(result.current.to).toBe(Token.aBNBc);
+    expect(result.current.onChangeFrom).toBeDefined();
+    expect(result.current.onChangeTo).toBeDefined();
+  });
+
   test('should change params properly', () => {
     const { result } = renderHook(() => useSwitcherUrlParams());
 

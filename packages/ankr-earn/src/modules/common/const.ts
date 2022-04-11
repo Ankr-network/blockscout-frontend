@@ -76,6 +76,7 @@ export const featuresConfig = {
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
+  switcherBnb: currentEnv !== Env.Production,
   stakeETH: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: true,

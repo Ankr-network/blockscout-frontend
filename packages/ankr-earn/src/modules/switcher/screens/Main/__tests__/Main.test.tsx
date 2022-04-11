@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { ZERO, ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -25,7 +27,7 @@ jest.mock('../hooks', () => ({
 
 describe('modules/switcher/screens/Main', () => {
   const defaultHookData: ISwitcherHookData = {
-    chainId: 1,
+    chainId: BlockchainNetworkId.goerli as number,
     allowance: ZERO,
     ratio: ZERO,
     aethBalance: ZERO,
@@ -49,6 +51,7 @@ describe('modules/switcher/screens/Main', () => {
     handleApprove: jest.fn(),
     handleSwap: jest.fn(),
     handleClearTx: jest.fn(),
+    handleSwitchNetwork: jest.fn(),
   };
 
   const defaultUrlParamsData: IUseSwitcherUrlParamsData = {
@@ -85,6 +88,22 @@ describe('modules/switcher/screens/Main', () => {
 
     const title = await screen.findByText('ANKR Switch');
     expect(title).toBeInTheDocument();
+  });
+
+  test('should render properly with switch network button', async () => {
+    (useSwitcherData as jest.Mock).mockReturnValue({
+      ...defaultHookData,
+      chainId: BlockchainNetworkId.smartchain,
+    });
+
+    render(
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>,
+    );
+
+    const button = await screen.findByText('Switch network');
+    expect(button).toBeInTheDocument();
   });
 
   test('should render spinner properly', async () => {

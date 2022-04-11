@@ -3,6 +3,9 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+
+import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -18,6 +21,10 @@ jest.mock('@redux-requests/react', () => ({
 jest.mock('modules/switcher/actions/transactions', () => ({
   approve: jest.fn(),
   swapAssets: jest.fn(),
+}));
+
+jest.mock('modules/auth/actions/switchNetwork', () => ({
+  switchNetwork: jest.fn(),
 }));
 
 jest.mock('modules/auth/hooks/useAuth', () => ({
@@ -42,6 +49,8 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     });
 
     (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+
+    (switchNetwork as jest.Mock).mockReturnValue(undefined);
   });
 
   afterEach(() => {
@@ -58,6 +67,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       handleApprove,
       handleSwap,
       handleClearTx,
+      handleSwitchNetwork,
     } = result.current;
 
     expect(txError).toBe('');
@@ -67,6 +77,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     expect(handleApprove).toBeDefined();
     expect(handleSwap).toBeDefined();
     expect(handleClearTx).toBeDefined();
+    expect(handleSwitchNetwork).toBeDefined();
   });
 
   describe('handle clear tx', () => {
@@ -79,6 +90,22 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
 
       expect(result.current.txError).toBe('');
       expect(result.current.txHash).toBe('');
+    });
+  });
+
+  describe('handle switch network', () => {
+    test('should clear tx hash and error', () => {
+      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
+
+      act(() => {
+        result.current.handleSwitchNetwork();
+      });
+
+      expect(switchNetwork).toBeCalledTimes(1);
+      expect(switchNetwork).toBeCalledWith({
+        providerId: AvailableWriteProviders.ethCompatible,
+        chainId: BlockchainNetworkId.goerli,
+      });
     });
   });
 

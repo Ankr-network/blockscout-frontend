@@ -1,7 +1,11 @@
 import { Box } from '@material-ui/core';
+import compact from 'lodash/compact';
 import { useCallback, useMemo } from 'react';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
+import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
@@ -19,21 +23,33 @@ const DEFAULT_ICON_PROPS = {
   size: 32,
 };
 
-const FROM_TOKENS = [
-  {
-    label: Token.aETHb,
-    value: Token.aETHb,
-    icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
-  },
-];
+const AVAILABLE_SWAP_TOKENS = {
+  from: compact([
+    {
+      label: Token.aETHb,
+      value: Token.aETHb,
+      icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherBnb && {
+      label: Token.aBNBb,
+      value: Token.aBNBb,
+      icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+  ]),
 
-const TO_TOKENS = [
-  {
-    label: Token.aETHc,
-    value: Token.aETHc,
-    icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
-  },
-];
+  to: compact([
+    {
+      label: Token.aETHc,
+      value: Token.aETHc,
+      icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherBnb && {
+      label: Token.aBNBc,
+      value: Token.aBNBc,
+      icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+  ]),
+};
 
 export const SwapOptions = ({
   from,
@@ -43,14 +59,21 @@ export const SwapOptions = ({
 }: ISwapOptionsProps): JSX.Element => {
   const classes = useSwapOptionsStyles();
 
-  const fromOptions = useMemo(
-    () => (from === Token.aETHb ? FROM_TOKENS : TO_TOKENS),
+  const isDirectSwap = useMemo(
+    () => AVAILABLE_SWAP_TOKENS.from.some(({ value }) => value === from),
     [from],
   );
 
+  const fromOptions = useMemo(
+    () =>
+      isDirectSwap ? AVAILABLE_SWAP_TOKENS.from : AVAILABLE_SWAP_TOKENS.to,
+    [isDirectSwap],
+  );
+
   const toOptions = useMemo(
-    () => (from === Token.aETHb ? TO_TOKENS : FROM_TOKENS),
-    [from],
+    () =>
+      isDirectSwap ? AVAILABLE_SWAP_TOKENS.to : AVAILABLE_SWAP_TOKENS.from,
+    [isDirectSwap],
   );
 
   const values = useMemo(() => ({ from, to }), [from, to]);
@@ -63,6 +86,7 @@ export const SwapOptions = ({
   return (
     <Box className={classes.swapChips}>
       <SwitchSelect
+        isPairSelect
         from={fromOptions}
         to={toOptions}
         values={values}

@@ -14,6 +14,11 @@ import {
   ONE_ETH,
 } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import {
+  CHAIN_ID_BY_TOKEN,
+  NATIVE_TOKEN_BY_SWITCH_OPTION,
+  TOKEN_TOOLTIPS,
+} from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -69,6 +74,7 @@ export const Main = (): JSX.Element => {
     handleApprove,
     handleSwap,
     handleClearTx,
+    handleSwitchNetwork,
   } = useSwitcherForm({
     max: balance,
     from,
@@ -81,6 +87,8 @@ export const Main = (): JSX.Element => {
   const canApprove = allowance.isZero() && from === 'aETHc';
   const canShowApproveStep = from === 'aETHc' && hasApprove;
   const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
+  const nativeToken = NATIVE_TOKEN_BY_SWITCH_OPTION[from];
+  const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
@@ -127,11 +135,11 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={t('switcher.tooltips.aETHb')}>
+              <Tooltip title={TOKEN_TOOLTIPS[from]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label="1 aETHb = 1 ETH"
+            label={`1 ${from} = 1 ${nativeToken}`}
             variant="outlined"
             onDelete={noop}
           />
@@ -140,13 +148,13 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={t('switcher.tooltips.aETHc')}>
+              <Tooltip title={TOKEN_TOOLTIPS[to]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
+            label={`1 ${to} = ${ONE_ETH.dividedBy(ratio)
               .decimalPlaces(DECIMAL_PLACES)
-              .toFixed()} ETH`}
+              .toFixed()} ${nativeToken}`}
             variant="outlined"
             onDelete={noop}
           />
@@ -219,14 +227,22 @@ export const Main = (): JSX.Element => {
             </Button>
           )}
 
-          <Button
-            className={classes.button}
-            disabled={isSwapLoading || canApprove}
-            isLoading={isSwapLoading}
-            onClick={handleSubmit}
-          >
-            {t('switcher.buttons.switch')}
-          </Button>
+          {canSwitchNetwork && (
+            <Button className={classes.button} onClick={handleSwitchNetwork}>
+              {t('switcher.buttons.switchNetwork')}
+            </Button>
+          )}
+
+          {!canSwitchNetwork && (
+            <Button
+              className={classes.button}
+              disabled={isSwapLoading || canApprove}
+              isLoading={isSwapLoading}
+              onClick={handleSubmit}
+            >
+              {t('switcher.buttons.switch')}
+            </Button>
+          )}
         </Box>
 
         {canShowApproveStep && <Stepper allowance={allowance} />}
