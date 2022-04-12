@@ -361,7 +361,27 @@
   "account": {
     "accountDetails": {
       "breadcrumbs": "Account Details",
-      "title": "Account Details"
+      "title": "Account Details",
+      "balance": {
+        "title": "Balance",
+        "withdrawButton": {
+          "title": "Withdraw"
+        },
+        "description": {
+          "quantifiers": {
+            "approximately": "~",
+            "more": "more than ",
+            "less": "less than "
+          },
+          "periods": {
+            "day": "day",
+            "month": "month",
+            "year": "year",
+            "plural": "s"
+          },
+          "text": "Enough for {quantifier}{value} {period}{plural}, based on your current usage"
+        }
+      }
     }
   },
   "mobile-details": {

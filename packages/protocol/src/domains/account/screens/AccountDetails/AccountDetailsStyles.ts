@@ -18,5 +18,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top: {
     display: 'flex',
     justifyContent: 'space-between',
+    gap: theme.spacing(1.5, 3),
   },
 }));

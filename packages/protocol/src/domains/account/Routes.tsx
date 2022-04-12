@@ -6,6 +6,7 @@ import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_ACCOUNT = '/account/';
+export const PATH_WITHDRAW = `${PATH_ACCOUNT}/withdraw`;
 
 export const AccountRoutesConfig = createRouteConfig<any>(
   {
@@ -13,6 +14,11 @@ export const AccountRoutesConfig = createRouteConfig<any>(
       path: PATH_ACCOUNT,
       generatePath: () => PATH_ACCOUNT,
       breadcrumbs: 'account.accountDetails.breadcrumbs',
+    },
+    withdraw: {
+      path: PATH_WITHDRAW,
+      generatePath: () => PATH_WITHDRAW,
+      breadcrumbs: 'account.withdraw.breadcrumbs',
     },
   },
   PATH_ACCOUNT,

@@ -502,6 +502,12 @@ export default class MultiRpcSdk {
 
     return this.getWorkerGateway().apiEditChainRestrictedIps(chainId, domains);
   }
+
+  async getCurrentAnkrBalance(): Promise<BigNumber> {
+    const balance = await this.getContractManager().getCurrentAnkrBalance();
+
+    return balance;
+  }
 }
 
 export * from './config';
