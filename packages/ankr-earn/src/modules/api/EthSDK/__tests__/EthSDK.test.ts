@@ -31,12 +31,13 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
       getBlockNumber: () => Promise.resolve(ETH_POOL_START_BLOCK + 10_000),
 
-      getTransaction: () =>
+      getTransaction: (txHash: string) =>
         Promise.resolve({
           from: '0xe64FCf6327bB016955EFd36e75a852085270c374',
           transactionIndex: null,
           input:
             '0x6482a22f00000000000000000000000000000000000000000000000075d94a0ed823c000',
+          value: txHash === 'txHash' ? '0' : '8000000000000000000',
         }),
 
       getTransactionReceipt: () => Promise.resolve({ status: true }),
@@ -236,12 +237,25 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     expect(defaultContract.methods.claimableAETHRewardOf).toBeCalledTimes(1);
   });
 
-  test('should return tx data', async () => {
+  test('should return tx data with zero tx.value field', async () => {
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.fetchTxData('txHash');
 
     expect(await sdk.fetchTxReceipt('txHash')).toBeDefined();
+    expect(result.amount).toStrictEqual(new BigNumber(ethAmount));
+    expect(result.isPending).toBe(true);
+    expect(result.destinationAddress).toBe(
+      '0xe64FCf6327bB016955EFd36e75a852085270c374',
+    );
+  });
+
+  test('should return tx data with non-zero tx.value fielda', async () => {
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.fetchTxData('_txHash');
+
+    expect(await sdk.fetchTxReceipt('_txHash')).toBeDefined();
     expect(result.amount).toStrictEqual(new BigNumber(ethAmount));
     expect(result.isPending).toBe(true);
     expect(result.destinationAddress).toBe(

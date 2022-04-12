@@ -4,16 +4,16 @@ import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 
+import { TEthToken } from 'modules/api/EthSDK';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
-import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { getTxData, getTxReceipt } from 'modules/stake-bnb/actions/getTxData';
-import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
+import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getTxData, getTxReceipt } from 'modules/stake-eth/actions/getTxData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-export interface IStakeBinanceStepsHook {
+export interface IStakeEthereumStepsHook {
   isLoading: boolean;
   isPending: boolean;
   amount?: BigNumber;
@@ -25,15 +25,22 @@ export interface IStakeBinanceStepsHook {
 }
 
 interface IStakeSuccessParams {
-  tokenOut: TBnbSyntToken;
+  tokenOut: TEthToken;
   txHash: string;
 }
 
-export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
+export const useStakeEthereumStepsHook = (): IStakeEthereumStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
+  const {
+    loading: isLoading,
+    data: txData,
+    error,
+  } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: stats } = useQuery({ type: fetchStats });
+  const { data: commonData } = useQuery({
+    type: getCommonData,
+  });
+
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
@@ -43,15 +50,18 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   useProviderEffect(() => {
     dispatchRequest(getTxData({ txHash }));
     dispatchRequest(getTxReceipt({ txHash }));
-
-    if (!stats) {
-      dispatchRequest(fetchStats());
-    }
+    dispatchRequest(getCommonData());
 
     return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
+      dispatch(
+        resetRequests([
+          getTxData.toString(),
+          getTxReceipt.toString(),
+          getCommonData.toString(),
+        ]),
+      );
     };
-  }, [dispatch, txHash]);
+  }, [dispatch, txHash, tokenOut]);
 
   useEffect(() => {
     if (receipt) {
@@ -60,34 +70,29 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   }, [dispatch, receipt]);
 
   const onAddTokenClick = () => {
-    dispatchRequest(addBNBTokenToWallet(tokenOut));
+    dispatchRequest(addTokenToWallet(tokenOut));
   };
 
-  // todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
   const calculatedAmount = useMemo(() => {
-    const amount = data?.amount;
-    const ratio = stats?.aBNBcRatio;
-    const relayerFee = stats?.relayerFee;
+    const amount = txData?.amount;
+    const ratio = commonData?.aETHcRatio;
 
-    if (!amount || !relayerFee) {
+    if (!amount) {
       return undefined;
     }
 
-    const amountWithoutFee = amount.minus(relayerFee);
-
-    const shouldCalcForAbnbc = tokenOut === Token.aBNBc && ratio;
-    if (shouldCalcForAbnbc) {
-      return amountWithoutFee.multipliedBy(ratio);
+    const shouldCalcForAethc = tokenOut === Token.aETHc && ratio;
+    if (shouldCalcForAethc) {
+      return amount.multipliedBy(ratio);
     }
+    return amount;
+  }, [tokenOut, txData?.amount, commonData?.aETHcRatio]);
 
-    return amountWithoutFee;
-  }, [data?.amount, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
-
-  const isPending = !receipt && !!data?.isPending;
+  const isPending = !receipt && !!txData?.isPending;
 
   return {
     amount: calculatedAmount,
-    destination: data?.destinationAddress,
+    destination: txData?.destinationAddress,
     transactionId: txHash,
     tokenName: tokenOut,
     isLoading,
