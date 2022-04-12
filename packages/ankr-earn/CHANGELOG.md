@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.9.0 (2022-04-12)
+
+
+### Features
+
+* **MRPC-768:** Release gnosis standalone ([#699](https://github.com/Ankr-network/ankr-web/issues/699)) ([f88534b](https://github.com/Ankr-network/ankr-web/commit/f88534b9fc93d1e101d2e52ce546bd8a0b217ef3))
+
+
+
+
+
 ## 2.8.2 (2022-04-11)
 
 
