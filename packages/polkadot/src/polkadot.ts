@@ -577,7 +577,13 @@ export class PolkadotProvider implements IProvider {
     });
   }
 
-  public static extractPublicKeyHexFromAddress(address: string): string {
+  public static extractDecodedAddress(address: TPolkadotAddress): Uint8Array {
+    return decodeAddress(address);
+  }
+
+  public static extractPublicKeyHexFromAddress(
+    address: TPolkadotAddress,
+  ): string {
     return Buffer.from(decodeAddress(address)).toString('hex');
   }
 }

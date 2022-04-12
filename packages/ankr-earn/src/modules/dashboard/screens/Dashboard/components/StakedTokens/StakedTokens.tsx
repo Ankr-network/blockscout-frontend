@@ -61,15 +61,15 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           <AssetsList>
             {isUnclaimedEthShowed && <UnclaimedETH />}
 
-            {featuresConfig.isActivePolkadotStaking && isDOTShowed && (
+            {featuresConfig.isActivePolkadotClaiming && isDOTShowed && (
               <UnclaimedDOT />
             )}
 
-            {featuresConfig.isActivePolkadotStaking && isKSMShowed && (
+            {featuresConfig.isActivePolkadotClaiming && isKSMShowed && (
               <UnclaimedKSM />
             )}
 
-            {featuresConfig.isActivePolkadotStaking && isWNDShowed && (
+            {featuresConfig.isActivePolkadotClaiming && isWNDShowed && (
               <UnclaimedWND />
             )}
 
@@ -93,15 +93,15 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isAVAXShowed && <StakedAVAX />}
 
-            {featuresConfig.isActivePolkadotStaking && isADOTBShowed && (
+            {featuresConfig.isActivePolkadotUnstaking && isADOTBShowed && (
               <StakedADOTB />
             )}
 
-            {featuresConfig.isActivePolkadotStaking && isAKSMBShowed && (
+            {featuresConfig.isActivePolkadotUnstaking && isAKSMBShowed && (
               <StakedAKSMB />
             )}
 
-            {featuresConfig.isActivePolkadotStaking && isAWNDBShowed && (
+            {featuresConfig.isActivePolkadotUnstaking && isAWNDBShowed && (
               <StakedAWNDB />
             )}
           </AssetsList>

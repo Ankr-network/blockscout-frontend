@@ -9,6 +9,7 @@ import { BlockchainNetworkId } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
+import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { ConnectWalletsModal } from '../ConnectWalletsModal';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
@@ -31,6 +32,7 @@ export const GuardRoute = ({
 }: IGuardRouteProps): JSX.Element => {
   const {
     isConnected,
+    isLoading,
     isOpenedModal,
     isUnsupportedNetwork,
     supportedNetworks,
@@ -77,7 +79,9 @@ export const GuardRoute = ({
             <UnsupportedNetwork
               currentNetwork={currentNetwork}
               networksSlot={
-                <NetworkSelector>{renderedNetworkItems}</NetworkSelector>
+                <NetworkSelector>
+                  {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}
+                </NetworkSelector>
               }
             />
           </Container>

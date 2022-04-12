@@ -3,17 +3,13 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import {
-  AVAILABLE_WALLETS_GROUP_TYPES,
-  ConnectWalletsModal,
-} from 'modules/auth/components/ConnectWalletsModal';
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
-  featuresConfig,
   FTM_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
@@ -43,18 +39,15 @@ export const ConnectGuardRoute = ({
     onOpen: onOpenModal,
   } = useDialog();
 
-  const providersPool: AvailableWriteProviders[] = [];
+  let isConnected = false;
 
   const { walletsGroupTypes } = useWalletsGroupTypes({
     postProcessingFn: (providerKey): void => {
-      if (!providersPool.includes(providerKey)) {
-        providersPool.push(providerKey);
+      if (providerKey === AvailableWriteProviders.ethCompatible) {
+        isConnected = true;
       }
     },
   });
-
-  const isConnected =
-    AVAILABLE_WALLETS_GROUP_TYPES.length === providersPool.length;
 
   if (isConnected) {
     return (
@@ -79,11 +72,7 @@ export const ConnectGuardRoute = ({
                 {t('dashboard.guard.connect-btn')}
               </Button>
             }
-            title={t(
-              featuresConfig.isActivePolkadotStaking
-                ? 'dashboard.guard.title'
-                : 'dashboard.guard.title-old',
-            )}
+            title={t('dashboard.guard.title')}
           />
         </Container>
       </Box>

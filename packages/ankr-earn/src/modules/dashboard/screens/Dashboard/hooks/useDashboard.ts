@@ -28,11 +28,7 @@ import { usePolkadot } from './usePolkadot';
 export const useDashboard = (): void => {
   const dispatch = useAppDispatch();
 
-  // TODO Please to remove of the flag after the release (Polkadot)
-  if (featuresConfig.isActivePolkadotStaking) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    usePolkadot();
-  }
+  usePolkadot();
 
   useProviderEffect(() => {
     dispatch(

@@ -295,11 +295,46 @@ export class PolkadotStakeSDK {
   }
 
   async unstake(address: TPolkadotAddress, amount: BigNumber): Promise<void> {
-    if (!this.polkadotWriteProvider.isConnected()) {
-      await this.polkadotWriteProvider.connect();
+    if (!this.ethWriteProvider.isConnected()) {
+      await this.ethWriteProvider.connect();
     }
 
+    const { polkadotConfig } = configFromEnv();
+
+    const [ethPoolContract, ethTokenContract] = await Promise.all([
+      this.getETHPoolContract(),
+      this.getETHTokenContract(),
+    ]);
+
+    const rawDecimals: string = await ethTokenContract.methods
+      .decimals()
+      .call();
+    const decimals = Number.parseInt(rawDecimals, 10);
+    const scaledAmount = amount.multipliedBy(10 ** decimals).toString(10);
+
+    const polkadotAddressBytes =
+      PolkadotProvider.extractDecodedAddress(address);
+
+    const data: string = ethPoolContract.methods
+      .burnBond(
+        ethTokenContract.options.address,
+        scaledAmount,
+        polkadotAddressBytes,
+      )
+      .encodeABI();
+
+    const { receiptPromise, transactionHash } =
+      await this.ethWriteProvider.sendTransactionAsync(
+        this.currentETHAccount,
+        polkadotConfig.polkadotPool,
+        {
+          data,
+        },
+      );
+
+    const receiptPromiseRes = await receiptPromise;
+
     // eslint-disable-next-line no-console
-    console.log(address, amount.toNumber());
+    console.log(receiptPromiseRes, transactionHash);
   }
 }
