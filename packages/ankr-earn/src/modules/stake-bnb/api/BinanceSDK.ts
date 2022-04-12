@@ -624,15 +624,8 @@ export class BinanceSDK {
       await this.writeProvider.connect();
     }
 
-    const aBNBcContract = await this.getABNBCContract();
     const web3 = this.writeProvider.getWeb3();
-    const { binanceConfig } = configFromEnv();
-
-    const allowance = new BigNumber(
-      await aBNBcContract.methods
-        .allowance(this.writeProvider.currentAccount, binanceConfig.aBNBbToken)
-        .call(),
-    );
+    const allowance = await this.getAllowance();
     const rawAmount = web3.utils.toWei(amount.toString());
 
     try {
@@ -640,5 +633,19 @@ export class BinanceSDK {
     } catch (error) {
       throw new Error(`checkAllowance error. ${error}`);
     }
+  }
+
+  public async getAllowance(spender?: string): Promise<BigNumber> {
+    const aBNBcContract = await this.getABNBCContract();
+    const { binanceConfig } = configFromEnv();
+
+    const allowance = await aBNBcContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || binanceConfig.aBNBbToken,
+      )
+      .call();
+
+    return new BigNumber(allowance);
   }
 }

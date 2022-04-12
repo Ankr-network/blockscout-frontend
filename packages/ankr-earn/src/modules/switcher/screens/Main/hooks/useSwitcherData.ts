@@ -6,10 +6,15 @@ import { AvailableWriteProviders } from 'provider';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { ONE_ETH, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getSwitcherData } from 'modules/switcher/actions/getSwitcherData';
-import { AvailableSwitchNetwork } from 'modules/switcher/const';
+import {
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+  CHAIN_ID_BY_TOKEN,
+  SWITCHER_FROM_TOKENS,
+} from 'modules/switcher/const';
 
 export interface ISwitcherHookDataArgs {
   from: Token;
@@ -22,8 +27,8 @@ export interface ISwitcherHookData {
   balance: BigNumber;
   ratio: BigNumber;
   allowance: BigNumber;
-  aethBalance?: BigNumber;
-  fethBalance?: BigNumber;
+  acBalance?: BigNumber;
+  abBalance?: BigNumber;
 }
 
 export const useSwitcherData = ({
@@ -37,10 +42,13 @@ export const useSwitcherData = ({
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
 
   const [hasApprove, setHasApprove] = useState(false);
-  const ratio = useMemo(() => data?.ratio ?? ONE_ETH, [data?.ratio]);
+  const ratio = useMemo(() => data?.ratio ?? new BigNumber(1), [data?.ratio]);
   const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
-  const balance =
-    from === Token.aETHb ? data?.aETHbBalance : data?.aETHcBalance;
+  const isFromToken = useMemo(
+    () => SWITCHER_FROM_TOKENS.includes(from),
+    [from],
+  );
+  const balance = isFromToken ? data?.abBalance : data?.acBalance;
   const max = useMemo(() => balance ?? ZERO, [balance]);
 
   useProviderEffect(() => {
@@ -54,10 +62,10 @@ export const useSwitcherData = ({
   useProviderEffect(() => {
     dispatchRequest(
       getSwitcherData({
-        providerId: AvailableWriteProviders.ethCompatible,
+        chainId: CHAIN_ID_BY_TOKEN[from as AvailableSwitcherToken],
       }),
     );
-  }, [dispatchRequest]);
+  }, [from, dispatchRequest]);
 
   return {
     chainId: chainId as AvailableSwitchNetwork,
@@ -66,7 +74,7 @@ export const useSwitcherData = ({
     ratio,
     allowance,
     balance: max,
-    aethBalance: data?.aETHcBalance,
-    fethBalance: data?.aETHbBalance,
+    acBalance: data?.acBalance,
+    abBalance: data?.abBalance,
   };
 };

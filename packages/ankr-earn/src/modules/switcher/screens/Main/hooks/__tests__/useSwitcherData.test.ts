@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
-import { ONE_ETH, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { useSwitcherData } from '..';
@@ -39,19 +39,19 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
       ratio,
       chainId,
       allowance,
-      aethBalance,
-      fethBalance,
+      acBalance,
+      abBalance,
       isDataLoading,
       balance,
     } = result.current;
 
-    expect(ratio.toNumber()).toBe(ONE_ETH.toNumber());
+    expect(ratio.toFixed()).toBe('1');
     expect(chainId).toBe(1);
-    expect(allowance.toNumber()).toBe(0);
-    expect(aethBalance).toBeUndefined();
-    expect(fethBalance).toBeUndefined();
+    expect(allowance.toFixed()).toBe('0');
+    expect(acBalance).toBeUndefined();
+    expect(abBalance).toBeUndefined();
     expect(isDataLoading).toBe(false);
-    expect(balance.toNumber()).toBe(0);
+    expect(balance.toFixed()).toBe('0');
   });
 
   describe('allowance', () => {

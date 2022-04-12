@@ -13,6 +13,10 @@ export type AvailableSwitcherToken =
   | Token.aBNBb
   | Token.aBNBc;
 
+export const SWITCHER_FROM_TOKENS = [Token.aETHb, Token.aBNBb];
+
+export const SWITCHER_TO_TOKENS = [Token.aETHc, Token.aBNBc];
+
 export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aETHb]: contractConfig.fethContract,
   [Token.aETHc]: contractConfig.aethContract,

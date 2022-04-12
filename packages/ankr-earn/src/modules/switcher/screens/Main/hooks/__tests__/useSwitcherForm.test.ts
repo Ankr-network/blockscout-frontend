@@ -209,7 +209,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       const { result } = renderHook(() =>
         useSwitcherForm({
           ...defaultHookProps,
-          ratio: new BigNumber('940763088322812800'),
+          ratio: new BigNumber('0.94076'),
         }),
       );
 
@@ -223,7 +223,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
           ...defaultHookProps,
           from: Token.aETHc,
           to: Token.aETHb,
-          ratio: new BigNumber('940763088322812800'),
+          ratio: new BigNumber('0.94076'),
         }),
       );
 

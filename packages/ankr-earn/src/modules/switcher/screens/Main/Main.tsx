@@ -1,4 +1,5 @@
 import { Box, Paper, Typography, Chip } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { FormApi } from 'final-form';
@@ -8,17 +9,14 @@ import { Form, FormRenderProps } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
-import {
-  DECIMAL_PLACES,
-  ETH_SCALE_FACTOR,
-  ONE_ETH,
-} from 'modules/common/const';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
   NATIVE_TOKEN_BY_SWITCH_OPTION,
   TOKEN_TOOLTIPS,
+  SWITCHER_TO_TOKENS,
 } from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
@@ -48,8 +46,8 @@ export const Main = (): JSX.Element => {
     chainId,
     balance,
     isDataLoading,
-    aethBalance,
-    fethBalance,
+    acBalance,
+    abBalance,
     hasApprove,
   } = useSwitcherData({ from });
 
@@ -62,8 +60,8 @@ export const Main = (): JSX.Element => {
     to,
     feeBasisPoints,
     ratio,
-    aethBalance,
-    fethBalance,
+    acBalance,
+    abBalance,
   });
 
   const {
@@ -86,10 +84,10 @@ export const Main = (): JSX.Element => {
     onSuccessSwap: sendAnalytics,
   });
 
-  const max = useMemo(() => balance.dividedBy(ETH_SCALE_FACTOR), [balance]);
-  const canApprove = allowance.isZero() && from === 'aETHc';
-  const canShowApproveStep = from === 'aETHc' && hasApprove;
-  const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
+  const isToToken = useMemo(() => SWITCHER_TO_TOKENS.includes(from), [from]);
+  const canShowApproveStep = isToToken && hasApprove && !canSwitchNetwork;
+  const canApprove = allowance.isZero() && isToToken;
+  const canShowSpinner = isDataLoading && !abBalance && !acBalance;
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
@@ -140,7 +138,13 @@ export const Main = (): JSX.Element => {
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label={`1 ${from} = 1 ${nativeToken}`}
+            label={
+              !isDataLoading ? (
+                `1 ${from} = 1 ${nativeToken}`
+              ) : (
+                <Skeleton width={115} />
+              )
+            }
             variant="outlined"
             onDelete={noop}
           />
@@ -153,24 +157,31 @@ export const Main = (): JSX.Element => {
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label={`1 ${to} = ${ONE_ETH.dividedBy(ratio)
-              .decimalPlaces(DECIMAL_PLACES)
-              .toFixed()} ${nativeToken}`}
+            label={
+              !isDataLoading ? (
+                `1 ${to} = ${new BigNumber(1)
+                  .dividedBy(ratio)
+                  .decimalPlaces(DECIMAL_PLACES)
+                  .toFixed()} ${nativeToken}`
+              ) : (
+                <Skeleton width={115} />
+              )
+            }
             variant="outlined"
             onDelete={noop}
           />
         </Box>
 
         <AmountInput
-          balance={max}
+          balance={balance}
           inputClassName={classes.amountInput}
-          isBalanceLoading={false}
+          isBalanceLoading={isDataLoading}
           label={t('switcher.amountInputTitle')}
           name="amount"
           tokenName={from}
           onMaxClick={setMaxAmount(
             form,
-            max.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
+            balance.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
           )}
         />
 
@@ -187,10 +198,14 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={classes.fee}>
-            {t('unit.token-value', {
-              value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
-              token: from,
-            })}
+            {!isDataLoading ? (
+              t('unit.token-value', {
+                value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
+                token: from,
+              })
+            ) : (
+              <Skeleton width={80} />
+            )}
           </Typography>
         </Box>
 
@@ -202,10 +217,14 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={cn(classes.result, classes.sum)}>
-            {t('unit.token-value', {
-              value: calculateValueWithRatio(total).toFixed(),
-              token: to,
-            })}
+            {!isDataLoading ? (
+              t('unit.token-value', {
+                value: calculateValueWithRatio(total).toFixed(),
+                token: to,
+              })
+            ) : (
+              <Skeleton width={80} />
+            )}
           </Typography>
         </Box>
 

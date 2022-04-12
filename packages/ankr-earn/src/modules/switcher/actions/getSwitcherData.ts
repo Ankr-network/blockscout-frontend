@@ -2,36 +2,30 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { EthSDK } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { SwitcherSDK } from '../api/SwitcherSDK';
+import { AvailableSwitchNetwork } from '../const';
+
+export interface IGetSwitcherDataArgs {
+  chainId: AvailableSwitchNetwork;
+}
+
 export interface IGetSwitcherData {
+  abBalance: BigNumber;
+  acBalance: BigNumber;
   ratio: BigNumber;
-  aETHbBalance: BigNumber;
-  aETHcBalance: BigNumber;
   allowance: BigNumber;
 }
 
 export const getSwitcherData = createAction<
   RequestAction<IGetSwitcherData, IGetSwitcherData>
->('switcher/getSwitcherData', () => ({
+>('switcher/getSwitcherData', ({ chainId }: IGetSwitcherDataArgs) => ({
   request: {
-    promise: async (): Promise<IGetSwitcherData> => {
-      const sdk = await EthSDK.getInstance();
+    promise: async (): Promise<IGetSwitcherData | undefined> => {
+      const sdk = await SwitcherSDK.getInstance();
 
-      const [aETHcBalance, aETHbBalance, ratio, allowance] = await Promise.all([
-        sdk.getAethcBalance(),
-        sdk.getAethbBalance(),
-        sdk.getAethcRatio(),
-        sdk.getAllowance(),
-      ]);
-
-      return {
-        ratio,
-        aETHcBalance,
-        aETHbBalance,
-        allowance,
-      };
+      return sdk.getCommonData({ chainId });
     },
   },
   meta: {

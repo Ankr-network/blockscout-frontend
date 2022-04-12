@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
+import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
 import { BlockchainNetworkId } from 'provider';
 
-import { ZERO, ONE_ETH } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { Main } from '..';
@@ -30,8 +31,8 @@ describe('modules/switcher/screens/Main', () => {
     chainId: BlockchainNetworkId.goerli as number,
     allowance: ZERO,
     ratio: ZERO,
-    aethBalance: ZERO,
-    fethBalance: ZERO,
+    acBalance: ZERO,
+    abBalance: ZERO,
     balance: ZERO,
     hasApprove: false,
     isDataLoading: false,
@@ -117,8 +118,8 @@ describe('modules/switcher/screens/Main', () => {
       ...defaultHookData,
       balance: ZERO,
       isDataLoading: true,
-      aethBalance: undefined,
-      fethBalance: undefined,
+      acBalance: undefined,
+      abBalance: undefined,
     });
 
     render(
@@ -134,8 +135,8 @@ describe('modules/switcher/screens/Main', () => {
   test('should handle max input button', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
-      ratio: ONE_ETH,
-      balance: ONE_ETH.multipliedBy(10),
+      ratio: new BigNumber(1),
+      balance: new BigNumber(10),
     });
 
     render(
@@ -170,6 +171,7 @@ describe('modules/switcher/screens/Main', () => {
   test('should render success transaction info', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
+      isDataLoading: true,
       txError: '',
       txHash: 'hash',
     });
@@ -187,8 +189,8 @@ describe('modules/switcher/screens/Main', () => {
   test('should handle swap properly', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
-      ratio: ONE_ETH,
-      balance: ONE_ETH.multipliedBy(10),
+      ratio: new BigNumber(1),
+      balance: new BigNumber(10),
     });
 
     (useSwitcherUrlParams as jest.Mock).mockReturnValue({
@@ -221,8 +223,8 @@ describe('modules/switcher/screens/Main', () => {
       ...defaultHookData,
       hasApprove: true,
       allowance: ZERO,
-      ratio: ONE_ETH,
-      balance: ONE_ETH.multipliedBy(10),
+      ratio: new BigNumber(1),
+      balance: new BigNumber(10),
     });
 
     (useSwitcherUrlParams as jest.Mock).mockReturnValue({
