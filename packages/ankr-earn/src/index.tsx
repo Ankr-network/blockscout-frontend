@@ -1,9 +1,13 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@ankr.com/global-menu/src/assets/fonts/style.css';
+import React from 'react';
 import { hydrate, render } from 'react-dom';
 
 import { initializeAnalytics } from 'modules/analytics';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
 
 const rootElement = document.getElementById('root');
 

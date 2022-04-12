@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-
 import { PageHeader } from 'modules/common/components/PageHeader';
-
 import { t } from 'modules/i18n/utils/intl';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ChainsList } from './components/ChainsList';
-import { ChainListSpinner } from './components/ChainsList/ChainListSpinner';
 import { ChainBlock } from './components/ChainBlock';
 import { fetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { useChainsStyles } from './ChainsStyles';
+import { usePublicChainsInfo } from './ChainsUtils';
 
 const HAS_SORT_SELECT = false;
 const ENABLE_HOW_TO_INTEGRATE = false;
@@ -24,28 +22,18 @@ const SHOW_UNIQUE_USERS_SERVED = false;
 const SHOW_TOTAL_REQUESTS_MADE = false;
 const SHOW_TOTAL_ASSET_VALUE_TRANSFERRED = false;
 
+const totalRequestsData = '';
+const loading = false;
+
 export const Chains = () => {
   const classes = useChainsStyles();
-
-  const dispatchRequest = useDispatchRequest();
+  usePublicChainsInfo();
 
   useSetBreadcrumbs([
     {
       title: t(ChainsRoutesConfig.chains.breadcrumbs),
     },
   ]);
-
-  useEffect(() => {
-    dispatchRequest(fetchPublicChainsInfo());
-  }, [dispatchRequest]);
-
-  const [loading, setLoading] = useState<boolean>(true);
-  const [totalRequestsData, setTotalRequestData] = useState<string>('');
-
-  const handleChainInfo = (totalRequest: string, loadingStatus: boolean) => {
-    setTotalRequestData(totalRequest);
-    setLoading(loadingStatus);
-  };
 
   return (
     <>
@@ -91,16 +79,9 @@ export const Chains = () => {
         }
       />
       <Queries<ResponseData<typeof fetchPublicChainsInfo>>
-        spinner={<ChainListSpinner />}
         requestActions={[fetchPublicChainsInfo]}
       >
-        {({ data }) => (
-          <ChainsList
-            outLoading={loading}
-            data={data}
-            handleChainInfo={handleChainInfo}
-          />
-        )}
+        {({ data }) => <ChainsList data={data} />}
       </Queries>
     </>
   );
