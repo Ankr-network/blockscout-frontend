@@ -87,13 +87,17 @@ describe('modules/switcher/screens/Main', () => {
     );
 
     const title = await screen.findByText('ANKR Switch');
+    const fee = await screen.findByText('Service fee (0.3%)');
+
     expect(title).toBeInTheDocument();
+    expect(fee).toBeInTheDocument();
   });
 
   test('should render properly with switch network button', async () => {
-    (useSwitcherData as jest.Mock).mockReturnValue({
-      ...defaultHookData,
-      chainId: BlockchainNetworkId.smartchain,
+    (useSwitcherUrlParams as jest.Mock).mockReturnValue({
+      ...defaultUrlParamsData,
+      from: Token.aBNBb,
+      to: Token.aBNBc,
     });
 
     render(
@@ -103,7 +107,9 @@ describe('modules/switcher/screens/Main', () => {
     );
 
     const button = await screen.findByText('Switch network');
+    const fee = await screen.findByText('Service fee (0.1%)');
     expect(button).toBeInTheDocument();
+    expect(fee).toBeInTheDocument();
   });
 
   test('should render spinner properly', async () => {

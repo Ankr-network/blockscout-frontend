@@ -9,13 +9,14 @@ import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getSwitcherData } from 'modules/switcher/actions/getSwitcherData';
+import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 export interface ISwitcherHookDataArgs {
   from: Token;
 }
 
 export interface ISwitcherHookData {
-  chainId: number;
+  chainId: AvailableSwitchNetwork;
   hasApprove: boolean;
   isDataLoading: boolean;
   balance: BigNumber;
@@ -59,7 +60,7 @@ export const useSwitcherData = ({
   }, [dispatchRequest]);
 
   return {
-    chainId: chainId as number,
+    chainId: chainId as AvailableSwitchNetwork,
     isDataLoading,
     hasApprove,
     ratio,

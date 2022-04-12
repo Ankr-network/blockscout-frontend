@@ -9,7 +9,7 @@ import { Token } from 'modules/common/types/token';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
   AvailableSwitcherToken,
-  AvailableSwitchNetworks,
+  AvailableSwitchNetwork,
 } from 'modules/switcher/const';
 
 export interface IUseSwitcherUrlParamsData {
@@ -25,7 +25,7 @@ enum UrlParams {
 }
 
 const DEFAULT_TOKENS_BY_NETWORK: Record<
-  AvailableSwitchNetworks,
+  AvailableSwitchNetwork,
   { from: AvailableSwitcherToken; to: AvailableSwitcherToken }
 > = {
   [BlockchainNetworkId.goerli]: { from: Token.aETHb, to: Token.aETHc },
@@ -61,7 +61,7 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
   const queryFrom = query.get(UrlParams.FROM);
   const queryTo = query.get(UrlParams.TO);
   const defaultTokens =
-    DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetworks];
+    DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetwork];
 
   const defaultFrom =
     TOKENS_MAP.from[queryFrom as FromKey] ||

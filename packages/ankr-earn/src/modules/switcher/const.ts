@@ -27,7 +27,7 @@ export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
   [Token.aBNBc]: t('switcher.tooltips.aBNBc'),
 };
 
-export type AvailableSwitchNetworks =
+export type AvailableSwitchNetwork =
   | BlockchainNetworkId.goerli
   | BlockchainNetworkId.mainnet
   | BlockchainNetworkId.smartchain
@@ -47,10 +47,18 @@ export const NATIVE_TOKEN_BY_SWITCH_OPTION: Record<
 
 export const CHAIN_ID_BY_TOKEN: Record<
   AvailableSwitcherToken,
-  AvailableSwitchNetworks
+  AvailableSwitchNetwork
 > = {
   [Token.aETHb]: ETH_NETWORK_BY_ENV,
   [Token.aETHc]: ETH_NETWORK_BY_ENV,
   [Token.aBNBb]: BSC_NETWORK_BY_ENV,
   [Token.aBNBc]: BSC_NETWORK_BY_ENV,
 };
+
+export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
+  {
+    [Token.aETHb]: 30,
+    [Token.aETHc]: 30,
+    [Token.aBNBb]: 10,
+    [Token.aBNBc]: 10,
+  };

@@ -15,6 +15,7 @@ import {
 } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
+  BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
   NATIVE_TOKEN_BY_SWITCH_OPTION,
   TOKEN_TOOLTIPS,
@@ -36,8 +37,6 @@ import {
 } from './hooks';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
 
-const FEE_BASIS_POINTS = 30;
-
 export const Main = (): JSX.Element => {
   const classes = useMainSwitcherStyles();
 
@@ -54,10 +53,14 @@ export const Main = (): JSX.Element => {
     hasApprove,
   } = useSwitcherData({ from });
 
+  const nativeToken = NATIVE_TOKEN_BY_SWITCH_OPTION[from];
+  const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
+  const feeBasisPoints = BASIS_POINTS_FEE_BY_TOKEN[from];
+
   const { sendAnalytics } = useSendAnalytics({
     from,
     to,
-    feeBasisPoints: FEE_BASIS_POINTS,
+    feeBasisPoints,
     ratio,
     aethBalance,
     fethBalance,
@@ -87,8 +90,6 @@ export const Main = (): JSX.Element => {
   const canApprove = allowance.isZero() && from === 'aETHc';
   const canShowApproveStep = from === 'aETHc' && hasApprove;
   const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
-  const nativeToken = NATIVE_TOKEN_BY_SWITCH_OPTION[from];
-  const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
@@ -114,7 +115,7 @@ export const Main = (): JSX.Element => {
   }: FormRenderProps): JSX.Element => {
     const { fee, total } = calculateFeeAndTotal({
       amount: new BigNumber(values.amount || 0),
-      feeBP: new BigNumber(FEE_BASIS_POINTS),
+      feeBP: new BigNumber(feeBasisPoints),
     });
 
     return (
@@ -182,7 +183,7 @@ export const Main = (): JSX.Element => {
 
         <Box className={classes.row}>
           <Typography className={classes.fee}>
-            {t('switcher.fee', { fee: FEE_BASIS_POINTS / 100 })}
+            {t('switcher.fee', { fee: feeBasisPoints / 100 })}
           </Typography>
 
           <Typography className={classes.fee}>
