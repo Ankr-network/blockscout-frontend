@@ -13,9 +13,7 @@ export const fetchBalance = createAction<RequestAction<BigNumber, BigNumber>>(
       promise: (async (): Promise<BigNumber> => {
         const { service } = MultiService.getInstance();
 
-        /*
-         * TODO: wait for connect
-         **/
+        // TODO: wait for connect
         await timeout();
 
         const balance = await service.getCurrentAnkrBalance();
