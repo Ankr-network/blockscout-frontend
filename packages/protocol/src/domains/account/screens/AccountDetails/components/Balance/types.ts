@@ -1,20 +1,16 @@
+import { AccountStatus } from 'modules/account/types';
+
 export type BalanceData = {
   ankrBalance: number;
-  enoughMarker: EnoughMarker;
   enoughTime: EnoughTime;
   isLoading?: boolean;
+  status: AccountStatus;
   usdtBalance: number;
 };
 
 export interface EnoughTime {
   period: EnoughTimePeriod;
   value: number;
-}
-
-export enum EnoughMarker {
-  GREEN,
-  YELLOW,
-  RED,
 }
 
 export enum EnoughTimePeriod {
