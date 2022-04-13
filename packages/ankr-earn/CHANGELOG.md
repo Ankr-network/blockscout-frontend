@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.9.1 (2022-04-13)
+
+
+### Bug Fixes
+
+* **lerna:** pre-push hook fix --since ([#703](https://github.com/Ankr-network/ankr-web/issues/703)) ([2f5cd3b](https://github.com/Ankr-network/ankr-web/commit/2f5cd3bd253f27fea402a880b56eb7c25c162fab))
+
+
+
+
+
 # 2.9.0 (2022-04-12)
 
 
