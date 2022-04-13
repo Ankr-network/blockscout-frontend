@@ -22,12 +22,12 @@ jobs:
       - name: Build libs
         working-directory: .
         run: |
-        lerna run build
+          lerna run build
 
       - name: Build apps
         working-directory: .
         run: |
-        lerna run build:prod
+          lerna run build:prod
 
       - name: Tests
         working-directory: ./packages/ankr-earn
