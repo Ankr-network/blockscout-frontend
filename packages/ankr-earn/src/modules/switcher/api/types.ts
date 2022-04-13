@@ -14,6 +14,11 @@ export interface ISwitcherCommonDataArgs {
   chainId: AvailableSwitchNetwork;
 }
 
+export interface ISwitcherApproveArgs {
+  chainId: AvailableSwitchNetwork;
+  amount?: BigNumber;
+}
+
 export interface ISwitcherCommonData {
   acBalance: BigNumber;
   abBalance: BigNumber;

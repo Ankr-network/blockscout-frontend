@@ -37,6 +37,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     from: Token.aETHb,
     to: Token.aETHc,
     max: ONE_ETH,
+    chainId: BlockchainNetworkId.mainnet,
     onSuccessSwap: jest.fn(),
   };
 
@@ -156,6 +157,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       });
 
       expect(approve).toBeCalledTimes(1);
+      expect(approve).toBeCalledWith({ chainId: BlockchainNetworkId.mainnet });
     });
   });
 

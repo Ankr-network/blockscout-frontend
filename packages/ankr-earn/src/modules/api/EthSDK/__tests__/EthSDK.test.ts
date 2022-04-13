@@ -349,6 +349,29 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     );
   });
 
+  test('should approve zero amount aETHc for aETHb', async () => {
+    const {
+      contractConfig: { fethContract, aethContract },
+    } = configFromEnv();
+
+    const sdk = await EthSDK.getInstance();
+
+    const result = await sdk.approveAETHCForAETHB(ZERO);
+
+    expect(result.transactionHash).toBe('hash');
+    expect(result.receiptPromise).toStrictEqual({});
+
+    expect(defaultContract.methods.approve).toBeCalledTimes(1);
+    expect(defaultContract.methods.approve).toBeCalledWith(fethContract, '0x0');
+
+    expect(defaultProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(defaultProvider.sendTransactionAsync).toBeCalledWith(
+      ZERO_ADDR,
+      aethContract,
+      { data: 'mock-abi', estimate: true },
+    );
+  });
+
   test('should add token to wallet', async () => {
     {
       const sdk = await EthSDK.getInstance();

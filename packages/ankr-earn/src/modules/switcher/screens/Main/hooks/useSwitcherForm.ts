@@ -11,7 +11,11 @@ import { t } from 'modules/i18n/utils/intl';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
 
-import { CHAIN_ID_BY_TOKEN, AvailableSwitcherToken } from '../../../const';
+import {
+  CHAIN_ID_BY_TOKEN,
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+} from '../../../const';
 import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
@@ -22,6 +26,7 @@ export interface ISwitcherFormHookArgs {
   ratio: BigNumber;
   from: AvailableSwitcherToken;
   to: AvailableSwitcherToken;
+  chainId: AvailableSwitchNetwork;
   onSuccessSwap: (data: ISendAnalyticsEventArg) => void;
 }
 
@@ -53,6 +58,7 @@ export const useSwitcherForm = ({
   from,
   to,
   ratio,
+  chainId,
   onSuccessSwap,
 }: ISwitcherFormHookArgs): ISwitcherFormHookData => {
   const dispatchRequest = useDispatchRequest();
@@ -63,11 +69,11 @@ export const useSwitcherForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(approve()).then(response => {
+    dispatchRequest(approve({ chainId })).then(response => {
       setTxHash(response.data?.transactionHash ?? '');
       setTxError(response.error ?? '');
     });
-  }, [dispatchRequest]);
+  }, [chainId, dispatchRequest]);
 
   const calculateFeeAndTotal = useCallback(
     ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {

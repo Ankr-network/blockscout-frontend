@@ -1,12 +1,12 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { ZERO, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getSwitcherData } from 'modules/switcher/actions/getSwitcherData';
 import {
@@ -22,13 +22,13 @@ export interface ISwitcherHookDataArgs {
 
 export interface ISwitcherHookData {
   chainId: AvailableSwitchNetwork;
-  hasApprove: boolean;
   isDataLoading: boolean;
   balance: BigNumber;
   ratio: BigNumber;
   allowance: BigNumber;
   acBalance?: BigNumber;
   abBalance?: BigNumber;
+  checkAllowance: (amount: BigNumber) => boolean;
 }
 
 export const useSwitcherData = ({
@@ -41,7 +41,6 @@ export const useSwitcherData = ({
 
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
 
-  const [hasApprove, setHasApprove] = useState(false);
   const ratio = useMemo(() => data?.ratio ?? new BigNumber(1), [data?.ratio]);
   const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
   const isFromToken = useMemo(
@@ -51,13 +50,16 @@ export const useSwitcherData = ({
   const balance = isFromToken ? data?.abBalance : data?.acBalance;
   const max = useMemo(() => balance ?? ZERO, [balance]);
 
-  useProviderEffect(() => {
-    if (hasApprove || !data?.allowance) {
-      return;
-    }
+  const checkAllowance = useCallback(
+    (amount: BigNumber) => {
+      const isSmallAllowance =
+        allowance.isLessThan(amount.multipliedBy(ETH_SCALE_FACTOR)) ||
+        allowance.isZero();
 
-    setHasApprove(data.allowance.isZero());
-  }, [hasApprove, data?.allowance]);
+      return isSmallAllowance && !isFromToken;
+    },
+    [isFromToken, allowance],
+  );
 
   useProviderEffect(() => {
     dispatchRequest(
@@ -70,11 +72,11 @@ export const useSwitcherData = ({
   return {
     chainId: chainId as AvailableSwitchNetwork,
     isDataLoading,
-    hasApprove,
     ratio,
     allowance,
     balance: max,
     acBalance: data?.acBalance,
     abBalance: data?.abBalance,
+    checkAllowance,
   };
 };

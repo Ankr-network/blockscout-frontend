@@ -23,6 +23,7 @@ describe('modules/switcher/api/SwitcherSDK', () => {
     getAethcBalance: () => Promise.resolve(new BigNumber(1.5)),
     getAethcRatio: () => Promise.resolve(new BigNumber(1)),
     getAllowance: () => Promise.resolve(ZERO),
+    approveAETHCForAETHB: () => Promise.resolve({}),
   };
 
   const defaultBinanceSDK = {
@@ -30,6 +31,7 @@ describe('modules/switcher/api/SwitcherSDK', () => {
     getABNBCBalance: () => Promise.resolve(new BigNumber(24.6)),
     getABNBCRatio: () => Promise.resolve(new BigNumber(0.65)),
     getAllowance: () => Promise.resolve(ZERO),
+    approveABNBCUnstake: () => Promise.resolve({}),
   };
 
   beforeEach(() => {
@@ -102,5 +104,57 @@ describe('modules/switcher/api/SwitcherSDK', () => {
     });
 
     expect(data).toBeUndefined();
+  });
+
+  test('should approve certificate for bond on ethereum', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    {
+      const result = await sdk.approve({
+        chainId: BlockchainNetworkId.goerli,
+      });
+
+      expect(result).toBeDefined();
+    }
+
+    {
+      const result = await sdk.approve({
+        chainId: BlockchainNetworkId.mainnet,
+      });
+
+      expect(result).toBeDefined();
+    }
+  });
+
+  test('should approve zero amount certificate for bond on binance', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    {
+      const result = await sdk.approve({
+        chainId: BlockchainNetworkId.smartchainTestnet,
+        amount: ZERO,
+      });
+
+      expect(result).toBeDefined();
+    }
+
+    {
+      const result = await sdk.approve({
+        chainId: BlockchainNetworkId.smartchain,
+        amount: ZERO,
+      });
+
+      expect(result).toBeDefined();
+    }
+  });
+
+  test('should not approve certificate for bond on unsupported network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const result = await sdk.approve({
+      chainId: 9000 as AvailableSwitchNetwork,
+    });
+
+    expect(result).toBeUndefined();
   });
 });

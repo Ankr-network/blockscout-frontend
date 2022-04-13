@@ -1,8 +1,9 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
+import BigNumber from 'bignumber.js';
 
 import { useAuth } from 'modules/auth/hooks/useAuth';
-import { ZERO } from 'modules/common/const';
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { useSwitcherData } from '..';
@@ -55,17 +56,44 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
   });
 
   describe('allowance', () => {
-    test('should has approve step', () => {
+    test('should check allowance', () => {
       (useQuery as jest.Mock).mockReturnValue({
-        data: { allowance: ZERO },
+        data: { allowance: ZERO, acBalance: ZERO, abBalance: ZERO },
         loading: false,
       });
 
       const { result } = renderHook(() =>
-        useSwitcherData({ from: Token.aETHb }),
+        useSwitcherData({ from: Token.aETHc }),
       );
 
-      expect(result.current.hasApprove).toBe(true);
+      expect(result.current.checkAllowance(ZERO)).toBe(true);
+    });
+
+    test('should check allowance and return false for ab tokens', () => {
+      (useQuery as jest.Mock).mockReturnValue({
+        data: { allowance: ZERO, acBalance: ZERO, abBalance: ZERO },
+        loading: false,
+      });
+
+      const { result } = renderHook(() =>
+        useSwitcherData({ from: Token.aBNBb }),
+      );
+
+      expect(result.current.checkAllowance(ZERO)).toBe(false);
+    });
+
+    test('should check allowance for non-zero values', () => {
+      (useQuery as jest.Mock).mockReturnValue({
+        data: { allowance: ONE_ETH, acBalance: ZERO, abBalance: ZERO },
+        loading: false,
+      });
+
+      const { result } = renderHook(() =>
+        useSwitcherData({ from: Token.aETHc }),
+      );
+
+      expect(result.current.checkAllowance(new BigNumber(1))).toBe(false);
+      expect(result.current.checkAllowance(new BigNumber(1.1))).toBe(true);
     });
   });
 });

@@ -34,8 +34,8 @@ describe('modules/switcher/screens/Main', () => {
     acBalance: ZERO,
     abBalance: ZERO,
     balance: ZERO,
-    hasApprove: false,
     isDataLoading: false,
+    checkAllowance: () => false,
   };
 
   const defaultFormData: ISwitcherFormHookData = {
@@ -221,10 +221,10 @@ describe('modules/switcher/screens/Main', () => {
   test('should handle approve properly', async () => {
     (useSwitcherData as jest.Mock).mockReturnValue({
       ...defaultHookData,
-      hasApprove: true,
       allowance: ZERO,
       ratio: new BigNumber(1),
       balance: new BigNumber(10),
+      checkAllowance: () => true,
     });
 
     (useSwitcherUrlParams as jest.Mock).mockReturnValue({

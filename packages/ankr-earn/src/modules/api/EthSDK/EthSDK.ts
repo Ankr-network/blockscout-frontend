@@ -460,7 +460,9 @@ export class EthSDK {
     return flatten(pastEvents);
   }
 
-  public async approveAETHCForAETHB(): Promise<IWeb3SendResult> {
+  public async approveAETHCForAETHB(
+    amount = MAX_UINT256,
+  ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
     const { contractConfig } = CONFIG;
@@ -468,7 +470,7 @@ export class EthSDK {
     const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
 
     const data = aETHcContract.methods
-      .approve(contractConfig.fethContract, convertNumberToHex(MAX_UINT256))
+      .approve(contractConfig.fethContract, convertNumberToHex(amount))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(

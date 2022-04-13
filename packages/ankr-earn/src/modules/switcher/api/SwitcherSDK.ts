@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider';
+import { BlockchainNetworkId, IWeb3SendResult } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
@@ -7,6 +7,7 @@ import {
   ISwitcherSDKArgs,
   ISwitcherCommonDataArgs,
   ISwitcherCommonData,
+  ISwitcherApproveArgs,
 } from './types';
 
 export class SwitcherSDK {
@@ -60,6 +61,26 @@ export class SwitcherSDK {
         ]);
 
         return { abBalance, acBalance, ratio, allowance };
+      }
+
+      default:
+        return undefined;
+    }
+  }
+
+  public async approve({
+    chainId,
+    amount,
+  }: ISwitcherApproveArgs): Promise<IWeb3SendResult | undefined> {
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet: {
+        return this.ethSDK.approveAETHCForAETHB(amount);
+      }
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain: {
+        return this.binanceSDK.approveABNBCUnstake(amount);
       }
 
       default:

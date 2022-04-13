@@ -7,6 +7,7 @@ import { AbiItem } from 'web3-utils';
 
 import {
   BlockchainNetworkId,
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -15,7 +16,7 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
+import { isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -590,11 +591,13 @@ export class BinanceSDK {
     return this.convertFromWei(rawBalance);
   }
 
-  public async approveABNBCUnstake(amount: BigNumber): Promise<boolean> {
+  public async approveABNBCUnstake(
+    amount = MAX_UINT256,
+  ): Promise<IWeb3SendResult | undefined> {
     const isAllowed = await this.checkAllowance(amount);
 
     if (isAllowed) {
-      return true;
+      return undefined;
     }
 
     const { binanceConfig } = configFromEnv();
@@ -608,15 +611,11 @@ export class BinanceSDK {
       .approve(binanceConfig.aBNBbToken, rawAmount)
       .encodeABI();
 
-    const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
+    return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.aBNBcToken,
       { data, estimate: true },
     );
-
-    const result = await receiptPromise;
-
-    return !!result;
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {

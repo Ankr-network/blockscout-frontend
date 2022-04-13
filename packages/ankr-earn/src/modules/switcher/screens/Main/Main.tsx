@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { FormApi } from 'final-form';
 import noop from 'lodash/noop';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
@@ -16,7 +16,6 @@ import {
   CHAIN_ID_BY_TOKEN,
   NATIVE_TOKEN_BY_SWITCH_OPTION,
   TOKEN_TOOLTIPS,
-  SWITCHER_TO_TOKENS,
 } from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
@@ -48,7 +47,7 @@ export const Main = (): JSX.Element => {
     isDataLoading,
     acBalance,
     abBalance,
-    hasApprove,
+    checkAllowance,
   } = useSwitcherData({ from });
 
   const nativeToken = NATIVE_TOKEN_BY_SWITCH_OPTION[from];
@@ -81,23 +80,23 @@ export const Main = (): JSX.Element => {
     from,
     to,
     ratio,
+    chainId,
     onSuccessSwap: sendAnalytics,
   });
 
-  const isToToken = useMemo(() => SWITCHER_TO_TOKENS.includes(from), [from]);
-  const canShowApproveStep = isToToken && hasApprove && !canSwitchNetwork;
-  const canApprove = allowance.isZero() && isToToken;
   const canShowSpinner = isDataLoading && !abBalance && !acBalance;
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
+      const canApprove = checkAllowance(new BigNumber(amount as string));
+
       if (canApprove) {
         handleApprove();
       } else {
         handleSwap(amount as string);
       }
     },
-    [canApprove, handleApprove, handleSwap],
+    [checkAllowance, handleApprove, handleSwap],
   );
 
   const setMaxAmount = useCallback(
@@ -115,6 +114,9 @@ export const Main = (): JSX.Element => {
       amount: new BigNumber(values.amount || 0),
       feeBP: new BigNumber(feeBasisPoints),
     });
+
+    const canApprove = checkAllowance(new BigNumber(values.amount || 0));
+    const canShowApproveStep = canApprove && !canSwitchNetwork;
 
     return (
       <Paper

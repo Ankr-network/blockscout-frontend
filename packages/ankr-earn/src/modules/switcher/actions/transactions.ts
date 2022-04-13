@@ -10,6 +10,8 @@ import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { AvailableSwitchNetwork } from '../const';
+
 import { getSwitcherData } from './getSwitcherData';
 
 export interface ISwapAssetsArgs {
@@ -75,15 +77,20 @@ export const swapAssets = createAction<
   },
 }));
 
+export interface IApproveArgs {
+  chainId: AvailableSwitchNetwork;
+}
+
 export const approve = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
->('switcher/approve', () => ({
+>('switcher/approve', ({ chainId }: IApproveArgs) => ({
   request: {
     promise: async () => {
       const sdk = await EthSDK.getInstance();
 
       return sdk.approveAETHCForAETHB();
     },
+    chainId,
   },
   meta: {
     asMutation: true,
@@ -93,9 +100,7 @@ export const approve = createAction<
     onSuccess: async (response, _action, store) => {
       await response.data?.receiptPromise;
 
-      store.dispatchRequest(
-        getSwitcherData({ providerId: AvailableWriteProviders.ethCompatible }),
-      );
+      store.dispatchRequest(getSwitcherData({ chainId }));
 
       return response;
     },
