@@ -1,6 +1,27 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { IJwtToken, UUID, Web3Address } from './types';
 import { v4 } from 'uuid';
+import { getPaymentHistoryMock } from './mock/getPaymentHistoryMock';
+
+export interface IPaymentHistoryRequest {
+  page: number;
+  pageSize?: number;
+  orderBy: keyof IPaymentHistoryEntity;
+  order: 'asc' | 'desc';
+}
+export interface IPaymentHistoryReponse {
+  data: IPaymentHistoryEntity[];
+  page: number;
+  totalPages: number;
+}
+export interface IPaymentHistoryEntity {
+  id: string;
+  date: string;
+  paymentType: string;
+  direction: 'income' | 'outbound';
+  amountUsd: string;
+  amountAnkr: string;
+}
 
 export interface INodeEntity {
   id: string;
@@ -150,6 +171,22 @@ export class WorkerGateway {
       '/api/v1/blockchain',
     );
     return data;
+  }
+
+  public async apiGetPaymentHistory(
+    params: IPaymentHistoryRequest,
+  ): Promise<IPaymentHistoryReponse> {
+    await new Promise(r => setTimeout(r, 1300));
+
+    const { data: response } = await this.api
+      .get<IPaymentHistoryReponse>('/api/v1/payment-history', {
+        params,
+      })
+      .catch(() => ({
+        data: getPaymentHistoryMock(params),
+      }));
+
+    return response;
   }
 
   public async apiGetNodes(blockchain?: string): Promise<INodeEntity[]> {
