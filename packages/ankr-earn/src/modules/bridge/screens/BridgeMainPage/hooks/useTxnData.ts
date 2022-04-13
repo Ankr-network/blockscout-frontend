@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
-import { t } from 'common';
 import { useState } from 'react';
+
+import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { AvailableBridgeTokens } from 'modules/bridge/types';

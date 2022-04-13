@@ -4,6 +4,9 @@ import App from './App';
 import { reportWebVitals } from './reportWebVitals';
 import { initializeSentry } from 'modules/sentry';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@ankr.com/global-menu/src/assets/fonts/style.css';
+
 initializeSentry();
 
 const rootElement = document.getElementById('root');

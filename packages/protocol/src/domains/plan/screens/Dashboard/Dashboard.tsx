@@ -37,7 +37,7 @@ export const Dashboard = () => {
       <PageHeader select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null} />
       <Box className={classes.top}>
         <Typography variant="body2" className={classes.text}>
-          {t('providers.private-endpoints.user-endpoint')}
+          {t('providers.user-endpoints.title')}
         </Typography>
       </Box>
       <Queries<ResponseData<typeof fetchPrivateChains>>

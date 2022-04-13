@@ -8,7 +8,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     minHeight: 40,
-    padding: theme.spacing(0, 2),
+    paddingRight: theme.spacing(2),
   },
   logo: {
     fontSize: 34,
@@ -27,8 +27,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   title: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 14,
-    },
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: theme.spacing(1),
+    lineHeight: 1,
   },
 }));

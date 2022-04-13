@@ -27,6 +27,7 @@ module.exports = function (config) {
       path.resolve('../provider'),
       path.resolve('../multirpc-sdk'),
       path.resolve('../common'),
+      path.resolve('../ankr-global-menu'),
     ]),
   )(config);
 };
