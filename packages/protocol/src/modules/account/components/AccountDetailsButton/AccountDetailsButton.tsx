@@ -11,11 +11,11 @@ export interface AccountDetailsButtonProps {
 }
 
 export const AccountDetailsButton = ({
-  isMobile,
+  isMobile = false,
 }: AccountDetailsButtonProps) => {
   const { balance, isLoading, isVisible, status } = useAccountData();
 
-  const classes = useStyles({ isMobile });
+  const classes = useStyles(isMobile);
 
   return isVisible ? (
     <LoadableButton

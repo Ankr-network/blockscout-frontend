@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
-  accountDetailsButtonRoot: ({ isMobile }) =>
+export const useStyles = makeStyles<Theme, boolean>(theme => ({
+  accountDetailsButtonRoot: isMobile =>
     isMobile
       ? {
           padding: theme.spacing(1.25, 1.5),
@@ -13,9 +13,9 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
   content: {
     display: 'flex',
     alignItems: 'center',
-    gap: ({ isMobile }) => (isMobile ? theme.spacing(0.75) : theme.spacing(1)),
+    gap: isMobile => (isMobile ? theme.spacing(0.75) : theme.spacing(1)),
   },
-  label: ({ isMobile }) =>
+  label: isMobile =>
     isMobile
       ? {
           fontWeight: 600,
@@ -29,7 +29,7 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
           lineHeight: `${theme.spacing(3)}px`,
         },
   currency: {
-    display: ({ isMobile }) => (isMobile ? 'none' : ''),
+    display: isMobile => (isMobile ? 'none' : ''),
     color: theme.palette.grey[600],
   },
 }));
