@@ -7,16 +7,18 @@ import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { useDialogStyles as useStyles } from './useDialogStyles';
 
 interface IDialogProps extends DialogProps {
+  isHiddenCloseBtn?: boolean;
   onClose?: () => void;
 }
 
 export const Dialog = ({
-  open,
-  onClose,
-  className,
   children,
   classes: dialogClasses,
+  className,
+  isHiddenCloseBtn = false,
+  open,
   PaperProps,
+  onClose,
   ...restDialogProps
 }: IDialogProps): JSX.Element => {
   const classes = useStyles();
@@ -32,9 +34,15 @@ export const Dialog = ({
       scroll="body"
       onClose={onClose}
     >
-      <Button className={classes.closeBtn} variant="outlined" onClick={onClose}>
-        <CloseIcon htmlColor="inherit" size="xxs" />
-      </Button>
+      {!isHiddenCloseBtn && (
+        <Button
+          className={classes.closeBtn}
+          variant="outlined"
+          onClick={onClose}
+        >
+          <CloseIcon htmlColor="inherit" size="xxs" />
+        </Button>
+      )}
 
       {children}
     </DialogMUI>

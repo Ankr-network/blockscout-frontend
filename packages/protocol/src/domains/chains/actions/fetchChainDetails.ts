@@ -47,6 +47,7 @@ export const fetchChainDetails = createSmartAction<
   },
   meta: {
     asMutation: false,
+    requestKey: chainId,
     takeLatest: false,
     cache: false,
     getData: rawData => {

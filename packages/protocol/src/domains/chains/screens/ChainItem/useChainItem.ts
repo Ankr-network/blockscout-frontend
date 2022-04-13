@@ -58,6 +58,7 @@ export const useTimeframeData = (chainId: string, date: Timeframe = '24h') => {
 
   const { data, loading, error, pristine } = getQuery(store.getState(), {
     type: fetchChainDetails.toString(),
+    requestKey: chainId,
   });
 
   const handleSetTimeframe = useCallback((newTimeframe: Timeframe) => {

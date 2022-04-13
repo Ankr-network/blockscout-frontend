@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -8,21 +9,21 @@ import { AbiItem } from 'web3-utils';
 import {
   BlockchainNetworkId,
   TWeb3BatchCallback,
-  Web3KeyProvider,
   Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isMainnet } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
   BLOCK_OFFSET,
   MAX_BLOCK_RANGE,
-  POLYGON_PROVIDER_ID,
   POLYGON_PROVIDER_READ_ID,
 } from '../const';
 
@@ -39,6 +40,12 @@ enum EPolygonPoolEvents {
 export enum EPolygonPoolEventsMap {
   MaticClaimPending = 'STAKE_ACTION_UNSTAKED',
   StakePending = 'STAKE_ACTION_STAKED',
+}
+
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
 }
 
 interface ITxHistoryEventData extends EventData {
@@ -59,11 +66,11 @@ export interface ITxEventsHistoryData {
 
 interface IPolygonSDKProviders {
   readProvider: Web3KeyReadProvider;
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -76,7 +83,7 @@ const ALLOWANCE_RATE = 5;
 export class PolygonSDK {
   private static instance?: PolygonSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -97,8 +104,8 @@ export class PolygonSDK {
   public static async getInstance(): Promise<PolygonSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(POLYGON_PROVIDER_ID),
-      providerManager.getReadProvider(POLYGON_PROVIDER_READ_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -123,7 +130,7 @@ export class PolygonSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
@@ -141,7 +148,7 @@ export class PolygonSDK {
     return this.readProvider;
   }
 
-  private async isEthNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isEthNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -390,6 +397,35 @@ export class PolygonSDK {
     return { completed, pending };
   }
 
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+    const { 0: lockShares } = web3.eth.abi.decodeParameters(
+      ['uint256'],
+      tx.input.slice(10),
+    );
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
   public async stake(amount: BigNumber): Promise<{ txHash: string }> {
     const { contractConfig } = configFromEnv();
 
@@ -505,6 +541,9 @@ export class PolygonSDK {
       address: contractConfig.aMaticbToken,
       symbol: Token.aMATICb,
       decimals: 18,
+      chainId: isMainnet
+        ? (BlockchainNetworkId.mainnet as number)
+        : (BlockchainNetworkId.goerli as number),
     });
   }
 }

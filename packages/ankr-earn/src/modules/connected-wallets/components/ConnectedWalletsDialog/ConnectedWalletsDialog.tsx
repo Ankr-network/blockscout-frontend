@@ -1,30 +1,33 @@
 import { Typography } from '@material-ui/core';
 import { useEffect } from 'react';
 
-import { IAddresses } from 'modules/connected-wallets/types';
+import { AvailableWriteProviders } from 'provider';
+
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
+import { IWalletItem } from '../../hooks/useAuthWallets';
 import { ConnectedWalletsNetwork } from '../ConnectedWalletsNetwork';
 
 import { useConnectedWalletsDialogStyles as useStyles } from './useConnectedWalletsDialogStyles';
 
 interface IConnectedWalletsDialogProps {
+  networks: IWalletItem[];
   open: boolean;
+  walletsGroupTypes?: AvailableWriteProviders[];
+  onAddWallet: () => void;
   onClose: () => void;
-  networks: Array<{
-    network: string;
-    addresses: IAddresses;
-    disconnect?: () => void;
-  }>;
 }
 
 export const ConnectedWalletsDialog = ({
-  open,
-  onClose,
   networks,
+  open,
+  walletsGroupTypes,
+  onAddWallet,
+  onClose,
 }: IConnectedWalletsDialogProps): JSX.Element => {
   const classes = useStyles();
 
@@ -33,17 +36,18 @@ export const ConnectedWalletsDialog = ({
       key={network.network}
       addresses={network.addresses}
       className={classes.network}
-      disconnect={network.disconnect}
       network={network.network}
+      onAddressUpdate={network.onAddressUpdate}
+      onDisconnect={network.onDisconnect}
     />
   ));
 
   const disconnectsCount = networks.filter(
-    network => network.disconnect,
+    network => network.onDisconnect,
   ).length;
 
   const disconnectAll = () => {
-    networks.forEach(network => network.disconnect && network.disconnect());
+    networks.forEach(network => network.onDisconnect && network.onDisconnect());
   };
 
   useEffect(() => {
@@ -53,9 +57,20 @@ export const ConnectedWalletsDialog = ({
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
       <div className={classes.wrapper}>
-        <Typography className={classes.header} component="h2" variant="h2">
-          {t('wallets.connected-wallets')}
-        </Typography>
+        <div className={classes.headerArea}>
+          <Typography className={classes.header} component="h2" variant="h2">
+            {t('wallets.connected-wallets')}
+          </Typography>
+
+          {walletsGroupTypes?.length ? (
+            <PlusMinusBtn
+              className={classes.addWalletButton}
+              icon="plus"
+              tooltip={t('wallets.add-btn-tooltip')}
+              onClick={onAddWallet}
+            />
+          ) : null}
+        </div>
 
         {connectedWallets}
 

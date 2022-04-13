@@ -9,21 +9,17 @@ import { StakedAVAX } from '..';
 import {
   IStakedAVAXData,
   useStakedAVAXData,
-} from '../../StakedTokens/hooks/useStakedAVAXData';
+} from '../../StakedTokens/hooks/AVAX/useStakedAVAXData';
 import {
   ITxHistoryData,
   useStakedAVAXTxHistory,
-} from '../../StakedTokens/hooks/useStakedAVAXTxHistory';
+} from '../../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
 
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: () => jest.fn(),
-}));
-
-jest.mock('../../StakedTokens/hooks/useStakedAVAXData', () => ({
+jest.mock('../../StakedTokens/hooks/AVAX/useStakedAVAXData', () => ({
   useStakedAVAXData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedAVAXTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory', () => ({
   useStakedAVAXTxHistory: jest.fn(),
 }));
 
@@ -43,6 +39,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     isShowed: false,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
@@ -55,6 +52,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
     },
     hasHistory: false,
     isHistoryDataLoading: false,
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {
@@ -90,7 +88,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
       </MemoryRouter>,
     );
 
-    const historyButton = await screen.findByTestId('history-button');
+    const menuButton = await screen.findByTestId('menu-button');
+    menuButton.click();
+
+    const historyButton = await screen.findByText('Staking history');
     historyButton.click();
 
     const historyDialog = await screen.findByTestId('history-dialog');

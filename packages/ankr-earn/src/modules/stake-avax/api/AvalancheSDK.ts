@@ -6,16 +6,16 @@ import { AbiItem } from 'web3-utils';
 import {
   BlockchainNetworkId,
   TWeb3BatchCallback,
-  Web3KeyProvider,
   Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isMainnet } from 'modules/common/const';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
-  AVALANCHE_WRITE_PROVIDER_ID,
   AVAX_DECIMALS,
   AVAX_MAX_BLOCK_RANGE,
   AVAX_MAX_HISTORY_RANGE,
@@ -42,11 +42,11 @@ export enum EAvalanchePoolEventsMap {
 
 interface IAvalancheSDKProviders {
   readProvider: Web3KeyReadProvider;
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   filter?: Filter;
@@ -71,7 +71,7 @@ interface ITxHistoryEventData extends EventData {
 export class AvalancheSDK {
   private readonly readProvider: Web3KeyReadProvider;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private static instance?: AvalancheSDK;
 
@@ -179,7 +179,7 @@ export class AvalancheSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
@@ -250,7 +250,7 @@ export class AvalancheSDK {
   }
 
   private async isAvalancheNetwork(
-    provider: Web3KeyProvider,
+    provider: Web3KeyWriteProvider,
   ): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
@@ -264,8 +264,8 @@ export class AvalancheSDK {
   public static async getInstance(): Promise<AvalancheSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(AVALANCHE_WRITE_PROVIDER_ID),
-      providerManager.getReadProvider(AVALANCHE_READ_PROVIDER_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(AVALANCHE_READ_PROVIDER_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -308,6 +308,9 @@ export class AvalancheSDK {
       address: avalancheConfig.futureBondAVAX,
       symbol,
       decimals,
+      chainId: isMainnet
+        ? (BlockchainNetworkId.avalanche as number)
+        : (BlockchainNetworkId.avalancheTestnet as number),
     });
   }
 

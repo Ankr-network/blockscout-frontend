@@ -14,6 +14,7 @@ const {
   },
   avalancheConfig: { futureBondAVAX },
   binanceConfig: { aBNBbToken },
+  fantomConfig: { aftmbToken, ftmToken },
 } = configFromEnv(Env.Production);
 
 export const getTokenAddr = (token: AvailableTokens): string => {
@@ -38,6 +39,12 @@ export const getTokenAddr = (token: AvailableTokens): string => {
 
     case AvailableTokens.aBNBb:
       return aBNBbToken as string;
+
+    case AvailableTokens.aFTMb:
+      return aftmbToken as string;
+
+    case AvailableTokens.FTM:
+      return ftmToken as string;
 
     default:
       return ETHContract as string;

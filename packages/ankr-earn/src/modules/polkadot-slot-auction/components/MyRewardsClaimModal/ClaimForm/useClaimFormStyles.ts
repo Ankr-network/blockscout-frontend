@@ -66,7 +66,7 @@ export const useClaimFormStyles = makeStyles(theme => ({
     alignItems: 'center',
     margin: theme.spacing(0, 0, 2, 0),
   },
-  hintEthArea: {
+  infoArea: {
     display: 'inline-flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -74,6 +74,9 @@ export const useClaimFormStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2.25, 0),
     fontSize: 14,
     fontWeight: 400,
+  },
+  infoWarnArea: {
+    marginTop: theme.spacing(0.75),
   },
   actionArea: {
     display: 'flex',
@@ -114,14 +117,22 @@ export const useClaimFormStyles = makeStyles(theme => ({
     },
   },
 
-  hintEthSplitter: {
+  infoSplitter: {
     display: 'inline-block',
     width: 'auto',
     height: 22,
     margin: theme.spacing(0, 1, 0, 0),
     borderLeft: `2px solid ${theme.palette.primary.main}`,
   },
-  hintEthTxt: {},
+  infoTxt: {},
+
+  infoWarnSplitter: {
+    height: 40,
+    borderLeftColor: theme.palette.error.main,
+  },
+  infoWarnTxt: {
+    color: theme.palette.error.main,
+  },
 
   actionBtn: {},
 }));

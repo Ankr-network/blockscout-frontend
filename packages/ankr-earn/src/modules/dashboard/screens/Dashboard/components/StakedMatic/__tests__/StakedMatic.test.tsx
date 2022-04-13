@@ -9,21 +9,21 @@ import { StakedMatic } from '..';
 import {
   IStakedMaticData,
   useStakedMaticData,
-} from '../../StakedTokens/hooks/useStakedMaticData';
+} from '../../StakedTokens/hooks/MATIC/useStakedMaticData';
 import {
   ITxHistoryData,
   useStakedMaticTxHistory,
-} from '../../StakedTokens/hooks/useStakedMaticTxHistory';
+} from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedMaticData', () => ({
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticData', () => ({
   useStakedMaticData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedMaticTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMaticTxHistory: jest.fn(),
 }));
 
@@ -41,6 +41,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     isShowed: true,
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
@@ -53,6 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
     },
     hasHistory: false,
     isHistoryDataLoading: false,
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {
@@ -90,7 +92,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic', () => {
       </MemoryRouter>,
     );
 
-    const historyButton = await screen.findByTestId('history-button');
+    const menuButton = await screen.findByTestId('menu-button');
+    menuButton.click();
+
+    const historyButton = await screen.findByText('Staking history');
     historyButton.click();
 
     const historyDialog = await screen.findByTestId('history-dialog');

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 import { ZERO } from 'modules/common/const';
 
 import { ProgressStep } from '..';
+import { TxErrorCodes } from '../ProgressStep';
 
 jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: () => ({ chainId: 1 }),
@@ -93,6 +94,29 @@ describe('modules/common/components/ProgressStep', () => {
     );
 
     const errorTitle = await screen.findByText('An error has occurred');
+    expect(errorTitle).toBeInTheDocument();
+  });
+
+  test('should render error state for failed transaction properly', async () => {
+    const props = {
+      amount: ZERO,
+      destinationAddress: 'address',
+      txHash: 'hash',
+      title: 'Switch',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      buttonTitle: 'Add aMATICb to wallet',
+      isPending: true,
+      error: new Error(TxErrorCodes.TX_FAILED),
+      onAddTokenToWallet: jest.fn(),
+    };
+
+    render(
+      <MemoryRouter>
+        <ProgressStep {...props} />
+      </MemoryRouter>,
+    );
+
+    const errorTitle = await screen.findByText('Transaction failed.');
     expect(errorTitle).toBeInTheDocument();
   });
 

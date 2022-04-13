@@ -1,25 +1,27 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useUnstakeDialogStyles = makeStyles<Theme>(theme => ({
+export const useUnstakeDialogStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    padding: theme.spacing(8, 0, 0),
+    padding: theme.spacing(8, 0, 4),
     backgroundColor: theme.palette.background.paper,
     maxWidth: 600,
     margin: '0 auto',
 
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(6, 0, 0),
+      padding: theme.spacing(6, 0, 4),
     },
   },
 
   footer: {
-    padding: theme.spacing(4, 0),
+    paddingTop: theme.spacing(4),
   },
 
   container: {
-    '&&': {
-      maxWidth: 520 + theme.spacing(4),
+    maxWidth: 520 + theme.spacing(4),
+    padding: theme.spacing(0, 2),
+
+    [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(0, 4),
     },
   },
@@ -61,5 +63,10 @@ export const useUnstakeDialogStyles = makeStyles<Theme>(theme => ({
 
   timer: {
     whiteSpace: 'nowrap',
+  },
+
+  stepper: {
+    maxWidth: 340,
+    margin: '0 auto',
   },
 }));

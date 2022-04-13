@@ -1,11 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import {
-  AvailableWriteProviders,
-  IWeb3SendResult,
-  Web3KeyProvider,
-} from 'provider';
+import { IWeb3SendResult, Web3KeyWriteProvider } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
@@ -22,7 +18,7 @@ export class BridgeSDK {
 
   public api: AxiosInstance;
 
-  private constructor(public provider: Web3KeyProvider) {
+  private constructor(public readonly provider: Web3KeyWriteProvider) {
     BridgeSDK.instance = this;
     const { gatewayConfig } = configFromEnv();
 
@@ -37,9 +33,7 @@ export class BridgeSDK {
 
   public static async getInstance(): Promise<BridgeSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
-    const provider = await providerManager.getProvider(
-      AvailableWriteProviders.ethCompatible,
-    );
+    const provider = await providerManager.getETHWriteProvider();
 
     const isActualProvider = BridgeSDK.instance?.provider === provider;
 

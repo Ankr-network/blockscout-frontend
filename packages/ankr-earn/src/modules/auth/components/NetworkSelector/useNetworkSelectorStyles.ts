@@ -4,10 +4,15 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
   list: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'baseline',
     margin: theme.spacing(-2, -2, 0),
   },
 
   listItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: theme.spacing(2),
     padding: theme.spacing(0, 2),
     width: '100%',

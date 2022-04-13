@@ -1,8 +1,9 @@
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ConnectedWalletsButton } from 'modules/connected-wallets/components/ConnectedWalletsButton';
 import { ConnectedWalletsDialog } from 'modules/connected-wallets/components/ConnectedWalletsDialog';
-import { POLYGON_PROVIDER_ID } from 'modules/stake-polygon/const';
+
+import { useAuthWallets } from '../../hooks/useAuthWallets';
 
 interface IConnectedWalletsProps {
   className?: string;
@@ -11,39 +12,41 @@ interface IConnectedWalletsProps {
 export const ConnectedWallets = ({
   className,
 }: IConnectedWalletsProps): JSX.Element => {
-  const { onOpen, onClose, isOpened } = useDialog();
+  const {
+    isOpened: isOpenedDialog,
+    onClose: onCloseDialog,
+    onOpen: onOpenDialog,
+  } = useDialog();
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
 
-  // TODO: add more providers in the future
-  const polygonAuth = useAuth(POLYGON_PROVIDER_ID);
-
-  const networks = [];
-
-  if (polygonAuth.isConnected) {
-    networks.push({
-      network: polygonAuth.walletName as string,
-      addresses: [
-        {
-          tokenIconSrc: polygonAuth.walletIcon as string,
-          address: polygonAuth.address as string,
-        },
-      ],
-      disconnect: polygonAuth.dispatchDisconnect,
-    });
-  }
+  const { wallets, walletsGroupTypes } = useAuthWallets();
 
   return (
     <>
       <ConnectedWalletsButton
         className={className}
-        connectHandler={polygonAuth.dispatchConnect}
-        networks={networks}
-        onClick={onOpen}
+        connectHandler={onOpenModal}
+        networks={wallets}
+        walletsGroupTypes={walletsGroupTypes}
+        onClick={onOpenDialog}
+      />
+
+      <ConnectWalletsModal
+        isOpen={isOpenedModal}
+        walletsGroupTypes={walletsGroupTypes}
+        onClose={onCloseModal}
       />
 
       <ConnectedWalletsDialog
-        networks={networks}
-        open={isOpened}
-        onClose={onClose}
+        networks={wallets}
+        open={isOpenedDialog}
+        walletsGroupTypes={walletsGroupTypes}
+        onAddWallet={onOpenModal}
+        onClose={onCloseDialog}
       />
     </>
   );

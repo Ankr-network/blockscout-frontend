@@ -12,13 +12,13 @@ import {
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { RoutesConfig as ETH2SwapRoutes } from 'modules/eth2Swap/Routes';
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
 import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
+import { RoutesConfig as SwitcherRoutes } from 'modules/switcher/Routes';
 
 const getLitepaperLink = (locale: Locale): string => {
   switch (locale) {
@@ -62,9 +62,9 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
         label: t('main-navigation.boost'),
         href: BoostRoutes.root,
       },
-      eth2Swap: {
-        label: t('main-navigation.eth2Swap'),
-        href: ETH2SwapRoutes.root,
+      switcher: {
+        label: t('main-navigation.switcher'),
+        href: SwitcherRoutes.root,
       },
       bridge: {
         label: t('main-navigation.bridge'),
@@ -89,7 +89,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.parachain,
       links.boost,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
-      links.eth2Swap,
+      links.switcher,
     ],
     [links],
   );
@@ -105,7 +105,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.stake,
       links.parachain,
       links.boost,
-      links.eth2Swap,
+      links.switcher,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.docs,
       links.litepaper,

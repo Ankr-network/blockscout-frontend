@@ -1,0 +1,48 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        type: choice
+        description: Target
+        required: true
+        options:
+          - ankr-global-menu
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: ${{secrets.PUSH_TO_PROTECTED_BRANCH_GITHUB_CREDENTIALS}}
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - uses: egordm/gha-yarn-node-cache@v1
+      - uses: nelonoel/branch-name@v1.0.1
+
+      - name: Get deployment information
+        run: |
+          echo "Branch: ${BRANCH_NAME}"
+          echo "Package: ${{github.event.inputs.package}}"
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: '16.13.0'
+          always-auth: true
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Publish
+        working-directory: ./packages/${{ github.event.inputs.package }}/
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor}}@users.noreply.github.com"
+          yarn build
+          yarn publish

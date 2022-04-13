@@ -1,21 +1,13 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
+import { EWalletId } from '../../types';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/im-token.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
 
-export enum WalletId {
-  imtoken = 'custom-imtoken',
-  math = 'custom-math',
-  trust = 'custom-trust',
-  huobi = 'custom-huobi',
-  walletconnect = 'walletconnect',
-  injected = 'injected',
-}
-
 export const providerDefaultOptions: IProviderOptions = {
-  [WalletId.imtoken]: {
+  [EWalletId.imtoken]: {
     display: {
       logo: imTokenLogo,
       name: 'imToken',
@@ -35,7 +27,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  [WalletId.math]: {
+  [EWalletId.math]: {
     display: {
       logo: mathLogo,
       name: 'Math Wallet',
@@ -55,7 +47,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  [WalletId.trust]: {
+  [EWalletId.trust]: {
     display: {
       logo: trustWalletLogo,
       name: 'Trust Wallet',
@@ -75,7 +67,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  [WalletId.huobi]: {
+  [EWalletId.huobi]: {
     display: {
       logo: huobiLogo,
       name: 'Huobi Wallet',
@@ -95,7 +87,7 @@ export const providerDefaultOptions: IProviderOptions = {
       return provider;
     },
   },
-  [WalletId.walletconnect]: {
+  [EWalletId.walletconnect]: {
     package: WalletConnectProvider,
     options: {
       rpc: {
