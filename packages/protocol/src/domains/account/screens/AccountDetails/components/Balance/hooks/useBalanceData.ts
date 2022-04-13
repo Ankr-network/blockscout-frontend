@@ -14,7 +14,7 @@ const mockedData: BalanceData = {
   usdtBalance: 4116.4,
 };
 
-export const useBalanceData = () => {
+export const useBalanceData = (): BalanceData => {
   const { data: ankrBalance, loading: isLoading } = useQuery({
     type: fetchBalance.toString(),
   });
