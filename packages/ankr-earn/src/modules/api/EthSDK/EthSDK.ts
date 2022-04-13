@@ -277,30 +277,36 @@ export class EthSDK {
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
-    let gasFee = this.stakeGasFee;
-    if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount, token);
+    try {
+      let gasFee = this.stakeGasFee;
+      if (!gasFee) {
+        gasFee = await this.getStakeGasFee(amount, token);
+      }
+
+      const balance = await this.getEthBalance();
+      const maxAmount = balance.minus(gasFee);
+      const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+      const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
+
+      const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+
+      const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
+
+      const gasLimit: number = await contractStake().estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
+
+      return contractStake().send({
+        from: this.currentAccount,
+        value: hexAmount,
+        gas: gasLimit,
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      throw new Error('The error occured, please, try again later.');
     }
-
-    const balance = await this.getEthBalance();
-    const maxAmount = balance.minus(gasFee);
-    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
-    const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
-
-    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
-
-    const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
-
-    const gasLimit: number = await contractStake().estimateGas({
-      from: this.currentAccount,
-      value: hexAmount,
-    });
-
-    return contractStake().send({
-      from: this.currentAccount,
-      value: hexAmount,
-      gas: gasLimit,
-    });
   }
 
   public async getStakeGasFee(
