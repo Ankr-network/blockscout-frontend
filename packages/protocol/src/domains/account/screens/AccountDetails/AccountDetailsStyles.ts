@@ -19,5 +19,16 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     gap: theme.spacing(1.5, 3),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+  },
+  topUp: {
+    minWidth: 300,
+
+    [theme.breakpoints.down('md')]: {
+      minWidth: 'auto',
+    },
   },
 }));

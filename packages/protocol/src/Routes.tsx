@@ -89,7 +89,10 @@ export function Routes() {
       />
       <Route
         exact
-        path={[AccountRoutesConfig.accountDetails.path]}
+        path={[
+          AccountRoutesConfig.accountDetails.path,
+          AccountRoutesConfig.topUp.path,
+        ]}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />

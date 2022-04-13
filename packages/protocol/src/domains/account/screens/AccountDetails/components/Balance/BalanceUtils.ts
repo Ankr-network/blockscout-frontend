@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { EnoughTime, EnoughTimePeriod } from './types';
 import { t } from 'modules/i18n/utils/intl';
 
-export const i18nKeyRoot = 'account.accountDetails.balance';
+export const i18nKeyRoot = 'account.account-details.balance';
 
 const periodsMap: Record<EnoughTimePeriod, string> = {
   [EnoughTimePeriod.Day]: t(`${i18nKeyRoot}.description.periods.day`),

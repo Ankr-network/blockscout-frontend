@@ -10,7 +10,10 @@
     "url-chain-validation": "URL must contain {chainId}",
     "public-url-validation": "Should not be a public endpoint of Ankr",
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
-    "duplicate-url-validation": "This endpoint has already been added"
+    "duplicate-url-validation": "This endpoint has already been added",
+    "number-only": "Must be a number",
+    "min": "Should be greater than {value}",
+    "max": "Should be less than {value}"
   },
   "meta": {
     "title": "Ankr Protocol",
@@ -359,9 +362,15 @@
     }
   },
   "account": {
-    "accountDetails": {
+    "account-details": {
       "breadcrumbs": "Account Details",
       "title": "Account Details",
+      "top-up": {
+        "title": "Top Up Balance",
+        "pricing-link": "Pricing",
+        "placeholder": "Amount",
+        "button": "Top Up"
+      },
       "balance": {
         "title": "Balance",
         "withdrawButton": {
@@ -382,6 +391,10 @@
           "text": "Enough for {quantifier}{value} {period}{plural}, based on your current usage"
         }
       }
+    },
+    "top-up": {
+      "breadcrumbs": "Top Up",
+      "title": "Top Up"
     }
   },
   "mobile-details": {
@@ -407,6 +420,26 @@
     "step-notice": {
       "1": "To enable Ankr to securely enable your deposit.",
       "2": "So we could take your deposit.",
+      "3": "Operation will take a while (2-4 min).",
+      "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
+      "5": "The last step in&nbsp;your sign in&nbsp;process."
+    },
+    "next": "Next"
+  },
+  "top-up-steps": {
+    "title": "Top Up",
+    "metamask": "Metamask",
+    "step-content": {
+      "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
+      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
+      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR.",
+      "3": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
+      "4": "Thank you! Operation will take 2-4 minutes.",
+      "5": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
+    },
+    "step-notice": {
+      "1": "To enable Ankr to securely top up your balance.",
+      "2": "So we could top up your balance.",
       "3": "Operation will take a while (2-4 min).",
       "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
       "5": "The last step in&nbsp;your sign in&nbsp;process."

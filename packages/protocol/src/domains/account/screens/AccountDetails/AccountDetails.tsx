@@ -6,6 +6,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { useStyles } from './AccountDetailsStyles';
+import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
 
 export const AccountDetails = () => {
@@ -22,7 +23,7 @@ export const AccountDetails = () => {
       <Box className={classes.root}>
         <Box className={classes.top}>
           <Balance />
-          <Box className={classes.topUp}>Top Up</Box>
+          <TopUp className={classes.topUp} />
         </Box>
         <Box className={classes.payments}>Payments</Box>
         <Box className={classes.chart}>Chart</Box>

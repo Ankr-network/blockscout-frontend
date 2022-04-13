@@ -19,6 +19,15 @@ export const useStyles = makeStyles<Theme, EnoughMarker>(theme => ({
     borderRadius: 30,
 
     background: theme.palette.background.paper,
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(2, 3, 3),
+      minWidth: 240,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '100%',
+    },
   },
   header: {
     display: 'flex',
@@ -79,6 +88,10 @@ export const useStyles = makeStyles<Theme, EnoughMarker>(theme => ({
     fontWeight: 600,
     fontSize: 45,
     lineHeight: '52px',
+
+    [theme.breakpoints.down('md')]: {
+      marginBottom: theme.spacing(1),
+    },
 
     [theme.breakpoints.down('xs')]: {
       marginBottom: 33,
