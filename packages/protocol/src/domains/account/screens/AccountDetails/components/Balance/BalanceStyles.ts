@@ -1,14 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { EnoughMarker } from './types';
 
-const markerColorsMap: Record<EnoughMarker, string> = {
-  [EnoughMarker.GREEN]: '#3AC090',
-  [EnoughMarker.YELLOW]: '#ffff00',
-  [EnoughMarker.RED]: '#D22C54',
-};
-
-export const useStyles = makeStyles<Theme, EnoughMarker>(theme => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   balanceRoot: {
     flex: 1,
 
@@ -105,21 +98,6 @@ export const useStyles = makeStyles<Theme, EnoughMarker>(theme => ({
     alignItems: 'center',
     flexWrap: 'wrap',
     gap: '3px 9px',
-  },
-  marker: {
-    flexShrink: 0,
-
-    width: theme.spacing(1.5),
-    height: theme.spacing(1.5),
-
-    borderRadius: '50%',
-
-    backgroundColor: marker => markerColorsMap[marker],
-
-    [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(1.25),
-      height: theme.spacing(1.25),
-    },
   },
   usdtBalance: {
     color: theme.palette.grey[600],

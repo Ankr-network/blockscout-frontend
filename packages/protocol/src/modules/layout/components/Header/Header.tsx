@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { AccountDetailsButton } from 'modules/account/components/AccountDetailsButton/AccountDetailsButton';
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { Breadcrumbs } from '../Breadcrumbs';
@@ -35,7 +36,10 @@ export const Header = ({ className = '', isPremiumPlanPage }: HeaderProps) => {
                 </Typography>
               </Box>
             )}
-            <ConnectButton />
+            <div className={classes.buttons}>
+              <AccountDetailsButton />
+              <ConnectButton />
+            </div>
           </NoReactSnap>
         </div>
       </Container>
