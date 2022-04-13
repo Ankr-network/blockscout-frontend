@@ -6,6 +6,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { useStyles } from './AccountDetailsStyles';
+import { Balance } from './components/Balance';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -20,7 +21,7 @@ export const AccountDetails = () => {
     <ThemeProvider theme={mainTheme}>
       <Box className={classes.root}>
         <Box className={classes.top}>
-          <Box className={classes.balance}>Balance</Box>
+          <Balance />
           <Box className={classes.topUp}>Top Up</Box>
         </Box>
         <Box className={classes.payments}>Payments</Box>
