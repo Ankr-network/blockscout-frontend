@@ -19,11 +19,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build & lint
+      - name: Build libs
         working-directory: .
-        run: lerna run build
+        run: |
+        lerna run build
 
-      # TODO: Test coverage must be less or equal to previous
+      - name: Build apps
+        working-directory: .
+        run: |
+        lerna run build:prod
+
       - name: Tests
         working-directory: ./packages/ankr-earn
         run: yarn test:coverage
