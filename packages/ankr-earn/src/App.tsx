@@ -13,6 +13,8 @@ import { NoReactSnap } from './modules/common/components/NoReactSnap';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 
+// test test
+
 function App(): JSX.Element {
   return (
     <Router basename={packageJson.homepage}>

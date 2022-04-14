@@ -1,4 +1,4 @@
-import MultiRpcSdk, { configFromEnv } from 'multirpc-sdk';
+import { MultiRpcSdk, configFromEnv } from 'multirpc-sdk';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import { API_ENV } from '../common/utils/environment';
 

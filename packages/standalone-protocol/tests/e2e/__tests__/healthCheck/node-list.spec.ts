@@ -391,7 +391,7 @@ const fixtureWeightValues = [
 
 test.describe('node list', async () => {
   for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
-    test(`checking colors and sorting: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
+    test.skip(`checking colors and sorting: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
       for (let i = 0; i < fixtureNodes.length; i++) {
         fixtureNodes[i].blockchain = NON_LEGACY_STANDALONE.network;
       }

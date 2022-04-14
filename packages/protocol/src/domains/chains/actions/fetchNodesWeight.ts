@@ -5,7 +5,7 @@ import { IWorkerNodesWeight } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 
 export const fetchNodesWeight = createSmartAction<
-  RequestAction<IWorkerNodesWeight, IWorkerNodesWeight>
+  RequestAction<IWorkerNodesWeight[], IWorkerNodesWeight[]>
 >('chains/fetchNodesWeight', () => ({
   request: {
     promise: (async () => {

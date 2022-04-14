@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -20,13 +20,7 @@ export const Logo = ({ className = '', href }: ILogo): JSX.Element => {
     <Link className={classNames(classes.root, className)} to={href}>
       <AnkrLogoIcon className={classes.logo} />
 
-      <Divider flexItem className={classes.divider} orientation="vertical" />
-
-      <Typography
-        className={classes.title}
-        color="textSecondary"
-        variant="body2"
-      >
+      <Typography className={classes.title} color="primary" variant="body2">
         {t('logo.earn')}
       </Typography>
     </Link>

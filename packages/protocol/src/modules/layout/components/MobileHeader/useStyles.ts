@@ -12,9 +12,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    '&&': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: theme.spacing(0, 2),
+    },
   },
   switcher: {
     marginRight: theme.spacing(4.5),

@@ -1,10 +1,11 @@
+import { IBaseRpcConfig } from './types';
+import { IRpcGateway } from './interfaces';
 import { NearRpc } from './NearRpc';
-import { SolanaRpc } from './SolanaRpc';
-import { Network } from '../types';
-import { IBaseRpcConfig } from './BaseRpc';
+import { Network } from '../common';
 import { Rpc } from './Rpc';
+import { SolanaRpc } from './SolanaRpc';
 
-export class RpcGateway {
+export class RpcGateway implements IRpcGateway {
   constructor(private readonly config: IBaseRpcConfig) {}
 
   private getBaseURL(network: Network) {
