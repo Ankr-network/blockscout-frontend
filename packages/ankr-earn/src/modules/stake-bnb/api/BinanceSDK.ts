@@ -16,8 +16,9 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet, MAX_UINT256 } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
   BINANCE_POOL_CONTRACT_START_BLOCK,
@@ -82,6 +83,14 @@ interface IGetPastEvents {
   startBlock: number;
   rangeStep: number;
   filter?: Filter;
+}
+
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
 }
 
 export class BinanceSDK {
@@ -284,7 +293,7 @@ export class BinanceSDK {
     );
   }
 
-  public async addTokenToWallet(token: TBnbSyntToken): Promise<void> {
+  public async addTokenToWallet(token: TBnbSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -311,7 +320,7 @@ export class BinanceSDK {
       ? BlockchainNetworkId.smartchain
       : BlockchainNetworkId.smartchainTestnet;
 
-    await this.writeProvider.addTokenToWallet({
+    return this.writeProvider.addTokenToWallet({
       address,
       symbol,
       decimals,
@@ -480,8 +489,13 @@ export class BinanceSDK {
 
     const tx = await web3.eth.getTransaction(txHash);
 
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
+
     return {
-      amount: this.convertFromWei(tx.value),
+      amount: this.convertFromWei(amount),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };
@@ -646,5 +660,47 @@ export class BinanceSDK {
       .call();
 
     return new BigNumber(allowance);
+  }
+
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aBNBbContract = await this.getABNBBContract();
+    const { binanceConfig } = configFromEnv();
+
+    const data = aBNBbContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aBNBbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aBNBbContract = await this.getABNBBContract();
+    const { binanceConfig } = configFromEnv();
+
+    const data = aBNBbContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aBNBbToken,
+      { data, estimate: true },
+    );
   }
 }

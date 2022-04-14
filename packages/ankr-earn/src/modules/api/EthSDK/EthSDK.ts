@@ -56,7 +56,7 @@ export interface IGetTxData {
 }
 
 export interface ISharesArgs {
-  amount: string;
+  amount: BigNumber;
 }
 
 export interface IEthSDKProviders {

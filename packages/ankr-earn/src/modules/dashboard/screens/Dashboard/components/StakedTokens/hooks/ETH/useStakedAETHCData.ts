@@ -52,8 +52,10 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addSwitcherTokenToWallet({ swapOption: Token.aETHc }));
-  }, [dispatchRequest]);
+    dispatchRequest(
+      addSwitcherTokenToWallet({ chainId, swapOption: Token.aETHc }),
+    );
+  }, [chainId, dispatchRequest]);
 
   return {
     amount,

@@ -53,6 +53,13 @@ const TOKENS_MAP: Record<UrlParams, Record<string, string>> = {
   },
 };
 
+const TOKENS_PAIR: Record<AvailableSwitcherToken, AvailableSwitcherToken> = {
+  [Token.aETHb]: Token.aETHc,
+  [Token.aBNBb]: Token.aBNBc,
+  [Token.aETHc]: Token.aETHb,
+  [Token.aBNBc]: Token.aBNBb,
+};
+
 export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
   const history = useHistory();
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
@@ -73,12 +80,16 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
     TOKENS_MAP.from[queryTo as FromKey] ||
     defaultTokens.to;
 
+  const uniqueDefaultTo =
+    defaultTo !== defaultFrom
+      ? (defaultTo as AvailableSwitcherToken)
+      : TOKENS_PAIR[defaultTo as AvailableSwitcherToken];
+
   const [from, setFrom] = useState<AvailableSwitcherToken>(
     defaultFrom as AvailableSwitcherToken,
   );
-  const [to, setTo] = useState<AvailableSwitcherToken>(
-    defaultTo as AvailableSwitcherToken,
-  );
+
+  const [to, setTo] = useState<AvailableSwitcherToken>(uniqueDefaultTo);
 
   const onChangeFrom = useCallback(
     (value: string) => {

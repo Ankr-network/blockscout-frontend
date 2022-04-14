@@ -1,13 +1,23 @@
+import BigNumber from 'bignumber.js';
+
 import { BlockchainNetworkId, IWeb3SendResult } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
 import {
   ISwitcherSDKArgs,
   ISwitcherCommonDataArgs,
   ISwitcherCommonData,
   ISwitcherApproveArgs,
+  ISwitcherLockSharesArgs,
+  ISwitcherUnlockSharesArgs,
+  IFetchTxDataArgs,
+  IFetchTxData,
+  IFetchTxReceiptArgs,
+  IFetchTxReceiptData,
+  IAddTokenToWalletArgs,
 } from './types';
 
 export class SwitcherSDK {
@@ -68,6 +78,42 @@ export class SwitcherSDK {
     }
   }
 
+  public async fetchTxData({
+    chainId,
+    txHash,
+  }: IFetchTxDataArgs): Promise<IFetchTxData | undefined> {
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet:
+        return this.ethSDK.fetchTxData(txHash);
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain:
+        return this.binanceSDK.fetchTxData(txHash);
+
+      default:
+        return undefined;
+    }
+  }
+
+  public async fetchTxReceipt({
+    chainId,
+    txHash,
+  }: IFetchTxReceiptArgs): Promise<IFetchTxReceiptData | undefined> {
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet:
+        return this.ethSDK.fetchTxReceipt(txHash);
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain:
+        return this.binanceSDK.fetchTxReceipt(txHash);
+
+      default:
+        return undefined;
+    }
+  }
+
   public async approve({
     chainId,
     amount,
@@ -85,6 +131,65 @@ export class SwitcherSDK {
 
       default:
         return undefined;
+    }
+  }
+
+  public async lockShares({
+    chainId,
+    amount,
+  }: ISwitcherLockSharesArgs): Promise<IWeb3SendResult | undefined> {
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet:
+        return this.ethSDK.lockShares({ amount });
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain:
+        return this.binanceSDK.lockShares({ amount });
+
+      default:
+        return undefined;
+    }
+  }
+
+  public async unlockShares({
+    chainId,
+    amount,
+    ratio,
+  }: ISwitcherUnlockSharesArgs): Promise<IWeb3SendResult | undefined> {
+    const value = amount
+      .multipliedBy(ratio)
+      .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN);
+
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet:
+        return this.ethSDK.unlockShares({ amount: value });
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain:
+        return this.binanceSDK.unlockShares({ amount });
+
+      default:
+        return undefined;
+    }
+  }
+
+  public async addTokenToWallet({
+    chainId,
+    token,
+  }: IAddTokenToWalletArgs): Promise<boolean> {
+    switch (chainId) {
+      case BlockchainNetworkId.goerli:
+      case BlockchainNetworkId.mainnet:
+        return this.ethSDK.addTokenToWallet(token);
+
+      case BlockchainNetworkId.smartchainTestnet:
+      case BlockchainNetworkId.smartchain:
+        return this.binanceSDK.addTokenToWallet(token as TBnbSyntToken);
+
+      default:
+        return false;
     }
   }
 }

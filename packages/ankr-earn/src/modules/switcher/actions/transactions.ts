@@ -5,12 +5,11 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
 
-import { EthSDK } from 'modules/api/EthSDK';
-import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { AvailableSwitchNetwork } from '../const';
+import { SwitcherSDK } from '../api/SwitcherSDK';
+import { AvailableSwitchNetwork, SWITCHER_TO_TOKENS } from '../const';
 
 import { getSwitcherData } from './getSwitcherData';
 
@@ -19,63 +18,56 @@ export interface ISwapAssetsArgs {
   from: Token;
   to: Token;
   ratio: BigNumber;
+  chainId: AvailableSwitchNetwork;
 }
 
 export const swapAssets = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [ISwapAssetsArgs]
->('switcher/swapAssets', ({ from, to, amount, ratio }: ISwapAssetsArgs) => ({
-  request: {
-    promise: async () => {
-      const sdk = await EthSDK.getInstance();
+>(
+  'switcher/swapAssets',
+  ({ from, to, amount, ratio, chainId }: ISwapAssetsArgs) => ({
+    request: {
+      promise: async () => {
+        const sdk = await SwitcherSDK.getInstance();
 
-      if (from === Token.aETHb) {
-        const inputValue = new BigNumber(amount)
-          .multipliedBy(ratio)
-          .dividedBy(ETH_SCALE_FACTOR)
-          .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN)
-          .toString(10);
+        const isCertificate = SWITCHER_TO_TOKENS.includes(from);
+        const value = new BigNumber(amount);
 
-        const result = await sdk.unlockShares({
-          amount: inputValue,
-        });
+        const result = await (isCertificate
+          ? sdk.lockShares({ chainId, amount: value })
+          : sdk.unlockShares({ amount: value, ratio, chainId }));
 
         return { ...result, from, to };
-      }
-
-      const result = await sdk.lockShares({
-        amount,
-      });
-
-      return { ...result, from, to };
+      },
     },
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-    onRequest: withStore,
-    getData: data => data,
-    onSuccess: async (response, _action, store) => {
-      const {
-        transactionHash,
-        from: optionFrom,
-        to: optionTo,
-      } = response.data || {};
+    meta: {
+      asMutation: true,
+      showNotificationOnError: true,
+      onRequest: withStore,
+      getData: data => data,
+      onSuccess: async (response, _action, store) => {
+        const {
+          transactionHash,
+          from: optionFrom,
+          to: optionTo,
+        } = response.data || {};
 
-      if (transactionHash && optionFrom && optionTo) {
-        store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
-      }
+        if (transactionHash && optionFrom && optionTo) {
+          store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
+        }
 
-      store.dispatchRequest(
-        getSwitcherData({
-          providerId: AvailableWriteProviders.ethCompatible,
-        }),
-      );
+        store.dispatchRequest(
+          getSwitcherData({
+            providerId: AvailableWriteProviders.ethCompatible,
+          }),
+        );
 
-      return response;
+        return response;
+      },
     },
-  },
-}));
+  }),
+);
 
 export interface IApproveArgs {
   chainId: AvailableSwitchNetwork;
@@ -86,9 +78,9 @@ export const approve = createAction<
 >('switcher/approve', ({ chainId }: IApproveArgs) => ({
   request: {
     promise: async () => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.approveAETHCForAETHB();
+      return sdk.approve({ chainId });
     },
     chainId,
   },

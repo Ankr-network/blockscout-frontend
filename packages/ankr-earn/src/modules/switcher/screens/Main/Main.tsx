@@ -14,7 +14,6 @@ import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
-  NATIVE_TOKEN_BY_SWITCH_OPTION,
   TOKEN_TOOLTIPS,
 } from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
@@ -33,6 +32,7 @@ import {
   useSwitcherUrlParams,
 } from './hooks';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
+import { getFromLabel, getToLabel } from './utils/labels';
 
 export const Main = (): JSX.Element => {
   const classes = useMainSwitcherStyles();
@@ -50,7 +50,6 @@ export const Main = (): JSX.Element => {
     checkAllowance,
   } = useSwitcherData({ from });
 
-  const nativeToken = NATIVE_TOKEN_BY_SWITCH_OPTION[from];
   const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
   const feeBasisPoints = BASIS_POINTS_FEE_BY_TOKEN[from];
 
@@ -117,6 +116,8 @@ export const Main = (): JSX.Element => {
 
     const canApprove = checkAllowance(new BigNumber(values.amount || 0));
     const canShowApproveStep = canApprove && !canSwitchNetwork;
+    const canDisableApprove = isApproveLoading || isDataLoading || !canApprove;
+    const canDisableSwitch = isSwapLoading || isDataLoading || canApprove;
 
     return (
       <Paper
@@ -142,7 +143,7 @@ export const Main = (): JSX.Element => {
             }
             label={
               !isDataLoading ? (
-                `1 ${from} = 1 ${nativeToken}`
+                getFromLabel({ token: from })
               ) : (
                 <Skeleton width={115} />
               )
@@ -161,10 +162,7 @@ export const Main = (): JSX.Element => {
             }
             label={
               !isDataLoading ? (
-                `1 ${to} = ${new BigNumber(1)
-                  .dividedBy(ratio)
-                  .decimalPlaces(DECIMAL_PLACES)
-                  .toFixed()} ${nativeToken}`
+                getToLabel({ token: to, ratio })
               ) : (
                 <Skeleton width={115} />
               )
@@ -234,7 +232,7 @@ export const Main = (): JSX.Element => {
           {canShowApproveStep && (
             <Button
               className={classes.button}
-              disabled={isApproveLoading || !canApprove}
+              disabled={canDisableApprove}
               endIcon={
                 <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                   <Box component="span" display="flex">
@@ -258,7 +256,7 @@ export const Main = (): JSX.Element => {
           {!canSwitchNetwork && (
             <Button
               className={classes.button}
-              disabled={isSwapLoading || canApprove}
+              disabled={canDisableSwitch}
               isLoading={isSwapLoading}
               onClick={handleSubmit}
             >

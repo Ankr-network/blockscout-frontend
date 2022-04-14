@@ -124,6 +124,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
         from: Token.aETHb,
         to: Token.aETHc,
         ratio: ONE_ETH,
+        chainId: BlockchainNetworkId.mainnet,
       });
     });
 
