@@ -114,6 +114,13 @@
       "cross-env NODE_ENV=production eslint --ext=ts,tsx,js,jsx --fix"
     ]
   },
+  "jest": {
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "text-summary"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",

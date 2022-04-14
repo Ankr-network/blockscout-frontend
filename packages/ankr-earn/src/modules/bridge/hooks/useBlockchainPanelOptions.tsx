@@ -6,12 +6,15 @@ import { BSCIcon } from 'uiKit/Icons/BSCIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
-import { IBridgeBlockchainPanelItem } from '../components/BridgeBlockchainPanel';
-import { AvailableBridgeTokens } from '../types';
+import { AvailableBridgeTokens, IBridgeBlockchainPanelItem } from '../types';
 
 // todo: refactor interface
 interface IUseBlockchainPanelOptions
   extends Record<string, IBridgeBlockchainPanelItem[] | undefined> {}
+
+const DEFAULT_ICON_PROPS = {
+  size: 32,
+};
 
 export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
   useLocaleMemo(() => {
@@ -21,29 +24,29 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
           [AvailableBridgeTokens.aMATICb]: [
             {
               label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon />,
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.MAINNET,
             },
             {
               label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon />,
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC,
             },
             {
               label: t(`chain.${SupportedChainIDS.POLYGON}`),
-              icon: <MaticIcon />,
+              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.POLYGON,
             },
           ],
           [AvailableBridgeTokens.aETHb]: [
             {
               label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon />,
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.MAINNET,
             },
             {
               label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon />,
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC,
             },
           ],
@@ -56,24 +59,24 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
           [AvailableBridgeTokens.aMATICb]: [
             {
               label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon />,
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.GOERLI,
             },
             {
               label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon />,
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC_TESTNET,
             },
           ],
           [AvailableBridgeTokens.aETHb]: [
             {
               label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon />,
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.GOERLI,
             },
             {
               label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon />,
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC_TESTNET,
             },
           ],

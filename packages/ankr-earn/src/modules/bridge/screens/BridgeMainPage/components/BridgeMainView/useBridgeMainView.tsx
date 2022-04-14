@@ -12,13 +12,12 @@ import { getIsMetaMask } from 'modules/auth/utils/getIsMetaMask';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
-import {
-  IBridgeBlockchainPanelItem,
-  IBridgeBlockchainPanelProps,
-} from 'modules/bridge/components/BridgeBlockchainPanel';
 import { useBalance } from 'modules/bridge/hooks/useBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
-import { AvailableBridgeTokens } from 'modules/bridge/types';
+import {
+  AvailableBridgeTokens,
+  IBridgeBlockchainPanelItem,
+} from 'modules/bridge/types';
 import { isMainnet, SupportedChainIDS } from 'modules/common/const';
 import {
   TUseValidateAmount,
@@ -58,7 +57,7 @@ interface IUseBridgeMainView {
   onChangeToken: (token: string) => void;
   onChangeNetwork: (
     networkItem: IBridgeBlockchainPanelItem,
-    direction: IBridgeBlockchainPanelProps['direction'],
+    direction: 'from' | 'to',
   ) => void;
   onChangeInputValue: (value: ReactText) => void;
   onCloseModal: () => void;

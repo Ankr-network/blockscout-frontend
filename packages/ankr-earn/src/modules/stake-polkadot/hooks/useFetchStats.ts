@@ -15,9 +15,7 @@ export const useFetchStats = (): IUseFetchStatsData => {
     data: stats,
     error,
     loading: isLoading,
-  } = useQuery<ResponseData<typeof fetchStats>>({
-    action: fetchStats,
-    defaultData: null,
+  } = useQuery({
     type: fetchStats,
   });
 

@@ -19,7 +19,7 @@ export interface INetwork {
 export const useNetworks = (): INetwork[] =>
   useLocaleMemo(
     () => [
-      // EVM Compatible
+      // ETH Compatible
       {
         title: t('connect.networks.ethereum-mainnet'),
         icon: <EthereumMainnetIcon />,

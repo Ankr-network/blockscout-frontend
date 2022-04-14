@@ -8,6 +8,7 @@ import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -56,7 +57,10 @@ export const StakeAvalanche = (): JSX.Element => {
     isStakeLoading,
   } = useStakeForm({ openSuccessModal: onSuccessOpen });
 
-  const stakeStats = useStakeStats(amount, fetchAPYData);
+  const stakeStats = useStakeStats({
+    amount,
+    apy: fetchAPYData,
+  });
 
   const onRenderStats = (rawAmount: BigNumber): JSX.Element => (
     <StakeDescriptionContainer>
@@ -80,6 +84,7 @@ export const StakeAvalanche = (): JSX.Element => {
   useProviderEffect((): void => {
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
+    dispatchRequest(fetchValidatorsDetails());
   }, [dispatchRequest]);
 
   if (isFetchStatsLoading) {

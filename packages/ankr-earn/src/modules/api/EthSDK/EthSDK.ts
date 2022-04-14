@@ -25,12 +25,15 @@ import {
   MAX_UINT256,
   ZERO,
 } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getTxEventsHistoryGroup } from 'modules/stake/api/getTxEventsHistoryGroup';
 
-import { Token } from '../common/types/token';
-
-import { ETH_BLOCK_OFFSET, ETH_HISTORY_RANGE_STEP } from './const';
+import {
+  ETH_BLOCK_OFFSET,
+  ETH_HISTORY_RANGE_STEP,
+  methodNameMap,
+} from './const';
 
 export type TEthToken = Token.aETHb | Token.aETHc;
 
@@ -50,10 +53,6 @@ export interface IGetTxData {
   amount: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
-}
-
-export interface IAddTokenToWalletArgs {
-  swapOption: TEthToken;
 }
 
 export interface ISharesArgs {
@@ -96,7 +95,7 @@ enum EPoolEvents {
 
 const CONFIG = configFromEnv();
 
-const TOKENS = {
+const tokensConfigMap = {
   aETHc: {
     address: CONFIG.contractConfig.aethContract,
     symbol: 'aETHc',
@@ -242,16 +241,16 @@ export class EthSDK {
     return new BigNumber(ratio);
   }
 
-  public async addTokenToWallet({
-    swapOption,
-  }: IAddTokenToWalletArgs): Promise<void> {
+  public async addTokenToWallet(token: Token): Promise<boolean> {
     await this.connectWriteProvider();
 
-    const data = TOKENS[swapOption];
+    const data = tokensConfigMap[token as keyof typeof tokensConfigMap];
 
-    if (data) {
-      await this.writeProvider.addTokenToWallet(data);
+    if (!data) {
+      throw new Error('Failed to add token to wallet');
     }
+
+    return this.writeProvider.addTokenToWallet(data);
   }
 
   private async connectWriteProvider(): Promise<void> {
@@ -278,40 +277,35 @@ export class EthSDK {
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
-    let gasFee = this.stakeGasFee;
-    if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount, token);
-    }
+    try {
+      let gasFee = this.stakeGasFee;
+      if (!gasFee) {
+        gasFee = await this.getStakeGasFee(amount, token);
+      }
 
-    const balance = await this.getEthBalance();
-    const maxAmount = balance.minus(gasFee);
-    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
-    const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
+      const balance = await this.getEthBalance();
+      const maxAmount = balance.minus(gasFee);
+      const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+      const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
 
-    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+      const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
 
-    const contractStake =
-      ethPoolContract.methods[this.getStakeMethodName(token)];
+      const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
 
-    const gasLimit: number = await contractStake().estimateGas({
-      from: this.currentAccount,
-      value: hexAmount,
-    });
+      const gasLimit: number = await contractStake().estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
 
-    return contractStake().send({
-      from: this.currentAccount,
-      value: hexAmount,
-      gas: gasLimit,
-    });
-  }
-
-  private getStakeMethodName(token: TEthToken) {
-    switch (token) {
-      case Token.aETHc:
-        return 'stakeAndClaimAethC';
-
-      default:
-        return 'stakeAndClaimAethB';
+      return contractStake().send({
+        from: this.currentAccount,
+        value: hexAmount,
+        gas: gasLimit,
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      throw new Error('The error occured, please, try again later.');
     }
   }
 
@@ -322,8 +316,7 @@ export class EthSDK {
     const provider = await this.getProvider();
     const ethPoolContract = EthSDK.getEthPoolContract(provider);
 
-    const contractStake =
-      ethPoolContract.methods[this.getStakeMethodName(token)];
+    const contractStake = ethPoolContract.methods[methodNameMap[token].stake];
 
     const estimatedGas: number = await contractStake().estimateGas({
       from: this.currentAccount,
@@ -370,13 +363,14 @@ export class EthSDK {
 
     const web3 = provider.getWeb3();
     const tx = await web3.eth.getTransaction(txHash);
-    const { 0: lockShares } = web3.eth.abi.decodeParameters(
-      ['uint256'],
-      tx.input.slice(10),
-    );
+
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      amount: new BigNumber(web3.utils.fromWei(amount)),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };
@@ -472,7 +466,9 @@ export class EthSDK {
     return flatten(pastEvents);
   }
 
-  public async approveAETHCForAETHB(): Promise<IWeb3SendResult> {
+  public async approveAETHCForAETHB(
+    amount = MAX_UINT256,
+  ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
     const { contractConfig } = CONFIG;
@@ -480,7 +476,7 @@ export class EthSDK {
     const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
 
     const data = aETHcContract.methods
-      .approve(contractConfig.fethContract, convertNumberToHex(MAX_UINT256))
+      .approve(contractConfig.fethContract, convertNumberToHex(amount))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -519,6 +515,33 @@ export class EthSDK {
       this.currentAccount,
       contractConfig.fethContract,
       { data, estimate: true },
+    );
+  }
+
+  public async getClaimable(token: TEthToken): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthSDK.getEthPoolContract(provider);
+    const web3 = provider.getWeb3();
+
+    const contractGetClaimable =
+      ethPoolContract.methods[methodNameMap[token].claimable];
+
+    const rawValue = await contractGetClaimable(this.currentAccount).call();
+
+    return new BigNumber(web3.utils.fromWei(rawValue));
+  }
+
+  public async claim(token: TEthToken): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+    const { contractConfig } = CONFIG;
+    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+    const contractClaim = ethPoolContract.methods[methodNameMap[token].claim];
+    const data: string = contractClaim().encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.ethereumPool,
+      { data },
     );
   }
 }

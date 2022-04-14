@@ -1,39 +1,86 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText } from 'react';
+import { ReactText, useMemo } from 'react';
 
-import { ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
+import { ValidatorName } from 'modules/metrics/const';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
+
+interface IStatsProps {
+  apy: BigNumber;
+  amount: ReactText;
+}
 
 const calculateYearlyEarning = (
   amount: ReactText,
-  apy: ReactText,
+  apy: BigNumber,
 ): BigNumber => {
   return amount ? new BigNumber(amount).multipliedBy(apy).dividedBy(100) : ZERO;
 };
 
-export const useStakeStats = (amount: ReactText): IStakeStatsItem[] => {
-  const { data: apyData } = useQuery({ type: getAPY });
-  const APY = apyData ? apyData.toNumber() : 0;
+export const useStakeStats = ({
+  amount,
+  apy,
+}: IStatsProps): IStakeStatsItem[] => {
+  const { data: validatorsDetails } = useQuery({
+    type: fetchValidatorsDetails,
+  });
 
-  const stats = useLocaleMemo(
-    () => [
+  const validatorDetails = useMemo(
+    () =>
+      validatorsDetails?.find(x => x.name === ValidatorName.FTM_VALIDATOR_NAME),
+    [validatorsDetails],
+  );
+
+  const shouldRenderTVL =
+    validatorDetails?.totalStaked &&
+    !validatorDetails.totalStaked.isNaN() &&
+    !validatorDetails.totalStaked.isZero();
+
+  const shouldRenderStakers =
+    validatorDetails?.stakers &&
+    !validatorDetails.stakers.isNaN() &&
+    !validatorDetails.stakers.isZero();
+
+  const apyVal = useMemo(
+    () => apy.decimalPlaces(DEFAULT_ROUNDING).toFixed(),
+    [apy],
+  );
+
+  const stats = useLocaleMemo(() => {
+    const res: IStakeStatsItem[] = [
       {
         label: t('stake.stats.apy'),
-        value: t('stake.stats.apy-value', { value: APY }),
+        value: t('stake.stats.apy-value', { value: apyVal }),
         tooltip: t('stake.stats.apy-tooltip'),
       },
       {
         label: t('stake.stats.yearly-earning'),
         token: t('unit.ftm'),
-        value: calculateYearlyEarning(amount, APY).toFormat(),
+        value: calculateYearlyEarning(amount, apy).toFormat(),
       },
-    ],
-    [amount, APY],
-  );
+    ];
+
+    if (shouldRenderTVL) {
+      res.push({
+        label: t('stake.stats.staked'),
+        token: t('unit.ftm'),
+        value: validatorDetails.totalStaked.toFormat(DEFAULT_ROUNDING),
+      });
+    }
+
+    if (shouldRenderStakers) {
+      res.push({
+        label: t('stake.stats.stakers'),
+        value: validatorDetails.stakers.toFormat(),
+      });
+    }
+
+    return res;
+  }, [amount, apy, validatorDetails]);
 
   return stats;
 };

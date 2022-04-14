@@ -6,17 +6,13 @@ export const usePlaceholderStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing(2, 2, 6),
+    padding: theme.spacing(8, 2, 8, 2),
     textAlign: 'center',
-
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(4, 2, 10),
-    },
   },
   title: {
+    margin: theme.spacing(3, 0, 2.5, 0),
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(3),
 
     [theme.breakpoints.up('sm')]: {
       fontSize: 30,
@@ -25,7 +21,7 @@ export const usePlaceholderStyles = makeStyles<Theme>(theme => ({
 
   imgWrap: {
     width: '100%',
-    maxWidth: 200,
+    maxWidth: 119,
     position: 'relative',
 
     '&:before': {

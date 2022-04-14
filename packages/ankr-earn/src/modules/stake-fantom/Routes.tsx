@@ -1,12 +1,11 @@
-import loadable from '@loadable/component';
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -35,30 +34,16 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Stake = loadable(
-  async () =>
-    import('./screens/StakeFantom').then(module => module.StakeFantom),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Stake = loadComponent(() =>
+  import('./screens/StakeFantom').then(module => module.StakeFantom),
 );
 
-const Unstake = loadable(
-  async () =>
-    import('./screens/UnstakeFantom').then(module => module.UnstakeFantom),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Unstake = loadComponent(() =>
+  import('./screens/UnstakeFantom').then(module => module.UnstakeFantom),
 );
 
-const StakeSteps = loadable(
-  async () =>
-    import('./screens/StakeFantomSteps').then(
-      module => module.StakeFantomSteps,
-    ),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakeFantomSteps').then(module => module.StakeFantomSteps),
 );
 
 export function getRoutes(): JSX.Element {

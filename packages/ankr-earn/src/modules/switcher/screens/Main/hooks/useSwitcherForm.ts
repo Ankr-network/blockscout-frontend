@@ -3,15 +3,19 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { number, object } from 'yup';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { t } from 'modules/i18n/utils/intl';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
-import {
-  IFeeAndAmount,
-  IFeeAndTotal,
-  TSwapOption,
-} from 'modules/switcher/types';
+import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
 
+import {
+  CHAIN_ID_BY_TOKEN,
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+} from '../../../const';
 import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
@@ -20,7 +24,9 @@ import { ISendAnalyticsEventArg } from './useSendAnalytics';
 export interface ISwitcherFormHookArgs {
   max: BigNumber;
   ratio: BigNumber;
-  swapOption: TSwapOption;
+  from: AvailableSwitcherToken;
+  to: AvailableSwitcherToken;
+  chainId: AvailableSwitchNetwork;
   onSuccessSwap: (data: ISendAnalyticsEventArg) => void;
 }
 
@@ -35,6 +41,7 @@ export interface ISwitcherFormHookData {
   handleApprove: () => void;
   handleSwap: (amount: string) => void;
   handleClearTx: () => void;
+  handleSwitchNetwork: () => void;
 }
 
 const createSchema = ({ max }: { max: BigNumber }) =>
@@ -48,8 +55,10 @@ const createSchema = ({ max }: { max: BigNumber }) =>
 
 export const useSwitcherForm = ({
   max,
-  swapOption,
+  from,
+  to,
   ratio,
+  chainId,
   onSuccessSwap,
 }: ISwitcherFormHookArgs): ISwitcherFormHookData => {
   const dispatchRequest = useDispatchRequest();
@@ -60,11 +69,11 @@ export const useSwitcherForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(approve()).then(response => {
+    dispatchRequest(approve({ chainId })).then(response => {
       setTxHash(response.data?.transactionHash ?? '');
       setTxError(response.error ?? '');
     });
-  }, [dispatchRequest]);
+  }, [chainId, dispatchRequest]);
 
   const calculateFeeAndTotal = useCallback(
     ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {
@@ -78,11 +87,20 @@ export const useSwitcherForm = ({
       return calcValueWithRatio({
         total,
         ratio,
-        swapOption,
+        from,
       });
     },
-    [ratio, swapOption],
+    [ratio, from],
   );
+
+  const handleSwitchNetwork = useCallback(() => {
+    dispatchRequest(
+      switchNetwork({
+        providerId: AvailableWriteProviders.ethCompatible,
+        chainId: CHAIN_ID_BY_TOKEN[from] as number,
+      }),
+    );
+  }, [from, dispatchRequest]);
 
   const handleSwap = useCallback(
     async amount => {
@@ -90,7 +108,8 @@ export const useSwitcherForm = ({
         swapAssets({
           amount,
           ratio,
-          swapOption,
+          from,
+          to,
         }),
       ).then(response => {
         if (response.error) {
@@ -103,7 +122,7 @@ export const useSwitcherForm = ({
         }
       });
     },
-    [dispatchRequest, ratio, swapOption, onSuccessSwap],
+    [ratio, from, to, dispatchRequest, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {
@@ -123,6 +142,7 @@ export const useSwitcherForm = ({
     calculateFeeAndTotal,
     calculateValueWithRatio,
     validate: handleValidate,
+    handleSwitchNetwork,
     handleApprove,
     handleSwap,
     handleClearTx,

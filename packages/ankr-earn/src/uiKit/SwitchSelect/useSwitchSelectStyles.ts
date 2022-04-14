@@ -4,15 +4,31 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
   root: {
     alignItems: 'center',
     display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    },
   },
 
   selectContainer: {
-    minWidth: 270,
+    width: '100%',
+
+    [theme.breakpoints.up('md')]: {
+      width: 290,
+    },
+
+    '& label': {
+      color: theme.palette.text.secondary,
+      fontSize: '0.875rem',
+      fontWeight: 'normal',
+    },
   },
 
   select: {
     backgroundColor: theme.palette.background.default,
-    border: 'none',
+    border: 'none !important',
     borderRadius: 18,
 
     '&:hover, &:active, &:focus': {
@@ -30,9 +46,26 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
     fontSize: '0.875rem',
   },
 
+  chipLabelContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  chipLabel: {
+    whiteSpace: 'normal',
+  },
+
+  direction: {
+    color: theme.palette.text.secondary,
+    fontSize: '0.875rem',
+
+    display: 'block',
+  },
+
   switchIcon: {
     borderRadius: 12,
-    margin: theme.spacing(0, 1.5),
+
+    margin: theme.spacing(1.5),
   },
 
   switchChip: {
@@ -43,7 +76,11 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
     flex: 1,
     justifyContent: 'flex-start',
     height: 80,
-    padding: theme.spacing(1),
+    padding: 0,
     width: '100%',
+
+    '& svg': {
+      marginLeft: 0,
+    },
   },
 }));

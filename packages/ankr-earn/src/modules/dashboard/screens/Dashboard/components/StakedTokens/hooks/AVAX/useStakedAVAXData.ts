@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
@@ -24,6 +24,7 @@ export interface IStakedAVAXData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
+  chainId: BlockchainNetworkId;
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;
@@ -51,6 +52,7 @@ export const useStakedAVAXData = (): IStakedAVAXData => {
   );
 
   const network = t(`chain.${AVAX_NETWORK_BY_ENV}`);
+  const chainId = AVAX_NETWORK_BY_ENV;
 
   const amount = statsData?.aAVAXbBalance ?? ZERO;
   const pendingValue = statsData?.pendingUnstakes ?? ZERO;
@@ -65,6 +67,7 @@ export const useStakedAVAXData = (): IStakedAVAXData => {
   return {
     amount,
     network,
+    chainId,
     pendingValue,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(
       Token.aAVAXb,

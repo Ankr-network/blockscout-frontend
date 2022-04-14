@@ -29,15 +29,23 @@ import {
   STAGING_ROCOCO_CONFIG,
   STAGING_WESTEND_CONFIG,
 } from './config';
-import { EEnvTypes, TNetworkType } from './entity';
+import { EEnvTypes, TNetworkType, TPolkadotAddress } from './entity';
 
 interface IConfig {
   polkadotUrl: string;
   networkType?: TNetworkType;
 }
 
+export interface IGetAccountBalanceData {
+  free: BigNumber;
+  feeFrozen: BigNumber;
+  miscFrozen: BigNumber;
+  nonce: BigNumber;
+  reserved: BigNumber;
+}
+
 export interface ISwitchNetworkData {
-  address: string;
+  address: TPolkadotAddress;
   chainType: TNetworkType;
 }
 
@@ -73,17 +81,17 @@ export class PolkadotProvider implements IProvider {
     return web3FromAddress(address);
   }
 
-  protected currAccount: string | null = null;
+  protected currAccount: TPolkadotAddress | null = null;
 
   private api?: ApiPromise;
 
   private networkType?: TNetworkType;
 
-  public get currentAccount(): string | null {
+  public get currentAccount(): TPolkadotAddress | null {
     return this.currAccount;
   }
 
-  public set currentAccount(addr: string | null) {
+  public set currentAccount(addr: TPolkadotAddress | null) {
     this.currAccount = addr;
   }
 
@@ -186,13 +194,9 @@ export class PolkadotProvider implements IProvider {
     return decimals[this.networkType];
   }
 
-  public async getAccountBalance(address: string): Promise<{
-    reserved: BigNumber;
-    miscFrozen: BigNumber;
-    free: BigNumber;
-    feeFrozen: BigNumber;
-    nonce: BigNumber;
-  }> {
+  public async getAccountBalance(
+    address: TPolkadotAddress,
+  ): Promise<IGetAccountBalanceData> {
     const { nonce, data } = await this.getRawApi().query.system.account(
       address,
     );
@@ -573,7 +577,13 @@ export class PolkadotProvider implements IProvider {
     });
   }
 
-  public static extractPublicKeyHexFromAddress(address: string): string {
+  public static extractDecodedAddress(address: TPolkadotAddress): Uint8Array {
+    return decodeAddress(address);
+  }
+
+  public static extractPublicKeyHexFromAddress(
+    address: TPolkadotAddress,
+  ): string {
     return Buffer.from(decodeAddress(address)).toString('hex');
   }
 }

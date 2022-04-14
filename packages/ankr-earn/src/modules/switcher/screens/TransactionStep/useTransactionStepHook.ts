@@ -6,18 +6,16 @@ import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 import { getTxData, getTxReceipt } from 'modules/switcher/actions/getTxData';
 import { addSwitcherTokenToWallet } from 'modules/switcher/actions/wallet';
-import { TSwapOption } from 'modules/switcher/types';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-import { TOKENS } from '../../const';
 
 export interface ITransactionStepHookData {
   isLoading: boolean;
   isPending: boolean;
   txHash: string;
-  symbol: TSwapOption;
+  symbol: Token;
   destinationAddress?: string;
   amount?: BigNumber;
   error?: Error;
@@ -26,11 +24,12 @@ export interface ITransactionStepHookData {
 
 interface ISuccessPathParams {
   txHash: string;
-  swapOption: TSwapOption;
+  from: Token;
+  to: Token;
 }
 
 export const useTransactionStepHook = (): ITransactionStepHookData => {
-  const { txHash, swapOption } = useParams<ISuccessPathParams>();
+  const { txHash, to } = useParams<ISuccessPathParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const dispatchRequest = useDispatchRequest();
@@ -57,14 +56,14 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(
       addSwitcherTokenToWallet({
-        swapOption: TOKENS[swapOption],
+        swapOption: to as Token,
       }),
     );
-  }, [swapOption, dispatchRequest]);
+  }, [to, dispatchRequest]);
 
   return {
     txHash,
-    symbol: TOKENS[swapOption],
+    symbol: to,
     isLoading,
     error: error || txFailError,
     isPending: !receipt,

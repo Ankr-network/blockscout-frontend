@@ -6,6 +6,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { configFromEnv } from 'modules/api/config';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -24,6 +26,7 @@ export interface IStakedABNBCData {
   isLoading: boolean;
   isStakeLoading: boolean;
   network: string;
+  chainId: BlockchainNetworkId;
   stakeLink: string;
   token: Token;
   tokenAddress: string;
@@ -44,6 +47,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
   const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
+  const chainId = BSC_NETWORK_BY_ENV;
 
   const amount = statsData?.aBNBcBalance ?? ZERO;
 
@@ -64,6 +68,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     isLoading: isCommonDataLoading,
     isStakeLoading,
     network,
+    chainId,
     stakeLink: RoutesConfig.stake.generatePath(token),
     token,
     tokenAddress: binanceConfig.aBNBcToken,

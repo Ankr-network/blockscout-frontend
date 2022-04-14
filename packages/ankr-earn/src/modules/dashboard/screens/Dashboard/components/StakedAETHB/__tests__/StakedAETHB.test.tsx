@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
 
 import { StakedAETHB } from '..';
@@ -28,6 +30,7 @@ jest.mock('../../StakedTokens/hooks/ETH/useStakedTxHistoryETH', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
   const defaultStakedAETHBHookData: IStakedAETHBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
+    chainId: BlockchainNetworkId.goerli,
     pendingValue: ZERO,
     network: 'Ethereum Mainnet',
     tradeLink: '/trade',

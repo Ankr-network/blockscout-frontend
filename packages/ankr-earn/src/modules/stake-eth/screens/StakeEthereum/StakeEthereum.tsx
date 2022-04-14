@@ -54,12 +54,16 @@ export const StakeEthereum = (): JSX.Element => {
     loading,
     tokenIn,
     tokenOut,
+    apy,
     onInputChange,
     onSubmit,
     onTokenSelect,
   } = useStakeForm(onSuccessOpen);
 
-  const stats = useStakeStats(amount ?? ZERO);
+  const stats = useStakeStats({
+    amount: amount ?? ZERO,
+    apy,
+  });
   const faqItems = useFaq();
 
   useProviderEffect(() => {

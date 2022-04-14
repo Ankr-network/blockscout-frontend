@@ -59,13 +59,15 @@ export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
     dispatchRequest(addFTMTokenToWallet(Token.aFTMb));
   };
 
+  const isPending = !receipt && !!data?.isPending;
+
   return {
     amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: Token.aFTMb,
     isLoading,
-    isPending: !receipt,
+    isPending,
     error: error || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };

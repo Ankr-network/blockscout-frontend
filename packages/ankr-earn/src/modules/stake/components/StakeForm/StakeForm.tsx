@@ -71,6 +71,7 @@ export const StakeForm = ({
   onChange,
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
+  const withFee = !!feeSlot;
 
   const balanceRoundedByStep = stakingAmountStep
     ? `${floor(balance.toNumber(), stakingAmountStep)}`
@@ -94,9 +95,14 @@ export const StakeForm = ({
         });
       }
 
+      const amountIsEqualToStep = amount && +amount === stakingAmountStep;
+      if (withFee && amountIsEqualToStep) {
+        errors.amount = t('validation.fee-plus-amount-wrong');
+      }
+
       return errors;
     },
-    [stakingAmountStep],
+    [stakingAmountStep, withFee],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>

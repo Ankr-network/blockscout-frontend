@@ -3,6 +3,9 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+
+import { switchNetwork } from 'modules/auth/actions/switchNetwork';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -20,6 +23,10 @@ jest.mock('modules/switcher/actions/transactions', () => ({
   swapAssets: jest.fn(),
 }));
 
+jest.mock('modules/auth/actions/switchNetwork', () => ({
+  switchNetwork: jest.fn(),
+}));
+
 jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
@@ -27,8 +34,10 @@ jest.mock('modules/auth/hooks/useAuth', () => ({
 describe('modules/switcher/screens/Main/useSwitcherHook', () => {
   const defaultHookProps: ISwitcherFormHookArgs = {
     ratio: ONE_ETH,
-    swapOption: Token.aETHb,
+    from: Token.aETHb,
+    to: Token.aETHc,
     max: ONE_ETH,
+    chainId: BlockchainNetworkId.mainnet,
     onSuccessSwap: jest.fn(),
   };
 
@@ -41,6 +50,8 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     });
 
     (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+
+    (switchNetwork as jest.Mock).mockReturnValue(undefined);
   });
 
   afterEach(() => {
@@ -57,6 +68,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       handleApprove,
       handleSwap,
       handleClearTx,
+      handleSwitchNetwork,
     } = result.current;
 
     expect(txError).toBe('');
@@ -66,6 +78,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     expect(handleApprove).toBeDefined();
     expect(handleSwap).toBeDefined();
     expect(handleClearTx).toBeDefined();
+    expect(handleSwitchNetwork).toBeDefined();
   });
 
   describe('handle clear tx', () => {
@@ -81,6 +94,22 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     });
   });
 
+  describe('handle switch network', () => {
+    test('should clear tx hash and error', () => {
+      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
+
+      act(() => {
+        result.current.handleSwitchNetwork();
+      });
+
+      expect(switchNetwork).toBeCalledTimes(1);
+      expect(switchNetwork).toBeCalledWith({
+        providerId: AvailableWriteProviders.ethCompatible,
+        chainId: BlockchainNetworkId.goerli,
+      });
+    });
+  });
+
   describe('handle swap', () => {
     test('should handle assets swap properly', async () => {
       const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
@@ -92,7 +121,8 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       expect(swapAssets).toBeCalledTimes(1);
       expect(swapAssets).toBeCalledWith({
         amount: '1',
-        swapOption: 'aETHb',
+        from: Token.aETHb,
+        to: Token.aETHc,
         ratio: ONE_ETH,
       });
     });
@@ -127,6 +157,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       });
 
       expect(approve).toBeCalledTimes(1);
+      expect(approve).toBeCalledWith({ chainId: BlockchainNetworkId.mainnet });
     });
   });
 
@@ -180,7 +211,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       const { result } = renderHook(() =>
         useSwitcherForm({
           ...defaultHookProps,
-          ratio: new BigNumber('940763088322812800'),
+          ratio: new BigNumber('0.94076'),
         }),
       );
 
@@ -192,8 +223,9 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       const { result } = renderHook(() =>
         useSwitcherForm({
           ...defaultHookProps,
-          swapOption: Token.aETHc,
-          ratio: new BigNumber('940763088322812800'),
+          from: Token.aETHc,
+          to: Token.aETHb,
+          ratio: new BigNumber('0.94076'),
         }),
       );
 

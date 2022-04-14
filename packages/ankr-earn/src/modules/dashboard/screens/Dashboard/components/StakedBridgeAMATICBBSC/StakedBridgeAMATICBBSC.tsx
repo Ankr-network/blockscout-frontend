@@ -7,12 +7,13 @@ import { useStakedBridgeBSCMaticData } from '../StakedTokens/hooks/MATIC/useStak
 export const StakedBridgeAMATICBBSC = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
-  const { amount, network, isBalancesLoading, onAddTokenClick } =
+  const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
     useStakedBridgeBSCMaticData();
 
   return (
     <StakingBridgeAsset
       amount={amount}
+      chainId={chainId}
       isLoading={isBalancesLoading}
       network={network}
       token={Token.aMATICb}
