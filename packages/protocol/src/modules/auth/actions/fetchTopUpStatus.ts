@@ -11,6 +11,5 @@ export enum TopUpStep {
   allowance,
   deposit,
   waitTransactionConfirming,
-  login,
   done,
 }

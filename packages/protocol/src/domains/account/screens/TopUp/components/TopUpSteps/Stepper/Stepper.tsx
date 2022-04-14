@@ -28,7 +28,7 @@ export const Stepper = ({ step, className }: IStepperProps) => {
       >
         <StepLabel />
       </Step>
-      <Step key={TopUpStep.login} completed={step >= TopUpStep.login}>
+      <Step key={TopUpStep.done} completed={step >= TopUpStep.done}>
         <StepLabel />
       </Step>
     </MuiStepper>

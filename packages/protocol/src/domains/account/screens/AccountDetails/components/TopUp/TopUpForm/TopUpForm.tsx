@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
-import { Button, FormGroup, Typography } from '@material-ui/core';
-import { Form, FormRenderProps, Field } from 'react-final-form';
+import { Button } from '@material-ui/core';
+import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'modules/i18n/utils/intl';
-import { InputField } from 'modules/form/components/InputField';
 import { useStyles } from './TopUpFormStyles';
 import {
   TopUpFormValues,
   TopUpFormFields,
   TopUpFormProps,
 } from './TopUpFormTypes';
-import { CURRENCY, normalizeAmount, validateAmount } from './TopUpFormUtils';
+import { AmountField } from './AmountField/AmountField';
 
 export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
   const classes = useStyles();
@@ -23,27 +22,7 @@ export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
           onSubmit={handleSubmit}
           className={classes.form}
         >
-          <FormGroup className={classes.formGroup}>
-            <Field
-              component={InputField}
-              type="number"
-              name={TopUpFormFields.amount}
-              variant="outlined"
-              placeholder={t('account.account-details.top-up.placeholder')}
-              validate={validateAmount}
-              parse={normalizeAmount}
-              isHelperTextVisible
-              InputProps={{
-                classes: {
-                  root: classes.inputBase,
-                  input: classes.input,
-                },
-                endAdornment: (
-                  <Typography variant="subtitle1">{CURRENCY}</Typography>
-                ),
-              }}
-            />
-          </FormGroup>
+          <AmountField name={TopUpFormFields.amount} />
           <Button
             color="primary"
             fullWidth
@@ -56,13 +35,7 @@ export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
         </form>
       );
     },
-    [
-      classes.button,
-      classes.inputBase,
-      classes.input,
-      classes.form,
-      classes.formGroup,
-    ],
+    [classes.button, classes.form],
   );
 
   return <Form onSubmit={onSubmit} render={renderForm} />;

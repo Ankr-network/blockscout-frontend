@@ -1,19 +1,17 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BREAKPOINTS } from 'ui';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
-    [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      flexDirection: 'column',
-    },
-    [theme.breakpoints.down('xs')]: {
-      paddingBottom: theme.spacing(3.5),
-    },
+    flexDirection: 'column',
     maxWidth: 940,
     marginLeft: 'auto',
     marginRight: 'auto',
+
+    [theme.breakpoints.down('xs')]: {
+      paddingBottom: theme.spacing(3.5),
+    },
   },
   top: {
     display: 'flex',
@@ -29,6 +27,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('md')]: {
       minWidth: 'auto',
+    },
+  },
+  payments: {
+    marginTop: theme.spacing(5),
+
+    [theme.breakpoints.down('sm')]: {
+      paddingBottom: theme.spacing(4),
     },
   },
 }));

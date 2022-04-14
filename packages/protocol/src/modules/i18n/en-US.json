@@ -406,6 +406,10 @@
     "top-up": {
       "breadcrumbs": "Top Up",
       "title": "Top Up"
+    },
+    "withdraw": {
+      "breadcrumbs": "Withdraw",
+      "title": "Withdraw"
     }
   },
   "mobile-details": {
@@ -454,6 +458,20 @@
       "3": "Operation will take a while (2-4 min).",
       "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
       "5": "The last step in&nbsp;your sign in&nbsp;process."
+    },
+    "next": "Next"
+  },
+  "withdraw-steps": {
+    "title": "Withdraw",
+    "step-content": {
+      "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
+      "1": "How much would you like to withdraw?",
+      "2": "Operation could take up to 15 minutes.",
+      "3": "Thank you! Transaction is on the way."
+    },
+    "step-notice": {
+      "2": "Don’t worry, our system finalizing calculation.",
+      "3": "After Ethereum network validation you will see updated balance of your wallet."
     },
     "next": "Next"
   },

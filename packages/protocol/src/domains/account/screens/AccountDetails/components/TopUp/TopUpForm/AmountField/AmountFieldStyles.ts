@@ -1,15 +1,16 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  form: {
+  formGroup: {
     [theme.breakpoints.down('sm')]: {
-      gap: 6,
-      display: 'flex',
+      width: '100%',
     },
   },
-  button: {
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: 86,
-    },
+  inputBase: {
+    fontSize: 14,
+    borderRadius: 12,
+  },
+  input: {
+    minHeight: 44,
   },
 }));

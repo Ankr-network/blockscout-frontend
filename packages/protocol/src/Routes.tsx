@@ -92,6 +92,7 @@ export function Routes() {
         path={[
           AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
+          AccountRoutesConfig.withdraw.path,
         ]}
         render={() => (
           <DefaultLayout theme={Themes.light}>

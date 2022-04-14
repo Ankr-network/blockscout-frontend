@@ -7,7 +7,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_ACCOUNT = '/account/';
 export const PATH_TOPUP = `${PATH_ACCOUNT}topup/`;
-export const PATH_WITHDRAW = `${PATH_ACCOUNT}/withdraw`;
+export const PATH_WITHDRAW = `${PATH_ACCOUNT}withdraw/`;
 
 export const AccountRoutesConfig = createRouteConfig(
   {
@@ -46,6 +46,13 @@ const LoadableTopUpContainer: LoadableComponent<any> = loadable(
   },
 );
 
+const LoadableWithdrawContainer: LoadableComponent<any> = loadable(
+  async () => import('./screens/Withdraw').then(module => module.Withdraw),
+  {
+    fallback: <Spinner />,
+  },
+);
+
 export function AccountRoutes() {
   return (
     <>
@@ -58,6 +65,11 @@ export function AccountRoutes() {
         exact
         path={AccountRoutesConfig.topUp.path}
         component={LoadableTopUpContainer}
+      />
+      <Route
+        exact
+        path={AccountRoutesConfig.withdraw.path}
+        component={LoadableWithdrawContainer}
       />
     </>
   );
