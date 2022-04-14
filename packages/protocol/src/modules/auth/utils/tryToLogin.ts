@@ -1,4 +1,4 @@
-import MultiRpcSdk from 'multirpc-sdk';
+import { MultiRpcSdk } from 'multirpc-sdk';
 
 const PROVIDER_ERROR_USER_DENIED = 4001;
 

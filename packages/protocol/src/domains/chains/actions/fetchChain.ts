@@ -12,7 +12,7 @@ import { fetchNodesWeight } from './fetchNodesWeight';
 export interface IChainItemDetails {
   chain: IApiChain;
   nodes?: INodeEntity[];
-  nodesWeight?: IWorkerNodesWeight;
+  nodesWeight?: IWorkerNodesWeight[];
 }
 
 export const fetchChain = createSmartAction<

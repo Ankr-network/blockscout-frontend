@@ -132,3 +132,18 @@ export enum Token {
   sol = 'sol',
   stake = 'stake',
 }
+
+export interface IConfig {
+  ankrTokenContractAddress: PrefixedHex;
+  ankrWalletContractAddress: PrefixedHex;
+  confirmationBlocks: number;
+  privateRpcUrl: string;
+  privateWsUrl: string;
+  publicRpcUrl: string;
+  publicWsUrl: string;
+  walletPrivateUrl: string;
+  walletPublicUrl: string;
+  workerUrl: string;
+}
+
+export type Environment = 'local' | 'staging' | 'prod';
