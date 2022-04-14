@@ -5,10 +5,12 @@ import { mainTheme } from 'ui';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { useStyles } from './AccountDetailsStyles';
+import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTableWrapped } from './components/PaymentsHistoryTable/PaymentsHistoryTableWrapped';
 import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
+
+import { useStyles } from './AccountDetailsStyles';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -29,7 +31,7 @@ export const AccountDetails = () => {
         <Box className={classes.payments}>
           <PaymentsHistoryTableWrapped />
         </Box>
-        <Box className={classes.chart}>Chart</Box>
+        <ExpenseChart />
       </Box>
     </ThemeProvider>
   );

@@ -391,6 +391,20 @@
           },
           "text": "Enough for {quantifier}{value} {period}{plural}, based on your current usage"
         }
+      },
+      "expenseChart": {
+        "title": "Expense Chart",
+        "timeframes": {
+          "week": "week",
+          "month": "month",
+          "year": "year",
+          "all": "All time"
+        },
+        "chart": {
+          "short-date": "{value, time, ::dMMM}",
+          "medium-date": "{value, date, medium}",
+          "expense": "{value, number, ::compact-short}"
+        }
       }
     },
     "payment-table": {
