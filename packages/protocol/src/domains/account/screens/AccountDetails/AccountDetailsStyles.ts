@@ -36,4 +36,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       paddingBottom: theme.spacing(4),
     },
   },
+  expenseChart: {
+    marginTop: theme.spacing(5.25),
+
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 0,
+    },
+  },
 }));
