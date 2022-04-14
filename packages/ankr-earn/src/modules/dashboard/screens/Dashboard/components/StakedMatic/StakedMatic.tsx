@@ -28,6 +28,7 @@ export const StakedMatic = (): JSX.Element | null => {
     amount,
     pendingValue,
     network,
+    chainId,
     tradeLink,
     stakeLink,
     unstakeLink,
@@ -80,6 +81,7 @@ export const StakedMatic = (): JSX.Element | null => {
     <>
       <StakingAsset
         amount={amount}
+        chainId={chainId}
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}

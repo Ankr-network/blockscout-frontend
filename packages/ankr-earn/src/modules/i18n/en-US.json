@@ -13,12 +13,13 @@
     "insufficient-funds": "Insufficient funds",
     "invalid-network-address": "This is invalid {network} address",
     "low-balance": "Your balance is not sufficient",
-    "min": "Should be greater than {value}",
+    "min": "Should be at least {value}",
     "max": "Should be less than {value}",
     "number-only": "Must be a number",
     "required": "This field is required",
     "multiple-of": "Value must be multiple of {value}",
-    "invalid-transaction": "This transaction hash is invalid"
+    "invalid-transaction": "This transaction hash is invalid",
+    "fee-plus-amount-wrong": "Amount with fee greater than your balance"
   },
   "meta": {
     "title": "Ankr Earn",
@@ -87,6 +88,10 @@
     "successTx": "Transaction successful.",
     "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
+    "labels": {
+      "from": "From",
+      "to": "To"
+    },
     "tooltips": {
       "comingSoon": "Coming soon",
       "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
@@ -308,6 +313,8 @@
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
       "yearly-earning": "Yearly earning",
+      "staked": "Staked with ANKR",
+      "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
       "fee": "Est Network Fee: {value}"
     },
@@ -477,8 +484,28 @@
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
     "faq": {
-      "question-1": "Question?",
-      "answer-1": "Answer."
+      "question-1": "Are there any docs about the ETH staking and how I set up my wallet etc.?",
+      "answer-1": "Yes — there is a <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">user guide</a>.",
+      "question-2": "What is the minimum amount of ETH I can stake?",
+      "answer-2": "{value} ETH",
+      "question-3": "What is the change interval to increase my stake?",
+      "answer-3": "{step} ETH. It means you can stake {step}, {stepx2}, {stepx3} ETH, but cannot stake, for example, 0.55, 1.1, 1.88 ETH.",
+      "question-4": "Is there a maximum amount I can stake?",
+      "answer-4": "No, you can stake at your discretion, unlimited. You should know that currently staking starts once 32 ETH are accumulated, so if your stake is >32 ETH, it’ll be divided into chunks and the rule will apply to each of them.",
+      "question-5": "What is the unbonding period for aETHb/aETHc?",
+      "answer-5": "Currently, еhere is no unbonding period, as there is no unstaking for ETH. This functionality is to be implemented by the Ethereum team in future updates.",
+      "question-6": "How do I receive rewards?",
+      "answer-6": "aETHb is a rebasing token. When holding aETHb, your balance will increase in proportion to your ETH staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount. <br/>aETHc, though, does not change in quantity but will appreciate in value, daily. <br/>Mind that to pull out your rewards, you’ll need to sell aETHb/aETHc on Ankr DeFi, as Ethereum hasn’t implemented the unstaking functionality yet.",
+      "question-7": "How soon after staking will I begin to receive rewards?",
+      "answer-7": "aETHb will increase with every rebase; rebasing occurs daily. aETHc will increase in value only, daily.",
+      "question-8": "Does Ankr charge for the service?",
+      "answer-8": "ANKR does not charge any service fees for ETH Liquid Staking. However, validators charge a fee deducted from your rewards (Ankr’s validator node charges 10%), representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake ETH.",
+      "question-9": "What determines the amount of reward I receive each rebase of aETHb or appreciation of aETHc?",
+      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much ETH is validated on the network. The less ETH is staked, the higher the rewards to incentivize more ETH to come online, and vice versa. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards. View the <a href=\"https://launchpad.ethereum.org/\" rel=\"noopener noreferrer\" target=\"_blank\">current amount of staked ETH</a>.",
+      "question-10": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked ETH is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+      "question-11": "Is there any liquidity for aETHb/aETHc anywhere currently?",
+      "answer-11": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
     }
   },
   "switcher": {
@@ -491,11 +518,14 @@
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
+      "aBNBb": "Ankr Reward-Earning Staked BNB (aBNBb) is a rebasing token. When holding aBNBb, its balance will increase on a daily basis proportional to your BNB staking rewards. Therefore, the ratio of aBNBb vs. BNB is always 1:1.",
+      "aBNBc": "Ankr Reward-Bearing Staked BNB (aBNBc) is a reward-bearing token. Its value compared with BNB represents the redemption value of aBNBc, increasing over time to reflect BNB staking rewards earned.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
       "approve": "Approve",
       "switch": "Switch",
+      "switchNetwork": "Switch network",
       "explorer": "View on explorer",
       "dashboard": "Go to dashboard",
       "addToWallet": "Add {token} to wallet"
@@ -555,6 +585,7 @@
     "copy": "Copy contract address",
     "unknown-network": "Current network",
     "copied": "Copied!",
+    "claim-tooltip": "Get liquid staking tokens to your Ethereum wallet",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
@@ -574,10 +605,18 @@
     "pending-time": "Requested time",
     "history-tooltip": "Transactions history",
     "card": {
+      "claiming-info": "Need to be claimed",
+      "claim-token": "Claim {token}",
+      "btn-claim": "Claim",
+      "network-info": "{network} Network",
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
       "addToMetamask": "Add token to Metamask",
       "copyTokenAddress": "Copy token address"
+    },
+    "guard": {
+      "connect-btn": "Connect wallet",
+      "title": "Please connect your wallet to continue"
     }
   },
   "features": {
@@ -590,10 +629,10 @@
     "ksm": "Kusama (KSM)",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
-    "staked": "Staked",
     "staked-amount": "{value} {token}",
     "stake": "Stake",
     "stake-old": "Stake at old version",
+    "staked-tvl": "Staked (TVL)",
     "learn-more": "Learn more"
   },
   "wallets": {
@@ -632,8 +671,6 @@
       "connectBtn": "Connect your wallet",
       "btn-max": "Max",
       "your-balance": "Your balance:",
-      "from": "From",
-      "to": "To",
       "you-will-receive": "You will receive:",
       "send-to-another": "Send to another address",
       "approve": "Approve",

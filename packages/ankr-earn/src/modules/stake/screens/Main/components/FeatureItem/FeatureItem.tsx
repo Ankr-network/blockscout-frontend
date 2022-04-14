@@ -7,6 +7,7 @@ import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
@@ -20,7 +21,7 @@ interface IFeatureItemProps {
   iconSlot: JSX.Element;
   token: Token;
   apy?: number;
-  staked?: BigNumber;
+  stakedTvl?: BigNumber;
 }
 
 export const FeatureItem = ({
@@ -30,7 +31,7 @@ export const FeatureItem = ({
   iconSlot,
   token,
   apy,
-  staked,
+  stakedTvl,
 }: IFeatureItemProps): JSX.Element => {
   const classes = useFeatureItemStyles();
   const { address, walletName } = useAuth(
@@ -45,6 +46,9 @@ export const FeatureItem = ({
       tokenName: token,
     });
   };
+
+  const shouldRenderTvl =
+    stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
 
   return (
     <Paper className={classNames(classes.root)}>
@@ -70,15 +74,15 @@ export const FeatureItem = ({
             </Grid>
           ) : null}
 
-          {staked && (
+          {shouldRenderTvl && (
             <Grid item>
               <Typography className={classNames(classes.statLabel)}>
-                {t('features.staked')}
+                {t('features.staked-tvl')}
               </Typography>
 
               <Typography className={classNames(classes.statValue)}>
                 {t('features.staked-amount', {
-                  value: staked.toFormat(),
+                  value: stakedTvl.toFormat(DEFAULT_ROUNDING),
                   token,
                 })}
               </Typography>

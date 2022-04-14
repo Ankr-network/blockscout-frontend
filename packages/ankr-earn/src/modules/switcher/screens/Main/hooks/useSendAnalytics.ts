@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
@@ -6,18 +7,18 @@ import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitch
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { TOKENS } from 'modules/switcher/const';
-import { TSwapOption } from 'modules/switcher/types';
+import { SWITCHER_FROM_TOKENS } from 'modules/switcher/const';
 
 import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
 export interface ISendAnalyticsHookArgs {
-  swapOption: TSwapOption;
+  from: Token;
+  to: Token;
   feeBasisPoints: number;
   ratio: BigNumber;
-  fethBalance?: BigNumber;
-  aethBalance?: BigNumber;
+  abBalance?: BigNumber;
+  acBalance?: BigNumber;
 }
 
 export interface ISendAnalyticsEventArg {
@@ -29,14 +30,20 @@ export interface ISendAnalyticsHookData {
 }
 
 export const useSendAnalytics = ({
-  swapOption,
+  from,
+  to,
   feeBasisPoints,
   ratio,
-  fethBalance = ZERO,
-  aethBalance = ZERO,
+  abBalance = ZERO,
+  acBalance = ZERO,
 }: ISendAnalyticsHookArgs): ISendAnalyticsHookData => {
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
+  );
+
+  const isFromToken = useMemo(
+    () => SWITCHER_FROM_TOKENS.includes(from),
+    [from],
   );
 
   const sendAnalytics = ({ amount }: ISendAnalyticsEventArg) => {
@@ -45,8 +52,7 @@ export const useSendAnalytics = ({
       feeBP: new BigNumber(feeBasisPoints),
     });
 
-    const inputTokenBalance =
-      swapOption === Token.aETHb ? fethBalance : aethBalance;
+    const inputTokenBalance = isFromToken ? abBalance : acBalance;
 
     const switchProportion = !inputTokenBalance.isZero()
       ? new BigNumber(amount).div(inputTokenBalance).multipliedBy(100).toFixed()
@@ -55,12 +61,12 @@ export const useSendAnalytics = ({
     trackSwitchToken({
       walletType: walletName,
       walletPublicAddress: address,
-      inputToken: swapOption,
+      inputToken: from,
       inputTokenBalance: inputTokenBalance.toFixed(),
-      ouputToken: TOKENS[swapOption],
+      ouputToken: to,
       inputAmount: amount,
       serviceFee: fee.toFixed(),
-      outputAmount: calcValueWithRatio({ total, ratio, swapOption }).toFixed(),
+      outputAmount: calcValueWithRatio({ total, ratio, from }).toFixed(),
       switchProportion,
     });
   };

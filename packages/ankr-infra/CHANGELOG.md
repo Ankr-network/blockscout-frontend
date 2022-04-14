@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.1 (2022-04-14)
+
+**Note:** Version bump only for package @ankr.com/infra
+
+
+
+
+
+# 1.3.0 (2022-04-14)
+
+
+### Features
+
+* **standalone-protocol:** MRPC-769 Release syscoin ([#721](https://github.com/Ankr-network/ankr-web/issues/721)) ([ef9fbe3](https://github.com/Ankr-network/ankr-web/commit/ef9fbe353ca56197886ee2738e22350252e5342a))
+
+
+
+
+
 ## 1.2.1 (2022-04-13)
 
 

@@ -3,38 +3,38 @@ import { Skeleton } from '@material-ui/lab';
 
 import { NetworkIconText } from '../NetworkIconText';
 
-import { useStakingAssetStyles } from './useStakingAssetStyles';
+import { useDashboardCardStyles } from './useDashboardCardStyles';
 
-export const StakingAssetSkeleton = (): JSX.Element => {
-  const classes = useStakingAssetStyles();
+export const DashboardCardSkeleton = (): JSX.Element => {
+  const classes = useDashboardCardStyles();
 
   return (
     <Paper className={classes.root}>
       <Box mb={{ xs: 3, sm: 'auto' }}>
         <Grid container spacing={2}>
-          <Grid item sm xs={12}>
+          <Grid item xs>
             <NetworkIconText isLoading />
           </Grid>
 
-          <Grid item className={classes.pendingCol} xs="auto">
-            <Skeleton width={150} />
+          <Grid item className={classes.menuCol} xs="auto">
+            <Skeleton
+              className={classes.menuSkeleton}
+              height={32}
+              variant="rect"
+              width={32}
+            />
           </Grid>
         </Grid>
       </Box>
 
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="space-between"
-        spacing={2}
-      >
-        <Grid item xs>
+      <Grid container alignItems="center" spacing={2}>
+        <Grid item sm xs={12}>
           <Typography className={classes.amount}>
             <Skeleton width={80} />
           </Typography>
         </Grid>
 
-        <Grid item xs="auto">
+        <Grid item sm="auto" xs={12}>
           <Typography>
             <Skeleton
               className={classes.btnSkeleton}

@@ -9,6 +9,8 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
+import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -30,13 +32,18 @@ export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
 
-  const { amount, handleFormChange, handleSubmit, isStakeLoading } =
+  const { amount, apy, handleFormChange, handleSubmit, isStakeLoading } =
     useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats(amount);
+  const stats = useStakeStats({
+    amount,
+    apy,
+  });
 
   useProviderEffect(() => {
+    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
   }, [dispatchRequest]);
 

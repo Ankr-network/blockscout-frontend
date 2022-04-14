@@ -1,17 +1,22 @@
-import loadable from '@loadable/component';
+import compact from 'lodash/compact';
 import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { EARN_PATH, ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import {
+  BSC_NETWORK_BY_ENV,
+  EARN_PATH,
+  ETH_NETWORK_BY_ENV,
+  featuresConfig,
+} from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}switch/`;
-const SUCCESS = `${ROOT}:swapOption/:txHash`;
+const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -27,18 +32,18 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Main = loadable(
-  async () => import('./screens/Main').then(module => module.Main),
-  { fallback: <QueryLoadingAbsolute /> },
+const Main = loadComponent(() =>
+  import('./screens/Main').then(module => module.Main),
 );
 
-const TransactionStep = loadable(
-  async () =>
-    import('./screens/TransactionStep').then(module => module.TransactionStep),
-  { fallback: <QueryLoadingAbsolute /> },
+const TransactionStep = loadComponent(() =>
+  import('./screens/TransactionStep').then(module => module.TransactionStep),
 );
 
-const AVAILABLE_NETWORKS = [ETH_NETWORK_BY_ENV];
+const AVAILABLE_NETWORKS = compact([
+  ETH_NETWORK_BY_ENV,
+  featuresConfig.switcherBnb && BSC_NETWORK_BY_ENV,
+]);
 
 export function getRoutes(): JSX.Element {
   return (

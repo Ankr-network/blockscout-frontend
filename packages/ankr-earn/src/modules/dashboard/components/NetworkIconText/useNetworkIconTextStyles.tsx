@@ -6,6 +6,17 @@ export const useNetworkIconTextStyles = makeStyles<Theme>(theme => ({
     display: 'block',
   },
 
+  iconContainer: {
+    position: 'relative',
+  },
+
+  networkIcon: {
+    position: 'absolute',
+    bottom: '7px',
+    right: '-2px',
+    fontSize: '18px',
+  },
+
   iconSkeleton: {
     width: '1em',
     height: '1em',
@@ -16,10 +27,10 @@ export const useNetworkIconTextStyles = makeStyles<Theme>(theme => ({
     fontSize: 18,
     fontWeight: 'bold',
     lineHeight: 1,
-    marginBottom: theme.spacing(1),
   },
 
   network: {
+    marginTop: theme.spacing(1),
     fontSize: 13,
     color: theme.palette.text.secondary,
     lineHeight: 1,

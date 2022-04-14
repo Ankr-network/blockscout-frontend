@@ -28,6 +28,7 @@ export const StakedAVAX = (): JSX.Element => {
     amount,
     pendingValue,
     network,
+    chainId,
     tradeLink,
     stakeLink,
     unstakeLink,
@@ -76,6 +77,7 @@ export const StakedAVAX = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
+        chainId={chainId}
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}

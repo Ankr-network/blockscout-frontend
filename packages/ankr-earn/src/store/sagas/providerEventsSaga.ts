@@ -57,6 +57,8 @@ interface IConnectSuccessAction {
 
 const connectAction: string = connect.toString();
 
+const ATTEMPT_TO_CONNECT_ERROR_CODE = 1013;
+
 const createWeb3EventsChannel = (web3: Web3) =>
   eventChannel(emitter => {
     const eventProvider: EventProvider | null = getProvider(
@@ -174,7 +176,9 @@ function* listenProviderWeb3Events({
         }
 
         case ProviderEvents.Disconnect: {
-          yield put(disconnect(providerId));
+          if (event.error.code !== ATTEMPT_TO_CONNECT_ERROR_CODE) {
+            yield put(disconnect(providerId));
+          }
           break;
         }
 

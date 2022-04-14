@@ -1,16 +1,19 @@
-import loadable from '@loadable/component';
 import { generatePath, Redirect, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-import { POLKADOT_WRITE_PROVIDER_ID } from './const';
+import {
+  ETH_NETWORKS,
+  ETH_WRITE_PROVIDER_ID,
+  POLKADOT_WRITE_PROVIDER_ID,
+} from './const';
 import { EPolkadotNetworks } from './types';
 import { getPolkadotPath } from './utils/getPolkadotPath';
 import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
@@ -22,18 +25,17 @@ export const RoutesConfig = createRouteConfig(
   {
     unstake: {
       path: UNSTAKE_POLKADOT_PATH,
-      generatePath: () => generatePath(UNSTAKE_POLKADOT_PATH),
+      generatePath: (network: EPolkadotNetworks) =>
+        generatePath(UNSTAKE_POLKADOT_PATH, {
+          network: network.toLowerCase(),
+        }),
     },
   },
   ROOT,
 );
 
-const Unstake = loadable(
-  () =>
-    import('./screens/UnstakePolkadot').then(module => module.UnstakePolkadot),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Unstake = loadComponent(() =>
+  import('./screens/UnstakePolkadot').then(module => module.UnstakePolkadot),
 );
 
 export function getRoutes(): JSX.Element {
@@ -62,9 +64,16 @@ export function getRoutes(): JSX.Element {
                   path={path}
                   providerId={POLKADOT_WRITE_PROVIDER_ID}
                 >
-                  <DefaultLayout>
-                    <Unstake network={network as EPolkadotNetworks} />
-                  </DefaultLayout>
+                  <GuardRoute
+                    exact
+                    availableNetworks={ETH_NETWORKS}
+                    path={path}
+                    providerId={ETH_WRITE_PROVIDER_ID}
+                  >
+                    <DefaultLayout>
+                      <Unstake network={network as EPolkadotNetworks} />
+                    </DefaultLayout>
+                  </GuardRoute>
                 </GuardRoute>
               );
             }}

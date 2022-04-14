@@ -1,12 +1,11 @@
-import loadable from '@loadable/component';
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -35,30 +34,18 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Stake = loadable(
-  async () =>
-    import('./screens/StakePolygon').then(module => module.StakePolygon),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Stake = loadComponent(() =>
+  import('./screens/StakePolygon').then(module => module.StakePolygon),
 );
 
-const StakeSteps = loadable(
-  async () =>
-    import('./screens/StakePolygonSteps').then(
-      module => module.StakePolygonSteps,
-    ),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakePolygonSteps').then(
+    module => module.StakePolygonSteps,
+  ),
 );
 
-const Unstake = loadable(
-  async () =>
-    import('./screens/UnstakePolygon').then(module => module.UnstakePolygon),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Unstake = loadComponent(() =>
+  import('./screens/UnstakePolygon').then(module => module.UnstakePolygon),
 );
 
 export function getRoutes(): JSX.Element {

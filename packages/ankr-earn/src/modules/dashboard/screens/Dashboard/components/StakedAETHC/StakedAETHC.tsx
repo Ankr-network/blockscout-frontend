@@ -21,6 +21,7 @@ export const StakedAETHC = (): JSX.Element => {
   const {
     amount,
     network,
+    chainId,
     tradeLink,
     stakeLink,
     isStakeLoading,
@@ -75,6 +76,7 @@ export const StakedAETHC = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
+        chainId={chainId}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         network={network}

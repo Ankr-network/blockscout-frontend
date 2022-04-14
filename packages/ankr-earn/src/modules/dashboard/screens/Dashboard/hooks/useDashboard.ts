@@ -5,6 +5,7 @@ import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
@@ -22,8 +23,12 @@ import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/f
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
+import { usePolkadot } from './usePolkadot';
+
 export const useDashboard = (): void => {
   const dispatch = useAppDispatch();
+
+  usePolkadot();
 
   useProviderEffect(() => {
     dispatch(
@@ -41,18 +46,18 @@ export const useDashboard = (): void => {
         getFTMStats.toString(),
         getFTMHistory.toString(),
         getTxHistoryETH.toString(),
+        fetchValidatorsDetails.toString(),
       ]),
     );
 
     dispatch(getEthCommonData());
-    if (featuresConfig.stakeETH) {
-      dispatch(getEthAPY());
-    }
+    if (featuresConfig.stakeETH) dispatch(getEthAPY());
 
     dispatch(fetchPolygonStats());
     dispatch(fetchAMATICBBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAETHBBridged());
+    dispatch(fetchValidatorsDetails());
     dispatch(fetchPolygonAPY());
 
     dispatch(fetchAVAXAPY());

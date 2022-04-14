@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { ONE_ETH } from 'modules/common/const';
 
 import { StakedAFTMB } from '..';
@@ -28,6 +30,7 @@ jest.mock('../../StakedTokens/hooks/FTM/useStakedFTMTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
   const defaultStakedAFTMBHookData: IStakedAFTMBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
+    chainId: BlockchainNetworkId.fantomTestnet,
     pendingUnstakes: ONE_ETH.dividedBy(10 ** 17),
     isShowed: true,
     network: 'Fantom Opera',

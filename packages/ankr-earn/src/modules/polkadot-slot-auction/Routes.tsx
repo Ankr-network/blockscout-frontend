@@ -1,11 +1,10 @@
-import loadable from '@loadable/component';
 import { generatePath, Redirect, useParams } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH, isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -64,22 +63,14 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const PolkadotSlotAuction = loadable(
-  async () =>
-    import('./screens/PolkadotSlotAuction').then(
-      module => module.PolkadotSlotAuction,
-    ),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const PolkadotSlotAuction = loadComponent(() =>
+  import('./screens/PolkadotSlotAuction').then(
+    module => module.PolkadotSlotAuction,
+  ),
 );
 
-const SupportProject = loadable(
-  async () =>
-    import('./screens/SupportProject').then(module => module.SupportProject),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const SupportProject = loadComponent(() =>
+  import('./screens/SupportProject').then(module => module.SupportProject),
 );
 
 const PARACHAIN_NETWORK_BY_ENV = isMainnet

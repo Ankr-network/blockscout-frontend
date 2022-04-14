@@ -48,7 +48,7 @@ export function Routes(): JSX.Element {
 
       {featuresConfig.stakeETH && getStakeEthereumRoutes()}
 
-      {featuresConfig.isActivePolkadotStaking && getStakePolkadotRoutes()}
+      {featuresConfig.isActivePolkadotUnstaking && getStakePolkadotRoutes()}
 
       <Route>
         <DefaultLayout>
