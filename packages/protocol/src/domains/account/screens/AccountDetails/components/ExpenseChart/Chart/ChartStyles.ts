@@ -1,11 +1,13 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme>(() => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   chartRoot: {
-    padding: `20px 30px 20px 0`,
+    padding: `${theme.spacing(2.5)}px ${theme.spacing(3.75)}px ${theme.spacing(
+      2.5,
+    )}px 0`,
     borderRadius: 30,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.palette.background.paper,
   },
 }));

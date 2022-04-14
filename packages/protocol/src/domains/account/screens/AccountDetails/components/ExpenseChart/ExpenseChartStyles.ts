@@ -46,6 +46,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   chart: {
     borderRadius: 30,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.palette.background.paper,
   },
 }));

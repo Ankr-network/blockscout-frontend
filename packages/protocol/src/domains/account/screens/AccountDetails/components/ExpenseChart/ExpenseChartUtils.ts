@@ -1,1 +1,1 @@
-export const i18nKeyRoot = 'account.account-details.expenseChart';
+export const i18nKeyRoot = 'account.account-details.expense-chart';
