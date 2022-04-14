@@ -31,7 +31,9 @@ export const AccountDetails = () => {
         <Box className={classes.payments}>
           <PaymentsHistoryTableWrapped />
         </Box>
-        <ExpenseChart />
+        <Box className={classes.expenseChart}>
+          <ExpenseChart />
+        </Box>
       </Box>
     </ThemeProvider>
   );
