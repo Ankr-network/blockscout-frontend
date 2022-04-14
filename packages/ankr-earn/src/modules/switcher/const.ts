@@ -1,7 +1,11 @@
 import { BlockchainNetworkId } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { BSC_NETWORK_BY_ENV, ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import {
+  featuresConfig,
+  BSC_NETWORK_BY_ENV,
+  ETH_NETWORK_BY_ENV,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 
@@ -66,3 +70,50 @@ export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
     [Token.aBNBb]: 10,
     [Token.aBNBc]: 10,
   };
+
+export const DEFAULT_TOKENS_BY_NETWORK: Record<
+  AvailableSwitchNetwork,
+  { from: AvailableSwitcherToken; to: AvailableSwitcherToken }
+> = {
+  [BlockchainNetworkId.goerli]: { from: Token.aETHb, to: Token.aETHc },
+  [BlockchainNetworkId.mainnet]: { from: Token.aETHb, to: Token.aETHc },
+  [BlockchainNetworkId.smartchain]: { from: Token.aBNBb, to: Token.aBNBc },
+  [BlockchainNetworkId.smartchainTestnet]: {
+    from: Token.aBNBb,
+    to: Token.aBNBc,
+  },
+};
+
+export enum SwitcherUrlParams {
+  FROM = 'from',
+  TO = 'to',
+}
+
+export const SWITCHER_TOKENS_MAP: Record<
+  SwitcherUrlParams,
+  Record<string, string>
+> = {
+  [SwitcherUrlParams.FROM]: {
+    [Token.aETHb]: Token.aETHb,
+    ...(featuresConfig.switcherBnb ? { [Token.aBNBb]: Token.aBNBb } : {}),
+  },
+
+  [SwitcherUrlParams.TO]: {
+    [Token.aETHc]: Token.aETHc,
+    ...(featuresConfig.switcherBnb ? { [Token.aBNBc]: Token.aBNBc } : {}),
+  },
+};
+
+export type SwitcherFromKey = keyof typeof SWITCHER_TOKENS_MAP['from'];
+
+export type SwitcherToKey = keyof typeof SWITCHER_TOKENS_MAP['to'];
+
+export const SWITCHER_TOKENS_PAIR: Record<
+  AvailableSwitcherToken,
+  AvailableSwitcherToken
+> = {
+  [Token.aETHb]: Token.aETHc,
+  [Token.aBNBb]: Token.aBNBc,
+  [Token.aETHc]: Token.aETHb,
+  [Token.aBNBc]: Token.aBNBb,
+};

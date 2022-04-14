@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
+import { IWeb3SendResult } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
@@ -57,11 +57,7 @@ export const swapAssets = createAction<
           store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
         }
 
-        store.dispatchRequest(
-          getSwitcherData({
-            providerId: AvailableWriteProviders.ethCompatible,
-          }),
-        );
+        store.dispatchRequest(getSwitcherData({ chainId }));
 
         return response;
       },
