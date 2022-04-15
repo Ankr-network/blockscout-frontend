@@ -109,7 +109,7 @@ export const useSwitcherForm = ({
       ).then(response => {
         if (response.error) {
           setTxHash(response.data?.transactionHash ?? '');
-          setTxError(response.error);
+          setTxError(response.error.message ?? response.error);
         } else {
           onSuccessSwap({ amount });
         }

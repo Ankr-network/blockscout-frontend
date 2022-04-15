@@ -21,6 +21,20 @@ export interface ISwapAssetsArgs {
   chainId: AvailableSwitchNetwork;
 }
 
+interface RequestError extends Error {
+  code?: number;
+}
+
+const METAMASK_USER_REJECT_ERROR_CODE = 4001;
+
+const onError = (error: RequestError) => {
+  const [message] = error.message.split('\n');
+
+  throw error.code !== METAMASK_USER_REJECT_ERROR_CODE
+    ? new Error(message || error.message)
+    : new Error('');
+};
+
 export const swapAssets = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [ISwapAssetsArgs]
@@ -43,9 +57,9 @@ export const swapAssets = createAction<
     },
     meta: {
       asMutation: true,
-      showNotificationOnError: true,
+      showNotificationOnError: false,
       onRequest: withStore,
-      getData: data => data,
+      onError,
       onSuccess: async (response, _action, store) => {
         const {
           transactionHash,
@@ -82,9 +96,9 @@ export const approve = createAction<
   },
   meta: {
     asMutation: true,
-    showNotificationOnError: true,
+    showNotificationOnError: false,
     onRequest: withStore,
-    getData: data => data,
+    onError,
     onSuccess: async (response, _action, store) => {
       await response.data?.receiptPromise;
 

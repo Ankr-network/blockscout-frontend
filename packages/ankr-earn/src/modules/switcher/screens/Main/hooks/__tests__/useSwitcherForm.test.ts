@@ -147,6 +147,26 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
 
       expect(result.current.txError).toBe('error');
     });
+
+    test('should handle swap error object', async () => {
+      const dispatchRequest = jest.fn(() =>
+        Promise.resolve({ error: new Error('error') }),
+      );
+
+      (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
+
+      const { result, waitForNextUpdate } = renderHook(() =>
+        useSwitcherForm(defaultHookProps),
+      );
+
+      act(() => {
+        result.current.handleSwap('1');
+      });
+
+      await waitForNextUpdate();
+
+      expect(result.current.txError).toBe('error');
+    });
   });
 
   describe('handle approve', () => {
