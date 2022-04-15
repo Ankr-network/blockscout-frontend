@@ -1,0 +1,77 @@
+name: Update stage branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-stage-earn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: stage-earn
+
+      - name: Reset stage-earn branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "chore: update stage-earn"
+          title: "chore: update stage-earn"
+          branch-suffix: short-commit-hash
+          branch: chore/update-stage-earn
+          labels: |
+            ankr-earn
+          base: main
+
+  update-stage-protocol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: stage-protocol
+
+      - name: Reset stage-protocol branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "chore: update stage-protocol"
+          title: "chore: update stage-protocol"
+          branch-suffix: short-commit-hash
+          branch: chore/update-stage-protocol
+          labels: |
+            protocol
+          base: main
+   
+  update-stage-standalone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: stage-standalone
+
+      - name: Reset stage-standalone branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "chore: update stage-standalone"
+          title: "chore: update stage-standalone"
+          branch-suffix: short-commit-hash
+          branch: chore/update-stage-standalone
+          labels: |
+            standalone
+          base: main
+
