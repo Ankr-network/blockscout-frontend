@@ -55,13 +55,13 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
           btnText: unstakeText,
           href: defaultHref,
           disabled: true,
-          tooltip: t('trading-cockpit.eth-unstake-err'),
+          tooltip: t('stake-ethereum.unstake-tooltip'),
         },
         [AvailableTokens.aETHc]: {
           btnText: unstakeText,
           href: defaultHref,
           disabled: true,
-          tooltip: t('trading-cockpit.eth-unstake-err'),
+          tooltip: t('stake-ethereum.unstake-tooltip'),
         },
         [AvailableTokens.AVAX]: {
           btnText: stakeText,

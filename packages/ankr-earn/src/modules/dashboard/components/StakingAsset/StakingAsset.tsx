@@ -27,6 +27,7 @@ interface IStakingAssetProps {
   tradeLink?: string;
   stakeLink?: string;
   unstakeLink?: string;
+  unstakeTooltip?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;
   isStakeLoading?: boolean;
@@ -48,6 +49,7 @@ export const StakingAsset = ({
   stakeLink,
   unstakeLink,
   pendingSlot,
+  unstakeTooltip,
   isLoading = false,
   isStakeLoading = false,
   isUnstakeLoading = false,
@@ -71,10 +73,14 @@ export const StakingAsset = ({
     ? t('dashboard.stake-loading')
     : t('dashboard.stake-tooltip');
 
-  const unstakeTooltip = isUnstakeLoading
+  const defaultUnstakeTooltip = isUnstakeLoading
     ? t('dashboard.unstake-loading')
     : t('dashboard.unstake-tooltip');
+
   const comingSoonTooltip = t('common.tooltips.comingSoon');
+
+  const conditionalUnstakeTooltip =
+    unstakeTooltip ?? (unstakeLink ? defaultUnstakeTooltip : comingSoonTooltip);
 
   return (
     <DashboardCard
@@ -98,7 +104,7 @@ export const StakingAsset = ({
               href={unstakeLink}
               icon="minus"
               isLoading={isUnstakeLoading}
-              tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
+              tooltip={conditionalUnstakeTooltip}
             />
           </Grid>
 

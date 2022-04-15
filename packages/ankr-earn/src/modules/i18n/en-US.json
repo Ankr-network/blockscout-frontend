@@ -271,7 +271,6 @@
     "stake-btn": "Stake now",
     "unstake-btn": "Unstake now",
     "exchange-btn": "Trade",
-    "eth-unstake-err": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
     "header": {
       "title": "Trading cockpit",
       "aethb-info": "aETHb is an ETH reward earning bond.",
@@ -483,6 +482,7 @@
     "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
+    "unstake-tooltip": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
     "faq": {
       "question-1": "Are there any docs about the ETH staking and how I set up my wallet etc.?",
       "answer-1": "Yes — there is a <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">user guide</a>.",
