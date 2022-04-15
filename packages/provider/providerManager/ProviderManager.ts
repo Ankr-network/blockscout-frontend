@@ -165,6 +165,12 @@ export class ProviderManager {
     return newProvider;
   }
 
+  getWriteProviderById(
+    providerId: AvailableWriteProviders,
+  ): Web3KeyWriteProvider | PolkadotProvider | null {
+    return this.providers[providerId] ?? null;
+  }
+
   disconnect(providerId: AvailableWriteProviders) {
     const provider = this.providers[providerId];
 

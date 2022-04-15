@@ -103,8 +103,8 @@ const LOCAL_CONFIG: IStkrConfig = {
   polkadotConfig: {
     aDOTbToken: null,
     aKSMbToken: null,
-    aWNDbToken: '0x1f8e7d70ee7198401b3703f7d3caf3d6ca4353d9',
-    polkadotPool: '0xe9d7CE920317dba4aDe1921F40f0c4A1Bbb1024E',
+    aWNDbToken: '0xF8942990985cB8E3196b24B7f9c584945493AC3A',
+    polkadotPool: '0xc9EdEe06D78aE8Ee0d694b2e96E457a239F4DeeE',
   },
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',

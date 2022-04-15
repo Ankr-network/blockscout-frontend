@@ -8,7 +8,8 @@ import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 
 interface IFetchStatsResponseData {
   ethTokenBalance: BigNumber;
-  minimumStake: BigNumber;
+  maxDecimalsUnstake: BigNumber;
+  minStake: BigNumber;
 }
 
 export const fetchStats = createSmartAction<
@@ -18,14 +19,18 @@ export const fetchStats = createSmartAction<
     promise: async (): Promise<IFetchStatsResponseData> => {
       const sdk = await PolkadotStakeSDK.getInstance();
 
-      const [ethTokenBalance, minimumStake] = await Promise.all([
-        sdk.getETHTokenBalance(),
-        sdk.getMinimumStake(),
-      ]);
+      const [ethTokenBalance, maxDecimalsUnstake, minStake] = await Promise.all(
+        [
+          sdk.getETHTokenBalance(),
+          sdk.getMaxDecimalsUnstake(),
+          sdk.getMinStake(),
+        ],
+      );
 
       return {
         ethTokenBalance,
-        minimumStake,
+        maxDecimalsUnstake,
+        minStake,
       };
     },
   },

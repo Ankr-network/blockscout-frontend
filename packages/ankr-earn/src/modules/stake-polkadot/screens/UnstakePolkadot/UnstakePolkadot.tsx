@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
@@ -30,6 +31,7 @@ export const UnstakePolkadot = ({
     isUnstakeLoading,
     fetchStatsData,
     fetchStatsError,
+    maxAmountDecimals,
     networkName,
     polkadotToken,
     redeemPeriodTxt,
@@ -65,6 +67,7 @@ export const UnstakePolkadot = ({
               <UnstakeDialog
                 balance={fetchStatsData.ethTokenBalance}
                 endText={redeemPeriodTxt}
+                maxAmountDecimals={maxAmountDecimals}
                 renderFormFooter={onRenderFormFooter}
                 token={ethToken}
                 onClose={onUnstakeFormClose}
@@ -84,7 +87,7 @@ export const UnstakePolkadot = ({
                 submitDisabled={isUnstakeLoading}
                 token={polkadotToken}
                 tokenAmountTxt={t('unit.token-value', {
-                  value: userAmount,
+                  value: userAmount?.decimalPlaces(DEFAULT_FIXED) ?? 0,
                   token: ethToken,
                 })}
                 onClose={onUserWalletClose}

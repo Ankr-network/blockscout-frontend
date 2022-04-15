@@ -40,6 +40,7 @@ export interface IUnstakeDialogProps {
   isApproved?: boolean;
   isWithApprove?: boolean;
   isApproveLoading?: boolean;
+  maxAmountDecimals?: number;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
@@ -62,6 +63,7 @@ export const UnstakeDialog = ({
   isApproved,
   isWithApprove,
   isApproveLoading,
+  maxAmountDecimals,
   onSubmit,
   onClose,
   extraValidation,
@@ -117,6 +119,7 @@ export const UnstakeDialog = ({
                     balance={balance}
                     isBalanceLoading={isBalanceLoading}
                     label={t('unstake-dialog.amount')}
+                    maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
                     tokenName={token}
                     onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
