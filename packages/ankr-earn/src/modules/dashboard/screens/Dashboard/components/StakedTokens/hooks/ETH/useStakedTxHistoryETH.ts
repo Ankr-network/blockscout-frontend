@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
-import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
@@ -23,7 +23,7 @@ export interface IUseStakedFTMTxHistory {
 const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
   return {
     date: data.txDate,
-    link: getTxLinkByNetwork(data.txHash, FTM_NETWORK_BY_ENV),
+    link: getTxLinkByNetwork(data.txHash, ETH_NETWORK_BY_ENV),
     hash: data.txHash,
     amount: data.txAmount,
   };
