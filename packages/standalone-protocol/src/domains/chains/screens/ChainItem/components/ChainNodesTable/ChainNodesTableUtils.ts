@@ -82,6 +82,7 @@ export const getRows = (
         height: 0,
       };
     })
+    .filter(({ height }) => height > 0)
     .sort((a, b) => b.weight.toNumber() - a.weight.toNumber())
     .sort((a, b) => {
       if (b.weight.toNumber() === a.weight.toNumber()) {
