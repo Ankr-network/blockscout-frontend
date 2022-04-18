@@ -35,7 +35,8 @@
     "plan": "Premium Plan",
     "protocol": "Node Providers",
     "ankr-scan": "Ankr Scan",
-    "account-details": "Account Details"
+    "account-details": "Account Details",
+    "request-explorer": "Request Explorer"
   },
   "extra-navigation": {
     "docs": "Docs",
@@ -47,6 +48,8 @@
     "private-rpcs": "Exclusive RPCs",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
+    "account-details": "Account Details",
+    "request-explorer": "Request Explorer",
     "more": "More"
   },
   "staking-info": {
@@ -427,6 +430,12 @@
     "withdraw": {
       "breadcrumbs": "Withdraw",
       "title": "Withdraw"
+    }
+  },
+  "explorer": {
+    "request-explorer": {
+      "breadcrumbs": "Request Explorer",
+      "title": "Request Explorer"
     }
   },
   "mobile-details": {

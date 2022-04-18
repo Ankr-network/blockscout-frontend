@@ -16,6 +16,8 @@ import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useIsSMDown } from 'ui';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 
 interface MobileHeaderProps {
   className?: string;
@@ -56,6 +58,16 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
         label: t('mobile-navigation.protocol'),
         StartIcon: PaperIcon,
         href: ProvidersRoutesConfig.providers.generatePath(),
+      },
+      {
+        label: t('mobile-navigation.account-details'),
+        StartIcon: DiamondIcon,
+        href: AccountRoutesConfig.accountDetails.generatePath(),
+      },
+      {
+        label: t('mobile-navigation.request-explorer'),
+        StartIcon: BoxIcon,
+        href: ExplorerRoutesConfig.requestExplorer.generatePath(),
       },
       {
         label: t('mobile-navigation.more'),
