@@ -8,19 +8,24 @@ export const fetchBalance = createAction<RequestAction<string, BigNumber>>(
   'account/fetchBalance',
   () => ({
     request: {
-      promise: (async (): Promise<string> => {
-        const { service } = MultiService.getInstance();
-
-        const data = await service.getAnkrBalance();
-
-        return data.balance;
-      })(),
+      promise: (async () => null)(),
     },
     meta: {
       asMutation: false,
-      takeLatest: false,
-      cache: false,
+      takeLatest: true,
+      poll: 30,
       getData: (balance: string) => new BigNumber(balance),
+      onRequest: () => {
+        return {
+          promise: (async (): Promise<string> => {
+            const { service } = MultiService.getInstance();
+
+            const data = await service.getAnkrBalance();
+
+            return data.balance;
+          })(),
+        };
+      },
     },
   }),
 );

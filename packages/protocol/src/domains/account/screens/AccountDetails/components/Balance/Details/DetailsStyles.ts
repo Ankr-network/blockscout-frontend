@@ -10,6 +10,8 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
 
     color: theme.palette.grey[600],
 
+    letterSpacing: '0.01em',
+
     // fontFamily: 'Inter',
     fontSize: 14,
     lineHeight: '20px',
