@@ -483,6 +483,7 @@
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
     "unstake-tooltip": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
+    "amount-tooltip": "Amount must be multiple of {step}",
     "faq": {
       "question-1": "Are there any docs about the ETH staking and how I set up my wallet etc.?",
       "answer-1": "Yes — there is a <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">user guide</a>.",

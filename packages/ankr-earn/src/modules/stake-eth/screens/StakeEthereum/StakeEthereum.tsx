@@ -150,6 +150,9 @@ export const StakeEthereum = (): JSX.Element => {
             }
             isBalanceLoading={hasError || isCommonDataLoading}
             isDisabled={loading}
+            labelTooltip={t('stake-ethereum.amount-tooltip', {
+              step: ETH_STAKING_AMOUNT_STEP,
+            })}
             loading={hasError || loading}
             minAmount={minAmount}
             renderStats={renderStats}
