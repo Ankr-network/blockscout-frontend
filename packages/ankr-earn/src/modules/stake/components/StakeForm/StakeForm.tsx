@@ -99,14 +99,15 @@ export const StakeForm = ({
         });
       }
 
-      const amountIsEqualToStep = amount && +amount === stakingAmountStep;
-      if (withFee && amountIsEqualToStep) {
+      const balanceIsEqualToStep =
+        !!stakingAmountStep && balance.isEqualTo(stakingAmountStep);
+      if (withFee && balanceIsEqualToStep) {
         errors.amount = t('validation.fee-plus-amount-wrong');
       }
 
       return errors;
     },
-    [stakingAmountStep, withFee],
+    [balance, stakingAmountStep, withFee],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>

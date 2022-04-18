@@ -132,7 +132,7 @@
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
     "available-networks": "Ensure your wallet is connected to the following networks:",
-    "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "unsupported-network": "This page is not available on <b>{network}</b> network.<br />Please select the network you need:",
     "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
@@ -330,6 +330,11 @@
       "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the dashboard."
     }
   },
+  "claim": {
+    "title": "Claim liquid staking token",
+    "no-tokens": "You have no unclaimed liquid staking tokens.",
+    "progress-title": "Claim"
+  },
   "stake-avax": {
     "faq": {
       "question-1": "Are there any docs about the AVAX staking and how I set up my wallet etc.?",
@@ -482,6 +487,8 @@
     "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
+    "unclaimed-label": "Unclaimed ETH balance",
+    "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
     "unstake-tooltip": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
     "amount-tooltip": "Amount must be multiple of {step}",
     "faq": {

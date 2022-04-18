@@ -1,10 +1,9 @@
-import { t } from 'common';
-
 import { ProgressStep } from 'modules/common/components/ProgressStep';
+import { t } from 'modules/i18n/utils/intl';
 
-import { useStakeEthereumStepsHook } from './useStakeEthereumStepsHook';
+import { useClaimEthereumSteps } from './useClaimEthereumSteps';
 
-export const StakeEthereumSteps = (): JSX.Element => {
+export const ClaimEthereumSteps = (): JSX.Element => {
   const {
     isLoading,
     isPending,
@@ -14,7 +13,7 @@ export const StakeEthereumSteps = (): JSX.Element => {
     transactionId,
     tokenName,
     handleAddTokenToWallet,
-  } = useStakeEthereumStepsHook();
+  } = useClaimEthereumSteps();
 
   return (
     <ProgressStep
@@ -26,7 +25,7 @@ export const StakeEthereumSteps = (): JSX.Element => {
       isLoading={isLoading}
       isPending={isPending}
       symbol={tokenName}
-      title={t('stake.progressTitle')}
+      title={t('claim.progress-title')}
       txHash={transactionId}
       onAddTokenToWallet={handleAddTokenToWallet}
     />

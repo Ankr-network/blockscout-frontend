@@ -1,6 +1,6 @@
 import { Box, BoxProps, Paper } from '@material-ui/core';
 
-import { Quote } from '../Quote';
+import { Quote } from 'uiKit/Quote';
 
 interface INotificationProps extends Omit<BoxProps, 'component'> {}
 

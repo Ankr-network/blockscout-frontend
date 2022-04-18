@@ -50,7 +50,7 @@ export interface IGetSwitcherServiceData {
 }
 
 export interface IGetTxData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }
@@ -271,6 +271,25 @@ export class EthSDK {
     return new BigNumber(allowance);
   }
 
+  /**
+   * This method is only for creating a testing ability.
+   * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
+   * Do not use it for the production code.
+   * @deprecated
+   */
+  public async stakeWithoutClaim(amount: BigNumber): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+
+    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+
+    return ethPoolContract.methods.stake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+    });
+  }
+
   public async stake(
     amount: BigNumber,
     token: TEthToken,
@@ -358,19 +377,25 @@ export class EthSDK {
     return new BigNumber(web3.utils.fromWei(minStake));
   }
 
-  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+  public async fetchTxData(
+    txHash: string,
+    shouldDecodeAmount = true,
+  ): Promise<IGetTxData> {
     const provider = await this.getProvider();
-
     const web3 = provider.getWeb3();
     const tx = await web3.eth.getTransaction(txHash);
 
-    const { 0: amount } =
-      tx.value === '0'
-        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
-        : { 0: tx.value };
+    const decodeAmount = (): BigNumber => {
+      const { 0: rawAmount } =
+        tx.value === '0'
+          ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+          : { 0: tx.value };
+
+      return new BigNumber(web3.utils.fromWei(rawAmount));
+    };
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(amount)),
+      amount: shouldDecodeAmount ? decodeAmount() : undefined,
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };

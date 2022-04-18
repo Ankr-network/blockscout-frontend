@@ -28,7 +28,7 @@ export interface IFetchTxDataArgs {
 }
 
 export interface IFetchTxData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }

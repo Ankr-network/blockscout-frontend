@@ -93,6 +93,15 @@ export const Main = (): JSX.Element => {
             />
           )}
 
+          {featuresConfig.stakeETHWithoutClaim && (
+            <FeatureItem
+              iconSlot={<EthIcon />}
+              mainHref={EthereumRoutes.stakeWithoutClaim.generatePath()}
+              title="ETH (testing only)"
+              token={Token.ETH}
+            />
+          )}
+
           <FeatureItem
             apy={aMATICbAPY?.toNumber()}
             iconSlot={<MaticIcon />}

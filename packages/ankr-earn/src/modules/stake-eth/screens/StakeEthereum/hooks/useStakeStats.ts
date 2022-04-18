@@ -1,7 +1,9 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -19,6 +21,7 @@ export const useStakeStats = ({
   apy,
   amount,
 }: IStatsProps): IStakeStatsItem[] => {
+  const dispatch = useDispatch();
   const { data: validatorsDetails } = useQuery({
     type: fetchValidatorsDetails,
   });
@@ -70,6 +73,12 @@ export const useStakeStats = ({
 
     return res;
   }, [amount, apy]);
+
+  useProviderEffect(() => {
+    if (!validatorsDetails) {
+      dispatch(fetchValidatorsDetails());
+    }
+  }, []);
 
   return stats;
 };

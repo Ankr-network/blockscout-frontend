@@ -30,7 +30,6 @@ export const useUnclaimedEth = (): IUseUnclaimedEth => {
     isShowed: featuresConfig.stakeETH && isShowed,
     isLoading: loading,
     token: Token.ETH,
-    // todo: add actual claimLink
-    claimLink: RoutesConfig.root,
+    claimLink: RoutesConfig.claim.generatePath(),
   };
 };
