@@ -24,7 +24,7 @@ export const Footer = ({ className = '' }: FooterProps) => {
 
   return (
     <footer className={classNames(classes.root, className)}>
-      <div>
+      <div className={classes.content}>
         <Typography variant="body2" className={classes.rootText}>
           {t('footer.supported')} <HeartIcon className={classes.heart} />{' '}
           {t('footer.by')}{' '}
@@ -38,42 +38,42 @@ export const Footer = ({ className = '' }: FooterProps) => {
             {t('footer.ankr')}
           </a>
         </Typography>
-      </div>
-      <br />
-      <div className={classNames(classes.links, chainId)}>
-        <Typography variant="body2">
-          {t('footer.other-text')}{' '}
-          <a
-            href="https://polygon-rpc.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={classes.link}
-            onClick={() => visitOtherProjectEvent('Polygon')}
-          >
-            {t('footer.polygon')}
-          </a>
-          ,{' '}
-          <a
-            href="https://rpc.ftm.tools"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={classes.link}
-            onClick={() => visitOtherProjectEvent('Fantom')}
-          >
-            {t('footer.fantom')}
-          </a>
-          , and{' '}
-          <a
-            href="https://bscrpc.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={classes.link}
-            onClick={() => visitOtherProjectEvent('BSC')}
-          >
-            {t('footer.bsc')}
-          </a>
-          !
-        </Typography>
+        <br />
+        <div className={classNames(classes.links, chainId)}>
+          <Typography variant="body2">
+            {t('footer.other-text')}{' '}
+            <a
+              href="https://polygon-rpc.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.link}
+              onClick={() => visitOtherProjectEvent('Polygon')}
+            >
+              {t('footer.polygon')}
+            </a>
+            ,{' '}
+            <a
+              href="https://rpc.ftm.tools"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.link}
+              onClick={() => visitOtherProjectEvent('Fantom')}
+            >
+              {t('footer.fantom')}
+            </a>
+            {t('footer.and')}
+            <a
+              href="https://bscrpc.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.link}
+              onClick={() => visitOtherProjectEvent('BSC')}
+            >
+              {t('footer.bsc')}
+            </a>
+            !
+          </Typography>
+        </div>
       </div>
     </footer>
   );

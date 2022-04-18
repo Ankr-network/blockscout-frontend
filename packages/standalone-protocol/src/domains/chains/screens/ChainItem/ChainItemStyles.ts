@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   main: {
@@ -7,7 +8,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     maxWidth: 1110,
     [theme.breakpoints.up('md')]: {
-      paddingLeft: 84,
+      paddingLeft: MENU_WIDTH + 24,
     },
   },
   header: {
