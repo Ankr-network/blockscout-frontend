@@ -10,16 +10,23 @@ interface ChartProps {
   series: Props['series'];
   theme?: Theme;
   hasGradient: boolean;
+  foreColor?: string;
 }
 
-export const Chart = ({ xValues, series, theme, hasGradient }: ChartProps) => {
+export const Chart = ({
+  xValues,
+  series,
+  theme,
+  hasGradient,
+  foreColor,
+}: ChartProps) => {
   const isSMDown = useIsSMDown();
   const mergedOptions = useMemo(
     () => ({
       ...chartBaseOptions,
-      ...getChartOptions(xValues, hasGradient, theme, isSMDown),
+      ...getChartOptions(xValues, hasGradient, theme, isSMDown, foreColor),
     }),
-    [xValues, hasGradient, theme, isSMDown],
+    [xValues, hasGradient, theme, isSMDown, foreColor],
   );
 
   return (

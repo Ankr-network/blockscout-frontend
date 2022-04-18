@@ -1,7 +1,9 @@
 import { useQuery } from '@redux-requests/react';
+import { useMemo } from 'react';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t, tHTML, tHTMLWithRouter } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
@@ -14,9 +16,10 @@ export const useFaq = (): IFaqItem[] => {
 
   const minAmount = data?.minStake.toNumber() || 0;
 
-  // TODO generate actual link
-  // const tradeLink = BoostRoutes.tradingCockpit.generatePath(Token.FTM, Token.aFTMb);
-  const tradeLink = BoostRoutes.tradingCockpit.generatePath();
+  const tradeLink: string = useMemo(
+    () => BoostRoutes.tradingCockpit.generatePath(Token.FTM, Token.aFTMb),
+    [],
+  );
 
   const faqItems = useLocaleMemo(
     () => [

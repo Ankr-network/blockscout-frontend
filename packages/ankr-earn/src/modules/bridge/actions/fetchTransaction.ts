@@ -1,15 +1,18 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { t } from 'common';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 import { Transaction } from 'web3-core';
+import { AbiItem } from 'web3-utils';
 
+import { t } from 'common';
 import { Address, AvailableWriteProviders } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
 import { createWalletConnectionGuard } from 'modules/common/utils/createWalletConnectionGuard';
+
+import ABI_ERC20 from '../../api/contract/IERC20.json';
 
 const DEPOSIT_METHOD_HASH = '0x90d25074';
 
@@ -29,6 +32,7 @@ interface IFetchTransactionData {
 function parseTransaction(
   basicTransaction: Transaction,
   web3: Web3,
+  chainIdFrom: number,
 ): IFetchTransactionData | null {
   const transaction = basicTransaction as Transaction & Record<string, unknown>;
 
@@ -54,7 +58,7 @@ function parseTransaction(
       tx: transaction.hash,
       amount,
       token,
-      chainIdFrom: parseInt(transaction.chainId as string, 16),
+      chainIdFrom,
       chainIdTo,
       toAddress,
     };
@@ -70,9 +74,7 @@ export const fetchTransaction = createSmartAction<
   request: {
     promise: async () => {
       const providerManager = ProviderManagerSingleton.getInstance();
-      const provider = await providerManager.getProvider(
-        AvailableWriteProviders.ethCompatible,
-      );
+      const provider = await providerManager.getETHWriteProvider();
 
       const web3 = provider.getWeb3();
 
@@ -84,11 +86,20 @@ export const fetchTransaction = createSmartAction<
         );
       }
 
-      const data = parseTransaction(transaction, web3);
+      const data = parseTransaction(transaction, web3, provider.currentChain);
 
       if (!data) {
         throw new Error(t('bridge.fetch-transaction.error.wrong-transaction'));
       }
+
+      const tokenContract = new web3.eth.Contract(
+        ABI_ERC20 as AbiItem[],
+        data.token,
+      );
+
+      const token = await tokenContract.methods.symbol().call();
+
+      data.token = token;
 
       return data;
     },

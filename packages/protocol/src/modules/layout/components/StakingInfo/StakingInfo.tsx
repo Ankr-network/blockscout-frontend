@@ -28,7 +28,7 @@ export const StakingInfo = ({ className = '' }: StakingInfoProps) => {
       className={classNames(classes.root, className)}
     >
       <div className={classes.image}>
-        <img src={CubeImg} alt="" />
+        <img src={CubeImg} alt={t('staking-info.alt')} />
       </div>
       <Typography variant="body2" className={classes.text}>
         {tHTML('staking-info.description')}

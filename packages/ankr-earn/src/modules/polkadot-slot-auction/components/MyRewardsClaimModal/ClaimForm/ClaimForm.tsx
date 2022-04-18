@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import {
   Field,
@@ -66,6 +67,8 @@ const isInvalidCloverAddress = (
 ): boolean =>
   rewardTokenName === CLOVER_PROJECT &&
   !inputWallet.startsWith(CLOVER_SAFE_START_ADDR_VAL);
+
+const ACALA_PROJECT = 'Acala';
 
 export const ClaimForm = ({
   isETHProject,
@@ -197,20 +200,45 @@ export const ClaimForm = ({
             </div>
           )}
 
-          <Typography className={classes.hintEthArea} variant="body2">
-            <span className={classes.hintEthSplitter} />
+          <Typography className={classes.infoArea} variant="body2">
+            <span className={classes.infoSplitter} />
 
-            <span className={classes.hintEthTxt}>
+            <span className={classes.infoTxt}>
               {t(
                 isETHProject
-                  ? 'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-eth'
-                  : 'polkadot-slot-auction.my-rewards-claim-modal.select-section.hint-polkadot',
+                  ? 'polkadot-slot-auction.my-rewards-claim-modal.select-section.info-message-eth'
+                  : 'polkadot-slot-auction.my-rewards-claim-modal.select-section.info-message-polkadot',
                 {
                   rewardTokenName,
                 },
               )}
             </span>
           </Typography>
+
+          {rewardTokenName === ACALA_PROJECT && (
+            <Typography
+              className={classNames(classes.infoArea, classes.infoWarnArea)}
+              variant="body2"
+            >
+              <span
+                className={classNames(
+                  classes.infoSplitter,
+                  classes.infoWarnSplitter,
+                )}
+              />
+
+              <span
+                className={classNames(classes.infoTxt, classes.infoWarnTxt)}
+              >
+                {t(
+                  'polkadot-slot-auction.my-rewards-claim-modal.select-section.info-warn-message',
+                  {
+                    rewardTokenName,
+                  },
+                )}
+              </span>
+            </Typography>
+          )}
 
           <div className={classes.actionArea}>
             <Button

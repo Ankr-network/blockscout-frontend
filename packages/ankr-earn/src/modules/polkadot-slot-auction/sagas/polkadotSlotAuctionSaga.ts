@@ -45,7 +45,7 @@ function* connectNotification() {
     return;
   }
 
-  if (!PolkadotProvider.isSupported()) {
+  if (!PolkadotProvider.isInjected()) {
     yield put(
       openModalAction(DIALOG_POLKADOT_EXTENSION, {
         isCloverWalletAvailable: false,

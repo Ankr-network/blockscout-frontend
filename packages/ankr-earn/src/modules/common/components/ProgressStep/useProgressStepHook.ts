@@ -51,7 +51,7 @@ export const useProgressStepHook = (): IProgressStepHookData => {
   return {
     isTxCopied,
     isAddressCopied,
-    chainId: chainId ?? 1,
+    chainId: (chainId as number) ?? 1,
     handleCopyDestinationAddress,
     handleCopyTxHash,
   };

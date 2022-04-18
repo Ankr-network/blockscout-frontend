@@ -6,10 +6,12 @@ import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { FTMIcon } from 'uiKit/Icons/FTMIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 export const useTokenSelectOptions = (): ITokenSelectOption[] => {
@@ -59,6 +61,16 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
         text: t('unit.bnb'),
         iconSlot: <BNBIcon />,
         value: AvailableTokens.BNB,
+      },
+      {
+        text: t('unit.aftmb'),
+        iconSlot: <AFTMBIcon />,
+        value: AvailableTokens.aFTMb,
+      },
+      {
+        text: t('unit.ftm'),
+        iconSlot: <FTMIcon />,
+        value: AvailableTokens.FTM,
       },
     ],
     [],

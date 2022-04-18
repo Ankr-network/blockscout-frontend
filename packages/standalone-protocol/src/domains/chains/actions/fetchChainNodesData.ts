@@ -9,7 +9,7 @@ import { ChainId } from '../api/chain';
 
 export interface IChainItemDetails {
   nodes?: INodeEntity[];
-  nodesWeight?: IWorkerNodesWeight;
+  nodesWeight?: IWorkerNodesWeight[];
 }
 
 export const fetchChainNodesData = createSmartAction<

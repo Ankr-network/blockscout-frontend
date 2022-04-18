@@ -1,12 +1,19 @@
 import { Box } from '@material-ui/core';
+import { resetRequests } from '@redux-requests/core';
+import { useEffect } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { approve } from 'modules/bridge/actions/approve';
+import { deposit } from 'modules/bridge/actions/deposit';
+import { notarize } from 'modules/bridge/actions/notarize';
+import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { Notification } from 'modules/bridge/components/Notification';
 import { TxView } from 'modules/bridge/screens/BridgeMainPage/components/TxView';
 import { t } from 'modules/i18n/utils/intl';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { BridgeMainView } from './components/BridgeMainView';
 import { useTxnData } from './hooks/useTxnData';
@@ -16,10 +23,24 @@ export const BridgeMainPage = (): JSX.Element => {
     AvailableWriteProviders.ethCompatible,
   );
   const txnData = useTxnData();
+  const dispatch = useAppDispatch();
 
   const isTxViewShowed = !!txnData;
   const isMainViewShowed = !isTxViewShowed;
   const isNotificationShowed = isMainViewShowed && isConnected;
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        resetRequests([
+          notarize.toString(),
+          withdrawal.toString(),
+          approve.toString(),
+          deposit.toString(),
+        ]),
+      );
+    };
+  }, [dispatch]);
 
   return (
     <Box component="section" py={{ xs: 5, md: 8 }}>

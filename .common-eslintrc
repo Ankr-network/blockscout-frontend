@@ -15,7 +15,9 @@
       "provider",
       "ankr-academy",
       "ankr-earn",
-      "multirpc-sdk"
+      "multirpc-sdk",
+      "@ankr.com/global-menu",
+      "common"
     ]
   },
   "extends": [

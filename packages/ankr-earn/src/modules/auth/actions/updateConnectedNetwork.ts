@@ -1,7 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { AvailableWriteProviders } from 'provider';
+import {
+  AvailableWriteProviders,
+  BlockchainNetworkId,
+  Web3KeyWriteProvider,
+} from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
@@ -11,7 +15,7 @@ import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
-  chainId: number;
+  chainId: BlockchainNetworkId;
 }
 
 export const updateConnectedNetwork = createAction<
@@ -26,7 +30,10 @@ export const updateConnectedNetwork = createAction<
       promise: (async () => {
         const provider =
           await ProviderManagerSingleton.getInstance().getProvider(providerId);
-        provider.currentChain = chainId;
+
+        if (typeof chainId === 'number') {
+          (provider as Web3KeyWriteProvider).currentChain = chainId;
+        }
       })(),
     },
     meta: {
@@ -34,10 +41,16 @@ export const updateConnectedNetwork = createAction<
       requestKey: authRequestKey,
       showNotificationOnError: true,
       mutations: {
-        [connectAction]: (data: IConnect): IConnect => ({
-          ...data,
-          chainId,
-        }),
+        [connectAction]: (data: IConnect): IConnect => {
+          if (typeof chainId === 'number') {
+            return {
+              ...data,
+              chainId,
+            };
+          }
+
+          return data;
+        },
       },
     },
   };

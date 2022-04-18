@@ -72,14 +72,6 @@ const LoadablePlanDepositContainer: LoadableComponent<any> = loadable(
   },
 );
 
-// const LoadableProvidersChainsContainer: LoadableComponent<any> = loadable(
-//   async () =>
-//     import('./screens/ProvidersChains').then(module => module.ProvidersChains),
-//   {
-//     fallback: <Spinner />,
-//   },
-// );
-
 const LoadableAddEndpointContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/AddEndpoint').then(module => module.AddEndpoint),
@@ -115,11 +107,6 @@ export function PlanRoutes() {
 export function ProvidersPrivateRoutes() {
   return (
     <>
-      {/* <Route
-        exact
-        path={PlanRoutesConfig.chains.path}
-        component={LoadableProvidersChainsContainer}
-      /> */}
       <Route
         exact
         path={PlanRoutesConfig.addEndpoint.path}

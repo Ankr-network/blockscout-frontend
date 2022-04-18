@@ -17,6 +17,7 @@
     "max": "Should be less than {value}",
     "number-only": "Must be a number",
     "required": "This field is required",
+    "multiple-of": "Value must be multiple of {value}",
     "invalid-transaction": "This transaction hash is invalid"
   },
   "meta": {
@@ -38,7 +39,7 @@
     "parachain": "Liquid Crowdloan",
     "boost": "DeFi",
     "more": "More",
-    "eth2Swap": "Switch",
+    "switcher": "Switch",
     "docs": "Docs",
     "litepaper": "Litepaper",
     "bridge": "Bridge"
@@ -69,6 +70,7 @@
     "bnb": "BNB",
     "polygon": "MATIC",
     "abnbb": "aBNBb",
+    "abnbc": "aBNBc",
     "amaticb": "aMATICb",
     "ftm": "FTM",
     "aftmb": "aFTMb",
@@ -86,7 +88,8 @@
     "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
     "tooltips": {
-      "comingSoon": "Coming soon"
+      "comingSoon": "Coming soon",
+      "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
     }
   },
   "chain": {
@@ -104,7 +107,8 @@
     "43114": "Avalanche",
     "2018": "Dev",
     "250": "Fantom Opera",
-    "4002": "Fantom Testnet"
+    "4002": "Fantom Testnet",
+    "80001": "Mumbai"
   },
   "not-found": {
     "title": "Page not found",
@@ -135,7 +139,13 @@
       "avax-chain": "AVAX C Chain",
       "avax-fuji-testnet": "AVAX Fuji Testnet",
       "fantom": "Fantom Opera",
-      "fantom-testnet": "Fantom Testnet"
+      "fantom-testnet": "Fantom Testnet",
+      "polygon": "Polygon",
+      "mumbai": "Mumbai",
+      "kusama": "Kusama",
+      "polkadot": "Polkadot",
+      "rococo": "Rococo",
+      "westend": "Westend"
     }
   },
   "polkadot-slot-auction": {
@@ -185,9 +195,10 @@
       },
       "select-section": {
         "external-wallet": "Address",
-        "hint-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
-        "hint-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
         "info-message": "Ensure your wallet is connected to the Ethereum Mainnet network",
+        "info-message-eth": "You can claim {rewardTokenName} rewards to any Ethereum compatible address",
+        "info-message-polkadot": "You can claim {rewardTokenName} rewards to any Polkadot compatible address",
+        "info-warn-message": "Please note that Ledger wallets are not supported by {rewardTokenName} at all, even if they are connected to the Polkadot.js wallet",
         "select-wallet": "My {network} wallets",
         "send-external-wallet": "Send to external wallet",
         "title": "Claim {rewardTokenSymbol} tokens to {rewardTokenName} {network} address"
@@ -248,14 +259,6 @@
       "connect-polkadot-wallet": "Please connect your Polkadot wallet in order to continue"
     }
   },
-  "stake-polkadot": {
-    "networks": {
-      "DOT": "Polkadot",
-      "KSM": "Kusama",
-      "WND": "Westend",
-      "ROC": "Rococo"
-    }
-  },
   "support-project-form": {
     "coming-soon": "coming soon"
   },
@@ -291,6 +294,7 @@
   },
   "stake": {
     "title": "{token} Liquid Staking",
+    "progressTitle": "Stake",
     "amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
@@ -299,6 +303,7 @@
     "balance-label": "Your balance",
     "btn-max": "Max",
     "faq-title": "FAQ",
+    "bridge-btn": "Bridge",
     "stats": {
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
@@ -306,11 +311,17 @@
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
       "fee": "Est Network Fee: {value}"
     },
+    "buttons": {
+      "addToWallet": "Add {token} to wallet",
+      "return": "Go to dashboard"
+    },
     "success": {
       "title": "Stake successful",
       "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
-      "return": "Go to dashboard",
       "add-to-wallet": "Add {token} to wallet"
+    },
+    "pending": {
+      "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the dashboard."
     }
   },
   "stake-avax": {
@@ -345,25 +356,31 @@
   "stake-bnb": {
     "faq": {
       "question-1": "Are there any docs about the BNB staking and how I set up my wallet etc.?",
-      "answer-1": "Yes – there’s a user guide you can find <a href='https://docs.binance.org/smart-chain/wallet/metamask.html' rel='noopener noreferrer' target='_blank'>here</a>.",
+      "answer-1": "Yes – there is a <a href='https://docs.binance.org/smart-chain/wallet/metamask.html' rel='noopener noreferrer' target='_blank'>user guide</a>.",
       "question-2": "What is the minimum amount of BNB I can stake?",
-      "answer-2": "{value} BNB",
-      "question-3": "What is the unbonding period of aBNBb?",
-      "answer-3": "~{value} {period}",
-      "question-4": "How do I receive rewards?",
-      "answer-4": "aBNBb is a rebasing token. When holding aBNBb, your balance will increase in proportion to your BNB staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount.",
-      "question-5": "How soon after staking will I begin to receive rewards?",
-      "answer-5": "aBNBb will increase with every rebase; rebasing occurs daily.",
-      "question-6": "Does Ankr charge for this service?",
-      "answer-6": "ANKR does not charge any service fees for BNB Liquid Staking. However, validators charge a delegate stake fee (Ankr’s validator node charges 2%), representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake BNB.",
-      "question-7": "What determines the amount of reward I receive each rebase?",
-      "answer-7": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-8": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-8": "The only risk for stakers is missing out on rewards during any time the validator their BNB is staked with is “in jail” (slashed). However, delegated staked BNB will not be slashed, and slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-9": "Is there any liquidity for aBNBb anywhere currently?",
-      "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
+      "answer-2": "{total} BNB: {minStake} BNB, plus the relayer fee — {relayerFee} BNB. You must also count in the gas fee on top for sending the transaction.",
+      "question-3": "Why do I get less aBNBc than aBNBb for my 1 BNB?",
+      "answer-3": "aBNBb is a rebasing token that changes in number, which is why we decided 1 aBNBb is equal to 1 BNB. However, aBNBc only changes in value, which is why the amount of aBNBc you get when staking is calculated by the formula <code>stake * exchange_ratio</code>. The exchange ratio is calculated like this: <code>totals_supply_of_abnbc / (total_staked_bnb + total_rewards_for_staked_bnb - total_unstaked_abnbb_and_abnbc)</code>.",
+      "question-4": "Is there a maximum amount I can stake?",
+      "answer-4": "No, you can stake at your discretion, unlimited.",
+      "question-5": "What is the unbonding period for aBNBb/aBNBc?",
+      "answer-5": "~{value} {period}",
+      "question-6": "How do I receive rewards?",
+      "answer-6": "aBNBb is a rebasing token. When holding aBNBb, your balance will increase in proportion to your BNB staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount. <br/>aBNBc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
+      "question-7": "How soon after staking will I begin to receive rewards?",
+      "answer-7": "aBNBb will increase in number with every rebase; rebasing occurs daily. aBNBc will increase in value, daily.",
+      "question-8": "Does Ankr charge for the service?",
+      "answer-8": "ANKR does not charge any service fees for BNB Liquid Staking. However, validators charge a delegate stake fee, representing an indirect cost for liquid staking token holders: Ankr validator charges 2% from the rewards, BNB48 Club validator charges 0.48% from the rewards.",
+      "question-9": "What determines the amount of reward I receive each rebase of aBNBb or appreciation of aBNBc?",
+      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much BNB is validated on the network. The less BNB is staked, the higher the rewards to incentivize more BNB to come online, and vice versa. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
+      "question-10": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is “in jail” (slashed). Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked BNB is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+      "question-11": "Is there any liquidity for aBNBb/aBNBc anywhere currently?",
+      "answer-11": "You can check all available DeFi platforms on ANKR DeFi: <br/>- <a href=\"{aBNBbLink}\">aBNBb</a> <br/>- aBNBc (coming soon)"
     },
     "relayer-fee": "Relayer Fee",
+    "abnbb-descr": "aBNBb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
+    "abnbc-descr": "aBNBс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aBNBc={rate} BNB</b>",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
       "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period."
@@ -371,6 +388,18 @@
     "unstake": {
       "info": "You will receive BNB in about ~{value} {period}.",
       "period": "about {value} {period}"
+    }
+  },
+  "stake-polkadot": {
+    "networks": {
+      "DOT": "Polkadot",
+      "KSM": "Kusama",
+      "ROC": "Rococo",
+      "WND": "Westend"
+    },
+    "unstake": {
+      "info": "You will get your {token} in ~{period} days",
+      "user-wallet-info": "You can unstake {token}s to any {network} compatible address"
     }
   },
   "stake-polygon-dashboard": {
@@ -444,7 +473,7 @@
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
-    "aethc-descr": "aETHс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
+    "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
     "faq": {
@@ -452,7 +481,7 @@
       "answer-1": "Answer."
     }
   },
-  "eth2Swap": {
+  "switcher": {
     "title": "ANKR Switch",
     "info": "Switch Reward Bearing and Reward Earning Liquid Staking",
     "fee": "Service fee ({fee}%)",
@@ -462,7 +491,6 @@
     "tooltips": {
       "aETHb": "Ankr Reward-Earning Staked ETH (aETHb) is a rebasing token. When holding aETHb, its balance will increase on a daily basis proportional to your ETH2 staking rewards. Therefore, the ratio of aETHb vs. ETH is always 1:1.",
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
-      "approve": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
@@ -477,7 +505,8 @@
   },
   "progress": {
     "errorTitle": "An error has occurred",
-    "errorInfo": "Something went wrong. Try to reload browser and check transaction hash in URL.",
+    "errorTxFail": "Transaction failed.",
+    "errorGeneralInfo": "Something went wrong. Try to reload browser and check transaction hash in URL.",
     "pendingTitle": "{title} is pending...",
     "successTitle": "{title} successful!",
     "tx": {
@@ -491,6 +520,7 @@
   "unstake-dialog": {
     "title": "How many {token} do you want to redeem?",
     "unstake-fee": "Unstake Fee",
+    "btn-approve": "Approve",
     "btn": "Unstake",
     "buy-ankr": "Buy ANKR",
     "amount": "Amount",
@@ -500,7 +530,12 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Earn covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Earn covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
+    "user-wallet": {
+      "title": "Enter {network} wallet to which you want to receive {token}",
+      "field-label": "Wallet address",
+      "continue-btn": "Continue"
+    }
   },
   "unstake-polygon": {
     "success": {
@@ -513,6 +548,7 @@
     "assets": "Staked tokens",
     "assets-crowdloans": "Liquid crowdloan assets",
     "pending": "Unstaking in progress {value} {token}",
+    "pending-temp": "Unstaking in progress",
     "trade": "Trade",
     "start-staking": "Start staking with Ankr Earn",
     "stake": "Stake",
@@ -536,7 +572,13 @@
     "reward": "{value} ACA",
     "pending-amount": "Amount",
     "pending-time": "Requested time",
-    "history-tooltip": "Transactions history"
+    "history-tooltip": "Transactions history",
+    "card": {
+      "stakingHistory": "Staking history",
+      "stakingHistoryComingSoon": "Staking history (coming soon)",
+      "addToMetamask": "Add token to Metamask",
+      "copyTokenAddress": "Copy token address"
+    }
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
@@ -555,11 +597,14 @@
     "learn-more": "Learn more"
   },
   "wallets": {
+    "add-btn-tooltip": "Connect another wallet",
     "connect-btn": "Connect wallet",
+    "connected-wallets": "Connected wallets",
     "copy": "Copy",
     "disconnect": "Disconnect",
     "disconnect-all": "Disconnect all",
-    "connected-wallets": "Connected wallets"
+    "modal-title": "Connect wallet to continue",
+    "wallet-install": "Install"
   },
   "history-dialog": {
     "header": "Transactions History",
@@ -581,6 +626,7 @@
   },
   "bridge": {
     "main": {
+      "audited": "Audited by Beosin",
       "finish-bridge": "Finish Bridge",
       "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
@@ -591,7 +637,6 @@
       "you-will-receive": "You will receive:",
       "send-to-another": "Send to another address",
       "approve": "Approve",
-      "approve-tooltip": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf",
       "send": "Send",
       "fee-banner": "You will need a small gas fee (of native token) to claim"
     },

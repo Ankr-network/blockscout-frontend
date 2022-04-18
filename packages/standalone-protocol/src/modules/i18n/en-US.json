@@ -27,7 +27,8 @@
       "description": "Welcome to&nbsp;the fastest, free-est, and most reliable RPC endpoint for the <p>{network}</p> network."
     },
     "banner": {
-      "polygon": "There is an unstable operation of the blockchain network itself. The endpoints work in standard mode. More information can be found on the official social media pagesclasses."
+      "polygon": "There is an unstable operation of the blockchain network itself. The endpoints work in standard mode. More information can be found on the official social media pagesclasses.",
+      "moonbeam": "<b>rpc.moonbeam.tools</b> is joining forces with <b>ANKR</b>!🎉<br/>Read the announcement <a href=\"https://ankr.com\" target=\"_blank\" rel=\"noopener noreferrer\"><b>here</b></a>."
     },
     "erigonbsc": {
       "header": {

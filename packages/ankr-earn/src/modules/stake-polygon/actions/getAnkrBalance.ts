@@ -6,27 +6,24 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ANKR from 'modules/api/contract/ANKR.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
-import { POLYGON_PROVIDER_ID } from '../const';
-
 export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
   'polygon/getAnkrBalance',
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
         const providerManager = ProviderManagerSingleton.getInstance();
-        const provider = await providerManager.getProvider(POLYGON_PROVIDER_ID);
+        const provider = await providerManager.getETHWriteProvider();
         const { currentAccount } = provider;
         const { contractConfig } = configFromEnv();
         const ankrContract = provider.createContract(
           ABI_ANKR,
           contractConfig.ankrContract,
         );
-        const ankrBalance = await provider.getErc20Balance(
+        
+        return provider.getErc20Balance(
           ankrContract,
           currentAccount,
         );
-
-        return ankrBalance;
       })(),
     },
     meta: {

@@ -7,33 +7,36 @@ import { StakedAFTMB } from '..';
 import {
   IStakedAFTMBData,
   useStakedAFTMBData,
-} from '../../StakedTokens/hooks/useStakedAFTMBData';
+} from '../../StakedTokens/hooks/FTM/useStakedAFTMBData';
 import {
   IUseStakedFTMTxHistory,
   useStakedFTMTxHistory,
-} from '../../StakedTokens/hooks/useStakedFTMTxHistory';
+} from '../../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedAFTMBData', () => ({
+jest.mock('../../StakedTokens/hooks/FTM/useStakedAFTMBData', () => ({
   useStakedAFTMBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/useStakedFTMTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/FTM/useStakedFTMTxHistory', () => ({
   useStakedFTMTxHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
   const defaultStakedAFTMBHookData: IStakedAFTMBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
+    pendingUnstakes: ONE_ETH.dividedBy(10 ** 17),
     isShowed: true,
     network: 'Fantom Opera',
     isBalancesLoading: false,
     stakeLink: '/stake',
     isStakeLoading: false,
     isUnstakeLoading: false,
+    tradeLink: '/trade',
+    handleAddTokenToWallet: jest.fn(),
   };
 
   const defaultStakedFTMTxHistory: IUseStakedFTMTxHistory = {
@@ -43,6 +46,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     hasHistory: false,
     isHistoryLoading: false,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
+    handleLoadTxHistory: jest.fn(),
   };
 
   beforeEach(() => {
@@ -80,7 +84,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
       </MemoryRouter>,
     );
 
-    const historyButton = await screen.findByTestId('history-button');
+    const menuButton = await screen.findByTestId('menu-button');
+    menuButton.click();
+
+    const historyButton = await screen.findByText('Staking history');
     historyButton.click();
 
     const historyDialog = await screen.findByTestId('history-dialog');

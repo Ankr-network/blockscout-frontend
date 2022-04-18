@@ -22,7 +22,7 @@ const EACAggregatorProxyContract = (
 };
 
 export const getAnkrUsdt = async (): Promise<BigNumber> => {
-  const provider = await providerManager.getReadProvider(
+  const provider = await providerManager.getETHReadProvider(
     AvailableReadProviders.ethMainnet,
   );
 

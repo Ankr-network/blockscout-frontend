@@ -17,7 +17,7 @@ import { ReactComponent as AngleDownIcon } from '../../assets/img/angle-down-ico
 import { useSelectStyles } from './useSelectStyles';
 
 export interface ISelectOption {
-  label: string;
+  label: ReactNode;
   value: string | number;
   disabled?: boolean;
 }
@@ -68,7 +68,7 @@ export const Select = ({
       variant: 'outlined',
       autoWidth: true,
       classes: {
-        select: styles.select,
+        select: classNames(styles.select, classes?.select),
         ...classes,
       },
       MenuProps: {

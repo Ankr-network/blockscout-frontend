@@ -16,10 +16,41 @@ import { ISubmittableResult } from '@polkadot/types/types/extrinsic';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import { blake2AsHex, decodeAddress } from '@polkadot/util-crypto';
 import BigNumber from 'bignumber.js';
-import { TNetworkType } from './entity';
+import { IProvider } from 'provider';
+import PolkadotIcon from './assets/polkadot-icon.svg';
+import {
+  CURRENT_ENV,
+  DEFAULT_WALLET_NAME,
+  DEVELOP_ROCOCO_CONFIG,
+  DEVELOP_WESTEND_CONFIG,
+  ISlotAuctionConfig,
+  MAINNET_KUSAMA_CONFIG,
+  MAINNET_POLKADOT_CONFIG,
+  STAGING_ROCOCO_CONFIG,
+  STAGING_WESTEND_CONFIG,
+} from './config';
+import { EEnvTypes, TNetworkType } from './entity';
 
-export class PolkadotProvider {
-  static isSupported(): boolean {
+interface IConfig {
+  polkadotUrl: string;
+  networkType?: TNetworkType;
+}
+
+export interface ISwitchNetworkData {
+  address: string;
+  chainType: TNetworkType;
+}
+
+interface IWalletMeta {
+  icon: string;
+  id: string;
+  name: string;
+}
+
+const PKG_ORIGIN_NAME = 'PolkadotProvider';
+
+export class PolkadotProvider implements IProvider {
+  static isInjected(): boolean {
     return isWeb3Injected;
   }
 
@@ -42,16 +73,25 @@ export class PolkadotProvider {
     return web3FromAddress(address);
   }
 
+  protected currAccount: string | null = null;
+
   private api?: ApiPromise;
 
   private networkType?: TNetworkType;
 
-  public constructor(
-    private readonly config: {
-      polkadotUrl: string;
-      networkType?: TNetworkType;
-    },
-  ) {
+  public get currentAccount(): string | null {
+    return this.currAccount;
+  }
+
+  public set currentAccount(addr: string | null) {
+    this.currAccount = addr;
+  }
+
+  public get currentNetworkType(): TNetworkType | undefined {
+    return this.networkType;
+  }
+
+  public constructor(private config: IConfig) {
     this.networkType = config.networkType;
   }
 
@@ -60,12 +100,28 @@ export class PolkadotProvider {
     return this.api;
   }
 
-  public isConnected(): boolean {
+  public getWalletMeta(): IWalletMeta {
+    return {
+      icon: PolkadotIcon,
+      id: 'polkadot-js',
+      name: DEFAULT_WALLET_NAME,
+    };
+  }
+
+  public isAPIConnected(): boolean {
     return !!this.api;
   }
 
+  public isConnected(): boolean {
+    return isWeb3Injected && this.isAPIConnected();
+  }
+
   public async connect(): Promise<void> {
-    await web3Enable('StakeFi');
+    const extensions = await web3Enable(PKG_ORIGIN_NAME);
+
+    if (!extensions.length) {
+      throw new Error('There are no Polkadot extensions');
+    }
 
     const accounts = await this.getAccounts();
     console.log(`Found next polkadot accounts: ${accounts}`);
@@ -75,8 +131,18 @@ export class PolkadotProvider {
     }
 
     const wsProvider = new WsProvider(this.config.polkadotUrl);
+
+    // eslint-disable-next-line prefer-destructuring
+    this.currAccount = accounts[0];
     this.api = await ApiPromise.create({ provider: wsProvider });
+
     await this.getNetworkType();
+  }
+
+  public disconnect(): void {
+    this.currAccount = null;
+    this.api = undefined;
+    this.networkType = this.config.networkType;
   }
 
   public async getNetworkType(): Promise<TNetworkType> {
@@ -185,6 +251,67 @@ export class PolkadotProvider {
       blockHash,
     );
     return { transactionHash, blockHash, extId };
+  }
+
+  public async switchNetwork(
+    networkType: TNetworkType,
+  ): Promise<ISwitchNetworkData> {
+    let config: ISlotAuctionConfig | undefined;
+
+    switch (networkType) {
+      case 'DOT':
+        config = MAINNET_POLKADOT_CONFIG;
+        break;
+
+      case 'KSM':
+        config = MAINNET_KUSAMA_CONFIG;
+        break;
+
+      case 'WND':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_WESTEND_CONFIG
+            : DEVELOP_WESTEND_CONFIG;
+        break;
+
+      case 'ROC':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_ROCOCO_CONFIG
+            : DEVELOP_ROCOCO_CONFIG;
+        break;
+
+      default:
+        break;
+    }
+
+    if (typeof config === 'undefined') {
+      throw new Error(`Not supported Polkadot network type: ${networkType}`);
+    }
+
+    const [firstAddress] = await this.getAccounts();
+
+    if (typeof firstAddress !== 'string') {
+      throw new Error('There is no Polkadot account');
+    }
+
+    this.config = {
+      polkadotUrl: config.polkadotUrl,
+      networkType: config.networkType,
+    };
+
+    this.currAccount = firstAddress;
+
+    this.api = await ApiPromise.create({
+      provider: new WsProvider(config.polkadotUrl),
+    });
+
+    this.networkType = config.networkType as TNetworkType;
+
+    return {
+      address: this.currAccount,
+      chainType: this.networkType,
+    };
   }
 
   public async getMaxPossibleSendAmount(

@@ -4,11 +4,15 @@ import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
 
+import { StakedABNBB } from '../StakedABNBB';
+import { StakedABNBC } from '../StakedABNBC';
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedAVAX } from '../StakedAVAX';
-import { StakedBNB } from '../StakedBNB';
+import { StakedBridgeAETHB } from '../StakedBridgeAETHB/StakedBridgeAETHB';
+import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC/StakedBridgeAMATICBBSC';
+import { StakedBridgeMatic } from '../StakedBridgeMatic/StakedBridgeToken';
 import { StakedMatic } from '../StakedMatic';
 
 import { useStakedTokens } from './hooks/useStakedTokens';
@@ -22,9 +26,13 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAETHBShowed,
     isAETHCShowed,
     isAVAXShowed,
-    isBNBShowed,
+    isABNBBShowed,
+    isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
+    isAMATICBPolygonShowed,
+    isAETHBBridgedShowed,
+    isAMATICBBSCShowed,
   } = useStakedTokens();
 
   return (
@@ -38,11 +46,19 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           <AssetsList>
             {isMATICShowed && <StakedMatic />}
 
+            {isAMATICBPolygonShowed && <StakedBridgeMatic />}
+
+            {isAMATICBBSCShowed && <StakedBridgeAMATICBBSC />}
+
+            {isAETHBBridgedShowed && <StakedBridgeAETHB />}
+
             {isAETHBShowed && <StakedAETHB />}
 
             {isAETHCShowed && <StakedAETHC />}
 
-            {isBNBShowed && <StakedBNB />}
+            {isABNBBShowed && <StakedABNBB />}
+
+            {isABNBCShowed && <StakedABNBC />}
 
             {isAFTMBShowed && <StakedAFTMB />}
 

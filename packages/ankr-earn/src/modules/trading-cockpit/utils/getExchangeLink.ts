@@ -8,6 +8,9 @@ function getMainTokenName(token?: AvailableTokens): string {
     case AvailableTokens.AVAX:
     case AvailableTokens.aAVAXb:
       return 'AVAX';
+    case AvailableTokens.FTM:
+    case AvailableTokens.aFTMb:
+      return 'FANTOM';
     default:
       return 'ETH';
   }

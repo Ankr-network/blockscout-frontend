@@ -3,6 +3,10 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 
+import { AvailableWriteProviders } from 'provider';
+
+import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
@@ -29,6 +33,18 @@ export const FeatureItem = ({
   staked,
 }: IFeatureItemProps): JSX.Element => {
   const classes = useFeatureItemStyles();
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const onStakeClick = () => {
+    trackEnterStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'liquid_staking',
+      tokenName: token,
+    });
+  };
 
   return (
     <Paper className={classNames(classes.root)}>
@@ -77,6 +93,7 @@ export const FeatureItem = ({
               className={classes.button}
               href={mainHref}
               variant="contained"
+              onClick={onStakeClick}
             >
               {t('features.stake')}
             </NavLink>

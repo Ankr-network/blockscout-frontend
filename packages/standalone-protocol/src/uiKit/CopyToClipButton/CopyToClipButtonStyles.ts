@@ -12,6 +12,15 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     overflow: 'hidden',
     padding: 0,
     marginTop: '0!important',
+
+    '&.moonbeam': {
+      border: `1px solid ${theme.palette.common.white}`,
+      '& $content': {
+        padding: 0,
+        backgroundColor: 'transparent',
+      },
+    },
+
     '&.harmony': {
       '& $content': {
         padding: 0,
@@ -108,6 +117,36 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         '&:hover': {
           backgroundColor: theme.palette.common.white,
         },
+      },
+    },
+
+    '&.gnosis': {
+      borderRadius: 9,
+
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.common.white,
+      },
+      '& $button': {
+        borderRadius: 9,
+      },
+
+      '& $text': {
+        padding: '11px 16px 11px 32px',
+      },
+    },
+
+    '&.syscoin': {
+      '& $content': {
+        padding: 0,
+        border: '1px solid #33373B',
+        borderRadius: 50,
+        '& button': {
+          borderRadius: 50,
+        },
+      },
+      '& $button': {
+        backgroundColor: '#1E41A5',
       },
     },
   },

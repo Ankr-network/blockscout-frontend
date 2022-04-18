@@ -43,7 +43,8 @@ export const getPrices = createAction<
       return {
         promise: (async (): Promise<IGetQuotePrice[]> => {
           const { dispatchRequest } = store;
-          const chainId = getChainIdByToken(fromToken);
+          // TODO Add supporting of strings
+          const chainId = getChainIdByToken(fromToken) as number;
 
           const platformsToRequest = getPlatformsToRequest(fromToken, toToken);
 

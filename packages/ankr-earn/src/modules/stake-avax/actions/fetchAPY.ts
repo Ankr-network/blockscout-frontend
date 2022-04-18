@@ -17,7 +17,7 @@ export const fetchAPY = createSmartAction<RequestAction<BigNumber, BigNumber>>(
       url: '/v1alpha/avax/estimatedapy',
     },
     meta: {
-      showNotificationOnError: true,
+      showNotificationOnError: false,
       cache: ACTION_CACHE_SEC,
       driver: 'axios',
       getData: (data: IResData): BigNumber => {

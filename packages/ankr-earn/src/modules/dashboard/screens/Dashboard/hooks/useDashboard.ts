@@ -1,13 +1,19 @@
 import { resetRequests } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { getEth2SwapData } from 'modules/eth2Swap/actions/getEth2SwapData';
+import { featuresConfig } from 'modules/common/const';
+import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
+import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
+import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
 import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { getAPY as getEthAPY } from 'modules/stake-eth/actions/getAPY';
+import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
 import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
@@ -23,21 +29,31 @@ export const useDashboard = (): void => {
     dispatch(
       resetRequests([
         fetchPolygonStats.toString(),
+        fetchAMATICBBridged.toString(),
+        fetchAMATICBBridgedBSC.toString(),
+        fetchAETHBBridged.toString(),
         fetchPolygonTxHistory.toString(),
-        getEth2SwapData.toString(),
+        getEthCommonData.toString(),
         fetchAVAXStats.toString(),
         fetchAVAXTxHistory.toString(),
         fetchBNBStats.toString(),
         fetchBNBTxHistory.toString(),
         getFTMStats.toString(),
         getFTMHistory.toString(),
+        getTxHistoryETH.toString(),
       ]),
     );
 
-    dispatch(fetchPolygonStats());
-    dispatch(fetchPolygonAPY());
+    dispatch(getEthCommonData());
+    if (featuresConfig.stakeETH) {
+      dispatch(getEthAPY());
+    }
 
-    dispatch(getEth2SwapData());
+    dispatch(fetchPolygonStats());
+    dispatch(fetchAMATICBBridged());
+    dispatch(fetchAMATICBBridgedBSC());
+    dispatch(fetchAETHBBridged());
+    dispatch(fetchPolygonAPY());
 
     dispatch(fetchAVAXAPY());
     dispatch(fetchAVAXStats());

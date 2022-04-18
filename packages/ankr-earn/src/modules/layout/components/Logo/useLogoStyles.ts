@@ -27,6 +27,9 @@ export const useLogoStyles = makeStyles<Theme>(theme => ({
     },
   },
   title: {
-    fontSize: 14,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: theme.spacing(1),
+    lineHeight: 1,
   },
 }));

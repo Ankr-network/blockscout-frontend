@@ -1,17 +1,20 @@
+import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  IWeb3SendResult,
-  Web3KeyProvider,
-  Web3KeyReadProvider,
   BlockchainNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -21,7 +24,6 @@ import {
 } from 'modules/stake/api/getTxEventsHistoryGroup';
 
 import {
-  FANTOM_PROVIDER_ID,
   FANTOM_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
   BLOCK_OFFSET,
@@ -37,12 +39,12 @@ export enum EFantomPoolEvents {
 }
 
 interface IFantomSDKProviders {
-  writeProvider: Web3KeyProvider;
+  writeProvider: Web3KeyWriteProvider;
   readProvider: Web3KeyReadProvider;
 }
 
 interface IGetPastEvents {
-  provider: Web3KeyProvider | Web3KeyReadProvider;
+  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -50,28 +52,46 @@ interface IGetPastEvents {
   filter?: Filter;
 }
 
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
+}
+
 export class FantomSDK {
   private static instance?: FantomSDK;
 
-  private readonly writeProvider: Web3KeyProvider;
+  private readonly writeProvider: Web3KeyWriteProvider;
 
   private readonly readProvider: Web3KeyReadProvider;
 
   private currentAccount: string;
 
+  private readonly api: AxiosInstance;
+
   private constructor({ readProvider, writeProvider }: IFantomSDKProviders) {
     FantomSDK.instance = this;
+    const { gatewayConfig } = configFromEnv(
+      isMainnet ? Env.Production : Env.Develop,
+    );
 
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
     this.currentAccount = this.writeProvider.currentAccount;
+    this.api = axios.create({
+      baseURL: gatewayConfig.baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    });
   }
 
   public static async getInstance(): Promise<FantomSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getProvider(FANTOM_PROVIDER_ID),
-      providerManager.getReadProvider(FANTOM_PROVIDER_READ_ID),
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(FANTOM_PROVIDER_READ_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -85,9 +105,9 @@ export class FantomSDK {
     }
 
     const instance = new FantomSDK({ writeProvider, readProvider });
-    const isFmtNetwork = await instance.isFmtNetwork(writeProvider);
+    const isFtmNetwork = await instance.isFtmNetwork(writeProvider);
 
-    if (isFmtNetwork && !writeProvider.isConnected()) {
+    if (isFtmNetwork && !writeProvider.isConnected()) {
       await writeProvider.connect();
     }
 
@@ -96,25 +116,25 @@ export class FantomSDK {
 
   private async getProvider(
     isForceRead = false,
-  ): Promise<Web3KeyProvider | Web3KeyReadProvider> {
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
     if (isForceRead) {
       return this.readProvider;
     }
 
-    const isFmtChain = await this.isFmtNetwork(this.writeProvider);
+    const isFtmChain = await this.isFtmNetwork(this.writeProvider);
 
-    if (isFmtChain && !this.writeProvider.isConnected()) {
+    if (isFtmChain && !this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    if (isFmtChain) {
+    if (isFtmChain) {
       return this.writeProvider;
     }
 
     return this.readProvider;
   }
 
-  private async isFmtNetwork(provider: Web3KeyProvider): Promise<boolean> {
+  private async isFtmNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
@@ -129,7 +149,7 @@ export class FantomSDK {
   }
 
   private getFantomPoolContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
 
@@ -137,7 +157,7 @@ export class FantomSDK {
   }
 
   private getAftmbTokenContract(
-    provider: Web3KeyProvider | Web3KeyReadProvider,
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
 
@@ -252,6 +272,30 @@ export class FantomSDK {
     return flatten(pastEvents);
   }
 
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
   public async stake(amount: BigNumber): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -311,6 +355,9 @@ export class FantomSDK {
       address: fantomConfig.aftmbToken,
       symbol: Token.aFTMb,
       decimals: 18,
+      chainId: isMainnet
+        ? (BlockchainNetworkId.fantom as number)
+        : (BlockchainNetworkId.fantomTestnet as number),
     });
   }
 
@@ -331,6 +378,13 @@ export class FantomSDK {
       .call();
 
     return this.convertFromWei(aFTMbBalance);
+  }
+
+  public async getPendingUnstakes(): Promise<BigNumber> {
+    return this.api
+      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}`)
+      .then(({ data }) => new BigNumber(data.unstakingAmount))
+      .catch(() => ZERO);
   }
 
   public async getAftmbAPY(): Promise<BigNumber> {

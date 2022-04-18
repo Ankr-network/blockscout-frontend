@@ -45,7 +45,8 @@
   },
   "staking-info": {
     "description": "<b>Deposit 50,000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
-    "link": "Join the waitlist"
+    "link": "Join the waitlist",
+    "alt": "Cube as a blockchain layer"
   },
   "language": {
     "en-US": "English"

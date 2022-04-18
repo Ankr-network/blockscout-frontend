@@ -5,6 +5,7 @@ import {
   Stepper as StepperComponent,
   StepperProps,
 } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { CompleteCircleIcon } from 'uiKit/Icons/CompleteCircleIcon';
 
@@ -18,6 +19,7 @@ export interface INumericStepperProps extends Omit<StepperProps, 'children'> {
 export const NumericStepper = ({
   stepsCount,
   activeStep,
+  className,
   ...rest
 }: INumericStepperProps): JSX.Element => {
   const classes = useNumericStepperStyles();
@@ -28,7 +30,7 @@ export const NumericStepper = ({
     <StepperComponent
       activeStep={activeStep}
       {...rest}
-      className={classes.root}
+      className={classNames(className, classes.root)}
     >
       {steps.map((item, index) => (
         <Step key={item}>

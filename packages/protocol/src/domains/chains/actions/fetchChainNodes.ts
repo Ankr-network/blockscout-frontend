@@ -11,7 +11,7 @@ export const fetchChainNodes = createSmartAction<
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      const data = await service.getWorkerGateway().apiGetNodes(blockchain);
+      const data = await service.getWorkerGateway().getNodes(blockchain);
 
       return data;
     })(),

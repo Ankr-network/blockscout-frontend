@@ -20,14 +20,31 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
         return {
           [AvailableBridgeTokens.aMATICb]: [
             {
+              label: t(`chain.${SupportedChainIDS.MAINNET}`),
+              icon: <EthIcon />,
+              value: SupportedChainIDS.MAINNET,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.BSC}`),
+              icon: <BSCIcon />,
+              value: SupportedChainIDS.BSC,
+            },
+            {
               label: t(`chain.${SupportedChainIDS.POLYGON}`),
               icon: <MaticIcon />,
               value: SupportedChainIDS.POLYGON,
             },
+          ],
+          [AvailableBridgeTokens.aETHb]: [
             {
               label: t(`chain.${SupportedChainIDS.MAINNET}`),
               icon: <EthIcon />,
               value: SupportedChainIDS.MAINNET,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.BSC}`),
+              icon: <BSCIcon />,
+              value: SupportedChainIDS.BSC,
             },
           ],
         };
@@ -38,14 +55,26 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
         return {
           [AvailableBridgeTokens.aMATICb]: [
             {
+              label: t(`chain.${SupportedChainIDS.GOERLI}`),
+              icon: <EthIcon />,
+              value: SupportedChainIDS.GOERLI,
+            },
+            {
               label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
               icon: <BSCIcon />,
               value: SupportedChainIDS.BSC_TESTNET,
             },
+          ],
+          [AvailableBridgeTokens.aETHb]: [
             {
               label: t(`chain.${SupportedChainIDS.GOERLI}`),
               icon: <EthIcon />,
               value: SupportedChainIDS.GOERLI,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
+              icon: <BSCIcon />,
+              value: SupportedChainIDS.BSC_TESTNET,
             },
           ],
         };

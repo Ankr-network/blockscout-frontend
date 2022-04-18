@@ -39,7 +39,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   skeleton: {
     width: '100%',
     maxWidth: 140,
-    height: 20,
+    marginTop: 4,
+    height: 23,
     transform: 'none',
   },
 }));

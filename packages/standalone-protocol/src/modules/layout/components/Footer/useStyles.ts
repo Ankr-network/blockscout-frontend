@@ -24,6 +24,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
     margin: theme.spacing(0, 2),
     textAlign: 'center',
 
+    '&.moonbeam': {
+      '& $link': {
+        color: theme.palette.success.main,
+      },
+    },
+
     '&.arbitrum, &.near, &.avalanche': {
       color: theme.palette.grey['500'],
 
