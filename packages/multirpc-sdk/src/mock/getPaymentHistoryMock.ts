@@ -4,8 +4,8 @@ import {
   IPaymentHistoryRequest,
 } from 'multirpc-sdk';
 import { faker } from '@faker-js/faker';
-import { createArray } from './utils';
 import orderBy from 'lodash.orderby';
+import { createArray } from './utils';
 
 const totalPages = 5;
 const defaultPageSize = 10;

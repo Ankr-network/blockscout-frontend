@@ -144,6 +144,7 @@ export interface IConfig {
   walletPrivateUrl: string;
   walletPublicUrl: string;
   workerUrl: string;
+  accountUrl: string;
 }
 
 export type Environment = 'local' | 'staging' | 'prod';

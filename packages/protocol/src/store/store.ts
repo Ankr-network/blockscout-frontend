@@ -13,8 +13,11 @@ import { historyInstance } from '../modules/common/utils/historyInstance';
 import { NotificationActions } from '../domains/notification/store/NotificationActions';
 import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { rootSaga } from './rootSaga';
-import { i18nPersistConfig, userPersistConfig } from './webStorageConfigs';
-import { userSlice } from 'modules/user/userSlice';
+import { i18nPersistConfig, authPersistConfig } from './webStorageConfigs';
+import { authSlice } from 'modules/auth/store/authSlice';
+import { disconnect } from 'modules/auth/actions/disconnect';
+
+const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -39,11 +42,19 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  onError: (error: Error, action, store: Store) => {
+  onError: (error: any, action, store: Store) => {
+    let customMessageKey = '';
+
+    if (error?.response?.data === TOKEN_EXPIRED_ERROR) {
+      store.dispatch(disconnect());
+
+      customMessageKey = 'error.expired-session';
+    }
+
     if (!action.meta?.suppressErrorNotification) {
       store.dispatch(
         NotificationActions.showNotification({
-          message: extractMessage(error),
+          message: extractMessage(error, customMessageKey),
           severity: 'error',
         }),
       );
@@ -57,7 +68,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
-  user: persistReducer(userPersistConfig, userSlice.reducer),
+  auth: persistReducer(authPersistConfig, authSlice.reducer),
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,

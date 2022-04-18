@@ -24,7 +24,9 @@
     "unknown": "Unknown error",
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
-    "insufficient-permissions": "Insufficient permissions"
+    "insufficient-permissions": "Insufficient permissions",
+    "expired-session": "Your session has expired",
+    "access-token-error": "Unable to obtain access token from multirpc-sdk"
   },
   "main-navigation": {
     "private-rpcs": "Exclusive RPCs",
