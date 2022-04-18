@@ -24,7 +24,7 @@ export const fetchNodeProviders = createSmartAction<
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      return service.getWorkerGateway().apiGetNodes();
+      return service.getWorkerGateway().getNodes();
     })(),
   },
   meta: {

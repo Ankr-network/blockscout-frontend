@@ -9,7 +9,4 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(0.5, 1),
     borderRadius: 6,
   },
-  tooltip: {
-    display: 'inline',
-  },
 }));

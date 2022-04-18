@@ -10,7 +10,7 @@ const config: PlaywrightTestConfig = {
   reportSlowTests: null,
   use: {
     browserName: 'chromium',
-    headless: false,
+    headless: true,
     viewport: { width: 1440, height: 900 },
     locale: 'en-US',
     trace: 'on-first-retry',
