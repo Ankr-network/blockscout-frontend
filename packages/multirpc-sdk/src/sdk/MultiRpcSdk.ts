@@ -1,5 +1,6 @@
 import { IWeb3KeyProvider } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
+import { bytesToHex } from 'web3-utils';
 
 import { ApiGateway, IApiGateway } from '../api';
 import {
@@ -17,8 +18,6 @@ import {
 } from '../contract';
 import {
   IBlockchainEntity,
-  IPaymentHistoryReponse,
-  IPaymentHistoryRequest,
   IPrivateEndpoint,
   IProvider,
   IWorkerBackofficeGateway,
@@ -40,6 +39,13 @@ import {
   LoginAsUserExResult,
   LoginAsUserExResultAction,
 } from './types';
+import {
+  AccountGateway,
+  IAccountGateway,
+  IBalance,
+  IPaymentHistoryReponse,
+  IPaymentHistoryRequest,
+} from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
 import { RpcGateway } from '../rpc/RpcGateway';
@@ -54,6 +60,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   private rpcGateway?: RpcGateway;
 
   private contractManager?: IContractManager;
+
+  private accountGateway?: IAccountGateway;
 
   public constructor(
     private readonly keyProvider: IWeb3KeyProvider,
@@ -463,6 +471,19 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.workerBackofficeGateway;
   }
 
+  /**
+   * @internal for internal usage, try to avoid
+   */
+  getAccountGateway(): IAccountGateway {
+    this.accountGateway =
+      this.accountGateway ||
+      new AccountGateway({
+        baseURL: this.config.accountUrl,
+      });
+
+    return this.accountGateway;
+  }
+
   getKeyProvider(): IWeb3KeyProvider {
     return this.keyProvider;
   }
@@ -556,10 +577,80 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   async getPaymentHistory(
     params: IPaymentHistoryRequest,
   ): Promise<IPaymentHistoryReponse> {
-    return this.getWorkerGateway().getPaymentHistory(params);
+    return this.getAccountGateway().getPaymentHistory(params);
   }
 
-  async getCurrentAnkrBalance(): Promise<BigNumber> {
-    return this.getContractManager().getCurrentAnkrBalance();
+  async getAnkrBalance(): Promise<IBalance> {
+    return this.getAccountGateway().getAnkrBalance();
+  }
+
+  async sign(
+    data: Buffer | string | Record<string, unknown>,
+    address: string,
+  ): Promise<string> {
+    try {
+      if (typeof data === 'object') {
+        data = bytesToHex(data as any);
+      }
+
+      const token = await this.keyProvider
+        .getWeb3()
+        .eth.personal.sign(data, address, '');
+
+      return token;
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      const message = (error.message || error.error).substr(
+        0,
+        error.message.indexOf('\n'),
+      );
+
+      const parts = message.split(':');
+      /* try to detect angry MetaMask messages */
+      if (parts.length > 0) {
+        /* special case for Firefox that doesn't return any errors, only extension stack trace */
+        if (
+          message.includes('@moz-extension') &&
+          message.includes('Returned error: value')
+        ) {
+          throw new Error('User denied message signature');
+        }
+        /* cases for other browsers (tested in Chrome, Opera, Brave) */
+        if (
+          message.includes('MetaMask') ||
+          message.includes('Returned error') ||
+          message.includes('RPC Error')
+        ) {
+          throw new Error(parts[parts.length - 1]);
+        }
+      }
+
+      throw error;
+    }
+  }
+
+  async signLoginData(lifeTime: number): Promise<string> {
+    const currentTime = Math.floor(new Date().getTime());
+    const expiresAfter = currentTime + lifeTime;
+    const data = `Multirpc Login Message:\n${expiresAfter}`;
+    const address = this.getKeyProvider().currentAccount();
+
+    const signature = await this.sign(data, address);
+    const formData = `signature=${signature}&address=${address}&expires=${expiresAfter}`;
+
+    return Buffer.from(formData, 'utf8').toString('base64');
+  }
+
+  public async authorizeProvider(lifeTime: number): Promise<string> {
+    if (!this.keyProvider) {
+      throw new Error('Key provider must be connected');
+    }
+
+    const token = await this.signLoginData(lifeTime);
+
+    await this.getAccountGateway().addToken(token);
+
+    return token;
   }
 }

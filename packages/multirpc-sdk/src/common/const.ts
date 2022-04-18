@@ -22,6 +22,7 @@ export const STAGING_CONFIG: IConfig = {
   walletPrivateUrl: 'https://staging.protocol.ankr.com/',
   walletPublicUrl: 'https://staging.protocol.ankr.com/',
   workerUrl: 'https://staging.multi-rpc.com/',
+  accountUrl: 'https://staging.multirpc.ankr.com/',
 };
 
 export const LOCAL_CONFIG: IConfig = {
@@ -41,4 +42,5 @@ export const PROD_CONFIG: IConfig = {
   walletPrivateUrl: 'https://mainnet.protocol.ankr.com/',
   walletPublicUrl: 'https://mainnet.protocol.ankr.com/',
   workerUrl: 'https://next.multi-rpc.com/',
+  accountUrl: 'https://mainnet.multirpc.ankr.com/',
 };

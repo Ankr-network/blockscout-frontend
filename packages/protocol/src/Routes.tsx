@@ -15,19 +15,19 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from 'ui';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
-import { selectCredentials } from 'modules/user/userSlice';
+import { selectAuthData } from 'modules/auth/store/authSlice';
 import { GuardProviderRoute } from 'modules/auth/components/GuardProviderRoute';
 
 export function Routes() {
   const { handleConnect } = useAuth();
 
-  const cachedCredentials = useAppSelector(selectCredentials);
+  const cachedAuthData = useAppSelector(selectAuthData);
 
   useEffect(() => {
-    if (cachedCredentials) {
+    if (cachedAuthData.authorizationToken) {
       handleConnect();
     }
-  }, [handleConnect, cachedCredentials]);
+  }, [handleConnect, cachedAuthData]);
 
   return (
     <Switch>
@@ -37,7 +37,7 @@ export function Routes() {
         render={() => (
           <Redirect
             to={
-              cachedCredentials
+              cachedAuthData.credentials
                 ? PlanRoutesConfig.plan.path
                 : ChainsRoutesConfig.chains.path
             }
@@ -59,7 +59,7 @@ export function Routes() {
       <GuardAuthRoute
         exact
         path={[PlanRoutesConfig.plan.path, PlanRoutesConfig.planDeposit.path]}
-        hasCachedCredentials={Boolean(cachedCredentials)}
+        hasCachedCredentials={Boolean(cachedAuthData.credentials)}
         render={() => (
           <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
             <PlanRoutes />

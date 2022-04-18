@@ -4,8 +4,6 @@ import {
   IBlockchainEntity,
   IImportJWTTokenResult,
   INodeEntity,
-  IPaymentHistoryReponse,
-  IPaymentHistoryRequest,
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
@@ -92,8 +90,4 @@ export interface IWorkerGateway {
   importJwtToken(jwtToken?: string): Promise<IImportJWTTokenResult>;
 
   removeJwtToken(): void;
-
-  getPaymentHistory(
-    params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse>;
 }

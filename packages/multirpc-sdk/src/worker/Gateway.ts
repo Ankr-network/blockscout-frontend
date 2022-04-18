@@ -5,8 +5,6 @@ import {
   IBlockchainEntity,
   IImportJWTTokenResult,
   INodeEntity,
-  IPaymentHistoryReponse,
-  IPaymentHistoryRequest,
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
@@ -19,7 +17,6 @@ import {
   Timeframe,
 } from './types';
 import { IWorkerGateway } from './interfaces';
-import { getPaymentHistoryMock } from '../mock/getPaymentHistoryMock';
 
 export class WorkerGateway implements IWorkerGateway {
   public api: AxiosInstance;
@@ -193,21 +190,5 @@ export class WorkerGateway implements IWorkerGateway {
     );
 
     return data;
-  }
-
-  public async getPaymentHistory(
-    params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse> {
-    await new Promise(r => setTimeout(r, 1300));
-
-    const { data: response } = await this.api
-      .get<IPaymentHistoryReponse>('/api/v1/payment-history', {
-        params,
-      })
-      .catch(() => ({
-        data: getPaymentHistoryMock(params),
-      }));
-
-    return response;
   }
 }

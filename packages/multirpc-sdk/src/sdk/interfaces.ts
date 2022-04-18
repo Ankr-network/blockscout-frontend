@@ -6,8 +6,6 @@ import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
 import { IContractManager, IDepositAnkrToWalletResult } from '../contract';
 import {
   IBlockchainEntity,
-  IPaymentHistoryReponse,
-  IPaymentHistoryRequest,
   IPrivateEndpoint,
   IProvider,
   IWorkerBackofficeGateway,
@@ -26,6 +24,11 @@ import {
   LoginAsUserExResult,
 } from './types';
 import { RpcGateway } from '../rpc/RpcGateway';
+import {
+  IBalance,
+  IPaymentHistoryReponse,
+  IPaymentHistoryRequest,
+} from '../account';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -124,7 +127,11 @@ export interface IMultiRpcSdk {
 
   requestUserEncryptionKey(): Promise<Base64>;
 
+  getAnkrBalance(): Promise<IBalance>;
+
   getPaymentHistory(
     params: IPaymentHistoryRequest,
   ): Promise<IPaymentHistoryReponse>;
+
+  authorizeProvider(lifeTime: number): Promise<string>;
 }

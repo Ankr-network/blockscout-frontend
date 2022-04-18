@@ -5,7 +5,7 @@ import { connect } from './connect';
 import { ResponseData } from '../../api/utils/ResponseData';
 import { MultiService } from '../../api/MultiService';
 import { store } from 'store';
-import { setCredentials } from 'modules/user/userSlice';
+import { resetAuthData } from 'modules/auth/store/authSlice';
 import { fetchDepositStatus } from './fetchDepositStatus';
 
 export const disconnect = createSmartAction<RequestAction>(
@@ -15,9 +15,11 @@ export const disconnect = createSmartAction<RequestAction>(
       promise: (async () => {
         const { service } = MultiService.getInstance();
         await service.getWorkerGateway().removeJwtToken();
+        await service.getAccountGateway().removeToken();
+
         await service.getKeyProvider().disconnect();
 
-        store.dispatch(setCredentials(null));
+        store.dispatch(resetAuthData());
       })(),
     },
     meta: {

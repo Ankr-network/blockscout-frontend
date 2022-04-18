@@ -121,23 +121,3 @@ export type RestrictedDomains = string[];
 export type RestrictedIps = string[];
 
 export type Timeframe = '24h' | '7d' | '30d';
-
-export interface IPaymentHistoryRequest {
-  page: number;
-  pageSize?: number;
-  orderBy: keyof IPaymentHistoryEntity;
-  order: 'asc' | 'desc';
-}
-export interface IPaymentHistoryReponse {
-  data: IPaymentHistoryEntity[];
-  page: number;
-  totalPages: number;
-}
-export interface IPaymentHistoryEntity {
-  id: string;
-  date: string;
-  paymentType: string;
-  direction: 'income' | 'outbound';
-  amountUsd: string;
-  amountAnkr: string;
-}
