@@ -18,7 +18,6 @@ export const ArchiveLabel = ({ className = '' }: ArchiveLabelProps) => {
       <TooltipWrapper
         hasIcon={false}
         tooltipText={tHTML('chains.archive-tooltip-text')}
-        className={classes.tooltip}
       >
         <Typography variant="body2" className={classes.label} component="div">
           <StatusCircle mr={0.4} status="success" /> {t('chains.archive')}

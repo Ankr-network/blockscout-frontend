@@ -1,15 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
-export interface IBaseRpcConfig extends AxiosRequestConfig {
-  baseURL: string;
-}
-
-const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  responseType: 'json',
-};
+import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { IBaseRpcConfig } from './types';
 
 export abstract class BaseRpc {
   protected api: AxiosInstance;
