@@ -106,6 +106,7 @@
     "polygon": "Polygon",
     "bsc": "BSC",
     "fantom": "Fantom",
-    "solana": "Solana"
+    "solana": "Solana",
+    "and": ", and "
   }
 }

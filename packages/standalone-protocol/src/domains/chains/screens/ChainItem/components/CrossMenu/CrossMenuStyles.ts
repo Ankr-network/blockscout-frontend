@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const ANKR_LINK_HEIGHT = 65;
 export const ITEM_HEIGHT = 48;
 const MENU_MARGIN_TOP = 60;
+export const MENU_WIDTH = 60;
 
 export const useCrossMenuStyles = makeStyles<Theme, { menuHeight: number }>(
   theme => ({
@@ -11,20 +12,20 @@ export const useCrossMenuStyles = makeStyles<Theme, { menuHeight: number }>(
       position: 'fixed',
       top: 20,
       left: 20,
-      zIndex: 200,
-      display: 'none',
+      zIndex: 220,
+      visibility: 'hidden',
       border: 'none',
       [theme.breakpoints.down('sm')]: {
-        display: 'block',
+        visibility: 'visible',
       },
     },
     root: {
-      width: 60,
+      width: MENU_WIDTH,
       height: '100%',
       position: 'fixed',
       top: 0,
       left: 0,
-      zIndex: 100,
+      zIndex: 210,
       backgroundColor: theme.palette.background.default,
       '&.gnosis': {
         backgroundColor: theme.palette.common.white,
@@ -98,7 +99,7 @@ export const useCrossMenuStyles = makeStyles<Theme, { menuHeight: number }>(
       },
     }),
     item: {
-      width: 60,
+      width: MENU_WIDTH,
       height: 48,
       display: 'flex',
       alignItems: 'center',
