@@ -24,6 +24,8 @@ export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
+export const ZERO_EVENT_HASH =
+  '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
@@ -83,7 +85,7 @@ export const featuresConfig = {
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: true,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
-  bnbHistory: false,
+  bnbHistory: true,
 };
 
 export enum SupportedChainIDS {

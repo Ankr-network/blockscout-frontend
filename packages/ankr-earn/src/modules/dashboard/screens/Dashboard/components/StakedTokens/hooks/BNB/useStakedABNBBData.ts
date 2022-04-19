@@ -52,7 +52,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   const chainId = BSC_NETWORK_BY_ENV;
 
   const amount = statsData?.aBNBbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
+  const pendingValue = statsData?.pendingAbnbbUnstakes ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;

@@ -1,10 +1,8 @@
 import { useQuery } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
-
-import { useAuth } from 'modules/auth/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { AVAX_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
@@ -57,19 +55,18 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
     useQuery<ITxEventsHistoryData>({
       type: fetchTxHistory,
     });
-  const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
 
   const staked = getCompletedTransactions({
     data: data?.completed,
     type: EAvalanchePoolEventsMap.StakePending,
-    network: network as number,
+    network: AVAX_NETWORK_BY_ENV as number,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
     type: EAvalanchePoolEventsMap.AvaxClaimPending,
-    network: network as number,
+    network: AVAX_NETWORK_BY_ENV as number,
   });
 
   const pendingUnstake = data?.pending.filter(

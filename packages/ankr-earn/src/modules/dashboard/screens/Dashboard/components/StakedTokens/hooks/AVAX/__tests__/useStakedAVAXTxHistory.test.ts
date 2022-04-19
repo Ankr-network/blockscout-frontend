@@ -94,7 +94,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           amount: ONE,
           date: NOW,
           hash: 'txHash1',
-          link: 'https://snowtrace.io/tx/txHash1',
+          link: 'https://testnet.snowtrace.io/tx/txHash1',
         },
       ],
       unstaked: [
@@ -102,7 +102,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           amount: ONE.multipliedBy(2),
           date: NOW,
           hash: 'txHash2',
-          link: 'https://snowtrace.io/tx/txHash2',
+          link: 'https://testnet.snowtrace.io/tx/txHash2',
         },
       ],
     });

@@ -4,10 +4,7 @@ import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import {
-  Pending,
-  PendingTemporary,
-} from 'modules/dashboard/components/Pending';
+import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 
@@ -37,8 +34,8 @@ export const StakedABNBC = (): JSX.Element => {
 
   const {
     isHistoryDataLoading,
-    pendingUnstakeHistory,
-    transactionHistory,
+    pendingUnstakeHistoryABNBC,
+    transactionHistoryABNBC,
     handleLoadTxHistory,
   } = useStakedBNBTxHistory();
 
@@ -48,19 +45,17 @@ export const StakedABNBC = (): JSX.Element => {
   }, [handleLoadTxHistory, onOpen]);
 
   const preventHistoryLoading =
-    !!pendingUnstakeHistory.length || isHistoryDataLoading;
+    !!pendingUnstakeHistoryABNBC.length || isHistoryDataLoading;
 
-  const renderedPendingSlot =
-    !pendingValue.isZero() && featuresConfig.bnbHistory ? (
+  const renderedPendingSlot = !pendingValue.isZero() &&
+    featuresConfig.bnbHistory && (
       <Pending
         isLoading={isHistoryDataLoading}
-        token={Token.aBNBb}
-        tooltip={<PendingTable data={pendingUnstakeHistory} />}
+        token={Token.aBNBc}
+        tooltip={<PendingTable data={pendingUnstakeHistoryABNBC} />}
         value={pendingValue}
         onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
       />
-    ) : (
-      <PendingTemporary />
     );
 
   return (
@@ -85,7 +80,7 @@ export const StakedABNBC = (): JSX.Element => {
       />
 
       <HistoryDialog
-        history={transactionHistory}
+        history={transactionHistoryABNBC}
         isHistoryLoading={isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}
