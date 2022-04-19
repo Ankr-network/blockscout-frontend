@@ -51,7 +51,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
 
   const amount = statsData?.aBNBcBalance ?? ZERO;
 
-  const pendingValue = statsData?.pendingAbnbcUnstakes ?? ZERO;
+  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;

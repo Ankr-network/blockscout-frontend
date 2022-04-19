@@ -14,13 +14,11 @@ interface IFetchStatsResponseData {
   minStake: BigNumber;
   minAbnbbUnstake: BigNumber;
   minAbnbcUnstake: BigNumber;
-  pendingAbnbbUnstakes: BigNumber;
-  pendingAbnbcUnstakes: BigNumber;
+  pendingUnstakes: BigNumber;
   relayerFee: BigNumber;
   aBNBcRatio: BigNumber;
 }
 
-// TODO: change pendingUnstakes to separate numbers for bond and cert.
 export const fetchStats = createSmartAction<
   RequestAction<IFetchStatsResponseData, IFetchStatsResponseData>
 >(
@@ -34,7 +32,7 @@ export const fetchStats = createSmartAction<
           aBNBbBalance,
           bnbBalance,
           minimumStake,
-          { pendingABNBB, pendingABNBC },
+          pendingUnstakes,
           relayerFee,
           aBNBcRatio,
           aBNBcBalance,
@@ -56,8 +54,7 @@ export const fetchStats = createSmartAction<
           minStake: minimumStake,
           minAbnbbUnstake: minimumStake,
           minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
-          pendingAbnbbUnstakes: pendingABNBB,
-          pendingAbnbcUnstakes: pendingABNBC,
+          pendingUnstakes,
           relayerFee,
           aBNBcRatio,
         };
