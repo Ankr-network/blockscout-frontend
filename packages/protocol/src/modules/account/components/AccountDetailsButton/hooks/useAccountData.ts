@@ -1,6 +1,8 @@
+import BigNumber from 'bignumber.js';
+import { stopPolling } from '@redux-requests/core';
+import { useDispatch } from 'react-redux';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
-import BigNumber from 'bignumber.js';
 
 import { AccountStatus } from 'modules/account/types';
 import { fetchBalance } from 'modules/account/actions/fetchBalance';
@@ -22,17 +24,27 @@ export const useAccountData = (): AccountData => {
   const { address } = useAuth();
   const isConnected = !!address;
 
-  const { data: nullableBalance, loading: isLoading } = useQuery<BigNumber>({
+  const {
+    data: nullableBalance,
+    loading,
+    pristine,
+  } = useQuery<BigNumber>({
     type: fetchBalance.toString(),
   });
   const balance = nullableBalance || new BigNumber(0);
+  const isLoading = pristine && loading;
 
-  const dispatch = useDispatchRequest();
+  const dispatch = useDispatch();
+  const dispatchRequest = useDispatchRequest();
   useEffect(() => {
     if (isConnected) {
-      dispatch(fetchBalance());
+      dispatchRequest(fetchBalance());
     }
-  }, [dispatch, isConnected]);
+
+    return () => {
+      dispatch(stopPolling([fetchBalance.toString()]));
+    };
+  }, [dispatch, dispatchRequest, isConnected]);
 
   return { ...mockedData, balance, isLoading, isVisible: isConnected };
 };
