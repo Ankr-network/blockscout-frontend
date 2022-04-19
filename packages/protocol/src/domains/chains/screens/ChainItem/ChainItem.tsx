@@ -11,6 +11,9 @@ import { IChainItemDetails } from '../../actions/fetchChain';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { ChainBanner } from './components/ChainBanner';
+import { EndpointQuery } from './components/Endpoint/EndpointQuery';
+import { SecuritySettingsQuery } from './components/Endpoint/SecuritySettingsQuery';
+import { useProvider } from 'modules/auth/hooks/useProvider';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -21,6 +24,7 @@ interface IChainItemUIProps {
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const { credentials, loading: authLoading } = useAuth();
+  const { providerData } = useProvider();
   const classes = useStyles();
 
   useChainItemBreadcrumbs(data.chain.name);
@@ -43,7 +47,6 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
       <ChainItemHeader
         className={classes.chainItemHeader}
         chain={chain}
-        chainId={chainId}
         hasCredentials={Boolean(credentials)}
         icon={chain.icon}
         nodes={nodes}
@@ -53,6 +56,12 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
       {!credentials && !authLoading && (
         <ChainBanner className={classes.chainBanner} />
       )}
+
+      {credentials && Boolean(providerData) && (
+        <EndpointQuery chainId={chainId} />
+      )}
+
+      {credentials && <SecuritySettingsQuery chainId={chainId} />}
 
       {error ? (
         <div className={classes.error}>
@@ -81,6 +90,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
           )}
         </>
       )}
+
       {ENABLE_CHAIN_NODES_TABLE && (
         <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
       )}

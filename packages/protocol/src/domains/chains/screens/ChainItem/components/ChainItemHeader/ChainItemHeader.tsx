@@ -18,7 +18,6 @@ interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
   hasCredentials: boolean;
   icon: string;
-  chainId: string;
   className?: string;
   nodes?: INodeEntity[];
   loading: boolean;
@@ -28,7 +27,6 @@ export const ChainItemHeader = ({
   chain,
   hasCredentials,
   icon,
-  chainId,
   className,
   nodes,
   loading,
@@ -45,7 +43,7 @@ export const ChainItemHeader = ({
   );
 
   const exclusivePart = hasCredentials ? (
-    <ExclusiveRPCEndpoints chainId={chainId} />
+    <ExclusiveRPCEndpoints />
   ) : (
     <PublicHeader isPlural={urls.length > 1} />
   );

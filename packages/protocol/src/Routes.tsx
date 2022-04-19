@@ -20,7 +20,6 @@ import { Themes } from 'ui';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
 import { selectAuthData } from 'modules/auth/store/authSlice';
-import { GuardProviderRoute } from 'modules/auth/components/GuardProviderRoute';
 
 export function Routes() {
   const { handleConnect } = useAuth();
@@ -62,23 +61,21 @@ export function Routes() {
       />
       <GuardAuthRoute
         exact
+        path={[ChainsRoutesConfig.addEndpoint.path]}
+        hasCachedCredentials={Boolean(cachedAuthData.credentials)}
+        render={() => (
+          <DefaultLayout>
+            <PageNotFound />
+          </DefaultLayout>
+        )}
+      />
+      <GuardAuthRoute
+        exact
         path={[PlanRoutesConfig.plan.path, PlanRoutesConfig.planDeposit.path]}
         hasCachedCredentials={Boolean(cachedAuthData.credentials)}
         render={() => (
           <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
             <PlanRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardProviderRoute
-        exact
-        path={[
-          PlanRoutesConfig.addEndpoint.path,
-          PlanRoutesConfig.endpoint.path,
-        ]}
-        render={() => (
-          <DefaultLayout>
-            <PageNotFound />
           </DefaultLayout>
         )}
       />

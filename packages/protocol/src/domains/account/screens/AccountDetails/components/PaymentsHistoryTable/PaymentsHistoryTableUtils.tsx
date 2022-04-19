@@ -7,7 +7,9 @@ import {
   useState,
 } from 'react';
 
-export const PaymentHistoryDefaultParams: UsePaymentHistoryTableUtilsParams = {
+export const PAYMENT_HISTORY_PAGE_SIZE = 10;
+
+export const PaymentHistoryDefaultParams = {
   page: 1,
   orderBy: 'date',
   order: 'desc',
@@ -98,14 +100,43 @@ export const usePaymentHistoryContext = () => {
   return useContext(PaymentHistoryTableContext);
 };
 
-export const getPaymentHistoryItemSign = (
-  direction: IPaymentHistoryEntity['direction'],
-) => {
-  return direction === 'income' ? '+' : '-';
+export const getPaymentHistoryItemDirection = (
+  type: IPaymentHistoryEntity['type'],
+): boolean | undefined => {
+  if (['TRANSACTION_TYPE_UNKNOWN'].includes(type)) {
+    return undefined;
+  }
+
+  return [
+    'TRANSACTION_TYPE_DEPOSIT',
+    'TRANSACTION_TYPE_BONUS',
+    'TRANSACTION_TYPE_COMPENSATION',
+  ].includes(type);
+};
+
+export const getPaymentHistoryItemSign = (direction?: boolean): string => {
+  if (typeof direction === 'undefined') {
+    return '';
+  }
+  return direction ? '+' : '-';
 };
 
 export const getPaymentHistorySortArrow = (
   order: UsePaymentHistoryTableUtilsParams['order'],
 ) => {
   return order === 'desc' ? '↓' : '↑';
+};
+
+export const preparePaymentHistoryRequest = ({
+  page,
+  ...params
+}: UsePaymentHistoryTableUtilsParams) => {
+  const cursor = page * PAYMENT_HISTORY_PAGE_SIZE - PAYMENT_HISTORY_PAGE_SIZE;
+  const limit = PAYMENT_HISTORY_PAGE_SIZE;
+
+  return {
+    ...params,
+    cursor,
+    limit,
+  };
 };

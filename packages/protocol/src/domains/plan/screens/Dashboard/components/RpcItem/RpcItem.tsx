@@ -11,7 +11,7 @@ import { useStyles } from './RpcItemStyles';
 import { RpcItemProps } from './RpcItemTypes';
 import { Button } from '@material-ui/core';
 
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
 
 export const RpcItem = ({
   logoSrc,
@@ -32,7 +32,7 @@ export const RpcItem = ({
   return (
     <NavLink
       isRouterLink
-      href={PlanRoutesConfig.endpoint.generatePath(id)}
+      href={ChainsRoutesConfig.chainDetails.generatePath(id)}
       disabled={!hasOnClick}
       className={classNames(classes.root, className)}
       tabIndex={0}

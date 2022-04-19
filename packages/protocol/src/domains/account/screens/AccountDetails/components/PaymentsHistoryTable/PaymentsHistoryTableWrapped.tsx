@@ -11,6 +11,7 @@ import React, { useCallback, useState } from 'react';
 import { PaymentsHistoryTable } from '.';
 import {
   PaymentHistoryDefaultParams,
+  preparePaymentHistoryRequest,
   UsePaymentHistoryTableUtilsParams,
 } from './PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
@@ -22,14 +23,16 @@ export const PaymentsHistoryTableWrapped = () => {
   const [isMoreLoading, setIsMoreLoading] = useState(false);
   const [isSortLoading, setIsSortLoading] = useState(false);
 
-  const { data, loading } = useQuery<IPaymentHistoryReponse>({
+  const { data, loading, error } = useQuery<IPaymentHistoryReponse>({
     type: fetchPaymentHistory,
   });
 
   const handleChangeSort = useCallback(
     async (params: UsePaymentHistoryTableUtilsParams) => {
       setIsSortLoading(true);
-      await dispatchRequest(fetchPaymentHistory(params));
+      await dispatchRequest(
+        fetchPaymentHistory(preparePaymentHistoryRequest(params)),
+      );
       setIsSortLoading(false);
     },
     [dispatchRequest],
@@ -38,15 +41,25 @@ export const PaymentsHistoryTableWrapped = () => {
   const handleChangePage = useCallback(
     async (params: UsePaymentHistoryTableUtilsParams) => {
       setIsMoreLoading(true);
-      await dispatchRequest(fetchPaymentHistoryMore(params));
+      await dispatchRequest(
+        fetchPaymentHistoryMore(preparePaymentHistoryRequest(params)),
+      );
       setIsMoreLoading(false);
     },
     [dispatchRequest],
   );
 
   useOnMount(() => {
-    dispatchRequest(fetchPaymentHistory(PaymentHistoryDefaultParams));
+    dispatchRequest(
+      fetchPaymentHistory(
+        preparePaymentHistoryRequest(PaymentHistoryDefaultParams),
+      ),
+    );
   });
+
+  if (error) {
+    return null;
+  }
 
   return (
     <Box display="flex" flexDirection="column">

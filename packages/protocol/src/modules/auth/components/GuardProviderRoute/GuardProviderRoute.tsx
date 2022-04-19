@@ -4,8 +4,8 @@ import { Route, RouteProps } from 'react-router-dom';
 import { DefaultLayout } from '../../../layout/components/DefautLayout';
 import { Spinner } from 'ui';
 import { useProvider } from 'modules/auth/hooks/useProvider';
-import { ProvidersPrivateRoutes } from 'domains/plan/Routes';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ChainPrivateRoutes } from 'domains/chains/Routes';
 
 export const GuardProviderRoute = ({ ...routeProps }: RouteProps) => {
   const { credentials, loading: authLoading } = useAuth();
@@ -29,7 +29,7 @@ export const GuardProviderRoute = ({ ...routeProps }: RouteProps) => {
   if (credentials && providerData && typeof providerData !== 'string') {
     return (
       <DefaultLayout>
-        <ProvidersPrivateRoutes />
+        <ChainPrivateRoutes />
       </DefaultLayout>
     );
   }

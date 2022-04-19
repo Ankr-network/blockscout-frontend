@@ -4,9 +4,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',
     backgroundColor: theme.palette.background.paper,
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-    paddingTop: theme.spacing(1),
+    padding: theme.spacing(1, 3),
     borderRadius: 18,
     [theme.breakpoints.down('sm')]: {
       borderRadius: 15,
@@ -19,6 +17,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   overlayLoader: {
+    display: 'flex',
+    justifyContent: 'center',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -46,7 +46,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingRight: theme.spacing(1),
-    width: '20%',
     borderBottom: '1px solid rgba(224, 224, 224, .4)',
     wordBreak: 'break-word',
   },

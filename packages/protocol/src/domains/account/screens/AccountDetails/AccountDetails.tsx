@@ -11,15 +11,21 @@ import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
 
 import { useStyles } from './AccountDetailsStyles';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const AccountDetails = () => {
   const classes = useStyles();
+  const { credentials } = useAuth();
 
   useSetBreadcrumbs([
     {
       title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
     },
   ]);
+
+  if (!credentials) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={mainTheme}>

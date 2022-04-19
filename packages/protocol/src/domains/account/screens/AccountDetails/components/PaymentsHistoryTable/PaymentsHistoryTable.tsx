@@ -12,6 +12,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useCallback, useMemo } from 'react';
 import { Spinner } from 'ui';
 import { LoadableButton } from 'uiKit/LoadableButton';
+import { Preloader } from 'uiKit/Preloader';
 import { PaymentHistoryHeadCell } from './components/PaymentHistoryHeadCell';
 import { PaymentHistoryRow } from './components/PaymentHistoryRow';
 import { PaymentsHistoryTableProps } from './PaymentsHistoryTableProps';
@@ -45,8 +46,11 @@ export const PaymentsHistoryTable = ({
   }, [onChangePage, tableUtils]);
 
   const rowsRendered = useMemo(
-    () => data?.data.map(row => <PaymentHistoryRow key={row.id} data={row} />),
-    [data?.data],
+    () =>
+      data?.transactions.map((row, index) => (
+        <PaymentHistoryRow key={index} data={row} />
+      )),
+    [data?.transactions],
   );
 
   if (isLoading) {
@@ -60,17 +64,21 @@ export const PaymentsHistoryTable = ({
   return (
     <PaymentHistoryTableContext.Provider value={tableUtils}>
       <TableContainer component={Paper} className={classes.root} elevation={0}>
-        {overlayLoading && <div className={classes.overlayLoader} />}
+        {overlayLoading && (
+          <div className={classes.overlayLoader}>
+            <Preloader />
+          </div>
+        )}
         <Box component={Table} minWidth={600}>
           <TableHead className={classes.thead}>
             <TableRow>
               <PaymentHistoryHeadCell
-                field="date"
+                field="timestamp"
                 label="account.payment-table.head.col-1"
                 isSortable
               />
               <PaymentHistoryHeadCell
-                field="direction"
+                field="type"
                 label="account.payment-table.head.col-2"
               />
               <PaymentHistoryHeadCell
@@ -90,8 +98,7 @@ export const PaymentsHistoryTable = ({
 
           <TableBody>
             {rowsRendered}
-            {(tableUtils.tableParams.page < (data?.totalPages || 0) ||
-              isMoreLoading) && (
+            {(data?.cursor !== '-1' || isMoreLoading) && (
               <TableRow className={classes.row}>
                 <TableCell align="center" colSpan={4}>
                   <LoadableButton

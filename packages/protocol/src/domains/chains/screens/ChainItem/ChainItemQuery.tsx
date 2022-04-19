@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { stopPolling, resetRequests } from '@redux-requests/core';
@@ -13,6 +13,13 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 // eslint-disable-next-line import/no-cycle
 import { ChainItem } from './ChainItem';
+import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateChainDetails';
+import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useProvider } from 'modules/auth/hooks/useProvider';
+import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { IApiChain } from 'domains/chains/api/queryChains';
 
 interface ChainItemProps {
   chainId: string;
@@ -20,11 +27,42 @@ interface ChainItemProps {
 
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   const dispatch = useDispatch();
+  const dispatchRequest = useDispatchRequest();
+  const { credentials } = useAuth();
+  const { handleFetchProvider, providerData } = useProvider();
   const classes = useStyles();
 
-  useOnMount(() => {
-    dispatch(fetchChain(chainId));
+  const { data: privateChains } = useQuery<IApiChain[]>({
+    type: fetchPrivateChains.toString(),
   });
+
+  useOnMount(() => {
+    dispatchRequest(fetchChain(chainId));
+  });
+
+  useEffect(() => {
+    if (credentials) {
+      dispatchRequest(fetchPrivateChains());
+      handleFetchProvider();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [credentials]);
+
+  useEffect(() => {
+    if (credentials && privateChains) {
+      dispatchRequest(fetchPrivateChainDetails(chainId));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [privateChains, credentials]);
+
+  useEffect(() => {
+    if (providerData) {
+      dispatchRequest(fetchEndpoints());
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [providerData]);
 
   useOnUnmount(() => {
     const fetchChainAction = fetchChain.toString();

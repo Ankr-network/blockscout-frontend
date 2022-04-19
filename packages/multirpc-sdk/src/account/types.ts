@@ -1,23 +1,28 @@
+export type IPaymentHistoryEntityType =
+  | 'TRANSACTION_TYPE_UNKNOWN'
+  | 'TRANSACTION_TYPE_DEPOSIT'
+  | 'TRANSACTION_TYPE_DEDUCTION'
+  | 'TRANSACTION_TYPE_WITHDRAW'
+  | 'TRANSACTION_TYPE_BONUS'
+  | 'TRANSACTION_TYPE_COMPENSATION';
+
 export interface IPaymentHistoryEntity {
-  id: string;
-  date: string;
-  paymentType: string;
-  direction: 'income' | 'outbound';
+  timestamp: string;
+  type: IPaymentHistoryEntityType;
   amountUsd: string;
   amountAnkr: string;
 }
 
 export interface IPaymentHistoryRequest {
-  page: number;
-  pageSize?: number;
+  cursor: number;
+  limit: number;
   orderBy: keyof IPaymentHistoryEntity;
   order: 'asc' | 'desc';
 }
 
 export interface IPaymentHistoryReponse {
-  data: IPaymentHistoryEntity[];
-  page: number;
-  totalPages: number;
+  transactions: IPaymentHistoryEntity[];
+  cursor: string;
 }
 
 export interface IBalance {

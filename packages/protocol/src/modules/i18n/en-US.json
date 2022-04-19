@@ -86,7 +86,10 @@
     "req": "{value, number, ::compact-short} req",
     "30d": "30d",
     "archive": "Archive",
-    "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
+    "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
+    "add-endpoint": {
+      "breadcrumbs": "Add Endpoint"
+    }
   },
   "chain-item": {
     "banner": {
@@ -258,9 +261,7 @@
         "checkbox": "Please, check this box to proceed"
       }
     },
-    "add-endpoint": {
-      "breadcrumbs": "Add Endpoint"
-    },
+
     "deposit-success": {
       "title": "Deposited Successfully",
       "subtitle": "We&nbsp;need your email so&nbsp;you can receive updates.",
@@ -410,6 +411,17 @@
           "medium-date": "{value, date, medium}",
           "expense": "{value, number, ::compact-short}"
         }
+      }
+    },
+    "payment-table": {
+      "title": "Payments History",
+      "date-time": "{value, date, medium} {value, time, short}",
+      "more": "Show 10 more",
+      "head": {
+        "col-1": "Date & Time",
+        "col-2": "Payment type",
+        "col-3": "Amount USD",
+        "col-4": "Amount ANKR"
       }
     },
     "payment-table": {

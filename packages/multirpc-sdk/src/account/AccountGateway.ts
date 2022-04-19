@@ -7,7 +7,6 @@ import {
   IPaymentHistoryRequest,
 } from './types';
 import { IAccountGateway } from './interfaces';
-import { getPaymentHistoryMock } from '../mock/getPaymentHistoryMock';
 
 export class AccountGateway implements IAccountGateway {
   public api: AxiosInstance;
@@ -41,16 +40,12 @@ export class AccountGateway implements IAccountGateway {
   public async getPaymentHistory(
     params: IPaymentHistoryRequest,
   ): Promise<IPaymentHistoryReponse> {
-    const { data: response } = await this.api
-      .get<IPaymentHistoryReponse>('/api/v1/auth/transactionHistory', {
+    const { data: response } = await this.api.get<IPaymentHistoryReponse>(
+      '/api/v1/auth/transactionHistory',
+      {
         params,
-      })
-      .then(() => {
-        throw Error('transactionHistory');
-      })
-      .catch(() => ({
-        data: getPaymentHistoryMock(params),
-      }));
+      },
+    );
 
     return response;
   }

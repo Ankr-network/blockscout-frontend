@@ -9,7 +9,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingRight: theme.spacing(1),
-    width: '20%',
     borderBottom: '1px solid rgba(224, 224, 224, .4)',
     wordBreak: 'break-word',
   },
