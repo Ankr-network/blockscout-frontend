@@ -59,7 +59,7 @@ export const PlanRoutesConfig = createRouteConfig(
 );
 
 const LoadablePlanContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/Plan/Plan').then(module => module.Plan),
+  async () => import('./screens/Plan').then(module => module.Plan),
   {
     fallback: <Spinner />,
   },

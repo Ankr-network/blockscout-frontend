@@ -39,51 +39,53 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   } = useTimeframeData(chainId);
 
   return (
-    <div className={classes.chainDetailsWrapper}>
-      <ChainItemHeader
-        className={classes.chainItemHeader}
-        chain={chain}
-        chainId={chainId}
-        hasCredentials={Boolean(credentials)}
-        icon={chain.icon}
-        nodes={nodes}
-        loading={authLoading}
-      />
+    <>
+      <div className={classes.chainDetailsWrapper}>
+        <ChainItemHeader
+          className={classes.chainItemHeader}
+          chain={chain}
+          chainId={chainId}
+          hasCredentials={Boolean(credentials)}
+          icon={chain.icon}
+          nodes={nodes}
+          loading={authLoading}
+        />
 
-      {!credentials && !authLoading && (
-        <ChainBanner className={classes.chainBanner} />
-      )}
+        {!credentials && !authLoading && (
+          <ChainBanner className={classes.chainBanner} />
+        )}
 
-      {error ? (
-        <div className={classes.error}>
-          <QueryError error={error} />
-        </div>
-      ) : (
-        <>
-          <ChainRequestsOverview
-            className={classes.chainRequestsOverview}
-            totalRequestsHistory={totalRequestsHistory}
-            onClick={setTimeframe}
-            timeframe={timeframe}
-            loading={loading}
-            pristine={pristine}
-          >
-            <ChainItemDetails
-              className={classes.chainItemDetails}
-              totalCached={totalCached}
-              totalRequests={totalRequests}
+        {error ? (
+          <div className={classes.error}>
+            <QueryError error={error} />
+          </div>
+        ) : (
+          <>
+            <ChainRequestsOverview
+              className={classes.chainRequestsOverview}
+              totalRequestsHistory={totalRequestsHistory}
+              onClick={setTimeframe}
               timeframe={timeframe}
               loading={loading}
-            />
-          </ChainRequestsOverview>
-          {countries && Object.keys(countries).length !== 0 && (
-            <RequestsMap countries={countries} />
-          )}
-        </>
-      )}
-      {ENABLE_CHAIN_NODES_TABLE && (
-        <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
-      )}
-    </div>
+              pristine={pristine}
+            >
+              <ChainItemDetails
+                className={classes.chainItemDetails}
+                totalCached={totalCached}
+                totalRequests={totalRequests}
+                timeframe={timeframe}
+                loading={loading}
+              />
+            </ChainRequestsOverview>
+            {countries && Object.keys(countries).length !== 0 && (
+              <RequestsMap countries={countries} />
+            )}
+          </>
+        )}
+        {ENABLE_CHAIN_NODES_TABLE && (
+          <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
+        )}
+      </div>
+    </>
   );
 };

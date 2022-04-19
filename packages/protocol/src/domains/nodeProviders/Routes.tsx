@@ -23,7 +23,7 @@ export const ProvidersRoutesConfig = createRouteConfig(
 
 const LoadableProvidersContainer: LoadableComponent<any> = loadable(
   async () =>
-    import('./screens/ProvidersList/ProvidersNodesList').then(
+    import('./screens/ProvidersList').then(
       module => module.ProvidersNodesList,
     ),
   {
