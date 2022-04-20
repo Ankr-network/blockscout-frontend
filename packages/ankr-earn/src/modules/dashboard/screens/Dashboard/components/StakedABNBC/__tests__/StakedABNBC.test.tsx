@@ -55,15 +55,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    pendingUnstakeHistoryABNBB: [],
-    pendingUnstakeHistoryABNBC: [],
-    transactionHistoryABNBB: {
+    txHistory: null,
+    pendingUnstakeHistory: [],
+    transactionHistory: {
       token: Token.aBNBb,
-      staked: [],
-      unstaked: [],
-    },
-    transactionHistoryABNBC: {
-      token: Token.aBNBc,
       staked: [],
       unstaked: [],
     },
