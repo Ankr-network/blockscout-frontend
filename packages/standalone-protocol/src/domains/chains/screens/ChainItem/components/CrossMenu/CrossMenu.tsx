@@ -27,6 +27,7 @@ import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ChainId } from 'domains/chains/api/chain';
+import { PROTOCOL_URL } from 'Routes';
 
 interface ICrossMenuProps {
   chainId: string;
@@ -143,11 +144,13 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   }, [isNotMobile]);
 
   return (
-    <>
+    <div data-test-id="cross-menu">
       <IconButton onClick={handleMenuClick} className={classes.dropMenu}>
         {open ? <CloseIcon /> : <MenuIcon />}
       </IconButton>
-      <div className={classNames(classes.root, open && classes.open, chainId)}>
+      <div className={classNames(classes.root, open && classes.open, chainId)}
+        data-test-id="cross-menu-root"
+      >
         <div className={classes.menu}>
           <Scrollbars
             autoHeightMax={MENU_HEIGHT}
@@ -167,6 +170,9 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleCloseMenu}
+                data-test-id={
+                  chainId === item.chainId ? 'active-cross-menu' : null
+                }
               >
                 <div
                   className={classNames(
@@ -185,7 +191,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         </div>
         <a
           className={classNames(classes.protocol, chainId)}
-          href="https://www.ankr.com/protocol/public/"
+          href={PROTOCOL_URL}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleCloseMenu}
@@ -194,6 +200,6 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
           <span className={classes.desc}>{t('cross-menu.ankr-protocol')}</span>
         </a>
       </div>
-    </>
+    </div>
   );
 };

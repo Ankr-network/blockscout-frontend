@@ -17,7 +17,7 @@ export const Header = ({ chainId, className = '' }: HeaderProps) => {
   const classes = useStyles({ chainId, bannerHeight });
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div className={classNames(classes.root, className)} data-test-id="header">
       {hasBanner(chainId) && (
         <div ref={bannerRef} className={classNames(classes.banner, chainId)}>
           {getBannerContent(chainId)}

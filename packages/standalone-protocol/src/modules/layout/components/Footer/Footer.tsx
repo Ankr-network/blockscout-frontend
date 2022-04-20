@@ -10,12 +10,11 @@ import {
 } from 'modules/analytics/trackMixpanel';
 import { ReactComponent as HeartIcon } from './heart.svg';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ANKR_WEBSITE_URL } from 'Routes';
 
 interface FooterProps {
   className?: string;
 }
-
-const LINK = 'https://www.ankr.com/';
 
 export const Footer = ({ className = '' }: FooterProps) => {
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
@@ -23,13 +22,16 @@ export const Footer = ({ className = '' }: FooterProps) => {
   const classes = useStyles();
 
   return (
-    <footer className={classNames(classes.root, className)}>
+    <footer
+      className={classNames(classes.root, className)}
+      data-test-id="footer"
+    >
       <div className={classes.content}>
         <Typography variant="body2" className={classes.rootText}>
           {t('footer.supported')} <HeartIcon className={classes.heart} />{' '}
           {t('footer.by')}{' '}
           <a
-            href={LINK}
+            href={ANKR_WEBSITE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className={classes.link}

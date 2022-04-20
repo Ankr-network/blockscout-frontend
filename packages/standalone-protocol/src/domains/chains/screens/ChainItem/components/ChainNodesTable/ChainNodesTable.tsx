@@ -40,6 +40,7 @@ export const ChainNodesTable = ({
       component={Paper}
       className={classNames(classes.root, className)}
       elevation={0}
+      data-test-id="node-in-operation"
     >
       <Typography variant="body1" className={classes.header}>
         {t('chain-item.nodes-table.header')}
