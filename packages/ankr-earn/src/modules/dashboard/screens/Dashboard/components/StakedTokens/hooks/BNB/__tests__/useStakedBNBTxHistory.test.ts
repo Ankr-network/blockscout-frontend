@@ -28,7 +28,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   const defaultData = {
     loading: false,
     data: {
-      completed: [
+      completedABNBB: [
         {
           txAmount: ONE_ETH,
           txDate: NOW,
@@ -42,18 +42,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           txType: EBinancePoolEventsMap.UnstakePending,
         },
       ],
-      pending: [
+      pendingABNBB: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,
           txHash: 'txHash3',
           txType: EBinancePoolEventsMap.UnstakePending,
-        },
-        {
-          txAmount: ONE_ETH.multipliedBy(4),
-          txDate: NOW,
-          txHash: 'txHash4',
-          txType: EBinancePoolEventsMap.Staked,
         },
       ],
     },
@@ -76,9 +70,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     const time = t('format.time-short', { value: NOW });
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
-    expect(result.current.txHistory).toStrictEqual(defaultData.data);
     expect(result.current.hasHistory).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([
+    expect(result.current.pendingUnstakeHistoryABNBB).toStrictEqual([
       {
         id: 1,
         amount: ONE_ETH.multipliedBy(3),
@@ -86,14 +79,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
         timerSlot: `${date}, ${time}`,
       },
     ]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.transactionHistoryABNBB).toStrictEqual({
       token: Token.aBNBb,
       staked: [
         {
           amount: ONE_ETH,
           date: NOW,
           hash: 'txHash1',
-          link: 'https://etherscan.io/tx/txHash1',
+          link: 'https://testnet.bscscan.com/tx/txHash1',
         },
       ],
       unstaked: [
@@ -101,7 +94,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           amount: ONE_ETH.multipliedBy(2),
           date: NOW,
           hash: 'txHash2',
-          link: 'https://etherscan.io/tx/txHash2',
+          link: 'https://testnet.bscscan.com/tx/txHash2',
         },
       ],
     });
@@ -126,12 +119,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
-    expect(result.current.txHistory).toBeNull();
     expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.pendingUnstakeHistoryABNBB).toStrictEqual([]);
+    expect(result.current.transactionHistoryABNBB).toStrictEqual({
       token: Token.aBNBb,
+      staked: [],
+      unstaked: [],
+    });
+    expect(result.current.transactionHistoryABNBC).toStrictEqual({
+      token: Token.aBNBc,
       staked: [],
       unstaked: [],
     });
