@@ -9,7 +9,6 @@ import {
   BSC_NETWORK_BY_ENV,
   EARN_PATH,
   ETH_NETWORK_BY_ENV,
-  featuresConfig,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -40,10 +39,7 @@ const TransactionStep = loadComponent(() =>
   import('./screens/TransactionStep').then(module => module.TransactionStep),
 );
 
-const AVAILABLE_NETWORKS = compact([
-  ETH_NETWORK_BY_ENV,
-  featuresConfig.switcherBnb && BSC_NETWORK_BY_ENV,
-]);
+const AVAILABLE_NETWORKS = compact([ETH_NETWORK_BY_ENV, BSC_NETWORK_BY_ENV]);
 
 export function getRoutes(): JSX.Element {
   return (

@@ -32,7 +32,7 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aETHb,
       icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherBnb && {
+    {
       label: Token.aBNBb,
       value: Token.aBNBb,
       icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
@@ -50,7 +50,7 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aETHc,
       icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherBnb && {
+    {
       label: Token.aBNBc,
       value: Token.aBNBc,
       icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,

@@ -183,7 +183,7 @@ export class SwitcherSDK {
 
       case BlockchainNetworkId.smartchainTestnet:
       case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.unlockShares({ amount });
+        return this.binanceSDK.unlockShares({ amount: value });
 
       default:
         return undefined;
