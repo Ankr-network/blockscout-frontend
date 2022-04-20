@@ -617,12 +617,9 @@ export class BinanceSDK {
     const { binanceConfig } = configFromEnv();
 
     const aBNBcContract = await this.getABNBCContract();
-    const web3 = this.writeProvider.getWeb3();
-
-    const rawAmount = web3.utils.toWei(amount.toString());
 
     const data = aBNBcContract.methods
-      .approve(binanceConfig.aBNBbToken, rawAmount)
+      .approve(binanceConfig.aBNBbToken, convertNumberToHex(amount))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -637,12 +634,10 @@ export class BinanceSDK {
       await this.writeProvider.connect();
     }
 
-    const web3 = this.writeProvider.getWeb3();
     const allowance = await this.getAllowance();
-    const rawAmount = web3.utils.toWei(amount.toString());
 
     try {
-      return allowance.isGreaterThanOrEqualTo(rawAmount);
+      return allowance.isGreaterThanOrEqualTo(convertNumberToHex(amount));
     } catch (error) {
       throw new Error(`checkAllowance error. ${error}`);
     }

@@ -8,6 +8,8 @@ import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
 
 import { useSwapOptionsStyles } from './useSwapOptionsStyles';
@@ -35,6 +37,11 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aBNBb,
       icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
     },
+    featuresConfig.switcherMatic && {
+      label: Token.aMATICb,
+      value: Token.aMATICb,
+      icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
+    },
   ]),
 
   to: compact([
@@ -47,6 +54,11 @@ const AVAILABLE_SWAP_TOKENS = {
       label: Token.aBNBc,
       value: Token.aBNBc,
       icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherMatic && {
+      label: Token.aMATICc,
+      value: Token.aMATICc,
+      icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 };

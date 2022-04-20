@@ -9,6 +9,7 @@ import { AvailableSwitchNetwork, AvailableSwitcherToken } from '../const';
 export interface ISwitcherSDKArgs {
   binanceSDK: BinanceSDK;
   ethSDK: EthSDK;
+  account: string;
 }
 
 export interface ISwitcherCommonDataArgs {

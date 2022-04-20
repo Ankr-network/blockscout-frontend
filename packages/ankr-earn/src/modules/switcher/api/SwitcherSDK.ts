@@ -1,8 +1,13 @@
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId, IWeb3SendResult } from 'provider';
+import {
+  AvailableWriteProviders,
+  BlockchainNetworkId,
+  IWeb3SendResult,
+} from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
@@ -27,19 +32,29 @@ export class SwitcherSDK {
 
   private ethSDK: EthSDK;
 
-  private constructor({ binanceSDK, ethSDK }: ISwitcherSDKArgs) {
+  private account: string;
+
+  private constructor({ binanceSDK, ethSDK, account }: ISwitcherSDKArgs) {
     this.binanceSDK = binanceSDK;
     this.ethSDK = ethSDK;
+    this.account = account;
   }
 
   public static async getInstance(): Promise<SwitcherSDK> {
-    if (!SwitcherSDK.instance) {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const provider = providerManager.getWriteProviderById(
+      AvailableWriteProviders.ethCompatible,
+    );
+    const account = provider?.currentAccount ?? '';
+    const isAccoundChanged = SwitcherSDK.instance?.account !== account;
+
+    if (!SwitcherSDK.instance || isAccoundChanged) {
       const [binanceSDK, ethSDK] = await Promise.all([
         BinanceSDK.getInstance(),
         EthSDK.getInstance(),
       ]);
 
-      SwitcherSDK.instance = new SwitcherSDK({ binanceSDK, ethSDK });
+      SwitcherSDK.instance = new SwitcherSDK({ binanceSDK, ethSDK, account });
     }
 
     return SwitcherSDK.instance;

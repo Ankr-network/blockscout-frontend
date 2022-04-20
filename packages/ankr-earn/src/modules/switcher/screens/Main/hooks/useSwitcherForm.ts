@@ -70,8 +70,10 @@ export const useSwitcherForm = ({
 
   const handleApprove = useCallback(() => {
     dispatchRequest(approve({ chainId })).then(response => {
-      setTxHash(response.data?.transactionHash ?? '');
-      setTxError(response.error ?? '');
+      if (response.error) {
+        setTxHash(response.data?.transactionHash ?? '');
+        setTxError(response.error.message ?? response.error);
+      }
     });
   }, [chainId, dispatchRequest]);
 

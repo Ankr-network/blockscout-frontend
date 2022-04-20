@@ -12,6 +12,8 @@ describe('modules/switcher/screens/Main/utils/labels', () => {
     expect(getFromLabel({ token: Token.aETHc })).toBe('1 aETHb = 1 ETH');
     expect(getFromLabel({ token: Token.aBNBb })).toBe('1 aBNBb = 1 BNB');
     expect(getFromLabel({ token: Token.aBNBc })).toBe('1 aBNBb = 1 BNB');
+    expect(getFromLabel({ token: Token.aMATICb })).toBe('1 aMATICb = 1 MATIC');
+    expect(getFromLabel({ token: Token.aMATICc })).toBe('1 aMATICb = 1 MATIC');
   });
 
   test('should return empty "from" label for unknown token', () => {
@@ -34,6 +36,12 @@ describe('modules/switcher/screens/Main/utils/labels', () => {
     );
     expect(getToLabel({ token: Token.aBNBc, ratio })).toBe(
       '1 aBNBc = 1.5625 BNB',
+    );
+    expect(getToLabel({ token: Token.aMATICb, ratio })).toBe(
+      '1 aMATICc = 1.5625 MATIC',
+    );
+    expect(getToLabel({ token: Token.aMATICc, ratio })).toBe(
+      '1 aMATICc = 1.5625 MATIC',
     );
   });
 
