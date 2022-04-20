@@ -4,8 +4,10 @@ import { INodeEntity } from 'multirpc-sdk';
 
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { MainInfo } from './MainInfo';
-import { Preloader } from 'uiKit/Preloader';
-import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
+import {
+  ExclusiveRPCEndpoints,
+  ExclusiveRPCEndpointsSkeleton,
+} from './ExclusiveRPCEndpoints';
 import { PublicHeader } from './PublicHeader';
 import { PublicRPCEndpoints } from './PublicRPCEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
@@ -38,12 +40,6 @@ export const ChainItemHeader = ({
   const [formattedChain] = formatChains([chain]);
   const { name, urls } = chain;
 
-  const exclusivePartPreloader = (
-    <div className={classes.preloaderWrapper}>
-      <Preloader centered />
-    </div>
-  );
-
   const exclusivePart = hasCredentials ? (
     <ExclusiveRPCEndpoints chainId={chainId} />
   ) : (
@@ -57,9 +53,13 @@ export const ChainItemHeader = ({
           <MainInfo name={name} icon={icon} nodes={nodes} />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
-        <PublicRPCEndpoints chain={chain} />
+        {hasCredentials || loading ? null : (
+          <div className={classes.publicEndpoints}>
+            <PublicRPCEndpoints chain={chain} />
+          </div>
+        )}
       </div>
-      {loading ? exclusivePartPreloader : exclusivePart}
+      {loading ? <ExclusiveRPCEndpointsSkeleton /> : exclusivePart}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { Link } from 'react-router-dom';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { Preloader } from 'uiKit/Preloader';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateChainDetails';
@@ -17,6 +16,7 @@ import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { useProvider } from 'modules/auth/hooks/useProvider';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpointsSkeleton';
 
 interface ExclusiveRPCEndpointsProps {
   chainId: string;
@@ -38,11 +38,7 @@ export const ExclusiveRPCEndpoints = ({
   return (
     <Queries<ResponseData<typeof fetchPrivateChainDetails>>
       requestActions={[fetchPrivateChainDetails]}
-      spinner={
-        <div className={classes.preloaderWrapper}>
-          <Preloader centered />
-        </div>
-      }
+      spinner={<ExclusiveRPCEndpointsSkeleton />}
     >
       {({ data }) => {
         const { mainnetURLs, mainnetURLsCount, testnetURLs } = flatNetworkURLs<
@@ -66,15 +62,30 @@ export const ExclusiveRPCEndpoints = ({
 
         const mainnetEndpoints = (
           <div className={root}>
-            {mainnetURLs.map(({ rpc, ws }) => (
+            {mainnetURLs.map(({ rpc, ws }, index) => (
               <div className={section} key={rpc + ws}>
-                <CopyToClipIcon
-                  className={classes.copyToClip}
-                  message={t('common.copy-message')}
-                  size="l"
-                  text={rpc}
-                  textColor="textPrimary"
-                />
+                <div className={classes.link}>
+                  <CopyToClipIcon
+                    className={classes.copyToClip}
+                    message={t('common.copy-message')}
+                    size="l"
+                    text={rpc}
+                    textColor="textPrimary"
+                  />
+                  {isNervos && (
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.label}
+                      color="textSecondary"
+                    >
+                      {t(
+                        `chain-item.nervos.${
+                          index === 0 ? 'eth-based' : 'godwoken-based'
+                        }`,
+                      )}
+                    </Typography>
+                  )}
+                </div>
                 {ws && (
                   <CopyToClipIcon
                     className={classes.copyToClip}

@@ -35,10 +35,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   copyToClip: {
     width: '100%',
   },
-  preloaderWrapper: {
-    minHeight: 85,
-    position: 'relative',
-  },
   button: {
     height: 23,
     padding: 0,
@@ -46,5 +42,31 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: 12,
     },
+  },
+
+  skeleton: {
+    marginTop: theme.spacing(2),
+  },
+  btnUnlock: {
+    width: '50%',
+    marginTop: theme.spacing(2),
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
+  details: {
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+  link: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+
+    width: '100%',
+  },
+  label: {
+    marginTop: theme.spacing(1),
   },
 }));
