@@ -16,6 +16,7 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { ISwitcher } from 'modules/api/switcher';
 import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
@@ -93,7 +94,7 @@ interface IUnlockSharesArgs {
   amount: BigNumber;
 }
 
-export class BinanceSDK {
+export class BinanceSDK implements ISwitcher {
   private static instance?: BinanceSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -328,7 +329,7 @@ export class BinanceSDK {
     });
   }
 
-  public async getABNBBBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const aBNBbTokenContract = await this.getABNBBContract();
 
     const balance = await aBNBbTokenContract.methods
@@ -577,7 +578,7 @@ export class BinanceSDK {
     }
   }
 
-  public async getABNBCRatio(): Promise<BigNumber> {
+  public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aBNBcContract = await this.getABNBCContract();
     const web3 = provider.getWeb3();
@@ -595,7 +596,7 @@ export class BinanceSDK {
     return provider.createContract(ABI_ABNBC, binanceConfig.aBNBcToken);
   }
 
-  public async getABNBCBalance(): Promise<BigNumber> {
+  public async getACBalance(): Promise<BigNumber> {
     const aBNBcContract = await this.getABNBCContract();
 
     const rawBalance = await aBNBcContract.methods
@@ -605,7 +606,7 @@ export class BinanceSDK {
     return this.convertFromWei(rawBalance);
   }
 
-  public async approveABNBCUnstake(
+  public async approveACForAB(
     amount = MAX_UINT256,
   ): Promise<IWeb3SendResult | undefined> {
     const isAllowed = await this.checkAllowance(amount);

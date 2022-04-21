@@ -3,7 +3,10 @@ import { BlockchainNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
-import { AvailableSwitchNetwork } from 'modules/switcher/const';
+import {
+  AvailableSwitchNetwork,
+  AvailableSwitcherToken,
+} from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
 
@@ -13,6 +16,10 @@ jest.mock('modules/api/EthSDK', () => ({
 
 jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
@@ -62,7 +69,7 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
       ].map(async chainId =>
         sdk.addTokenToWallet({
           chainId: chainId as AvailableSwitchNetwork,
-          token: Token.aETHb,
+          token: Token.aBNBb,
         }),
       ),
     );
@@ -78,6 +85,17 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const result = await sdk.addTokenToWallet({
       chainId: 9000 as AvailableSwitchNetwork,
       token: Token.aETHb,
+    });
+
+    expect(result).toBe(false);
+  });
+
+  test('should not add unsupported token', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const result = await sdk.addTokenToWallet({
+      chainId: BlockchainNetworkId.goerli,
+      token: 'token' as AvailableSwitcherToken,
     });
 
     expect(result).toBe(false);

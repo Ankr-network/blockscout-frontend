@@ -37,8 +37,8 @@ export const useStakeEthAnalytics = ({
     const sdk = await EthSDK.getInstance();
     const synthBalance =
       tokenOut === Token.aETHb
-        ? await sdk.getAethbBalance()
-        : await sdk.getAethcBalance();
+        ? await sdk.getABBalance()
+        : await sdk.getACBalance();
 
     trackStake({
       address,

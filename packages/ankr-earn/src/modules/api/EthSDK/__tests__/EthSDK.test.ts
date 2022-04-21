@@ -214,9 +214,9 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       claimableAETHB,
       claimableAETHC,
     ] = await Promise.all([
-      sdk.getAethcRatio(),
-      sdk.getAethcBalance(),
-      sdk.getAethbBalance(),
+      sdk.getACRatio(),
+      sdk.getACBalance(),
+      sdk.getABBalance(),
       sdk.getAllowance(),
       sdk.getEthBalance(),
       sdk.getClaimable(Token.aETHb),
@@ -330,7 +330,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB();
+    const result = await sdk.approveACForAB();
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
@@ -356,7 +356,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB(ZERO);
+    const result = await sdk.approveACForAB(ZERO);
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});

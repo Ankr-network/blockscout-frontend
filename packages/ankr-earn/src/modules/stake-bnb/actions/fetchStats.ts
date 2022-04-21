@@ -37,13 +37,13 @@ export const fetchStats = createSmartAction<
           aBNBcRatio,
           aBNBcBalance,
         ] = await Promise.all([
-          sdk.getABNBBBalance(),
+          sdk.getABBalance(),
           sdk.getBNBBalance(),
           sdk.getMinimumStake(),
           sdk.getPendingUnstakes(),
           sdk.getRelayerFee(),
           ...(featuresConfig.stakeAbnbc
-            ? [sdk.getABNBCRatio(), sdk.getABNBCBalance()]
+            ? [sdk.getACRatio(), sdk.getACBalance()]
             : []),
         ]);
 

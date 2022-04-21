@@ -61,7 +61,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addMATICTokenToWallet());
+    dispatchRequest(addMATICTokenToWallet(Token.aMATICb));
   }, [dispatchRequest]);
 
   return {

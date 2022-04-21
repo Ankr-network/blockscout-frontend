@@ -1,6 +1,7 @@
 import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -12,6 +13,10 @@ jest.mock('modules/api/EthSDK', () => ({
 
 jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
@@ -41,6 +46,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aETHb,
         }),
       ),
     );
@@ -61,6 +67,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aBNBb,
         }),
       ),
     );
@@ -76,6 +83,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const result = await sdk.fetchTxReceipt({
       chainId: 9000 as AvailableSwitchNetwork,
       txHash: 'hash',
+      token: Token.aBNBb,
     });
 
     expect(result).toBeUndefined();

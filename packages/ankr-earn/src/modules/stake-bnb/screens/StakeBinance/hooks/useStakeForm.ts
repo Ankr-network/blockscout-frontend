@@ -116,7 +116,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
     const binanceSDK = await BinanceSDK.getInstance();
-    const abnbbBalance = await binanceSDK.getABNBBBalance();
+    const abnbbBalance = await binanceSDK.getABBalance();
 
     trackStake({
       address,

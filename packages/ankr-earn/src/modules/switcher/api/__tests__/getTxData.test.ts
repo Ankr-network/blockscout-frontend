@@ -4,6 +4,7 @@ import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO_ADDR } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -15,6 +16,10 @@ jest.mock('modules/api/EthSDK', () => ({
 
 jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
@@ -59,6 +64,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aETHb,
         }),
       ),
     );
@@ -84,6 +90,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aBNBb,
         }),
       ),
     );
@@ -99,6 +106,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     const result = await sdk.fetchTxData({
       chainId: 9000 as AvailableSwitchNetwork,
       txHash: 'hash',
+      token: Token.aBNBb,
     });
 
     expect(result).toBeUndefined();

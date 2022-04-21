@@ -39,8 +39,8 @@ jest.mock('modules/analytics/tracking-actions/trackStake', () => ({
 }));
 
 const mockEthSDK = {
-  getAethbBalance: () => new BigNumber(2),
-  getAethcBalance: () => new BigNumber(3),
+  getABBalance: () => new BigNumber(2),
+  getACBalance: () => new BigNumber(3),
 };
 
 describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', () => {

@@ -65,6 +65,7 @@ export const useSwitcherData = ({
     dispatchRequest(
       getSwitcherData({
         chainId: CHAIN_ID_BY_TOKEN[from as AvailableSwitcherToken],
+        token: from,
       }),
     );
   }, [from, dispatchRequest]);

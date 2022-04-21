@@ -178,7 +178,10 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       });
 
       expect(approve).toBeCalledTimes(1);
-      expect(approve).toBeCalledWith({ chainId: BlockchainNetworkId.mainnet });
+      expect(approve).toBeCalledWith({
+        chainId: BlockchainNetworkId.mainnet,
+        token: Token.aETHb,
+      });
     });
   });
 

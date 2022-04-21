@@ -8,8 +8,16 @@ import {
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import {
+  IFetchTxData,
+  IFetchTxReceiptData,
+  ISwitcher,
+} from 'modules/api/switcher';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
-import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
+
+import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
 
 import {
   ISwitcherSDKArgs,
@@ -19,24 +27,30 @@ import {
   ISwitcherLockSharesArgs,
   ISwitcherUnlockSharesArgs,
   IFetchTxDataArgs,
-  IFetchTxData,
   IFetchTxReceiptArgs,
-  IFetchTxReceiptData,
   IAddTokenToWalletArgs,
 } from './types';
 
 export class SwitcherSDK {
   private static instance: SwitcherSDK;
 
-  private binanceSDK: BinanceSDK;
+  private binanceSDK: ISwitcher;
 
-  private ethSDK: EthSDK;
+  private ethSDK: ISwitcher;
+
+  private maticSDK: ISwitcher;
 
   private account: string;
 
-  private constructor({ binanceSDK, ethSDK, account }: ISwitcherSDKArgs) {
+  private constructor({
+    binanceSDK,
+    ethSDK,
+    maticSDK,
+    account,
+  }: ISwitcherSDKArgs) {
     this.binanceSDK = binanceSDK;
     this.ethSDK = ethSDK;
+    this.maticSDK = maticSDK;
     this.account = account;
   }
 
@@ -49,12 +63,18 @@ export class SwitcherSDK {
     const isAccoundChanged = SwitcherSDK.instance?.account !== account;
 
     if (!SwitcherSDK.instance || isAccoundChanged) {
-      const [binanceSDK, ethSDK] = await Promise.all([
+      const [binanceSDK, ethSDK, maticSDK] = await Promise.all([
         BinanceSDK.getInstance(),
         EthSDK.getInstance(),
+        PolygonSDK.getInstance(),
       ]);
 
-      SwitcherSDK.instance = new SwitcherSDK({ binanceSDK, ethSDK, account });
+      SwitcherSDK.instance = new SwitcherSDK({
+        binanceSDK,
+        ethSDK,
+        maticSDK,
+        account,
+      });
     }
 
     return SwitcherSDK.instance;
@@ -62,149 +82,114 @@ export class SwitcherSDK {
 
   public async getCommonData({
     chainId,
+    token,
   }: ISwitcherCommonDataArgs): Promise<ISwitcherCommonData | undefined> {
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet: {
-        const [abBalance, acBalance, ratio, allowance] = await Promise.all([
-          this.ethSDK.getAethbBalance(true),
-          this.ethSDK.getAethcBalance(true),
-          this.ethSDK.getAethcRatio(true),
-          this.ethSDK.getAllowance(),
-        ]);
+    const sdk = this.getSdk(chainId, token);
 
-        return { abBalance, acBalance, ratio, allowance };
-      }
-
-      case BlockchainNetworkId.smartchain:
-      case BlockchainNetworkId.smartchainTestnet: {
-        const [abBalance, acBalance, ratio, allowance] = await Promise.all([
-          this.binanceSDK.getABNBBBalance(),
-          this.binanceSDK.getABNBCBalance(),
-          this.binanceSDK.getABNBCRatio(),
-          this.binanceSDK.getAllowance(),
-        ]);
-
-        return { abBalance, acBalance, ratio, allowance };
-      }
-
-      default:
-        return undefined;
+    if (!sdk) {
+      return undefined;
     }
+
+    const [abBalance, acBalance, ratio, allowance] = await Promise.all([
+      sdk.getABBalance(true),
+      sdk.getACBalance(true),
+      sdk.getACRatio(true),
+      sdk.getAllowance(),
+    ]);
+
+    return { abBalance, acBalance, ratio, allowance };
   }
 
   public async fetchTxData({
     chainId,
     txHash,
+    token,
   }: IFetchTxDataArgs): Promise<IFetchTxData | undefined> {
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet:
-        return this.ethSDK.fetchTxData(txHash);
+    const sdk = this.getSdk(chainId, token);
 
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.fetchTxData(txHash);
-
-      default:
-        return undefined;
-    }
+    return sdk?.fetchTxData(txHash);
   }
 
   public async fetchTxReceipt({
     chainId,
     txHash,
+    token,
   }: IFetchTxReceiptArgs): Promise<IFetchTxReceiptData | undefined> {
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet:
-        return this.ethSDK.fetchTxReceipt(txHash);
+    const sdk = this.getSdk(chainId, token);
 
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.fetchTxReceipt(txHash);
-
-      default:
-        return undefined;
-    }
+    return sdk?.fetchTxReceipt(txHash);
   }
 
   public async approve({
     chainId,
     amount,
+    token,
   }: ISwitcherApproveArgs): Promise<IWeb3SendResult | undefined> {
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet: {
-        return this.ethSDK.approveAETHCForAETHB(amount);
-      }
+    const sdk = this.getSdk(chainId, token);
 
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain: {
-        return this.binanceSDK.approveABNBCUnstake(amount);
-      }
-
-      default:
-        return undefined;
-    }
+    return sdk?.approveACForAB(amount);
   }
 
   public async lockShares({
     chainId,
     amount,
+    token,
   }: ISwitcherLockSharesArgs): Promise<IWeb3SendResult | undefined> {
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet:
-        return this.ethSDK.lockShares({ amount });
+    const sdk = this.getSdk(chainId, token);
 
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.lockShares({ amount });
-
-      default:
-        return undefined;
-    }
+    return sdk?.lockShares({ amount });
   }
 
   public async unlockShares({
     chainId,
     amount,
     ratio,
+    token,
   }: ISwitcherUnlockSharesArgs): Promise<IWeb3SendResult | undefined> {
+    const sdk = this.getSdk(chainId, token);
     const value = amount
       .multipliedBy(ratio)
       .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN);
 
-    switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet:
-        return this.ethSDK.unlockShares({ amount: value });
-
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.unlockShares({ amount: value });
-
-      default:
-        return undefined;
-    }
+    return sdk?.unlockShares({ amount: value });
   }
 
   public async addTokenToWallet({
     chainId,
     token,
   }: IAddTokenToWalletArgs): Promise<boolean> {
+    const sdk = this.getSdk(chainId, token);
+
+    return sdk?.addTokenToWallet(token) ?? false;
+  }
+
+  private getSdk(
+    chainId: AvailableSwitchNetwork,
+    token: AvailableSwitcherToken,
+  ): ISwitcher | undefined {
+    const ethSdkByToken: Record<string, ISwitcher> = {
+      [Token.aETHb]: this.ethSDK,
+      [Token.aETHc]: this.ethSDK,
+      [Token.aMATICb]: this.maticSDK,
+      [Token.aMATICc]: this.maticSDK,
+    };
+
+    const binanceSdkByToken: Record<string, ISwitcher> = {
+      [Token.aBNBb]: this.binanceSDK,
+      [Token.aBNBc]: this.binanceSDK,
+    };
+
     switch (chainId) {
       case BlockchainNetworkId.goerli:
       case BlockchainNetworkId.mainnet:
-        return this.ethSDK.addTokenToWallet(token);
+        return ethSdkByToken[token];
 
       case BlockchainNetworkId.smartchainTestnet:
       case BlockchainNetworkId.smartchain:
-        return this.binanceSDK.addTokenToWallet(token as TBnbSyntToken);
+        return binanceSdkByToken[token];
 
       default:
-        return false;
+        return undefined;
     }
   }
 }

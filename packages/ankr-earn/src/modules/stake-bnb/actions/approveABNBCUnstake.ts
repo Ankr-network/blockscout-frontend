@@ -14,7 +14,7 @@ export const approveABNBCUnstake = createAction<
     promise: (async (): Promise<IWeb3SendResult | undefined> => {
       const sdk = await BinanceSDK.getInstance();
 
-      return sdk.approveABNBCUnstake(amount);
+      return sdk.approveACForAB(amount);
     })(),
   },
   meta: {

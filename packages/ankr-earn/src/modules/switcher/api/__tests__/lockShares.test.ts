@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -16,14 +17,11 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
-describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
-  const SUPPORTED_NETWORKS: AvailableSwitchNetwork[] = [
-    BlockchainNetworkId.goerli,
-    BlockchainNetworkId.mainnet,
-    BlockchainNetworkId.smartchain,
-    BlockchainNetworkId.smartchainTestnet,
-  ];
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
+}));
 
+describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
   const defaultEthSDK = {
     lockShares: () => Promise.resolve({}),
   };
@@ -42,14 +40,37 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     jest.resetAllMocks();
   });
 
-  test('should lock shares on supported network properly', async () => {
+  test('should lock shares on ethereum network properly', async () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      SUPPORTED_NETWORKS.map(async chainId =>
+      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+        async chainId =>
+          sdk.lockShares({
+            chainId: chainId as AvailableSwitchNetwork,
+            amount: new BigNumber(1),
+            token: Token.aETHb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should lock shares on binance network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [
+        BlockchainNetworkId.smartchain,
+        BlockchainNetworkId.smartchainTestnet,
+      ].map(async chainId =>
         sdk.lockShares({
-          chainId,
+          chainId: chainId as AvailableSwitchNetwork,
           amount: new BigNumber(1),
+          token: Token.aBNBc,
         }),
       ),
     );
@@ -65,6 +86,7 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     const result = await sdk.lockShares({
       chainId: 9000 as AvailableSwitchNetwork,
       amount: new BigNumber(1),
+      token: Token.aETHb,
     });
 
     expect(result).toBeUndefined();

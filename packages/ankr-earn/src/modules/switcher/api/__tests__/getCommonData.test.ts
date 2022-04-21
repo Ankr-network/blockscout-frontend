@@ -4,6 +4,7 @@ import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -17,18 +18,22 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
   const defaultEthSDK = {
-    getAethbBalance: () => Promise.resolve(new BigNumber(2.1)),
-    getAethcBalance: () => Promise.resolve(new BigNumber(1.5)),
-    getAethcRatio: () => Promise.resolve(new BigNumber(1)),
+    getABBalance: () => Promise.resolve(new BigNumber(2.1)),
+    getACBalance: () => Promise.resolve(new BigNumber(1.5)),
+    getACRatio: () => Promise.resolve(new BigNumber(1)),
     getAllowance: () => Promise.resolve(ZERO),
   };
 
   const defaultBinanceSDK = {
-    getABNBBBalance: () => Promise.resolve(new BigNumber(0.42)),
-    getABNBCBalance: () => Promise.resolve(new BigNumber(24.6)),
-    getABNBCRatio: () => Promise.resolve(new BigNumber(0.65)),
+    getABBalance: () => Promise.resolve(new BigNumber(0.42)),
+    getACBalance: () => Promise.resolve(new BigNumber(24.6)),
+    getACRatio: () => Promise.resolve(new BigNumber(0.65)),
     getAllowance: () => Promise.resolve(ZERO),
   };
 
@@ -53,7 +58,10 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
 
     const results = await Promise.all(
       [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
-        sdk.getCommonData({ chainId: chainId as AvailableSwitchNetwork }),
+        sdk.getCommonData({
+          chainId: chainId as AvailableSwitchNetwork,
+          token: Token.aETHb,
+        }),
       ),
     );
 
@@ -76,7 +84,10 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
         BlockchainNetworkId.smartchainTestnet,
         BlockchainNetworkId.smartchain,
       ].map(chainId =>
-        sdk.getCommonData({ chainId: chainId as AvailableSwitchNetwork }),
+        sdk.getCommonData({
+          chainId: chainId as AvailableSwitchNetwork,
+          token: Token.aBNBb,
+        }),
       ),
     );
 
@@ -90,6 +101,7 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
 
     const data = await sdk.getCommonData({
       chainId: 9000 as AvailableSwitchNetwork,
+      token: Token.aETHb,
     });
 
     expect(data).toBeUndefined();

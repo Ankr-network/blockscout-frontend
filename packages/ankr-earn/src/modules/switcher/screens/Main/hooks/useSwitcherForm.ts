@@ -69,13 +69,13 @@ export const useSwitcherForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(approve({ chainId })).then(response => {
+    dispatchRequest(approve({ chainId, token: from })).then(response => {
       if (response.error) {
         setTxHash(response.data?.transactionHash ?? '');
         setTxError(response.error.message ?? response.error);
       }
     });
-  }, [chainId, dispatchRequest]);
+  }, [chainId, from, dispatchRequest]);
 
   const calculateFeeAndTotal = useCallback(
     ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {

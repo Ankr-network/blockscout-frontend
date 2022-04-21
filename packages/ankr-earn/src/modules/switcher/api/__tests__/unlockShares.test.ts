@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -14,6 +15,10 @@ jest.mock('modules/api/EthSDK', () => ({
 
 jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
@@ -53,6 +58,7 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
           sdk.unlockShares({
             ...params,
             chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aETHb,
           }),
       ),
     );
@@ -86,6 +92,7 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
         sdk.unlockShares({
           ...params,
           chainId: chainId as AvailableSwitchNetwork,
+          token: Token.aBNBb,
         }),
       ),
     );
@@ -110,6 +117,7 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
       chainId: 9000 as AvailableSwitchNetwork,
       amount: new BigNumber(1),
       ratio: new BigNumber(1),
+      token: Token.aBNBb,
     });
 
     expect(result).toBeUndefined();

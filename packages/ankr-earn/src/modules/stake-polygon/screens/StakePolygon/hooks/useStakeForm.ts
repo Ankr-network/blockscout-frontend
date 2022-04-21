@@ -63,7 +63,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const polygonSDK = await PolygonSDK.getInstance();
-    const amaticbBalance = await polygonSDK.getAMaticbBalance();
+    const amaticbBalance = await polygonSDK.getABBalance();
 
     trackStake({
       address,

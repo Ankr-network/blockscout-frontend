@@ -26,7 +26,7 @@ export const fetchStats = createSmartAction<
       const [maticBalance, aMaticbBalance, minimumStake, pendingClaim] =
         await Promise.all([
           sdk.getMaticBalance(),
-          sdk.getAMaticbBalance(),
+          sdk.getABBalance(),
           sdk.getMinimumStake(),
           sdk.getPendingClaim(),
         ]);
