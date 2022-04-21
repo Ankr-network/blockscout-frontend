@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { FormApi } from 'final-form';
@@ -11,7 +11,9 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { OnChange } from 'uiKit/OnChange';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { useStakeFormStyles } from './useStakeFormStyles';
 
@@ -44,6 +46,7 @@ export interface IStakeFormComponentProps {
   maxAmountDecimals?: number;
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
+  labelTooltip?: ReactNode;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
@@ -65,6 +68,7 @@ export const StakeForm = ({
   maxAmountDecimals,
   feeSlot,
   stakingAmountStep,
+  labelTooltip,
   renderStats,
   renderFooter,
   onSubmit,
@@ -95,14 +99,15 @@ export const StakeForm = ({
         });
       }
 
-      const amountIsEqualToStep = amount && +amount === stakingAmountStep;
-      if (withFee && amountIsEqualToStep) {
+      const balanceIsEqualToStep =
+        !!stakingAmountStep && balance.isEqualTo(stakingAmountStep);
+      if (withFee && balanceIsEqualToStep) {
         errors.amount = t('validation.fee-plus-amount-wrong');
       }
 
       return errors;
     },
-    [stakingAmountStep, withFee],
+    [balance, stakingAmountStep, withFee],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>
@@ -140,9 +145,22 @@ export const StakeForm = ({
               disabled={isDisabled}
               isBalanceLoading={isBalanceLoading}
               isIntegerOnly={isIntegerOnly}
-              label={t('stake.amount', {
-                token: tokenIn,
-              })}
+              label={
+                <Box alignItems="center" component="span" display="flex">
+                  {t('stake.amount', { token: tokenIn })}
+
+                  {labelTooltip && (
+                    <Tooltip arrow title={labelTooltip}>
+                      <Box component={ButtonBase} pl={1} pr={1}>
+                        <QuestionIcon
+                          className={classes.questionIcon}
+                          size="xs"
+                        />
+                      </Box>
+                    </Tooltip>
+                  )}
+                </Box>
+              }
               maxAmount={maxAmount}
               maxDecimals={maxAmountDecimals}
               minAmount={minAmount?.toNumber()}

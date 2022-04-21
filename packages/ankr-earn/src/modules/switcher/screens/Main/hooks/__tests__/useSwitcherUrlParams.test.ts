@@ -43,6 +43,28 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     expect(result.current.onChangeTo).toBeDefined();
   });
 
+  test('should return unique "from" and "to"', () => {
+    (useLocation as jest.Mock).mockReturnValue({
+      search: '?from=aETHb&to=aETHb',
+    });
+
+    const { result } = renderHook(() => useSwitcherUrlParams());
+
+    expect(result.current.from).toBe(Token.aETHb);
+    expect(result.current.to).toBe(Token.aETHc);
+  });
+
+  test('should return unique "from" and "to" in an opposite order', () => {
+    (useLocation as jest.Mock).mockReturnValue({
+      search: '?from=aBNBc&to=aBNBc',
+    });
+
+    const { result } = renderHook(() => useSwitcherUrlParams());
+
+    expect(result.current.from).toBe(Token.aBNBc);
+    expect(result.current.to).toBe(Token.aBNBb);
+  });
+
   test('should return initial data for binance chain', () => {
     (useAuth as jest.Mock).mockReturnValue({
       chainId: BlockchainNetworkId.smartchain,

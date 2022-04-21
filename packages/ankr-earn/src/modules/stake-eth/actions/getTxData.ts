@@ -9,19 +9,25 @@ import { withStore } from 'modules/common/utils/withStore';
 import { ETH_ACTIONS_PREFIX } from '../const';
 
 export interface IGetSwitcherData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }
 
+interface IGetTxDataArgs {
+  txHash: string;
+  shouldDecodeAmount?: boolean;
+}
+
 export const getTxData = createAction<
-  RequestAction<IGetSwitcherData, IGetSwitcherData>
->(`${ETH_ACTIONS_PREFIX}getTxData`, ({ txHash }: { txHash: string }) => ({
+  RequestAction<IGetSwitcherData, IGetSwitcherData>,
+  [IGetTxDataArgs]
+>(`${ETH_ACTIONS_PREFIX}getTxData`, ({ txHash, shouldDecodeAmount }) => ({
   request: {
     promise: async (): Promise<IGetSwitcherData> => {
       const sdk = await EthSDK.getInstance();
 
-      return sdk.fetchTxData(txHash);
+      return sdk.fetchTxData(txHash, shouldDecodeAmount);
     },
   },
   meta: {

@@ -65,9 +65,9 @@ export const featuresConfig = {
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
-  isActivePolkadotClaiming: false,
-  isActivePolkadotUnstaking: false,
-  isActivePolkadotWallet: false,
+  isActivePolkadotClaiming: currentEnv === Env.Develop,
+  isActivePolkadotUnstaking: currentEnv === Env.Develop,
+  isActivePolkadotWallet: currentEnv === Env.Develop,
   isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,
   localeSwitcher: false,
@@ -76,8 +76,10 @@ export const featuresConfig = {
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  switcherBnb: currentEnv !== Env.Production,
-  stakeETH: currentEnv !== Env.Production,
+  switcherMatic: currentEnv !== Env.Production,
+  stakeETH: true,
+  // ! only for testing purpose
+  stakeETHWithoutClaim: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: true,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302

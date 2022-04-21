@@ -8,7 +8,7 @@ export const useTransactionInfoStyles = makeStyles(theme => ({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: theme.spacing('12px', 2),
+    padding: theme.spacing(1.5, 2),
     margin: 'auto',
 
     position: 'fixed',
@@ -30,10 +30,14 @@ export const useTransactionInfoStyles = makeStyles(theme => ({
     display: 'flex',
   },
 
+  errorReason: {
+    marginLeft: theme.spacing(0.5),
+  },
+
   link: {
     height: 'initial',
     padding: 0,
-    marginLeft: 4,
+    marginLeft: theme.spacing(0.5),
 
     '&:hover': {
       backgroundColor: 'inherit',

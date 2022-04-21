@@ -70,8 +70,10 @@ export const useSwitcherForm = ({
 
   const handleApprove = useCallback(() => {
     dispatchRequest(approve({ chainId })).then(response => {
-      setTxHash(response.data?.transactionHash ?? '');
-      setTxError(response.error ?? '');
+      if (response.error) {
+        setTxHash(response.data?.transactionHash ?? '');
+        setTxError(response.error.message ?? response.error);
+      }
     });
   }, [chainId, dispatchRequest]);
 
@@ -105,24 +107,17 @@ export const useSwitcherForm = ({
   const handleSwap = useCallback(
     async amount => {
       await dispatchRequest(
-        swapAssets({
-          amount,
-          ratio,
-          from,
-          to,
-        }),
+        swapAssets({ amount, ratio, from, to, chainId }),
       ).then(response => {
         if (response.error) {
           setTxHash(response.data?.transactionHash ?? '');
-          setTxError(response.error);
+          setTxError(response.error.message ?? response.error);
         } else {
-          onSuccessSwap({
-            amount,
-          });
+          onSuccessSwap({ amount });
         }
       });
     },
-    [ratio, from, to, dispatchRequest, onSuccessSwap],
+    [chainId, ratio, from, to, dispatchRequest, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {

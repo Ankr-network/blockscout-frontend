@@ -5,10 +5,9 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { TEthToken } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
@@ -16,7 +15,6 @@ import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
-import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -34,25 +32,20 @@ interface IUseStakeForm {
   loading: boolean;
   isCommonDataLoading: boolean;
   isFeeLoading: boolean;
-  isEthRatioLoading: boolean;
-  isTokenVariantDisabled: boolean;
   tokenIn: string;
   tokenOut: string;
   amount?: BigNumber;
   minAmount?: BigNumber;
-  ethRatio: BigNumber;
-  totalAmount: BigNumber;
   apy: number;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onInputChange: (values: IStakeFormPayload, invalid: boolean) => void;
-  onTokenSelect: (token: TEthToken) => () => void;
 }
 
-export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
+export const useStakeForm = (): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState(ZERO);
-  const { selectedToken, handleTokenSelect } = useSelectedToken();
+  const { selectedToken } = useSelectedToken();
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -68,25 +61,7 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
     type: getStakeGasFee,
   });
 
-  const totalAmount = useMemo(
-    () =>
-      commonData && stakeGasFee
-        ? calcTotalAmount({
-            selectedToken,
-            stakeGasFee,
-            amount,
-            ethBalance: commonData?.ethBalance,
-            aETHcRatio: commonData?.aETHcRatio,
-          })
-        : ZERO,
-    [amount, commonData, selectedToken, stakeGasFee],
-  );
-
-  const { sendAnalytics } = useStakeEthAnalytics({
-    amount,
-    willGetAmount: totalAmount,
-    tokenOut: selectedToken,
-  });
+  const { sendAnalytics } = useStakeEthAnalytics({ amount });
 
   const onSubmit = useCallback(() => {
     if (!amount) {
@@ -96,23 +71,11 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
     dispatchRequest(stake({ token: selectedToken, amount })).then(
       ({ error }) => {
         if (!error) {
-          onSuccessStake();
           sendAnalytics();
         }
       },
     );
-  }, [amount, dispatchRequest, onSuccessStake, selectedToken, sendAnalytics]);
-
-  const onTokenSelect = useCallback(
-    (token: TEthToken) => () => {
-      handleTokenSelect(token);
-
-      if (!totalAmount.isZero() && amount) {
-        dispatch(getStakeGasFee({ amount, token }));
-      }
-    },
-    [amount, dispatch, handleTokenSelect, totalAmount],
-  );
+  }, [amount, dispatchRequest, selectedToken, sendAnalytics]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -136,20 +99,15 @@ export const useStakeForm = (onSuccessStake: () => void): IUseStakeForm => {
   return {
     amount,
     balance: commonData?.ethBalance,
-    ethRatio: commonData ? new BigNumber(1).div(commonData.aETHcRatio) : ZERO,
     fee: stakeGasFee ?? ZERO,
     isCommonDataLoading,
-    isEthRatioLoading: isCommonDataLoading,
     isFeeLoading,
-    isTokenVariantDisabled: isStakeLoading,
     loading: isCommonDataLoading || isStakeLoading,
     minAmount: commonData?.minStake,
-    totalAmount,
     tokenIn: Token.ETH,
     tokenOut: selectedToken,
     onInputChange: debouncedOnChange,
     apy: apy ?? 0,
     onSubmit,
-    onTokenSelect,
   };
 };

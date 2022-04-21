@@ -15,6 +15,9 @@ jest.mock('@redux-requests/react', () => ({
 jest.mock('modules/stake-eth/Routes', () => ({
   RoutesConfig: {
     root: '/stake/ethereum',
+    claim: {
+      generatePath: () => '/claim/ethereum',
+    },
   },
 }));
 
@@ -37,7 +40,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
     expect(result.current.chainId).toBe(BlockchainNetworkId.goerli);
     expect(result.current.isShowed).toBe(true);
     expect(result.current.token).toBe('ETH');
-    expect(result.current.claimLink).toBe('/stake/ethereum');
+    expect(result.current.claimLink).toBe('/claim/ethereum');
   });
 
   test('unclaimed ETH should not be showed if zero amount', () => {

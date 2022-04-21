@@ -267,7 +267,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.lockShares({
-      amount: '1',
+      amount: new BigNumber(1),
     });
 
     const {
@@ -297,7 +297,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.unlockShares({
-      amount: '1',
+      amount: new BigNumber(1),
     });
 
     const {

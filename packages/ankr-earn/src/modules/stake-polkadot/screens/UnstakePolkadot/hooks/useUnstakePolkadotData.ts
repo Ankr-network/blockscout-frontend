@@ -34,6 +34,7 @@ interface IUseUnstakePolkadotData {
   isUnstakeLoading: boolean;
   fetchStatsData: ResponseData<typeof fetchStats> | null;
   fetchStatsError: Error | null;
+  maxAmountDecimals: number | undefined;
   networkName: string;
   polkadotToken: TPolkadotToken;
   redeemPeriodTxt: string;
@@ -84,6 +85,11 @@ export const useUnstakePolkadotData = (
   const ethToken = useMemo(
     () => EPolkadotETHReverseMap[network] as unknown as Token,
     [network],
+  );
+
+  const maxAmountDecimals = useMemo(
+    () => fetchStatsData?.maxDecimalsUnstake.toNumber(),
+    [fetchStatsData?.maxDecimalsUnstake],
   );
 
   const networkName = useMemo(
@@ -165,6 +171,7 @@ export const useUnstakePolkadotData = (
     isUnstakeLoading,
     fetchStatsData,
     fetchStatsError,
+    maxAmountDecimals,
     networkName,
     polkadotToken,
     redeemPeriodTxt,

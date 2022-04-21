@@ -149,6 +149,16 @@ export class PolkadotStakeSDK {
     return isValidETHNetwork ? this.ethWriteProvider : this.ethReadProvider;
   }
 
+  private async getPolkadotProvider(): Promise<PolkadotProvider> {
+    const isValidPolkadotNetwork = this.isValidPolkadotNetwork();
+
+    if (isValidPolkadotNetwork && !this.polkadotWriteProvider.isConnected()) {
+      await this.polkadotWriteProvider.connect();
+    }
+
+    return this.polkadotWriteProvider;
+  }
+
   private async isValidETHNetwork(): Promise<boolean> {
     const web3 = this.ethWriteProvider.getWeb3();
     const chainId = await web3.eth.getChainId();
@@ -255,8 +265,16 @@ export class PolkadotStakeSDK {
     );
   }
 
-  getMinimumStake(): BigNumber {
-    const currNetwork = this.polkadotWriteProvider.currentNetworkType;
+  async getMaxDecimalsUnstake(): Promise<BigNumber> {
+    const ethTokenContract = await this.getETHTokenContract();
+    const decimals: string = await ethTokenContract.methods.decimals().call();
+
+    return new BigNumber(decimals);
+  }
+
+  async getMinStake(): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+    const currNetwork = polkadotProvider.currentNetworkType;
 
     let minStakeValue: number;
 
@@ -281,10 +299,10 @@ export class PolkadotStakeSDK {
     return new BigNumber(minStakeValue);
   }
 
-  getPolkadotBalanceData(): Promise<IGetAccountBalanceData> {
-    return this.polkadotWriteProvider.getAccountBalance(
-      this.currentPolkadotAccount,
-    );
+  async getPolkadotBalanceData(): Promise<IGetAccountBalanceData> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    return polkadotProvider.getAccountBalance(this.currentPolkadotAccount);
   }
 
   async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -295,46 +313,35 @@ export class PolkadotStakeSDK {
   }
 
   async unstake(address: TPolkadotAddress, amount: BigNumber): Promise<void> {
+    if (!this.polkadotWriteProvider.isConnected()) {
+      await this.polkadotWriteProvider.connect();
+    }
+
     if (!this.ethWriteProvider.isConnected()) {
       await this.ethWriteProvider.connect();
     }
 
-    const { polkadotConfig } = configFromEnv();
+    const [ethPoolContract, ethTokenContract, maxDecimalsUnstake] =
+      await Promise.all([
+        this.getETHPoolContract(),
+        this.getETHTokenContract(),
+        this.getMaxDecimalsUnstake(),
+      ]);
 
-    const [ethPoolContract, ethTokenContract] = await Promise.all([
-      this.getETHPoolContract(),
-      this.getETHTokenContract(),
-    ]);
-
-    const rawDecimals: string = await ethTokenContract.methods
-      .decimals()
-      .call();
-    const decimals = Number.parseInt(rawDecimals, 10);
+    const decimals = Number.parseInt(maxDecimalsUnstake.toString(10), 10);
     const scaledAmount = amount.multipliedBy(10 ** decimals).toString(10);
 
     const polkadotAddressBytes =
       PolkadotProvider.extractDecodedAddress(address);
 
-    const data: string = ethPoolContract.methods
+    await ethPoolContract.methods
       .burnBond(
         ethTokenContract.options.address,
         scaledAmount,
         polkadotAddressBytes,
       )
-      .encodeABI();
-
-    const { receiptPromise, transactionHash } =
-      await this.ethWriteProvider.sendTransactionAsync(
-        this.currentETHAccount,
-        polkadotConfig.polkadotPool,
-        {
-          data,
-        },
-      );
-
-    const receiptPromiseRes = await receiptPromise;
-
-    // eslint-disable-next-line no-console
-    console.log(receiptPromiseRes, transactionHash);
+      .send({
+        from: this.currentETHAccount,
+      });
   }
 }

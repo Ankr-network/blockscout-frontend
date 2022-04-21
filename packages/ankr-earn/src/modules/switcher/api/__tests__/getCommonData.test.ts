@@ -17,13 +17,12 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
-describe('modules/switcher/api/SwitcherSDK', () => {
+describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
   const defaultEthSDK = {
     getAethbBalance: () => Promise.resolve(new BigNumber(2.1)),
     getAethcBalance: () => Promise.resolve(new BigNumber(1.5)),
     getAethcRatio: () => Promise.resolve(new BigNumber(1)),
     getAllowance: () => Promise.resolve(ZERO),
-    approveAETHCForAETHB: () => Promise.resolve({}),
   };
 
   const defaultBinanceSDK = {
@@ -31,7 +30,6 @@ describe('modules/switcher/api/SwitcherSDK', () => {
     getABNBCBalance: () => Promise.resolve(new BigNumber(24.6)),
     getABNBCRatio: () => Promise.resolve(new BigNumber(0.65)),
     getAllowance: () => Promise.resolve(ZERO),
-    approveABNBCUnstake: () => Promise.resolve({}),
   };
 
   beforeEach(() => {
@@ -53,21 +51,15 @@ describe('modules/switcher/api/SwitcherSDK', () => {
       allowance: ZERO,
     };
 
-    {
-      const data = await sdk.getCommonData({
-        chainId: BlockchainNetworkId.mainnet,
-      });
+    const results = await Promise.all(
+      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+        sdk.getCommonData({ chainId: chainId as AvailableSwitchNetwork }),
+      ),
+    );
 
-      expect(data).toStrictEqual(expected);
-    }
-
-    {
-      const data = await sdk.getCommonData({
-        chainId: BlockchainNetworkId.goerli,
-      });
-
-      expect(data).toStrictEqual(expected);
-    }
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
   });
 
   test('should return common data for binance network', async () => {
@@ -79,21 +71,18 @@ describe('modules/switcher/api/SwitcherSDK', () => {
       allowance: ZERO,
     };
 
-    {
-      const data = await sdk.getCommonData({
-        chainId: BlockchainNetworkId.smartchain,
-      });
+    const results = await Promise.all(
+      [
+        BlockchainNetworkId.smartchainTestnet,
+        BlockchainNetworkId.smartchain,
+      ].map(chainId =>
+        sdk.getCommonData({ chainId: chainId as AvailableSwitchNetwork }),
+      ),
+    );
 
-      expect(data).toStrictEqual(expected);
-    }
-
-    {
-      const data = await sdk.getCommonData({
-        chainId: BlockchainNetworkId.smartchainTestnet,
-      });
-
-      expect(data).toStrictEqual(expected);
-    }
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
   });
 
   test('should not return common data for unsupported network', async () => {
@@ -104,57 +93,5 @@ describe('modules/switcher/api/SwitcherSDK', () => {
     });
 
     expect(data).toBeUndefined();
-  });
-
-  test('should approve certificate for bond on ethereum', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    {
-      const result = await sdk.approve({
-        chainId: BlockchainNetworkId.goerli,
-      });
-
-      expect(result).toBeDefined();
-    }
-
-    {
-      const result = await sdk.approve({
-        chainId: BlockchainNetworkId.mainnet,
-      });
-
-      expect(result).toBeDefined();
-    }
-  });
-
-  test('should approve zero amount certificate for bond on binance', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    {
-      const result = await sdk.approve({
-        chainId: BlockchainNetworkId.smartchainTestnet,
-        amount: ZERO,
-      });
-
-      expect(result).toBeDefined();
-    }
-
-    {
-      const result = await sdk.approve({
-        chainId: BlockchainNetworkId.smartchain,
-        amount: ZERO,
-      });
-
-      expect(result).toBeDefined();
-    }
-  });
-
-  test('should not approve certificate for bond on unsupported network', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    const result = await sdk.approve({
-      chainId: 9000 as AvailableSwitchNetwork,
-    });
-
-    expect(result).toBeUndefined();
   });
 });

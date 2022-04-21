@@ -94,4 +94,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
     const historyDialog = await screen.findByTestId('history-dialog');
     expect(historyDialog).toBeInTheDocument();
   });
+
+  test('unstake should be with custom tooltip', async () => {
+    render(
+      <MemoryRouter>
+        <StakedAETHB />
+      </MemoryRouter>,
+    );
+
+    const unstakeTitleBox = await screen.findByTitle(/during phase/);
+
+    expect(unstakeTitleBox).toBeInTheDocument();
+  });
 });

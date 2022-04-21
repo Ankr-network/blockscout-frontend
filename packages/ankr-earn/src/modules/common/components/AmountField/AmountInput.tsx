@@ -1,6 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
@@ -17,7 +18,7 @@ interface IAmountInputProps {
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
   disabled?: boolean;
-  label: string;
+  label: ReactNode;
   name?: string;
   tokenName?: string;
   inputClassName?: string;

@@ -26,6 +26,12 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/Routes', () => ({
+  RoutesConfig: {
+    claim: { path: '/claim' },
+  },
+}));
+
 jest.mock('modules/auth/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));

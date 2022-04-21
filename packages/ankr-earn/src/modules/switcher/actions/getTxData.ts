@@ -1,25 +1,25 @@
 import { RequestAction } from '@redux-requests/core';
-import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
-import { TransactionReceipt } from 'web3-core';
 
-import { EthSDK } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
 
-export interface IGetSwitcherData {
-  amount: BigNumber;
-  isPending: boolean;
-  destinationAddress?: string;
+import { SwitcherSDK } from '../api/SwitcherSDK';
+import { IFetchTxData, IFetchTxReceiptData } from '../api/types';
+import { AvailableSwitchNetwork } from '../const';
+
+interface IGetTxDataArgs {
+  chainId: AvailableSwitchNetwork;
+  txHash: string;
 }
 
 export const getTxData = createAction<
-  RequestAction<IGetSwitcherData, IGetSwitcherData>
->('switcher/getTxData', ({ txHash }: { txHash: string }) => ({
+  RequestAction<IFetchTxData, IFetchTxData>
+>('switcher/getTxData', ({ chainId, txHash }: IGetTxDataArgs) => ({
   request: {
-    promise: async (): Promise<IGetSwitcherData> => {
-      const sdk = await EthSDK.getInstance();
+    promise: async (): Promise<IFetchTxData | undefined> => {
+      const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.fetchTxData(txHash);
+      return sdk.fetchTxData({ chainId, txHash });
     },
   },
   meta: {
@@ -29,11 +29,16 @@ export const getTxData = createAction<
   },
 }));
 
+interface IGetTxReceiptArgs {
+  chainId: AvailableSwitchNetwork;
+  txHash: string;
+}
+
 const POLL_INTERVAL_SECONDS = 5;
 
 export const getTxReceipt = createAction<
-  RequestAction<TransactionReceipt, TransactionReceipt>
->('switcher/getTxReceipt', ({ txHash }: { txHash: string }) => ({
+  RequestAction<IFetchTxReceiptData, IFetchTxReceiptData>
+>('switcher/getTxReceipt', ({ chainId, txHash }: IGetTxReceiptArgs) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -43,8 +48,8 @@ export const getTxReceipt = createAction<
     poll: POLL_INTERVAL_SECONDS,
     getData: data => data,
     onRequest: request => {
-      request.promise = EthSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt(txHash),
+      request.promise = SwitcherSDK.getInstance().then(sdk =>
+        sdk.fetchTxReceipt({ chainId, txHash }),
       );
 
       return request;

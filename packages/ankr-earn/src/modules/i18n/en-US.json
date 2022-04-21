@@ -132,7 +132,7 @@
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
     "available-networks": "Ensure your wallet is connected to the following networks:",
-    "unsupported-network": "The current page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "unsupported-network": "This page is not available on <b>{network}</b> network.<br />Please select the network you need:",
     "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
@@ -271,7 +271,6 @@
     "stake-btn": "Stake now",
     "unstake-btn": "Unstake now",
     "exchange-btn": "Trade",
-    "eth-unstake-err": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
     "header": {
       "title": "Trading cockpit",
       "aethb-info": "aETHb is an ETH reward earning bond.",
@@ -330,6 +329,11 @@
     "pending": {
       "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the dashboard."
     }
+  },
+  "claim": {
+    "title": "Claim liquid staking token",
+    "no-tokens": "You have no unclaimed liquid staking tokens.",
+    "progress-title": "Claim"
   },
   "stake-avax": {
     "faq": {
@@ -483,6 +487,10 @@
     "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
+    "unclaimed-label": "Unclaimed ETH balance",
+    "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
+    "unstake-tooltip": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
+    "amount-tooltip": "Amount must be multiple of {step}",
     "faq": {
       "question-1": "Are there any docs about the ETH staking and how I set up my wallet etc.?",
       "answer-1": "Yes — there is a <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">user guide</a>.",
@@ -493,7 +501,7 @@
       "question-4": "Is there a maximum amount I can stake?",
       "answer-4": "No, you can stake at your discretion, unlimited. You should know that currently staking starts once 32 ETH are accumulated, so if your stake is >32 ETH, it’ll be divided into chunks and the rule will apply to each of them.",
       "question-5": "What is the unbonding period for aETHb/aETHc?",
-      "answer-5": "Currently, еhere is no unbonding period, as there is no unstaking for ETH. This functionality is to be implemented by the Ethereum team in future updates.",
+      "answer-5": "Currently, there is no unbonding period, as there is no unstaking for ETH. This functionality is to be implemented by the Ethereum team in future updates.",
       "question-6": "How do I receive rewards?",
       "answer-6": "aETHb is a rebasing token. When holding aETHb, your balance will increase in proportion to your ETH staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount. <br/>aETHc, though, does not change in quantity but will appreciate in value, daily. <br/>Mind that to pull out your rewards, you’ll need to sell aETHb/aETHc on Ankr DeFi, as Ethereum hasn’t implemented the unstaking functionality yet.",
       "question-7": "How soon after staking will I begin to receive rewards?",
@@ -520,6 +528,8 @@
       "aETHc": "Ankr Reward-Bearing Staked ETH (aETHc) is a reward-bearing token.Its value compared with ETH represents the redemption value of aETHc, increasing over time to reflect ETH2 staking rewards earned.",
       "aBNBb": "Ankr Reward-Earning Staked BNB (aBNBb) is a rebasing token. When holding aBNBb, its balance will increase on a daily basis proportional to your BNB staking rewards. Therefore, the ratio of aBNBb vs. BNB is always 1:1.",
       "aBNBc": "Ankr Reward-Bearing Staked BNB (aBNBc) is a reward-bearing token. Its value compared with BNB represents the redemption value of aBNBc, increasing over time to reflect BNB staking rewards earned.",
+      "aMATICb": "Ankr Reward-Earning Staked MATIC (aMATICb) is a rebasing token. When holding aMATICb, its balance will increase on a daily basis proportional to your MATIC staking rewards. Therefore, the ratio of aMATICb vs. MATIC is always 1:1.",
+      "aMATICc": "Ankr Reward-Bearing Staked MATIC (aMATICc) is a reward-bearing token. Its value compared with MATIC represents the redemption value of aMATICc, increasing over time to reflect MATIC staking rewards earned.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
@@ -643,6 +653,9 @@
     "disconnect": "Disconnect",
     "disconnect-all": "Disconnect all",
     "modal-title": "Connect wallet to continue",
+    "tooltips": {
+      "polkadot": "To connect to the Polkadot wallet, please connect to one of the Ethereum compatible networks first"
+    },
     "wallet-install": "Install"
   },
   "history-dialog": {

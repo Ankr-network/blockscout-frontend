@@ -12,7 +12,6 @@ import { useIsMDUp } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
-import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import {
@@ -28,6 +27,7 @@ import { Checkbox } from 'uiKit/Checkbox';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
+import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
 import { Tooltip } from 'uiKit/Tooltip';

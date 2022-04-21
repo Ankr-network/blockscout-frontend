@@ -21,10 +21,6 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
   },
 
   walletItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     maxWidth: 160,
     maxHeight: 144,
     width: 160,
@@ -37,9 +33,28 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.background.default,
     },
-    '&:hover > h6': {
+    '&:hover > div > h6': {
       textDecoration: 'underline',
     },
+  },
+  walletItemDisabled: {
+    backgroundColor: theme.palette.action.disabledBackground,
+    borderColor: theme.palette.action.disabledBackground,
+
+    '&:hover': {
+      backgroundColor: theme.palette.action.disabledBackground,
+    },
+  },
+  walletItemDisabledCursor: {
+    cursor: 'not-allowed',
+  },
+  walletItemBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   walletItemTitle: {
     margin: theme.spacing(2.25, 0, 0, 0),
