@@ -12,6 +12,7 @@ export enum Token {
   aBNBc = 'aBNBc',
   FTM = 'FTM',
   aFTMb = 'aFTMb',
+  aFTMc = 'aFTMc',
   DOT = 'DOT',
   aDOTb = 'aDOTb',
   KSM = 'KSM',

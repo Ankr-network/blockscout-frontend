@@ -36,6 +36,7 @@ export interface IBinanceConfig {
 export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
+  aftmcToken: string;
   ftmToken: string;
 }
 
@@ -96,8 +97,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
   fantomConfig: {
-    fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
-    aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
+    fantomPool: '0x7B72E8117E69951F1b00178016EEaEE4ce715f28',
+    aftmbToken: '0x65Bc73117C1c8A1E421858650dDA32dcc50B8eE6',
+    aftmcToken: '0x5DA48feC18C1EE2C36308E1e2D569668a0Cd8Edd',
     ftmToken: ZERO_ADDR,
   },
   polkadotConfig: {
@@ -185,6 +187,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
+    aftmcToken: ZERO_ADDR,
     ftmToken: ZERO_ADDR,
   },
   polkadotConfig: {

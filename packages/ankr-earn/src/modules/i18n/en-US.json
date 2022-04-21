@@ -75,11 +75,13 @@
     "amaticb": "aMATICb",
     "ftm": "FTM",
     "aftmb": "aFTMb",
+    "aftmc": "aFTMc",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
+    "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR"
@@ -94,7 +96,7 @@
     },
     "tooltips": {
       "comingSoon": "Coming soon",
-      "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
+      "allowance": "Approve (Allowance) is the permission you give to the smart contract in order to allow it to spend on your behalf the token you want to use through its dApp."
     }
   },
   "chain": {
@@ -480,7 +482,10 @@
       "answer-8": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
-    }
+    },
+    "aftmb-descr": "aFTMb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
+    "aftmc-descr": "aFTMс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aFTMc={rate} FTM</b>",
+    "relayer-fee": "Relayer Fee"
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",

@@ -19,7 +19,7 @@ import { stake } from 'modules/stake-fantom/actions/stake';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig } from 'modules/stake-fantom/Routes';
 
-export interface IStakedAFTMBData {
+export interface IStakedAFTMCData {
   amount: BigNumber;
   pendingUnstakes: BigNumber;
   network: string;
@@ -36,7 +36,7 @@ export interface IStakedAFTMBData {
   handleAddTokenToWallet: () => void;
 }
 
-export const useStakedAFTMBData = (): IStakedAFTMBData => {
+export const useStakedAFTMCData = (): IStakedAFTMCData => {
   const dispatchRequest = useDispatchRequest();
 
   const { data: commonData, loading: isBalancesLoading } = useQuery({
@@ -56,12 +56,13 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const network = t(`chain.${FTM_NETWORK_BY_ENV}`);
   const chainId = FTM_NETWORK_BY_ENV;
 
-  const amount = commonData?.aFTMbBalance ?? ZERO;
-  const pendingUnstakes = commonData?.pendingUnstakes ?? ZERO;
+  const amount = commonData?.aFTMcBalance ?? ZERO;
+  // TODO: need update in future
+  const pendingUnstakes = ZERO;
   const isShowed = !amount.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addFTMTokenToWallet(Token.aFTMb));
+    dispatchRequest(addFTMTokenToWallet(Token.aFTMc));
   }, [dispatchRequest]);
 
   return {
@@ -69,11 +70,11 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     pendingUnstakes,
     network,
     chainId,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMb, Token.FTM),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMc, Token.FTM),
     isShowed,
     isBalancesLoading,
-    stakeLink: RoutesConfig.stake.generatePath(),
-    unstakeLink: RoutesConfig.unstake.generatePath(),
+    stakeLink: RoutesConfig.stake.generatePath(Token.aFTMc),
+    unstakeLink: RoutesConfig.unstake.generatePath(Token.aFTMc),
     isStakeLoading,
     isUnstakeLoading,
     walletName,

@@ -1,6 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
@@ -11,11 +11,11 @@ import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
 
 interface IStatsProps {
   apy: BigNumber;
-  amount: ReactText;
+  amount: BigNumber;
 }
 
 const calculateYearlyEarning = (
-  amount: ReactText,
+  amount: BigNumber,
   apy: BigNumber,
 ): BigNumber => {
   return amount ? new BigNumber(amount).multipliedBy(apy).dividedBy(100) : ZERO;

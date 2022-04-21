@@ -12,6 +12,7 @@ import {
   getTxData,
   getTxReceipt,
 } from 'modules/stake-fantom/actions/getTxData';
+import { TFtmSyntToken } from 'modules/stake-fantom/types/TFtmSyntToken';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeFantomStepsHook {
@@ -27,11 +28,12 @@ export interface IStakeFantomStepsHook {
 
 interface IStakeSuccessParams {
   txHash: string;
+  tokenOut: TFtmSyntToken;
   destination: string;
 }
 
 export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
-  const { txHash } = useParams<IStakeSuccessParams>();
+  const { txHash, tokenOut = Token.aFTMb } = useParams<IStakeSuccessParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const dispatchRequest = useDispatchRequest();
@@ -56,7 +58,7 @@ export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
   }, [dispatch, receipt]);
 
   const onAddTokenClick = () => {
-    dispatchRequest(addFTMTokenToWallet(Token.aFTMb));
+    dispatchRequest(addFTMTokenToWallet(tokenOut));
   };
 
   const isPending = !receipt && !!data?.isPending;
@@ -65,7 +67,7 @@ export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
     amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
-    tokenName: Token.aFTMb,
+    tokenName: tokenOut,
     isLoading,
     isPending,
     error: error || txFailError,

@@ -11,6 +11,7 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   BSC_PROVIDER_BY_ENV,
   ETH_PROVIDER_BY_ENV,
+  FTM_PROVIDER_BY_ENV,
   POLYGON_PROVIDER_BY_ENV,
   ZERO,
 } from 'modules/common/const';
@@ -19,6 +20,8 @@ import { Token } from 'modules/common/types/token';
 
 import ABI_AETHB from '../../api/contract/FETH.json';
 import ABI_ERC20 from '../../api/contract/IERC20.json';
+import AFTMB_ABI from '../../stake-fantom/api/contracts/aFTMb.json';
+import AFTMC_ABI from '../../stake-fantom/api/contracts/aFTMc.json';
 import AMATICB_ABI from '../../stake-polygon/api/contracts/aMATICb.json';
 
 const config = configFromEnv();
@@ -72,6 +75,21 @@ export const addressMapForTokenPolygon: {
     abi: AMATICB_ABI,
     address: config.polygonConfig.aMATICbToken,
     providerName: POLYGON_PROVIDER_BY_ENV,
+  },
+};
+
+export const addressMapForTokenFantom: {
+  [token in Token]?: IDashboardSDKCotractData;
+} = {
+  [Token.aFTMb]: {
+    abi: AFTMB_ABI,
+    address: config.fantomConfig.aftmbToken,
+    providerName: FTM_PROVIDER_BY_ENV,
+  },
+  [Token.aFTMc]: {
+    abi: AFTMC_ABI,
+    address: config.fantomConfig.aftmcToken,
+    providerName: FTM_PROVIDER_BY_ENV,
   },
 };
 
@@ -157,6 +175,11 @@ export class DashboardSDK {
 
       case BlockchainNetworkId.polygon: {
         return addressMapForTokenPolygon[token] || EMPTY;
+      }
+
+      case BlockchainNetworkId.fantom:
+      case BlockchainNetworkId.fantomTestnet: {
+        return addressMapForTokenFantom[token] || EMPTY;
       }
 
       default: {

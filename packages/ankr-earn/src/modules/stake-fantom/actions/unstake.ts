@@ -6,18 +6,19 @@ import { IWeb3SendResult } from 'provider';
 
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
+import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
 import { getBurnFee } from './getBurnFee';
 import { getCommonData } from './getCommonData';
 
-export const unstake = createAction<RequestAction, [BigNumber]>(
+export const unstake = createAction<RequestAction, [BigNumber, TFtmSyntToken]>(
   `${ACTIONS_PREFIX}unstake`,
-  amount => ({
+  (amount, token) => ({
     request: {
       promise: (async (): Promise<IWeb3SendResult> => {
         const sdk = await FantomSDK.getInstance();
 
-        return sdk.unstake(amount);
+        return sdk.unstake(amount, token);
       })(),
     },
     meta: {
