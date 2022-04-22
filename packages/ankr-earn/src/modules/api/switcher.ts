@@ -21,7 +21,7 @@ export interface ISwitcher {
   getABBalance(isFormatted?: boolean): Promise<BigNumber>;
   getACBalance(isFormatted?: boolean): Promise<BigNumber>;
   getACRatio(isFormatted?: boolean): Promise<BigNumber>;
-  getAllowance(): Promise<BigNumber>;
+  getACAllowance(spender?: string): Promise<BigNumber>;
   fetchTxData(txHash: string): Promise<IFetchTxData>;
   fetchTxReceipt(txHash: string): Promise<IFetchTxReceiptData>;
   approveACForAB(amount?: BigNumber): Promise<IWeb3SendResult | undefined>;

@@ -94,7 +94,7 @@ export class SwitcherSDK {
       sdk.getABBalance(true),
       sdk.getACBalance(true),
       sdk.getACRatio(true),
-      sdk.getAllowance(),
+      sdk.getACAllowance(),
     ]);
 
     return { abBalance, acBalance, ratio, allowance };

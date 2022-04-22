@@ -19,8 +19,9 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
-import { isMainnet, ZERO } from 'modules/common/const';
+import { isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
@@ -30,6 +31,7 @@ import {
 } from '../const';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
+import ABI_AMATICC from './contracts/aMATICc.json';
 import ABI_POLYGON_POOL from './contracts/polygonPool.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
@@ -179,6 +181,15 @@ export class PolygonSDK implements ISwitcher {
     );
   }
 
+  private static getAMATICCTokenContract(web3: Web3): Contract {
+    const { contractConfig } = configFromEnv();
+
+    return new web3.eth.Contract(
+      ABI_AMATICC as AbiItem[],
+      contractConfig.aMaticCToken,
+    );
+  }
+
   private async getPolygonPoolContract(isForceRead = false): Promise<Contract> {
     const { contractConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -307,19 +318,63 @@ export class PolygonSDK implements ISwitcher {
   }
 
   public async getACBalance(): Promise<BigNumber> {
-    return ZERO;
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const balance = await aMaticCTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
   public async getACRatio(): Promise<BigNumber> {
-    return ZERO;
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const ratio = await aMaticCTokenContract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
   }
 
-  public async getAllowance(): Promise<BigNumber> {
-    return ZERO;
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const { contractConfig } = configFromEnv();
+
+    const allowance = await aMaticCTokenContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || contractConfig.aMaticbToken,
+      )
+      .call();
+
+    return new BigNumber(allowance);
   }
 
-  public async approveACForAB(): Promise<IWeb3SendResult | undefined> {
-    return undefined;
+  public async approveACForAB(
+    amount = MAX_UINT256,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const data = aMaticCTokenContract.methods
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticCToken,
+      { data, estimate: true },
+    );
   }
 
   public async lockShares(): Promise<IWeb3SendResult> {

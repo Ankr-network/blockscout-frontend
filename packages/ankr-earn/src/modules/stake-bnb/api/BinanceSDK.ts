@@ -635,7 +635,7 @@ export class BinanceSDK implements ISwitcher {
       await this.writeProvider.connect();
     }
 
-    const allowance = await this.getAllowance();
+    const allowance = await this.getACAllowance();
 
     try {
       return allowance.isGreaterThanOrEqualTo(convertNumberToHex(amount));
@@ -644,7 +644,7 @@ export class BinanceSDK implements ISwitcher {
     }
   }
 
-  public async getAllowance(spender?: string): Promise<BigNumber> {
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aBNBcContract = await this.getABNBCContract();
     const { binanceConfig } = configFromEnv();
 

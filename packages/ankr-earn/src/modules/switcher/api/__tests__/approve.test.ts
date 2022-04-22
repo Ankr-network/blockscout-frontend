@@ -3,6 +3,7 @@ import { BlockchainNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -21,17 +22,23 @@ jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
 
 describe('modules/switcher/api/SwitcherSDK#approve', () => {
   const defaultEthSDK = {
-    approveACForAB: () => Promise.resolve({}),
+    approveACForAB: () => Promise.resolve({ value: 'ethereum' }),
   };
 
   const defaultBinanceSDK = {
-    approveACForAB: () => Promise.resolve({}),
+    approveACForAB: () => Promise.resolve({ value: 'binance' }),
+  };
+
+  const defaultMaticSDK = {
+    approveACForAB: () => Promise.resolve({ value: 'matic' }),
   };
 
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
+
+    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
   });
 
   afterEach(() => {
@@ -51,7 +58,7 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     );
 
     results.forEach(result => {
-      expect(result).toBeDefined();
+      expect(result).toStrictEqual({ value: 'ethereum' });
     });
   });
 
@@ -71,7 +78,24 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     );
 
     results.forEach(result => {
-      expect(result).toBeDefined();
+      expect(result).toStrictEqual({ value: 'binance' });
+    });
+  });
+
+  test('should approve certificate for bond on ethereum network (matic)', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+        sdk.approve({
+          chainId: chainId as AvailableSwitchNetwork,
+          token: Token.aMATICc,
+        }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual({ value: 'matic' });
     });
   });
 

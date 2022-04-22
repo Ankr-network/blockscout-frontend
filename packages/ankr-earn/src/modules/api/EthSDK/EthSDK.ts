@@ -261,7 +261,7 @@ export class EthSDK implements ISwitcher {
     }
   }
 
-  public async getAllowance(): Promise<BigNumber> {
+  public async getACAllowance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const { contractConfig } = CONFIG;

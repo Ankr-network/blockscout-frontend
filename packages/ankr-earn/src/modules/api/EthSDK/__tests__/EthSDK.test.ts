@@ -217,7 +217,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       sdk.getACRatio(),
       sdk.getACBalance(),
       sdk.getABBalance(),
-      sdk.getAllowance(),
+      sdk.getACAllowance(),
       sdk.getEthBalance(),
       sdk.getClaimable(Token.aETHb),
       sdk.getClaimable(Token.aETHc),
