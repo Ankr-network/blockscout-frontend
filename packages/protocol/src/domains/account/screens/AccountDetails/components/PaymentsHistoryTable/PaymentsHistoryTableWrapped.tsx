@@ -57,7 +57,7 @@ export const PaymentsHistoryTableWrapped = () => {
     );
   });
 
-  if (error) {
+  if (error || (!loading && !data?.transactions?.length)) {
     return null;
   }
 
