@@ -26,7 +26,7 @@ export const ExclusiveRPCEndpoints = ({
   chainId,
 }: ExclusiveRPCEndpointsProps) => {
   const classes = useStyles();
-  const { handleFetchProvider, providerData } = useProvider();
+  const { handleFetchProvider } = useProvider();
 
   const dispatchRequest = useDispatchRequest();
 
@@ -118,7 +118,6 @@ export const ExclusiveRPCEndpoints = ({
         const additionalContent = (
           <Button
             variant="text"
-            disabled={!providerData}
             className={classes.button}
             component={Link}
             to={PlanRoutesConfig.endpoint.generatePath(chainId)}

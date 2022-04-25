@@ -120,3 +120,15 @@ export function ProvidersPrivateRoutes() {
     </>
   );
 }
+
+export function EndpointPlanRoutes() {
+  return (
+    <>
+      <Route
+        exact
+        path={PlanRoutesConfig.endpoint.path}
+        component={LoadableEndpointContainer}
+      />
+    </>
+  );
+}
