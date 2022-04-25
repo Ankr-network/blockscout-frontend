@@ -2,6 +2,8 @@ import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { featuresConfig, ZERO } from 'modules/common/const';
+
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
@@ -34,8 +36,10 @@ export const getCommonData = createAction<
         sdk.getMinimumStake(),
         sdk.getAftmbBalance(),
         sdk.getPendingUnstakes(),
-        sdk.getAftmcBalance(),
-        sdk.getAFTMCRatio(),
+        featuresConfig.stakeAFTMC
+          ? sdk.getAftmcBalance()
+          : Promise.resolve(ZERO),
+        featuresConfig.stakeAFTMC ? sdk.getAFTMCRatio() : Promise.resolve(ZERO),
       ]);
 
       return {
