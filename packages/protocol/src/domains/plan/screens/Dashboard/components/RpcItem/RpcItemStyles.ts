@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -14,13 +14,11 @@ export const useStyles = makeStyles<Theme, { hasOnClick: boolean }>(theme => ({
     },
 
     '&:hover': {
-      boxShadow: ({ hasOnClick }) =>
-        hasOnClick
-          ? '0px 0px 15px rgba(31, 34, 38, 0.05), 0px 3px 50px rgba(31, 34, 38, 0.15)'
-          : 'none',
+      boxShadow:
+        '0px 0px 15px rgba(31, 34, 38, 0.05), 0px 3px 50px rgba(31, 34, 38, 0.15)',
     },
 
-    cursor: ({ hasOnClick }) => (hasOnClick ? 'pointer' : 'default'),
+    cursor: 'pointer',
   },
   mainInfo: {
     maxWidth: '30%',
