@@ -5,7 +5,7 @@ import { AccountStatus } from 'modules/account/types';
 
 const colorsMap: Record<AccountStatus, string> = {
   [AccountStatus.GREEN]: '#3AC090',
-  [AccountStatus.YELLOW]: '#ffff00',
+  [AccountStatus.YELLOW]: '#EEA941',
   [AccountStatus.RED]: '#D22C54',
 };
 

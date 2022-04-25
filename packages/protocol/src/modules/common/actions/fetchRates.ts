@@ -4,7 +4,7 @@ import { getAnkrUsdt } from 'modules/api/sdk';
 import { withStore } from 'modules/auth/utils/withStore';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-interface IRates {
+export interface IRates {
   ankrUsdt: BigNumber;
 }
 

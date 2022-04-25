@@ -1,23 +1,27 @@
 import React from 'react';
-import { Box, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { AccountMarker } from 'modules/account/components/AccountMarker';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { Preloader } from 'uiKit/Preloader';
-import { formatNumber, getDescription, i18nKeyRoot } from './BalanceUtils';
+import { BalanceData } from './types';
+import { Details } from './Details';
+import { formatNumber, i18nKeyRoot } from './BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
-import { useBalanceData } from './hooks/useBalanceData';
-
 import { useStyles } from './BalanceStyles';
 
-export const Balance = () => {
-  const { ankrBalance, enoughTime, isLoading, status, usdtBalance } =
-    useBalanceData();
+export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
+export const Balance = ({
+  ankrBalance,
+  enoughTime,
+  serviceType,
+  status,
+  premiumUntil,
+  usdBalance,
+}: BalanceProps) => {
   const classes = useStyles();
 
-  const content = (
+  return (
     <>
       <div className={classes.header}>
         <div className={classes.left}>
@@ -34,21 +38,13 @@ export const Balance = () => {
         </Button>
       </div>
       <div className={classes.balance}>{formatNumber(ankrBalance)}</div>
-      <div className={classes.footer}>
-        <AccountMarker status={status} />
-        <span className={classes.usdtBalance}>
-          ~${formatNumber(usdtBalance)}
-        </span>
-        <span className={classes.description}>
-          {getDescription(enoughTime)}
-        </span>
-      </div>
+      <Details
+        enoughTime={enoughTime}
+        premiumUntil={premiumUntil}
+        serviceType={serviceType}
+        status={status}
+        usdBalance={usdBalance}
+      />
     </>
-  );
-
-  return (
-    <Box className={classes.balanceRoot}>
-      {isLoading ? <Preloader /> : content}
-    </Box>
   );
 };

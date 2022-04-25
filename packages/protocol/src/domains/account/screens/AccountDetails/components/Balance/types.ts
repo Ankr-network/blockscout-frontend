@@ -1,12 +1,20 @@
+import BigNumber from 'bignumber.js';
 import { AccountStatus } from 'modules/account/types';
 
 export type BalanceData = {
-  ankrBalance: number;
+  ankrBalance: BigNumber;
   enoughTime: EnoughTime;
   isLoading?: boolean;
+  premiumUntil?: Date;
+  serviceType: ServiceType;
   status: AccountStatus;
-  usdtBalance: number;
+  usdBalance: BigNumber;
 };
+
+export enum DescriptionType {
+  PREMIUM,
+  STOPPED,
+}
 
 export interface EnoughTime {
   period: EnoughTimePeriod;
@@ -17,4 +25,10 @@ export enum EnoughTimePeriod {
   Day = 'day',
   Month = 'month',
   Year = 'year',
+}
+
+export enum ServiceType {
+  Premium,
+  Served,
+  Unserved,
 }
