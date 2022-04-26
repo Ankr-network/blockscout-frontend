@@ -22,13 +22,13 @@ export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 export const PaymentHistoryDefaultParams = {
   page: 1,
   order_by: 'timestamp',
-  order: 'desc',
+  sort: 'desc',
 };
 
 export interface UsePaymentHistoryTableUtilsParams {
   page: number;
   order_by: string;
-  order: string;
+  sort: string;
 }
 
 export interface PaymentHistoryTableUtilsContext {
@@ -60,7 +60,7 @@ export const usePaymentHistoryTableUtils = (
         const field = event.currentTarget.getAttribute('data-field')!;
 
         const sort = {
-          order: tableParams.order === 'desc' ? 'asc' : 'desc',
+          sort: tableParams.sort === 'desc' ? 'asc' : 'desc',
           order_by: field,
         };
         setTableParams(sort);
@@ -132,9 +132,9 @@ export const getPaymentHistoryItemSign = (direction?: boolean): string => {
 };
 
 export const getPaymentHistorySortArrow = (
-  order: UsePaymentHistoryTableUtilsParams['order'],
+  sort: UsePaymentHistoryTableUtilsParams['sort'],
 ) => {
-  return order === 'desc' ? '↓' : '↑';
+  return sort === 'desc' ? '↓' : '↑';
 };
 
 export const preparePaymentHistoryRequest = ({
