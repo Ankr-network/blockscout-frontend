@@ -1,6 +1,7 @@
-import { IWeb3KeyProvider } from '@ankr.com/stakefi-web3';
+import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { bytesToHex } from 'web3-utils';
+import { TransactionReceipt } from 'web3-core';
 
 import { ApiGateway, IApiGateway } from '../api';
 import {
@@ -49,6 +50,7 @@ import {
 import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
 import { RpcGateway } from '../rpc/RpcGateway';
+import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private workerGateway?: IWorkerGateway;
@@ -61,12 +63,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   private contractManager?: IContractManager;
 
+  private PAYGContractManager?: IPAYGContractManager;
+
   private accountGateway?: IAccountGateway;
 
   public constructor(
     private readonly keyProvider: IWeb3KeyProvider,
     private readonly config: IConfig,
   ) {}
+
+  get blocksCount(): number {
+    return this.config.confirmationBlocks;
+  }
 
   async getBlockchains(): Promise<IBlockchainEntity[]> {
     return this.getWorkerGateway().getBlockchains();
@@ -331,17 +339,59 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.getContractManager().depositAnkrToWallet(new BigNumber(amount));
   }
 
+  async depositAnkrToPAYG(
+    amount: BigNumber | BigNumber.Value,
+    publicKey: string,
+  ): Promise<IWeb3SendResult> {
+    return this.getPAYGContractManager().depositAnkr(
+      new BigNumber(amount),
+      publicKey,
+    );
+  }
+
+  async getAllowanceForPAYG(
+    amount: BigNumber | BigNumber.Value,
+  ): Promise<IWeb3SendResult> {
+    return this.getPAYGContractManager().getAllowance(new BigNumber(amount));
+  }
+
+  async hasAllowanceForPAYG(
+    amount: BigNumber | BigNumber.Value,
+  ): Promise<boolean> {
+    return this.getPAYGContractManager().hasEnoughAllowance(
+      new BigNumber(amount),
+    );
+  }
+
+  async getTransactionReceipt(
+    transactionHash: PrefixedHex,
+  ): Promise<TransactionReceipt> {
+    const transactionReceipt = await this.keyProvider
+      .getWeb3()
+      .eth.getTransactionReceipt(transactionHash);
+
+    return transactionReceipt;
+  }
+
   async isJwtTokenIssueAvailable(
     transactionHash: PrefixedHex,
   ): Promise<IIsJwtTokenIssueAvailableResult> {
     const latestKnownBlockNumber = await this.keyProvider
       .getWeb3()
       .eth.getBlockNumber();
-    const transactionReceipt = await this.keyProvider
-      .getWeb3()
-      .eth.getTransactionReceipt(transactionHash);
+    const transactionReceipt = await this.getTransactionReceipt(
+      transactionHash,
+    );
+
+    if (!transactionReceipt) {
+      return {
+        remainingBlocks: this.config.confirmationBlocks,
+        isReady: false,
+      };
+    }
+
     const passedBlocks =
-      latestKnownBlockNumber - transactionReceipt.blockNumber;
+      latestKnownBlockNumber - transactionReceipt?.blockNumber;
 
     if (passedBlocks < this.config.confirmationBlocks) {
       return {
@@ -446,6 +496,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       new ContractManager(this.keyProvider, this.config);
 
     return this.contractManager;
+  }
+
+  /**
+   * @internal for internal usage, try to avoid
+   */
+  getPAYGContractManager(): IPAYGContractManager {
+    this.PAYGContractManager =
+      this.PAYGContractManager ||
+      new PAYGContractManager(this.keyProvider, this.config);
+
+    return this.PAYGContractManager;
   }
 
   /**

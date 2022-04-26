@@ -18,7 +18,7 @@ export const WaitConfirmationBlock = () => {
         }
 
         return (
-          <Box mt={3} mb={4}>
+          <Box mb={4}>
             <LinearProgress
               variant="determinate"
               value={getProgressValue(data.remainingBlocks)}

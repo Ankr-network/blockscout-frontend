@@ -40,6 +40,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   notice: {
     fontWeight: 'lighter',
     minHeight: 45,
-    marginBottom: theme.spacing(7.5),
+    marginBottom: theme.spacing(3),
   },
 }));

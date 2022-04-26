@@ -33,7 +33,7 @@ function hasError(queries: QueryState<any>[]) {
 }
 
 function isDataEmpty(data: any) {
-  if (!data) {
+  if (!data && typeof data !== 'number') {
     return true;
   }
 

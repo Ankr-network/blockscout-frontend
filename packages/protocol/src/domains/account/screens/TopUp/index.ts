@@ -1,1 +1,1 @@
-export * from './TopUp';
+export { TopUpQuery as TopUp } from './TopUpQuery';

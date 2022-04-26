@@ -145,6 +145,9 @@ export interface IConfig {
   walletPublicUrl: string;
   workerUrl: string;
   accountUrl: string;
+
+  payAsYouGoAnkrTokenContractAddress: string;
+  payAsYouGoContractAddress: string;
 }
 
 export type Environment = 'local' | 'staging' | 'prod';

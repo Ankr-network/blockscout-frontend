@@ -1,36 +1,14 @@
-import { TopUpStep } from 'modules/auth/actions/fetchTopUpStatus';
-import { IGetButtonPropsParams } from './TopUpStepsTypes';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { t } from 'modules/i18n/utils/intl';
 
-export const getButtonProps = ({
-  step,
-  loading,
-  onDeposit,
-}: IGetButtonPropsParams) => {
-  switch (step) {
-    case TopUpStep.start:
-      return {
-        onClick: onDeposit,
-      };
-
-    case TopUpStep.publicKey:
-    case TopUpStep.allowance:
-    case TopUpStep.deposit:
-      return {
-        disabled: loading,
-        onClick: onDeposit,
-      };
-
-    case TopUpStep.waitTransactionConfirming:
-      return {
-        disabled: false,
-        onClick: onDeposit,
-      };
-
-    case TopUpStep.done:
-    default:
-      return {
-        disabled: false,
-        onClick: onDeposit,
-      };
+export const getButtonText = (step: TopUpStep, loading: boolean): string => {
+  if (step === TopUpStep.login) {
+    return t('top-up-steps.done');
   }
+
+  if (loading) {
+    return t('top-up-steps.wait');
+  }
+
+  return t('top-up-steps.next');
 };

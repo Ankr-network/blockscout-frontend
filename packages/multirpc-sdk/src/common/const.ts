@@ -9,12 +9,13 @@ export const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
   responseType: 'json',
 };
 
+export const STAGING_CONFIRMATION_BLOCKS = 1;
 export const CONFIRMATION_BLOCKS = 12;
 
 export const STAGING_CONFIG: IConfig = {
   ankrTokenContractAddress: '0x65BF0bD516aD41622e45bFD22dAD57ffF828333a',
   ankrWalletContractAddress: '0xD099e6Be8B30ACc74E3b4e6E80D5e0dB58291e93',
-  confirmationBlocks: CONFIRMATION_BLOCKS,
+  confirmationBlocks: STAGING_CONFIRMATION_BLOCKS,
   privateRpcUrl: 'https://staging.multi-rpc.com/{blockchain}/{user}',
   privateWsUrl: 'wss://staging.multi-rpc.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://staging.multi-rpc.com/{blockchain}',
@@ -23,6 +24,10 @@ export const STAGING_CONFIG: IConfig = {
   walletPublicUrl: 'https://staging.protocol.ankr.com/',
   workerUrl: 'https://staging.multi-rpc.com/',
   accountUrl: 'https://staging.multirpc.ankr.com/',
+
+  payAsYouGoAnkrTokenContractAddress:
+    '0x573896F7475419f784086ADeC8d2074FF71dAB0B',
+  payAsYouGoContractAddress: '0xF0A1DE386086A3e3914037c55e9B5405E9A2CBd0',
 };
 
 export const LOCAL_CONFIG: IConfig = {
@@ -43,4 +48,7 @@ export const PROD_CONFIG: IConfig = {
   walletPublicUrl: 'https://mainnet.protocol.ankr.com/',
   workerUrl: 'https://next.multi-rpc.com/',
   accountUrl: 'https://mainnet.multirpc.ankr.com/',
+
+  payAsYouGoAnkrTokenContractAddress: '',
+  payAsYouGoContractAddress: '',
 };

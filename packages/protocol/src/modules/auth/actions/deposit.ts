@@ -47,7 +47,7 @@ async function waitForBlocks(store: RequestsStore, transactionHash: string) {
   );
 }
 
-interface IDeposit {
+export interface IDeposit {
   address: string;
   credentials: IJwtToken;
 }

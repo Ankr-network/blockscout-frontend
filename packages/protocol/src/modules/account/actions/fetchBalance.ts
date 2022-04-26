@@ -4,7 +4,13 @@ import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
 
-export const fetchBalance = createAction<RequestAction<string, BigNumber>>(
+interface IBalance {
+  balance: string;
+  balance_ankr: string;
+  balance_usd: string;
+}
+
+export const fetchBalance = createAction<RequestAction<IBalance, BigNumber>>(
   'account/fetchBalance',
   () => ({
     request: {
@@ -14,15 +20,15 @@ export const fetchBalance = createAction<RequestAction<string, BigNumber>>(
       asMutation: false,
       takeLatest: true,
       poll: 30,
-      getData: (balance: string) => new BigNumber(balance),
+      getData: (balance: IBalance) => new BigNumber(balance?.balance_ankr),
       onRequest: () => {
         return {
-          promise: (async (): Promise<string> => {
+          promise: (async (): Promise<any> => {
             const { service } = MultiService.getInstance();
 
             const data = await service.getAnkrBalance();
 
-            return data.balance;
+            return data;
           })(),
         };
       },

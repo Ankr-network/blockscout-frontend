@@ -1,27 +1,29 @@
 import React from 'react';
-import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Typography,
+  CircularProgress,
+} from '@material-ui/core';
 
 import { useStyles } from './TopUpStepsStyles';
 import { t } from 'modules/i18n/utils/intl';
 import { Stepper } from './Stepper';
-import { TopUpStep } from 'modules/auth/actions/fetchTopUpStatus';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { StepperTitle } from './StepperTitle';
 import { StepperNotice } from './StepperNotice';
-
 import { WaitConfirmationBlock } from './WaitConfirmationBlock';
-
-interface ITopUpStepsProps {
-  step: TopUpStep;
-  onClick?: () => void;
-  disabled?: boolean;
-  amount?: number;
-}
+import { ITopUpStepsProps } from './TopUpStepsTypes';
+import { getButtonText } from './TopUpStepsUtils';
 
 export const TopUpSteps = ({
   step,
   onClick,
-  disabled,
+  loading,
   amount,
+  hasError,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -38,8 +40,15 @@ export const TopUpSteps = ({
           <WaitConfirmationBlock />
         )}
         <Box maxWidth={210} width="100%">
-          <Button fullWidth disabled={disabled} onClick={onClick}>
-            {t('top-up-steps.next')}
+          <Button
+            fullWidth
+            disabled={loading || hasError}
+            onClick={onClick}
+            startIcon={
+              loading ? <CircularProgress size={18} color="inherit" /> : null
+            }
+          >
+            {getButtonText(step, loading)}
           </Button>
         </Box>
       </Paper>

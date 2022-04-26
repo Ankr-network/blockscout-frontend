@@ -1,14 +1,9 @@
-import { TopUpStep } from 'modules/auth/actions/fetchTopUpStatus';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 
-interface CommonProps {
+export interface ITopUpStepsProps {
   step: TopUpStep;
-  onDeposit: () => void;
-  onConnect: () => void;
+  onClick: () => void;
   loading: boolean;
-}
-
-export interface ITopUpStepsProps extends CommonProps {
   amount: number;
+  hasError: boolean;
 }
-
-export interface IGetButtonPropsParams extends CommonProps {}

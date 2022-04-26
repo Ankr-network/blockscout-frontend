@@ -47,7 +47,7 @@ export const PaymentsHistoryTable = ({
 
   const rowsRendered = useMemo(
     () =>
-      data?.transactions.map((row, index) => (
+      data?.transactions?.map((row, index) => (
         <PaymentHistoryRow key={index} data={row} />
       )),
     [data?.transactions],

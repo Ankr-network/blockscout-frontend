@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { TopUpStep } from 'modules/auth/actions/fetchTopUpStatus';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 import MetamaskIcon from './assets/metamask.svg';
 
 interface IStepperTitleProps {

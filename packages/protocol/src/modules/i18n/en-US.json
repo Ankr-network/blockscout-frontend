@@ -26,7 +26,8 @@
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions",
     "expired-session": "Your session has expired",
-    "access-token-error": "Unable to obtain access token from multirpc-sdk"
+    "access-token-error": "Unable to obtain access token from multirpc-sdk",
+    "credentials": "Credentials are not ready"
   },
   "main-navigation": {
     "private-rpcs": "Exclusive RPCs",
@@ -261,7 +262,6 @@
         "checkbox": "Please, check this box to proceed"
       }
     },
-
     "deposit-success": {
       "title": "Deposited Successfully",
       "subtitle": "We&nbsp;need your email so&nbsp;you can receive updates.",
@@ -460,16 +460,17 @@
         "col-4": "Amount ANKR"
       }
     },
-
-    "mobile-details": {
-      "pro-block": {
-        "unlock": "Unlock all features with",
-        "premium": "Ankr Premium"
-      }
+    "top-up": {
+      "breadcrumbs": "Top Up",
+      "title": "Top Up"
     },
-    "pro-block": {
-      "label": "Premium features"
+    "withdraw": {
+      "breadcrumbs": "Withdraw",
+      "title": "Withdraw"
     }
+  },
+  "pro-block": {
+    "label": "Premium features"
   },
   "deposit-steps": {
     "title": "Unlocking Premium",
@@ -496,20 +497,25 @@
     "metamask": "Metamask",
     "step-content": {
       "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
-      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
-      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR.",
+      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR.",
+      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
       "3": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
       "4": "Thank you! Operation will take 2-4 minutes.",
-      "5": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
+      "5": "Done! Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide&nbsp;us your public encryption key again.",
+      "6": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
     },
     "step-notice": {
-      "1": "To enable Ankr to securely top up your balance.",
-      "2": "So we could top up your balance.",
+      "1": "So we could top up your balance.",
+      "2": "To enable Ankr to securely top up your balance.",
       "3": "Operation will take a while (2-4 min).",
-      "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
-      "5": "The last step in&nbsp;your sign in&nbsp;process."
+      "4": "Don’t worry, Ethereum Network needs to calculate {blocksCount} {blocksCount, plural, =1 {block} other {# blocks}}. 10-20 seconds each.",
+      "5": "So we could sign you in safely.",
+      "6": "The last step in&nbsp;your sign in&nbsp;process.",
+      "plural": "s"
     },
-    "next": "Next"
+    "next": "Next",
+    "wait": "Please wait",
+    "done": "Done"
   },
   "withdraw-steps": {
     "title": "Withdraw",
