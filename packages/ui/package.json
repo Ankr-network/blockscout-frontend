@@ -2,9 +2,13 @@
   "name": "ui",
   "version": "1.5.1",
   "scripts": {
-    "format": "lint-staged"
+    "format": "lint-staged",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
+    "react-virtualized": "9.22.3",
+    "@types/react-virtualized": "9.21.21",
     "@material-ui/core": "^4.12.3",
     "@material-ui/styles": "^4.11.4",
     "@types/react": "^17.0.37",
@@ -15,6 +19,7 @@
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
+    "@storybook/react": "^6.4.9",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
   },

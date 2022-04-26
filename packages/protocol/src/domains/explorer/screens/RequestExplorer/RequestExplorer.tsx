@@ -7,6 +7,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 
 import { useStyles } from './RequestExplorerStyles';
+import { RequestExplorerTableQuery } from './RequestExplorerTableQuery';
 
 export const RequestExplorer = () => {
   const classes = useStyles();
@@ -19,7 +20,9 @@ export const RequestExplorer = () => {
 
   return (
     <ThemeProvider theme={mainTheme}>
-      <Box className={classes.root}>RequestExplorer</Box>
+      <Box className={classes.root}>
+        <RequestExplorerTableQuery />
+      </Box>
     </ThemeProvider>
   );
 };

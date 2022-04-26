@@ -2,6 +2,8 @@ import {
   IBalance,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IRequestsRequest,
+  IRequestsResponse,
 } from './types';
 
 export interface IAccountGateway {
@@ -14,4 +16,6 @@ export interface IAccountGateway {
   getPaymentHistory(
     params: IPaymentHistoryRequest,
   ): Promise<IPaymentHistoryReponse>;
+
+  getRequests(params: IRequestsRequest): Promise<IRequestsResponse>;
 }

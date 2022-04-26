@@ -5,8 +5,11 @@ import {
   IBalance,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IRequestsResponse,
+  IRequestsRequest,
 } from './types';
 import { IAccountGateway } from './interfaces';
+import { getRequestsMock } from '../mock/getRequestsMock';
 
 export class AccountGateway implements IAccountGateway {
   public api: AxiosInstance;
@@ -46,6 +49,23 @@ export class AccountGateway implements IAccountGateway {
         params,
       },
     );
+
+    return response;
+  }
+
+  public async getRequests(
+    params: IRequestsRequest,
+  ): Promise<IRequestsResponse> {
+    const { data: response } = await this.api
+      .get<IRequestsResponse>('/api/v1/auth/requests', {
+        params,
+      })
+      .catch(() => ({
+        data: {
+          requests: getRequestsMock(params),
+          cursor: params.cursor > 50 ? -1 : params.cursor,
+        },
+      }));
 
     return response;
   }

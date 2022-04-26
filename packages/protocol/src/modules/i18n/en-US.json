@@ -368,6 +368,33 @@
       }
     }
   },
+  "explorer": {
+    "request-explorer": {
+      "breadcrumbs": "Request Explorer",
+      "title": "Request Explorer",
+      "more": "Show 10 more",
+      "date-time": "{value, date, medium} {value, time, short}",
+      "expand": {
+        "tab-request": {
+          "tab-1": "Params",
+          "tab-2": "RAW REQUEST"
+        },
+        "tab-response": {
+          "tab-1": "Result",
+          "tab-2": "RAW RESPONSE"
+        }
+      },
+      "table": {
+        "col-1": "#",
+        "col-2": "Method",
+        "col-3": "Error Code",
+        "col-4": "HTTP",
+        "col-5": "Response Time",
+        "col-6": "Date & Time",
+        "col-7": "Cost USD"
+      }
+    }
+  },
   "account": {
     "account-details": {
       "breadcrumbs": "Account Details",
@@ -433,40 +460,16 @@
         "col-4": "Amount ANKR"
       }
     },
-    "payment-table": {
-      "title": "Payments History",
-      "date-time": "{value, date, medium} {value, time, short}",
-      "more": "Show 10 more",
-      "head": {
-        "col-1": "Date & Time",
-        "col-2": "Payment type",
-        "col-3": "Amount USD",
-        "col-4": "Amount ANKR"
+
+    "mobile-details": {
+      "pro-block": {
+        "unlock": "Unlock all features with",
+        "premium": "Ankr Premium"
       }
     },
-    "top-up": {
-      "breadcrumbs": "Top Up",
-      "title": "Top Up"
-    },
-    "withdraw": {
-      "breadcrumbs": "Withdraw",
-      "title": "Withdraw"
-    }
-  },
-  "explorer": {
-    "request-explorer": {
-      "breadcrumbs": "Request Explorer",
-      "title": "Request Explorer"
-    }
-  },
-  "mobile-details": {
     "pro-block": {
-      "unlock": "Unlock all features with",
-      "premium": "Ankr Premium"
+      "label": "Premium features"
     }
-  },
-  "pro-block": {
-    "label": "Premium features"
   },
   "deposit-steps": {
     "title": "Unlocking Premium",

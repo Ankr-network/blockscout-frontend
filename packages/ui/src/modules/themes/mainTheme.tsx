@@ -51,6 +51,7 @@ export const PALETTE: PaletteOptions = {
     light: alpha('#E3453D', 0.15),
   },
   grey: {
+    400: '#E7EBF3',
     500: '#808692',
     600: '#82899A',
     700: '#2E343C',
