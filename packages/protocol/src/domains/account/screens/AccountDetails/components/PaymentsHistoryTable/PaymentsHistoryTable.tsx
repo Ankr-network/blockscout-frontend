@@ -80,6 +80,7 @@ export const PaymentsHistoryTable = ({
               <PaymentHistoryHeadCell
                 field="type"
                 label="account.payment-table.head.col-2"
+                isSortable
               />
               <PaymentHistoryHeadCell
                 field="amountUsd"

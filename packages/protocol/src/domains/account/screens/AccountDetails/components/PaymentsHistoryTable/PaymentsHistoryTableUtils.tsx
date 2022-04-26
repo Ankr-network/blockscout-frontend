@@ -1,4 +1,5 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import BigNumber from 'bignumber.js';
+import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
 import {
   createContext,
   MouseEventHandler,
@@ -6,6 +7,15 @@ import {
   useContext,
   useState,
 } from 'react';
+
+export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
+  TRANSACTION_TYPE_UNKNOWN: 'Unknown',
+  TRANSACTION_TYPE_DEPOSIT: 'Deposit',
+  TRANSACTION_TYPE_DEDUCTION: 'Deduction',
+  TRANSACTION_TYPE_WITHDRAW: 'Withdraw',
+  TRANSACTION_TYPE_BONUS: 'Bonus',
+  TRANSACTION_TYPE_COMPENSATION: 'Compensation',
+};
 
 export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 
@@ -139,4 +149,8 @@ export const preparePaymentHistoryRequest = ({
     cursor,
     limit,
   };
+};
+
+export const formatPaymentHistoryAmount = (amount: string) => {
+  return new BigNumber(amount).toFixed(2);
 };

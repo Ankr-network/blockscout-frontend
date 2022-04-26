@@ -3,8 +3,10 @@ import classNames from 'classnames';
 import { t } from 'common';
 import { PaymentHistoryRowType } from '../../PaymentsHistoryTableProps';
 import {
+  formatPaymentHistoryAmount,
   getPaymentHistoryItemDirection,
   getPaymentHistoryItemSign,
+  PAYMENT_HISTORY_TYPE,
 } from '../../PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
 
@@ -28,7 +30,7 @@ export const PaymentHistoryRow = ({
         })}
       </TableCell>
       <TableCell padding="none" className={classes.cell}>
-        {type}
+        {PAYMENT_HISTORY_TYPE[type] || type}
       </TableCell>
       <TableCell
         align="right"
@@ -37,7 +39,7 @@ export const PaymentHistoryRow = ({
           [classes.cellTopUp]: direction,
         })}
       >
-        {sign}${amountUsd}
+        {sign}${formatPaymentHistoryAmount(amountUsd)}
       </TableCell>
       <TableCell
         align="right"
@@ -47,7 +49,7 @@ export const PaymentHistoryRow = ({
         })}
       >
         {sign}
-        {amountAnkr}
+        {formatPaymentHistoryAmount(amountAnkr)}
       </TableCell>
     </TableRow>
   );
