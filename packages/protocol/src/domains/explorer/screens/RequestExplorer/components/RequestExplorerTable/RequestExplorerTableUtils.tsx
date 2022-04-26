@@ -1,9 +1,10 @@
-import { Box } from '@material-ui/core';
+import { Box, capitalize } from '@material-ui/core';
 import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { IRequestsEntity } from 'multirpc-sdk';
 import { VirtualTableExpander, VirtualTableColumn } from 'ui';
 import { StatusCircle } from 'uiKit/StatusCircle';
+import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 export const useRequestExplorerTableColumns = () =>
@@ -22,11 +23,14 @@ export const useRequestExplorerTableColumns = () =>
           headerName: t('explorer.request-explorer.table.col-2'),
           render: row => (
             <Box display="flex" alignItems="center">
-              <img
-                width={18}
-                alt={row.chainId}
-                src={getChainIcon(row.chainId)}
-              />
+              <Tooltip2 icon={false} title={capitalize(row.chainId)}>
+                <img
+                  width={18}
+                  alt={row.chainId}
+                  src={getChainIcon(row.chainId)}
+                />
+              </Tooltip2>
+
               <Box ml={1}>{row.method}</Box>
             </Box>
           ),
