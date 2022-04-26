@@ -13,6 +13,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { useChainsStyles } from './ChainsStyles';
 import { usePublicChainsInfo } from './ChainsUtils';
+import { H1Tag } from 'uiKit/H1Tag';
 
 const HAS_SORT_SELECT = false;
 const ENABLE_HOW_TO_INTEGRATE = false;
@@ -67,6 +68,7 @@ export const Chains = () => {
           </div>
         </>
       )}
+      <H1Tag title={t('meta.public.h1-tag')} />
       <PageHeader
         title={t('chains.title')}
         select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null}

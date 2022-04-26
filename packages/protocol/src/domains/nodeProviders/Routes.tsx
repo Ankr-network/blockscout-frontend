@@ -23,9 +23,7 @@ export const ProvidersRoutesConfig = createRouteConfig(
 
 const LoadableProvidersContainer: LoadableComponent<any> = loadable(
   async () =>
-    import('./screens/ProvidersList').then(
-      module => module.ProvidersNodesList,
-    ),
+    import('./screens/ProvidersList').then(module => module.ProvidersNodesList),
   {
     fallback: <Spinner />,
   },

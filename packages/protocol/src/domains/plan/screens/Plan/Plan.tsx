@@ -6,6 +6,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useEffect, useMemo } from 'react';
 import { useIsXSDown } from 'ui';
+import { H1Tag } from 'uiKit/H1Tag';
 import { ReactComponent as DiscordIcon } from 'uiKit/Icons/discord.svg';
 import { FeatureBlock } from './components/FeatureBlock';
 import { FeatureTable } from './components/FeatureTable';
@@ -44,6 +45,7 @@ export const Plan = () => {
 
   return (
     <Box overflow="hidden">
+      <H1Tag title={t('meta.plan.h1-tag')} />
       <Header costInAnkr={PREMIUM_COST} costInUsd={premiumCostInUsd} />
 
       <Container className={classes.container}>

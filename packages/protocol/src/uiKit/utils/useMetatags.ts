@@ -6,7 +6,7 @@ import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
 const PROTOCOL_URL = 'https://www.ankr.com/protocol';
 
-const getChainName = (chainId: string) => {
+export const getChainName = (chainId: string) => {
   let name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
   if (chainId === 'eth') {
     name = 'Ethereum'

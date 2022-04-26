@@ -21,25 +21,29 @@
       "title": "Access a Variety of Public RPC Endpoints",
       "description": "Choose from over a dozen instant RPC endpoints and build on the chain of your choice",
       "og-title": "Your Gateway to Build on Web3",
-      "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains"
+      "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains",
+      "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "plan": {
       "title": "Get More With Ankr's Premium Plan",
       "description": "Ankr Protocol",
       "og-title": "Access Ankr's Premium Developer Plan",
-      "og-description": "Get dedicated endpoints, WebSockets, unlimited requests, analytics, and more"
+      "og-description": "Get dedicated endpoints, WebSockets, unlimited requests, analytics, and more",
+      "h1-tag": "Get premium RPCs, APIs, dedicated endpoints, WebSockets, and more"
     },
     "plan-deposit": {
       "title": "Become a Premium User of Ankr Protocol",
       "description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
       "og-title": "Become a Premium User of Ankr Protocol",
-      "og-description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more."
+      "og-description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
+      "h1-tag": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more"
     },
     "chain-item": {
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint"
+      "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint",
+      "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
     },
     "chain-item-bsc": {
       "title": "Your Instant RPC Gateway to {chainId}",
@@ -63,7 +67,8 @@
       "title": "Ankr's Decentralized Node Providers",
       "description": "See the node providers that create Ankr's decentralized infrastructure",
       "og-title": "See Ankr's Node Providers",
-      "og-description": "View the node providers that make Ankr decentralized"
+      "og-description": "View the node providers that make Ankr decentralized",
+      "h1-tag": "View all of Ankr's blockchain node providers "
     }
   },
   "error": {
