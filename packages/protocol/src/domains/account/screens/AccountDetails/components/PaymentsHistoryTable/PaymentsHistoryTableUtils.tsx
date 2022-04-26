@@ -21,13 +21,13 @@ export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 
 export const PaymentHistoryDefaultParams = {
   page: 1,
-  orderBy: 'date',
+  order_by: 'timestamp',
   order: 'desc',
 };
 
 export interface UsePaymentHistoryTableUtilsParams {
   page: number;
-  orderBy: string;
+  order_by: string;
   order: string;
 }
 
@@ -61,7 +61,7 @@ export const usePaymentHistoryTableUtils = (
 
         const sort = {
           order: tableParams.order === 'desc' ? 'asc' : 'desc',
-          orderBy: field,
+          order_by: field,
         };
         setTableParams(sort);
 

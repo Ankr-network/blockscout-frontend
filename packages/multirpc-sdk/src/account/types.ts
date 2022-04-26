@@ -16,7 +16,7 @@ export interface IPaymentHistoryEntity {
 export interface IPaymentHistoryRequest {
   cursor: number;
   limit: number;
-  orderBy: keyof IPaymentHistoryEntity;
+  order_by: keyof IPaymentHistoryEntity;
   order: 'asc' | 'desc';
 }
 

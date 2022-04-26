@@ -42,7 +42,7 @@ export const PaymentHistoryHeadCell = ({
       >
         {capitalize(t(label))}
         &nbsp;
-        {tableUtils.tableParams.orderBy === field &&
+        {tableUtils.tableParams.order_by === field &&
           getPaymentHistorySortArrow(tableUtils.tableParams.order)}
       </Typography>
     </TableCell>
