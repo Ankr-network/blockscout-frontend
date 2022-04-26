@@ -1,4 +1,8 @@
-import { LITEPAPER_CN, LITEPAPER_EN } from 'modules/common/const';
+import {
+  CROWDLOAN_LITEPAPER,
+  LITEPAPER_CN,
+  LITEPAPER_EN,
+} from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 
 import { Navigation } from '../../../common/components/Navigation';
@@ -18,6 +22,10 @@ export const SubNavigation = ({
     {
       label: t('litepaper-links.cn'),
       href: LITEPAPER_CN,
+    },
+    {
+      label: t('litepaper-links.crowdloan'),
+      href: CROWDLOAN_LITEPAPER,
     },
   ];
 
