@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';

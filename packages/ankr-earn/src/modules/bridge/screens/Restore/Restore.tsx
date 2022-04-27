@@ -8,8 +8,8 @@ import { useDispatch } from 'react-redux';
 import { AvailableWriteProviders } from 'provider';
 import { Notice } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { useDialog } from 'modules/common/hooks/useDialog';

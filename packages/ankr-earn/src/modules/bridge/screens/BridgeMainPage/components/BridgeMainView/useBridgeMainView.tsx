@@ -5,10 +5,10 @@ import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
-import { getIsMetaMask } from 'modules/auth/utils/getIsMetaMask';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';

@@ -6,8 +6,8 @@ import React from 'react';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
-import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { INetwork } from 'modules/auth/common/components/GuardRoute/useNetworks';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';

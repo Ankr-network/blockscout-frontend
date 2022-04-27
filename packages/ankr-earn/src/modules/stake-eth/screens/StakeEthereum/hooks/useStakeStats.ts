@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';

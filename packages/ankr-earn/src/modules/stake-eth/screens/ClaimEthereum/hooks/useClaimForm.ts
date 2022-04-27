@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { TEthToken } from 'modules/api/EthSDK';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';

@@ -3,7 +3,7 @@ import { useLocation, useHistory } from 'react-router';
 
 import { BlockchainNetworkId } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
 import { useSwitcherUrlParams } from '../useSwitcherUrlParams';
@@ -13,7 +13,7 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 

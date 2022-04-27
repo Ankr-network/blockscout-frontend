@@ -6,7 +6,7 @@ import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { EthSDK } from 'modules/api/EthSDK';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 

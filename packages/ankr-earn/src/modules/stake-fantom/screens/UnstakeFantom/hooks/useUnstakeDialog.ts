@@ -11,7 +11,7 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';

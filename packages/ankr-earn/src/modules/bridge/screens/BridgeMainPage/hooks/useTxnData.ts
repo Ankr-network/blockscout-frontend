@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { t } from 'common';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 

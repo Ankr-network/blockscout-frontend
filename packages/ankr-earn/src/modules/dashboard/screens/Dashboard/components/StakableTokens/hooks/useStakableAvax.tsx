@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
+import { useNetworks } from 'modules/auth/common/components/GuardRoute/useNetworks';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchAPY } from 'modules/stake-avax/actions/fetchAPY';

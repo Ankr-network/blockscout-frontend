@@ -14,7 +14,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stakeWithoutClaim } from 'modules/stake-eth/actions/stakeWithoutClaim';

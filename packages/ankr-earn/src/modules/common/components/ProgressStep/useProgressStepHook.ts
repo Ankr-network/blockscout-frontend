@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 
 export interface IProgressStepHookData {
   isTxCopied: boolean;

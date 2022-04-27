@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';

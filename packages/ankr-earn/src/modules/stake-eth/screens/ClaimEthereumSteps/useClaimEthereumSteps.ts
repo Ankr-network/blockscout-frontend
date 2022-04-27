@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 
 import { TEthToken } from 'modules/api/EthSDK';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';

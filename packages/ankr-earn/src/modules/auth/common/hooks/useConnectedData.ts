@@ -4,10 +4,10 @@ import { AvailableWriteProviders } from 'provider';
 
 import { BlockchainNetworkId } from 'modules/common/types';
 
+import { getIsMetaMask } from '../../eth/utils/getIsMetaMask';
+import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
 import { connect, IConnect } from '../actions/connect';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
-import { getIsMetaMask } from '../utils/getIsMetaMask';
-import { getIsPolkadot } from '../utils/getIsPolkadot';
 
 export interface IUseConnectedData {
   isConnected: boolean;

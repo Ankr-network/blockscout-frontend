@@ -11,8 +11,8 @@ import { useHistory } from 'react-router';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';

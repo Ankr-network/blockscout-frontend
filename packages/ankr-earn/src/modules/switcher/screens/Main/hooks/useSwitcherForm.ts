@@ -5,7 +5,7 @@ import { number, object } from 'yup';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { t } from 'modules/i18n/utils/intl';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';

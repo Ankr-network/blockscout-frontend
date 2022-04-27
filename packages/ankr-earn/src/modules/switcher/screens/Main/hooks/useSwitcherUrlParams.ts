@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
   AvailableSwitcherToken,

@@ -15,7 +15,7 @@ import { configFromEnv } from 'modules/api/config';
 import {
   authPersistReducer,
   TAuthState,
-} from 'modules/auth/store/authPersistReducer';
+} from 'modules/auth/common/store/authPersistReducer';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import {

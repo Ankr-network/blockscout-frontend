@@ -6,8 +6,8 @@ import { useParams } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { getTxData, getTxReceipt } from 'modules/switcher/actions/getTxData';

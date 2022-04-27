@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { EthSDK } from 'modules/api/EthSDK';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -13,7 +13,7 @@ import {
 } from '../useStakeEthAnalytics';
 import { useTotalAmount } from '../useTotalAmount';
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 

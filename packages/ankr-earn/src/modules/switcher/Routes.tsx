@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import {
   BSC_NETWORK_BY_ENV,
   EARN_PATH,

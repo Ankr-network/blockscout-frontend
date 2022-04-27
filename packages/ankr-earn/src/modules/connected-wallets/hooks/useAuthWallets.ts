@@ -2,9 +2,9 @@ import { useDispatchRequest } from '@redux-requests/react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { disconnect } from 'modules/auth/actions/disconnect';
-import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { disconnect } from 'modules/auth/common/actions/disconnect';
+import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 
 import { IAddress, TAddresses } from '../types';
 

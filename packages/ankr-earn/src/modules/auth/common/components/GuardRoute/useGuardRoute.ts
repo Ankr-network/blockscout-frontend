@@ -7,11 +7,11 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 
+import { getIsMetaMask } from '../../../eth/utils/getIsMetaMask';
+import { getIsPolkadot } from '../../../polkadot/utils/getIsPolkadot';
 import { connect, IConnect } from '../../actions/connect';
 import { switchNetwork } from '../../actions/switchNetwork';
 import { useWalletsGroupTypes } from '../../hooks/useWalletsGroupTypes';
-import { getIsMetaMask } from '../../utils/getIsMetaMask';
-import { getIsPolkadot } from '../../utils/getIsPolkadot';
 
 import { INetwork, useNetworks } from './useNetworks';
 

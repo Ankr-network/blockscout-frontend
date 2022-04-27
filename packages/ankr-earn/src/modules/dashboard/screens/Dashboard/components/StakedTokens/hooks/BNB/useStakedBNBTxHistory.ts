@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';

@@ -1,7 +1,7 @@
 import { generatePath, Route, Switch, useParams } from 'react-router-dom';
 
 import { TEthToken } from 'modules/api/EthSDK';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

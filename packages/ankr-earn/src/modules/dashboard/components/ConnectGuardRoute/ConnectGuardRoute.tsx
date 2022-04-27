@@ -3,9 +3,9 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
+import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,

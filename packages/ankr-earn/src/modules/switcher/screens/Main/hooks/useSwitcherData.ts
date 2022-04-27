@@ -4,8 +4,8 @@ import { useCallback, useMemo } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getSwitcherData } from 'modules/switcher/actions/getSwitcherData';
