@@ -5,6 +5,7 @@ import { BlockchainNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -34,10 +35,16 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     lockShares: () => Promise.resolve({}),
   };
 
+  const defaultMaticSDK = {
+    lockShares: () => Promise.resolve({}),
+  };
+
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
+
+    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
   });
 
   afterEach(() => {
@@ -76,6 +83,25 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
           amount: new BigNumber(1),
           token: Token.aBNBc,
         }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should lock shares on ethereum network for matic properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+        async chainId =>
+          sdk.lockShares({
+            chainId: chainId as AvailableSwitchNetwork,
+            amount: new BigNumber(1),
+            token: Token.aMATICc,
+          }),
       ),
     );
 

@@ -19,7 +19,7 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
-import { isMainnet, MAX_UINT256 } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -32,7 +32,7 @@ import {
 
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_AMATICC from './contracts/aMATICc.json';
-import ABI_POLYGON_POOL from './contracts/polygonPool.json';
+import ABI_POLYGON_POOL from './contracts/PolygonPoolV2.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
@@ -80,6 +80,14 @@ interface IGetPastEvents {
   startBlock: number;
   rangeStep: number;
   filter?: Filter;
+}
+
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
 }
 
 const ALLOWANCE_RATE = 5;
@@ -378,12 +386,48 @@ export class PolygonSDK implements ISwitcher {
     );
   }
 
-  public async lockShares(): Promise<IWeb3SendResult> {
-    return {} as IWeb3SendResult;
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+
+    const data = aMaticbTokenContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
   }
 
-  public async unlockShares(): Promise<IWeb3SendResult> {
-    return {} as IWeb3SendResult;
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+
+    const data = aMaticbTokenContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
   }
 
   public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
