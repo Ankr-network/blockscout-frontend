@@ -6,6 +6,7 @@ import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -21,6 +22,10 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
 
 jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
   PolygonSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-fantom/api/sdk', () => ({
+  FantomSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
@@ -45,12 +50,21 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     getACAllowance: () => Promise.resolve(ZERO),
   };
 
+  const defaultFantomSDK = {
+    getABBalance: () => Promise.resolve(new BigNumber(1.2)),
+    getACBalance: () => Promise.resolve(new BigNumber(3.6)),
+    getACRatio: () => Promise.resolve(new BigNumber(0.65)),
+    getACAllowance: () => Promise.resolve(ZERO),
+  };
+
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
 
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
+
+    (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
   });
 
   afterEach(() => {
@@ -121,6 +135,30 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
           chainId: chainId as AvailableSwitchNetwork,
           token: Token.aMATICb,
         }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
+  test('should return common data for fantom network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+    const expected = {
+      abBalance: new BigNumber(1.2),
+      acBalance: new BigNumber(3.6),
+      ratio: new BigNumber(0.65),
+      allowance: ZERO,
+    };
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+        chainId =>
+          sdk.getCommonData({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aFTMc,
+          }),
       ),
     );
 

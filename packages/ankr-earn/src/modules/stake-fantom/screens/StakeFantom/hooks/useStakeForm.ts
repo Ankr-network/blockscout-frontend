@@ -86,7 +86,7 @@ export const useStakeForm = (): IUseStakeForm => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const fantomSDK = await FantomSDK.getInstance();
-    const aftmbBalance = await fantomSDK.getAftmbBalance();
+    const aftmbBalance = await fantomSDK.getABBalance();
 
     trackStake({
       address,

@@ -34,12 +34,10 @@ export const getCommonData = createAction<
       ] = await Promise.all([
         sdk.getFtmBalance(),
         sdk.getMinimumStake(),
-        sdk.getAftmbBalance(),
+        sdk.getABBalance(),
         sdk.getPendingUnstakes(),
-        featuresConfig.stakeAFTMC
-          ? sdk.getAftmcBalance()
-          : Promise.resolve(ZERO),
-        featuresConfig.stakeAFTMC ? sdk.getAFTMCRatio() : Promise.resolve(ZERO),
+        featuresConfig.stakeAFTMC ? sdk.getACBalance() : Promise.resolve(ZERO),
+        featuresConfig.stakeAFTMC ? sdk.getACRatio() : Promise.resolve(ZERO),
       ]);
 
       return {

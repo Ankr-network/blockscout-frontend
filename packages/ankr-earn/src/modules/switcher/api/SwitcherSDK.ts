@@ -15,6 +15,7 @@ import {
 } from 'modules/api/switcher';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
@@ -40,17 +41,21 @@ export class SwitcherSDK {
 
   private maticSDK: ISwitcher;
 
+  private fantomSDK: ISwitcher;
+
   private account: string;
 
   private constructor({
     binanceSDK,
     ethSDK,
     maticSDK,
+    fantomSDK,
     account,
   }: ISwitcherSDKArgs) {
     this.binanceSDK = binanceSDK;
     this.ethSDK = ethSDK;
     this.maticSDK = maticSDK;
+    this.fantomSDK = fantomSDK;
     this.account = account;
   }
 
@@ -63,16 +68,18 @@ export class SwitcherSDK {
     const isAccoundChanged = SwitcherSDK.instance?.account !== account;
 
     if (!SwitcherSDK.instance || isAccoundChanged) {
-      const [binanceSDK, ethSDK, maticSDK] = await Promise.all([
+      const [binanceSDK, ethSDK, maticSDK, fantomSDK] = await Promise.all([
         BinanceSDK.getInstance(),
         EthSDK.getInstance(),
         PolygonSDK.getInstance(),
+        FantomSDK.getInstance(),
       ]);
 
       SwitcherSDK.instance = new SwitcherSDK({
         binanceSDK,
         ethSDK,
         maticSDK,
+        fantomSDK,
         account,
       });
     }
@@ -179,6 +186,11 @@ export class SwitcherSDK {
       [Token.aBNBc]: this.binanceSDK,
     };
 
+    const fantomSdkByToken: Record<string, ISwitcher> = {
+      [Token.aFTMb]: this.fantomSDK,
+      [Token.aFTMc]: this.fantomSDK,
+    };
+
     switch (chainId) {
       case BlockchainNetworkId.goerli:
       case BlockchainNetworkId.mainnet:
@@ -187,6 +199,10 @@ export class SwitcherSDK {
       case BlockchainNetworkId.smartchainTestnet:
       case BlockchainNetworkId.smartchain:
         return binanceSdkByToken[token];
+
+      case BlockchainNetworkId.fantomTestnet:
+      case BlockchainNetworkId.fantom:
+        return fantomSdkByToken[token];
 
       default:
         return undefined;

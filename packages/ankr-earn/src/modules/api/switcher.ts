@@ -24,7 +24,10 @@ export interface ISwitcher {
   getACAllowance(spender?: string): Promise<BigNumber>;
   fetchTxData(txHash: string): Promise<IFetchTxData>;
   fetchTxReceipt(txHash: string): Promise<IFetchTxReceiptData>;
-  approveACForAB(amount?: BigNumber): Promise<IWeb3SendResult | undefined>;
+  approveACForAB(
+    amount?: BigNumber,
+    scale?: BigNumber.Value,
+  ): Promise<IWeb3SendResult | undefined>;
   lockShares(data: ShareArgs): Promise<IWeb3SendResult>;
   unlockShares(data: ShareArgs): Promise<IWeb3SendResult>;
   addTokenToWallet(token: Token): Promise<boolean>;

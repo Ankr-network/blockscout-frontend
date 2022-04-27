@@ -13,6 +13,7 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,
   isMainnet,
@@ -65,7 +66,7 @@ export interface IGetTxData {
   destinationAddress?: string;
 }
 
-export class FantomSDK {
+export class FantomSDK implements ISwitcher {
   private static instance?: FantomSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -341,7 +342,7 @@ export class FantomSDK {
     }
   }
 
-  public async getAllowance(spender?: string): Promise<BigNumber> {
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aFTMcContract = await this.getAftmcTokenContract();
     const { binanceConfig } = configFromEnv();
 
@@ -356,44 +357,47 @@ export class FantomSDK {
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {
+    const allowance = await this.getACAllowance();
+
+    return allowance.isGreaterThanOrEqualTo(
+      convertNumberToHex(amount, ETH_SCALE_FACTOR),
+    );
+  }
+
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    const allowance = await this.getAllowance();
-    const rawAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-
-    try {
-      return allowance.isGreaterThanOrEqualTo(rawAmount);
-    } catch (error) {
-      throw new Error(`checkAllowance error. ${error}`);
-    }
-  }
-
-  public async approveAFTMCUnstake(
-    amount = MAX_UINT256,
-  ): Promise<IWeb3SendResult | undefined> {
     const isAllowed = await this.checkAllowance(amount);
 
     if (isAllowed) {
       return undefined;
     }
 
-    const { binanceConfig } = configFromEnv();
-
+    const { fantomConfig } = configFromEnv();
     const aFTMcContract = await this.getAftmcTokenContract();
 
-    const rawAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
-
     const data = aFTMcContract.methods
-      .approve(binanceConfig.aBNBbToken, rawAmount)
+      .approve(fantomConfig.aftmbToken, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
-      binanceConfig.aBNBcToken,
+      fantomConfig.aftmcToken,
       { data, estimate: true },
     );
+  }
+
+  public async lockShares(): Promise<IWeb3SendResult> {
+    return {} as IWeb3SendResult;
+  }
+
+  public async unlockShares(): Promise<IWeb3SendResult> {
+    return {} as IWeb3SendResult;
   }
 
   public async unstake(
@@ -487,7 +491,7 @@ export class FantomSDK {
     return this.convertFromWei(ftmBalance);
   }
 
-  public async getAftmbBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const aFTMbContract = await this.getAftmbTokenContract();
 
     const aFTMbBalance = await aFTMbContract.methods
@@ -497,7 +501,7 @@ export class FantomSDK {
     return this.convertFromWei(aFTMbBalance);
   }
 
-  public async getAftmcBalance(): Promise<BigNumber> {
+  public async getACBalance(): Promise<BigNumber> {
     const aFTMcContract = await this.getAftmcTokenContract();
 
     const aFTMcBalance = await aFTMcContract.methods
@@ -507,7 +511,7 @@ export class FantomSDK {
     return this.convertFromWei(aFTMcBalance);
   }
 
-  public async getAFTMCRatio(): Promise<BigNumber> {
+  public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aFTMcContract = await this.getAftmcTokenContract();
     const web3 = provider.getWeb3();

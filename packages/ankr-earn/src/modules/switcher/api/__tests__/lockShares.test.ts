@@ -21,6 +21,10 @@ jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
   PolygonSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-fantom/api/sdk', () => ({
+  FantomSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
   const defaultEthSDK = {
     lockShares: () => Promise.resolve({}),

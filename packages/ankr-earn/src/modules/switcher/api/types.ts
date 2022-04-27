@@ -9,6 +9,7 @@ export interface ISwitcherSDKArgs {
   binanceSDK: ISwitcher;
   ethSDK: ISwitcher;
   maticSDK: ISwitcher;
+  fantomSDK: ISwitcher;
   account: string;
 }
 

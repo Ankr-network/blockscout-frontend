@@ -608,7 +608,12 @@ export class BinanceSDK implements ISwitcher {
 
   public async approveACForAB(
     amount = MAX_UINT256,
+    scale = 1,
   ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
     const isAllowed = await this.checkAllowance(amount);
 
     if (isAllowed) {
@@ -620,7 +625,7 @@ export class BinanceSDK implements ISwitcher {
     const aBNBcContract = await this.getABNBCContract();
 
     const data = aBNBcContract.methods
-      .approve(binanceConfig.aBNBbToken, convertNumberToHex(amount))
+      .approve(binanceConfig.aBNBbToken, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -631,10 +636,6 @@ export class BinanceSDK implements ISwitcher {
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {
-    if (!this.writeProvider.isConnected()) {
-      await this.writeProvider.connect();
-    }
-
     const allowance = await this.getACAllowance();
 
     try {

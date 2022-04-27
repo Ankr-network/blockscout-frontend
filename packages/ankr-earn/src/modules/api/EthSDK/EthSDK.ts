@@ -493,7 +493,10 @@ export class EthSDK implements ISwitcher {
     return flatten(pastEvents);
   }
 
-  public async approveACForAB(amount = MAX_UINT256): Promise<IWeb3SendResult> {
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
     const { contractConfig } = CONFIG;
@@ -501,7 +504,7 @@ export class EthSDK implements ISwitcher {
     const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
 
     const data = aETHcContract.methods
-      .approve(contractConfig.fethContract, convertNumberToHex(amount))
+      .approve(contractConfig.fethContract, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(

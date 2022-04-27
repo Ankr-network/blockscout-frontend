@@ -357,6 +357,7 @@ export class PolygonSDK implements ISwitcher {
 
   public async approveACForAB(
     amount = MAX_UINT256,
+    scale = 1,
   ): Promise<IWeb3SendResult | undefined> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -367,7 +368,7 @@ export class PolygonSDK implements ISwitcher {
     const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
 
     const data = aMaticCTokenContract.methods
-      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount))
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(

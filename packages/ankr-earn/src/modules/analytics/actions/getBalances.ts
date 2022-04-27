@@ -48,7 +48,7 @@ export const getBalances = async (): Promise<IGetBalances> => {
     polygonSDK.getMaticBalance(),
     polygonSDK.getABBalance(),
     fantomSDK.getFtmBalance(),
-    fantomSDK.getAftmbBalance(),
+    fantomSDK.getABBalance(),
   ]);
 
   return {
