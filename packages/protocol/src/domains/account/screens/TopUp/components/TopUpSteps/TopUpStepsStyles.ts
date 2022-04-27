@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { FONTS } from 'ui';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -28,6 +29,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   title: {
     marginBottom: theme.spacing(2.75),
     minHeight: 110,
+    fontFamily: `${FONTS.secondary}`,
 
     '&.h3': {
       fontSize: 28,
