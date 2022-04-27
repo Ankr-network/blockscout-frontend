@@ -536,6 +536,8 @@
       "aBNBc": "Ankr Reward-Bearing Staked BNB (aBNBc) is a reward-bearing token. Its value compared with BNB represents the redemption value of aBNBc, increasing over time to reflect BNB staking rewards earned.",
       "aMATICb": "Ankr Reward-Earning Staked MATIC (aMATICb) is a rebasing token. When holding aMATICb, its balance will increase on a daily basis proportional to your MATIC staking rewards. Therefore, the ratio of aMATICb vs. MATIC is always 1:1.",
       "aMATICc": "Ankr Reward-Bearing Staked MATIC (aMATICc) is a reward-bearing token. Its value compared with MATIC represents the redemption value of aMATICc, increasing over time to reflect MATIC staking rewards earned.",
+      "aFTMb": "Ankr Reward-Earning Staked FTM (aFTMb) is a rebasing token. When holding aFTMb, its balance will increase on a daily basis proportional to your FTM staking rewards. Therefore, the ratio of aFTMb vs. FTM is always 1:1.",
+      "aFTMc": "Ankr Reward-Bearing Staked FTM (aFTMc) is a reward-bearing token. Its value compared with FTM represents the redemption value of aFTMc, increasing over time to reflect FTM staking rewards earned.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
     },
     "buttons": {
