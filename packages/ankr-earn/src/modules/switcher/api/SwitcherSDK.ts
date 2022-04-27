@@ -32,6 +32,8 @@ import {
   IAddTokenToWalletArgs,
 } from './types';
 
+const DEFAULT_DECIMALS = 18;
+
 export class SwitcherSDK {
   private static instance: SwitcherSDK;
 
@@ -156,7 +158,7 @@ export class SwitcherSDK {
     const sdk = this.getSdk(chainId, token);
     const value = amount
       .multipliedBy(ratio)
-      .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN);
+      .decimalPlaces(DEFAULT_DECIMALS, BigNumber.ROUND_HALF_DOWN);
 
     return sdk?.unlockShares({ amount: value });
   }

@@ -5,6 +5,7 @@ import { BlockchainNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -27,24 +28,18 @@ jest.mock('modules/stake-fantom/api/sdk', () => ({
 }));
 
 describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
-  const defaultEthSDK = {
-    lockShares: () => Promise.resolve({}),
-  };
-
-  const defaultBinanceSDK = {
-    lockShares: () => Promise.resolve({}),
-  };
-
-  const defaultMaticSDK = {
+  const defaultSDK = {
     lockShares: () => Promise.resolve({}),
   };
 
   beforeEach(() => {
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
+    (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
-    (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
+    (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
-    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
+    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
   });
 
   afterEach(() => {
@@ -101,6 +96,25 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
             chainId: chainId as AvailableSwitchNetwork,
             amount: new BigNumber(1),
             token: Token.aMATICc,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should lock shares on fantom network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+        async chainId =>
+          sdk.lockShares({
+            chainId: chainId as AvailableSwitchNetwork,
+            amount: new BigNumber(1),
+            token: Token.aFTMc,
           }),
       ),
     );

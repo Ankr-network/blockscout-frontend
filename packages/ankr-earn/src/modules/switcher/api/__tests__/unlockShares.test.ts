@@ -5,6 +5,7 @@ import { BlockchainNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -39,6 +40,10 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
     unlockShares: jest.fn(),
   };
 
+  const defaultFantomSDK = {
+    unlockShares: jest.fn(),
+  };
+
   beforeEach(() => {
     (defaultEthSDK.unlockShares as jest.Mock).mockResolvedValue({});
 
@@ -46,11 +51,15 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
 
     (defaultMaticSDK.unlockShares as jest.Mock).mockResolvedValue({});
 
+    (defaultFantomSDK.unlockShares as jest.Mock).mockResolvedValue({});
+
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
 
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
+
+    (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
   });
 
   afterEach(() => {
@@ -151,6 +160,38 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
       amount: params.amount.multipliedBy(params.ratio),
     });
     expect(defaultMaticSDK.unlockShares).toHaveBeenNthCalledWith(2, {
+      amount: params.amount.multipliedBy(params.ratio),
+    });
+  });
+
+  test('should unlock shares on fantom network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const params = {
+      amount: new BigNumber(1),
+      ratio: new BigNumber(1),
+    };
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+        async chainId =>
+          sdk.unlockShares({
+            ...params,
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aFTMb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+
+    expect(defaultFantomSDK.unlockShares).toBeCalledTimes(2);
+    expect(defaultFantomSDK.unlockShares).toHaveBeenNthCalledWith(1, {
+      amount: params.amount.multipliedBy(params.ratio),
+    });
+    expect(defaultFantomSDK.unlockShares).toHaveBeenNthCalledWith(2, {
       amount: params.amount.multipliedBy(params.ratio),
     });
   });

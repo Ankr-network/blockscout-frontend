@@ -66,6 +66,14 @@ export interface IGetTxData {
   destinationAddress?: string;
 }
 
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
+}
+
 export class FantomSDK implements ISwitcher {
   private static instance?: FantomSDK;
 
@@ -344,13 +352,10 @@ export class FantomSDK implements ISwitcher {
 
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aFTMcContract = await this.getAftmcTokenContract();
-    const { binanceConfig } = configFromEnv();
+    const { fantomConfig } = configFromEnv();
 
     const allowance = await aFTMcContract.methods
-      .allowance(
-        this.writeProvider.currentAccount,
-        spender || binanceConfig.aBNBbToken,
-      )
+      .allowance(this.currentAccount, spender || fantomConfig.aftmbToken)
       .call();
 
     return new BigNumber(allowance);
@@ -392,12 +397,46 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
-  public async lockShares(): Promise<IWeb3SendResult> {
-    return {} as IWeb3SendResult;
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aFTMbContract = await this.getAftmbTokenContract();
+    const { fantomConfig } = configFromEnv();
+
+    const data = aFTMbContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.aftmbToken,
+      { data, estimate: true },
+    );
   }
 
-  public async unlockShares(): Promise<IWeb3SendResult> {
-    return {} as IWeb3SendResult;
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aFTMbContract = await this.getAftmbTokenContract();
+    const { fantomConfig } = configFromEnv();
+
+    const data = aFTMbContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.aftmbToken,
+      { data, estimate: true },
+    );
   }
 
   public async unstake(
