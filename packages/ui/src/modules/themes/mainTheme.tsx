@@ -139,9 +139,6 @@ export const mainTheme = createTheme({
     MuiStepLabel: {
       StepIconComponent: StepIcon,
     },
-    MuiStep: {
-      StepIconComponent: StepIcon,
-    },
   },
 
   overrides: {
