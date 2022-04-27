@@ -56,18 +56,25 @@ export const loginAndCacheAuthData = async (
   store: RequestsStore,
 ) => {
   const {
-    data: { key },
+    data: { key: encryptionPublicKey },
   } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
 
   const address = service.getKeyProvider().currentAccount();
-  const credentials = await tryToLogin(service, address, key);
+  const credentials = await tryToLogin(service, address, encryptionPublicKey);
 
   const { data: authorizationToken } = throwIfError(
     await store.dispatchRequest(authorizeProvider()),
   );
 
   if (credentials) {
-    store.dispatch(setAuthData({ credentials, address, authorizationToken }));
+    store.dispatch(
+      setAuthData({
+        credentials,
+        address,
+        authorizationToken,
+        encryptionPublicKey,
+      }),
+    );
   }
 
   return {

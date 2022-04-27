@@ -1,4 +1,4 @@
-import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
@@ -33,16 +33,11 @@ export const deposit = createSmartAction<
     promise: async (store: RequestsStore) => {
       const { service } = MultiService.getInstance();
 
-      await store.dispatchRequest(fetchPublicKey());
-
-      const { data: publicKey } = getQuery(store.getState(), {
-        type: fetchPublicKey.toString(),
-        action: fetchPublicKey,
-      });
+      const { data: publicKey } = await store.dispatchRequest(fetchPublicKey());
 
       const depositResponse = await service.depositAnkrToPAYG(
         amount,
-        publicKey,
+        publicKey as string,
       );
 
       const address = service.getKeyProvider().currentAccount();

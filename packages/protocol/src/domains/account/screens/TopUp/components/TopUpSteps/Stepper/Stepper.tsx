@@ -14,9 +14,6 @@ export const Stepper = ({ step, className }: IStepperProps) => {
       <Step key={TopUpStep.allowance} completed={step >= TopUpStep.allowance}>
         <StepLabel />
       </Step>
-      <Step key={TopUpStep.publicKey} completed={step >= TopUpStep.publicKey}>
-        <StepLabel />
-      </Step>
       <Step key={TopUpStep.deposit} completed={step >= TopUpStep.deposit}>
         <StepLabel />
       </Step>
@@ -24,9 +21,6 @@ export const Stepper = ({ step, className }: IStepperProps) => {
         key={TopUpStep.waitTransactionConfirming}
         completed={step >= TopUpStep.waitTransactionConfirming}
       >
-        <StepLabel />
-      </Step>
-      <Step key={TopUpStep.done} completed={step >= TopUpStep.done}>
         <StepLabel />
       </Step>
       <Step key={TopUpStep.login} completed={step >= TopUpStep.login}>

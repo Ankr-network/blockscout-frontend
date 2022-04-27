@@ -10,7 +10,6 @@ import { getAllowance } from './getAllowance';
 import { fetchPublicKey } from './fetchPublicKey';
 import { deposit } from './deposit';
 import { waitTransactionConfirming } from './waitTransactionConfirming';
-import { fetchPublicKeyAgain } from './fetchPublicKeyAgain';
 import { login } from './login';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
@@ -24,7 +23,6 @@ export const reset = createSmartAction<RequestAction<string, string>>(
             fetchPublicKey.toString(),
             deposit.toString(),
             waitTransactionConfirming.toString(),
-            fetchPublicKeyAgain.toString(),
             login.toString(),
           ]),
         );

@@ -6,6 +6,7 @@ export interface IAuthSlice {
   credentials?: IJwtToken;
   address?: string;
   authorizationToken?: string;
+  encryptionPublicKey?: string;
 }
 
 const initialState: IAuthSlice = {};
@@ -15,7 +16,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
-      const { credentials, address, authorizationToken } = action.payload;
+      const { credentials, address, authorizationToken, encryptionPublicKey } =
+        action.payload;
 
       if (credentials) {
         state.credentials = credentials;
@@ -28,12 +30,17 @@ export const authSlice = createSlice({
       if (authorizationToken) {
         state.authorizationToken = authorizationToken;
       }
+
+      if (encryptionPublicKey) {
+        state.encryptionPublicKey = encryptionPublicKey;
+      }
     },
 
     resetAuthData: state => {
       state.credentials = undefined;
       state.address = undefined;
       state.authorizationToken = undefined;
+      state.encryptionPublicKey = undefined;
     },
   },
 });

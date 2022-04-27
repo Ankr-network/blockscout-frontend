@@ -9,6 +9,8 @@ import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsSta
 import { fetchBalance } from 'modules/account/actions/fetchBalance';
 import { selectAccount } from 'domains/account/store/accountSlice';
 import { t } from 'modules/i18n/utils/intl';
+// eslint-disable-next-line import/no-cycle
+import { getTopUpInitialStep } from './getTopUpInitialStep';
 
 const MAX_ATTEMPTS = 50;
 
@@ -55,12 +57,14 @@ export const waitTransactionConfirming = createSmartAction<
   meta: {
     onRequest: walletConnectionGuard,
     asMutation: false,
-    onSuccess: (
+    onSuccess: async (
       response: any,
       _action: RequestAction,
       store: RequestsStore,
     ) => {
       store.dispatchRequest(fetchBalance());
+
+      await store.dispatchRequest(getTopUpInitialStep());
 
       return response;
     },

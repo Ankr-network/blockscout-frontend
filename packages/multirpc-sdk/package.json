@@ -18,7 +18,7 @@
     "publish": "yarn publish",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "generate": "abi-types-generator ./src/PAYGContract/abi/PayAsYouGo.json --provider=web3"
+    "generate": "abi-types-generator ./src/PAYGContract/abi/PayAsYouGo.json --name=IPayAsYouGo --provider=web3"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

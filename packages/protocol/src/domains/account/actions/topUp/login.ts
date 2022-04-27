@@ -1,4 +1,4 @@
-import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
@@ -13,7 +13,7 @@ import {
   setAmount,
   setTopUpTransaction,
 } from 'domains/account/store/accountSlice';
-import { fetchPublicKeyAgain } from './fetchPublicKeyAgain';
+import { fetchPublicKey } from './fetchPublicKey';
 
 export const login = createSmartAction<RequestAction<string, string>>(
   'topUp/login',
@@ -23,12 +23,15 @@ export const login = createSmartAction<RequestAction<string, string>>(
         const { service } = MultiService.getInstance();
         const address = service.getKeyProvider().currentAccount();
 
-        const { data: publicKey } = getQuery(store.getState(), {
-          type: fetchPublicKeyAgain.toString(),
-          action: fetchPublicKeyAgain,
-        });
+        const { data: publicKey } = await store.dispatchRequest(
+          fetchPublicKey(),
+        );
 
-        const credentials = await tryToLogin(service, address, publicKey);
+        const credentials = await tryToLogin(
+          service,
+          address,
+          publicKey as string,
+        );
 
         if (credentials) {
           store.dispatch(setAuthData({ credentials }));

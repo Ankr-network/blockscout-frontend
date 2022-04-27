@@ -11,10 +11,8 @@ import {
 import { useStyles } from './TopUpStepsStyles';
 import { t } from 'modules/i18n/utils/intl';
 import { Stepper } from './Stepper';
-import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { StepperTitle } from './StepperTitle';
 import { StepperNotice } from './StepperNotice';
-import { WaitConfirmationBlock } from './WaitConfirmationBlock';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
 import { getButtonText } from './TopUpStepsUtils';
 
@@ -23,7 +21,6 @@ export const TopUpSteps = ({
   onClick,
   loading,
   amount,
-  hasError,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -36,19 +33,16 @@ export const TopUpSteps = ({
         <Stepper step={step} className={classes.stepper} />
         <StepperTitle step={step} className={classes.title} amount={amount} />
         <StepperNotice step={step} className={classes.notice} />
-        {step === TopUpStep.waitTransactionConfirming && (
-          <WaitConfirmationBlock />
-        )}
         <Box maxWidth={210} width="100%">
           <Button
             fullWidth
-            disabled={loading || hasError}
+            disabled={loading}
             onClick={onClick}
             startIcon={
               loading ? <CircularProgress size={18} color="inherit" /> : null
             }
           >
-            {getButtonText(step, loading)}
+            {getButtonText(loading)}
           </Button>
         </Box>
       </Paper>

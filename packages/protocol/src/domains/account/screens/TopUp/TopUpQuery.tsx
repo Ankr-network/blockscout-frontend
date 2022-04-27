@@ -26,6 +26,7 @@ export const TopUpQuery = () => {
   return (
     <Queries<ResponseData<typeof getTopUpInitialStep>>
       requestActions={[getTopUpInitialStep]}
+      showLoaderDuringRefetch={false}
     >
       {({ data }) => <TopUp initialStep={data} />}
     </Queries>

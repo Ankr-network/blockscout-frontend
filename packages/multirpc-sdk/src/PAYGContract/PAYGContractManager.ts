@@ -8,6 +8,8 @@ import { IPAYGContractManagerConfig } from './types';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
+import { IAnkrToken } from './abi/IAnkrToken';
+import { IPayAsYouGo } from './abi/IPayAsYouGo';
 
 const GAS_LIMIT = '200000';
 
@@ -35,7 +37,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     const currentAccount = this.keyProvider.currentAccount();
 
     // make sure user have enough balance
-    const balance = await this.ankrTokenContract.methods
+    const balance = await(this.ankrTokenContract.methods as IAnkrToken)
       .balanceOf(currentAccount)
       .call();
 
@@ -48,7 +50,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     const currentAccount = this.keyProvider.currentAccount();
 
     // make sure user have enough allowance
-    const allowance = await this.ankrTokenContract.methods
+    const allowance = await(this.ankrTokenContract.methods as IAnkrToken)
       .allowance(currentAccount, this.config.payAsYouGoContractAddress)
       .call();
 
@@ -60,7 +62,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   private async sendAllowance(scaledAmount: BigNumber) {
     const currentAccount = this.keyProvider.currentAccount();
 
-    const data = this.ankrTokenContract.methods
+    const data = await(this.ankrTokenContract.methods as IAnkrToken)
       .approve(this.config.payAsYouGoContractAddress, scaledAmount.toString(10))
       .encodeABI();
 
@@ -81,7 +83,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   ) {
     const currentAccount = this.keyProvider.currentAccount();
 
-    const data = this.payAsYouGoContract.methods
+    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
       .deposit(
         scaledAmount.toString(10),
         expiresAfter,
@@ -89,7 +91,7 @@ export class PAYGContractManager implements IPAYGContractManager {
       )
       .encodeABI();
 
-    return  this.keyProvider.sendTransactionAsync(
+    return this.keyProvider.sendTransactionAsync(
       currentAccount,
       this.config.payAsYouGoContractAddress,
       {
@@ -148,7 +150,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     );
 
     const scaledAllowance = new BigNumber(
-      await this.ankrTokenContract.methods
+      await (this.ankrTokenContract.methods as IAnkrToken)
         .allowance(currentAccount, this.config.payAsYouGoContractAddress)
         .call(),
     );

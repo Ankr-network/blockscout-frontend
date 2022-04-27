@@ -20,8 +20,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   stepper: {
     background: 'transparent',
-    paddingLeft: 0,
-    paddingRight: 0,
+    paddingLeft: '0 !important',
+    paddingRight: '0 !important',
     maxWidth: 220,
     marginBottom: theme.spacing(4.5),
   },

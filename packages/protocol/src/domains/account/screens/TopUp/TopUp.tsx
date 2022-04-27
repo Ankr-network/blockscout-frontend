@@ -7,14 +7,12 @@ interface TopUpProps {
 }
 
 export const TopUp = ({ initialStep }: TopUpProps) => {
-  const { step, onClick, amount, loading, hasError } =
-    useTopupSteps(initialStep);
+  const { step, onClick, amount, loading } = useTopupSteps(initialStep);
 
   return (
     <TopUpSteps
       step={step}
       loading={loading}
-      hasError={hasError}
       amount={amount}
       onClick={onClick}
     />

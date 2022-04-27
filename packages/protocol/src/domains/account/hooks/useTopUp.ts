@@ -14,7 +14,6 @@ import {
   setAmount,
 } from 'domains/account/store/accountSlice';
 import { useAppSelector } from 'store/useAppSelector';
-import { fetchPublicKeyAgain } from '../actions/topUp/fetchPublicKeyAgain';
 
 export function useTopUp() {
   const dispatch = useAppDispatch();
@@ -39,11 +38,6 @@ export function useTopUp() {
 
   const handleWaitTransactionConfirming = useCallback(
     () => dispatchRequest(waitTransactionConfirming()),
-    [dispatchRequest],
-  );
-
-  const handleFetchPublicKeyAgain = useCallback(
-    () => dispatchRequest(fetchPublicKeyAgain()),
     [dispatchRequest],
   );
 
@@ -82,13 +76,6 @@ export function useTopUp() {
     type: waitTransactionConfirming.toString(),
   });
 
-  const {
-    loading: loadingFetchPublicKeyAgain,
-    error: errorFetchPublicKeyAgain,
-  } = useQuery({
-    type: fetchPublicKeyAgain.toString(),
-  });
-
   const { loading: loadingLogin, error: errorLogin } = useQuery({
     type: login.toString(),
   });
@@ -101,14 +88,12 @@ export function useTopUp() {
       loadingFetchPublicKey ||
       loadingDeposit ||
       loadingWaitTransactionConfirming ||
-      loadingFetchPublicKeyAgain ||
       loadingLogin,
     hasError: Boolean(
       errorGetAllowance ||
         errorFetchPublicKey ||
         errorDeposit ||
         errorWaitTransactionConfirming ||
-        errorFetchPublicKeyAgain ||
         errorLogin,
     ),
 
@@ -116,7 +101,6 @@ export function useTopUp() {
     handleGetAllowance,
     handleDeposit,
     handleWaitTransactionConfirming,
-    handleFetchPublicKeyAgain,
     handleLogin,
     handleResetTopUpTransaction,
   };

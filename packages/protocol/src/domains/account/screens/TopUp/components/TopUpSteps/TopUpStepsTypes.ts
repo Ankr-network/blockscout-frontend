@@ -5,5 +5,4 @@ export interface ITopUpStepsProps {
   onClick: () => void;
   loading: boolean;
   amount: number;
-  hasError: boolean;
 }

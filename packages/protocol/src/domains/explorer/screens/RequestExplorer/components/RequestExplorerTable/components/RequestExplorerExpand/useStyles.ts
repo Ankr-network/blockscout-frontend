@@ -33,8 +33,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   tabSelected: {
-    '&&': {
-      color: theme.palette.common.white,
+    '&.Mui-selected': {
+      color: `${theme.palette.common.white} !important`,
       backgroundColor: theme.palette.primary.main,
       borderRadius: 6,
     },

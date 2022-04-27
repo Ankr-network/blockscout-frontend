@@ -413,7 +413,7 @@
         "description": {
           "premium": {
             "text": "Your premium subscription is active till {date, time, ::dMMMy}.",
-            "additional": "Then you'll have to Top Up balance to continue use premium features."
+            "additional": "Then you'll have to Top Up your balance to continue using premium features."
           },
           "served": {
             "quantifiers": {
@@ -498,24 +498,18 @@
     "step-content": {
       "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
       "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR.",
-      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
-      "3": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
-      "4": "Thank you! Operation will take 2-4 minutes.",
-      "5": "Done! Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide&nbsp;us your public encryption key again.",
-      "6": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
+      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
+      "3": "Thank you! Operation will take 2-4 minutes.",
+      "4": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
     },
     "step-notice": {
       "1": "So we could top up your balance.",
-      "2": "To enable Ankr to securely top up your balance.",
-      "3": "Operation will take a while (2-4 min).",
-      "4": "Don’t worry, Ethereum Network needs to calculate {blocksCount} {blocksCount, plural, =1 {block} other {# blocks}}. 10-20 seconds each.",
-      "5": "So we could sign you in safely.",
-      "6": "The last step in&nbsp;your sign in&nbsp;process.",
-      "plural": "s"
+      "2": "Operation will take a while (2-4 min).",
+      "3": "Don’t worry, Ethereum Network needs to calculate {blocksCount} {blocksCount, plural, =1 {block} other {# blocks}}. 10-20 seconds each.",
+      "4": "The last step in&nbsp;your top up&nbsp;process."
     },
-    "next": "Next",
-    "wait": "Please wait",
-    "done": "Done"
+    "confirm": "Сonfirm",
+    "wait": "Please wait"
   },
   "withdraw-steps": {
     "title": "Withdraw",

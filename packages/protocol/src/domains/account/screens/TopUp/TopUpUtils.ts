@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
-import BigNumber from 'bignumber.js';
 
 import { t } from 'modules/i18n/utils/intl';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -23,19 +22,18 @@ export const useTopUpBreadcrumbs = () => {
 export const useTopupSteps = (initialStep: TopUpStep) => {
   const [step, setStep] = useState<TopUpStep>(initialStep);
 
+  // need this effect to go from waitTransactionConfirming to login
+  useEffect(() => {
+    setStep(initialStep);
+  }, [initialStep]);
+
   const {
-    handleFetchPublicKey,
     handleGetAllowance,
     handleDeposit,
     handleWaitTransactionConfirming,
-    handleFetchPublicKeyAgain,
     handleLogin,
-    handleResetTopUpTransaction,
-    handleSetAmount,
-
     amount,
     loading,
-    hasError,
   } = useTopUp();
 
   const history = useHistory();
@@ -50,83 +48,53 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
       case TopUpStep.allowance: {
         return async () => {
-          await handleGetAllowance();
-          // move to publicKey
-          setStep(oldStep => ++oldStep);
-        };
-      }
+          const { error } = await handleGetAllowance();
 
-      case TopUpStep.publicKey: {
-        return async () => {
-          await handleFetchPublicKey();
-          // move to deposit
-          setStep(oldStep => ++oldStep);
+          if (!error) {
+            // move to deposit
+            setStep(oldStep => ++oldStep);
+          }
         };
       }
 
       case TopUpStep.deposit: {
         return async () => {
-          await handleDeposit();
+          const { error } = await handleDeposit();
 
-          // move to waitTransactionConfirming
-          setStep(oldStep => ++oldStep);
+          if (!error) {
+            // move to waitTransactionConfirming
+            setStep(oldStep => ++oldStep);
 
-          await handleWaitTransactionConfirming();
-        };
-      }
-
-      // we need this step if user reload the page on waitTransactionConfirming
-      case TopUpStep.waitTransactionConfirming: {
-        return async () => {
-          // move to done
-          setStep(oldStep => ++oldStep);
-
-          await handleResetTopUpTransaction();
-        };
-      }
-
-      // we need this step if user reload the page on done
-      case TopUpStep.done: {
-        return async () => {
-          await handleResetTopUpTransaction();
-
-          await handleFetchPublicKeyAgain();
-
-          setStep(oldStep => ++oldStep);
+            await handleWaitTransactionConfirming();
+          }
         };
       }
 
       case TopUpStep.login:
       default:
         return async () => {
-          await handleSetAmount(new BigNumber(0));
+          const { error } = await handleLogin();
 
-          await handleLogin().then(() => {
+          if (!error) {
             const link = AccountRoutesConfig.accountDetails.generatePath();
 
             history.push(link);
-          });
+          }
         };
     }
   }, [
     step,
-    handleFetchPublicKey,
     handleGetAllowance,
     handleDeposit,
     handleWaitTransactionConfirming,
-    handleFetchPublicKeyAgain,
     handleLogin,
-    handleResetTopUpTransaction,
     history,
-    handleSetAmount,
   ]);
 
   return {
     step,
     loading,
-    hasError,
     amount: amount?.toNumber(),
-
     onClick,
   };
 };

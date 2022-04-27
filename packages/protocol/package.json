@@ -183,7 +183,10 @@
       "/plan/endpoints/nervos/add",
       "/plan/endpoints/gnosis/add",
       "/plan/endpoints/moonbeam/add",
-      "/plan/endpoints/nervos/add"
+      "/plan/endpoints/nervos/add",
+      "/plan/endpoints/moonbeam/add",
+      "/account/",
+      "/account/topup"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

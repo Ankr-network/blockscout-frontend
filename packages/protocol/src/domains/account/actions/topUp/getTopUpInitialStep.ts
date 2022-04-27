@@ -10,6 +10,7 @@ import {
 import { MultiService } from 'modules/api/MultiService';
 import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { TopUpStep } from './const';
+// eslint-disable-next-line import/no-cycle
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 
@@ -20,7 +21,7 @@ const checkAllowanceTransaction = (store: RequestsStore, address: string) => {
   const allowanceTransactionHash = allowanceTransaction?.transactionHash;
 
   if (allowanceTransactionHash && allowanceSavedAddress === address) {
-    return TopUpStep.publicKey;
+    return TopUpStep.deposit;
   }
 
   // reset allowanceTransaction
@@ -85,7 +86,7 @@ export const getTopUpInitialStep = createSmartAction<
         return topUpStep;
       }
 
-      return TopUpStep.done;
+      return TopUpStep.login;
     },
   },
   meta: {
