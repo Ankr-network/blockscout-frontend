@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme>(() => ({
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       whiteSpace: 'nowrap',
-      minHeight: 32,
+      minHeight: 'auto',
     },
   },
   editButton: {

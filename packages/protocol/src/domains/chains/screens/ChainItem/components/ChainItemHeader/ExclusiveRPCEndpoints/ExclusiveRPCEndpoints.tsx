@@ -11,25 +11,25 @@ import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateChainDetails';
+import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 
 export const ExclusiveRPCEndpoints = () => {
   const classes = useStyles();
 
   return (
-    <Queries<ResponseData<typeof fetchPrivateChainDetails>>
-      requestActions={[fetchPrivateChainDetails]}
+    <Queries<ResponseData<typeof fetchPremiumChainFeatures>>
+      requestActions={[fetchPremiumChainFeatures]}
       spinner={
         <div className={classes.preloaderWrapper}>
           <Preloader centered />
         </div>
       }
     >
-      {({ data }) => {
+      {({ data: { privateChainDetails } }) => {
         const { mainnetURLs, mainnetURLsCount, testnetURLs } = flatNetworkURLs<
           IApiChainURL,
           IApiChain
-        >(data);
+        >(privateChainDetails);
 
         const isTitlePlural = mainnetURLsCount > 1 || testnetURLs.length > 0;
         const title = (
@@ -40,7 +40,7 @@ export const ExclusiveRPCEndpoints = () => {
           </Typography>
         );
 
-        const isNervos = data.id === 'nervos';
+        const isNervos = privateChainDetails.id === 'nervos';
         const [root, section] = isNervos
           ? [classes.nervos, undefined]
           : [classes.root, classes.section];

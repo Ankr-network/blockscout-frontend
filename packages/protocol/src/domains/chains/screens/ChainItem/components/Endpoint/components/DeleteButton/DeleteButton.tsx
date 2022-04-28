@@ -20,7 +20,8 @@ export const DeleteButton = ({ className, endpoint }: DeleteButtonProps) => {
   const onClose = useCallback(() => setIsOpened(false), []);
   const onSubmit = useCallback(() => {
     dispatchRequest(deletePrivateEndpoint(endpoint.id));
-  }, [dispatchRequest, endpoint.id]);
+    onClose();
+  }, [dispatchRequest, endpoint.id, onClose]);
 
   return (
     <>

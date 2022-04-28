@@ -18,7 +18,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   input: {
     flexGrow: 1,
-    maxHeight: 56,
+    // maxHeight: 56,
 
     '& div': {
       width: '100%',

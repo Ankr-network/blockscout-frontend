@@ -23,7 +23,7 @@ export const TrafficFlow = () => {
         <Button
           className={classes.learnMoreButton}
           color="primary"
-          href="https://www.ankr.com/docs/Build/1V2/add-endpoints"
+          href="https://www.ankr.com/docs/build-blockchain/products/v2/hybrid-infra"
           target="_blank"
           variant="text"
         >

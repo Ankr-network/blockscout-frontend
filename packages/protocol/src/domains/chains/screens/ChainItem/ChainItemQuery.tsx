@@ -3,6 +3,7 @@ import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
+import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { Queries } from 'modules/common/components/Queries/Queries';
@@ -33,6 +34,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   useEffect(() => {
     if (credentials) {
       dispatchRequest(fetchPremiumChainFeatures(chainId));
+      dispatchRequest(fetchEndpoints());
     }
   }, [chainId, credentials, dispatchRequest]);
 

@@ -8,7 +8,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   link: {
     padding: 0,
-    height: '100%',
+    height: 44,
 
     '&:hover ': {
       background: '#F2F5FA',

@@ -1,29 +1,29 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { IApiChain, IFetchChainsResponseData } from '../api/queryChains';
-import { credentialsGuard } from '../../../modules/auth/utils/credentialsGuard';
 import { fetchProvider } from 'domains/nodeProviders/actions/fetchProvider';
-import { fetchPrivateChains } from './fetchPrivateChains';
-import { fetchPrivateChainDetails } from './fetchPrivateChainDetails';
+import { MultiService } from 'modules/api/MultiService';
+import { IJwtToken } from 'multirpc-sdk';
+import { createAction as createSmartAction } from 'redux-smart-actions';
+import { credentialsGuard } from '../../../modules/auth/utils/credentialsGuard';
 import {
-  fetchEndpoints,
-  IEndpoint,
-} from 'domains/nodeProviders/actions/fetchEndpoints';
+  IApiChain,
+  IFetchChainsResponseData,
+  mapChains,
+} from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
 
 interface IPremiumFeatures {
   publicChains: IApiChain[];
   privateChains: IApiChain[];
   privateChainDetails: IApiChain;
-  endpoints: IEndpoint;
 }
 
 export const fetchPremiumChainFeatures = createSmartAction<
   RequestAction<IFetchChainsResponseData, IPremiumFeatures>
 >('chains/fetchPremiumChainFeatures', (chainId: string) => ({
   request: {
-    promise: async (store: RequestsStore) => {
+    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
+      const { service } = MultiService.getInstance();
+
       const { data: providerData } = getQuery(store.getState(), {
         type: fetchProvider.toString(),
         action: fetchProvider,
@@ -33,29 +33,27 @@ export const fetchPremiumChainFeatures = createSmartAction<
         await store.dispatchRequest(fetchProvider());
       }
 
-      const { data: publicChains } = getQuery(store.getState(), {
+      let { data: publicChains } = getQuery(store.getState(), {
         type: fetchPublicChains.toString(),
         action: fetchPublicChains,
       });
 
       if (!publicChains) {
-        await store.dispatchRequest(fetchPublicChains());
+        const chains = await service.fetchPublicUrls();
+        publicChains = mapChains({ chains });
       }
 
-      const { data: endpoints } = await store.dispatchRequest(fetchEndpoints());
+      const chains = await service.fetchPrivateUrls(jwtToken);
+      const privateChains = mapChains({ chains });
 
-      const { data: privateChains } = await store.dispatchRequest(
-        fetchPrivateChains(),
-      );
-      const { data: privateChainDetails } = await store.dispatchRequest(
-        fetchPrivateChainDetails(chainId),
+      const privateChainDetails = privateChains.find(
+        item => item.id === chainId,
       );
 
       return {
         publicChains,
         privateChains,
         privateChainDetails,
-        endpoints,
       };
     },
   },

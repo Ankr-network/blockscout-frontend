@@ -7,6 +7,12 @@ export const SecuritySettingsSkeleton = () => {
 
   return (
     <div className={classes.root}>
+      <Skeleton
+        style={{ marginBottom: 16 }}
+        width="20%"
+        height={22}
+        variant="rect"
+      />
       <div className={classes.container}>
         <div className={classes.left}>
           <Skeleton width="30%" height={22} variant="rect" />

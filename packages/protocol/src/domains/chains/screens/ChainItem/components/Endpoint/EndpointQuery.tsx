@@ -1,4 +1,5 @@
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
+import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useProvider } from 'modules/auth/hooks/useProvider';
 import { Queries } from 'modules/common/components/Queries/Queries';
@@ -12,11 +13,14 @@ export const EndpointQuery = ({ chainId }: { chainId: string }) => {
   const { providerData } = useProvider();
 
   return (
-    <Queries<ResponseData<typeof fetchPremiumChainFeatures>>
-      requestActions={[fetchPremiumChainFeatures]}
+    <Queries<
+      ResponseData<typeof fetchPremiumChainFeatures>,
+      ResponseData<typeof fetchEndpoints>
+    >
+      requestActions={[fetchPremiumChainFeatures, fetchEndpoints]}
       spinner={<EndpointQuerySkeleton />}
     >
-      {({ data: { endpoints, publicChains, privateChains } }) => {
+      {({ data: { publicChains, privateChains } }, { data: endpoints }) => {
         const privateChain = getChainById(privateChains, chainId);
         const publicChain = getChainById(publicChains, chainId);
 
