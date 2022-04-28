@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 
 import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -61,7 +61,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addMATICTokenToWallet());
+    dispatchRequest(addMATICTokenToWallet(Token.aMATICb));
   }, [dispatchRequest]);
 
   return {

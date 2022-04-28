@@ -9,7 +9,7 @@ import { ReactText, useState } from 'react';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableMatic } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMatic';
@@ -63,7 +63,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const polygonSDK = await PolygonSDK.getInstance();
-    const amaticbBalance = await polygonSDK.getAMaticbBalance();
+    const amaticbBalance = await polygonSDK.getABBalance();
 
     trackStake({
       address,

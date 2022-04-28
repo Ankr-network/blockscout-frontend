@@ -9,6 +9,7 @@ export interface IContractConfig {
   fethContract: string;
   maticToken: string;
   aMaticbToken: string;
+  aMaticCToken: string;
   polygonPool: string;
   globalPoolDepositContract: string;
   ethereumPool: string;
@@ -36,6 +37,7 @@ export interface IBinanceConfig {
 export interface IFantomConfig {
   fantomPool: string;
   aftmbToken: string;
+  aftmcToken: string;
   ftmToken: string;
 }
 
@@ -78,6 +80,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
+    aMaticCToken: '0x6E423fa06D06e184B31344Ac07021c765ca4265C',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   avalancheConfig: {
@@ -96,8 +99,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
   fantomConfig: {
-    fantomPool: '0xF010F847CcA370d8e510F3a2204721Da78A19914',
-    aftmbToken: '0x334257EF922C210b9F163F983770D5b3215e378B',
+    fantomPool: '0x7B72E8117E69951F1b00178016EEaEE4ce715f28',
+    aftmbToken: '0x65Bc73117C1c8A1E421858650dDA32dcc50B8eE6',
+    aftmcToken: '0x5DA48feC18C1EE2C36308E1e2D569668a0Cd8Edd',
     ftmToken: ZERO_ADDR,
   },
   polkadotConfig: {
@@ -165,6 +169,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     polygonPool: '0xCfD4B4Bc15C8bF0Fd820B0D4558c725727B3ce89',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
+    aMaticCToken: '', // TODO: STAKAN-1292 add mainnet contract address
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
   },
   avalancheConfig: {
@@ -185,6 +190,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
+    aftmcToken: ZERO_ADDR,
     ftmToken: ZERO_ADDR,
   },
   polkadotConfig: {

@@ -4,7 +4,7 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { Connect } from 'modules/auth/components/Connect';
+import { Connect } from 'modules/auth/common/components/Connect';
 import { BlockchainNetworkId } from 'modules/common/types';
 import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';

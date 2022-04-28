@@ -1,7 +1,7 @@
 import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
 export interface IUseStakedABNBCAnalytics {

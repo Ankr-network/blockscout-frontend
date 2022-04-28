@@ -5,8 +5,8 @@ import { uid } from 'react-uid';
 import { TNetworkType } from 'polkadot';
 
 import { isMainnet } from 'modules/common/const';
+import { RoutesConfig } from 'modules/polkadot-slot-auction/Routes';
 
-import { RoutesConfig } from '../../const';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 
 import { useNetworkSwitcherStyles } from './useNetworkSwitcherStyles';

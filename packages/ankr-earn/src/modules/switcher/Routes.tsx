@@ -4,17 +4,19 @@ import { Route, Switch } from 'react-router-dom';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import {
   BSC_NETWORK_BY_ENV,
-  EARN_PATH,
+  STAKING_PATH,
   ETH_NETWORK_BY_ENV,
+  featuresConfig,
+  FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `${EARN_PATH}switch/`;
+const ROOT = `${STAKING_PATH}switch/`;
 const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
@@ -39,7 +41,11 @@ const TransactionStep = loadComponent(() =>
   import('./screens/TransactionStep').then(module => module.TransactionStep),
 );
 
-const AVAILABLE_NETWORKS = compact([ETH_NETWORK_BY_ENV, BSC_NETWORK_BY_ENV]);
+const AVAILABLE_NETWORKS = compact([
+  ETH_NETWORK_BY_ENV,
+  BSC_NETWORK_BY_ENV,
+  featuresConfig.switcherFantom && FTM_NETWORK_BY_ENV,
+]);
 
 export function getRoutes(): JSX.Element {
   return (

@@ -2,6 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useMemo } from 'react';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
@@ -9,7 +10,6 @@ import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsD
 import { ValidatorName } from 'modules/metrics/const';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';
 
-import { useProviderEffect } from '../../../../auth/hooks/useProviderEffect';
 import { fetchAPY } from '../../../actions/fetchAPY';
 
 const calculateYearlyEarning = (

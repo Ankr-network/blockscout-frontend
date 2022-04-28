@@ -29,6 +29,8 @@ import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getTxEventsHistoryGroup } from 'modules/stake/api/getTxEventsHistoryGroup';
 
+import { ISwitcher } from '../switcher';
+
 import {
   ETH_BLOCK_OFFSET,
   ETH_HISTORY_RANGE_STEP,
@@ -109,7 +111,7 @@ const tokensConfigMap = {
   },
 };
 
-export class EthSDK {
+export class EthSDK implements ISwitcher {
   private static instance?: EthSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -186,7 +188,7 @@ export class EthSDK {
     return this.readProvider;
   }
 
-  public async getAethbBalance(isFormatted?: boolean): Promise<BigNumber> {
+  public async getABBalance(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHbContract = EthSDK.getAethbContract(provider);
     const web3 = provider.getWeb3();
@@ -208,7 +210,7 @@ export class EthSDK {
     return provider.createContract(AETHB_CONTRACT, contractConfig.fethContract);
   }
 
-  public async getAethcBalance(isFormatted?: boolean): Promise<BigNumber> {
+  public async getACBalance(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
@@ -230,7 +232,7 @@ export class EthSDK {
     return provider.createContract(AETHC_CONTRACT, contractConfig.aethContract);
   }
 
-  public async getAethcRatio(isFormatted?: boolean): Promise<BigNumber> {
+  public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
@@ -259,7 +261,7 @@ export class EthSDK {
     }
   }
 
-  public async getAllowance(): Promise<BigNumber> {
+  public async getACAllowance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const { contractConfig } = CONFIG;
@@ -431,7 +433,7 @@ export class EthSDK {
           staker: this.currentAccount,
         },
       }),
-      this.getAethcRatio(),
+      this.getACRatio(),
     ]);
 
     const mapEvents = (events: EventData[]): EventData[] =>
@@ -491,8 +493,9 @@ export class EthSDK {
     return flatten(pastEvents);
   }
 
-  public async approveAETHCForAETHB(
+  public async approveACForAB(
     amount = MAX_UINT256,
+    scale = 1,
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
@@ -501,7 +504,7 @@ export class EthSDK {
     const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
 
     const data = aETHcContract.methods
-      .approve(contractConfig.fethContract, convertNumberToHex(amount))
+      .approve(contractConfig.fethContract, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(

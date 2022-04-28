@@ -11,8 +11,8 @@ import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';

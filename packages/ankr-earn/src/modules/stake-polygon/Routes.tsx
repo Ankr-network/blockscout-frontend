@@ -1,6 +1,6 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';

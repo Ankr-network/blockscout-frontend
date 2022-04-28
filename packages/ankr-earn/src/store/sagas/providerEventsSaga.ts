@@ -33,14 +33,14 @@ import {
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { connect, IConnect } from 'modules/auth/actions/connect';
-import { disconnect } from 'modules/auth/actions/disconnect';
-import { updateAccountAddress } from 'modules/auth/actions/updateAccountAddress';
-import { updateConnectedNetwork } from 'modules/auth/actions/updateConnectedNetwork';
+import { connect, IConnect } from 'modules/auth/common/actions/connect';
+import { disconnect } from 'modules/auth/common/actions/disconnect';
+import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';
+import { updateConnectedNetwork } from 'modules/auth/common/actions/updateConnectedNetwork';
 import {
   IProviderStatus,
   selectEthProviderData,
-} from 'modules/auth/store/authSlice';
+} from 'modules/auth/common/store/authSlice';
 
 interface IListenProviderWeb3EventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;

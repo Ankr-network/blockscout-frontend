@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
+import { INetwork } from 'modules/auth/common/components/GuardRoute/useNetworks';
 import { Token } from 'modules/common/types/token';
 
 export interface IUseStakableToken {

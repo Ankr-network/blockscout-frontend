@@ -2,8 +2,8 @@ import { resetRequests } from '@redux-requests/core';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';

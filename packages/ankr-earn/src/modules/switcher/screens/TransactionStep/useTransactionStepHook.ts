@@ -6,8 +6,8 @@ import { useParams } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { getTxData, getTxReceipt } from 'modules/switcher/actions/getTxData';
@@ -37,7 +37,7 @@ interface ISuccessPathParams {
 
 export const useTransactionStepHook = (): ITransactionStepHookData => {
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
-  const { txHash, to } = useParams<ISuccessPathParams>();
+  const { txHash, to, from } = useParams<ISuccessPathParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const dispatchRequest = useDispatchRequest();
@@ -48,16 +48,24 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
 
   useProviderEffect(() => {
     dispatchRequest(
-      getTxData({ chainId: chainId as AvailableSwitchNetwork, txHash }),
+      getTxData({
+        chainId: chainId as AvailableSwitchNetwork,
+        txHash,
+        token: from,
+      }),
     );
     dispatchRequest(
-      getTxReceipt({ chainId: chainId as AvailableSwitchNetwork, txHash }),
+      getTxReceipt({
+        chainId: chainId as AvailableSwitchNetwork,
+        txHash,
+        token: from,
+      }),
     );
 
     return () => {
       dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
     };
-  }, [chainId, txHash, dispatch]);
+  }, [chainId, txHash, from, dispatch]);
 
   useEffect(() => {
     if (receipt) {

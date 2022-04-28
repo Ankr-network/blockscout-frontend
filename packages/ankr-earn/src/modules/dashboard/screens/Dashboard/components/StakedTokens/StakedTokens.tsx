@@ -11,6 +11,7 @@ import { StakedADOTB } from '../StakedADOTB';
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
+import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
@@ -38,6 +39,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
+    isAFTMCShowed,
     isAMATICBBSCShowed,
     isAMATICBPolygonShowed,
     isAETHBBridgedShowed,
@@ -90,6 +92,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {isABNBCShowed && <StakedABNBC />}
 
             {isAFTMBShowed && <StakedAFTMB />}
+
+            {isAFTMCShowed && <StakedAFTMC />}
 
             {isAVAXShowed && <StakedAVAX />}
 

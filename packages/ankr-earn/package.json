@@ -2,7 +2,7 @@
   "name": "ankr-earn",
   "version": "2.10.3",
   "private": true,
-  "homepage": "/earn",
+  "homepage": "/staking",
   "dependencies": {
     "@binance-chain/bsc-connector": "^1.0.0",
     "@loadable/component": "^5.15.2",

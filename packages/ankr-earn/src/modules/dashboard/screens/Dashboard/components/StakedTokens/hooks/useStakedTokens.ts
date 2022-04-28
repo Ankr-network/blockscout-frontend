@@ -10,6 +10,7 @@ import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
+import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
 import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
 import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedMaticData } from './MATIC/useStakedMaticData';
@@ -28,6 +29,7 @@ interface IUseStakedTokensData {
   isAMATICBBSCShowed: boolean;
   isAETHBBridgedShowed: boolean;
   isAFTMBShowed: boolean;
+  isAFTMCShowed: boolean;
   isADOTBShowed: boolean;
   isAKSMBShowed: boolean;
   isAWNDBShowed: boolean;
@@ -48,6 +50,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
+  const stakedAFTMCData = useStakedAFTMCData();
   const unclaimedEthData = useUnclaimedEth();
 
   const claimedDOTData = useUnclaimedPolkadotData(DOT_PROPS);
@@ -79,6 +82,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
 
   const isAFTMBShowed = stakedAFTMBData.isShowed;
+  const isAFTMCShowed = stakedAFTMCData.isShowed;
 
   const isADOTBShowed = stakedADOTBData.isShowed;
   const isDOTShowed = claimedDOTData.isShowed;
@@ -102,6 +106,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAMATICBBSCShowed ||
     isAETHBBridgedShowed ||
     isAFTMBShowed ||
+    isAFTMCShowed ||
     isADOTBShowed ||
     isDOTShowed ||
     isAKSMBShowed ||
@@ -119,6 +124,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
+    isAFTMCShowed,
     isAMATICBBSCShowed,
     isAMATICBPolygonShowed,
     isAETHBBridgedShowed,

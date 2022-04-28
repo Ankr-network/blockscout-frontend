@@ -1,12 +1,17 @@
-import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_FIXED,
+  featuresConfig,
+  ZERO,
+} from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
@@ -18,8 +23,10 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
+import { TokenVariant } from 'modules/stake/components/TokenVariant';
+import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
@@ -36,14 +43,17 @@ export const StakeFantom = (): JSX.Element => {
   const {
     isCommonDataLoading,
     amount,
+    aFTMcRatio,
     balance,
     minAmount,
     loading,
+    isStakeLoading,
     tokenIn,
     tokenOut,
     apy,
     onChange,
     onSubmit,
+    onTokenSelect,
   } = useStakeForm();
 
   const faqItems = useFaq();
@@ -61,25 +71,49 @@ export const StakeFantom = (): JSX.Element => {
   const renderStats = useCallback(
     (formAmount: BigNumber) => {
       return (
-        <StakeDescriptionContainer>
-          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+        <>
+          {featuresConfig.stakeAFTMC && (
+            <TokenVariantList my={5}>
+              <TokenVariant
+                description={tHTML('stake-fantom.aftmb-descr')}
+                iconSlot={<AFTMBIcon />}
+                isActive={tokenOut === Token.aFTMb}
+                isDisabled={isStakeLoading}
+                title={t('unit.aftmb')}
+                onClick={onTokenSelect(Token.aFTMb)}
+              />
 
-          <StakeDescriptionValue>
-            <StakeDescriptionAmount
-              symbol={tokenOut}
-              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
-            />
+              <TokenVariant
+                description={tHTML('stake-fantom.aftmc-descr', {
+                  rate: isCommonDataLoading
+                    ? '...'
+                    : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+                })}
+                iconSlot={<AFTMCIcon />}
+                isActive={tokenOut === Token.aFTMc}
+                isDisabled={isStakeLoading}
+                title={t('unit.aftmc')}
+                onClick={onTokenSelect(Token.aFTMc)}
+              />
+            </TokenVariantList>
+          )}
 
-            <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" />
-              </ButtonBase>
-            </Tooltip>
-          </StakeDescriptionValue>
-        </StakeDescriptionContainer>
+          <StakeDescriptionContainer>
+            <StakeDescriptionName>
+              {t('stake.you-will-get')}
+            </StakeDescriptionName>
+
+            <StakeDescriptionValue>
+              <StakeDescriptionAmount
+                symbol={tokenOut}
+                value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              />
+            </StakeDescriptionValue>
+          </StakeDescriptionContainer>
+        </>
       );
     },
-    [classes, tokenOut],
+    [tokenOut, isStakeLoading, onTokenSelect, aFTMcRatio, isCommonDataLoading],
   );
 
   return (
@@ -92,7 +126,7 @@ export const StakeFantom = (): JSX.Element => {
         <StakeForm
           balance={balance}
           isBalanceLoading={hasError || isCommonDataLoading}
-          isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
+          isMaxBtnShowed={false}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
           renderStats={renderStats}

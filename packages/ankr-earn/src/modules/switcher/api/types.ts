@@ -1,19 +1,21 @@
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { EthSDK } from 'modules/api/EthSDK';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { ISwitcher } from 'modules/api/switcher';
 
 import { AvailableSwitchNetwork, AvailableSwitcherToken } from '../const';
 
 export interface ISwitcherSDKArgs {
-  binanceSDK: BinanceSDK;
-  ethSDK: EthSDK;
+  binanceSDK: ISwitcher;
+  ethSDK: ISwitcher;
+  maticSDK: ISwitcher;
+  fantomSDK: ISwitcher;
   account: string;
 }
 
 export interface ISwitcherCommonDataArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
 }
 
 export interface ISwitcherCommonData {
@@ -25,6 +27,7 @@ export interface ISwitcherCommonData {
 
 export interface IFetchTxDataArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   txHash: string;
 }
 
@@ -36,6 +39,7 @@ export interface IFetchTxData {
 
 export interface IFetchTxReceiptArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   txHash: string;
 }
 
@@ -43,16 +47,19 @@ export type IFetchTxReceiptData = TransactionReceipt | null;
 
 export interface ISwitcherApproveArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   amount?: BigNumber;
 }
 
 export interface ISwitcherLockSharesArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   amount: BigNumber;
 }
 
 export interface ISwitcherUnlockSharesArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   amount: BigNumber;
   ratio: BigNumber;
 }

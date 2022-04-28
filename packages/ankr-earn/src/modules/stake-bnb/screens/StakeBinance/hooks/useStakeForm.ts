@@ -11,7 +11,7 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
@@ -116,7 +116,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
     const binanceSDK = await BinanceSDK.getInstance();
-    const abnbbBalance = await binanceSDK.getABNBBBalance();
+    const abnbbBalance = await binanceSDK.getABBalance();
 
     trackStake({
       address,

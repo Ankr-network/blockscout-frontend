@@ -10,7 +10,7 @@ import {
 
 import { useIsMDUp } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';

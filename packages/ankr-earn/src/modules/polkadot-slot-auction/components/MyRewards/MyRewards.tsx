@@ -14,6 +14,7 @@ import {
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig } from 'modules/polkadot-slot-auction/Routes';
 import { Button } from 'uiKit/Button';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
@@ -21,7 +22,6 @@ import {
   fetchMyRewardCrowdloans,
   IFetchMyRewardCrowdloansItem,
 } from '../../actions/fetchMyRewardCrowdloans';
-import { RoutesConfig } from '../../const';
 import { useMyRewardCrowdloans } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ConnectTooltip } from '../ConnectTooltip';

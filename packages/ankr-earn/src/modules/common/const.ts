@@ -6,8 +6,8 @@ import packageJson from '../../../package.json';
 
 import { BlockchainNetworkId, Env } from './types';
 
-export const EARN_PATH = `${packageJson.homepage}/`;
-export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
+export const STAKING_PATH = `${packageJson.homepage}/`;
+export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
 export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 
@@ -38,6 +38,8 @@ export const LITEPAPER_EN =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';
 export const LITEPAPER_CN =
   'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
+export const CROWDLOAN_LITEPAPER =
+  'https://stakefi.ankr.com/parachain-liquid-bonding/litepaper.pdf';
 
 export const BRIDGE_AUDIT_LINK =
   'https://assets.ankr.com/earn/ankr_bridge_security_audit.pdf';
@@ -77,11 +79,13 @@ export const featuresConfig = {
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   switcherMatic: currentEnv !== Env.Production,
+  switcherFantom: currentEnv !== Env.Production,
   stakeETH: true,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: true,
+  stakeAFTMC: currentEnv !== Env.Production,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
 };

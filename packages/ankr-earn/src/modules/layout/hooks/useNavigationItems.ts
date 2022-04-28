@@ -86,10 +86,10 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
     () => [
       links.dashboard,
       links.stake,
-      links.parachain,
       links.boost,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
       links.switcher,
+      links.parachain,
     ],
     [links],
   );
@@ -103,10 +103,10 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
     () => [
       links.dashboard,
       links.stake,
-      links.parachain,
       links.boost,
-      links.switcher,
       ...(!featuresConfig.bridge ? [] : [links.bridge]),
+      links.switcher,
+      links.parachain,
       links.docs,
       links.litepaper,
     ],

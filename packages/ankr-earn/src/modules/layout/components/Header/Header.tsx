@@ -4,7 +4,7 @@ import { ReactNode, useState } from 'react';
 import { GlobalMenu } from '@ankr.com/global-menu';
 import { useIsLGUp, useIsSMDown } from 'ui';
 
-import { EARN_PATH, featuresConfig } from 'modules/common/const';
+import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
 
 import { useLocale } from '../../../i18n/hooks/useLocale';
@@ -44,13 +44,9 @@ export const Header = ({
 
       <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
-          <GlobalMenu
-            isMobile={isMobile}
-            locale={locale}
-            project="earn"
-          />
+          <GlobalMenu isMobile={isMobile} locale={locale} project="staking" />
 
-          <Logo className={classes.logo} href={EARN_PATH} />
+          <Logo className={classes.logo} href={STAKING_PATH} />
         </div>
 
         <div className={classes.center}>{mainNavigationSlot}</div>

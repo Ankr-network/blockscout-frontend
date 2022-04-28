@@ -2,7 +2,7 @@ import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';

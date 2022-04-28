@@ -8,6 +8,7 @@ import { AbiItem } from 'web3-utils';
 
 import {
   BlockchainNetworkId,
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -17,8 +18,10 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
+import { ISwitcher } from 'modules/api/switcher';
+import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
@@ -28,7 +31,8 @@ import {
 } from '../const';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
-import ABI_POLYGON_POOL from './contracts/polygonPool.json';
+import ABI_AMATICC from './contracts/aMATICc.json';
+import ABI_POLYGON_POOL from './contracts/PolygonPoolV2.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
@@ -78,9 +82,17 @@ interface IGetPastEvents {
   filter?: Filter;
 }
 
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
+}
+
 const ALLOWANCE_RATE = 5;
 
-export class PolygonSDK {
+export class PolygonSDK implements ISwitcher {
   private static instance?: PolygonSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -174,6 +186,15 @@ export class PolygonSDK {
     return new web3.eth.Contract(
       ABI_AMATICB as AbiItem[],
       contractConfig.aMaticbToken,
+    );
+  }
+
+  private static getAMATICCTokenContract(web3: Web3): Contract {
+    const { contractConfig } = configFromEnv();
+
+    return new web3.eth.Contract(
+      ABI_AMATICC as AbiItem[],
+      contractConfig.aMaticCToken,
     );
   }
 
@@ -292,7 +313,7 @@ export class PolygonSDK {
     return this.convertFromWei(balance);
   }
 
-  public async getAMaticbBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
@@ -302,6 +323,111 @@ export class PolygonSDK {
       .call();
 
     return this.convertFromWei(balance);
+  }
+
+  public async getACBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const balance = await aMaticCTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  public async getACRatio(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const ratio = await aMaticCTokenContract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
+  }
+
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const { contractConfig } = configFromEnv();
+
+    const allowance = await aMaticCTokenContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || contractConfig.aMaticbToken,
+      )
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const data = aMaticCTokenContract.methods
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticCToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+
+    const data = aMaticbTokenContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+
+    const data = aMaticbTokenContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
   }
 
   public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
@@ -530,16 +656,16 @@ export class PolygonSDK {
       .send({ from: this.currentAccount });
   }
 
-  public async addAmaticbToWallet(): Promise<void> {
+  public async addTokenToWallet(token: Token): Promise<boolean> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    await this.writeProvider.addTokenToWallet({
+    return this.writeProvider.addTokenToWallet({
       address: contractConfig.aMaticbToken,
-      symbol: Token.aMATICb,
+      symbol: token,
       decimals: 18,
       chainId: isMainnet
         ? (BlockchainNetworkId.mainnet as number)

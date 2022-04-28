@@ -1,7 +1,10 @@
 import { BlockchainNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -14,19 +17,27 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
-describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
-  const defaultEthSDK = {
-    fetchTxReceipt: () => Promise.resolve({}),
-  };
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
+}));
 
-  const defaultBinanceSDK = {
+jest.mock('modules/stake-fantom/api/sdk', () => ({
+  FantomSDK: { getInstance: jest.fn() },
+}));
+
+describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
+  const defaultSDK = {
     fetchTxReceipt: () => Promise.resolve({}),
   };
 
   beforeEach(() => {
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
+    (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
-    (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
+    (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
   });
 
   afterEach(() => {
@@ -41,6 +52,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aETHb,
         }),
       ),
     );
@@ -61,7 +73,45 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aBNBb,
         }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should return tx receipt for ethereum network for matic token', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+        sdk.fetchTxReceipt({
+          chainId: chainId as AvailableSwitchNetwork,
+          txHash: 'hash',
+          token: Token.aMATICc,
+        }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should return tx receipt for fantom network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+        chainId =>
+          sdk.fetchTxReceipt({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aFTMc,
+          }),
       ),
     );
 
@@ -76,6 +126,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const result = await sdk.fetchTxReceipt({
       chainId: 9000 as AvailableSwitchNetwork,
       txHash: 'hash',
+      token: Token.aBNBb,
     });
 
     expect(result).toBeUndefined();

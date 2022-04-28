@@ -1,3 +1,4 @@
+import { t } from 'common';
 import { BlockchainNetworkId } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
@@ -5,11 +6,11 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   featuresConfig,
+  FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 
-const { contractConfig, binanceConfig } = configFromEnv();
+const { contractConfig, binanceConfig, fantomConfig } = configFromEnv();
 
 export type AvailableSwitcherToken =
   | Token.aETHb
@@ -17,11 +18,23 @@ export type AvailableSwitcherToken =
   | Token.aBNBb
   | Token.aBNBc
   | Token.aMATICb
-  | Token.aMATICc;
+  | Token.aMATICc
+  | Token.aFTMb
+  | Token.aFTMc;
 
-export const SWITCHER_FROM_TOKENS = [Token.aETHb, Token.aBNBb, Token.aMATICb];
+export const SWITCHER_FROM_TOKENS = [
+  Token.aETHb,
+  Token.aBNBb,
+  Token.aMATICb,
+  Token.aFTMb,
+];
 
-export const SWITCHER_TO_TOKENS = [Token.aETHc, Token.aBNBc, Token.aMATICc];
+export const SWITCHER_TO_TOKENS = [
+  Token.aETHc,
+  Token.aBNBc,
+  Token.aMATICc,
+  Token.aFTMc,
+];
 
 export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aETHb]: contractConfig.fethContract,
@@ -29,7 +42,9 @@ export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aBNBb]: binanceConfig.aBNBbToken,
   [Token.aBNBc]: binanceConfig.aBNBcToken,
   [Token.aMATICb]: contractConfig.aMaticbToken,
-  [Token.aMATICc]: '', // TODO: STAKAN-1292 add aMATICc address
+  [Token.aMATICc]: contractConfig.aMaticCToken,
+  [Token.aFTMb]: fantomConfig.aftmbToken,
+  [Token.aFTMc]: fantomConfig.aftmcToken,
 };
 
 export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
@@ -39,15 +54,23 @@ export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
   [Token.aBNBc]: t('switcher.tooltips.aBNBc'),
   [Token.aMATICb]: t('switcher.tooltips.aMATICb'),
   [Token.aMATICc]: t('switcher.tooltips.aMATICc'),
+  [Token.aFTMb]: t('switcher.tooltips.aFTMb'),
+  [Token.aFTMc]: t('switcher.tooltips.aFTMc'),
 };
 
 export type AvailableSwitchNetwork =
   | BlockchainNetworkId.goerli
   | BlockchainNetworkId.mainnet
   | BlockchainNetworkId.smartchain
-  | BlockchainNetworkId.smartchainTestnet;
+  | BlockchainNetworkId.smartchainTestnet
+  | BlockchainNetworkId.fantom
+  | BlockchainNetworkId.fantomTestnet;
 
-export type AvailableSwitcherNativeToken = Token.ETH | Token.BNB | Token.MATIC;
+export type AvailableSwitcherNativeToken =
+  | Token.ETH
+  | Token.BNB
+  | Token.MATIC
+  | Token.FTM;
 
 export const NATIVE_TOKEN_BY_SWITCH_OPTION: Record<
   AvailableSwitcherToken,
@@ -59,6 +82,8 @@ export const NATIVE_TOKEN_BY_SWITCH_OPTION: Record<
   [Token.aBNBc]: Token.BNB,
   [Token.aMATICb]: Token.MATIC,
   [Token.aMATICc]: Token.MATIC,
+  [Token.aFTMb]: Token.FTM,
+  [Token.aFTMc]: Token.FTM,
 };
 
 export const CHAIN_ID_BY_TOKEN: Record<
@@ -71,6 +96,8 @@ export const CHAIN_ID_BY_TOKEN: Record<
   [Token.aBNBc]: BSC_NETWORK_BY_ENV,
   [Token.aMATICb]: ETH_NETWORK_BY_ENV,
   [Token.aMATICc]: ETH_NETWORK_BY_ENV,
+  [Token.aFTMb]: FTM_NETWORK_BY_ENV,
+  [Token.aFTMc]: FTM_NETWORK_BY_ENV,
 };
 
 export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
@@ -81,6 +108,8 @@ export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
     [Token.aBNBc]: 10,
     [Token.aMATICb]: 10,
     [Token.aMATICc]: 10,
+    [Token.aFTMb]: 10,
+    [Token.aFTMc]: 10,
   };
 
 export const DEFAULT_TOKENS_BY_NETWORK: Record<
@@ -93,6 +122,11 @@ export const DEFAULT_TOKENS_BY_NETWORK: Record<
   [BlockchainNetworkId.smartchainTestnet]: {
     from: Token.aBNBb,
     to: Token.aBNBc,
+  },
+  [BlockchainNetworkId.fantom]: { from: Token.aFTMb, to: Token.aFTMc },
+  [BlockchainNetworkId.fantomTestnet]: {
+    from: Token.aFTMb,
+    to: Token.aFTMc,
   },
 };
 
@@ -109,12 +143,14 @@ export const SWITCHER_TOKENS_MAP: Record<
     [Token.aETHb]: Token.aETHb,
     [Token.aBNBb]: Token.aBNBb,
     ...(featuresConfig.switcherMatic ? { [Token.aMATICb]: Token.aMATICb } : {}),
+    ...(featuresConfig.switcherFantom ? { [Token.aFTMb]: Token.aFTMb } : {}),
   },
 
   [SwitcherUrlParams.TO]: {
     [Token.aETHc]: Token.aETHc,
     [Token.aBNBc]: Token.aBNBc,
     ...(featuresConfig.switcherMatic ? { [Token.aMATICc]: Token.aMATICc } : {}),
+    ...(featuresConfig.switcherFantom ? { [Token.aFTMc]: Token.aFTMc } : {}),
   },
 };
 
@@ -129,7 +165,9 @@ export const SWITCHER_TOKENS_PAIR: Record<
   [Token.aETHb]: Token.aETHc,
   [Token.aBNBb]: Token.aBNBc,
   [Token.aMATICb]: Token.aMATICc,
+  [Token.aFTMb]: Token.aFTMc,
   [Token.aETHc]: Token.aETHb,
   [Token.aBNBc]: Token.aBNBb,
   [Token.aMATICc]: Token.aMATICb,
+  [Token.aFTMc]: Token.aFTMb,
 };

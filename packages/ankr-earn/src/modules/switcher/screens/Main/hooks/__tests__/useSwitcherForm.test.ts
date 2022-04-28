@@ -5,8 +5,8 @@ import fc from 'fast-check';
 
 import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
@@ -23,11 +23,11 @@ jest.mock('modules/switcher/actions/transactions', () => ({
   swapAssets: jest.fn(),
 }));
 
-jest.mock('modules/auth/actions/switchNetwork', () => ({
+jest.mock('modules/auth/common/actions/switchNetwork', () => ({
   switchNetwork: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -178,7 +178,10 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       });
 
       expect(approve).toBeCalledTimes(1);
-      expect(approve).toBeCalledWith({ chainId: BlockchainNetworkId.mainnet });
+      expect(approve).toBeCalledWith({
+        chainId: BlockchainNetworkId.mainnet,
+        token: Token.aETHb,
+      });
     });
   });
 

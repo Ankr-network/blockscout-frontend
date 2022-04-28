@@ -22,8 +22,8 @@
     "fee-plus-amount-wrong": "Amount with fee greater than your balance"
   },
   "meta": {
-    "title": "Ankr Earn",
-    "description": "Ankr Earn"
+    "title": "Ankr Staking",
+    "description": "Ankr Staking"
   },
   "error": {
     "not-authenticated": "Not Authenticated",
@@ -47,10 +47,11 @@
   },
   "litepaper-links": {
     "en": "Litepaper (EN)",
+    "crowdloan": "Crowdloan Litepaper (EN)",
     "cn": "Litepaper (CN)"
   },
   "logo": {
-    "earn": "Earn"
+    "staking": "Staking"
   },
   "rights": "© 2022 Ankr All rights reserved | info@ankr.com",
   "language": {
@@ -75,11 +76,13 @@
     "amaticb": "aMATICb",
     "ftm": "FTM",
     "aftmb": "aFTMb",
+    "aftmc": "aFTMc",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
+    "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR"
@@ -94,7 +97,7 @@
     },
     "tooltips": {
       "comingSoon": "Coming soon",
-      "allowance": "Users must give the smart contract permission to spend a certain amount of your token (known as an “allowance”). <br/><br/>This is a security measure to ensure the smart contract only spends limited and specified amounts on your behalf."
+      "allowance": "Approve (Allowance) is the permission you give to the smart contract in order to allow it to spend on your behalf the token you want to use through its dApp."
     }
   },
   "chain": {
@@ -126,7 +129,7 @@
   },
   "connect": {
     "access-request": "Access Request",
-    "ask-connect": "Do you wish to connect Ankr Earn to your wallet?",
+    "ask-connect": "Do you wish to connect Ankr Staking to your wallet?",
     "grant": "Grant Access",
     "info": "Click and select a wallet to connect",
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
@@ -231,7 +234,7 @@
         "title": "Сlaim {bondTokenSymbol} to Ethereum network"
       },
       "success-section": {
-        "message": "You will be able to see your {bondTokenSymbol} exposure on Ankr Earn Dashboard.",
+        "message": "You will be able to see your {bondTokenSymbol} exposure on Ankr Staking Dashboard.",
         "title": "Claim successful"
       }
     },
@@ -277,7 +280,7 @@
       "link": "Learn more"
     },
     "platforms": {
-      "stakefi": "Ankr Earn"
+      "stakefi": "Ankr Staking"
     },
     "fair-value": {
       "title": "Fair Value",
@@ -323,7 +326,7 @@
     },
     "success": {
       "title": "Stake successful",
-      "description": "You will be able to see your {token} exposure on Ankr Earn Dashboard.",
+      "description": "You will be able to see your {token} exposure on Ankr Staking Dashboard.",
       "add-to-wallet": "Add {token} to wallet"
     },
     "pending": {
@@ -350,7 +353,7 @@
       "question-6": "Does Ankr charge for this service?",
       "answer-6": "Ankr takes 2% of AVAX liquid Staking reward as a service fee.",
       "question-7": "What determines the amount of rewards that I receive through rebase?",
-      "answer-7": "Staking rewards depend mostly on how long your staked AVAX is locked. Ankr Earn splits the total staking amount between two nodes with a lock period of 56 days with a time shift of 28 days from one another.<br/><br/>aAVAXb holders will therefore get the average staking rewards of all staked AVAX through Ankr Earn and ability to unstake any tyme with an unbonding period not more than 28 days.",
+      "answer-7": "Staking rewards depend mostly on how long your staked AVAX is locked. Ankr Staking splits the total staking amount between two nodes with a lock period of 56 days with a time shift of 28 days from one another.<br/><br/>aAVAXb holders will therefore get the average staking rewards of all staked AVAX through Ankr Staking and ability to unstake any tyme with an unbonding period not more than 28 days.",
       "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
       "answer-8": "The only risk for stakers is reducing out on rewards if Validator node users are offline 20% of the time relative to other Validator nodes.<br/><br/>However, staked AVAX will not be slashed. Ankr only delegates to his own Validator nodes and has a dedicated developers’ team who monitor node performance!",
       "question-9": "Is there liquidity for aAVAXb anywhere currently?",
@@ -427,9 +430,9 @@
     "title": "MATIC Liquid Staking",
     "unstake-eta": "You will receive MATIC in about 3-4 days.",
     "tooltip": {
-      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned MATIC over the last 7 days, net of delegation fees from Polygon Validator nodes.<br/><br/>Ankr Earn fee is 0%.<br/><br/>When there are at least 300 pending MATIC rewards, earned MATIC will be staked to generate compounding effect.",
+      "apy": "The Annual Percentage Yield (APY) represents the average annualized earned MATIC over the last 7 days, net of delegation fees from Polygon Validator nodes.<br/><br/>Ankr Staking fee is 0%.<br/><br/>When there are at least 300 pending MATIC rewards, earned MATIC will be staked to generate compounding effect.",
       "unstake": "Unstake",
-      "fee": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart-contracts deployed in Ethereum, Ankr Earn covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses.  MATIC tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
+      "fee": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart-contracts deployed in Ethereum, Ankr Staking covers the gas fee cost and charge a modest fee in Ankr to compensate its expenses.  MATIC tokens will therefore be transfered to your wallet automatically as soon as unstake process is completed without any subsequent additional costs."
     },
     "validation": {
       "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
@@ -450,7 +453,7 @@
       "question-4": "How do I receive rewards?",
       "answer-4": "The aMATICb tokens you keep in your wallet will gradually increase in quantity to reflect the staking rewards you earn. This happens daily with a process called “rebasing” (adjusting the supply of tokens) to deliver your appropriate staking rewards.",
       "question-5": "What determines the amount of reward I receive with each rebase?",
-      "answer-5": "This depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
+      "answer-5": "This depends on the average staking period of Ankr Staking validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
       "question-6": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
       "answer-6": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction.",
       "question-7": "Are there any docs about the MATIC staking and how I set up my wallet etc.?",
@@ -475,12 +478,15 @@
       "question-6": "Does Ankr charge for this service?",
       "answer-6": "Ankr does not charge any service fees for Fantom Liquid Staking. However, validators charge a delegate stake fee of 15%, representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake FTM.",
       "question-7": "What determines the amount of rewards that I receive through rebase?",
-      "answer-7": "Staking rewards depend mostly on how long your staked FTM is locked with Ankr Earn. <br/>Staking FTM without locking provides approximately 4.5% rewards, or about 14% when locking for 365 days. You can find the most updated information about FTM staking rewards by locking period <a href=\"https://fantom.foundation/ftm-staking/\">here</a>. <br/>Ankr will aim to delegate 50% of staked FTM for the maximum possible period (approx. 1 year), 25% for 28 days, and 25% for 56 days. <br/>aFTMb holders will therefore get the average staking rewards of all staked FTM through Ankr Earn.",
+      "answer-7": "Staking rewards depend mostly on how long your staked FTM is locked with Ankr Staking. <br/>Staking FTM without locking provides approximately 4.5% rewards, or about 14% when locking for 365 days. You can find the most updated information about FTM staking rewards by locking period <a href=\"https://fantom.foundation/ftm-staking/\">here</a>. <br/>Ankr will aim to delegate 50% of staked FTM for the maximum possible period (approx. 1 year), 25% for 28 days, and 25% for 56 days. <br/>aFTMb holders will therefore get the average staking rewards of all staked FTM through Ankr Staking.",
       "question-8": "Is there any risk from Liquid staking, like slashing or any penalties?",
       "answer-8": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
-    }
+    },
+    "aftmb-descr": "aFTMb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
+    "aftmc-descr": "aFTMс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aFTMc={rate} FTM</b>",
+    "relayer-fee": "Relayer Fee"
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
@@ -530,7 +536,9 @@
       "aBNBc": "Ankr Reward-Bearing Staked BNB (aBNBc) is a reward-bearing token. Its value compared with BNB represents the redemption value of aBNBc, increasing over time to reflect BNB staking rewards earned.",
       "aMATICb": "Ankr Reward-Earning Staked MATIC (aMATICb) is a rebasing token. When holding aMATICb, its balance will increase on a daily basis proportional to your MATIC staking rewards. Therefore, the ratio of aMATICb vs. MATIC is always 1:1.",
       "aMATICc": "Ankr Reward-Bearing Staked MATIC (aMATICc) is a reward-bearing token. Its value compared with MATIC represents the redemption value of aMATICc, increasing over time to reflect MATIC staking rewards earned.",
-      "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Earn Dashboard."
+      "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",
+      "aFTMb": "Ankr Reward-Earning Staked FTM (aFTMb) is a rebasing token. When holding aFTMb, its balance will increase on a daily basis proportional to your FTM staking rewards. Therefore, the ratio of aFTMb vs. FTM is always 1:1.",
+      "aFTMc": "Ankr Reward-Bearing Staked FTM (aFTMc) is a reward-bearing token. Its value compared with FTM represents the redemption value of aFTMc, increasing over time to reflect FTM staking rewards earned."
     },
     "buttons": {
       "approve": "Approve",
@@ -541,7 +549,7 @@
       "addToWallet": "Add {token} to wallet"
     },
     "successTitle": "Swap successful!",
-    "successInfo": "Check out your new {token} exposure on the Ankr Earn Dashboard any time."
+    "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time."
   },
   "progress": {
     "errorTitle": "An error has occurred",
@@ -570,7 +578,7 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Earn covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
     "user-wallet": {
       "title": "Enter {network} wallet to which you want to receive {token}",
       "field-label": "Wallet address",
@@ -590,7 +598,7 @@
     "pending": "Unstaking in progress {value} {token}",
     "pending-temp": "Unstaking in progress",
     "trade": "Trade",
-    "start-staking": "Start staking with Ankr Earn",
+    "start-staking": "Start staking with Ankr Staking",
     "stake": "Stake",
     "copy": "Copy contract address",
     "unknown-network": "Current network",
@@ -643,7 +651,11 @@
     "stake": "Stake",
     "stake-old": "Stake at old version",
     "staked-tvl": "Staked (TVL)",
-    "learn-more": "Learn more"
+    "learn-more": "Learn more",
+    "chips": {
+      "coming-soon": "Coming Soon",
+      "old-version": "Available on the old version"
+    }
   },
   "wallets": {
     "add-btn-tooltip": "Connect another wallet",

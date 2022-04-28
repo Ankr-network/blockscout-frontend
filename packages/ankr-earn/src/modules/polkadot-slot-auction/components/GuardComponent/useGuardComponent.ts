@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import {
   INetwork,
   useNetworks,
-} from 'modules/auth/components/GuardRoute/useNetworks';
+} from 'modules/auth/common/components/GuardRoute/useNetworks';
 import { BlockchainNetworkId } from 'modules/common/types';
 
 import { useWeb3WalletData } from '../../hooks/useWeb3WalletData';
