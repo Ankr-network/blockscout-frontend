@@ -4,7 +4,10 @@ import { Route, RouteProps } from 'react-router-dom';
 import { DefaultLayout } from '../../../layout/components/DefautLayout';
 import { Spinner } from 'ui';
 import { useProvider } from 'modules/auth/hooks/useProvider';
-import { ProvidersPrivateRoutes } from 'domains/plan/Routes';
+import {
+  EndpointPlanRoutes,
+  ProvidersPrivateRoutes,
+} from 'domains/plan/Routes';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const GuardProviderRoute = ({ ...routeProps }: RouteProps) => {
@@ -26,10 +29,18 @@ export const GuardProviderRoute = ({ ...routeProps }: RouteProps) => {
     );
   }
 
-  if (credentials && providerData && typeof providerData !== 'string') {
+  if (credentials && providerData) {
     return (
       <DefaultLayout>
         <ProvidersPrivateRoutes />
+      </DefaultLayout>
+    );
+  }
+
+  if (credentials) {
+    return (
+      <DefaultLayout>
+        <EndpointPlanRoutes />
       </DefaultLayout>
     );
   }

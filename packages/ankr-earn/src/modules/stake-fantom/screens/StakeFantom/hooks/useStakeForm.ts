@@ -10,8 +10,10 @@ import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
@@ -28,6 +30,7 @@ interface IUseStakeForm {
   amount: ReactText;
   balance?: BigNumber;
   minAmount?: number;
+  apy: BigNumber;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
 }
@@ -40,6 +43,7 @@ export const useStakeForm = (): IUseStakeForm => {
   const { data, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
+  const { data: apy } = useQuery({ type: getAPY });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -87,6 +91,7 @@ export const useStakeForm = (): IUseStakeForm => {
     tokenIn: t('unit.ftm'),
     tokenOut: t('unit.aftmb'),
     amount,
+    apy: apy ?? ZERO,
     onChange,
     onSubmit,
   };

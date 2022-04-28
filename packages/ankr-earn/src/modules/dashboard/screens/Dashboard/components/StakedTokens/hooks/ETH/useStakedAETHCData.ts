@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
@@ -22,6 +22,7 @@ export interface IStakedAETHCData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
+  chainId: BlockchainNetworkId;
   tradeLink: string;
   isShowed: boolean;
   isBalancesLoading: boolean;
@@ -43,6 +44,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
+  const chainId = ETH_NETWORK_BY_ENV;
 
   const amount = statsData?.aETHcBalance ?? ZERO;
   const pendingValue = ZERO;
@@ -50,12 +52,15 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addSwitcherTokenToWallet({ swapOption: Token.aETHc }));
-  }, [dispatchRequest]);
+    dispatchRequest(
+      addSwitcherTokenToWallet({ chainId, swapOption: Token.aETHc }),
+    );
+  }, [chainId, dispatchRequest]);
 
   return {
     amount,
     network,
+    chainId,
     pendingValue,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aETHc, Token.ETH),
     isShowed,

@@ -1,13 +1,12 @@
-import loadable from '@loadable/component';
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardRoute } from 'modules/auth/components/GuardRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -54,29 +53,18 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Stake = loadable(
-  () => import('./screens/StakeBinance').then(module => module.StakeBinance),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Stake = loadComponent(() =>
+  import('./screens/StakeBinance').then(module => module.StakeBinance),
 );
 
-const Unstake = loadable(
-  () =>
-    import('./screens/UnstakeBinance').then(module => module.UnstakeBinance),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Unstake = loadComponent(() =>
+  import('./screens/UnstakeBinance').then(module => module.UnstakeBinance),
 );
 
-const StakeSteps = loadable(
-  () =>
-    import('./screens/StakeBinanceSteps').then(
-      module => module.StakeBinanceSteps,
-    ),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakeBinanceSteps').then(
+    module => module.StakeBinanceSteps,
+  ),
 );
 
 export function getRoutes(): JSX.Element {

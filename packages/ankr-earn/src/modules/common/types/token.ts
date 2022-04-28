@@ -6,6 +6,7 @@ export enum Token {
   aAVAXb = 'aAVAXb',
   MATIC = 'MATIC',
   aMATICb = 'aMATICb',
+  aMATICc = 'aMATICc',
   BNB = 'BNB',
   aBNBb = 'aBNBb',
   aBNBc = 'aBNBc',

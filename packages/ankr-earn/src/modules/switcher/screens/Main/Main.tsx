@@ -1,19 +1,21 @@
 import { Box, Paper, Typography, Chip } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { FormApi } from 'final-form';
 import noop from 'lodash/noop';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
-import {
-  DECIMAL_PLACES,
-  ETH_SCALE_FACTOR,
-  ONE_ETH,
-} from 'modules/common/const';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import {
+  BASIS_POINTS_FEE_BY_TOKEN,
+  CHAIN_ID_BY_TOKEN,
+  TOKEN_TOOLTIPS,
+} from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -23,34 +25,41 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { ISwapFormPayload } from '../../types';
 
 import { SwapOptions, Stepper } from './components';
-import { useSwitcherData, useSwitcherForm, useSendAnalytics } from './hooks';
+import {
+  useSwitcherData,
+  useSwitcherForm,
+  useSendAnalytics,
+  useSwitcherUrlParams,
+} from './hooks';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
-
-const FEE_BASIS_POINTS = 30;
+import { getFromLabel, getToLabel } from './utils/labels';
 
 export const Main = (): JSX.Element => {
   const classes = useMainSwitcherStyles();
 
+  const { from, to, onChangeFrom, onChangeTo } = useSwitcherUrlParams();
+
   const {
     allowance,
-    swapOption,
     ratio,
     chainId,
     balance,
     isDataLoading,
-    aethBalance,
-    fethBalance,
-    hasApprove,
-    handleChooseAEthB,
-    handleChooseAEthC,
-  } = useSwitcherData();
+    acBalance,
+    abBalance,
+    checkAllowance,
+  } = useSwitcherData({ from });
+
+  const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
+  const feeBasisPoints = BASIS_POINTS_FEE_BY_TOKEN[from];
 
   const { sendAnalytics } = useSendAnalytics({
-    swapOption,
-    feeBasisPoints: FEE_BASIS_POINTS,
+    from,
+    to,
+    feeBasisPoints,
     ratio,
-    aethBalance,
-    fethBalance,
+    acBalance,
+    abBalance,
   });
 
   const {
@@ -64,27 +73,29 @@ export const Main = (): JSX.Element => {
     handleApprove,
     handleSwap,
     handleClearTx,
+    handleSwitchNetwork,
   } = useSwitcherForm({
     max: balance,
-    swapOption,
+    from,
+    to,
     ratio,
+    chainId,
     onSuccessSwap: sendAnalytics,
   });
 
-  const max = useMemo(() => balance.dividedBy(ETH_SCALE_FACTOR), [balance]);
-  const canApprove = allowance.isZero() && swapOption === 'aETHc';
-  const canShowApproveStep = swapOption === 'aETHc' && hasApprove;
-  const canShowSpinner = isDataLoading && !fethBalance && !aethBalance;
+  const canShowSpinner = isDataLoading && !abBalance && !acBalance;
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
+      const canApprove = checkAllowance(new BigNumber(amount as string));
+
       if (canApprove) {
         handleApprove();
       } else {
         handleSwap(amount as string);
       }
     },
-    [canApprove, handleApprove, handleSwap],
+    [checkAllowance, handleApprove, handleSwap],
   );
 
   const setMaxAmount = useCallback(
@@ -100,8 +111,13 @@ export const Main = (): JSX.Element => {
   }: FormRenderProps): JSX.Element => {
     const { fee, total } = calculateFeeAndTotal({
       amount: new BigNumber(values.amount || 0),
-      feeBP: new BigNumber(FEE_BASIS_POINTS),
+      feeBP: new BigNumber(feeBasisPoints),
     });
+
+    const canApprove = checkAllowance(new BigNumber(values.amount || 0));
+    const canShowApproveStep = canApprove && !canSwitchNetwork;
+    const canDisableApprove = isApproveLoading || isDataLoading || !canApprove;
+    const canDisableSwitch = isSwapLoading || isDataLoading || canApprove;
 
     return (
       <Paper
@@ -121,11 +137,17 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={t('switcher.tooltips.aETHb')}>
+              <Tooltip title={TOKEN_TOOLTIPS[from]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label="1 aETHb = 1 ETH"
+            label={
+              !isDataLoading ? (
+                getFromLabel({ token: from })
+              ) : (
+                <Skeleton width={115} />
+              )
+            }
             variant="outlined"
             onDelete={noop}
           />
@@ -134,47 +156,56 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={t('switcher.tooltips.aETHc')}>
+              <Tooltip title={TOKEN_TOOLTIPS[to]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
-            label={`1 aETHc = ${ONE_ETH.dividedBy(ratio)
-              .decimalPlaces(DECIMAL_PLACES)
-              .toFixed()} ETH`}
+            label={
+              !isDataLoading ? (
+                getToLabel({ token: to, ratio })
+              ) : (
+                <Skeleton width={115} />
+              )
+            }
             variant="outlined"
             onDelete={noop}
           />
         </Box>
 
         <AmountInput
-          balance={max}
+          balance={balance}
           inputClassName={classes.amountInput}
-          isBalanceLoading={false}
+          isBalanceLoading={isDataLoading}
           label={t('switcher.amountInputTitle')}
           name="amount"
-          tokenName={swapOption}
+          tokenName={from}
           onMaxClick={setMaxAmount(
             form,
-            max.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
+            balance.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
           )}
         />
 
         <SwapOptions
-          swapOption={swapOption}
-          onChooseAEthB={handleChooseAEthB}
-          onChooseAEthC={handleChooseAEthC}
+          from={from}
+          to={to}
+          onChooseFrom={onChangeFrom}
+          onChooseTo={onChangeTo}
         />
 
         <Box className={classes.row}>
           <Typography className={classes.fee}>
-            {t('switcher.fee', { fee: FEE_BASIS_POINTS / 100 })}
+            {t('switcher.fee', { fee: feeBasisPoints / 100 })}
           </Typography>
 
           <Typography className={classes.fee}>
-            {t('unit.token-value', {
-              value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
-              token: swapOption,
-            })}
+            {!isDataLoading ? (
+              t('unit.token-value', {
+                value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
+                token: from,
+              })
+            ) : (
+              <Skeleton width={80} />
+            )}
           </Typography>
         </Box>
 
@@ -186,10 +217,14 @@ export const Main = (): JSX.Element => {
           </Typography>
 
           <Typography className={cn(classes.result, classes.sum)}>
-            {t('unit.token-value', {
-              value: calculateValueWithRatio(total).toFixed(),
-              token: swapOption === 'aETHb' ? 'aETHc' : 'aETHb',
-            })}
+            {!isDataLoading ? (
+              t('unit.token-value', {
+                value: calculateValueWithRatio(total).toFixed(),
+                token: to,
+              })
+            ) : (
+              <Skeleton width={80} />
+            )}
           </Typography>
         </Box>
 
@@ -197,7 +232,7 @@ export const Main = (): JSX.Element => {
           {canShowApproveStep && (
             <Button
               className={classes.button}
-              disabled={isApproveLoading || !canApprove}
+              disabled={canDisableApprove}
               endIcon={
                 <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                   <Box component="span" display="flex">
@@ -212,14 +247,22 @@ export const Main = (): JSX.Element => {
             </Button>
           )}
 
-          <Button
-            className={classes.button}
-            disabled={isSwapLoading || canApprove}
-            isLoading={isSwapLoading}
-            onClick={handleSubmit}
-          >
-            {t('switcher.buttons.switch')}
-          </Button>
+          {canSwitchNetwork && (
+            <Button className={classes.button} onClick={handleSwitchNetwork}>
+              {t('switcher.buttons.switchNetwork')}
+            </Button>
+          )}
+
+          {!canSwitchNetwork && (
+            <Button
+              className={classes.button}
+              disabled={canDisableSwitch}
+              isLoading={isSwapLoading}
+              onClick={handleSubmit}
+            >
+              {t('switcher.buttons.switch')}
+            </Button>
+          )}
         </Box>
 
         {canShowApproveStep && <Stepper allowance={allowance} />}

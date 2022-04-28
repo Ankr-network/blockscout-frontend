@@ -7,11 +7,11 @@ import { BinanceSDK } from '../api/BinanceSDK';
 import { TBnbSyntToken } from '../types';
 
 export const addBNBTokenToWallet = createAction<
-  RequestAction<void, void>,
+  RequestAction<boolean, boolean>,
   [TBnbSyntToken?]
 >('bnb/addBNBTokenToWallet', (token = Token.aBNBb) => ({
   request: {
-    promise: (async (): Promise<void> => {
+    promise: (async (): Promise<boolean> => {
       const sdk = await BinanceSDK.getInstance();
 
       return sdk.addTokenToWallet(token);

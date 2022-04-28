@@ -21,6 +21,7 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { useStakedMaticData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/MATIC/useStakedMaticData';
 import { t, tHTML } from 'modules/i18n/utils/intl';
+import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import {
   IUnstakeFormValues,
@@ -56,6 +57,7 @@ export const UnstakePolygon = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(fetchAPY());
+    dispatchRequest(fetchValidatorsDetails());
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());

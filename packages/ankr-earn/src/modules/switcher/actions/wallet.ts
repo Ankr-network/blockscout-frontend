@@ -1,33 +1,32 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult } from 'provider';
-
-import { EthSDK, TEthToken } from 'modules/api/EthSDK';
 import { withStore } from 'modules/common/utils/withStore';
 
-export interface IAddTokenToWalletArgs {
-  swapOption: TEthToken;
+import { SwitcherSDK } from '../api/SwitcherSDK';
+import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
+
+interface IAddTokenToWalletArgs {
+  chainId: AvailableSwitchNetwork;
+  swapOption: AvailableSwitcherToken;
 }
 
 export const addSwitcherTokenToWallet = createAction<
-  RequestAction<IWeb3SendResult, IWeb3SendResult>,
+  RequestAction<boolean, boolean>,
   [IAddTokenToWalletArgs]
 >(
   'switcher/addSwitcherTokenToWallet',
-  ({ swapOption }: IAddTokenToWalletArgs) => ({
+  ({ chainId, swapOption }: IAddTokenToWalletArgs) => ({
     request: {
-      promise: async (): Promise<void> => {
-        const sdk = await EthSDK.getInstance();
-        return sdk.addTokenToWallet({
-          swapOption,
-        });
+      promise: async (): Promise<boolean> => {
+        const sdk = await SwitcherSDK.getInstance();
+
+        return sdk.addTokenToWallet({ chainId, token: swapOption });
       },
     },
     meta: {
       asMutation: false,
       showNotificationOnError: true,
-      getData: data => data,
       onRequest: withStore,
     },
   }),

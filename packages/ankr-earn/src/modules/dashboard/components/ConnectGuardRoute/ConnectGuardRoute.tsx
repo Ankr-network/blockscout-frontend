@@ -42,9 +42,9 @@ export const ConnectGuardRoute = ({
   let isConnected = false;
 
   const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
+    postProcessingFn: (providerKey): void => {
       if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = data.isConnected;
+        isConnected = true;
       }
     },
   });
@@ -68,9 +68,11 @@ export const ConnectGuardRoute = ({
         <Container>
           <Placeholder
             btnSlot={
-              <Button onClick={onOpenModal}>{t('Connect to a wallet')}</Button>
+              <Button onClick={onOpenModal}>
+                {t('dashboard.guard.connect-btn')}
+              </Button>
             }
-            title={t('Please connect your wallet to continue')}
+            title={t('dashboard.guard.title')}
           />
         </Container>
       </Box>

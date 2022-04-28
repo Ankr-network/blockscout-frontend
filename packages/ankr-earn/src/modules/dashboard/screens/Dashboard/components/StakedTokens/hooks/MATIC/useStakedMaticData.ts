@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
@@ -24,6 +24,7 @@ export interface IStakedMaticData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
+  chainId: BlockchainNetworkId;
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;
@@ -51,6 +52,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
   );
 
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
+  const chainId = ETH_NETWORK_BY_ENV;
 
   const amount = statsData?.aMaticbBalance ?? ZERO;
   const pendingValue = statsData?.pendingClaim ?? ZERO;
@@ -65,6 +67,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
   return {
     amount,
     network,
+    chainId,
     pendingValue,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(
       Token.aMATICb,

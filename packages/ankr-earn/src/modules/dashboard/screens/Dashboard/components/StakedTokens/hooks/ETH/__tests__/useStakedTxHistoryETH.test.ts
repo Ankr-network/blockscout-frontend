@@ -68,7 +68,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         amount: ONE_ETH,
         date: NOW,
         hash: 'txHash1',
-        link: 'https://testnet.ftmscan.com/tx/txHash1',
+        link: 'https://goerli.etherscan.io/tx/txHash1',
       },
     ]);
     expect(result.current.stakedAETHC).toStrictEqual([
@@ -76,7 +76,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         amount: ONE_ETH,
         date: NOW,
         hash: 'txHash1',
-        link: 'https://testnet.ftmscan.com/tx/txHash1',
+        link: 'https://goerli.etherscan.io/tx/txHash1',
       },
     ]);
   });

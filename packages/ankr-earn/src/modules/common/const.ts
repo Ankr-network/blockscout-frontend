@@ -51,6 +51,13 @@ export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
 };
 
+export const STAKE_LEGACY_LINKS = {
+  DOT: 'https://stakefi.ankr.com/liquid-staking/DOT',
+  ETH: 'https://stakefi.ankr.com/liquid-staking/ETH',
+  KSM: 'https://stakefi.ankr.com/liquid-staking/KSM',
+  WND: 'https://stakefi.ankr.com/liquid-staking/WND',
+};
+
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
@@ -58,9 +65,9 @@ export const featuresConfig = {
   isActiveAVAXStaking: true,
   isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
-  isActivePolkadotStaking: currentEnv !== Env.Production,
-  isActivePolkadotUnstaking: currentEnv !== Env.Production,
-  isActivePolkadotWallet: currentEnv !== Env.Production,
+  isActivePolkadotClaiming: currentEnv === Env.Develop,
+  isActivePolkadotUnstaking: currentEnv === Env.Develop,
+  isActivePolkadotWallet: currentEnv === Env.Develop,
   isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,
   localeSwitcher: false,
@@ -69,7 +76,10 @@ export const featuresConfig = {
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  stakeETH: currentEnv !== Env.Production,
+  switcherMatic: currentEnv !== Env.Production,
+  stakeETH: true,
+  // ! only for testing purpose
+  stakeETHWithoutClaim: currentEnv !== Env.Production,
   // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
   stakeAbnbc: true,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
@@ -77,7 +87,7 @@ export const featuresConfig = {
 };
 
 export enum SupportedChainIDS {
-  // EVM Compatible
+  // ETH Compatible
   MAINNET = BlockchainNetworkId.mainnet,
   GOERLI = BlockchainNetworkId.goerli,
   AVAX = BlockchainNetworkId.avalanche,
@@ -89,13 +99,14 @@ export enum SupportedChainIDS {
   POLYGON = BlockchainNetworkId.polygon,
 
   // Polkadot Compatible
-  KUSAMA = BlockchainNetworkId.kusama,
-  POLKADOT = BlockchainNetworkId.polkadot,
-  ROCOCO = BlockchainNetworkId.rococo,
-  WESTEND = BlockchainNetworkId.westend,
+  DOT = BlockchainNetworkId.polkadot,
+  KSM = BlockchainNetworkId.kusama,
+  ROC = BlockchainNetworkId.rococo,
+  WND = BlockchainNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
+  // ETH Compatible
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
   [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
@@ -105,6 +116,12 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
+
+  // Polkadot Compatible
+  [SupportedChainIDS.DOT]: 'https://polkadot.subscan.io',
+  [SupportedChainIDS.KSM]: 'https://kusama.subscan.io',
+  [SupportedChainIDS.ROC]: 'https://rococo.subscan.io',
+  [SupportedChainIDS.WND]: 'https://westend.subscan.io',
 };
 
 export const ETH_NETWORK_BY_ENV =

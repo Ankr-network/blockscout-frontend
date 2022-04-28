@@ -10,8 +10,10 @@ import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/hooks/useAuth';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableMatic } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMatic';
+import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import {
   fetchStats,
   IFetchStatsResponseData,
@@ -25,6 +27,7 @@ import {
 
 interface IUseStakeFormData {
   amount: ReactText;
+  apy: BigNumber;
   isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   fetchStatsData: IFetchStatsResponseData | null;
@@ -45,6 +48,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   } = useQuery({
     type: fetchStats,
   });
+  const { data: apyData } = useQuery({ type: fetchAPY });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -85,6 +89,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     amount,
+    apy: apyData ?? ZERO,
     handleFormChange,
     handleSubmit,
     isStakeLoading,

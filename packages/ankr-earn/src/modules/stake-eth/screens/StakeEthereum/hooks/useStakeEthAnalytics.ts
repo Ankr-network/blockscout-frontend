@@ -5,15 +5,15 @@ import { useCallback } from 'react';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { EthSDK, TEthToken } from 'modules/api/EthSDK';
+import { EthSDK } from 'modules/api/EthSDK';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 
+import { useTotalAmount } from './useTotalAmount';
+
 export interface IUseStakeEthAnalyticsArgs {
   amount: BigNumber;
-  willGetAmount: BigNumber;
-  tokenOut: TEthToken;
 }
 
 interface IUseStakeEthAnalytics {
@@ -22,9 +22,9 @@ interface IUseStakeEthAnalytics {
 
 export const useStakeEthAnalytics = ({
   amount,
-  willGetAmount,
-  tokenOut,
 }: IUseStakeEthAnalyticsArgs): IUseStakeEthAnalytics => {
+  const { totalAmount: willGetAmount, tokenOut } = useTotalAmount(amount);
+
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );

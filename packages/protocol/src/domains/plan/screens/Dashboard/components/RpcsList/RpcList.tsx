@@ -5,13 +5,11 @@ import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
-import { useProvider } from 'modules/auth/hooks/useProvider';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
 
 export const RpcList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
   const chains = formatChains(data);
-  const { providerData } = useProvider();
 
   return (
     <div>
@@ -35,7 +33,6 @@ export const RpcList = ({ data }: RpcsListProps) => {
             key={id}
             id={id}
             className={classes.item}
-            hasOnClick={Boolean(providerData)}
             description={
               requests ? t('chains.requests', { value: requests }) : ''
             }

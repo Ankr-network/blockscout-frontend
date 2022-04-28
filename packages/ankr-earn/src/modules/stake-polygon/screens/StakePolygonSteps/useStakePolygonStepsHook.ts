@@ -59,13 +59,15 @@ export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
     dispatchRequest(addMATICTokenToWallet(Token.aMATICb));
   };
 
+  const isPending = !receipt && !!data?.isPending;
+
   return {
     amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: Token.aMATICb,
     isLoading,
-    isPending: !receipt,
+    isPending,
     error: error || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };

@@ -3,8 +3,12 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 
 import { useTransactionStepHook } from '../useTransactionStepHook';
 
@@ -15,6 +19,10 @@ jest.mock('react-router', () => ({
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
   useQuery: jest.fn(),
+}));
+
+jest.mock('modules/auth/hooks/useAuth', () => ({
+  useAuth: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -32,14 +40,19 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
 describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   beforeEach(() => {
     (useParams as jest.Mock).mockImplementation(() => ({
-      swapOption: 'aETHc',
+      from: Token.aETHc,
+      to: Token.aETHb,
       txHash: 'hash',
     }));
 
     (useConnectedData as jest.Mock).mockImplementation(() => ({
-      chainId: 1,
+      chainId: BlockchainNetworkId.mainnet,
       address: 'address',
     }));
+
+    (useAuth as jest.Mock).mockReturnValue({
+      chainId: BlockchainNetworkId.mainnet,
+    });
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());
 

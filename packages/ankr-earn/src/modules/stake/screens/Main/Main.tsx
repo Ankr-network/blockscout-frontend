@@ -1,10 +1,16 @@
 import { Box } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
+import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
+import {
+  fetchValidatorsDetails,
+  IValidatorDetails,
+} from 'modules/metrics/actions/fetchValidatorsDetails';
+import { ValidatorName } from 'modules/metrics/const';
 import { fetchAPY as getAAVAXBAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchAPY as getABNBBAPY } from 'modules/stake-bnb/actions/fetchAPY';
@@ -28,6 +34,15 @@ import { FeatureItem } from './components/FeatureItem';
 import { FeatureLegacyItem } from './components/FeatureLegacyItem';
 import { Features } from './components/Features';
 
+type ValidatorDetails = Record<
+  | ValidatorName.AVAX_VALIDATOR_NAME
+  | ValidatorName.BNB_VALIDATOR_NAME
+  | ValidatorName.ETH_VALIDATOR_NAME
+  | ValidatorName.FTM_VALIDATOR_NAME
+  | ValidatorName.POLYGON_VALIDATOR_NAME,
+  IValidatorDetails
+>;
+
 export const Main = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
@@ -37,6 +52,7 @@ export const Main = (): JSX.Element => {
     dispatchRequest(getABNBBAPY());
     dispatchRequest(getAFTMBAPY());
     dispatchRequest(getAMATICBAPY());
+    dispatchRequest(fetchValidatorsDetails());
   }, [dispatchRequest]);
 
   const { data: aAVAXbAPY } = useQuery({ type: getAAVAXBAPY });
@@ -44,6 +60,17 @@ export const Main = (): JSX.Element => {
   const { data: aFTMbAPY } = useQuery({ type: getAFTMBAPY });
   const { data: aMATICbAPY } = useQuery({ type: getAMATICBAPY });
   const { data: ethAPY } = useQuery({ type: getETHAPY });
+
+  const { data: validatorsData } = useQuery({ type: fetchValidatorsDetails });
+
+  const validatorsDetails: ValidatorDetails | undefined = useMemo(
+    () =>
+      validatorsData?.reduce(
+        (obj, item) => ({ ...obj, [item.name]: item }),
+        {} as ValidatorDetails,
+      ),
+    [validatorsData],
+  );
 
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
@@ -54,14 +81,24 @@ export const Main = (): JSX.Element => {
               apy={ethAPY ?? undefined}
               iconSlot={<EthIcon />}
               mainHref={EthereumRoutes.stake.generatePath()}
+              stakedTvl={validatorsDetails?.eth.totalStaked}
               title={t('features.ethereum')}
               token={Token.ETH}
             />
           ) : (
             <FeatureLegacyItem
               iconSlot={<EthIcon />}
-              mainHref="https://stakefi.ankr.com/liquid-staking/ETH"
+              mainHref={STAKE_LEGACY_LINKS.ETH}
               title={t('features.ethereum')}
+            />
+          )}
+
+          {featuresConfig.stakeETHWithoutClaim && (
+            <FeatureItem
+              iconSlot={<EthIcon />}
+              mainHref={EthereumRoutes.stakeWithoutClaim.generatePath()}
+              title="ETH (testing only)"
+              token={Token.ETH}
             />
           )}
 
@@ -69,6 +106,7 @@ export const Main = (): JSX.Element => {
             apy={aMATICbAPY?.toNumber()}
             iconSlot={<MaticIcon />}
             mainHref={PolygonRoutes.stake.generatePath()}
+            stakedTvl={validatorsDetails?.polygon.totalStaked}
             title={t('features.polygon')}
             token={Token.MATIC}
           />
@@ -77,6 +115,7 @@ export const Main = (): JSX.Element => {
             apy={aBNBbAPY?.toNumber()}
             iconSlot={<BNBIcon />}
             mainHref={BinanceRoutes.stake.generatePath()}
+            stakedTvl={validatorsDetails?.bnb.totalStaked}
             title={t('features.binance')}
             token={Token.BNB}
           />
@@ -85,6 +124,7 @@ export const Main = (): JSX.Element => {
             apy={aFTMbAPY?.toNumber()}
             iconSlot={<FantomIcon />}
             mainHref={FantomRoutes.stake.generatePath()}
+            stakedTvl={validatorsDetails?.ftm.totalStaked}
             title={t('features.fantom')}
             token={Token.FTM}
           />
@@ -94,6 +134,7 @@ export const Main = (): JSX.Element => {
               apy={aAVAXbAPY?.toNumber()}
               iconSlot={<AvaxIcon />}
               mainHref={AvalancheRoutes.stake.generatePath()}
+              stakedTvl={validatorsDetails?.avax.totalStaked}
               title={t('features.avalanche')}
               token={Token.AVAX}
             />
@@ -101,13 +142,13 @@ export const Main = (): JSX.Element => {
 
           <FeatureLegacyItem
             iconSlot={<DotIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/DOT"
+            mainHref={STAKE_LEGACY_LINKS.DOT}
             title={t('features.polkadot')}
           />
 
           <FeatureLegacyItem
             iconSlot={<KsmIcon />}
-            mainHref="https://stakefi.ankr.com/liquid-staking/KSM"
+            mainHref={STAKE_LEGACY_LINKS.KSM}
             title={t('features.ksm')}
           />
         </Features>

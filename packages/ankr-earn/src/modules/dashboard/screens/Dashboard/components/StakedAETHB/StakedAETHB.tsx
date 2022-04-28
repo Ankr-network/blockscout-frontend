@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
@@ -21,6 +23,7 @@ export const StakedAETHB = (): JSX.Element => {
   const {
     amount,
     network,
+    chainId,
     tradeLink,
     stakeLink,
     isStakeLoading,
@@ -75,6 +78,7 @@ export const StakedAETHB = (): JSX.Element => {
     <>
       <StakingAsset
         amount={amount}
+        chainId={chainId}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         network={network}
@@ -83,6 +87,7 @@ export const StakedAETHB = (): JSX.Element => {
         token={Token.aETHb}
         tokenAddress={contractConfig.fethContract}
         tradeLink={tradeLink}
+        unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={

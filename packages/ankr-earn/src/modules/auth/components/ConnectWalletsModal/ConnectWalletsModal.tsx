@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
@@ -11,11 +12,13 @@ import {
   Web3KeyReadProvider,
 } from 'provider';
 
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { featuresConfig } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { connect, IConnect } from '../../actions/connect';
 
@@ -27,6 +30,12 @@ import { ReactComponent as PolkadotIcon } from './assets/polkadot-icon.svg';
 import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
 import { ReactComponent as WalletConnectIcon } from './assets/wallet-connect-icon.svg';
 import { useConnectWalletsModalStyles } from './useConnectWalletsModalStyles';
+
+type THref = string;
+type TIsDisabled = boolean;
+type TIsInjected = boolean;
+type TProviderId = AvailableWriteProviders;
+type TWalletId = EWalletId | string;
 
 type TWallets = IWalletItem[][];
 
@@ -44,66 +53,88 @@ interface IConnectData {
 }
 
 interface IWalletItem {
+  href: THref;
   icon: JSX.Element;
-  isInjected: boolean;
-  href: string;
-  providerId: AvailableWriteProviders;
+  isDisabled: TIsDisabled;
+  isInjected: TIsInjected;
+  providerId: TProviderId;
   title: string;
-  walletId: EWalletId | string;
+  tooltip: string | undefined;
+  walletId: TWalletId;
+}
+
+interface IOnWalletItemClickArgs {
+  href: THref;
+  isDisabled: TIsDisabled;
+  isInjected: TIsInjected;
+  providerId: TProviderId;
+  walletId: TWalletId;
 }
 
 const ETH_COMPATIBLE_WALLETS: TWallets = [
   [
     {
+      href: 'https://metamask.io/download/',
       icon: <MetaMaskIcon />,
+      isDisabled: false,
       get isInjected() {
         return Web3KeyReadProvider.isInjected();
       },
-      href: 'https://metamask.io/download/',
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'MetaMask',
+      tooltip: undefined,
       walletId: EWalletId.injected,
     },
     {
-      icon: <WalletConnectIcon />,
-      isInjected: true,
       href: '',
+      icon: <WalletConnectIcon />,
+      isDisabled: false,
+      isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'WalletConnect',
+      tooltip: undefined,
       walletId: EWalletId.walletconnect,
     },
     {
-      icon: <ImTokenWalletIcon />,
-      isInjected: true,
       href: '',
+      icon: <ImTokenWalletIcon />,
+      isDisabled: false,
+      isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'imToken',
+      tooltip: undefined,
       walletId: EWalletId.imtoken,
     },
   ],
   [
     {
-      icon: <MathWalletIcon />,
-      isInjected: true,
       href: '',
+      icon: <MathWalletIcon />,
+      isDisabled: false,
+      isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Math Wallet',
+      tooltip: undefined,
       walletId: EWalletId.math,
     },
     {
-      icon: <TrustWalletIcon />,
-      isInjected: true,
       href: '',
+      icon: <TrustWalletIcon />,
+      isDisabled: false,
+      isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Trust Wallet',
+      tooltip: undefined,
       walletId: EWalletId.trust,
     },
     {
-      icon: <HuobiWalletIcon />,
-      isInjected: true,
       href: '',
+      icon: <HuobiWalletIcon />,
+      isDisabled: false,
+      isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Huobi Wallet',
+      tooltip: undefined,
       walletId: EWalletId.huobi,
     },
   ],
@@ -112,13 +143,22 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
 const POLKADOT_COMPATIBLE_WALLETS: TWallets = [
   [
     {
+      href: 'https://polkadot.js.org/extension/',
       icon: <PolkadotIcon />,
+      get isDisabled() {
+        const providerManager = ProviderManagerSingleton.getInstance();
+        const ethProvider = providerManager.getWriteProviderById(
+          AvailableWriteProviders.ethCompatible,
+        );
+
+        return !ethProvider?.isConnected();
+      },
       get isInjected() {
         return PolkadotProvider.isInjected();
       },
-      href: 'https://polkadot.js.org/extension/',
       providerId: AvailableWriteProviders.polkadotCompatible,
       title: DEFAULT_WALLET_NAME,
+      tooltip: 'wallets.tooltips.polkadot',
       walletId: 'polkadot',
     },
   ],
@@ -172,16 +212,21 @@ export const ConnectWalletsModal = ({
   }, [walletsGroupTypes]);
 
   const onWalletItemClick =
-    (
-      isInjected: boolean,
-      href: string,
-      providerId: AvailableWriteProviders,
-      walletId: EWalletId | string,
-    ) =>
+    ({
+      href,
+      isDisabled,
+      isInjected,
+      providerId,
+      walletId,
+    }: IOnWalletItemClickArgs) =>
     async (): Promise<void> => {
       if (!isInjected) {
         window.open(href, '_blank', 'noopener, noreferrer');
 
+        return;
+      }
+
+      if (isDisabled) {
         return;
       }
 
@@ -219,13 +264,15 @@ export const ConnectWalletsModal = ({
             {availableWallets.map(
               (walletsGroup): JSX.Element => (
                 <Grid key={uid(walletsGroup)} container item xs direction="row">
-                  {walletsGroup.map((walletItem): JSX.Element => {
+                  {walletsGroup.map((walletItem: IWalletItem): JSX.Element => {
                     const {
-                      icon,
-                      isInjected,
                       href,
+                      icon,
+                      isDisabled,
+                      isInjected,
                       providerId,
                       title,
+                      tooltip,
                       walletId,
                     } = walletItem;
 
@@ -234,31 +281,48 @@ export const ConnectWalletsModal = ({
                         key={uid(walletItem)}
                         item
                         xs
-                        className={classes.walletItem}
-                        onClick={onWalletItemClick(
-                          isInjected,
+                        className={classNames(
+                          classes.walletItem,
+                          isDisabled && classes.walletItemDisabled,
+                          isDisabled &&
+                            isInjected &&
+                            classes.walletItemDisabledCursor,
+                        )}
+                        onClick={onWalletItemClick({
                           href,
+                          isDisabled,
+                          isInjected,
                           providerId,
                           walletId,
-                        )}
+                        })}
                       >
-                        {icon}
-
-                        <Typography
-                          className={classes.walletItemTitle}
-                          variant="h5"
+                        <Tooltip
+                          arrow
+                          title={isDisabled && tooltip ? t(tooltip) : ''}
                         >
-                          {title}
-                        </Typography>
-
-                        {!isInjected && (
-                          <Typography
-                            className={classes.walletItemInstall}
-                            variant="subtitle2"
+                          <Box
+                            className={classes.walletItemBody}
+                            component="div"
                           >
-                            {t('wallets.wallet-install')}
-                          </Typography>
-                        )}
+                            {icon}
+
+                            <Typography
+                              className={classes.walletItemTitle}
+                              variant="h5"
+                            >
+                              {title}
+                            </Typography>
+
+                            {!isInjected && (
+                              <Typography
+                                className={classes.walletItemInstall}
+                                variant="subtitle2"
+                              >
+                                {t('wallets.wallet-install')}
+                              </Typography>
+                            )}
+                          </Box>
+                        </Tooltip>
                       </Grid>
                     );
                   })}

@@ -11,10 +11,18 @@ import {
   IUseStakeEthAnalyticsArgs,
   useStakeEthAnalytics,
 } from '../useStakeEthAnalytics';
+import { useTotalAmount } from '../useTotalAmount';
 
 jest.mock('modules/auth/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
+
+jest.mock(
+  'modules/stake-eth/screens/StakeEthereum/hooks/useTotalAmount',
+  () => ({
+    useTotalAmount: jest.fn(),
+  }),
+);
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -43,8 +51,6 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
   const defaultHookProps: IUseStakeEthAnalyticsArgs = {
     amount: new BigNumber(1),
-    willGetAmount: new BigNumber(1),
-    tokenOut: Token.aETHb,
   };
 
   const defaultQueryCommonData = {
@@ -52,6 +58,12 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
     data: {
       ethBalance: new BigNumber(1),
     },
+  };
+
+  const defaultTotalAmountData = {
+    isFeeLoading: false,
+    tokenOut: Token.aETHb,
+    totalAmount: new BigNumber(3),
   };
 
   const defaultAuthData = {
@@ -62,6 +74,7 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
   beforeEach(() => {
     (trackStake as jest.Mock).mockReturnValue(undefined);
     (useAuth as jest.Mock).mockReturnValue(defaultAuthData);
+    (useTotalAmount as jest.Mock).mockReturnValue(defaultTotalAmountData);
     (useQuery as jest.Mock).mockReturnValue(defaultQueryCommonData);
   });
 
@@ -88,22 +101,21 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
       address: defaultAuthData.address,
       walletType: defaultAuthData.walletName,
       amount: defaultHookProps.amount,
-      willGetAmount: defaultHookProps.willGetAmount,
+      willGetAmount: defaultTotalAmountData.totalAmount,
       tokenIn: Token.ETH,
-      tokenOut: defaultHookProps.tokenOut,
+      tokenOut: defaultTotalAmountData.tokenOut,
       prevStakedAmount: defaultQueryCommonData.data.ethBalance,
       synthBalance: new BigNumber(2),
     });
   });
 
   test('should send stake aETHc analytics', async () => {
-    const hookProps: IUseStakeEthAnalyticsArgs = {
-      amount: new BigNumber(1),
-      willGetAmount: new BigNumber(3),
+    (useTotalAmount as jest.Mock).mockReturnValue({
+      ...defaultTotalAmountData,
       tokenOut: Token.aETHc,
-    };
+    });
 
-    const { result } = renderHook(() => useStakeEthAnalytics(hookProps));
+    const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
 
     (EthSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
 
@@ -116,10 +128,10 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
     expect(trackStake).toBeCalledWith({
       address: defaultAuthData.address,
       walletType: defaultAuthData.walletName,
-      amount: hookProps.amount,
-      willGetAmount: hookProps.willGetAmount,
+      amount: defaultHookProps.amount,
+      willGetAmount: defaultTotalAmountData.totalAmount,
       tokenIn: Token.ETH,
-      tokenOut: hookProps.tokenOut,
+      tokenOut: Token.aETHc,
       prevStakedAmount: defaultQueryCommonData.data.ethBalance,
       synthBalance: new BigNumber(3),
     });

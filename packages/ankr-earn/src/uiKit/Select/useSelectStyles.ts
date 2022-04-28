@@ -60,7 +60,7 @@ export const useSelectStyles = makeStyles<Theme>(theme => ({
   item: {
     fontSize: 'inherit',
     padding: theme.spacing(2, 2.5),
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
 
     '&:active': {
       transform: 'translateY(0)',

@@ -84,37 +84,8 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     margin: theme.spacing(0, 0, 2),
 
     [theme.breakpoints.up('md')]: {
-      gridTemplateColumns: '1fr auto 1fr',
+      gridTemplateColumns: '1fr',
     },
-  },
-
-  swapBtn: {
-    cursor: 'pointer',
-    fontSize: 36,
-    transform: 'rotate(90deg)',
-
-    [theme.breakpoints.up('md')]: {
-      gridTemplateColumns: '1fr auto 1fr',
-      transform: 'none',
-    },
-
-    '&:active': {
-      transform: 'rotate(90deg)',
-
-      [theme.breakpoints.up('md')]: {
-        transform: 'translateY(1px)',
-      },
-    },
-
-    '&:hover rect': {
-      fill: theme.palette.background.default,
-    },
-  },
-
-  swapIcon: {
-    width: '1em',
-    height: '1em',
-    fontSize: 'inherit',
   },
 
   submitBtn: {

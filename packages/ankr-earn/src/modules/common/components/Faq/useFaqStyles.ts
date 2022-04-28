@@ -25,10 +25,10 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
 
   answer: {
     '& a': {
-      color: theme.palette.text.secondary,
+      color: theme.palette.primary.main,
 
       '&:hover': {
-        color: theme.palette.primary.main,
+        textDecoration: 'underline',
       },
     },
 

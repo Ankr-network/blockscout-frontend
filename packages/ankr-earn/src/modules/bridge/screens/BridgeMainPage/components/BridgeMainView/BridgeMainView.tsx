@@ -1,4 +1,4 @@
-import { Box, ButtonBase, TextField, Typography } from '@material-ui/core';
+import { Box, TextField, Typography } from '@material-ui/core';
 import { FormApi } from 'final-form';
 import { ReactText, useCallback } from 'react';
 import {
@@ -12,11 +12,12 @@ import { useIsMDUp } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
 import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
-import { BridgeBlockchainPanel } from 'modules/bridge/components/BridgeBlockchainPanel';
-import { Quote } from 'modules/bridge/components/Quote';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
-import { AvailableBridgeTokens } from 'modules/bridge/types';
+import {
+  AvailableBridgeTokens,
+  IBridgeBlockchainPanelItem,
+} from 'modules/bridge/types';
 import { featuresConfig } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
@@ -24,10 +25,11 @@ import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { SwapIcon } from 'uiKit/Icons/SwapIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
+import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
+import { SwitchSelect } from 'uiKit/SwitchSelect';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useBridgeMainView } from './useBridgeMainView';
@@ -84,6 +86,16 @@ export const BridgeMainView = (): JSX.Element => {
   const isDisabledForm = isApproved || isApproveButtonLoading;
   const isSwitchNetworkShowed = isConnected && !isActualNetwork && isMetaMask;
   const isBalanceShowed = isConnected && isActualNetwork;
+
+  const handleChangeFrom = useCallback(
+    value => onChangeNetwork({ value } as IBridgeBlockchainPanelItem, 'from'),
+    [onChangeNetwork],
+  );
+
+  const handleChangeTo = useCallback(
+    value => onChangeNetwork({ value } as IBridgeBlockchainPanelItem, 'to'),
+    [onChangeNetwork],
+  );
 
   const renderedSelect = (
     <Field defaultValue={AvailableBridgeTokens.aMATICb} name={EFieldName.token}>
@@ -171,26 +183,16 @@ export const BridgeMainView = (): JSX.Element => {
         )}
 
         <Box className={classes.swapFields}>
-          <BridgeBlockchainPanel
-            direction="from"
-            items={networksOptionsFrom}
-            value={swapNetworkItem.from}
-            onClick={item => onChangeNetwork(item, 'from')}
-          />
-
-          <ButtonBase
-            className={classes.swapBtn}
-            disabled={isDisabledForm}
-            onClick={onSwapClick}
-          >
-            <SwapIcon className={classes.swapIcon} />
-          </ButtonBase>
-
-          <BridgeBlockchainPanel
-            direction="to"
-            items={networksOptionsTo}
-            value={swapNetworkItem.to}
-            onClick={item => onChangeNetwork(item, 'to')}
+          <SwitchSelect
+            from={networksOptionsFrom}
+            to={networksOptionsTo}
+            values={{
+              from: swapNetworkItem.from.toString(),
+              to: swapNetworkItem.to.toString(),
+            }}
+            onChangeFrom={handleChangeFrom}
+            onChangeSwitch={onSwapClick}
+            onChangeTo={handleChangeTo}
           />
         </Box>
 

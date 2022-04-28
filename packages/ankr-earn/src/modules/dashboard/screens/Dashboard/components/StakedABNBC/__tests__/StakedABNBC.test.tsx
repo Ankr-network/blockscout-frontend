@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -34,6 +36,7 @@ jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   const defaultStakedBNBHookData: IStakedABNBCData = {
     amount: new BigNumber(1),
+    chainId: BlockchainNetworkId.smartchainTestnet,
     network: 'BSC',
     stakeLink: 'stake',
     isLoading: false,

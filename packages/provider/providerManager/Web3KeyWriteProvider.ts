@@ -94,14 +94,15 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       nonce?: number;
     },
   ): Promise<IWeb3SendResult> {
-    const gasPrice = await this.getWeb3().eth.getGasPrice();
+    const web3 = this.getWeb3();
+    const gasPrice = await web3.eth.getGasPrice();
 
     console.log(`Gas Price: ${gasPrice}`);
 
     let { nonce } = sendOptions;
 
     if (!nonce) {
-      nonce = await this.getWeb3().eth.getTransactionCount(from);
+      nonce = await web3.eth.getTransactionCount(from);
     }
 
     console.log(`Nonce: ${nonce}`);
@@ -114,21 +115,23 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       gasPrice,
       data: sendOptions.data,
       nonce,
-      chainId: this.currentChain,
+      chainId: numberToHex(this.currentChain) as unknown as number,
     };
+
+    if (sendOptions.estimate) {
+      await web3.eth.estimateGas(tx);
+    }
 
     console.log('Sending transaction via Web3: ', tx);
 
     return new Promise((resolve, reject) => {
-      const promise = this.getWeb3().eth.sendTransaction(tx);
+      const promise = web3.eth.sendTransaction(tx);
 
       promise
         .once('transactionHash', async (transactionHash: string) => {
           console.log(`Just signed transaction has is: ${transactionHash}`);
 
-          const rawTx = await this.getWeb3().eth.getTransaction(
-            transactionHash,
-          );
+          const rawTx = await web3.eth.getTransaction(transactionHash);
 
           console.log(
             `Found transaction in node: `,

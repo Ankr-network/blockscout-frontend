@@ -1,6 +1,8 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { BlockchainNetworkId } from 'provider';
+
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
@@ -13,6 +15,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 export interface IStakedMaticData {
   amount: BigNumber;
+  chainId: BlockchainNetworkId;
   network: string;
   isBalancesLoading: boolean;
   isShowed: boolean;
@@ -28,6 +31,8 @@ export const useStakedBridgeBSCMaticData = (): IStakedMaticData => {
 
   const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
   const amount = statsData ?? ZERO;
+
+  const chainId = BSC_NETWORK_BY_ENV;
 
   const isShowed = !amount.isZero() || isBalancesLoading;
 
@@ -46,5 +51,6 @@ export const useStakedBridgeBSCMaticData = (): IStakedMaticData => {
     isBalancesLoading,
     isShowed,
     onAddTokenClick,
+    chainId,
   };
 };
