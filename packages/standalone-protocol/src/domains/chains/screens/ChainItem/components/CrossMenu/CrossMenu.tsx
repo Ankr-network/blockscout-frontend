@@ -41,7 +41,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         chainId: ChainId.Ethereum,
         name: 'Ethereum',
         logo: <EthereumLogo />,
-        url: 'http://ethereum.public-rpc.com/',
+        url: 'http://eth.public-rpc.com/',
       },
       {
         chainId: ChainId.Solana,
