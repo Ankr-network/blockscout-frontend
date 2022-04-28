@@ -9,9 +9,10 @@ on:
         required: true
         options:
           - ankr-global-menu
+          - provider
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,8 +42,9 @@ jobs:
       - name: Publish
         working-directory: ./packages/${{ github.event.inputs.package }}/
         run: |
+          npm config set access public
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
-          yarn build
-          yarn publish
+          npm run build
+          npm publish

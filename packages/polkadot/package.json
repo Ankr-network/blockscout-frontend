@@ -1,12 +1,14 @@
 {
   "name": "polkadot",
-  "version": "1.6.3",
-  "private": true,
-  "license": "UNLICENSED",
+  "version": "1.5.13",
+  "license": "MIT",
+  "main": "./index.ts",
   "scripts": {
     "copy-assets": "copyfiles src/assets/**/* out",
     "format": "lint-staged",
-    "test": "tsc && npm run copy-assets && jest"
+    "test": "tsc && npm run copy-assets && jest",
+    "build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build",
+    "clean": "rimraf build output"
   },
   "dependencies": {
     "@polkadot/api": "^6.12.1",

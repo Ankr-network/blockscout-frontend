@@ -4,10 +4,9 @@ import babel from '@rollup/plugin-babel';
 import external from 'rollup-plugin-node-externals';
 import json from '@rollup/plugin-json';
 import svg from 'rollup-plugin-svg';
-import copy from 'rollup-plugin-copy-assets';
 
 export default {
-  input: 'src/index.ts',
+  input: './index.ts',
   output: [
     {
       file: 'build/index.js',
@@ -18,13 +17,10 @@ export default {
   context: 'window',
   plugins: [
     external({
-      exclude: ['common', 'ui'],
+      exclude: ['common', 'ui', 'polkadot'],
     }),
     resolve({
       extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
-      module: true,
-      jsnext: true,
-      main: true,
       preferBuiltins: false,
     }),
     babel({
@@ -36,9 +32,6 @@ export default {
       include: /node_modules/,
     }),
     json(),
-    svg(),
-    copy({
-      assets: ['src/assets/fonts'],
-    }),
+    svg({ base64: true }),
   ],
 };

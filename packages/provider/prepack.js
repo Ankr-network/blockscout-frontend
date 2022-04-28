@@ -9,6 +9,7 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
 
 const changedPackageJson = {
   ...packageJson,
+  name: '@ankr.com/provider',
   main: './build/index.js',
   types: './build/index.d.ts',
 };
