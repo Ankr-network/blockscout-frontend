@@ -8,7 +8,6 @@ import {
   ExclusiveRPCEndpoints,
   ExclusiveRPCEndpointsSkeleton,
 } from './ExclusiveRPCEndpoints';
-import { PublicHeader } from './PublicHeader';
 import { PublicRPCEndpoints } from './PublicRPCEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
@@ -38,13 +37,11 @@ export const ChainItemHeader = ({
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
-  const { name, urls } = chain;
+  const { name } = chain;
 
   const exclusivePart = hasCredentials ? (
     <ExclusiveRPCEndpoints chainId={chainId} />
-  ) : (
-    <PublicHeader isPlural={urls.length > 1} />
-  );
+  ) : null;
 
   return (
     <div className={classNames(classes.root, className)}>

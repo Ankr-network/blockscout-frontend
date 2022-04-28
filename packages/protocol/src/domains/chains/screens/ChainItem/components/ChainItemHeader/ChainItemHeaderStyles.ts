@@ -10,10 +10,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.background.default}`,
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginBottom: theme.spacing(2),
   },
   left: {
     display: 'flex',

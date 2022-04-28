@@ -151,13 +151,21 @@
     "header": {
       "mainnet-tab-title": "Mainnet",
       "testnet-tab-title": "Testnet",
-      "public-endpoints": "Public RPC Endpoint{plural}",
-      "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
-      "private-endpoints": "Premium Endpoint{plural}",
+      "endpoints-title": "Provider URLs",
+      "private-endpoints-tooltip": "Use Provider URL as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
+      "public-endpoints-tooltip": "Use Provider URL as your main API endpoint for development.",
       "plural": "s",
-      "tooltipText": "Reach a Premium Endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
-      "button": "Unlock Premium Features",
-      "settings-button": "Settings"
+      "settings-button": "Settings",
+      "endpoint-groups": {
+        "standard-evm-api": "Standard EVM API{plural}",
+        "c-chain": "C-Chain{plural}",
+        "p-chain": "P-Chain{plural}",
+        "x-chain": "X-Chain{plural}",
+        "etherium-endpoint": "Ethereum Endpoint{plural}",
+        "nervos-evm": "Standard EVM and Polyjuice API{plural}",
+        "nervos-gw": "Godwoken API{plural}",
+        "solana-api": "Solana API{plural}"
+      }
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
@@ -324,7 +332,6 @@
   },
   "common": {
     "copy-message": "Copied!",
-    "copy-text": "Public Link",
     "empty": "Empty...",
     "copy": "Copy"
   },
@@ -379,7 +386,7 @@
       }
     },
     "private-endpoints": {
-      "title": "Premium Endpoint{plural}",
+      "title": "Premium Nodes",
       "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "plural": "s"
     },
@@ -388,7 +395,7 @@
       "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
     },
     "community-endpoints": {
-      "title": "Community Endpoints"
+      "title": "Community Nodes"
     },
     "editable-endpoints": {
       "edit": "Edit",

@@ -7,12 +7,13 @@ export const ExclusiveRPCEndpointsSkeleton = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.skeleton}>
-      <Skeleton variant="rect" width={150} height={20} />
-      <div className={classes.details}>
-        <Skeleton variant="rect" height={42} className={classes.btnUnlock} />
-        <Skeleton variant="rect" height={42} className={classes.btnUnlock} />
+    <>
+      <Skeleton className={classes.mainTitle} variant="rect" />
+      <Skeleton className={classes.groupTitle} variant="rect" />
+      <div className={classes.endpoints}>
+        <Skeleton className={classes.endpoint} variant="rect" />
+        <Skeleton className={classes.endpoint} variant="rect" />
       </div>
-    </div>
+    </>
   );
 };
