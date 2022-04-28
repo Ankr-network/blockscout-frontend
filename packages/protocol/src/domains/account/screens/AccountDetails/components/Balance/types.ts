@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { AccountStatus } from 'modules/account/types';
+
+import { AccountStatus } from 'domains/account/types';
 
 export type BalanceData = {
   ankrBalance: BigNumber;

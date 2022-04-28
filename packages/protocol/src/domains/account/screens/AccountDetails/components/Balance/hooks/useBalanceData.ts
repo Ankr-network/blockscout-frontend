@@ -1,10 +1,9 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountStatus } from 'modules/account/types';
+import { AccountStatus } from 'domains/account/types';
 import { BalanceData, EnoughTimePeriod, ServiceType } from '../types';
 import { useAuth } from './useAuth';
-import { useAnkrBalance } from './useAnkrBalance';
-import { useUsdBalance } from './useUsdBalance';
+import { useBalances } from './useBalances';
 
 const mockedData: BalanceData = {
   ankrBalance: new BigNumber(44612.23),
@@ -20,18 +19,12 @@ const mockedData: BalanceData = {
 export const useBalanceData = (): BalanceData => {
   const { isConnected, isConnecting, premiumUntil } = useAuth();
 
-  const { balance: ankrBalance, isLoading: isAnkrBalanceLoading } =
-    useAnkrBalance(isConnected);
-
-  const { balance: usdBalance, isLoading: isUsdBalanceLoading } = useUsdBalance(
-    isConnected,
-    ankrBalance,
-  );
+  const { ankrBalance, usdBalance, isLoading } = useBalances(isConnected);
 
   return {
     ...mockedData,
     ankrBalance,
-    isLoading: isConnecting || isAnkrBalanceLoading || isUsdBalanceLoading,
+    isLoading: isConnecting || isLoading,
     premiumUntil,
     usdBalance,
   };

@@ -6,7 +6,7 @@ import { throwIfError } from 'common';
 import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { retry } from 'modules/api/utils/retry';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
-import { fetchBalance } from 'modules/account/actions/fetchBalance';
+import { fetchBalances } from '../balance/fetchBalances';
 import { selectAccount } from 'domains/account/store/accountSlice';
 import { t } from 'modules/i18n/utils/intl';
 // eslint-disable-next-line import/no-cycle
@@ -63,7 +63,7 @@ export const waitTransactionConfirming = createSmartAction<
       _action: RequestAction,
       store: RequestsStore,
     ) => {
-      store.dispatchRequest(fetchBalance());
+      store.dispatchRequest(fetchBalances());
 
       const { data: hasCredentials } = await store.dispatchRequest(
         redirectIfCredentials(),

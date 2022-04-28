@@ -26,7 +26,10 @@ export interface IPaymentHistoryReponse {
 }
 
 export interface IBalance {
+  // credit balance
   balance: string;
+  balance_ankr: string;
+  balance_usd: string;
 }
 
 export interface IRequestsEntity {

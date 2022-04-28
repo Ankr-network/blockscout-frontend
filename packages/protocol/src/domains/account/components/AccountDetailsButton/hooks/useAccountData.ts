@@ -4,8 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
-import { AccountStatus } from 'modules/account/types';
-import { fetchBalance } from 'modules/account/actions/fetchBalance';
+import { AccountStatus } from 'domains/account/types';
+import { Balances } from 'domains/account/actions/balance/types';
+import { defaultBalances } from 'domains/account/actions/balance/const';
+import { fetchBalances } from 'domains/account/actions/balance/fetchBalances';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export interface AccountData {
@@ -16,7 +18,7 @@ export interface AccountData {
 }
 
 const mockedData: AccountData = {
-  balance: new BigNumber(0),
+  balance: defaultBalances.ankrBalance,
   status: AccountStatus.GREEN,
 };
 
@@ -25,24 +27,24 @@ export const useAccountData = (): AccountData => {
   const isConnected = !!address;
 
   const {
-    data: nullableBalance,
+    data: { ankrBalance: balance },
     loading,
     pristine,
-  } = useQuery<BigNumber>({
-    type: fetchBalance.toString(),
+  } = useQuery<Balances>({
+    defaultData: defaultBalances,
+    type: fetchBalances.toString(),
   });
-  const balance = nullableBalance || new BigNumber(0);
   const isLoading = pristine && loading;
 
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
   useEffect(() => {
     if (isConnected) {
-      dispatchRequest(fetchBalance());
+      dispatchRequest(fetchBalances());
     }
 
     return () => {
-      dispatch(stopPolling([fetchBalance.toString()]));
+      dispatch(stopPolling([fetchBalances.toString()]));
     };
   }, [dispatch, dispatchRequest, isConnected]);
 

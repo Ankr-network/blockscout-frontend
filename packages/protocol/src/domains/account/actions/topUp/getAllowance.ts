@@ -6,7 +6,7 @@ import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { MultiService } from 'modules/api/MultiService';
 import { setAllowanceTransaction } from 'domains/account/store/accountSlice';
-import { fetchBalance } from 'modules/account/actions/fetchBalance';
+import { fetchBalances } from '../balance/fetchBalances';
 
 const setTransaction = (
   store: RequestsStore,
@@ -45,7 +45,7 @@ export const getAllowance = createSmartAction<
       _action: RequestAction,
       store: RequestsStore,
     ) => {
-      store.dispatchRequest(fetchBalance());
+      store.dispatchRequest(fetchBalances());
 
       return response;
     },
