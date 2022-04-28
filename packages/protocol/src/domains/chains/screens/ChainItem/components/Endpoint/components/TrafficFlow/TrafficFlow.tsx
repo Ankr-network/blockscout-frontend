@@ -6,11 +6,9 @@ import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './TrafficFlowStyle';
 
 const flow = [
-  t('providers.user-endpoints.title'),
-  t('providers.private-endpoints.title', {
-    plural: t('providers.private-endpoints.plural'),
-  }),
-  t('providers.community-endpoints.title'),
+  t('providers.traffic-flow.items.item-1'),
+  t('providers.traffic-flow.items.item-2'),
+  t('providers.traffic-flow.items.item-3'),
 ];
 
 export const TrafficFlow = () => {

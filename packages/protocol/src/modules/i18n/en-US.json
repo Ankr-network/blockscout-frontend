@@ -334,6 +334,11 @@
     },
     "traffic-flow": {
       "title": "Your traffic flow",
+      "items": {
+        "item-1": "My Endpoints",
+        "item-2": "Premium Nodes",
+        "item-3": "Community Nodes"
+      },
       "learn-more-button": {
         "title": "Learn More"
       }

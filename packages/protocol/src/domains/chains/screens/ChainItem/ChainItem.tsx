@@ -16,6 +16,7 @@ import { SecuritySettingsQuery } from './components/Endpoint/SecuritySettingsQue
 import { useProvider } from 'modules/auth/hooks/useProvider';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { useQuery } from '@redux-requests/react';
+import { TrafficFlow } from './components/Endpoint/components/TrafficFlow';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -62,6 +63,8 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
       {!credentials && !authLoading && (
         <ChainBanner className={classes.chainBanner} />
       )}
+
+      <TrafficFlow />
 
       {!authLoading && !providerLoading && (
         <>

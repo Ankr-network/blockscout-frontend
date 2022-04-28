@@ -6,6 +6,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
 
+    marginTop: theme.spacing(3.2),
+
     padding: `${theme.spacing(3)}px 30px`,
 
     borderRadius: theme.spacing(3),
