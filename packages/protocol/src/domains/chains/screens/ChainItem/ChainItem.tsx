@@ -17,6 +17,7 @@ import { useProvider } from 'modules/auth/hooks/useProvider';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { useQuery } from '@redux-requests/react';
 import { TrafficFlow } from './components/Endpoint/components/TrafficFlow';
+import { canAddEndpoint } from 'domains/plan/screens/Dashboard/DashboardUtils';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -64,7 +65,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainBanner className={classes.chainBanner} />
       )}
 
-      <TrafficFlow />
+      {canAddEndpoint(chainId) && <TrafficFlow />}
 
       {!authLoading && !providerLoading && (
         <>
