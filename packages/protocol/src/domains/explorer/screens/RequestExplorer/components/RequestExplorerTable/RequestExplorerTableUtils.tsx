@@ -7,6 +7,8 @@ import { StatusCircle } from 'uiKit/StatusCircle';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
+export const REQUEST_EXPLORER_TABLE_PAGE_SIZE = 10;
+
 export const useRequestExplorerTableColumns = () =>
   useLocaleMemo(
     () =>

@@ -60,9 +60,9 @@ export const getRows = (
 
   const nodes = Object.values(groupedNodes);
 
-  const currentNodesWeight = nodesWeight
-    // .filter(el => el.weight)
-    .filter(item => item.id in groupedNodes);
+  const currentNodesWeight = nodesWeight.filter(
+    item => item.id in groupedNodes,
+  );
 
   const totalWeights = currentNodesWeight.reduce(
     (acc, el) => acc + el.weight,
@@ -109,6 +109,9 @@ export function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
 }
 
 export const useChainNodesTableTableColumns = () => {
+  const theme = useTheme();
+  const classes = useStyles();
+
   return useLocaleMemo(
     () =>
       [
@@ -130,9 +133,6 @@ export const useChainNodesTableTableColumns = () => {
           field: 'height',
           headerName: t('chain-item.nodes-table.head.height'),
           render: ({ score, height }) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const theme = useTheme();
-
             const nodeStatus = getStatusByNodeScore(score);
 
             return (
@@ -153,9 +153,6 @@ export const useChainNodesTableTableColumns = () => {
           field: 'location',
           headerName: t('chain-item.nodes-table.head.location'),
           render: ({ country, city, continent }) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const classes = useStyles();
-
             return (
               country && (
                 <>

@@ -10,9 +10,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '& label': { marginBottom: theme.spacing(2), fontWeight: 700 },
   },
-  input: {
-    minHeight: 32,
-  },
   domain: {
     marginTop: theme.spacing(2),
     // marginBottom: theme.spacing(3.5),

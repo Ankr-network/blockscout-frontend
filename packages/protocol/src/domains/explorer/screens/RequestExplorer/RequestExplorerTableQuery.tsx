@@ -9,29 +9,28 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useCallback } from 'react';
 import { VirtualTableQuery } from 'ui';
 import { RequestExplorerTable } from './components/RequestExplorerTable';
+import { REQUEST_EXPLORER_TABLE_PAGE_SIZE } from './components/RequestExplorerTable/RequestExplorerTableUtils';
 
 export const RequestExplorerTableQuery = () => {
   const dispatchRequest = useDispatchRequest();
 
   useOnMount(() => {
-    dispatchRequest(fetchRequests({ cursor: 0, limit: 10 }));
+    dispatchRequest(
+      fetchRequests({ cursor: 0, limit: REQUEST_EXPLORER_TABLE_PAGE_SIZE }),
+    );
   });
 
   const handleMoreRows = useCallback(
     async ({ page = 0 }: VirtualTableQuery) => {
-      const cursor = page * 10 - 10;
-      await dispatchRequest(fetchRequestsMore({ cursor, limit: 10 }));
+      const cursor =
+        page * REQUEST_EXPLORER_TABLE_PAGE_SIZE -
+        REQUEST_EXPLORER_TABLE_PAGE_SIZE;
+      await dispatchRequest(
+        fetchRequestsMore({ cursor, limit: REQUEST_EXPLORER_TABLE_PAGE_SIZE }),
+      );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatchRequest],
   );
-
-  // const handleChangeSort = useCallback(
-  //   async (params: { order: string; orderBy: string }) => {
-  //     await dispatchRequest(fetchRequests({ cursor: 0, limit: 50 }));
-  //   },
-  //   [dispatchRequest],
-  // );
 
   return (
     <Queries<ResponseData<typeof fetchRequests>>
