@@ -21,7 +21,7 @@ export const Logo = ({ className = '', href }: ILogo): JSX.Element => {
       <AnkrLogoIcon className={classes.logo} />
 
       <Typography className={classes.title} color="primary" variant="body2">
-        {t('logo.earn')}
+        {t('logo.staking')}
       </Typography>
     </Link>
   );

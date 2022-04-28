@@ -6,8 +6,8 @@ import packageJson from '../../../package.json';
 
 import { BlockchainNetworkId, Env } from './types';
 
-export const EARN_PATH = `${packageJson.homepage}/`;
-export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
+export const STAKING_PATH = `${packageJson.homepage}/`;
+export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
 export const DOCS_LINK = 'https://docs.ankr.com/';
 export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 

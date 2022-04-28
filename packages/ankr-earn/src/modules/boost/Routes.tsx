@@ -2,14 +2,14 @@ import { generatePath, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EARN_PATH, featuresConfig } from 'modules/common/const';
+import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `${EARN_PATH}defi/`;
+const ROOT = `${STAKING_PATH}defi/`;
 const TRADING_COCKPIT_PATH = `${ROOT}trade/`;
 const TRADING_COCKPIT_SPECIFIC_PATH = `${TRADING_COCKPIT_PATH}?from=:fromToken?&to=:toToken?`;
 const LIQUIDITY_MINING_PATH = `${ROOT}liquidity-mining/`;
@@ -75,20 +75,6 @@ export function getRoutes(): JSX.Element {
         <Route exact path={RoutesConfig.root}>
           <Redirect to={RoutesConfig.tradingCockpit.path} />
         </Route>
-
-        <Route exact path={RoutesConfig.tradingCockpit.path}>
-          <DefaultLayout>
-            <TradingCockpit />
-          </DefaultLayout>
-        </Route>
-
-        {featuresConfig.liquidityMining && (
-          <Route exact path={RoutesConfig.liquidityMining.path}>
-            <DefaultLayout>
-              <LiquidityMining />
-            </DefaultLayout>
-          </Route>
-        )}
 
         <Route>
           <DefaultLayout>

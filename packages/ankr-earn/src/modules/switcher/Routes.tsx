@@ -7,7 +7,7 @@ import { AvailableWriteProviders } from 'provider';
 import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import {
   BSC_NETWORK_BY_ENV,
-  EARN_PATH,
+  STAKING_PATH,
   ETH_NETWORK_BY_ENV,
   featuresConfig,
   FTM_NETWORK_BY_ENV,
@@ -16,7 +16,7 @@ import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `${EARN_PATH}switch/`;
+const ROOT = `${STAKING_PATH}switch/`;
 const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(

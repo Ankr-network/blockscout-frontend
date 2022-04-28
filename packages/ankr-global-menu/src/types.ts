@@ -3,7 +3,7 @@ import { HTMLAttributeAnchorTarget } from 'react';
 export type IGlobalMenuProject =
   | 'protocol'
   | 'landing'
-  | 'earn'
+  | 'staking'
   | 'docs'
   | 'stakefi'
   | 'ankrscan';

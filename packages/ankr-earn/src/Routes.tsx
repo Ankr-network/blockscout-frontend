@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EARN_PATH, featuresConfig } from 'modules/common/const';
+import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import {
   getRoutes as getDashboardRoutes,
   RoutesConfig as DashboardRoutes,
@@ -22,7 +22,7 @@ import { getRoutes as getSwitcherRoutes } from 'modules/switcher/Routes';
 export function Routes(): JSX.Element {
   return (
     <Switch>
-      <Route exact path={['/', EARN_PATH]}>
+      <Route exact path={['/', STAKING_PATH]}>
         <Redirect to={DashboardRoutes.dashboard.generatePath()} />
       </Route>
 

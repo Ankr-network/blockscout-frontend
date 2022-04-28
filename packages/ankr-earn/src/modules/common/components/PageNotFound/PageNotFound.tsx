@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { EARN_PATH } from 'modules/common/const';
+import { STAKING_PATH } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
@@ -35,7 +35,7 @@ export const PageNotFound = (): JSX.Element => {
               <NavLink
                 className={classes.button}
                 color="primary"
-                href={EARN_PATH}
+                href={STAKING_PATH}
                 variant="contained"
               >
                 {t('not-found.btn-home')}
