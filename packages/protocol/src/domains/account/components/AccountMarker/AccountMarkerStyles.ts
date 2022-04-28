@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { AccountStatus } from 'modules/account/types';
+import { AccountStatus } from 'domains/account/types';
 
 const colorsMap: Record<AccountStatus, string> = {
   [AccountStatus.GREEN]: '#3AC090',

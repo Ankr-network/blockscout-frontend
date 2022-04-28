@@ -2,16 +2,22 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
+import { Balances } from './types';
+import { IBalance } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 
-interface IBalance {
-  balance: string;
-  balance_ankr: string;
-  balance_usd: string;
-}
+const getBalances = ({
+  balance,
+  balance_ankr,
+  balance_usd,
+}: IBalance): Balances => ({
+  ankrBalance: new BigNumber(balance_ankr),
+  creditBalance: new BigNumber(balance),
+  usdBalance: new BigNumber(balance_usd),
+});
 
-export const fetchBalance = createAction<RequestAction<IBalance, BigNumber>>(
-  'account/fetchBalance',
+export const fetchBalances = createAction<RequestAction<IBalance, Balances>>(
+  'account/fetchBalances',
   () => ({
     request: {
       promise: (async () => null)(),
@@ -20,10 +26,10 @@ export const fetchBalance = createAction<RequestAction<IBalance, BigNumber>>(
       asMutation: false,
       takeLatest: true,
       poll: 30,
-      getData: (balance: IBalance) => new BigNumber(balance?.balance_ankr),
+      getData: getBalances,
       onRequest: () => {
         return {
-          promise: (async (): Promise<any> => {
+          promise: (async (): Promise<IBalance> => {
             const { service } = MultiService.getInstance();
 
             const data = await service.getAnkrBalance();

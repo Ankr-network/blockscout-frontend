@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AccountStatus as Status } from 'modules/account/types';
+import { AccountStatus as Status } from 'domains/account/types';
 import { useStyles } from './AccountMarkerStyles';
 
 export interface AccountMarkerProps {
