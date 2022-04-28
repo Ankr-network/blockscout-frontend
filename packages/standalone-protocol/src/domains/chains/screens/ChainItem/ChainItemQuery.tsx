@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-
+import classNames from 'classnames';
 import { mainTheme } from 'modules/themes/mainTheme';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
@@ -25,7 +25,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
 
   return (
     <ThemeProvider theme={mainTheme}>
-      <div className={classes.root}>
+      <div className={classNames(classes.root, chainId)}>
         <Queries<ResponseData<typeof fetchChain>>
           requestActions={[fetchChain]}
           requestKeys={[chainId]}

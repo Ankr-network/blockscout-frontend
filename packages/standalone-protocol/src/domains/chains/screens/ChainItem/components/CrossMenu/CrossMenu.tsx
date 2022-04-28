@@ -13,6 +13,7 @@ import { useIsMDUp, useIsSMDown } from 'ui';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
+import { ReactComponent as EthereumLogo } from 'assets/img/logo/ethereum.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as BinanceLogo } from 'assets/img/logo/binance.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
@@ -36,6 +37,12 @@ interface ICrossMenuProps {
 export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   const MENU_LIST = useMemo(
     () => [
+      {
+        chainId: ChainId.Ethereum,
+        name: 'Ethereum',
+        logo: <EthereumLogo />,
+        url: 'http://ethereum.public-rpc.com/',
+      },
       {
         chainId: ChainId.Solana,
         name: 'Solana',
@@ -148,7 +155,8 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
       <IconButton onClick={handleMenuClick} className={classes.dropMenu}>
         {open ? <CloseIcon /> : <MenuIcon />}
       </IconButton>
-      <div className={classNames(classes.root, open && classes.open, chainId)}
+      <div
+        className={classNames(classes.root, open && classes.open, chainId)}
         data-test-id="cross-menu-root"
       >
         <div className={classes.menu}>

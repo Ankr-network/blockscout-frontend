@@ -23,7 +23,7 @@ export const Footer = ({ className = '' }: FooterProps) => {
 
   return (
     <footer
-      className={classNames(classes.root, className)}
+      className={classNames(classes.root, className, chainId)}
       data-test-id="footer"
     >
       <div className={classes.content}>
