@@ -1,70 +1,90 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import transitions from '@material-ui/core/styles/transitions';
 
-import { Seconds } from 'modules/common/types';
+const transitionsConfig = {
+  duration: 350,
+  easing: 'ease',
+};
 
-const transitionTime: Seconds = 0.3;
+const boxPadding = 4;
 
-export const useFeatureItemStyles = makeStyles<Theme>(theme => ({
+export const useFeatureItemStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4),
-    transition: `all ${transitionTime}s ease`,
+    position: 'relative',
+    padding: theme.spacing(boxPadding),
+    transition: transitions.create(
+      ['box-shadow', 'transform'],
+      transitionsConfig,
+    ),
 
     '&:hover': {
       boxShadow: '0px 9px 11px #D8DFEA, 0px 0px 4px #E1E5EC',
       transform: 'translateY(-5px)',
+    },
+  },
 
-      '& $stats': {
-        opacity: 0,
-      },
+  rootWithAnimations: {},
 
-      '& $buttons': {
-        opacity: 1,
-      },
+  icon: {
+    display: 'block',
+    fontSize: 64,
+    transformOrigin: 'top left',
+    transition: transitions.create('transform', transitionsConfig),
+
+    '$rootWithAnimations:hover &': {
+      transform: 'scale(0.8)',
     },
   },
 
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-  },
+    transition: transitions.create('transform', transitionsConfig),
+    transformOrigin: 'top left',
 
-  statsButtonsWrapper: {
-    height: 34,
-    position: 'relative',
-  },
-
-  buttons: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    transition: `all ${transitionTime}s`,
-    opacity: 0,
-  },
-  button: {
-    height: 40,
-    borderRadius: 16,
+    '$rootWithAnimations:hover &': {
+      transform: 'translate(65px, -65px) scale(0.8)',
+    },
   },
 
   stats: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    transition: `all ${transitionTime}s`,
-    height: 64,
-    opacity: 1,
+    transition: transitions.create('transform', transitionsConfig),
+
+    '$rootWithAnimations:hover &': {
+      transform: 'translateY(-55px)',
+    },
   },
+
   statLabel: {
     fontSize: 14,
     color: `${theme.palette.text.secondary}`,
   },
+
   statValue: {
     fontSize: 16,
     fontWeight: 'bold',
   },
 
-  icon: {
-    display: 'block',
-    marginBottom: theme.spacing(1.5),
-    fontSize: 64,
+  buttons: {
+    position: 'absolute',
+    right: theme.spacing(boxPadding),
+    left: theme.spacing(boxPadding),
+    bottom: theme.spacing(boxPadding),
+
+    height: 40,
+
+    opacity: 0,
+    transform: `translateY(20px)`,
+    transition: transitions.create(['opacity', 'transform'], transitionsConfig),
+
+    '$rootWithAnimations:hover &': {
+      opacity: 1,
+      transform: 'translateY(0)',
+    },
+  },
+
+  button: {
+    height: 40,
+    borderRadius: 16,
   },
 }));

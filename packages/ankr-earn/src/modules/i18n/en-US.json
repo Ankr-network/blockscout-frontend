@@ -651,7 +651,11 @@
     "stake": "Stake",
     "stake-old": "Stake at old version",
     "staked-tvl": "Staked (TVL)",
-    "learn-more": "Learn more"
+    "learn-more": "Learn more",
+    "chips": {
+      "coming-soon": "Coming Soon",
+      "old-version": "Available on the old version"
+    }
   },
   "wallets": {
     "add-btn-tooltip": "Connect another wallet",
