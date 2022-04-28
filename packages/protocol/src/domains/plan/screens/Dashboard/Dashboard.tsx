@@ -11,6 +11,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { useProvider } from 'modules/auth/hooks/useProvider';
+import { H1Tag } from 'uiKit/H1Tag';
 
 const HAS_SORT_SELECT = false;
 
@@ -32,6 +33,7 @@ export const Dashboard = () => {
   return (
     <>
       <PageHeader select={HAS_SORT_SELECT ? <ChainsSortSelect /> : null} />
+      <H1Tag title={t('meta.plan-deposit.h1-tag')} />
       <Queries<ResponseData<typeof fetchPrivateChains>>
         requestActions={[fetchPrivateChains]}
       >

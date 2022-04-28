@@ -13,8 +13,63 @@
     "duplicate-url-validation": "This endpoint has already been added"
   },
   "meta": {
-    "title": "Ankr Protocol",
-    "description": "Ankr Protocol"
+    "title": "Decentralized Infrastructure to Power Your dApp",
+    "description": "Build now with RPCs to access over a dozen blockchains",
+    "og-title": "Decentralized Infrastructure to Power Your dApp",
+    "og-description": "Build now with RPCs to access over a dozen blockchains",
+    "public": {
+      "title": "Access a Variety of Public RPC Endpoints",
+      "description": "Choose from over a dozen instant RPC endpoints and build on the chain of your choice",
+      "og-title": "Your Gateway to Build on Web3",
+      "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains",
+      "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
+    },
+    "plan": {
+      "title": "Get More With Ankr's Premium Plan",
+      "description": "Ankr Protocol",
+      "og-title": "Access Ankr's Premium Developer Plan",
+      "og-description": "Get dedicated endpoints, WebSockets, unlimited requests, analytics, and more",
+      "h1-tag": "Get premium RPCs, APIs, dedicated endpoints, WebSockets, and more"
+    },
+    "plan-deposit": {
+      "title": "Become a Premium User of Ankr Protocol",
+      "description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
+      "og-title": "Become a Premium User of Ankr Protocol",
+      "og-description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
+      "h1-tag": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more"
+    },
+    "chain-item": {
+      "title": "Your Instant RPC Gateway to {chainId}",
+      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "og-title": "Build on {chainId} With Instant RPC Endpoint",
+      "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint",
+      "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
+    },
+    "chain-item-bsc": {
+      "title": "Your Instant RPC Gateway to {chainId}",
+      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "og-title": "Build on {chainId} With Instant RPC Endpoint",
+      "og-description": "Start calling BSC now with our free public RPC endpoint"
+    },
+    "chain-item-fantom": {
+      "title": "Your Instant RPC Gateway to {chainId}",
+      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "og-title": "Build on {chainId} With Instant RPC Endpoint",
+      "og-description": "Call the Fantom chain with Ankr's free public RPC endpoint"
+    },
+    "chain-item-eth": {
+      "title": "Your Instant RPC Gateway to {chainId}",
+      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "og-title": "Build on {chainId} With Instant RPC Endpoint",
+      "og-description":"Use a decentralized and free Ethereum public RPC endpoint"
+    },
+    "providers": {
+      "title": "Ankr's Decentralized Node Providers",
+      "description": "See the node providers that create Ankr's decentralized infrastructure",
+      "og-title": "See Ankr's Node Providers",
+      "og-description": "View the node providers that make Ankr decentralized",
+      "h1-tag": "View all of Ankr's blockchain node providers "
+    }
   },
   "error": {
     "not-authenticated": "Not Authenticated",
@@ -93,20 +148,24 @@
       "requests-per-day": "Requests per day",
       "requests-count": "20 mln"
     },
-    "meta": {
-      "title": "{name} Public RPC | Ankr Protocol",
-      "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
-    },
     "header": {
       "mainnet-tab-title": "Mainnet",
       "testnet-tab-title": "Testnet",
-      "public-endpoints": "Public RPC Endpoint{plural}",
-      "public-endpoints-tip": "The Public RPC is our free and open endpoint that powers many different developer applications!",
-      "private-endpoints": "Premium Endpoint{plural}",
+      "endpoints-title": "Provider URLs",
+      "private-endpoints-tooltip": "Use Provider URL as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
+      "public-endpoints-tooltip": "Use Provider URL as your main API endpoint for development.",
       "plural": "s",
-      "tooltipText": "Reach a Premium Endpoint to ensure a faster dedicated experience that only serves <br/>traffic for your project.",
-      "button": "Unlock Premium Features",
-      "settings-button": "Settings"
+      "settings-button": "Settings",
+      "endpoint-groups": {
+        "standard-evm-api": "Standard EVM API{plural}",
+        "c-chain": "C-Chain{plural}",
+        "p-chain": "P-Chain{plural}",
+        "x-chain": "X-Chain{plural}",
+        "etherium-endpoint": "Ethereum Endpoint{plural}",
+        "nervos-evm": "Standard EVM and Polyjuice API{plural}",
+        "nervos-gw": "Godwoken API{plural}",
+        "solana-api": "Solana API{plural}"
+      }
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
@@ -273,7 +332,6 @@
   },
   "common": {
     "copy-message": "Copied!",
-    "copy-text": "Public Link",
     "empty": "Empty...",
     "copy": "Copy"
   },
@@ -328,7 +386,7 @@
       }
     },
     "private-endpoints": {
-      "title": "Premium Endpoint{plural}",
+      "title": "Premium Nodes",
       "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "plural": "s"
     },
@@ -337,7 +395,7 @@
       "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
     },
     "community-endpoints": {
-      "title": "Community Endpoints"
+      "title": "Community Nodes"
     },
     "editable-endpoints": {
       "edit": "Edit",
