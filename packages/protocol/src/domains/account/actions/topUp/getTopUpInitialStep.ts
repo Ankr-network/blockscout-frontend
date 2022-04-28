@@ -13,6 +13,7 @@ import { TopUpStep } from './const';
 // eslint-disable-next-line import/no-cycle
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { redirectIfCredentials } from './redirectIfCredentials';
 
 const checkAllowanceTransaction = (store: RequestsStore, address: string) => {
   const { allowanceTransaction } = selectAccount(store.getState());
@@ -85,6 +86,8 @@ export const getTopUpInitialStep = createSmartAction<
       if (typeof topUpStep === 'number') {
         return topUpStep;
       }
+
+      await store.dispatchRequest(redirectIfCredentials());
 
       return TopUpStep.login;
     },

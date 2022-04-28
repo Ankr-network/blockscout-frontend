@@ -9,6 +9,7 @@ import { TopUp } from './TopUp';
 import { useTopUpBreadcrumbs } from './TopUpUtils';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { reset } from 'domains/account/actions/topUp/reset';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export const TopUpQuery = () => {
   const dispatchRequest = useDispatchRequest();
@@ -23,12 +24,16 @@ export const TopUpQuery = () => {
 
   useTopUpBreadcrumbs();
 
+  const { credentials } = useAuth();
+
   return (
     <Queries<ResponseData<typeof getTopUpInitialStep>>
       requestActions={[getTopUpInitialStep]}
       showLoaderDuringRefetch={false}
     >
-      {({ data }) => <TopUp initialStep={data} />}
+      {({ data }) => (
+        <TopUp initialStep={data} hasCredentials={Boolean(credentials)} />
+      )}
     </Queries>
   );
 };

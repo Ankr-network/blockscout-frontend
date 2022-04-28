@@ -35,8 +35,6 @@ export const getAllowance = createSmartAction<
       const allowanceResponse = await service.getAllowanceForPAYG(amount);
 
       setTransaction(store, address, allowanceResponse?.transactionHash);
-
-      return allowanceResponse?.receiptPromise;
     },
   },
   meta: {

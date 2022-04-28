@@ -11,6 +11,7 @@ import { selectAccount } from 'domains/account/store/accountSlice';
 import { t } from 'modules/i18n/utils/intl';
 // eslint-disable-next-line import/no-cycle
 import { getTopUpInitialStep } from './getTopUpInitialStep';
+import { redirectIfCredentials } from './redirectIfCredentials';
 
 const MAX_ATTEMPTS = 50;
 
@@ -64,7 +65,13 @@ export const waitTransactionConfirming = createSmartAction<
     ) => {
       store.dispatchRequest(fetchBalance());
 
-      await store.dispatchRequest(getTopUpInitialStep());
+      const { data: hasCredentials } = await store.dispatchRequest(
+        redirectIfCredentials(),
+      );
+
+      if (!hasCredentials) {
+        await store.dispatchRequest(getTopUpInitialStep());
+      }
 
       return response;
     },

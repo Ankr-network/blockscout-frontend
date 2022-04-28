@@ -5,4 +5,5 @@ export interface ITopUpStepsProps {
   onClick: () => void;
   loading: boolean;
   amount: number;
+  hasCredentials: boolean;
 }

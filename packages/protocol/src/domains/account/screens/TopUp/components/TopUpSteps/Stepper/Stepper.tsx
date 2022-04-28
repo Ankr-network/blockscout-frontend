@@ -6,9 +6,10 @@ import { TopUpStep } from 'domains/account/actions/topUp/const';
 interface IStepperProps {
   step: TopUpStep;
   className?: string;
+  hasCredentials: boolean;
 }
 
-export const Stepper = ({ step, className }: IStepperProps) => {
+export const Stepper = ({ step, className, hasCredentials }: IStepperProps) => {
   return (
     <MuiStepper activeStep={step - 1} nonLinear className={className}>
       <Step key={TopUpStep.allowance} completed={step >= TopUpStep.allowance}>
@@ -23,9 +24,11 @@ export const Stepper = ({ step, className }: IStepperProps) => {
       >
         <StepLabel />
       </Step>
-      <Step key={TopUpStep.login} completed={step >= TopUpStep.login}>
-        <StepLabel />
-      </Step>
+      {!hasCredentials && (
+        <Step key={TopUpStep.login} completed={step >= TopUpStep.login}>
+          <StepLabel />
+        </Step>
+      )}
     </MuiStepper>
   );
 };

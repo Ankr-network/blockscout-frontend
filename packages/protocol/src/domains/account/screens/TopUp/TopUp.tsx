@@ -4,9 +4,10 @@ import { useTopupSteps } from './TopUpUtils';
 
 interface TopUpProps {
   initialStep: TopUpStep;
+  hasCredentials: boolean;
 }
 
-export const TopUp = ({ initialStep }: TopUpProps) => {
+export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
   const { step, onClick, amount, loading } = useTopupSteps(initialStep);
 
   return (
@@ -15,6 +16,7 @@ export const TopUp = ({ initialStep }: TopUpProps) => {
       loading={loading}
       amount={amount}
       onClick={onClick}
+      hasCredentials={hasCredentials}
     />
   );
 };

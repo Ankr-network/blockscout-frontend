@@ -11,6 +11,7 @@ import { fetchPublicKey } from './fetchPublicKey';
 import { deposit } from './deposit';
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { login } from './login';
+import { getTopUpInitialStep } from './getTopUpInitialStep';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
   'topUp/reset',
@@ -19,6 +20,7 @@ export const reset = createSmartAction<RequestAction<string, string>>(
       promise: async (store: RequestsStore) => {
         store.dispatch(
           resetRequests([
+            getTopUpInitialStep.toString(),
             getAllowance.toString(),
             fetchPublicKey.toString(),
             deposit.toString(),

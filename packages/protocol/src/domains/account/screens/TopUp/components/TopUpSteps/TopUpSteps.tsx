@@ -21,6 +21,7 @@ export const TopUpSteps = ({
   onClick,
   loading,
   amount,
+  hasCredentials,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -30,7 +31,11 @@ export const TopUpSteps = ({
         <Typography variant="h4" color="primary">
           {t('top-up-steps.title')}
         </Typography>
-        <Stepper step={step} className={classes.stepper} />
+        <Stepper
+          step={step}
+          className={classes.stepper}
+          hasCredentials={hasCredentials}
+        />
         <StepperTitle step={step} className={classes.title} amount={amount} />
         <StepperNotice step={step} className={classes.notice} />
         <Box maxWidth={210} width="100%">
