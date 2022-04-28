@@ -12,9 +12,13 @@ import { ChainId } from 'domains/chains/api/chain';
 import { harmonyTheme } from 'modules/themes/harmonyTheme';
 import { gnosisTheme } from 'modules/themes/gnosisTheme';
 import { syscoinTheme } from 'modules/themes/syscoinTheme';
+import { ethTheme } from 'modules/themes/ethTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
+    case ChainId.Ethereum:
+      return ethTheme;
+
     case ChainId.Moonbeam:
       return moonbeamTheme;
 

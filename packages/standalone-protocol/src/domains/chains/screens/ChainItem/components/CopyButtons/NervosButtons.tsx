@@ -29,7 +29,7 @@ export const NervosButtons = ({
   const classes = useStyles();
 
   return (
-    <>
+    <div data-test-id="copy-button">
       <div className={classes.top}>
         <div className={classes.link}>
           {isXSDown ? (
@@ -101,6 +101,6 @@ export const NervosButtons = ({
           {t('chain-item.nervos.godwoken-based')}
         </Typography>
       </div>
-    </>
+    </div>
   );
 };

@@ -16,6 +16,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&.moonbeam $title': {
       color: '#74C8C7',
     },
+    '&.eth $title': {
+      color: '#1E41A5',
+    },
   },
   title: {
     marginBottom: 20,

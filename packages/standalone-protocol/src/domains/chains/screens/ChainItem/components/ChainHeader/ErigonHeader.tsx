@@ -5,12 +5,13 @@ import { tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './ErigonHeaderStyles';
 import { ChainHeaderProps } from './ChainHeaderTypes';
 import { ReactComponent as ErigonImg } from './erigon.svg';
+import { PLAN_URL } from 'Routes';
 
 export const ErigonHeader = ({ chainId }: ChainHeaderProps) => {
   const classes = useStyles();
 
   return (
-    <>
+    <div data-test-id="header">
       <div className={classes.root}>
         <ErigonImg className={classes.img} />
         <Typography className={classes.title} variant="h1">
@@ -73,7 +74,7 @@ export const ErigonHeader = ({ chainId }: ChainHeaderProps) => {
           </Typography>
         </a>
         <a
-          href="https://www.ankr.com/protocol/plan/"
+          href={PLAN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className={classes.feature}
@@ -96,6 +97,6 @@ export const ErigonHeader = ({ chainId }: ChainHeaderProps) => {
           </Typography>
         </a>
       </div>
-    </>
+    </div>
   );
 };
