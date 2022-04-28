@@ -14,6 +14,8 @@ import { ChainBanner } from './components/ChainBanner';
 import { EndpointQuery } from './components/Endpoint/EndpointQuery';
 import { SecuritySettingsQuery } from './components/Endpoint/SecuritySettingsQuery';
 import { useProvider } from 'modules/auth/hooks/useProvider';
+import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
+import { useQuery } from '@redux-requests/react';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -24,10 +26,14 @@ interface IChainItemUIProps {
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const { credentials, loading: authLoading } = useAuth();
-  const { providerData } = useProvider();
+  const { providerData, loading: providerLoading } = useProvider();
   const classes = useStyles();
 
   useChainItemBreadcrumbs(data.chain.name);
+
+  const { loading: isPremiumFeaturesLoading } = useQuery({
+    type: fetchPremiumChainFeatures,
+  });
 
   const { chain, nodes, nodesWeight } = data;
   const {
@@ -57,11 +63,15 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainBanner className={classes.chainBanner} />
       )}
 
-      {credentials && Boolean(providerData) && (
-        <EndpointQuery chainId={chainId} />
-      )}
+      {!authLoading && !providerLoading && (
+        <>
+          {credentials && Boolean(providerData) && (
+            <EndpointQuery chainId={chainId} />
+          )}
 
-      {credentials && <SecuritySettingsQuery chainId={chainId} />}
+          {credentials && <SecuritySettingsQuery chainId={chainId} />}
+        </>
+      )}
 
       {error ? (
         <div className={classes.error}>
@@ -91,7 +101,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         </>
       )}
 
-      {ENABLE_CHAIN_NODES_TABLE && (
+      {!loading && !isPremiumFeaturesLoading && ENABLE_CHAIN_NODES_TABLE && (
         <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
       )}
     </div>

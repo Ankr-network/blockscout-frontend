@@ -10,11 +10,13 @@ import {
   fetchEndpoints,
   IEndpoint,
 } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { fetchPublicChains } from './fetchPublicChains';
 
 interface IPremiumFeatures {
+  publicChains: IApiChain[];
   privateChains: IApiChain[];
   privateChainDetails: IApiChain;
-  endpoints: IEndpoint[];
+  endpoints: IEndpoint;
 }
 
 export const fetchPremiumChainFeatures = createSmartAction<
@@ -31,6 +33,15 @@ export const fetchPremiumChainFeatures = createSmartAction<
         await store.dispatchRequest(fetchProvider());
       }
 
+      const { data: publicChains } = getQuery(store.getState(), {
+        type: fetchPublicChains.toString(),
+        action: fetchPublicChains,
+      });
+
+      if (!publicChains) {
+        await store.dispatchRequest(fetchPublicChains());
+      }
+
       const { data: endpoints } = await store.dispatchRequest(fetchEndpoints());
 
       const { data: privateChains } = await store.dispatchRequest(
@@ -41,6 +52,7 @@ export const fetchPremiumChainFeatures = createSmartAction<
       );
 
       return {
+        publicChains,
         privateChains,
         privateChainDetails,
         endpoints,

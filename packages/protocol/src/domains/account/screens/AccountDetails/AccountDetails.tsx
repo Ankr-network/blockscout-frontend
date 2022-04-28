@@ -6,7 +6,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ExpenseChart } from './components/ExpenseChart';
-import { PaymentsHistoryTableWrapped } from './components/PaymentsHistoryTable/PaymentsHistoryTableWrapped';
+import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
 import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
 
@@ -35,7 +35,7 @@ export const AccountDetails = () => {
           <TopUp className={classes.topUp} />
         </Box>
         <Box className={classes.payments}>
-          <PaymentsHistoryTableWrapped />
+          <PaymentsHistoryTable />
         </Box>
         <Box className={classes.expenseChart}>
           <ExpenseChart />

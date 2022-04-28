@@ -154,6 +154,7 @@
     },
     "nodes-table": {
       "header": "Nodes",
+      "more": "Show 10 more",
       "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location.",
       "head": {
         "node": "Node",

@@ -21,7 +21,7 @@ import { LoadableButton } from '../LoadableButton';
 import {
   VirtualTableColumn,
   VirtualTableProps,
-  VirtualTableSort,
+  VirtualTableQuery,
 } from './types';
 import { useStyles } from './useStyles';
 
@@ -34,7 +34,6 @@ interface ITableContext {
   isLoadMoreLoading: boolean;
   handleSort: MouseEventHandler<HTMLElement>;
   isSortLoading: boolean;
-  sort?: VirtualTableSort;
   cache: CellMeasurerCache;
   rows: any[];
   ref: MutableRefObject<List | undefined>;
@@ -44,6 +43,7 @@ interface ITableContext {
   setColsWidthCalculated: (value: boolean) => void;
   renderExpand?: (row: any, recalculateRows: () => void) => React.ReactNode;
   recalculateRows: () => void;
+  query: VirtualTableQuery;
 }
 
 export const TableContext = createContext<ITableContext>(null as any);
@@ -51,27 +51,20 @@ export const TableContext = createContext<ITableContext>(null as any);
 export function useTableContext({
   onChangePage,
   onSort,
-  startPage = 1,
-  defaultSort,
+  defaultQuery,
   rows,
   cols,
   renderExpand,
 }: Pick<
   VirtualTableProps<any>,
-  | 'onChangePage'
-  | 'startPage'
-  | 'defaultSort'
-  | 'onSort'
-  | 'rows'
-  | 'cols'
-  | 'renderExpand'
+  'onChangePage' | 'defaultQuery' | 'onSort' | 'rows' | 'cols' | 'renderExpand'
 >) {
   const ref = useRef<List>();
 
+  const [query, setQuery] = useState(defaultQuery ?? {});
+
   const [expandedRow, setExpandedRow] = useState(-1);
-  const [page, setPage] = useState(startPage);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
-  const [sort, setSort] = useState(defaultSort);
   const [isSortLoading, setIsSortLoading] = useState(false);
   const [colsWidthCalculated, setColsWidthCalculated] = useState(false);
   const colWidths = useRef<number[]>([]);
@@ -97,39 +90,39 @@ export function useTableContext({
   };
 
   const handleLoadMore = useCallback(async () => {
-    const nextPage = page + 1;
-
-    setPage(nextPage);
+    const nextQuery = { ...query, page: (query.page || 1) + 1 };
+    setQuery(nextQuery);
 
     if (onChangePage) {
       setIsLoadMoreLoading(true);
 
       try {
-        await onChangePage(nextPage);
+        await onChangePage(nextQuery);
       } catch {
         /** */
       }
 
       setIsLoadMoreLoading(false);
     }
-  }, [onChangePage, page]);
+  }, [onChangePage, query]);
 
   const handleSort: MouseEventHandler<HTMLElement> = useCallback(
     async event => {
       const field = event.currentTarget.getAttribute('data-field')!;
 
-      const nextSort: VirtualTableSort = {
+      const nextQuery: VirtualTableQuery = {
+        ...query,
         orderBy: field,
-        order: sort?.order === 'asc' ? 'desc' : 'asc',
+        order: query.order === 'asc' ? 'desc' : 'asc',
       };
 
-      setSort(nextSort);
+      setQuery(nextQuery);
 
       if (onSort) {
         setIsSortLoading(true);
 
         try {
-          await onSort(nextSort);
+          await onSort(nextQuery);
         } catch {
           /** */
         }
@@ -137,10 +130,11 @@ export function useTableContext({
         setIsSortLoading(false);
       }
     },
-    [onSort, sort],
+    [onSort, query],
   );
 
   return {
+    query,
     expandedRow,
     toggleExpand,
     renderExpand,
@@ -148,7 +142,6 @@ export function useTableContext({
     isLoadMoreLoading,
     handleSort,
     isSortLoading,
-    sort,
     cache,
     rows,
     cols,
@@ -164,9 +157,9 @@ export const useTable = () => {
   return useContext(TableContext);
 };
 
-// const getSortArrow = (order: VirtualTableSort['order']) => {
-//   return order === 'desc' ? '↓' : '↑';
-// };
+const getSortArrow = (order: VirtualTableQuery['order']) => {
+  return order === 'desc' ? '↓' : '↑';
+};
 
 export const PaginationMore = ({ text = 'Show more' }: { text?: string }) => {
   const classes = useStyles();
@@ -174,7 +167,10 @@ export const PaginationMore = ({ text = 'Show more' }: { text?: string }) => {
   const { isLoadMoreLoading, handleLoadMore } = useTable();
 
   return (
-    <div className={classes.row} style={{ justifyContent: 'center' }}>
+    <div
+      className={classNames(classes.row, classes.moreRow)}
+      style={{ justifyContent: 'center' }}
+    >
       <LoadableButton
         className={classes.moreBtn}
         loading={isLoadMoreLoading}
@@ -220,7 +216,8 @@ export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
 };
 
 export const TableHead = () => {
-  const { cols, colWidths, setColsWidthCalculated } = useTable();
+  const { cols, colWidths, setColsWidthCalculated, query, handleSort } =
+    useTable();
   const classes = useStyles();
   const headRowRef = useRef<HTMLDivElement>(null);
 
@@ -229,7 +226,7 @@ export const TableHead = () => {
       setColsWidthCalculated(false);
       colWidths.current = [];
 
-      const rowWidth = headRowRef.current.offsetWidth;
+      const rowWidth = headRowRef.current.offsetWidth + 2;
 
       headRowRef.current.childNodes.forEach((node: any) => {
         colWidths.current.push((node.offsetWidth / rowWidth) * 100);
@@ -254,7 +251,19 @@ export const TableHead = () => {
               textAlign: col.align,
             }}
           >
-            {col.headerName}
+            <span
+              data-field={col.field}
+              role="cell"
+              onClick={col.sortable ? handleSort : undefined}
+              className={classNames({ [classes.colSortable]: col.sortable })}
+            >
+              {col.headerName}
+              {query.orderBy === col.field && (
+                <span className={classes.sortIcon}>
+                  {getSortArrow(query.order)}
+                </span>
+              )}
+            </span>
           </div>
         );
       })}
@@ -274,7 +283,7 @@ export const Row = ({ style, index }: RowProps) => {
   const rowData = rows[index];
 
   return (
-    <div style={style}>
+    <div style={style} className={classes.vRow}>
       <div
         className={classNames(classes.rowColumn, {
           [classes.rowExpanded]: expandedRow === index,

@@ -1,7 +1,7 @@
 import { t } from 'common';
 import { IRequestsEntity, IRequestsResponse } from 'multirpc-sdk';
 import { useCallback } from 'react';
-import { VirtualTable, TableProps } from 'ui';
+import { VirtualTable, VirtualTableProps } from 'ui';
 import { RequestExplorerExpand } from './components/RequestExplorerExpand';
 import { useRequestExplorerTableColumns } from './RequestExplorerTableUtils';
 
@@ -11,7 +11,7 @@ export const RequestExplorerTable = ({
   onChangePage,
   onSort,
 }: Pick<
-  TableProps<IRequestsEntity>,
+  VirtualTableProps<IRequestsEntity>,
   'isLoading' | 'onChangePage' | 'onSort'
 > & {
   data: IRequestsResponse;

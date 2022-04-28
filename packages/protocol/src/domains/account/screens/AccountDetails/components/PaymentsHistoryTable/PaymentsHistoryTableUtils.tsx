@@ -1,12 +1,10 @@
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
+import { t } from 'common';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
-import {
-  createContext,
-  MouseEventHandler,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { VirtualTableColumn, VirtualTableQuery } from 'ui';
+import { useStyles } from './useStyles';
 
 export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_UNKNOWN: 'Unknown',
@@ -23,91 +21,6 @@ export const PaymentHistoryDefaultParams = {
   page: 1,
   order_by: 'timestamp',
   sort: 'desc',
-};
-
-export interface UsePaymentHistoryTableUtilsParams {
-  page: number;
-  order_by: string;
-  sort: string;
-}
-
-export interface PaymentHistoryTableUtilsContext {
-  tableParams: UsePaymentHistoryTableUtilsParams;
-  setTableParams: (params: Partial<UsePaymentHistoryTableUtilsParams>) => void;
-  handleSort: MouseEventHandler<HTMLSpanElement>;
-  handleChangePage: () => void;
-}
-
-export const usePaymentHistoryTableUtils = (
-  defaultParams: UsePaymentHistoryTableUtilsParams,
-  callbacks?: {
-    onChangePage?: (params: UsePaymentHistoryTableUtilsParams) => void;
-    onSort?: (params: UsePaymentHistoryTableUtilsParams) => void;
-  },
-): PaymentHistoryTableUtilsContext => {
-  const [tableParams, setTableParamsBase] = useState(defaultParams);
-
-  const setTableParams = useCallback(
-    (params: Partial<UsePaymentHistoryTableUtilsParams>) => {
-      setTableParamsBase({ ...tableParams, ...params });
-    },
-    [tableParams],
-  );
-
-  const handleSort: MouseEventHandler<HTMLSpanElement> = useCallback(
-    event => {
-      if (callbacks?.onSort) {
-        const field = event.currentTarget.getAttribute('data-field')!;
-
-        const sort = {
-          sort: tableParams.sort === 'desc' ? 'asc' : 'desc',
-          order_by: field,
-        };
-        setTableParams(sort);
-
-        callbacks?.onSort({
-          ...tableParams,
-          ...sort,
-        });
-      }
-    },
-    [callbacks, setTableParams, tableParams],
-  );
-
-  const handleChangePage = useCallback(() => {
-    if (callbacks?.onChangePage) {
-      setTableParams({ page: tableParams.page + 1 });
-      callbacks?.onChangePage({
-        ...tableParams,
-        page: tableParams.page + 1,
-      });
-    }
-  }, [callbacks, setTableParams, tableParams]);
-
-  return {
-    tableParams,
-    setTableParams,
-    handleSort,
-    handleChangePage,
-  };
-};
-
-export const PaymentHistoryTableContext =
-  createContext<PaymentHistoryTableUtilsContext>({
-    tableParams: PaymentHistoryDefaultParams,
-    setTableParams: () => {
-      /** */
-    },
-    handleSort: () => {
-      /** */
-    },
-    handleChangePage: () => {
-      /** */
-    },
-  });
-
-export const usePaymentHistoryContext = () => {
-  return useContext(PaymentHistoryTableContext);
 };
 
 export const getPaymentHistoryItemDirection = (
@@ -131,21 +44,18 @@ export const getPaymentHistoryItemSign = (direction?: boolean): string => {
   return direction ? '+' : '-';
 };
 
-export const getPaymentHistorySortArrow = (
-  sort: UsePaymentHistoryTableUtilsParams['sort'],
-) => {
-  return sort === 'desc' ? '↓' : '↑';
-};
-
 export const preparePaymentHistoryRequest = ({
   page,
-  ...params
-}: UsePaymentHistoryTableUtilsParams) => {
-  const cursor = page * PAYMENT_HISTORY_PAGE_SIZE - PAYMENT_HISTORY_PAGE_SIZE;
+  order,
+  orderBy,
+}: VirtualTableQuery) => {
+  const cursor =
+    (page || 1) * PAYMENT_HISTORY_PAGE_SIZE - PAYMENT_HISTORY_PAGE_SIZE;
   const limit = PAYMENT_HISTORY_PAGE_SIZE;
 
   return {
-    ...params,
+    sort: order,
+    order_by: orderBy,
     cursor,
     limit,
   };
@@ -153,4 +63,74 @@ export const preparePaymentHistoryRequest = ({
 
 export const formatPaymentHistoryAmount = (amount: string) => {
   return new BigNumber(amount).toFixed(2);
+};
+
+export const usePaymentHistoryTableColumns = () => {
+  const classes = useStyles();
+
+  return useLocaleMemo(
+    () =>
+      [
+        {
+          field: 'timestamp',
+          headerName: t('account.payment-table.head.col-1'),
+          render: ({ timestamp }) =>
+            t('account.payment-table.date-time', {
+              value: new Date(Number(timestamp)),
+            }),
+          align: 'left',
+          width: 200,
+          sortable: true,
+        },
+        {
+          field: 'type',
+          headerName: t('account.payment-table.head.col-2'),
+          render: ({ type }) => PAYMENT_HISTORY_TYPE[type] || type,
+          align: 'left',
+          sortable: true,
+        },
+        {
+          field: 'amountUsd',
+          headerName: t('account.payment-table.head.col-3'),
+          render: ({ type, amountUsd }) => {
+            const direction = getPaymentHistoryItemDirection(type);
+            const sign = getPaymentHistoryItemSign(direction);
+
+            return (
+              <span
+                className={classNames(classes.cellBold, {
+                  [classes.cellTopUp]: direction,
+                })}
+              >
+                {sign}${formatPaymentHistoryAmount(amountUsd)}
+              </span>
+            );
+          },
+          align: 'right',
+          sortable: true,
+        },
+        {
+          field: 'amountAnkr',
+          headerName: t('account.payment-table.head.col-4'),
+          render: ({ type, amountAnkr }) => {
+            const direction = getPaymentHistoryItemDirection(type);
+            const sign = getPaymentHistoryItemSign(direction);
+
+            return (
+              <span
+                className={classNames(classes.cellBold, {
+                  [classes.cellTopUp]: direction,
+                })}
+              >
+                {sign}
+                {formatPaymentHistoryAmount(amountAnkr)}
+              </span>
+            );
+          },
+          align: 'right',
+          sortable: true,
+        },
+      ] as VirtualTableColumn<IPaymentHistoryEntity>[],
+    [],
+  );
 };

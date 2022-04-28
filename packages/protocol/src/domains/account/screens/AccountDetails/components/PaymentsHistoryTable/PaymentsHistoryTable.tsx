@@ -1,122 +1,78 @@
+import { Box, Typography } from '@material-ui/core';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { t } from 'common';
 import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
-import { useCallback, useMemo } from 'react';
-import { Spinner } from 'ui';
-import { LoadableButton } from 'uiKit/LoadableButton';
-import { Preloader } from 'uiKit/Preloader';
-import { PaymentHistoryHeadCell } from './components/PaymentHistoryHeadCell';
-import { PaymentHistoryRow } from './components/PaymentHistoryRow';
-import { PaymentsHistoryTableProps } from './PaymentsHistoryTableProps';
+  fetchPaymentHistory,
+  fetchPaymentHistoryMore,
+} from 'domains/account/actions/fetchPaymentHistory';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { IPaymentHistoryReponse } from 'multirpc-sdk';
+import React, { useCallback } from 'react';
+import { VirtualTable, VirtualTableQuery } from 'ui';
 import {
-  PaymentHistoryTableContext,
-  usePaymentHistoryTableUtils,
+  PaymentHistoryDefaultParams,
+  preparePaymentHistoryRequest,
+  usePaymentHistoryTableColumns,
 } from './PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
 
-export const PaymentsHistoryTable = ({
-  data,
-  onChangePage,
-  onSort,
-  isMoreLoading,
-  isLoading,
-  overlayLoading,
-  defaultParams,
-}: PaymentsHistoryTableProps) => {
+export const PaymentsHistoryTable = () => {
   const classes = useStyles();
+  const dispatchRequest = useDispatchRequest();
+  const columns = usePaymentHistoryTableColumns();
 
-  const tableUtils = usePaymentHistoryTableUtils(defaultParams, { onSort });
+  const { data, loading, error } = useQuery<IPaymentHistoryReponse>({
+    type: fetchPaymentHistory,
+  });
 
-  const handleChangePage = useCallback(() => {
-    if (onChangePage) {
-      tableUtils.setTableParams({ page: tableUtils.tableParams.page + 1 });
-      onChangePage({
-        ...tableUtils.tableParams,
-        page: tableUtils.tableParams.page + 1,
-      });
-    }
-  }, [onChangePage, tableUtils]);
-
-  const rowsRendered = useMemo(
-    () =>
-      data?.transactions?.map((row, index) => (
-        <PaymentHistoryRow key={index} data={row} />
-      )),
-    [data?.transactions],
+  const handleChangeSort = useCallback(
+    async (params: VirtualTableQuery) => {
+      await dispatchRequest(
+        fetchPaymentHistory(preparePaymentHistoryRequest(params)),
+      );
+    },
+    [dispatchRequest],
   );
 
-  if (isLoading) {
-    return (
-      <Box position="relative" height={370}>
-        <Spinner />
-      </Box>
+  const handleChangePage = useCallback(
+    async (params: VirtualTableQuery) => {
+      await dispatchRequest(
+        fetchPaymentHistoryMore(preparePaymentHistoryRequest(params)),
+      );
+    },
+    [dispatchRequest],
+  );
+
+  useOnMount(() => {
+    dispatchRequest(
+      fetchPaymentHistory(
+        preparePaymentHistoryRequest(PaymentHistoryDefaultParams),
+      ),
     );
+  });
+
+  if (error || (!loading && !data?.transactions?.length)) {
+    return null;
   }
 
   return (
-    <PaymentHistoryTableContext.Provider value={tableUtils}>
-      <TableContainer component={Paper} className={classes.root} elevation={0}>
-        {overlayLoading && (
-          <div className={classes.overlayLoader}>
-            <Preloader />
-          </div>
-        )}
-        <Box component={Table} minWidth={600}>
-          <TableHead className={classes.thead}>
-            <TableRow>
-              <PaymentHistoryHeadCell
-                field="timestamp"
-                label="account.payment-table.head.col-1"
-                isSortable
-              />
-              <PaymentHistoryHeadCell
-                field="type"
-                label="account.payment-table.head.col-2"
-                isSortable
-              />
-              <PaymentHistoryHeadCell
-                field="amountUsd"
-                label="account.payment-table.head.col-3"
-                isSortable
-                isNumeric
-              />
-              <PaymentHistoryHeadCell
-                field="amountAnkr"
-                label="account.payment-table.head.col-4"
-                isSortable
-                isNumeric
-              />
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {rowsRendered}
-            {(data?.cursor !== '-1' || isMoreLoading) && (
-              <TableRow className={classes.row}>
-                <TableCell align="center" colSpan={4}>
-                  <LoadableButton
-                    loading={isMoreLoading}
-                    disabled={isMoreLoading}
-                    className={classes.moreBtn}
-                    onClick={handleChangePage}
-                    variant="text"
-                  >
-                    {t('account.payment-table.more')}
-                  </LoadableButton>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Box>
-      </TableContainer>
-    </PaymentHistoryTableContext.Provider>
+    <Box display="flex" flexDirection="column">
+      <Box mb={2} display="flex" flexDirection="space-between">
+        <Typography variant="h3" className={classes.title}>
+          {t('account.payment-table.title')}
+        </Typography>
+      </Box>
+      <VirtualTable
+        cols={columns}
+        isMoreRowsAvailable={data && data.cursor !== '-1'}
+        pagination="more"
+        minWidth={600}
+        moreBtnText={t('account.payment-table.more')}
+        onChangePage={handleChangePage}
+        onSort={handleChangeSort}
+        rows={data?.transactions || []}
+        isLoading={loading && !data}
+      />
+    </Box>
   );
 };

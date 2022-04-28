@@ -4,10 +4,14 @@ import { Theme } from '@material-ui/core';
 export const useStyles = makeStyles<Theme>(theme => ({
   inputBase: {
     paddingRight: 0,
-    borderRadius: 16,
+    borderRadius: 12,
     fontSize: 14,
+    height: 44,
 
     '& label': { marginBottom: theme.spacing(2), fontWeight: 700 },
+  },
+  input: {
+    minHeight: 32,
   },
   domain: {
     marginTop: theme.spacing(2),

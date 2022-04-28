@@ -1,9 +1,10 @@
 type VirtualTablePaginationType = 'more';
-export interface VirtualTableSort {
-  order: 'asc' | 'desc';
-  orderBy: string;
-}
 
+export interface VirtualTableQuery {
+  page?: number;
+  order?: 'asc' | 'desc';
+  orderBy?: string;
+}
 export interface VirtualTableProps<T extends Record<string, any>> {
   cols: VirtualTableColumn<T>[];
   minWidth?: number | string;
@@ -11,13 +12,13 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   rows: T[];
   isLoading?: boolean;
   pagination?: VirtualTablePaginationType;
-  startPage?: number;
-  onChangePage?: (page: number) => void;
+  onChangePage?: (params: VirtualTableQuery) => void;
   isMoreRowsAvailable?: boolean;
-  defaultSort?: VirtualTableSort;
-  onSort?: (params: VirtualTableSort) => void;
+  defaultQuery?: VirtualTableQuery;
+  onSort?: (params: VirtualTableQuery) => void;
   renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
   moreBtnText?: string;
+  classes?: { root?: string; container?: string };
 }
 
 export interface VirtualTableColumn<T> {

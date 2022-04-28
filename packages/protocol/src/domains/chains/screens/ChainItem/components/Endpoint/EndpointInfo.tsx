@@ -10,7 +10,6 @@ import {
 } from 'domains/plan/screens/Dashboard/DashboardUtils';
 import { IEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { useEndpointBreadcrumbs } from './EndpointUtils';
 
 interface EndpointInfoProps {
   providerData: IProvider | null;
@@ -28,8 +27,6 @@ export const EndpointInfo = ({
   publicChain,
 }: EndpointInfoProps) => {
   const classes = useStyles();
-
-  useEndpointBreadcrumbs(privateChain.name);
 
   const isMoreThanLimit = hasLimit(providerData, endpoints);
   const limit = getLimit(providerData);

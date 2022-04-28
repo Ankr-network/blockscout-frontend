@@ -1,31 +1,22 @@
-import React from 'react';
-
-import { getChainById } from './EndpointUtils';
-import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
-import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
-import { PageNotFound } from 'modules/router/components/PageNotFound';
-import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
-import { Queries } from 'modules/common/components/Queries/Queries';
+import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useProvider } from 'modules/auth/hooks/useProvider';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { PageNotFound } from 'modules/router/components/PageNotFound';
+import React from 'react';
 import { EndpointInfo } from './EndpointInfo';
+import { EndpointQuerySkeleton } from './EndpointQuerySkeleton';
+import { getChainById } from './EndpointUtils';
 
 export const EndpointQuery = ({ chainId }: { chainId: string }) => {
   const { providerData } = useProvider();
 
   return (
-    <Queries<
-      ResponseData<typeof fetchEndpoints>,
-      ResponseData<typeof fetchPrivateChains>,
-      ResponseData<typeof fetchPublicChains>
+    <Queries<ResponseData<typeof fetchPremiumChainFeatures>>
+      requestActions={[fetchPremiumChainFeatures]}
+      spinner={<EndpointQuerySkeleton />}
     >
-      requestActions={[fetchEndpoints, fetchPrivateChains, fetchPublicChains]}
-    >
-      {(
-        { data: endpoints },
-        { data: privateChains },
-        { data: publicChains },
-      ) => {
+      {({ data: { endpoints, publicChains, privateChains } }) => {
         const privateChain = getChainById(privateChains, chainId);
         const publicChain = getChainById(publicChains, chainId);
 

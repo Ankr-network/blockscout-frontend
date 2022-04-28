@@ -20,7 +20,7 @@ export const RequestExplorer = () => {
 
   return (
     <ThemeProvider theme={mainTheme}>
-      <Box className={classes.root}>
+      <Box height="100%" className={classes.root}>
         <RequestExplorerTableQuery />
       </Box>
     </ThemeProvider>

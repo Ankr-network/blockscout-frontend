@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { INodeEntity } from 'multirpc-sdk';
 
-import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
@@ -28,8 +27,8 @@ export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
 
       setBreadcrumbs([
         {
-          title: t(DashboardRoutesConfig.dashboard.breadcrumbs),
-          link: DashboardRoutesConfig.dashboard.path,
+          title: t(ChainsRoutesConfig.chains.breadcrumbs),
+          link: ChainsRoutesConfig.chains.path,
         },
         {
           title,

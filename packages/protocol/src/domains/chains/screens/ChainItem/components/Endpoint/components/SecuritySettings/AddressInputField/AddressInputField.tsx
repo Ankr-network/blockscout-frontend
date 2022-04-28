@@ -33,6 +33,7 @@ export const AddressInputField = ({
         classes: {
           label: classes.label,
           root: classes.inputBase,
+          input: classes.input,
         },
         disabled: isDisabled,
         endAdornment: (

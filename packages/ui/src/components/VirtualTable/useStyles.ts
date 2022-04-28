@@ -13,7 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(0, 3),
   },
   listContainer: {
-    flex: 1,
+    flex: '1 0 auto',
   },
   row: {
     display: 'flex',
@@ -21,6 +21,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     height: 56,
     flexShrink: 0,
+  },
+  vRow: {
+    '&:last-child $rowColumn': {
+      borderBottom: 'none',
+    },
   },
   rowColumn: {
     display: 'flex',
@@ -50,18 +55,25 @@ export const useStyles = makeStyles<Theme>(theme => ({
   col: {
     wordWrap: 'break-word',
     padding: theme.spacing(1),
+
+    '&:first-child': {
+      paddingLeft: 0,
+    },
+    '&:last-child': {
+      paddingRight: 0,
+    },
   },
   colGrow: {
     flex: '1 0 auto',
   },
-  colLeft: {
-    justifyContent: 'flex-start',
+  colSortable: {
+    cursor: 'pointer',
   },
-  colCenter: {
-    justifyContent: 'center',
+  sortIcon: {
+    marginLeft: theme.spacing(1),
   },
-  colRight: {
-    justifyContent: 'flex-end',
+  moreRow: {
+    borderTop: `1px solid ${theme.palette.background.default}`,
   },
   moreBtn: {
     '&&': {

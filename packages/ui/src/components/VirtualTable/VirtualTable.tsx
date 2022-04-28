@@ -1,4 +1,5 @@
 import { Paper } from '@material-ui/core';
+import classNames from 'classnames';
 import { useEffect } from 'react';
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
 import { VirtualTableProps } from './types';
@@ -14,38 +15,57 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
-  const { minWidth, minHeight, moreBtnText, isMoreRowsAvailable } = props;
+  const {
+    minWidth,
+    minHeight,
+    moreBtnText,
+    isMoreRowsAvailable,
+    classes: tableClasses,
+  } = props;
   const classes = useStyles();
-  const { cache, ref, colsWidthCalculated, rows } = useTable();
+  const { cache, ref, rows } = useTable();
   const rowRenderer = useRowRenderer();
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.container} style={{ minWidth, minHeight }}>
+    <div className={classNames(classes.root, tableClasses?.root)}>
+      <Paper
+        className={classNames(classes.container, tableClasses?.container)}
+        style={{ minWidth, minHeight }}
+      >
         <TableHead />
         <div className={classes.listContainer}>
-          {colsWidthCalculated && (
-            <WindowScroller>
-              {({ height, scrollTop }) => (
+          <WindowScroller>
+            {({
+              height,
+              scrollTop,
+              isScrolling,
+              onChildScroll,
+              registerChild,
+            }) => {
+              return (
                 <AutoSizer disableHeight>
                   {({ width }) => (
-                    <List
-                      autoHeight
-                      ref={ref as any}
-                      scrollTop={scrollTop}
-                      deferredMeasurementCache={cache}
-                      height={height}
-                      width={width}
-                      overscanRowCount={10}
-                      rowCount={rows.length}
-                      rowHeight={cache.rowHeight}
-                      rowRenderer={rowRenderer}
-                    />
+                    <div ref={registerChild}>
+                      <List
+                        autoHeight
+                        ref={ref as any}
+                        scrollTop={scrollTop}
+                        isScrolling={isScrolling}
+                        onScroll={onChildScroll}
+                        deferredMeasurementCache={cache}
+                        height={height}
+                        width={width}
+                        overscanRowCount={10}
+                        rowCount={rows.length}
+                        rowHeight={cache.rowHeight}
+                        rowRenderer={rowRenderer}
+                      />
+                    </div>
                   )}
                 </AutoSizer>
-              )}
-            </WindowScroller>
-          )}
+              );
+            }}
+          </WindowScroller>
         </div>
         {isMoreRowsAvailable && <PaginationMore text={moreBtnText} />}
       </Paper>
@@ -54,23 +74,15 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
 }
 
 export function VirtualTable<T>(props: VirtualTableProps<T>) {
-  const {
-    onChangePage,
-    startPage,
-    onSort,
-    defaultSort,
-    rows,
-    cols,
-    renderExpand,
-  } = props;
+  const { onChangePage, onSort, rows, cols, renderExpand, defaultQuery } =
+    props;
 
   const context = useTableContext({
     onChangePage,
-    startPage,
     onSort,
-    defaultSort,
     rows,
     cols,
+    defaultQuery,
     renderExpand,
   });
 
