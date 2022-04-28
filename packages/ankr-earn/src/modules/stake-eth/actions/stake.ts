@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
@@ -29,8 +30,12 @@ export const stake = createAction<
   meta: {
     showNotificationOnError: true,
     asMutation: true,
-    onSuccess: (response, _action, { dispatchRequest }) => {
+    onSuccess: (response, _action, { dispatchRequest, dispatch }) => {
       dispatchRequest(getCommonData());
+
+      if (response.data.transactionHash) {
+        dispatch(push(`${token}/${response.data.transactionHash}/`));
+      }
       return response;
     },
   },

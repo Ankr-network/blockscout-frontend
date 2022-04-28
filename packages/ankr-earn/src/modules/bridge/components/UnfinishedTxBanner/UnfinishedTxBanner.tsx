@@ -4,8 +4,8 @@ import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
+import { Quote } from 'uiKit/Quote';
 
-import { Quote } from '../Quote';
 import { Transaction } from '../Transaction';
 
 import { useUnfinishedTxBannerStyles } from './useUnfinishedTxBannerStyles';

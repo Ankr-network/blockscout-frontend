@@ -17,11 +17,12 @@ jest.mock('modules/analytics/tracking-actions/trackSwitchToken', () => ({
 
 describe('modules/switcher/screens/Main/useSendAnalytics', () => {
   const defaultHookProps: ISendAnalyticsHookArgs = {
-    swapOption: Token.aETHb,
+    from: Token.aETHb,
+    to: Token.aETHc,
     feeBasisPoints: 30,
-    ratio: new BigNumber(10 ** 18),
-    fethBalance: new BigNumber(9000),
-    aethBalance: new BigNumber(9000),
+    ratio: new BigNumber(1),
+    abBalance: new BigNumber(9000),
+    acBalance: new BigNumber(9000),
   };
 
   beforeEach(() => {
@@ -64,7 +65,8 @@ describe('modules/switcher/screens/Main/useSendAnalytics', () => {
     const { result } = renderHook(() =>
       useSendAnalytics({
         ...defaultHookProps,
-        swapOption: Token.aETHc,
+        from: Token.aETHc,
+        to: Token.aETHb,
       }),
     );
 
@@ -92,8 +94,8 @@ describe('modules/switcher/screens/Main/useSendAnalytics', () => {
     const { result } = renderHook(() =>
       useSendAnalytics({
         ...defaultHookProps,
-        aethBalance: undefined,
-        fethBalance: undefined,
+        acBalance: undefined,
+        abBalance: undefined,
       }),
     );
 

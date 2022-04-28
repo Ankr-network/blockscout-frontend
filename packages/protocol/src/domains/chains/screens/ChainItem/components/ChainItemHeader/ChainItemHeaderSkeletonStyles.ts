@@ -17,21 +17,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     paddingBottom: theme.spacing(2.5),
-    borderBottom: `2px solid ${theme.palette.background.default}`,
   },
   rect: {
     marginLeft: theme.spacing(2),
-  },
-  right: {
-    marginTop: theme.spacing(2),
-    marginBottom: 10,
-  },
-  btnUnlock: {
-    width: '50%',
-    marginTop: theme.spacing(2),
-
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
   },
 }));

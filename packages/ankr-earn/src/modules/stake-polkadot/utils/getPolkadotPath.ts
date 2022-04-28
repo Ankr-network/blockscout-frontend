@@ -11,6 +11,10 @@ export interface IGetPolkadotPathData {
   path: string;
 }
 
+const POLKADOT_NETWORK_LOWER_KEYS = POLKADOT_NETWORK_KEYS.map(network =>
+  network.toLowerCase(),
+);
+
 export const INVALID_DEFAULT_PATH = RoutesConfig.dashboard.generatePath();
 
 export const getPolkadotPath = (
@@ -29,7 +33,7 @@ export const getPolkadotPath = (
 
   const network = currNetwork.toLowerCase();
 
-  if (!POLKADOT_NETWORK_KEYS.includes(network)) {
+  if (!POLKADOT_NETWORK_LOWER_KEYS.includes(network)) {
     return invalidState;
   }
 

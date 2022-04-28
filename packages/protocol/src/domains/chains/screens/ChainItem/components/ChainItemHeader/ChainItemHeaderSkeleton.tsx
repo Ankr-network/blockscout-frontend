@@ -2,6 +2,7 @@ import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
 
+import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpoints';
 import { useStyles } from './ChainItemHeaderSkeletonStyles';
 
 interface IChainItemHeaderProps {
@@ -25,11 +26,7 @@ export const ChainItemHeaderSkeleton = ({
             className={classes.rect}
           />
         </div>
-
-        <div className={classes.right}>
-          <Skeleton variant="rect" width={150} height={20} />
-          <Skeleton variant="rect" height={42} className={classes.btnUnlock} />
-        </div>
+        <ExclusiveRPCEndpointsSkeleton />
       </div>
     </div>
   );

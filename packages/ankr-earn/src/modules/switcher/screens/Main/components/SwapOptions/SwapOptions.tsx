@@ -1,72 +1,111 @@
-import { Box, Chip } from '@material-ui/core';
-import { useCallback } from 'react';
+import { Box } from '@material-ui/core';
+import compact from 'lodash/compact';
+import { useCallback, useMemo } from 'react';
 
+import { featuresConfig } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
+import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
-import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
-
-import { TSwapOption } from '../../../../types';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
+import { SwitchSelect } from 'uiKit/SwitchSelect';
 
 import { useSwapOptionsStyles } from './useSwapOptionsStyles';
 
 export interface ISwapOptionsProps {
-  swapOption: TSwapOption;
-  onChooseAEthB: () => void;
-  onChooseAEthC: () => void;
+  from: Token;
+  to: Token;
+  onChooseFrom: (value: string) => void;
+  onChooseTo: (value: string) => void;
 }
 
+const DEFAULT_ICON_PROPS = {
+  size: 32,
+};
+
+const AVAILABLE_SWAP_TOKENS = {
+  from: compact([
+    {
+      label: Token.aETHb,
+      value: Token.aETHb,
+      icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    {
+      label: Token.aBNBb,
+      value: Token.aBNBb,
+      icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherMatic && {
+      label: Token.aMATICb,
+      value: Token.aMATICb,
+      icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+  ]),
+
+  to: compact([
+    {
+      label: Token.aETHc,
+      value: Token.aETHc,
+      icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    {
+      label: Token.aBNBc,
+      value: Token.aBNBc,
+      icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherMatic && {
+      label: Token.aMATICc,
+      value: Token.aMATICc,
+      icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+  ]),
+};
+
 export const SwapOptions = ({
-  swapOption,
-  onChooseAEthB,
-  onChooseAEthC,
+  from,
+  to,
+  onChooseFrom,
+  onChooseTo,
 }: ISwapOptionsProps): JSX.Element => {
   const classes = useSwapOptionsStyles();
 
+  const isDirectSwap = useMemo(
+    () => AVAILABLE_SWAP_TOKENS.from.some(({ value }) => value === from),
+    [from],
+  );
+
+  const fromOptions = useMemo(
+    () =>
+      isDirectSwap ? AVAILABLE_SWAP_TOKENS.from : AVAILABLE_SWAP_TOKENS.to,
+    [isDirectSwap],
+  );
+
+  const toOptions = useMemo(
+    () =>
+      isDirectSwap ? AVAILABLE_SWAP_TOKENS.to : AVAILABLE_SWAP_TOKENS.from,
+    [isDirectSwap],
+  );
+
+  const values = useMemo(() => ({ from, to }), [from, to]);
+
   const handleChooseSwapOption = useCallback(() => {
-    if (swapOption === 'aETHb') {
-      onChooseAEthC();
-      return;
-    }
-
-    onChooseAEthB();
-  }, [swapOption, onChooseAEthC, onChooseAEthB]);
-
-  const renderChip = (predicate: boolean): JSX.Element =>
-    predicate ? (
-      <Chip
-        className={classes.swapChip}
-        clickable={false}
-        data-testid="aETHb-chip"
-        icon={<AETHBIcon />}
-        label="aETHb"
-        onClick={onChooseAEthB}
-      />
-    ) : (
-      <Chip
-        className={classes.swapChip}
-        clickable={false}
-        data-testid="aETHc-chip"
-        icon={<AETHCIcon />}
-        label="aETHc"
-        onClick={onChooseAEthC}
-      />
-    );
+    onChooseFrom(to);
+    onChooseTo(from);
+  }, [from, to, onChooseFrom, onChooseTo]);
 
   return (
     <Box className={classes.swapChips}>
-      {renderChip(swapOption === 'aETHb')}
-
-      <div
-        className={classes.arrowIconWrapper}
-        data-testid="arrow-chip"
-        role="button"
-        tabIndex={0}
-        onClick={handleChooseSwapOption}
-      >
-        <ArrowIcon />
-      </div>
-
-      {renderChip(swapOption === 'aETHc')}
+      <SwitchSelect
+        isPairSelect
+        from={fromOptions}
+        to={toOptions}
+        values={values}
+        onChangeFrom={onChooseFrom}
+        onChangeSwitch={handleChooseSwapOption}
+        onChangeTo={onChooseTo}
+      />
     </Box>
   );
 };

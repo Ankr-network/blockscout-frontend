@@ -83,13 +83,15 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     return amountWithoutFee;
   }, [data?.amount, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
 
+  const isPending = !receipt && !!data?.isPending;
+
   return {
     amount: calculatedAmount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: tokenOut,
     isLoading,
-    isPending: !receipt,
+    isPending,
     error: error || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };

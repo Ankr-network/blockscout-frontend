@@ -1,4 +1,4 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
@@ -22,6 +22,7 @@ interface IUseGuardRouteArgs {
 
 interface IUseGuardRouteData {
   isConnected: boolean;
+  isLoading: boolean;
   isOpenedModal: boolean;
   isUnsupportedNetwork: boolean;
   supportedNetworks: INetwork[];
@@ -45,6 +46,8 @@ export const useGuardRoute = ({
   } = useDialog();
   const networks = useNetworks();
   const dispatchRequest = useDispatchRequest();
+
+  const { loading: isLoading } = useMutation({ type: switchNetwork });
 
   let isConnected = false;
   let isMetaMask = false;
@@ -83,7 +86,7 @@ export const useGuardRoute = ({
   );
 
   const handleSwitchNetwork = useCallback(
-    (network: BlockchainNetworkId) => () => {
+    (network: BlockchainNetworkId) => (): void => {
       dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
@@ -96,6 +99,7 @@ export const useGuardRoute = ({
 
   return {
     isConnected,
+    isLoading,
     isOpenedModal,
     isUnsupportedNetwork,
     supportedNetworks,

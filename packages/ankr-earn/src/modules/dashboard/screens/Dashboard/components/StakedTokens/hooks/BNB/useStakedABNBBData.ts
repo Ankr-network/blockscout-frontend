@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
@@ -23,6 +23,7 @@ export interface IStakedABNBBData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
+  chainId: BlockchainNetworkId;
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;
@@ -48,6 +49,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   );
 
   const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
+  const chainId = BSC_NETWORK_BY_ENV;
 
   const amount = statsData?.aBNBbBalance ?? ZERO;
   const pendingValue = statsData?.pendingUnstakes ?? ZERO;
@@ -62,6 +64,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   return {
     amount,
     network,
+    chainId,
     pendingValue,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     stakeLink: StakeBinanceRoutes.stake.generatePath(),

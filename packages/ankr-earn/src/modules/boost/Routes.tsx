@@ -1,14 +1,13 @@
-import loadable from '@loadable/component';
 import { generatePath, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { EARN_PATH, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}defi/`;
 const TRADING_COCKPIT_PATH = `${ROOT}trade/`;
@@ -43,23 +42,15 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const TradingCockpit = loadable(
-  async () =>
-    import('./screens/TradingCockpit').then(module => module.TradingCockpit),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const TradingCockpit = loadComponent(() =>
+  import('./screens/TradingCockpit').then(module => module.TradingCockpit),
 );
 
 const LiquidityMining = featuresConfig.liquidityMining
-  ? loadable(
-      async () =>
-        import('./screens/LiquidityMining').then(
-          module => module.LiquidityMining,
-        ),
-      {
-        fallback: <QueryLoadingAbsolute />,
-      },
+  ? loadComponent(() =>
+      import('./screens/LiquidityMining').then(
+        module => module.LiquidityMining,
+      ),
     )
   : 'span';
 

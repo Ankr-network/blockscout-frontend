@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useStyles } from './ChainItemStyles';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainItemHeader } from './components/ChainItemHeader';
@@ -18,6 +18,9 @@ import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumCh
 import { useQuery } from '@redux-requests/react';
 import { TrafficFlow } from './components/Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from 'domains/plan/screens/Dashboard/DashboardUtils';
+import { H1Tag } from 'uiKit/H1Tag';
+import { getChainName } from 'uiKit/utils/useMetatags';
+import { t } from 'common';
 
 const ENABLE_CHAIN_NODES_TABLE = true;
 
@@ -50,8 +53,11 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
     error,
   } = useTimeframeData(chainId);
 
+  const name = useMemo(() => getChainName(chainId), [chainId]);
+
   return (
     <div className={classes.chainDetailsWrapper}>
+      <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         className={classes.chainItemHeader}
         chain={chain}
@@ -65,7 +71,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainBanner className={classes.chainBanner} />
       )}
 
-      {canAddEndpoint(chainId) && <TrafficFlow />}
+      {canAddEndpoint(providerData, chainId) && <TrafficFlow />}
 
       {!authLoading && !providerLoading && (
         <>

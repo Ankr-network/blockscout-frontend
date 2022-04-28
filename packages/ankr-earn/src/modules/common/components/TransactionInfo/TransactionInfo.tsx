@@ -47,7 +47,9 @@ export const TransactionInfo = ({
         />
 
         <Typography className={classes.title}>
-          {t(type === 'success' ? 'common.successTx' : 'common.errorTx')}
+          {type === 'success' ? t('common.successTx') : t('common.errorTx')}
+
+          {txError && <span className={classes.errorReason}>{txError}</span>}
 
           {txHash && (
             <NavLink

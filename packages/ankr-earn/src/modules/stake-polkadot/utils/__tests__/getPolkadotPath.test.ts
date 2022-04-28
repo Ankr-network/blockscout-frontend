@@ -5,6 +5,10 @@ import {
   INVALID_DEFAULT_PATH,
 } from '../getPolkadotPath';
 
+jest.mock('../../const', () => ({
+  POLKADOT_NETWORK_KEYS: ['DOT', 'KSM', 'WND'] as EPolkadotNetworks[],
+}));
+
 describe('modules/stake-polkadot/utils/getPolkadotPath', (): void => {
   const TARGET_PATH = '/stake/:network';
 

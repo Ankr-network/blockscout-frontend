@@ -1,12 +1,10 @@
-import loadable from '@loadable/component';
-import React from 'react';
 import { generatePath } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import { EARN_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 const ROOT = `${EARN_PATH}stake/`;
 
@@ -20,11 +18,8 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
-const Main = loadable(
-  async () => import('./screens/Main').then(module => module.Main),
-  {
-    fallback: <QueryLoadingAbsolute />,
-  },
+const Main = loadComponent(() =>
+  import('./screens/Main').then(module => module.Main),
 );
 
 export function getRoutes(): JSX.Element {

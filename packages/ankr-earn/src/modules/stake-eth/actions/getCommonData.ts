@@ -3,15 +3,18 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
 import { EthSDK } from 'modules/api/EthSDK';
+import { Token } from 'modules/common/types/token';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
 
 export interface IGetCommonData {
-  ethBalance: BigNumber;
   aETHbBalance: BigNumber;
   aETHcBalance: BigNumber;
-  minStake: BigNumber;
   aETHcRatio: BigNumber;
+  claimableAETHB: BigNumber;
+  claimableAETHC: BigNumber;
+  ethBalance: BigNumber;
+  minStake: BigNumber;
 }
 
 export const getCommonData = createAction<
@@ -23,21 +26,32 @@ export const getCommonData = createAction<
 
       const isFormatted = true;
 
-      const [ethBalance, aETHbBalance, aETHcBalance, minStake, aETHcRatio] =
-        await Promise.all([
-          sdk.getEthBalance(),
-          sdk.getAethbBalance(isFormatted),
-          sdk.getAethcBalance(isFormatted),
-          sdk.getMinStake(),
-          sdk.getAethcRatio(isFormatted),
-        ]);
-
-      return {
+      const [
         ethBalance,
         aETHbBalance,
+        aETHcBalance,
         minStake,
+        aETHcRatio,
+        claimableAETHB,
+        claimableAETHC,
+      ] = await Promise.all([
+        sdk.getEthBalance(),
+        sdk.getAethbBalance(isFormatted),
+        sdk.getAethcBalance(isFormatted),
+        sdk.getMinStake(),
+        sdk.getAethcRatio(isFormatted),
+        sdk.getClaimable(Token.aETHb),
+        sdk.getClaimable(Token.aETHc),
+      ]);
+
+      return {
+        aETHbBalance,
         aETHcBalance,
         aETHcRatio,
+        claimableAETHB,
+        claimableAETHC,
+        ethBalance,
+        minStake,
       };
     })(),
   },

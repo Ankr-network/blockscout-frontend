@@ -7,6 +7,7 @@ import { MultiService } from '../../api/MultiService';
 import { store } from 'store';
 import { resetAuthData } from 'modules/auth/store/authSlice';
 import { fetchDepositStatus } from './fetchDepositStatus';
+import { fetchProvider } from 'domains/nodeProviders/actions/fetchProvider';
 
 export const disconnect = createSmartAction<RequestAction>(
   'auth/disconnect',
@@ -25,6 +26,9 @@ export const disconnect = createSmartAction<RequestAction>(
     meta: {
       asMutation: true,
       mutations: {
+        [fetchProvider.toString()]: (): ResponseData<typeof connect> | null => {
+          return null;
+        },
         [connect.toString()]: (): ResponseData<typeof connect> | null => {
           return null;
         },

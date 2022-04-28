@@ -5,7 +5,6 @@ import { useHistory } from 'react-router';
 
 import { PolkadotProvider } from 'polkadot';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
@@ -17,6 +16,7 @@ import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUs
 
 import { fetchStats } from '../../../actions/fetchStats';
 import { unstake } from '../../../actions/unstake';
+import { useETHPolkadotProvidersEffect } from '../../../hooks/useETHPolkadotProvidersEffect';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import {
   EPolkadotETHReverseMap,
@@ -34,6 +34,7 @@ interface IUseUnstakePolkadotData {
   isUnstakeLoading: boolean;
   fetchStatsData: ResponseData<typeof fetchStats> | null;
   fetchStatsError: Error | null;
+  maxAmountDecimals: number | undefined;
   networkName: string;
   polkadotToken: TPolkadotToken;
   redeemPeriodTxt: string;
@@ -84,6 +85,11 @@ export const useUnstakePolkadotData = (
   const ethToken = useMemo(
     () => EPolkadotETHReverseMap[network] as unknown as Token,
     [network],
+  );
+
+  const maxAmountDecimals = useMemo(
+    () => fetchStatsData?.maxDecimalsUnstake.toNumber(),
+    [fetchStatsData?.maxDecimalsUnstake],
   );
 
   const networkName = useMemo(
@@ -141,18 +147,20 @@ export const useUnstakePolkadotData = (
       return;
     }
 
-    dispatchRequest(unstake(userWallet, userAmount)).then(({ error }): void => {
-      if (!error) {
-        onUserWalletClose();
+    dispatchRequest(unstake(network, userWallet, userAmount)).then(
+      ({ error }): void => {
+        if (!error) {
+          onUserWalletClose();
 
-        onSuccessOpen();
-      }
-    });
+          onSuccessOpen();
+        }
+      },
+    );
   };
 
-  useProviderEffect(() => {
+  useETHPolkadotProvidersEffect(() => {
     dispatchRequest(fetchStats());
-  }, [dispatchRequest]);
+  }, [dispatchRequest, fetchStats]);
 
   return {
     ethToken,
@@ -163,6 +171,7 @@ export const useUnstakePolkadotData = (
     isUnstakeLoading,
     fetchStatsData,
     fetchStatsError,
+    maxAmountDecimals,
     networkName,
     polkadotToken,
     redeemPeriodTxt,

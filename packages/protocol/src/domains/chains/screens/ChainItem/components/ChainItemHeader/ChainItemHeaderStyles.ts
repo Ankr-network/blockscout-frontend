@@ -10,17 +10,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.background.default}`,
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginBottom: theme.spacing(2),
   },
   left: {
     display: 'flex',
     justifyContent: 'space-between',
     paddingBottom: theme.spacing(2.5),
-    borderBottom: `2px solid ${theme.palette.background.default}`,
-    marginBottom: theme.spacing(2),
   },
   tooltip: {
     [theme.breakpoints.down('xs')]: {
@@ -33,5 +29,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
   preloaderWrapper: {
     minHeight: 85,
     position: 'relative',
+  },
+  publicEndpoints: {
+    paddingTop: theme.spacing(2),
+    borderTop: `2px solid ${theme.palette.background.default}`,
   },
 }));

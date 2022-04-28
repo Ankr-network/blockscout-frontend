@@ -22,10 +22,9 @@ export const RpcItem = ({
   extraDescription,
   extraLabel,
   className = '',
-  hasOnClick = false,
   id,
 }: RpcItemProps) => {
-  const classes = useStyles({ hasOnClick });
+  const classes = useStyles();
 
   const urls = links.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]));
 
@@ -33,7 +32,6 @@ export const RpcItem = ({
     <NavLink
       isRouterLink
       href={ChainsRoutesConfig.chainDetails.generatePath(id)}
-      disabled={!hasOnClick}
       className={classNames(classes.root, className)}
       tabIndex={0}
     >
@@ -74,11 +72,9 @@ export const RpcItem = ({
             />
           ))}
         </div>
-        {hasOnClick && (
-          <Button className={classes.moreBtn} variant="outlined">
-            {t('providers.endpoint.more-btn')}
-          </Button>
-        )}
+        <Button className={classes.moreBtn} variant="outlined">
+          {t('providers.endpoint.more-btn')}
+        </Button>
       </div>
     </NavLink>
   );

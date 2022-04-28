@@ -11,12 +11,12 @@ import { SwitchSelect } from '../SwitchSelect';
 describe('uiKit/SwitchSelect', () => {
   const defaultProps = {
     from: [
-      { icon: <AETHBIcon />, value: Token.aETHb },
-      { icon: <ABNBBIcon />, value: Token.aBNBb },
+      { label: Token.aETHb, icon: <AETHBIcon />, value: Token.aETHb },
+      { label: Token.aBNBb, icon: <ABNBBIcon />, value: Token.aBNBb },
     ],
     to: [
-      { icon: <AETHCIcon />, value: Token.aETHc },
-      { icon: <ABNBCIcon />, value: Token.aBNBc },
+      { label: Token.aETHc, icon: <AETHCIcon />, value: Token.aETHc },
+      { label: Token.aBNBc, icon: <ABNBCIcon />, value: Token.aBNBc },
     ],
     values: { from: '', to: '' },
     onChangeFrom: jest.fn(),

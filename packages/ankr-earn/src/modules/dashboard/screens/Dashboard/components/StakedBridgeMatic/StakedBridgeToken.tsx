@@ -7,12 +7,13 @@ import { useStakedBridgeMaticData } from '../StakedTokens/hooks/MATIC/useStakedB
 export const StakedBridgeMatic = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const { amount, network, isBalancesLoading, onAddTokenClick } =
+  const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
     useStakedBridgeMaticData();
 
   return (
     <StakingBridgeAsset
       amount={amount}
+      chainId={chainId}
       isLoading={isBalancesLoading}
       network={network}
       token={Token.aMATICb}
