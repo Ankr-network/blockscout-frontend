@@ -11,6 +11,7 @@ const boxPadding = 4;
 export const useFeatureItemStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
+    height: '100%',
     padding: theme.spacing(boxPadding),
     transition: transitions.create(
       ['box-shadow', 'transform'],

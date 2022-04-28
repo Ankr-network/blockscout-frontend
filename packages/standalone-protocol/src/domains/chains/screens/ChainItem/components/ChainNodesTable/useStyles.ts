@@ -14,6 +14,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       border: `1px solid ${theme.palette.grey[300]}`,
     },
+    '&.eth': {
+      border: `1px solid ${theme.palette.grey[300]}`,
+      borderRadius: 0,
+      backgroundColor: theme.palette.background.paper,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),

@@ -1,1 +1,1 @@
-export * from './ProvidersNodesList';
+export * from './Providers';

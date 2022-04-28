@@ -13,6 +13,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     width: `calc(100% - ${MENU_WIDTH}px)`,
     marginLeft: MENU_WIDTH,
+    '&.eth': {
+      backgroundColor: theme.palette.common.white,
+    },
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       marginLeft: 0,

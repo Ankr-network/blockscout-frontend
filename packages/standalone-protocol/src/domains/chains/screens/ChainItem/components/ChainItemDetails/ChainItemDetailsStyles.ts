@@ -16,6 +16,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: 'repeat(1, 1fr)',
     },
 
+    '&.eth $block': {
+      borderRadius: 0,
+      backgroundColor: '#E5E5F5',
+    },
+
     '&.harmony $block': {
       border: `2px solid ${theme.palette.grey[300]}`,
     },

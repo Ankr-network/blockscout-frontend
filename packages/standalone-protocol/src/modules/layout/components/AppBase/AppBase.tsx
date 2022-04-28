@@ -9,6 +9,7 @@ import '../../../../assets/fonts/style.css';
 import { getCurrentChainId, useInitialaizeLocale } from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId } from 'domains/chains/api/chain';
+import { RewiredStylesProvider } from 'ui';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -21,15 +22,20 @@ export const AppBase = ({ children, chainId }: IAppBaseProps) => {
   const currentChainId = getCurrentChainId(chainId);
 
   return (
-    <ThemeProvider theme={getTheme(currentChainId)}>
-      <CssBaseline />
-      {isInitialized ? (
-        <ConnectedRouter history={historyInstance} context={ReactReduxContext}>
-          {children}
-        </ConnectedRouter>
-      ) : (
-        <Spinner />
-      )}
-    </ThemeProvider>
+    <RewiredStylesProvider>
+      <ThemeProvider theme={getTheme(currentChainId)}>
+        <CssBaseline />
+        {isInitialized ? (
+          <ConnectedRouter
+            history={historyInstance}
+            context={ReactReduxContext}
+          >
+            {children}
+          </ConnectedRouter>
+        ) : (
+          <Spinner />
+        )}
+      </ThemeProvider>
+    </RewiredStylesProvider>
   );
 };

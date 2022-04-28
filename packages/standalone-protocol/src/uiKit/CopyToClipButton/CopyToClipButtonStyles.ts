@@ -21,6 +21,18 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
+    '&.eth': {
+      border: `1px solid ${theme.palette.common.black}`,
+      borderRadius: 6,
+      '& $content': {
+        padding: 0,
+      },
+      '& $button': {
+        color: theme.palette.common.white,
+        borderRadius: '6px 0 0 6px',
+      },
+    },
+
     '&.harmony': {
       '& $content': {
         padding: 0,
@@ -190,7 +202,6 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     width: '40%',
     height: '100%',
     color: theme.palette.text.secondary,
-
     [theme.breakpoints.down('sm')]: {
       fontSize: 16,
     },

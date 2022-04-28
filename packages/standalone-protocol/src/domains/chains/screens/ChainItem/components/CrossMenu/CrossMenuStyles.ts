@@ -27,6 +27,9 @@ export const useCrossMenuStyles = makeStyles<Theme, { menuHeight: number }>(
       left: 0,
       zIndex: 210,
       backgroundColor: theme.palette.background.default,
+      '&.eth': {
+        borderRight: `1px solid ${theme.palette.text.secondary}`,
+      },
       '&.gnosis': {
         backgroundColor: theme.palette.common.white,
       },

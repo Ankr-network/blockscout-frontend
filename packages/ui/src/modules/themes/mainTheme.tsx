@@ -838,15 +838,11 @@ export const mainTheme = createTheme({
 
     MuiChip: {
       root: {
-        height: 30,
-        borderRadius: 8,
-        backgroundColor: defaultTheme.palette.background.default,
         fontSize: 14,
-        fontWeight: 600,
-        color: defaultTheme.palette.primary.main,
 
         '&$disabled': {
           opacity: 1,
+          backgroundColor: defaultTheme.palette.background.default,
           color: defaultTheme.palette.text.secondary,
         },
       },
