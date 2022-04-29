@@ -88,6 +88,7 @@ export const featuresConfig = {
   stakeAFTMC: currentEnv !== Env.Production,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
+  showOldBanner: false,
 };
 
 export enum SupportedChainIDS {
