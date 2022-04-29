@@ -1,7 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
@@ -15,7 +15,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 export interface IStakedMaticData {
   amount: BigNumber;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   network: string;
   isBalancesLoading: boolean;
   isShowed: boolean;

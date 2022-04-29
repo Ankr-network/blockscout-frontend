@@ -6,7 +6,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
@@ -167,8 +167,8 @@ export class BinanceSDK implements ISwitcher {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.smartchain,
-      BlockchainNetworkId.smartchainTestnet,
+      EEthereumNetworkId.smartchain,
+      EEthereumNetworkId.smartchainTestnet,
     ].includes(chainId);
   }
 
@@ -318,8 +318,8 @@ export class BinanceSDK implements ISwitcher {
     const decimals = Number.parseInt(rawDecimals, 10);
 
     const chainId: number = isMainnet
-      ? BlockchainNetworkId.smartchain
-      : BlockchainNetworkId.smartchainTestnet;
+      ? EEthereumNetworkId.smartchain
+      : EEthereumNetworkId.smartchainTestnet;
 
     return this.writeProvider.addTokenToWallet({
       address,

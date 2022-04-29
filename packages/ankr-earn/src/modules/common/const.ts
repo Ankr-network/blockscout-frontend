@@ -4,7 +4,7 @@ import { AvailableReadProviders } from 'provider';
 
 import packageJson from '../../../package.json';
 
-import { BlockchainNetworkId, Env } from './types';
+import { EEthereumNetworkId, Env } from './types';
 
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
@@ -92,21 +92,33 @@ export const featuresConfig = {
 
 export enum SupportedChainIDS {
   // ETH Compatible
-  MAINNET = BlockchainNetworkId.mainnet,
-  GOERLI = BlockchainNetworkId.goerli,
-  AVAX = BlockchainNetworkId.avalanche,
-  AVAX_TESTNET = BlockchainNetworkId.avalancheTestnet,
-  BSC = BlockchainNetworkId.smartchain,
-  BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
-  FANTOM_OPERA = BlockchainNetworkId.fantom,
-  FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
-  POLYGON = BlockchainNetworkId.polygon,
+  MAINNET = EEthereumNetworkId.mainnet,
+  GOERLI = EEthereumNetworkId.goerli,
+  AVAX = EEthereumNetworkId.avalanche,
+  AVAX_TESTNET = EEthereumNetworkId.avalancheTestnet,
+  BSC = EEthereumNetworkId.smartchain,
+  BSC_TESTNET = EEthereumNetworkId.smartchainTestnet,
+  FANTOM_OPERA = EEthereumNetworkId.fantom,
+  FANTOM_TESTNET = EEthereumNetworkId.fantomTestnet,
+  POLYGON = EEthereumNetworkId.polygon,
 
   // Polkadot Compatible
-  DOT = BlockchainNetworkId.polkadot,
-  KSM = BlockchainNetworkId.kusama,
-  ROC = BlockchainNetworkId.rococo,
-  WND = BlockchainNetworkId.westend,
+  /**
+   *  @deprecated
+   */
+  DOT = EEthereumNetworkId.polkadot,
+  /**
+   *  @deprecated
+   */
+  KSM = EEthereumNetworkId.kusama,
+  /**
+   *  @deprecated
+   */
+  ROC = EEthereumNetworkId.rococo,
+  /**
+   *  @deprecated
+   */
+  WND = EEthereumNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -130,28 +142,28 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
 
 export const ETH_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.mainnet
-    : BlockchainNetworkId.goerli;
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
 
 export const AVAX_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.avalanche
-    : BlockchainNetworkId.avalancheTestnet;
+    ? EEthereumNetworkId.avalanche
+    : EEthereumNetworkId.avalancheTestnet;
 
 export const BSC_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.smartchain
-    : BlockchainNetworkId.smartchainTestnet;
+    ? EEthereumNetworkId.smartchain
+    : EEthereumNetworkId.smartchainTestnet;
 
 export const FTM_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.fantom
-    : BlockchainNetworkId.fantomTestnet;
+    ? EEthereumNetworkId.fantom
+    : EEthereumNetworkId.fantomTestnet;
 
 export const POLYGON_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.polygon
-    : BlockchainNetworkId.smartchainTestnet;
+    ? EEthereumNetworkId.polygon
+    : EEthereumNetworkId.smartchainTestnet;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production

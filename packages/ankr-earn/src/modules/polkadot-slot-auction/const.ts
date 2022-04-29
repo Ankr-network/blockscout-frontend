@@ -1,6 +1,6 @@
 import { isMainnet } from 'modules/common/const';
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
-export const validETHChainId: BlockchainNetworkId = isMainnet
-  ? BlockchainNetworkId.mainnet
-  : BlockchainNetworkId.goerli;
+export const validETHChainId = isMainnet
+  ? EEthereumNetworkId.mainnet
+  : EEthereumNetworkId.goerli;

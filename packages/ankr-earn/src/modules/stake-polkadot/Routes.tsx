@@ -1,6 +1,7 @@
 import { generatePath, Redirect, Route, Switch } from 'react-router-dom';
 
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
+import { GuardPolkadotRoute } from 'modules/auth/polkadot/components/GuardPolkadotRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -58,13 +59,13 @@ export function getRoutes(): JSX.Element {
               }
 
               return (
-                <GuardRoute
+                <GuardPolkadotRoute
                   exact
                   availableNetworks={availableNetworks}
                   path={path}
                   providerId={POLKADOT_WRITE_PROVIDER_ID}
                 >
-                  <GuardRoute
+                  <GuardETHRoute
                     exact
                     availableNetworks={ETH_NETWORKS}
                     path={path}
@@ -73,8 +74,8 @@ export function getRoutes(): JSX.Element {
                     <DefaultLayout>
                       <Unstake network={network as EPolkadotNetworks} />
                     </DefaultLayout>
-                  </GuardRoute>
-                </GuardRoute>
+                  </GuardETHRoute>
+                </GuardPolkadotRoute>
               );
             }}
           />

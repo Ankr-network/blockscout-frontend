@@ -3,19 +3,17 @@ import { createAction } from 'redux-smart-actions';
 
 import {
   AvailableWriteProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   Web3KeyWriteProvider,
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-
-import { getAuthRequestKey } from '../utils/getAuthRequestKey';
-
-import { connect, IConnect } from './connect';
+import { connect, IConnect } from 'modules/auth/common/actions/connect';
+import { getAuthRequestKey } from 'modules/auth/common/utils/getAuthRequestKey';
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
 }
 
 export const updateConnectedNetwork = createAction<

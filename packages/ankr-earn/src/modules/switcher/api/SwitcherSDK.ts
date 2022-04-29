@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import {
   AvailableWriteProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
 } from 'provider';
 
@@ -194,16 +194,16 @@ export class SwitcherSDK {
     };
 
     switch (chainId) {
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet:
+      case EEthereumNetworkId.goerli:
+      case EEthereumNetworkId.mainnet:
         return ethSdkByToken[token];
 
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain:
+      case EEthereumNetworkId.smartchainTestnet:
+      case EEthereumNetworkId.smartchain:
         return binanceSdkByToken[token];
 
-      case BlockchainNetworkId.fantomTestnet:
-      case BlockchainNetworkId.fantom:
+      case EEthereumNetworkId.fantomTestnet:
+      case EEthereumNetworkId.fantom:
         return fantomSdkByToken[token];
 
       default:

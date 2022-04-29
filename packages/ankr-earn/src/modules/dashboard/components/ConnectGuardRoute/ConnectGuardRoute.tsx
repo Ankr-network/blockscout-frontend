@@ -4,8 +4,8 @@ import { Route, RouteProps } from 'react-router';
 import { AvailableWriteProviders } from 'provider';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
@@ -51,14 +51,14 @@ export const ConnectGuardRoute = ({
 
   if (isConnected) {
     return (
-      <GuardRoute
+      <GuardETHRoute
         exact
         availableNetworks={AVAILABLE_NETWORKS}
         path={routeProps.path}
         providerId={AvailableWriteProviders.ethCompatible}
       >
         <Route {...routeProps} />
-      </GuardRoute>
+      </GuardETHRoute>
     );
   }
 

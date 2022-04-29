@@ -1,19 +1,19 @@
-import { BlockchainNetworkId } from 'provider';
+import { EPolkadotNetworkId } from 'provider';
 
 import { EPolkadotNetworks } from '../types';
 
 export const getPolkadotStakingNetworks = (
   currNetwork: EPolkadotNetworks | unknown,
-): BlockchainNetworkId[] | null => {
+): EPolkadotNetworkId[] | null => {
   switch (currNetwork) {
     case EPolkadotNetworks.DOT:
-      return [BlockchainNetworkId.polkadot];
+      return [EPolkadotNetworkId.polkadot];
 
     case EPolkadotNetworks.KSM:
-      return [BlockchainNetworkId.kusama];
+      return [EPolkadotNetworkId.kusama];
 
     case EPolkadotNetworks.WND:
-      return [BlockchainNetworkId.westend];
+      return [EPolkadotNetworkId.westend];
 
     default:
       return null;

@@ -2,7 +2,7 @@ import { BigNumber } from 'bignumber.js';
 
 import {
   AvailableReadProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   Web3KeyWriteProvider,
 } from 'provider';
 
@@ -125,7 +125,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): Promise<BigNumber> {
     const { abi, address, providerName } = this.getContractDataForToken({
       token,
@@ -154,7 +154,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): IDashboardSDKCotractData {
     const EMPTY = {
       abi: ABI_ERC20,
@@ -163,22 +163,22 @@ export class DashboardSDK {
     };
 
     switch (networkID) {
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain: {
+      case EEthereumNetworkId.smartchainTestnet:
+      case EEthereumNetworkId.smartchain: {
         return addressMapForTokenBSC[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet: {
+      case EEthereumNetworkId.goerli:
+      case EEthereumNetworkId.mainnet: {
         return addressMapForTokenGoerli[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.polygon: {
+      case EEthereumNetworkId.polygon: {
         return addressMapForTokenPolygon[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.fantom:
-      case BlockchainNetworkId.fantomTestnet: {
+      case EEthereumNetworkId.fantom:
+      case EEthereumNetworkId.fantomTestnet: {
         return addressMapForTokenFantom[token] || EMPTY;
       }
 

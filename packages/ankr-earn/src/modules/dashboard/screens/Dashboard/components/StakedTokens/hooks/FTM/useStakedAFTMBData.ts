@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
@@ -23,7 +23,7 @@ export interface IStakedAFTMBData {
   amount: BigNumber;
   pendingUnstakes: BigNumber;
   network: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   tradeLink: string;
   stakeLink: string;
   unstakeLink?: string;

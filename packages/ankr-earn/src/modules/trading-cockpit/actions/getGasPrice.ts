@@ -1,7 +1,7 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 import { ACTIONS_PREFIX } from '../const';
 
@@ -23,12 +23,12 @@ interface IGetGasPriceReply {
 export const getGasPrice = createAction<
   RequestAction<IGetGasPriceReply, number | undefined>,
   [
-    BlockchainNetworkId,
+    EEthereumNetworkId,
     RequestActionMeta<IGetGasPriceReply, number | undefined>?,
   ]
 >(
   `${ACTIONS_PREFIX}getGasPrice`,
-  (chainId = BlockchainNetworkId.mainnet, meta) => ({
+  (chainId = EEthereumNetworkId.mainnet, meta) => ({
     request: {
       method: 'get',
       url: `https://open-api.openocean.finance/v1/${chainId}/getGasPrice`,

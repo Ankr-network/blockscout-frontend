@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { ReactText, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -111,7 +111,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   let isConnected = false;
   let isMetaMask = false;
-  let chainId: BlockchainNetworkId | undefined;
+  let chainId: EEthereumNetworkId | undefined;
 
   const { walletsGroupTypes } = useWalletsGroupTypes({
     postProcessingFn: (providerKey, data): void => {
@@ -133,7 +133,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   });
 
   const [isActualNetwork, setActualNetwork] = useState<boolean>(
-    (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+    (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
   );
 
   const isApproved = !!approveData;
@@ -261,7 +261,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   useProviderEffect(() => {
     setActualNetwork(
-      (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+      (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
     );
   }, [chainId, swapNetworkItem]);
 

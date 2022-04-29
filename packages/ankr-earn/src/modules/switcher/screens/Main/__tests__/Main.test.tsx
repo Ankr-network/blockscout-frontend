@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -28,7 +28,7 @@ jest.mock('../hooks', () => ({
 
 describe('modules/switcher/screens/Main', () => {
   const defaultHookData: ISwitcherHookData = {
-    chainId: BlockchainNetworkId.goerli as number,
+    chainId: EEthereumNetworkId.goerli as number,
     allowance: ZERO,
     ratio: ZERO,
     acBalance: ZERO,

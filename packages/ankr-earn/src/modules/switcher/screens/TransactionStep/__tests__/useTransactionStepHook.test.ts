@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
@@ -46,12 +46,12 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
     }));
 
     (useConnectedData as jest.Mock).mockImplementation(() => ({
-      chainId: BlockchainNetworkId.mainnet,
+      chainId: EEthereumNetworkId.mainnet,
       address: 'address',
     }));
 
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: BlockchainNetworkId.mainnet,
+      chainId: EEthereumNetworkId.mainnet,
     });
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());

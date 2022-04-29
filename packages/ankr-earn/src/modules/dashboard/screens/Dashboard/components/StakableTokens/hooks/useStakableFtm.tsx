@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useNetworks } from 'modules/auth/common/components/GuardRoute/useNetworks';
+import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
@@ -14,7 +14,7 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { IUseStakableToken } from '../types';
 
 export const useStakableFtm = (): IUseStakableToken => {
-  const networks = useNetworks();
+  const networks = useETHNetworks();
   const { loading: isStakeLoading } = useMutation({ type: stake });
   const { data: apy, loading: loadingAPY } = useQuery({ type: getAPY });
 

@@ -2,7 +2,7 @@ import { useQuery } from '@redux-requests/react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 import { getIsMetaMask } from '../../eth/utils/getIsMetaMask';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
@@ -13,7 +13,7 @@ export interface IUseConnectedData {
   isConnected: boolean;
   isLoading: boolean;
   address?: string;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   walletName?: string;
   walletIcon?: string;
   error: unknown;

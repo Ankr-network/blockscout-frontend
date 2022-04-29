@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useLocation, useHistory } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
@@ -26,7 +26,7 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     (useHistory as jest.Mock).mockReturnValue(history);
 
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: BlockchainNetworkId.mainnet,
+      chainId: EEthereumNetworkId.mainnet,
     });
   });
 
@@ -67,7 +67,7 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
 
   test('should return initial data for binance chain', () => {
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: BlockchainNetworkId.smartchain,
+      chainId: EEthereumNetworkId.smartchain,
     });
 
     const { result } = renderHook(() => useSwitcherUrlParams());
