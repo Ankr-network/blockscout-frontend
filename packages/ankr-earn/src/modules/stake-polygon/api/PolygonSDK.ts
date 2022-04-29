@@ -668,8 +668,8 @@ export class PolygonSDK implements ISwitcher {
       symbol: token,
       decimals: 18,
       chainId: isMainnet
-        ? (EEthereumNetworkId.mainnet as number)
-        : (EEthereumNetworkId.goerli as number),
+        ? EEthereumNetworkId.mainnet
+        : EEthereumNetworkId.goerli,
     });
   }
 }

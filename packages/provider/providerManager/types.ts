@@ -21,7 +21,6 @@ export enum AvailableWriteProviders {
 }
 
 export enum EEthereumNetworkId {
-  // EVM Compatible
   mainnet = 1,
   ropsten = 3,
   rinkeby = 4,
@@ -38,24 +37,6 @@ export enum EEthereumNetworkId {
   fantom = 250,
   fantomTestnet = 4002,
   mumbai = 80001,
-
-  // Polkadot Compatible
-  /**
-   *  @deprecated
-   */
-  kusama = 'KSM',
-  /**
-   *  @deprecated
-   */
-  polkadot = 'DOT',
-  /**
-   *  @deprecated
-   */
-  rococo = 'ROC',
-  /**
-   *  @deprecated
-   */
-  westend = 'WND',
 }
 
 export enum EPolkadotNetworkId {

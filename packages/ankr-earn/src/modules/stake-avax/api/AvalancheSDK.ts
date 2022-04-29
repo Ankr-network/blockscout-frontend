@@ -309,8 +309,8 @@ export class AvalancheSDK {
       symbol,
       decimals,
       chainId: isMainnet
-        ? (EEthereumNetworkId.avalanche as number)
-        : (EEthereumNetworkId.avalancheTestnet as number),
+        ? EEthereumNetworkId.avalanche
+        : EEthereumNetworkId.avalancheTestnet,
     });
   }
 

@@ -18,15 +18,15 @@ import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 type TOnModalClose = () => void;
 
 export interface IConnect {
-  isConnected: boolean;
   address: Web3Address;
   addresses: Address[];
   chainId: number;
   chainType: string | null;
+  isConnected: boolean;
   providerId: AvailableWriteProviders;
-  walletName: string;
-  walletId: string;
   walletIcon?: string;
+  walletId: string;
+  walletName: string;
 }
 
 export const connect = createAction<
@@ -59,15 +59,15 @@ export const connect = createAction<
       }
 
       return {
-        isConnected,
         address: provider.currentAccount ?? '',
         addresses,
         chainId,
         chainType,
+        isConnected,
         providerId,
-        walletName,
-        walletId,
         walletIcon: icon,
+        walletId,
+        walletName,
       };
     },
   },

@@ -62,13 +62,13 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
   const staked = getCompletedTransactions({
     data: txHistory?.completed,
     type: EBinancePoolEventsMap.Staked,
-    network: network as number,
+    network,
   });
 
   const unstaked = getCompletedTransactions({
     data: txHistory?.completed,
     type: EBinancePoolEventsMap.UnstakePending,
-    network: network as number,
+    network,
   });
 
   const pendingUnstake = txHistory?.pending.filter(

@@ -91,7 +91,6 @@ export const featuresConfig = {
 };
 
 export enum SupportedChainIDS {
-  // ETH Compatible
   MAINNET = EEthereumNetworkId.mainnet,
   GOERLI = EEthereumNetworkId.goerli,
   AVAX = EEthereumNetworkId.avalanche,
@@ -101,28 +100,9 @@ export enum SupportedChainIDS {
   FANTOM_OPERA = EEthereumNetworkId.fantom,
   FANTOM_TESTNET = EEthereumNetworkId.fantomTestnet,
   POLYGON = EEthereumNetworkId.polygon,
-
-  // Polkadot Compatible
-  /**
-   *  @deprecated
-   */
-  DOT = EEthereumNetworkId.polkadot,
-  /**
-   *  @deprecated
-   */
-  KSM = EEthereumNetworkId.kusama,
-  /**
-   *  @deprecated
-   */
-  ROC = EEthereumNetworkId.rococo,
-  /**
-   *  @deprecated
-   */
-  WND = EEthereumNetworkId.westend,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
-  // ETH Compatible
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
   [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
@@ -132,12 +112,6 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
-
-  // Polkadot Compatible
-  [SupportedChainIDS.DOT]: 'https://polkadot.subscan.io',
-  [SupportedChainIDS.KSM]: 'https://kusama.subscan.io',
-  [SupportedChainIDS.ROC]: 'https://rococo.subscan.io',
-  [SupportedChainIDS.WND]: 'https://westend.subscan.io',
 };
 
 export const ETH_NETWORK_BY_ENV =

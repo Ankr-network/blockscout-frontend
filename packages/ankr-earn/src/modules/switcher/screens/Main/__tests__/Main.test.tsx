@@ -28,7 +28,7 @@ jest.mock('../hooks', () => ({
 
 describe('modules/switcher/screens/Main', () => {
   const defaultHookData: ISwitcherHookData = {
-    chainId: EEthereumNetworkId.goerli as number,
+    chainId: EEthereumNetworkId.goerli,
     allowance: ZERO,
     ratio: ZERO,
     acBalance: ZERO,
