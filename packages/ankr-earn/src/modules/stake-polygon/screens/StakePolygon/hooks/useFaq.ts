@@ -14,17 +14,17 @@ export const useFaq = (): IFaqItem[] => {
     () => [
       {
         question: t('stake-polygon.faq.question-1'),
-        answer: t('stake-polygon.faq.answer-1'),
+        answer: tHTML('stake-polygon.faq.answer-1'),
       },
       {
         question: t('stake-polygon.faq.question-2'),
-        answer: t('stake-polygon.faq.answer-2', {
-          value: fetchStatsData?.minimumStake ?? 1,
-        }),
+        answer: t('stake-polygon.faq.answer-2'),
       },
       {
         question: t('stake-polygon.faq.question-3'),
-        answer: t('stake-polygon.faq.answer-3'),
+        answer: t('stake-polygon.faq.answer-3', {
+          value: fetchStatsData?.minimumStake ?? 1,
+        }),
       },
       {
         question: t('stake-polygon.faq.question-4'),
