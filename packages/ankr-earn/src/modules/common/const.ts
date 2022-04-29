@@ -42,7 +42,7 @@ export const CROWDLOAN_LITEPAPER =
   'https://stakefi.ankr.com/parachain-liquid-bonding/litepaper.pdf';
 
 export const BRIDGE_AUDIT_LINK =
-  'https://assets.ankr.com/earn/ankr_bridge_security_audit.pdf';
+  'https://www.ankr.com/docs/staking/bridge/overview/#audit-details';
 
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/uYaNu23Ww7',
