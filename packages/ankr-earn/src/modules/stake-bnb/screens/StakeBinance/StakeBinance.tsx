@@ -6,6 +6,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
 import {
+  BNB_AUDIT_LINK,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
@@ -168,6 +169,7 @@ export const StakeBinance = (): JSX.Element => {
 
         <StakeForm
           isMaxBtnShowed
+          auditLink={BNB_AUDIT_LINK}
           balance={bnbBalance}
           feeSlot={
             <StakeFeeInfo

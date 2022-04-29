@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core';
 export const useAuditedLabelStyles = makeStyles(theme => ({
   audited: {
     backgroundColor: 'none',
-    color: theme.palette.grey[500],
+    color: theme.palette.text.secondary,
     padding: 0,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 400,
     textAlign: 'center',
 
