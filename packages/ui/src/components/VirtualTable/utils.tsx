@@ -27,6 +27,10 @@ import { useStyles } from './useStyles';
 
 export const DEFAULT_CELL_MIN_HEIGHT = 56;
 
+const DEFAULT_QUERY = {
+  page: 1,
+};
+
 interface ITableContext {
   expandedRow: number;
   toggleExpand: (index: number) => void;
@@ -51,17 +55,16 @@ export const TableContext = createContext<ITableContext>(null as any);
 export function useTableContext({
   onChangePage,
   onSort,
-  defaultQuery,
   rows,
   cols,
   renderExpand,
 }: Pick<
   VirtualTableProps<any>,
-  'onChangePage' | 'defaultQuery' | 'onSort' | 'rows' | 'cols' | 'renderExpand'
+  'onChangePage' | 'onSort' | 'rows' | 'cols' | 'renderExpand'
 >) {
   const ref = useRef<List>();
 
-  const [query, setQuery] = useState(defaultQuery ?? {});
+  const [query, setQuery] = useState<VirtualTableQuery>(DEFAULT_QUERY);
 
   const [expandedRow, setExpandedRow] = useState(-1);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
@@ -216,7 +219,7 @@ export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
 };
 
 export const TableHead = () => {
-  const { cols, colWidths, setColsWidthCalculated, query, handleSort } =
+  const { query, cols, colWidths, setColsWidthCalculated, handleSort } =
     useTable();
   const classes = useStyles();
   const headRowRef = useRef<HTMLDivElement>(null);
@@ -257,12 +260,15 @@ export const TableHead = () => {
               onClick={col.sortable ? handleSort : undefined}
               className={classNames({ [classes.colSortable]: col.sortable })}
             >
-              {col.headerName}
-              {query.orderBy === col.field && (
-                <span className={classes.sortIcon}>
-                  {getSortArrow(query.order)}
-                </span>
-              )}
+              <span
+                data-content={getSortArrow(query.order)}
+                className={classNames({
+                  [classes.colSortable]: col.sortable,
+                  [classes.sortIconActive]: query.orderBy === col.field,
+                })}
+              >
+                {col.headerName}
+              </span>
             </span>
           </div>
         );

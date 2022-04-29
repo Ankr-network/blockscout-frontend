@@ -5,6 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflowX: 'auto',
+    overflowY: 'hidden',
   },
   container: {
     display: 'flex',
@@ -68,9 +69,16 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   colSortable: {
     cursor: 'pointer',
+    position: 'relative',
   },
-  sortIcon: {
-    marginLeft: theme.spacing(1),
+  sortIconActive: {
+    '&:after': {
+      display: 'block',
+      position: 'absolute',
+      content: 'attr(data-content)',
+      top: -2,
+      right: -16,
+    },
   },
   moreRow: {
     borderTop: `1px solid ${theme.palette.background.default}`,
