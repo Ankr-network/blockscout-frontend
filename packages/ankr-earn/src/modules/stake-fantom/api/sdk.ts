@@ -16,6 +16,7 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,
+  featuresConfig,
   isMainnet,
   MAX_UINT256,
   ZERO,
@@ -36,8 +37,10 @@ import {
 } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
+import oldAFTMbAbi from './contracts/aFTMb-old.json';
 import AFTMbAbi from './contracts/aFTMb.json';
 import AFTMCAbi from './contracts/aFTMc.json';
+import oldFantomPoolAbi from './contracts/FantomPool-old.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 export enum EFantomPoolEvents {
@@ -168,16 +171,18 @@ export class FantomSDK implements ISwitcher {
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
+    const abi = featuresConfig.stakeAFTMC ? FantomPoolAbi : oldFantomPoolAbi;
 
-    return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
+    return provider.createContract(abi, fantomConfig.fantomPool);
   }
 
   private async getAftmbTokenContract() {
     const provider = await this.getProvider();
 
     const { fantomConfig } = configFromEnv();
+    const abi = featuresConfig.stakeAFTMC ? AFTMbAbi : oldAFTMbAbi;
 
-    return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
+    return provider.createContract(abi, fantomConfig.aftmbToken);
   }
 
   private async getAftmcTokenContract() {
@@ -341,6 +346,10 @@ export class FantomSDK implements ISwitcher {
   }
 
   private getStakeMethodName(token: TFtmSyntToken) {
+    if (!featuresConfig.stakeAFTMC) {
+      return 'stake';
+    }
+
     switch (token) {
       case Token.aFTMc:
         return 'stakeAndClaimCerts';
@@ -459,6 +468,10 @@ export class FantomSDK implements ISwitcher {
   }
 
   private getUnstakeMethodName(token: TFtmSyntToken) {
+    if (!featuresConfig.stakeAFTMC) {
+      return 'burn';
+    }
+
     switch (token) {
       case Token.aFTMc:
         return 'burnCerts';
