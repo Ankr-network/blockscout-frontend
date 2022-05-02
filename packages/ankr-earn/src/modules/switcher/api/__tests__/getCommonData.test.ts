@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
@@ -81,7 +81,7 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.getCommonData({
           chainId: chainId as AvailableSwitchNetwork,
           token: Token.aETHb,
@@ -104,14 +104,12 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     };
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchainTestnet,
-        BlockchainNetworkId.smartchain,
-      ].map(chainId =>
-        sdk.getCommonData({
-          chainId: chainId as AvailableSwitchNetwork,
-          token: Token.aBNBb,
-        }),
+      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
+        chainId =>
+          sdk.getCommonData({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aBNBb,
+          }),
       ),
     );
 
@@ -130,7 +128,7 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.getCommonData({
           chainId: chainId as AvailableSwitchNetwork,
           token: Token.aMATICb,
@@ -153,7 +151,7 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         chainId =>
           sdk.getCommonData({
             chainId: chainId as AvailableSwitchNetwork,

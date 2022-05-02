@@ -5,7 +5,7 @@ import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -158,8 +158,8 @@ export class FantomSDK implements ISwitcher {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.fantom,
-      BlockchainNetworkId.fantomTestnet,
+      EEthereumNetworkId.fantom,
+      EEthereumNetworkId.fantomTestnet,
     ].includes(chainId);
   }
 
@@ -524,8 +524,8 @@ export class FantomSDK implements ISwitcher {
     const decimals = Number.parseInt(rawDecimals, 10);
 
     const chainId: number = isMainnet
-      ? BlockchainNetworkId.fantom
-      : BlockchainNetworkId.fantomTestnet;
+      ? EEthereumNetworkId.fantom
+      : EEthereumNetworkId.fantomTestnet;
 
     return this.writeProvider.addTokenToWallet({
       address,

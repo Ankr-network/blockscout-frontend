@@ -63,13 +63,13 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
   const staked = getCompletedTransactions({
     data: data?.completed,
     type: EAvalanchePoolEventsMap.StakePending,
-    network: network as number,
+    network,
   });
 
   const unstaked = getCompletedTransactions({
     data: data?.completed,
     type: EAvalanchePoolEventsMap.AvaxClaimPending,
-    network: network as number,
+    network,
   });
 
   const pendingUnstake = data?.pending.filter(

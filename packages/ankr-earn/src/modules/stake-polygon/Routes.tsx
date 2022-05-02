@@ -1,6 +1,6 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -52,7 +52,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={MATIC_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
@@ -61,9 +61,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Stake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={MATIC_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
@@ -72,9 +72,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout verticalAlign="center">
             <Unstake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={MATIC_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
@@ -83,7 +83,7 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <StakeSteps />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

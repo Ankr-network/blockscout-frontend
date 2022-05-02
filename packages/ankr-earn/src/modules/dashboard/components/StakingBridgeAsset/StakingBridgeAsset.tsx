@@ -2,7 +2,7 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { Token } from 'modules/common/types/token';
@@ -24,7 +24,7 @@ interface IStakingAssetProps {
   tokenAddress?: string;
   network?: string;
   amount?: BigNumber;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   tradeLink?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;

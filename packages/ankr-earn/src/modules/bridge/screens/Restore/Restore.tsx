@@ -10,8 +10,9 @@ import { Notice } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
-import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
+import { AuditedLabel } from 'modules/common/components/AuditedLabel';
+import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { isValidETHTransaction } from 'modules/common/utils/isValidETHTransaction';
@@ -154,7 +155,7 @@ export const Restore = (): JSX.Element => {
             onSubmit={onSubmit}
           />
 
-          <AuditedLabel />
+          <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
         </Box>
       </BridgeContainer>
 

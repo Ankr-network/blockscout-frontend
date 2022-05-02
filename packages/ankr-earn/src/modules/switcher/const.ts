@@ -1,5 +1,5 @@
 import { t } from 'common';
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {
@@ -59,12 +59,12 @@ export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
 };
 
 export type AvailableSwitchNetwork =
-  | BlockchainNetworkId.goerli
-  | BlockchainNetworkId.mainnet
-  | BlockchainNetworkId.smartchain
-  | BlockchainNetworkId.smartchainTestnet
-  | BlockchainNetworkId.fantom
-  | BlockchainNetworkId.fantomTestnet;
+  | EEthereumNetworkId.goerli
+  | EEthereumNetworkId.mainnet
+  | EEthereumNetworkId.smartchain
+  | EEthereumNetworkId.smartchainTestnet
+  | EEthereumNetworkId.fantom
+  | EEthereumNetworkId.fantomTestnet;
 
 export type AvailableSwitcherNativeToken =
   | Token.ETH
@@ -116,15 +116,15 @@ export const DEFAULT_TOKENS_BY_NETWORK: Record<
   AvailableSwitchNetwork,
   { from: AvailableSwitcherToken; to: AvailableSwitcherToken }
 > = {
-  [BlockchainNetworkId.goerli]: { from: Token.aETHb, to: Token.aETHc },
-  [BlockchainNetworkId.mainnet]: { from: Token.aETHb, to: Token.aETHc },
-  [BlockchainNetworkId.smartchain]: { from: Token.aBNBb, to: Token.aBNBc },
-  [BlockchainNetworkId.smartchainTestnet]: {
+  [EEthereumNetworkId.goerli]: { from: Token.aETHb, to: Token.aETHc },
+  [EEthereumNetworkId.mainnet]: { from: Token.aETHb, to: Token.aETHc },
+  [EEthereumNetworkId.smartchain]: { from: Token.aBNBb, to: Token.aBNBc },
+  [EEthereumNetworkId.smartchainTestnet]: {
     from: Token.aBNBb,
     to: Token.aBNBc,
   },
-  [BlockchainNetworkId.fantom]: { from: Token.aFTMb, to: Token.aFTMc },
-  [BlockchainNetworkId.fantomTestnet]: {
+  [EEthereumNetworkId.fantom]: { from: Token.aFTMb, to: Token.aFTMc },
+  [EEthereumNetworkId.fantomTestnet]: {
     from: Token.aFTMb,
     to: Token.aFTMc,
   },

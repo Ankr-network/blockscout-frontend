@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO_ADDR } from 'modules/common/const';
@@ -88,7 +88,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
@@ -111,15 +111,13 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchainTestnet,
-        BlockchainNetworkId.smartchain,
-      ].map(chainId =>
-        sdk.fetchTxData({
-          chainId: chainId as AvailableSwitchNetwork,
-          txHash: 'hash',
-          token: Token.aBNBb,
-        }),
+      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
+        chainId =>
+          sdk.fetchTxData({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aBNBb,
+          }),
       ),
     );
 
@@ -137,7 +135,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
@@ -160,7 +158,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         chainId =>
           sdk.fetchTxData({
             chainId: chainId as AvailableSwitchNetwork,

@@ -2,7 +2,7 @@ import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { ZERO } from 'modules/common/const';
 
@@ -37,7 +37,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
 
     expect(result.current.amount).toStrictEqual(new BigNumber(2));
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.chainId).toBe(BlockchainNetworkId.goerli);
+    expect(result.current.chainId).toBe(EEthereumNetworkId.goerli);
     expect(result.current.isShowed).toBe(true);
     expect(result.current.token).toBe('ETH');
     expect(result.current.claimLink).toBe('/claim/ethereum');

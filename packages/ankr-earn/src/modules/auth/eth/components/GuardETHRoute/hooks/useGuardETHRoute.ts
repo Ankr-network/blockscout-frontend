@@ -1,0 +1,102 @@
+import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import { useCallback, useMemo } from 'react';
+
+import { t } from 'common';
+
+import { connect } from 'modules/auth/common/actions/connect';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import {
+  IUseGuardRouteData,
+  IUseGuardRouteProps,
+} from 'modules/auth/common/components/GuardRoute';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { EEthereumNetworkId } from 'modules/common/types';
+
+import { IETHNetwork, useETHNetworks } from '../../../hooks/useETHNetworks';
+import { getIsMetaMask } from '../../../utils/getIsMetaMask';
+
+import { useKnownNetworks } from './useKnownNetworks';
+
+export const useGuardETHRoute = ({
+  availableNetworks,
+  providerId,
+}: IUseGuardRouteProps<EEthereumNetworkId>): IUseGuardRouteData<
+  EEthereumNetworkId,
+  IETHNetwork
+> => {
+  const dispatchRequest = useDispatchRequest();
+
+  const {
+    isOpened: isOpenedModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDialog();
+
+  const knownNetworks = useKnownNetworks();
+  const networks = useETHNetworks();
+
+  const { loading: isLoading } = useMutation({ type: switchNetwork });
+
+  let chainId: EEthereumNetworkId | undefined;
+  let isConnected = false;
+  let isValidWallet = false;
+  let walletId: string | undefined;
+
+  const { walletsGroupTypes } = useWalletsGroupTypes({
+    postProcessingFn: (providerKey, data): void => {
+      if (providerKey !== providerId) {
+        return;
+      }
+
+      chainId = data.chainId;
+      isConnected = data.isConnected;
+      isValidWallet = getIsMetaMask(data.walletName);
+      walletId = data.walletId;
+    },
+  });
+
+  const isUnsupportedNetwork =
+    isConnected && typeof chainId === 'number' && chainId > 0
+      ? !availableNetworks.includes(chainId)
+      : false;
+
+  const currentNetwork = useMemo(
+    () =>
+      typeof chainId === 'number' && knownNetworks[chainId]
+        ? knownNetworks[chainId]
+        : t('connect.current'),
+    [chainId, knownNetworks],
+  );
+
+  const supportedNetworks = networks.filter(network =>
+    availableNetworks.includes(network.chainId),
+  );
+
+  const onDispatchConnect = useCallback(
+    () => dispatchRequest(connect(providerId, walletId)),
+    [dispatchRequest, providerId, walletId],
+  );
+
+  const onSwitchNetwork = useCallback(
+    (network: EEthereumNetworkId) => (): void => {
+      dispatchRequest(switchNetwork({ providerId, chainId: network }));
+    },
+    [dispatchRequest, providerId],
+  );
+
+  return {
+    currentNetwork,
+    isConnected,
+    isLoading,
+    isOpenedModal,
+    isUnsupportedNetwork,
+    isValidWallet,
+    supportedNetworks,
+    walletsGroupTypes,
+    onCloseModal,
+    onDispatchConnect,
+    onOpenModal,
+    onSwitchNetwork,
+  };
+};

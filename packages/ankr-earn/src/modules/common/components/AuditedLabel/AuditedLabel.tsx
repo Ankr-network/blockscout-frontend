@@ -1,18 +1,23 @@
 import { ReactComponent as AuditedIcon } from 'assets/img/audited.svg';
-import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useAuditedLabelStyles } from './useAuditedLabelStyles';
 
-export const AuditedLabel = (): JSX.Element => {
+interface IAuditedLabelProps {
+  auditLink: string;
+}
+
+export const AuditedLabel = ({
+  auditLink,
+}: IAuditedLabelProps): JSX.Element => {
   const classes = useAuditedLabelStyles();
 
   return (
     <NavLink
       className={classes.audited}
-      endIcon={<AuditedIcon />}
-      href={BRIDGE_AUDIT_LINK}
+      href={auditLink}
+      startIcon={<AuditedIcon />}
       variant="text"
     >
       {t('bridge.main.audited')}

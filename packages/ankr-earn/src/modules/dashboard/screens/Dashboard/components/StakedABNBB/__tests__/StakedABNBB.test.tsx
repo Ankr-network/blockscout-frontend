@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { featuresConfig, ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -27,7 +27,7 @@ jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
   const defaultStakedBNBHookData: IStakedABNBBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
-    chainId: BlockchainNetworkId.smartchainTestnet,
+    chainId: EEthereumNetworkId.smartchainTestnet,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
     tradeLink: 'trade',

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -30,7 +30,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAVAX', () => {
 
   const defaultStakedAVAXHookData: IStakedAVAXData = {
     amount: ONE.dividedBy(10 ** 18),
-    chainId: BlockchainNetworkId.avalancheTestnet,
+    chainId: EEthereumNetworkId.avalancheTestnet,
     pendingValue: ONE.dividedBy(10 ** 17),
     network: networkName,
     tradeLink: 'trade',

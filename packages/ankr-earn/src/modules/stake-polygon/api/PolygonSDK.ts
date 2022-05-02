@@ -7,7 +7,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
@@ -164,7 +164,7 @@ export class PolygonSDK implements ISwitcher {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
-    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
       chainId,
     );
   }
@@ -668,8 +668,8 @@ export class PolygonSDK implements ISwitcher {
       symbol: token,
       decimals: 18,
       chainId: isMainnet
-        ? (BlockchainNetworkId.mainnet as number)
-        : (BlockchainNetworkId.goerli as number),
+        ? EEthereumNetworkId.mainnet
+        : EEthereumNetworkId.goerli,
     });
   }
 }

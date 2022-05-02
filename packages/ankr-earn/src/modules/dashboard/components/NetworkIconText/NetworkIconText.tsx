@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
@@ -47,7 +47,7 @@ type TIconMap = Record<
 >;
 
 type TNetworkIconMap = {
-  [chainID in BlockchainNetworkId]?: MemoExoticComponent<
+  [chainID in EEthereumNetworkId]?: MemoExoticComponent<
     ForwardRefExoticComponent<ISvgIconProps>
   >;
 };
@@ -84,7 +84,7 @@ const iconByNetworkMap: TNetworkIconMap = {
 };
 
 interface INetworkIconTextProps {
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   isLoading?: boolean;
   /**
    * Please use chainId prop.

@@ -2,11 +2,11 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import {
-  isWeb3Injected,
   web3Accounts,
   web3Enable,
   web3FromAddress,
 } from '@polkadot/extension-dapp';
+import { InjectedWindow } from '@polkadot/extension-inject/types';
 /* eslint-disable import/no-extraneous-dependencies */
 import { encodeAddress } from '@polkadot/keyring';
 /* eslint-enable import/no-extraneous-dependencies */
@@ -59,7 +59,9 @@ const PKG_ORIGIN_NAME = 'PolkadotProvider';
 
 export class PolkadotProvider implements IProvider {
   static isInjected(): boolean {
-    return isWeb3Injected;
+    return (
+      Object.keys((window as Window & InjectedWindow).injectedWeb3).length !== 0
+    );
   }
 
   static isValidAddress(address: string): boolean {
@@ -121,14 +123,14 @@ export class PolkadotProvider implements IProvider {
   }
 
   public isConnected(): boolean {
-    return isWeb3Injected && this.isAPIConnected();
+    return PolkadotProvider.isInjected() && this.isAPIConnected();
   }
 
   public async connect(): Promise<void> {
     const extensions = await web3Enable(PKG_ORIGIN_NAME);
 
     if (!extensions.length) {
-      throw new Error('There are no Polkadot extensions');
+      throw new Error('There are no Polkadot extensions or available accounts');
     }
 
     const accounts = await this.getAccounts();

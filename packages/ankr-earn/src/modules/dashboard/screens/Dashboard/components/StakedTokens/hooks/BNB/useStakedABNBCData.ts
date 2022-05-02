@@ -6,7 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
@@ -26,7 +26,7 @@ export interface IStakedABNBCData {
   isLoading: boolean;
   isStakeLoading: boolean;
   network: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   stakeLink: string;
   token: Token;
   tokenAddress: string;

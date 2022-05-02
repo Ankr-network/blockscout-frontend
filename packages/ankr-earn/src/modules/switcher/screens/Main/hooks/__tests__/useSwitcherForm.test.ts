@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
@@ -37,7 +37,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     from: Token.aETHb,
     to: Token.aETHc,
     max: ONE_ETH,
-    chainId: BlockchainNetworkId.mainnet,
+    chainId: EEthereumNetworkId.mainnet,
     onSuccessSwap: jest.fn(),
   };
 
@@ -105,7 +105,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       expect(switchNetwork).toBeCalledTimes(1);
       expect(switchNetwork).toBeCalledWith({
         providerId: AvailableWriteProviders.ethCompatible,
-        chainId: BlockchainNetworkId.goerli,
+        chainId: EEthereumNetworkId.goerli,
       });
     });
   });
@@ -124,7 +124,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
         from: Token.aETHb,
         to: Token.aETHc,
         ratio: ONE_ETH,
-        chainId: BlockchainNetworkId.mainnet,
+        chainId: EEthereumNetworkId.mainnet,
       });
     });
 
@@ -179,7 +179,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
 
       expect(approve).toBeCalledTimes(1);
       expect(approve).toBeCalledWith({
-        chainId: BlockchainNetworkId.mainnet,
+        chainId: EEthereumNetworkId.mainnet,
         token: Token.aETHb,
       });
     });

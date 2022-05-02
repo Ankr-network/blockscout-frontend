@@ -4,7 +4,8 @@ import { createAction } from 'redux-smart-actions';
 import { ISwitchNetworkData, PolkadotProvider } from 'polkadot';
 import {
   AvailableWriteProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
+  EPolkadotNetworkId,
   Web3KeyWriteProvider,
 } from 'provider';
 
@@ -19,7 +20,7 @@ type TChangedData = Partial<IConnect>;
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId | EPolkadotNetworkId;
 }
 
 export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(

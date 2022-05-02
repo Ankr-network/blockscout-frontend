@@ -1,7 +1,7 @@
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 interface IGuardComponentProps {
-  availableNetworks: BlockchainNetworkId[];
+  availableNetworks: EEthereumNetworkId[];
   componentSlot: JSX.Element;
 }
 
