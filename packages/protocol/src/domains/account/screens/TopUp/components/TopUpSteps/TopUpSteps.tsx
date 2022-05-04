@@ -15,40 +15,65 @@ import { StepperTitle } from './StepperTitle';
 import { StepperNotice } from './StepperNotice';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
 import { getButtonText } from './TopUpStepsUtils';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { TransactionButton } from './TransactionButton';
 
 export const TopUpSteps = ({
   step,
   onClick,
+  onReject,
   loading,
   amount,
   hasCredentials,
+  isRejectAllowanceLoading,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
   return (
     <Container className={classes.root}>
       <Paper variant="elevation" className={classes.paper} elevation={0}>
-        <Typography variant="h4" color="primary">
-          {t('top-up-steps.title')}
-        </Typography>
-        <Stepper
-          step={step}
-          className={classes.stepper}
-          hasCredentials={hasCredentials}
-        />
-        <StepperTitle step={step} className={classes.title} amount={amount} />
-        <StepperNotice step={step} className={classes.notice} />
-        <Box maxWidth={210} width="100%">
+        <Box className={classes.content}>
+          <Typography variant="h4" color="primary">
+            {t('top-up-steps.title')}
+          </Typography>
+          <Stepper
+            step={step}
+            className={classes.stepper}
+            hasCredentials={hasCredentials}
+          />
+          <StepperTitle step={step} className={classes.title} amount={amount} />
+          <StepperNotice step={step} className={classes.notice} />
+          {step === TopUpStep.waitTransactionConfirming && (
+            <TransactionButton />
+          )}
+        </Box>
+
+        <Box className={classes.buttons}>
           <Button
-            fullWidth
-            disabled={loading}
+            className={classes.button}
+            disabled={loading || isRejectAllowanceLoading}
             onClick={onClick}
             startIcon={
               loading ? <CircularProgress size={18} color="inherit" /> : null
             }
           >
-            {getButtonText(loading)}
+            {getButtonText(loading, step)}
           </Button>
+          {step === TopUpStep.deposit && (
+            <Button
+              fullWidth
+              disabled={isRejectAllowanceLoading}
+              onClick={onReject}
+              variant="outlined"
+              startIcon={
+                isRejectAllowanceLoading ? (
+                  <CircularProgress size={18} color="inherit" />
+                ) : null
+              }
+            >
+              {t(`top-up-steps.button.reject`)}
+            </Button>
+          )}
         </Box>
       </Paper>
     </Container>

@@ -52,7 +52,7 @@ export const DomainsForm = ({ data, onSubmit }: DomainsFormProps) => {
               validate={validateDomain}
               onButtonClick={handleSubmit}
               buttonText={t('providers.endpoint.security.add-button')}
-              isDisabled={data.length >= MAX_DOMAIN_COUNT}
+              isDisabled={data?.length >= MAX_DOMAIN_COUNT}
             />
             {Array.isArray(values.domains) && values.domains?.length > 0 && (
               <AddressFields

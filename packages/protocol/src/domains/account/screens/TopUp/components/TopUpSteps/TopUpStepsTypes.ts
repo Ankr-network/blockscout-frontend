@@ -6,4 +6,6 @@ export interface ITopUpStepsProps {
   loading: boolean;
   amount: number;
   hasCredentials: boolean;
+  onReject: () => void;
+  isRejectAllowanceLoading: boolean;
 }

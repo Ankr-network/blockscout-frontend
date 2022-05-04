@@ -132,6 +132,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   async depositAnkr(
     amount: BigNumber,
     publicKey: string,
+    // TODO expiresAfter
     expiresAfter = '31536000',
   ): Promise<IWeb3SendResult> {
     const scaledAmount = new BigNumber(
@@ -192,5 +193,9 @@ export class PAYGContractManager implements IPAYGContractManager {
       method: 'eth_decrypt',
       params: [compatibleJsonData, account],
     });
+  }
+
+  async rejectAllowance() {
+    return this.sendAllowance(new BigNumber(0));
   }
 }

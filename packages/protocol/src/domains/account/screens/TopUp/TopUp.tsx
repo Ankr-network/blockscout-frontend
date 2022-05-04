@@ -8,7 +8,8 @@ interface TopUpProps {
 }
 
 export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
-  const { step, onClick, amount, loading } = useTopupSteps(initialStep);
+  const { step, onClick, amount, loading, onReject, isRejectAllowanceLoading } =
+    useTopupSteps(initialStep);
 
   return (
     <TopUpSteps
@@ -17,6 +18,8 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
       amount={amount}
       onClick={onClick}
       hasCredentials={hasCredentials}
+      onReject={onReject}
+      isRejectAllowanceLoading={isRejectAllowanceLoading}
     />
   );
 };

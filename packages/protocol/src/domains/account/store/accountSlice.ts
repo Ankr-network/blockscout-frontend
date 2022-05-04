@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
 
 import { RootState } from 'store';
@@ -45,3 +45,8 @@ export const selectAccount = (state: RootState) => state.account;
 
 export const { setAllowanceTransaction, setTopUpTransaction, setAmount } =
   accountSlice.actions;
+
+export const selectTopUpTransaction = createSelector(
+  selectAccount,
+  state => state.topUpTransaction,
+);

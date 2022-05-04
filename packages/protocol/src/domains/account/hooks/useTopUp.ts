@@ -14,6 +14,7 @@ import {
   setAmount,
 } from 'domains/account/store/accountSlice';
 import { useAppSelector } from 'store/useAppSelector';
+import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 
 export function useTopUp() {
   const dispatch = useAppDispatch();
@@ -56,6 +57,11 @@ export function useTopUp() {
     [dispatch],
   );
 
+  const handleRejectAllowance = useCallback(
+    () => dispatchRequest(rejectAllowance()),
+    [dispatchRequest],
+  );
+
   const { loading: loadingGetAllowance, error: errorGetAllowance } = useQuery({
     type: getAllowance.toString(),
   });
@@ -80,6 +86,10 @@ export function useTopUp() {
     type: login.toString(),
   });
 
+  const { loading: loadingRejectAllowance } = useQuery({
+    type: rejectAllowance.toString(),
+  });
+
   return {
     handleSetAmount,
     amount,
@@ -96,12 +106,13 @@ export function useTopUp() {
         errorWaitTransactionConfirming ||
         errorLogin,
     ),
-
+    isRejectAllowanceLoading: loadingRejectAllowance,
     handleFetchPublicKey,
     handleGetAllowance,
     handleDeposit,
     handleWaitTransactionConfirming,
     handleLogin,
     handleResetTopUpTransaction,
+    handleRejectAllowance,
   };
 }

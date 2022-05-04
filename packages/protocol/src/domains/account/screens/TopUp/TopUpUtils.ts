@@ -30,10 +30,12 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   const {
     handleGetAllowance,
     handleDeposit,
+    handleRejectAllowance,
     handleWaitTransactionConfirming,
     handleLogin,
     amount,
     loading,
+    isRejectAllowanceLoading,
   } = useTopUp();
 
   const history = useHistory();
@@ -91,10 +93,24 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     history,
   ]);
 
+  const onRejectAllowance = useMemo(() => {
+    return async () => {
+      const { error } = await handleRejectAllowance();
+
+      if (!error) {
+        const link = AccountRoutesConfig.accountDetails.generatePath();
+
+        history.push(link);
+      }
+    };
+  }, [history, handleRejectAllowance]);
+
   return {
     step,
     loading,
     amount: amount?.toNumber(),
     onClick,
+    onReject: onRejectAllowance,
+    isRejectAllowanceLoading,
   };
 };

@@ -16,4 +16,6 @@ export interface IPAYGContractManager {
   getLatestUserEventLogHash(user: Web3Address): Promise<PrefixedHex | false>;
 
   decryptMessageUsingPrivateKey(compatibleJsonData: string): Promise<string>;
+
+  rejectAllowance(): Promise<IWeb3SendResult>;
 }
