@@ -9,6 +9,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   inputBase: {
     fontSize: 14,
     borderRadius: 12,
+    maxHeight: 44,
   },
   input: {
     minHeight: 44,

@@ -9,23 +9,18 @@ import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
 import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
-
 import { useStyles } from './AccountDetailsStyles';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+
+const HAS_EXPENSE_CHART = false;
 
 export const AccountDetails = () => {
   const classes = useStyles();
-  const { credentials } = useAuth();
 
   useSetBreadcrumbs([
     {
       title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
     },
   ]);
-
-  if (!credentials) {
-    return null;
-  }
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -37,9 +32,11 @@ export const AccountDetails = () => {
         <Box className={classes.payments}>
           <PaymentsHistoryTable />
         </Box>
-        <Box className={classes.expenseChart}>
-          <ExpenseChart />
-        </Box>
+        {HAS_EXPENSE_CHART && (
+          <Box className={classes.expenseChart}>
+            <ExpenseChart />
+          </Box>
+        )}
       </Box>
     </ThemeProvider>
   );

@@ -184,10 +184,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   async loginAsUser(
     user: Web3Address,
-    encryptionKey?: Base64,
+    encryptionKey: Base64,
   ): Promise<IJwtToken | false> {
     const transactionHash =
-      await this.getContractManager().getLatestUserEventLogHash(user);
+      await this.getPAYGContractManager().getLatestUserEventLogHash(user);
 
     if (transactionHash === false) {
       return false;
@@ -412,16 +412,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   async issueJwtToken(
     transactionHash: PrefixedHex,
     thresholdKey: UUID,
-    encryptionKey?: Base64,
+    encryptionKey: Base64,
   ): Promise<IJwtToken> {
-    const currentAccount = this.keyProvider.currentAccount();
-    // requests user's x25519 encryption key
-    if (!encryptionKey) {
-      encryptionKey = await this.getContractManager().getEncryptionPublicKey(
-        currentAccount,
-      );
-    }
-
     // send issue request to ankr protocol
     const jwtToken = await this.getApiGateway().requestJwtToken({
       public_key: encryptionKey,
@@ -434,7 +426,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       'base64',
     ).toString('ascii');
     jwtToken.signed_token =
-      await this.getContractManager().decryptMessageUsingPrivateKey(
+      await this.getPAYGContractManager().decryptMessageUsingPrivateKey(
         metaMaskJsonData,
       );
 

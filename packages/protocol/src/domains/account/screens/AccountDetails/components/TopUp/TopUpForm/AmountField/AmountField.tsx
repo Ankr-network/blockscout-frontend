@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 
 import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'modules/form/components/InputField';
-import { useStyles } from '../TopUpFormStyles';
+import { useStyles } from './AmountFieldStyles';
 import { CURRENCY, normalizeAmount, validateAmount } from './AmountFieldUtils';
 
 interface AmountFieldProps {

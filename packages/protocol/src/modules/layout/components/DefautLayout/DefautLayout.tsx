@@ -18,7 +18,6 @@ export interface ILayoutProps {
   theme?: Themes;
   withNoReactSnap?: boolean;
   disableGutters?: boolean;
-  isPremiumPlanPage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -26,7 +25,6 @@ export const DefaultLayout = ({
   theme = Themes.light,
   withNoReactSnap = true,
   disableGutters = false,
-  isPremiumPlanPage,
 }: ILayoutProps) => {
   const classes = useStyles();
 
@@ -38,10 +36,7 @@ export const DefaultLayout = ({
       <ThemeProvider theme={currentTheme}>
         <SideBar className={classes.sidebar} />
         <div className={classes.body}>
-          <Header
-            isPremiumPlanPage={isPremiumPlanPage}
-            className={classes.header}
-          />
+          <Header className={classes.header} />
           <MobileHeader className={classes.mobileHeader} />
           <Container disableGutters={disableGutters} className={classes.main}>
             <Container

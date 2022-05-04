@@ -66,16 +66,14 @@ export const loginAndCacheAuthData = async (
     await store.dispatchRequest(authorizeProvider()),
   );
 
-  if (credentials) {
-    store.dispatch(
-      setAuthData({
-        credentials,
-        address,
-        authorizationToken,
-        encryptionPublicKey,
-      }),
-    );
-  }
+  store.dispatch(
+    setAuthData({
+      credentials,
+      address,
+      authorizationToken,
+      encryptionPublicKey,
+    }),
+  );
 
   return {
     address,

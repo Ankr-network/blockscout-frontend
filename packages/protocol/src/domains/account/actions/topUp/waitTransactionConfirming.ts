@@ -3,7 +3,6 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { throwIfError } from 'common';
-import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { retry } from 'modules/api/utils/retry';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import { fetchBalances } from '../balance/fetchBalances';
@@ -47,16 +46,20 @@ export const waitTransactionConfirming = createSmartAction<
   RequestAction<IWeb3SendResult, null>
 >('topUp/waitTransactionConfirming', () => ({
   request: {
-    promise: async (store: RequestsStore) => {
-      const { topUpTransaction } = selectAccount(store.getState());
-
-      if (topUpTransaction?.transactionHash) {
-        await waitForBlocks(store, topUpTransaction.transactionHash);
-      }
-    },
+    promise: (async () => null)(),
   },
   meta: {
-    onRequest: walletConnectionGuard,
+    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
+      return {
+        promise: (async () => {
+          const { topUpTransaction } = selectAccount(store.getState());
+
+          if (topUpTransaction?.transactionHash) {
+            await waitForBlocks(store, topUpTransaction.transactionHash);
+          }
+        })(),
+      };
+    },
     asMutation: false,
     onSuccess: async (
       response: any,

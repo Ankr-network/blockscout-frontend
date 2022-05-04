@@ -85,26 +85,19 @@
     "credentials": "Credentials are not ready"
   },
   "main-navigation": {
-    "private-rpcs": "Exclusive RPCs",
-    "public-rpcs": "Public RPCs",
-    "staking": "Staking",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
-    "ankr-scan": "Ankr Scan",
+    "dashboard": "Dashboard",
     "account-details": "Account Details",
+    "protocol": "Node Providers",
     "request-explorer": "Request Explorer"
   },
   "extra-navigation": {
     "docs": "Docs",
-    "faq": "FAQ",
-    "support": "Support"
+    "faq": "FAQ"
   },
   "mobile-navigation": {
-    "public-rpcs": "Public RPCs",
-    "private-rpcs": "Exclusive RPCs",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
+    "dashboard": "Dashboard",
     "account-details": "Account Details",
+    "protocol": "Node Providers",
     "request-explorer": "Request Explorer",
     "more": "More"
   },
@@ -134,7 +127,7 @@
     "total-asset-value-transferred": "Total Asset Value Transferred"
   },
   "chains": {
-    "breadcrumbs": "Public RPCs",
+    "breadcrumbs": "Dashboard",
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",

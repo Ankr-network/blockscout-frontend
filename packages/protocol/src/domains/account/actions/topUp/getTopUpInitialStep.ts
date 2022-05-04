@@ -8,7 +8,6 @@ import {
   setAllowanceTransaction,
 } from 'domains/account/store/accountSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { TopUpStep } from './const';
 // eslint-disable-next-line import/no-cycle
 import { waitTransactionConfirming } from './waitTransactionConfirming';
@@ -65,35 +64,40 @@ export const getTopUpInitialStep = createSmartAction<
   RequestAction<TopUpStep, TopUpStep>
 >('topUp/getTopUpInitialStep', () => ({
   request: {
-    promise: async (store: RequestsStore) => {
-      const { service } = MultiService.getInstance();
-      const address = service.getKeyProvider().currentAccount();
-
-      const { amount } = selectAccount(store.getState());
-
-      if (amount.toNumber() === 0) {
-        store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-      }
-
-      const allowanceStep = checkAllowanceTransaction(store, address);
-
-      if (allowanceStep) {
-        return allowanceStep;
-      }
-
-      const topUpStep = await checkTopUpTransaction(store, address);
-
-      if (typeof topUpStep === 'number') {
-        return topUpStep;
-      }
-
-      await store.dispatchRequest(redirectIfCredentials());
-
-      return TopUpStep.login;
-    },
+    promise: (async () => null)(),
   },
   meta: {
-    onRequest: walletConnectionGuard,
-    asQuery: true,
+    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
+      return {
+        promise: (async (): Promise<any> => {
+          const { service } = MultiService.getInstance();
+          const address = service.getKeyProvider().currentAccount();
+
+          const { amount } = selectAccount(store.getState());
+
+          if (amount.toNumber() === 0) {
+            store.dispatch(
+              push(AccountRoutesConfig.accountDetails.generatePath()),
+            );
+          }
+
+          const allowanceStep = checkAllowanceTransaction(store, address);
+
+          if (allowanceStep) {
+            return allowanceStep;
+          }
+
+          const topUpStep = await checkTopUpTransaction(store, address);
+
+          if (typeof topUpStep === 'number') {
+            return topUpStep;
+          }
+
+          await store.dispatchRequest(redirectIfCredentials());
+
+          return TopUpStep.login;
+        })(),
+      };
+    },
   },
 }));
