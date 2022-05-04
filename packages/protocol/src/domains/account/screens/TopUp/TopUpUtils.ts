@@ -32,6 +32,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     handleDeposit,
     handleRejectAllowance,
     handleWaitTransactionConfirming,
+    handleRedirectIfCredentials,
     handleLogin,
     amount,
     loading,
@@ -72,6 +73,17 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
         };
       }
 
+      case TopUpStep.waitTransactionConfirming: {
+        return async () => {
+          const { data: hasRedirect } = await handleRedirectIfCredentials();
+
+          if (!hasRedirect) {
+            // move to login
+            setStep(oldStep => ++oldStep);
+          }
+        };
+      }
+
       case TopUpStep.login:
       default:
         return async () => {
@@ -91,6 +103,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     handleWaitTransactionConfirming,
     handleLogin,
     history,
+    handleRedirectIfCredentials,
   ]);
 
   const onRejectAllowance = useMemo(() => {

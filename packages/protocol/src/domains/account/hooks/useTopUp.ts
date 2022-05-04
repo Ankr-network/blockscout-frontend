@@ -15,6 +15,7 @@ import {
 } from 'domains/account/store/accountSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { rejectAllowance } from '../actions/topUp/rejectAllowance';
+import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
 
 export function useTopUp() {
   const dispatch = useAppDispatch();
@@ -59,6 +60,11 @@ export function useTopUp() {
 
   const handleRejectAllowance = useCallback(
     () => dispatchRequest(rejectAllowance()),
+    [dispatchRequest],
+  );
+
+  const handleRedirectIfCredentials = useCallback(
+    () => dispatchRequest(redirectIfCredentials()),
     [dispatchRequest],
   );
 
@@ -114,5 +120,6 @@ export function useTopUp() {
     handleLogin,
     handleResetTopUpTransaction,
     handleRejectAllowance,
+    handleRedirectIfCredentials,
   };
 }

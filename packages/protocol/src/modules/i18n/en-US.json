@@ -571,8 +571,9 @@
       "1-loading": "Metamask Check",
       "2": "Confirm",
       "2-loading": "Metamask Check",
-      "3": "Done",
+      "3": "Next",
       "3-loading": "Please wait",
+      "3-done": "Done",
       "4": "Done",
       "reject": "Reject"
     },

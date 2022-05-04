@@ -57,12 +57,12 @@ export const TopUpSteps = ({
               loading ? <CircularProgress size={18} color="inherit" /> : null
             }
           >
-            {getButtonText(loading, step)}
+            {getButtonText(loading, step, hasCredentials)}
           </Button>
           {step === TopUpStep.deposit && (
             <Button
               fullWidth
-              disabled={isRejectAllowanceLoading}
+              disabled={loading || isRejectAllowanceLoading}
               onClick={onReject}
               variant="outlined"
               startIcon={
