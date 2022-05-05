@@ -47,7 +47,8 @@ export function useTopUp() {
   );
 
   const handleWaitTransactionConfirming = useCallback(
-    () => dispatchRequest(waitTransactionConfirming()),
+    receiptPromise =>
+      dispatchRequest(waitTransactionConfirming(receiptPromise)),
     [dispatchRequest],
   );
 

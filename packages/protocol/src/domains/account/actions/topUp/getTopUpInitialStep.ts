@@ -49,7 +49,11 @@ export const getTopUpInitialStep = createSmartAction<
 
           const transaction = selectAccount(store.getState(), address);
 
-          if (!transaction || !transaction?.amount) {
+          if (
+            !transaction ||
+            !transaction?.amount ||
+            transaction?.amount?.toString() === '0'
+          ) {
             store.dispatch(
               push(AccountRoutesConfig.accountDetails.generatePath()),
             );

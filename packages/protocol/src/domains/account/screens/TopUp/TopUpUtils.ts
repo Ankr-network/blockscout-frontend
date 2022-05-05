@@ -57,13 +57,13 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
       case TopUpStep.deposit: {
         return async () => {
-          const { error } = await handleDeposit();
+          const { error, data } = await handleDeposit();
 
           if (!error) {
             // move to waitTransactionConfirming
             setStep(oldStep => ++oldStep);
 
-            await handleWaitTransactionConfirming();
+            await handleWaitTransactionConfirming(data?.receiptPromise);
           }
         };
       }
