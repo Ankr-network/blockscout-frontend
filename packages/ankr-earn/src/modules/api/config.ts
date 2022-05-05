@@ -169,7 +169,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     polygonPool: '0xCfD4B4Bc15C8bF0Fd820B0D4558c725727B3ce89',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
-    aMaticCToken: '', // TODO: STAKAN-1292 add mainnet contract address
+    aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
   },
   avalancheConfig: {

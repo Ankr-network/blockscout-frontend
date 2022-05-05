@@ -82,7 +82,7 @@ export const featuresConfig = {
   bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  switcherMatic: currentEnv !== Env.Production,
+  switcherMatic: true,
   switcherFantom: currentEnv !== Env.Production,
   stakeETH: true,
   // ! only for testing purpose
