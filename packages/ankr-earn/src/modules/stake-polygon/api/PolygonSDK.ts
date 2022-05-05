@@ -19,7 +19,11 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
-import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import {
+  ETH_NETWORK_BY_ENV,
+  ETH_SCALE_FACTOR,
+  MAX_UINT256,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -664,12 +668,13 @@ export class PolygonSDK implements ISwitcher {
     }
 
     return this.writeProvider.addTokenToWallet({
-      address: contractConfig.aMaticbToken,
+      address:
+        token === Token.aMATICc
+          ? contractConfig.aMaticCToken
+          : contractConfig.aMaticbToken,
       symbol: token,
       decimals: 18,
-      chainId: isMainnet
-        ? EEthereumNetworkId.mainnet
-        : EEthereumNetworkId.goerli,
+      chainId: ETH_NETWORK_BY_ENV,
     });
   }
 }
