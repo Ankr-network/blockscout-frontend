@@ -1,19 +1,21 @@
 import React from 'react';
 import { Form } from 'react-final-form';
+import BigNumber from 'bignumber.js';
 
 import { useStyles } from './TopUpFormStyles';
 import { TopUpFormFields, TopUpFormProps } from './TopUpFormTypes';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectAccount } from 'domains/account/store/accountSlice';
+import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
 
 export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
   const classes = useStyles();
 
-  const { allowanceTransaction, topUpTransaction, amount } =
-    useAppSelector(selectAccount);
+  const transaction = useAppSelector(selectTransaction);
 
-  const isTopUpInProcess = Boolean(allowanceTransaction || topUpTransaction);
+  const isTopUpInProcess = Boolean(
+    transaction?.allowanceTransactionHash || transaction?.topUpTransactionHash,
+  );
 
   const renderForm = useRenderForm(classes);
   const renderDisabledForm = useRenderDisabledForm(classes);
@@ -24,7 +26,11 @@ export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
       render={isTopUpInProcess ? renderDisabledForm : renderForm}
       initialValues={
         isTopUpInProcess
-          ? { [TopUpFormFields.amount]: amount.toNumber() }
+          ? {
+              [TopUpFormFields.amount]: new BigNumber(
+                transaction?.amount ?? 0,
+              ).toNumber(),
+            }
           : undefined
       }
     />

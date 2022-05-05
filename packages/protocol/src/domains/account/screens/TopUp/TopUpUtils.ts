@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { t } from 'modules/i18n/utils/intl';
@@ -21,11 +21,6 @@ export const useTopUpBreadcrumbs = () => {
 
 export const useTopupSteps = (initialStep: TopUpStep) => {
   const [step, setStep] = useState<TopUpStep>(initialStep);
-
-  // need this effect to go from waitTransactionConfirming to login
-  useEffect(() => {
-    setStep(initialStep);
-  }, [initialStep]);
 
   const {
     handleGetAllowance,

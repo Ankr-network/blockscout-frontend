@@ -8,18 +8,18 @@ import { fetchPublicKey } from './fetchPublicKey';
 import {
   setAllowanceTransaction,
   setTopUpTransaction,
-} from 'domains/account/store/accountSlice';
+} from 'domains/account/store/accountTopUpSlice';
 
 const setTransaction = (
   store: RequestsStore,
   address: string,
-  transactionHash: string,
+  topUpTransactionHash: string,
 ) => {
-  if (transactionHash) {
+  if (topUpTransactionHash) {
     store.dispatch(
       setTopUpTransaction({
         address,
-        transactionHash,
+        topUpTransactionHash,
       }),
     );
   }
@@ -36,6 +36,8 @@ export const deposit = createSmartAction<
       return {
         promise: (async (): Promise<any> => {
           const { service } = MultiService.getInstance();
+          const address = service.getKeyProvider().currentAccount();
+
           const { data: publicKey } = await store.dispatchRequest(
             fetchPublicKey(),
           );
@@ -45,9 +47,7 @@ export const deposit = createSmartAction<
             publicKey as string,
           );
 
-          const address = service.getKeyProvider().currentAccount();
-
-          store.dispatch(setAllowanceTransaction());
+          store.dispatch(setAllowanceTransaction({ address }));
           setTransaction(store, address, depositResponse.transactionHash);
 
           return depositResponse;

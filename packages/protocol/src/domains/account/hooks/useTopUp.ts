@@ -1,6 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { deposit } from '../actions/topUp/deposit';
 import { fetchPublicKey } from '../actions/topUp/fetchPublicKey';
@@ -9,19 +9,27 @@ import { login } from '../actions/topUp/login';
 import { waitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { useAppDispatch } from 'store/useAppDispatch';
 import {
-  selectAccount,
   setTopUpTransaction,
   setAmount,
-} from 'domains/account/store/accountSlice';
+  selectTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
+import { MultiService } from 'modules/api/MultiService';
 
 export function useTopUp() {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { amount } = useAppSelector(selectAccount);
+  const { service } = MultiService.getInstance();
+  const address = service.getKeyProvider().currentAccount();
+
+  const transaction = useAppSelector(selectTransaction);
+  const amount = useMemo(
+    () => new BigNumber(transaction?.amount || 0),
+    [transaction],
+  );
 
   const handleFetchPublicKey = useCallback(
     () => dispatchRequest(fetchPublicKey()),
@@ -49,13 +57,13 @@ export function useTopUp() {
   );
 
   const handleResetTopUpTransaction = useCallback(
-    () => dispatch(setTopUpTransaction()),
-    [dispatch],
+    () => dispatch(setTopUpTransaction({ address })),
+    [dispatch, address],
   );
 
   const handleSetAmount = useCallback(
-    (value: BigNumber) => dispatch(setAmount(value)),
-    [dispatch],
+    (value: BigNumber) => dispatch(setAmount({ address, amount: value })),
+    [dispatch, address],
   );
 
   const handleRejectAllowance = useCallback(

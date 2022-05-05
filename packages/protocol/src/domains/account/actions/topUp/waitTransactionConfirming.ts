@@ -6,7 +6,7 @@ import { throwIfError } from 'common';
 import { retry } from 'modules/api/utils/retry';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import { fetchBalances } from '../balance/fetchBalances';
-import { selectAccount } from 'domains/account/store/accountSlice';
+import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { t } from 'modules/i18n/utils/intl';
 
 const MAX_ATTEMPTS = 50;
@@ -49,10 +49,10 @@ export const waitTransactionConfirming = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const { topUpTransaction } = selectAccount(store.getState());
+          const transaction = selectTransaction(store.getState());
 
-          if (topUpTransaction?.transactionHash) {
-            await waitForBlocks(store, topUpTransaction.transactionHash);
+          if (transaction?.topUpTransactionHash) {
+            await waitForBlocks(store, transaction.topUpTransactionHash);
           }
         })(),
       };

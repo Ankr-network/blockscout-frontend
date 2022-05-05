@@ -4,19 +4,19 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { MultiService } from 'modules/api/MultiService';
-import { setAllowanceTransaction } from 'domains/account/store/accountSlice';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { fetchBalances } from '../balance/fetchBalances';
 
 const setTransaction = (
   store: RequestsStore,
   address: string,
-  transactionHash: string,
+  allowanceTransactionHash: string,
 ) => {
-  if (transactionHash) {
+  if (allowanceTransactionHash) {
     store.dispatch(
       setAllowanceTransaction({
         address,
-        transactionHash,
+        allowanceTransactionHash,
       }),
     );
   }

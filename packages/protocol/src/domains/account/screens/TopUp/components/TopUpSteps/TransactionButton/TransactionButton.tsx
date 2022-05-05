@@ -7,13 +7,13 @@ import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './TransactionButtonStyles';
 import { ReactComponent as OpenLinkIcon } from 'uiKit/Icons/open-link.svg';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectTopUpTransaction } from 'domains/account/store/accountSlice';
+import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { getExplorerLink } from './TransactionButtonUtils';
 
 export const TransactionButton = () => {
   const classes = useStyles();
 
-  const topUpTransaction = useAppSelector(selectTopUpTransaction);
+  const transaction = useAppSelector(selectTransaction);
 
   return (
     <Box className={classes.root}>
@@ -23,10 +23,10 @@ export const TransactionButton = () => {
         size="l"
         copyText={t('top-up-steps.copy-button')}
         textColor="textPrimary"
-        text={topUpTransaction?.transactionHash ?? ''}
+        text={transaction?.topUpTransactionHash ?? ''}
       />
       <NavLink
-        href={getExplorerLink(topUpTransaction?.transactionHash)}
+        href={getExplorerLink(transaction?.topUpTransactionHash)}
         className={classes.link}
         tabIndex={0}
         size="small"
