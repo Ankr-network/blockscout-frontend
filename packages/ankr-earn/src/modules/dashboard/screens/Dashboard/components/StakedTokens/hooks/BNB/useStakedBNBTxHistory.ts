@@ -6,7 +6,7 @@ import { AvailableWriteProviders } from 'provider';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';

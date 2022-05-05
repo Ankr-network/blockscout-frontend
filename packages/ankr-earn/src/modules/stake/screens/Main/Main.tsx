@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { t } from 'modules/i18n/utils/intl';
 import {
   fetchValidatorsDetails,
@@ -81,16 +82,17 @@ export const Main = (): JSX.Element => {
             apy={ethAPY ?? undefined}
             iconSlot={<EthIcon />}
             mainHref={EthereumRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.ETH)}
             stakedTvl={validatorsDetails?.eth.totalStaked}
             title={t('features.ethereum')}
             token={Token.ETH}
-            onStakeClick={onTrackEnterStakingFlow(Token.ETH)}
           />
 
           {featuresConfig.stakeETHWithoutClaim && (
             <FeatureItem
               iconSlot={<EthIcon />}
               mainHref={EthereumRoutes.stakeWithoutClaim.generatePath()}
+              moreHref={getStakingOverviewUrl(Token.ETH)}
               title="ETH (testing only)"
               token={Token.ETH}
             />
@@ -100,6 +102,7 @@ export const Main = (): JSX.Element => {
             apy={aMATICbAPY?.toNumber()}
             iconSlot={<MaticIcon />}
             mainHref={PolygonRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.MATIC)}
             stakedTvl={validatorsDetails?.polygon.totalStaked}
             title={t('features.polygon')}
             token={Token.MATIC}
@@ -110,6 +113,7 @@ export const Main = (): JSX.Element => {
             apy={aBNBbAPY?.toNumber()}
             iconSlot={<BNBIcon />}
             mainHref={BinanceRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.BNB)}
             stakedTvl={validatorsDetails?.bnb.totalStaked}
             title={t('features.binance')}
             token={Token.BNB}
@@ -120,6 +124,7 @@ export const Main = (): JSX.Element => {
             apy={aFTMbAPY?.toNumber()}
             iconSlot={<FantomIcon />}
             mainHref={FantomRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.FTM)}
             stakedTvl={validatorsDetails?.ftm.totalStaked}
             title={t('features.fantom')}
             token={Token.FTM}
@@ -131,6 +136,7 @@ export const Main = (): JSX.Element => {
               apy={aAVAXbAPY?.toNumber()}
               iconSlot={<AvaxIcon />}
               mainHref={AvalancheRoutes.stake.generatePath()}
+              moreHref={getStakingOverviewUrl(Token.AVAX)}
               stakedTvl={validatorsDetails?.avax.totalStaked}
               title={t('features.avalanche')}
               token={Token.AVAX}

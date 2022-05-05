@@ -8,7 +8,7 @@ import { EEthereumNetworkId, Env } from './types';
 
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
-export const DOCS_LINK = 'https://docs.ankr.com/';
+export const DOCS_LINK = 'https://www.ankr.com/docs/staking/overview/';
 export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;

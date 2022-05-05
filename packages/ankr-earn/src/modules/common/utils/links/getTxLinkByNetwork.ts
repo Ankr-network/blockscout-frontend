@@ -1,4 +1,4 @@
-import { EXPLORER_URLS, SupportedChainIDS } from '../const';
+import { EXPLORER_URLS, SupportedChainIDS } from '../../const';
 
 export type TLinkType = 'tx' | 'address' | 'block';
 
