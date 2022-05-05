@@ -460,7 +460,8 @@
         "title": "Top Up Balance",
         "pricing-link": "Pricing",
         "placeholder": "Amount",
-        "button": "Top Up"
+        "button": "Top Up",
+        "continue-button": "Continue Top Up"
       },
       "balance": {
         "title": "Balance",
