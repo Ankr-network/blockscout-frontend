@@ -33,21 +33,19 @@ const AVAILABLE_NETWORKS = [
 export const ConnectGuardRoute = ({
   ...routeProps
 }: IConnectGuardRouteProps): JSX.Element => {
+  const providerId = AvailableWriteProviders.ethCompatible;
+
   const {
     isOpened: isOpenedModal,
     onClose: onCloseModal,
     onOpen: onOpenModal,
   } = useDialog();
 
-  let isConnected = false;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = true;
-      }
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const isConnected = writeProviderData?.isConnected ?? false;
 
   if (isConnected) {
     return (
@@ -55,7 +53,7 @@ export const ConnectGuardRoute = ({
         exact
         availableNetworks={AVAILABLE_NETWORKS}
         path={routeProps.path}
-        providerId={AvailableWriteProviders.ethCompatible}
+        providerId={providerId}
       >
         <Route {...routeProps} />
       </GuardETHRoute>

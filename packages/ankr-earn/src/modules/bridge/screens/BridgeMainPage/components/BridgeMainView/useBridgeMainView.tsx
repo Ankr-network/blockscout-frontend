@@ -79,6 +79,8 @@ const defaultTo = isMainnet
   : SupportedChainIDS.BSC_TESTNET;
 
 export const useBridgeMainView = (): IUseBridgeMainView => {
+  const providerId = AvailableWriteProviders.ethCompatible;
+
   const balance = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
@@ -109,19 +111,15 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     type: deposit,
   });
 
-  let isConnected = false;
-  let isMetaMask = false;
-  let chainId: EEthereumNetworkId | undefined;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = data.isConnected;
-        isMetaMask = getIsMetaMask(data.walletName);
-        chainId = data.chainId;
-      }
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const chainId: EEthereumNetworkId | undefined = writeProviderData?.chainId;
+  const isConnected = writeProviderData?.isConnected ?? false;
+  const isMetaMask = writeProviderData?.walletName
+    ? getIsMetaMask(writeProviderData.walletName)
+    : false;
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -215,7 +213,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const onSwitchNetworkClick = () => {
     dispatchRequest(
       switchNetwork({
-        providerId: AvailableWriteProviders.ethCompatible,
+        providerId,
         chainId: swapNetworkItem.from as number,
       }),
     );

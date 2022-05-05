@@ -41,23 +41,17 @@ export const useGuardPolkadotRoute = ({
 
   const { loading: isLoading } = useMutation({ type: switchNetwork });
 
-  let chainId: EPolkadotNetworkId | undefined;
-  let isConnected = false;
-  let isValidWallet = false;
-  let walletId: string | undefined;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey !== providerId) {
-        return;
-      }
-
-      chainId = (data.chainType as EPolkadotNetworkId) ?? undefined;
-      isConnected = data.isConnected;
-      isValidWallet = getIsPolkadot(data.walletName);
-      walletId = data.walletId;
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const chainId: EPolkadotNetworkId | undefined =
+    (writeProviderData?.chainType as EPolkadotNetworkId) ?? undefined;
+  const isConnected = writeProviderData?.isConnected ?? false;
+  const isValidWallet = writeProviderData?.walletName
+    ? getIsPolkadot(writeProviderData.walletName)
+    : false;
+  const walletId = writeProviderData?.walletId;
 
   const isUnsupportedNetwork =
     isConnected && typeof chainId === 'string'

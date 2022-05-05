@@ -57,15 +57,11 @@ export const Restore = (): JSX.Element => {
 
   const { loading } = useQuery({ type: fetchTransaction.toString() });
 
-  let isConnected = false;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = data.isConnected;
-      }
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: AvailableWriteProviders.ethCompatible,
   });
+
+  const isConnected = writeProviderData?.isConnected ?? false;
 
   const handleClose = useCallback(() => {
     dispatch(goBack());

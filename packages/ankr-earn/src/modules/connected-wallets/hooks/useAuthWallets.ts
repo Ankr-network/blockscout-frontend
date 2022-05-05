@@ -1,4 +1,5 @@
 import { useDispatchRequest } from '@redux-requests/react';
+import { useMemo } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
@@ -23,45 +24,56 @@ export interface IWalletItem {
 export const useAuthWallets = (): IUseAuthWalletsData => {
   const dispatchRequest = useDispatchRequest();
 
-  const wallets: IWalletItem[] = [];
+  const { connectedProvidersData, walletsGroupTypes } = useWalletsGroupTypes();
 
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      const addresses: IAddress[] = data.addresses.length
-        ? (data.addresses as string[]).map(address => ({
+  const wallets = useMemo(() => {
+    if (connectedProvidersData === null) {
+      return [];
+    }
+
+    const resultData: IWalletItem[] = [];
+
+    for (let i = 0; i < connectedProvidersData.length; i += 1) {
+      const providerData = connectedProvidersData[i];
+      const { providerId } = providerData;
+
+      const addresses: IAddress[] = providerData.addresses.length
+        ? (providerData.addresses as string[]).map(address => ({
             address,
-            isActive: address === data.address,
-            tokenIconSrc: data.walletIcon ?? '',
+            isActive: address === providerData.address,
+            tokenIconSrc: providerData.walletIcon ?? '',
           }))
         : [
             {
-              address: data.address,
+              address: providerData.address,
               isActive: true,
-              tokenIconSrc: data.walletIcon ?? '',
+              tokenIconSrc: providerData.walletIcon ?? '',
             },
           ];
 
-      wallets.push({
+      resultData.push({
         addresses,
-        network: data.walletName,
+        network: providerData.walletName,
         onAddressUpdate: (address: string): void => {
-          if (providerKey !== AvailableWriteProviders.polkadotCompatible) {
+          if (providerId !== AvailableWriteProviders.polkadotCompatible) {
             return;
           }
 
           dispatchRequest(
             updateAccountAddress({
               address,
-              providerId: providerKey,
+              providerId,
             }),
           );
         },
         onDisconnect: (): void => {
-          dispatchRequest(disconnect(providerKey));
+          dispatchRequest(disconnect(providerId));
         },
       });
-    },
-  });
+    }
+
+    return resultData;
+  }, [connectedProvidersData, dispatchRequest]);
 
   return {
     wallets,

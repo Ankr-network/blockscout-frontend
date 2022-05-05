@@ -38,23 +38,16 @@ export const useGuardETHRoute = ({
 
   const { loading: isLoading } = useMutation({ type: switchNetwork });
 
-  let chainId: EEthereumNetworkId | undefined;
-  let isConnected = false;
-  let isValidWallet = false;
-  let walletId: string | undefined;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey !== providerId) {
-        return;
-      }
-
-      chainId = data.chainId;
-      isConnected = data.isConnected;
-      isValidWallet = getIsMetaMask(data.walletName);
-      walletId = data.walletId;
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const chainId: EEthereumNetworkId | undefined = writeProviderData?.chainId;
+  const isConnected = writeProviderData?.isConnected ?? false;
+  const isValidWallet = writeProviderData?.walletName
+    ? getIsMetaMask(writeProviderData.walletName)
+    : false;
+  const walletId = writeProviderData?.walletId;
 
   const isUnsupportedNetwork =
     isConnected && typeof chainId === 'number' && chainId > 0
