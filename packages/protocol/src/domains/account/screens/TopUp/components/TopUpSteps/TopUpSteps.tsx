@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
+import { Box, Container, Paper, Typography } from '@material-ui/core';
 
 import { useStyles } from './TopUpStepsStyles';
 import { t } from 'modules/i18n/utils/intl';
@@ -14,13 +7,13 @@ import { Stepper } from './Stepper';
 import { StepperTitle } from './StepperTitle';
 import { StepperNotice } from './StepperNotice';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
-import { getButtonText } from './TopUpStepsUtils';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { TransactionButton } from './TransactionButton';
+import { Buttons } from './Buttons';
 
 export const TopUpSteps = ({
   step,
-  onClick,
+  onConfirm,
   onReject,
   loading,
   amount,
@@ -47,34 +40,14 @@ export const TopUpSteps = ({
             <TransactionButton />
           )}
         </Box>
-
-        <Box className={classes.buttons}>
-          <Button
-            className={classes.button}
-            disabled={loading || isRejectAllowanceLoading}
-            onClick={onClick}
-            startIcon={
-              loading ? <CircularProgress size={18} color="inherit" /> : null
-            }
-          >
-            {getButtonText(loading, step, hasCredentials)}
-          </Button>
-          {step === TopUpStep.deposit && (
-            <Button
-              fullWidth
-              disabled={loading || isRejectAllowanceLoading}
-              onClick={onReject}
-              variant="outlined"
-              startIcon={
-                isRejectAllowanceLoading ? (
-                  <CircularProgress size={18} color="inherit" />
-                ) : null
-              }
-            >
-              {t(`top-up-steps.button.reject`)}
-            </Button>
-          )}
-        </Box>
+        <Buttons
+          onConfirm={onConfirm}
+          onReject={onReject}
+          loading={loading}
+          isRejectAllowanceLoading={isRejectAllowanceLoading}
+          hasCredentials={hasCredentials}
+          step={step}
+        />
       </Paper>
     </Container>
   );

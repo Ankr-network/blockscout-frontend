@@ -20,6 +20,7 @@ import { disconnect } from 'modules/auth/actions/disconnect';
 import { accountPersistConfig } from 'domains/account/storage/accountPersistConfig';
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
+const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -47,7 +48,10 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
   onError: (error: any, action, store: Store) => {
     let customMessageKey = '';
 
-    if (error?.response?.data === TOKEN_EXPIRED_ERROR) {
+    if (
+      error?.response?.data === TOKEN_EXPIRED_ERROR ||
+      error?.response?.data === TOKEN_AUTH_ERROR
+    ) {
       store.dispatch(disconnect());
 
       customMessageKey = 'error.expired-session';

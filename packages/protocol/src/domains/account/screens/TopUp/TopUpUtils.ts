@@ -41,7 +41,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
   const history = useHistory();
 
-  const onClick = useMemo(() => {
+  const onConfirm = useMemo(() => {
     switch (step) {
       case TopUpStep.start:
         return async () => {
@@ -122,7 +122,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     step,
     loading,
     amount: amount?.toNumber(),
-    onClick,
+    onConfirm,
     onReject: onRejectAllowance,
     isRejectAllowanceLoading,
   };
