@@ -69,21 +69,10 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
           [connectAction]: (data: IConnect): IConnect => {
             let changedData: TChangedData = {};
 
-            switch (typeof chainId) {
-              case 'number':
-                changedData = {
-                  chainId,
-                };
-                break;
-
-              case 'string':
-                changedData = {
-                  chainType: chainId,
-                };
-                break;
-
-              default:
-                break;
+            if (typeof chainId === 'string') {
+              changedData = {
+                chainType: chainId,
+              };
             }
 
             if (typeof switchNetworkData?.address === 'string') {

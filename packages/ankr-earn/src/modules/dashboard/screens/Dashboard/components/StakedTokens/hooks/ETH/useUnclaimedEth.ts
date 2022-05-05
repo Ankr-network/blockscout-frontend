@@ -22,7 +22,8 @@ export const useUnclaimedEth = (): IUseUnclaimedEth => {
     type: getCommonData,
   });
 
-  const isShowed = !data?.claimableAETHB.isZero() || loading;
+  const isZero = !data || data.claimableAETHB.isZero();
+  const isShowed = !isZero || loading;
 
   return {
     chainId: ETH_NETWORK_BY_ENV,
