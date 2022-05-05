@@ -1,5 +1,5 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 import { t } from 'common';
 import { EPolkadotNetworkId } from 'provider';
@@ -12,14 +12,13 @@ import {
 } from 'modules/auth/common/components/GuardRoute';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import {
   IPolkadotNetwork,
   usePolkadotNetworks,
 } from '../../../hooks/usePolkadotNetworks';
 import { getIsPolkadot } from '../../../utils/getIsPolkadot';
-
-import { useKnownNetworks } from './useKnownNetworks';
 
 export const useGuardPolkadotRoute = ({
   availableNetworks,
@@ -36,7 +35,6 @@ export const useGuardPolkadotRoute = ({
     onOpen: onOpenModal,
   } = useDialog();
 
-  const knownNetworks = useKnownNetworks();
   const networks = usePolkadotNetworks();
 
   const { loading: isLoading } = useMutation({ type: switchNetwork });
@@ -58,12 +56,9 @@ export const useGuardPolkadotRoute = ({
       ? !availableNetworks.includes(chainId)
       : false;
 
-  const currentNetwork = useMemo(
-    () =>
-      typeof chainId === 'string' && knownNetworks[chainId]
-        ? knownNetworks[chainId]
-        : t('connect.current'),
-    [chainId, knownNetworks],
+  const infoTxt = useLocaleMemo(
+    () => t('connect.unsupported-polkadot-network'),
+    [],
   );
 
   const supportedNetworks = networks.filter(network =>
@@ -83,7 +78,7 @@ export const useGuardPolkadotRoute = ({
   );
 
   return {
-    currentNetwork,
+    infoTxt,
     isConnected,
     isLoading,
     isOpenedModal,

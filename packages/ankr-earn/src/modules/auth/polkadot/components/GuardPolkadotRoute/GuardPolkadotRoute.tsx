@@ -19,7 +19,7 @@ export const GuardPolkadotRoute = ({
   ...routeProps
 }: IGuardPolkadotRouteProps): JSX.Element => {
   const {
-    currentNetwork,
+    infoTxt,
     isConnected,
     isLoading,
     isOpenedModal,
@@ -39,7 +39,7 @@ export const GuardPolkadotRoute = ({
   return (
     <GuardRoute
       availableNetworks={availableNetworks}
-      currentNetwork={currentNetwork}
+      infoTxt={infoTxt}
       isConnected={isConnected}
       isLoading={isLoading}
       isOpenConnectInstantly={isOpenConnectInstantly}

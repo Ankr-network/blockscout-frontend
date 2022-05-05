@@ -136,6 +136,7 @@
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
     "available-networks": "Ensure your wallet is connected to the following networks:",
     "unsupported-network": "This page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "unsupported-polkadot-network": "Please, choose required network for unstake:",
     "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",

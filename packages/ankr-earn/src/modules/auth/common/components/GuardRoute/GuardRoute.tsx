@@ -22,7 +22,8 @@ interface IGuardRouteProps<
   SupportedNetworkItem extends INetworkItem<NetworkId>,
 > extends RouteProps {
   availableNetworks: NetworkId[];
-  currentNetwork: string;
+  currentNetwork?: string;
+  infoTxt?: string;
   isConnected: boolean;
   isLoading: boolean;
   isOpenConnectInstantly?: boolean;
@@ -44,6 +45,7 @@ export const GuardRoute = <
 >({
   availableNetworks,
   currentNetwork,
+  infoTxt,
   isConnected,
   isLoading,
   isOpenConnectInstantly,
@@ -84,6 +86,7 @@ export const GuardRoute = <
           <Container maxWidth="640px">
             <UnsupportedNetwork
               currentNetwork={currentNetwork}
+              infoTxt={infoTxt}
               networksSlot={
                 <NetworkSelector>
                   {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}
