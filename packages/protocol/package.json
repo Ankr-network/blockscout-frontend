@@ -172,7 +172,8 @@
       "/dashboard/moonbeam/add/",
       "/account/",
       "/account/topup/",
-      "/providers/"
+      "/providers/",
+      "/explorer/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
