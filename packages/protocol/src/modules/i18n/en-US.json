@@ -562,22 +562,22 @@
     },
     "step-notice": {
       "1": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
-      "2": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
+      "2": "If&nbsp;you changed your mind, click Cancel and give&nbsp;us permission to&nbsp;access your Ankr again so&nbsp;we&nbsp;could revoke your Top&nbsp;Up",
       "3": "After Ethereum network validation you will see updated balance of&nbsp;your wallet.",
       "4": "The last step in&nbsp;your top up&nbsp;process."
     },
     "button": {
       "0": "Next",
       "1": "Confirm",
-      "1-loading": "Metamask Check",
+      "1-loading": "Check Metamask",
       "2": "Confirm",
-      "2-loading": "Metamask Check",
+      "2-loading": "Check Metamask",
       "3": "Next",
       "3-loading": "Please wait",
       "3-done": "Done",
       "4-loading": "Please wait",
       "4": "Done",
-      "reject": "Reject"
+      "reject": "Cancel"
     },
     "copy-button": "Copy TxID",
     "confirm": "Сonfirm",
