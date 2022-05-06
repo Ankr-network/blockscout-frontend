@@ -50,6 +50,7 @@ export const ChainNodesTable = ({
         rows={slicedRows}
         isMoreRowsAvailable={slicedRows.length < rows.length}
         classes={{ container: classes.tableContainer }}
+        minWidth={550}
       />
     </TableContainer>
   );
