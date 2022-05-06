@@ -3,21 +3,20 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
-import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { MultiService } from 'modules/api/MultiService';
-import { setAllowanceTransaction } from 'domains/account/store/accountSlice';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { fetchBalances } from '../balance/fetchBalances';
 
 const setTransaction = (
   store: RequestsStore,
   address: string,
-  transactionHash: string,
+  allowanceTransactionHash: string,
 ) => {
-  if (transactionHash) {
+  if (allowanceTransactionHash) {
     store.dispatch(
       setAllowanceTransaction({
         address,
-        transactionHash,
+        allowanceTransactionHash,
       }),
     );
   }
@@ -28,18 +27,20 @@ export const getAllowance = createSmartAction<
   [BigNumber]
 >('topUp/getAllowance', (amount: BigNumber) => ({
   request: {
-    promise: async (store: RequestsStore) => {
-      const { service } = MultiService.getInstance();
-      const address = service.getKeyProvider().currentAccount();
-
-      const allowanceResponse = await service.getAllowanceForPAYG(amount);
-
-      setTransaction(store, address, allowanceResponse?.transactionHash);
-    },
+    promise: (async () => null)(),
   },
   meta: {
-    onRequest: walletConnectionGuard,
-    asMutation: false,
+    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
+      return {
+        promise: (async () => {
+          const { service } = MultiService.getInstance();
+          const address = service.getKeyProvider().currentAccount();
+          const allowanceResponse = await service.getAllowanceForPAYG(amount);
+
+          setTransaction(store, address, allowanceResponse?.transactionHash);
+        })(),
+      };
+    },
     onSuccess: (
       response: any,
       _action: RequestAction,

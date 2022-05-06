@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { t } from 'modules/i18n/utils/intl';
@@ -19,26 +19,27 @@ export const useTopUpBreadcrumbs = () => {
   ]);
 };
 
-export const useTopupSteps = (initialStep: TopUpStep) => {
+export const useTopupSteps = (
+  initialStep: TopUpStep,
+  hasCredentials: boolean,
+) => {
   const [step, setStep] = useState<TopUpStep>(initialStep);
-
-  // need this effect to go from waitTransactionConfirming to login
-  useEffect(() => {
-    setStep(initialStep);
-  }, [initialStep]);
 
   const {
     handleGetAllowance,
     handleDeposit,
+    handleRejectAllowance,
     handleWaitTransactionConfirming,
+    handleRedirectIfCredentials,
     handleLogin,
     amount,
     loading,
+    isRejectAllowanceLoading,
   } = useTopUp();
 
   const history = useHistory();
 
-  const onClick = useMemo(() => {
+  const onConfirm = useMemo(() => {
     switch (step) {
       case TopUpStep.start:
         return async () => {
@@ -59,13 +60,26 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
       case TopUpStep.deposit: {
         return async () => {
-          const { error } = await handleDeposit();
+          const { error, data } = await handleDeposit();
 
           if (!error) {
             // move to waitTransactionConfirming
             setStep(oldStep => ++oldStep);
 
-            await handleWaitTransactionConfirming();
+            await handleWaitTransactionConfirming(
+              hasCredentials ? data?.receiptPromise : null,
+            );
+          }
+        };
+      }
+
+      case TopUpStep.waitTransactionConfirming: {
+        return async () => {
+          const { data: hasRedirect } = await handleRedirectIfCredentials();
+
+          if (!hasRedirect) {
+            // move to login
+            setStep(oldStep => ++oldStep);
           }
         };
       }
@@ -89,12 +103,28 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     handleWaitTransactionConfirming,
     handleLogin,
     history,
+    handleRedirectIfCredentials,
+    hasCredentials,
   ]);
+
+  const onRejectAllowance = useMemo(() => {
+    return async () => {
+      const { error } = await handleRejectAllowance();
+
+      if (!error) {
+        const link = AccountRoutesConfig.accountDetails.generatePath();
+
+        history.push(link);
+      }
+    };
+  }, [history, handleRejectAllowance]);
 
   return {
     step,
     loading,
     amount: amount?.toNumber(),
-    onClick,
+    onConfirm,
+    onReject: onRejectAllowance,
+    isRejectAllowanceLoading,
   };
 };

@@ -9,6 +9,8 @@ import { formatNumber, i18nKeyRoot } from './BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './BalanceStyles';
 
+const HAS_WITHDRAW_LINK = false;
+
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
 export const Balance = ({
@@ -28,14 +30,16 @@ export const Balance = ({
           <span className={classes.title}>{t(`${i18nKeyRoot}.title`)}</span>
           <div className={classes.currency}>ANKR</div>
         </div>
-        <Button
-          className={classes.withdrawButton}
-          component={Link}
-          to={AccountRoutesConfig.withdraw.path}
-          variant="text"
-        >
-          {t(`${i18nKeyRoot}.withdrawButton.title`)}
-        </Button>
+        {HAS_WITHDRAW_LINK && (
+          <Button
+            className={classes.withdrawButton}
+            component={Link}
+            to={AccountRoutesConfig.withdraw.path}
+            variant="text"
+          >
+            {t(`${i18nKeyRoot}.withdrawButton.title`)}
+          </Button>
+        )}
       </div>
       <div className={classes.balance}>{formatNumber(ankrBalance)}</div>
       <Details

@@ -7,15 +7,11 @@ import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { Spinner } from 'ui';
 import { useProvider } from 'modules/auth/hooks/useProvider';
+import { PageNotFound } from 'modules/router/components/PageNotFound';
 
-export interface IGuardRoute extends RouteProps {
-  hasCachedCredentials: boolean;
-}
+export interface IGuardRoute extends RouteProps {}
 
-export const GuardAuthProviderRoute = ({
-  hasCachedCredentials,
-  ...routeProps
-}: IGuardRoute) => {
+export const GuardAuthProviderRoute = (props: IGuardRoute) => {
   const { credentials, address, loading } = useAuth();
   const {
     handleFetchProvider,
@@ -43,8 +39,12 @@ export const GuardAuthProviderRoute = ({
   }
 
   if (!providerData || (typeof providerData === 'string' && !credentials)) {
-    return null;
+    return (
+      <DefaultLayout>
+        <PageNotFound />
+      </DefaultLayout>
+    );
   }
 
-  return <Route {...routeProps} />;
+  return <Route {...props} />;
 };

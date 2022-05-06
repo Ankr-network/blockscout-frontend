@@ -4,14 +4,15 @@ import { Field } from 'react-final-form';
 
 import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'modules/form/components/InputField';
-import { useStyles } from '../TopUpFormStyles';
+import { useStyles } from './AmountFieldStyles';
 import { CURRENCY, normalizeAmount, validateAmount } from './AmountFieldUtils';
 
 interface AmountFieldProps {
   name: string;
+  isDisabled?: boolean;
 }
 
-export const AmountField = ({ name }: AmountFieldProps) => {
+export const AmountField = ({ name, isDisabled }: AmountFieldProps) => {
   const classes = useStyles();
 
   return (
@@ -25,6 +26,7 @@ export const AmountField = ({ name }: AmountFieldProps) => {
         validate={validateAmount}
         parse={normalizeAmount}
         isHelperTextVisible
+        disabled={isDisabled}
         InputProps={{
           classes: {
             root: classes.inputBase,

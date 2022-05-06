@@ -4,23 +4,22 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { MultiService } from 'modules/api/MultiService';
-import { walletConnectionGuard } from 'modules/auth/utils/walletConnectionGuard';
 import { fetchPublicKey } from './fetchPublicKey';
 import {
   setAllowanceTransaction,
   setTopUpTransaction,
-} from 'domains/account/store/accountSlice';
+} from 'domains/account/store/accountTopUpSlice';
 
 const setTransaction = (
   store: RequestsStore,
   address: string,
-  transactionHash: string,
+  topUpTransactionHash: string,
 ) => {
-  if (transactionHash) {
+  if (topUpTransactionHash) {
     store.dispatch(
       setTopUpTransaction({
         address,
-        transactionHash,
+        topUpTransactionHash,
       }),
     );
   }
@@ -30,27 +29,30 @@ export const deposit = createSmartAction<
   RequestAction<string, IWeb3SendResult>
 >('topUp/deposit', (amount: BigNumber) => ({
   request: {
-    promise: async (store: RequestsStore) => {
-      const { service } = MultiService.getInstance();
-
-      const { data: publicKey } = await store.dispatchRequest(fetchPublicKey());
-
-      const depositResponse = await service.depositAnkrToPAYG(
-        amount,
-        publicKey as string,
-      );
-
-      const address = service.getKeyProvider().currentAccount();
-
-      store.dispatch(setAllowanceTransaction());
-
-      setTransaction(store, address, depositResponse.transactionHash);
-
-      return depositResponse;
-    },
+    promise: (async () => null)(),
   },
   meta: {
-    onRequest: walletConnectionGuard,
-    asMutation: false,
+    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
+      return {
+        promise: (async (): Promise<any> => {
+          const { service } = MultiService.getInstance();
+          const address = service.getKeyProvider().currentAccount();
+
+          const { data: publicKey } = await store.dispatchRequest(
+            fetchPublicKey(),
+          );
+
+          const depositResponse = await service.depositAnkrToPAYG(
+            amount,
+            publicKey as string,
+          );
+
+          store.dispatch(setAllowanceTransaction({ address }));
+          setTransaction(store, address, depositResponse.transactionHash);
+
+          return depositResponse;
+        })(),
+      };
+    },
   },
 }));

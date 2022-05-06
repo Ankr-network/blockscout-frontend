@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 
 export interface IAuthSlice {
-  credentials?: IJwtToken;
+  credentials?: IJwtToken | false;
   address?: string;
   authorizationToken?: string;
   encryptionPublicKey?: string;

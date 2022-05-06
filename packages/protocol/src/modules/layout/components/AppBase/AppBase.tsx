@@ -15,7 +15,7 @@ interface IAppBaseProps {
 
 export const AppBase = ({ children }: IAppBaseProps) => {
   const isInitialized = useInitialaizeLocale();
-  useMetatags(historyInstance.location.pathname)
+  useMetatags(historyInstance.location.pathname);
 
   return (
     <RewiredStylesProvider>

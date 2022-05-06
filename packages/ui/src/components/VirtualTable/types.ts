@@ -1,7 +1,7 @@
 type VirtualTablePaginationType = 'more';
 
 export interface VirtualTableQuery {
-  page?: number;
+  page: number;
   order?: 'asc' | 'desc';
   orderBy?: string;
 }
@@ -14,7 +14,6 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   pagination?: VirtualTablePaginationType;
   onChangePage?: (params: VirtualTableQuery) => void;
   isMoreRowsAvailable?: boolean;
-  defaultQuery?: VirtualTableQuery;
   onSort?: (params: VirtualTableQuery) => void;
   renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
   moreBtnText?: string;

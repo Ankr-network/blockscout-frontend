@@ -19,20 +19,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  content: {},
   stepper: {
     background: 'transparent',
-    paddingLeft: '0 !important',
-    paddingRight: '0 !important',
+    padding: '20px 0 !important',
     maxWidth: 220,
-    marginBottom: theme.spacing(4.5),
+    marginBottom: theme.spacing(7),
   },
   title: {
     marginBottom: theme.spacing(2.75),
-    minHeight: 110,
+    // minHeight: 110,
     fontFamily: `${FONTS.secondary}`,
 
-    '&.h3': {
-      fontSize: 28,
+    'h3&': {
+      fontSize: 24,
     },
 
     '& .icon': {
@@ -44,4 +44,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
     minHeight: 45,
     marginBottom: theme.spacing(3),
   },
+  buttons: {
+    display: 'flex',
+    gap: 12,
+  },
+  button: {
+    minWidth: 210,
+  },
+  rejectButton: {},
 }));

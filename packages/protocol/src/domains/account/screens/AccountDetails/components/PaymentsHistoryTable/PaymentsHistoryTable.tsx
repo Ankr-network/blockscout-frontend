@@ -11,6 +11,7 @@ import React, { useCallback } from 'react';
 import { VirtualTable, VirtualTableQuery } from 'ui';
 import {
   PaymentHistoryDefaultParams,
+  PAYMENT_HISTORY_PAGE_SIZE,
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
 } from './PaymentsHistoryTableUtils';
@@ -27,8 +28,14 @@ export const PaymentsHistoryTable = () => {
 
   const handleChangeSort = useCallback(
     async (params: VirtualTableQuery) => {
+      const query = preparePaymentHistoryRequest(params);
+
       await dispatchRequest(
-        fetchPaymentHistory(preparePaymentHistoryRequest(params)),
+        fetchPaymentHistory({
+          ...query,
+          cursor: 0,
+          limit: params.page * PAYMENT_HISTORY_PAGE_SIZE,
+        }),
       );
     },
     [dispatchRequest],
@@ -51,7 +58,7 @@ export const PaymentsHistoryTable = () => {
     );
   });
 
-  if (error || (!loading && !data?.transactions?.length)) {
+  if (error || !data?.transactions?.length) {
     return null;
   }
 
@@ -66,7 +73,7 @@ export const PaymentsHistoryTable = () => {
         cols={columns}
         isMoreRowsAvailable={data && data.cursor !== '-1'}
         pagination="more"
-        minWidth={600}
+        minWidth={650}
         moreBtnText={t('account.payment-table.more')}
         onChangePage={handleChangePage}
         onSort={handleChangeSort}

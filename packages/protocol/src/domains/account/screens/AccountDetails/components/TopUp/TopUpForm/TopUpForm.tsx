@@ -1,42 +1,38 @@
-import React, { useCallback } from 'react';
-import { Button } from '@material-ui/core';
-import { Form, FormRenderProps } from 'react-final-form';
+import React from 'react';
+import { Form } from 'react-final-form';
+import BigNumber from 'bignumber.js';
 
-import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './TopUpFormStyles';
-import {
-  TopUpFormValues,
-  TopUpFormFields,
-  TopUpFormProps,
-} from './TopUpFormTypes';
-import { AmountField } from './AmountField/AmountField';
+import { TopUpFormFields, TopUpFormProps } from './TopUpFormTypes';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
+import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
 
 export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
   const classes = useStyles();
 
-  const renderForm = useCallback(
-    ({ handleSubmit, validating }: FormRenderProps<TopUpFormValues>) => {
-      return (
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          className={classes.form}
-        >
-          <AmountField name={TopUpFormFields.amount} />
-          <Button
-            color="primary"
-            fullWidth
-            type="submit"
-            disabled={validating}
-            className={classes.button}
-          >
-            {t('account.account-details.top-up.button')}
-          </Button>
-        </form>
-      );
-    },
-    [classes.button, classes.form],
+  const transaction = useAppSelector(selectTransaction);
+
+  const isTopUpInProcess = Boolean(
+    transaction?.allowanceTransactionHash || transaction?.topUpTransactionHash,
   );
 
-  return <Form onSubmit={onSubmit} render={renderForm} />;
+  const renderForm = useRenderForm(classes);
+  const renderDisabledForm = useRenderDisabledForm(classes);
+
+  return (
+    <Form
+      onSubmit={onSubmit}
+      render={isTopUpInProcess ? renderDisabledForm : renderForm}
+      initialValues={
+        isTopUpInProcess
+          ? {
+              [TopUpFormFields.amount]: new BigNumber(
+                transaction?.amount ?? 0,
+              ).toNumber(),
+            }
+          : undefined
+      }
+    />
+  );
 };

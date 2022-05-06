@@ -1,19 +1,19 @@
 import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 
-import { DefaultLayout } from '../../../layout/components/DefautLayout';
-import { useAuth } from '../../hooks/useAuth';
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { Dashboard } from 'domains/plan/screens/Dashboard';
+import { AccountRoutes } from 'domains/account/Routes';
 import { Spinner } from 'ui';
 
 export interface IGuardRoute extends RouteProps {
-  hasCachedCredentials: boolean;
+  isAuthorized: boolean;
 }
 
 export const GuardAuthRoute = ({
-  hasCachedCredentials,
+  isAuthorized,
   ...routeProps
 }: IGuardRoute) => {
   const { credentials, address, loading } = useAuth();
@@ -23,7 +23,7 @@ export const GuardAuthRoute = ({
     if (!address || !credentials) setBreadcrumbs([]);
   });
 
-  if (loading && hasCachedCredentials && typeof credentials === 'undefined') {
+  if (loading) {
     return (
       <DefaultLayout>
         <Spinner />
@@ -31,10 +31,10 @@ export const GuardAuthRoute = ({
     );
   }
 
-  if (credentials) {
+  if (isAuthorized) {
     return (
       <DefaultLayout>
-        <Dashboard />
+        <AccountRoutes />
       </DefaultLayout>
     );
   }

@@ -2,7 +2,7 @@ import { Contract } from 'web3-eth-contract';
 import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
-import { base64ToPrefixedHex } from '../common';
+import { base64ToPrefixedHex, PrefixedHex, Web3Address } from '../common';
 import { IPAYGContractManagerConfig } from './types';
 
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
@@ -37,7 +37,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     const currentAccount = this.keyProvider.currentAccount();
 
     // make sure user have enough balance
-    const balance = await(this.ankrTokenContract.methods as IAnkrToken)
+    const balance = await (this.ankrTokenContract.methods as IAnkrToken)
       .balanceOf(currentAccount)
       .call();
 
@@ -50,7 +50,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     const currentAccount = this.keyProvider.currentAccount();
 
     // make sure user have enough allowance
-    const allowance = await(this.ankrTokenContract.methods as IAnkrToken)
+    const allowance = await (this.ankrTokenContract.methods as IAnkrToken)
       .allowance(currentAccount, this.config.payAsYouGoContractAddress)
       .call();
 
@@ -62,7 +62,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   private async sendAllowance(scaledAmount: BigNumber) {
     const currentAccount = this.keyProvider.currentAccount();
 
-    const data = await(this.ankrTokenContract.methods as IAnkrToken)
+    const data = await (this.ankrTokenContract.methods as IAnkrToken)
       .approve(this.config.payAsYouGoContractAddress, scaledAmount.toString(10))
       .encodeABI();
 
@@ -132,6 +132,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   async depositAnkr(
     amount: BigNumber,
     publicKey: string,
+    // TODO expiresAfter
     expiresAfter = '31536000',
   ): Promise<IWeb3SendResult> {
     const scaledAmount = new BigNumber(
@@ -156,5 +157,47 @@ export class PAYGContractManager implements IPAYGContractManager {
     );
 
     return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
+  }
+
+  async getLatestUserEventLogHash(
+    user: Web3Address,
+  ): Promise<PrefixedHex | false> {
+    const tierAssignedEvents = await this.payAsYouGoContract.getPastEvents(
+      'TierAssigned',
+      {
+        filter: {
+          sender: user,
+        },
+        fromBlock: 'earliest',
+        toBlock: 'latest',
+      },
+    );
+
+    const validEvents = tierAssignedEvents.filter(event => {
+      const { expires } = event.returnValues;
+
+      if (expires === 0) return true;
+
+      return new Date().getTime() / 1000 < expires;
+    });
+
+    if (!validEvents.length) return false;
+
+    return validEvents[validEvents.length - 1].transactionHash;
+  }
+
+  async decryptMessageUsingPrivateKey(
+    compatibleJsonData: string,
+  ): Promise<string> {
+    const account = this.keyProvider.currentAccount();
+
+    return this.keyProvider.getWeb3().givenProvider.request({
+      method: 'eth_decrypt',
+      params: [compatibleJsonData, account],
+    });
+  }
+
+  async rejectAllowance() {
+    return this.sendAllowance(new BigNumber(0));
   }
 }

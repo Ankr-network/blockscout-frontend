@@ -15,11 +15,12 @@ import { notificationSlice } from '../domains/notification/store/notificationSli
 import { rootSaga } from './rootSaga';
 import { i18nPersistConfig, authPersistConfig } from './webStorageConfigs';
 import { authSlice } from 'modules/auth/store/authSlice';
-import { accountSlice } from 'domains/account/store/accountSlice';
+import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
 import { disconnect } from 'modules/auth/actions/disconnect';
-import { accountPersistConfig } from 'domains/account/storage/accountPersistConfig';
+import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
+const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -47,7 +48,10 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
   onError: (error: any, action, store: Store) => {
     let customMessageKey = '';
 
-    if (error?.response?.data === TOKEN_EXPIRED_ERROR) {
+    if (
+      error?.response?.data === TOKEN_EXPIRED_ERROR ||
+      error?.response?.data === TOKEN_AUTH_ERROR
+    ) {
       store.dispatch(disconnect());
 
       customMessageKey = 'error.expired-session';
@@ -71,7 +75,10 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
-  account: persistReducer(accountPersistConfig, accountSlice.reducer),
+  accountTopUp: persistReducer(
+    accountTopUpPersistConfig,
+    accountTopUpSlice.reducer,
+  ),
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,

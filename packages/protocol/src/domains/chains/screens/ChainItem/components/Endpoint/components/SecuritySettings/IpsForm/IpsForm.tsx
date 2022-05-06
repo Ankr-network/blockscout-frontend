@@ -48,7 +48,7 @@ export const IpsForm = ({ data, onSubmit }: IpsFormProps) => {
               validate={validateIp}
               onButtonClick={handleSubmit}
               buttonText={t('providers.endpoint.security.add-button')}
-              isDisabled={data.length >= MAX_IP_COUNT}
+              isDisabled={data?.length >= MAX_IP_COUNT}
             />
             {Array.isArray(values.ips) && values.ips?.length > 0 && (
               <AddressFields

@@ -1,22 +1,22 @@
 import { useEffect } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
-  ChainPrivateRoutes,
   ChainsRoutes,
+  ChainPrivateRoutes,
   ChainsRoutesConfig,
 } from './domains/chains/Routes';
-import { PlanRoutes, PlanRoutesConfig } from './domains/plan/Routes';
 import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
 } from './domains/nodeProviders/Routes';
-import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
+import { AccountRoutesConfig } from './domains/account/Routes';
+import { Plan } from 'domains/account/screens/Plan';
 import {
   RequestExplorerRoutes,
   ExplorerRoutesConfig,
-} from './domains/explorer/Routes';
+} from 'domains/explorer/Routes';
 
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
@@ -41,19 +41,6 @@ export function Routes() {
     <Switch>
       <Route
         exact
-        path="/"
-        render={() => (
-          <Redirect
-            to={
-              cachedAuthData.credentials
-                ? PlanRoutesConfig.plan.path
-                : ChainsRoutesConfig.chains.path
-            }
-          />
-        )}
-      />
-      <Route
-        exact
         path={[
           ChainsRoutesConfig.chains.path,
           ChainsRoutesConfig.chainDetails.path,
@@ -61,26 +48,6 @@ export function Routes() {
         render={() => (
           <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
             <ChainsRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardAuthProviderRoute
-        exact
-        path={[ChainsRoutesConfig.addEndpoint.path]}
-        hasCachedCredentials={Boolean(cachedAuthData.credentials)}
-        render={() => (
-          <DefaultLayout>
-            <ChainPrivateRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardAuthRoute
-        exact
-        path={[PlanRoutesConfig.plan.path, PlanRoutesConfig.planDeposit.path]}
-        hasCachedCredentials={Boolean(cachedAuthData.credentials)}
-        render={() => (
-          <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
-            <PlanRoutes />
           </DefaultLayout>
         )}
       />
@@ -93,16 +60,26 @@ export function Routes() {
           </DefaultLayout>
         )}
       />
-      <Route
+      <GuardAuthRoute
         exact
         path={[
           AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.withdraw.path,
         ]}
+        isAuthorized={Boolean(cachedAuthData.authorizationToken)}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <AccountRoutes />
+          <DefaultLayout disableGutters theme={Themes.light}>
+            <Plan />
+          </DefaultLayout>
+        )}
+      />
+      <GuardAuthProviderRoute
+        exact
+        path={[ChainsRoutesConfig.addEndpoint.path]}
+        render={() => (
+          <DefaultLayout>
+            <ChainPrivateRoutes />
           </DefaultLayout>
         )}
       />

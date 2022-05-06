@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button, Typography } from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
@@ -32,10 +32,8 @@ export const TrafficFlow = () => {
       </div>
       <div className={classes.right}>
         {flow.map((item, index) => (
-          <>
-            <div className={classes.flowItem} key={item}>
-              {`${index + 1}. ${item}`}
-            </div>
+          <Fragment key={item}>
+            <div className={classes.flowItem}>{`${index + 1}. ${item}`}</div>
             {index !== flow.length - 1 && (
               <div className={classes.separator}>
                 <div className={classes.dot} />
@@ -45,7 +43,7 @@ export const TrafficFlow = () => {
                 <div className={classes.dot} />
               </div>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

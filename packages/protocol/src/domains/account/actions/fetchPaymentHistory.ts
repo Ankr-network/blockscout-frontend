@@ -41,7 +41,7 @@ export const fetchPaymentHistoryMore = createSmartAction<
         updateData: (oldData, newData) => {
           return {
             ...newData,
-            data: [...oldData.data, ...newData.data],
+            transactions: [...oldData.transactions, ...newData.transactions],
           };
         },
       },

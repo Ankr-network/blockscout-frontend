@@ -1,4 +1,4 @@
-import { IWeb3KeyProvider } from '@ankr.com/stakefi-web3';
+import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
 import { IApiGateway } from '../api';
@@ -35,8 +35,6 @@ export interface IMultiRpcSdk {
     jwtToken: IJwtToken,
     endpoint: IPrivateEndpoint,
   ): Promise<IWorkerEndpoint>;
-
-  calcJwtTokenHash(jwtToken: IJwtToken): Promise<string>;
 
   deletePrivateEndpoint(jwtToken: IJwtToken, endpointId: string): Promise<void>;
 
@@ -134,4 +132,10 @@ export interface IMultiRpcSdk {
   ): Promise<IPaymentHistoryReponse>;
 
   authorizeProvider(lifeTime: number): Promise<string>;
+
+  getAllowanceForPAYG(
+    amount: BigNumber | BigNumber.Value,
+  ): Promise<IWeb3SendResult>;
+
+  rejectAllowanceForPAYG(): Promise<IWeb3SendResult>;
 }

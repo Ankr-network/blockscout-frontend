@@ -64,7 +64,7 @@
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description":"Use a decentralized and free Ethereum public RPC endpoint"
+      "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
     },
     "providers": {
       "title": "Ankr's Decentralized Node Providers",
@@ -85,26 +85,19 @@
     "credentials": "Credentials are not ready"
   },
   "main-navigation": {
-    "private-rpcs": "Exclusive RPCs",
-    "public-rpcs": "Public RPCs",
-    "staking": "Staking",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
-    "ankr-scan": "Ankr Scan",
+    "dashboard": "Dashboard",
     "account-details": "Account Details",
+    "protocol": "Node Providers",
     "request-explorer": "Request Explorer"
   },
   "extra-navigation": {
     "docs": "Docs",
-    "faq": "FAQ",
-    "support": "Support"
+    "faq": "FAQ"
   },
   "mobile-navigation": {
-    "public-rpcs": "Public RPCs",
-    "private-rpcs": "Exclusive RPCs",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
+    "dashboard": "Dashboard",
     "account-details": "Account Details",
+    "protocol": "Node Providers",
     "request-explorer": "Request Explorer",
     "more": "More"
   },
@@ -134,7 +127,7 @@
     "total-asset-value-transferred": "Total Asset Value Transferred"
   },
   "chains": {
-    "breadcrumbs": "Public RPCs",
+    "breadcrumbs": "Dashboard",
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
@@ -467,7 +460,8 @@
         "title": "Top Up Balance",
         "pricing-link": "Pricing",
         "placeholder": "Amount",
-        "button": "Top Up"
+        "button": "Top Up",
+        "continue-button": "Continue Top Up"
       },
       "balance": {
         "title": "Balance",
@@ -560,18 +554,32 @@
     "title": "Top Up",
     "metamask": "Metamask",
     "step-content": {
-      "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
-      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR.",
-      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
-      "3": "Thank you! Operation will take 2-4 minutes.",
-      "4": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
+      "0": "I&nbsp;understand my&nbsp;wallet will make a&nbsp;top-up that includes a&nbsp;gas fees. Ankr cannot provide assistance if&nbsp;I lose access to&nbsp;my&nbsp;wallet and the associated account.",
+      "1": "Click Confirm and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
+      "2": "Click Confirm and allow&nbsp;us to&nbsp;spend your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
+      "3": "Thank you! Transaction<br/> is&nbsp;on&nbsp;the way.",
+      "4": "Finally, click Done and decrypt the message in<img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension."
     },
     "step-notice": {
-      "1": "So we could top up your balance.",
-      "2": "Operation will take a while (2-4 min).",
-      "3": "Don’t worry, Ethereum Network needs to calculate {blocksCount} {blocksCount, plural, =1 {block} other {# blocks}}. 10-20 seconds each.",
+      "1": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
+      "2": "If&nbsp;you changed your mind, click Cancel and give&nbsp;us permission to&nbsp;access your Ankr again so&nbsp;we&nbsp;could revoke your Top&nbsp;Up",
+      "3": "After Ethereum network validation you will see updated balance of&nbsp;your wallet.",
       "4": "The last step in&nbsp;your top up&nbsp;process."
     },
+    "button": {
+      "0": "Next",
+      "1": "Confirm",
+      "1-loading": "Check Metamask",
+      "2": "Confirm",
+      "2-loading": "Check Metamask",
+      "3": "Next",
+      "3-loading": "Please wait",
+      "3-done": "Done",
+      "4-loading": "Please wait",
+      "4": "Done",
+      "reject": "Cancel"
+    },
+    "copy-button": "Copy TxID",
     "confirm": "Сonfirm",
     "wait": "Please wait"
   },
