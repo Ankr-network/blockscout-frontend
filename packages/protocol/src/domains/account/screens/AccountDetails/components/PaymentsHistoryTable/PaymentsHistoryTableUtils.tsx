@@ -72,7 +72,7 @@ export const usePaymentHistoryTableColumns = () => {
     () =>
       [
         {
-          field: 'timestamp',
+          field: 'time',
           headerName: t('account.payment-table.head.col-1'),
           render: ({ timestamp }) =>
             t('account.payment-table.date-time', {
@@ -90,7 +90,7 @@ export const usePaymentHistoryTableColumns = () => {
           sortable: true,
         },
         {
-          field: 'amountUsd',
+          field: 'amount_usd',
           headerName: t('account.payment-table.head.col-3'),
           render: ({ type, amountUsd }) => {
             const direction = getPaymentHistoryItemDirection(type);
@@ -110,7 +110,7 @@ export const usePaymentHistoryTableColumns = () => {
           sortable: true,
         },
         {
-          field: 'amountAnkr',
+          field: 'amount_ankr',
           headerName: t('account.payment-table.head.col-4'),
           render: ({ type, amountAnkr }) => {
             const direction = getPaymentHistoryItemDirection(type);
