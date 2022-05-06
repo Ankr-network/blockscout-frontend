@@ -1,4 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
@@ -97,7 +101,7 @@ export function useTopUp() {
     type: waitTransactionConfirming.toString(),
   });
 
-  const { loading: loadingLogin, error: errorLogin } = useQuery({
+  const { loading: loadingLogin, error: errorLogin } = useMutation({
     type: login.toString(),
   });
 
