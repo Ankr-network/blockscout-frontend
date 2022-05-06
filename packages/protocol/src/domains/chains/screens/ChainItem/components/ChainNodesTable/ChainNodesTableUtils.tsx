@@ -151,6 +151,7 @@ export const useChainNodesTableTableColumns = () => {
           },
         },
         {
+          width: '30%',
           field: 'location',
           headerName: t('chain-item.nodes-table.head.location'),
           render: ({ country, city, continent }) => {
