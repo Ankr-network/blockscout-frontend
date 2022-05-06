@@ -183,12 +183,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     user: Web3Address,
     encryptionKey: Base64,
   ): Promise<IJwtToken | false> {
-    const transactionHash =
+    const premiumTransactionHash =
+      await this.getContractManager().getLatestUserEventLogHash(user);
+
+    const PAYGTransactionHash =
       await this.getPAYGContractManager().getLatestUserEventLogHash(user);
 
-    if (transactionHash === false) {
+    if (premiumTransactionHash === false && PAYGTransactionHash === false) {
       return false;
     }
+
+    const transactionHash = (premiumTransactionHash ||
+      PAYGTransactionHash) as string;
 
     const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
       name: 'MultiRPC',
