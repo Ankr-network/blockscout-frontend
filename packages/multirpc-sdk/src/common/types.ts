@@ -112,6 +112,11 @@ export type TJwtTokenType =
   | 'JWT_TOKEN_TYPE_USER'
   | 'JWT_TOKEN_TYPE_ADMIN';
 
+export enum Tier {
+  PAYG,
+  Premium,
+}
+
 export interface IJwtToken {
   id: PrefixedHex;
   threshold_key: UUID;
@@ -123,6 +128,7 @@ export interface IJwtToken {
   signed_token: Base64;
   expires_at: number;
   endpoint_token: Base64;
+  tier: Tier;
 }
 
 export enum Token {
