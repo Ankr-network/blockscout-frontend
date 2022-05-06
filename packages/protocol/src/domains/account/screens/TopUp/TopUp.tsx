@@ -15,7 +15,7 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
     loading,
     onReject,
     isRejectAllowanceLoading,
-  } = useTopupSteps(initialStep);
+  } = useTopupSteps(initialStep, hasCredentials);
 
   return (
     <TopUpSteps

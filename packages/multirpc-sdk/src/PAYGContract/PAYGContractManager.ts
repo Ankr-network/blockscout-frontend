@@ -176,6 +176,8 @@ export class PAYGContractManager implements IPAYGContractManager {
     const validEvents = tierAssignedEvents.filter(event => {
       const { expires } = event.returnValues;
 
+      if (expires === 0) return true;
+
       return new Date().getTime() / 1000 < expires;
     });
 

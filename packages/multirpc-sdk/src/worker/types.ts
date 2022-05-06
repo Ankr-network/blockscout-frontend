@@ -31,6 +31,7 @@ export interface IImportJWTTokenResult {
   id: UUID;
   roles: number[];
   tier: number;
+  // use this token for private urls
   token: string;
 }
 

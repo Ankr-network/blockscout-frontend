@@ -51,6 +51,7 @@ import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
+import { catchSignError, formatPrivateUrls, formatPublicUrls } from './utils';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private workerGateway?: IWorkerGateway;
@@ -71,10 +72,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     private readonly keyProvider: IWeb3KeyProvider,
     private readonly config: IConfig,
   ) {}
-
-  get blocksCount(): number {
-    return this.config.confirmationBlocks;
-  }
 
   async getBlockchains(): Promise<IBlockchainEntity[]> {
     return this.getWorkerGateway().getBlockchains();
@@ -248,70 +245,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const blockchainsApiResponse =
       await this.getWorkerGateway().getBlockchains();
 
-    const avalancheEvmItem = blockchainsApiResponse.find(
-      item => item.id === 'avalanche-evm',
-    );
-
-    const blockchains = blockchainsApiResponse.filter(
-      item => item.id !== 'avalanche-evm',
-    );
-
-    return blockchains.reduce<FetchBlockchainUrlsResult>(
-      (result, blockchain) => {
-        const hasRPC = blockchain.features.includes('rpc');
-
-        if (blockchain.id === 'avalanche') {
-          blockchain.paths = avalancheEvmItem?.paths ?? [];
-        }
-
-        const rpcURLs: string[] = hasRPC
-          ? blockchain?.paths?.map(path =>
-              this.config.publicRpcUrl.replace('{blockchain}', path),
-            ) || []
-          : [];
-        const wsURLs: string[] = [];
-
-        result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
-
-        return result;
-      },
-      {},
-    );
+    return formatPublicUrls(blockchainsApiResponse, this.config.publicRpcUrl);
   }
 
   async fetchPrivateUrls(
     jwtToken: IJwtToken,
   ): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().getBlockchains();
-    const tokenHash = await this.calcJwtTokenHash(jwtToken);
+    // old hash for private urls
+    // const tokenHash = await calcJwtTokenHash(jwtToken);
 
-    return blockchains.reduce<FetchBlockchainUrlsResult>(
-      (result, blockchain) => {
-        const hasRPC = blockchain.features.includes('rpc');
-        const hasWS = blockchain.features.includes('ws');
-
-        const rpcURLs: string[] = hasRPC
-          ? blockchain?.paths?.map(path =>
-              this.config.privateRpcUrl
-                .replace('{blockchain}', path)
-                .replace('{user}', tokenHash),
-            ) || []
-          : [];
-
-        const wsURLs: string[] = hasWS
-          ? blockchain?.paths?.map(path =>
-              this.config.privateWsUrl
-                .replace('{blockchain}', path)
-                .replace('{user}', tokenHash),
-            ) || []
-          : [];
-
-        result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
-
-        return result;
-      },
-      {},
-    );
+    return formatPrivateUrls(blockchains, this.config, jwtToken.endpoint_token);
   }
 
   async getBlockchainStats(blockchain: string): Promise<IWorkerGlobalStatus> {
@@ -383,6 +327,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const latestKnownBlockNumber = await this.keyProvider
       .getWeb3()
       .eth.getBlockNumber();
+
     const transactionReceipt = await this.getTransactionReceipt(
       transactionHash,
     );
@@ -436,23 +381,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     // try to import jwt token (backend do it also as well, so failure is not critical)
     try {
-      await this.getWorkerGateway().importJwtToken(jwtToken.signed_token);
+      const { token } = await this.getWorkerGateway().importJwtToken(
+        jwtToken.signed_token,
+      );
+
+      jwtToken.endpoint_token = token;
     } catch (e: any) {
       // eslint-disable-next-line no-console
       console.error(`failed to import jwt token: ${e.message}`);
     }
 
     return jwtToken;
-  }
-
-  async calcJwtTokenHash(jwtToken: IJwtToken): Promise<string> {
-    const secretToken = await crypto.subtle.digest(
-      { name: 'SHA-256' },
-      new TextEncoder().encode(jwtToken.signed_token),
-    );
-    const tokenBuffer = Buffer.from(new Uint8Array(secretToken));
-
-    return tokenBuffer.toString('hex');
   }
 
   /**
@@ -656,34 +595,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
       return token;
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      const message = (error.message || error.error).substr(
-        0,
-        error.message.indexOf('\n'),
-      );
-
-      const parts = message.split(':');
-      /* try to detect angry MetaMask messages */
-      if (parts.length > 0) {
-        /* special case for Firefox that doesn't return any errors, only extension stack trace */
-        if (
-          message.includes('@moz-extension') &&
-          message.includes('Returned error: value')
-        ) {
-          throw new Error('User denied message signature');
-        }
-        /* cases for other browsers (tested in Chrome, Opera, Brave) */
-        if (
-          message.includes('MetaMask') ||
-          message.includes('Returned error') ||
-          message.includes('RPC Error')
-        ) {
-          throw new Error(parts[parts.length - 1]);
-        }
-      }
-
-      throw error;
+      return catchSignError(error);
     }
   }
 

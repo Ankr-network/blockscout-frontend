@@ -122,6 +122,7 @@ export interface IJwtToken {
   public_key: Base64;
   signed_token: Base64;
   expires_at: number;
+  endpoint_token: Base64;
 }
 
 export enum Token {

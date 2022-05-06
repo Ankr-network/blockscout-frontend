@@ -36,8 +36,6 @@ export interface IMultiRpcSdk {
     endpoint: IPrivateEndpoint,
   ): Promise<IWorkerEndpoint>;
 
-  calcJwtTokenHash(jwtToken: IJwtToken): Promise<string>;
-
   deletePrivateEndpoint(jwtToken: IJwtToken, endpointId: string): Promise<void>;
 
   depositAnkr(
