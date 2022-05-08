@@ -153,7 +153,7 @@
       "/dashboard/moonbeam/",
       "/dashboard/nervos/",
       "/dashboard/gnosis/",
-      "/dashboard/avalanche/add//",
+      "/dashboard/avalanche/add/",
       "/dashboard/eth/add/",
       "/dashboard/fantom/add/",
       "/dashboard/polygon/add/",
@@ -172,7 +172,8 @@
       "/dashboard/moonbeam/add/",
       "/account/",
       "/account/topup/",
-      "/providers/"
+      "/providers/",
+      "/explorer/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

@@ -184,18 +184,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     user: Web3Address,
     encryptionKey: Base64,
   ): Promise<IJwtToken | false> {
-    const premiumTransactionHash =
-      await this.getContractManager().getLatestUserEventLogHash(user);
+    const premiumToken = await this.loginAsPremium(user, encryptionKey);
+
+    if (premiumToken) {
+      return premiumToken;
+    }
 
     const PAYGTransactionHash =
       await this.getPAYGContractManager().getLatestUserEventLogHash(user);
 
-    if (premiumTransactionHash === false && PAYGTransactionHash === false) {
+    if (PAYGTransactionHash === false) {
       return false;
     }
-
-    const transactionHash = (premiumTransactionHash ||
-      PAYGTransactionHash) as string;
 
     const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
       name: 'MultiRPC',
@@ -203,11 +203,45 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     if (!thresholdKeys.length) throw new Error(`There is no threshold keys`);
 
-    return this.issueJwtToken(
-      transactionHash,
+    const token = await this.issueJwtToken(
+      PAYGTransactionHash,
       thresholdKeys[0].id,
       encryptionKey,
     );
+
+    return token;
+  }
+
+  async loginAsPremium(user: Web3Address, encryptionKey: Base64) {
+    const transactionHash =
+      await this.getContractManager().getLatestUserEventLogHash(user);
+
+    if (transactionHash === false) {
+      return false;
+    }
+
+    const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
+      name: 'MultiRPC',
+    });
+
+    if (!thresholdKeys.length) return false;
+
+    // send issue request to ankr protocol
+    const jwtToken = await this.getApiGateway().requestJwtToken({
+      public_key: encryptionKey,
+      threshold_key: thresholdKeys[0].id,
+      transaction_hash: transactionHash,
+    });
+
+    const expiresAt = Number(jwtToken.expires_at) * 1000000;
+
+    if (expiresAt < Date.now()) {
+      return false;
+    }
+
+    const updatedJwtToken = await this.importJwtToken(jwtToken);
+
+    return updatedJwtToken;
   }
 
   async loginAsAdmin(user: Web3Address): Promise<IJwtToken | false> {
@@ -376,11 +410,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       threshold_key: thresholdKey,
       transaction_hash: transactionHash,
     });
-    // decrypt signed token using client's private key
+
+    const updatedJwtToken = await this.importJwtToken(jwtToken);
+
+    return updatedJwtToken;
+  }
+
+  async importJwtToken(jwtToken: IJwtToken) {
     const metaMaskJsonData = Buffer.from(
       jwtToken.signed_token,
       'base64',
     ).toString('ascii');
+
     jwtToken.signed_token =
       await this.getPAYGContractManager().decryptMessageUsingPrivateKey(
         metaMaskJsonData,
@@ -388,11 +429,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     // try to import jwt token (backend do it also as well, so failure is not critical)
     try {
-      const { token } = await this.getWorkerGateway().importJwtToken(
+      const { token, tier } = await this.getWorkerGateway().importJwtToken(
         jwtToken.signed_token,
       );
 
       jwtToken.endpoint_token = token;
+      jwtToken.tier = tier;
     } catch (e: any) {
       // eslint-disable-next-line no-console
       console.error(`failed to import jwt token: ${e.message}`);
