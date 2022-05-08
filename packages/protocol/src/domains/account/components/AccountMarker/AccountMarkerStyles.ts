@@ -1,12 +1,12 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { AccountStatus } from 'domains/account/types';
+import { AccountStatus } from 'multirpc-sdk';
 
 const colorsMap: Record<AccountStatus, string> = {
-  [AccountStatus.GREEN]: '#3AC090',
-  [AccountStatus.YELLOW]: '#EEA941',
-  [AccountStatus.RED]: '#D22C54',
+  [AccountStatus.ACTIVE]: '#3AC090',
+  // [AccountStatus.YELLOW]: '#EEA941',
+  [AccountStatus.INACTIVE]: '#D22C54',
 };
 
 export const useStyles = makeStyles<Theme, AccountStatus>(theme => ({
@@ -18,7 +18,8 @@ export const useStyles = makeStyles<Theme, AccountStatus>(theme => ({
 
     borderRadius: '50%',
 
-    backgroundColor: marker => colorsMap[marker],
+    // backgroundColor: (status: AccountStatus) => colorsMap[status],
+    backgroundColor: colorsMap[AccountStatus.ACTIVE],
 
     [theme.breakpoints.down('xs')]: {
       width: theme.spacing(1.25),

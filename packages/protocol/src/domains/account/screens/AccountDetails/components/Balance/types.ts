@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountStatus } from 'domains/account/types';
+import { AccountStatus } from 'multirpc-sdk';
 
 export type BalanceData = {
   ankrBalance: BigNumber;

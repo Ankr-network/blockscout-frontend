@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { AccountStatus as Status } from 'domains/account/types';
+import { AccountStatus } from 'multirpc-sdk';
 import { useStyles } from './AccountMarkerStyles';
 
 export interface AccountMarkerProps {
-  status?: Status;
+  status?: AccountStatus;
 }
 
 export const AccountMarker = ({
-  status = Status.GREEN,
+  status = AccountStatus.INACTIVE,
 }: AccountMarkerProps) => {
-  const classes = useStyles(status);
+  const classes = useStyles(status || AccountStatus.INACTIVE);
 
   return <div className={classes.accountMarkerRoot} />;
 };

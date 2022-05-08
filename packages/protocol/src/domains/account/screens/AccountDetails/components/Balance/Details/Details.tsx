@@ -2,7 +2,7 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 
 import { AccountMarker } from 'domains/account/components/AccountMarker';
-import { AccountStatus } from 'domains/account/types';
+import { AccountStatus } from 'multirpc-sdk';
 import { EnoughTime, ServiceType } from '../types';
 import { formatNumber, i18nKeyRoot } from '../BalanceUtils';
 import { serviceTypeToDescriptionMap } from './DetailsUtils';
