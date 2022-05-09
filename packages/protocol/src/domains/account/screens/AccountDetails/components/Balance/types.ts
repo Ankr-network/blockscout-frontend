@@ -1,14 +1,14 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountStatus } from 'multirpc-sdk';
+import { AccountStatus, Tier } from 'multirpc-sdk';
 
 export type BalanceData = {
   ankrBalance: BigNumber;
   enoughTime: EnoughTime;
   isLoading?: boolean;
   premiumUntil?: Date;
-  serviceType: ServiceType;
   status: AccountStatus;
+  tier?: Tier;
   usdBalance: BigNumber;
 };
 
@@ -26,10 +26,4 @@ export enum EnoughTimePeriod {
   Day = 'day',
   Month = 'month',
   Year = 'year',
-}
-
-export enum ServiceType {
-  Premium,
-  Served,
-  Unserved,
 }

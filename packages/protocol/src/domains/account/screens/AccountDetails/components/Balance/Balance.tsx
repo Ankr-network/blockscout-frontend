@@ -16,9 +16,9 @@ export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 export const Balance = ({
   ankrBalance,
   enoughTime,
-  serviceType,
-  status,
   premiumUntil,
+  status,
+  tier,
   usdBalance,
 }: BalanceProps) => {
   const classes = useStyles();
@@ -45,7 +45,7 @@ export const Balance = ({
       <Details
         enoughTime={enoughTime}
         premiumUntil={premiumUntil}
-        serviceType={serviceType}
+        tier={tier}
         status={status}
         usdBalance={usdBalance}
       />

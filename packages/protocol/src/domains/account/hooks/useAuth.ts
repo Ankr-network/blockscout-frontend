@@ -6,6 +6,7 @@ export interface Auth {
   isConnected: boolean;
   isConnecting: boolean;
   premiumUntil?: Date;
+  tier?: Tier;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -14,14 +15,16 @@ const MILLISECONDS_COEFFICIENT = 1_000_000;
 export const useAuth = (): Auth => {
   const { address, credentials, loading: isConnecting } = useCommonAuth();
 
-  const isPremium = credentials?.tier === Tier.Premium;
+  const account = credentials?.endpoint_token;
+  const tier = credentials?.tier;
 
   const isConnected = !!address;
+  const isPremium = tier === Tier.Premium;
+
   const premiumUntil =
     isPremium && credentials?.expires_at
       ? new Date(credentials.expires_at * MILLISECONDS_COEFFICIENT)
       : undefined;
-  const account = credentials?.endpoint_token;
 
-  return { account, isConnected, isConnecting, premiumUntil };
+  return { account, isConnected, isConnecting, premiumUntil, tier };
 };
