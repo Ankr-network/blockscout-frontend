@@ -73,7 +73,7 @@ export const ErigonHeader = ({ chainId }: ChainHeaderProps) => {
           </Typography>
         </a>
         <a
-          href="https://www.ankr.com/protocol/plan/"
+          href="https://www.ankr.com/protocol/account/"
           target="_blank"
           rel="noopener noreferrer"
           className={classes.feature}
