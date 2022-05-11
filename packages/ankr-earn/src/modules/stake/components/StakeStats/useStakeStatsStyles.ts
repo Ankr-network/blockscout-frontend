@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStakeStats = makeStyles<Theme>(theme => ({
+export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
   statisticWrapper: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -13,11 +13,15 @@ export const useStakeStats = makeStyles<Theme>(theme => ({
     },
   },
 
+  usd: {
+    color: theme.palette.text.disabled,
+  },
+
   statistic: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'start',
     alignItems: 'center',
     flexGrow: 1,
     maxWidth: '50%',
