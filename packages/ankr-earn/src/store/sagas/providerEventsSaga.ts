@@ -174,7 +174,9 @@ function* listenProviderWeb3Events({
         }
 
         case ProviderEvents.Disconnect: {
-          yield put(disconnect(providerId));
+          if (disconnect) {
+            yield put(disconnect(providerId));
+          }
           break;
         }
 

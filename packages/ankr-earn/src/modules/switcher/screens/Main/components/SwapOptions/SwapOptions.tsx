@@ -39,7 +39,7 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aBNBb,
       icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherMatic && {
+    {
       label: Token.aMATICb,
       value: Token.aMATICb,
       icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
@@ -62,7 +62,7 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aBNBc,
       icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherMatic && {
+    {
       label: Token.aMATICc,
       value: Token.aMATICc,
       icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,

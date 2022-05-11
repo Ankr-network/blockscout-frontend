@@ -142,14 +142,14 @@ export const SWITCHER_TOKENS_MAP: Record<
   [SwitcherUrlParams.FROM]: {
     [Token.aETHb]: Token.aETHb,
     [Token.aBNBb]: Token.aBNBb,
-    ...(featuresConfig.switcherMatic ? { [Token.aMATICb]: Token.aMATICb } : {}),
+    [Token.aMATICb]: Token.aMATICb,
     ...(featuresConfig.switcherFantom ? { [Token.aFTMb]: Token.aFTMb } : {}),
   },
 
   [SwitcherUrlParams.TO]: {
     [Token.aETHc]: Token.aETHc,
     [Token.aBNBc]: Token.aBNBc,
-    ...(featuresConfig.switcherMatic ? { [Token.aMATICc]: Token.aMATICc } : {}),
+    [Token.aMATICc]: Token.aMATICc,
     ...(featuresConfig.switcherFantom ? { [Token.aFTMc]: Token.aFTMc } : {}),
   },
 };
