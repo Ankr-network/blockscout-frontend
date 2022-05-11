@@ -56,7 +56,7 @@ jobs:
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           SENTRY_DSN: https://5bcd2db48e7b4aec8e4f8c37d4f31901@o286716.ingest.sentry.io/6097657"
-          # NODE_OPTIONS: "--max-old-space-size=8192"
+          NODE_OPTIONS: "--max-old-space-size=16384"
         run: |
           yarn build:stage
           yarn postbuild
