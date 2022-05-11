@@ -78,7 +78,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
-    polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
+    polygonPool: '0xAf2FdE2a233bc2E7B0B8Fa6066aD2df980B6fa67',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
     aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
