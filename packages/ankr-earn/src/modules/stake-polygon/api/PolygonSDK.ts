@@ -33,6 +33,7 @@ import {
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_READ_ID,
 } from '../const';
+import { TMaticSyntToken } from '../types';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_AMATICC from './contracts/aMATICc.json';
@@ -43,6 +44,8 @@ export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 enum EPolygonPoolEvents {
   MaticClaimPending = 'MaticClaimPending',
   StakePending = 'StakePending',
+  StakeAndClaimBonds = 'stakeAndClaimBonds',
+  StakeAndClaimCerts = 'stakeAndClaimCerts',
 }
 
 export enum EPolygonPoolEventsMap {
@@ -556,7 +559,19 @@ export class PolygonSDK implements ISwitcher {
     return receipt as TransactionReceipt | null;
   }
 
-  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
+  private getStakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'stakeAndClaimCerts';
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<{ txHash: string }> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -584,10 +599,14 @@ export class PolygonSDK implements ISwitcher {
         )
         .send({ from: this.currentAccount });
     }
+
+    const contractStakeMethod =
+      polygonPoolContract.methods[this.getStakeMethodName(token)];
+
     // 2. Do staking
-    const tx2 = await polygonPoolContract.methods
-      .stake(web3.utils.numberToHex(rawAmount.toString(10)))
-      .send({ from: this.currentAccount });
+    const tx2 = await contractStakeMethod(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+    ).send({ from: this.currentAccount });
 
     return { txHash: tx2.transactionHash };
   }
@@ -614,7 +633,20 @@ export class PolygonSDK implements ISwitcher {
     };
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  private getUnstakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'unstakeCerts';
+
+      default:
+        return 'unstakeBonds';
+    }
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<void> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -650,17 +682,18 @@ export class PolygonSDK implements ISwitcher {
     // Fetch fees here and make allowance one more time if required
     const { useBeforeBlock, signature } = await this.getUnstakeFee();
 
-    await polygonPoolContract.methods
-      .unstake(
-        web3.utils.numberToHex(rawAmount.toString(10)),
-        web3.utils.numberToHex(fee.toString(10)),
-        web3.utils.numberToHex(useBeforeBlock),
-        signature,
-      )
-      .send({ from: this.currentAccount });
+    const contractUnstake =
+      polygonPoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+      web3.utils.numberToHex(fee.toString(10)),
+      web3.utils.numberToHex(useBeforeBlock),
+      signature,
+    ).send({ from: this.currentAccount });
   }
 
-  public async addTokenToWallet(token: Token): Promise<boolean> {
+  public async addTokenToWallet(token: TMaticSyntToken): Promise<boolean> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {

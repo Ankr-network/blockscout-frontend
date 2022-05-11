@@ -9,10 +9,12 @@ import { PolygonSDK } from '../api/PolygonSDK';
 
 export interface IFetchStatsResponseData {
   maticBalance: BigNumber;
-  aMaticbBalance: BigNumber;
+  aMATICbBalance: BigNumber;
+  aMATICcBalance: BigNumber;
   minimumStake: BigNumber;
   unstakeFee: BigNumber;
   pendingClaim: BigNumber;
+  aMATICcRatio: BigNumber;
 }
 
 export const fetchStats = createSmartAction<
@@ -23,20 +25,30 @@ export const fetchStats = createSmartAction<
       const sdk = await PolygonSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 
-      const [maticBalance, aMaticbBalance, minimumStake, pendingClaim] =
-        await Promise.all([
-          sdk.getMaticBalance(),
-          sdk.getABBalance(),
-          sdk.getMinimumStake(),
-          sdk.getPendingClaim(),
-        ]);
+      const [
+        maticBalance,
+        aMATICbBalance,
+        aMATICcBalance,
+        minimumStake,
+        pendingClaim,
+        aMATICcRatio,
+      ] = await Promise.all([
+        sdk.getMaticBalance(),
+        sdk.getABBalance(),
+        sdk.getACBalance(),
+        sdk.getMinimumStake(),
+        sdk.getPendingClaim(),
+        sdk.getACRatio(),
+      ]);
 
       return {
         maticBalance,
-        aMaticbBalance,
+        aMATICbBalance,
+        aMATICcBalance,
         minimumStake,
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
         pendingClaim,
+        aMATICcRatio,
       };
     },
   },

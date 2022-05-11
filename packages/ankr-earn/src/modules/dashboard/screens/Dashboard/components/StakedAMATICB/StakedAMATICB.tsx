@@ -12,10 +12,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedMaticData } from '../StakedTokens/hooks/MATIC/useStakedMaticData';
+import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
 import { useStakedMaticTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
-export const StakedMatic = (): JSX.Element | null => {
+export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
 
   const { isOpened, onClose, onOpen } = useDialog();
@@ -38,7 +38,7 @@ export const StakedMatic = (): JSX.Element | null => {
     walletName,
     address,
     handleAddTokenToWallet,
-  } = useStakedMaticData();
+  } = useStakedAMATICBData();
 
   const onTradeClick = () => {
     trackClickTrade({

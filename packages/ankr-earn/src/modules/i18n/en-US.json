@@ -74,6 +74,7 @@
     "abnbb": "aBNBb",
     "abnbc": "aBNBc",
     "amaticb": "aMATICb",
+    "amaticc": "aMATICc",
     "ftm": "FTM",
     "aftmb": "aFTMb",
     "aftmc": "aFTMc",
@@ -466,10 +467,12 @@
       "question-5": "How do I receive rewards?",
       "answer-5": "The aMATICb tokens you keep in your wallet will gradually increase in quantity to reflect the staking rewards you earn. This happens daily with a process called “rebasing” (adjusting the supply of tokens) to deliver your appropriate staking rewards.",
       "question-6": "What determines the amount of reward I receive with each rebase?",
-      "answer-6": "This depends on the average staking period of Ankr Earn validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
+      "answer-6": "This depends on the average staking period of Ankr Staking validator nodes, as well as MATIC total supply and size of the future instant liquidity pool (an indirect cost for aMATICb holders).",
       "question-7": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
       "answer-7": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction."
-    }
+    },
+    "amaticb-descr": "aMATICb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
+    "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",

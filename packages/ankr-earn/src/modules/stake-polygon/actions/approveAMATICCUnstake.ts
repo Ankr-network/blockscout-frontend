@@ -1,24 +1,21 @@
 import { RequestAction } from '@redux-requests/core';
+import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { Token } from 'modules/common/types/token';
-
 import { PolygonSDK } from '../api/PolygonSDK';
-import { TMaticSyntToken } from '../types';
 
-export const addMATICTokenToWallet = createAction<
-  RequestAction<void, void>,
-  [TMaticSyntToken]
->('polygon/addMATICTokenToWallet', (token = Token.aMATICb) => ({
+export const approveAMATICCUnstake = createAction<
+  RequestAction<BigNumber, BigNumber>,
+  [BigNumber]
+>('polygon/approveAMATICCUnstake', amount => ({
   request: {
     promise: (async (): Promise<boolean> => {
       const sdk = await PolygonSDK.getInstance();
 
-      return sdk.addTokenToWallet(token);
+      return !!sdk.approveACForAB(amount);
     })(),
   },
   meta: {
-    asMutation: true,
     showNotificationOnError: true,
   },
 }));

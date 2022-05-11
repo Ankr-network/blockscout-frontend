@@ -20,7 +20,7 @@ import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 
-export interface IStakedMaticData {
+export interface IStakedAMATICBData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
@@ -39,7 +39,7 @@ export interface IStakedMaticData {
   handleAddTokenToWallet: () => void;
 }
 
-export const useStakedMaticData = (): IStakedMaticData => {
+export const useStakedAMATICBData = (): IStakedAMATICBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakePolygonStats,
@@ -54,7 +54,7 @@ export const useStakedMaticData = (): IStakedMaticData => {
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
   const chainId = ETH_NETWORK_BY_ENV;
 
-  const amount = statsData?.aMaticbBalance ?? ZERO;
+  const amount = statsData?.aMATICbBalance ?? ZERO;
   const pendingValue = statsData?.pendingClaim ?? ZERO;
 
   const isShowed =

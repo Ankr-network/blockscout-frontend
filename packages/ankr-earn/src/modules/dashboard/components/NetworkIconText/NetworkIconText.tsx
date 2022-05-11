@@ -15,6 +15,7 @@ import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -38,6 +39,7 @@ type TIconMap = Record<
   | Token.aFTMc
   | Token.aKSMb
   | Token.aMATICb
+  | Token.aMATICc
   | Token.aWNDb
   | Token.DOT
   | Token.KSM
@@ -63,6 +65,7 @@ const iconByTokenMap: TIconMap = {
   [Token.aFTMc]: AFTMCIcon,
   [Token.aKSMb]: AKSMBIcon,
   [Token.aMATICb]: AMATICBIcon,
+  [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
   [Token.DOT]: DotIcon,
   [Token.KSM]: KsmIcon,

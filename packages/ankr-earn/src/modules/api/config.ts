@@ -51,6 +51,7 @@ interface IPolkadotConfig {
 interface IPolygonConfig {
   bridge: string;
   aMATICbToken: string;
+  aMATICcToken: string;
 }
 
 export interface IGatewayConfig {
@@ -113,6 +114,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
+    aMATICcToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -131,7 +133,7 @@ const GOERLI_CONFIG: IStkrConfig = {
     contractConfig: {
       ...LOCAL_CONFIG.contractConfig,
       ...{
-        polygonPool: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
+        polygonPool: '0xAf2FdE2a233bc2E7B0B8Fa6066aD2df980B6fa67',
         aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
       },
     },
@@ -202,6 +204,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
+    aMATICcToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
