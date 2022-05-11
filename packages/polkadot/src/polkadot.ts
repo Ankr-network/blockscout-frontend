@@ -57,7 +57,17 @@ interface IWalletMeta {
 
 const PKG_ORIGIN_NAME = 'PolkadotProvider';
 
+const NO_ACCOUNTS_ERR_MSG = 'There are no Polkadot accounts';
+
 export class PolkadotProvider implements IProvider {
+  static extractDecodedAddress(address: TPolkadotAddress): Uint8Array {
+    return decodeAddress(address);
+  }
+
+  static extractPublicKeyHexFromAddress(address: TPolkadotAddress): string {
+    return Buffer.from(decodeAddress(address)).toString('hex');
+  }
+
   static isInjected(): boolean {
     return (
       Object.keys((window as Window & InjectedWindow).injectedWeb3).length !== 0
@@ -105,6 +115,105 @@ export class PolkadotProvider implements IProvider {
     this.networkType = config.networkType;
   }
 
+  private static async sendSignedExtrinsic(
+    api: ApiPromise,
+    signedExtrinsic: SubmittableExtrinsic<'promise'>,
+  ): Promise<{
+    submittableResult: ISubmittableResult;
+    blockHash: string;
+    transactionHash: string;
+  }> {
+    /**
+     *  @Note:
+     *    This is an anti-pattern: https://stackoverflow.com/questions/43036229/is-it-an-anti-pattern-to-use-async-await-inside-of-a-new-promise-constructor
+     *    A quick fix is a "solution" for reducing influence of possible errors with transaction sending and unsubscription
+     */
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const transactionHash = blake2AsHex(signedExtrinsic.toU8a(false), 256);
+        console.log(`Transaction hash (calculated): ${transactionHash}`);
+        const unsub = await signedExtrinsic.send(
+          // TODO Please to resolve the issue with this line
+          // @ts-ignore
+          (result: ISubmittableResult) => {
+            const { events = [], status, dispatchError } = result;
+            console.log('Transaction status:', status.type);
+            if (dispatchError) {
+              let errorMessage = dispatchError.toString();
+              if (dispatchError.isModule) {
+                const decoded = api.registry.findMetaError(
+                  dispatchError.asModule,
+                );
+                const { docs, name, section } = decoded as any;
+                errorMessage = `${section}.${name}: ${docs.join(' ')}`;
+              }
+              console.log(
+                `Decoded module transaction error is: ${errorMessage}`,
+              );
+              unsub();
+              reject(new Error(errorMessage));
+            }
+            if (status.isInBlock) {
+              console.log('Included at block hash', status.asInBlock.toHex());
+              console.log('Events:');
+              events.forEach(({ event: { data, method, section }, phase }) => {
+                console.log(
+                  '\t',
+                  phase.toString(),
+                  `: ${section}.${method}`,
+                  data.toString(),
+                );
+              });
+            } else if (status.isFinalized) {
+              console.log('Finalized block hash', status.asFinalized.toHex());
+              unsub();
+              resolve({
+                submittableResult: result,
+                blockHash: status.asFinalized.toHex(),
+                transactionHash,
+              });
+            } else if (status.isDropped) {
+              unsub();
+              reject(new Error('Transaction has been dropped'));
+            }
+          },
+        );
+      } catch (e: any) {
+        reject(new Error(e));
+      }
+    });
+  }
+
+  private _scaleDown(value: BigNumber): BigNumber {
+    return value.dividedBy(10 ** this.calcDecimals());
+  }
+
+  private _scaleUp(value: BigNumber): BigNumber {
+    return value.multipliedBy(10 ** this.calcDecimals());
+  }
+
+  private async isAvailableAccount(
+    addr: TPolkadotAddress | null,
+  ): Promise<boolean> {
+    if (typeof addr !== 'string') {
+      return false;
+    }
+
+    const accounts = await this.getAccounts();
+
+    if (!accounts.length) {
+      throw new Error(NO_ACCOUNTS_ERR_MSG);
+    }
+
+    const addressesHexes = accounts.map(address =>
+      PolkadotProvider.extractPublicKeyHexFromAddress(address),
+    );
+    const addressHex = PolkadotProvider.extractPublicKeyHexFromAddress(addr);
+
+    return addressesHexes.includes(addressHex);
+  }
+
   public getRawApi(): ApiPromise {
     if (!this.api) throw new Error(`Polkadot API is not initialized`);
     return this.api;
@@ -137,7 +246,7 @@ export class PolkadotProvider implements IProvider {
     console.log(`Found next polkadot accounts: ${accounts}`);
 
     if (!accounts.length) {
-      throw new Error('There are no Polkadot accounts');
+      throw new Error(NO_ACCOUNTS_ERR_MSG);
     }
 
     const wsProvider = new WsProvider(this.config.polkadotUrl);
@@ -171,14 +280,6 @@ export class PolkadotProvider implements IProvider {
     }
     this.networkType = chainMapping[chainName.toUpperCase()];
     return this.networkType;
-  }
-
-  private _scaleUp(value: BigNumber): BigNumber {
-    return value.multipliedBy(10 ** this.calcDecimals());
-  }
-
-  private _scaleDown(value: BigNumber): BigNumber {
-    return value.dividedBy(10 ** this.calcDecimals());
   }
 
   public calcDecimals(): number {
@@ -262,6 +363,10 @@ export class PolkadotProvider implements IProvider {
   public async switchNetwork(
     networkType: TNetworkType,
   ): Promise<ISwitchNetworkData> {
+    if (typeof this.currAccount !== 'string') {
+      throw new Error('Please to set a Polkadot account');
+    }
+
     let config: ISlotAuctionConfig | undefined;
 
     switch (networkType) {
@@ -295,18 +400,16 @@ export class PolkadotProvider implements IProvider {
       throw new Error(`Not supported Polkadot network type: ${networkType}`);
     }
 
-    const [firstAddress] = await this.getAccounts();
+    const isAvailableAccount = await this.isAvailableAccount(this.currAccount);
 
-    if (typeof firstAddress !== 'string') {
-      throw new Error('There is no Polkadot account');
+    if (!isAvailableAccount) {
+      throw new Error('Please unlock or add your previous Polkadot account');
     }
 
     this.config = {
       polkadotUrl: config.polkadotUrl,
       networkType: config.networkType,
     };
-
-    this.currAccount = firstAddress;
 
     this.api = await ApiPromise.create({
       provider: new WsProvider(config.polkadotUrl),
@@ -507,85 +610,5 @@ export class PolkadotProvider implements IProvider {
     });
     console.log(`Signed message: ${hexData} with signature: ${signature}`);
     return signature;
-  }
-
-  private static async sendSignedExtrinsic(
-    api: ApiPromise,
-    signedExtrinsic: SubmittableExtrinsic<'promise'>,
-  ): Promise<{
-    submittableResult: ISubmittableResult;
-    blockHash: string;
-    transactionHash: string;
-  }> {
-    /**
-     *  @Note:
-     *    This is an anti-pattern: https://stackoverflow.com/questions/43036229/is-it-an-anti-pattern-to-use-async-await-inside-of-a-new-promise-constructor
-     *    A quick fix is a "solution" for reducing influence of possible errors with transaction sending and unsubscription
-     */
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
-      try {
-        const transactionHash = blake2AsHex(signedExtrinsic.toU8a(false), 256);
-        console.log(`Transaction hash (calculated): ${transactionHash}`);
-        const unsub = await signedExtrinsic.send(
-          // TODO Please to resolve the issue with this line
-          // @ts-ignore
-          (result: ISubmittableResult) => {
-            const { events = [], status, dispatchError } = result;
-            console.log('Transaction status:', status.type);
-            if (dispatchError) {
-              let errorMessage = dispatchError.toString();
-              if (dispatchError.isModule) {
-                const decoded = api.registry.findMetaError(
-                  dispatchError.asModule,
-                );
-                const { docs, name, section } = decoded as any;
-                errorMessage = `${section}.${name}: ${docs.join(' ')}`;
-              }
-              console.log(
-                `Decoded module transaction error is: ${errorMessage}`,
-              );
-              unsub();
-              reject(new Error(errorMessage));
-            }
-            if (status.isInBlock) {
-              console.log('Included at block hash', status.asInBlock.toHex());
-              console.log('Events:');
-              events.forEach(({ event: { data, method, section }, phase }) => {
-                console.log(
-                  '\t',
-                  phase.toString(),
-                  `: ${section}.${method}`,
-                  data.toString(),
-                );
-              });
-            } else if (status.isFinalized) {
-              console.log('Finalized block hash', status.asFinalized.toHex());
-              unsub();
-              resolve({
-                submittableResult: result,
-                blockHash: status.asFinalized.toHex(),
-                transactionHash,
-              });
-            } else if (status.isDropped) {
-              unsub();
-              reject(new Error('Transaction has been dropped'));
-            }
-          },
-        );
-      } catch (e: any) {
-        reject(new Error(e));
-      }
-    });
-  }
-
-  public static extractDecodedAddress(address: TPolkadotAddress): Uint8Array {
-    return decodeAddress(address);
-  }
-
-  public static extractPublicKeyHexFromAddress(
-    address: TPolkadotAddress,
-  ): string {
-    return Buffer.from(decodeAddress(address)).toString('hex');
   }
 }
