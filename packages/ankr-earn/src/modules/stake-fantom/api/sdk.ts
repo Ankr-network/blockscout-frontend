@@ -49,6 +49,8 @@ export enum EFantomPoolEvents {
   StakeReceived = 'StakeReceived',
 }
 
+type TUnstakingStatsType = 'bond' | 'cert' | 'all';
+
 interface IFantomSDKProviders {
   writeProvider: Web3KeyWriteProvider;
   readProvider: Web3KeyReadProvider;
@@ -574,9 +576,11 @@ export class FantomSDK implements ISwitcher {
     return new BigNumber(ratio);
   }
 
-  public async getPendingUnstakes(): Promise<BigNumber> {
+  public async getPendingUnstakes(
+    type: TUnstakingStatsType = 'all',
+  ): Promise<BigNumber> {
     return this.api
-      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}`)
+      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}/${type}`)
       .then(({ data }) => new BigNumber(data.unstakingAmount))
       .catch(() => ZERO);
   }

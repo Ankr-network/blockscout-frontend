@@ -57,8 +57,9 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   const chainId = FTM_NETWORK_BY_ENV;
 
   const amount = commonData?.aFTMbBalance ?? ZERO;
-  const pendingUnstakes = commonData?.pendingUnstakes ?? ZERO;
-  const isShowed = !amount.isZero() || isBalancesLoading;
+  const pendingUnstakes = commonData?.bondPendingUnstakes ?? ZERO;
+  const isShowed =
+    !amount.isZero() || isBalancesLoading || !pendingUnstakes.isZero();
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addFTMTokenToWallet(Token.aFTMb));

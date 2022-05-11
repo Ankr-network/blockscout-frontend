@@ -11,7 +11,8 @@ interface IGetCommonData {
   ftmBalance: BigNumber;
   minStake: BigNumber;
   aFTMbBalance: BigNumber;
-  pendingUnstakes: BigNumber;
+  bondPendingUnstakes: BigNumber;
+  certPendingUnstakes: BigNumber;
   aFTMcBalance: BigNumber;
   aFTMcRatio: BigNumber;
 }
@@ -28,14 +29,16 @@ export const getCommonData = createAction<
         ftmBalance,
         minStake,
         aFTMbBalance,
-        pendingUnstakes,
+        bondPendingUnstakes,
+        certPendingUnstakes,
         aFTMcBalance,
         aFTMcRatio,
       ] = await Promise.all([
         sdk.getFtmBalance(),
         sdk.getMinimumStake(),
         sdk.getABBalance(),
-        sdk.getPendingUnstakes(),
+        sdk.getPendingUnstakes('bond'),
+        sdk.getPendingUnstakes('cert'),
         featuresConfig.stakeAFTMC ? sdk.getACBalance() : Promise.resolve(ZERO),
         featuresConfig.stakeAFTMC ? sdk.getACRatio() : Promise.resolve(ZERO),
       ]);
@@ -44,7 +47,8 @@ export const getCommonData = createAction<
         ftmBalance,
         minStake,
         aFTMbBalance,
-        pendingUnstakes,
+        bondPendingUnstakes,
+        certPendingUnstakes,
         aFTMcBalance,
         aFTMcRatio,
       };
