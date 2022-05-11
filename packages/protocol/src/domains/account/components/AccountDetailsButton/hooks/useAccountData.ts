@@ -1,14 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { stopPolling } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { useEffect } from 'react';
 
-import { AccountStatus } from 'domains/account/types';
-import { Balances } from 'domains/account/actions/balance/types';
-import { defaultBalances } from 'domains/account/actions/balance/const';
-import { fetchBalances } from 'domains/account/actions/balance/fetchBalances';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { AccountStatus } from 'multirpc-sdk';
+import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
+import { useAuth } from 'domains/account/hooks/useAuth';
+import { useBalance } from 'domains/account/hooks/useBalance';
 
 export interface AccountData {
   balance: BigNumber;
@@ -17,36 +12,13 @@ export interface AccountData {
   status: AccountStatus;
 }
 
-const mockedData: AccountData = {
-  balance: defaultBalances.ankrBalance,
-  status: AccountStatus.GREEN,
-};
-
 export const useAccountData = (): AccountData => {
-  const { address } = useAuth();
-  const isConnected = !!address;
+  const { account, isConnected } = useAuth();
+  const { ankrBalance: balance, isLoading: isBalanceLoading } =
+    useBalance(isConnected);
+  const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
 
-  const {
-    data: { ankrBalance: balance },
-    loading,
-    pristine,
-  } = useQuery<Balances>({
-    defaultData: defaultBalances,
-    type: fetchBalances.toString(),
-  });
-  const isLoading = pristine && loading;
+  const isLoading = isBalanceLoading || isStatusLoading;
 
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
-  useEffect(() => {
-    if (isConnected) {
-      dispatchRequest(fetchBalances());
-    }
-
-    return () => {
-      dispatch(stopPolling([fetchBalances.toString()]));
-    };
-  }, [dispatch, dispatchRequest, isConnected]);
-
-  return { ...mockedData, balance, isLoading, isVisible: isConnected };
+  return { status, balance, isLoading, isVisible: isConnected };
 };

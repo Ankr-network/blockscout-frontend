@@ -1,31 +1,31 @@
-import BigNumber from 'bignumber.js';
+import { BalanceData, EnoughTime, EnoughTimePeriod } from '../types';
+import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
+import { useAuth } from 'domains/account/hooks/useAuth';
+import { useBalance } from 'domains/account/hooks/useBalance';
 
-import { AccountStatus } from 'domains/account/types';
-import { BalanceData, EnoughTimePeriod, ServiceType } from '../types';
-import { useAuth } from './useAuth';
-import { useBalances } from './useBalances';
-
-const mockedData: BalanceData = {
-  ankrBalance: new BigNumber(44612.23),
-  status: AccountStatus.GREEN,
-  serviceType: ServiceType.Premium,
-  enoughTime: {
-    value: 25,
-    period: EnoughTimePeriod.Day,
-  },
-  usdBalance: new BigNumber(4116.4),
+const enoughTime: EnoughTime = {
+  period: EnoughTimePeriod.Day,
+  value: 25,
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, premiumUntil } = useAuth();
+  const { account, isConnected, isConnecting, premiumUntil, tier } = useAuth();
 
-  const { ankrBalance, usdBalance, isLoading } = useBalances(isConnected);
+  const {
+    ankrBalance,
+    usdBalance,
+    isLoading: areBalancesLoading,
+  } = useBalance(isConnected);
+
+  const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
 
   return {
-    ...mockedData,
     ankrBalance,
-    isLoading: isConnecting || isLoading,
+    enoughTime,
+    isLoading: isConnecting || areBalancesLoading || isStatusLoading,
     premiumUntil,
+    status,
+    tier,
     usdBalance,
   };
 };

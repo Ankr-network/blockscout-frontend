@@ -1,5 +1,10 @@
 import { Tier, UUID, Web3Address } from '../common';
 
+export enum AccountStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
 export type BlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {

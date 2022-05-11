@@ -3,21 +3,8 @@ import BigNumber from 'bignumber.js';
 import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
 
-import { ApiGateway, IApiGateway } from '../api';
 import {
-  Base64,
-  IConfig,
-  IJwtToken,
-  PrefixedHex,
-  UUID,
-  Web3Address,
-} from '../common';
-import {
-  ContractManager,
-  IContractManager,
-  IDepositAnkrToWalletResult,
-} from '../contract';
-import {
+  AccountStatus,
   IBlockchainEntity,
   IPrivateEndpoint,
   IProvider,
@@ -33,6 +20,20 @@ import {
   WorkerBackofficeGateway,
   WorkerGateway,
 } from '../worker';
+import { ApiGateway, IApiGateway } from '../api';
+import {
+  Base64,
+  IConfig,
+  IJwtToken,
+  PrefixedHex,
+  UUID,
+  Web3Address,
+} from '../common';
+import {
+  ContractManager,
+  IContractManager,
+  IDepositAnkrToWalletResult,
+} from '../contract';
 import {
   IIsJwtTokenIssueAvailableResult,
   FetchBlockchainUrlsResult,
@@ -626,6 +627,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   async getAnkrBalance(): Promise<IBalance> {
     return this.getAccountGateway().getAnkrBalance();
+  }
+
+  async getAccountStatus(account: string): Promise<AccountStatus> {
+    return this.getWorkerGateway().getAccountStatus(account);
   }
 
   async sign(

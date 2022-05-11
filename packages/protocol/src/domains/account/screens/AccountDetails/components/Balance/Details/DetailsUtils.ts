@@ -1,4 +1,5 @@
-import { EnoughTime, EnoughTimePeriod, ServiceType } from '../types';
+import { EnoughTime, EnoughTimePeriod } from '../types';
+import { Tier } from 'multirpc-sdk';
 import { i18nKeyRoot } from '../BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 
@@ -19,7 +20,7 @@ const periodsMap: Record<EnoughTimePeriod, string> = {
 const getPremiumDescription: DescriptionGetter = () =>
   t(`${i18nKeyRoot}.description.premium.additional`);
 
-const getServedDescription: DescriptionGetter = ({ enoughTime }) => {
+const getPAYGDescription: DescriptionGetter = ({ enoughTime }) => {
   if (!enoughTime) {
     return '';
   }
@@ -37,14 +38,13 @@ const getServedDescription: DescriptionGetter = ({ enoughTime }) => {
   });
 };
 
-export const getUnservedDescription: DescriptionGetter = () =>
+const getDefaultDescription: DescriptionGetter = () =>
   t(`${i18nKeyRoot}.description.unserved.text`);
 
-export const serviceTypeToDescriptionMap: Record<
-  ServiceType,
-  DescriptionGetter
-> = {
-  [ServiceType.Premium]: getPremiumDescription,
-  [ServiceType.Served]: getServedDescription,
-  [ServiceType.Unserved]: getUnservedDescription,
+const tierToDescriptionMap: Record<Tier, DescriptionGetter> = {
+  [Tier.Premium]: getPremiumDescription,
+  [Tier.PAYG]: getPAYGDescription,
 };
+
+export const getDescriptionGetter = (tier?: Tier) =>
+  tier ? tierToDescriptionMap[tier] : getDefaultDescription;

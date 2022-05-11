@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, LinkProps } from 'react-router-dom';
 
 import { AccountMarker } from '../AccountMarker';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -18,10 +19,11 @@ export const AccountDetailsButton = ({
   const classes = useStyles(isMobile);
 
   return isVisible ? (
-    <LoadableButton
+    <LoadableButton<'a', LinkProps>
       className={classes.accountDetailsButtonRoot}
-      href={AccountRoutesConfig.accountDetails.path}
+      component={Link}
       loading={isLoading}
+      to={AccountRoutesConfig.accountDetails.path}
       variant="text"
     >
       <div className={classes.content}>

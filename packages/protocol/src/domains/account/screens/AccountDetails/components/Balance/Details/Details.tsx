@@ -2,29 +2,29 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 
 import { AccountMarker } from 'domains/account/components/AccountMarker';
-import { AccountStatus } from 'domains/account/types';
-import { EnoughTime, ServiceType } from '../types';
+import { AccountStatus, Tier } from 'multirpc-sdk';
+import { EnoughTime } from '../types';
 import { formatNumber, i18nKeyRoot } from '../BalanceUtils';
-import { serviceTypeToDescriptionMap } from './DetailsUtils';
+import { getDescriptionGetter } from './DetailsUtils';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './DetailsStyles';
 
-export interface DescriptionProps {
+export interface DetailsProps {
   enoughTime: EnoughTime;
   premiumUntil?: Date;
-  serviceType: ServiceType;
   status: AccountStatus;
+  tier?: Tier;
   usdBalance: BigNumber;
 }
 
 export const Details = ({
   enoughTime,
   premiumUntil,
-  serviceType,
+  tier,
   status,
   usdBalance: _usdBalance,
-}: DescriptionProps) => {
+}: DetailsProps) => {
   const isPremium = !!premiumUntil;
 
   const classes = useStyles(isPremium);
@@ -33,7 +33,7 @@ export const Details = ({
     ? t(`${i18nKeyRoot}.description.premium.text`, { date: premiumUntil })
     : `~$${formatNumber(_usdBalance)}`;
 
-  const description = serviceTypeToDescriptionMap[serviceType]({ enoughTime });
+  const description = getDescriptionGetter(tier)({ enoughTime });
   const details = (
     <>
       <span className={classes.usdBalance}>{usdBalance}</span>

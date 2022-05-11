@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 
-import { Balances } from './types';
+import { Balance } from './types';
 
 const zero = new BigNumber(0);
-export const defaultBalances: Balances = {
+export const defaultBalance: Balance = {
   ankrBalance: zero,
   creditBalance: zero,
   usdBalance: zero,

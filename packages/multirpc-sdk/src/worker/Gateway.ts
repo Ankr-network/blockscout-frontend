@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
 import {
+  AccountStatus,
   IBlockchainEntity,
   IImportJWTTokenResult,
   INodeEntity,
@@ -190,5 +191,13 @@ export class WorkerGateway implements IWorkerGateway {
     );
 
     return data;
+  }
+
+  async getAccountStatus(account: string): Promise<AccountStatus> {
+    const { data: response } = await this.api.get<AccountStatus>(
+      `/api/v1/user/status/${account}`,
+    );
+
+    return response;
   }
 }
