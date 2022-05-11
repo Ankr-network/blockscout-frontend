@@ -185,7 +185,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         </div>
         <a
           className={classNames(classes.protocol, chainId)}
-          href="https://www.ankr.com/protocol/public/"
+          href="https://www.ankr.com/protocol"
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleCloseMenu}
