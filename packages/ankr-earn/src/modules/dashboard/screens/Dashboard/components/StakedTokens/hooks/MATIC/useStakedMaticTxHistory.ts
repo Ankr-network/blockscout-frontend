@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { AvailableWriteProviders } from 'provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
@@ -57,8 +58,10 @@ export const useStakedMaticTxHistory = (): ITxHistoryData => {
     useQuery<ITxEventsHistoryData>({
       type: fetchTxHistory,
     });
-  const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
+
+  const network = isEVMCompatible(chainId) ? chainId : undefined;
 
   const staked = getCompletedTransactions({
     data: data?.completed,

@@ -15,6 +15,7 @@ import { EEthereumNetworkId } from 'modules/common/types';
 
 import { IETHNetwork, useETHNetworks } from '../../../hooks/useETHNetworks';
 import { getIsMetaMask } from '../../../utils/getIsMetaMask';
+import { isEVMCompatible } from '../../../utils/isEVMCompatible';
 
 import { useKnownNetworks } from './useKnownNetworks';
 
@@ -42,7 +43,11 @@ export const useGuardETHRoute = ({
     writeProviderId: providerId,
   });
 
-  const chainId: EEthereumNetworkId | undefined = writeProviderData?.chainId;
+  const chainId: EEthereumNetworkId | undefined = isEVMCompatible(
+    writeProviderData?.chainId,
+  )
+    ? writeProviderData?.chainId
+    : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
   const isValidWallet = writeProviderData?.walletName
     ? getIsMetaMask(writeProviderData.walletName)
@@ -50,13 +55,13 @@ export const useGuardETHRoute = ({
   const walletId = writeProviderData?.walletId;
 
   const isUnsupportedNetwork =
-    isConnected && typeof chainId === 'number' && chainId > 0
+    isConnected && isEVMCompatible(chainId) && chainId > 0
       ? !availableNetworks.includes(chainId)
       : false;
 
   const currentNetwork = useMemo(
     () =>
-      typeof chainId === 'number' && knownNetworks[chainId]
+      isEVMCompatible(chainId) && knownNetworks[chainId]
         ? knownNetworks[chainId]
         : t('connect.current'),
     [chainId, knownNetworks],

@@ -2,18 +2,17 @@ import { useQuery } from '@redux-requests/react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { EEthereumNetworkId } from 'modules/common/types';
-
 import { getIsMetaMask } from '../../eth/utils/getIsMetaMask';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
 import { connect, IConnect } from '../actions/connect';
+import { TChainId } from '../types';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 export interface IUseConnectedData {
   isConnected: boolean;
   isLoading: boolean;
   address?: string;
-  chainId?: EEthereumNetworkId;
+  chainId?: TChainId;
   walletName?: string;
   walletIcon?: string;
   error: unknown;

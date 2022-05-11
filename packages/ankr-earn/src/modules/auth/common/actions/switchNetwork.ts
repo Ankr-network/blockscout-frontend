@@ -10,6 +10,7 @@ import {
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
@@ -69,9 +70,9 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
           [connectAction]: (data: IConnect): IConnect => {
             let changedData: TChangedData = {};
 
-            if (typeof chainId === 'string') {
+            if (isPolkadotCompatible(chainId)) {
               changedData = {
-                chainType: chainId,
+                chainId,
               };
             }
 

@@ -11,6 +11,8 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { getAuthRequestKey } from 'modules/auth/common/utils/getAuthRequestKey';
 
+import { isEVMCompatible } from '../utils/isEVMCompatible';
+
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
   chainId: EEthereumNetworkId;
@@ -29,7 +31,7 @@ export const updateConnectedNetwork = createAction<
         const provider =
           await ProviderManagerSingleton.getInstance().getProvider(providerId);
 
-        if (typeof chainId === 'number') {
+        if (isEVMCompatible(chainId)) {
           (provider as Web3KeyWriteProvider).currentChain = chainId;
         }
       })(),
@@ -40,7 +42,7 @@ export const updateConnectedNetwork = createAction<
       showNotificationOnError: true,
       mutations: {
         [connectAction]: (data: IConnect): IConnect => {
-          if (typeof chainId === 'number') {
+          if (isEVMCompatible(chainId)) {
             return {
               ...data,
               chainId,

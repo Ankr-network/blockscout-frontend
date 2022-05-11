@@ -19,6 +19,7 @@ import {
   usePolkadotNetworks,
 } from '../../../hooks/usePolkadotNetworks';
 import { getIsPolkadot } from '../../../utils/getIsPolkadot';
+import { isPolkadotCompatible } from '../../../utils/isPolkadotCompatible';
 
 export const useGuardPolkadotRoute = ({
   availableNetworks,
@@ -43,8 +44,11 @@ export const useGuardPolkadotRoute = ({
     writeProviderId: providerId,
   });
 
-  const chainId: EPolkadotNetworkId | undefined =
-    (writeProviderData?.chainType as EPolkadotNetworkId) ?? undefined;
+  const chainId: EPolkadotNetworkId | undefined = isPolkadotCompatible(
+    writeProviderData?.chainId,
+  )
+    ? (writeProviderData?.chainId as EPolkadotNetworkId)
+    : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
   const isValidWallet = writeProviderData?.walletName
     ? getIsPolkadot(writeProviderData.walletName)
@@ -52,7 +56,7 @@ export const useGuardPolkadotRoute = ({
   const walletId = writeProviderData?.walletId;
 
   const isUnsupportedNetwork =
-    isConnected && typeof chainId === 'string'
+    isConnected && isPolkadotCompatible(chainId)
       ? !availableNetworks.includes(chainId)
       : false;
 

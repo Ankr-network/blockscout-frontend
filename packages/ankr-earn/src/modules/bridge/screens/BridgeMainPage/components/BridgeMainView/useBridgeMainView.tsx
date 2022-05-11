@@ -9,6 +9,7 @@ import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
@@ -115,7 +116,11 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     writeProviderId: providerId,
   });
 
-  const chainId: EEthereumNetworkId | undefined = writeProviderData?.chainId;
+  const chainId: EEthereumNetworkId | undefined = isEVMCompatible(
+    writeProviderData?.chainId,
+  )
+    ? writeProviderData?.chainId
+    : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
   const isMetaMask = writeProviderData?.walletName
     ? getIsMetaMask(writeProviderData.walletName)
