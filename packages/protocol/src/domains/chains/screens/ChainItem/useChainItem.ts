@@ -6,12 +6,11 @@ import { getQuery } from '@redux-requests/core';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { t } from 'modules/i18n/utils/intl';
 // eslint-disable-next-line import/no-cycle
-import { ChainsRoutesConfig } from '../../Routes';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
-import useInterval from 'modules/common/hooks/useInterval';
 import { store } from 'store';
 
-const POLL_INTERVAL = 20_000;
+const POLL_INTERVAL = 20;
 
 export const useChainItemBreadcrumbs = (chainName: string) => {
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -46,15 +45,8 @@ export const useTimeframeData = (chainId: string, date: Timeframe = '24h') => {
   const [timeframe, setTimeframe] = useState<Timeframe>(date);
 
   useEffect(() => {
-    dispatchRequest(fetchChainDetails(chainId, timeframe));
+    dispatchRequest(fetchChainDetails(chainId, timeframe, POLL_INTERVAL));
   }, [dispatchRequest, chainId, timeframe]);
-
-  useInterval(
-    (...args) => dispatchRequest(fetchChainDetails(...args)),
-    POLL_INTERVAL,
-    chainId,
-    timeframe,
-  );
 
   const { data, loading, error, pristine } = getQuery(store.getState(), {
     type: fetchChainDetails.toString(),
@@ -99,5 +91,6 @@ export const useTimeframeData = (chainId: string, date: Timeframe = '24h') => {
     totalRequestsHistory: normilizedTotalRequestsHistory,
     countries,
     error,
+    data,
   };
 };
