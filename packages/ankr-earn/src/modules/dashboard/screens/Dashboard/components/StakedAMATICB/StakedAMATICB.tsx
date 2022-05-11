@@ -4,9 +4,13 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { Pending } from 'modules/dashboard/components/Pending';
+import {
+  Pending,
+  PendingTemporary,
+} from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
@@ -67,15 +71,19 @@ export const StakedAMATICB = (): JSX.Element | null => {
     handleLoadTxHistory();
   }, [handleLoadTxHistory, onOpen]);
 
-  const renderedPendingSlot = !pendingValue.isZero() && (
-    <Pending
-      isLoading={isHistoryDataLoading}
-      token={Token.aMATICb}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
-      value={pendingValue}
-      onLoadHistory={handleLoadTxHistory}
-    />
-  );
+  const renderedPendingSlot =
+    !pendingValue.isZero() &&
+    (featuresConfig.isSplitedMATICHistory ? (
+      <Pending
+        isLoading={isHistoryDataLoading}
+        token={Token.aMATICb}
+        tooltip={<PendingTable data={pendingUnstakeHistory} />}
+        value={pendingValue}
+        onLoadHistory={handleLoadTxHistory}
+      />
+    ) : (
+      <PendingTemporary />
+    ));
 
   return (
     <>

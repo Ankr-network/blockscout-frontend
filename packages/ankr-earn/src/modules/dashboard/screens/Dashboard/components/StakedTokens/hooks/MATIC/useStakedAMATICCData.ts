@@ -51,7 +51,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
   const amount = statsData?.aMATICcBalance ?? ZERO;
 
   // TODO: STAKAN-1421 use actual pending value
-  const pendingValue = ZERO;
+  const pendingValue = statsData?.pendingClaim ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
@@ -72,7 +72,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     stakeLink: StakePolygonRoutes.stake.generatePath(Token.aMATICc),
     token,
     tokenAddress: polygonConfig.aMATICcToken,
-    unstakeLink: StakePolygonRoutes.unstake.generatePath(Token.aMATICb),
+    unstakeLink: StakePolygonRoutes.unstake.generatePath(Token.aMATICc),
     isUnstakeLoading,
     pendingValue,
     onAddTokenToWallet,

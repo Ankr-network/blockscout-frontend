@@ -92,7 +92,8 @@ export const featuresConfig = {
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
   showOldBanner: false,
-  aMATICcUnstakeEnabled: false,
+  aMATICcUnstakeEnabled: true,
+  isSplitedMATICHistory: false,
 };
 
 export enum SupportedChainIDS {
