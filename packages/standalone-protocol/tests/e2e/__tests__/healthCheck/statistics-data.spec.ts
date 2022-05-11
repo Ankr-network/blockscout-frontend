@@ -10,7 +10,7 @@ const chainSelectButtonsCount = 13;
 
 test.describe('statistics data', async () => {
   for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
-    test(`non legacy standalone: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
+    test.skip(`non legacy standalone: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
       const respArr = [];
       page.on('response', async response => {
         if (response.url().includes(`/api/v1/stats/${NON_LEGACY_STANDALONE.network}/24h`)) {
