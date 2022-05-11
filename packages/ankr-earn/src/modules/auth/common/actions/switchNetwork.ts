@@ -6,10 +6,11 @@ import {
   AvailableWriteProviders,
   EEthereumNetworkId,
   EPolkadotNetworkId,
-  Web3KeyWriteProvider,
+  EthereumWeb3KeyProvider,
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -20,13 +21,13 @@ import { connect, IConnect } from './connect';
 type TChangedData = Partial<IConnect>;
 
 interface ISwitchNetworkArgs {
-  providerId: AvailableWriteProviders;
   chainId: EEthereumNetworkId | EPolkadotNetworkId;
+  providerId: AvailableWriteProviders;
 }
 
 export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
   'auth/switchNetwork',
-  ({ providerId, chainId }) => {
+  ({ chainId, providerId }) => {
     const authRequestKey = getAuthRequestKey(providerId);
     const connectAction = connect.toString() + authRequestKey;
 
@@ -40,20 +41,28 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
               providerId,
             );
 
-          switch (typeof chainId) {
-            case 'number':
-              if (provider instanceof Web3KeyWriteProvider) {
-                return provider.switchNetwork(chainId);
+          switch (providerId) {
+            case AvailableWriteProviders.ethCompatible: {
+              if (isEVMCompatible(chainId)) {
+                return (provider as EthereumWeb3KeyProvider).switchNetwork(
+                  chainId,
+                );
               }
-              break;
 
-            case 'string':
-              if (provider instanceof PolkadotProvider) {
-                switchNetworkData = await provider.switchNetwork(chainId);
+              break;
+            }
+
+            case AvailableWriteProviders.polkadotCompatible: {
+              if (isPolkadotCompatible(chainId)) {
+                switchNetworkData = await (
+                  provider as PolkadotProvider
+                ).switchNetwork(chainId);
 
                 return switchNetworkData;
               }
+
               break;
+            }
 
             default:
               break;
@@ -70,7 +79,10 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
           [connectAction]: (data: IConnect): IConnect => {
             let changedData: TChangedData = {};
 
-            if (isPolkadotCompatible(chainId)) {
+            if (
+              providerId === AvailableWriteProviders.polkadotCompatible &&
+              isPolkadotCompatible(chainId)
+            ) {
               changedData = {
                 chainId,
               };

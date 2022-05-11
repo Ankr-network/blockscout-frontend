@@ -4,14 +4,12 @@ import { createAction } from 'redux-smart-actions';
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
-  Web3KeyWriteProvider,
+  EthereumWeb3KeyProvider,
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { getAuthRequestKey } from 'modules/auth/common/utils/getAuthRequestKey';
-
-import { isEVMCompatible } from '../utils/isEVMCompatible';
 
 interface ISwitchNetworkArgs {
   providerId: AvailableWriteProviders;
@@ -29,11 +27,11 @@ export const updateConnectedNetwork = createAction<
     request: {
       promise: (async () => {
         const provider =
-          await ProviderManagerSingleton.getInstance().getProvider(providerId);
+          (await ProviderManagerSingleton.getInstance().getProvider(
+            providerId,
+          )) as EthereumWeb3KeyProvider;
 
-        if (isEVMCompatible(chainId)) {
-          (provider as Web3KeyWriteProvider).currentChain = chainId;
-        }
+        provider.currentChain = chainId;
       })(),
     },
     meta: {
@@ -41,16 +39,10 @@ export const updateConnectedNetwork = createAction<
       requestKey: authRequestKey,
       showNotificationOnError: true,
       mutations: {
-        [connectAction]: (data: IConnect): IConnect => {
-          if (isEVMCompatible(chainId)) {
-            return {
-              ...data,
-              chainId,
-            };
-          }
-
-          return data;
-        },
+        [connectAction]: (data: IConnect): IConnect => ({
+          ...data,
+          chainId,
+        }),
       },
     },
   };

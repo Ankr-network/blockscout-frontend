@@ -49,9 +49,6 @@ export class ProviderManager {
 
   constructor(private web3ModalTheme: ThemeColors) {}
 
-  /**
-   *  @deprecated
-   */
   async getProvider(providerId: AvailableWriteProviders, walletId?: string) {
     const provider = this.providers[providerId];
 
