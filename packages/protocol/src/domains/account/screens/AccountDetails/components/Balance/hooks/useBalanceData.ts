@@ -1,7 +1,7 @@
 import { BalanceData, EnoughTime, EnoughTimePeriod } from '../types';
 import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
-import { useBalances } from 'domains/account/hooks/useBalances';
+import { useBalance } from 'domains/account/hooks/useBalance';
 
 const enoughTime: EnoughTime = {
   period: EnoughTimePeriod.Day,
@@ -15,7 +15,7 @@ export const useBalanceData = (): BalanceData => {
     ankrBalance,
     usdBalance,
     isLoading: areBalancesLoading,
-  } = useBalances(isConnected);
+  } = useBalance(isConnected);
 
   const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
 

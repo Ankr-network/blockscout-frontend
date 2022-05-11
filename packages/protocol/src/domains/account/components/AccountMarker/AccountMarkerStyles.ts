@@ -18,7 +18,6 @@ export const useStyles = makeStyles<Theme, AccountStatus>(theme => ({
 
     borderRadius: '50%',
 
-    // backgroundColor: (status: AccountStatus) => colorsMap[status],
     backgroundColor: colorsMap[AccountStatus.ACTIVE],
 
     [theme.breakpoints.down('xs')]: {

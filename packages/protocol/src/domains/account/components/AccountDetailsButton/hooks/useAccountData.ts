@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { AccountStatus } from 'multirpc-sdk';
 import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
-import { useBalances } from 'domains/account/hooks/useBalances';
+import { useBalance } from 'domains/account/hooks/useBalance';
 
 export interface AccountData {
   balance: BigNumber;
@@ -14,11 +14,11 @@ export interface AccountData {
 
 export const useAccountData = (): AccountData => {
   const { account, isConnected } = useAuth();
-  const { ankrBalance: balance, isLoading: areBalancesLoading } =
-    useBalances(isConnected);
+  const { ankrBalance: balance, isLoading: isBalanceLoading } =
+    useBalance(isConnected);
   const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
 
-  const isLoading = areBalancesLoading || isStatusLoading;
+  const isLoading = isBalanceLoading || isStatusLoading;
 
   return { status, balance, isLoading, isVisible: isConnected };
 };

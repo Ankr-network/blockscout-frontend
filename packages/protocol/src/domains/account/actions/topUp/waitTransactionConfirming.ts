@@ -5,7 +5,7 @@ import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import { throwIfError } from 'common';
 import { retry } from 'modules/api/utils/retry';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
-import { fetchBalances } from '../balance/fetchBalances';
+import { fetchBalance } from '../balance/fetchBalance';
 import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { t } from 'modules/i18n/utils/intl';
 
@@ -67,7 +67,7 @@ export const waitTransactionConfirming = createSmartAction<
       _action: RequestAction,
       store: RequestsStore,
     ) => {
-      store.dispatchRequest(fetchBalances());
+      store.dispatchRequest(fetchBalance());
 
       return response;
     },
