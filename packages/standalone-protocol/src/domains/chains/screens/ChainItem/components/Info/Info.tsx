@@ -6,7 +6,7 @@ import { tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './InfoStyles';
 import { ChainId } from 'domains/chains/api/chain';
 
-const link = 'https://www.ankr.com/protocol/public/';
+const link = 'https://www.ankr.com/protocol/';
 
 export const Info = ({ chainId }: { chainId: ChainId }) => {
   const classes = useStyles();

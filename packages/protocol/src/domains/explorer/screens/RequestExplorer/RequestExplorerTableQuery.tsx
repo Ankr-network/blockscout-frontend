@@ -36,13 +36,12 @@ export const RequestExplorerTableQuery = () => {
     <Queries<ResponseData<typeof fetchRequests>>
       requestActions={[fetchRequests]}
     >
-      {({ data, loading }) => {
+      {({ data }) => {
         return (
           <RequestExplorerTable
             // onSort={handleChangeSort}
             onChangePage={handleMoreRows}
             data={data}
-            isLoading={loading}
           />
         );
       }}

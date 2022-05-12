@@ -10,7 +10,6 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   minWidth?: number | string;
   minHeight?: number;
   rows: T[];
-  isLoading?: boolean;
   pagination?: VirtualTablePaginationType;
   onChangePage?: (params: VirtualTableQuery) => void;
   isMoreRowsAvailable?: boolean;
