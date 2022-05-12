@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js';
 
 import { AccountStatus, Tier } from 'multirpc-sdk';
+import { Currency } from 'domains/account/types';
 
 export type BalanceData = {
-  ankrBalance: BigNumber;
+  balance: BigNumber;
   enoughTime: EnoughTime;
   isLoading?: boolean;
+  onCurrencySwitch: (currency: Currency) => void;
   premiumUntil?: Date;
   status: AccountStatus;
   tier?: Tier;

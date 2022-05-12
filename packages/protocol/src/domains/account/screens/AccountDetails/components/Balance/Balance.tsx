@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BalanceData } from './types';
+import { CurrencySwitcher } from 'domains/account/components/CurrencySwitcher';
 import { Details } from './Details';
-import { formatNumber, i18nKeyRoot } from './BalanceUtils';
+import { formatBalance, i18nKeyRoot } from './BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './BalanceStyles';
 
@@ -14,8 +15,9 @@ const HAS_WITHDRAW_LINK = false;
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
 export const Balance = ({
-  ankrBalance,
+  balance,
   enoughTime,
+  onCurrencySwitch,
   premiumUntil,
   status,
   tier,
@@ -28,7 +30,7 @@ export const Balance = ({
       <div className={classes.header}>
         <div className={classes.left}>
           <span className={classes.title}>{t(`${i18nKeyRoot}.title`)}</span>
-          <div className={classes.currency}>ANKR</div>
+          <CurrencySwitcher onSwitch={onCurrencySwitch} />
         </div>
         {HAS_WITHDRAW_LINK && (
           <Button
@@ -41,7 +43,7 @@ export const Balance = ({
           </Button>
         )}
       </div>
-      <div className={classes.balance}>{formatNumber(ankrBalance)}</div>
+      <div className={classes.balance}>{formatBalance(balance)}</div>
       <Details
         enoughTime={enoughTime}
         premiumUntil={premiumUntil}
