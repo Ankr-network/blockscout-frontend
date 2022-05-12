@@ -8,7 +8,7 @@ jest.mock('web3', () => ({
   default: jest.fn(),
 }));
 
-describe('packages/ankr-earn/src/modules/common/utils/batch', () => {
+describe('providerManager/Web3KeyReadProvider', () => {
   const createCall =
     (index: number) => (callback: TWeb3BatchCallback<number>) => {
       callback(null, index);

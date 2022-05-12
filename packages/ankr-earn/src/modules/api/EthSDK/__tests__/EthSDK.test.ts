@@ -12,7 +12,7 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
-describe('ankr-earn/src/modules/api/EthSDK', () => {
+describe('modules/api/EthSDK', () => {
   const ethAmount = '8';
   const timestamp = Math.floor(+new Date() / 1000);
 
