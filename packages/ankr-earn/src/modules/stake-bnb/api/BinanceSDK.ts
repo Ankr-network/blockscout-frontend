@@ -17,7 +17,12 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
-import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import {
+  ETH_SCALE_FACTOR,
+  featuresConfig,
+  isMainnet,
+  MAX_UINT256,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
@@ -32,6 +37,7 @@ import { TBnbSyntToken } from '../types';
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_ABNBC from './contracts/aBNBc.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
+import ABI_BINANCE_R5_POOL from './contracts/BinancePoolR5.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 
@@ -277,10 +283,11 @@ export class BinanceSDK implements ISwitcher {
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
 
-    return new web3.eth.Contract(
-      ABI_BINANCE_POOL as AbiItem[],
-      binanceConfig.binancePool,
-    );
+    const abi = (
+      featuresConfig.newBinancePool ? ABI_BINANCE_R5_POOL : ABI_BINANCE_POOL
+    ) as AbiItem[];
+
+    return new web3.eth.Contract(abi, binanceConfig.binancePool);
   }
 
   private async getWrappedBNBContract(isForceRead = false): Promise<Contract> {
@@ -563,9 +570,15 @@ export class BinanceSDK implements ISwitcher {
     const contractUnstake =
       binancePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    await contractUnstake(hexAmount).send({
-      from: this.currentAccount,
-    });
+    if (featuresConfig.newBinancePool) {
+      await contractUnstake(this.currentAccount, hexAmount).send({
+        from: this.currentAccount,
+      });
+    } else {
+      await contractUnstake(hexAmount).send({
+        from: this.currentAccount,
+      });
+    }
   }
 
   private getUnstakeMethodName(token: TBnbSyntToken) {

@@ -95,6 +95,7 @@ export const featuresConfig = {
   aMATICcUnstakeEnabled: true,
   maticHistory: false,
   isSplitedMATICHistory: false,
+  newBinancePool: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {
