@@ -42,20 +42,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     lineHeight: '20px',
   },
-  currency: {
-    padding: theme.spacing(0.5, 1),
-
-    borderRadius: 18,
-    border: `1px solid ${theme.palette.action.disabledBackground}`,
-
-    color: theme.palette.grey[600],
-    letterSpacing: '0.02em',
-
-    // fontFamily: 'Inter',
-    fontWeight: 400,
-    fontSize: 11,
-    lineHeight: '16px',
-  },
   withdrawButton: {
     height: 'auto',
     padding: 0,
