@@ -10,7 +10,7 @@ import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
-import { ETH_NETWORK_BY_ENV, featuresConfig, ZERO } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -65,9 +65,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aETHc, Token.ETH),
     isShowed,
     isBalancesLoading,
-    stakeLink: featuresConfig.stakeETH
-      ? RoutesConfig.stake.generatePath(Token.aETHc)
-      : undefined,
+    stakeLink: RoutesConfig.stake.generatePath(Token.aETHc),
     isStakeLoading,
     walletName,
     address,

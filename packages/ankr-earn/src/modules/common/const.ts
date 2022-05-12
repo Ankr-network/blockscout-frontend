@@ -68,31 +68,20 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveAVAXStaking: true,
-  isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
-  isActivePolkadotClaiming: true,
-  isActivePolkadotUnstaking: true,
-  isActivePolkadotWallet: true,
   isActiveMyRewardsClaimModalNewParts: false,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-917 remove after completion
-  bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   switcherFantom: currentEnv !== Env.Production,
-  stakeETH: true,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
-  // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
-  stakeAbnbc: true,
   stakeAFTMC: currentEnv !== Env.Production,
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
   showOldBanner: false,
-  aMATICcUnstakeEnabled: true,
   isSplitedMATICHistory: false,
 };
 

@@ -5,7 +5,6 @@ import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
   DOCS_LINK,
-  featuresConfig,
   isMainnet,
   LITEPAPER_CN,
   LITEPAPER_EN,
@@ -87,7 +86,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.dashboard,
       links.stake,
       links.boost,
-      ...(!featuresConfig.bridge ? [] : [links.bridge]),
+      links.bridge,
       links.switcher,
       links.parachain,
     ],
@@ -104,7 +103,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.dashboard,
       links.stake,
       links.boost,
-      ...(!featuresConfig.bridge ? [] : [links.bridge]),
+      links.bridge,
       links.switcher,
       links.parachain,
       links.docs,

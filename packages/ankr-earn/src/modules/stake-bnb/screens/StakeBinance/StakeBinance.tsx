@@ -2,6 +2,8 @@ import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
 
+import { t, tHTML } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
@@ -9,10 +11,8 @@ import {
   BNB_AUDIT_LINK,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
-  featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
@@ -86,31 +86,29 @@ export const StakeBinance = (): JSX.Element => {
   const onRenderStats = (): JSX.Element => {
     return (
       <>
-        {featuresConfig.stakeAbnbc && (
-          <TokenVariantList my={5}>
-            <TokenVariant
-              description={tHTML('stake-bnb.abnbb-descr')}
-              iconSlot={<ABNBBIcon />}
-              isActive={tokenOut === Token.aBNBb}
-              isDisabled={isStakeLoading}
-              title={t('unit.abnbb')}
-              onClick={onTokenSelect(Token.aBNBb)}
-            />
+        <TokenVariantList my={5}>
+          <TokenVariant
+            description={tHTML('stake-bnb.abnbb-descr')}
+            iconSlot={<ABNBBIcon />}
+            isActive={tokenOut === Token.aBNBb}
+            isDisabled={isStakeLoading}
+            title={t('unit.abnbb')}
+            onClick={onTokenSelect(Token.aBNBb)}
+          />
 
-            <TokenVariant
-              description={tHTML('stake-bnb.abnbc-descr', {
-                rate: isFetchStatsLoading
-                  ? '...'
-                  : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-              })}
-              iconSlot={<ABNBCIcon />}
-              isActive={tokenOut === Token.aBNBc}
-              isDisabled={isStakeLoading}
-              title={t('unit.abnbc')}
-              onClick={onTokenSelect(Token.aBNBc)}
-            />
-          </TokenVariantList>
-        )}
+          <TokenVariant
+            description={tHTML('stake-bnb.abnbc-descr', {
+              rate: isFetchStatsLoading
+                ? '...'
+                : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+            })}
+            iconSlot={<ABNBCIcon />}
+            isActive={tokenOut === Token.aBNBc}
+            isDisabled={isStakeLoading}
+            title={t('unit.abnbc')}
+            onClick={onTokenSelect(Token.aBNBc)}
+          />
+        </TokenVariantList>
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -142,18 +140,16 @@ export const StakeBinance = (): JSX.Element => {
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
 
-            {!featuresConfig.stakeAbnbc && (
-              <Tooltip
-                title={tHTML('stake-bnb.tooltips.you-will-get', {
-                  value: redeemValue,
-                  period: redeemPeriod,
-                })}
-              >
-                <ButtonBase className={classes.questionBtn}>
-                  <QuestionIcon size="xs" />
-                </ButtonBase>
-              </Tooltip>
-            )}
+            <Tooltip
+              title={tHTML('stake-bnb.tooltips.you-will-get', {
+                value: redeemValue,
+                period: redeemPeriod,
+              })}
+            >
+              <ButtonBase className={classes.questionBtn}>
+                <QuestionIcon size="xs" />
+              </ButtonBase>
+            </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>

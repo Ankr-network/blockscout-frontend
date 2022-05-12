@@ -1,6 +1,5 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
 
-import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 import { t } from 'modules/i18n/utils/intl';
@@ -69,17 +68,11 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           <AssetsList>
             {isUnclaimedEthShowed && <UnclaimedETH />}
 
-            {featuresConfig.isActivePolkadotClaiming && isDOTShowed && (
-              <UnclaimedDOT />
-            )}
+            {isDOTShowed && <UnclaimedDOT />}
 
-            {featuresConfig.isActivePolkadotClaiming && isKSMShowed && (
-              <UnclaimedKSM />
-            )}
+            {isKSMShowed && <UnclaimedKSM />}
 
-            {featuresConfig.isActivePolkadotClaiming && isWNDShowed && (
-              <UnclaimedWND />
-            )}
+            {isWNDShowed && <UnclaimedWND />}
 
             {isMATICShowed && <StakedAMATICB />}
 
@@ -109,17 +102,11 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isAVAXShowed && <StakedAVAX />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isADOTBShowed && (
-              <StakedADOTB />
-            )}
+            {isADOTBShowed && <StakedADOTB />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isAKSMBShowed && (
-              <StakedAKSMB />
-            )}
+            {isAKSMBShowed && <StakedAKSMB />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isAWNDBShowed && (
-              <StakedAWNDB />
-            )}
+            {isAWNDBShowed && <StakedAWNDB />}
           </AssetsList>
         </>
       ) : (

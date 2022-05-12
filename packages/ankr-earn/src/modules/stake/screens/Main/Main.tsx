@@ -2,11 +2,12 @@ import { Box } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
-import { t } from 'modules/i18n/utils/intl';
 import {
   fetchValidatorsDetails,
   IValidatorDetails,
@@ -49,8 +50,8 @@ export const Main = (): JSX.Element => {
   const { onTrackEnterStakingFlow } = useStakeAnalytics();
 
   useProviderEffect(() => {
-    if (featuresConfig.stakeETH) dispatchRequest(getETHAPY());
-    if (featuresConfig.isActiveAVAXStaking) dispatchRequest(getAAVAXBAPY());
+    dispatchRequest(getETHAPY());
+    dispatchRequest(getAAVAXBAPY());
     dispatchRequest(getABNBBAPY());
     dispatchRequest(getAFTMBAPY());
     dispatchRequest(getAMATICBAPY());
@@ -131,18 +132,16 @@ export const Main = (): JSX.Element => {
             onStakeClick={onTrackEnterStakingFlow(Token.FTM)}
           />
 
-          {featuresConfig.isActiveAVAXStaking && (
-            <FeatureItem
-              apy={aAVAXbAPY?.toNumber()}
-              iconSlot={<AvaxIcon />}
-              mainHref={AvalancheRoutes.stake.generatePath()}
-              moreHref={getStakingOverviewUrl(Token.AVAX)}
-              stakedTvl={validatorsDetails?.avax.totalStaked}
-              title={t('features.avalanche')}
-              token={Token.AVAX}
-              onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
-            />
-          )}
+          <FeatureItem
+            apy={aAVAXbAPY?.toNumber()}
+            iconSlot={<AvaxIcon />}
+            mainHref={AvalancheRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.AVAX)}
+            stakedTvl={validatorsDetails?.avax.totalStaked}
+            title={t('features.avalanche')}
+            token={Token.AVAX}
+            onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
+          />
 
           <FeatureItemLegacy
             href={STAKE_LEGACY_LINKS.DOT}

@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { useStakableEth } from '../useStakableEth';
@@ -64,7 +63,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
     jest.resetAllMocks();
   });
 
-  test('should return ', () => {
+  test('should return initial data', () => {
     const { result } = renderHook(() => useStakableEth());
 
     expect(result.current.token).toBe(Token.ETH);
@@ -75,7 +74,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
     );
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isLoading).toStrictEqual(false);
-    expect(result.current.isShowed).toBe(featuresConfig.stakeETH);
     expect(result.current.networks).toStrictEqual([
       {
         title: 'goerli',

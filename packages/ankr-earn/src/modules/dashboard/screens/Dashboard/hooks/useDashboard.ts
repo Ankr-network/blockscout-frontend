@@ -1,7 +1,6 @@
 import { resetRequests } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
@@ -55,7 +54,7 @@ export const useDashboard = (): void => {
     );
 
     dispatch(getEthCommonData());
-    if (featuresConfig.stakeETH) dispatch(getEthAPY());
+    dispatch(getEthAPY());
 
     dispatch(fetchPolygonStats());
     dispatch(fetchAMATICBBridged());
