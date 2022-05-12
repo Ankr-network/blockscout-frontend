@@ -61,8 +61,44 @@ export const preparePaymentHistoryRequest = ({
   };
 };
 
-export const formatPaymentHistoryAmount = (amount: string) => {
-  return new BigNumber(amount).toFixed(2);
+const getDecimalPlaces = (
+  value: BigNumber,
+  minDecimalPlaces: number,
+  maxDecimalPlaces: number,
+): number => {
+  const decimalPlaces = value.decimalPlaces();
+
+  if (decimalPlaces <= minDecimalPlaces) {
+    return minDecimalPlaces;
+  }
+
+  if (decimalPlaces >= maxDecimalPlaces) {
+    return maxDecimalPlaces;
+  }
+
+  return decimalPlaces;
+};
+
+const MIN_USD_DECIMAL_PLACES = 2;
+const MAX_USD_DECIMAL_PLACES = 7;
+
+const MIN_ANKR_DECIMAL_PLACES = 2;
+const MAX_ANKR_DECIMAL_PLACES = 5;
+
+export const formatPaymentHistoryAmount = (
+  amount: string,
+  minDecimalPlaces: number,
+  maxDecimalPlaces: number,
+) => {
+  const value = new BigNumber(amount);
+
+  const decimalPlaces = getDecimalPlaces(
+    value,
+    minDecimalPlaces,
+    maxDecimalPlaces,
+  );
+
+  return value.toFormat(decimalPlaces, 0);
 };
 
 export const usePaymentHistoryTableColumns = () => {
@@ -102,7 +138,12 @@ export const usePaymentHistoryTableColumns = () => {
                   [classes.cellTopUp]: direction,
                 })}
               >
-                {sign}${formatPaymentHistoryAmount(amountUsd)}
+                {sign}$
+                {formatPaymentHistoryAmount(
+                  amountUsd,
+                  MIN_USD_DECIMAL_PLACES,
+                  MAX_USD_DECIMAL_PLACES,
+                )}
               </span>
             );
           },
@@ -123,7 +164,11 @@ export const usePaymentHistoryTableColumns = () => {
                 })}
               >
                 {sign}
-                {formatPaymentHistoryAmount(amountAnkr)}
+                {formatPaymentHistoryAmount(
+                  amountAnkr,
+                  MIN_ANKR_DECIMAL_PLACES,
+                  MAX_ANKR_DECIMAL_PLACES,
+                )}
               </span>
             );
           },
