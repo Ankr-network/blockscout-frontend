@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { featuresConfig, ONE_ETH } from 'modules/common/const';
+import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 
@@ -19,6 +19,13 @@ import {
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
+}));
+
+jest.mock('modules/common/const', () => ({
+  ...jest.requireActual('modules/common/const'),
+  featuresConfig: {
+    maticHistory: true,
+  },
 }));
 
 jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICBData', () => ({
@@ -89,10 +96,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
   });
 
   test('should open history dialog properly', async () => {
-    if (!featuresConfig.maticHistory) {
-      return;
-    }
-
     render(
       <MemoryRouter>
         <StakedAMATICB />

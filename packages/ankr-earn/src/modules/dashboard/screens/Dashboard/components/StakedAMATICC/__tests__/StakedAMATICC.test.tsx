@@ -4,7 +4,6 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -20,6 +19,13 @@ import {
   IUseStakedAMATICCAnalytics,
   useStakedAMATICCAnalytics,
 } from '../useStakedAMATICCAnalytics';
+
+jest.mock('modules/common/const', () => ({
+  ...jest.requireActual('modules/common/const'),
+  featuresConfig: {
+    maticHistory: true,
+  },
+}));
 
 jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICCData', () => ({
   useStakedAMATICCData: jest.fn(),
@@ -100,10 +106,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   });
 
   test('should open history dialog properly', async () => {
-    if (!featuresConfig.maticHistory) {
-      return;
-    }
-
     render(
       <MemoryRouter>
         <StakedAMATICC />
