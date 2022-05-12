@@ -186,8 +186,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
-    // TODO: add actual address
-    aMATICcToken: ZERO_ADDR,
+    aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
@@ -208,7 +207,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
-    aMATICcToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
+    aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
