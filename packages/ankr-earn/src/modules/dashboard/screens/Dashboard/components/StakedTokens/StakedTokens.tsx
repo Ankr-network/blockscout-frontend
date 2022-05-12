@@ -19,6 +19,8 @@ import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedBridgeAETHB } from '../StakedBridgeAETHB';
 import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC';
+import { StakedBridgeAMATICCBSC } from '../StakedBridgeAMATICCBSC';
+import { StakedBridgeAMATICCPolygon } from '../StakedBridgeAMATICCPolygon';
 import { StakedBridgeMatic } from '../StakedBridgeMatic';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
@@ -42,6 +44,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAFTMBShowed,
     isAFTMCShowed,
     isAMATICBBSCShowed,
+    isAMATICCBSCShowed,
+    isAMATICCPolygonShowed,
     isAMATICBPolygonShowed,
     isAMATICCShowed,
     isAETHBBridgedShowed,
@@ -82,6 +86,10 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {isAMATICBPolygonShowed && <StakedBridgeMatic />}
 
             {isAMATICBBSCShowed && <StakedBridgeAMATICBBSC />}
+
+            {isAMATICCBSCShowed && <StakedBridgeAMATICCBSC />}
+
+            {isAMATICCPolygonShowed && <StakedBridgeAMATICCPolygon />}
 
             {isAMATICCShowed && <StakedAMATICC />}
 

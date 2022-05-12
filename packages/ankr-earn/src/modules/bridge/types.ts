@@ -2,6 +2,7 @@ import { ReactText } from 'react';
 
 export enum AvailableBridgeTokens {
   aMATICb = 'aMATICb',
+  aMATICc = 'aMATICc',
   aETHb = 'aETHb',
 }
 

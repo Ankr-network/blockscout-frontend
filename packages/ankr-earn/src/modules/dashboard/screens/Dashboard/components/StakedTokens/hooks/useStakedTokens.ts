@@ -13,6 +13,8 @@ import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
 import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
 import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
+import { useStakedBridgeAMATICCBSC } from './MATIC/useStakedBridgeAMATICCBSC';
+import { useStakedBridgeAMATICCPolygon } from './MATIC/useStakedBridgeAMATICCPolygon';
 import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
 import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
@@ -28,6 +30,8 @@ interface IUseStakedTokensData {
   isMATICShowed: boolean;
   isAMATICBPolygonShowed: boolean;
   isAMATICBBSCShowed: boolean;
+  isAMATICCBSCShowed: boolean;
+  isAMATICCPolygonShowed: boolean;
   isAMATICCShowed: boolean;
   isAETHBBridgedShowed: boolean;
   isAFTMBShowed: boolean;
@@ -45,6 +49,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedAMATICBData();
   const amaticbPolygonData = useStakedBridgeMaticData();
   const amaticbBSCData = useStakedBridgeBSCMaticData();
+  const amaticcBSCData = useStakedBridgeAMATICCBSC();
+  const amaticcPolygonData = useStakedBridgeAMATICCPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
   const stakedAVAXData = useStakedAVAXData();
@@ -82,6 +88,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAMATICBBSCShowed = amaticbBSCData.isShowed;
   const isAMATICCShowed = stakedAMATICCData.isShowed;
+  const isAMATICCBSCShowed = amaticcBSCData.isShowed;
+  const isAMATICCPolygonShowed = amaticcPolygonData.isShowed;
 
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
 
@@ -108,6 +116,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isMATICShowed ||
     isAMATICBPolygonShowed ||
     isAMATICBBSCShowed ||
+    isAMATICCBSCShowed ||
+    isAMATICCPolygonShowed ||
     isAETHBBridgedShowed ||
     isAFTMBShowed ||
     isAFTMCShowed ||
@@ -130,6 +140,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAFTMBShowed,
     isAFTMCShowed,
     isAMATICBBSCShowed,
+    isAMATICCBSCShowed,
+    isAMATICCPolygonShowed,
     isAMATICBPolygonShowed,
     isAMATICCShowed,
     isAETHBBridgedShowed,
