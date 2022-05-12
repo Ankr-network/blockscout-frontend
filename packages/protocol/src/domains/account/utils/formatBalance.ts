@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'modules/i18n/utils/intl';
 
-// to pervent layout breaking
+// to prevent layout breaking
 const MAX_BALANCE_LENGTH = 6;
 const MAX_DECIMALS_LENGTH = 2;
 
