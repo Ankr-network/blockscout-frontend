@@ -9,7 +9,7 @@ const enoughTime: EnoughTime = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { account, isConnected, isConnecting, premiumUntil, tier } = useAuth();
+  const { isConnected, isConnecting, premiumUntil, tier } = useAuth();
 
   const {
     ankrBalance,
@@ -17,12 +17,12 @@ export const useBalanceData = (): BalanceData => {
     isLoading: areBalancesLoading,
   } = useBalance(isConnected);
 
-  const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
+  const status = useAccountStatus({ balance: ankrBalance });
 
   return {
     ankrBalance,
     enoughTime,
-    isLoading: isConnecting || areBalancesLoading || isStatusLoading,
+    isLoading: isConnecting || areBalancesLoading,
     premiumUntil,
     status,
     tier,
