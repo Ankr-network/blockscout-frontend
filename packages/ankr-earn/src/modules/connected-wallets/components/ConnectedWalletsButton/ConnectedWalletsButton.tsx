@@ -25,7 +25,7 @@ interface IConnectedWalletsButtonProps {
   onClick: () => void;
 }
 
-const getAddressData = (addresses: TAddresses): IAddress => {
+export const getAddressData = (addresses: TAddresses): IAddress => {
   const data = addresses.find(address => address.isActive);
 
   return typeof data !== 'undefined' ? data : addresses[0];
