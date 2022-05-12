@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { ONE_ETH } from 'modules/common/const';
+import { featuresConfig, ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 
@@ -89,6 +89,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
   });
 
   test('should open history dialog properly', async () => {
+    if (!featuresConfig.maticHistory) {
+      return;
+    }
+
     render(
       <MemoryRouter>
         <StakedAMATICB />

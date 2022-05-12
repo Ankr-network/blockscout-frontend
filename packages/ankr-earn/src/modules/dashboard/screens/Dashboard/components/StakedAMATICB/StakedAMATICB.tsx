@@ -103,7 +103,9 @@ export const StakedAMATICB = (): JSX.Element | null => {
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
-        onHistoryBtnClick={handleOpenHistoryDialog}
+        onHistoryBtnClick={
+          featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
+        }
         onTradeClick={onTradeClick}
       />
 

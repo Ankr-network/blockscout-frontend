@@ -93,6 +93,7 @@ export const featuresConfig = {
   bnbHistory: false,
   showOldBanner: false,
   aMATICcUnstakeEnabled: true,
+  maticHistory: false,
   isSplitedMATICHistory: false,
 };
 

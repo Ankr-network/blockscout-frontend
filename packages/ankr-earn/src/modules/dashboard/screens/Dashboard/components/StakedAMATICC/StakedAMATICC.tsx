@@ -69,6 +69,7 @@ export const StakedAMATICC = (): JSX.Element => {
       <StakingAsset
         amount={amount}
         chainId={chainId}
+        isHistoryLoading={isHistoryDataLoading}
         isLoading={isLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
@@ -82,7 +83,9 @@ export const StakedAMATICC = (): JSX.Element => {
         }
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={onAddTokenToWallet}
-        onHistoryBtnClick={handleOpenHistoryDialog}
+        onHistoryBtnClick={
+          featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
+        }
       />
 
       <HistoryDialog

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -99,6 +100,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   });
 
   test('should open history dialog properly', async () => {
+    if (!featuresConfig.maticHistory) {
+      return;
+    }
+
     render(
       <MemoryRouter>
         <StakedAMATICC />
