@@ -1,8 +1,9 @@
 import { Box } from '@material-ui/core';
 
+import { t, tHTML } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { Container } from 'uiKit/Container';

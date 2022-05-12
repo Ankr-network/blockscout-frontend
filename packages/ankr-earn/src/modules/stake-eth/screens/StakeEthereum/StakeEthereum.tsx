@@ -2,11 +2,12 @@ import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';

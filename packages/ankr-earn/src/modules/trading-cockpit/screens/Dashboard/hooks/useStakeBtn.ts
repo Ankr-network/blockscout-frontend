@@ -1,6 +1,7 @@
+import { t } from 'common';
+
 import { STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';

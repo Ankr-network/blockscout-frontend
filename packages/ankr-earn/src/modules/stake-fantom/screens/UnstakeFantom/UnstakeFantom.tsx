@@ -4,11 +4,12 @@ import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';

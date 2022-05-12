@@ -2,10 +2,11 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { ValidatorName } from 'modules/metrics/const';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';

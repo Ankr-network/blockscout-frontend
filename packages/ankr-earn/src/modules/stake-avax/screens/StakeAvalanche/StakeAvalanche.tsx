@@ -3,11 +3,12 @@ import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
+import { t, tHTML } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';

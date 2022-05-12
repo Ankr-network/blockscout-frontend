@@ -6,13 +6,13 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';

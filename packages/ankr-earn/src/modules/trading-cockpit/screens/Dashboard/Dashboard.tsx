@@ -1,7 +1,8 @@
 import { Box } from '@material-ui/core';
 
+import { t } from 'common';
+
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
-import { t } from 'modules/i18n/utils/intl';
 import { FairValue } from 'modules/trading-cockpit/components/FairValue';
 import { Header } from 'modules/trading-cockpit/components/Header';
 import { TableComponent } from 'modules/trading-cockpit/components/Table';

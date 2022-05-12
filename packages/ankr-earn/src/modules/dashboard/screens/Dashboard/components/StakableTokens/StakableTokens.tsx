@@ -2,9 +2,10 @@ import { Box, BoxProps, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
 import { StakableList } from 'modules/dashboard/components/StakableList';
-import { t } from 'modules/i18n/utils/intl';
 
 import { useStakableAvax } from './hooks/useStakableAvax';
 import { useStakableBnb } from './hooks/useStakableBnb';

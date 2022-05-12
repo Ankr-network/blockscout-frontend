@@ -2,12 +2,13 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { t } from 'modules/i18n/utils/intl';
 import { getHistory } from 'modules/stake-fantom/actions/getHistory';
 import { ITxEventsHistoryGroupItem } from 'modules/stake/api/getTxEventsHistoryGroup';
 import { useAppDispatch } from 'store/useAppDispatch';

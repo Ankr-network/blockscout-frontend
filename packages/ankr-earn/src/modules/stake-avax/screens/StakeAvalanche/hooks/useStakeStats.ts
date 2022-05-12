@@ -2,9 +2,10 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo, ReactText } from 'react';
 
+import { t } from 'common';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { ValidatorName } from 'modules/metrics/const';
 import { IStakeStatsItem } from 'modules/stake/components/StakeStats';

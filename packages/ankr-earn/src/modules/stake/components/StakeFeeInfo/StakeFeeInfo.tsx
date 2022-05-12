@@ -3,7 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 import { useStakeFeeInfoStyles } from './useStakeFeeInfoStyles';
 

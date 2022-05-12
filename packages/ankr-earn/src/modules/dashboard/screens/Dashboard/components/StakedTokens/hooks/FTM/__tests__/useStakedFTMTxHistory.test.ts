@@ -1,9 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { t } from 'common';
+
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { IGetHistory } from 'modules/stake-fantom/actions/getHistory';
 import { EFantomPoolEvents } from 'modules/stake-fantom/api/sdk';

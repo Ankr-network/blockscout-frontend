@@ -1,8 +1,9 @@
 import { IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { t, tHTML } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 
 import { usePendingUnstakeAmountStyles } from './usePendingUnstakeAmountStyles';

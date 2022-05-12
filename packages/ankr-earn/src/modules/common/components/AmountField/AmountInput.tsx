@@ -4,9 +4,10 @@ import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
 
+import { t } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
-import { t } from 'modules/i18n/utils/intl';
 import { AmountField } from 'uiKit/AmountField';
 
 import { useAmountFieldStyles } from './useAmountFieldStyles';

@@ -6,13 +6,13 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';

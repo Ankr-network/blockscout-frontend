@@ -6,13 +6,13 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';

@@ -1,8 +1,9 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
 
+import { t } from 'common';
+
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
-import { t } from 'modules/i18n/utils/intl';
 
 import { StakedABNBB } from '../StakedABNBB';
 import { StakedABNBC } from '../StakedABNBC';

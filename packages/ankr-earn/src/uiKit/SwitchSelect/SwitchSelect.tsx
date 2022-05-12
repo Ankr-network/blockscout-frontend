@@ -7,7 +7,8 @@ import {
   ReactNode,
 } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 
 import { Select } from '../Select';

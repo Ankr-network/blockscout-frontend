@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { t } from 'common';
+
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { TAddresses } from 'modules/connected-wallets/types';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 

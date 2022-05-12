@@ -9,10 +9,10 @@ import {
   FormRenderProps,
 } from 'react-final-form';
 
+import { t } from 'common';
 import { ICrowdloanType } from 'polkadot';
 
 import { FormErrors } from 'modules/common/types/FormErrors';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';

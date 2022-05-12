@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -10,7 +11,6 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
 

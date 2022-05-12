@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
+import { t } from 'common';
+
 import { Seconds } from 'modules/common/types';
 import {
   getTimeRemaining,
   IGetTimerRemainingData,
 } from 'modules/common/utils/getTimeRemaining';
 import { useInterval } from 'modules/common/utils/useInterval';
-import { t } from 'modules/i18n/utils/intl';
 
 const ONE_SECOND: Seconds = 1000;
 

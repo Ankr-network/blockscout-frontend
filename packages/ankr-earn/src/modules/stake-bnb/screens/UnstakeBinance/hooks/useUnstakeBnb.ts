@@ -6,11 +6,12 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { approveABNBCUnstake } from 'modules/stake-bnb/actions/approveABNBCUnstake';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { unstake } from 'modules/stake-bnb/actions/unstake';

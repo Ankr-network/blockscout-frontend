@@ -3,7 +3,8 @@ import { ErrorProps } from '@redux-requests/react';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { NotificationActions } from 'store/actions/NotificationActions';
 
 export function getErrorMessage(props: ErrorProps | Error): string {
