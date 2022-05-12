@@ -81,7 +81,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
     polygonPool: '0xAf2FdE2a233bc2E7B0B8Fa6066aD2df980B6fa67',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
-    aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
+    aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
@@ -131,30 +131,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 };
 
 const GOERLI_CONFIG: IStkrConfig = {
-  ...{
-    contractConfig: {
-      ...LOCAL_CONFIG.contractConfig,
-      ...{
-        polygonPool: '0xAf2FdE2a233bc2E7B0B8Fa6066aD2df980B6fa67',
-        aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
-      },
-    },
-  },
-  avalancheConfig: {
-    ...LOCAL_CONFIG.avalancheConfig,
-  },
-  binanceConfig: {
-    ...LOCAL_CONFIG.binanceConfig,
-  },
-  fantomConfig: {
-    ...LOCAL_CONFIG.fantomConfig,
-  },
-  polkadotConfig: {
-    ...LOCAL_CONFIG.polkadotConfig,
-  },
-  polygonConfig: {
-    ...LOCAL_CONFIG.polygonConfig,
-  },
+  ...LOCAL_CONFIG,
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
   },
