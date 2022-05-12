@@ -1,3 +1,5 @@
+import { stopPolling } from '@redux-requests/core';
+import { useDispatch } from 'react-redux';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
@@ -9,6 +11,8 @@ export interface Balance extends AccountBalance {
   isLoading: boolean;
 }
 
+const actionType = fetchBalance.toString();
+
 export const useBalance = (isConnected: boolean): Balance => {
   const {
     data: balances,
@@ -16,16 +20,21 @@ export const useBalance = (isConnected: boolean): Balance => {
     pristine,
   } = useQuery<AccountBalance>({
     defaultData: defaultBalance,
-    type: fetchBalance.toString(),
+    type: actionType,
   });
 
-  const dispatch = useDispatchRequest();
+  const dispatch = useDispatch();
+  const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
     if (isConnected) {
-      dispatch(fetchBalance());
+      dispatchRequest(fetchBalance());
     }
-  }, [dispatch, isConnected]);
+
+    return () => {
+      dispatch(stopPolling([actionType]));
+    };
+  }, [dispatch, dispatchRequest, isConnected]);
 
   return { ...balances, isLoading: pristine && loading };
 };
