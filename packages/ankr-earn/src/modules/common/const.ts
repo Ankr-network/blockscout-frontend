@@ -83,6 +83,7 @@ export const featuresConfig = {
   bnbHistory: false,
   showOldBanner: false,
   isSplitedMATICHistory: false,
+  newBinancePool: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {
