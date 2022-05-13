@@ -82,6 +82,8 @@ export const featuresConfig = {
   // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
   bnbHistory: false,
   showOldBanner: false,
+  aMATICcUnstakeEnabled: true,
+  maticHistory: false,
   isSplitedMATICHistory: false,
   newBinancePool: currentEnv !== Env.Production,
 };

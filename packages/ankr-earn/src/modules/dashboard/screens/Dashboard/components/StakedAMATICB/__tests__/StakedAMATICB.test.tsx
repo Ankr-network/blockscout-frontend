@@ -21,6 +21,13 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
+jest.mock('modules/common/const', () => ({
+  ...jest.requireActual('modules/common/const'),
+  featuresConfig: {
+    maticHistory: true,
+  },
+}));
+
 jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICBData', () => ({
   useStakedAMATICBData: jest.fn(),
 }));

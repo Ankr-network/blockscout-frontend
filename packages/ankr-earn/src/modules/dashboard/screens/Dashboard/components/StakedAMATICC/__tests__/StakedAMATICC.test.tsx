@@ -20,6 +20,13 @@ import {
   useStakedAMATICCAnalytics,
 } from '../useStakedAMATICCAnalytics';
 
+jest.mock('modules/common/const', () => ({
+  ...jest.requireActual('modules/common/const'),
+  featuresConfig: {
+    maticHistory: true,
+  },
+}));
+
 jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICCData', () => ({
   useStakedAMATICCData: jest.fn(),
 }));
