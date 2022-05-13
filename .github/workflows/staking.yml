@@ -1,4 +1,4 @@
-name: Earn deploy
+name: Staking deploy
 
 on:
   workflow_dispatch:
