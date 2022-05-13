@@ -9,6 +9,7 @@ import {
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
+import { sleep } from './utils';
 import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
@@ -41,14 +42,13 @@ interface IProviders {
   [AvailableReadProviders.mumbai]: Web3KeyReadProvider;
 }
 
+const POLKADOT_CONNECT_WAIT_MS = 250;
+
 export class ProviderManager {
   private providers: Partial<IProviders> = {};
 
   constructor(private web3ModalTheme: ThemeColors) {}
 
-  /**
-   *  @deprecated
-   */
   async getProvider(providerId: AvailableWriteProviders, walletId?: string) {
     const provider = this.providers[providerId];
 
@@ -157,6 +157,9 @@ export class ProviderManager {
       networkType,
       polkadotUrl,
     });
+
+    // Note: This is for "resolving" issues with extension loading after the page refresh (production mode)
+    await sleep(POLKADOT_CONNECT_WAIT_MS);
 
     await newProvider.connect();
 

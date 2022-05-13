@@ -22,7 +22,7 @@ export const fetchAPY = createSmartAction<
       const providerManager = ProviderManagerSingleton.getInstance();
 
       let provider;
-      
+
       if (isWriteProvider) {
         provider = await providerManager.getETHWriteProvider();
       } else {

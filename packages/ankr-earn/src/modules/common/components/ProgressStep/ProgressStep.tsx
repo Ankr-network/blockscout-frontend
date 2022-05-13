@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';

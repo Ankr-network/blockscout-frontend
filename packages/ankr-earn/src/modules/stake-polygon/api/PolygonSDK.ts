@@ -7,7 +7,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
@@ -19,7 +19,11 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
-import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import {
+  ETH_NETWORK_BY_ENV,
+  ETH_SCALE_FACTOR,
+  MAX_UINT256,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getAPY } from 'modules/stake/api/getAPY';
@@ -29,6 +33,7 @@ import {
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_READ_ID,
 } from '../const';
+import { TMaticSyntToken } from '../types';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_AMATICC from './contracts/aMATICc.json';
@@ -39,6 +44,8 @@ export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 enum EPolygonPoolEvents {
   MaticClaimPending = 'MaticClaimPending',
   StakePending = 'StakePending',
+  StakeAndClaimBonds = 'stakeAndClaimBonds',
+  StakeAndClaimCerts = 'stakeAndClaimCerts',
 }
 
 export enum EPolygonPoolEventsMap {
@@ -164,7 +171,7 @@ export class PolygonSDK implements ISwitcher {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
-    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
       chainId,
     );
   }
@@ -552,7 +559,19 @@ export class PolygonSDK implements ISwitcher {
     return receipt as TransactionReceipt | null;
   }
 
-  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
+  private getStakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'stakeAndClaimCerts';
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<{ txHash: string }> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -580,10 +599,14 @@ export class PolygonSDK implements ISwitcher {
         )
         .send({ from: this.currentAccount });
     }
+
+    const contractStakeMethod =
+      polygonPoolContract.methods[this.getStakeMethodName(token)];
+
     // 2. Do staking
-    const tx2 = await polygonPoolContract.methods
-      .stake(web3.utils.numberToHex(rawAmount.toString(10)))
-      .send({ from: this.currentAccount });
+    const tx2 = await contractStakeMethod(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+    ).send({ from: this.currentAccount });
 
     return { txHash: tx2.transactionHash };
   }
@@ -610,7 +633,20 @@ export class PolygonSDK implements ISwitcher {
     };
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  private getUnstakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'unstakeCerts';
+
+      default:
+        return 'unstakeBonds';
+    }
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<void> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -646,17 +682,18 @@ export class PolygonSDK implements ISwitcher {
     // Fetch fees here and make allowance one more time if required
     const { useBeforeBlock, signature } = await this.getUnstakeFee();
 
-    await polygonPoolContract.methods
-      .unstake(
-        web3.utils.numberToHex(rawAmount.toString(10)),
-        web3.utils.numberToHex(fee.toString(10)),
-        web3.utils.numberToHex(useBeforeBlock),
-        signature,
-      )
-      .send({ from: this.currentAccount });
+    const contractUnstake =
+      polygonPoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+      web3.utils.numberToHex(fee.toString(10)),
+      web3.utils.numberToHex(useBeforeBlock),
+      signature,
+    ).send({ from: this.currentAccount });
   }
 
-  public async addTokenToWallet(token: Token): Promise<boolean> {
+  public async addTokenToWallet(token: TMaticSyntToken): Promise<boolean> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -664,12 +701,13 @@ export class PolygonSDK implements ISwitcher {
     }
 
     return this.writeProvider.addTokenToWallet({
-      address: contractConfig.aMaticbToken,
+      address:
+        token === Token.aMATICc
+          ? contractConfig.aMaticCToken
+          : contractConfig.aMaticbToken,
       symbol: token,
       decimals: 18,
-      chainId: isMainnet
-        ? (BlockchainNetworkId.mainnet as number)
-        : (BlockchainNetworkId.goerli as number),
+      chainId: ETH_NETWORK_BY_ENV,
     });
   }
 }

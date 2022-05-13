@@ -145,7 +145,9 @@
       "/liquid-crowdloan/",
       "/unstake/avax/",
       "/unstake/bnb/",
+      "/unstake/dot/",
       "/unstake/fantom/",
+      "/unstake/ksm/",
       "/unstake/matic/"
     ],
     "skipThirdPartyRequests": true,

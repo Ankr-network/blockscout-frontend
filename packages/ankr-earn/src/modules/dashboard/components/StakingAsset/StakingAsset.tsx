@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { t } from 'modules/i18n/utils/intl';
@@ -22,7 +22,7 @@ interface IStakingAssetProps {
   token?: Token;
   tokenAddress?: string;
   network?: string;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   amount?: BigNumber;
   tradeLink?: string;
   stakeLink?: string;

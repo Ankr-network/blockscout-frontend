@@ -5,7 +5,7 @@ import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -48,6 +48,8 @@ export enum EFantomPoolEvents {
   Withdrawn = 'Withdrawn',
   StakeReceived = 'StakeReceived',
 }
+
+type TUnstakingStatsType = 'bond' | 'cert' | 'all';
 
 interface IFantomSDKProviders {
   writeProvider: Web3KeyWriteProvider;
@@ -158,8 +160,8 @@ export class FantomSDK implements ISwitcher {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.fantom,
-      BlockchainNetworkId.fantomTestnet,
+      EEthereumNetworkId.fantom,
+      EEthereumNetworkId.fantomTestnet,
     ].includes(chainId);
   }
 
@@ -524,8 +526,8 @@ export class FantomSDK implements ISwitcher {
     const decimals = Number.parseInt(rawDecimals, 10);
 
     const chainId: number = isMainnet
-      ? BlockchainNetworkId.fantom
-      : BlockchainNetworkId.fantomTestnet;
+      ? EEthereumNetworkId.fantom
+      : EEthereumNetworkId.fantomTestnet;
 
     return this.writeProvider.addTokenToWallet({
       address,
@@ -574,9 +576,11 @@ export class FantomSDK implements ISwitcher {
     return new BigNumber(ratio);
   }
 
-  public async getPendingUnstakes(): Promise<BigNumber> {
+  public async getPendingUnstakes(
+    type: TUnstakingStatsType = 'all',
+  ): Promise<BigNumber> {
     return this.api
-      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}`)
+      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}/${type}`)
       .then(({ data }) => new BigNumber(data.unstakingAmount))
       .catch(() => ZERO);
   }

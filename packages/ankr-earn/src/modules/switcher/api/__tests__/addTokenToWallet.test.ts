@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
@@ -51,7 +51,7 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(
         async chainId =>
           sdk.addTokenToWallet({
             chainId: chainId as AvailableSwitchNetwork,
@@ -69,14 +69,12 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchainTestnet,
-        BlockchainNetworkId.smartchain,
-      ].map(async chainId =>
-        sdk.addTokenToWallet({
-          chainId: chainId as AvailableSwitchNetwork,
-          token: Token.aBNBb,
-        }),
+      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
+        async chainId =>
+          sdk.addTokenToWallet({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aBNBb,
+          }),
       ),
     );
 
@@ -89,7 +87,7 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(
         async chainId =>
           sdk.addTokenToWallet({
             chainId: chainId as AvailableSwitchNetwork,
@@ -107,7 +105,7 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         async chainId =>
           sdk.addTokenToWallet({
             chainId: chainId as AvailableSwitchNetwork,
@@ -136,7 +134,7 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const result = await sdk.addTokenToWallet({
-      chainId: BlockchainNetworkId.goerli,
+      chainId: EEthereumNetworkId.goerli,
       token: 'token' as AvailableSwitcherToken,
     });
 

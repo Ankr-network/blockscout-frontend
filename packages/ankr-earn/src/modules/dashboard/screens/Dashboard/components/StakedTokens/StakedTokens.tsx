@@ -13,12 +13,15 @@ import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
+import { StakedAMATICB } from '../StakedAMATICB';
+import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedBridgeAETHB } from '../StakedBridgeAETHB';
 import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC';
+import { StakedBridgeAMATICCBSC } from '../StakedBridgeAMATICCBSC';
+import { StakedBridgeAMATICCPolygon } from '../StakedBridgeAMATICCPolygon';
 import { StakedBridgeMatic } from '../StakedBridgeMatic';
-import { StakedMatic } from '../StakedMatic';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
 import { UnclaimedKSM } from '../UnclaimedKSM';
@@ -41,7 +44,10 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAFTMBShowed,
     isAFTMCShowed,
     isAMATICBBSCShowed,
+    isAMATICCBSCShowed,
+    isAMATICCPolygonShowed,
     isAMATICBPolygonShowed,
+    isAMATICCShowed,
     isAETHBBridgedShowed,
     isADOTBShowed,
     isAKSMBShowed,
@@ -75,11 +81,17 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
               <UnclaimedWND />
             )}
 
-            {isMATICShowed && <StakedMatic />}
+            {isMATICShowed && <StakedAMATICB />}
 
             {isAMATICBPolygonShowed && <StakedBridgeMatic />}
 
             {isAMATICBBSCShowed && <StakedBridgeAMATICBBSC />}
+
+            {isAMATICCBSCShowed && <StakedBridgeAMATICCBSC />}
+
+            {isAMATICCPolygonShowed && <StakedBridgeAMATICCPolygon />}
+
+            {isAMATICCShowed && <StakedAMATICC />}
 
             {isAETHBBridgedShowed && <StakedBridgeAETHB />}
 

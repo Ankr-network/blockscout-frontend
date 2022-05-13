@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
@@ -50,7 +50,7 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(
         async chainId =>
           sdk.lockShares({
             chainId: chainId as AvailableSwitchNetwork,
@@ -69,15 +69,13 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchain,
-        BlockchainNetworkId.smartchainTestnet,
-      ].map(async chainId =>
-        sdk.lockShares({
-          chainId: chainId as AvailableSwitchNetwork,
-          amount: new BigNumber(1),
-          token: Token.aBNBc,
-        }),
+      [EEthereumNetworkId.smartchain, EEthereumNetworkId.smartchainTestnet].map(
+        async chainId =>
+          sdk.lockShares({
+            chainId: chainId as AvailableSwitchNetwork,
+            amount: new BigNumber(1),
+            token: Token.aBNBc,
+          }),
       ),
     );
 
@@ -90,7 +88,7 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(
         async chainId =>
           sdk.lockShares({
             chainId: chainId as AvailableSwitchNetwork,
@@ -109,7 +107,7 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         async chainId =>
           sdk.lockShares({
             chainId: chainId as AvailableSwitchNetwork,

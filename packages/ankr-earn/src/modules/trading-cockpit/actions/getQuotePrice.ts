@@ -1,7 +1,7 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 import {
   IGetQuotePriceParams,
@@ -58,7 +58,7 @@ export const getQuotePrice = createAction<
   (
     {
       exChange = '1inch',
-      chainId = BlockchainNetworkId.mainnet,
+      chainId = EEthereumNetworkId.mainnet,
       fromToken,
       toToken,
       amount,

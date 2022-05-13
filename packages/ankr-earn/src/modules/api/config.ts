@@ -27,6 +27,7 @@ export interface IBinanceConfig {
   aBNBbToken: string;
   aBNBcToken: string;
   aMATICbToken: string;
+  aMATICcToken: string;
   aETHbToken: string;
   aETHcToken: string;
   binancePool: string;
@@ -51,6 +52,7 @@ interface IPolkadotConfig {
 interface IPolygonConfig {
   bridge: string;
   aMATICbToken: string;
+  aMATICcToken: string;
 }
 
 export interface IGatewayConfig {
@@ -77,10 +79,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
-    polygonPool: '0x261f8da3e31712D36aeaef53C8446a052735Ab53',
+    polygonPool: '0xAf2FdE2a233bc2E7B0B8Fa6066aD2df980B6fa67',
     maticToken: '0x499d11E0b6eAC7c0593d8Fb292DCBbF815Fb29Ae',
-    aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
-    aMaticCToken: '0x6E423fa06D06e184B31344Ac07021c765ca4265C',
+    aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
+    aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   avalancheConfig: {
@@ -93,6 +95,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
+    aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
     // todo: add actual dev aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
@@ -113,6 +116,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   polygonConfig: {
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
+    aMATICcToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -127,30 +131,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 };
 
 const GOERLI_CONFIG: IStkrConfig = {
-  ...{
-    contractConfig: {
-      ...LOCAL_CONFIG.contractConfig,
-      ...{
-        polygonPool: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
-        aMaticbToken: '0x655D2DB109f703AA85dB46CB25E90806ddaF64cD',
-      },
-    },
-  },
-  avalancheConfig: {
-    ...LOCAL_CONFIG.avalancheConfig,
-  },
-  binanceConfig: {
-    ...LOCAL_CONFIG.binanceConfig,
-  },
-  fantomConfig: {
-    ...LOCAL_CONFIG.fantomConfig,
-  },
-  polkadotConfig: {
-    ...LOCAL_CONFIG.polkadotConfig,
-  },
-  polygonConfig: {
-    ...LOCAL_CONFIG.polygonConfig,
-  },
+  ...LOCAL_CONFIG,
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
   },
@@ -169,7 +150,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     polygonPool: '0xCfD4B4Bc15C8bF0Fd820B0D4558c725727B3ce89',
     maticToken: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
-    aMaticCToken: '', // TODO: STAKAN-1292 add mainnet contract address
+    aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
   },
   avalancheConfig: {
@@ -182,6 +163,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
+    aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',
     // todo: add actual production aETHc token address
     aETHcToken: ZERO_ADDR,
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
@@ -202,6 +184,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
+    aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

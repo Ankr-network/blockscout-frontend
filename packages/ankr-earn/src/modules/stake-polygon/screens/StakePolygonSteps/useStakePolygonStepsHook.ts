@@ -1,17 +1,19 @@
 import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
+import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import {
   getTxData,
   getTxReceipt,
 } from 'modules/stake-polygon/actions/getTxData';
+import { TMaticSyntToken } from 'modules/stake-polygon/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeMaticStepsHook {
@@ -26,14 +28,15 @@ export interface IStakeMaticStepsHook {
 }
 
 interface IStakeSuccessParams {
+  tokenOut: TMaticSyntToken;
   txHash: string;
-  destination: string;
 }
 
 export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
-  const { txHash } = useParams<IStakeSuccessParams>();
+  const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
+  const { data: stats } = useQuery({ type: fetchStats });
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
@@ -43,6 +46,10 @@ export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
   useProviderEffect(() => {
     dispatchRequest(getTxData({ txHash }));
     dispatchRequest(getTxReceipt({ txHash }));
+
+    if (!stats) {
+      dispatchRequest(fetchStats());
+    }
 
     return () => {
       dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
@@ -56,16 +63,32 @@ export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
   }, [dispatch, receipt]);
 
   const onAddTokenClick = () => {
-    dispatchRequest(addMATICTokenToWallet(Token.aMATICb));
+    dispatchRequest(addMATICTokenToWallet(tokenOut));
   };
+
+  const calculatedAmount = useMemo(() => {
+    const amount = data?.amount;
+    const ratio = stats?.aMATICcRatio;
+
+    if (!amount) {
+      return undefined;
+    }
+
+    const shouldCalcForAbnbc = tokenOut === Token.aMATICc && ratio;
+    if (shouldCalcForAbnbc) {
+      return amount.multipliedBy(ratio);
+    }
+
+    return amount;
+  }, [data?.amount, stats?.aMATICcRatio, tokenOut]);
 
   const isPending = !receipt && !!data?.isPending;
 
   return {
-    amount: data?.amount,
+    amount: calculatedAmount,
     destination: data?.destinationAddress,
     transactionId: txHash,
-    tokenName: Token.aMATICb,
+    tokenName: tokenOut,
     isLoading,
     isPending,
     error: error || txFailError,

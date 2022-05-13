@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
   BSC_NETWORK_BY_ENV,
   STAKING_PATH,
@@ -51,7 +51,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={AVAILABLE_NETWORKS}
           path={RoutesConfig.main.path}
@@ -60,9 +60,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Main />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={AVAILABLE_NETWORKS}
           path={RoutesConfig.success.path}
@@ -71,7 +71,7 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <TransactionStep />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
       </Switch>
     </Route>
   );

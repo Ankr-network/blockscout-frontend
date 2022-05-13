@@ -13,21 +13,43 @@ import { Web3Address } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { setProviderStatus } from '../store/authSlice';
+import { TChainId } from '../types';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+
+type TProvider = Web3KeyWriteProvider | PolkadotProvider | unknown;
 
 type TOnModalClose = () => void;
 
 export interface IConnect {
-  isConnected: boolean;
   address: Web3Address;
   addresses: Address[];
-  chainId: number;
-  chainType: string | null;
+  chainId: TChainId;
+  isConnected: boolean;
   providerId: AvailableWriteProviders;
-  walletName: string;
-  walletId: string;
   walletIcon?: string;
+  walletId: string;
+  walletName: string;
 }
+
+const getAddresses = async (provider: TProvider): Promise<string[]> => {
+  if (provider instanceof PolkadotProvider) {
+    return provider.getAccounts();
+  }
+
+  return [];
+};
+
+const getChainId = (provider: TProvider): TChainId => {
+  if (provider instanceof Web3KeyWriteProvider) {
+    return provider.currentChain;
+  }
+
+  if (provider instanceof PolkadotProvider) {
+    return provider.currentNetworkType ?? null;
+  }
+
+  return null;
+};
 
 export const connect = createAction<
   RequestAction<IConnect, IConnect>,
@@ -37,18 +59,17 @@ export const connect = createAction<
     promise: async (): Promise<IConnect> => {
       const providerManager = ProviderManagerSingleton.getInstance();
       const provider = await providerManager.getProvider(providerId, wallet);
-      const addresses =
-        provider instanceof PolkadotProvider
-          ? await provider.getAccounts()
-          : [];
-      const chainId =
-        provider instanceof Web3KeyWriteProvider ? provider.currentChain : 0;
-      const chainType =
-        provider instanceof PolkadotProvider
-          ? provider.currentNetworkType ?? null
-          : null;
+
+      const address = provider.currentAccount ?? '';
+      const addresses = await getAddresses(provider);
+      const chainId = getChainId(provider);
       const isConnected = provider.isConnected();
-      const { icon, name: walletName, id: walletId } = provider.getWalletMeta();
+
+      const {
+        icon: walletIcon,
+        id: walletId,
+        name: walletName,
+      } = provider.getWalletMeta();
 
       if (isConnected && typeof onModalClose === 'function') {
         onModalClose();
@@ -59,15 +80,14 @@ export const connect = createAction<
       }
 
       return {
-        isConnected,
-        address: provider.currentAccount ?? '',
+        address,
         addresses,
         chainId,
-        chainType,
+        isConnected,
         providerId,
-        walletName,
+        walletIcon,
         walletId,
-        walletIcon: icon,
+        walletName,
       };
     },
   },
@@ -75,7 +95,6 @@ export const connect = createAction<
     asMutation: false,
     showNotificationOnError: true,
     requestKey: getAuthRequestKey(providerId),
-    getData: data => data,
     onRequest: withStore,
     onSuccess: (
       response: { data: IConnect },

@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
@@ -48,7 +48,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
@@ -66,15 +66,13 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchainTestnet,
-        BlockchainNetworkId.smartchain,
-      ].map(chainId =>
-        sdk.fetchTxReceipt({
-          chainId: chainId as AvailableSwitchNetwork,
-          txHash: 'hash',
-          token: Token.aBNBb,
-        }),
+      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
+        chainId =>
+          sdk.fetchTxReceipt({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aBNBb,
+          }),
       ),
     );
 
@@ -87,7 +85,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxReceipt({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
@@ -105,7 +103,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         chainId =>
           sdk.fetchTxReceipt({
             chainId: chainId as AvailableSwitchNetwork,

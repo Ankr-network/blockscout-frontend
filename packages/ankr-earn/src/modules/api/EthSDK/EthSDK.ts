@@ -6,7 +6,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   ProviderManager,
   Web3KeyReadProvider,
@@ -162,7 +162,7 @@ export class EthSDK implements ISwitcher {
   }
 
   private getIsEthChain(): boolean {
-    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
       this.writeProvider.currentChain,
     );
   }

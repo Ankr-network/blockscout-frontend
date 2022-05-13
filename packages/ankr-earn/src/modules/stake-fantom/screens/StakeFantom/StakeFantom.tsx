@@ -9,6 +9,7 @@ import {
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
+  FTM_AUDIT_LINK,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -124,6 +125,7 @@ export const StakeFantom = (): JSX.Element => {
         )}
 
         <StakeForm
+          auditLink={FTM_AUDIT_LINK}
           balance={balance}
           isBalanceLoading={hasError || isCommonDataLoading}
           isMaxBtnShowed={false}

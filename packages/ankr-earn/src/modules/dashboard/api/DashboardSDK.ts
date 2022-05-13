@@ -2,7 +2,7 @@ import { BigNumber } from 'bignumber.js';
 
 import {
   AvailableReadProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   Web3KeyWriteProvider,
 } from 'provider';
 
@@ -23,6 +23,7 @@ import ABI_ERC20 from '../../api/contract/IERC20.json';
 import AFTMB_ABI from '../../stake-fantom/api/contracts/aFTMb.json';
 import AFTMC_ABI from '../../stake-fantom/api/contracts/aFTMc.json';
 import AMATICB_ABI from '../../stake-polygon/api/contracts/aMATICb.json';
+import AMATICC_ABI from '../../stake-polygon/api/contracts/aMATICc.json';
 
 const config = configFromEnv();
 
@@ -50,6 +51,12 @@ export const addressMapForTokenBSC: {
     address: config.binanceConfig.aETHbToken,
     providerName: BSC_PROVIDER_BY_ENV,
   },
+
+  [Token.aMATICc]: {
+    abi: AMATICC_ABI,
+    address: config.binanceConfig.aMATICcToken,
+    providerName: BSC_PROVIDER_BY_ENV,
+  },
 };
 
 export const addressMapForTokenGoerli: {
@@ -74,6 +81,12 @@ export const addressMapForTokenPolygon: {
   [Token.aMATICb]: {
     abi: AMATICB_ABI,
     address: config.polygonConfig.aMATICbToken,
+    providerName: POLYGON_PROVIDER_BY_ENV,
+  },
+
+  [Token.aMATICc]: {
+    abi: AMATICC_ABI,
+    address: config.polygonConfig.aMATICcToken,
     providerName: POLYGON_PROVIDER_BY_ENV,
   },
 };
@@ -125,7 +138,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): Promise<BigNumber> {
     const { abi, address, providerName } = this.getContractDataForToken({
       token,
@@ -154,7 +167,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): IDashboardSDKCotractData {
     const EMPTY = {
       abi: ABI_ERC20,
@@ -163,22 +176,22 @@ export class DashboardSDK {
     };
 
     switch (networkID) {
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain: {
+      case EEthereumNetworkId.smartchainTestnet:
+      case EEthereumNetworkId.smartchain: {
         return addressMapForTokenBSC[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet: {
+      case EEthereumNetworkId.goerli:
+      case EEthereumNetworkId.mainnet: {
         return addressMapForTokenGoerli[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.polygon: {
+      case EEthereumNetworkId.polygon: {
         return addressMapForTokenPolygon[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.fantom:
-      case BlockchainNetworkId.fantomTestnet: {
+      case EEthereumNetworkId.fantom:
+      case EEthereumNetworkId.fantomTestnet: {
         return addressMapForTokenFantom[token] || EMPTY;
       }
 

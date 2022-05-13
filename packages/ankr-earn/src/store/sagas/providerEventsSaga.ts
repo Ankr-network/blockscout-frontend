@@ -36,11 +36,11 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';
 import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';
-import { updateConnectedNetwork } from 'modules/auth/common/actions/updateConnectedNetwork';
 import {
   IProviderStatus,
   selectEthProviderData,
 } from 'modules/auth/common/store/authSlice';
+import { updateConnectedNetwork } from 'modules/auth/eth/actions/updateConnectedNetwork';
 
 interface IListenProviderWeb3EventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
@@ -56,8 +56,6 @@ interface IConnectSuccessAction {
 }
 
 const connectAction: string = connect.toString();
-
-const ATTEMPT_TO_CONNECT_ERROR_CODE = 1013;
 
 const createWeb3EventsChannel = (web3: Web3) =>
   eventChannel(emitter => {
@@ -176,7 +174,7 @@ function* listenProviderWeb3Events({
         }
 
         case ProviderEvents.Disconnect: {
-          if (event.error.code !== ATTEMPT_TO_CONNECT_ERROR_CODE) {
+          if (disconnect) {
             yield put(disconnect(providerId));
           }
           break;

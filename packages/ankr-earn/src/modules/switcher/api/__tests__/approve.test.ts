@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
@@ -60,7 +60,7 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.approve({
           chainId: chainId as AvailableSwitchNetwork,
           token: Token.aETHb,
@@ -77,14 +77,12 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchain,
-        BlockchainNetworkId.smartchainTestnet,
-      ].map(chainId =>
-        sdk.approve({
-          chainId: chainId as AvailableSwitchNetwork,
-          token: Token.aBNBb,
-        }),
+      [EEthereumNetworkId.smartchain, EEthereumNetworkId.smartchainTestnet].map(
+        chainId =>
+          sdk.approve({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aBNBb,
+          }),
       ),
     );
 
@@ -97,7 +95,7 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.approve({
           chainId: chainId as AvailableSwitchNetwork,
           token: Token.aMATICc,
@@ -114,7 +112,7 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     const sdk = await SwitcherSDK.getInstance();
 
     const results = await Promise.all(
-      [BlockchainNetworkId.fantom, BlockchainNetworkId.fantomTestnet].map(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
         chainId =>
           sdk.approve({
             chainId: chainId as AvailableSwitchNetwork,

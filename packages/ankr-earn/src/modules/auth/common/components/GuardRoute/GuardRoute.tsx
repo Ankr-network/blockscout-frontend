@@ -4,62 +4,70 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { Connect } from 'modules/auth/common/components/Connect';
-import { BlockchainNetworkId } from 'modules/common/types';
-import { t } from 'modules/i18n/utils/intl';
+import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
+import { IConnect } from '../../actions/connect';
+import { Connect } from '../Connect';
 import { ConnectWalletsModal } from '../ConnectWalletsModal';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
 import { UnsupportedNetwork } from '../UnsupportedNetwork';
 
-import { useGuardRoute } from './useGuardRoute';
-import { useKnownNetworks } from './useKnownNetworks';
+import { INetworkItem, TNetworkId } from './types';
 
-interface IGuardRouteProps extends RouteProps {
+interface IGuardRouteProps<
+  NetworkId extends TNetworkId,
+  SupportedNetworkItem extends INetworkItem<NetworkId>,
+> extends RouteProps {
+  availableNetworks: NetworkId[];
+  currentNetwork?: string;
+  infoTxt?: string;
+  isConnected: boolean;
+  isLoading: boolean;
+  isOpenConnectInstantly?: boolean;
+  isOpenedModal: boolean;
+  isUnsupportedNetwork: boolean;
+  isValidWallet: boolean;
   providerId: AvailableWriteProviders;
-  openConnectInstantly?: boolean;
-  availableNetworks: BlockchainNetworkId[];
+  supportedNetworks: SupportedNetworkItem[];
+  walletsGroupTypes?: AvailableWriteProviders[];
+  onCloseModal: () => void;
+  onDispatchConnect: () => TActionPromise<IConnect>;
+  onOpenModal: () => void;
+  onSwitchNetwork: (network: NetworkId) => () => void;
 }
 
-export const GuardRoute = ({
-  providerId,
+export const GuardRoute = <
+  NetworkId extends TNetworkId,
+  SupportedNetworkItem extends INetworkItem<NetworkId>,
+>({
   availableNetworks,
-  openConnectInstantly,
+  currentNetwork,
+  infoTxt,
+  isConnected,
+  isLoading,
+  isOpenConnectInstantly,
+  isOpenedModal,
+  isUnsupportedNetwork,
+  isValidWallet,
+  providerId,
+  supportedNetworks,
+  walletsGroupTypes,
+  onCloseModal,
+  onDispatchConnect,
+  onOpenModal,
+  onSwitchNetwork,
   ...routeProps
-}: IGuardRouteProps): JSX.Element => {
-  const {
-    isConnected,
-    isLoading,
-    isOpenedModal,
-    isUnsupportedNetwork,
-    supportedNetworks,
-    chainId,
-    isValidWallet,
-    dispatchConnect,
-    handleSwitchNetwork,
-    walletsGroupTypes,
-    onCloseModal,
-    onOpenModal,
-  } = useGuardRoute({
-    providerId,
-    availableNetworks,
-  });
-
-  const knownNetworks = useKnownNetworks();
-
+}: IGuardRouteProps<NetworkId, SupportedNetworkItem>): JSX.Element => {
   useEffect(() => {
-    if (!isConnected && openConnectInstantly) dispatchConnect();
-  }, [openConnectInstantly, isConnected, dispatchConnect]);
+    if (!isConnected && isOpenConnectInstantly) {
+      onDispatchConnect();
+    }
+  }, [isConnected, isOpenConnectInstantly, onDispatchConnect]);
 
   if (isUnsupportedNetwork) {
-    const currentNetwork =
-      typeof chainId === 'number' && knownNetworks[chainId]
-        ? knownNetworks[chainId]
-        : t('connect.current');
-
     const renderedNetworkItems = supportedNetworks.map(
       ({ icon, title, chainId: network }) => (
         <NetworkSelectorItem
@@ -67,7 +75,7 @@ export const GuardRoute = ({
           disabled={!isValidWallet}
           iconSlot={icon}
           title={title}
-          onClick={handleSwitchNetwork(network)}
+          onClick={onSwitchNetwork(network)}
         />
       ),
     );
@@ -78,6 +86,7 @@ export const GuardRoute = ({
           <Container maxWidth="640px">
             <UnsupportedNetwork
               currentNetwork={currentNetwork}
+              infoTxt={infoTxt}
               networksSlot={
                 <NetworkSelector>
                   {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}

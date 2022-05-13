@@ -5,6 +5,8 @@ import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
+import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -47,6 +49,8 @@ export const useDashboard = (): void => {
         getFTMHistory.toString(),
         getTxHistoryETH.toString(),
         fetchValidatorsDetails.toString(),
+        fetchAMATICCBridgedBSC.toString(),
+        fetchAMATICCBridgedPolygon.toString(),
       ]),
     );
 
@@ -56,6 +60,8 @@ export const useDashboard = (): void => {
     dispatch(fetchPolygonStats());
     dispatch(fetchAMATICBBridged());
     dispatch(fetchAMATICBBridgedBSC());
+    dispatch(fetchAMATICCBridgedBSC());
+    dispatch(fetchAMATICCBridgedPolygon());
     dispatch(fetchAETHBBridged());
     dispatch(fetchValidatorsDetails());
     dispatch(fetchPolygonAPY());

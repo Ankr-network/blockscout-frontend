@@ -4,15 +4,17 @@
   "license": "MIT",
   "main": "./index.ts",
   "scripts": {
-    "copy-assets": "copyfiles src/assets/**/* out",
-    "format": "lint-staged",
-    "test": "tsc && npm run copy-assets && jest",
+    "_copy-assets": "copyfiles src/assets/**/* out",
+    "_test-clean": "rimraf out ./index.js ./src/**/*.js",
     "build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build",
-    "clean": "rimraf build output"
+    "clean": "rimraf build output",
+    "format": "lint-staged",
+    "test": "npm run _test-clean && tsc && npm run _copy-assets && jest"
   },
   "dependencies": {
     "@polkadot/api": "^6.12.1",
     "@polkadot/extension-dapp": "^0.40.3",
+    "@polkadot/extension-inject": "^0.40.4",
     "@polkadot/types": "^6.12.1",
     "@polkadot/util": "^8.2.2",
     "@polkadot/util-crypto": "^8.2.2",

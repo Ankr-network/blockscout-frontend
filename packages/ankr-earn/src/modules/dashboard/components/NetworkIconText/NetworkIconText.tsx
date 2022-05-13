@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import { t } from 'modules/i18n/utils/intl';
@@ -15,6 +15,7 @@ import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -38,6 +39,7 @@ type TIconMap = Record<
   | Token.aFTMc
   | Token.aKSMb
   | Token.aMATICb
+  | Token.aMATICc
   | Token.aWNDb
   | Token.DOT
   | Token.KSM
@@ -47,7 +49,7 @@ type TIconMap = Record<
 >;
 
 type TNetworkIconMap = {
-  [chainID in BlockchainNetworkId]?: MemoExoticComponent<
+  [chainID in EEthereumNetworkId]?: MemoExoticComponent<
     ForwardRefExoticComponent<ISvgIconProps>
   >;
 };
@@ -63,6 +65,7 @@ const iconByTokenMap: TIconMap = {
   [Token.aFTMc]: AFTMCIcon,
   [Token.aKSMb]: AKSMBIcon,
   [Token.aMATICb]: AMATICBIcon,
+  [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
   [Token.DOT]: DotIcon,
   [Token.KSM]: KsmIcon,
@@ -84,7 +87,7 @@ const iconByNetworkMap: TNetworkIconMap = {
 };
 
 interface INetworkIconTextProps {
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   isLoading?: boolean;
   /**
    * Please use chainId prop.

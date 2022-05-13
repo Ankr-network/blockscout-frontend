@@ -9,21 +9,17 @@ import { AVAILABLE_WALLETS_GROUP_TYPES } from '../components/ConnectWalletsModal
 import { selectProvidersData, selectQueriesData } from '../store/authSlice';
 import { getFullAuthRequestKey } from '../utils/getAuthRequestKey';
 
-export type TConnectData = IConnect | null;
+type TConnectData = IConnect | null;
+type TConnectedProvidersData = IConnect[] | null;
 
 interface IUseWalletsGroupTypesProps {
-  preProcessingFn?: (
-    providerKey: AvailableWriteProviders,
-    data: TConnectData,
-  ) => void;
-  postProcessingFn?: (
-    providerKey: AvailableWriteProviders,
-    data: IConnect,
-  ) => void;
+  writeProviderId?: AvailableWriteProviders;
 }
 
 interface IUseWalletsGroupTypesData {
+  connectedProvidersData: TConnectedProvidersData;
   walletsGroupTypes?: AvailableWriteProviders[];
+  writeProviderData: TConnectData;
 }
 
 interface IQueryData {
@@ -42,9 +38,8 @@ const getConnectData = (
 };
 
 export const useWalletsGroupTypes = ({
-  preProcessingFn,
-  postProcessingFn,
-}: IUseWalletsGroupTypesProps): IUseWalletsGroupTypesData => {
+  writeProviderId,
+}: IUseWalletsGroupTypesProps = {}): IUseWalletsGroupTypesData => {
   const providersData = useAppSelector(selectProvidersData);
   const queriesData: IQueryData = useAppSelector(selectQueriesData);
 
@@ -54,12 +49,15 @@ export const useWalletsGroupTypes = ({
     providerName => providerName !== PERSIST_DEFAULT_KEY,
   );
 
+  let connectedProvidersData: TConnectedProvidersData = null;
+  let writeProviderData: TConnectData = null;
+
   for (let i = 0; i < providersDataKeys.length; i += 1) {
     const providerKey = providersDataKeys[i] as AvailableWriteProviders;
     const data = getConnectData(queriesData, providerKey);
 
-    if (typeof preProcessingFn === 'function') {
-      preProcessingFn(providerKey, data);
+    if (providerKey === writeProviderId) {
+      writeProviderData = data;
     }
 
     if (data === null || !data.isConnected) {
@@ -67,9 +65,10 @@ export const useWalletsGroupTypes = ({
       continue;
     }
 
-    if (typeof postProcessingFn === 'function') {
-      postProcessingFn(providerKey, data);
-    }
+    connectedProvidersData =
+      connectedProvidersData === null
+        ? [data]
+        : [...connectedProvidersData, data];
 
     walletsGroupTypes.splice(
       walletsGroupTypes.findIndex(groupType => groupType === providerKey),
@@ -81,9 +80,11 @@ export const useWalletsGroupTypes = ({
     AVAILABLE_WALLETS_GROUP_TYPES.length === walletsGroupTypes.length;
 
   return {
+    connectedProvidersData,
     walletsGroupTypes:
       isFullWalletsGroupTypes || !walletsGroupTypes.length
         ? undefined
         : walletsGroupTypes,
+    writeProviderData,
   };
 };
