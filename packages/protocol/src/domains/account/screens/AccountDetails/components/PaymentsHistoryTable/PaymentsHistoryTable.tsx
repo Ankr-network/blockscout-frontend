@@ -22,7 +22,7 @@ export const PaymentsHistoryTable = () => {
   const dispatchRequest = useDispatchRequest();
   const columns = usePaymentHistoryTableColumns();
 
-  const { data, loading, error } = useQuery<IPaymentHistoryReponse>({
+  const { data, error } = useQuery<IPaymentHistoryReponse>({
     type: fetchPaymentHistory,
   });
 
@@ -78,7 +78,6 @@ export const PaymentsHistoryTable = () => {
         onChangePage={handleChangePage}
         onSort={handleChangeSort}
         rows={data?.transactions || []}
-        isLoading={loading && !data}
       />
     </Box>
   );

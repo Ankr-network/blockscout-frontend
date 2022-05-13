@@ -7,13 +7,9 @@ import { useRequestExplorerTableColumns } from './RequestExplorerTableUtils';
 
 export const RequestExplorerTable = ({
   data,
-  isLoading,
   onChangePage,
   onSort,
-}: Pick<
-  VirtualTableProps<IRequestsEntity>,
-  'isLoading' | 'onChangePage' | 'onSort'
-> & {
+}: Pick<VirtualTableProps<IRequestsEntity>, 'onChangePage' | 'onSort'> & {
   data: IRequestsResponse;
 }) => {
   const renderExpand = useCallback(
@@ -38,7 +34,6 @@ export const RequestExplorerTable = ({
       onChangePage={onChangePage}
       onSort={onSort}
       rows={data.requests}
-      isLoading={isLoading}
     />
   );
 };

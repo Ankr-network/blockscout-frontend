@@ -3,7 +3,7 @@ import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
-import { MultiService } from '../../../modules/api/MultiService';
+import { MultiService } from 'modules/api/MultiService';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -32,24 +32,30 @@ export interface IApiChainDetails {
 
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->('chains/fetchChainDetails', (chainId: string, timeframe: Timeframe) => ({
+>('chains/fetchChainDetails', (chainId: string, timeframe: Timeframe, poll?: number) => ({
   request: {
-    promise: (async () => {
-      const { service } = MultiService.getInstance();
-
-      const data = await service.getBlockchainTimeFrameStats(
-        chainId,
-        timeframe,
-      );
-
-      return data;
-    })(),
+    promise: (async () => null)(),
   },
   meta: {
     asMutation: false,
     requestKey: chainId,
     takeLatest: false,
     cache: false,
+    poll,
+    onRequest: () => {
+      return {
+        promise: (async () => {
+          const { service } = MultiService.getInstance();
+          const data = await service.getBlockchainTimeFrameStats(
+            chainId,
+            timeframe,
+          );
+
+          return data;
+        })(),
+      };
+    },
+
     getData: rawData => {
       const data = (() => {
         if ((rawData as any).__content) {

@@ -1,7 +1,10 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { AccountMarkerProps } from './types';
 import { AccountStatus } from 'multirpc-sdk';
+
+type Props = Required<AccountMarkerProps>;
 
 const colorsMap: Record<AccountStatus, string> = {
   [AccountStatus.ACTIVE]: '#3AC090',
@@ -9,7 +12,7 @@ const colorsMap: Record<AccountStatus, string> = {
   [AccountStatus.INACTIVE]: '#D22C54',
 };
 
-export const useStyles = makeStyles<Theme, AccountStatus>(theme => ({
+export const useStyles = makeStyles<Theme, Props>(theme => ({
   accountMarkerRoot: {
     flexShrink: 0,
 
@@ -18,7 +21,7 @@ export const useStyles = makeStyles<Theme, AccountStatus>(theme => ({
 
     borderRadius: '50%',
 
-    backgroundColor: colorsMap[AccountStatus.ACTIVE],
+    backgroundColor: ({ status }) => colorsMap[status],
 
     [theme.breakpoints.down('xs')]: {
       width: theme.spacing(1.25),

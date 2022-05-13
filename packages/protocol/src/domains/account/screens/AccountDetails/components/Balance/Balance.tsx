@@ -3,14 +3,16 @@ import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { Balance as BalanceString } from 'domains/account/components/Balance';
 import { BalanceData } from './types';
 import { CurrencySwitcher } from 'domains/account/components/CurrencySwitcher';
 import { Details } from './Details';
-import { formatBalance, i18nKeyRoot } from './BalanceUtils';
+import { i18nKeyRoot } from './BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './BalanceStyles';
 
 const HAS_WITHDRAW_LINK = false;
+const title = t(`${i18nKeyRoot}.title`);
 
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
@@ -29,7 +31,7 @@ export const Balance = ({
     <>
       <div className={classes.header}>
         <div className={classes.left}>
-          <span className={classes.title}>{t(`${i18nKeyRoot}.title`)}</span>
+          <span className={classes.title}>{title}</span>
           <CurrencySwitcher onSwitch={onCurrencySwitch} />
         </div>
         {HAS_WITHDRAW_LINK && (
@@ -43,7 +45,7 @@ export const Balance = ({
           </Button>
         )}
       </div>
-      <div className={classes.balance}>{formatBalance(balance)}</div>
+      <BalanceString balance={balance} className={classes.balance} />
       <Details
         enoughTime={enoughTime}
         premiumUntil={premiumUntil}

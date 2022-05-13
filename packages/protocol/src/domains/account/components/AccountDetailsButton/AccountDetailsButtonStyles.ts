@@ -28,6 +28,9 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
           fontSize: theme.spacing(2),
           lineHeight: `${theme.spacing(3)}px`,
         },
+  balance: {
+    display: 'inline-block',
+  },
   currency: {
     display: isMobile => (isMobile ? 'none' : ''),
     color: theme.palette.grey[600],

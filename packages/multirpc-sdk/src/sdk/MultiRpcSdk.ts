@@ -180,10 +180,42 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return promise;
   }
 
+  async loginWithIssuedToken(user: Web3Address) {
+    const jwtTokensResponse = await this.getApiGateway().getJwtTokens(user);
+
+    if (!jwtTokensResponse || jwtTokensResponse?.[0].length === 0) {
+      return false;
+    }
+
+    const [jwtTokens] = jwtTokensResponse;
+
+    const sortedTokens = jwtTokens.sort(
+      (a, b) => Number(a.expires_at) - Number(b.expires_at),
+    );
+
+    const firstActiveToken = sortedTokens.find(
+      token => Number(token.expires_at) * 1000000 > Date.now(),
+    );
+
+    if (!firstActiveToken) {
+      return false;
+    }
+
+    const updatedJwtToken = await this.importJwtToken(firstActiveToken);
+
+    return updatedJwtToken;
+  }
+
   async loginAsUser(
     user: Web3Address,
     encryptionKey: Base64,
   ): Promise<IJwtToken | false> {
+    const issuedToken = await this.loginWithIssuedToken(user);
+
+    if (issuedToken) {
+      return issuedToken;
+    }
+
     const premiumToken = await this.loginAsPremium(user, encryptionKey);
 
     if (premiumToken) {

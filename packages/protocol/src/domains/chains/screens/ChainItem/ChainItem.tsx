@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+
 import { useStyles } from './ChainItemStyles';
 import { ChainItemDetails } from './components/ChainItemDetails';
 import { ChainItemHeader } from './components/ChainItemHeader';
@@ -14,15 +15,11 @@ import { ChainBanner } from './components/ChainBanner';
 import { EndpointQuery } from './components/Endpoint/EndpointQuery';
 import { SecuritySettingsQuery } from './components/Endpoint/SecuritySettingsQuery';
 import { useProvider } from 'modules/auth/hooks/useProvider';
-import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { useQuery } from '@redux-requests/react';
 import { TrafficFlow } from './components/Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from 'domains/plan/screens/Dashboard/DashboardUtils';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
 import { t } from 'common';
-
-const ENABLE_CHAIN_NODES_TABLE = true;
 
 interface IChainItemUIProps {
   data: IChainItemDetails;
@@ -36,10 +33,6 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   useChainItemBreadcrumbs(data.chain.name);
 
-  const { loading: isPremiumFeaturesLoading } = useQuery({
-    type: fetchPremiumChainFeatures,
-  });
-
   const { chain, nodes, nodesWeight } = data;
   const {
     timeframe,
@@ -51,6 +44,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
     totalRequestsHistory,
     countries,
     error,
+    data: timeframeData,
   } = useTimeframeData(chainId);
 
   const name = useMemo(() => getChainName(chainId), [chainId]);
@@ -111,7 +105,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         </>
       )}
 
-      {!loading && !isPremiumFeaturesLoading && ENABLE_CHAIN_NODES_TABLE && (
+      {timeframeData && nodes && (
         <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
       )}
     </div>
