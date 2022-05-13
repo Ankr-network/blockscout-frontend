@@ -45,6 +45,8 @@ import {
   AccountGateway,
   IAccountGateway,
   IBalance,
+  IDailyChargingParams,
+  IDailyChargingReponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
 } from '../account';
@@ -655,6 +657,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     params: IPaymentHistoryRequest,
   ): Promise<IPaymentHistoryReponse> {
     return this.getAccountGateway().getPaymentHistory(params);
+  }
+
+  async getDailyCharging(
+    params: IDailyChargingParams,
+  ): Promise<IDailyChargingReponse> {
+    return this.getAccountGateway().getDailyCharging(params);
   }
 
   async getAnkrBalance(): Promise<IBalance> {

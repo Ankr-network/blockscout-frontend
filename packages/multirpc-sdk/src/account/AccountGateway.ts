@@ -7,6 +7,8 @@ import {
   IPaymentHistoryRequest,
   IRequestsResponse,
   IRequestsRequest,
+  IDailyChargingParams,
+  IDailyChargingReponse,
 } from './types';
 import { IAccountGateway } from './interfaces';
 import { getRequestsMock } from '../mock/getRequestsMock';
@@ -66,6 +68,19 @@ export class AccountGateway implements IAccountGateway {
           cursor: params.cursor > 50 ? -1 : params.cursor,
         },
       }));
+
+    return response;
+  }
+
+  public async getDailyCharging(
+    params: IDailyChargingParams,
+  ): Promise<IDailyChargingReponse> {
+    const { data: response } = await this.api.get<IDailyChargingReponse>(
+      '/api/v1/auth/oneDayUsageReport',
+      {
+        params,
+      },
+    );
 
     return response;
   }

@@ -507,7 +507,8 @@
         "col-2": "Payment type",
         "col-3": "Amount USD",
         "col-4": "Amount ANKR"
-      }
+      },
+      "csv-title": "Payment charging for {month} {day}, {year}"
     },
     "top-up": {
       "breadcrumbs": "Top Up",

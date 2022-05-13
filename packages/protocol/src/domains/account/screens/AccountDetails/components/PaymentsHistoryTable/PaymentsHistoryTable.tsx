@@ -1,26 +1,54 @@
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { format } from 'date-fns';
+import React, { useCallback } from 'react';
+
 import { t } from 'common';
+import { fetchDailyCharging } from 'domains/account/actions/fetchDailyCharging';
 import {
   fetchPaymentHistory,
   fetchPaymentHistoryMore,
 } from 'domains/account/actions/fetchPaymentHistory';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { downloadCsv } from 'modules/common/utils/downloadCsv';
 import { IPaymentHistoryReponse } from 'multirpc-sdk';
-import React, { useCallback } from 'react';
 import { VirtualTable, VirtualTableQuery } from 'ui';
 import {
   PaymentHistoryDefaultParams,
   PAYMENT_HISTORY_PAGE_SIZE,
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
+  prepareDailyChargingRequest,
 } from './PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
 
 export const PaymentsHistoryTable = () => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
-  const columns = usePaymentHistoryTableColumns();
+
+  const handleDownloadTransaction = useCallback(
+    async (timestamp: string) => {
+      const query = prepareDailyChargingRequest(timestamp);
+
+      const { data } = await dispatchRequest(fetchDailyCharging(query));
+
+      if (data) {
+        const date = new Date(Number(timestamp));
+
+        downloadCsv(
+          data,
+          t('account.payment-table.csv-title', {
+            month: format(date, 'LLLL'),
+            day: format(date, 'dd'),
+            year: format(date, 'yyyy'),
+          }),
+        );
+      }
+    },
+    [dispatchRequest],
+  );
+
+  const columns = usePaymentHistoryTableColumns(handleDownloadTransaction);
 
   const { data, error } = useQuery<IPaymentHistoryReponse>({
     type: fetchPaymentHistory,

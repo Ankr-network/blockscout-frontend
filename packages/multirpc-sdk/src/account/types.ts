@@ -56,3 +56,9 @@ export interface IRequestsResponse {
   requests: IRequestsEntity[];
   cursor: number;
 }
+
+export interface IDailyChargingParams {
+  day_offset: number;
+}
+
+export type IDailyChargingReponse = string;

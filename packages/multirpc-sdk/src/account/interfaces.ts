@@ -1,5 +1,7 @@
 import {
   IBalance,
+  IDailyChargingParams,
+  IDailyChargingReponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
@@ -18,4 +20,8 @@ export interface IAccountGateway {
   ): Promise<IPaymentHistoryReponse>;
 
   getRequests(params: IRequestsRequest): Promise<IRequestsResponse>;
+
+  getDailyCharging(
+    params: IDailyChargingParams,
+  ): Promise<IDailyChargingReponse>;
 }

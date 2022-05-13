@@ -1,10 +1,17 @@
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { ClassNameMap } from '@material-ui/styles';
+import {
+  IPaymentHistoryEntity,
+  IPaymentHistoryEntityType,
+  IDailyChargingParams,
+} from 'multirpc-sdk';
+
 import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
 import { VirtualTableColumn, VirtualTableQuery } from 'ui';
 import { useStyles } from './useStyles';
+import { ArrowTopRightIcon } from 'uiKit/Icons/ArrowTopRightIcon';
 
 export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_UNKNOWN: 'Unknown',
@@ -101,7 +108,33 @@ export const formatPaymentHistoryAmount = (
   return value.toFormat(decimalPlaces, 0);
 };
 
-export const usePaymentHistoryTableColumns = () => {
+const MS_IN_DAY = 3_600_000 * 24;
+const MS_IN_WEEK = 7 * MS_IN_DAY;
+
+const renderDeductionPayment = (
+  type: IPaymentHistoryEntityType,
+  timestamp: string,
+  downloadTransaction: (timestamp: string) => void,
+  classes: ClassNameMap<string>,
+) => {
+  const canDownload = Number(timestamp) > Date.now() - MS_IN_WEEK;
+
+  return (
+    <span
+      onClick={() => (canDownload ? downloadTransaction(timestamp) : null)}
+      role="button"
+      tabIndex={0}
+      className={classNames(classes.transaction, {
+        [classes.cellDownload]: canDownload,
+      })}
+    >
+      {PAYMENT_HISTORY_TYPE[type] || type}{' '}
+      {canDownload && <ArrowTopRightIcon className={classes.arrowIcon} />}
+    </span>
+  );
+};
+
+export const usePaymentHistoryTableColumns = (downloadTransaction: any) => {
   const classes = useStyles();
 
   return useLocaleMemo(
@@ -121,7 +154,18 @@ export const usePaymentHistoryTableColumns = () => {
         {
           field: 'type',
           headerName: t('account.payment-table.head.col-2'),
-          render: ({ type }) => PAYMENT_HISTORY_TYPE[type] || type,
+          render: ({ type, timestamp }) => {
+            if (type === 'TRANSACTION_TYPE_DEDUCTION') {
+              return renderDeductionPayment(
+                type,
+                timestamp,
+                downloadTransaction,
+                classes,
+              );
+            }
+
+            return PAYMENT_HISTORY_TYPE[type] || type;
+          },
           align: 'left',
           sortable: true,
         },
@@ -178,4 +222,15 @@ export const usePaymentHistoryTableColumns = () => {
       ] as VirtualTableColumn<IPaymentHistoryEntity>[],
     [],
   );
+};
+
+export const prepareDailyChargingRequest = (
+  timestamp: string,
+): IDailyChargingParams => {
+  const currentDate = new Date().getDate();
+  const timestampDate = new Date(Number(timestamp)).getDate();
+
+  return {
+    day_offset: currentDate - timestampDate,
+  };
 };
