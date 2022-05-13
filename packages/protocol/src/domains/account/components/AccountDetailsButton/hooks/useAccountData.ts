@@ -13,12 +13,14 @@ export interface AccountData {
 }
 
 export const useAccountData = (): AccountData => {
-  const { account, isConnected } = useAuth();
+  const { isConnected, isConnecting } = useAuth();
+
   const { ankrBalance: balance, isLoading: isBalanceLoading } =
     useBalance(isConnected);
-  const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
 
-  const isLoading = isBalanceLoading || isStatusLoading;
+  const status = useAccountStatus({ balance });
+
+  const isLoading = isBalanceLoading || isConnecting;
 
   return { status, balance, isLoading, isVisible: isConnected };
 };

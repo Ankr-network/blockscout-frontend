@@ -4,8 +4,9 @@ import BigNumber from 'bignumber.js';
 import { AccountMarker } from 'domains/account/components/AccountMarker';
 import { AccountStatus, Tier } from 'multirpc-sdk';
 import { EnoughTime } from '../types';
-import { formatNumber, i18nKeyRoot } from '../BalanceUtils';
+import { formatBalance } from 'domains/account/utils/formatBalance';
 import { getDescriptionGetter } from './DetailsUtils';
+import { i18nKeyRoot } from '../BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './DetailsStyles';
@@ -31,7 +32,7 @@ export const Details = ({
 
   const usdBalance = isPremium
     ? t(`${i18nKeyRoot}.description.premium.text`, { date: premiumUntil })
-    : `~$${formatNumber(_usdBalance)}`;
+    : `~$${formatBalance(_usdBalance)}`;
 
   const description = getDescriptionGetter(tier)({ enoughTime });
   const details = (

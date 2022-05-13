@@ -457,6 +457,7 @@
       "ankr": "ANKR",
       "credit": "Credits"
     },
+    "balance": "{balance, number, ::compact-short}",
     "account-details": {
       "breadcrumbs": "Account Details",
       "title": "Account Details",
@@ -472,7 +473,6 @@
         "withdrawButton": {
           "title": "Withdraw"
         },
-        "balance": "{balance, number, ::compact-short}",
         "description": {
           "premium": {
             "text": "Your premium subscription is active till {date, time, ::dMMMy}.",

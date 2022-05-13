@@ -3,6 +3,7 @@ import { Link, LinkProps } from 'react-router-dom';
 
 import { AccountMarker } from '../AccountMarker';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { Balance } from '../Balance';
 import { LoadableButton } from 'uiKit/LoadableButton';
 import { useAccountData } from './hooks/useAccountData';
 import { useStyles } from './AccountDetailsButtonStyles';
@@ -29,7 +30,7 @@ export const AccountDetailsButton = ({
       <div className={classes.content}>
         <AccountMarker status={status} />
         <span className={classes.label}>
-          <span className={classes.balance}>{balance.toFormat()}</span>
+          <Balance balance={balance} className={classes.balance} />
           <span className={classes.currency}> ANKR</span>
         </span>
       </div>

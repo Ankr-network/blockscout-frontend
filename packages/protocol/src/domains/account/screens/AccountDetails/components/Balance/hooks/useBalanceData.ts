@@ -23,16 +23,12 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { account, isConnected, isConnecting, premiumUntil, tier } = useAuth();
+  const { isConnected, isConnecting, premiumUntil, tier } = useAuth();
   const [currency, setCurrency] = useState(Currency.ANKR);
 
-  const {
-    isLoading: areBalancesLoading,
-    usdBalance,
-    ...balance
-  } = useBalance(isConnected);
+  const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
 
-  const [status, isStatusLoading] = useAccountStatus({ account, isConnected });
+  const status = useAccountStatus({ balance: balance.ankrBalance });
 
   const onCurrencySwitch = useCallback((currency_: Currency) => {
     setCurrency(currency_);
@@ -41,7 +37,7 @@ export const useBalanceData = (): BalanceData => {
   return {
     balance: balance[balancesMap[currency]],
     enoughTime,
-    isLoading: isConnecting || areBalancesLoading || isStatusLoading,
+    isLoading: isConnecting || isLoading,
     onCurrencySwitch,
     premiumUntil,
     status,
