@@ -1,50 +1,34 @@
-import { EnoughTime, EnoughTimePeriod } from '../types';
-import { Tier } from 'multirpc-sdk';
+import BigNumber from 'bignumber.js';
+
+import { AccountStatus } from 'multirpc-sdk';
+import { formatBalance } from 'domains/account/utils/formatBalance';
 import { i18nKeyRoot } from '../BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 
-export interface DescriptionGetterParams {
-  enoughTime?: EnoughTime;
+export interface GetDescriptionsParams {
+  premiumUntil?: Date;
+  status: AccountStatus;
+  usdBalance: BigNumber;
 }
 
-export type DescriptionGetter = (params: DescriptionGetterParams) => string;
+const root = `${i18nKeyRoot}.descriptions`;
 
-const periodsMap: Record<EnoughTimePeriod, string> = {
-  [EnoughTimePeriod.Day]: t(`${i18nKeyRoot}.description.served.periods.day`),
-  [EnoughTimePeriod.Month]: t(
-    `${i18nKeyRoot}.description.served.periods.month`,
-  ),
-  [EnoughTimePeriod.Year]: t(`${i18nKeyRoot}.description.served.periods.year`),
-};
+const getPremiumDescription = (date: Date) =>
+  t(`${root}.premium.main`, { date });
 
-const getPremiumDescription: DescriptionGetter = () =>
-  t(`${i18nKeyRoot}.description.premium.additional`);
+const getPremiumExtraDescription = () => t(`${root}.premium.extra`);
 
-const getPAYGDescription: DescriptionGetter = ({ enoughTime }) => {
-  if (!enoughTime) {
-    return '';
-  }
+const getUsdBalance = (usd: BigNumber) =>
+  usd.gt(0) ? `~$${formatBalance(usd)}` : '';
 
-  return t(`${i18nKeyRoot}.description.served.text`, {
-    quantifier: t(
-      `${i18nKeyRoot}.description.served.quantifiers.approximately`,
-    ),
-    value: enoughTime.value,
-    period: periodsMap[enoughTime.period],
-    plural:
-      enoughTime.value > 1
-        ? t(`${i18nKeyRoot}.description.served.periods.plural`)
-        : '',
-  });
-};
+const getPAYGExtraDescription = (status: AccountStatus) =>
+  status === AccountStatus.INACTIVE ? t(`${root}.payg.extra`) : '';
 
-const getDefaultDescription: DescriptionGetter = () =>
-  t(`${i18nKeyRoot}.description.unserved.text`);
-
-const tierToDescriptionMap: Record<Tier, DescriptionGetter> = {
-  [Tier.Premium]: getPremiumDescription,
-  [Tier.PAYG]: getPAYGDescription,
-};
-
-export const getDescriptionGetter = (tier?: Tier) =>
-  tier ? tierToDescriptionMap[tier] : getDefaultDescription;
+export const getDescriptions = ({
+  premiumUntil,
+  status,
+  usdBalance,
+}: GetDescriptionsParams): [string, string] =>
+  premiumUntil
+    ? [getPremiumDescription(premiumUntil), getPremiumExtraDescription()]
+    : [getUsdBalance(usdBalance), getPAYGExtraDescription(status)];

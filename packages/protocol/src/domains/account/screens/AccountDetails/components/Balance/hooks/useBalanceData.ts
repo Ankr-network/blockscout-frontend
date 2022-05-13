@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { Balance } from 'domains/account/actions/balance/types';
-import { BalanceData, EnoughTime, EnoughTimePeriod } from '../types';
+import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
 import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
@@ -12,18 +12,13 @@ type BalanceMap = Record<
   keyof Omit<Balance, 'isLoading' | 'usdBalance'>
 >;
 
-const enoughTime: EnoughTime = {
-  period: EnoughTimePeriod.Day,
-  value: 25,
-};
-
 const balancesMap: BalanceMap = {
   [Currency.ANKR]: 'ankrBalance',
   [Currency.CREDIT]: 'creditBalance',
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, premiumUntil, tier } = useAuth();
+  const { isConnected, isConnecting, premiumUntil } = useAuth();
   const [currency, setCurrency] = useState(Currency.ANKR);
 
   const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
@@ -36,12 +31,10 @@ export const useBalanceData = (): BalanceData => {
 
   return {
     balance: balance[balancesMap[currency]],
-    enoughTime,
     isLoading: isConnecting || isLoading,
     onCurrencySwitch,
     premiumUntil,
     status,
-    tier,
     usdBalance,
   };
 };

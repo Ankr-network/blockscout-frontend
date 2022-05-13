@@ -26,13 +26,13 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
   marker: {
     marginTop: 2,
   },
-  usdBalance: {
+  description: {
     fontWeight: 700,
   },
-  description: {
+  extraDescription: {
     fontWeight: 400,
   },
-  details: {
+  descriptions: {
     display: 'flex',
     flexDirection: 'column',
   },

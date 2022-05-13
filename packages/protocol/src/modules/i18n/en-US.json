@@ -473,27 +473,13 @@
         "withdrawButton": {
           "title": "Withdraw"
         },
-        "description": {
+        "descriptions": {
           "premium": {
-            "text": "Your premium subscription is active till {date, time, ::dMMMy}.",
-            "additional": "Then you'll have to Top Up your balance to continue using premium features."
+            "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
+            "extra": "Then you'll have to Top Up your balance to continue using premium features."
           },
-          "served": {
-            "quantifiers": {
-              "approximately": "~",
-              "more": "more than ",
-              "less": "less than "
-            },
-            "periods": {
-              "day": "day",
-              "month": "month",
-              "year": "year",
-              "plural": "s"
-            },
-            "text": "Enough for {quantifier}{value} {period}{plural}, based on your current usage"
-          },
-          "unserved": {
-            "text": "Service stoped due to zero balance, please top up"
+          "payg": {
+            "extra": "Top up your balance to continue using our service."
           }
         }
       },
