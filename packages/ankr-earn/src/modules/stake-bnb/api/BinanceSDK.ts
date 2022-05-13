@@ -570,15 +570,12 @@ export class BinanceSDK implements ISwitcher {
     const contractUnstake =
       binancePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    if (featuresConfig.newBinancePool) {
-      await contractUnstake(this.currentAccount, hexAmount).send({
-        from: this.currentAccount,
-      });
-    } else {
-      await contractUnstake(hexAmount).send({
-        from: this.currentAccount,
-      });
-    }
+    const args =
+      featuresConfig.newBinancePool && token === Token.aBNBc
+        ? [this.currentAccount, hexAmount]
+        : [hexAmount];
+
+    await contractUnstake(...args).send({ from: this.currentAccount });
   }
 
   private getUnstakeMethodName(token: TBnbSyntToken) {
