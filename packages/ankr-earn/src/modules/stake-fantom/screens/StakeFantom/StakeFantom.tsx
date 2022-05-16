@@ -53,6 +53,7 @@ export const StakeFantom = (): JSX.Element => {
     isStakeLoading,
     tokenIn,
     tokenOut,
+    totalAmount,
     onChange,
     onSubmit,
     onTokenSelect,
@@ -66,53 +67,55 @@ export const StakeFantom = (): JSX.Element => {
     dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
-  const renderStats = useCallback(
-    (formAmount: BigNumber) => {
-      return (
-        <>
-          {featuresConfig.stakeAFTMC && (
-            <TokenVariantList my={5}>
-              <TokenVariant
-                description={tHTML('stake-fantom.aftmb-descr')}
-                iconSlot={<AFTMBIcon />}
-                isActive={tokenOut === Token.aFTMb}
-                isDisabled={isStakeLoading}
-                title={t('unit.aftmb')}
-                onClick={onTokenSelect(Token.aFTMb)}
-              />
+  const renderStats = useCallback(() => {
+    return (
+      <>
+        {featuresConfig.stakeAFTMC && (
+          <TokenVariantList my={5}>
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmb-descr')}
+              iconSlot={<AFTMBIcon />}
+              isActive={tokenOut === Token.aFTMb}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmb')}
+              onClick={onTokenSelect(Token.aFTMb)}
+            />
 
-              <TokenVariant
-                description={tHTML('stake-fantom.aftmc-descr', {
-                  rate: isCommonDataLoading
-                    ? '...'
-                    : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-                })}
-                iconSlot={<AFTMCIcon />}
-                isActive={tokenOut === Token.aFTMc}
-                isDisabled={isStakeLoading}
-                title={t('unit.aftmc')}
-                onClick={onTokenSelect(Token.aFTMc)}
-              />
-            </TokenVariantList>
-          )}
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmc-descr', {
+                rate: isCommonDataLoading
+                  ? '...'
+                  : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+              })}
+              iconSlot={<AFTMCIcon />}
+              isActive={tokenOut === Token.aFTMc}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmc')}
+              onClick={onTokenSelect(Token.aFTMc)}
+            />
+          </TokenVariantList>
+        )}
 
-          <StakeDescriptionContainer>
-            <StakeDescriptionName>
-              {t('stake.you-will-get')}
-            </StakeDescriptionName>
+        <StakeDescriptionContainer>
+          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
-            <StakeDescriptionValue>
-              <StakeDescriptionAmount
-                symbol={tokenOut}
-                value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
-              />
-            </StakeDescriptionValue>
-          </StakeDescriptionContainer>
-        </>
-      );
-    },
-    [tokenOut, isStakeLoading, onTokenSelect, aFTMcRatio, isCommonDataLoading],
-  );
+          <StakeDescriptionValue>
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
+          </StakeDescriptionValue>
+        </StakeDescriptionContainer>
+      </>
+    );
+  }, [
+    totalAmount,
+    tokenOut,
+    isStakeLoading,
+    onTokenSelect,
+    aFTMcRatio,
+    isCommonDataLoading,
+  ]);
 
   return (
     <section className={classes.root}>

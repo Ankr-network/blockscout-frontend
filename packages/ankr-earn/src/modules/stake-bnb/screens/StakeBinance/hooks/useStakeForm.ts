@@ -96,18 +96,20 @@ export const useStakeForm = (): IUseStakeFormData => {
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount,
-        relayerFee,
-        balance: bnbBalance,
-        stakeGasFee: stakeGasFee ?? undefined,
-        aBNBcRatio,
-      }),
-    [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee],
-  );
+  const totalAmount = useMemo(() => {
+    if (!stakeGasFee) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount,
+      relayerFee,
+      balance: bnbBalance,
+      stakeGasFee: stakeGasFee ?? undefined,
+      aBNBcRatio,
+    });
+  }, [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);

@@ -38,13 +38,14 @@ interface IUseStakeFormData {
   tokenIn: string;
   tokenOut: string;
   aMATICcRatio: BigNumber;
-  handleFormChange: (values: IStakeFormPayload) => void;
+  handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
   const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const dispatchRequest = useDispatchRequest();
@@ -65,20 +66,27 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
 
-  const handleFormChange = ({ amount: formAmount }: IStakeFormPayload) => {
+  const handleFormChange = (
+    { amount: formAmount }: IStakeFormPayload,
+    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
+    invalid: boolean,
+  ) => {
+    setIsError(invalid);
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount: new BigNumber(amount),
-        balance: stakableMATICData.balance,
-        aMATICcRatio,
-      }),
-    [aMATICcRatio, amount, selectedToken, stakableMATICData.balance],
-  );
+  const totalAmount = useMemo(() => {
+    if (isError || stakableMATICData.balance.isLessThan(amount)) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount: new BigNumber(amount),
+      balance: stakableMATICData.balance,
+      aMATICcRatio,
+    });
+  }, [aMATICcRatio, amount, selectedToken, stakableMATICData.balance, isError]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);

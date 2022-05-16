@@ -35,16 +35,18 @@ interface IUseStakeForm {
   tokenIn: string;
   tokenOut: string;
   amount: BigNumber;
+  totalAmount: BigNumber;
   aFTMcRatio: BigNumber;
   balance?: BigNumber;
   minAmount?: number;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: IStakeFormPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
   onTokenSelect: (token: TFtmSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeForm => {
   const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
   const dispatch = useAppDispatch();
 
   const dispatchRequest = useDispatchRequest();
@@ -61,22 +63,26 @@ export const useStakeForm = (): IUseStakeForm => {
   const ftmBalance = data?.ftmBalance;
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount,
-        balance: ftmBalance,
-        stakeGasFee: ZERO ?? undefined,
-        aFTMcRatio,
-      }),
-    [aFTMcRatio, amount, ftmBalance, selectedToken],
-  );
+  const totalAmount = useMemo(() => {
+    if (isError || !ftmBalance || ftmBalance.isLessThan(amount)) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount,
+      balance: ftmBalance,
+      stakeGasFee: ZERO ?? undefined,
+      aFTMcRatio,
+    });
+  }, [aFTMcRatio, amount, ftmBalance, selectedToken, isError]);
 
   const balance = data?.ftmBalance;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
-  const onChange = (values: IStakeFormPayload) => {
+  // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
+  const onChange = (values: IStakeFormPayload, invalid: boolean) => {
+    setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
   };
 
@@ -130,6 +136,7 @@ export const useStakeForm = (): IUseStakeForm => {
     tokenIn: t('unit.ftm'),
     tokenOut: selectedToken,
     amount,
+    totalAmount,
     aFTMcRatio,
     onChange,
     onSubmit,

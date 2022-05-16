@@ -1,7 +1,5 @@
 import { Box, ButtonBase } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import React from 'react';
 
 import { t, tHTML } from 'common';
 
@@ -55,20 +53,21 @@ export const StakeAvalanche = (): JSX.Element => {
     amount,
     fetchStatsData,
     fetchStatsError,
+    totalAmount,
     handleFormChange,
     handleSubmit,
     isFetchStatsLoading,
     isStakeLoading,
   } = useStakeForm({ openSuccessModal: onSuccessOpen });
 
-  const onRenderStats = (rawAmount: BigNumber): JSX.Element => (
+  const onRenderStats = (): JSX.Element => (
     <StakeDescriptionContainer>
       <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
       <StakeDescriptionValue>
         <StakeDescriptionAmount
           symbol={Token.aAVAXb}
-          value={rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+          value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
         />
 
         <Tooltip title={tHTML('stake-avax.tooltips.you-will-get')}>
