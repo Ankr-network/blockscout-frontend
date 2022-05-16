@@ -1,5 +1,6 @@
 import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
+import { useQuery } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
@@ -13,10 +14,11 @@ import {
   DEFAULT_FIXED,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
 import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -39,7 +41,6 @@ import { fetchStats } from '../../actions/fetchStats';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
 export const StakeBinance = (): JSX.Element => {
@@ -49,9 +50,12 @@ export const StakeBinance = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
   const { redeemPeriod, redeemValue } = useRedeemData();
 
+  const { data: apy } = useQuery({
+    type: fetchAPY,
+  });
+
   const {
     amount,
-    fetchAPYData,
     relayerFee,
     bnbBalance,
     minimumStake,
@@ -68,13 +72,8 @@ export const StakeBinance = (): JSX.Element => {
     onTokenSelect,
   } = useStakeForm();
 
-  const stakeStats = useStakeStats({
-    apy: fetchAPYData,
-    amount,
-  });
-
   useProviderEffect(() => {
-    dispatch(fetchValidatorsDetails());
+    dispatch(getMetrics());
     dispatch(fetchAPY());
     dispatch(fetchStats());
 
@@ -187,7 +186,11 @@ export const StakeBinance = (): JSX.Element => {
           onSubmit={handleSubmit}
         />
 
-        <StakeStats stats={stakeStats} />
+        <StakeStats
+          amount={amount}
+          apy={apy ?? undefined}
+          metricsServiceName={EMetricsServiceName.BNB}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

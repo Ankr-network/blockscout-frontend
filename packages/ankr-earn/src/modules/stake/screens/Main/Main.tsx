@@ -8,11 +8,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
-import {
-  fetchValidatorsDetails,
-  IValidatorDetails,
-} from 'modules/metrics/actions/fetchValidatorsDetails';
-import { ValidatorName } from 'modules/metrics/const';
 import { fetchAPY as getAAVAXBAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchAPY as getABNBBAPY } from 'modules/stake-bnb/actions/fetchAPY';
@@ -23,6 +18,8 @@ import { getAPY as getAFTMBAPY } from 'modules/stake-fantom/actions/getAPY';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
 import { fetchAPY as getAMATICBAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
+import { getMetrics, IStakeMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics/const';
 import { Container } from 'uiKit/Container';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
@@ -37,12 +34,12 @@ import { Features } from './components/Features';
 import { useStakeAnalytics } from './hooks/useStakeAnalytics';
 
 type ValidatorDetails = Record<
-  | ValidatorName.AVAX_VALIDATOR_NAME
-  | ValidatorName.BNB_VALIDATOR_NAME
-  | ValidatorName.ETH_VALIDATOR_NAME
-  | ValidatorName.FTM_VALIDATOR_NAME
-  | ValidatorName.POLYGON_VALIDATOR_NAME,
-  IValidatorDetails
+  | EMetricsServiceName.AVAX
+  | EMetricsServiceName.BNB
+  | EMetricsServiceName.ETH
+  | EMetricsServiceName.FTM
+  | EMetricsServiceName.MATIC,
+  IStakeMetrics
 >;
 
 export const Main = (): JSX.Element => {
@@ -55,7 +52,7 @@ export const Main = (): JSX.Element => {
     dispatchRequest(getABNBBAPY());
     dispatchRequest(getAFTMBAPY());
     dispatchRequest(getAMATICBAPY());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
   const { data: aAVAXbAPY } = useQuery({ type: getAAVAXBAPY });
@@ -64,7 +61,7 @@ export const Main = (): JSX.Element => {
   const { data: aMATICbAPY } = useQuery({ type: getAMATICBAPY });
   const { data: ethAPY } = useQuery({ type: getETHAPY });
 
-  const { data: validatorsData } = useQuery({ type: fetchValidatorsDetails });
+  const { data: validatorsData } = useQuery({ type: getMetrics });
 
   const validatorsDetails: ValidatorDetails | undefined = useMemo(
     () =>
@@ -104,7 +101,7 @@ export const Main = (): JSX.Element => {
             iconSlot={<MaticIcon />}
             mainHref={PolygonRoutes.stake.generatePath()}
             moreHref={getStakingOverviewUrl(Token.MATIC)}
-            stakedTvl={validatorsDetails?.polygon.totalStaked}
+            stakedTvl={validatorsDetails?.matic.totalStaked}
             title={t('features.polygon')}
             token={Token.MATIC}
             onStakeClick={onTrackEnterStakingFlow(Token.MATIC)}

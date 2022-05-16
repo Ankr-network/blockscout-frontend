@@ -13,7 +13,6 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableMatic } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMatic';
-import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import {
   fetchStats,
   IFetchStatsResponseData,
@@ -32,7 +31,6 @@ import { useSelectedToken } from './useSelectedToken';
 interface IUseStakeFormData {
   amount: BigNumber;
   totalAmount: BigNumber;
-  apy: BigNumber;
   isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   fetchStatsData: IFetchStatsResponseData | null;
@@ -58,7 +56,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   } = useQuery({
     type: fetchStats,
   });
-  const { data: apyData } = useQuery({ type: fetchAPY });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -120,7 +117,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   return {
     amount,
     totalAmount,
-    apy: apyData ?? ZERO,
     handleFormChange,
     handleSubmit,
     onTokenSelect,

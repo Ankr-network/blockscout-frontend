@@ -71,6 +71,7 @@
     "feth": "aETHb",
     "bnb": "BNB",
     "polygon": "MATIC",
+    "matic": "MATIC",
     "abnbb": "aBNBb",
     "abnbc": "aBNBc",
     "amaticb": "aMATICb",
@@ -320,7 +321,8 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}"
+      "fee": "Est Network Fee: {value}",
+      "usd-equivalent": "${value}"
     },
     "buttons": {
       "addToWallet": "Add {token} to wallet",

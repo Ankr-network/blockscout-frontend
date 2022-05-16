@@ -1,4 +1,6 @@
 import { resetRequests } from '@redux-requests/core';
+import { useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -12,6 +14,7 @@ import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
@@ -23,7 +26,6 @@ import { Unclaimed } from './components/Unclaimed';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
 export const StakeEthereum = (): JSX.Element => {
@@ -31,6 +33,9 @@ export const StakeEthereum = (): JSX.Element => {
   const classes = useStakeEthereumStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
+
+  const { data: apyData } = useQuery({ type: getAPY });
+  const apy = apyData ? new BigNumber(apyData) : ZERO;
 
   const {
     isCommonDataLoading,
@@ -42,15 +47,10 @@ export const StakeEthereum = (): JSX.Element => {
     loading,
     tokenIn,
     tokenOut,
-    apy,
     onInputChange,
     onSubmit,
   } = useStakeForm();
 
-  const stats = useStakeStats({
-    amount: amount ?? ZERO,
-    apy,
-  });
   const faqItems = useFaq();
 
   useProviderEffect(() => {
@@ -108,7 +108,11 @@ export const StakeEthereum = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <StakeStats stats={stats} />
+        <StakeStats
+          amount={amount ?? 0}
+          apy={apy}
+          metricsServiceName={EMetricsServiceName.ETH}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

@@ -1,4 +1,4 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
@@ -15,9 +15,10 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -33,7 +34,6 @@ import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
 export const StakeFantom = (): JSX.Element => {
@@ -41,6 +41,7 @@ export const StakeFantom = (): JSX.Element => {
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
+  const { data: apy } = useQuery({ type: getAPY });
 
   const {
     isCommonDataLoading,
@@ -52,22 +53,17 @@ export const StakeFantom = (): JSX.Element => {
     isStakeLoading,
     tokenIn,
     tokenOut,
-    apy,
     onChange,
     onSubmit,
     onTokenSelect,
   } = useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats({
-    amount,
-    apy,
-  });
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
   const renderStats = useCallback(
@@ -139,7 +135,11 @@ export const StakeFantom = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <StakeStats stats={stats} />
+        <StakeStats
+          amount={amount}
+          apy={apy ?? undefined}
+          metricsServiceName={EMetricsServiceName.FTM}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

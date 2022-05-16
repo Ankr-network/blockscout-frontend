@@ -15,7 +15,6 @@ import {
 } from 'modules/stake/components/StakeForm';
 
 import { stake } from '../../../actions/stake';
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import {
   IUseFetchStatsData,
   useFetchStats,
@@ -27,7 +26,6 @@ interface IUseStakeFormArgs {
 
 interface IUseStakeFormData {
   amount: number;
-  fetchAPYData: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isStakeLoading: boolean;
@@ -48,8 +46,6 @@ export const useStakeForm = ({
     isLoading: isFetchStatsLoading,
     stats: fetchStatsData,
   } = useFetchStats();
-
-  const fetchAPYData = useFetchAPY();
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -97,7 +93,6 @@ export const useStakeForm = ({
 
   return {
     amount,
-    fetchAPYData,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

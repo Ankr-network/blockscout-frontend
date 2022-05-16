@@ -27,7 +27,6 @@ import {
 } from 'modules/stake/components/StakeForm';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useSelectedToken } from './useSelectedToken';
@@ -36,7 +35,6 @@ const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeFormData {
   amount: BigNumber;
-  fetchAPYData: BigNumber;
   stakeGas: BigNumber;
   relayerFee: BigNumber;
   bnbBalance?: BigNumber;
@@ -67,8 +65,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { data: stakeGasFee, loading: isStakeGasLoading } = useQuery({
     type: getStakeGasFee,
   });
-
-  const fetchAPYData = useFetchAPY();
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -160,7 +156,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     amount,
-    fetchAPYData,
     relayerFee,
     bnbBalance,
     minimumStake,

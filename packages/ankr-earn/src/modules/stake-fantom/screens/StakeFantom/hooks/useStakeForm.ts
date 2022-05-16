@@ -13,7 +13,6 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -39,7 +38,6 @@ interface IUseStakeForm {
   aFTMcRatio: BigNumber;
   balance?: BigNumber;
   minAmount?: number;
-  apy: BigNumber;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload) => void;
   onTokenSelect: (token: TFtmSyntToken) => () => void;
@@ -55,7 +53,6 @@ export const useStakeForm = (): IUseStakeForm => {
   const { data, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-  const { data: apy } = useQuery({ type: getAPY });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -134,7 +131,6 @@ export const useStakeForm = (): IUseStakeForm => {
     tokenOut: selectedToken,
     amount,
     aFTMcRatio,
-    apy: apy ?? ZERO,
     onChange,
     onSubmit,
     onTokenSelect,

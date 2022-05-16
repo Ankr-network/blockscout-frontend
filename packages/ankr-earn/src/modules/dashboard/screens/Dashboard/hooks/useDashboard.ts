@@ -6,7 +6,6 @@ import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridg
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
@@ -22,6 +21,7 @@ import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHis
 import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { usePolkadot } from './usePolkadot';
@@ -47,7 +47,7 @@ export const useDashboard = (): void => {
         getFTMStats.toString(),
         getFTMHistory.toString(),
         getTxHistoryETH.toString(),
-        fetchValidatorsDetails.toString(),
+        getMetrics.toString(),
         fetchAMATICCBridgedBSC.toString(),
         fetchAMATICCBridgedPolygon.toString(),
       ]),
@@ -62,7 +62,7 @@ export const useDashboard = (): void => {
     dispatch(fetchAMATICCBridgedBSC());
     dispatch(fetchAMATICCBridgedPolygon());
     dispatch(fetchAETHBBridged());
-    dispatch(fetchValidatorsDetails());
+    dispatch(getMetrics());
     dispatch(fetchPolygonAPY());
 
     dispatch(fetchAVAXAPY());
