@@ -434,27 +434,13 @@ test.describe('node list', async () => {
     });
 
     test(`checking api calls: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
-      const respNodesArr = [];
-      const respWeightsArr = [];
-
-      page.on('response', async response => {
-        if (response.url().includes(`/api/v1/node?blockchain=${NON_LEGACY_STANDALONE.network}`)) {
-          const resp = await response.json();
-          respNodesArr.push(resp);
-        }
-        if (response.url().includes(`/api/v1/weight`)) {
-          const resp = await response.json();
-          respWeightsArr.push(resp);
-        }
-      });
-
       await page.goto(NON_LEGACY_STANDALONE.endPoint);
-      await page.waitForResponse(/weight/g);
-
-      expect(respNodesArr.length).toBe(1);
-      expect(respNodesArr[0].length).toBeGreaterThan(0);
-      expect(respWeightsArr.length).toBe(1);
-      expect(respWeightsArr[0].length).toBeGreaterThan(0);
+      await page.waitForResponse(
+        response =>
+          response.url().includes(`/api/v1/node?blockchain=${NON_LEGACY_STANDALONE.network}`) &&
+          response.status() === 200,
+      );
+      await page.waitForResponse(response => response.url().includes(`/api/v1/weight`) && response.status() === 200);
     });
   }
 });
