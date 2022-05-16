@@ -21,7 +21,7 @@ export const ExtraNavigation = () => {
       {
         label: t('extra-navigation.docs'),
         StartIcon: FileIcon,
-        href: 'https://www.ankr.com/docs/',
+        href: 'https://www.ankr.com/docs/staking/overview/',
       },
     ];
 
