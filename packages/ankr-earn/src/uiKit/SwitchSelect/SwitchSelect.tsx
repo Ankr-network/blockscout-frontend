@@ -1,14 +1,15 @@
-import { Chip, IconButton, Typography } from '@material-ui/core';
+import { Chip, Typography } from '@material-ui/core';
 import {
+  ReactElement,
+  ReactNode,
+  ReactText,
   useCallback,
   useMemo,
-  ReactElement,
-  ReactText,
-  ReactNode,
 } from 'react';
 
 import { t } from 'common';
 
+import { Button } from 'uiKit/Button';
 import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 
 import { Select } from '../Select';
@@ -152,13 +153,14 @@ export const SwitchSelect = ({
         onChange={handleChangeFrom}
       />
 
-      <IconButton
+      <Button
         className={classes.switchIcon}
         data-testid="switch-icon"
+        variant="outlined"
         onClick={onChangeSwitch}
       >
-        <ArrowIcon />
-      </IconButton>
+        <ArrowIcon fontSize="inherit" />
+      </Button>
 
       <Select
         autoWidth={false}
