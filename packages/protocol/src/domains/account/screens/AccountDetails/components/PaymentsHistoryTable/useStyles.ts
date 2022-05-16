@@ -10,6 +10,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   transaction: {
+    whiteSpace: 'nowrap',
+
     '&:hover $arrowIcon': {
       color: theme.palette.grey[500],
     },
