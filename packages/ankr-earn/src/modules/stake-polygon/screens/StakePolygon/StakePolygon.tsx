@@ -1,4 +1,3 @@
-import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { t, tHTML } from 'common';
@@ -23,8 +22,6 @@ import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchStats } from '../../actions/fetchStats';
 
@@ -93,14 +90,6 @@ export const StakePolygon = (): JSX.Element => {
               symbol={tokenOut}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
-
-            <Tooltip
-              title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
-            >
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon className={classes.questionIcon} size="xs" />
-              </ButtonBase>
-            </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>

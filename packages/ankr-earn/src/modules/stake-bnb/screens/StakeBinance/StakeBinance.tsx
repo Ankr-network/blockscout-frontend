@@ -16,7 +16,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
-import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -48,7 +47,6 @@ export const StakeBinance = (): JSX.Element => {
   const dispatch = useDispatch();
   const faqItems: IFaqItem[] = useFaq();
   const { onErroMessageClick, hasError } = useErrorMessage();
-  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const { data: apy } = useQuery({
     type: fetchAPY,
@@ -138,17 +136,6 @@ export const StakeBinance = (): JSX.Element => {
               symbol={tokenOut}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
-
-            <Tooltip
-              title={tHTML('stake-bnb.tooltips.you-will-get', {
-                value: redeemValue,
-                period: redeemPeriod,
-              })}
-            >
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" />
-              </ButtonBase>
-            </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>
