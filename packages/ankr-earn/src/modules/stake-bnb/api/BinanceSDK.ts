@@ -624,7 +624,8 @@ export class BinanceSDK implements ISwitcher {
       await this.writeProvider.connect();
     }
 
-    const isAllowed = await this.checkAllowance(amount);
+    const hexAmount = convertNumberToHex(amount, scale);
+    const isAllowed = await this.checkAllowance(hexAmount);
 
     if (isAllowed) {
       return undefined;
@@ -635,7 +636,7 @@ export class BinanceSDK implements ISwitcher {
     const aBNBcContract = await this.getABNBCContract();
 
     const data = aBNBcContract.methods
-      .approve(binanceConfig.aBNBbToken, convertNumberToHex(amount, scale))
+      .approve(binanceConfig.aBNBbToken, hexAmount)
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -645,11 +646,11 @@ export class BinanceSDK implements ISwitcher {
     );
   }
 
-  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+  public async checkAllowance(hexAmount: string): Promise<boolean> {
     const allowance = await this.getACAllowance();
 
     try {
-      return allowance.isGreaterThanOrEqualTo(convertNumberToHex(amount));
+      return allowance.isGreaterThanOrEqualTo(hexAmount);
     } catch (error) {
       throw new Error(`checkAllowance error. ${error}`);
     }
