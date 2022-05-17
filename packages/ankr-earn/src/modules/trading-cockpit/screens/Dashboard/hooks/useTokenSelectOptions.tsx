@@ -12,7 +12,7 @@ import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
-import { FTMIcon } from 'uiKit/Icons/FTMIcon';
+import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 export const useTokenSelectOptions = (): ITokenSelectOption[] => {
@@ -70,7 +70,7 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
       },
       {
         text: t('unit.ftm'),
-        iconSlot: <FTMIcon />,
+        iconSlot: <FantomIcon />,
         value: AvailableTokens.FTM,
       },
     ],
