@@ -5,7 +5,6 @@ import { configFromEnv } from 'modules/api/config';
 import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
-  featuresConfig,
   FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -143,14 +142,14 @@ export const SWITCHER_TOKENS_MAP: Record<
     [Token.aETHb]: Token.aETHb,
     [Token.aBNBb]: Token.aBNBb,
     [Token.aMATICb]: Token.aMATICb,
-    ...(featuresConfig.switcherFantom ? { [Token.aFTMb]: Token.aFTMb } : {}),
+    [Token.aFTMb]: Token.aFTMb,
   },
 
   [SwitcherUrlParams.TO]: {
     [Token.aETHc]: Token.aETHc,
     [Token.aBNBc]: Token.aBNBc,
     [Token.aMATICc]: Token.aMATICc,
-    ...(featuresConfig.switcherFantom ? { [Token.aFTMc]: Token.aFTMc } : {}),
+    [Token.aFTMc]: Token.aFTMc,
   },
 };
 

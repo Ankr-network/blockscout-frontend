@@ -75,7 +75,6 @@ export const featuresConfig = {
   dashboardLiquidCrowdloanAssets: false,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
-  switcherFantom: currentEnv !== Env.Production,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   stakeAFTMC: currentEnv !== Env.Production,

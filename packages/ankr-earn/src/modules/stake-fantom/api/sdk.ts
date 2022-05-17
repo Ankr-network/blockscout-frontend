@@ -37,10 +37,8 @@ import {
 } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
-import oldAFTMbAbi from './contracts/aFTMb-old.json';
 import AFTMbAbi from './contracts/aFTMb.json';
 import AFTMCAbi from './contracts/aFTMc.json';
-import oldFantomPoolAbi from './contracts/FantomPool-old.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 export enum EFantomPoolEvents {
@@ -173,18 +171,16 @@ export class FantomSDK implements ISwitcher {
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
-    const abi = featuresConfig.stakeAFTMC ? FantomPoolAbi : oldFantomPoolAbi;
 
-    return provider.createContract(abi, fantomConfig.fantomPool);
+    return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
   }
 
   private async getAftmbTokenContract() {
     const provider = await this.getProvider();
 
     const { fantomConfig } = configFromEnv();
-    const abi = featuresConfig.stakeAFTMC ? AFTMbAbi : oldAFTMbAbi;
 
-    return provider.createContract(abi, fantomConfig.aftmbToken);
+    return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
   }
 
   private async getAftmcTokenContract() {
