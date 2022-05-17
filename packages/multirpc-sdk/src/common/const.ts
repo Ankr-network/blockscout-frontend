@@ -49,6 +49,7 @@ export const PROD_CONFIG: IConfig = {
   workerUrl: 'https://next.multi-rpc.com/',
   accountUrl: 'https://mainnet.multirpc.ankr.com/',
 
-  payAsYouGoAnkrTokenContractAddress: '',
-  payAsYouGoContractAddress: '',
+  payAsYouGoAnkrTokenContractAddress:
+    '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
+  payAsYouGoContractAddress: '0x3d0BB8803a6C1Fee1b3E8bf730534574623cB70f',
 };
