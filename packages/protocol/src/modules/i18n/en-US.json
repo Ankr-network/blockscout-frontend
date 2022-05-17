@@ -466,7 +466,8 @@
         "pricing-link": "Pricing",
         "placeholder": "Amount",
         "button": "Top Up",
-        "continue-button": "Continue Top Up"
+        "continue-button": "Continue Top Up",
+        "continue": "Continue"
       },
       "balance": {
         "title": "Balance",

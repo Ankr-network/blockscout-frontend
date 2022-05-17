@@ -9,6 +9,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   copyToClip: {
     width: '100%',
     marginBottom: theme.spacing(5),
+
+    '& h6': {
+      lineHeight: 1.4,
+    },
   },
   link: {
     minWidth: 40,
@@ -26,7 +30,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
 
     '& span span': {
-      margin: 0,
+      margin: '0 !important',
     },
   },
 
