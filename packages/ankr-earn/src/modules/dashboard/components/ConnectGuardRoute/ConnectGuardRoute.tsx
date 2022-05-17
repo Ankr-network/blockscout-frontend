@@ -1,6 +1,7 @@
 import { Box, Button } from '@material-ui/core';
 import { Route, RouteProps } from 'react-router';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
@@ -14,7 +15,6 @@ import {
   POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { t } from 'modules/i18n/utils/intl';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
 

@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { Menu } from 'uiKit/Menu';
 
 import { useCopyTokenAddressHook } from './useCopyTokenAddressHook';

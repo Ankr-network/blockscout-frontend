@@ -1,21 +1,20 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
-import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 
 import { stake } from '../../../actions/stake';
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import {
   IUseFetchStatsData,
   useFetchStats,
@@ -27,7 +26,7 @@ interface IUseStakeFormArgs {
 
 interface IUseStakeFormData {
   amount: number;
-  fetchAPYData: BigNumber;
+  totalAmount: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isStakeLoading: boolean;
@@ -49,14 +48,20 @@ export const useStakeForm = ({
     stats: fetchStatsData,
   } = useFetchStats();
 
-  const fetchAPYData = useFetchAPY();
-
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
 
   const stakableAVAXData = useStakableAvax();
   const [amount, setAmount] = useState(0);
+
+  const totalAmount = useMemo(() => {
+    if (!fetchStatsData || fetchStatsData.aAVAXbBalance.isLessThan(amount)) {
+      return ZERO;
+    }
+
+    return new BigNumber(amount);
+  }, [fetchStatsData, amount]);
 
   const handleFormChange = ({ amount: value }: IStakeFormPayload): void => {
     const rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
@@ -67,8 +72,6 @@ export const useStakeForm = ({
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-    const avalancheSDK = await AvalancheSDK.getInstance();
-    const aavaxbBalance = await avalancheSDK.getAAVAXBBalance();
 
     trackStake({
       address,
@@ -78,7 +81,7 @@ export const useStakeForm = ({
       tokenIn: Token.AVAX,
       tokenOut: Token.aAVAXb,
       prevStakedAmount: stakableAVAXData.balance,
-      synthBalance: aavaxbBalance,
+      synthBalance: fetchStatsData?.aAVAXbBalance ?? ZERO,
     });
   };
 
@@ -97,7 +100,7 @@ export const useStakeForm = ({
 
   return {
     amount,
-    fetchAPYData,
+    totalAmount,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

@@ -3,9 +3,10 @@ import { useDispatchRequest } from '@redux-requests/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from 'common';
+
 import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 

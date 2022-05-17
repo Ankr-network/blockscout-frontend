@@ -3,62 +3,50 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
   statisticWrapper: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'space-evenly',
-    width: '100%',
-    padding: theme.spacing(4.5, 0),
+    padding: theme.spacing(0.5, 2),
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      padding: theme.spacing(4.5, 0),
+    },
+  },
+
+  statistic: {
+    minHeight: theme.spacing(8.5),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexFlow: 'row wrap',
+    padding: theme.spacing(1, 0),
+    borderBottom: `2px solid ${theme.palette.background.default}`,
+
+    [theme.breakpoints.up('md')]: {
+      maxWidth: '50%',
+      flexGrow: 1,
+      justifyContent: 'start',
       flexDirection: 'column',
-      padding: theme.spacing(0.5, 2),
+      padding: theme.spacing(0, 3),
+      borderBottom: 'none',
+      borderRight: `2px solid ${theme.palette.background.default}`,
+    },
+
+    '&:last-of-type': {
+      border: 'none',
     },
   },
 
   usd: {
     color: theme.palette.text.disabled,
-  },
+    width: '100%',
+    textAlign: 'right',
+    fontSize: 12,
 
-  statistic: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'start',
-    alignItems: 'center',
-    flexGrow: 1,
-    maxWidth: '50%',
-    padding: theme.spacing(0, 3),
-
-    '&:after': {
-      position: 'absolute',
-      top: '50%',
-      right: 0,
-      content: '""',
-      display: 'block',
-      backgroundColor: `${theme.palette.background.default}`,
-      height: theme.spacing(8.5),
-      width: theme.spacing(0.25),
-      transform: 'translate(-50%, -50%)',
-    },
-
-    '&:last-of-type:after': {
-      display: 'none',
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'row',
-      minHeight: theme.spacing(8.5),
-      justifyContent: 'space-between',
-      maxWidth: '100%',
-      padding: 0,
-
-      '&:after': {
-        display: 'none',
-      },
-
-      borderBottom: `2px solid ${theme.palette.background.default}`,
-
-      '&:last-of-type': {
-        borderBottom: 'none',
-      },
+    [theme.breakpoints.up('md')]: {
+      width: 'auto',
+      textAlign: 'left',
+      marginTop: theme.spacing(0.5),
     },
   },
 
@@ -110,11 +98,5 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('sm')]: {
       fontSize: 16,
     },
-  },
-
-  statisticDivider: {
-    backgroundColor: `${theme.palette.background.default}`,
-    height: theme.spacing(8.5),
-    width: theme.spacing(0.25),
   },
 }));

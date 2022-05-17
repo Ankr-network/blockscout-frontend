@@ -2,7 +2,6 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { featuresConfig } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { BinanceSDK } from '../api/BinanceSDK';
@@ -42,9 +41,8 @@ export const fetchStats = createSmartAction<
           sdk.getMinimumStake(),
           sdk.getPendingUnstakes(),
           sdk.getRelayerFee(),
-          ...(featuresConfig.stakeAbnbc
-            ? [sdk.getACRatio(), sdk.getACBalance()]
-            : []),
+          sdk.getACRatio(),
+          sdk.getACBalance(),
         ]);
 
         return {

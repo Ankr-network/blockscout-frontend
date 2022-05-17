@@ -1,10 +1,10 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
+import { t } from 'common';
 import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';

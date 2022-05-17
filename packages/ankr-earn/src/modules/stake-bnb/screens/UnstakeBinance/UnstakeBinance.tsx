@@ -2,10 +2,11 @@ import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { Container } from 'uiKit/Container';

@@ -1,8 +1,9 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UnstakeUserWallet } from 'modules/stake/components/UnstakeUserWallet';

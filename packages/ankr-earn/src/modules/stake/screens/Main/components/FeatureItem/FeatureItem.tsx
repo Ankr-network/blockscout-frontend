@@ -2,9 +2,10 @@ import { Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
+import { t } from 'common';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import { FeatureItemBase } from './FeatureItemBase';

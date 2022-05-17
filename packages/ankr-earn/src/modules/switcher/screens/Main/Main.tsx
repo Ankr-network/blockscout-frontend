@@ -7,10 +7,11 @@ import noop from 'lodash/noop';
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { t, tHTML } from 'common';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,

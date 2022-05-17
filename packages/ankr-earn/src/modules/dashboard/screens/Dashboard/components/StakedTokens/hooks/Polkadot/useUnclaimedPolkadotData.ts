@@ -2,8 +2,9 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
+import { t } from 'common';
+
 import { STAKE_LEGACY_LINKS, ZERO } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import {
   EPolkadotNetworks,

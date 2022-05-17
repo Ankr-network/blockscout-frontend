@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
 import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
@@ -45,6 +45,6 @@ export const useStakableAvax = (): IUseStakableToken => {
     networks: networksData,
     isLoading: loading || isLoadingAPY,
     isStakeLoading,
-    isShowed: !balance.isZero() && featuresConfig.isActiveAVAXStaking,
+    isShowed: !balance.isZero(),
   };
 };

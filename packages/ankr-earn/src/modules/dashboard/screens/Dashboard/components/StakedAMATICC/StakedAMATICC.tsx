@@ -78,9 +78,7 @@ export const StakedAMATICC = (): JSX.Element => {
         stakeLink={stakeLink}
         token={token}
         tokenAddress={tokenAddress}
-        unstakeLink={
-          featuresConfig.aMATICcUnstakeEnabled ? unstakeLink : undefined
-        }
+        unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={onAddTokenToWallet}
         onHistoryBtnClick={

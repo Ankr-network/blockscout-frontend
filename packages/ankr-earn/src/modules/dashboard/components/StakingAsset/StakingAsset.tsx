@@ -2,11 +2,12 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
+import { t } from 'common';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';

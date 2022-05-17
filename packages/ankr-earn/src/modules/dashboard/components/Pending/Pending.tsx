@@ -3,8 +3,9 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactChild, ReactFragment } from 'react';
 
+import { t } from 'common';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { usePendingStyles as useStyles } from './usePendingStyles';

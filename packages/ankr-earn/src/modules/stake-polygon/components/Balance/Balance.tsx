@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
+import { t, tHTML } from 'common';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 

@@ -1,6 +1,8 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
+
+import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
@@ -13,10 +15,10 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -32,7 +34,6 @@ import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
 export const StakeFantom = (): JSX.Element => {
@@ -40,6 +41,7 @@ export const StakeFantom = (): JSX.Element => {
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
+  const { data: apy } = useQuery({ type: getAPY });
 
   const {
     isCommonDataLoading,
@@ -51,71 +53,69 @@ export const StakeFantom = (): JSX.Element => {
     isStakeLoading,
     tokenIn,
     tokenOut,
-    apy,
+    totalAmount,
     onChange,
     onSubmit,
     onTokenSelect,
   } = useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats({
-    amount,
-    apy,
-  });
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
-  const renderStats = useCallback(
-    (formAmount: BigNumber) => {
-      return (
-        <>
-          {featuresConfig.stakeAFTMC && (
-            <TokenVariantList my={5}>
-              <TokenVariant
-                description={tHTML('stake-fantom.aftmb-descr')}
-                iconSlot={<AFTMBIcon />}
-                isActive={tokenOut === Token.aFTMb}
-                isDisabled={isStakeLoading}
-                title={t('unit.aftmb')}
-                onClick={onTokenSelect(Token.aFTMb)}
-              />
+  const renderStats = useCallback(() => {
+    return (
+      <>
+        {featuresConfig.stakeAFTMC && (
+          <TokenVariantList my={5}>
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmb-descr')}
+              iconSlot={<AFTMBIcon />}
+              isActive={tokenOut === Token.aFTMb}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmb')}
+              onClick={onTokenSelect(Token.aFTMb)}
+            />
 
-              <TokenVariant
-                description={tHTML('stake-fantom.aftmc-descr', {
-                  rate: isCommonDataLoading
-                    ? '...'
-                    : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-                })}
-                iconSlot={<AFTMCIcon />}
-                isActive={tokenOut === Token.aFTMc}
-                isDisabled={isStakeLoading}
-                title={t('unit.aftmc')}
-                onClick={onTokenSelect(Token.aFTMc)}
-              />
-            </TokenVariantList>
-          )}
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmc-descr', {
+                rate: isCommonDataLoading
+                  ? '...'
+                  : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+              })}
+              iconSlot={<AFTMCIcon />}
+              isActive={tokenOut === Token.aFTMc}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmc')}
+              onClick={onTokenSelect(Token.aFTMc)}
+            />
+          </TokenVariantList>
+        )}
 
-          <StakeDescriptionContainer>
-            <StakeDescriptionName>
-              {t('stake.you-will-get')}
-            </StakeDescriptionName>
+        <StakeDescriptionContainer>
+          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
-            <StakeDescriptionValue>
-              <StakeDescriptionAmount
-                symbol={tokenOut}
-                value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
-              />
-            </StakeDescriptionValue>
-          </StakeDescriptionContainer>
-        </>
-      );
-    },
-    [tokenOut, isStakeLoading, onTokenSelect, aFTMcRatio, isCommonDataLoading],
-  );
+          <StakeDescriptionValue>
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
+          </StakeDescriptionValue>
+        </StakeDescriptionContainer>
+      </>
+    );
+  }, [
+    totalAmount,
+    tokenOut,
+    isStakeLoading,
+    onTokenSelect,
+    aFTMcRatio,
+    isCommonDataLoading,
+  ]);
 
   return (
     <section className={classes.root}>
@@ -138,7 +138,11 @@ export const StakeFantom = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <StakeStats stats={stats} />
+        <StakeStats
+          amount={amount}
+          apy={apy ?? undefined}
+          metricsServiceName={EMetricsServiceName.FTM}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

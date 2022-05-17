@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 import { useRightsStyles } from './useRightsStyles';
 

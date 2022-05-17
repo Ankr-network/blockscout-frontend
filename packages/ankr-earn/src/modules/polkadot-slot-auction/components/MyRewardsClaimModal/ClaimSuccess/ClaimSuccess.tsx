@@ -1,7 +1,8 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
 

@@ -309,8 +309,13 @@ export class FantomSDK implements ISwitcher {
 
     const tx = await web3.eth.getTransaction(txHash);
 
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
+
     return {
-      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      amount: new BigNumber(web3.utils.fromWei(amount)),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };

@@ -6,11 +6,12 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
+import { t } from 'common';
+
+import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { approveABNBCUnstake } from 'modules/stake-bnb/actions/approveABNBCUnstake';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { unstake } from 'modules/stake-bnb/actions/unstake';
@@ -47,9 +48,7 @@ export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
   const { sendAnalytics } = useUnstakeBNBAnalytics();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
-  const selectedToken = featuresConfig.stakeAbnbc
-    ? getValidSelectedToken(stakeParamsToken)
-    : Token.aBNBb;
+  const selectedToken = getValidSelectedToken(stakeParamsToken);
 
   const { loading: isFetchStatsLoading, data: fetchStatsData } = useQuery({
     type: fetchStats,

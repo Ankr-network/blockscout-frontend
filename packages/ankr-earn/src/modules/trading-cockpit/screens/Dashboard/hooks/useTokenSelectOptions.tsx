@@ -1,5 +1,6 @@
+import { t } from 'common';
+
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';

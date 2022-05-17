@@ -27,7 +27,6 @@ import {
 } from 'modules/stake/components/StakeForm';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useSelectedToken } from './useSelectedToken';
@@ -36,7 +35,6 @@ const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeFormData {
   amount: BigNumber;
-  fetchAPYData: BigNumber;
   stakeGas: BigNumber;
   relayerFee: BigNumber;
   bnbBalance?: BigNumber;
@@ -68,8 +66,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getStakeGasFee,
   });
 
-  const fetchAPYData = useFetchAPY();
-
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
@@ -100,18 +96,20 @@ export const useStakeForm = (): IUseStakeFormData => {
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount,
-        relayerFee,
-        balance: bnbBalance,
-        stakeGasFee: stakeGasFee ?? undefined,
-        aBNBcRatio,
-      }),
-    [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee],
-  );
+  const totalAmount = useMemo(() => {
+    if (!stakeGasFee) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount,
+      relayerFee,
+      balance: bnbBalance,
+      stakeGasFee: stakeGasFee ?? undefined,
+      aBNBcRatio,
+    });
+  }, [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
@@ -160,7 +158,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     amount,
-    fetchAPYData,
     relayerFee,
     bnbBalance,
     minimumStake,

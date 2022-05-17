@@ -71,6 +71,7 @@
     "feth": "aETHb",
     "bnb": "BNB",
     "polygon": "MATIC",
+    "matic": "MATIC",
     "abnbb": "aBNBb",
     "abnbc": "aBNBc",
     "amaticb": "aMATICb",
@@ -320,7 +321,8 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}"
+      "fee": "Est Network Fee: {value}",
+      "usd-equivalent": "${value}"
     },
     "buttons": {
       "addToWallet": "Add {token} to wallet",
@@ -405,7 +407,7 @@
       "answer-11": "You can check all available DeFi platforms on ANKR DeFi: <br/>- <a href=\"{aBNBbLink}\">aBNBb</a> <br/>- aBNBc (coming soon)"
     },
     "relayer-fee": "Relayer Fee",
-    "abnbb-descr": "aBNBb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
+    "abnbb-descr": "aBNBb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
     "abnbc-descr": "aBNBс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aBNBc={rate} BNB</b>",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
@@ -471,7 +473,7 @@
       "question-7": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
       "answer-7": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction."
     },
-    "amaticb-descr": "aMATICb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
+    "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
     "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
   "stake-fantom": {
@@ -498,12 +500,12 @@
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
     },
-    "aftmb-descr": "aFTMb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
+    "aftmb-descr": "aFTMb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
     "aftmc-descr": "aFTMс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aFTMc={rate} FTM</b>",
     "relayer-fee": "Relayer Fee"
   },
   "stake-ethereum": {
-    "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
+    "aethb-descr": "aETHb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
     "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",

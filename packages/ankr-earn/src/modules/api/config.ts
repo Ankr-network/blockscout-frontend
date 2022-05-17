@@ -172,7 +172,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
-    aftmcToken: ZERO_ADDR,
+    aftmcToken: '0xCfC785741Dc0e98ad4c9F6394Bb9d43Cd1eF5179',
     ftmToken: ZERO_ADDR,
   },
   polkadotConfig: {

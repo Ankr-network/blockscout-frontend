@@ -2,7 +2,8 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 
 import { useConnectTooltipStyles } from './useConnectTooltipStyles';

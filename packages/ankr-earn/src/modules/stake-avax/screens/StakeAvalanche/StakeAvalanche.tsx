@@ -1,14 +1,14 @@
 import { Box, ButtonBase } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import React from 'react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+
+import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -28,7 +28,6 @@ import { fetchStats } from '../../actions/fetchStats';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeAvalancheStyles } from './useStakeAvalancheStyles';
 
@@ -37,6 +36,10 @@ export const StakeAvalanche = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
   const faqItems = useFaq();
+
+  const { data: apy } = useQuery({
+    type: fetchAPY,
+  });
 
   const {
     isSuccessOpened,
@@ -48,28 +51,23 @@ export const StakeAvalanche = (): JSX.Element => {
 
   const {
     amount,
-    fetchAPYData,
     fetchStatsData,
     fetchStatsError,
+    totalAmount,
     handleFormChange,
     handleSubmit,
     isFetchStatsLoading,
     isStakeLoading,
   } = useStakeForm({ openSuccessModal: onSuccessOpen });
 
-  const stakeStats = useStakeStats({
-    amount,
-    apy: fetchAPYData,
-  });
-
-  const onRenderStats = (rawAmount: BigNumber): JSX.Element => (
+  const onRenderStats = (): JSX.Element => (
     <StakeDescriptionContainer>
       <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
       <StakeDescriptionValue>
         <StakeDescriptionAmount
           symbol={Token.aAVAXb}
-          value={rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+          value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
         />
 
         <Tooltip title={tHTML('stake-avax.tooltips.you-will-get')}>
@@ -81,10 +79,10 @@ export const StakeAvalanche = (): JSX.Element => {
     </StakeDescriptionContainer>
   );
 
-  useProviderEffect((): void => {
+  useProviderEffect(() => {
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
   if (isFetchStatsLoading) {
@@ -129,7 +127,11 @@ export const StakeAvalanche = (): JSX.Element => {
               onSubmit={handleSubmit}
             />
 
-            <StakeStats stats={stakeStats} />
+            <StakeStats
+              amount={amount}
+              apy={apy ?? undefined}
+              metricsServiceName={EMetricsServiceName.AVAX}
+            />
 
             <Faq data={faqItems} />
           </StakeContainer>
