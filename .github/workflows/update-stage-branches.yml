@@ -71,4 +71,3 @@ jobs:
           labels: |
             standalone
           base: stage-standalone
-  

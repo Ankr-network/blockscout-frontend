@@ -117,6 +117,7 @@ export const UnstakeDialog = ({
                 <Box mb={4}>
                   <AmountInput
                     balance={balance}
+                    disabled={isApproved}
                     isBalanceLoading={isBalanceLoading}
                     label={t('unstake-dialog.amount')}
                     maxDecimals={maxAmountDecimals}
