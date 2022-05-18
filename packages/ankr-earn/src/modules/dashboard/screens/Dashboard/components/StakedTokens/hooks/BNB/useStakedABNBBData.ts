@@ -14,6 +14,7 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
 import { unstake as unstakeBNB } from 'modules/stake-bnb/actions/unstake';
@@ -33,13 +34,17 @@ export interface IStakedABNBBData {
   isShowed: boolean;
   walletName?: string;
   address?: string;
+  isPendingUnstakeLoading: boolean;
   handleAddTokenToWallet: () => void;
 }
 
 export const useStakedABNBBData = (): IStakedABNBBData => {
   const dispatchRequest = useDispatchRequest();
-  const { data: statsData, loading: isBalancesLoading } = useQuery({
+  const { data: statsData, loading: isCommonDataLoading } = useQuery({
     type: fetchStats,
+  });
+  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
+    type: fetchPendingValues,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
@@ -52,10 +57,13 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   const chainId = BSC_NETWORK_BY_ENV;
 
   const amount = statsData?.aBNBbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
+  const pendingValue = pendingValues?.pendingAbnbbUnstakes ?? ZERO;
 
   const isShowed =
-    !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
+    !amount.isZero() ||
+    !pendingValue.isZero() ||
+    isCommonDataLoading ||
+    isPendingUnstakeLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addBNBTokenToWallet());
@@ -69,12 +77,13 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
-    isBalancesLoading,
+    isBalancesLoading: isCommonDataLoading,
     isStakeLoading,
     isUnstakeLoading,
     isShowed,
     walletName,
     address,
+    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   };
 };

@@ -13,6 +13,7 @@ import { configFromEnv } from 'modules/api/config';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
 import { unstake } from 'modules/stake-bnb/actions/unstake';
@@ -33,6 +34,7 @@ export interface IStakedABNBCData {
   unstakeLink: string;
   pendingValue: BigNumber;
   isUnstakeLoading: boolean;
+  isPendingUnstakeLoading: boolean;
   onAddTokenToWallet: () => void;
 }
 
@@ -40,6 +42,9 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isCommonDataLoading } = useQuery({
     type: fetchStakeBNBStats,
+  });
+  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
+    type: fetchPendingValues,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
@@ -51,10 +56,13 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
 
   const amount = statsData?.aBNBcBalance ?? ZERO;
 
-  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
+  const pendingValue = pendingValues?.pendingAbnbcUnstakes ?? ZERO;
 
   const isShowed =
-    !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
+    !amount.isZero() ||
+    !pendingValue.isZero() ||
+    isCommonDataLoading ||
+    isPendingUnstakeLoading;
 
   const { binanceConfig } = configFromEnv();
 
@@ -75,6 +83,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     unstakeLink: RoutesConfig.unstake.generatePath(token),
     isUnstakeLoading,
     pendingValue,
+    isPendingUnstakeLoading,
     onAddTokenToWallet,
   };
 };

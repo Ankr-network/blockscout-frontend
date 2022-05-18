@@ -10,6 +10,7 @@ import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
 import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
+import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { getAPY as getEthAPY } from 'modules/stake-eth/actions/getAPY';
@@ -70,6 +71,7 @@ export const useDashboard = (): void => {
 
     dispatch(fetchBNBAPY());
     dispatch(fetchBNBStats());
+    dispatch(fetchPendingValues());
 
     dispatch(getFTMStats());
     dispatch(getAftmbAPY());

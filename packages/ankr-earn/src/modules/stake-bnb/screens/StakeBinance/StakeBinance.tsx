@@ -14,6 +14,7 @@ import {
   DEFAULT_FIXED,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -74,6 +75,7 @@ export const StakeBinance = (): JSX.Element => {
     dispatch(getMetrics());
     dispatch(fetchAPY());
     dispatch(fetchStats());
+    dispatch(fetchPendingValues());
 
     return () => {
       dispatch(resetRequests([getStakeGasFee.toString()]));

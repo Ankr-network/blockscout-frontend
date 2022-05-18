@@ -3,8 +3,10 @@ import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 
 export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
-  ? 15336167
-  : 16716904;
+  ? 15_336_167
+  : 16_716_904;
+
+export const BINANCE_HISTORY_BLOCK_OFFSET = 28_800 * 14;
 
 export const BINANCE_WRITE_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
