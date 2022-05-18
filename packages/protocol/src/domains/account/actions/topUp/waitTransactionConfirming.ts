@@ -41,7 +41,7 @@ async function waitForBlocks(store: RequestsStore, transactionHash: string) {
 
 export const waitTransactionConfirming = createSmartAction<
   RequestAction<IWeb3SendResult, null>
->('topUp/waitTransactionConfirming', (receiptPromise?: Promise<void>) => ({
+>('topUp/waitTransactionConfirming', () => ({
   request: {
     promise: (async () => null)(),
   },
@@ -49,14 +49,10 @@ export const waitTransactionConfirming = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          if (receiptPromise) {
-            await receiptPromise;
-          } else {
-            const transaction = selectTransaction(store.getState());
+          const transaction = selectTransaction(store.getState());
 
-            if (transaction?.topUpTransactionHash) {
-              await waitForBlocks(store, transaction.topUpTransactionHash);
-            }
+          if (transaction?.topUpTransactionHash) {
+            await waitForBlocks(store, transaction.topUpTransactionHash);
           }
         })(),
       };

@@ -19,10 +19,7 @@ export const useTopUpBreadcrumbs = () => {
   ]);
 };
 
-export const useTopupSteps = (
-  initialStep: TopUpStep,
-  hasCredentials: boolean,
-) => {
+export const useTopupSteps = (initialStep: TopUpStep) => {
   const [step, setStep] = useState<TopUpStep>(initialStep);
 
   const {
@@ -60,15 +57,13 @@ export const useTopupSteps = (
 
       case TopUpStep.deposit: {
         return async () => {
-          const { error, data } = await handleDeposit();
+          const { error } = await handleDeposit();
 
           if (!error) {
             // move to waitTransactionConfirming
             setStep(oldStep => ++oldStep);
 
-            await handleWaitTransactionConfirming(
-              hasCredentials ? data?.receiptPromise : null,
-            );
+            await handleWaitTransactionConfirming();
           }
         };
       }
@@ -104,7 +99,6 @@ export const useTopupSteps = (
     handleLogin,
     history,
     handleRedirectIfCredentials,
-    hasCredentials,
   ]);
 
   const onRejectAllowance = useMemo(() => {
