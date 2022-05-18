@@ -116,8 +116,12 @@ export const HistoryTable = ({
   useEffect((): void => {
     setActiveSwitcherId(DEFAULT_ACTIVE_SWITCHER_ID);
 
-    const newCompletedData: TTableData = getPreparedData(queryData?.completed);
-    const newPendingData: TTableData = getPreparedData(queryData?.pending);
+    const newCompletedData: TTableData = getPreparedData(
+      queryData?.completedAMATICB,
+    );
+    const newPendingData: TTableData = getPreparedData(
+      queryData?.pendingAMATICB,
+    );
 
     setCompletedData(newCompletedData);
     setPendingData(newPendingData);

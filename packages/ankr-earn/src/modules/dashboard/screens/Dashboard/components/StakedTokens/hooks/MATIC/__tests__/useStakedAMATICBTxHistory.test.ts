@@ -9,7 +9,7 @@ import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedMaticTxHistory } from '../useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../useStakedMaticTxHistory';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -29,32 +29,60 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   const defaultData = {
     loading: false,
     data: {
-      completed: [
+      completedAMATICB: [
         {
           txAmount: ONE_ETH,
           txDate: NOW,
           txHash: 'txHash1',
-          txType: EPolygonPoolEventsMap.StakePending,
+          txType: EPolygonPoolEventsMap.Staking,
         },
         {
           txAmount: ONE_ETH.multipliedBy(2),
           txDate: NOW,
           txHash: 'txHash2',
-          txType: EPolygonPoolEventsMap.MaticClaimPending,
+          txType: EPolygonPoolEventsMap.Unstaking,
         },
       ],
-      pending: [
+      completedAMATICC: [
+        {
+          txAmount: ONE_ETH,
+          txDate: NOW,
+          txHash: 'txHash1',
+          txType: EPolygonPoolEventsMap.Staking,
+        },
+        {
+          txAmount: ONE_ETH.multipliedBy(2),
+          txDate: NOW,
+          txHash: 'txHash2',
+          txType: EPolygonPoolEventsMap.Unstaking,
+        },
+      ],
+      pendingAMATICB: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,
           txHash: 'txHash3',
-          txType: EPolygonPoolEventsMap.MaticClaimPending,
+          txType: EPolygonPoolEventsMap.Unstaking,
         },
         {
           txAmount: ONE_ETH.multipliedBy(4),
           txDate: NOW,
           txHash: 'txHash4',
-          txType: EPolygonPoolEventsMap.StakePending,
+          txType: EPolygonPoolEventsMap.Unstaking,
+        },
+      ],
+      pendingAMATICC: [
+        {
+          txAmount: ONE_ETH.multipliedBy(3),
+          txDate: NOW,
+          txHash: 'txHash3',
+          txType: EPolygonPoolEventsMap.Unstaking,
+        },
+        {
+          txAmount: ONE_ETH.multipliedBy(4),
+          txDate: NOW,
+          txHash: 'txHash4',
+          txType: EPolygonPoolEventsMap.Unstaking,
         },
       ],
     },
@@ -75,26 +103,31 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   test('should return tx history data', () => {
     const date = t('format.date', { value: NOW });
     const time = t('format.time-short', { value: NOW });
-    const { result } = renderHook(() => useStakedMaticTxHistory());
+    const { result } = renderHook(() => useStakedMATICTxHistory());
 
-    expect(result.current.txHistory).toStrictEqual(defaultData.data);
     expect(result.current.hasHistory).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([
+    expect(result.current.pendingUnstakeHistoryAMATICB).toStrictEqual([
       {
         id: 1,
         amount: ONE_ETH.multipliedBy(3),
         token: Token.aMATICb,
         timerSlot: `${date}, ${time}`,
       },
+      {
+        id: 2,
+        amount: ONE_ETH.multipliedBy(4),
+        token: Token.aMATICb,
+        timerSlot: `${date}, ${time}`,
+      },
     ]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.transactionHistoryAMATICB).toStrictEqual({
       token: Token.aMATICb,
       staked: [
         {
           amount: ONE_ETH,
           date: NOW,
           hash: 'txHash1',
-          link: 'https://etherscan.io/tx/txHash1',
+          link: 'https://goerli.etherscan.io/tx/txHash1',
         },
       ],
       unstaked: [
@@ -102,7 +135,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           amount: ONE_ETH.multipliedBy(2),
           date: NOW,
           hash: 'txHash2',
-          link: 'https://etherscan.io/tx/txHash2',
+          link: 'https://goerli.etherscan.io/tx/txHash2',
         },
       ],
     });
@@ -112,7 +145,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     const mockDispatch = jest.fn();
     (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
 
-    const { result } = renderHook(() => useStakedMaticTxHistory());
+    const { result } = renderHook(() => useStakedMATICTxHistory());
 
     act(() => {
       result.current.handleLoadTxHistory();
@@ -125,13 +158,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     (useAuth as jest.Mock).mockReturnValue({ chainId: undefined });
     (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
 
-    const { result } = renderHook(() => useStakedMaticTxHistory());
+    const { result } = renderHook(() => useStakedMATICTxHistory());
 
-    expect(result.current.txHistory).toBeNull();
     expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.pendingUnstakeHistoryAMATICB).toStrictEqual([]);
+    expect(result.current.transactionHistoryAMATICB).toStrictEqual({
       token: Token.aMATICb,
       staked: [],
       unstaked: [],

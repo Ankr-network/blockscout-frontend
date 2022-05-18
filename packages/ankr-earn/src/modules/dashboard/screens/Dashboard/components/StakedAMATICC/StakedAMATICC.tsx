@@ -12,7 +12,7 @@ import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 
 import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
-import { useStakedMaticTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 
@@ -37,10 +37,10 @@ export const StakedAMATICC = (): JSX.Element => {
 
   const {
     isHistoryDataLoading,
-    pendingUnstakeHistory,
-    transactionHistory,
+    pendingUnstakeHistoryAMATICC,
+    transactionHistoryAMATICC,
     handleLoadTxHistory,
-  } = useStakedMaticTxHistory();
+  } = useStakedMATICTxHistory();
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpen();
@@ -48,7 +48,7 @@ export const StakedAMATICC = (): JSX.Element => {
   }, [handleLoadTxHistory, onOpen]);
 
   const preventHistoryLoading =
-    !!pendingUnstakeHistory.length || isHistoryDataLoading;
+    !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
 
   const renderedPendingSlot =
     !pendingValue.isZero() &&
@@ -56,7 +56,7 @@ export const StakedAMATICC = (): JSX.Element => {
       <Pending
         isLoading={isHistoryDataLoading}
         token={Token.aMATICc}
-        tooltip={<PendingTable data={pendingUnstakeHistory} />}
+        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICC} />}
         value={pendingValue}
         onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
       />
@@ -87,7 +87,7 @@ export const StakedAMATICC = (): JSX.Element => {
       />
 
       <HistoryDialog
-        history={transactionHistory}
+        history={transactionHistoryAMATICC}
         isHistoryLoading={isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}

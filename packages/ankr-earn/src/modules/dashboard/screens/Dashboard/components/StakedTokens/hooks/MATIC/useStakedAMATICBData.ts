@@ -17,7 +17,6 @@ import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTok
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
 import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 
 export interface IStakedAMATICBData {
@@ -28,8 +27,6 @@ export interface IStakedAMATICBData {
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;
-  stakeType: string;
-  unstakeType: string;
   isBalancesLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
@@ -55,7 +52,7 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
   const chainId = ETH_NETWORK_BY_ENV;
 
   const amount = statsData?.aMATICbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingClaim ?? ZERO;
+  const pendingValue = statsData?.pendingAMATICB ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
@@ -75,8 +72,6 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
     ),
     stakeLink: StakePolygonRoutes.stake.generatePath(),
     unstakeLink: StakePolygonRoutes.unstake.generatePath(),
-    stakeType: EPolygonPoolEventsMap.StakePending,
-    unstakeType: EPolygonPoolEventsMap.MaticClaimPending,
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,

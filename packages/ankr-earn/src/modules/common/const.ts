@@ -83,8 +83,8 @@ export const featuresConfig = {
   bnbHistory: true,
   showOldBanner: false,
   aMATICcUnstakeEnabled: true,
-  maticHistory: false,
-  isSplitedMATICHistory: false,
+  isSplitedMATICHistory: true,
+  maticHistory: true,
   newBinancePool: currentEnv !== Env.Production,
 };
 
