@@ -11,17 +11,18 @@ import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { withdrawal } from 'modules/bridge/actions/withdrawal';
-import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
 import { Notification } from 'modules/bridge/components/Notification';
 import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
+import { AuditedLabel } from 'modules/common/components/AuditedLabel';
+import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -275,7 +276,7 @@ export const TxView = ({
           </Button>
         )}
 
-        <AuditedLabel />
+        <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
       </Paper>
 
       {currentStep !== EStep.Finish && (

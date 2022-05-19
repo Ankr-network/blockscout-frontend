@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
+  root: {
+    '&.eth': {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
   main: {
     flexGrow: 1,
     position: 'relative',
@@ -12,7 +17,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   header: {
-    marginTop: theme.spacing(5),
+    paddingTop: theme.spacing(8),
     marginBottom: theme.spacing(5),
   },
   details: {

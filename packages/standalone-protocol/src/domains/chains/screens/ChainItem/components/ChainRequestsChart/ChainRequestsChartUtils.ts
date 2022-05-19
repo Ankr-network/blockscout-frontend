@@ -16,6 +16,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Erigonbsc:
       return theme.palette.common.white;
 
+    case ChainId.Ethereum:
+      return theme.palette.primary.light;
+
     case ChainId.Gnosis:
       return '#439AB1';
 

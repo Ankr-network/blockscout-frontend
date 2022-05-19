@@ -1,7 +1,7 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EARN_PATH } from 'modules/common/const';
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
@@ -9,7 +9,7 @@ import { createRouteConfig } from '../router/utils/createRouteConfig';
 
 import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
-const ROOT = `${EARN_PATH}dashboard/`;
+const ROOT = `${STAKING_PATH}dashboard/`;
 
 const Dashboard = loadComponent(() =>
   import('./screens/Dashboard').then(module => module.Dashboard),

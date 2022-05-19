@@ -1,7 +1,7 @@
 import { Box, SvgIcon } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import {
@@ -21,7 +21,7 @@ interface IUnclaimedAssetProps {
   claimToken?: string;
   claimLink: string;
   amount?: BigNumber;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   network?: string;
 }
 export const UnclaimedAsset = ({

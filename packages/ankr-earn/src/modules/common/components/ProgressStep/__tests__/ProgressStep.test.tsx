@@ -6,7 +6,7 @@ import { ZERO } from 'modules/common/const';
 import { ProgressStep } from '..';
 import { TxErrorCodes } from '../ProgressStep';
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: () => ({ chainId: 1 }),
 }));
 
@@ -17,7 +17,7 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       onAddTokenToWallet: jest.fn(),
@@ -57,7 +57,7 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       isLoading: true,
@@ -80,7 +80,7 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       error: new Error('error'),
@@ -103,7 +103,7 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Earn Dashboard.',
+      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       error: new Error(TxErrorCodes.TX_FAILED),

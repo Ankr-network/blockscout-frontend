@@ -105,7 +105,7 @@ export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
       ).then(({ error }) => {
         if (!error) {
           onSuccess();
-          sendAnalytics(resultAmount, Token.aBNBb);
+          sendAnalytics(resultAmount, selectedToken);
         }
       });
     },

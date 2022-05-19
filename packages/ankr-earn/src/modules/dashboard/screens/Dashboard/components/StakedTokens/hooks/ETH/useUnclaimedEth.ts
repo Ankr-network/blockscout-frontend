@@ -1,7 +1,7 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { ETH_NETWORK_BY_ENV, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -13,7 +13,7 @@ interface IUseUnclaimedEth {
   isLoading: boolean;
   token: Token;
   claimLink: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   amount?: BigNumber;
 }
 
@@ -22,7 +22,8 @@ export const useUnclaimedEth = (): IUseUnclaimedEth => {
     type: getCommonData,
   });
 
-  const isShowed = !data?.claimableAETHB.isZero() || loading;
+  const isZero = !data || data.claimableAETHB.isZero();
+  const isShowed = !isZero || loading;
 
   return {
     chainId: ETH_NETWORK_BY_ENV,

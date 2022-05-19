@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 
 import { useStakeFantomStepsHook } from '../useStakeFantomStepsHook';
@@ -21,7 +21,7 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 

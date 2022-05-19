@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 import { AvailablePlatforms, AvailableTokens } from './types';
 
@@ -47,15 +47,15 @@ export const platformsByTokenMap: Record<string, string[]> = {
 };
 
 export const chainIdByTokenMap = {
-  [AvailableTokens.AVAX]: BlockchainNetworkId.avalanche,
-  [AvailableTokens.aAVAXb]: BlockchainNetworkId.avalanche,
-  [AvailableTokens.ETH]: BlockchainNetworkId.mainnet,
-  [AvailableTokens.aETHb]: BlockchainNetworkId.mainnet,
-  [AvailableTokens.aETHc]: BlockchainNetworkId.mainnet,
-  [AvailableTokens.MATIC]: BlockchainNetworkId.mainnet,
-  [AvailableTokens.aMATICb]: BlockchainNetworkId.mainnet,
-  [AvailableTokens.BNB]: BlockchainNetworkId.smartchain,
-  [AvailableTokens.aBNBb]: BlockchainNetworkId.smartchain,
-  [AvailableTokens.FTM]: BlockchainNetworkId.fantom,
-  [AvailableTokens.aFTMb]: BlockchainNetworkId.fantom,
+  [AvailableTokens.AVAX]: EEthereumNetworkId.avalanche,
+  [AvailableTokens.aAVAXb]: EEthereumNetworkId.avalanche,
+  [AvailableTokens.ETH]: EEthereumNetworkId.mainnet,
+  [AvailableTokens.aETHb]: EEthereumNetworkId.mainnet,
+  [AvailableTokens.aETHc]: EEthereumNetworkId.mainnet,
+  [AvailableTokens.MATIC]: EEthereumNetworkId.mainnet,
+  [AvailableTokens.aMATICb]: EEthereumNetworkId.mainnet,
+  [AvailableTokens.BNB]: EEthereumNetworkId.smartchain,
+  [AvailableTokens.aBNBb]: EEthereumNetworkId.smartchain,
+  [AvailableTokens.FTM]: EEthereumNetworkId.fantom,
+  [AvailableTokens.aFTMb]: EEthereumNetworkId.fantom,
 };

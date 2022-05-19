@@ -4,12 +4,12 @@ import { useHistory, useParams } from 'react-router';
 
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig } from 'modules/polkadot-slot-auction/Routes';
 import { CancelIcon } from 'uiKit/Icons/CancelIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { fetchCrowdloanById } from '../../actions/fetchCrowdloanById';
-import { RoutesConfig } from '../../const';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 

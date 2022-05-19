@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 // semantic types
 export type Timestamp = number;
@@ -40,4 +40,5 @@ export enum Locale {
   en = 'en-US',
   zh = 'zh-CN',
 }
-export { BlockchainNetworkId };
+
+export { EEthereumNetworkId };

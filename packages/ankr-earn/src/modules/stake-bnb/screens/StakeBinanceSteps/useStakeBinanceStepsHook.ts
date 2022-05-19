@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';

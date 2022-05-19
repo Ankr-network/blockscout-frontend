@@ -6,7 +6,7 @@ import { ZERO } from 'modules/common/const';
 import { StakePolygonSteps } from '../StakePolygonSteps';
 import { useStakePolygonStepsHook } from '../useStakePolygonStepsHook';
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: () => ({ chainId: 1 }),
 }));
 

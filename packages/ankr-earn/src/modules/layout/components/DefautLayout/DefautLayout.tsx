@@ -3,7 +3,7 @@ import { useMemo, useCallback, useState } from 'react';
 
 import { Themes } from 'ui';
 
-import { STAKEFI_LINK } from 'modules/common/const';
+import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
 import {
   sessionServiceInstance,
   SessionServiceKeys,
@@ -29,7 +29,9 @@ export const DefaultLayout = ({
   verticalAlign = 'top',
 }: IDefaultLayoutProps): JSX.Element => {
   const [canShowBanner, setShowBanner] = useState(
-    !sessionServiceInstance.getItem(SessionServiceKeys.HIDE_OLD_UI_POPUP),
+    featuresConfig.showOldBanner
+      ? !sessionServiceInstance.getItem(SessionServiceKeys.HIDE_OLD_UI_POPUP)
+      : false,
   );
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 

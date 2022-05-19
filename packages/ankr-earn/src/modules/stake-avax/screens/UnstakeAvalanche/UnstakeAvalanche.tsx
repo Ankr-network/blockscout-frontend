@@ -7,8 +7,8 @@ import { useHistory } from 'react-router';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';

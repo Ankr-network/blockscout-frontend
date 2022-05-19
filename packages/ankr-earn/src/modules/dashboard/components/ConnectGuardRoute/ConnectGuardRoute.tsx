@@ -3,9 +3,9 @@ import { Route, RouteProps } from 'react-router';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
   AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
@@ -33,32 +33,30 @@ const AVAILABLE_NETWORKS = [
 export const ConnectGuardRoute = ({
   ...routeProps
 }: IConnectGuardRouteProps): JSX.Element => {
+  const providerId = AvailableWriteProviders.ethCompatible;
+
   const {
     isOpened: isOpenedModal,
     onClose: onCloseModal,
     onOpen: onOpenModal,
   } = useDialog();
 
-  let isConnected = false;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = true;
-      }
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const isConnected = writeProviderData?.isConnected ?? false;
 
   if (isConnected) {
     return (
-      <GuardRoute
+      <GuardETHRoute
         exact
         availableNetworks={AVAILABLE_NETWORKS}
         path={routeProps.path}
-        providerId={AvailableWriteProviders.ethCompatible}
+        providerId={providerId}
       >
         <Route {...routeProps} />
-      </GuardRoute>
+      </GuardETHRoute>
     );
   }
 

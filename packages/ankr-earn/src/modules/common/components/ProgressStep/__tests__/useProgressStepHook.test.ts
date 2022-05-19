@@ -1,10 +1,10 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 
 import { useProgressStepHook } from '../useProgressStepHook';
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 

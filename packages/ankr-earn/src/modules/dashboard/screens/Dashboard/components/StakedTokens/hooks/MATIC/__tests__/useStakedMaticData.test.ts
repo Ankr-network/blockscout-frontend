@@ -8,7 +8,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 
-import { useStakedMaticData } from '../useStakedMaticData';
+import { useStakedAMATICBData } from '../useStakedAMATICBData';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -16,7 +16,7 @@ jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
@@ -31,9 +31,9 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMaticData', () => {
+describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB/useStakedMaticData', () => {
   const defaultStatsData = {
-    data: { aMaticbBalance: ONE_ETH, pendingValue: ZERO },
+    data: { aMATICbBalance: ONE_ETH, pendingValue: ZERO },
     loading: false,
   };
 
@@ -54,7 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMa
   });
 
   test('should return amount and pending value', () => {
-    const { result } = renderHook(() => useStakedMaticData());
+    const { result } = renderHook(() => useStakedAMATICBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
@@ -69,7 +69,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMa
       loading: true,
     });
 
-    const { result } = renderHook(() => useStakedMaticData());
+    const { result } = renderHook(() => useStakedAMATICBData());
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
@@ -84,7 +84,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedMatic/useStakedMa
     const mockDispatch = jest.fn();
     (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
 
-    const { result } = renderHook(() => useStakedMaticData());
+    const { result } = renderHook(() => useStakedAMATICBData());
 
     act(() => {
       result.current.handleAddTokenToWallet();

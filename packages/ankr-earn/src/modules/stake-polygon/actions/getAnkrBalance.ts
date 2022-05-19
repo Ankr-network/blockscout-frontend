@@ -19,11 +19,8 @@ export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
           ABI_ANKR,
           contractConfig.ankrContract,
         );
-        
-        return provider.getErc20Balance(
-          ankrContract,
-          currentAccount,
-        );
+
+        return provider.getErc20Balance(ankrContract, currentAccount);
       })(),
     },
     meta: {

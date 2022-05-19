@@ -16,7 +16,7 @@ jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 

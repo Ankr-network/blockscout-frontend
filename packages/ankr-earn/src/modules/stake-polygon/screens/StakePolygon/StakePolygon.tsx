@@ -1,13 +1,12 @@
 import { ButtonBase } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
-import { DECIMAL_PLACES } from 'modules/common/const';
+import { DECIMAL_PLACES, DEFAULT_FIXED } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
@@ -18,6 +17,10 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
+import { TokenVariant } from 'modules/stake/components/TokenVariant';
+import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -32,8 +35,19 @@ export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
 
-  const { amount, apy, handleFormChange, handleSubmit, isStakeLoading } =
-    useStakeForm();
+  const {
+    amount,
+    apy,
+    handleFormChange,
+    handleSubmit,
+    isStakeLoading,
+    tokenIn,
+    tokenOut,
+    onTokenSelect,
+    isFetchStatsLoading,
+    aMATICcRatio,
+    totalAmount,
+  } = useStakeForm();
 
   const faqItems = useFaq();
   const stats = useStakeStats({
@@ -47,16 +61,40 @@ export const StakePolygon = (): JSX.Element => {
     dispatchRequest(fetchStats());
   }, [dispatchRequest]);
 
-  const renderStats = useCallback(
-    (formAmount: BigNumber) => {
-      return (
+  const renderStats = () => {
+    return (
+      <>
+        <TokenVariantList my={5}>
+          <TokenVariant
+            description={tHTML('stake-polygon.amaticb-descr')}
+            iconSlot={<AMATICBIcon />}
+            isActive={tokenOut === Token.aMATICb}
+            isDisabled={isStakeLoading}
+            title={t('unit.amaticb')}
+            onClick={onTokenSelect(Token.aMATICb)}
+          />
+
+          <TokenVariant
+            description={tHTML('stake-polygon.amaticc-descr', {
+              rate: isFetchStatsLoading
+                ? '...'
+                : aMATICcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+            })}
+            iconSlot={<AMATICCIcon />}
+            isActive={tokenOut === Token.aMATICc}
+            isDisabled={isStakeLoading}
+            title={t('unit.amaticc')}
+            onClick={onTokenSelect(Token.aMATICc)}
+          />
+        </TokenVariantList>
+
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount
-              symbol={t('unit.amaticb')}
-              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              symbol={tokenOut}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
 
             <Tooltip
@@ -68,10 +106,9 @@ export const StakePolygon = (): JSX.Element => {
             </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
-      );
-    },
-    [classes],
-  );
+      </>
+    );
+  };
 
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
@@ -84,8 +121,8 @@ export const StakePolygon = (): JSX.Element => {
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
               renderStats={renderStats}
-              tokenIn={t('unit.polygon')}
-              tokenOut={t('unit.amaticb')}
+              tokenIn={tokenIn}
+              tokenOut={tokenOut}
               onChange={handleFormChange}
               onSubmit={handleSubmit}
             />

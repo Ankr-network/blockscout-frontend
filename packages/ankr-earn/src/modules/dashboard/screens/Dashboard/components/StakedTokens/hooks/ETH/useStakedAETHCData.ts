@@ -6,9 +6,9 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -22,7 +22,7 @@ export interface IStakedAETHCData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   tradeLink: string;
   isShowed: boolean;
   isBalancesLoading: boolean;

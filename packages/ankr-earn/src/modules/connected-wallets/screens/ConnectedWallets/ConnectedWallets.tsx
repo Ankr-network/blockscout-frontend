@@ -1,4 +1,4 @@
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ConnectedWalletsButton } from 'modules/connected-wallets/components/ConnectedWalletsButton';
 import { ConnectedWalletsDialog } from 'modules/connected-wallets/components/ConnectedWalletsDialog';

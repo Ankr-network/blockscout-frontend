@@ -1,5 +1,5 @@
-import { BlockchainNetworkId } from 'modules/common/types';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 export interface IConnectResult {
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
 }

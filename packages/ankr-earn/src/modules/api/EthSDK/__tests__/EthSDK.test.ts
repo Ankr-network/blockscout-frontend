@@ -12,7 +12,7 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
-describe('ankr-earn/src/modules/api/EthSDK', () => {
+describe('modules/api/EthSDK', () => {
   const ethAmount = '8';
   const timestamp = Math.floor(+new Date() / 1000);
 
@@ -214,10 +214,10 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       claimableAETHB,
       claimableAETHC,
     ] = await Promise.all([
-      sdk.getAethcRatio(),
-      sdk.getAethcBalance(),
-      sdk.getAethbBalance(),
-      sdk.getAllowance(),
+      sdk.getACRatio(),
+      sdk.getACBalance(),
+      sdk.getABBalance(),
+      sdk.getACAllowance(),
       sdk.getEthBalance(),
       sdk.getClaimable(Token.aETHb),
       sdk.getClaimable(Token.aETHc),
@@ -330,7 +330,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB();
+    const result = await sdk.approveACForAB();
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
@@ -356,7 +356,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB(ZERO);
+    const result = await sdk.approveACForAB(ZERO);
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});

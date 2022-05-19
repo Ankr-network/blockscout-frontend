@@ -2,7 +2,7 @@ import { BigNumber } from 'bignumber.js';
 
 import {
   AvailableReadProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   Web3KeyWriteProvider,
 } from 'provider';
 
@@ -11,6 +11,7 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   BSC_PROVIDER_BY_ENV,
   ETH_PROVIDER_BY_ENV,
+  FTM_PROVIDER_BY_ENV,
   POLYGON_PROVIDER_BY_ENV,
   ZERO,
 } from 'modules/common/const';
@@ -19,7 +20,10 @@ import { Token } from 'modules/common/types/token';
 
 import ABI_AETHB from '../../api/contract/FETH.json';
 import ABI_ERC20 from '../../api/contract/IERC20.json';
+import AFTMB_ABI from '../../stake-fantom/api/contracts/aFTMb.json';
+import AFTMC_ABI from '../../stake-fantom/api/contracts/aFTMc.json';
 import AMATICB_ABI from '../../stake-polygon/api/contracts/aMATICb.json';
+import AMATICC_ABI from '../../stake-polygon/api/contracts/aMATICc.json';
 
 const config = configFromEnv();
 
@@ -47,6 +51,12 @@ export const addressMapForTokenBSC: {
     address: config.binanceConfig.aETHbToken,
     providerName: BSC_PROVIDER_BY_ENV,
   },
+
+  [Token.aMATICc]: {
+    abi: AMATICC_ABI,
+    address: config.binanceConfig.aMATICcToken,
+    providerName: BSC_PROVIDER_BY_ENV,
+  },
 };
 
 export const addressMapForTokenGoerli: {
@@ -72,6 +82,27 @@ export const addressMapForTokenPolygon: {
     abi: AMATICB_ABI,
     address: config.polygonConfig.aMATICbToken,
     providerName: POLYGON_PROVIDER_BY_ENV,
+  },
+
+  [Token.aMATICc]: {
+    abi: AMATICC_ABI,
+    address: config.polygonConfig.aMATICcToken,
+    providerName: POLYGON_PROVIDER_BY_ENV,
+  },
+};
+
+export const addressMapForTokenFantom: {
+  [token in Token]?: IDashboardSDKCotractData;
+} = {
+  [Token.aFTMb]: {
+    abi: AFTMB_ABI,
+    address: config.fantomConfig.aftmbToken,
+    providerName: FTM_PROVIDER_BY_ENV,
+  },
+  [Token.aFTMc]: {
+    abi: AFTMC_ABI,
+    address: config.fantomConfig.aftmcToken,
+    providerName: FTM_PROVIDER_BY_ENV,
   },
 };
 
@@ -107,7 +138,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): Promise<BigNumber> {
     const { abi, address, providerName } = this.getContractDataForToken({
       token,
@@ -136,7 +167,7 @@ export class DashboardSDK {
     networkID,
   }: {
     token: Token;
-    networkID: BlockchainNetworkId;
+    networkID: EEthereumNetworkId;
   }): IDashboardSDKCotractData {
     const EMPTY = {
       abi: ABI_ERC20,
@@ -145,18 +176,23 @@ export class DashboardSDK {
     };
 
     switch (networkID) {
-      case BlockchainNetworkId.smartchainTestnet:
-      case BlockchainNetworkId.smartchain: {
+      case EEthereumNetworkId.smartchainTestnet:
+      case EEthereumNetworkId.smartchain: {
         return addressMapForTokenBSC[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.goerli:
-      case BlockchainNetworkId.mainnet: {
+      case EEthereumNetworkId.goerli:
+      case EEthereumNetworkId.mainnet: {
         return addressMapForTokenGoerli[token] || EMPTY;
       }
 
-      case BlockchainNetworkId.polygon: {
+      case EEthereumNetworkId.polygon: {
         return addressMapForTokenPolygon[token] || EMPTY;
+      }
+
+      case EEthereumNetworkId.fantom:
+      case EEthereumNetworkId.fantomTestnet: {
+        return addressMapForTokenFantom[token] || EMPTY;
       }
 
       default: {

@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { t } from 'modules/i18n/utils/intl';
 import { getHistory } from 'modules/stake-fantom/actions/getHistory';

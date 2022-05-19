@@ -5,21 +5,22 @@ import { withStore } from 'modules/common/utils/withStore';
 
 import { SwitcherSDK } from '../api/SwitcherSDK';
 import { IFetchTxData, IFetchTxReceiptData } from '../api/types';
-import { AvailableSwitchNetwork } from '../const';
+import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
 
 interface IGetTxDataArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   txHash: string;
 }
 
 export const getTxData = createAction<
   RequestAction<IFetchTxData, IFetchTxData>
->('switcher/getTxData', ({ chainId, txHash }: IGetTxDataArgs) => ({
+>('switcher/getTxData', ({ chainId, txHash, token }: IGetTxDataArgs) => ({
   request: {
     promise: async (): Promise<IFetchTxData | undefined> => {
       const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.fetchTxData({ chainId, txHash });
+      return sdk.fetchTxData({ chainId, txHash, token });
     },
   },
   meta: {
@@ -31,6 +32,7 @@ export const getTxData = createAction<
 
 interface IGetTxReceiptArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
   txHash: string;
 }
 
@@ -38,7 +40,7 @@ const POLL_INTERVAL_SECONDS = 5;
 
 export const getTxReceipt = createAction<
   RequestAction<IFetchTxReceiptData, IFetchTxReceiptData>
->('switcher/getTxReceipt', ({ chainId, txHash }: IGetTxReceiptArgs) => ({
+>('switcher/getTxReceipt', ({ chainId, txHash, token }: IGetTxReceiptArgs) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -49,7 +51,7 @@ export const getTxReceipt = createAction<
     getData: data => data,
     onRequest: request => {
       request.promise = SwitcherSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt({ chainId, txHash }),
+        sdk.fetchTxReceipt({ chainId, txHash, token }),
       );
 
       return request;

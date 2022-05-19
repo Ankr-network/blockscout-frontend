@@ -7,8 +7,8 @@ import { Token } from 'modules/common/types/token';
 
 import { useStakableEth } from '../useStakableEth';
 
-jest.mock('modules/auth/components/GuardRoute/useNetworks', () => ({
-  useNetworks: () => [
+jest.mock('modules/auth/eth/hooks/useETHNetworks', () => ({
+  useETHNetworks: () => [
     {
       title: 'mainnet',
       chainId: 1,

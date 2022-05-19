@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';

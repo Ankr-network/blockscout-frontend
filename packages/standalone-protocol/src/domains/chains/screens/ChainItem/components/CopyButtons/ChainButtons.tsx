@@ -29,7 +29,7 @@ export const ChainButtons = ({
   const message = t('common.copy-message');
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} data-test-id="copy-button">
       {isXSDown ? (
         <CopyToClipIcon
           text={netLink}

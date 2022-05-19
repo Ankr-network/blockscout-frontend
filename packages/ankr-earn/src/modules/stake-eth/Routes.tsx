@@ -1,9 +1,9 @@
 import { generatePath, Route, Switch, useParams } from 'react-router-dom';
 
 import { TEthToken } from 'modules/api/EthSDK';
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { EARN_PATH, featuresConfig } from 'modules/common/const';
+import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -17,7 +17,7 @@ import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from './const';
 const ROOT = `${StakeRoutes.main.path}ethereum/`;
 const STAKE_ETH_PATH = `${ROOT}?token=:token?`;
 const STEP_STAKE_ETH_PATH = `${ROOT}:tokenOut/:txHash/`;
-const CLAIM_ETH_ROOT_PATH = `${EARN_PATH}claim/ethereum/`;
+const CLAIM_ETH_ROOT_PATH = `${STAKING_PATH}claim/ethereum/`;
 const STEP_CLAIM_ETH_PATH = `${CLAIM_ETH_ROOT_PATH}:tokenOut/:txHash/`;
 const STEP_CLAIM_ETH_WITH_AMOUNT_PATH = `${STEP_CLAIM_ETH_PATH}?amount=:amount?`;
 const TEST_STAKE_PATH = `${ROOT}without-claim/`;
@@ -111,7 +111,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.claim.path]}>
       <Switch>
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
@@ -120,9 +120,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Stake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.stakeSteps.path}
@@ -131,9 +131,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <StakeSteps />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.claim.path}
@@ -142,9 +142,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Claim />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.claimSteps.path}
@@ -153,10 +153,10 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <ClaimSteps />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
         {featuresConfig.stakeETHWithoutClaim && (
-          <GuardRoute
+          <GuardETHRoute
             exact
             availableNetworks={ETH_STAKING_NETWORKS}
             path={RoutesConfig.stakeWithoutClaim.path}
@@ -165,7 +165,7 @@ export function getRoutes(): JSX.Element {
             <DefaultLayout>
               <TestingStake />
             </DefaultLayout>
-          </GuardRoute>
+          </GuardETHRoute>
         )}
 
         <Route>

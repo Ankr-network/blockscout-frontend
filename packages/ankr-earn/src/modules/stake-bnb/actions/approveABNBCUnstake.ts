@@ -4,6 +4,8 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
 
+import { ETH_SCALE_FACTOR } from 'modules/common/const';
+
 import { BinanceSDK } from '../api/BinanceSDK';
 
 export const approveABNBCUnstake = createAction<
@@ -14,7 +16,7 @@ export const approveABNBCUnstake = createAction<
     promise: (async (): Promise<IWeb3SendResult | undefined> => {
       const sdk = await BinanceSDK.getInstance();
 
-      return sdk.approveABNBCUnstake(amount);
+      return sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
     })(),
   },
   meta: {
