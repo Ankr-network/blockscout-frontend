@@ -4,6 +4,8 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
   list: {
     display: 'flex',
     justifyContent: 'center',
+    width: '100%',
+    flexDirection: 'column',
     alignItems: 'baseline',
     margin: theme.spacing(-2, -2, 0),
   },
@@ -14,20 +16,27 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: theme.spacing(2),
-    padding: theme.spacing(0, 2),
     width: '100%',
-    maxWidth: 120 + theme.spacing(4),
   },
 
   item: {
-    padding: theme.spacing(1.5, 1, 1),
+    padding: theme.spacing(1.5),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
 
-    border: 'none',
+    border: `2px solid ${theme.palette.background.default}`,
     background: 'none',
     textAlign: 'center',
     color: theme.palette.text.primary,
 
-    borderRadius: 8,
+    borderRadius: 16,
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(1.5, 2.5),
+    },
   },
 
   itemClickable: {
@@ -40,6 +49,18 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
   },
 
   itemTitle: {
-    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+  },
+
+  connect: {
+    marginRight: theme.spacing(1),
+    fontWeight: 700,
+    color: theme.palette.primary.main,
+  },
+
+  icon: {
+    fontSize: 36,
+    width: '1em',
+    height: '1em',
   },
 }));

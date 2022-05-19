@@ -22,7 +22,6 @@ export interface IUseGuardRouteData<
   SupportedNetworkItem extends INetworkItem<NetworkId>,
 > {
   currentNetwork?: string;
-  infoTxt?: string;
   isConnected: boolean;
   isLoading: boolean;
   isOpenedModal: boolean;
