@@ -32,7 +32,8 @@ export const useStakeStats = ({
   });
 
   const apy = rawApy.decimalPlaces(DEFAULT_ROUNDING).toFixed();
-  const yearlyEarning = calculateYearlyEarning(amount, apy).toFormat();
+  const yearlyEarningVal = calculateYearlyEarning(amount, apy);
+  const yearlyEarning = yearlyEarningVal.toFormat();
 
   const metrics = useMemo(
     () => metricsData?.find(x => x.name === metricsServiceName),
@@ -47,7 +48,7 @@ export const useStakeStats = ({
     metrics && !totalStaked.isZero() ? totalStakedUsd.div(totalStaked) : ZERO;
 
   const yearlyEarningUSD = usdRatio
-    ? usdRatio.multipliedBy(yearlyEarning).toFormat(DEFAULT_ROUNDING)
+    ? usdRatio.multipliedBy(yearlyEarningVal).toFormat(DEFAULT_ROUNDING)
     : undefined;
 
   return {

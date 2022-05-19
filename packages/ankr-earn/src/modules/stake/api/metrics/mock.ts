@@ -51,5 +51,12 @@ export const METRICS_MOCK: IMetricsResponse = {
       apy: '10.5800886',
       totalStakedUsd: '53512.93398',
     },
+    {
+      serviceName: 'wnd',
+      totalStaked: '3273.9581242859',
+      stakers: '10',
+      apy: '9.5800886',
+      totalStakedUsd: '5312.93398',
+    },
   ],
 };

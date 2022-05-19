@@ -42,6 +42,7 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     textAlign: 'right',
     fontSize: 12,
+    cursor: 'pointer',
 
     [theme.breakpoints.up('md')]: {
       width: 'auto',

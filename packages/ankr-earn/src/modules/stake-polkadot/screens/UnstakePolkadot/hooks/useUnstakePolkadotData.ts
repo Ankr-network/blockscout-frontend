@@ -1,4 +1,8 @@
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -14,25 +18,25 @@ import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
 
-import { fetchStats } from '../../../actions/fetchStats';
+import { fetchUnstakeStats } from '../../../actions/fetchUnstakeStats';
 import { unstake } from '../../../actions/unstake';
 import { useETHPolkadotProvidersEffect } from '../../../hooks/useETHPolkadotProvidersEffect';
-import { useFetchStats } from '../../../hooks/useFetchStats';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
+  TPolkadotETHToken,
   TPolkadotToken,
 } from '../../../types';
 import { getRedeemPeriod } from '../../../utils/getRedeemPeriod';
 
 interface IUseUnstakePolkadotData {
-  ethToken: Token;
+  ethToken: TPolkadotETHToken;
   isActiveSuccessForm: boolean;
   isActiveUnstakeForm: boolean;
   isActiveUserWalletForm: boolean;
   isFetchStatsLoading: boolean;
   isUnstakeLoading: boolean;
-  fetchStatsData: ResponseData<typeof fetchStats> | null;
+  fetchStatsData: ResponseData<typeof fetchUnstakeStats> | null;
   fetchStatsError: Error | null;
   maxAmountDecimals: number | undefined;
   networkName: string;
@@ -71,10 +75,12 @@ export const useUnstakePolkadotData = (
   } = useDialog();
 
   const {
-    isLoading: isFetchStatsLoading,
+    data: fetchStatsData,
     error: fetchStatsError,
-    stats: fetchStatsData,
-  } = useFetchStats();
+    loading: isFetchStatsLoading,
+  } = useQuery({
+    type: fetchUnstakeStats,
+  });
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
@@ -83,7 +89,7 @@ export const useUnstakePolkadotData = (
   const isActiveSuccessForm = !isUserWalletOpened && isSuccessOpened;
 
   const ethToken = useMemo(
-    () => EPolkadotETHReverseMap[network] as unknown as Token,
+    () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
     [network],
   );
 
@@ -159,8 +165,8 @@ export const useUnstakePolkadotData = (
   };
 
   useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(fetchStats());
-  }, [dispatchRequest, fetchStats]);
+    dispatchRequest(fetchUnstakeStats());
+  }, [dispatchRequest, fetchUnstakeStats]);
 
   return {
     ethToken,

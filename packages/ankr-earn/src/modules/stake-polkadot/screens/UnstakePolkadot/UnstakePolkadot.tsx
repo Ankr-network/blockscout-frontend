@@ -11,18 +11,14 @@ import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
-import { EPolkadotNetworks } from '../../types';
+import { IPolkadotRouteLoadableComponentProps } from '../../types';
 
 import { UnstakeRenderFormFooter } from './components/UnstakeRenderFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';
 
-interface IUnstakePolkadotProps {
-  network: EPolkadotNetworks;
-}
-
 export const UnstakePolkadot = ({
   network,
-}: IUnstakePolkadotProps): JSX.Element => {
+}: IPolkadotRouteLoadableComponentProps): JSX.Element => {
   const {
     ethToken,
     isActiveSuccessForm,

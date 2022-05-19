@@ -1,11 +1,15 @@
 export type TServiceName =
+  // Common
   | 'eth'
   | 'polygon'
   | 'avax'
   | 'bnb'
   | 'ftm'
   | 'ksm'
-  | 'dot';
+  | 'dot'
+
+  // DEV mode only
+  | 'wnd';
 
 interface IMetricsService {
   serviceName: TServiceName;

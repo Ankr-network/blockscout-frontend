@@ -81,6 +81,9 @@
     "aftmc": "aFTMc",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
+    "dot": "DOT",
+    "ksm": "KSM",
+    "wnd": "WND",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
@@ -419,11 +422,41 @@
     }
   },
   "stake-polkadot": {
+    "errors": {
+      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
+    },
+    "faq": {
+      "question-1": "Which wallets are compatible with the a{network}b tokens?",
+      "answer-1": "a{network}b is an ERC-20 token that is compatible with Ethereum-based wallets like Metamask.",
+      "question-2": "Are there any docs about the {network} staking and how I set up my wallet etc.?",
+      "answer-2": "Yes — there is a <a href='https://www.ankr.com/docs/staking/liquid-staking/{network}/stake-{network}/' rel='noopener noreferrer' target='_blank'>user guide</a>.",
+      "question-3": "What is the minimum amount of {network} I can stake?",
+      "answer-3": "{value} {network}.",
+      "question-4": "Is there a maximum amount I can stake?",
+      "answer-4": "No, you can stake at your discretion, unlimited.",
+      "question-5": "What is the unbonding period for a{network}b?",
+      "answer-5": "You receive the unstaked amount after the unbonding period of up to ~{period} days.",
+      "question-6": "How do I receive rewards?",
+      "answer-6": "a{network}b is a rebasing token. When holding a{network}b, your balance will increase in proportion to your {network} staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your a{network}b increase by a small amount.",
+      "question-7": "How soon after staking will I begin to receive rewards?",
+      "answer-7": "a{network}b will increase with every rebase; rebasing occurs daily.",
+      "question-8": "Does Ankr charge for the service?",
+      "answer-8": "2% commission from the staking reward.",
+      "question-9": "What determines the amount of reward I receive each rebase of a{network}b?",
+      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
+      "question-10": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction, attacks the network, or goes offline. The delegated staked {network} is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+      "question-11": "Is there any liquidity for a{network}b anywhere currently?",
+      "answer-11": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
+    },
     "networks": {
       "DOT": "Polkadot",
       "KSM": "Kusama",
       "ROC": "Rococo",
       "WND": "Westend"
+    },
+    "tooltips": {
+      "you-will-get": "a{token}b represents your staked {token} and provides liquidity for your staked position.<br/><br/>a{token}b balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 a{token}b = 1 {token}. You can unstake it anytime and receive your stake and earned rewards after the ~{period} days unbonding period. While staking, you can also use a{token}b for trading and other DeFi opportunities."
     },
     "unstake": {
       "info": "You will get your {token} in ~{period} days",

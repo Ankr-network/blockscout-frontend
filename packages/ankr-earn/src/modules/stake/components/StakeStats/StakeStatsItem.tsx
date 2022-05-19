@@ -56,7 +56,15 @@ export const StakeStatsItem = ({
 
       {usdEquivalent && (
         <div className={classes.usd}>
-          {t('stake.stats.usd-equivalent', { value: usdEquivalent })}
+          <Tooltip
+            arrow
+            enterDelay={ENTER_DELAY}
+            title={t('stake.stats.usd-equivalent', { value: usdEquivalent })}
+          >
+            <div className={classes.statisticValue}>
+              {t('stake.stats.usd-equivalent', { value: usdEquivalent })}
+            </div>
+          </Tooltip>
         </div>
       )}
     </div>

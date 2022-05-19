@@ -1,4 +1,5 @@
 export enum EMetricsServiceName {
+  // Common
   ETH = 'eth',
   MATIC = 'matic',
   AVAX = 'avax',
@@ -6,6 +7,9 @@ export enum EMetricsServiceName {
   FTM = 'ftm',
   KSM = 'ksm',
   DOT = 'dot',
+
+  // DEV mode only
+  WND = 'wnd',
 }
 
 export const METRICS_URL = 'v1alpha/metrics';
