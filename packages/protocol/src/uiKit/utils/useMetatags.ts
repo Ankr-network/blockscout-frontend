@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { t } from 'modules/i18n/utils/intl';
 import { PATH_CHAINS } from 'domains/chains/Routes';
-import { PATH_PLAN, PATH_PLAN_DEPOSIT } from 'domains/plan/Routes';
+import { PATH_PLAN } from 'domains/plan/Routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
 const PROTOCOL_URL = 'https://www.ankr.com/protocol';
@@ -34,9 +34,8 @@ const getLocation = (pathname: string): string => {
     location = 'plan.';
   } else if (pathname === PATH_PROVIDERS) {
     location = 'providers.';
-  } else if (pathname === PATH_PLAN_DEPOSIT) {
-    location = 'plan-deposit.';
   }
+
   return location;
 };
 
