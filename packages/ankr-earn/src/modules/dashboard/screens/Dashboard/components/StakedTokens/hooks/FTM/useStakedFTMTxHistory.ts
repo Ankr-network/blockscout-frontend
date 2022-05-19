@@ -14,9 +14,12 @@ import { ITxEventsHistoryGroupItem } from 'modules/stake/api/getTxEventsHistoryG
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
-  staked: IHistoryDialogRow[];
-  unstaked: IHistoryDialogRow[];
-  pendingUnstakeHistory: IPendingTableRow[];
+  stakedAFTMB: IHistoryDialogRow[];
+  stakedAFTMC: IHistoryDialogRow[];
+  unstakedAFTMB: IHistoryDialogRow[];
+  unstakedAFTMC: IHistoryDialogRow[];
+  pendingUnstakeHistoryAFTMB: IPendingTableRow[];
+  pendingUnstakeHistoryAFTMC: IPendingTableRow[];
   hasHistory: boolean;
   isHistoryLoading: boolean;
   pendingValue: BigNumber;
@@ -50,16 +53,20 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
     };
   };
 
-  const staked = historyData?.stakeEvents.map(mapTxns) ?? [];
-  const unstaked = historyData?.withdrawnEvents.map(mapTxns) ?? [];
-  const pendingUnstakeHistory =
-    historyData?.pendingEvents.map(mapPending) ?? [];
+  const stakedAFTMB = historyData?.stakeEventsAFTMB.map(mapTxns) ?? [];
+  const stakedAFTMC = historyData?.stakeEventsAFTMC.map(mapTxns) ?? [];
+  const unstakedAFTMB = historyData?.withdrawnEventsAFTMB.map(mapTxns) ?? [];
+  const unstakedAFTMC = historyData?.withdrawnEventsAFTMC.map(mapTxns) ?? [];
+  const pendingUnstakeHistoryAFTMB =
+    historyData?.pendingEventsAFTMB.map(mapPending) ?? [];
+  const pendingUnstakeHistoryAFTMC =
+    historyData?.pendingEventsAFTMC.map(mapPending) ?? [];
 
   const pendingValue = historyData?.totalPending ?? ZERO;
 
   const hasHistory =
-    !!staked?.length ||
-    !!unstaked?.length ||
+    !!stakedAFTMB?.length ||
+    !!unstakedAFTMB?.length ||
     !pendingValue.isZero() ||
     isHistoryLoading;
 
@@ -69,10 +76,13 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
 
   return {
     hasHistory,
-    staked,
-    unstaked,
+    stakedAFTMB,
+    stakedAFTMC,
+    unstakedAFTMB,
+    unstakedAFTMC,
     isHistoryLoading,
-    pendingUnstakeHistory,
+    pendingUnstakeHistoryAFTMB,
+    pendingUnstakeHistoryAFTMC,
     pendingValue,
     handleLoadTxHistory,
   };

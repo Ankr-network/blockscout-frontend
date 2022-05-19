@@ -80,7 +80,7 @@ export const featuresConfig = {
   maxStakeAmountBtn: false,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
-  stakeAFTMC: currentEnv !== Env.Production,
+  stakeAFTMC: true,
   bnbHistory: true,
   showOldBanner: false,
   aMATICcUnstakeEnabled: true,

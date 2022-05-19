@@ -57,8 +57,7 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
   const chainId = FTM_NETWORK_BY_ENV;
 
   const amount = commonData?.aFTMcBalance ?? ZERO;
-  // TODO: need update in future
-  const pendingUnstakes = ZERO;
+  const pendingUnstakes = commonData?.certPendingUnstakes ?? ZERO;
   const isShowed = !amount.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {

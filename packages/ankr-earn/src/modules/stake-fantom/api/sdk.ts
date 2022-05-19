@@ -42,9 +42,9 @@ import AFTMCAbi from './contracts/aFTMc.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 export enum EFantomPoolEvents {
-  TokensBurned = 'TokensBurned',
+  TokensBurned = 'TokensBurned2',
   Withdrawn = 'Withdrawn',
-  StakeReceived = 'StakeReceived',
+  StakeReceived = 'StakeReceived2',
 }
 
 type TUnstakingStatsType = 'bond' | 'cert' | 'all';
@@ -67,6 +67,16 @@ export interface IGetTxData {
   amount: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
+}
+
+interface ITxEventsHistoryData {
+  stakeEventsAFTMB: TTxEventsHistoryGroupData;
+  stakeEventsAFTMC: TTxEventsHistoryGroupData;
+  pendingEventsAFTMB: TTxEventsHistoryGroupData;
+  pendingEventsAFTMC: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMB: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMC: TTxEventsHistoryGroupData;
+  totalPending: BigNumber;
 }
 
 interface ILockSharesArgs {
@@ -191,12 +201,7 @@ export class FantomSDK implements ISwitcher {
     return provider.createContract(AFTMCAbi, fantomConfig.aftmcToken);
   }
 
-  public async getTxHistory(): Promise<{
-    stakeEvents: TTxEventsHistoryGroupData;
-    pendingEvents: TTxEventsHistoryGroupData;
-    withdrawnEvents: TTxEventsHistoryGroupData;
-    totalPending: BigNumber;
-  }> {
+  public async getTxHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
@@ -253,21 +258,55 @@ export class FantomSDK implements ISwitcher {
       }
     });
 
-    const [stakeEvents, withdrawnEvents, pendingEvents] = await Promise.all(
-      [stakeRawEvents, withdrawnRawEvents, pendingRawEvents].map(rawEvents =>
-        getTxEventsHistoryGroup({ rawEvents, web3 }),
-      ),
+    const stakeRawEventsAFTMB = stakeRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const stakeRawEventsAFTMC = stakeRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+    const withdrawnRawEventsAFTMB = withdrawnRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const withdrawnRawEventsAFTMC = withdrawnRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+    const pendingRawEventsAFTMB = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingRawEventsAFTMC = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
     );
 
-    const totalPending = pendingEvents.reduce(
+    const [
+      stakeEventsAFTMCB,
+      stakeEventsAFTMCC,
+      withdrawnEventsAFTMB,
+      withdrawnEventsAFTMC,
+      pendingEventsAFTMB,
+      pendingEventsAFTMC,
+    ] = await Promise.all(
+      [
+        stakeRawEventsAFTMB,
+        stakeRawEventsAFTMC,
+        withdrawnRawEventsAFTMB,
+        withdrawnRawEventsAFTMC,
+        pendingRawEventsAFTMB,
+        pendingRawEventsAFTMC,
+      ].map(rawEvents => getTxEventsHistoryGroup({ rawEvents, web3 })),
+    );
+
+    const totalPending = [...pendingEventsAFTMB, ...pendingEventsAFTMC].reduce(
       (acc, { txAmount }) => acc.plus(txAmount),
       ZERO,
     );
 
     return {
-      stakeEvents,
-      pendingEvents,
-      withdrawnEvents,
+      stakeEventsAFTMB: stakeEventsAFTMCB,
+      stakeEventsAFTMC: stakeEventsAFTMCC,
+      pendingEventsAFTMB,
+      pendingEventsAFTMC,
+      withdrawnEventsAFTMB,
+      withdrawnEventsAFTMC,
       totalPending,
     };
   }

@@ -30,7 +30,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     loading: false,
     data: {
       totalPending: ONE_ETH,
-      stakeEvents: [
+      stakeEventsAFTMB: [
         {
           txDate: NOW,
           txAmount: ONE_ETH,
@@ -38,7 +38,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EFantomPoolEvents.StakeReceived,
         },
       ],
-      pendingEvents: [
+      stakeEventsAFTMC: [
+        {
+          txDate: NOW,
+          txAmount: ONE_ETH,
+          txHash: 'txHash1',
+          txType: EFantomPoolEvents.StakeReceived,
+        },
+      ],
+      pendingEventsAFTMB: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,
@@ -46,7 +54,23 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EFantomPoolEvents.TokensBurned,
         },
       ],
-      withdrawnEvents: [
+      pendingEventsAFTMC: [
+        {
+          txAmount: ONE_ETH.multipliedBy(3),
+          txDate: NOW,
+          txHash: 'txHash3',
+          txType: EFantomPoolEvents.TokensBurned,
+        },
+      ],
+      withdrawnEventsAFTMB: [
+        {
+          txAmount: ONE_ETH.multipliedBy(3),
+          txDate: NOW,
+          txHash: 'txHash3',
+          txType: EBinancePoolEventsMap.UnstakePending,
+        },
+      ],
+      withdrawnEventsAFTMC: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,
@@ -72,8 +96,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const time = t('format.time-short', { value: NOW });
     const { result } = renderHook(() => useStakedFTMTxHistory());
 
-    expect(result.current.hasHistory).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([
+    expect(result.current.pendingUnstakeHistoryAFTMB);
+    expect(result.current.pendingUnstakeHistoryAFTMB).toStrictEqual([
       {
         id: NOW.getTime(),
         amount: ONE_ETH.multipliedBy(3),
@@ -81,7 +105,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         timerSlot: `${date}, ${time}`,
       },
     ]);
-    expect(result.current.staked).toStrictEqual([
+    expect(result.current.stakedAFTMB).toStrictEqual([
       {
         amount: ONE_ETH,
         date: NOW,
@@ -90,7 +114,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       },
     ]);
 
-    expect(result.current.unstaked).toStrictEqual([
+    expect(result.current.unstakedAFTMB).toStrictEqual([
       {
         amount: ONE_ETH.multipliedBy(3),
         date: NOW,
@@ -119,10 +143,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const { result } = renderHook(() => useStakedFTMTxHistory());
 
     expect(result.current.hasHistory).toBe(true);
-    expect(result.current.isHistoryLoading).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
-    expect(result.current.staked).toStrictEqual([]);
-    expect(result.current.unstaked).toStrictEqual([]);
+    expect(result.current.pendingUnstakeHistoryAFTMB).toStrictEqual([]);
+    expect(result.current.stakedAFTMB).toStrictEqual([]);
+    expect(result.current.unstakedAFTMB).toStrictEqual([]);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
   });
 });

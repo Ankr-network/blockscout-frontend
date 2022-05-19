@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
@@ -13,12 +15,12 @@ import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxH
 
 export const StakedAFTMC = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
-  const { isOpened, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const {
-    pendingUnstakeHistory,
-    staked,
-    unstaked,
+    pendingUnstakeHistoryAFTMC,
+    stakedAFTMC,
+    unstakedAFTMC,
     isHistoryLoading,
     handleLoadTxHistory,
   } = useStakedFTMTxHistory();
@@ -56,11 +58,16 @@ export const StakedAFTMC = (): JSX.Element | null => {
     });
   };
 
+  const handleOpenHistoryDialog = useCallback(() => {
+    onOpen();
+    handleLoadTxHistory();
+  }, [handleLoadTxHistory, onOpen]);
+
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
       isLoading={isHistoryLoading}
       token={Token.aFTMc}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
+      tooltip={<PendingTable data={pendingUnstakeHistoryAFTMC} />}
       value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -82,14 +89,15 @@ export const StakedAFTMC = (): JSX.Element | null => {
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
+        onHistoryBtnClick={handleOpenHistoryDialog}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={{
           token: Token.aFTMc,
-          staked,
-          unstaked,
+          staked: stakedAFTMC,
+          unstaked: unstakedAFTMC,
         }}
         isHistoryLoading={isHistoryLoading}
         open={isOpened}
