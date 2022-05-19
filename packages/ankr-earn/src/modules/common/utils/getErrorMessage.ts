@@ -7,6 +7,10 @@ export function getErrorMessage(props: ErrorProps | Error): string {
     return props.toString();
   }
 
+  if (props.message) {
+    return props.message;
+  }
+
   if (typeof props.error?.error === 'string') {
     return props.error.error;
   }
