@@ -8,15 +8,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flex: '3 0 auto',
     textAlign: 'center',
     paddingTop: theme.spacing(10),
-    // margin: theme.spacing(0, 10),
     maxWidth: 540,
-    // minWidth: 540,
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0),
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100%',
-      // minWidth: '100%',
       paddingTop: 0,
       margin: theme.spacing(0),
     },
@@ -33,7 +30,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginTop: theme.spacing(1),
   },
   headerSubTitle2: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     color: theme.palette.grey[700],
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
@@ -77,6 +74,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.grey[600],
   },
   unlockBtn: {
+    marginTop: theme.spacing(3.5),
     height: 52,
     padding: theme.spacing(1, 3),
     flexShrink: 0,

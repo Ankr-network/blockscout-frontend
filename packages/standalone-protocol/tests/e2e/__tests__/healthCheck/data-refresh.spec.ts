@@ -3,7 +3,7 @@ import { expect, Page, test } from '@playwright/test';
 import { NON_LEGACY_STANDALONES, TIMEOUTS } from '../../constants';
 
 test.describe('data refresh', async () => {
-  test(`should be every 30s @slow`, async ({ context }) => {
+  test.skip(`should be every 30s @slow`, async ({ context }) => {
     const tests = [];
     for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
       tests.push(testFn(await context.newPage(), NON_LEGACY_STANDALONE));

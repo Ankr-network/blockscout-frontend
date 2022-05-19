@@ -17,9 +17,6 @@ export const Deposit = () => {
       title: t(PlanRoutesConfig.plan.breadcrumbs),
       link: PlanRoutesConfig.plan.generatePath(),
     },
-    {
-      title: t(PlanRoutesConfig.planDeposit.breadcrumbs),
-    },
   ]);
 
   const { data } = useQuery({
