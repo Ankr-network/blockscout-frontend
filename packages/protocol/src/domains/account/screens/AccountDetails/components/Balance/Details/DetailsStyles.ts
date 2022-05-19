@@ -24,7 +24,7 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
     },
   },
   marker: {
-    marginTop: 2,
+    marginTop: 3,
   },
   description: {
     fontWeight: 700,
