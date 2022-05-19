@@ -750,7 +750,7 @@ export const mainTheme = createTheme({
     MuiToggleButtonGroup: {
       root: {
         width: '100%',
-        borderRadius: 9,
+        borderRadius: 16,
         padding: 2,
         background: defaultTheme.palette.background.default,
       },
@@ -764,8 +764,8 @@ export const mainTheme = createTheme({
         textTransform: 'lowercase',
 
         '&&': {
-          borderRadius: 9,
-          marginLeft: 0,
+          borderRadius: '14px !important',
+          marginLeft: '0 !important',
         },
 
         [defaultTheme.breakpoints.down('sm')]: {

@@ -177,6 +177,10 @@
         "solana-api": "Solana API{plural}"
       }
     },
+    "tabs": {
+      "data": "Usage Data",
+      "infrastructure": "Infrastructure"
+    },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
       "godwoken-based": "For Godwoken methods"

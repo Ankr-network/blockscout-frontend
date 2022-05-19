@@ -33,6 +33,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
               className={classes.label}
               variant="body2"
               color="textSecondary"
+              component="span"
             >
               {t('providers.endpoint.security.domain.address-count', {
                 value: MAX_DOMAIN_COUNT,
@@ -49,6 +50,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
               className={classes.label}
               variant="body2"
               color="textSecondary"
+              component="span"
             >
               {t('providers.endpoint.security.ip.address-count', {
                 value: MAX_IP_COUNT,

@@ -19,37 +19,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexGrow: 1,
     maxWidth: '100%',
   },
-  chainItemHeader: {},
   chainBanner: {
     marginTop: theme.spacing(3.25),
   },
   chainRequestsOverview: {
     marginTop: theme.spacing(3.25),
-    marginBottom: theme.spacing(3.5),
-  },
-  chainItemDetailsInnerSkeleton: {
-    [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-      width: '49%',
-    },
-
-    '&:not(:last-child)': {
-      marginBottom: theme.spacing(2.5),
-      [theme.breakpoints.down(BREAKPOINTS.values.WXGAPlus)]: {
-        marginBottom: '2%',
-      },
-    },
-  },
-  details: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-    paddingBottom: 19,
-  },
-  error: {
-    background: theme.palette.background.paper,
-    borderRadius: 18,
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
   },
 }));
