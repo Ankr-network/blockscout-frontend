@@ -17,7 +17,9 @@ interface IChainItemUIProps {
 }
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
-  const { credentials, loading: authLoading } = useAuth();
+  const { credentials, loading: authLoading, isWalletConnected } = useAuth();
+  const { providerData, loading: providerLoading } = useProvider();
+
   const classes = useStyles();
 
   useChainItemBreadcrumbs(data.chain.name);
@@ -36,7 +38,8 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         nodes={nodes}
         loading={authLoading}
       />
-      {!credentials && !authLoading && (
+
+      {!isWalletConnected && !authLoading && (
         <ChainBanner className={classes.chainBanner} />
       )}
       <ChainItemTabs chainId={chainId} data={data} />
