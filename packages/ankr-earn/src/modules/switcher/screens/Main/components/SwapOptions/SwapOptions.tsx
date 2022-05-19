@@ -8,6 +8,8 @@ import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
@@ -37,10 +39,15 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aBNBb,
       icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherMatic && {
+    {
       label: Token.aMATICb,
       value: Token.aMATICb,
       icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherFantom && {
+      label: Token.aFTMb,
+      value: Token.aFTMb,
+      icon: <AFTMBIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 
@@ -55,10 +62,15 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aBNBc,
       icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherMatic && {
+    {
       label: Token.aMATICc,
       value: Token.aMATICc,
       icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.switcherFantom && {
+      label: Token.aFTMc,
+      value: Token.aFTMc,
+      icon: <AFTMCIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 };

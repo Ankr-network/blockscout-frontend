@@ -83,7 +83,7 @@ export const FeatureTable = ({ costInAnkr, costInUsd }: FeatureTableProps) => {
             </Box>
             <Button
               component={Link}
-              to={PlanRoutesConfig.planDeposit.path}
+              to={PlanRoutesConfig.plan.path}
               variant="text"
               endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
               className={classes.unblockBtn}

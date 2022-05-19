@@ -9,7 +9,11 @@ import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { SwitcherSDK } from '../api/SwitcherSDK';
-import { AvailableSwitchNetwork, SWITCHER_TO_TOKENS } from '../const';
+import {
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+  SWITCHER_TO_TOKENS,
+} from '../const';
 
 import { getSwitcherData } from './getSwitcherData';
 
@@ -46,11 +50,15 @@ export const swapAssets = createAction<
         const sdk = await SwitcherSDK.getInstance();
 
         const isCertificate = SWITCHER_TO_TOKENS.includes(from);
-        const value = new BigNumber(amount);
+        const params = {
+          amount: new BigNumber(amount),
+          chainId,
+          token: from as AvailableSwitcherToken,
+        };
 
         const result = await (isCertificate
-          ? sdk.lockShares({ chainId, amount: value })
-          : sdk.unlockShares({ amount: value, ratio, chainId }));
+          ? sdk.lockShares(params)
+          : sdk.unlockShares({ ...params, ratio }));
 
         return { ...result, from, to };
       },
@@ -71,7 +79,7 @@ export const swapAssets = createAction<
           store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
         }
 
-        store.dispatchRequest(getSwitcherData({ chainId }));
+        store.dispatchRequest(getSwitcherData({ chainId, token: optionFrom }));
 
         return response;
       },
@@ -81,16 +89,17 @@ export const swapAssets = createAction<
 
 export interface IApproveArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
 }
 
 export const approve = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
->('switcher/approve', ({ chainId }: IApproveArgs) => ({
+>('switcher/approve', ({ chainId, token }: IApproveArgs) => ({
   request: {
     promise: async () => {
       const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.approve({ chainId });
+      return sdk.approve({ chainId, token });
     },
     chainId,
   },
@@ -102,7 +111,7 @@ export const approve = createAction<
     onSuccess: async (response, _action, store) => {
       await response.data?.receiptPromise;
 
-      store.dispatchRequest(getSwitcherData({ chainId }));
+      store.dispatchRequest(getSwitcherData({ chainId, token }));
 
       return response;
     },

@@ -52,7 +52,7 @@ export const PurchaseBlock = ({ costInAnkr }: PurchaseBlockProps) => {
         <Box className={classes.unlockContainer}>
           <Button
             component={Link}
-            to={PlanRoutesConfig.planDeposit.path}
+            to={PlanRoutesConfig.plan.path}
             fullWidth={false}
             className={classes.unlockBtn}
             startIcon={<PremiumIcon />}

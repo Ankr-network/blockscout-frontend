@@ -82,7 +82,7 @@ export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
             </Box>
             <Button
               component={Link}
-              to={PlanRoutesConfig.planDeposit.path}
+              to={PlanRoutesConfig.plan.path}
               size="large"
               // onClick={onClickPremiumBtn}
               className={classes.unlockBtn}

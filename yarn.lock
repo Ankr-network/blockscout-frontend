@@ -5529,14 +5529,14 @@
     bn.js "^4.12.0"
     ip-regex "^4.3.0"
 
-"@polkadot/wasm-crypto-asmjs@^4.5.1":
+"@polkadot/wasm-crypto-asmjs@4.5.1", "@polkadot/wasm-crypto-asmjs@^4.5.1":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto-asmjs/-/wasm-crypto-asmjs-4.5.1.tgz#e1025a49e106db11d1187caf65f56c960ea2ad2b"
   integrity sha512-DOdRiWhxVvmqTvp+E9z1j+Yr0zDOGsDvqnT/eNw0Dl1FVUOImsEa7FKns/urASmcxCVEE1jtUWSnij29jrORMQ==
   dependencies:
     "@babel/runtime" "^7.16.3"
 
-"@polkadot/wasm-crypto-wasm@^4.5.1":
+"@polkadot/wasm-crypto-wasm@4.5.1", "@polkadot/wasm-crypto-wasm@^4.5.1":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto-wasm/-/wasm-crypto-wasm-4.5.1.tgz#063a58ff7ddd939b7886a6a238109a8d2c416e46"
   integrity sha512-hPwke85HxpgG/RAlwdCE8u5w7bThvWg399mlB+XjogXMxOUWBZSgq2XYbgzROUXx27inK9nStF4Pnc4zJnqs9A==
@@ -5560,7 +5560,7 @@
     "@babel/runtime" "^7.16.5"
     "@polkadot/x-global" "8.2.2"
 
-"@polkadot/x-fetch@^8.1.2":
+"@polkadot/x-fetch@8.2.2", "@polkadot/x-fetch@^8.1.2":
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/@polkadot/x-fetch/-/x-fetch-8.2.2.tgz#33cf2993fe93b9013302a8fdd328295a9eb8a3ae"
   integrity sha512-ou8d1Ccf7lt7mssr64ixXYIWOZ4I4ED5sYBeFZg7BJB+MsZnuDOVvuMlItQWh01phMCOxtHWowmh+gOI4w5IWA==
@@ -5632,7 +5632,7 @@
     "@babel/runtime" "^7.16.5"
     "@polkadot/x-global" "8.2.2"
 
-"@polkadot/x-ws@^8.1.2":
+"@polkadot/x-ws@8.2.2", "@polkadot/x-ws@^8.1.2":
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/@polkadot/x-ws/-/x-ws-8.2.2.tgz#c05b21a433ce22ecee61383630fc9acd03dd3312"
   integrity sha512-qsHzmtoFXIN59qKSkycxQ3GGyzUMlvhl+d7yU1NMaoOudJGfniTbIcDFPtee27Ydamb1DwBvkRbKw5IO8Domdg==

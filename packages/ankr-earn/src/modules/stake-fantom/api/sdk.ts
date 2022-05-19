@@ -5,7 +5,7 @@ import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -13,7 +13,14 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import { ISwitcher } from 'modules/api/switcher';
+import {
+  ETH_SCALE_FACTOR,
+  featuresConfig,
+  isMainnet,
+  MAX_UINT256,
+  ZERO,
+} from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
@@ -28,8 +35,12 @@ import {
   MAX_BLOCK_RANGE,
   BLOCK_OFFSET,
 } from '../const';
+import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
+import oldAFTMbAbi from './contracts/aFTMb-old.json';
 import AFTMbAbi from './contracts/aFTMb.json';
+import AFTMCAbi from './contracts/aFTMc.json';
+import oldFantomPoolAbi from './contracts/FantomPool-old.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 export enum EFantomPoolEvents {
@@ -37,6 +48,8 @@ export enum EFantomPoolEvents {
   Withdrawn = 'Withdrawn',
   StakeReceived = 'StakeReceived',
 }
+
+type TUnstakingStatsType = 'bond' | 'cert' | 'all';
 
 interface IFantomSDKProviders {
   writeProvider: Web3KeyWriteProvider;
@@ -58,7 +71,15 @@ export interface IGetTxData {
   destinationAddress?: string;
 }
 
-export class FantomSDK {
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
+}
+
+export class FantomSDK implements ISwitcher {
   private static instance?: FantomSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -139,8 +160,8 @@ export class FantomSDK {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.fantom,
-      BlockchainNetworkId.fantomTestnet,
+      EEthereumNetworkId.fantom,
+      EEthereumNetworkId.fantomTestnet,
     ].includes(chainId);
   }
 
@@ -152,16 +173,26 @@ export class FantomSDK {
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
+    const abi = featuresConfig.stakeAFTMC ? FantomPoolAbi : oldFantomPoolAbi;
 
-    return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
+    return provider.createContract(abi, fantomConfig.fantomPool);
   }
 
-  private getAftmbTokenContract(
-    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
-  ): Contract {
+  private async getAftmbTokenContract() {
+    const provider = await this.getProvider();
+
+    const { fantomConfig } = configFromEnv();
+    const abi = featuresConfig.stakeAFTMC ? AFTMbAbi : oldAFTMbAbi;
+
+    return provider.createContract(abi, fantomConfig.aftmbToken);
+  }
+
+  private async getAftmcTokenContract() {
+    const provider = await this.getProvider();
+
     const { fantomConfig } = configFromEnv();
 
-    return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
+    return provider.createContract(AFTMCAbi, fantomConfig.aftmcToken);
   }
 
   public async getTxHistory(): Promise<{
@@ -296,7 +327,10 @@ export class FantomSDK {
     return receipt as TransactionReceipt | null;
   }
 
-  public async stake(amount: BigNumber): Promise<IWeb3SendResult> {
+  public async stake(
+    amount: BigNumber,
+    token: TFtmSyntToken,
+  ): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -304,13 +338,122 @@ export class FantomSDK {
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
 
-    return fantomPoolContract.methods.stake().send({
+    const contractStake =
+      fantomPoolContract.methods[this.getStakeMethodName(token)];
+
+    return contractStake().send({
       from: this.currentAccount,
       value: hexAmount,
     });
   }
 
-  public async unstake(amount: BigNumber): Promise<IWeb3SendResult> {
+  private getStakeMethodName(token: TFtmSyntToken) {
+    if (!featuresConfig.stakeAFTMC) {
+      return 'stake';
+    }
+
+    switch (token) {
+      case Token.aFTMc:
+        return 'stakeAndClaimCerts';
+
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const aFTMcContract = await this.getAftmcTokenContract();
+    const { fantomConfig } = configFromEnv();
+
+    const allowance = await aFTMcContract.methods
+      .allowance(this.currentAccount, spender || fantomConfig.aftmbToken)
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
+  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+    const allowance = await this.getACAllowance();
+
+    return allowance.isGreaterThanOrEqualTo(
+      convertNumberToHex(amount, ETH_SCALE_FACTOR),
+    );
+  }
+
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const isAllowed = await this.checkAllowance(amount);
+
+    if (isAllowed) {
+      return undefined;
+    }
+
+    const { fantomConfig } = configFromEnv();
+    const aFTMcContract = await this.getAftmcTokenContract();
+
+    const data = aFTMcContract.methods
+      .approve(fantomConfig.aftmbToken, convertNumberToHex(amount, scale))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.aftmcToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aFTMbContract = await this.getAftmbTokenContract();
+    const { fantomConfig } = configFromEnv();
+
+    const data = aFTMbContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.aftmbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aFTMbContract = await this.getAftmbTokenContract();
+    const { fantomConfig } = configFromEnv();
+
+    const data = aFTMbContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.aftmbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TFtmSyntToken,
+  ): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -318,9 +461,26 @@ export class FantomSDK {
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
 
-    return fantomPoolContract.methods.burn(hexAmount).send({
+    const contractUnstake =
+      fantomPoolContract.methods[this.getUnstakeMethodName(token)];
+
+    return contractUnstake(hexAmount).send({
       from: this.currentAccount,
     });
+  }
+
+  private getUnstakeMethodName(token: TFtmSyntToken) {
+    if (!featuresConfig.stakeAFTMC) {
+      return 'burn';
+    }
+
+    switch (token) {
+      case Token.aFTMc:
+        return 'burnCerts';
+
+      default:
+        return 'burnBonds';
+    }
   }
 
   public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
@@ -344,20 +504,36 @@ export class FantomSDK {
     return this.convertFromWei(minStake);
   }
 
-  public async addAftmbToWallet(): Promise<void> {
-    const { fantomConfig } = configFromEnv();
-
+  public async addTokenToWallet(token: TFtmSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    await this.writeProvider.addTokenToWallet({
-      address: fantomConfig.aftmbToken,
-      symbol: Token.aFTMb,
-      decimals: 18,
-      chainId: isMainnet
-        ? (BlockchainNetworkId.fantom as number)
-        : (BlockchainNetworkId.fantomTestnet as number),
+    const { fantomConfig } = configFromEnv();
+    const isAftmb = token === Token.aFTMb;
+
+    const tokenContract = isAftmb
+      ? await this.getAftmbTokenContract()
+      : await this.getAftmcTokenContract();
+
+    const address = isAftmb ? fantomConfig.aftmbToken : fantomConfig.aftmcToken;
+
+    const [symbol, rawDecimals]: [string, string] = await Promise.all([
+      tokenContract.methods.symbol().call(),
+      tokenContract.methods.decimals().call(),
+    ]);
+
+    const decimals = Number.parseInt(rawDecimals, 10);
+
+    const chainId: number = isMainnet
+      ? EEthereumNetworkId.fantom
+      : EEthereumNetworkId.fantomTestnet;
+
+    return this.writeProvider.addTokenToWallet({
+      address,
+      symbol,
+      decimals,
+      chainId,
     });
   }
 
@@ -369,9 +545,8 @@ export class FantomSDK {
     return this.convertFromWei(ftmBalance);
   }
 
-  public async getAftmbBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aFTMbContract = this.getAftmbTokenContract(provider);
+  public async getABBalance(): Promise<BigNumber> {
+    const aFTMbContract = await this.getAftmbTokenContract();
 
     const aFTMbBalance = await aFTMbContract.methods
       .balanceOf(this.currentAccount)
@@ -380,9 +555,32 @@ export class FantomSDK {
     return this.convertFromWei(aFTMbBalance);
   }
 
-  public async getPendingUnstakes(): Promise<BigNumber> {
+  public async getACBalance(): Promise<BigNumber> {
+    const aFTMcContract = await this.getAftmcTokenContract();
+
+    const aFTMcBalance = await aFTMcContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(aFTMcBalance);
+  }
+
+  public async getACRatio(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aFTMcContract = await this.getAftmcTokenContract();
+    const web3 = provider.getWeb3();
+
+    const rawRatio = await aFTMcContract.methods.ratio().call();
+    const ratio = web3.utils.fromWei(rawRatio);
+
+    return new BigNumber(ratio);
+  }
+
+  public async getPendingUnstakes(
+    type: TUnstakingStatsType = 'all',
+  ): Promise<BigNumber> {
     return this.api
-      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}`)
+      .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}/${type}`)
       .then(({ data }) => new BigNumber(data.unstakingAmount))
       .catch(() => ZERO);
   }
@@ -390,7 +588,7 @@ export class FantomSDK {
   public async getAftmbAPY(): Promise<BigNumber> {
     const provider = await this.getProvider();
 
-    const aFTMbContract = this.getAftmbTokenContract(provider);
+    const aFTMbContract = await this.getAftmbTokenContract();
 
     return getAPY({
       tokenContract: aFTMbContract,

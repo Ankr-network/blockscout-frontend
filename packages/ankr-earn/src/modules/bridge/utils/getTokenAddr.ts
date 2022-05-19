@@ -7,16 +7,19 @@ const config = configFromEnv();
 
 const ethTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.contractConfig.aMaticbToken,
+  [AvailableBridgeTokens.aMATICc]: config.contractConfig.aMaticCToken,
   [AvailableBridgeTokens.aETHb]: config.contractConfig.fethContract,
 };
 
 const bscTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.binanceConfig.aMATICbToken,
+  [AvailableBridgeTokens.aMATICc]: config.binanceConfig.aMATICcToken,
   [AvailableBridgeTokens.aETHb]: config.binanceConfig.aETHbToken,
 };
 
 const polygonTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.polygonConfig.aMATICbToken,
+  [AvailableBridgeTokens.aMATICc]: config.polygonConfig.aMATICcToken,
   [AvailableBridgeTokens.aETHb]: ZERO_ADDR,
 };
 

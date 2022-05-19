@@ -20,8 +20,7 @@ export enum AvailableWriteProviders {
   polkadotCompatible = 'polkadotCompatible',
 }
 
-export enum BlockchainNetworkId {
-  // EVM Compatible
+export enum EEthereumNetworkId {
   mainnet = 1,
   ropsten = 3,
   rinkeby = 4,
@@ -38,8 +37,9 @@ export enum BlockchainNetworkId {
   fantom = 250,
   fantomTestnet = 4002,
   mumbai = 80001,
+}
 
-  // Polkadot Compatible
+export enum EPolkadotNetworkId {
   kusama = 'KSM',
   polkadot = 'DOT',
   rococo = 'ROC',

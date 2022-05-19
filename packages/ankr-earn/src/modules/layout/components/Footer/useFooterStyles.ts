@@ -15,6 +15,7 @@ export const useFooterStyles = makeStyles<Theme>(theme => ({
   center: {
     display: 'flex',
     justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   rightSide: {
     justifyContent: 'end',

@@ -10,15 +10,15 @@ import {
 
 import { useIsMDUp } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
-import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { featuresConfig } from 'modules/common/const';
+import { AuditedLabel } from 'modules/common/components/AuditedLabel';
+import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import { AmountField } from 'uiKit/AmountField';
@@ -282,7 +282,7 @@ export const BridgeMainView = (): JSX.Element => {
           </Button>
         )}
 
-        <AuditedLabel />
+        <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
 
         <OnChange name={EFieldName.token}>
           {value => {

@@ -14,7 +14,7 @@ import {
 } from 'modules/common/components/TableComponents';
 import { AlignType } from 'modules/common/components/TableComponents/types';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { getTxLink } from 'modules/common/utils/getTxLink';
+import { getTxLink } from 'modules/common/utils/links/getTxLink';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';

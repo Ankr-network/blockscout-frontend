@@ -5,7 +5,7 @@ import { ReactReduxContext } from 'react-redux';
 
 import { mainTheme, RewiredStylesProvider } from 'ui';
 
-import { useRestoreConnection } from 'modules/auth/hooks/useRestoreConnection';
+import { useRestoreConnection } from 'modules/auth/common/hooks/useRestoreConnection';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitializeLocale } from 'store/useAppUtils';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';

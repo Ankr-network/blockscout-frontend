@@ -33,7 +33,10 @@ export const ChainItemDetails = ({
   const classes = useStyles();
 
   return (
-    <div className={classNames(classes.root, className, chainId)}>
+    <div
+      className={classNames(classes.root, className, chainId)}
+      data-test-id="chain-details"
+    >
       <DetailsBlock
         title={t('chain-item.details.total-requests')}
         value={formatNumber(totalRequests)}

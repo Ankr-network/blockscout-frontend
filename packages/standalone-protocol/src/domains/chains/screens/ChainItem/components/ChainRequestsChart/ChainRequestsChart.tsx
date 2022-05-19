@@ -61,7 +61,10 @@ export const ChainRequestsChart = ({
   );
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div
+      className={classNames(classes.root, className)}
+      data-test-id="chart-details"
+    >
       <Typography
         variant="body1"
         color="textPrimary"

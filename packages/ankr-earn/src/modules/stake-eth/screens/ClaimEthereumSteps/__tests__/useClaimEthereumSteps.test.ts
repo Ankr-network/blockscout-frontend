@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 
@@ -28,7 +28,7 @@ jest.mock('modules/stake-eth/Routes', () => ({
   },
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 

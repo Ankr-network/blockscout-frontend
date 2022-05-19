@@ -5,10 +5,11 @@ import { createAction } from 'redux-smart-actions';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { SwitcherSDK } from '../api/SwitcherSDK';
-import { AvailableSwitchNetwork } from '../const';
+import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
 
 export interface IGetSwitcherDataArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
 }
 
 export interface IGetSwitcherData {
@@ -20,12 +21,12 @@ export interface IGetSwitcherData {
 
 export const getSwitcherData = createAction<
   RequestAction<IGetSwitcherData, IGetSwitcherData>
->('switcher/getSwitcherData', ({ chainId }: IGetSwitcherDataArgs) => ({
+>('switcher/getSwitcherData', ({ chainId, token }: IGetSwitcherDataArgs) => ({
   request: {
     promise: async (): Promise<IGetSwitcherData | undefined> => {
       const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.getCommonData({ chainId });
+      return sdk.getCommonData({ chainId, token });
     },
   },
   meta: {

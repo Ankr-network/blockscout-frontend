@@ -40,15 +40,15 @@ export const getBalances = async (): Promise<IGetBalances> => {
     aftmbBalance,
   ] = await Promise.all([
     binanceSDK.getBNBBalance(),
-    binanceSDK.getABNBBBalance(),
+    binanceSDK.getABBalance(),
     avalancheSDK.getAVAXBalance(),
     avalancheSDK.getAAVAXBBalance(),
-    ethSDK.getAethbBalance(),
+    ethSDK.getABBalance(),
     ethSDK.getEthBalance(),
     polygonSDK.getMaticBalance(),
-    polygonSDK.getAMaticbBalance(),
+    polygonSDK.getABBalance(),
     fantomSDK.getFtmBalance(),
-    fantomSDK.getAftmbBalance(),
+    fantomSDK.getABBalance(),
   ]);
 
   return {

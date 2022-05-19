@@ -4,6 +4,70 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "oldBondContract",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newBondContract",
+        "type": "address"
+      }
+    ],
+    "name": "BondContractChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldCertContract",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newCertContract",
+        "type": "address"
+      }
+    ],
+    "name": "CertContractChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "deployer",
+        "type": "address"
+      }
+    ],
+    "name": "DeployAllowed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "deployer",
+        "type": "address"
+      }
+    ],
+    "name": "DeployDisallowed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -16,6 +80,100 @@
       }
     ],
     "name": "Deployed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "minFeeRatio",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "maxFeeRatio",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "feeIncreaseStart",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "feeIncreaseStop",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "feeShift",
+        "type": "uint256"
+      }
+    ],
+    "name": "FeeRuleUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "staker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "wrId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ManualWithdrawalExpected",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMinimalStake",
+        "type": "uint256"
+      }
+    ],
+    "name": "MinimumStakeChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldOperator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newOperator",
+        "type": "address"
+      }
+    ],
+    "name": "OperatorChanged",
     "type": "event"
   },
   {
@@ -173,6 +331,13 @@
   },
   {
     "inputs": [],
+    "name": "certContract",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "feeIncreaseStart",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -181,6 +346,13 @@
   {
     "inputs": [],
     "name": "feeIncreaseStop",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "feeShift",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -196,6 +368,13 @@
     "inputs": [],
     "name": "lastWrId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "markedForManualWithdrawal",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -257,6 +436,13 @@
   },
   {
     "inputs": [],
+    "name": "stashedForManualWithdrawals",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "stubCount",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -304,6 +490,20 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "stakeAndClaimBonds",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakeAndClaimCerts",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
@@ -323,6 +523,24 @@
   },
   {
     "inputs": [
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "burnBonds",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "shares", "type": "uint256" }
+    ],
+    "name": "burnCerts",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "uint256", "name": "_minFeeRatio", "type": "uint256" },
       { "internalType": "uint256", "name": "_maxFeeRatio", "type": "uint256" },
       {
@@ -334,7 +552,8 @@
         "internalType": "uint256",
         "name": "_feeIncreaseStop",
         "type": "uint256"
-      }
+      },
+      { "internalType": "uint256", "name": "_feeShift", "type": "uint256" }
     ],
     "name": "updateFeeParameters",
     "outputs": [],
@@ -350,7 +569,16 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_operator", "type": "address" }
+      { "internalType": "uint256", "name": "wrId", "type": "uint256" }
+    ],
+    "name": "withdrawManual",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOperator", "type": "address" }
     ],
     "name": "changeOperator",
     "outputs": [],
@@ -359,9 +587,26 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_bondContract", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "newBondContract",
+        "type": "address"
+      }
     ],
     "name": "changeBondContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newCertContract",
+        "type": "address"
+      }
+    ],
+    "name": "changeCertContract",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -375,18 +620,13 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "minStake", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "newMinimalStake",
+        "type": "uint256"
+      }
     ],
     "name": "setMinimumStake",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_sfc", "type": "address" }
-    ],
-    "name": "setSFC",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -833,5 +833,17 @@ export const mainTheme = createTheme({
         backgroundColor: defaultTheme.palette.background.default,
       },
     },
+
+    MuiChip: {
+      root: {
+        fontSize: 14,
+
+        '&$disabled': {
+          opacity: 1,
+          backgroundColor: defaultTheme.palette.background.default,
+          color: defaultTheme.palette.text.secondary,
+        },
+      },
+    },
   },
 } as ThemeOptions);

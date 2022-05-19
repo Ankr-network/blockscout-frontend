@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-  Button,
 } from '@material-ui/core';
 import classNames from 'classnames';
 
@@ -19,18 +18,10 @@ import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
 import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'ui';
+import { CONTACT_SALES_LINK } from '../../const';
 
-interface FeatureTableProps {
-  costInAnkr: number;
-  costInUsd?: string;
-}
-
-export const FeatureTableMobile = ({
-  costInAnkr,
-  costInUsd,
-}: FeatureTableProps) => {
+export const FeatureTableMobile = () => {
   const classes = useStyles();
   const classesMobile = useMobileStyles();
 
@@ -164,29 +155,18 @@ export const FeatureTableMobile = ({
             >
               {t('plan.table.premium')}
             </Typography>
-            <Box display="flex" flexWrap="wrap">
-              <Typography
-                color="textPrimary"
-                className={classes.subTitle}
-                variant="body1"
-              >
-                {t('plan.table.cost', { value: costInAnkr })}
-              </Typography>
-              <Typography className={classes.subTitleGreyCost} variant="body1">
-                &nbsp;{costInUsd && t('plan.cost-usd', { value: costInUsd })}
-              </Typography>
-            </Box>
-            <Button
-              component={Link}
-              to={PlanRoutesConfig.planDeposit.path}
-              variant="text"
-              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+            <NavLink
+              href={CONTACT_SALES_LINK}
+              tabIndex={0}
               className={classes.unblockBtn}
+              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+              variant="text"
+              color="default"
             >
-              <Typography className={classes.unblockBtnLabel} variant="body1">
+              <Typography variant="h5" className={classes.unlockBtnTitle}>
                 {t('plan.unlock-btn')}
               </Typography>
-            </Button>
+            </NavLink>
             <Divider className={classesMobile.divider} />
 
             <Box

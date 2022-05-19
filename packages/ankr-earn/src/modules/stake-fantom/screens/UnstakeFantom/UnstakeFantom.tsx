@@ -4,7 +4,7 @@ import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -45,9 +45,13 @@ export const UnstakeFantom = (): JSX.Element => {
     isBalanceLoading,
     isBurnFeeLoading,
     isLoading,
+    isApproved,
+    isApproveLoading,
+    isWithApprove,
     balance,
     burnFee,
     closeHref,
+    selectedToken,
     onSubmit,
     onChange,
   } = useUnstakeDialog(onSuccessOpen);
@@ -150,11 +154,14 @@ export const UnstakeFantom = (): JSX.Element => {
                 days: FANTOM_UNSTAKE_PERIOD,
               }),
             })}
+            isApproved={isApproved}
+            isApproveLoading={isApproveLoading}
             isBalanceLoading={isBalanceLoading}
             isLoading={isLoading}
+            isWithApprove={isWithApprove}
             renderFormFooter={renderFormFooter}
             submitDisabled={submitDisabled}
-            token={Token.aFTMb}
+            token={selectedToken}
             onChange={onChange}
             onSubmit={onSubmit}
           />

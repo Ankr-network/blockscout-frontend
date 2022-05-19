@@ -1,7 +1,7 @@
 import { Paper, Typography } from '@material-ui/core';
 import cn from 'classnames';
 
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { t } from 'modules/i18n/utils/intl';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';

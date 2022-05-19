@@ -4,7 +4,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -256,8 +256,8 @@ export class AvalancheSDK {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.avalanche,
-      BlockchainNetworkId.avalancheTestnet,
+      EEthereumNetworkId.avalanche,
+      EEthereumNetworkId.avalancheTestnet,
     ].includes(chainId);
   }
 
@@ -309,8 +309,8 @@ export class AvalancheSDK {
       symbol,
       decimals,
       chainId: isMainnet
-        ? (BlockchainNetworkId.avalanche as number)
-        : (BlockchainNetworkId.avalancheTestnet as number),
+        ? EEthereumNetworkId.avalanche
+        : EEthereumNetworkId.avalancheTestnet,
     });
   }
 

@@ -13,6 +13,7 @@ import { useIsMDUp, useIsSMDown } from 'ui';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
+import { ReactComponent as EthereumLogo } from 'assets/img/logo/ethereum.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as BinanceLogo } from 'assets/img/logo/binance.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
@@ -27,6 +28,7 @@ import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ChainId } from 'domains/chains/api/chain';
+import { PROTOCOL_URL } from 'Routes';
 
 interface ICrossMenuProps {
   chainId: string;
@@ -35,6 +37,12 @@ interface ICrossMenuProps {
 export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   const MENU_LIST = useMemo(
     () => [
+      {
+        chainId: ChainId.Ethereum,
+        name: 'Ethereum',
+        logo: <EthereumLogo />,
+        url: 'http://eth.public-rpc.com/',
+      },
       {
         chainId: ChainId.Solana,
         name: 'Solana',
@@ -143,11 +151,14 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   }, [isNotMobile]);
 
   return (
-    <>
+    <div data-test-id="cross-menu">
       <IconButton onClick={handleMenuClick} className={classes.dropMenu}>
         {open ? <CloseIcon /> : <MenuIcon />}
       </IconButton>
-      <div className={classNames(classes.root, open && classes.open, chainId)}>
+      <div
+        className={classNames(classes.root, open && classes.open, chainId)}
+        data-test-id="cross-menu-root"
+      >
         <div className={classes.menu}>
           <Scrollbars
             autoHeightMax={MENU_HEIGHT}
@@ -167,6 +178,9 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleCloseMenu}
+                data-test-id={
+                  chainId === item.chainId ? 'active-cross-menu' : null
+                }
               >
                 <div
                   className={classNames(
@@ -185,7 +199,7 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
         </div>
         <a
           className={classNames(classes.protocol, chainId)}
-          href="https://www.ankr.com/protocol"
+          href={PROTOCOL_URL}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleCloseMenu}
@@ -194,6 +208,6 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
           <span className={classes.desc}>{t('cross-menu.ankr-protocol')}</span>
         </a>
       </div>
-    </>
+    </div>
   );
 };

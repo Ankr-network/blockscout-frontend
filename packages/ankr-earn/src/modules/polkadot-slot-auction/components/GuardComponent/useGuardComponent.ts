@@ -1,35 +1,33 @@
 import { useMemo } from 'react';
 
 import {
-  INetwork,
-  useNetworks,
-} from 'modules/auth/components/GuardRoute/useNetworks';
-import { BlockchainNetworkId } from 'modules/common/types';
+  IETHNetwork,
+  useETHNetworks,
+} from 'modules/auth/eth/hooks/useETHNetworks';
+import { EEthereumNetworkId } from 'modules/common/types';
 
 import { useWeb3WalletData } from '../../hooks/useWeb3WalletData';
 
 interface IUseGuardComponentData {
-  filteredNetworks: INetwork[];
+  filteredNetworks: IETHNetwork[];
   isConnected: boolean;
   isUnsupportedNetwork: boolean;
 }
 
 export const useGuardComponent = (
-  availableNetworks: BlockchainNetworkId[],
+  availableNetworks: EEthereumNetworkId[],
 ): IUseGuardComponentData => {
   const { chainId, isConnected } = useWeb3WalletData();
-  const networks: INetwork[] = useNetworks();
+  const networks = useETHNetworks();
 
-  const isUnsupportedNetwork: boolean = useMemo(
-    (): boolean => isConnected && !availableNetworks.includes(chainId),
+  const isUnsupportedNetwork = useMemo(
+    () => isConnected && !availableNetworks.includes(chainId),
     [availableNetworks, chainId, isConnected],
   );
 
-  const filteredNetworks: INetwork[] = useMemo(
-    (): INetwork[] =>
-      networks.filter((network: INetwork): boolean =>
-        availableNetworks.includes(network.chainId),
-      ),
+  const filteredNetworks = useMemo(
+    () =>
+      networks.filter(network => availableNetworks.includes(network.chainId)),
     [availableNetworks, networks],
   );
 

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
+import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchAPY } from 'modules/stake-avax/actions/fetchAPY';
@@ -14,7 +14,7 @@ import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { IUseStakableToken } from '../types';
 
 export const useStakableAvax = (): IUseStakableToken => {
-  const networks = useNetworks();
+  const networks = useETHNetworks();
 
   const { data: apy, loading: isLoadingAPY } = useQuery({
     type: fetchAPY,

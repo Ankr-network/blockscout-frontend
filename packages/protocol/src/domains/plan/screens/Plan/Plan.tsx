@@ -1,10 +1,7 @@
 import { Box, Button, Container, Typography } from '@material-ui/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { PlanRoutesConfig } from 'domains/plan/Routes';
-import { fetchRates } from 'modules/common/actions/fetchRates';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEffect, useMemo } from 'react';
 import { useIsXSDown } from 'ui';
 import { H1Tag } from 'uiKit/H1Tag';
 import { ReactComponent as DiscordIcon } from 'uiKit/Icons/discord.svg';
@@ -12,13 +9,11 @@ import { FeatureBlock } from './components/FeatureBlock';
 import { FeatureTable } from './components/FeatureTable';
 import { Header } from './components/Header';
 import { PurchaseBlock } from './components/PurchaseBlock';
-import { PREMIUM_COST } from './const';
 import { useStyles } from './useStyles';
 
 export const Plan = () => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
-  const dispatchRequest = useDispatchRequest();
 
   useSetBreadcrumbs([
     {
@@ -26,28 +21,10 @@ export const Plan = () => {
     },
   ]);
 
-  useEffect(() => {
-    dispatchRequest(fetchRates());
-  }, [dispatchRequest]);
-
-  const { data: rates } = useQuery({
-    type: fetchRates.toString(),
-    action: fetchRates,
-  });
-
-  const premiumCostInUsd = useMemo(
-    () =>
-      rates?.ankrUsdt
-        ? rates.ankrUsdt.multipliedBy(PREMIUM_COST).toString()
-        : undefined,
-    [rates?.ankrUsdt],
-  );
-
   return (
     <Box overflow="hidden">
       <H1Tag title={t('meta.plan.h1-tag')} />
-      <Header costInAnkr={PREMIUM_COST} costInUsd={premiumCostInUsd} />
-
+      <Header />
       <Container className={classes.container}>
         <Box
           width={isMobile ? '100%' : 960}
@@ -85,14 +62,11 @@ export const Plan = () => {
           </Box>
 
           <Box mt={isMobile ? 7.5 : 15}>
-            <FeatureTable
-              costInAnkr={PREMIUM_COST}
-              costInUsd={premiumCostInUsd}
-            />
+            <FeatureTable />
           </Box>
 
           <Box mt={isMobile ? 7.5 : 15}>
-            <PurchaseBlock costInAnkr={PREMIUM_COST} />
+            <PurchaseBlock />
           </Box>
 
           <Box mt={isMobile ? 7.5 : 15} className={classes.contactBlock}>

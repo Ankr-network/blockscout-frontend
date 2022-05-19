@@ -10,9 +10,13 @@ import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
+import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
+import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
+import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
+import { useStakedBridgeAMATICCBSC } from './MATIC/useStakedBridgeAMATICCBSC';
+import { useStakedBridgeAMATICCPolygon } from './MATIC/useStakedBridgeAMATICCPolygon';
 import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
 import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
-import { useStakedMaticData } from './MATIC/useStakedMaticData';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
 import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
@@ -26,8 +30,12 @@ interface IUseStakedTokensData {
   isMATICShowed: boolean;
   isAMATICBPolygonShowed: boolean;
   isAMATICBBSCShowed: boolean;
+  isAMATICCBSCShowed: boolean;
+  isAMATICCPolygonShowed: boolean;
+  isAMATICCShowed: boolean;
   isAETHBBridgedShowed: boolean;
   isAFTMBShowed: boolean;
+  isAFTMCShowed: boolean;
   isADOTBShowed: boolean;
   isAKSMBShowed: boolean;
   isAWNDBShowed: boolean;
@@ -38,9 +46,12 @@ interface IUseStakedTokensData {
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
-  const amaticbData = useStakedMaticData();
+  const amaticbData = useStakedAMATICBData();
   const amaticbPolygonData = useStakedBridgeMaticData();
   const amaticbBSCData = useStakedBridgeBSCMaticData();
+  const amaticcBSCData = useStakedBridgeAMATICCBSC();
+  const amaticcPolygonData = useStakedBridgeAMATICCPolygon();
+  const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
   const stakedAVAXData = useStakedAVAXData();
   const stakedBNBData = useStakedABNBBData();
@@ -48,6 +59,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedAETHBData = useStakedAETHBData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
+  const stakedAFTMCData = useStakedAFTMCData();
   const unclaimedEthData = useUnclaimedEth();
 
   const claimedDOTData = useUnclaimedPolkadotData(DOT_PROPS);
@@ -75,10 +87,14 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAMATICBPolygonShowed = amaticbPolygonData.isShowed;
 
   const isAMATICBBSCShowed = amaticbBSCData.isShowed;
+  const isAMATICCShowed = stakedAMATICCData.isShowed;
+  const isAMATICCBSCShowed = amaticcBSCData.isShowed;
+  const isAMATICCPolygonShowed = amaticcPolygonData.isShowed;
 
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
 
   const isAFTMBShowed = stakedAFTMBData.isShowed;
+  const isAFTMCShowed = stakedAFTMCData.isShowed;
 
   const isADOTBShowed = stakedADOTBData.isShowed;
   const isDOTShowed = claimedDOTData.isShowed;
@@ -100,8 +116,11 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isMATICShowed ||
     isAMATICBPolygonShowed ||
     isAMATICBBSCShowed ||
+    isAMATICCBSCShowed ||
+    isAMATICCPolygonShowed ||
     isAETHBBridgedShowed ||
     isAFTMBShowed ||
+    isAFTMCShowed ||
     isADOTBShowed ||
     isDOTShowed ||
     isAKSMBShowed ||
@@ -119,8 +138,12 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
+    isAFTMCShowed,
     isAMATICBBSCShowed,
+    isAMATICCBSCShowed,
+    isAMATICCPolygonShowed,
     isAMATICBPolygonShowed,
+    isAMATICCShowed,
     isAETHBBridgedShowed,
     isADOTBShowed,
     isAKSMBShowed,

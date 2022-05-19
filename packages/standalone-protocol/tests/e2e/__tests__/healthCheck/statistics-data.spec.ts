@@ -6,8 +6,6 @@ import { LEGACY_STANDALONES, NON_LEGACY_STANDALONES, SECONDS_IN_A_DAY } from '..
 import { capitalizeFirstLetter, getFloatFromString } from '../../helpers/common';
 import { round } from '../../helpers/format/number';
 
-const chainSelectButtonsCount = 13;
-
 test.describe('statistics data', async () => {
   for (const NON_LEGACY_STANDALONE of NON_LEGACY_STANDALONES) {
     test(`non legacy standalone: ${NON_LEGACY_STANDALONE.endPoint}`, async ({ page }) => {
@@ -22,21 +20,23 @@ test.describe('statistics data', async () => {
       await page.goto(NON_LEGACY_STANDALONE.endPoint);
       await page.waitForLoadState('networkidle');
 
-      const widgetLocator = page.locator(`div.${NON_LEGACY_STANDALONE.network}`);
+      const copyButtonLocator = page.locator(`data-test-id="copy-button"`);
 
       await test.step('verify ui', async () => {
         await expect(page).toHaveTitle(
           `Your Instant RPC Gateway to ${capitalizeFirstLetter(NON_LEGACY_STANDALONE.network)}`,
         );
 
-        const widgetsCount = await widgetLocator.count();
-        for (let i = chainSelectButtonsCount; i < widgetsCount; i++) {
-          await expect.soft(widgetLocator.nth(i)).toBeVisible();
-        }
-        const buttonsCount = await widgetLocator.locator('button').count();
-        for (let i = chainSelectButtonsCount; i < buttonsCount; i++) {
-          await expect.soft(widgetLocator.locator('button').nth(i)).toBeVisible();
-          await expect.soft(widgetLocator.locator('button').nth(i)).toBeEnabled();
+        await expect(page.locator('[data-test-id="copy-button"]')).toBeVisible();
+        await expect(page.locator('[data-test-id="info"]')).toBeVisible();
+        await expect(page.locator('[data-test-id="chain-details"]')).toBeVisible();
+        await expect(page.locator('[data-test-id="chart-details"]')).toBeVisible();
+        await expect(page.locator('[data-test-id="node-in-operation"]')).toBeVisible();
+
+        const buttonsCount = await copyButtonLocator.locator('button').count();
+        for (let i = 0; i < buttonsCount; i++) {
+          await expect.soft(copyButtonLocator.locator('button').nth(i)).toBeVisible();
+          await expect.soft(copyButtonLocator.locator('button').nth(i)).toBeEnabled();
         }
 
         const anchors = page.locator('//a');
@@ -53,9 +53,7 @@ test.describe('statistics data', async () => {
         const apiCachedRequests = round((respArr[0].totalCached / apiTotalRequests) * 100, 2);
         const apiAvgRequests = round(apiTotalRequests / SECONDS_IN_A_DAY, 5);
 
-        const requestsStatWidget = widgetLocator
-          .nth(NON_LEGACY_STANDALONE.network === 'nervos' ? chainSelectButtonsCount + 4 : chainSelectButtonsCount + 2)
-          .locator('h2');
+        const requestsStatWidget = page.locator('[data-test-id="chain-details"]').locator('h2');
         const uiStatValues = await Promise.all(await requestsStatWidget.allTextContents());
 
         expect.soft(getFloatFromString(uiStatValues[0])).toBe(apiTotalRequests);

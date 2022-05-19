@@ -1,11 +1,15 @@
 const presets = [
-  '@babel/preset-env',
+  [
+    '@babel/preset-env',
+    {
+      exclude: ['transform-exponentiation-operator'],
+    },
+  ],
   ['@babel/preset-react', { runtime: 'automatic' }],
   '@babel/preset-typescript',
 ];
 
 const plugins = [
-  'inline-react-svg',
   ['@babel/plugin-proposal-class-properties', { loose: true }],
   ['@babel/plugin-proposal-private-methods', { loose: true }],
   ['@babel/plugin-proposal-private-property-in-object', { loose: true }],

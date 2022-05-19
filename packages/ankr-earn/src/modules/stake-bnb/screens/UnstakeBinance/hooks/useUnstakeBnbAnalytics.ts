@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';

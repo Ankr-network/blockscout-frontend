@@ -2,12 +2,12 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitchToken';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
 import { useSendAnalytics, ISendAnalyticsHookArgs } from '..';
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 

@@ -1,10 +1,13 @@
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO_ADDR } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
+import { FantomSDK } from 'modules/stake-fantom/api/sdk';
+import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -15,6 +18,14 @@ jest.mock('modules/api/EthSDK', () => ({
 
 jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+  PolygonSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-fantom/api/sdk', () => ({
+  FantomSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
@@ -36,10 +47,32 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
       }),
   };
 
+  const defaultMaticSDK = {
+    fetchTxData: () =>
+      Promise.resolve({
+        amount: new BigNumber(0.5),
+        isPending: true,
+        destinationAddress: ZERO_ADDR,
+      }),
+  };
+
+  const defaultFantomSDK = {
+    fetchTxData: () =>
+      Promise.resolve({
+        amount: new BigNumber(1.5),
+        isPending: false,
+        destinationAddress: ZERO_ADDR,
+      }),
+  };
+
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
+
+    (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
+
+    (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
   });
 
   afterEach(() => {
@@ -55,10 +88,11 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [BlockchainNetworkId.goerli, BlockchainNetworkId.mainnet].map(chainId =>
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aETHb,
         }),
       ),
     );
@@ -77,14 +111,60 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     };
 
     const results = await Promise.all(
-      [
-        BlockchainNetworkId.smartchainTestnet,
-        BlockchainNetworkId.smartchain,
-      ].map(chainId =>
+      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
+        chainId =>
+          sdk.fetchTxData({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aBNBb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
+  test('should return tx data for ethereum network for matic token', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+    const expected = {
+      amount: new BigNumber(0.5),
+      isPending: true,
+      destinationAddress: ZERO_ADDR,
+    };
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.goerli, EEthereumNetworkId.mainnet].map(chainId =>
         sdk.fetchTxData({
           chainId: chainId as AvailableSwitchNetwork,
           txHash: 'hash',
+          token: Token.aMATICc,
         }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
+  test('should return tx data for binance network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+    const expected = {
+      amount: new BigNumber(1.5),
+      isPending: false,
+      destinationAddress: ZERO_ADDR,
+    };
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.fantom, EEthereumNetworkId.fantomTestnet].map(
+        chainId =>
+          sdk.fetchTxData({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aFTMb,
+          }),
       ),
     );
 
@@ -99,6 +179,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     const result = await sdk.fetchTxData({
       chainId: 9000 as AvailableSwitchNetwork,
       txHash: 'hash',
+      token: Token.aBNBb,
     });
 
     expect(result).toBeUndefined();

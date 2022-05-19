@@ -2,6 +2,8 @@ import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { featuresConfig, ZERO } from 'modules/common/const';
+
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
@@ -9,7 +11,10 @@ interface IGetCommonData {
   ftmBalance: BigNumber;
   minStake: BigNumber;
   aFTMbBalance: BigNumber;
-  pendingUnstakes: BigNumber;
+  bondPendingUnstakes: BigNumber;
+  certPendingUnstakes: BigNumber;
+  aFTMcBalance: BigNumber;
+  aFTMcRatio: BigNumber;
 }
 
 export const getCommonData = createAction<
@@ -20,19 +25,32 @@ export const getCommonData = createAction<
     promise: (async (): Promise<IGetCommonData> => {
       const sdk = await FantomSDK.getInstance();
 
-      const [ftmBalance, minStake, aFTMbBalance, pendingUnstakes] =
-        await Promise.all([
-          sdk.getFtmBalance(),
-          sdk.getMinimumStake(),
-          sdk.getAftmbBalance(),
-          sdk.getPendingUnstakes(),
-        ]);
+      const [
+        ftmBalance,
+        minStake,
+        aFTMbBalance,
+        bondPendingUnstakes,
+        certPendingUnstakes,
+        aFTMcBalance,
+        aFTMcRatio,
+      ] = await Promise.all([
+        sdk.getFtmBalance(),
+        sdk.getMinimumStake(),
+        sdk.getABBalance(),
+        sdk.getPendingUnstakes('bond'),
+        sdk.getPendingUnstakes('cert'),
+        featuresConfig.stakeAFTMC ? sdk.getACBalance() : Promise.resolve(ZERO),
+        featuresConfig.stakeAFTMC ? sdk.getACRatio() : Promise.resolve(ZERO),
+      ]);
 
       return {
         ftmBalance,
         minStake,
         aFTMbBalance,
-        pendingUnstakes,
+        bondPendingUnstakes,
+        certPendingUnstakes,
+        aFTMcBalance,
+        aFTMcRatio,
       };
     })(),
   },

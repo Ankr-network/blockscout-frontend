@@ -2,7 +2,7 @@ import { DependencyList, EffectCallback, useEffect } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 
 export const useETHPolkadotProvidersEffect = (
   effect: EffectCallback,

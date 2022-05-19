@@ -1,4 +1,6 @@
+import { ChainId } from 'domains/chains/api/chain';
+
 export interface HeaderProps {
   className?: string;
-  chainId?: string;
+  chainId?: ChainId | string;
 }
