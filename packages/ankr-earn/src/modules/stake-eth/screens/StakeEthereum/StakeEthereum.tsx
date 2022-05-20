@@ -83,7 +83,6 @@ export const StakeEthereum = (): JSX.Element => {
         )}
 
         <StakeForm
-          isMaxBtnShowed
           balance={balance}
           feeSlot={
             <StakeFeeInfo

@@ -77,7 +77,6 @@ export const featuresConfig = {
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
   bridgeAnotherAddr: false,
-  maxStakeAmountBtn: false,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   stakeAFTMC: true,

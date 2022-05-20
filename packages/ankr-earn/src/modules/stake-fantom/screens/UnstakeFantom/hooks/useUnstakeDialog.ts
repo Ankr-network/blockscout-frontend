@@ -13,7 +13,6 @@ import { AvailableWriteProviders } from 'provider';
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { featuresConfig, ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
@@ -28,9 +27,8 @@ import {
   IUnstakeDialogProps,
   IUnstakeFormValues,
 } from 'modules/stake/components/UnstakeDialog';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseUnstakeDialog
   extends Pick<IUnstakeDialogProps, 'onSubmit' | 'onChange'> {
@@ -158,7 +156,7 @@ export const useUnstakeDialog = (
     [dispatch],
   );
 
-  const debouncedOnChange = useDebouncedCallback(onChange, DEBOUNCE_TIME);
+  const debouncedOnChange = useDebouncedCallback(onChange, INPUT_DEBOUNCE_TIME);
 
   return {
     submitDisabled,

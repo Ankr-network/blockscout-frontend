@@ -9,7 +9,6 @@ import { useCallback, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
@@ -18,12 +17,11 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useSelectedToken } from './useSelectedToken';
 import { useStakeEthAnalytics } from './useStakeEthAnalytics';
-
-const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeForm {
   balance?: BigNumber;
@@ -89,7 +87,7 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const debouncedOnChange = useDebouncedCallback(
     handleFormChange,
-    DEBOUNCE_TIME,
+    INPUT_DEBOUNCE_TIME,
   );
 
   return {

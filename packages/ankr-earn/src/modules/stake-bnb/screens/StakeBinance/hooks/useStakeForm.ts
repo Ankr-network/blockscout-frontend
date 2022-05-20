@@ -13,7 +13,6 @@ import { AvailableWriteProviders } from 'provider';
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
@@ -25,13 +24,12 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useSelectedToken } from './useSelectedToken';
-
-const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseStakeFormData {
   amount: BigNumber;
@@ -89,7 +87,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const debouncedOnChange = useDebouncedCallback(
     handleFormChange,
-    DEBOUNCE_TIME,
+    INPUT_DEBOUNCE_TIME,
   );
 
   const relayerFee = fetchStatsData?.relayerFee ?? ZERO;

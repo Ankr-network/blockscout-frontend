@@ -152,7 +152,6 @@ export const StakeBinance = (): JSX.Element => {
         )}
 
         <StakeForm
-          isMaxBtnShowed
           auditLink={BNB_AUDIT_LINK}
           balance={bnbBalance}
           feeSlot={
