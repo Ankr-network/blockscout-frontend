@@ -43,6 +43,8 @@ import AFTMCAbi from './contracts/aFTMc.json';
 import oldFantomPoolAbi from './contracts/FantomPool-old.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
+const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+
 export enum EFantomPoolEvents {
   TokensBurned = 'TokensBurned',
   Withdrawn = 'Withdrawn',
@@ -335,16 +337,37 @@ export class FantomSDK implements ISwitcher {
       await this.writeProvider.connect();
     }
 
-    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const gasFee = await this.getStakeGasFee(amount, token);
+    const balance = await this.getFtmBalance();
+
+    // multiplication needs to avoid problems with max amount
+    // and fee calculation in the wallet
+    const multipliedGasFee = gasFee.multipliedBy(3);
+    const maxAllowedAmount = balance.minus(multipliedGasFee);
+
+    const stakeAmount = amount.isGreaterThan(maxAllowedAmount)
+      ? maxAllowedAmount
+      : amount;
+
+    const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
+    const stakeMethodName = this.getStakeMethodName(token);
+    const txn = fantomPoolContract.methods[stakeMethodName]();
 
-    const contractStake =
-      fantomPoolContract.methods[this.getStakeMethodName(token)];
-
-    return contractStake().send({
+    const gasLimit: number = await txn.estimateGas({
       from: this.currentAccount,
       value: hexAmount,
     });
+
+    return txn.send({
+      from: this.currentAccount,
+      value: hexAmount,
+      gas: this.getIncreasedGasLimit(gasLimit),
+    });
+  }
+
+  private getIncreasedGasLimit(gasLimit: number) {
+    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
   private getStakeMethodName(token: TFtmSyntToken) {
@@ -460,12 +483,16 @@ export class FantomSDK implements ISwitcher {
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
+    const unstakeMethodName = this.getUnstakeMethodName(token);
+    const txn = fantomPoolContract.methods[unstakeMethodName](hexAmount);
 
-    const contractUnstake =
-      fantomPoolContract.methods[this.getUnstakeMethodName(token)];
-
-    return contractUnstake(hexAmount).send({
+    const gasLimit: number = await txn.estimateGas({
       from: this.currentAccount,
+    });
+
+    return txn.send({
+      from: this.currentAccount,
+      gas: this.getIncreasedGasLimit(gasLimit),
     });
   }
 
@@ -481,6 +508,26 @@ export class FantomSDK implements ISwitcher {
       default:
         return 'burnBonds';
     }
+  }
+
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TFtmSyntToken,
+  ): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const fantomPoolContract = this.getFantomPoolContract(provider);
+
+    const contractStake =
+      fantomPoolContract.methods[this.getStakeMethodName(token)];
+
+    const estimatedGas: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: convertNumberToHex(amount, ETH_SCALE_FACTOR),
+    });
+
+    const increasedGasLimit = this.getIncreasedGasLimit(estimatedGas);
+
+    return provider.getContractMethodFee(increasedGasLimit);
   }
 
   public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
