@@ -145,6 +145,7 @@
     "unsupported-network-single-switch": "Please switch to ",
     "unsupported-network-single-network": "{newNetwork}",
     "switch-network": "Switch network",
+    "connect": "Connect",
     "unsupported-polkadot-network": "Please, choose required network for unstake:",
     "current": "current",
     "networks": {

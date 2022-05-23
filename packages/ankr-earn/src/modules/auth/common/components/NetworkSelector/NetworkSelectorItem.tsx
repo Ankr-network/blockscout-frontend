@@ -11,6 +11,7 @@ interface INetworkSelectorItemProps {
   title: string;
   onClick?: () => void;
   disabled?: boolean;
+  oldVersion?: boolean;
 }
 
 export const NetworkSelectorItem = ({
@@ -18,6 +19,7 @@ export const NetworkSelectorItem = ({
   title,
   onClick,
   disabled,
+  oldVersion = false,
 }: INetworkSelectorItemProps): JSX.Element => {
   const classes = useNetworkSelectorStyles();
   const [hover, setHover] = useState(false);
@@ -27,7 +29,10 @@ export const NetworkSelectorItem = ({
 
   return (
     <button
-      className={classNames(classes.item, !disabled && classes.itemClickable)}
+      className={classNames(
+        oldVersion ? classes.oldItem : classes.item,
+        !disabled && classes.itemClickable,
+      )}
       disabled={disabled}
       type="button"
       onClick={onClick}
@@ -38,20 +43,32 @@ export const NetworkSelectorItem = ({
         setHoverFalse as MouseEventHandler<HTMLButtonElement> | undefined
       }
     >
-      <Box alignItems="center" display="flex">
-        {React.cloneElement(iconSlot, {
-          className: classes.icon,
-        })}
+      {oldVersion ? (
+        <>
+          {iconSlot}
 
-        <Typography className={classes.itemTitle} variant="body2">
-          {title}
-        </Typography>
-      </Box>
+          <Typography className={classes.itemTitle} variant="body2">
+            {title}
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Box alignItems="center" display="flex">
+            {React.cloneElement(iconSlot, {
+              className: classes.icon,
+            })}
 
-      {hover && (
-        <Typography className={classes.connect} variant="body2">
-          {t('connect.connect')}
-        </Typography>
+            <Typography className={classes.itemTitle} variant="body2">
+              {title}
+            </Typography>
+          </Box>
+
+          {hover && (
+            <Typography className={classes.connect} variant="body2">
+              {t('connect.connect')}
+            </Typography>
+          )}
+        </>
       )}
     </button>
   );

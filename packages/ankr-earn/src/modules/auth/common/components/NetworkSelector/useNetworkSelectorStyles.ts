@@ -19,8 +19,19 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
     width: '100%',
   },
 
+  oldItem: {
+    padding: theme.spacing(1.5, 1, 1),
+
+    border: 'none',
+    background: 'none',
+    textAlign: 'center',
+    color: theme.palette.text.primary,
+
+    borderRadius: 8,
+  },
+
   item: {
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1.5, 1, 1),
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

@@ -127,6 +127,7 @@ export const GuardRoute = <
                 <NetworkSelectorItem
                   key={network}
                   disabled
+                  oldVersion
                   iconSlot={icon}
                   title={title}
                 />
