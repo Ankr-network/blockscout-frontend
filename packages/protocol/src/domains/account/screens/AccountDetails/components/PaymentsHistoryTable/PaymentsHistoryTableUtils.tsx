@@ -9,7 +9,7 @@ import {
 
 import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { VirtualTableColumn, VirtualTableQuery } from 'ui';
+import { VirtualTableColumn } from 'ui';
 import { useStyles } from './useStyles';
 import { ArrowTopRightIcon } from 'uiKit/Icons/ArrowTopRightIcon';
 
@@ -25,9 +25,10 @@ export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
 export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 
 export const PaymentHistoryDefaultParams = {
-  page: 1,
-  order_by: 'timestamp',
-  sort: 'desc',
+  // page: 1,
+  // order_by: 'timestamp',
+  // sort: 'desc',
+  time_group: 'DAY',
 };
 
 export const getPaymentHistoryItemDirection = (
@@ -51,20 +52,9 @@ export const getPaymentHistoryItemSign = (direction?: boolean): string => {
   return direction ? '+' : '-';
 };
 
-export const preparePaymentHistoryRequest = ({
-  page,
-  order,
-  orderBy,
-}: VirtualTableQuery) => {
-  const cursor =
-    (page || 1) * PAYMENT_HISTORY_PAGE_SIZE - PAYMENT_HISTORY_PAGE_SIZE;
-  const limit = PAYMENT_HISTORY_PAGE_SIZE;
-
+export const preparePaymentHistoryRequest = () => {
   return {
-    sort: order,
-    order_by: orderBy,
-    cursor,
-    limit,
+    time_group: 'DAY',
   };
 };
 
@@ -149,7 +139,7 @@ export const usePaymentHistoryTableColumns = (downloadTransaction: any) => {
             }),
           align: 'left',
           width: 200,
-          sortable: true,
+          sortable: false,
         },
         {
           field: 'type',
@@ -167,7 +157,7 @@ export const usePaymentHistoryTableColumns = (downloadTransaction: any) => {
             return PAYMENT_HISTORY_TYPE[type] || type;
           },
           align: 'left',
-          sortable: true,
+          sortable: false,
         },
         {
           field: 'amount_usd',
@@ -192,7 +182,7 @@ export const usePaymentHistoryTableColumns = (downloadTransaction: any) => {
             );
           },
           align: 'right',
-          sortable: true,
+          sortable: false,
         },
         {
           field: 'amount_ankr',
@@ -217,7 +207,7 @@ export const usePaymentHistoryTableColumns = (downloadTransaction: any) => {
             );
           },
           align: 'right',
-          sortable: true,
+          sortable: false,
         },
       ] as VirtualTableColumn<IPaymentHistoryEntity>[],
     [],

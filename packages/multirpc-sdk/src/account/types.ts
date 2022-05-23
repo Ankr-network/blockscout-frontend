@@ -62,3 +62,17 @@ export interface IDailyChargingParams {
 }
 
 export type IDailyChargingReponse = string;
+
+export interface IAggregatedPaymentHistoryRequest {
+  blockchains?: string[];
+  limit?: number;
+  types: IPaymentHistoryEntityType[];
+  // unix timestamps
+  from: number;
+  to: number;
+  time_group: 'TOTAL' | 'DAY' | 'HOUR';
+}
+
+export interface IAggregatedPaymentHistoryReponse {
+  transactions: IPaymentHistoryEntity[];
+}

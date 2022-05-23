@@ -1,4 +1,6 @@
 import {
+  IAggregatedPaymentHistoryReponse,
+  IAggregatedPaymentHistoryRequest,
   IBalance,
   IDailyChargingParams,
   IDailyChargingReponse,
@@ -15,13 +17,17 @@ export interface IAccountGateway {
 
   getAnkrBalance(): Promise<IBalance>;
 
-  getPaymentHistory(
-    params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse>;
-
   getRequests(params: IRequestsRequest): Promise<IRequestsResponse>;
 
   getDailyCharging(
     params: IDailyChargingParams,
   ): Promise<IDailyChargingReponse>;
+
+  getPaymentHistory(
+    params: IPaymentHistoryRequest,
+  ): Promise<IPaymentHistoryReponse>;
+
+  getAggregatedPaymentHistory(
+    params: IAggregatedPaymentHistoryRequest,
+  ): Promise<IAggregatedPaymentHistoryReponse>;
 }

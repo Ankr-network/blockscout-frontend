@@ -9,6 +9,8 @@ import {
   IRequestsRequest,
   IDailyChargingParams,
   IDailyChargingReponse,
+  IAggregatedPaymentHistoryReponse,
+  IAggregatedPaymentHistoryRequest,
 } from './types';
 import { IAccountGateway } from './interfaces';
 import { getRequestsMock } from '../mock/getRequestsMock';
@@ -47,6 +49,19 @@ export class AccountGateway implements IAccountGateway {
   ): Promise<IPaymentHistoryReponse> {
     const { data: response } = await this.api.get<IPaymentHistoryReponse>(
       '/api/v1/auth/transactionHistory',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  public async getAggregatedPaymentHistory(
+    params: IAggregatedPaymentHistoryRequest,
+  ): Promise<IAggregatedPaymentHistoryReponse> {
+    const { data: response } = await this.api.get<IPaymentHistoryReponse>(
+      '/api/v1/auth/aggregatedTransactions',
       {
         params,
       },

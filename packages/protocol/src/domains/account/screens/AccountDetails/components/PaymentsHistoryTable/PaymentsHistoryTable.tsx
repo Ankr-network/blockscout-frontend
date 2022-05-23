@@ -5,17 +5,12 @@ import React, { useCallback } from 'react';
 
 import { t } from 'common';
 import { fetchDailyCharging } from 'domains/account/actions/fetchDailyCharging';
-import {
-  fetchPaymentHistory,
-  fetchPaymentHistoryMore,
-} from 'domains/account/actions/fetchPaymentHistory';
+import { fetchPaymentHistory } from 'domains/account/actions/fetchPaymentHistory';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { downloadCsv } from 'modules/common/utils/downloadCsv';
 import { IPaymentHistoryReponse } from 'multirpc-sdk';
-import { VirtualTable, VirtualTableQuery } from 'ui';
+import { VirtualTable } from 'ui';
 import {
-  PaymentHistoryDefaultParams,
-  PAYMENT_HISTORY_PAGE_SIZE,
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
   prepareDailyChargingRequest,
@@ -54,36 +49,8 @@ export const PaymentsHistoryTable = () => {
     type: fetchPaymentHistory,
   });
 
-  const handleChangeSort = useCallback(
-    async (params: VirtualTableQuery) => {
-      const query = preparePaymentHistoryRequest(params);
-
-      await dispatchRequest(
-        fetchPaymentHistory({
-          ...query,
-          cursor: 0,
-          limit: params.page * PAYMENT_HISTORY_PAGE_SIZE,
-        }),
-      );
-    },
-    [dispatchRequest],
-  );
-
-  const handleChangePage = useCallback(
-    async (params: VirtualTableQuery) => {
-      await dispatchRequest(
-        fetchPaymentHistoryMore(preparePaymentHistoryRequest(params)),
-      );
-    },
-    [dispatchRequest],
-  );
-
   useOnMount(() => {
-    dispatchRequest(
-      fetchPaymentHistory(
-        preparePaymentHistoryRequest(PaymentHistoryDefaultParams),
-      ),
-    );
+    dispatchRequest(fetchPaymentHistory(preparePaymentHistoryRequest()));
   });
 
   if (error || !data?.transactions?.length) {
@@ -99,12 +66,7 @@ export const PaymentsHistoryTable = () => {
       </Box>
       <VirtualTable
         cols={columns}
-        isMoreRowsAvailable={data && data.cursor !== '-1'}
-        pagination="more"
         minWidth={650}
-        moreBtnText={t('account.payment-table.more')}
-        onChangePage={handleChangePage}
-        onSort={handleChangeSort}
         rows={data?.transactions || []}
       />
     </Box>
