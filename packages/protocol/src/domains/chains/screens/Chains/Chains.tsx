@@ -15,6 +15,7 @@ import { useChainsStyles } from './ChainsStyles';
 import { usePublicChainsInfo } from './ChainsUtils';
 import { H1Tag } from 'uiKit/H1Tag';
 import { useSortSelect } from './components/ChainsSortSelect/ChainsSortSelectUtils';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 const ENABLE_HOW_TO_INTEGRATE = false;
 
@@ -27,12 +28,16 @@ const totalRequestsData = '';
 const loading = false;
 
 export const Chains = () => {
+  const { isWalletConnected } = useAuth();
+
   const classes = useChainsStyles();
   usePublicChainsInfo();
 
   useSetBreadcrumbs([
     {
-      title: t(ChainsRoutesConfig.chains.breadcrumbs),
+      title: isWalletConnected
+        ? t(ChainsRoutesConfig.chains['connected-breadcrumbs'])
+        : t(ChainsRoutesConfig.chains.breadcrumbs),
     },
   ]);
 

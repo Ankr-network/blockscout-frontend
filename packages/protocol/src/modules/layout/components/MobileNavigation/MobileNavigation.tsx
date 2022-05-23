@@ -25,6 +25,7 @@ import {
 
 interface MobileHeaderProps {
   className?: string;
+  isWalletConnected: boolean;
 }
 
 interface IMenuItem {
@@ -35,7 +36,10 @@ interface IMenuItem {
   isActive: IsActive;
 }
 
-export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
+export const MobileNavigation = ({
+  isWalletConnected,
+  className = '',
+}: MobileHeaderProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const isMobile = useIsSMDown();
@@ -58,13 +62,17 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
     () =>
       [
         {
-          label: t('mobile-navigation.dashboard'),
+          label: isWalletConnected
+            ? t('mobile-navigation.dashboard')
+            : t('mobile-navigation.public-rpcs'),
           StartIcon: BoxIcon,
           href: ChainsRoutesConfig.chains.generatePath(),
           isActive: isDashboardActive,
         },
         {
-          label: t('mobile-navigation.account-details'),
+          label: isWalletConnected
+            ? t('mobile-navigation.account-details')
+            : t('mobile-navigation.plan'),
           StartIcon: DiamondIcon,
           href: AccountRoutesConfig.accountDetails.generatePath(),
         },
@@ -84,7 +92,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
           onClick: () => setIsOpened(oldIsOpened => !oldIsOpened),
         },
       ].filter(Boolean) as IMenuItem[],
-    [],
+    [isWalletConnected],
   );
 
   return (

@@ -86,7 +86,9 @@
   },
   "main-navigation": {
     "dashboard": "Dashboard",
+    "public-rpcs": "Public RPCs",
     "account-details": "Account Details",
+    "plan": "Premium Plan",
     "protocol": "Node Providers",
     "request-explorer": "Request Explorer"
   },
@@ -96,7 +98,9 @@
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
+    "public-rpcs": "Public RPCs",
     "account-details": "Account Details",
+    "plan": "Premium Plan",
     "protocol": "Node Providers",
     "request-explorer": "Request Explorer",
     "more": "More"
@@ -127,7 +131,8 @@
     "total-asset-value-transferred": "Total Asset Value Transferred"
   },
   "chains": {
-    "breadcrumbs": "Dashboard",
+    "connected-breadcrumbs": "Dashboard",
+    "breadcrumbs": "Public RPCs",
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",

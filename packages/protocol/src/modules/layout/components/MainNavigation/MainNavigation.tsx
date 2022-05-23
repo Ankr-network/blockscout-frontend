@@ -17,17 +17,25 @@ import { isDashboardActive } from './MainNavigationUtils';
 
 export const HAS_REQUEST_EXPLORER = false;
 
-export const MainNavigation = () => {
+interface IMainNavigationProps {
+  isWalletConnected: boolean;
+}
+
+export const MainNavigation = ({ isWalletConnected }: IMainNavigationProps) => {
   const items = useLocaleMemo((): NavigationItem[] => {
     const links = [
       {
-        label: t('main-navigation.dashboard'),
+        label: isWalletConnected
+          ? t('main-navigation.dashboard')
+          : t('main-navigation.public-rpcs'),
         StartIcon: BoxIcon,
         href: ChainsRoutesConfig.chains.generatePath(),
         isActive: isDashboardActive,
       },
       {
-        label: t('main-navigation.account-details'),
+        label: isWalletConnected
+          ? t('main-navigation.account-details')
+          : t('main-navigation.plan'),
         StartIcon: DiamondIcon,
         href: AccountRoutesConfig.accountDetails.generatePath(),
       },
@@ -47,7 +55,7 @@ export const MainNavigation = () => {
     }
 
     return links;
-  }, []);
+  }, [isWalletConnected]);
 
   return <Navigation items={items} />;
 };

@@ -10,9 +10,13 @@ import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
 interface SidebarProps {
   className?: string;
+  isWalletConnected: boolean;
 }
 
-export const SideBar = ({ className = '' }: SidebarProps) => {
+export const SideBar = ({
+  isWalletConnected,
+  className = '',
+}: SidebarProps) => {
   const classes = useStyles();
 
   return (
@@ -21,7 +25,7 @@ export const SideBar = ({ className = '' }: SidebarProps) => {
         <div className={classes.container}>
           <Logo />
           <div className={classes.bottom}>
-            <MainNavigation />
+            <MainNavigation isWalletConnected={isWalletConnected} />
             <div>
               <StakingInfo />
               <ExtraNavigation />

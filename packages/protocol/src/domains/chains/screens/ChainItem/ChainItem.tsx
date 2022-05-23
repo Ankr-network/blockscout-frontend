@@ -21,7 +21,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   const classes = useStyles();
 
-  useChainItemBreadcrumbs(data.chain.name);
+  useChainItemBreadcrumbs(data.chain.name, isWalletConnected);
 
   const { chain, nodes } = data;
 
