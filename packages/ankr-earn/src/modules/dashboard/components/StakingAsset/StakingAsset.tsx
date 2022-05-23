@@ -5,9 +5,11 @@ import { ReactNode } from 'react';
 import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
+import { nativeTokenMap } from 'modules/dashboard/const';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
@@ -30,6 +32,7 @@ interface IStakingAssetProps {
   unstakeLink?: string;
   unstakeTooltip?: string;
   pendingSlot?: ReactNode;
+  nativeAmount?: BigNumber;
   isLoading?: boolean;
   isStakeLoading?: boolean;
   onAddTokenToWallet?: () => void;
@@ -50,6 +53,7 @@ export const StakingAsset = ({
   stakeLink,
   unstakeLink,
   pendingSlot,
+  nativeAmount,
   unstakeTooltip,
   isLoading = false,
   isStakeLoading = false,
@@ -82,6 +86,14 @@ export const StakingAsset = ({
 
   const conditionalUnstakeTooltip =
     unstakeTooltip ?? (unstakeLink ? defaultUnstakeTooltip : comingSoonTooltip);
+
+  const nativeAmountText =
+    nativeAmount &&
+    token &&
+    t('unit.token-value', {
+      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      token: nativeTokenMap[token],
+    });
 
   return (
     <DashboardCard
@@ -157,6 +169,7 @@ export const StakingAsset = ({
           </Menu>
         </Box>
       }
+      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

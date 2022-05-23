@@ -86,6 +86,7 @@ export const featuresConfig = {
   isSplitedMATICHistory: true,
   maticHistory: true,
   newBinancePool: currentEnv !== Env.Production,
+  dashboardNativeAmount: false,
 };
 
 export enum SupportedChainIDS {

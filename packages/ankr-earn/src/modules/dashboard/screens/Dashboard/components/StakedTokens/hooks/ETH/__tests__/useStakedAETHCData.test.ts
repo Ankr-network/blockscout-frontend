@@ -6,7 +6,7 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 
 import { useStakedAETHCData } from '../useStakedAETHCData';
 
@@ -32,8 +32,11 @@ jest.mock('modules/boost/Routes', () => ({
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAETHCData', () => {
   const defaultStatsData = {
-    data: { aETHcBalance: new BigNumber(1) },
     loading: false,
+    data: {
+      aETHcBalance: new BigNumber(1),
+      aETHcRatio: new BigNumber(0.5),
+    },
   };
 
   const defaultMutationData = {
@@ -55,15 +58,18 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAE
   test('should return amount and pending value', () => {
     const { result } = renderHook(() => useStakedAETHCData());
 
-    const expectedStakeLink = '/stake';
+    const expectedNativeAmount = featuresConfig.dashboardNativeAmount
+      ? new BigNumber(2)
+      : undefined;
 
     expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
     expect(result.current.isStakeLoading).toBe(false);
-    expect(result.current.stakeLink).toBe(expectedStakeLink);
+    expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.tradeLink).toBe('/trade');
+    expect(result.current.nativeAmount).toStrictEqual(expectedNativeAmount);
   });
 
   test('should return zero if there is no data', () => {

@@ -29,6 +29,7 @@ export const StakedAETHC = (): JSX.Element => {
     isBalancesLoading,
     walletName,
     address,
+    nativeAmount,
     handleAddTokenToWallet,
   } = useStakedAETHCData();
 
@@ -80,6 +81,7 @@ export const StakedAETHC = (): JSX.Element => {
         chainId={chainId}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
