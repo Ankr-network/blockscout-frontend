@@ -1,22 +1,15 @@
-import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
-import { useIsMDDown, useIsXSDown } from 'ui';
-import { Link } from 'react-router-dom';
+import { useIsMDDown, useIsXSDown, NavLink } from 'ui';
 
 import MobileHeader from 'assets/img/premium/mobile-fold-header-1.png';
 import DeskFoldHeaderLeft from 'assets/img/premium/desk-fold-header-left.png';
 import DeskFoldHeaderRight from 'assets/img/premium/desk-fold-header-right.png';
-
 import { useStyles } from './usePlanHeaderStyles';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { CONTACT_SALES_LINK } from '../../const';
 
-interface HeaderProps {
-  costInAnkr: number;
-  costInUsd?: string;
-}
-
-export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
+export const Header = () => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
   const isTablet = useIsMDDown();
@@ -55,44 +48,18 @@ export const Header = ({ costInAnkr, costInUsd }: HeaderProps) => {
           <Typography className={classes.headerSubTitle} variant="body1">
             {t('plan.header.sub-title')}
           </Typography>
-          <Paper className={classes.headerPaper}>
-            <Box textAlign="left">
-              <Box display="flex" alignItems="center">
-                <Box mr={1}>
-                  <Typography variant="h5" className={classes.headerPaperTitle}>
-                    {t('plan.header.cost', { value: costInAnkr })}
-                  </Typography>
-                </Box>
-                <Box display="flex" flexDirection="column">
-                  <Typography
-                    className={classes.headerPaperTitle2}
-                    variant="body1"
-                  >
-                    ANKR / {t('plan.header.period')}
-                  </Typography>
-                  <Typography
-                    className={classes.headerPaperSubTitle}
-                    variant="body1"
-                  >
-                    {costInUsd && t('plan.cost-usd', { value: costInUsd })}
-                    &nbsp;
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-            <Button
-              component={Link}
-              to={PlanRoutesConfig.plan.path}
-              size="large"
-              // onClick={onClickPremiumBtn}
-              className={classes.unlockBtn}
-              startIcon={<PremiumIcon className={classes.unlockIcon} />}
-            >
-              <Typography variant="h5" className={classes.unlockBtnTitle}>
-                {t('plan.unlock-btn')}
-              </Typography>
-            </Button>
-          </Paper>
+          <NavLink
+            href={CONTACT_SALES_LINK}
+            tabIndex={0}
+            size="large"
+            className={classes.unlockBtn}
+            startIcon={<PremiumIcon className={classes.unlockIcon} />}
+            variant="contained"
+          >
+            <Typography variant="h5" className={classes.unlockBtnTitle}>
+              {t('plan.unlock-btn')}
+            </Typography>
+          </NavLink>
           <Typography
             align="center"
             variant="subtitle1"

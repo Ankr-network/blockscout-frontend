@@ -36,7 +36,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   unblockBtn: {
     color: theme.palette.primary.main,
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(5.5),
     padding: 0,
     background: 'none',
     '&:hover': {

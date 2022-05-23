@@ -1,17 +1,13 @@
-import { Box, Button, Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
+
 import { useStyles } from './usePurchaseBlockStyles';
 import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
-import { t } from 'modules/i18n/utils/intl';
-import { useIsXSDown } from 'ui';
-import { Link } from 'react-router-dom';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import { NavLink, useIsXSDown } from 'ui';
+import { CONTACT_SALES_LINK } from '../../const';
 
-interface PurchaseBlockProps {
-  costInAnkr: number;
-}
-
-export const PurchaseBlock = ({ costInAnkr }: PurchaseBlockProps) => {
+export const PurchaseBlock = () => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
 
@@ -20,7 +16,7 @@ export const PurchaseBlock = ({ costInAnkr }: PurchaseBlockProps) => {
       {isMobile && <div className={classes.mobileHeaderImg} />}
       <Box className={classes.centerBlock}>
         <Typography variant="h3" className={classes.title}>
-          {t('plan.purchase-block.title', { value: costInAnkr })}
+          {tHTML('plan.purchase-block.title')}
         </Typography>
         <Typography variant="body1" className={classes.subTitle}>
           {t('plan.purchase-block.sub-title')}
@@ -50,15 +46,18 @@ export const PurchaseBlock = ({ costInAnkr }: PurchaseBlockProps) => {
         </Box>
 
         <Box className={classes.unlockContainer}>
-          <Button
-            component={Link}
-            to={PlanRoutesConfig.plan.path}
-            fullWidth={false}
+          <NavLink
+            href={CONTACT_SALES_LINK}
+            tabIndex={0}
+            size="large"
             className={classes.unlockBtn}
             startIcon={<PremiumIcon />}
+            variant="contained"
           >
-            {t('plan.unlock-btn')}
-          </Button>
+            <Typography variant="h5" className={classes.unlockBtnTitle}>
+              {t('plan.unlock-btn')}
+            </Typography>
+          </NavLink>
         </Box>
       </Box>
       {isMobile && <div className={classes.mobileFooterImg} />}

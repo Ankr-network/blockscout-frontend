@@ -6,7 +6,6 @@ import {
   TableBody,
   Typography,
   Box,
-  Button,
 } from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
@@ -14,23 +13,17 @@ import { useStyles } from './useFeatureTableStyles';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
 import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
-import { useIsXSDown } from 'ui';
+import { NavLink, useIsXSDown } from 'ui';
 import { FeatureTableMobile } from './FeatureTableMobile';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
-import { Link } from 'react-router-dom';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { CONTACT_SALES_LINK } from '../../const';
 
-interface FeatureTableProps {
-  costInAnkr: number;
-  costInUsd?: string;
-}
-
-export const FeatureTable = ({ costInAnkr, costInUsd }: FeatureTableProps) => {
+export const FeatureTable = () => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
 
   if (isMobile) {
-    return <FeatureTableMobile costInAnkr={costInAnkr} costInUsd={costInUsd} />;
+    return <FeatureTableMobile />;
   }
 
   return (
@@ -69,29 +62,18 @@ export const FeatureTable = ({ costInAnkr, costInUsd }: FeatureTableProps) => {
             >
               {t('plan.table.premium')}
             </Typography>
-            <Box display="flex" flexWrap="wrap" mt={1}>
-              <Typography
-                color="textPrimary"
-                className={classes.subTitle}
-                variant="body1"
-              >
-                {t('plan.table.cost', { value: costInAnkr })}
-              </Typography>
-              <Typography className={classes.subTitleGreyCost} variant="body1">
-                &nbsp;{costInUsd && t('plan.cost-usd', { value: costInUsd })}
-              </Typography>
-            </Box>
-            <Button
-              component={Link}
-              to={PlanRoutesConfig.plan.path}
-              variant="text"
-              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+            <NavLink
+              href={CONTACT_SALES_LINK}
+              tabIndex={0}
               className={classes.unblockBtn}
+              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+              variant="text"
+              color="default"
             >
-              <Typography className={classes.unblockBtnLabel} variant="body1">
+              <Typography variant="h5" className={classes.unlockBtnTitle}>
                 {t('plan.unlock-btn')}
               </Typography>
-            </Button>
+            </NavLink>
           </TableCell>
         </TableRow>
       </TableHead>
