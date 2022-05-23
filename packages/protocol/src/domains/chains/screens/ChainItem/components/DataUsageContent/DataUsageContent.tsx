@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ChainItemDetails } from '../ChainItemDetails';
 import { ChainRequestsOverview } from '../ChainRequestsOverview';
+import { MethodsRating } from '../MethodsRating';
 import { RequestsMap } from '../RequestsMap';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { useTimeframeData } from './DataUsageContentUtils';
@@ -53,6 +54,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
           )}
+          <MethodsRating />
         </>
       )}
     </div>

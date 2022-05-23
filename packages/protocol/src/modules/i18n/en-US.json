@@ -217,6 +217,19 @@
         "value": "{value, number, ::compact-short}"
       }
     },
+    "methods-rating": {
+      "title": "Top 10 requests by volume",
+      "periods": {
+        "day": "24h",
+        "week": "7d",
+        "month": "30d"
+      },
+      "table": {
+        "methods-title": "Method",
+        "requests-title": "Requests",
+        "calls": "{calls, number, ::compact-short}"
+      }
+    },
     "nodes-table": {
       "header": "Nodes",
       "more": "Show 10 more",
