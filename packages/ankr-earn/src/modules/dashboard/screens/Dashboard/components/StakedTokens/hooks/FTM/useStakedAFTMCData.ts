@@ -60,7 +60,8 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
 
   const amount = commonData?.aFTMcBalance ?? ZERO;
   const pendingUnstakes = commonData?.certPendingUnstakes ?? ZERO;
-  const isShowed = !amount.isZero() || isBalancesLoading;
+  const isShowed =
+    !amount.isZero() || isBalancesLoading || !pendingUnstakes.isZero();
 
   const nativeAmount = getTokenNativeAmount(amount, commonData?.aFTMcRatio);
 
