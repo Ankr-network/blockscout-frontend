@@ -85,6 +85,7 @@ export const featuresConfig = {
   aMATICcUnstakeEnabled: true,
   isSplitedMATICHistory: true,
   maticHistory: true,
+  avaxSwitcher: currentEnv !== Env.Production,
   newBinancePool: currentEnv !== Env.Production,
   dashboardNativeAmount: false,
 };

@@ -2,7 +2,10 @@ import { Box } from '@material-ui/core';
 import compact from 'lodash/compact';
 import { useCallback, useMemo } from 'react';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
@@ -48,6 +51,11 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aFTMb,
       icon: <AFTMBIcon {...DEFAULT_ICON_PROPS} />,
     },
+    featuresConfig.avaxSwitcher && {
+      label: Token.aAVAXb,
+      value: Token.aAVAXb,
+      icon: <AAvaxBIcon {...DEFAULT_ICON_PROPS} />,
+    },
   ]),
 
   to: compact([
@@ -70,6 +78,11 @@ const AVAILABLE_SWAP_TOKENS = {
       label: Token.aFTMc,
       value: Token.aFTMc,
       icon: <AFTMCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.avaxSwitcher && {
+      label: Token.aAVAXc,
+      value: Token.aAVAXc,
+      icon: <AAvaxCIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 };

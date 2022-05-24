@@ -6,6 +6,7 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  AVAX_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -19,13 +20,16 @@ export type AvailableSwitcherToken =
   | Token.aMATICb
   | Token.aMATICc
   | Token.aFTMb
-  | Token.aFTMc;
+  | Token.aFTMc
+  | Token.aAVAXb
+  | Token.aAVAXc;
 
 export const SWITCHER_FROM_TOKENS = [
   Token.aETHb,
   Token.aBNBb,
   Token.aMATICb,
   Token.aFTMb,
+  Token.aAVAXb,
 ];
 
 export const SWITCHER_TO_TOKENS = [
@@ -33,6 +37,7 @@ export const SWITCHER_TO_TOKENS = [
   Token.aBNBc,
   Token.aMATICc,
   Token.aFTMc,
+  Token.aAVAXc,
 ];
 
 export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
@@ -44,6 +49,8 @@ export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aMATICc]: contractConfig.aMaticCToken,
   [Token.aFTMb]: fantomConfig.aftmbToken,
   [Token.aFTMc]: fantomConfig.aftmcToken,
+  [Token.aAVAXb]: '', // TODO: add avax tokens
+  [Token.aAVAXc]: '',
 };
 
 export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
@@ -55,6 +62,8 @@ export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
   [Token.aMATICc]: t('switcher.tooltips.aMATICc'),
   [Token.aFTMb]: t('switcher.tooltips.aFTMb'),
   [Token.aFTMc]: t('switcher.tooltips.aFTMc'),
+  [Token.aAVAXb]: t('switcher.tooltips.aAVAXb'),
+  [Token.aAVAXc]: t('switcher.tooltips.aAVAXc'),
 };
 
 export type AvailableSwitchNetwork =
@@ -63,13 +72,16 @@ export type AvailableSwitchNetwork =
   | EEthereumNetworkId.smartchain
   | EEthereumNetworkId.smartchainTestnet
   | EEthereumNetworkId.fantom
-  | EEthereumNetworkId.fantomTestnet;
+  | EEthereumNetworkId.fantomTestnet
+  | EEthereumNetworkId.avalanche
+  | EEthereumNetworkId.avalancheTestnet;
 
 export type AvailableSwitcherNativeToken =
   | Token.ETH
   | Token.BNB
   | Token.MATIC
-  | Token.FTM;
+  | Token.FTM
+  | Token.AVAX;
 
 export const NATIVE_TOKEN_BY_SWITCH_OPTION: Record<
   AvailableSwitcherToken,
@@ -83,6 +95,8 @@ export const NATIVE_TOKEN_BY_SWITCH_OPTION: Record<
   [Token.aMATICc]: Token.MATIC,
   [Token.aFTMb]: Token.FTM,
   [Token.aFTMc]: Token.FTM,
+  [Token.aAVAXb]: Token.AVAX,
+  [Token.aAVAXc]: Token.AVAX,
 };
 
 export const CHAIN_ID_BY_TOKEN: Record<
@@ -97,6 +111,8 @@ export const CHAIN_ID_BY_TOKEN: Record<
   [Token.aMATICc]: ETH_NETWORK_BY_ENV,
   [Token.aFTMb]: FTM_NETWORK_BY_ENV,
   [Token.aFTMc]: FTM_NETWORK_BY_ENV,
+  [Token.aAVAXb]: AVAX_NETWORK_BY_ENV,
+  [Token.aAVAXc]: AVAX_NETWORK_BY_ENV,
 };
 
 export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
@@ -109,6 +125,8 @@ export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
     [Token.aMATICc]: 10,
     [Token.aFTMb]: 10,
     [Token.aFTMc]: 10,
+    [Token.aAVAXb]: 10,
+    [Token.aAVAXc]: 10,
   };
 
 export const DEFAULT_TOKENS_BY_NETWORK: Record<
@@ -124,6 +142,11 @@ export const DEFAULT_TOKENS_BY_NETWORK: Record<
   },
   [EEthereumNetworkId.fantom]: { from: Token.aFTMb, to: Token.aFTMc },
   [EEthereumNetworkId.fantomTestnet]: {
+    from: Token.aFTMb,
+    to: Token.aFTMc,
+  },
+  [EEthereumNetworkId.avalanche]: { from: Token.aFTMb, to: Token.aFTMc },
+  [EEthereumNetworkId.avalancheTestnet]: {
     from: Token.aFTMb,
     to: Token.aFTMc,
   },
@@ -143,6 +166,7 @@ export const SWITCHER_TOKENS_MAP: Record<
     [Token.aBNBb]: Token.aBNBb,
     [Token.aMATICb]: Token.aMATICb,
     [Token.aFTMb]: Token.aFTMb,
+    [Token.aAVAXb]: Token.aAVAXb,
   },
 
   [SwitcherUrlParams.TO]: {
@@ -150,6 +174,7 @@ export const SWITCHER_TOKENS_MAP: Record<
     [Token.aBNBc]: Token.aBNBc,
     [Token.aMATICc]: Token.aMATICc,
     [Token.aFTMc]: Token.aFTMc,
+    [Token.aAVAXc]: Token.aAVAXc,
   },
 };
 
@@ -165,8 +190,10 @@ export const SWITCHER_TOKENS_PAIR: Record<
   [Token.aBNBb]: Token.aBNBc,
   [Token.aMATICb]: Token.aMATICc,
   [Token.aFTMb]: Token.aFTMc,
+  [Token.aAVAXb]: Token.aAVAXc,
   [Token.aETHc]: Token.aETHb,
   [Token.aBNBc]: Token.aBNBb,
   [Token.aMATICc]: Token.aMATICb,
   [Token.aFTMc]: Token.aFTMb,
+  [Token.aAVAXc]: Token.aAVAXb,
 };
