@@ -16,18 +16,19 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,
   featuresConfig,
   isMainnet,
   MAX_UINT256,
+  ZERO,
+  ZERO_EVENT_HASH,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
-  BINANCE_POOL_CONTRACT_START_BLOCK,
+  BINANCE_HISTORY_BLOCK_OFFSET,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
@@ -49,6 +50,7 @@ enum EBinancePoolEvents {
   RatioUpdated = 'RatioUpdated',
   Staked = 'Staked',
   UnstakePending = 'UnstakePending',
+  IsRebasing = 'isRebasing',
 }
 
 export enum EBinancePoolEventsMap {
@@ -74,8 +76,15 @@ export interface IGetTxData {
 }
 
 export interface ITxEventsHistoryData {
-  completed: TTxEventsHistoryGroupData;
-  pending: TTxEventsHistoryGroupData;
+  completedABNBB: TTxEventsHistoryGroupData;
+  completedABNBC: TTxEventsHistoryGroupData;
+  pendingABNBB: TTxEventsHistoryGroupData;
+  pendingABNBC: TTxEventsHistoryGroupData;
+}
+
+interface IPendingData {
+  pendingABNBB: BigNumber;
+  pendingABNBC: BigNumber;
 }
 
 interface IBinanceSDKProviders {
@@ -100,7 +109,13 @@ interface IUnlockSharesArgs {
   amount: BigNumber;
 }
 
-export class BinanceSDK implements ISwitcher {
+interface IEventsBatch {
+  unstakeRawEvents: TPastEventsData;
+  rebasingEvents: TPastEventsData;
+  ratio: BigNumber;
+}
+
+export class BinanceSDK {
   private static instance?: BinanceSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -367,7 +382,98 @@ export class BinanceSDK implements ISwitcher {
     return this.convertFromWei(minStake);
   }
 
-  public async getPendingUnstakes(): Promise<BigNumber> {
+  private async getPoolEventsBatch(): Promise<IEventsBatch> {
+    const binancePoolContract = await this.getBinancePoolContract(true);
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const [unstakeRawEvents, rebasingEvents, ratio]: [
+      TPastEventsData,
+      TPastEventsData,
+      BigNumber,
+    ] = await Promise.all([
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: binancePoolContract,
+        eventName: EBinancePoolEvents.UnstakePending,
+        startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
+        rangeStep: BNB_MAX_BLOCK_RANGE,
+        filter: { claimer: this.currentAccount },
+      }),
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: binancePoolContract,
+        eventName: EBinancePoolEvents.IsRebasing,
+        startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
+        rangeStep: BNB_MAX_BLOCK_RANGE,
+      }),
+      this.getACRatio(),
+    ]);
+
+    return {
+      unstakeRawEvents,
+      rebasingEvents,
+      ratio,
+    };
+  }
+
+  public async getPendingUnstakes(): Promise<IPendingData> {
+    const {
+      unstakeRawEvents,
+      rebasingEvents: isRebasingEvents,
+      ratio,
+    } = await this.getPoolEventsBatch();
+    let pendingUnstakes = await this.getTotalPendingUnstakes();
+    let pendingRawEvents: TPastEventsData = [];
+
+    if (pendingUnstakes.isGreaterThan(0)) {
+      const unstakePendingReverse: TPastEventsData = unstakeRawEvents.reverse();
+
+      for (let i = 0; i < unstakePendingReverse.length; i += 1) {
+        const unstakeEventItem = unstakePendingReverse[i];
+        const itemAmount = this.convertFromWei(
+          unstakeEventItem.returnValues.amount,
+        );
+        pendingUnstakes = pendingUnstakes.minus(itemAmount);
+
+        pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
+
+        if (pendingUnstakes.isZero()) {
+          break;
+        }
+      }
+    }
+
+    const abnbcHashSet = new Set<string>(
+      isRebasingEvents
+        .filter(x => x.raw.data === ZERO_EVENT_HASH)
+        .map(y => y.transactionHash),
+    );
+
+    const pendingUnstakesABNBB = pendingRawEvents.filter(
+      x => !abnbcHashSet.has(x.transactionHash),
+    );
+    const pendingUnstakesABNBC = pendingRawEvents.filter(x =>
+      abnbcHashSet.has(x.transactionHash),
+    );
+
+    return {
+      pendingABNBB: pendingUnstakesABNBB.reduce(
+        (sum, item) => sum.plus(this.convertFromWei(item.returnValues.amount)),
+        ZERO,
+      ),
+      pendingABNBC: pendingUnstakesABNBC.reduce(
+        (sum, item) =>
+          sum.plus(
+            this.convertFromWei(item.returnValues.amount).multipliedBy(ratio),
+          ),
+        ZERO,
+      ),
+    };
+  }
+
+  public async getTotalPendingUnstakes(): Promise<BigNumber> {
     const binancePoolContract = await this.getBinancePoolContract();
 
     const pending = await binancePoolContract.methods
@@ -393,7 +499,7 @@ export class BinanceSDK implements ISwitcher {
     const binancePoolContract = await this.getBinancePoolContract();
 
     const bnbSpecificAmount = new BigNumber(
-      amount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_HALF_DOWN),
+      amount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_DOWN),
     );
 
     const contractStake =
@@ -429,30 +535,29 @@ export class BinanceSDK implements ISwitcher {
 
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const binancePoolContract = await this.getBinancePoolContract(true);
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const [stakeRawEvents, unstakeRawEvents]: [
-      TPastEventsData,
-      TPastEventsData,
-    ] = await Promise.all([
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: binancePoolContract,
-        eventName: EBinancePoolEvents.Staked,
-        startBlock: BINANCE_POOL_CONTRACT_START_BLOCK,
-        rangeStep: BNB_MAX_BLOCK_RANGE,
-        filter: { delegator: this.currentAccount },
-      }),
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: binancePoolContract,
-        eventName: EBinancePoolEvents.UnstakePending,
-        startBlock: BINANCE_POOL_CONTRACT_START_BLOCK,
-        rangeStep: BNB_MAX_BLOCK_RANGE,
-        filter: { claimer: this.currentAccount },
-      }),
-    ]);
+    const { unstakeRawEvents, rebasingEvents, ratio } =
+      await this.getPoolEventsBatch();
 
-    let pendingUnstakes = await this.getPendingUnstakes();
+    const stakeRawEvents: TPastEventsData = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: binancePoolContract,
+      eventName: EBinancePoolEvents.Staked,
+      startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
+      rangeStep: BNB_MAX_BLOCK_RANGE,
+      filter: { delegator: this.currentAccount },
+    });
+
+    const abnbcHashSet = new Set<string>(
+      rebasingEvents
+        .filter(x => x.raw.data === ZERO_EVENT_HASH)
+        .map(y => y.transactionHash),
+    );
+
+    let pendingUnstakes = await this.getTotalPendingUnstakes();
     let completedRawEvents: TPastEventsData = [];
     let pendingRawEvents: TPastEventsData = [];
 
@@ -482,12 +587,40 @@ export class BinanceSDK implements ISwitcher {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const [completed, pending] = await Promise.all([
-      this.getTxEventsHistoryGroup(completedRawEvents),
-      this.getTxEventsHistoryGroup(pendingRawEvents),
-    ]);
+    const completedABNBBEvents: TPastEventsData = completedRawEvents.filter(
+      x => !abnbcHashSet.has(x.transactionHash),
+    );
+    const completedABNBCEvents: TPastEventsData = completedRawEvents.filter(x =>
+      abnbcHashSet.has(x.transactionHash),
+    );
 
-    return { completed, pending };
+    const pendingABNBBEvents: TPastEventsData = pendingRawEvents.filter(
+      x => !abnbcHashSet.has(x.transactionHash),
+    );
+    const pendingABNBCEvents: TPastEventsData = pendingRawEvents.filter(x =>
+      abnbcHashSet.has(x.transactionHash),
+    );
+
+    const [completedABNBB, completedABNBC, pendingABNBB, pendingABNBC] =
+      await Promise.all([
+        this.getTxEventsHistoryGroup(completedABNBBEvents),
+        this.getTxEventsHistoryGroup(completedABNBCEvents),
+        this.getTxEventsHistoryGroup(pendingABNBBEvents),
+        this.getTxEventsHistoryGroup(pendingABNBCEvents),
+      ]);
+
+    return {
+      completedABNBB,
+      completedABNBC: completedABNBC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+      pendingABNBB,
+      pendingABNBC: pendingABNBC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+    };
   }
 
   public async fetchTxData(txHash: string): Promise<IGetTxData> {

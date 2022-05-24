@@ -4,9 +4,10 @@ import React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { AnyAction } from 'redux';
 
+import { t } from 'common';
+
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';

@@ -1,7 +1,8 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 
+import { t } from 'common';
+
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';

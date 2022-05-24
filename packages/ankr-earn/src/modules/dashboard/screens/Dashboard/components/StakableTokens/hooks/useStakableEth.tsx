@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
 import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -45,6 +45,6 @@ export const useStakableEth = (): IUseStakableToken => {
     networks: networksData,
     isLoading: loading || isLoadingAPY,
     isStakeLoading,
-    isShowed: featuresConfig.stakeETH && !balance.isZero(),
+    isShowed: !balance.isZero(),
   };
 };

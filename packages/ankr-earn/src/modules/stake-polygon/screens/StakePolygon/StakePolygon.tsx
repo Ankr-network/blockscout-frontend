@@ -1,5 +1,6 @@
-import { ButtonBase } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+
+import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
@@ -7,9 +8,9 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES, DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -21,23 +22,20 @@ import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
+  const { data: apy } = useQuery({ type: fetchAPY });
 
   const {
     amount,
-    apy,
     handleFormChange,
     handleSubmit,
     isStakeLoading,
@@ -50,13 +48,9 @@ export const StakePolygon = (): JSX.Element => {
   } = useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats({
-    amount,
-    apy,
-  });
 
   useProviderEffect(() => {
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
     dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
   }, [dispatchRequest]);
@@ -96,14 +90,6 @@ export const StakePolygon = (): JSX.Element => {
               symbol={tokenOut}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
-
-            <Tooltip
-              title={<div>{tHTML('stake-polygon.matic-tooltip-body')}</div>}
-            >
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon className={classes.questionIcon} size="xs" />
-              </ButtonBase>
-            </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>
@@ -127,7 +113,11 @@ export const StakePolygon = (): JSX.Element => {
               onSubmit={handleSubmit}
             />
 
-            <StakeStats stats={stats} />
+            <StakeStats
+              amount={amount}
+              apy={apy ?? undefined}
+              metricsServiceName={EMetricsServiceName.MATIC}
+            />
 
             <Faq data={faqItems} />
           </StakeContainer>

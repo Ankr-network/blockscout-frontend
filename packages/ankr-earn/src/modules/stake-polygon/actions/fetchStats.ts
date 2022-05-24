@@ -13,7 +13,8 @@ export interface IFetchStatsResponseData {
   aMATICcBalance: BigNumber;
   minimumStake: BigNumber;
   unstakeFee: BigNumber;
-  pendingClaim: BigNumber;
+  pendingAMATICB: BigNumber;
+  pendingAMATICC: BigNumber;
   aMATICcRatio: BigNumber;
 }
 
@@ -30,14 +31,14 @@ export const fetchStats = createSmartAction<
         aMATICbBalance,
         aMATICcBalance,
         minimumStake,
-        pendingClaim,
+        { pendingAMATICB, pendingAMATICC },
         aMATICcRatio,
       ] = await Promise.all([
         sdk.getMaticBalance(),
         sdk.getABBalance(),
         sdk.getACBalance(),
         sdk.getMinimumStake(),
-        sdk.getPendingClaim(),
+        sdk.getPendingData(),
         sdk.getACRatio(),
       ]);
 
@@ -47,7 +48,8 @@ export const fetchStats = createSmartAction<
         aMATICcBalance,
         minimumStake,
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
-        pendingClaim,
+        pendingAMATICB,
+        pendingAMATICC,
         aMATICcRatio,
       };
     },

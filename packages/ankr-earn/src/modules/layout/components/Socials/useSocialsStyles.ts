@@ -7,13 +7,19 @@ export const useSocialsStyles = makeStyles<Theme>(
     root: {
       display: 'flex',
       margin: theme.spacing(0, -1),
+
+      [theme.breakpoints.up('md')]: {
+        marginRight: theme.spacing(9),
+      },
     },
+
     link: {
       color: defaultTheme.palette.text.secondary,
       transition: 'color 0.2s',
       background: 'none',
       minWidth: 0,
       padding: theme.spacing(1),
+
       '&:hover': {
         color: theme.palette.primary.main,
         background: 'none',

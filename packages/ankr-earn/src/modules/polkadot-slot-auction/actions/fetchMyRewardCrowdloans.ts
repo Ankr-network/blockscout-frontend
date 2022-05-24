@@ -5,7 +5,7 @@ import { createAction } from 'redux-smart-actions';
 import { ICrowdloanType, SlotAuctionSdk } from 'polkadot';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
-import { NotificationActions } from 'store/actions/NotificationActions';
+import { showNotification } from 'modules/notifications';
 import { IStoreState } from 'store/store';
 
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
@@ -148,9 +148,9 @@ export const fetchMyRewardCrowdloans = createAction<
 
         if (!error.message.includes(SKIPPED_ERROR_MSG)) {
           store.dispatch(
-            NotificationActions.showNotification({
+            showNotification({
               message: error.message,
-              severity: 'error',
+              variant: 'error',
             }),
           );
         }

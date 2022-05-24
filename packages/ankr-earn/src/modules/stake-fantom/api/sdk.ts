@@ -37,18 +37,18 @@ import {
 } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
-import oldAFTMbAbi from './contracts/aFTMb-old.json';
 import AFTMbAbi from './contracts/aFTMb.json';
 import AFTMCAbi from './contracts/aFTMc.json';
-import oldFantomPoolAbi from './contracts/FantomPool-old.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+// maxAmount = userBalance - gasFee * GAS_FEE_MULTIPLIER
+const GAS_FEE_MULTIPLIER = 3.5;
 
 export enum EFantomPoolEvents {
-  TokensBurned = 'TokensBurned',
+  TokensBurned = 'TokensBurned2',
   Withdrawn = 'Withdrawn',
-  StakeReceived = 'StakeReceived',
+  StakeReceived = 'StakeReceived2',
 }
 
 type TUnstakingStatsType = 'bond' | 'cert' | 'all';
@@ -71,6 +71,16 @@ export interface IGetTxData {
   amount: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
+}
+
+interface ITxEventsHistoryData {
+  stakeEventsAFTMB: TTxEventsHistoryGroupData;
+  stakeEventsAFTMC: TTxEventsHistoryGroupData;
+  pendingEventsAFTMB: TTxEventsHistoryGroupData;
+  pendingEventsAFTMC: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMB: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMC: TTxEventsHistoryGroupData;
+  totalPending: BigNumber;
 }
 
 interface ILockSharesArgs {
@@ -175,18 +185,16 @@ export class FantomSDK implements ISwitcher {
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
     const { fantomConfig } = configFromEnv();
-    const abi = featuresConfig.stakeAFTMC ? FantomPoolAbi : oldFantomPoolAbi;
 
-    return provider.createContract(abi, fantomConfig.fantomPool);
+    return provider.createContract(FantomPoolAbi, fantomConfig.fantomPool);
   }
 
   private async getAftmbTokenContract() {
     const provider = await this.getProvider();
 
     const { fantomConfig } = configFromEnv();
-    const abi = featuresConfig.stakeAFTMC ? AFTMbAbi : oldAFTMbAbi;
 
-    return provider.createContract(abi, fantomConfig.aftmbToken);
+    return provider.createContract(AFTMbAbi, fantomConfig.aftmbToken);
   }
 
   private async getAftmcTokenContract() {
@@ -197,12 +205,7 @@ export class FantomSDK implements ISwitcher {
     return provider.createContract(AFTMCAbi, fantomConfig.aftmcToken);
   }
 
-  public async getTxHistory(): Promise<{
-    stakeEvents: TTxEventsHistoryGroupData;
-    pendingEvents: TTxEventsHistoryGroupData;
-    withdrawnEvents: TTxEventsHistoryGroupData;
-    totalPending: BigNumber;
-  }> {
+  public async getTxHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
@@ -259,21 +262,55 @@ export class FantomSDK implements ISwitcher {
       }
     });
 
-    const [stakeEvents, withdrawnEvents, pendingEvents] = await Promise.all(
-      [stakeRawEvents, withdrawnRawEvents, pendingRawEvents].map(rawEvents =>
-        getTxEventsHistoryGroup({ rawEvents, web3 }),
-      ),
+    const stakeRawEventsAFTMB = stakeRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const stakeRawEventsAFTMC = stakeRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+    const withdrawnRawEventsAFTMB = withdrawnRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const withdrawnRawEventsAFTMC = withdrawnRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+    const pendingRawEventsAFTMB = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingRawEventsAFTMC = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
     );
 
-    const totalPending = pendingEvents.reduce(
+    const [
+      stakeEventsAFTMCB,
+      stakeEventsAFTMCC,
+      withdrawnEventsAFTMB,
+      withdrawnEventsAFTMC,
+      pendingEventsAFTMB,
+      pendingEventsAFTMC,
+    ] = await Promise.all(
+      [
+        stakeRawEventsAFTMB,
+        stakeRawEventsAFTMC,
+        withdrawnRawEventsAFTMB,
+        withdrawnRawEventsAFTMC,
+        pendingRawEventsAFTMB,
+        pendingRawEventsAFTMC,
+      ].map(rawEvents => getTxEventsHistoryGroup({ rawEvents, web3 })),
+    );
+
+    const totalPending = [...pendingEventsAFTMB, ...pendingEventsAFTMC].reduce(
       (acc, { txAmount }) => acc.plus(txAmount),
       ZERO,
     );
 
     return {
-      stakeEvents,
-      pendingEvents,
-      withdrawnEvents,
+      stakeEventsAFTMB: stakeEventsAFTMCB,
+      stakeEventsAFTMC: stakeEventsAFTMCC,
+      pendingEventsAFTMB,
+      pendingEventsAFTMC,
+      withdrawnEventsAFTMB,
+      withdrawnEventsAFTMC,
       totalPending,
     };
   }
@@ -311,8 +348,13 @@ export class FantomSDK implements ISwitcher {
 
     const tx = await web3.eth.getTransaction(txHash);
 
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
+
     return {
-      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      amount: new BigNumber(web3.utils.fromWei(amount)),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };
@@ -342,7 +384,7 @@ export class FantomSDK implements ISwitcher {
 
     // multiplication needs to avoid problems with max amount
     // and fee calculation in the wallet
-    const multipliedGasFee = gasFee.multipliedBy(3);
+    const multipliedGasFee = gasFee.multipliedBy(GAS_FEE_MULTIPLIER);
     const maxAllowedAmount = balance.minus(multipliedGasFee);
 
     const stakeAmount = amount.isGreaterThan(maxAllowedAmount)

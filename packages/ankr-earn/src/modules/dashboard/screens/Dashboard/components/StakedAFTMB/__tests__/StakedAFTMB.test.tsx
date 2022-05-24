@@ -43,9 +43,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
   };
 
   const defaultStakedFTMTxHistory: IUseStakedFTMTxHistory = {
-    staked: [],
-    unstaked: [],
-    pendingUnstakeHistory: [],
+    stakedAFTMB: [],
+    stakedAFTMC: [],
+    unstakedAFTMB: [],
+    unstakedAFTMC: [],
+    pendingUnstakeHistoryAFTMB: [],
+    pendingUnstakeHistoryAFTMC: [],
     hasHistory: false,
     isHistoryLoading: false,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),

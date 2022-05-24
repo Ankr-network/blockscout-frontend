@@ -3,9 +3,10 @@ import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { t } from 'common';
+
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';

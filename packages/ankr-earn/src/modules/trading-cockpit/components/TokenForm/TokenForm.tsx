@@ -10,8 +10,9 @@ import {
 } from 'react-final-form';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { t } from 'common';
+
 import { Milliseconds } from 'modules/common/types';
-import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'uiKit/InputField';
 import { OnChange } from 'uiKit/OnChange';
 

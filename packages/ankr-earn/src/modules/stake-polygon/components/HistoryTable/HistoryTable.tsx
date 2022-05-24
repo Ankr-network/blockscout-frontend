@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import {
   Table,
   TableBody,
@@ -16,7 +18,6 @@ import { AlignType } from 'modules/common/components/TableComponents/types';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTxLink } from 'modules/common/utils/links/getTxLink';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import {
@@ -115,8 +116,12 @@ export const HistoryTable = ({
   useEffect((): void => {
     setActiveSwitcherId(DEFAULT_ACTIVE_SWITCHER_ID);
 
-    const newCompletedData: TTableData = getPreparedData(queryData?.completed);
-    const newPendingData: TTableData = getPreparedData(queryData?.pending);
+    const newCompletedData: TTableData = getPreparedData(
+      queryData?.completedAMATICB,
+    );
+    const newPendingData: TTableData = getPreparedData(
+      queryData?.pendingAMATICB,
+    );
 
     setCompletedData(newCompletedData);
     setPendingData(newPendingData);

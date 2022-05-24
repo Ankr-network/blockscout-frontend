@@ -26,6 +26,19 @@ import {
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
 import ABI_AAVAXB from './contracts/FutureBondAVAX.json';
 
+/**
+ * even with this multiplier, the gas estimate is two times less
+ * than if we did not manage this value.
+ *
+ * 60%
+ */
+const ESTIMATE_GAS_MULTIPLIER = 1.6;
+
+/**
+ * Need for accurate fee in Metamask. Magic number 🧙‍♂️.
+ */
+const GAS_TX_CONST = 2.1003;
+
 type TPastEventsData = EventData[];
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
@@ -76,6 +89,8 @@ export class AvalancheSDK {
   private static instance?: AvalancheSDK;
 
   private currentAccount: string;
+
+  private stakeGasFee?: BigNumber;
 
   private constructor({ readProvider, writeProvider }: IAvalancheSDKProviders) {
     AvalancheSDK.instance = this;
@@ -416,12 +431,58 @@ export class AvalancheSDK {
       await this.writeProvider.connect();
     }
 
+    let gasFee = this.stakeGasFee;
+    if (!gasFee) {
+      gasFee = await this.getStakeGasFee(amount);
+    }
+
+    const balance = await this.getAVAXBalance();
+    const maxAmount = balance.minus(gasFee);
+    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+    const value = this.convertToHex(stakeAmount);
+
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    await avalanchePoolContract.methods.stake().send({
+    const contractStake = avalanchePoolContract.methods.stake;
+
+    const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
-      value: this.convertToHex(amount),
+      value,
     });
+
+    const gas = Math.floor(
+      AvalancheSDK.getIncreasedGasLimit(gasLimit) / GAS_TX_CONST,
+    );
+
+    await contractStake().send({
+      from: this.currentAccount,
+      gas,
+      value,
+    });
+  }
+
+  public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const avalanchePoolContract = await this.getAvalanchePoolContract();
+
+    const estimatedGas: number = await avalanchePoolContract.methods
+      .stake()
+      .estimateGas({
+        from: this.currentAccount,
+        value: this.convertToHex(amount),
+      });
+
+    const increasedGasLimit = AvalancheSDK.getIncreasedGasLimit(estimatedGas);
+
+    const stakeGasFee = await provider.getContractMethodFee(increasedGasLimit);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
+  }
+
+  private static getIncreasedGasLimit(gasLimit: number) {
+    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
   public async unstake(amount: BigNumber): Promise<void> {

@@ -59,6 +59,13 @@ const PKG_ORIGIN_NAME = 'PolkadotProvider';
 
 const NO_ACCOUNTS_ERR_MSG = 'There are no Polkadot accounts';
 
+const POLKADOT_NETWORK_DECIMALS: Record<TNetworkType, number> = {
+  DOT: 10,
+  KSM: 12,
+  ROC: 12,
+  WND: 12,
+};
+
 export class PolkadotProvider implements IProvider {
   static extractDecodedAddress(address: TPolkadotAddress): Uint8Array {
     return decodeAddress(address);
@@ -185,14 +192,6 @@ export class PolkadotProvider implements IProvider {
     });
   }
 
-  private _scaleDown(value: BigNumber): BigNumber {
-    return value.dividedBy(10 ** this.calcDecimals());
-  }
-
-  private _scaleUp(value: BigNumber): BigNumber {
-    return value.multipliedBy(10 ** this.calcDecimals());
-  }
-
   private async isAvailableAccount(
     addr: TPolkadotAddress | null,
   ): Promise<boolean> {
@@ -212,6 +211,14 @@ export class PolkadotProvider implements IProvider {
     const addressHex = PolkadotProvider.extractPublicKeyHexFromAddress(addr);
 
     return addressesHexes.includes(addressHex);
+  }
+
+  private scaleDown(value: BigNumber): BigNumber {
+    return value.dividedBy(10 ** this.getNetworkMaxDecimals());
+  }
+
+  private scaleUp(value: BigNumber): BigNumber {
+    return value.multipliedBy(10 ** this.getNetworkMaxDecimals());
   }
 
   public getRawApi(): ApiPromise {
@@ -282,21 +289,6 @@ export class PolkadotProvider implements IProvider {
     return this.networkType;
   }
 
-  public calcDecimals(): number {
-    const decimals: Record<TNetworkType, number> = {
-      DOT: 10,
-      KSM: 12,
-      WND: 12,
-      ROC: 12,
-    };
-    if (!this.networkType || !decimals[this.networkType]) {
-      throw new Error(
-        `Unable to calc decimals for network: ${this.networkType}`,
-      );
-    }
-    return decimals[this.networkType];
-  }
-
   public async getAccountBalance(
     address: TPolkadotAddress,
   ): Promise<IGetAccountBalanceData> {
@@ -304,10 +296,10 @@ export class PolkadotProvider implements IProvider {
       address,
     );
     return {
-      reserved: this._scaleDown(new BigNumber(data.reserved.toString(10))),
-      miscFrozen: this._scaleDown(new BigNumber(data.miscFrozen.toString(10))),
-      free: this._scaleDown(new BigNumber(data.free.toString(10))),
-      feeFrozen: this._scaleDown(new BigNumber(data.feeFrozen.toString(10))),
+      reserved: this.scaleDown(new BigNumber(data.reserved.toString(10))),
+      miscFrozen: this.scaleDown(new BigNumber(data.miscFrozen.toString(10))),
+      free: this.scaleDown(new BigNumber(data.free.toString(10))),
+      feeFrozen: this.scaleDown(new BigNumber(data.feeFrozen.toString(10))),
       nonce: new BigNumber(nonce.toString()),
     };
   }
@@ -315,14 +307,24 @@ export class PolkadotProvider implements IProvider {
   public getMinSafeDepositVal(): BigNumber {
     const api: ApiPromise = this.getRawApi();
 
-    return this._scaleDown(
+    return this.scaleDown(
       new BigNumber(api.consts.balances.existentialDeposit.toString()),
     );
   }
 
+  public getNetworkMaxDecimals(): number {
+    if (!this.networkType || !POLKADOT_NETWORK_DECIMALS[this.networkType]) {
+      throw new Error(
+        `Unable to calc decimals for network: ${this.networkType}`,
+      );
+    }
+
+    return POLKADOT_NETWORK_DECIMALS[this.networkType];
+  }
+
   public async sendFundsWithExtrinsic(
-    sender: string,
-    recipient: string,
+    sender: TPolkadotAddress,
+    recipient: TPolkadotAddress,
     amount: BigNumber,
   ): Promise<{
     extId: string;
@@ -424,43 +426,55 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async getMaxPossibleSendAmount(
-    sender: string,
-    recipient: string,
+    sender: TPolkadotAddress,
+    recipient: TPolkadotAddress,
     amount: BigNumber,
   ): Promise<BigNumber> {
     const injector = await web3FromAddress(sender);
+
     if (!injector) {
       throw new Error(
         `Unable to connect to Polkadot extension using address: ${sender}`,
       );
     }
+
     const api = this.getRawApi();
+
     const transferCall = api.tx.balances.transferKeepAlive(
       recipient,
-      this._scaleUp(amount).toString(10),
+      this.scaleUp(amount).toString(10),
     );
+
     const signerOptions = {
       nonce: -1,
     };
+
     const paymentInfoResult = await transferCall.paymentInfo(
       sender,
       signerOptions,
     );
+
     console.log(
       `Payment info result: ${JSON.stringify(paymentInfoResult, null, 2)}`,
     );
+
     const { free, miscFrozen } = await this.getAccountBalance(sender);
+
     const minSafeDepositVal: BigNumber = this.getMinSafeDepositVal();
-    const fee = this._scaleDown(
+
+    const fee = this.scaleDown(
       new BigNumber(paymentInfoResult.partialFee.toString()),
     );
+
     const result: BigNumber = new BigNumber(free)
       .minus(minSafeDepositVal)
       .minus(miscFrozen)
       .minus(fee);
+
     console.log(
       `Max transferable balance: ${free} - ${minSafeDepositVal} - ${miscFrozen} - ${fee} = ${result}`,
     );
+
     return result.isLessThanOrEqualTo(0) ? new BigNumber(0) : result;
   }
 
@@ -497,8 +511,8 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async sendFundsTo(
-    sender: string,
-    recipient: string,
+    sender: TPolkadotAddress,
+    recipient: TPolkadotAddress,
     amount: BigNumber,
   ): Promise<{
     submittableResult: ISubmittableResult;
@@ -531,7 +545,7 @@ export class PolkadotProvider implements IProvider {
 
     const transferCall = api.tx.balances.transferKeepAlive(
       recipient,
-      this._scaleUp(amount).toString(10),
+      this.scaleUp(amount).toString(10),
     );
     const signerOptions = {
       nonce: -1,

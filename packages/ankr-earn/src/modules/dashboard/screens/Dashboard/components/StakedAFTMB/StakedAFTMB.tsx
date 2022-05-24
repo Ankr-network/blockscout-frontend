@@ -18,9 +18,9 @@ export const StakedAFTMB = (): JSX.Element | null => {
   const { isOpened, onClose, onOpen } = useDialog();
 
   const {
-    pendingUnstakeHistory,
-    staked,
-    unstaked,
+    pendingUnstakeHistoryAFTMB,
+    stakedAFTMB,
+    unstakedAFTMB,
     isHistoryLoading,
     handleLoadTxHistory,
   } = useStakedFTMTxHistory();
@@ -68,7 +68,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     <Pending
       isLoading={isHistoryLoading}
       token={Token.aFTMb}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
+      tooltip={<PendingTable data={pendingUnstakeHistoryAFTMB} />}
       value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -99,8 +99,8 @@ export const StakedAFTMB = (): JSX.Element | null => {
       <HistoryDialog
         history={{
           token: Token.aFTMb,
-          staked,
-          unstaked,
+          staked: stakedAFTMB,
+          unstaked: unstakedAFTMB,
         }}
         isHistoryLoading={isHistoryLoading}
         open={isOpened}

@@ -1,6 +1,9 @@
 import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
+import { useQuery } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
+
+import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
@@ -9,14 +12,13 @@ import {
   BNB_AUDIT_LINK,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
-  featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
+import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
-import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -39,7 +41,6 @@ import { fetchStats } from '../../actions/fetchStats';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
 export const StakeBinance = (): JSX.Element => {
@@ -47,11 +48,13 @@ export const StakeBinance = (): JSX.Element => {
   const dispatch = useDispatch();
   const faqItems: IFaqItem[] = useFaq();
   const { onErroMessageClick, hasError } = useErrorMessage();
-  const { redeemPeriod, redeemValue } = useRedeemData();
+
+  const { data: apy } = useQuery({
+    type: fetchAPY,
+  });
 
   const {
     amount,
-    fetchAPYData,
     relayerFee,
     bnbBalance,
     minimumStake,
@@ -68,15 +71,11 @@ export const StakeBinance = (): JSX.Element => {
     onTokenSelect,
   } = useStakeForm();
 
-  const stakeStats = useStakeStats({
-    apy: fetchAPYData,
-    amount,
-  });
-
   useProviderEffect(() => {
-    dispatch(fetchValidatorsDetails());
+    dispatch(getMetrics());
     dispatch(fetchAPY());
     dispatch(fetchStats());
+    dispatch(fetchPendingValues());
 
     return () => {
       dispatch(resetRequests([getStakeGasFee.toString()]));
@@ -86,31 +85,29 @@ export const StakeBinance = (): JSX.Element => {
   const onRenderStats = (): JSX.Element => {
     return (
       <>
-        {featuresConfig.stakeAbnbc && (
-          <TokenVariantList my={5}>
-            <TokenVariant
-              description={tHTML('stake-bnb.abnbb-descr')}
-              iconSlot={<ABNBBIcon />}
-              isActive={tokenOut === Token.aBNBb}
-              isDisabled={isStakeLoading}
-              title={t('unit.abnbb')}
-              onClick={onTokenSelect(Token.aBNBb)}
-            />
+        <TokenVariantList my={5}>
+          <TokenVariant
+            description={tHTML('stake-bnb.abnbb-descr')}
+            iconSlot={<ABNBBIcon />}
+            isActive={tokenOut === Token.aBNBb}
+            isDisabled={isStakeLoading}
+            title={t('unit.abnbb')}
+            onClick={onTokenSelect(Token.aBNBb)}
+          />
 
-            <TokenVariant
-              description={tHTML('stake-bnb.abnbc-descr', {
-                rate: isFetchStatsLoading
-                  ? '...'
-                  : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-              })}
-              iconSlot={<ABNBCIcon />}
-              isActive={tokenOut === Token.aBNBc}
-              isDisabled={isStakeLoading}
-              title={t('unit.abnbc')}
-              onClick={onTokenSelect(Token.aBNBc)}
-            />
-          </TokenVariantList>
-        )}
+          <TokenVariant
+            description={tHTML('stake-bnb.abnbc-descr', {
+              rate: isFetchStatsLoading
+                ? '...'
+                : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+            })}
+            iconSlot={<ABNBCIcon />}
+            isActive={tokenOut === Token.aBNBc}
+            isDisabled={isStakeLoading}
+            title={t('unit.abnbc')}
+            onClick={onTokenSelect(Token.aBNBc)}
+          />
+        </TokenVariantList>
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -141,19 +138,6 @@ export const StakeBinance = (): JSX.Element => {
               symbol={tokenOut}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
-
-            {!featuresConfig.stakeAbnbc && (
-              <Tooltip
-                title={tHTML('stake-bnb.tooltips.you-will-get', {
-                  value: redeemValue,
-                  period: redeemPeriod,
-                })}
-              >
-                <ButtonBase className={classes.questionBtn}>
-                  <QuestionIcon size="xs" />
-                </ButtonBase>
-              </Tooltip>
-            )}
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>
@@ -168,7 +152,6 @@ export const StakeBinance = (): JSX.Element => {
         )}
 
         <StakeForm
-          isMaxBtnShowed
           auditLink={BNB_AUDIT_LINK}
           balance={bnbBalance}
           feeSlot={
@@ -191,7 +174,11 @@ export const StakeBinance = (): JSX.Element => {
           onSubmit={handleSubmit}
         />
 
-        <StakeStats stats={stakeStats} />
+        <StakeStats
+          amount={amount}
+          apy={apy ?? undefined}
+          metricsServiceName={EMetricsServiceName.BNB}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>
