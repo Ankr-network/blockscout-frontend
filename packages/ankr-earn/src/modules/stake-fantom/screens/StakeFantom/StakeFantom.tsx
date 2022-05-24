@@ -1,6 +1,8 @@
+import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
 
@@ -17,6 +19,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -24,6 +27,7 @@ import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptio
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
@@ -38,6 +42,8 @@ import { useStakeFantomStyles } from './useStakeFantomStyles';
 
 export const StakeFantom = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
+
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
@@ -48,9 +54,11 @@ export const StakeFantom = (): JSX.Element => {
     amount,
     aFTMcRatio,
     balance,
+    gasFee,
     minAmount,
     loading,
     isStakeLoading,
+    isGasFeeLoading,
     tokenIn,
     tokenOut,
     totalAmount,
@@ -65,6 +73,10 @@ export const StakeFantom = (): JSX.Element => {
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
     dispatchRequest(getMetrics());
+
+    return () => {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    };
   }, [dispatchRequest]);
 
   const renderStats = useCallback(() => {
@@ -125,10 +137,17 @@ export const StakeFantom = (): JSX.Element => {
         )}
 
         <StakeForm
+          isMaxBtnShowed
           auditLink={FTM_AUDIT_LINK}
           balance={balance}
+          feeSlot={
+            <StakeFeeInfo
+              isLoading={isGasFeeLoading}
+              token={Token.FTM}
+              value={gasFee}
+            />
+          }
           isBalanceLoading={hasError || isCommonDataLoading}
-          isMaxBtnShowed={false}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
           renderStats={renderStats}

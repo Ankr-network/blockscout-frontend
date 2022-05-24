@@ -42,6 +42,8 @@ import AFTMCAbi from './contracts/aFTMc.json';
 import FantomPoolAbi from './contracts/FantomPool.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+// maxAmount = userBalance - gasFee * GAS_FEE_MULTIPLIER
+const GAS_FEE_MULTIPLIER = 3.5;
 
 export enum EFantomPoolEvents {
   TokensBurned = 'TokensBurned2',
@@ -382,7 +384,7 @@ export class FantomSDK implements ISwitcher {
 
     // multiplication needs to avoid problems with max amount
     // and fee calculation in the wallet
-    const multipliedGasFee = gasFee.multipliedBy(3);
+    const multipliedGasFee = gasFee.multipliedBy(GAS_FEE_MULTIPLIER);
     const maxAllowedAmount = balance.minus(multipliedGasFee);
 
     const stakeAmount = amount.isGreaterThan(maxAllowedAmount)

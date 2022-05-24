@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -13,8 +14,8 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { calcTotalAmount } from 'modules/stake-fantom/utils/calcTotalAmount';
@@ -32,6 +33,8 @@ interface IUseStakeForm {
   loading: boolean;
   isCommonDataLoading: boolean;
   isStakeLoading: boolean;
+  gasFee: BigNumber;
+  isGasFeeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
   amount: BigNumber;
@@ -54,6 +57,10 @@ export const useStakeForm = (): IUseStakeForm => {
   const { selectedToken, handleTokenSelect } = useSelectedToken();
   const { data, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
+    type: getStakeGasFee,
   });
 
   const { address, walletName } = useAuth(
@@ -80,10 +87,17 @@ export const useStakeForm = (): IUseStakeForm => {
   const balance = data?.ftmBalance;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
-  // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
   const onChange = (values: IStakeFormPayload, invalid: boolean) => {
+    // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
     setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
+
+    if (invalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (values.amount) {
+      const readyAmount = new BigNumber(values.amount);
+      dispatch(getStakeGasFee(readyAmount, selectedToken));
+    }
   };
 
   const sendAnalytics = async () => {
@@ -119,17 +133,19 @@ export const useStakeForm = (): IUseStakeForm => {
     (token: TFtmSyntToken) => () => {
       handleTokenSelect(token);
 
-      const shouldUpdateGasFee = !totalAmount.isZero() && amount;
+      const shouldUpdateGasFee = !totalAmount.isZero() && amount && !isError;
       if (shouldUpdateGasFee) {
-        dispatch(getBurnFee(amount));
+        dispatch(getStakeGasFee(amount, token));
       }
     },
-    [amount, dispatch, handleTokenSelect, totalAmount],
+    [amount, dispatch, handleTokenSelect, isError, totalAmount],
   );
 
   return {
     isCommonDataLoading,
     isStakeLoading: isCommonDataLoading,
+    gasFee: gasFee ?? ZERO,
+    isGasFeeLoading,
     balance,
     minAmount,
     loading: isStakeLoading,
