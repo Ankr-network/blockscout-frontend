@@ -27,6 +27,7 @@ export const StakedABNBC = (): JSX.Element => {
     isUnstakeLoading,
     pendingValue,
     isPendingUnstakeLoading,
+    nativeAmount,
     onAddTokenToWallet,
   } = useStakedABNBCData();
 
@@ -67,6 +68,7 @@ export const StakedABNBC = (): JSX.Element => {
         isLoading={isLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}

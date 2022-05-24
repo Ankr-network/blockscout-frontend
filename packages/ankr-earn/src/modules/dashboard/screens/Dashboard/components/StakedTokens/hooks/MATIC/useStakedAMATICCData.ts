@@ -12,6 +12,7 @@ import { EEthereumNetworkId } from 'provider';
 import { configFromEnv } from 'modules/api/config';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakeMATIC } from 'modules/stake-polygon/actions/stake';
@@ -33,6 +34,7 @@ export interface IStakedAMATICCData {
   unstakeLink: string;
   pendingValue: BigNumber;
   isUnstakeLoading: boolean;
+  nativeAmount?: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
@@ -55,6 +57,8 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
 
+  const nativeAmount = getTokenNativeAmount(amount, statsData?.aMATICcRatio);
+
   const { polygonConfig } = configFromEnv();
 
   const onAddTokenToWallet = useCallback(() => {
@@ -74,6 +78,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     unstakeLink: StakePolygonRoutes.unstake.generatePath(Token.aMATICc),
     isUnstakeLoading,
     pendingValue,
+    nativeAmount,
     onAddTokenToWallet,
   };
 };

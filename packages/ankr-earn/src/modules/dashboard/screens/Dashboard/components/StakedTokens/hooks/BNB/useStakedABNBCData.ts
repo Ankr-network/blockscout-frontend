@@ -12,6 +12,7 @@ import { EEthereumNetworkId } from 'provider';
 import { configFromEnv } from 'modules/api/config';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -35,6 +36,7 @@ export interface IStakedABNBCData {
   pendingValue: BigNumber;
   isUnstakeLoading: boolean;
   isPendingUnstakeLoading: boolean;
+  nativeAmount?: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
@@ -64,6 +66,8 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     isCommonDataLoading ||
     isPendingUnstakeLoading;
 
+  const nativeAmount = getTokenNativeAmount(amount, statsData?.aBNBcRatio);
+
   const { binanceConfig } = configFromEnv();
 
   const onAddTokenToWallet = useCallback(() => {
@@ -84,6 +88,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     isUnstakeLoading,
     pendingValue,
     isPendingUnstakeLoading,
+    nativeAmount,
     onAddTokenToWallet,
   };
 };

@@ -37,6 +37,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
     stakeLink,
     walletName,
     address,
+    nativeAmount,
     handleAddTokenToWallet,
   } = useStakedAFTMCData();
 
@@ -81,6 +82,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
