@@ -42,7 +42,7 @@ export function Routes(): JSX.Element {
 
       {getSwitcherRoutes()}
 
-      {featuresConfig.bridge && getBridgeRoutes()}
+      {getBridgeRoutes()}
 
       {getPolkadotSlotAuctionRoutes()}
 

@@ -78,8 +78,6 @@ export const featuresConfig = {
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-917 remove after completion
-  bridge: true,
   bridgeAnotherAddr: false,
   maxStakeAmountBtn: false,
   switcherFantom: currentEnv !== Env.Production,
