@@ -808,5 +808,9 @@
         "wrong-transaction": "This is not a deposit transaction. Please enter deposit transaction hash"
       }
     }
+  },
+  "zendesk": {
+    "help": "Help",
+    "needHelp": "Need help"
   }
 }

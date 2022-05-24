@@ -8,5 +8,7 @@ declare global {
       clover?: unknown;
       'polkadot-js': unknown;
     };
+    zE?(...args: unknown[]): void;
+    zESettings?: unknown;
   }
 }
