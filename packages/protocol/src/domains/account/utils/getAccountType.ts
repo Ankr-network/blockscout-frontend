@@ -10,15 +10,19 @@ export interface AccountTypeParams {
 
 type Condition = (params: AccountTypeParams) => boolean;
 
+const PAYG_WARNING_THRESHOLD = 6;
+
 const conditionsMap = new Map<AccountType, Condition>([
   [
-    AccountType.PAYG_WARNING,
-    ({ balanceEndTime, premiumUntil }) =>
-      !premiumUntil && balanceEndTime <= 5 && balanceEndTime > 0,
+    AccountType.PAYG_ACTIVE,
+    ({ balance, balanceEndTime, premiumUntil }) =>
+      !premiumUntil &&
+      balanceEndTime > PAYG_WARNING_THRESHOLD &&
+      balance.isPositive(),
   ],
   [
     AccountType.PAYG_INACTIVE,
-    ({ balanceEndTime, premiumUntil }) => !premiumUntil && balanceEndTime === 0,
+    ({ balance, premiumUntil }) => !premiumUntil && balance.lte(0),
   ],
   [
     AccountType.PAYG_UNKNOWN,
@@ -27,12 +31,20 @@ const conditionsMap = new Map<AccountType, Condition>([
   ],
   [
     AccountType.PAYG_UNKNOWN_WITH_BALANCE,
-    ({ balanceEndTime, premiumUntil, balance }) =>
+    ({ balance, balanceEndTime, premiumUntil }) =>
       !premiumUntil && balanceEndTime === -1 && balance.gt(0),
   ],
   [
-    AccountType.PAYG_ACTIVE,
-    ({ balanceEndTime, premiumUntil }) => !premiumUntil && balanceEndTime > 5,
+    AccountType.PAYG_WARNING,
+    ({ balanceEndTime, premiumUntil }) =>
+      !premiumUntil &&
+      balanceEndTime <= PAYG_WARNING_THRESHOLD &&
+      balanceEndTime > 0,
+  ],
+  [
+    AccountType.PAYG_WARNING_ZERO,
+    ({ balance, balanceEndTime, premiumUntil }) =>
+      !premiumUntil && balanceEndTime === 0 && balance.gt(0),
   ],
   [
     AccountType.PREMIUM,

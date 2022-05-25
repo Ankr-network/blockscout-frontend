@@ -47,6 +47,10 @@ const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
         quantifier: getQuantifier(quantifier),
       }),
   ],
+  [AccountType.PAYG_WARNING_ZERO]: [
+    getUsdBalance,
+    () => t(`${root}.payg-warning-zero.extra`),
+  ],
   [AccountType.PREMIUM]: [
     ({ premiumUntil: date }) => t(`${root}.premium.main`, { date }),
     () => t(`${root}.premium.extra`),

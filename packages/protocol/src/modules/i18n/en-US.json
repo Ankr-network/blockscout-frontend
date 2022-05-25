@@ -503,6 +503,9 @@
           "payg-warning": {
             "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
           },
+          "payg-warning-zero": {
+            "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
+          },
           "periods": {
             "day": "day{plural}",
             "month": "month{plural}",

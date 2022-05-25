@@ -8,6 +8,7 @@ const statusesMap: Record<AccountType, BalanceStatus> = {
   [AccountType.PAYG_UNKNOWN]: RED,
   [AccountType.PAYG_UNKNOWN_WITH_BALANCE]: GREEN,
   [AccountType.PAYG_WARNING]: YELLOW,
+  [AccountType.PAYG_WARNING_ZERO]: YELLOW,
   [AccountType.PREMIUM]: GREEN,
   [AccountType.PREMIUM_EXPIRED]: RED,
 };
