@@ -3,9 +3,11 @@ import { useCallback, useState } from 'react';
 import { Balance } from 'domains/account/actions/balance/types';
 import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
-import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
+import { getAccountType } from 'domains/account/utils/getAccountType';
+import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
+import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 
 type BalanceMap = Record<
   Currency,
@@ -23,18 +25,26 @@ export const useBalanceData = (): BalanceData => {
 
   const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
 
-  const status = useAccountStatus({ balance: balance.ankrBalance });
+  const { endTime, isLoading: isBalanceEndTimeLoading } =
+    useBalanceEndTime(isConnected);
 
   const onCurrencySwitch = useCallback((currency_: Currency) => {
     setCurrency(currency_);
   }, []);
 
+  const accountType = getAccountType({
+    balance: balance.ankrBalance,
+    balanceEndTime: endTime,
+    premiumUntil,
+  });
+
   return {
+    accountType,
     balance: balance[balancesMap[currency]],
-    isLoading: isConnecting || isLoading,
+    isLoading: isConnecting || isLoading || isBalanceEndTimeLoading,
     onCurrencySwitch,
     premiumUntil,
-    status,
+    status: getBalanceStatus(accountType),
     usdBalance,
   };
 };

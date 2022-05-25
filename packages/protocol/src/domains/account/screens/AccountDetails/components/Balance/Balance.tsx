@@ -17,6 +17,7 @@ const title = t(`${i18nKeyRoot}.title`);
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
 export const Balance = ({
+  accountType,
   balance,
   onCurrencySwitch,
   premiumUntil,
@@ -45,6 +46,7 @@ export const Balance = ({
       </div>
       <BalanceString balance={balance} className={classes.balance} />
       <Details
+        accountType={accountType}
         premiumUntil={premiumUntil}
         status={status}
         usdBalance={usdBalance}

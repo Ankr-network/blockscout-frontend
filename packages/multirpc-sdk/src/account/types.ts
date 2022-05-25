@@ -32,6 +32,10 @@ export interface IBalance {
   balance_usd: string;
 }
 
+export interface IBalanceEndTimeResult {
+  NumberOfDaysEstimate: number;
+}
+
 export interface IRequestsEntity {
   chainId: string;
   number: number;

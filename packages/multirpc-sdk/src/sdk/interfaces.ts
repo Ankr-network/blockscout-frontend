@@ -138,4 +138,6 @@ export interface IMultiRpcSdk {
   ): Promise<IWeb3SendResult>;
 
   rejectAllowanceForPAYG(): Promise<IWeb3SendResult>;
+
+  getBalanceEndTime(blockchain?: string[]): Promise<number>;
 }

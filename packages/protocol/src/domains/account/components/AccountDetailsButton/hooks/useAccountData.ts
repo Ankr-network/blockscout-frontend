@@ -1,26 +1,37 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountStatus } from 'multirpc-sdk';
-import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
+import { AccountType, BalanceStatus } from 'domains/account/types';
+import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
+import { getAccountType } from 'domains/account/utils/getAccountType';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
+import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 
 export interface AccountData {
+  accountType: AccountType;
   balance: BigNumber;
   isLoading?: boolean;
   isVisible?: boolean;
-  status: AccountStatus;
+  status: BalanceStatus;
 }
 
 export const useAccountData = (): AccountData => {
-  const { isConnected, isConnecting } = useAuth();
+  const { isConnected, isConnecting, premiumUntil } = useAuth();
 
   const { ankrBalance: balance, isLoading: isBalanceLoading } =
     useBalance(isConnected);
 
-  const status = useAccountStatus({ balance });
+  const { endTime, isLoading: isBalanceEndTimeLoading } =
+    useBalanceEndTime(isConnected);
 
-  const isLoading = isBalanceLoading || isConnecting;
+  const accountType = getAccountType({
+    balance,
+    balanceEndTime: endTime,
+    premiumUntil,
+  });
+  const status = getBalanceStatus(accountType);
 
-  return { status, balance, isLoading, isVisible: isConnected };
+  const isLoading = isBalanceLoading || isConnecting || isBalanceEndTimeLoading;
+
+  return { accountType, balance, isLoading, isVisible: isConnected, status };
 };

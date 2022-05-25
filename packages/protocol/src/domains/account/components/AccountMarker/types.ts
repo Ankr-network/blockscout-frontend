@@ -1,5 +1,5 @@
-import { AccountStatus } from 'multirpc-sdk';
+import { BalanceStatus } from 'domains/account/types';
 
 export interface AccountMarkerProps {
-  status?: AccountStatus;
+  status?: BalanceStatus;
 }

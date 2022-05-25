@@ -490,8 +490,18 @@
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
           },
-          "payg": {
+          "premium-expired": {
+            "main": "Your premium subscription is ended.",
             "extra": "Top up your balance to continue using our service."
+          },
+          "payg-active": {
+            "extra": "Enough for ~{days} days, based on your current usage."
+          },
+          "payg-inactive": {
+            "extra": "Top up your balance to continue using our service."
+          },
+          "payg-warning": {
+            "extra": "Enough for just ~{days} days, based on your current usage."
           }
         }
       },

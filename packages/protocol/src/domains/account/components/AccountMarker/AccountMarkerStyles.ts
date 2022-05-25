@@ -2,14 +2,14 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { AccountMarkerProps } from './types';
-import { AccountStatus } from 'multirpc-sdk';
+import { BalanceStatus } from 'domains/account/types';
 
 type Props = Required<AccountMarkerProps>;
 
-const colorsMap: Record<AccountStatus, string> = {
-  [AccountStatus.ACTIVE]: '#3AC090',
-  // [AccountStatus.YELLOW]: '#EEA941',
-  [AccountStatus.INACTIVE]: '#D22C54',
+const colorsMap: Record<BalanceStatus, string> = {
+  [BalanceStatus.GREEN]: '#3AC090',
+  [BalanceStatus.YELLOW]: '#EEA941',
+  [BalanceStatus.RED]: '#D22C54',
 };
 
 export const useStyles = makeStyles<Theme, Props>(theme => ({
