@@ -163,12 +163,12 @@ export const useUnstakeDialog = (
     (amount: BigNumber = ZERO): BigNumber => {
       let total = amount;
       if (!isBondToken) {
-        total = total.dividedBy(0.8 ?? ZERO);
+        total = total.dividedBy(commonData?.aFTMcRatio ?? ZERO);
       }
 
       return total;
     },
-    [isBondToken],
+    [commonData?.aFTMcRatio, isBondToken],
   );
 
   return {
