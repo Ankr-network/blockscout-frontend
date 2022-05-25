@@ -1,12 +1,16 @@
 import BigNumber from 'bignumber.js';
 
 import { AccountType } from 'domains/account/types';
+import { ParsedDays } from './types';
 import { formatBalance } from 'domains/account/utils/formatBalance';
-import { i18nKeyRoot } from '../BalanceUtils';
+import { getPeriod } from './getPeriod';
+import { getQuantifier } from './getQuantifier';
+import { i18nKeyRoot } from '../../BalanceUtils';
 import { t } from 'modules/i18n/utils/intl';
 
 export interface GetDescriptionsParams {
   accountType: AccountType;
+  endTime: ParsedDays;
   premiumUntil?: Date;
   usdBalance: BigNumber;
 }
@@ -21,7 +25,12 @@ const getUsdBalance = ({ usdBalance: usd }: GetDescriptionsParams) =>
 const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
   [AccountType.PAYG_ACTIVE]: [
     getUsdBalance,
-    () => t(`${root}.payg-active.extra`),
+    ({ endTime: [time, period, quantifier] }) =>
+      t(`${root}.payg-active.extra`, {
+        time,
+        period: getPeriod(time, period),
+        quantifier: getQuantifier(quantifier),
+      }),
   ],
   [AccountType.PAYG_INACTIVE]: [
     getUsdBalance,
@@ -31,7 +40,12 @@ const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
   [AccountType.PAYG_UNKNOWN_WITH_BALANCE]: [getUsdBalance, () => ''],
   [AccountType.PAYG_WARNING]: [
     getUsdBalance,
-    () => t(`${root}.payg-warning.extra`),
+    ({ endTime: [time, period, quantifier] }) =>
+      t(`${root}.payg-warning.extra`, {
+        time,
+        period: getPeriod(time, period),
+        quantifier: getQuantifier(quantifier),
+      }),
   ],
   [AccountType.PREMIUM]: [
     ({ premiumUntil: date }) => t(`${root}.premium.main`, { date }),

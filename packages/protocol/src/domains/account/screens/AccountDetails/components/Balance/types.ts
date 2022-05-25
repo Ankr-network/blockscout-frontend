@@ -5,6 +5,7 @@ import { AccountType, BalanceStatus, Currency } from 'domains/account/types';
 export type BalanceData = {
   accountType: AccountType;
   balance: BigNumber;
+  balanceEndTime: number;
   isLoading?: boolean;
   onCurrencySwitch: (currency: Currency) => void;
   premiumUntil?: Date;

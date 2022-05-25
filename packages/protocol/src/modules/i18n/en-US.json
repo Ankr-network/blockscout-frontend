@@ -495,13 +495,23 @@
             "extra": "Top up your balance to continue using our service."
           },
           "payg-active": {
-            "extra": "Enough for ~{days} days, based on your current usage."
+            "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
           },
           "payg-inactive": {
             "extra": "Top up your balance to continue using our service."
           },
           "payg-warning": {
-            "extra": "Enough for just ~{days} days, based on your current usage."
+            "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
+          },
+          "periods": {
+            "day": "day{plural}",
+            "month": "month{plural}",
+            "year": "year{plural}",
+            "plural": "s"
+          },
+          "quantifiers": {
+            "approximately": "~",
+            "more": "more than "
           }
         }
       },

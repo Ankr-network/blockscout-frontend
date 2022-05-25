@@ -3,12 +3,14 @@ import BigNumber from 'bignumber.js';
 
 import { AccountMarker } from 'domains/account/components/AccountMarker';
 import { AccountType, BalanceStatus } from 'domains/account/types';
-import { getDescriptions } from './DetailsUtils';
+import { getDescriptions } from './utils/getDescriptions';
+import { parseDays } from './utils/parseDays';
 
 import { useStyles } from './DetailsStyles';
 
 export interface DetailsProps {
   accountType: AccountType;
+  balanceEndTime: number;
   premiumUntil?: Date;
   status: BalanceStatus;
   usdBalance: BigNumber;
@@ -16,6 +18,7 @@ export interface DetailsProps {
 
 export const Details = ({
   accountType,
+  balanceEndTime,
   premiumUntil,
   status,
   usdBalance,
@@ -26,6 +29,7 @@ export const Details = ({
 
   const [description, extraDescription] = getDescriptions({
     accountType,
+    endTime: parseDays(balanceEndTime),
     premiumUntil,
     usdBalance,
   });

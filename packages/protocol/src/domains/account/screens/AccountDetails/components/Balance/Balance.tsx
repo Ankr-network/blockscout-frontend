@@ -19,6 +19,7 @@ export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 export const Balance = ({
   accountType,
   balance,
+  balanceEndTime,
   onCurrencySwitch,
   premiumUntil,
   status,
@@ -47,6 +48,7 @@ export const Balance = ({
       <BalanceString balance={balance} className={classes.balance} />
       <Details
         accountType={accountType}
+        balanceEndTime={balanceEndTime}
         premiumUntil={premiumUntil}
         status={status}
         usdBalance={usdBalance}

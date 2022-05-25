@@ -25,7 +25,7 @@ export const useBalanceData = (): BalanceData => {
 
   const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
 
-  const { endTime, isLoading: isBalanceEndTimeLoading } =
+  const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
     useBalanceEndTime(isConnected);
 
   const onCurrencySwitch = useCallback((currency_: Currency) => {
@@ -34,13 +34,14 @@ export const useBalanceData = (): BalanceData => {
 
   const accountType = getAccountType({
     balance: balance.ankrBalance,
-    balanceEndTime: endTime,
+    balanceEndTime,
     premiumUntil,
   });
 
   return {
     accountType,
     balance: balance[balancesMap[currency]],
+    balanceEndTime,
     isLoading: isConnecting || isLoading || isBalanceEndTimeLoading,
     onCurrencySwitch,
     premiumUntil,
