@@ -145,7 +145,7 @@ export const UnstakeFantom = (): JSX.Element => {
         </div>
       );
     },
-    [burnFee, classes, isBurnFeeLoading],
+    [burnFee, classes, isBurnFeeLoading, calcTotalRecieve],
   );
 
   return (
