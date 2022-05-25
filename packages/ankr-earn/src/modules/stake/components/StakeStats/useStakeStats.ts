@@ -1,7 +1,7 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics/const';
@@ -27,7 +27,7 @@ export const useStakeStats = ({
   const { data: metricsData } = useQuery({ type: getMetrics });
   const metrics = metricsData ? metricsData[metricsServiceName] : undefined;
 
-  const apy = metrics?.apy ?? '0';
+  const apy = metrics?.apy ?? ZERO;
   const yearlyEarning = calculateYearlyEarning(amount, apy);
 
   const totalStaked = metrics?.totalStaked;
@@ -44,7 +44,7 @@ export const useStakeStats = ({
     : undefined;
 
   return {
-    apy,
+    apy: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     yearlyEarning: yearlyEarning.toFormat(),
     yearlyEarningUSD,
     totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
@@ -53,6 +53,9 @@ export const useStakeStats = ({
   };
 };
 
-function calculateYearlyEarning(amount: BigNumberish, apy: string): BigNumber {
+function calculateYearlyEarning(
+  amount: BigNumberish,
+  apy: BigNumberish,
+): BigNumber {
   return new BigNumber(amount).multipliedBy(apy).dividedBy(100);
 }

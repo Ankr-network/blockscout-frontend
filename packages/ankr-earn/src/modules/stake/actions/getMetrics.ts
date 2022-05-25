@@ -15,7 +15,7 @@ export interface IStakeMetrics {
   totalStaked: BigNumber;
   totalStakedUsd: BigNumber;
   stakers: string;
-  apy: string;
+  apy: BigNumber;
 }
 
 export type TMetrics = Record<EMetricsServiceName, IStakeMetrics>;
@@ -50,7 +50,7 @@ function mapMetrics(data: IMetricsResponse) {
       totalStaked: new BigNumber(metrics.totalStaked),
       totalStakedUsd: new BigNumber(metrics.totalStakedUsd),
       stakers: metrics.stakers,
-      apy: metrics.apy,
+      apy: new BigNumber(metrics.apy),
     };
 
     return acc;

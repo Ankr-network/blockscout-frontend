@@ -34,10 +34,8 @@ import ABI_AAVAXB from './contracts/FutureBondAVAX.json';
  */
 const ESTIMATE_GAS_MULTIPLIER = 1.6;
 
-/**
- * Need for accurate fee in Metamask. Magic number 🧙‍♂️.
- */
-const GAS_TX_CONST = 2.1003;
+// maxAmount = userBalance - gasFee * GAS_FEE_MULTIPLIER
+const GAS_FEE_MULTIPLIER = 3;
 
 type TPastEventsData = EventData[];
 
@@ -437,8 +435,16 @@ export class AvalancheSDK {
     }
 
     const balance = await this.getAVAXBalance();
-    const maxAmount = balance.minus(gasFee);
-    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+
+    // multiplication needs to avoid problems with max amount
+    // and fee calculation in the wallet
+    const multipliedGasFee = gasFee.multipliedBy(GAS_FEE_MULTIPLIER);
+    const maxAllowedAmount = balance.minus(multipliedGasFee);
+
+    const stakeAmount = amount.isGreaterThan(maxAllowedAmount)
+      ? maxAllowedAmount
+      : amount;
+
     const value = this.convertToHex(stakeAmount);
 
     const avalanchePoolContract = await this.getAvalanchePoolContract();
@@ -450,13 +456,9 @@ export class AvalancheSDK {
       value,
     });
 
-    const gas = Math.floor(
-      AvalancheSDK.getIncreasedGasLimit(gasLimit) / GAS_TX_CONST,
-    );
-
     await contractStake().send({
       from: this.currentAccount,
-      gas,
+      gas: AvalancheSDK.getIncreasedGasLimit(gasLimit),
       value,
     });
   }

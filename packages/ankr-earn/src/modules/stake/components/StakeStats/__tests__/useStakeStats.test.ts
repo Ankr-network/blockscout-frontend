@@ -24,7 +24,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
         totalStaked: new BigNumber(100),
         totalStakedUsd: new BigNumber(1000),
         stakers: '20',
-        apy: '4',
+        apy: new BigNumber(4),
       } as TMetrics['eth'],
     },
   };
