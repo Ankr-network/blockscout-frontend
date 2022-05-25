@@ -87,6 +87,7 @@ export const featuresConfig = {
   maticHistory: true,
   avaxSwitcher: currentEnv !== Env.Production,
   newBinancePool: currentEnv !== Env.Production,
+  dashboardNativeAmount: false,
 };
 
 export enum SupportedChainIDS {

@@ -6,7 +6,7 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 
 import { useStakedAETHCData } from '../useStakedAETHCData';
 
@@ -58,7 +58,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC/useStakedAE
   test('should return amount and pending value', () => {
     const { result } = renderHook(() => useStakedAETHCData());
 
-    const expectedNativeAmount = new BigNumber(2);
+    const expectedNativeAmount = featuresConfig.dashboardNativeAmount
+      ? new BigNumber(2)
+      : undefined;
 
     expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);
