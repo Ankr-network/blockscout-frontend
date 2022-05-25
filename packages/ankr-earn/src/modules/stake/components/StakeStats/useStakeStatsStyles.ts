@@ -42,11 +42,13 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     textAlign: 'right',
     fontSize: 12,
-    cursor: 'pointer',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
 
     [theme.breakpoints.up('md')]: {
       width: 'auto',
-      textAlign: 'left',
+      maxWidth: 120,
+      textAlign: 'center',
       marginTop: theme.spacing(0.5),
     },
   },
@@ -66,7 +68,7 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
   },
 
   statisticValueWrapper: {
-    cursor: 'pointer',
+    cursor: 'help',
 
     alignItems: 'center',
     display: 'flex',

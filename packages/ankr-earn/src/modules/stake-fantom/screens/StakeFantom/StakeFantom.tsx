@@ -1,5 +1,5 @@
 import { resetRequests } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -17,7 +17,6 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -47,7 +46,6 @@ export const StakeFantom = (): JSX.Element => {
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
-  const { data: apy } = useQuery({ type: getAPY });
 
   const {
     isCommonDataLoading,
@@ -71,7 +69,6 @@ export const StakeFantom = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
-    dispatchRequest(getAPY());
     dispatchRequest(getMetrics());
 
     return () => {
@@ -159,7 +156,6 @@ export const StakeFantom = (): JSX.Element => {
 
         <StakeStats
           amount={amount}
-          apy={apy ?? undefined}
           metricsServiceName={EMetricsServiceName.FTM}
         />
 

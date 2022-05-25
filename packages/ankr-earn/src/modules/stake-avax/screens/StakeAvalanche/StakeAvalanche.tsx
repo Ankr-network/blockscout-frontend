@@ -1,6 +1,5 @@
 import { Box, ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
@@ -27,7 +26,6 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useFaq } from './hooks/useFaq';
@@ -42,10 +40,6 @@ export const StakeAvalanche = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const faqItems = useFaq();
-
-  const { data: apy } = useQuery({
-    type: fetchAPY,
-  });
 
   const {
     isSuccessOpened,
@@ -88,7 +82,6 @@ export const StakeAvalanche = (): JSX.Element => {
   );
 
   useProviderEffect(() => {
-    dispatch(fetchAPY());
     dispatch(fetchStats());
     dispatch(getMetrics());
 
@@ -148,7 +141,6 @@ export const StakeAvalanche = (): JSX.Element => {
 
             <StakeStats
               amount={amount}
-              apy={apy ?? undefined}
               metricsServiceName={EMetricsServiceName.AVAX}
             />
 

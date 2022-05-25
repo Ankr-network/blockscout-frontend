@@ -9,7 +9,6 @@ import { useMemo, useState } from 'react';
 import { ZERO } from 'modules/common/const';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
-import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import {
   IStakeFormPayload,
@@ -33,7 +32,6 @@ interface IUseStakeFormProps {
 
 interface IUseStakeFormData {
   amount: number;
-  apy: BigNumber;
   ethToken: TPolkadotETHToken;
   fetchStatsData: ResponseData<typeof fetchStakeStats> | null;
   fetchStatsError: Error | null;
@@ -66,10 +64,6 @@ export const useStakeForm = ({
     type: fetchStakeStats,
   });
 
-  const { data: metricsData } = useQuery({
-    type: getMetrics,
-  });
-
   const [amount, setAmount] = useState(0);
 
   const metricsServiceName = useMemo(
@@ -77,17 +71,6 @@ export const useStakeForm = ({
     () => network.toLowerCase() as EMetricsServiceName,
     [network],
   );
-
-  const metricData = useMemo(
-    () => metricsData?.find(({ name }) => name === metricsServiceName),
-    [metricsData, metricsServiceName],
-  );
-
-  const apy = useMemo(() => {
-    const isValidAPY = !!metricData?.apy && !metricData.apy.isNaN();
-
-    return isValidAPY ? metricData.apy : ZERO;
-  }, [metricData?.apy]);
 
   const ethToken = useMemo(
     () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
@@ -122,7 +105,6 @@ export const useStakeForm = ({
 
   return {
     amount,
-    apy,
     ethToken,
     fetchStatsData,
     fetchStatsError,

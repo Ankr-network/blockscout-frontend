@@ -6,20 +6,15 @@ import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridg
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
-import { fetchAPY as fetchAVAXAPY } from 'modules/stake-avax/actions/fetchAPY';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
-import { fetchAPY as fetchBNBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
-import { getAPY as getEthAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
-import { getAPY as getAftmbAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
-import { fetchAPY as fetchPolygonAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -55,7 +50,6 @@ export const useDashboard = (): void => {
     );
 
     dispatch(getEthCommonData());
-    dispatch(getEthAPY());
 
     dispatch(fetchPolygonStats());
     dispatch(fetchAMATICBBridged());
@@ -64,16 +58,9 @@ export const useDashboard = (): void => {
     dispatch(fetchAMATICCBridgedPolygon());
     dispatch(fetchAETHBBridged());
     dispatch(getMetrics());
-    dispatch(fetchPolygonAPY());
-
-    dispatch(fetchAVAXAPY());
     dispatch(fetchAVAXStats());
-
-    dispatch(fetchBNBAPY());
     dispatch(fetchBNBStats());
     dispatch(fetchPendingValues());
-
     dispatch(getFTMStats());
-    dispatch(getAftmbAPY());
   }, [dispatch]);
 };

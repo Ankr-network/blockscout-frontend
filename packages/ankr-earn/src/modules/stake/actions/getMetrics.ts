@@ -12,15 +12,16 @@ import {
 } from '../api/metrics';
 
 export interface IStakeMetrics {
-  name: EMetricsServiceName;
   totalStaked: BigNumber;
   totalStakedUsd: BigNumber;
-  stakers: BigNumber;
-  apy: BigNumber;
+  stakers: string;
+  apy: string;
 }
 
+export type TMetrics = Record<EMetricsServiceName, IStakeMetrics>;
+
 export const getMetrics = createSmartAction<
-  RequestAction<IMetricsResponse, IStakeMetrics[]>
+  RequestAction<IMetricsResponse, TMetrics>
 >(
   'stake/getMetrics',
   (): RequestAction => ({
@@ -33,17 +34,25 @@ export const getMetrics = createSmartAction<
       driver: isMainnet ? 'axios' : undefined,
       showNotificationOnError: false,
       cache: ACTION_CACHE_SEC,
-      getData: (data: IMetricsResponse): IStakeMetrics[] =>
-        data.services.map(x => ({
-          name:
-            x.serviceName === 'polygon'
-              ? EMetricsServiceName.MATIC
-              : (x.serviceName as EMetricsServiceName),
-          totalStaked: new BigNumber(x.totalStaked),
-          totalStakedUsd: new BigNumber(x.totalStakedUsd),
-          stakers: new BigNumber(x.stakers),
-          apy: new BigNumber(x.apy),
-        })),
+      getData: mapMetrics,
     },
   }),
 );
+
+function mapMetrics(data: IMetricsResponse) {
+  return data.services.reduce((acc, metrics) => {
+    const serviceName =
+      metrics.serviceName === 'polygon'
+        ? EMetricsServiceName.MATIC
+        : (metrics.serviceName as EMetricsServiceName);
+
+    acc[serviceName] = {
+      totalStaked: new BigNumber(metrics.totalStaked),
+      totalStakedUsd: new BigNumber(metrics.totalStakedUsd),
+      stakers: metrics.stakers,
+      apy: metrics.apy,
+    };
+
+    return acc;
+  }, {} as TMetrics);
+}

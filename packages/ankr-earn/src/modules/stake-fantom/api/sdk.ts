@@ -24,7 +24,6 @@ import {
 import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { getAPY } from 'modules/stake/api/getAPY';
 import {
   getTxEventsHistoryGroup,
   TTxEventsHistoryGroupData,
@@ -672,16 +671,5 @@ export class FantomSDK implements ISwitcher {
       .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}/${type}`)
       .then(({ data }) => new BigNumber(data.unstakingAmount))
       .catch(() => ZERO);
-  }
-
-  public async getAftmbAPY(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-
-    const aFTMbContract = await this.getAftmbTokenContract();
-
-    return getAPY({
-      tokenContract: aFTMbContract,
-      web3: provider.getWeb3(),
-    });
   }
 }

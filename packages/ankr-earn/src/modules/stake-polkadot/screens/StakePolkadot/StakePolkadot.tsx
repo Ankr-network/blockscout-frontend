@@ -44,7 +44,6 @@ export const StakePolkadot = ({
 
   const {
     amount,
-    apy,
     ethToken,
     fetchStatsData,
     fetchStatsError,
@@ -145,7 +144,6 @@ export const StakePolkadot = ({
 
             <StakeStats
               amount={amount}
-              apy={apy}
               metricsServiceName={metricsServiceName}
             />
 

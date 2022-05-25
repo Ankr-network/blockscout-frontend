@@ -1,8 +1,5 @@
-import BigNumber from 'bignumber.js';
-
 import { t } from 'common';
 
-import { ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -11,18 +8,16 @@ import { StakeStatsItem } from './StakeStatsItem';
 import { useStakeStats } from './useStakeStats';
 
 interface IStatsProps {
-  apy?: BigNumber;
   amount: BigNumberish;
   metricsServiceName: EMetricsServiceName;
 }
 
 export const StakeStats = ({
   amount,
-  apy = ZERO,
   metricsServiceName,
 }: IStatsProps): JSX.Element => {
   const {
-    apy: formattedApy,
+    apy,
     yearlyEarning,
     yearlyEarningUSD,
     totalStaked,
@@ -30,7 +25,6 @@ export const StakeStats = ({
     stakers,
   } = useStakeStats({
     amount,
-    apy,
     metricsServiceName,
   });
 
@@ -39,7 +33,7 @@ export const StakeStats = ({
       <StakeStatsItem
         label={t('stake.stats.apy')}
         tooltip={t('stake.stats.apy-tooltip')}
-        value={formattedApy}
+        value={apy}
       />
 
       <StakeStatsItem

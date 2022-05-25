@@ -1,6 +1,5 @@
 import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
@@ -35,7 +34,6 @@ import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
@@ -48,10 +46,6 @@ export const StakeBinance = (): JSX.Element => {
   const dispatch = useDispatch();
   const faqItems: IFaqItem[] = useFaq();
   const { onErroMessageClick, hasError } = useErrorMessage();
-
-  const { data: apy } = useQuery({
-    type: fetchAPY,
-  });
 
   const {
     amount,
@@ -73,7 +67,6 @@ export const StakeBinance = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(getMetrics());
-    dispatch(fetchAPY());
     dispatch(fetchStats());
     dispatch(fetchPendingValues());
 
@@ -176,7 +169,6 @@ export const StakeBinance = (): JSX.Element => {
 
         <StakeStats
           amount={amount}
-          apy={apy ?? undefined}
           metricsServiceName={EMetricsServiceName.BNB}
         />
 

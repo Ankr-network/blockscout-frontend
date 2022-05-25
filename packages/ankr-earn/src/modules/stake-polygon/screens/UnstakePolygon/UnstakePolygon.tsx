@@ -17,7 +17,6 @@ import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
@@ -49,7 +48,6 @@ export const UnstakePolygon = (): JSX.Element => {
   } = useUnstakeMatic(onSuccessOpen);
 
   useProviderEffect(() => {
-    dispatchRequest(fetchAPY());
     dispatchRequest(getMetrics());
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());

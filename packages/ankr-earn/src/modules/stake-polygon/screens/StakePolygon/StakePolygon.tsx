@@ -1,4 +1,4 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 
 import { t, tHTML } from 'common';
 
@@ -8,7 +8,6 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import { DECIMAL_PLACES, DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -32,7 +31,6 @@ import { useStakePolygonStyles } from './useStakePolygonStyles';
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
   const dispatchRequest = useDispatchRequest();
-  const { data: apy } = useQuery({ type: fetchAPY });
 
   const {
     amount,
@@ -51,7 +49,6 @@ export const StakePolygon = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
-    dispatchRequest(fetchAPY());
     dispatchRequest(fetchStats());
   }, [dispatchRequest]);
 
@@ -115,7 +112,6 @@ export const StakePolygon = (): JSX.Element => {
 
             <StakeStats
               amount={amount}
-              apy={apy ?? undefined}
               metricsServiceName={EMetricsServiceName.MATIC}
             />
 

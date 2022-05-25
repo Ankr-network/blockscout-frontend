@@ -27,7 +27,6 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
   BLOCK_OFFSET,
@@ -452,17 +451,6 @@ export class PolygonSDK implements ISwitcher {
       contractConfig.aMaticbToken,
       { data, estimate: true },
     );
-  }
-
-  public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
-    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
-
-    return getAPY({
-      tokenContract: aMaticbTokenContract,
-      web3,
-      batchSize: 12,
-      blocksDepth: 3000,
-    });
   }
 
   public async getPendingClaim(): Promise<BigNumber> {

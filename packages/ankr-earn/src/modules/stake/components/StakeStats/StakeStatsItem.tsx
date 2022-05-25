@@ -28,6 +28,10 @@ export const StakeStatsItem = ({
 }: IStakeStatsItemProps): JSX.Element => {
   const classes = useStakeStatsStyles();
 
+  const usdEquivalentText = t('stake.stats.usd-equivalent', {
+    value: usdEquivalent,
+  });
+
   return (
     <div className={classes.statistic}>
       <div className={classes.statisticLabel}>
@@ -55,16 +59,8 @@ export const StakeStatsItem = ({
       </div>
 
       {usdEquivalent && (
-        <div className={classes.usd}>
-          <Tooltip
-            arrow
-            enterDelay={ENTER_DELAY}
-            title={t('stake.stats.usd-equivalent', { value: usdEquivalent })}
-          >
-            <div className={classes.statisticValue}>
-              {t('stake.stats.usd-equivalent', { value: usdEquivalent })}
-            </div>
-          </Tooltip>
+        <div className={classes.usd} title={usdEquivalentText}>
+          {usdEquivalentText}
         </div>
       )}
     </div>
