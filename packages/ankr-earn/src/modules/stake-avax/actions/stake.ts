@@ -27,7 +27,6 @@ export const stake = createSmartAction<RequestAction<void, void>>(
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      getData: (data: void): void => data,
       onSuccess: (
         response: IRes,
         _action: RequestAction,
