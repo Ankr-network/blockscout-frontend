@@ -60,10 +60,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   const pendingValue = pendingValues?.pendingAbnbbUnstakes ?? ZERO;
 
   const isShowed =
-    !amount.isZero() ||
-    !pendingValue.isZero() ||
-    isCommonDataLoading ||
-    isPendingUnstakeLoading;
+    !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addBNBTokenToWallet());

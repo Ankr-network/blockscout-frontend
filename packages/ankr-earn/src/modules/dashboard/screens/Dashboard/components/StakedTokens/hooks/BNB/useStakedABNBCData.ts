@@ -61,10 +61,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
   const pendingValue = pendingValues?.pendingAbnbcUnstakes ?? ZERO;
 
   const isShowed =
-    !amount.isZero() ||
-    !pendingValue.isZero() ||
-    isCommonDataLoading ||
-    isPendingUnstakeLoading;
+    !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
 
   const nativeAmount = getTokenNativeAmount(amount, statsData?.aBNBcRatio);
 
