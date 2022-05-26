@@ -10,8 +10,8 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
 
-import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
+import { fetchUnstakeStats } from './fetchUnstakeStats';
 
 interface IRes {
   data: void;
@@ -31,13 +31,12 @@ export const unstake = createSmartAction<
   meta: {
     asMutation: true,
     showNotificationOnError: true,
-    getData: (data: void): void => data,
     onSuccess: (
       response: IRes,
       _action: RequestAction,
       store: TStore<IStoreState>,
     ): IRes => {
-      store.dispatchRequest(fetchStats());
+      store.dispatchRequest(fetchUnstakeStats());
       store.dispatchRequest(fetchTxHistory(network));
 
       return response;

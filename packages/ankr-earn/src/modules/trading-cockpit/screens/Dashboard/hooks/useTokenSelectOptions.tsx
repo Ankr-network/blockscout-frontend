@@ -1,5 +1,6 @@
+import { t } from 'common';
+
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
@@ -11,7 +12,7 @@ import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
-import { FTMIcon } from 'uiKit/Icons/FTMIcon';
+import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 export const useTokenSelectOptions = (): ITokenSelectOption[] => {
@@ -69,7 +70,7 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
       },
       {
         text: t('unit.ftm'),
-        iconSlot: <FTMIcon />,
+        iconSlot: <FantomIcon />,
         value: AvailableTokens.FTM,
       },
     ],

@@ -4,9 +4,10 @@ import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
 
+import { t } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
-import { t } from 'modules/i18n/utils/intl';
 import { AmountField } from 'uiKit/AmountField';
 
 import { useAmountFieldStyles } from './useAmountFieldStyles';
@@ -47,7 +48,7 @@ export const AmountInput = ({
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
   const roundedBalance = balance
-    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_HALF_DOWN).toFormat()
+    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
     : '0';
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 

@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
@@ -24,7 +25,6 @@ import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';

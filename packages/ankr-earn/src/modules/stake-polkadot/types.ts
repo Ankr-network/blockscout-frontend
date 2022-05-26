@@ -23,3 +23,7 @@ export enum EPolkadotETHReverseMap {
   KSM = Token.aKSMb,
   WND = Token.aWNDb,
 }
+
+export interface IPolkadotRouteLoadableComponentProps {
+  network: EPolkadotNetworks;
+}

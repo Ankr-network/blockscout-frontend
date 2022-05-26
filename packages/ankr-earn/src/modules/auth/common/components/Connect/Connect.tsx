@@ -1,7 +1,8 @@
 import { Paper, Typography } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 

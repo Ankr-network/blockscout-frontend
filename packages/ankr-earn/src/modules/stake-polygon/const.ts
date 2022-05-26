@@ -8,7 +8,7 @@ export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
 
 export const POOL_CONTRACT_START_BLOCK = isMainnet ? 13_396_826 : 5_653_297;
 
-export const BLOCK_OFFSET = 201_600; // 7 days
+export const BLOCK_OFFSET = 302_400; // 7 days
 
 export const POLYGON_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 

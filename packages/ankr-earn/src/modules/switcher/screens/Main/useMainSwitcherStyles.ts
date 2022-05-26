@@ -4,10 +4,10 @@ export const useMainSwitcherStyles = makeStyles(theme => ({
   root: {
     maxWidth: 740,
     margin: 'auto',
-    padding: theme.spacing(6, 7),
+    padding: theme.spacing(5, 2),
 
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(5, 4),
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(6, 7),
     },
   },
 

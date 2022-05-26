@@ -9,9 +9,12 @@ import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 
 export interface IGetHistory {
-  stakeEvents: TTxEventsHistoryGroupData;
-  withdrawnEvents: TTxEventsHistoryGroupData;
-  pendingEvents: TTxEventsHistoryGroupData;
+  stakeEventsAFTMB: TTxEventsHistoryGroupData;
+  stakeEventsAFTMC: TTxEventsHistoryGroupData;
+  pendingEventsAFTMB: TTxEventsHistoryGroupData;
+  pendingEventsAFTMC: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMB: TTxEventsHistoryGroupData;
+  withdrawnEventsAFTMC: TTxEventsHistoryGroupData;
   totalPending: BigNumber;
 }
 

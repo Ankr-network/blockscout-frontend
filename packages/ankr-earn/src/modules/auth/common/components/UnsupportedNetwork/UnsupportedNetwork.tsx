@@ -1,32 +1,68 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 
-import { tHTML } from 'common';
+import { t, tHTML } from 'common';
 
 import { useUnsupportedNetworkStyles } from './UnsupportedNetworkStyles';
 
 export interface IUnsupportedNetwork {
-  currentNetwork?: string;
-  infoTxt?: string;
+  singleSwitcher: boolean;
   networksSlot?: ReactNode;
+  currentNetwork?: string;
+  newNetwork: string | null;
+  iconSlot: JSX.Element | null;
 }
 
 export const UnsupportedNetwork = ({
-  currentNetwork,
-  infoTxt,
+  iconSlot,
+  singleSwitcher,
   networksSlot,
+  currentNetwork,
+  newNetwork,
 }: IUnsupportedNetwork): JSX.Element => {
   const classes = useUnsupportedNetworkStyles();
 
   return (
     <Paper className={classes.paper}>
-      <Typography className={classes.header} variant="h5">
-        {typeof infoTxt === 'string'
-          ? infoTxt
-          : tHTML('connect.unsupported-network', {
-              network: currentNetwork,
+      {singleSwitcher && iconSlot ? (
+        <>
+          <Typography className={classes.header} variant="h3">
+            {t('connect.unsupported-network-header')}
+          </Typography>
+
+          <Typography className={classes.description} variant="h5">
+            {t('connect.unsupported-network-single-description', {
+              currentNetwork,
             })}
-      </Typography>
+          </Typography>
+
+          <Box display="flex">
+            <Typography className={classes.description} variant="h5">
+              {t('connect.unsupported-network-single-switch')}
+            </Typography>
+
+            {React.cloneElement(iconSlot, {
+              className: classes.icon,
+            })}
+
+            <Typography className={classes.description} variant="h5">
+              {tHTML('connect.unsupported-network-single-network', {
+                newNetwork,
+              })}
+            </Typography>
+          </Box>
+        </>
+      ) : (
+        <>
+          <Typography className={classes.header} variant="h3">
+            {t('connect.unsupported-network-header')}
+          </Typography>
+
+          <Typography className={classes.description} variant="h5">
+            {t('connect.unsupported-network-description')}
+          </Typography>
+        </>
+      )}
 
       {networksSlot}
     </Paper>

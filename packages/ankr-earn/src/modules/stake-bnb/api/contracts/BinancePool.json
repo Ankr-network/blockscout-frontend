@@ -210,6 +210,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isRebasing",
+        "type": "bool"
+      }
+    ],
+    "name": "isRebasing",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -395,7 +408,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "maxClaimers",
+        "type": "uint256"
+      }
+    ],
     "name": "distributeRewards",
     "outputs": [],
     "stateMutability": "payable",

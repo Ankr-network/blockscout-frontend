@@ -1,8 +1,9 @@
 import { Box, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 
 import { TPolkadotToken } from '../../../../types';
 

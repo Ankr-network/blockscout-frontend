@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
@@ -14,7 +15,6 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { useStakedAVAXData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/AVAX/useStakedAVAXData';
-import { t } from 'modules/i18n/utils/intl';
 import {
   IUnstakeFormValues,
   UnstakeDialog,

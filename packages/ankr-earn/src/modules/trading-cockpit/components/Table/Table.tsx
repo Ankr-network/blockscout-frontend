@@ -3,6 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import { ReactNode, ReactText, useMemo } from 'react';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
 import { WithUseStyles } from 'ui';
 
 import {
@@ -14,7 +15,6 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 

@@ -4,6 +4,8 @@ import { useCallback, useMemo } from 'react';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
@@ -44,10 +46,15 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aMATICb,
       icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherFantom && {
+    {
       label: Token.aFTMb,
       value: Token.aFTMb,
       icon: <AFTMBIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.avaxSwitcher && {
+      label: Token.aAVAXb,
+      value: Token.aAVAXb,
+      icon: <AAvaxBIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 
@@ -67,10 +74,15 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aMATICc,
       icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
     },
-    featuresConfig.switcherFantom && {
+    {
       label: Token.aFTMc,
       value: Token.aFTMc,
       icon: <AFTMCIcon {...DEFAULT_ICON_PROPS} />,
+    },
+    featuresConfig.avaxSwitcher && {
+      label: Token.aAVAXc,
+      value: Token.aAVAXc,
+      icon: <AAvaxCIcon {...DEFAULT_ICON_PROPS} />,
     },
   ]),
 };

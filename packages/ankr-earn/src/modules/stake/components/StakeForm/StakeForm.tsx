@@ -5,12 +5,13 @@ import { FormApi } from 'final-form';
 import { ReactNode, ReactText, useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { t } from 'common';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { OnChange } from 'uiKit/OnChange';

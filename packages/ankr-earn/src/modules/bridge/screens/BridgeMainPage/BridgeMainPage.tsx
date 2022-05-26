@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useEffect } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
@@ -12,7 +13,6 @@ import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { Notification } from 'modules/bridge/components/Notification';
 import { TxView } from 'modules/bridge/screens/BridgeMainPage/components/TxView';
-import { t } from 'modules/i18n/utils/intl';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { BridgeMainView } from './components/BridgeMainView';

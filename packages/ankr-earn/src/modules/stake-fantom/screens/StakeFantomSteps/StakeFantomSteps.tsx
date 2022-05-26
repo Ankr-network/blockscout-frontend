@@ -1,5 +1,6 @@
+import { t } from 'common';
+
 import { ProgressStep } from 'modules/common/components/ProgressStep';
-import { t } from 'modules/i18n/utils/intl';
 
 import { useStakeFantomStepsHook } from './useStakeFantomStepsHook';
 

@@ -4,11 +4,11 @@ import { useMemo } from 'react';
 import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 
 import { IUseStakableToken } from '../types';
@@ -16,8 +16,8 @@ import { IUseStakableToken } from '../types';
 export const useStakableBnb = (): IUseStakableToken => {
   const networks = useETHNetworks();
 
-  const { data: apy, loading: isLoadingAPY } = useQuery({
-    type: fetchAPY,
+  const { data: metrics, loading: isLoadingAPY } = useQuery({
+    type: getMetrics,
   });
 
   const { data, loading } = useQuery({
@@ -25,6 +25,7 @@ export const useStakableBnb = (): IUseStakableToken => {
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+  const apy = metrics ? +metrics.bnb.apy : 0;
 
   const networksData = useMemo(
     () =>
@@ -40,7 +41,7 @@ export const useStakableBnb = (): IUseStakableToken => {
     icon: <BNBIcon />,
     token: Token.BNB,
     href: StakeBinanceRoutes.stake.generatePath(),
-    apy: apy?.toNumber() ?? 0,
+    apy,
     balance,
     networks: networksData,
     isLoading: loading || isLoadingAPY,

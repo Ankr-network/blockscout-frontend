@@ -2,9 +2,10 @@ import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
 
+import { t } from 'common';
+
 import { useCurrentNetwork } from 'modules/common/hooks/useCurrentNetwork';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
-import { t } from 'modules/i18n/utils/intl';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 

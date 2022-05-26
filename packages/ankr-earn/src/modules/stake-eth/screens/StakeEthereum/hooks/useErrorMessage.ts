@@ -1,7 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessage {
   hasError: boolean;
@@ -11,8 +11,8 @@ interface IUseErrorMessage {
 export const useErrorMessage = (): IUseErrorMessage => {
   const dispatchRequest = useDispatchRequest();
 
-  const { error: apyError } = useQuery({
-    type: getAPY,
+  const { error: metricsError } = useQuery({
+    type: getMetrics,
   });
 
   const { error: commonDataError } = useQuery({
@@ -24,12 +24,12 @@ export const useErrorMessage = (): IUseErrorMessage => {
       dispatchRequest(getCommonData());
     }
 
-    if (apyError) {
-      dispatchRequest(getAPY());
+    if (metricsError) {
+      dispatchRequest(getMetrics());
     }
   };
 
-  const hasError = !!commonDataError || !!apyError;
+  const hasError = !!commonDataError || !!metricsError;
 
   return {
     hasError,
