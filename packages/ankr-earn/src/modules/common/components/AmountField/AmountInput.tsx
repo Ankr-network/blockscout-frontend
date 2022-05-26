@@ -48,7 +48,7 @@ export const AmountInput = ({
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
   const roundedBalance = balance
-    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_HALF_DOWN).toFormat()
+    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
     : '0';
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 

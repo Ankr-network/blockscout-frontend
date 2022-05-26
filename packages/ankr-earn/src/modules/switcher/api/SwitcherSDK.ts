@@ -166,7 +166,7 @@ export class SwitcherSDK {
     const sdk = this.getSdk(chainId, token);
     const value = amount
       .multipliedBy(ratio)
-      .decimalPlaces(DEFAULT_DECIMALS, BigNumber.ROUND_HALF_DOWN);
+      .decimalPlaces(DEFAULT_DECIMALS, BigNumber.ROUND_DOWN);
 
     return sdk?.unlockShares({ amount: value });
   }

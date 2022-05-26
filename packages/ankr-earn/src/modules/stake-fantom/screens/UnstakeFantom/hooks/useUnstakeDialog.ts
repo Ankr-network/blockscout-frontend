@@ -43,6 +43,7 @@ interface IUseUnstakeDialog
   balance: BigNumber;
   closeHref: string;
   selectedToken: TFtmSyntToken;
+  calcTotalRecieve: (amount: BigNumber) => BigNumber;
 }
 
 export const useUnstakeDialog = (
@@ -158,6 +159,18 @@ export const useUnstakeDialog = (
 
   const debouncedOnChange = useDebouncedCallback(onChange, INPUT_DEBOUNCE_TIME);
 
+  const calcTotalRecieve = useCallback(
+    (amount: BigNumber = ZERO): BigNumber => {
+      let total = amount;
+      if (!isBondToken) {
+        total = total.dividedBy(commonData?.aFTMcRatio ?? ZERO);
+      }
+
+      return total;
+    },
+    [commonData?.aFTMcRatio, isBondToken],
+  );
+
   return {
     submitDisabled,
     isBalanceLoading,
@@ -172,5 +185,6 @@ export const useUnstakeDialog = (
     closeHref: RoutesConfig.dashboard.generatePath(),
     onSubmit,
     onChange: debouncedOnChange,
+    calcTotalRecieve,
   };
 };

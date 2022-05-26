@@ -182,7 +182,7 @@ export const Main = (): JSX.Element => {
           tokenName={from}
           onMaxClick={setMaxAmount(
             form,
-            balance.decimalPlaces(18, BigNumber.ROUND_HALF_DOWN).toString(10),
+            balance.decimalPlaces(18, BigNumber.ROUND_DOWN).toString(10),
           )}
         />
 
