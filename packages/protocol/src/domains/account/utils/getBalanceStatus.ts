@@ -3,6 +3,7 @@ import { AccountType, BalanceStatus } from 'domains/account/types';
 const { GREEN, RED, YELLOW } = BalanceStatus;
 
 const statusesMap: Record<AccountType, BalanceStatus> = {
+  [AccountType.NEW]: RED,
   [AccountType.PAYG_ACTIVE]: GREEN,
   [AccountType.PAYG_INACTIVE]: RED,
   [AccountType.PAYG_UNKNOWN]: RED,

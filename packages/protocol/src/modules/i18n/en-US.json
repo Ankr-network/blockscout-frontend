@@ -486,6 +486,9 @@
           "title": "Withdraw"
         },
         "descriptions": {
+          "new": {
+            "extra": "Top up your balance to use our service."
+          },
           "premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."

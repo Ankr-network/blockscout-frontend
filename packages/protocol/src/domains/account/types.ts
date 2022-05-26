@@ -5,6 +5,7 @@ export enum BalanceStatus {
 }
 
 export enum AccountType {
+  NEW,
   PAYG_ACTIVE,
   PAYG_INACTIVE,
   PAYG_UNKNOWN,

@@ -23,6 +23,7 @@ const getUsdBalance = ({ usdBalance: usd }: GetDescriptionsParams) =>
   usd.gt(0) ? `~$${formatBalance(usd)}` : '';
 
 const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
+  [AccountType.NEW]: [getUsdBalance, () => t(`${root}.new.extra`)],
   [AccountType.PAYG_ACTIVE]: [
     getUsdBalance,
     ({ endTime: [time, period, quantifier] }) =>

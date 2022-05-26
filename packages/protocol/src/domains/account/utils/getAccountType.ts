@@ -5,6 +5,7 @@ import { AccountType } from 'domains/account/types';
 export interface AccountTypeParams {
   balance: BigNumber;
   balanceEndTime: number;
+  isNew: boolean;
   premiumUntil?: Date;
 }
 
@@ -13,6 +14,7 @@ type Condition = (params: AccountTypeParams) => boolean;
 const PAYG_WARNING_THRESHOLD = 6;
 
 const conditionsMap = new Map<AccountType, Condition>([
+  [AccountType.NEW, ({ balance, isNew }) => isNew && balance.eq(0)],
   [
     AccountType.PAYG_ACTIVE,
     ({ balance, balanceEndTime, premiumUntil }) =>

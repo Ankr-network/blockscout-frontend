@@ -20,7 +20,7 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, premiumUntil } = useAuth();
+  const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
   const [currency, setCurrency] = useState(Currency.ANKR);
 
   const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
@@ -35,6 +35,7 @@ export const useBalanceData = (): BalanceData => {
   const accountType = getAccountType({
     balance: balance.ankrBalance,
     balanceEndTime,
+    isNew,
     premiumUntil,
   });
 

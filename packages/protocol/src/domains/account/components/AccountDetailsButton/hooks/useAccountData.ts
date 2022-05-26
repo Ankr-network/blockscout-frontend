@@ -16,7 +16,7 @@ export interface AccountData {
 }
 
 export const useAccountData = (): AccountData => {
-  const { isConnected, isConnecting, premiumUntil } = useAuth();
+  const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
 
   const { ankrBalance: balance, isLoading: isBalanceLoading } =
     useBalance(isConnected);
@@ -27,6 +27,7 @@ export const useAccountData = (): AccountData => {
   const accountType = getAccountType({
     balance,
     balanceEndTime: endTime,
+    isNew,
     premiumUntil,
   });
   const status = getBalanceStatus(accountType);
