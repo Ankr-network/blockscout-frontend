@@ -14,6 +14,7 @@ import {
   ISwitcher,
 } from 'modules/api/switcher';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -45,6 +46,8 @@ export class SwitcherSDK {
 
   private fantomSDK: ISwitcher;
 
+  private avaxSDK: ISwitcher;
+
   private account: string;
 
   private constructor({
@@ -52,12 +55,14 @@ export class SwitcherSDK {
     ethSDK,
     maticSDK,
     fantomSDK,
+    avaxSDK,
     account,
   }: ISwitcherSDKArgs) {
     this.binanceSDK = binanceSDK;
     this.ethSDK = ethSDK;
     this.maticSDK = maticSDK;
     this.fantomSDK = fantomSDK;
+    this.avaxSDK = avaxSDK;
     this.account = account;
   }
 
@@ -70,18 +75,21 @@ export class SwitcherSDK {
     const isAccoundChanged = SwitcherSDK.instance?.account !== account;
 
     if (!SwitcherSDK.instance || isAccoundChanged) {
-      const [binanceSDK, ethSDK, maticSDK, fantomSDK] = await Promise.all([
-        BinanceSDK.getInstance(),
-        EthSDK.getInstance(),
-        PolygonSDK.getInstance(),
-        FantomSDK.getInstance(),
-      ]);
+      const [binanceSDK, ethSDK, maticSDK, fantomSDK, avaxSDK] =
+        await Promise.all([
+          BinanceSDK.getInstance(),
+          EthSDK.getInstance(),
+          PolygonSDK.getInstance(),
+          FantomSDK.getInstance(),
+          AvalancheSDK.getInstance(),
+        ]);
 
       SwitcherSDK.instance = new SwitcherSDK({
         binanceSDK,
         ethSDK,
         maticSDK,
         fantomSDK,
+        avaxSDK,
         account,
       });
     }
@@ -193,6 +201,11 @@ export class SwitcherSDK {
       [Token.aFTMc]: this.fantomSDK,
     };
 
+    const avaxSdkByToken: Record<string, ISwitcher> = {
+      [Token.aAVAXb]: this.avaxSDK,
+      [Token.aAVAXc]: this.avaxSDK,
+    };
+
     switch (chainId) {
       case EEthereumNetworkId.goerli:
       case EEthereumNetworkId.mainnet:
@@ -205,6 +218,10 @@ export class SwitcherSDK {
       case EEthereumNetworkId.fantomTestnet:
       case EEthereumNetworkId.fantom:
         return fantomSdkByToken[token];
+
+      case EEthereumNetworkId.avalanche:
+      case EEthereumNetworkId.avalancheTestnet:
+        return avaxSdkByToken[token];
 
       default:
         return undefined;

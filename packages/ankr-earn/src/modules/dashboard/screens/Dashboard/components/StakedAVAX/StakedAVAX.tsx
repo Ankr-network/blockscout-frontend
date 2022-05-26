@@ -86,7 +86,7 @@ export const StakedAVAX = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aAVAXb}
-        tokenAddress={avalancheConfig.futureBondAVAX}
+        tokenAddress={avalancheConfig.aAVAXb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}

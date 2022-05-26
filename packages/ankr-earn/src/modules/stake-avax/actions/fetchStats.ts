@@ -24,7 +24,7 @@ export const fetchStats = createSmartAction<
 
         const [aAVAXbBalance, avaxBalance, minimumStake, pendingUnstakes] =
           await Promise.all([
-            sdk.getAAVAXBBalance(),
+            sdk.getABBalance(),
             sdk.getAVAXBalance(),
             sdk.getMinimumStake(),
             sdk.getPendingUnstakes(),

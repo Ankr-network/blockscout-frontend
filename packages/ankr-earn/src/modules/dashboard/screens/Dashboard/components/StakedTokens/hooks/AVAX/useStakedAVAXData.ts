@@ -61,7 +61,7 @@ export const useStakedAVAXData = (): IStakedAVAXData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addAVAXTokenToWallet());
+    dispatchRequest(addAVAXTokenToWallet(Token.aAVAXb));
   }, [dispatchRequest]);
 
   return {

@@ -2,6 +2,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -28,6 +29,10 @@ jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
   const defaultSDK = {
     addTokenToWallet: () => Promise.resolve(true),
@@ -41,6 +46,8 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
   });
 
   afterEach(() => {
@@ -110,6 +117,24 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
           sdk.addTokenToWallet({
             chainId: chainId as AvailableSwitchNetwork,
             token: Token.aFTMc,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBe(true);
+    });
+  });
+
+  test('should add token to wallet on avalanche network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalanche].map(
+        async chainId =>
+          sdk.addTokenToWallet({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aAVAXc,
           }),
       ),
     );

@@ -4,6 +4,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -27,6 +28,10 @@ jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
   const defaultSDK = {
     lockShares: () => Promise.resolve({}),
@@ -40,6 +45,8 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
   });
 
   afterEach(() => {
@@ -113,6 +120,25 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
             chainId: chainId as AvailableSwitchNetwork,
             amount: new BigNumber(1),
             token: Token.aFTMc,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should lock shares on avalanche network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalancheTestnet].map(
+        async chainId =>
+          sdk.lockShares({
+            chainId: chainId as AvailableSwitchNetwork,
+            amount: new BigNumber(1),
+            token: Token.aAVAXc,
           }),
       ),
     );

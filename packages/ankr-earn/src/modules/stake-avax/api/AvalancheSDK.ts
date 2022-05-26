@@ -1,10 +1,12 @@
 import BigNumber from 'bignumber.js';
+import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
   EEthereumNetworkId,
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -12,7 +14,9 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
+import { ISwitcher, ShareArgs } from 'modules/api/switcher';
+import { isMainnet, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -79,7 +83,13 @@ interface ITxHistoryEventData extends EventData {
   timestamp: number;
 }
 
-export class AvalancheSDK {
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
+}
+
+export class AvalancheSDK implements ISwitcher {
   private readonly readProvider: Web3KeyReadProvider;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -115,7 +125,18 @@ export class AvalancheSDK {
 
     return new web3.eth.Contract(
       ABI_AAVAXB as AbiItem[],
-      avalancheConfig.futureBondAVAX,
+      avalancheConfig.aAVAXb,
+    );
+  }
+
+  private async getAAVAXCTokenContract(isForceRead = false): Promise<Contract> {
+    const { avalancheConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_AAVAXB as AbiItem[], // TODO: STAKAN-1509 change ABI
+      avalancheConfig.aAVAXc,
     );
   }
 
@@ -301,7 +322,7 @@ export class AvalancheSDK {
     return instance;
   }
 
-  public async addAAVAXBToWallet(): Promise<void> {
+  public async addTokenToWallet(token: Token): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -309,16 +330,22 @@ export class AvalancheSDK {
     const { avalancheConfig } = configFromEnv();
 
     const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const contract =
+      token === Token.aAVAXb ? aAVAXbTokenContract : aAVAXcTokenContract;
 
     const [symbol, rawDecimals]: [string, string] = await Promise.all([
-      aAVAXbTokenContract.methods.symbol().call(),
-      aAVAXbTokenContract.methods.decimals().call(),
+      contract.methods.symbol().call(),
+      contract.methods.decimals().call(),
     ]);
 
     const decimals = Number.parseInt(rawDecimals, 10);
 
-    await this.writeProvider.addTokenToWallet({
-      address: avalancheConfig.futureBondAVAX,
+    return this.writeProvider.addTokenToWallet({
+      address:
+        token === Token.aAVAXb
+          ? avalancheConfig.aAVAXb
+          : avalancheConfig.aAVAXc,
       symbol,
       decimals,
       chainId: isMainnet
@@ -327,7 +354,7 @@ export class AvalancheSDK {
     });
   }
 
-  public async getAAVAXBBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
 
     const balance = await aAVAXbTokenContract.methods
@@ -335,6 +362,65 @@ export class AvalancheSDK {
       .call();
 
     return this.convertFromWei(balance);
+  }
+
+  // TODO: STAKAN-1509 support methods
+  public async getACBalance(): Promise<BigNumber> {
+    return ZERO;
+  }
+
+  public async getACRatio(): Promise<BigNumber> {
+    return ZERO;
+  }
+
+  public async getACAllowance(): Promise<BigNumber> {
+    return ZERO;
+  }
+
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
+
+    return {
+      amount: this.convertFromWei(amount),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
+  public approveACForAB(): Promise<IWeb3SendResult | undefined> {
+    return Promise.resolve(undefined);
+  }
+
+  public lockShares(data: ShareArgs): Promise<IWeb3SendResult> {
+    // eslint-disable-next-line no-console
+    console.log(data);
+    return {} as unknown as Promise<IWeb3SendResult>;
+  }
+
+  public unlockShares(data: ShareArgs): Promise<IWeb3SendResult> {
+    // eslint-disable-next-line no-console
+    console.log(data);
+    return {} as unknown as Promise<IWeb3SendResult>;
   }
 
   public async getAVAXBalance(): Promise<BigNumber> {

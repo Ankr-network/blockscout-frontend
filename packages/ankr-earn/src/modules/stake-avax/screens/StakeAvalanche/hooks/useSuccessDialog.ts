@@ -8,7 +8,7 @@ import { AvalancheSDK } from '../../../api/AvalancheSDK';
 interface IUseSuccessDiaglog {
   isSuccessOpened: boolean;
   token: Token;
-  onAddTokenClick: () => Promise<void>;
+  onAddTokenClick: () => Promise<boolean>;
   onSuccessClose: () => void;
   onSuccessOpen: () => void;
 }
@@ -23,7 +23,7 @@ export const useSuccessDialog = (): IUseSuccessDiaglog => {
   const onAddTokenClick = useCallback(async () => {
     const sdk = await AvalancheSDK.getInstance();
 
-    return sdk.addAAVAXBToWallet();
+    return sdk.addTokenToWallet(Token.aAVAXb);
   }, []);
 
   return {
