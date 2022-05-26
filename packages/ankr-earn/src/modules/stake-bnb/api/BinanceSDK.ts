@@ -672,7 +672,7 @@ export class BinanceSDK {
     const binancePoolContract = await this.getBinancePoolContract();
 
     const bnbSpecificAmount = new BigNumber(
-      stakeAmount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_HALF_DOWN),
+      stakeAmount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_DOWN),
     );
 
     const contractStake =

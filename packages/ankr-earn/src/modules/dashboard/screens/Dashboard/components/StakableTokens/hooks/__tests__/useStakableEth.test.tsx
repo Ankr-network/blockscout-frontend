@@ -45,7 +45,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
         totalStaked: new BigNumber(100),
         totalStakedUsd: new BigNumber(1000),
         stakers: '20',
-        apy: '4',
+        apy: new BigNumber(4),
       } as TMetrics['eth'],
     },
   };
