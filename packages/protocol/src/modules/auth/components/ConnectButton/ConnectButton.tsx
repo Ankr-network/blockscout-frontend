@@ -15,7 +15,7 @@ interface ConnectButtonProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
-  const classes = useStyles();
+  const classes = useStyles(isMobile);
   const { handleConnect, handleDisconnect, address, loading } = useAuth();
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
 
@@ -32,7 +32,7 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
         className={classes.menuButton}
         disabled={loading}
       >
-        <Box component={MetamaskIcon} mr={1.5} />
+        {!isMobile && <Box component={MetamaskIcon} mr={1.5} />}
         {shrinkAddress(address)}
       </Button>
       <Menu

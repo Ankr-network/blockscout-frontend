@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest, useMutation } from '@redux-requests/react';
 
 import { ChainsItem } from './ChainsItem';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
@@ -9,6 +9,7 @@ const TIMEFRAME = '30d';
 
 export const ChainsItemQuery = ({
   chainId,
+  chain,
   ...otherProps
 }: ChainsItemQueryProps) => {
   const dispatchRequest = useDispatchRequest();
@@ -17,15 +18,16 @@ export const ChainsItemQuery = ({
     dispatchRequest(fetchChainDetails(chainId, TIMEFRAME));
   }, [dispatchRequest, chainId]);
 
-  const { loading, data: chainInfo } = useQuery({
+  const { loading } = useMutation({
     type: fetchChainDetails.toString(),
     requestKey: chainId,
   });
 
   return (
     <ChainsItem
-      totalRequests={chainInfo?.totalRequests.toString() ?? ''}
+      totalRequests={chain?.totalRequests?.toString() ?? ''}
       isLoading={loading}
+      chain={chain}
       {...otherProps}
     />
   );

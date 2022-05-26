@@ -43,13 +43,13 @@ export class ContractManager implements IContractManager {
     const cachedKey = this.cachedEncryptionPublicKeys.get(account);
 
     if (cachedKey) return cachedKey;
-  
+
     const publicKey = await this.keyProvider.getWeb3().givenProvider.request({
       method: 'eth_getEncryptionPublicKey',
       params: [account],
     });
     this.cachedEncryptionPublicKeys.set(account, publicKey);
-  
+
     // eslint-disable-next-line no-console
     console.log(`Encryption public key is: ${publicKey}`);
 
@@ -73,7 +73,7 @@ export class ContractManager implements IContractManager {
     const receipt = await this.ankrTokenContract.methods
       .mint(account, '1000000000000000000000000000')
       .send({ from: account });
-  
+
     // eslint-disable-next-line no-console
     console.log(receipt);
   }
@@ -100,15 +100,15 @@ export class ContractManager implements IContractManager {
         2,
       )}`,
     );
-  
+
     const validEvents = tierAssignedEvents.filter(event => {
       const { sender, roles, expires } = event.returnValues;
-  
+
       // eslint-disable-next-line no-console
       console.log(
         `Found user event log: user=${sender} roles=${roles} expires=${expires}`,
       );
-  
+
       return new Date().getTime() / 1000 < expires;
     });
 
@@ -125,7 +125,7 @@ export class ContractManager implements IContractManager {
         .allowance(currentAccount, this.config.ankrWalletContractAddress)
         .call(),
     );
-  
+
     return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
   }
 
@@ -155,7 +155,7 @@ export class ContractManager implements IContractManager {
     const data = this.ankrTokenContract.methods
       .approve(this.config.ankrWalletContractAddress, scaledAmount.toString(10))
       .encodeABI();
-  
+
     return this.keyProvider.sendTransactionAsync(
       currentAccount,
       this.config.ankrTokenContractAddress,
@@ -210,7 +210,7 @@ export class ContractManager implements IContractManager {
         );
       }
     })();
-  
+
     // get encryption public key
     const base64EncryptionPublicKey = await this.getEncryptionPublicKey(
       currentAccount,

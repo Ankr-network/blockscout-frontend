@@ -1,18 +1,23 @@
-import React from 'react';
-import { t } from 'modules/i18n/utils/intl';
+import React, { useMemo } from 'react';
+
 import { useChainListStyles } from './ChainsListStyles';
-import { formatChains, PERIOD } from './ChainsListUtils';
+import { formatChains, PERIOD, sortChains } from './ChainsListUtils';
 import { ChainsListProps } from './ChainsListTypes';
 import { ChainsItemQuery } from '../ChainsItem/ChainsItemQuery';
 
-export const ChainsList = ({ data }: ChainsListProps) => {
+export const ChainsList = ({ data, sortType }: ChainsListProps) => {
   const classes = useChainListStyles();
-  const chains = formatChains(data);
+
+  const chains = useMemo(() => {
+    const formattedChains = formatChains(data);
+
+    return sortChains(formattedChains, sortType);
+  }, [data, sortType]);
 
   return (
     <div className={classes.root}>
       {chains.map(item => {
-        const { id, name, requests, urls } = item;
+        const { id, name, urls } = item;
 
         return (
           <div className={classes.wrapper} key={id}>
@@ -22,9 +27,6 @@ export const ChainsList = ({ data }: ChainsListProps) => {
               name={name}
               period={PERIOD}
               links={urls}
-              description={
-                requests ? t('chains.requests', { value: requests }) : ''
-              }
               chain={item}
             />
           </div>

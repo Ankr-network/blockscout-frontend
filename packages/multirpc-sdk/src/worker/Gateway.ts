@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
 import {
+  AccountStatus,
   IBlockchainEntity,
   IImportJWTTokenResult,
   INodeEntity,
@@ -132,7 +133,9 @@ export class WorkerGateway implements IWorkerGateway {
     return data;
   }
 
-  async addPrivateEndpoint(endpoint: IPrivateEndpoint): Promise<IWorkerEndpoint> {
+  async addPrivateEndpoint(
+    endpoint: IPrivateEndpoint,
+  ): Promise<IWorkerEndpoint> {
     const { data } = await this.api.post('/api/v1/private/node', endpoint);
 
     return data;
@@ -188,5 +191,13 @@ export class WorkerGateway implements IWorkerGateway {
     );
 
     return data;
+  }
+
+  async getAccountStatus(account: string): Promise<AccountStatus> {
+    const { data: response } = await this.api.get<AccountStatus>(
+      `/api/v1/user/status/${account}`,
+    );
+
+    return response;
   }
 }

@@ -58,8 +58,26 @@ export const useStyles = makeStyles<
       display: 'none',
     },
   },
+  breadcrumbsRoot: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+  },
   breadcrumbs: {
+    flexWrap: 'nowrap',
     alignItems: 'baseline',
+  },
+  breadcrumbsLi: {
+    overflow: 'hidden',
+
+    flexShrink: 0,
+
+    '&:last-child': {
+      flexShrink: 1,
+    },
+  },
+  typography: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   mobileBackButton: {
     transform: 'rotate(180deg)',

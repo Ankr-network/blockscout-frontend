@@ -6,15 +6,18 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const PATH_CHAINS = '/public/';
-export const PATH_CHAIN_DETAILS = '/public/:chainId/';
+export const INDEX_PATH = '/';
+export const PATH_CHAINS = `${INDEX_PATH}dashboard/`;
+export const PATH_CHAIN_DETAILS = `${PATH_CHAINS}:chainId/`;
+export const PATH_ADD_ENDPOINT = `${PATH_CHAIN_DETAILS}add`;
 
 export const ChainsRoutesConfig = createRouteConfig(
   {
     chains: {
-      path: PATH_CHAINS,
-      generatePath: () => PATH_CHAINS,
+      path: INDEX_PATH,
+      generatePath: () => INDEX_PATH,
       breadcrumbs: 'chains.breadcrumbs',
+      'connected-breadcrumbs': 'chains.connected-breadcrumbs',
     },
     chainDetails: {
       path: PATH_CHAIN_DETAILS,
@@ -28,8 +31,29 @@ export const ChainsRoutesConfig = createRouteConfig(
         };
       },
     },
+    addEndpoint: {
+      path: PATH_ADD_ENDPOINT,
+      breadcrumbs: 'chains.add-endpoint.breadcrumbs',
+      generatePath: (chainId: string) =>
+        generatePath(PATH_ADD_ENDPOINT, { chainId }),
+      useParams: () => {
+        const { chainId } = useParams<{ chainId: string }>();
+
+        return {
+          chainId,
+        };
+      },
+    },
   },
-  PATH_CHAINS,
+  INDEX_PATH,
+);
+
+const LoadableAddEndpointContainer: LoadableComponent<any> = loadable(
+  async () =>
+    import('./screens/AddEndpoint').then(module => module.AddEndpoint),
+  {
+    fallback: <Spinner />,
+  },
 );
 
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
@@ -61,6 +85,18 @@ export function ChainsRoutes() {
         exact
         path={ChainsRoutesConfig.chainDetails.path}
         component={LoadableChainDetailsContainer}
+      />
+    </>
+  );
+}
+
+export function ChainPrivateRoutes() {
+  return (
+    <>
+      <Route
+        exact
+        path={ChainsRoutesConfig.addEndpoint.path}
+        component={LoadableAddEndpointContainer}
       />
     </>
   );

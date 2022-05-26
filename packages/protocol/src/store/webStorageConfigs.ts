@@ -5,7 +5,7 @@ export const i18nPersistConfig = {
   storage,
 };
 
-export const userPersistConfig = {
-  key: 'user',
+export const authPersistConfig = {
+  key: 'auth',
   storage,
 };

@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 
 import {
+  AccountStatus,
   IBlockchainEntity,
   IImportJWTTokenResult,
   INodeEntity,
@@ -59,6 +60,8 @@ export interface IWorkerGateway {
     ips: RestrictedDomains,
   ): Promise<RestrictedIps>;
   editPrivateEndpoint(endpoint: IPrivateEndpoint): Promise<IWorkerEndpoint>;
+
+  getAccountStatus(account: string): Promise<AccountStatus>;
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
 

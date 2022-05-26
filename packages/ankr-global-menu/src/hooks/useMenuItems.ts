@@ -21,12 +21,12 @@ export const useMenuItems = ({
             items: [
               {
                 label: AnkrIntl.t('global-menu.build.item-1'),
-                link: '/protocol/public/',
+                link: '/protocol/',
                 project: 'protocol',
               },
               {
                 label: AnkrIntl.t('global-menu.build.item-2'),
-                link: '/protocol/plan/',
+                link: '/protocol/account/',
                 project: 'protocol',
               },
               {
