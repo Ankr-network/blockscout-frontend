@@ -27,7 +27,9 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
       aria-label="breadcrumb"
       separator={<AngleRightIcon className={classes.separator} />}
       classes={{
+        root: classes.breadcrumbsRoot,
         ol: classes.breadcrumbs,
+        li: classes.breadcrumbsLi,
       }}
     >
       {items.map((item, index) => {
@@ -57,7 +59,12 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         }
 
         return (
-          <Typography color="textPrimary" variant="h3" key={title}>
+          <Typography
+            className={classes.typography}
+            color="textPrimary"
+            variant="h3"
+            key={title}
+          >
             {capitalize(title)}
           </Typography>
         );

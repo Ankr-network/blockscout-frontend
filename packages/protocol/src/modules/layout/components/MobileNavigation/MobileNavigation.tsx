@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Container } from '@material-ui/core';
 import { NavLink, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
@@ -12,16 +12,34 @@ import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ProvidersRoutesConfig } from 'domains/nodeProviders/Routes';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useIsSMDown } from 'ui';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
+import { HAS_REQUEST_EXPLORER } from '../MainNavigation';
+import {
+  IsActive,
+  isDashboardActive,
+} from '../MainNavigation/MainNavigationUtils';
 
 interface MobileHeaderProps {
   className?: string;
+  isWalletConnected: boolean;
 }
 
-export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
+interface IMenuItem {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  StartIcon: FunctionComponent;
+  isActive: IsActive;
+}
+
+export const MobileNavigation = ({
+  isWalletConnected,
+  className = '',
+}: MobileHeaderProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const isMobile = useIsSMDown();
@@ -41,35 +59,46 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
   const classes = useMobileNavigationStyles();
 
   const items = useLocaleMemo(
-    () => [
-      {
-        label: t('mobile-navigation.public-rpcs'),
-        StartIcon: BoxIcon,
-        href: ChainsRoutesConfig.chains.generatePath(),
-      },
-      {
-        label: t('mobile-navigation.plan'),
-        StartIcon: DiamondIcon,
-        href: PlanRoutesConfig.plan.generatePath(),
-      },
-      {
-        label: t('mobile-navigation.protocol'),
-        StartIcon: PaperIcon,
-        href: ProvidersRoutesConfig.providers.generatePath(),
-      },
-      {
-        label: t('mobile-navigation.more'),
-        StartIcon: MoreIcon,
-        onClick: () => setIsOpened(oldIsOpened => !oldIsOpened),
-      },
-    ],
-    [],
+    () =>
+      [
+        {
+          label: isWalletConnected
+            ? t('mobile-navigation.dashboard')
+            : t('mobile-navigation.public-rpcs'),
+          StartIcon: BoxIcon,
+          href: ChainsRoutesConfig.chains.generatePath(),
+          isActive: isDashboardActive,
+        },
+        {
+          label: isWalletConnected
+            ? t('mobile-navigation.account-details')
+            : t('mobile-navigation.plan'),
+          StartIcon: DiamondIcon,
+          href: AccountRoutesConfig.accountDetails.generatePath(),
+        },
+        {
+          label: t('mobile-navigation.protocol'),
+          StartIcon: PaperIcon,
+          href: ProvidersRoutesConfig.providers.generatePath(),
+        },
+        HAS_REQUEST_EXPLORER && {
+          label: t('mobile-navigation.request-explorer'),
+          StartIcon: BoxIcon,
+          href: ExplorerRoutesConfig.requestExplorer.generatePath(),
+        },
+        {
+          label: t('mobile-navigation.more'),
+          StartIcon: MoreIcon,
+          onClick: () => setIsOpened(oldIsOpened => !oldIsOpened),
+        },
+      ].filter(Boolean) as IMenuItem[],
+    [isWalletConnected],
   );
 
   return (
     <nav className={classNames(classes.root, classes.custom, className)}>
       <Container className={classes.container} maxWidth={false}>
-        {items.map(({ label, href = '', onClick, StartIcon }) => {
+        {items.map(({ label, href = '', onClick, StartIcon, isActive }) => {
           return typeof onClick === 'function' ? (
             <Button
               key={label}
@@ -96,6 +125,7 @@ export const MobileNavigation = ({ className = '' }: MobileHeaderProps) => {
               classes={{
                 label: classes.label,
               }}
+              isActive={isActive}
             >
               <StartIcon />
               {label}

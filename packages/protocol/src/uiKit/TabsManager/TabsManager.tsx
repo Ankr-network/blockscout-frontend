@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { TabID, TabsManagerProps } from './TabsManagerTypes';
 import { useStyles } from './TabsManagerStyles';
+import classNames from 'classnames';
 
 export const TabsManager = ({
   additionalContent,
@@ -9,6 +10,7 @@ export const TabsManager = ({
   onTabSelect,
   tabs,
   title,
+  className = '',
 }: TabsManagerProps) => {
   const [selectedTabID, setSelectedTabID] = useState<TabID>(
     typeof initialTabID === 'undefined' ? tabs[0]?.id : initialTabID,
@@ -34,7 +36,7 @@ export const TabsManager = ({
 
   return (
     <>
-      <div className={classes.tabs}>
+      <div className={classNames(classes.tabs, className)}>
         <div className={classes.right}>
           {title}
           {/* doesn't show tabs if there is only one of them */}

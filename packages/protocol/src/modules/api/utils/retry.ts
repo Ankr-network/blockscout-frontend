@@ -1,11 +1,11 @@
 const DEFAULT_MAX_ATTEMPTS = 10;
-const DEFAULT_ATTEMPT_INTERVAL = 10 * 1000;
+const ETH_BLOCK_TIME = 10 * 1000;
 
 export const retry = async <T>(
   action: () => Promise<T | any>,
   skipCondition: (e: any) => boolean,
   maxAttempts = DEFAULT_MAX_ATTEMPTS,
-  interval = DEFAULT_ATTEMPT_INTERVAL,
+  interval = ETH_BLOCK_TIME,
   errorMessage?: (e: Error) => string,
 ): Promise<T> => {
   // eslint-disable-next-line no-async-promise-executor

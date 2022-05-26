@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
-import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
@@ -14,7 +13,7 @@ export const RpcList = ({ data }: RpcsListProps) => {
   return (
     <div>
       {chains.map(item => {
-        const { id, icon, extenders, extensions, name, requests, urls } = item;
+        const { id, icon, extenders, extensions, name, urls } = item;
 
         const links = [
           ...urls,
@@ -33,9 +32,6 @@ export const RpcList = ({ data }: RpcsListProps) => {
             key={id}
             id={id}
             className={classes.item}
-            description={
-              requests ? t('chains.requests', { value: requests }) : ''
-            }
           />
         );
       })}

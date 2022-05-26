@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
+import isEqual from 'lodash.isequal';
 
 import {
   Breadcrumbs as BreadcrumbsBase,
@@ -8,7 +15,6 @@ import {
   BreadcrumbsProviderProps,
   IBreadcrumbsContext,
 } from './BreadcrumbsTypes';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
@@ -41,7 +47,15 @@ export const useBreadcrumbs = () => {
 export const useSetBreadcrumbs = (breadcrumbs: BreadcrumbItem[]) => {
   const { setBreadcrumbs } = useBreadcrumbs();
 
-  useOnMount(() => setBreadcrumbs(breadcrumbs));
+  const ref = useRef<BreadcrumbItem[]>([]);
+
+  useEffect(() => {
+    if (!isEqual(breadcrumbs, ref.current)) {
+      setBreadcrumbs(breadcrumbs);
+    }
+
+    ref.current = breadcrumbs;
+  }, [setBreadcrumbs, breadcrumbs]);
 
   return { setBreadcrumbs };
 };

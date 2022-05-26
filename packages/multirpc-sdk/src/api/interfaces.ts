@@ -18,6 +18,7 @@ import {
   INotarizedTransaction,
   IThresholdKey,
   UUID,
+  Web3Address,
 } from '../common';
 
 export interface IApiGateway {
@@ -30,7 +31,11 @@ export interface IApiGateway {
 
   getJwtTokenById(id: UUID): Promise<IJwtToken>;
 
-  getJwtTokens(offset: number, limit: number): Promise<JwtTokens>;
+  getJwtTokens(
+    address: Web3Address,
+    offset?: number,
+    limit?: number,
+  ): Promise<JwtTokens>;
 
   getNotarizedTransactions(
     offset: number,

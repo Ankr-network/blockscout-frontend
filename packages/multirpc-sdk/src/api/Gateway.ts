@@ -6,6 +6,7 @@ import {
   INotarizedTransaction,
   IThresholdKey,
   UUID,
+  Web3Address,
 } from '../common';
 import { IApiGateway } from './interfaces';
 import {
@@ -52,7 +53,7 @@ export class ApiGateway implements IApiGateway {
 
   public async getPlayers(offset: number, limit: number): Promise<Players> {
     const { data } = await this.publicApi.get<IGetPlayersData>(
-      '/v1alpha/player', 
+      '/v1alpha/player',
       {
         params: { offset, limit },
       },
@@ -83,27 +84,28 @@ export class ApiGateway implements IApiGateway {
         params: { offset, limit, ...filter },
       },
     );
-  
+
     return [data.threshold_keys || [], data.has_more || false];
   }
 
   public async getThresholdKeyById(id: UUID): Promise<IGetThresholdKeyData> {
     const { data } = await this.publicApi.get<IGetThresholdKeyData>(
-      `/v1alpha/threshold_key/${id}`
+      `/v1alpha/threshold_key/${id}`,
     );
 
     return data;
   }
 
   public async getJwtTokens(
-    offset: number,
-    limit: number,
+    address: Web3Address,
+    offset?: number,
+    limit?: number,
   ): Promise<JwtTokens> {
     const { data } = await this.publicApi.get<IGetJwtTokensData>(
       '/v1alpha/jwt_token',
       {
-        params: { offset, limit },
-      }
+        params: { owner_address: address, offset, limit },
+      },
     );
 
     return [data.jwt_tokens || [], data.has_more || false];
@@ -122,7 +124,7 @@ export class ApiGateway implements IApiGateway {
       '/v1alpha/jwt_token/request',
       request,
     );
-  
+
     return data.jwt_token;
   }
 
@@ -158,12 +160,12 @@ export class ApiGateway implements IApiGateway {
       '/private/issue_jwt_token',
       request,
     );
-  
+
     return data.jwt_token;
   }
 
   public async notarizeTransaction(
-    request: INotarizeTransactionRequest
+    request: INotarizeTransactionRequest,
   ): Promise<INotarizedTransaction> {
     const { data } = await this.privateApi.post<INotarizeTransactionData>(
       '/private/notarize_transaction',

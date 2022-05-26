@@ -22,6 +22,7 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   empty?: JSX.Element;
   spinner?: ReactElement;
   isPreloadDisabled?: boolean;
+  showLoaderDuringRefetch?: boolean;
 }
 
 function isLoading(queries: QueryState<any>[]) {
@@ -33,7 +34,7 @@ function hasError(queries: QueryState<any>[]) {
 }
 
 function isDataEmpty(data: any) {
-  if (!data) {
+  if (!data && typeof data !== 'number') {
     return true;
   }
 
@@ -52,6 +53,7 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   empty,
   spinner = <Spinner />,
   isPreloadDisabled = false,
+  showLoaderDuringRefetch = true,
 }: ILoadingProps<T1, T2, T3, T4, T5>) {
   const queries = useAppSelector(state =>
     requestActions.map((item, index) =>
@@ -63,7 +65,11 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
     ),
   );
 
-  if (isLoading(queries) && !isPreloadDisabled) {
+  if (
+    isLoading(queries) &&
+    !isPreloadDisabled &&
+    !(!showLoaderDuringRefetch && !isEmpty(queries))
+  ) {
     return noDataMessage || spinner;
   }
 

@@ -1,6 +1,13 @@
 import { t } from '../../i18n/utils/intl';
 
-export function extractMessage(errorResponse: any) {
+export function extractMessage(
+  errorResponse: any,
+  customMessage?: string,
+): string {
+  if (customMessage) {
+    return t(customMessage);
+  }
+
   if (typeof errorResponse === 'string') {
     return errorResponse;
   }

@@ -1,18 +1,21 @@
-import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { stopPolling, resetRequests } from '@redux-requests/core';
-
-import { mainTheme } from 'ui';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/api/utils/ResponseData';
+import { resetRequests, stopPolling } from '@redux-requests/core';
+import { useDispatchRequest } from '@redux-requests/react';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
-import { useStyles } from './ChainItemStyles';
-import { ChainItemSkeleton } from './ChainItemSkeleton';
+import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
+import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { useAuth } from 'modules/auth/hooks/useAuth';
+import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { mainTheme } from 'ui';
 // eslint-disable-next-line import/no-cycle
 import { ChainItem } from './ChainItem';
+import { ChainItemSkeleton } from './ChainItemSkeleton';
+import { useStyles } from './ChainItemStyles';
 
 interface ChainItemProps {
   chainId: string;
@@ -20,11 +23,20 @@ interface ChainItemProps {
 
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   const dispatch = useDispatch();
+  const dispatchRequest = useDispatchRequest();
+  const { credentials } = useAuth();
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatch(fetchChain(chainId));
+    dispatchRequest(fetchChain(chainId));
   });
+
+  useEffect(() => {
+    if (credentials) {
+      dispatchRequest(fetchPremiumChainFeatures(chainId));
+      dispatchRequest(fetchEndpoints());
+    }
+  }, [chainId, credentials, dispatchRequest]);
 
   useOnUnmount(() => {
     const fetchChainAction = fetchChain.toString();

@@ -1,31 +1,33 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { InformationIcon } from '../Icons/InformationIcon';
 
+import { InformationIcon } from '../Icons/InformationIcon';
 import {
-  useTooltipWrapperStyles,
   TooltipElement,
+  useTooltipWrapperStyles,
 } from './TooltipWrapperStyles';
 
 interface ITooltipWrapperProps {
-  tooltipText: NonNullable<ReactNode | string>;
   children?: ReactNode;
   className?: string;
   hasIcon?: boolean;
   iconClassName?: string;
+  tooltipClassName?: string;
+  tooltipText: NonNullable<ReactNode | string>;
 }
 
 export const TooltipWrapper = ({
-  tooltipText,
   children,
   className,
-  iconClassName,
   hasIcon = true,
+  iconClassName,
+  tooltipClassName: tooltip,
+  tooltipText,
 }: ITooltipWrapperProps) => {
   const classes = useTooltipWrapperStyles();
 
   return (
-    <TooltipElement placement="top" title={tooltipText}>
+    <TooltipElement classes={{ tooltip }} placement="top" title={tooltipText}>
       <div className={classNames(classes.tooltipItem, className)}>
         {children}
         {hasIcon && (
