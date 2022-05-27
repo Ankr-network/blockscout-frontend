@@ -6,7 +6,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   IWeb3SendResult,
   ProviderManager,
   Web3KeyReadProvider,
@@ -29,6 +29,8 @@ import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getTxEventsHistoryGroup } from 'modules/stake/api/getTxEventsHistoryGroup';
 
+import { ISwitcher } from '../switcher';
+
 import {
   ETH_BLOCK_OFFSET,
   ETH_HISTORY_RANGE_STEP,
@@ -50,13 +52,13 @@ export interface IGetSwitcherServiceData {
 }
 
 export interface IGetTxData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }
 
 export interface ISharesArgs {
-  amount: string;
+  amount: BigNumber;
 }
 
 export interface IEthSDKProviders {
@@ -109,7 +111,7 @@ const tokensConfigMap = {
   },
 };
 
-export class EthSDK {
+export class EthSDK implements ISwitcher {
   private static instance?: EthSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -160,7 +162,7 @@ export class EthSDK {
   }
 
   private getIsEthChain(): boolean {
-    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
       this.writeProvider.currentChain,
     );
   }
@@ -186,7 +188,7 @@ export class EthSDK {
     return this.readProvider;
   }
 
-  public async getAethbBalance(isFormatted?: boolean): Promise<BigNumber> {
+  public async getABBalance(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHbContract = EthSDK.getAethbContract(provider);
     const web3 = provider.getWeb3();
@@ -208,7 +210,7 @@ export class EthSDK {
     return provider.createContract(AETHB_CONTRACT, contractConfig.fethContract);
   }
 
-  public async getAethcBalance(isFormatted?: boolean): Promise<BigNumber> {
+  public async getACBalance(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
@@ -230,7 +232,7 @@ export class EthSDK {
     return provider.createContract(AETHC_CONTRACT, contractConfig.aethContract);
   }
 
-  public async getAethcRatio(isFormatted?: boolean): Promise<BigNumber> {
+  public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
@@ -259,7 +261,7 @@ export class EthSDK {
     }
   }
 
-  public async getAllowance(): Promise<BigNumber> {
+  public async getACAllowance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthSDK.getAethcContract(provider);
     const { contractConfig } = CONFIG;
@@ -269,6 +271,25 @@ export class EthSDK {
       .call();
 
     return new BigNumber(allowance);
+  }
+
+  /**
+   * This method is only for creating a testing ability.
+   * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
+   * Do not use it for the production code.
+   * @deprecated
+   */
+  public async stakeWithoutClaim(amount: BigNumber): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+
+    const ethPoolContract = EthSDK.getEthPoolContract(this.writeProvider);
+
+    return ethPoolContract.methods.stake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+    });
   }
 
   public async stake(
@@ -358,19 +379,25 @@ export class EthSDK {
     return new BigNumber(web3.utils.fromWei(minStake));
   }
 
-  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+  public async fetchTxData(
+    txHash: string,
+    shouldDecodeAmount = true,
+  ): Promise<IGetTxData> {
     const provider = await this.getProvider();
-
     const web3 = provider.getWeb3();
     const tx = await web3.eth.getTransaction(txHash);
 
-    const { 0: amount } =
-      tx.value === '0'
-        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
-        : { 0: tx.value };
+    const decodeAmount = (): BigNumber => {
+      const { 0: rawAmount } =
+        tx.value === '0'
+          ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+          : { 0: tx.value };
+
+      return new BigNumber(web3.utils.fromWei(rawAmount));
+    };
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(amount)),
+      amount: shouldDecodeAmount ? decodeAmount() : undefined,
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
     };
@@ -406,7 +433,7 @@ export class EthSDK {
           staker: this.currentAccount,
         },
       }),
-      this.getAethcRatio(),
+      this.getACRatio(),
     ]);
 
     const mapEvents = (events: EventData[]): EventData[] =>
@@ -466,8 +493,9 @@ export class EthSDK {
     return flatten(pastEvents);
   }
 
-  public async approveAETHCForAETHB(
+  public async approveACForAB(
     amount = MAX_UINT256,
+    scale = 1,
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
@@ -476,7 +504,7 @@ export class EthSDK {
     const aETHcContract = EthSDK.getAethcContract(this.writeProvider);
 
     const data = aETHcContract.methods
-      .approve(contractConfig.fethContract, convertNumberToHex(amount))
+      .approve(contractConfig.fethContract, convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(

@@ -1,116 +1,61 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 
-export const useStakeStats = makeStyles<Theme>(theme => ({
-  statisticWrapper: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    width: '100%',
-    padding: theme.spacing(4.5, 0),
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { BigNumberish } from 'modules/common/utils/numbers/converters';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics/const';
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      padding: theme.spacing(0.5, 2),
-    },
-  },
+interface IStatsProps {
+  amount: BigNumberish;
+  metricsServiceName: EMetricsServiceName;
+}
 
-  statistic: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexGrow: 1,
-    maxWidth: '50%',
-    padding: theme.spacing(0, 3),
+interface IUseStakeStats {
+  apy: string;
+  yearlyEarning: string;
+  yearlyEarningUSD?: string;
+  totalStaked?: string;
+  totalStakedUSD?: string;
+  stakers?: string;
+}
 
-    '&:after': {
-      position: 'absolute',
-      top: '50%',
-      right: 0,
-      content: '""',
-      display: 'block',
-      backgroundColor: `${theme.palette.background.default}`,
-      height: theme.spacing(8.5),
-      width: theme.spacing(0.25),
-      transform: 'translate(-50%, -50%)',
-    },
+export const useStakeStats = ({
+  amount,
+  metricsServiceName,
+}: IStatsProps): IUseStakeStats => {
+  const { data: metricsData } = useQuery({ type: getMetrics });
+  const metrics = metricsData ? metricsData[metricsServiceName] : undefined;
 
-    '&:last-of-type:after': {
-      display: 'none',
-    },
+  const apy = metrics?.apy ?? ZERO;
+  const yearlyEarning = calculateYearlyEarning(amount, apy);
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'row',
-      minHeight: theme.spacing(8.5),
-      justifyContent: 'space-between',
-      maxWidth: '100%',
-      padding: 0,
+  const totalStaked = metrics?.totalStaked;
+  const totalStakedUsd = metrics?.totalStakedUsd;
+  const stakers = metrics?.stakers;
 
-      '&:after': {
-        display: 'none',
-      },
+  const usdRatio = totalStaked && totalStakedUsd?.div(totalStaked);
 
-      borderBottom: `2px solid ${theme.palette.background.default}`,
+  const yearlyEarningUSD = usdRatio
+    ? usdRatio
+        .multipliedBy(yearlyEarning)
+        .decimalPlaces(DEFAULT_ROUNDING)
+        .toFormat()
+    : undefined;
 
-      '&:last-of-type': {
-        borderBottom: 'none',
-      },
-    },
-  },
+  return {
+    apy: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    yearlyEarning: yearlyEarning.toFormat(),
+    yearlyEarningUSD,
+    totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    totalStakedUSD: totalStakedUsd?.toFormat(0),
+    stakers,
+  };
+};
 
-  questionBtn: {
-    marginTop: theme.spacing(-0.5),
-  },
-
-  statisticLabel: {
-    color: `${theme.palette.text.secondary}`,
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: 0,
-    },
-  },
-
-  statisticValueWrapper: {
-    cursor: 'pointer',
-
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'flex-end',
-    },
-  },
-
-  statisticValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    maxWidth: 120,
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
-    },
-  },
-
-  statisticToken: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: theme.spacing(1),
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
-    },
-  },
-
-  statisticDivider: {
-    backgroundColor: `${theme.palette.background.default}`,
-    height: theme.spacing(8.5),
-    width: theme.spacing(0.25),
-  },
-}));
+function calculateYearlyEarning(
+  amount: BigNumberish,
+  apy: BigNumberish,
+): BigNumber {
+  return new BigNumber(amount).multipliedBy(apy).dividedBy(100);
+}

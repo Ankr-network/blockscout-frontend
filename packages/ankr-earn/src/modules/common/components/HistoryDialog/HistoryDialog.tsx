@@ -5,10 +5,11 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';

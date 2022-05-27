@@ -13,6 +13,10 @@ const getSize = (size: StatusCircleStylesProps['size']) => {
       return 6;
     }
 
+    case 'md': {
+      return 12;
+    }
+
     default: {
       return 6;
     }

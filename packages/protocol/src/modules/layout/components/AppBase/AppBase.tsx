@@ -7,6 +7,7 @@ import { Spinner, mainTheme, RewiredStylesProvider } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import '../../../../assets/fonts/style.css';
+import { useMetatags } from 'uiKit/utils/useMetatags';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface IAppBaseProps {
 
 export const AppBase = ({ children }: IAppBaseProps) => {
   const isInitialized = useInitialaizeLocale();
+  useMetatags(historyInstance.location.pathname);
 
   return (
     <RewiredStylesProvider>

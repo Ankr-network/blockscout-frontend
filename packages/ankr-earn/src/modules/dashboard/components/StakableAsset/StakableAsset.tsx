@@ -3,14 +3,14 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
-import { INetwork } from 'modules/auth/components/GuardRoute/useNetworks';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { IETHNetwork } from 'modules/auth/eth/hooks/useETHNetworks';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
 
@@ -19,7 +19,7 @@ import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 interface IStakableAssetProps {
   icon: JSX.Element;
   balance: BigNumber;
-  networks: INetwork[];
+  networks: IETHNetwork[];
   token: Token;
   href: string;
   apy: number;

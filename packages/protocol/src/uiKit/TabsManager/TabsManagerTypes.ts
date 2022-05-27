@@ -15,4 +15,5 @@ export interface TabsManagerProps {
   onTabSelect?: (id: TabID) => void;
   tabs: Tab[];
   title?: ReactNode;
+  className?: string;
 }

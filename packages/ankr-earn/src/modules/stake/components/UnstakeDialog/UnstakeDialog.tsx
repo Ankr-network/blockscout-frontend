@@ -4,13 +4,13 @@ import { FormApi } from 'final-form';
 import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
 import { Form } from 'react-final-form';
 
+import { t, tHTML } from 'common';
 import { Notice } from 'ui';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -40,6 +40,7 @@ export interface IUnstakeDialogProps {
   isApproved?: boolean;
   isWithApprove?: boolean;
   isApproveLoading?: boolean;
+  maxAmountDecimals?: number;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
@@ -62,6 +63,7 @@ export const UnstakeDialog = ({
   isApproved,
   isWithApprove,
   isApproveLoading,
+  maxAmountDecimals,
   onSubmit,
   onClose,
   extraValidation,
@@ -115,8 +117,10 @@ export const UnstakeDialog = ({
                 <Box mb={4}>
                   <AmountInput
                     balance={balance}
+                    disabled={isApproved}
                     isBalanceLoading={isBalanceLoading}
                     label={t('unstake-dialog.amount')}
+                    maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
                     tokenName={token}
                     onMaxClick={setMaxAmount(form, maxAmount.toFormat())}

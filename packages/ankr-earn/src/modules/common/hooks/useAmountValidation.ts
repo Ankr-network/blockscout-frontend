@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { ReactText, useCallback } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 import { ZERO } from '../const';
 
@@ -24,7 +24,11 @@ export const useValidateAmount = (
         return t('validation.number-only');
       }
 
-      if (currentAmount.isLessThan(minAmount) || currentAmount.isZero()) {
+      if (currentAmount.isZero()) {
+        return t('validation.required');
+      }
+
+      if (currentAmount.isLessThan(minAmount)) {
         return t('validation.min', {
           value: minAmount.toFormat(),
         });

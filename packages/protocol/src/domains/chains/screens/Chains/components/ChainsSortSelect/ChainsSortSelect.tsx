@@ -1,37 +1,31 @@
 import React, { ChangeEvent, useCallback } from 'react';
 
-import { Locale } from 'modules/i18n/types/locale';
-import { setLocale } from 'modules/i18n/i18nSlice';
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { Select } from 'uiKit/Select';
-import { useAppDispatch } from 'store/useAppDispatch';
 import { useStyles } from './ChainsSortSelectStyles';
+import { SortType, useOptions } from './ChainsSortSelectUtils';
 
-export const ChainsSortSelect = () => {
+interface IChainsSortSelect {
+  onSelect?: (type: SortType) => void;
+  sortType?: SortType;
+}
+
+export const ChainsSortSelect = ({ sortType, onSelect }: IChainsSortSelect) => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-
-  const options = useLocaleMemo(
-    () => [
-      {
-        value: 'relevance',
-        label: 'Sort by relevance',
-      },
-    ],
-    [],
-  );
+  const options = useOptions();
 
   const onChange = useCallback(
     (event: ChangeEvent<{ value: unknown }>) => {
-      dispatch(setLocale(event.target.value as Locale));
+      if (typeof onSelect === 'function') {
+        onSelect(event.target.value as SortType);
+      }
     },
-    [dispatch],
+    [onSelect],
   );
 
   return (
     <Select
       className={classes.root}
-      value="relevance"
+      value={sortType}
       onChange={onChange}
       options={options}
       fullWidth={false}

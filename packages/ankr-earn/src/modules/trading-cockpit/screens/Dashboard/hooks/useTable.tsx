@@ -1,9 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 
+import { t } from 'common';
+
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Percentage } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { getPrices } from 'modules/trading-cockpit/actions/getPrices';
 import { IGetQuotePrice } from 'modules/trading-cockpit/actions/getQuotePrice';
 import { PlatformLogo } from 'modules/trading-cockpit/components/PlatformLogo';

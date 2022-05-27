@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 
 import { useStakePolygonStepsHook } from '../useStakePolygonStepsHook';
@@ -21,7 +21,7 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
@@ -64,7 +64,6 @@ describe('modules/stake-polygon/screens/StakePolygonSteps/useStakePolygonStepsHo
     expect(result.current.transactionId).toBe(
       '0xbef62debf29d8f91311ea9916c5e80ecbb358719860698bcb3041a0d397169e3',
     );
-    expect(result.current.tokenName).toBe('aMATICb');
     expect(result.current.amount).toStrictEqual(new BigNumber('1'));
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isPending).toBe(false);

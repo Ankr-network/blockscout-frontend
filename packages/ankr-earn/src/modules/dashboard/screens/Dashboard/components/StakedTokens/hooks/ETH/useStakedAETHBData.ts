@@ -6,13 +6,13 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { t } from 'common';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
-import { ETH_NETWORK_BY_ENV, featuresConfig, ZERO } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
@@ -22,7 +22,7 @@ export interface IStakedAETHBData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   tradeLink: string;
   isShowed: boolean;
   isBalancesLoading: boolean;
@@ -53,8 +53,10 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addSwitcherTokenToWallet({ swapOption: Token.aETHb }));
-  }, [dispatchRequest]);
+    dispatchRequest(
+      addSwitcherTokenToWallet({ chainId, swapOption: Token.aETHb }),
+    );
+  }, [chainId, dispatchRequest]);
 
   return {
     amount,
@@ -66,9 +68,7 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
     isBalancesLoading,
     walletName,
     address,
-    stakeLink: featuresConfig.stakeETH
-      ? RoutesConfig.stake.generatePath(Token.aETHb)
-      : undefined,
+    stakeLink: RoutesConfig.stake.generatePath(Token.aETHb),
     isStakeLoading,
     handleAddTokenToWallet,
   };

@@ -1,4 +1,4 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 import { validETHChainId } from '../const';
 

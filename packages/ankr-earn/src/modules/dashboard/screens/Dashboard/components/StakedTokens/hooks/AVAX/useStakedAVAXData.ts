@@ -6,13 +6,13 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { t } from 'common';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
@@ -24,7 +24,7 @@ export interface IStakedAVAXData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
-  chainId: BlockchainNetworkId;
+  chainId: EEthereumNetworkId;
   tradeLink: string;
   unstakeLink: string;
   stakeLink: string;

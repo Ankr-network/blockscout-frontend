@@ -1,22 +1,22 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useNetworks } from 'modules/auth/components/GuardRoute/useNetworks';
+import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { FANTOM_STAKING_NETWORKS } from 'modules/stake-fantom/const';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 
 import { IUseStakableToken } from '../types';
 
 export const useStakableFtm = (): IUseStakableToken => {
-  const networks = useNetworks();
+  const networks = useETHNetworks();
   const { loading: isStakeLoading } = useMutation({ type: stake });
-  const { data: apy, loading: loadingAPY } = useQuery({ type: getAPY });
+  const { data: metrics, loading: loadingAPY } = useQuery({ type: getMetrics });
 
   const { data, loading } = useQuery({
     type: getCommonData,
@@ -30,6 +30,8 @@ export const useStakableFtm = (): IUseStakableToken => {
     [networks],
   );
 
+  const apy = metrics ? +metrics.ftm.apy : 0;
+
   const balance = data?.ftmBalance ?? ZERO;
 
   return {
@@ -39,7 +41,7 @@ export const useStakableFtm = (): IUseStakableToken => {
     networks: networksData,
     token: Token.FTM,
     href: StakeFantomRoutes.stake.generatePath(),
-    apy: apy?.toNumber() ?? 0,
+    apy,
     isStakeLoading,
     isLoading: loading || loadingAPY,
   };

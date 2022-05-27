@@ -1,9 +1,9 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useLocation, useHistory } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
 import { useSwitcherUrlParams } from '../useSwitcherUrlParams';
@@ -13,7 +13,7 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -26,7 +26,7 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     (useHistory as jest.Mock).mockReturnValue(history);
 
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: BlockchainNetworkId.mainnet,
+      chainId: EEthereumNetworkId.mainnet,
     });
   });
 
@@ -43,9 +43,31 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     expect(result.current.onChangeTo).toBeDefined();
   });
 
+  test('should return unique "from" and "to"', () => {
+    (useLocation as jest.Mock).mockReturnValue({
+      search: '?from=aETHb&to=aETHb',
+    });
+
+    const { result } = renderHook(() => useSwitcherUrlParams());
+
+    expect(result.current.from).toBe(Token.aETHb);
+    expect(result.current.to).toBe(Token.aETHc);
+  });
+
+  test('should return unique "from" and "to" in an opposite order', () => {
+    (useLocation as jest.Mock).mockReturnValue({
+      search: '?from=aBNBc&to=aBNBc',
+    });
+
+    const { result } = renderHook(() => useSwitcherUrlParams());
+
+    expect(result.current.from).toBe(Token.aBNBc);
+    expect(result.current.to).toBe(Token.aBNBb);
+  });
+
   test('should return initial data for binance chain', () => {
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: BlockchainNetworkId.smartchain,
+      chainId: EEthereumNetworkId.smartchain,
     });
 
     const { result } = renderHook(() => useSwitcherUrlParams());

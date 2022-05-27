@@ -21,12 +21,12 @@ export const useMenuItems = ({
             items: [
               {
                 label: AnkrIntl.t('global-menu.build.item-1'),
-                link: '/protocol/public/',
+                link: '/protocol/',
                 project: 'protocol',
               },
               {
                 label: AnkrIntl.t('global-menu.build.item-2'),
-                link: '/protocol/plan/',
+                link: '/protocol/account/',
                 project: 'protocol',
               },
               {
@@ -47,38 +47,38 @@ export const useMenuItems = ({
             ],
           },
           {
-            id: 'earn',
-            title: AnkrIntl.t('global-menu.earn.title'),
+            id: 'staking',
+            title: AnkrIntl.t('global-menu.staking.title'),
             items: [
               {
-                label: AnkrIntl.t('global-menu.earn.item-1'),
-                link: '/earn/dashboard/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-1'),
+                link: '/staking/dashboard/',
+                project: 'staking',
               },
               {
-                label: AnkrIntl.t('global-menu.earn.item-2'),
-                link: '/earn/stake/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-2'),
+                link: '/staking/stake/',
+                project: 'staking',
               },
               {
-                label: AnkrIntl.t('global-menu.earn.item-3'),
-                link: '/earn/defi/trade/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-3'),
+                link: '/staking/defi/trade/',
+                project: 'staking',
               },
               {
-                label: AnkrIntl.t('global-menu.earn.item-4'),
-                link: '/earn/bridge/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-4'),
+                link: '/staking/bridge/',
+                project: 'staking',
               },
               {
-                label: AnkrIntl.t('global-menu.earn.item-5'),
-                link: '/earn/switch/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-5'),
+                link: '/staking/switch/',
+                project: 'staking',
               },
               {
-                label: AnkrIntl.t('global-menu.earn.item-6'),
-                link: '/earn/liquid-crowdloan/dot/',
-                project: 'earn',
+                label: AnkrIntl.t('global-menu.staking.item-6'),
+                link: '/staking/liquid-crowdloan/dot/',
+                project: 'staking',
               },
             ],
           },

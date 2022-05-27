@@ -11,7 +11,7 @@ import { useStyles } from './RpcItemStyles';
 import { RpcItemProps } from './RpcItemTypes';
 import { Button } from '@material-ui/core';
 
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/Routes';
 
 export const RpcItem = ({
   logoSrc,
@@ -22,18 +22,16 @@ export const RpcItem = ({
   extraDescription,
   extraLabel,
   className = '',
-  hasOnClick = false,
   id,
 }: RpcItemProps) => {
-  const classes = useStyles({ hasOnClick });
+  const classes = useStyles();
 
   const urls = links.flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]));
 
   return (
     <NavLink
       isRouterLink
-      href={PlanRoutesConfig.endpoint.generatePath(id)}
-      disabled={!hasOnClick}
+      href={ChainsRoutesConfig.chainDetails.generatePath(id)}
       className={classNames(classes.root, className)}
       tabIndex={0}
     >
@@ -74,11 +72,9 @@ export const RpcItem = ({
             />
           ))}
         </div>
-        {hasOnClick && (
-          <Button className={classes.moreBtn} variant="outlined">
-            {t('providers.endpoint.more-btn')}
-          </Button>
-        )}
+        <Button className={classes.moreBtn} variant="outlined">
+          {t('providers.endpoint.more-btn')}
+        </Button>
       </div>
     </NavLink>
   );

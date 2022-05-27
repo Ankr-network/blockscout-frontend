@@ -11,32 +11,39 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
-import { ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
+import { approveAFTMCUnstake } from 'modules/stake-fantom/actions/approveAFTMCUnstake';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
+import { RoutesConfig as FantomRoutesConfig } from 'modules/stake-fantom/Routes';
+import { TFtmSyntToken } from 'modules/stake-fantom/types/TFtmSyntToken';
+import { getValidSelectedToken } from 'modules/stake-fantom/utils/getValidSelectedToken';
 import {
   IUnstakeDialogProps,
   IUnstakeFormValues,
 } from 'modules/stake/components/UnstakeDialog';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-const DEBOUNCE_TIME: Milliseconds = 1_000;
 
 interface IUseUnstakeDialog
   extends Pick<IUnstakeDialogProps, 'onSubmit' | 'onChange'> {
   submitDisabled: boolean;
   isBalanceLoading: boolean;
   isBurnFeeLoading: boolean;
+  isApproved: boolean;
+  isWithApprove: boolean;
+  isApproveLoading: boolean;
   isLoading: boolean;
   burnFee: BigNumber;
   balance: BigNumber;
   closeHref: string;
+  selectedToken: TFtmSyntToken;
+  calcTotalRecieve: (amount: BigNumber) => BigNumber;
 }
 
 export const useUnstakeDialog = (
@@ -56,8 +63,26 @@ export const useUnstakeDialog = (
   });
   const stakedAFTMBData = useStakedAFTMBData();
 
+  const stakeParamsToken = FantomRoutesConfig.unstake.useParams().token;
+  const selectedToken = featuresConfig.stakeAFTMC
+    ? getValidSelectedToken(stakeParamsToken)
+    : Token.aFTMb;
+
+  const isBondToken = selectedToken === Token.aFTMb;
+
+  const syntTokenBalance = isBondToken
+    ? commonData?.aFTMbBalance || ZERO
+    : commonData?.aFTMcBalance || ZERO;
+
+  const { data: approveData, loading: isApproveLoading } = useQuery({
+    type: approveAFTMCUnstake,
+  });
+
+  const isApproved = !!approveData;
+  const isWithApprove = !isBondToken;
+  const shouldBeApproved = isWithApprove && !isApproved;
+
   const submitDisabled = isBalanceLoading || isUnstakeLoading;
-  const synthBalance = commonData?.aFTMbBalance ?? ZERO;
   const tokenBalance = commonData?.ftmBalance ?? ZERO;
   const burnFee = burnFeeData ?? ZERO;
 
@@ -76,14 +101,14 @@ export const useUnstakeDialog = (
         fee: burnFee,
         newTokenBalance: tokenBalance,
         newStakedBalance: stakedAFTMBData.amount,
-        newSynthTokens: synthBalance,
+        newSynthTokens: syntTokenBalance,
       });
     },
     [
       address,
       burnFee,
       stakedAFTMBData.amount,
-      synthBalance,
+      syntTokenBalance,
       tokenBalance,
       walletName,
     ],
@@ -97,15 +122,27 @@ export const useUnstakeDialog = (
 
       const resultAmount = new BigNumber(amount);
 
-      dispatchRequest(unstake(resultAmount)).then(({ error }) => {
-        if (!error) {
-          openSuccess();
+      if (shouldBeApproved) {
+        dispatchRequest(approveAFTMCUnstake(resultAmount));
+      } else {
+        dispatchRequest(unstake(resultAmount, selectedToken)).then(
+          ({ error }) => {
+            if (!error) {
+              openSuccess();
 
-          sendAnalytics(resultAmount);
-        }
-      });
+              sendAnalytics(resultAmount);
+            }
+          },
+        );
+      }
     },
-    [dispatchRequest, openSuccess, sendAnalytics],
+    [
+      dispatchRequest,
+      openSuccess,
+      sendAnalytics,
+      shouldBeApproved,
+      selectedToken,
+    ],
   );
 
   const onChange = useCallback(
@@ -120,17 +157,34 @@ export const useUnstakeDialog = (
     [dispatch],
   );
 
-  const debouncedOnChange = useDebouncedCallback(onChange, DEBOUNCE_TIME);
+  const debouncedOnChange = useDebouncedCallback(onChange, INPUT_DEBOUNCE_TIME);
+
+  const calcTotalRecieve = useCallback(
+    (amount: BigNumber = ZERO): BigNumber => {
+      let total = amount;
+      if (!isBondToken) {
+        total = total.dividedBy(commonData?.aFTMcRatio ?? ZERO);
+      }
+
+      return total;
+    },
+    [commonData?.aFTMcRatio, isBondToken],
+  );
 
   return {
     submitDisabled,
     isBalanceLoading,
     isBurnFeeLoading,
     isLoading: isUnstakeLoading,
-    balance: synthBalance,
+    balance: syntTokenBalance,
+    selectedToken,
+    isWithApprove,
+    isApproved,
+    isApproveLoading,
     burnFee,
     closeHref: RoutesConfig.dashboard.generatePath(),
     onSubmit,
     onChange: debouncedOnChange,
+    calcTotalRecieve,
   };
 };

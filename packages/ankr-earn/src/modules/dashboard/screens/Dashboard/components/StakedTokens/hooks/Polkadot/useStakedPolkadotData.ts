@@ -6,16 +6,16 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,
   STAKE_LEGACY_LINKS,
   ZERO,
 } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';

@@ -3,12 +3,13 @@ import BigNumber from 'bignumber.js';
 import { ReactText, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { AvailableWriteProviders, BlockchainNetworkId } from 'provider';
+import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { useWalletsGroupTypes } from 'modules/auth/hooks/useWalletsGroupTypes';
-import { getIsMetaMask } from 'modules/auth/utils/getIsMetaMask';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
@@ -79,6 +80,8 @@ const defaultTo = isMainnet
   : SupportedChainIDS.BSC_TESTNET;
 
 export const useBridgeMainView = (): IUseBridgeMainView => {
+  const providerId = AvailableWriteProviders.ethCompatible;
+
   const balance = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
@@ -109,19 +112,19 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     type: deposit,
   });
 
-  let isConnected = false;
-  let isMetaMask = false;
-  let chainId: BlockchainNetworkId | undefined;
-
-  const { walletsGroupTypes } = useWalletsGroupTypes({
-    postProcessingFn: (providerKey, data): void => {
-      if (providerKey === AvailableWriteProviders.ethCompatible) {
-        isConnected = data.isConnected;
-        isMetaMask = getIsMetaMask(data.walletName);
-        chainId = data.chainId;
-      }
-    },
+  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+    writeProviderId: providerId,
   });
+
+  const chainId: EEthereumNetworkId | undefined = isEVMCompatible(
+    writeProviderData?.chainId,
+  )
+    ? writeProviderData?.chainId
+    : undefined;
+  const isConnected = writeProviderData?.isConnected ?? false;
+  const isMetaMask = writeProviderData?.walletName
+    ? getIsMetaMask(writeProviderData.walletName)
+    : false;
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -133,7 +136,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   });
 
   const [isActualNetwork, setActualNetwork] = useState<boolean>(
-    (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+    (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
   );
 
   const isApproved = !!approveData;
@@ -215,7 +218,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const onSwitchNetworkClick = () => {
     dispatchRequest(
       switchNetwork({
-        providerId: AvailableWriteProviders.ethCompatible,
+        providerId,
         chainId: swapNetworkItem.from as number,
       }),
     );
@@ -261,7 +264,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   useProviderEffect(() => {
     setActualNetwork(
-      (swapNetworkItem.from as unknown as BlockchainNetworkId) === chainId,
+      (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
     );
   }, [chainId, swapNetworkItem]);
 

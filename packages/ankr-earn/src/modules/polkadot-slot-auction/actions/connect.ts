@@ -3,8 +3,6 @@ import { createAction } from 'redux-smart-actions';
 
 import { SlotAuctionSdk, TNetworkType } from 'polkadot';
 
-import { NotificationActions } from 'store/actions/NotificationActions';
-
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 import { fetchCrowdloanBalances } from './fetchCrowdloanBalances';
@@ -47,6 +45,7 @@ export const connect = createAction<RequestAction<IConnect, IConnect>>(
     },
     meta: {
       asMutation: false,
+      showNotificationOnError: true,
       onSuccess: (response, action, store) => {
         store.dispatchRequest(fetchPolkadotAccounts());
 
@@ -59,15 +58,6 @@ export const connect = createAction<RequestAction<IConnect, IConnect>>(
         );
 
         return response;
-      },
-      onError: (error, action, store) => {
-        store.dispatch(
-          NotificationActions.showNotification({
-            message: error.toString(),
-            severity: 'error',
-          }),
-        );
-        throw error;
       },
     },
   }),

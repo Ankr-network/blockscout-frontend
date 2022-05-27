@@ -8,19 +8,18 @@ import {
   FormRenderProps,
 } from 'react-final-form';
 
+import { t, tHTML } from 'common';
 import { useIsMDUp } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/components/ConnectWalletsModal';
-import { AuditedLabel } from 'modules/bridge/components/AuditedLabel';
-import { Quote } from 'modules/bridge/components/Quote';
+import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { featuresConfig } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { AuditedLabel } from 'modules/common/components/AuditedLabel';
+import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
@@ -28,6 +27,7 @@ import { Checkbox } from 'uiKit/Checkbox';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
+import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -282,7 +282,7 @@ export const BridgeMainView = (): JSX.Element => {
           </Button>
         )}
 
-        <AuditedLabel />
+        <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
 
         <OnChange name={EFieldName.token}>
           {value => {

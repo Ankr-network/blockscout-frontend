@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
 import { TCrowdloanStatus } from 'polkadot';
 
 import {
@@ -17,7 +18,7 @@ import {
 import { DEFAULT_FIXED, ZERO_ADDR } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
+import { RoutesConfig } from 'modules/polkadot-slot-auction/Routes';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
@@ -25,7 +26,6 @@ import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { IFetchCrowdloanBalancesItem } from '../../actions/fetchCrowdloanBalances';
 import { ICrowdloanByStatus } from '../../actions/fetchCrowdloansByStatus';
 import { fetchProjectsListCrowdloans } from '../../actions/fetchProjectsListCrowdloans';
-import { RoutesConfig } from '../../const';
 import {
   useCrowdloanBalances,
   useProjectsListCrowdloans,

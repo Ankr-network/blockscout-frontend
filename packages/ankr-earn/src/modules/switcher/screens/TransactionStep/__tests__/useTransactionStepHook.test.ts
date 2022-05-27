@@ -3,7 +3,10 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
+import { EEthereumNetworkId } from 'provider';
+
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 
@@ -18,11 +21,15 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
+  useAuth: jest.fn(),
+}));
+
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useConnectedData', () => ({
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
@@ -39,9 +46,13 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
     }));
 
     (useConnectedData as jest.Mock).mockImplementation(() => ({
-      chainId: 1,
+      chainId: EEthereumNetworkId.mainnet,
       address: 'address',
     }));
+
+    (useAuth as jest.Mock).mockReturnValue({
+      chainId: EEthereumNetworkId.mainnet,
+    });
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());
 

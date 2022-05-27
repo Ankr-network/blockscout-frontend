@@ -1,8 +1,8 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
@@ -41,7 +41,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={AVAX_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
@@ -50,20 +50,18 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Stake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        {featuresConfig.isActiveAVAXUnstaking && (
-          <GuardRoute
-            exact
-            availableNetworks={AVAX_STAKING_NETWORKS}
-            path={RoutesConfig.unstake.path}
-            providerId={AVALANCHE_WRITE_PROVIDER_ID}
-          >
-            <DefaultLayout>
-              <Unstake />
-            </DefaultLayout>
-          </GuardRoute>
-        )}
+        <GuardETHRoute
+          exact
+          availableNetworks={AVAX_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={AVALANCHE_WRITE_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Unstake />
+          </DefaultLayout>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

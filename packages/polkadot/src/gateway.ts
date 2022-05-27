@@ -2,13 +2,14 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import BigNumber from 'bignumber.js';
 import {
+  EActionStatuses,
   IClaim,
   ICrowdloanType,
-  TActionStatus,
   TActionType,
   TClaimStatus,
   TCrowdloanStatus,
   TNetworkType,
+  TPolkadotAddress,
 } from './entity';
 
 export class ApiGateway {
@@ -32,7 +33,7 @@ export class ApiGateway {
   }
 
   public async depositAddress(request: { network: TNetworkType }): Promise<{
-    address: string;
+    address: TPolkadotAddress;
   }> {
     const { data } = await this.api.post(
       `/v1alpha/polkadot/depositAddress`,
@@ -46,7 +47,7 @@ export class ApiGateway {
     extrinsic: string;
   }): Promise<{
     id: string;
-    status: TActionStatus;
+    status: EActionStatuses;
   }> {
     const { data } = await this.api.post(`/v1alpha/polkadot/deposit`, request);
     return data;
@@ -80,7 +81,7 @@ export class ApiGateway {
       timestamp: number;
       type: TActionType;
       amount: BigNumber;
-      status: TActionStatus;
+      status: EActionStatuses;
       id: string;
     }[]
   > {

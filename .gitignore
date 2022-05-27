@@ -11,3 +11,5 @@ yarn-error.log
 .idea
 coverage
 lerna-debug.log
+dist
+output

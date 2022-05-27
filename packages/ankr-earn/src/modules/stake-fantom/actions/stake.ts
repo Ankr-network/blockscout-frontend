@@ -7,18 +7,25 @@ import { IWeb3SendResult } from 'provider';
 
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
+import { RoutesConfig } from '../Routes';
+import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
 import { getCommonData } from './getCommonData';
 
+interface IStakeArgs {
+  amount: BigNumber;
+  token: TFtmSyntToken;
+}
+
 export const stake = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
-  [BigNumber]
->(`${ACTIONS_PREFIX}stake`, amount => ({
+  [IStakeArgs]
+>(`${ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
       const sdk = await FantomSDK.getInstance();
 
-      return sdk.stake(amount);
+      return sdk.stake(amount, token);
     })(),
   },
   meta: {
@@ -28,7 +35,14 @@ export const stake = createAction<
       dispatchRequest(getCommonData());
 
       if (response.data.transactionHash) {
-        dispatch(push(response.data.transactionHash));
+        dispatch(
+          push(
+            RoutesConfig.stakeStep.generatePath({
+              txHash: response.data.transactionHash,
+              tokenOut: token,
+            }),
+          ),
+        );
       }
 
       return response;

@@ -6,10 +6,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { mainTheme } from 'ui';
 import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { ChainsItem } from './ChainsItem';
+import BigNumber from 'bignumber.js';
 
 const chain = {
   isLoading: false,
-  totalRequests: '10000',
+  totalRequests: new BigNumber(10000),
   id: 'id',
   name: 'namenamenamename',
   icon: chainLogo,
@@ -21,7 +22,7 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
         <ChainsItem
-          totalRequests={chain.totalRequests}
+          totalRequests={chain.totalRequests.toString()}
           isLoading={chain.isLoading}
           logoSrc={chain.icon}
           name={chain.name}

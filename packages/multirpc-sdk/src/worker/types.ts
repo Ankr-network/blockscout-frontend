@@ -1,4 +1,9 @@
-import { UUID, Web3Address } from '../common';
+import { Tier, UUID, Web3Address } from '../common';
+
+export enum AccountStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
 
 export type BlockchainFeature = 'rpc' | 'ws';
 
@@ -30,7 +35,8 @@ export interface IImportJWTTokenResult {
   address: Web3Address;
   id: UUID;
   roles: number[];
-  tier: number;
+  tier: Tier;
+  // use this token for private urls
   token: string;
 }
 
@@ -54,7 +60,7 @@ export interface IPrivateEndpoint {
   id?: string;
   requestUrl: string;
   scheme: string;
-};
+}
 
 type ISO2CountryCode = string;
 
@@ -74,7 +80,7 @@ export interface IWorkerEndpoint {
   id: string;
   owner: string;
   user: string;
-};
+}
 
 export interface IWorkerGlobalStatus {
   uniqueVisitors: number;
@@ -88,7 +94,7 @@ export interface IWorkerGlobalStatus {
   dataCached: number;
   dataCachedHistory: Record<string, number>;
   countries: Record<string, ICountry>;
-};
+}
 
 export interface IWorkerNodesWeight {
   id: string;
@@ -97,7 +103,7 @@ export interface IWorkerNodesWeight {
   timestamp: number;
   height: number;
   score: number;
-};
+}
 
 export interface IWorkerTotalStats {
   count: number;
@@ -105,7 +111,7 @@ export interface IWorkerTotalStats {
     edgeResponseBytes: number;
     visits: number;
   };
-};
+}
 
 export interface IWorkerUserLocation {
   city: string;
@@ -114,7 +120,7 @@ export interface IWorkerUserLocation {
   id: string;
   name: string;
   timezone: string;
-};
+}
 
 export type RestrictedDomains = string[];
 

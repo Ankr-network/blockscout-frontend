@@ -1,19 +1,16 @@
-import { Button, ButtonProps } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import classNames from 'classnames';
+
 import { useStyles } from './LoadableButtonStyles';
 import { LoadableButtonLoader } from './LoadableButtonUtils';
+import { LoadableButtonProps } from './types';
 
-export interface LoadableButtonProps extends ButtonProps {
-  loading?: boolean;
-  loader?: JSX.Element;
-}
-
-export const LoadableButton = ({
+export const LoadableButton = <Element, Props>({
   loading,
   children,
   loader: _loader,
   ...rest
-}: LoadableButtonProps) => {
+}: LoadableButtonProps<Element, Props>) => {
   const classes = useStyles();
   const loader = _loader || <LoadableButtonLoader />;
 

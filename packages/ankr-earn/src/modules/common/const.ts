@@ -4,11 +4,11 @@ import { AvailableReadProviders } from 'provider';
 
 import packageJson from '../../../package.json';
 
-import { BlockchainNetworkId, Env } from './types';
+import { EEthereumNetworkId, Env } from './types';
 
-export const EARN_PATH = `${packageJson.homepage}/`;
-export const UNSTAKE_PATH = `${EARN_PATH}unstake/`;
-export const DOCS_LINK = 'https://docs.ankr.com/';
+export const STAKING_PATH = `${packageJson.homepage}/`;
+export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
+export const DOCS_LINK = 'https://www.ankr.com/docs/staking/overview/';
 export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
@@ -24,6 +24,8 @@ export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
+export const ZERO_EVENT_HASH =
+  '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
@@ -38,9 +40,15 @@ export const LITEPAPER_EN =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';
 export const LITEPAPER_CN =
   'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
+export const CROWDLOAN_LITEPAPER =
+  'https://stakefi.ankr.com/parachain-liquid-bonding/litepaper.pdf';
 
 export const BRIDGE_AUDIT_LINK =
-  'https://assets.ankr.com/earn/ankr_bridge_security_audit.pdf';
+  'https://assets.ankr.com/staking/ankr_bridge_security_audit.pdf';
+export const BNB_AUDIT_LINK =
+  'https://assets.ankr.com/staking/smart_contract_security_audit_bnb.pdf';
+export const FTM_AUDIT_LINK =
+  'https://assets.ankr.com/staking/smart_contract_security_audit_ftm.pdf';
 
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/uYaNu23Ww7',
@@ -62,49 +70,39 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveAVAXStaking: true,
-  isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
-  isActivePolkadotClaiming: false,
-  isActivePolkadotUnstaking: false,
-  isActivePolkadotWallet: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActivePolkadotStaking: currentEnv !== Env.Production,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-917 remove after completion
-  bridge: true,
   bridgeAnotherAddr: false,
-  maxStakeAmountBtn: false,
-  switcherBnb: currentEnv !== Env.Production,
-  stakeETH: currentEnv !== Env.Production,
-  // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
-  stakeAbnbc: true,
-  // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
-  bnbHistory: false,
+  // ! only for testing purpose
+  stakeETHWithoutClaim: currentEnv !== Env.Production,
+  stakeAFTMC: true,
+  bnbHistory: true,
+  showOldBanner: false,
+  aMATICcUnstakeEnabled: true,
+  isSplitedMATICHistory: true,
+  maticHistory: true,
+  avaxSwitcher: currentEnv !== Env.Production,
+  newBinancePool: currentEnv !== Env.Production,
+  dashboardNativeAmount: false,
 };
 
 export enum SupportedChainIDS {
-  // ETH Compatible
-  MAINNET = BlockchainNetworkId.mainnet,
-  GOERLI = BlockchainNetworkId.goerli,
-  AVAX = BlockchainNetworkId.avalanche,
-  AVAX_TESTNET = BlockchainNetworkId.avalancheTestnet,
-  BSC = BlockchainNetworkId.smartchain,
-  BSC_TESTNET = BlockchainNetworkId.smartchainTestnet,
-  FANTOM_OPERA = BlockchainNetworkId.fantom,
-  FANTOM_TESTNET = BlockchainNetworkId.fantomTestnet,
-  POLYGON = BlockchainNetworkId.polygon,
-
-  // Polkadot Compatible
-  DOT = BlockchainNetworkId.polkadot,
-  KSM = BlockchainNetworkId.kusama,
-  ROC = BlockchainNetworkId.rococo,
-  WND = BlockchainNetworkId.westend,
+  MAINNET = EEthereumNetworkId.mainnet,
+  GOERLI = EEthereumNetworkId.goerli,
+  AVAX = EEthereumNetworkId.avalanche,
+  AVAX_TESTNET = EEthereumNetworkId.avalancheTestnet,
+  BSC = EEthereumNetworkId.smartchain,
+  BSC_TESTNET = EEthereumNetworkId.smartchainTestnet,
+  FANTOM_OPERA = EEthereumNetworkId.fantom,
+  FANTOM_TESTNET = EEthereumNetworkId.fantomTestnet,
+  POLYGON = EEthereumNetworkId.polygon,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
-  // ETH Compatible
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',
   [SupportedChainIDS.AVAX]: 'https://snowtrace.io',
@@ -114,38 +112,32 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
-
-  // Polkadot Compatible
-  [SupportedChainIDS.DOT]: 'https://polkadot.subscan.io',
-  [SupportedChainIDS.KSM]: 'https://kusama.subscan.io',
-  [SupportedChainIDS.ROC]: 'https://rococo.subscan.io',
-  [SupportedChainIDS.WND]: 'https://westend.subscan.io',
 };
 
 export const ETH_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.mainnet
-    : BlockchainNetworkId.goerli;
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
 
 export const AVAX_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.avalanche
-    : BlockchainNetworkId.avalancheTestnet;
+    ? EEthereumNetworkId.avalanche
+    : EEthereumNetworkId.avalancheTestnet;
 
 export const BSC_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.smartchain
-    : BlockchainNetworkId.smartchainTestnet;
+    ? EEthereumNetworkId.smartchain
+    : EEthereumNetworkId.smartchainTestnet;
 
 export const FTM_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.fantom
-    : BlockchainNetworkId.fantomTestnet;
+    ? EEthereumNetworkId.fantom
+    : EEthereumNetworkId.fantomTestnet;
 
 export const POLYGON_NETWORK_BY_ENV =
   currentEnv === Env.Production
-    ? BlockchainNetworkId.polygon
-    : BlockchainNetworkId.smartchainTestnet;
+    ? EEthereumNetworkId.polygon
+    : EEthereumNetworkId.smartchainTestnet;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production

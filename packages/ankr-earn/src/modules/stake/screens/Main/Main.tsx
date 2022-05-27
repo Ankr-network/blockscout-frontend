@@ -1,25 +1,14 @@
 import { Box } from '@material-ui/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { useMemo } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { t } from 'common';
+
 import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
-import {
-  fetchValidatorsDetails,
-  IValidatorDetails,
-} from 'modules/metrics/actions/fetchValidatorsDetails';
-import { ValidatorName } from 'modules/metrics/const';
-import { fetchAPY as getAAVAXBAPY } from 'modules/stake-avax/actions/fetchAPY';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
-import { fetchAPY as getABNBBAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
-import { getAPY as getETHAPY } from 'modules/stake-eth/actions/getAPY';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
-import { getAPY as getAFTMBAPY } from 'modules/stake-fantom/actions/getAPY';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
-import { fetchAPY as getAMATICBAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
 import { Container } from 'uiKit/Container';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
@@ -30,116 +19,90 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
-import { FeatureItem } from './components/FeatureItem';
-import { FeatureLegacyItem } from './components/FeatureLegacyItem';
+import { FeatureItem, FeatureItemLegacy } from './components/FeatureItem';
 import { Features } from './components/Features';
-
-type ValidatorDetails = Record<
-  | ValidatorName.AVAX_VALIDATOR_NAME
-  | ValidatorName.BNB_VALIDATOR_NAME
-  | ValidatorName.ETH_VALIDATOR_NAME
-  | ValidatorName.FTM_VALIDATOR_NAME
-  | ValidatorName.POLYGON_VALIDATOR_NAME,
-  IValidatorDetails
->;
+import { useStakeMainScreen } from './hooks/useStakeMainScreen';
 
 export const Main = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
-
-  useProviderEffect(() => {
-    if (featuresConfig.stakeETH) dispatchRequest(getETHAPY());
-    if (featuresConfig.isActiveAVAXStaking) dispatchRequest(getAAVAXBAPY());
-    dispatchRequest(getABNBBAPY());
-    dispatchRequest(getAFTMBAPY());
-    dispatchRequest(getAMATICBAPY());
-    dispatchRequest(fetchValidatorsDetails());
-  }, [dispatchRequest]);
-
-  const { data: aAVAXbAPY } = useQuery({ type: getAAVAXBAPY });
-  const { data: aBNBbAPY } = useQuery({ type: getABNBBAPY });
-  const { data: aFTMbAPY } = useQuery({ type: getAFTMBAPY });
-  const { data: aMATICbAPY } = useQuery({ type: getAMATICBAPY });
-  const { data: ethAPY } = useQuery({ type: getETHAPY });
-
-  const { data: validatorsData } = useQuery({ type: fetchValidatorsDetails });
-
-  const validatorsDetails: ValidatorDetails | undefined = useMemo(
-    () =>
-      validatorsData?.reduce(
-        (obj, item) => ({ ...obj, [item.name]: item }),
-        {} as ValidatorDetails,
-      ),
-    [validatorsData],
-  );
+  const { onTrackEnterStakingFlow, metrics } = useStakeMainScreen();
 
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Features>
-          {featuresConfig.stakeETH ? (
+          <FeatureItem
+            apy={metrics && +metrics.eth.apy}
+            iconSlot={<EthIcon />}
+            mainHref={EthereumRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.ETH)}
+            stakedTvl={metrics?.eth.totalStaked}
+            title={t('features.ethereum')}
+            token={Token.ETH}
+          />
+
+          {featuresConfig.stakeETHWithoutClaim && (
             <FeatureItem
-              apy={ethAPY ?? undefined}
               iconSlot={<EthIcon />}
-              mainHref={EthereumRoutes.stake.generatePath()}
-              stakedTvl={validatorsDetails?.eth.totalStaked}
-              title={t('features.ethereum')}
+              mainHref={EthereumRoutes.stakeWithoutClaim.generatePath()}
+              moreHref={getStakingOverviewUrl(Token.ETH)}
+              title="ETH (testing only)"
               token={Token.ETH}
             />
-          ) : (
-            <FeatureLegacyItem
-              iconSlot={<EthIcon />}
-              mainHref={STAKE_LEGACY_LINKS.ETH}
-              title={t('features.ethereum')}
-            />
           )}
 
           <FeatureItem
-            apy={aMATICbAPY?.toNumber()}
+            apy={metrics && +metrics.matic.apy}
             iconSlot={<MaticIcon />}
             mainHref={PolygonRoutes.stake.generatePath()}
-            stakedTvl={validatorsDetails?.polygon.totalStaked}
+            moreHref={getStakingOverviewUrl(Token.MATIC)}
+            stakedTvl={metrics?.matic.totalStaked}
             title={t('features.polygon')}
             token={Token.MATIC}
+            onStakeClick={onTrackEnterStakingFlow(Token.MATIC)}
           />
 
           <FeatureItem
-            apy={aBNBbAPY?.toNumber()}
+            apy={metrics && +metrics.bnb.apy}
             iconSlot={<BNBIcon />}
             mainHref={BinanceRoutes.stake.generatePath()}
-            stakedTvl={validatorsDetails?.bnb.totalStaked}
+            moreHref={getStakingOverviewUrl(Token.BNB)}
+            stakedTvl={metrics?.bnb.totalStaked}
             title={t('features.binance')}
             token={Token.BNB}
+            onStakeClick={onTrackEnterStakingFlow(Token.BNB)}
           />
 
           <FeatureItem
-            apy={aFTMbAPY?.toNumber()}
+            apy={metrics && +metrics.ftm.apy}
             iconSlot={<FantomIcon />}
             mainHref={FantomRoutes.stake.generatePath()}
-            stakedTvl={validatorsDetails?.ftm.totalStaked}
+            moreHref={getStakingOverviewUrl(Token.FTM)}
+            stakedTvl={metrics?.ftm.totalStaked}
             title={t('features.fantom')}
             token={Token.FTM}
+            onStakeClick={onTrackEnterStakingFlow(Token.FTM)}
           />
 
-          {featuresConfig.isActiveAVAXStaking && (
-            <FeatureItem
-              apy={aAVAXbAPY?.toNumber()}
-              iconSlot={<AvaxIcon />}
-              mainHref={AvalancheRoutes.stake.generatePath()}
-              stakedTvl={validatorsDetails?.avax.totalStaked}
-              title={t('features.avalanche')}
-              token={Token.AVAX}
-            />
-          )}
+          <FeatureItem
+            apy={metrics && +metrics.avax.apy}
+            iconSlot={<AvaxIcon />}
+            mainHref={AvalancheRoutes.stake.generatePath()}
+            moreHref={getStakingOverviewUrl(Token.AVAX)}
+            stakedTvl={metrics?.avax.totalStaked}
+            title={t('features.avalanche')}
+            token={Token.AVAX}
+            onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
+          />
 
-          <FeatureLegacyItem
+          <FeatureItemLegacy
+            href={STAKE_LEGACY_LINKS.DOT}
             iconSlot={<DotIcon />}
-            mainHref={STAKE_LEGACY_LINKS.DOT}
             title={t('features.polkadot')}
           />
 
-          <FeatureLegacyItem
+          <FeatureItemLegacy
+            href={STAKE_LEGACY_LINKS.KSM}
             iconSlot={<KsmIcon />}
-            mainHref={STAKE_LEGACY_LINKS.KSM}
             title={t('features.ksm')}
           />
         </Features>

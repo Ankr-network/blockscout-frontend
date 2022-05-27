@@ -1,2 +1,2 @@
-export * from './Plan';
+export * from './PlanWrapper';
 export * from './Deposit';

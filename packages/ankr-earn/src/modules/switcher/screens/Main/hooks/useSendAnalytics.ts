@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitchToken';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { SWITCHER_FROM_TOKENS } from 'modules/switcher/const';

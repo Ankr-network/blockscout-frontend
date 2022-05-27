@@ -1,9 +1,10 @@
 import { Box, ButtonBase } from '@material-ui/core';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { t } from 'common';
+
 import { SupportedChainIDS } from 'modules/common/const';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
-import { t } from 'modules/i18n/utils/intl';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
 import { Tooltip } from 'uiKit/Tooltip';

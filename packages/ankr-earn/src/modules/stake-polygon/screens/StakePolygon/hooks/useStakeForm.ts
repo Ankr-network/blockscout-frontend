@@ -4,40 +4,49 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableMatic } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMatic';
-import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import {
   fetchStats,
   IFetchStatsResponseData,
 } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
+import { TMaticSyntToken } from 'modules/stake-polygon/types';
+import { calcTotalAmount } from 'modules/stake-polygon/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 
+import { useSelectedToken } from './useSelectedToken';
+
 interface IUseStakeFormData {
-  amount: ReactText;
-  apy: BigNumber;
+  amount: BigNumber;
+  totalAmount: BigNumber;
   isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
-  handleFormChange: (values: IStakeFormPayload) => void;
+  tokenIn: string;
+  tokenOut: string;
+  aMATICcRatio: BigNumber;
+  handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
+  onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
-  const [amount, setAmount] = useState<ReactText>('');
+  const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
+  const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const dispatchRequest = useDispatchRequest();
   const { loading: isStakeLoading } = useMutation({ type: stake });
@@ -48,7 +57,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   } = useQuery({
     type: fetchStats,
   });
-  const { data: apyData } = useQuery({ type: fetchAPY });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -56,14 +64,34 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const stakableMATICData = useStakableMatic();
 
-  const handleFormChange = (values: IStakeFormPayload) => {
-    setAmount(values.amount || '');
+  const aMATICcRatio = fetchStatsData?.aMATICcRatio;
+
+  const handleFormChange = (
+    { amount: formAmount }: IStakeFormPayload,
+    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
+    invalid: boolean,
+  ) => {
+    setIsError(invalid);
+    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
+
+  const totalAmount = useMemo(() => {
+    if (isError || stakableMATICData.balance.isLessThan(amount)) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount: new BigNumber(amount),
+      balance: stakableMATICData.balance,
+      aMATICcRatio,
+    });
+  }, [aMATICcRatio, amount, selectedToken, stakableMATICData.balance, isError]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const polygonSDK = await PolygonSDK.getInstance();
-    const amaticbBalance = await polygonSDK.getAMaticbBalance();
+    const amaticbBalance = await polygonSDK.getABBalance();
 
     trackStake({
       address,
@@ -78,23 +106,34 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   const handleSubmit = (values: IStakeSubmitPayload): void => {
-    dispatchRequest(stake({ amount: new BigNumber(values.amount) })).then(
-      ({ error }) => {
-        if (!error) {
-          sendAnalytics();
-        }
-      },
-    );
+    dispatchRequest(
+      stake({
+        amount: new BigNumber(values.amount),
+        token: selectedToken,
+      }),
+    ).then(({ error }) => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
+  };
+
+  const onTokenSelect = (token: TMaticSyntToken) => () => {
+    handleTokenSelect(token);
   };
 
   return {
     amount,
-    apy: apyData ?? ZERO,
+    totalAmount,
     handleFormChange,
     handleSubmit,
+    onTokenSelect,
     isStakeLoading,
     isFetchStatsLoading,
     fetchStatsData,
     fetchStatsError,
+    tokenIn: Token.MATIC,
+    tokenOut: selectedToken,
+    aMATICcRatio: aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO,
   };
 };

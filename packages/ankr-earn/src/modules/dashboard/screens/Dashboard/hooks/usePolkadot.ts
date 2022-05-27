@@ -2,9 +2,8 @@ import { resetRequests } from '@redux-requests/core';
 
 import { AvailableWriteProviders } from 'provider';
 
-import { useConnectedData } from 'modules/auth/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchTxHistory } from 'modules/stake-polkadot/actions/fetchTxHistory';
@@ -13,9 +12,6 @@ import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-/**
- *  TODO Please to remove all flags after the release (Polkadot)
- */
 export const usePolkadot = (): void => {
   const dispatch = useAppDispatch();
 
@@ -26,30 +22,26 @@ export const usePolkadot = (): void => {
   // Polkadot
   useProviderEffect(
     () => {
-      if (featuresConfig.isActivePolkadotClaiming) {
-        dispatch(
-          resetRequests(
-            getPolkadotResetRequests([
-              fetchETHTokenClaimableBalance.toString(),
-            ]),
-          ),
-        );
+      dispatch(
+        resetRequests(
+          getPolkadotResetRequests([fetchETHTokenClaimableBalance.toString()]),
+        ),
+      );
 
-        if (typeof address !== 'string') {
-          return;
-        }
-
-        (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach(
-          (network): void => {
-            dispatch(
-              fetchETHTokenClaimableBalance({
-                address,
-                network,
-              }),
-            );
-          },
-        );
+      if (typeof address !== 'string') {
+        return;
       }
+
+      (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach(
+        (network): void => {
+          dispatch(
+            fetchETHTokenClaimableBalance({
+              address,
+              network,
+            }),
+          );
+        },
+      );
     },
     [address, dispatch, fetchETHTokenClaimableBalance],
     AvailableWriteProviders.polkadotCompatible,
@@ -57,21 +49,17 @@ export const usePolkadot = (): void => {
 
   // ETH
   useProviderEffect(() => {
-    if (featuresConfig.isActivePolkadotUnstaking) {
-      dispatch(
-        resetRequests(
-          getPolkadotResetRequests([
-            fetchETHTokenBalance.toString(),
-            fetchTxHistory.toString(),
-          ]),
-        ),
-      );
+    dispatch(
+      resetRequests(
+        getPolkadotResetRequests([
+          fetchETHTokenBalance.toString(),
+          fetchTxHistory.toString(),
+        ]),
+      ),
+    );
 
-      (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach(
-        (network): void => {
-          dispatch(fetchETHTokenBalance(network));
-        },
-      );
-    }
+    (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach((network): void => {
+      dispatch(fetchETHTokenBalance(network));
+    });
   }, [dispatch, fetchETHTokenBalance, fetchTxHistory]);
 };

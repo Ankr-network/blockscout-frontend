@@ -1,7 +1,8 @@
 import { Box, SvgIcon } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { BlockchainNetworkId } from 'provider';
+import { t } from 'common';
+import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import {
@@ -9,7 +10,6 @@ import {
   DashboardCardSkeleton,
 } from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import { ReactComponent as ExclamationIcon } from './assets/exclamation-mark.svg';
@@ -21,7 +21,7 @@ interface IUnclaimedAssetProps {
   claimToken?: string;
   claimLink: string;
   amount?: BigNumber;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   network?: string;
 }
 export const UnclaimedAsset = ({

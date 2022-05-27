@@ -3,14 +3,17 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult, AvailableWriteProviders } from 'provider';
+import { IWeb3SendResult } from 'provider';
 
-import { EthSDK } from 'modules/api/EthSDK';
-import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { AvailableSwitchNetwork } from '../const';
+import { SwitcherSDK } from '../api/SwitcherSDK';
+import {
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+  SWITCHER_TO_TOKENS,
+} from '../const';
 
 import { getSwitcherData } from './getSwitcherData';
 
@@ -19,88 +22,96 @@ export interface ISwapAssetsArgs {
   from: Token;
   to: Token;
   ratio: BigNumber;
+  chainId: AvailableSwitchNetwork;
 }
+
+interface RequestError extends Error {
+  code?: number;
+}
+
+const METAMASK_USER_REJECT_ERROR_CODE = 4001;
+
+const onError = (error: RequestError) => {
+  const [message] = error.message.split('\n');
+
+  throw error.code !== METAMASK_USER_REJECT_ERROR_CODE
+    ? new Error(message || error.message)
+    : new Error('');
+};
 
 export const swapAssets = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [ISwapAssetsArgs]
->('switcher/swapAssets', ({ from, to, amount, ratio }: ISwapAssetsArgs) => ({
-  request: {
-    promise: async () => {
-      const sdk = await EthSDK.getInstance();
+>(
+  'switcher/swapAssets',
+  ({ from, to, amount, ratio, chainId }: ISwapAssetsArgs) => ({
+    request: {
+      promise: async () => {
+        const sdk = await SwitcherSDK.getInstance();
 
-      if (from === Token.aETHb) {
-        const inputValue = new BigNumber(amount)
-          .multipliedBy(ratio)
-          .dividedBy(ETH_SCALE_FACTOR)
-          .decimalPlaces(18, BigNumber.ROUND_HALF_DOWN)
-          .toString(10);
+        const isCertificate = SWITCHER_TO_TOKENS.includes(from);
+        const params = {
+          amount: new BigNumber(amount),
+          chainId,
+          token: from as AvailableSwitcherToken,
+        };
 
-        const result = await sdk.unlockShares({
-          amount: inputValue,
-        });
+        const result = await (isCertificate
+          ? sdk.lockShares(params)
+          : sdk.unlockShares({ ...params, ratio }));
 
         return { ...result, from, to };
-      }
-
-      const result = await sdk.lockShares({
-        amount,
-      });
-
-      return { ...result, from, to };
+      },
     },
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-    onRequest: withStore,
-    getData: data => data,
-    onSuccess: async (response, _action, store) => {
-      const {
-        transactionHash,
-        from: optionFrom,
-        to: optionTo,
-      } = response.data || {};
+    meta: {
+      asMutation: true,
+      showNotificationOnError: false,
+      onRequest: withStore,
+      onError,
+      onSuccess: async (response, _action, store) => {
+        const {
+          transactionHash,
+          from: optionFrom,
+          to: optionTo,
+        } = response.data || {};
 
-      if (transactionHash && optionFrom && optionTo) {
-        store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
-      }
+        if (transactionHash && optionFrom && optionTo) {
+          store.dispatch(push(`${optionFrom}/${optionTo}/${transactionHash}`));
+        }
 
-      store.dispatchRequest(
-        getSwitcherData({
-          providerId: AvailableWriteProviders.ethCompatible,
-        }),
-      );
+        store.dispatchRequest(getSwitcherData({ chainId, token: optionFrom }));
 
-      return response;
+        return response;
+      },
     },
-  },
-}));
+  }),
+);
 
 export interface IApproveArgs {
   chainId: AvailableSwitchNetwork;
+  token: AvailableSwitcherToken;
 }
 
 export const approve = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
->('switcher/approve', ({ chainId }: IApproveArgs) => ({
+>('switcher/approve', ({ chainId, token }: IApproveArgs) => ({
   request: {
     promise: async () => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.approveAETHCForAETHB();
+      return sdk.approve({ chainId, token });
     },
     chainId,
   },
   meta: {
     asMutation: true,
-    showNotificationOnError: true,
+    showNotificationOnError: false,
     onRequest: withStore,
-    getData: data => data,
+    onError,
     onSuccess: async (response, _action, store) => {
       await response.data?.receiptPromise;
 
-      store.dispatchRequest(getSwitcherData({ chainId }));
+      store.dispatchRequest(getSwitcherData({ chainId, token }));
 
       return response;
     },

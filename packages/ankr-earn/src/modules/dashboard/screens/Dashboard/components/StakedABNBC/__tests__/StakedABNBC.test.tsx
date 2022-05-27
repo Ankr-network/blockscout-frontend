@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -36,7 +36,7 @@ jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   const defaultStakedBNBHookData: IStakedABNBCData = {
     amount: new BigNumber(1),
-    chainId: BlockchainNetworkId.smartchainTestnet,
+    chainId: EEthereumNetworkId.smartchainTestnet,
     network: 'BSC',
     stakeLink: 'stake',
     isLoading: false,
@@ -46,6 +46,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     token: Token.aBNBc,
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
+    isPendingUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
     onAddTokenToWallet: jest.fn(),
   };
@@ -55,10 +56,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    txHistory: null,
-    pendingUnstakeHistory: [],
-    transactionHistory: {
+    pendingUnstakeHistoryABNBB: [],
+    pendingUnstakeHistoryABNBC: [],
+    transactionHistoryABNBB: {
       token: Token.aBNBb,
+      staked: [],
+      unstaked: [],
+    },
+    transactionHistoryABNBC: {
+      token: Token.aBNBc,
       staked: [],
       unstaked: [],
     },

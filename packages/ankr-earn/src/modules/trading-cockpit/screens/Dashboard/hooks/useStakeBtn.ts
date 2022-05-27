@@ -1,6 +1,7 @@
-import { featuresConfig, STAKEFI_LINK } from 'modules/common/const';
+import { t } from 'common';
+
+import { STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
@@ -9,7 +10,6 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
 
 const STAKEFI_EHT_STAKE_URL = `${STAKEFI_LINK}/ETH`;
-const STAKEFI_AVAX_STAKE_URL = `${STAKEFI_LINK}/AVAX`;
 
 interface IUseStakeBtn {
   href: string;
@@ -55,26 +55,22 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
           btnText: unstakeText,
           href: defaultHref,
           disabled: true,
-          tooltip: t('trading-cockpit.eth-unstake-err'),
+          tooltip: t('stake-ethereum.unstake-tooltip'),
         },
         [AvailableTokens.aETHc]: {
           btnText: unstakeText,
           href: defaultHref,
           disabled: true,
-          tooltip: t('trading-cockpit.eth-unstake-err'),
+          tooltip: t('stake-ethereum.unstake-tooltip'),
         },
         [AvailableTokens.AVAX]: {
           btnText: stakeText,
-          href: featuresConfig.isActiveAVAXStaking
-            ? StakeAvalancheRoutes.stake.generatePath()
-            : STAKEFI_AVAX_STAKE_URL,
+          href: StakeAvalancheRoutes.stake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.aAVAXb]: {
           btnText: unstakeText,
-          href: featuresConfig.isActiveAVAXUnstaking
-            ? StakeAvalancheRoutes.unstake.generatePath()
-            : STAKEFI_AVAX_STAKE_URL,
+          href: StakeAvalancheRoutes.unstake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.FTM]: {

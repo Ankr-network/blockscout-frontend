@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
@@ -8,7 +9,6 @@ import {
   getShortTxHash,
   getExtraShortStr,
 } from 'modules/common/utils/getShortStr';
-import { t } from 'modules/i18n/utils/intl';
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 
 import { IWalletItem } from '../../hooks/useAuthWallets';
@@ -25,7 +25,7 @@ interface IConnectedWalletsButtonProps {
   onClick: () => void;
 }
 
-const getAddressData = (addresses: TAddresses): IAddress => {
+export const getAddressData = (addresses: TAddresses): IAddress => {
   const data = addresses.find(address => address.isActive);
 
   return typeof data !== 'undefined' ? data : addresses[0];

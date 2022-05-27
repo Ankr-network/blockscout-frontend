@@ -33,10 +33,15 @@ export const getTxEventsHistoryGroup = async ({
     timestamp: block.timestamp as number,
   }));
 
+  const safeFromWei = (value: string | number): BigNumber => {
+    const integerAmount = new BigNumber(value).integerValue().toString();
+    return new BigNumber(web3.utils.fromWei(integerAmount));
+  };
+
   return rawData
     .sort((a, b) => b.timestamp - a.timestamp)
     .map(({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
-      txAmount: new BigNumber(web3.utils.fromWei(amount)),
+      txAmount: safeFromWei(amount),
       txDate: new Date(timestamp * 1_000),
       txHash: transactionHash,
       txType: event,

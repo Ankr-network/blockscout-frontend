@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { useStyles } from './useStyles';
 import { Logo } from '../Logo';
@@ -17,7 +18,10 @@ export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
     <header className={classNames(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         <Logo />
-        <ConnectButton isMobile />
+        <div className={classes.buttons}>
+          <AccountDetailsButton isMobile />
+          <ConnectButton isMobile />
+        </div>
       </Container>
     </header>
   );

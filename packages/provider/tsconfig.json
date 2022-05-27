@@ -1,16 +1,4 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "declaration": true,
-    "declarationMap": true,
-    "composite": true,
-    "outDir": "out"
-  },
-  "include": ["."],
-  "exclude": [
-    "node_modules",
-    "out",
-    "**/*.test.*"
-  ],
-  "references": []
+  "extends": "@ankr.com/infra/tsconfig.common.json",
+  "include": ["./typings/*.d.ts", "index.ts",  "./**/*.ts", "./**/*.tsx"]
 }

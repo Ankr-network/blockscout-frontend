@@ -3,11 +3,11 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { number, object } from 'yup';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
-import { switchNetwork } from 'modules/auth/actions/switchNetwork';
+import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
-import { t } from 'modules/i18n/utils/intl';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
 
@@ -69,11 +69,13 @@ export const useSwitcherForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(approve({ chainId })).then(response => {
-      setTxHash(response.data?.transactionHash ?? '');
-      setTxError(response.error ?? '');
+    dispatchRequest(approve({ chainId, token: from })).then(response => {
+      if (response.error) {
+        setTxHash(response.data?.transactionHash ?? '');
+        setTxError(response.error.message ?? response.error);
+      }
     });
-  }, [chainId, dispatchRequest]);
+  }, [chainId, from, dispatchRequest]);
 
   const calculateFeeAndTotal = useCallback(
     ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {
@@ -105,24 +107,17 @@ export const useSwitcherForm = ({
   const handleSwap = useCallback(
     async amount => {
       await dispatchRequest(
-        swapAssets({
-          amount,
-          ratio,
-          from,
-          to,
-        }),
+        swapAssets({ amount, ratio, from, to, chainId }),
       ).then(response => {
         if (response.error) {
           setTxHash(response.data?.transactionHash ?? '');
-          setTxError(response.error);
+          setTxError(response.error.message ?? response.error);
         } else {
-          onSuccessSwap({
-            amount,
-          });
+          onSuccessSwap({ amount });
         }
       });
     },
-    [ratio, from, to, dispatchRequest, onSuccessSwap],
+    [chainId, ratio, from, to, dispatchRequest, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {

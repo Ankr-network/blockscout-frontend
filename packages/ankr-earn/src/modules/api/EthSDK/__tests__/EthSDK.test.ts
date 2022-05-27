@@ -12,7 +12,7 @@ jest.mock('modules/api/ProviderManagerSingleton', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
-describe('ankr-earn/src/modules/api/EthSDK', () => {
+describe('modules/api/EthSDK', () => {
   const ethAmount = '8';
   const timestamp = Math.floor(+new Date() / 1000);
 
@@ -214,10 +214,10 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       claimableAETHB,
       claimableAETHC,
     ] = await Promise.all([
-      sdk.getAethcRatio(),
-      sdk.getAethcBalance(),
-      sdk.getAethbBalance(),
-      sdk.getAllowance(),
+      sdk.getACRatio(),
+      sdk.getACBalance(),
+      sdk.getABBalance(),
+      sdk.getACAllowance(),
       sdk.getEthBalance(),
       sdk.getClaimable(Token.aETHb),
       sdk.getClaimable(Token.aETHc),
@@ -267,7 +267,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.lockShares({
-      amount: '1',
+      amount: new BigNumber(1),
     });
 
     const {
@@ -297,7 +297,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
     const sdk = await EthSDK.getInstance();
 
     const result = await sdk.unlockShares({
-      amount: '1',
+      amount: new BigNumber(1),
     });
 
     const {
@@ -330,7 +330,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB();
+    const result = await sdk.approveACForAB();
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
@@ -356,7 +356,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
 
     const sdk = await EthSDK.getInstance();
 
-    const result = await sdk.approveAETHCForAETHB(ZERO);
+    const result = await sdk.approveACForAB(ZERO);
 
     expect(result.transactionHash).toBe('hash');
     expect(result.receiptPromise).toStrictEqual({});
@@ -418,7 +418,7 @@ describe('ankr-earn/src/modules/api/EthSDK', () => {
       txHash: 'hash1',
       txType: 'event1',
     });
-    expect(completedAETHB).toHaveLength(14);
+    expect(completedAETHB).toHaveLength(4);
     expect(completedAETHC).toHaveLength(0);
     expect(totalPending).toStrictEqual(ZERO);
   });

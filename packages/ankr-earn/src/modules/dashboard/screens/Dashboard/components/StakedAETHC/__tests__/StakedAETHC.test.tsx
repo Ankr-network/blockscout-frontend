@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { BlockchainNetworkId } from 'provider';
+import { EEthereumNetworkId } from 'provider';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 
@@ -30,7 +30,7 @@ jest.mock('../../StakedTokens/hooks/ETH/useStakedTxHistoryETH', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
   const defaultStakedAETHCHookData: IStakedAETHCData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
-    chainId: BlockchainNetworkId.goerli,
+    chainId: EEthereumNetworkId.goerli,
     pendingValue: ZERO,
     network: 'Ethereum Mainnet',
     tradeLink: '/trade',
@@ -93,5 +93,17 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
 
     const historyDialog = await screen.findByTestId('history-dialog');
     expect(historyDialog).toBeInTheDocument();
+  });
+
+  test('unstake should be with custom tooltip', async () => {
+    render(
+      <MemoryRouter>
+        <StakedAETHC />
+      </MemoryRouter>,
+    );
+
+    const unstakeTitleBox = await screen.findByTitle(/during phase/);
+
+    expect(unstakeTitleBox).toBeInTheDocument();
   });
 });

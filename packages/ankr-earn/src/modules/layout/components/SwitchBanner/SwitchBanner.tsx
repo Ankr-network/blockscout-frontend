@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { Container } from 'uiKit/Container';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';

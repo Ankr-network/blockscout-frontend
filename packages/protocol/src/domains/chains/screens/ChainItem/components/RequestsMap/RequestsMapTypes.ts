@@ -1,4 +1,4 @@
-import { Country } from 'domains/chains/actions/fetchChainDetails';
+import { Country } from 'domains/chains/actions/fetchChainTimeframeData';
 
 export interface RequestsMapProps {
   countries: Country;

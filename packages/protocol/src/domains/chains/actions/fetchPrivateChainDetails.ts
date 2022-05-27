@@ -1,36 +1,34 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
+import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
+import { getQuery, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
-import { fetchPrivateChains } from './fetchPrivateChains';
 
 export const fetchPrivateChainDetails = createSmartAction<
-  RequestAction<any, IApiChain>
+  RequestAction<null, IApiChain>
 >('chains/fetchPrivateChainDetails', (chainId: string) => ({
   request: {
     promise: (async () => null)(),
   },
   meta: {
     asMutation: false,
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
+    onRequest: (_request, _action, store) => {
       return {
         promise: (async (): Promise<IApiChain> => {
-          const { data: chains } = await store.dispatchRequest(
-            fetchPrivateChains(),
+          const { data: privateChains } = getQuery(store.getState(), {
+            type: fetchPrivateChains.toString(),
+            action: fetchPrivateChains,
+          });
+
+          const privateChainDetails = privateChains.find(
+            item => item.id === chainId,
           );
 
-          const chain = chains?.find(item => item.id === chainId);
-
-          if (!chain) {
+          if (!privateChainDetails) {
             throw new Error('ChainId not found');
           }
 
-          return chain;
+          return privateChainDetails;
         })(),
       };
     },

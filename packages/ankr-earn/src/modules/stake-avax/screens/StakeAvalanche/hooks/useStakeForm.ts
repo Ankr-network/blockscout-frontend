@@ -1,21 +1,29 @@
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import { resetRequests } from '@redux-requests/core';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
-import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
+import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { stake } from '../../../actions/stake';
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import {
   IUseFetchStatsData,
   useFetchStats,
@@ -26,22 +34,29 @@ interface IUseStakeFormArgs {
 }
 
 interface IUseStakeFormData {
-  amount: number;
-  fetchAPYData: BigNumber;
+  amount: BigNumber;
+  stakeGasFee: BigNumber;
+  totalAmount: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
-  handleFormChange: (values: IStakeFormPayload) => void;
+  isStakeGasLoading: boolean;
+  handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
 }
 
 export const useStakeForm = ({
   openSuccessModal,
 }: IUseStakeFormArgs): IUseStakeFormData => {
+  const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+
+  const { data: stakeGasFeeData, loading: isStakeGasLoading } = useQuery({
+    type: getStakeGasFee,
+  });
 
   const {
     error: fetchStatsError,
@@ -49,26 +64,42 @@ export const useStakeForm = ({
     stats: fetchStatsData,
   } = useFetchStats();
 
-  const fetchAPYData = useFetchAPY();
-
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
 
   const stakableAVAXData = useStakableAvax();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(ZERO);
 
-  const handleFormChange = ({ amount: value }: IStakeFormPayload): void => {
-    const rawAmount = new BigNumber(typeof value === 'string' ? value : '0');
-    const resultVal = rawAmount.isNaN() ? 0 : rawAmount.toNumber();
+  const totalAmount = useMemo(() => {
+    if (!fetchStatsData || fetchStatsData.avaxBalance.isLessThan(amount)) {
+      return ZERO;
+    }
 
-    setAmount(resultVal);
+    return new BigNumber(amount);
+  }, [fetchStatsData, amount]);
+
+  const handleFormChange = (
+    { amount: formAmount }: IStakeFormPayload,
+    invalid: boolean,
+  ): void => {
+    if (invalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (formAmount) {
+      const readyAmount = new BigNumber(formAmount);
+      dispatch(getStakeGasFee(readyAmount));
+    }
+
+    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
+
+  const debouncedOnChange = useDebouncedCallback(
+    handleFormChange,
+    INPUT_DEBOUNCE_TIME,
+  );
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-    const avalancheSDK = await AvalancheSDK.getInstance();
-    const aavaxbBalance = await avalancheSDK.getAAVAXBBalance();
 
     trackStake({
       address,
@@ -78,7 +109,7 @@ export const useStakeForm = ({
       tokenIn: Token.AVAX,
       tokenOut: Token.aAVAXb,
       prevStakedAmount: stakableAVAXData.balance,
-      synthBalance: aavaxbBalance,
+      synthBalance: fetchStatsData?.aAVAXbBalance ?? ZERO,
     });
   };
 
@@ -90,19 +121,21 @@ export const useStakeForm = ({
         sendAnalytics();
         openSuccessModal();
 
-        setAmount(0);
+        setAmount(ZERO);
       }
     });
   };
 
   return {
     amount,
-    fetchAPYData,
+    totalAmount,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
     isStakeLoading,
-    handleFormChange,
+    handleFormChange: debouncedOnChange,
+    stakeGasFee: stakeGasFeeData ?? ZERO,
+    isStakeGasLoading,
     handleSubmit,
   };
 };

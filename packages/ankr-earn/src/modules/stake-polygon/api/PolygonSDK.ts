@@ -7,7 +7,8 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -17,29 +18,52 @@ import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ApiGateway } from 'modules/api/gateway';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
+import { ISwitcher } from 'modules/api/switcher';
+import {
+  ETH_NETWORK_BY_ENV,
+  ETH_SCALE_FACTOR,
+  MAX_UINT256,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getAPY } from 'modules/stake/api/getAPY';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
   BLOCK_OFFSET,
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_READ_ID,
 } from '../const';
+import { TMaticSyntToken } from '../types';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
-import ABI_POLYGON_POOL from './contracts/polygonPool.json';
+import ABI_AMATICC from './contracts/aMATICc.json';
+import ABI_POLYGON_POOL from './contracts/PolygonPoolV3.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
 enum EPolygonPoolEvents {
   MaticClaimPending = 'MaticClaimPending',
-  StakePending = 'StakePending',
+  StakePendingV2 = 'StakePendingV2',
+  StakeAndClaimBonds = 'stakeAndClaimBonds',
+  StakeAndClaimCerts = 'stakeAndClaimCerts',
+  IsRebasing = 'IsRebasing',
+  TokensBurned = 'TokensBurned',
 }
 
 export enum EPolygonPoolEventsMap {
-  MaticClaimPending = 'STAKE_ACTION_UNSTAKED',
-  StakePending = 'STAKE_ACTION_STAKED',
+  Unstaking = 'STAKE_ACTION_UNSTAKED',
+  Staking = 'STAKE_ACTION_STAKED',
+}
+
+interface IEventsBatch {
+  stakeRawEvents: EventData[];
+  unstakeRawEvents: EventData[];
+  ratio: BigNumber;
+}
+
+interface IPendingData {
+  pendingAMATICB: BigNumber;
+  pendingAMATICC: BigNumber;
 }
 
 export interface IGetTxData {
@@ -60,8 +84,10 @@ export interface ITxEventsHistoryGroupItem {
 }
 
 export interface ITxEventsHistoryData {
-  completed: TTxEventsHistoryGroupData;
-  pending: TTxEventsHistoryGroupData;
+  completedAMATICB: TTxEventsHistoryGroupData;
+  completedAMATICC: TTxEventsHistoryGroupData;
+  pendingAMATICB: TTxEventsHistoryGroupData;
+  pendingAMATICC: TTxEventsHistoryGroupData;
 }
 
 interface IPolygonSDKProviders {
@@ -78,9 +104,17 @@ interface IGetPastEvents {
   filter?: Filter;
 }
 
+interface ILockSharesArgs {
+  amount: BigNumber;
+}
+
+interface IUnlockSharesArgs {
+  amount: BigNumber;
+}
+
 const ALLOWANCE_RATE = 5;
 
-export class PolygonSDK {
+export class PolygonSDK implements ISwitcher {
   private static instance?: PolygonSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -152,7 +186,7 @@ export class PolygonSDK {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
 
-    return [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
       chainId,
     );
   }
@@ -174,6 +208,15 @@ export class PolygonSDK {
     return new web3.eth.Contract(
       ABI_AMATICB as AbiItem[],
       contractConfig.aMaticbToken,
+    );
+  }
+
+  private static getAMATICCTokenContract(web3: Web3): Contract {
+    const { contractConfig } = configFromEnv();
+
+    return new web3.eth.Contract(
+      ABI_AMATICC as AbiItem[],
+      contractConfig.aMaticCToken,
     );
   }
 
@@ -202,10 +245,11 @@ export class PolygonSDK {
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
       case EPolygonPoolEvents.MaticClaimPending:
-        return EPolygonPoolEventsMap.MaticClaimPending;
+      case EPolygonPoolEvents.TokensBurned:
+        return EPolygonPoolEventsMap.Unstaking;
 
-      case EPolygonPoolEvents.StakePending:
-        return EPolygonPoolEventsMap.StakePending;
+      case EPolygonPoolEvents.StakePendingV2:
+        return EPolygonPoolEventsMap.Staking;
 
       default:
         return null;
@@ -292,7 +336,7 @@ export class PolygonSDK {
     return this.convertFromWei(balance);
   }
 
-  public async getAMaticbBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
@@ -304,15 +348,109 @@ export class PolygonSDK {
     return this.convertFromWei(balance);
   }
 
-  public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
+  public async getACBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const balance = await aMaticCTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  public async getACRatio(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const ratio = await aMaticCTokenContract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
+  }
+
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const { contractConfig } = configFromEnv();
+
+    const allowance = await aMaticCTokenContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || contractConfig.aMaticbToken,
+      )
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+
+    const data = aMaticCTokenContract.methods
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticCToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async lockShares({
+    amount,
+  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
     const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
 
-    return getAPY({
-      tokenContract: aMaticbTokenContract,
-      web3,
-      batchSize: 12,
-      blocksDepth: 3000,
-    });
+    const data = aMaticbTokenContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({
+    amount,
+  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const { contractConfig } = configFromEnv();
+    const web3 = this.writeProvider.getWeb3();
+    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+
+    const data = aMaticbTokenContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aMaticbToken,
+      { data, estimate: true },
+    );
   }
 
   public async getPendingClaim(): Promise<BigNumber> {
@@ -325,6 +463,57 @@ export class PolygonSDK {
     return this.convertFromWei(pending);
   }
 
+  public async getPendingData(): Promise<IPendingData> {
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
+    let totalUnstakingValue = await this.getPendingClaim();
+
+    let pendingRawEvents: EventData[] = [];
+
+    if (totalUnstakingValue.isGreaterThan(ZERO)) {
+      const unstakePendingReverse: EventData[] = unstakeRawEvents.reverse();
+
+      for (let i = 0; i < unstakePendingReverse.length; i += 1) {
+        const unstakeEventItem = unstakePendingReverse[i];
+        const isCert = !unstakeEventItem.returnValues.isRebasing;
+
+        const itemAmount = isCert
+          ? this.convertFromWei(unstakeEventItem.returnValues.amount).dividedBy(
+              ratio,
+            )
+          : this.convertFromWei(unstakeEventItem.returnValues.amount);
+
+        totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
+
+        pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
+
+        if (totalUnstakingValue.isZero()) {
+          break;
+        }
+      }
+    }
+
+    const pendingAMATICBEvents = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingAMATICCEvents = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+
+    return {
+      pendingAMATICB: pendingAMATICBEvents.reduce(
+        (sum, item) => sum.plus(this.convertFromWei(item.returnValues.amount)),
+        ZERO,
+      ),
+      pendingAMATICC: pendingAMATICCEvents.reduce(
+        (sum, item) =>
+          sum.plus(
+            this.convertFromWei(item.returnValues.amount).multipliedBy(ratio),
+          ),
+        ZERO,
+      ),
+    };
+  }
+
   public async getMinimumStake(): Promise<BigNumber> {
     const polygonPoolContract = await this.getPolygonPoolContract();
 
@@ -333,7 +522,7 @@ export class PolygonSDK {
     return this.convertFromWei(minStake);
   }
 
-  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+  private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
     const latestBlockNumber = await this.readProvider
@@ -341,11 +530,11 @@ export class PolygonSDK {
       .eth.getBlockNumber();
     const startBlock = latestBlockNumber - BLOCK_OFFSET;
 
-    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
+    const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.StakePending,
+        eventName: EPolygonPoolEvents.StakePendingV2,
         startBlock,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { staker: this.currentAccount },
@@ -353,12 +542,24 @@ export class PolygonSDK {
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.MaticClaimPending,
+        eventName: EPolygonPoolEvents.TokensBurned,
         startBlock,
         rangeStep: MAX_BLOCK_RANGE,
-        filter: { claimer: this.currentAccount },
+        filter: { staker: this.currentAccount },
       }),
+      this.getACRatio(),
     ]);
+
+    return {
+      stakeRawEvents,
+      unstakeRawEvents,
+      ratio,
+    };
+  }
+
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const { stakeRawEvents, unstakeRawEvents, ratio } =
+      await this.getPoolEventsBatch();
 
     let pendingUnstakes = await this.getPendingClaim();
     let completedRawEvents: EventData[] = [];
@@ -369,9 +570,14 @@ export class PolygonSDK {
 
       for (let i = 0; i < unstakeRawEventsReverse.length; i += 1) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
-        const itemAmount = this.convertFromWei(
-          unstakeRawEventItem.returnValues.amount,
-        );
+        const isCert = !unstakeRawEventItem.returnValues.isRebasing;
+
+        const itemAmount = isCert
+          ? this.convertFromWei(
+              unstakeRawEventItem.returnValues.amount,
+            ).dividedBy(ratio)
+          : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
+
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
@@ -389,12 +595,40 @@ export class PolygonSDK {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const [completed, pending] = await Promise.all([
-      this.getTxEventsHistoryGroup(completedRawEvents),
-      this.getTxEventsHistoryGroup(pendingRawEvents),
-    ]);
+    const completedAMATICBEvents = completedRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const completedAMATICCEvents = completedRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
 
-    return { completed, pending };
+    const pendingAMATICBEvents = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingAMATICCEvents = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+
+    const [completedAMATICB, completedAMATICC, pendingAMATICB, pendingAMATICC] =
+      await Promise.all([
+        this.getTxEventsHistoryGroup(completedAMATICBEvents),
+        this.getTxEventsHistoryGroup(completedAMATICCEvents),
+        this.getTxEventsHistoryGroup(pendingAMATICBEvents),
+        this.getTxEventsHistoryGroup(pendingAMATICCEvents),
+      ]);
+
+    return {
+      completedAMATICB,
+      completedAMATICC: completedAMATICC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+      pendingAMATICB,
+      pendingAMATICC: pendingAMATICC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+    };
   }
 
   public async fetchTxData(txHash: string): Promise<IGetTxData> {
@@ -426,7 +660,19 @@ export class PolygonSDK {
     return receipt as TransactionReceipt | null;
   }
 
-  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
+  private getStakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'stakeAndClaimCerts';
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<{ txHash: string }> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -454,10 +700,14 @@ export class PolygonSDK {
         )
         .send({ from: this.currentAccount });
     }
+
+    const contractStakeMethod =
+      polygonPoolContract.methods[this.getStakeMethodName(token)];
+
     // 2. Do staking
-    const tx2 = await polygonPoolContract.methods
-      .stake(web3.utils.numberToHex(rawAmount.toString(10)))
-      .send({ from: this.currentAccount });
+    const tx2 = await contractStakeMethod(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+    ).send({ from: this.currentAccount });
 
     return { txHash: tx2.transactionHash };
   }
@@ -484,7 +734,20 @@ export class PolygonSDK {
     };
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  private getUnstakeMethodName(token: TMaticSyntToken) {
+    switch (token) {
+      case Token.aMATICc:
+        return 'unstakeCerts';
+
+      default:
+        return 'unstakeBonds';
+    }
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+  ): Promise<void> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -520,30 +783,32 @@ export class PolygonSDK {
     // Fetch fees here and make allowance one more time if required
     const { useBeforeBlock, signature } = await this.getUnstakeFee();
 
-    await polygonPoolContract.methods
-      .unstake(
-        web3.utils.numberToHex(rawAmount.toString(10)),
-        web3.utils.numberToHex(fee.toString(10)),
-        web3.utils.numberToHex(useBeforeBlock),
-        signature,
-      )
-      .send({ from: this.currentAccount });
+    const contractUnstake =
+      polygonPoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(
+      web3.utils.numberToHex(rawAmount.toString(10)),
+      web3.utils.numberToHex(fee.toString(10)),
+      web3.utils.numberToHex(useBeforeBlock),
+      signature,
+    ).send({ from: this.currentAccount });
   }
 
-  public async addAmaticbToWallet(): Promise<void> {
+  public async addTokenToWallet(token: TMaticSyntToken): Promise<boolean> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    await this.writeProvider.addTokenToWallet({
-      address: contractConfig.aMaticbToken,
-      symbol: Token.aMATICb,
+    return this.writeProvider.addTokenToWallet({
+      address:
+        token === Token.aMATICc
+          ? contractConfig.aMaticCToken
+          : contractConfig.aMaticbToken,
+      symbol: token,
       decimals: 18,
-      chainId: isMainnet
-        ? (BlockchainNetworkId.mainnet as number)
-        : (BlockchainNetworkId.goerli as number),
+      chainId: ETH_NETWORK_BY_ENV,
     });
   }
 }

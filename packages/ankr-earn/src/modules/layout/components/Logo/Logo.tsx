@@ -2,9 +2,9 @@ import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
-import { ReactComponent as AnkrLogoIcon } from '../../../../assets/img/logo.svg';
+import { ReactComponent as AnkrLogoIcon } from 'assets/img/logo.svg';
 
 import { useLogoStyles as useStyles } from './useLogoStyles';
 
@@ -21,7 +21,7 @@ export const Logo = ({ className = '', href }: ILogo): JSX.Element => {
       <AnkrLogoIcon className={classes.logo} />
 
       <Typography className={classes.title} color="primary" variant="body2">
-        {t('logo.earn')}
+        {t('logo.staking')}
       </Typography>
     </Link>
   );

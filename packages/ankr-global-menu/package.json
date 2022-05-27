@@ -1,6 +1,6 @@
 {
 	"name": "@ankr.com/global-menu",
-	"version": "1.3.3",
+	"version": "1.3.4",
 	"main": "./src/index.ts",
 	"types": "./src/index.ts",
 	"files": [
@@ -12,7 +12,7 @@
 		"format": "lint-staged",
 		"storybook": "start-storybook -p 6006 -s public",
 		"build-storybook": "build-storybook -s public",
-		"build": "yarn clean && tsc && rollup -c",
+		"build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build && rollup -c",
 		"prepublish": "node prepublish.js",
 		"postpublish": "node prepublish.js revert",
 		"prepack": "node prepublish.js",

@@ -1,0 +1,56 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
+
+import { t } from 'common';
+import { EEthereumNetworkId } from 'provider';
+
+import { watchAsset } from 'modules/bridge/actions/watchAsset';
+import { AvailableBridgeTokens } from 'modules/bridge/types';
+import {
+  ZERO,
+  SupportedChainIDS,
+  BSC_NETWORK_BY_ENV,
+} from 'modules/common/const';
+import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+
+export interface IStakedMaticData {
+  amount: BigNumber;
+  chainId: EEthereumNetworkId;
+  network: string;
+  isBalancesLoading: boolean;
+  isShowed: boolean;
+  onAddTokenClick: () => void;
+}
+
+export const useStakedBridgeAMATICCBSC = (): IStakedMaticData => {
+  const { data: statsData, loading: isBalancesLoading } = useQuery({
+    type: fetchAMATICCBridgedBSC,
+  });
+
+  const dispatchRequest = useDispatchRequest();
+
+  const network = t(`chain.${BSC_NETWORK_BY_ENV}`);
+  const amount = statsData ?? ZERO;
+
+  const chainId = BSC_NETWORK_BY_ENV;
+
+  const isShowed = !amount.isZero() || isBalancesLoading;
+
+  const onAddTokenClick = () => {
+    dispatchRequest(
+      watchAsset({
+        token: AvailableBridgeTokens.aMATICc,
+        chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
+      }),
+    );
+  };
+
+  return {
+    amount,
+    network,
+    isBalancesLoading,
+    isShowed,
+    onAddTokenClick,
+    chainId,
+  };
+};

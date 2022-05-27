@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
@@ -28,6 +29,7 @@ export const StakedAETHC = (): JSX.Element => {
     isBalancesLoading,
     walletName,
     address,
+    nativeAmount,
     handleAddTokenToWallet,
   } = useStakedAETHCData();
 
@@ -79,17 +81,17 @@ export const StakedAETHC = (): JSX.Element => {
         chainId={chainId}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aETHc}
         tokenAddress={contractConfig.aethContract}
         tradeLink={tradeLink}
+        unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         onAddStakingClick={onAddStakingClick}
         onAddTokenToWallet={handleAddTokenToWallet}
-        onHistoryBtnClick={
-          featuresConfig.stakeETH ? handleOpenHistoryDialog : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
         onTradeClick={onTradeClick}
       />
 

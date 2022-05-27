@@ -4,11 +4,18 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { AvailableWriteProviders } from 'provider';
+
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 import { getTxData, getTxReceipt } from 'modules/switcher/actions/getTxData';
 import { addSwitcherTokenToWallet } from 'modules/switcher/actions/wallet';
+import {
+  AvailableSwitchNetwork,
+  AvailableSwitcherToken,
+} from 'modules/switcher/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface ITransactionStepHookData {
@@ -29,7 +36,8 @@ interface ISuccessPathParams {
 }
 
 export const useTransactionStepHook = (): ITransactionStepHookData => {
-  const { txHash, to } = useParams<ISuccessPathParams>();
+  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { txHash, to, from } = useParams<ISuccessPathParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const dispatchRequest = useDispatchRequest();
@@ -39,13 +47,25 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
+    dispatchRequest(
+      getTxData({
+        chainId: chainId as AvailableSwitchNetwork,
+        txHash,
+        token: from,
+      }),
+    );
+    dispatchRequest(
+      getTxReceipt({
+        chainId: chainId as AvailableSwitchNetwork,
+        txHash,
+        token: from,
+      }),
+    );
 
     return () => {
       dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
     };
-  }, [dispatch, txHash]);
+  }, [chainId, txHash, from, dispatch]);
 
   useEffect(() => {
     if (receipt) {
@@ -56,10 +76,11 @@ export const useTransactionStepHook = (): ITransactionStepHookData => {
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(
       addSwitcherTokenToWallet({
-        swapOption: to as Token,
+        chainId: chainId as AvailableSwitchNetwork,
+        swapOption: to as AvailableSwitcherToken,
       }),
     );
-  }, [to, dispatchRequest]);
+  }, [chainId, to, dispatchRequest]);
 
   return {
     txHash,

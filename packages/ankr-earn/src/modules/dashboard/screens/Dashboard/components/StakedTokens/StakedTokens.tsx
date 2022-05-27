@@ -1,9 +1,9 @@
 import { Box, BoxProps, Typography } from '@material-ui/core';
 
-import { featuresConfig } from 'modules/common/const';
+import { t } from 'common';
+
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
-import { t } from 'modules/i18n/utils/intl';
 
 import { StakedABNBB } from '../StakedABNBB';
 import { StakedABNBC } from '../StakedABNBC';
@@ -11,13 +11,17 @@ import { StakedADOTB } from '../StakedADOTB';
 import { StakedAETHB } from '../StakedAETHB';
 import { StakedAETHC } from '../StakedAETHC';
 import { StakedAFTMB } from '../StakedAFTMB';
+import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
+import { StakedAMATICB } from '../StakedAMATICB';
+import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedBridgeAETHB } from '../StakedBridgeAETHB';
 import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC';
+import { StakedBridgeAMATICCBSC } from '../StakedBridgeAMATICCBSC';
+import { StakedBridgeAMATICCPolygon } from '../StakedBridgeAMATICCPolygon';
 import { StakedBridgeMatic } from '../StakedBridgeMatic';
-import { StakedMatic } from '../StakedMatic';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
 import { UnclaimedKSM } from '../UnclaimedKSM';
@@ -38,8 +42,12 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isABNBCShowed,
     isMATICShowed,
     isAFTMBShowed,
+    isAFTMCShowed,
     isAMATICBBSCShowed,
+    isAMATICCBSCShowed,
+    isAMATICCPolygonShowed,
     isAMATICBPolygonShowed,
+    isAMATICCShowed,
     isAETHBBridgedShowed,
     isADOTBShowed,
     isAKSMBShowed,
@@ -61,23 +69,23 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           <AssetsList>
             {isUnclaimedEthShowed && <UnclaimedETH />}
 
-            {featuresConfig.isActivePolkadotClaiming && isDOTShowed && (
-              <UnclaimedDOT />
-            )}
+            {isDOTShowed && <UnclaimedDOT />}
 
-            {featuresConfig.isActivePolkadotClaiming && isKSMShowed && (
-              <UnclaimedKSM />
-            )}
+            {isKSMShowed && <UnclaimedKSM />}
 
-            {featuresConfig.isActivePolkadotClaiming && isWNDShowed && (
-              <UnclaimedWND />
-            )}
+            {isWNDShowed && <UnclaimedWND />}
 
-            {isMATICShowed && <StakedMatic />}
+            {isMATICShowed && <StakedAMATICB />}
 
             {isAMATICBPolygonShowed && <StakedBridgeMatic />}
 
             {isAMATICBBSCShowed && <StakedBridgeAMATICBBSC />}
+
+            {isAMATICCBSCShowed && <StakedBridgeAMATICCBSC />}
+
+            {isAMATICCPolygonShowed && <StakedBridgeAMATICCPolygon />}
+
+            {isAMATICCShowed && <StakedAMATICC />}
 
             {isAETHBBridgedShowed && <StakedBridgeAETHB />}
 
@@ -91,19 +99,15 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isAFTMBShowed && <StakedAFTMB />}
 
+            {isAFTMCShowed && <StakedAFTMC />}
+
             {isAVAXShowed && <StakedAVAX />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isADOTBShowed && (
-              <StakedADOTB />
-            )}
+            {isADOTBShowed && <StakedADOTB />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isAKSMBShowed && (
-              <StakedAKSMB />
-            )}
+            {isAKSMBShowed && <StakedAKSMB />}
 
-            {featuresConfig.isActivePolkadotUnstaking && isAWNDBShowed && (
-              <StakedAWNDB />
-            )}
+            {isAWNDBShowed && <StakedAWNDB />}
           </AssetsList>
         </>
       ) : (

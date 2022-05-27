@@ -1,27 +1,34 @@
 import { useQuery } from '@redux-requests/react';
-import { useCallback } from 'react';
+import BigNumber from 'bignumber.js';
+import { useCallback, useMemo } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
+import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import {
-  ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
-} from '../../../../types';
+import { ITxEventsHistoryGroupItem } from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
   type: EBinancePoolEventsMap;
   network?: number;
   data?: ITxEventsHistoryGroupItem[];
+}
+
+interface IUnstakeHistory {
+  id: number;
+  token: Token;
+  amount: BigNumber;
+  timerSlot: string;
 }
 
 const getCompletedTransactions = ({
@@ -44,9 +51,10 @@ const getCompletedTransactions = ({
 };
 
 export interface ITxHistoryData {
-  txHistory: ITxEventsHistoryData | null;
-  pendingUnstakeHistory: IPendingTableRow[];
-  transactionHistory: HistoryDialogData;
+  transactionHistoryABNBB: HistoryDialogData;
+  transactionHistoryABNBC: HistoryDialogData;
+  pendingUnstakeHistoryABNBB: IPendingTableRow[];
+  pendingUnstakeHistoryABNBC: IPendingTableRow[];
   hasHistory: boolean;
   isHistoryDataLoading: boolean;
   handleLoadTxHistory: () => void;
@@ -56,51 +64,96 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
   const { data: txHistory, loading: isHistoryDataLoading } = useQuery({
     type: fetchTxHistory,
   });
-  const { chainId: network } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
 
-  const staked = getCompletedTransactions({
-    data: txHistory?.completed,
-    type: EBinancePoolEventsMap.Staked,
-    network: network as number,
-  });
+  const network = isEVMCompatible(chainId) ? chainId : undefined;
 
-  const unstaked = getCompletedTransactions({
-    data: txHistory?.completed,
-    type: EBinancePoolEventsMap.UnstakePending,
-    network: network as number,
-  });
+  const stakedABNBB = useMemo(() => {
+    return getCompletedTransactions({
+      data: txHistory?.completedABNBB,
+      type: EBinancePoolEventsMap.Staked,
+      network,
+    });
+  }, [network, txHistory?.completedABNBB]);
 
-  const pendingUnstake = txHistory?.pending.filter(
-    ({ txType }) => txType === EBinancePoolEventsMap.UnstakePending,
+  const stakedABNBC = useMemo(() => {
+    return getCompletedTransactions({
+      data: txHistory?.completedABNBC,
+      type: EBinancePoolEventsMap.Staked,
+      network,
+    });
+  }, [network, txHistory?.completedABNBC]);
+
+  const unstakedABNBB = useMemo(() => {
+    return getCompletedTransactions({
+      data: txHistory?.completedABNBB,
+      type: EBinancePoolEventsMap.UnstakePending,
+      network,
+    });
+  }, [network, txHistory?.completedABNBB]);
+
+  const unstakedABNBC = useMemo(() => {
+    return getCompletedTransactions({
+      data: txHistory?.completedABNBC,
+      type: EBinancePoolEventsMap.UnstakePending,
+      network,
+    });
+  }, [network, txHistory?.completedABNBC]);
+
+  const preparePendingUnstakes = (
+    pendingHistory: ITxEventsHistoryGroupItem[],
+    token: TBnbSyntToken,
+  ): IUnstakeHistory[] => {
+    return pendingHistory
+      ? pendingHistory.map((transaction, index) => {
+          const date = t('format.date', { value: transaction.txDate });
+          const time = t('format.time-short', { value: transaction.txDate });
+
+          return {
+            id: index + 1,
+            token,
+            amount: transaction.txAmount,
+            timerSlot: `${date}, ${time}`,
+          };
+        })
+      : [];
+  };
+
+  const pendingUnstakeHistoryABNBB = useMemo(
+    () => preparePendingUnstakes(txHistory?.pendingABNBB ?? [], Token.aBNBb),
+    [txHistory?.pendingABNBB],
+  );
+  const pendingUnstakeHistoryABNBC = useMemo(
+    () => preparePendingUnstakes(txHistory?.pendingABNBC ?? [], Token.aBNBc),
+    [txHistory?.pendingABNBC],
   );
 
-  const pendingUnstakeHistory = pendingUnstake
-    ? pendingUnstake.map((transaction, index) => {
-        const date = t('format.date', { value: transaction.txDate });
-        const time = t('format.time-short', { value: transaction.txDate });
-
-        return {
-          id: index + 1,
-          token: Token.aBNBb,
-          amount: transaction.txAmount,
-          timerSlot: `${date}, ${time}`,
-        };
-      })
-    : [];
-
-  const hasHistory = !!staked?.length || !!unstaked?.length;
+  const hasHistory =
+    !!stakedABNBB?.length ||
+    !!stakedABNBC?.length ||
+    !!unstakedABNBB?.length ||
+    !!unstakedABNBC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
     dispatch(fetchTxHistory());
   }, [dispatch]);
 
   return {
-    txHistory,
     isHistoryDataLoading,
-    pendingUnstakeHistory,
+    pendingUnstakeHistoryABNBB,
+    pendingUnstakeHistoryABNBC,
     hasHistory,
-    transactionHistory: { token: Token.aBNBb, staked, unstaked },
+    transactionHistoryABNBB: {
+      token: Token.aBNBb,
+      staked: stakedABNBB,
+      unstaked: unstakedABNBB,
+    },
+    transactionHistoryABNBC: {
+      token: Token.aBNBc,
+      staked: stakedABNBC,
+      unstaked: unstakedABNBC,
+    },
     handleLoadTxHistory,
   };
 };

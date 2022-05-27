@@ -8,13 +8,15 @@ import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
 import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
-const ENABLE_STAKING_BANNER = true;
-
 interface SidebarProps {
   className?: string;
+  isWalletConnected: boolean;
 }
 
-export const SideBar = ({ className = '' }: SidebarProps) => {
+export const SideBar = ({
+  isWalletConnected,
+  className = '',
+}: SidebarProps) => {
   const classes = useStyles();
 
   return (
@@ -23,9 +25,9 @@ export const SideBar = ({ className = '' }: SidebarProps) => {
         <div className={classes.container}>
           <Logo />
           <div className={classes.bottom}>
-            <MainNavigation />
+            <MainNavigation isWalletConnected={isWalletConnected} />
             <div>
-              {ENABLE_STAKING_BANNER && <StakingInfo />}
+              <StakingInfo />
               <ExtraNavigation />
             </div>
           </div>

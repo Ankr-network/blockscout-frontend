@@ -1,10 +1,11 @@
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { t } from 'common';
+
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -14,7 +15,7 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/auth/hooks/useAuth', () => ({
+jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -28,7 +29,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   const defaultData = {
     loading: false,
     data: {
-      completed: [
+      completedABNBB: [
         {
           txAmount: ONE_ETH,
           txDate: NOW,
@@ -42,18 +43,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           txType: EBinancePoolEventsMap.UnstakePending,
         },
       ],
-      pending: [
+      pendingABNBB: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,
           txHash: 'txHash3',
           txType: EBinancePoolEventsMap.UnstakePending,
-        },
-        {
-          txAmount: ONE_ETH.multipliedBy(4),
-          txDate: NOW,
-          txHash: 'txHash4',
-          txType: EBinancePoolEventsMap.Staked,
         },
       ],
     },
@@ -76,9 +71,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     const time = t('format.time-short', { value: NOW });
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
-    expect(result.current.txHistory).toStrictEqual(defaultData.data);
     expect(result.current.hasHistory).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([
+    expect(result.current.pendingUnstakeHistoryABNBB).toStrictEqual([
       {
         id: 1,
         amount: ONE_ETH.multipliedBy(3),
@@ -86,7 +80,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
         timerSlot: `${date}, ${time}`,
       },
     ]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.transactionHistoryABNBB).toStrictEqual({
       token: Token.aBNBb,
       staked: [
         {
@@ -126,12 +120,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
-    expect(result.current.txHistory).toBeNull();
     expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
-    expect(result.current.transactionHistory).toStrictEqual({
+    expect(result.current.pendingUnstakeHistoryABNBB).toStrictEqual([]);
+    expect(result.current.transactionHistoryABNBB).toStrictEqual({
       token: Token.aBNBb,
+      staked: [],
+      unstaked: [],
+    });
+    expect(result.current.transactionHistoryABNBC).toStrictEqual({
+      token: Token.aBNBc,
       staked: [],
       unstaked: [],
     });

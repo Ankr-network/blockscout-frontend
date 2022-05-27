@@ -5,18 +5,18 @@ import {
   Container,
   LinearProgress,
   Paper,
-  Step,
-  StepLabel,
-  Stepper,
   Typography,
 } from '@material-ui/core';
+import { Query } from '@redux-requests/react';
+import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+
 import { useStyles } from './useStyles';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { DepositStep } from 'modules/auth/actions/fetchDepositStatus';
 import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
 import MetamaskIcon from './assets/metamask.svg';
-import { Query } from '@redux-requests/react';
-import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+import { Stepper } from './Stepper';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 const CREATE_ACCOUNT_BLOCKS_COUNT = CONFIRMATION_BLOCKS;
 
@@ -40,12 +40,11 @@ export const DepositSteps = ({
     setStep(outerStep);
   }, [outerStep]);
 
-  useEffect(() => {
+  useOnMount(() => {
     if (step !== DepositStep.start && !loading) {
       onDeposit();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <Container className={classes.root}>
@@ -53,38 +52,7 @@ export const DepositSteps = ({
         <Typography variant="h4" color="primary">
           {t('deposit-steps.title')}
         </Typography>
-        <Stepper activeStep={step} nonLinear className={classes.stepper}>
-          <Step key={DepositStep.start} completed={step >= DepositStep.start}>
-            <StepLabel />
-          </Step>
-          <Step
-            key={DepositStep.publicKey}
-            completed={step >= DepositStep.publicKey}
-          >
-            <StepLabel />
-          </Step>
-          <Step
-            key={DepositStep.allowance}
-            completed={step >= DepositStep.allowance}
-          >
-            <StepLabel />
-          </Step>
-          <Step
-            key={DepositStep.deposit}
-            completed={step >= DepositStep.deposit}
-          >
-            <StepLabel />
-          </Step>
-          <Step
-            key={DepositStep.waitTransactionConfirming}
-            completed={step >= DepositStep.waitTransactionConfirming}
-          >
-            <StepLabel />
-          </Step>
-          <Step key={DepositStep.login} completed={step >= DepositStep.login}>
-            <StepLabel />
-          </Step>
-        </Stepper>
+        <Stepper step={step} className={classes.stepper} />
         <Typography
           variant={step === DepositStep.start ? 'body1' : 'h3'}
           className={classes.content}

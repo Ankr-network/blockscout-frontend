@@ -1,8 +1,9 @@
 import { Paper, Typography } from '@material-ui/core';
 import cn from 'classnames';
 
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
@@ -47,7 +48,9 @@ export const TransactionInfo = ({
         />
 
         <Typography className={classes.title}>
-          {t(type === 'success' ? 'common.successTx' : 'common.errorTx')}
+          {type === 'success' ? t('common.successTx') : t('common.errorTx')}
+
+          {txError && <span className={classes.errorReason}>{txError}</span>}
 
           {txHash && (
             <NavLink

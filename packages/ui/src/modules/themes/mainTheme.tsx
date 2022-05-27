@@ -51,6 +51,7 @@ export const PALETTE: PaletteOptions = {
     light: alpha('#E3453D', 0.15),
   },
   grey: {
+    400: '#E7EBF3',
     500: '#808692',
     600: '#82899A',
     700: '#2E343C',
@@ -136,9 +137,6 @@ export const mainTheme = createTheme({
       checkedIcon: <CheckboxCheckedIcon />,
     },
     MuiStepLabel: {
-      StepIconComponent: StepIcon,
-    },
-    MuiStep: {
       StepIconComponent: StepIcon,
     },
   },
@@ -752,7 +750,7 @@ export const mainTheme = createTheme({
     MuiToggleButtonGroup: {
       root: {
         width: '100%',
-        borderRadius: 9,
+        borderRadius: 16,
         padding: 2,
         background: defaultTheme.palette.background.default,
       },
@@ -766,8 +764,8 @@ export const mainTheme = createTheme({
         textTransform: 'lowercase',
 
         '&&': {
-          borderRadius: 9,
-          marginLeft: 0,
+          borderRadius: '14px !important',
+          marginLeft: '0 !important',
         },
 
         [defaultTheme.breakpoints.down('sm')]: {
@@ -833,6 +831,18 @@ export const mainTheme = createTheme({
       root: {
         height: 2,
         backgroundColor: defaultTheme.palette.background.default,
+      },
+    },
+
+    MuiChip: {
+      root: {
+        fontSize: 14,
+
+        '&$disabled': {
+          opacity: 1,
+          backgroundColor: defaultTheme.palette.background.default,
+          color: defaultTheme.palette.text.secondary,
+        },
       },
     },
   },

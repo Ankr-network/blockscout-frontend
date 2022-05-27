@@ -1,10 +1,10 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { t } from 'common';
+import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
@@ -12,8 +12,10 @@ import { ADOTBIcon } from 'uiKit/Icons/ADOTBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -34,8 +36,10 @@ type TIconMap = Record<
   | Token.aETHb
   | Token.aETHc
   | Token.aFTMb
+  | Token.aFTMc
   | Token.aKSMb
   | Token.aMATICb
+  | Token.aMATICc
   | Token.aWNDb
   | Token.DOT
   | Token.KSM
@@ -45,7 +49,7 @@ type TIconMap = Record<
 >;
 
 type TNetworkIconMap = {
-  [chainID in BlockchainNetworkId]?: MemoExoticComponent<
+  [chainID in EEthereumNetworkId]?: MemoExoticComponent<
     ForwardRefExoticComponent<ISvgIconProps>
   >;
 };
@@ -58,8 +62,10 @@ const iconByTokenMap: TIconMap = {
   [Token.aETHb]: AETHBIcon,
   [Token.aETHc]: AETHCIcon,
   [Token.aFTMb]: AFTMBIcon,
+  [Token.aFTMc]: AFTMCIcon,
   [Token.aKSMb]: AKSMBIcon,
   [Token.aMATICb]: AMATICBIcon,
+  [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
   [Token.DOT]: DotIcon,
   [Token.KSM]: KsmIcon,
@@ -81,7 +87,7 @@ const iconByNetworkMap: TNetworkIconMap = {
 };
 
 interface INetworkIconTextProps {
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   isLoading?: boolean;
   /**
    * Please use chainId prop.

@@ -1,8 +1,8 @@
 {
   "name": "ankr-earn",
-  "version": "2.10.3",
+  "version": "3.1.0",
   "private": true,
-  "homepage": "/earn",
+  "homepage": "/staking",
   "dependencies": {
     "@binance-chain/bsc-connector": "^1.0.0",
     "@loadable/component": "^5.15.2",
@@ -30,6 +30,7 @@
     "limit-concurrency-decorator": "^0.5.0",
     "lodash": "^4.17.21",
     "mixpanel-browser": "^2.43.0",
+    "notistack": "1.0.10",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.2",
@@ -145,7 +146,9 @@
       "/liquid-crowdloan/",
       "/unstake/avax/",
       "/unstake/bnb/",
+      "/unstake/dot/",
       "/unstake/fantom/",
+      "/unstake/ksm/",
       "/unstake/matic/"
     ],
     "skipThirdPartyRequests": true,

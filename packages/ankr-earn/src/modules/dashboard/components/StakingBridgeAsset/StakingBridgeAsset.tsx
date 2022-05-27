@@ -2,12 +2,12 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
-import { BlockchainNetworkId } from 'provider';
+import { t } from 'common';
+import { EEthereumNetworkId } from 'provider';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
@@ -24,7 +24,7 @@ interface IStakingAssetProps {
   tokenAddress?: string;
   network?: string;
   amount?: BigNumber;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   tradeLink?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;

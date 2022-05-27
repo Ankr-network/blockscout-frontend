@@ -1,34 +1,48 @@
-import { ButtonBase } from '@material-ui/core';
+import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { t, tHTML } from 'common';
+
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, featuresConfig, ZERO } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_FIXED,
+  featuresConfig,
+  FTM_AUDIT_LINK,
+  ZERO,
+} from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
+import { TokenVariant } from 'modules/stake/components/TokenVariant';
+import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
 export const StakeFantom = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
+
   const classes = useStakeFantomStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
@@ -36,51 +50,81 @@ export const StakeFantom = (): JSX.Element => {
   const {
     isCommonDataLoading,
     amount,
+    aFTMcRatio,
     balance,
+    gasFee,
     minAmount,
     loading,
+    isStakeLoading,
+    isGasFeeLoading,
     tokenIn,
     tokenOut,
-    apy,
+    totalAmount,
     onChange,
     onSubmit,
+    onTokenSelect,
   } = useStakeForm();
 
   const faqItems = useFaq();
-  const stats = useStakeStats({
-    amount,
-    apy,
-  });
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
-    dispatchRequest(getAPY());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
+
+    return () => {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    };
   }, [dispatchRequest]);
 
-  const renderStats = useCallback(
-    (formAmount: BigNumber) => {
-      return (
+  const renderStats = useCallback(() => {
+    return (
+      <>
+        {featuresConfig.stakeAFTMC && (
+          <TokenVariantList my={5}>
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmb-descr')}
+              iconSlot={<AFTMBIcon />}
+              isActive={tokenOut === Token.aFTMb}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmb')}
+              onClick={onTokenSelect(Token.aFTMb)}
+            />
+
+            <TokenVariant
+              description={tHTML('stake-fantom.aftmc-descr', {
+                rate: isCommonDataLoading
+                  ? '...'
+                  : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+              })}
+              iconSlot={<AFTMCIcon />}
+              isActive={tokenOut === Token.aFTMc}
+              isDisabled={isStakeLoading}
+              title={t('unit.aftmc')}
+              onClick={onTokenSelect(Token.aFTMc)}
+            />
+          </TokenVariantList>
+        )}
+
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount
               symbol={tokenOut}
-              value={formAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
-
-            <Tooltip title={tHTML('stake-fantom.aftmb-tooltip')}>
-              <ButtonBase className={classes.questionBtn}>
-                <QuestionIcon size="xs" />
-              </ButtonBase>
-            </Tooltip>
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
-      );
-    },
-    [classes, tokenOut],
-  );
+      </>
+    );
+  }, [
+    totalAmount,
+    tokenOut,
+    isStakeLoading,
+    onTokenSelect,
+    aFTMcRatio,
+    isCommonDataLoading,
+  ]);
 
   return (
     <section className={classes.root}>
@@ -90,9 +134,17 @@ export const StakeFantom = (): JSX.Element => {
         )}
 
         <StakeForm
+          isMaxBtnShowed
+          auditLink={FTM_AUDIT_LINK}
           balance={balance}
+          feeSlot={
+            <StakeFeeInfo
+              isLoading={isGasFeeLoading}
+              token={Token.FTM}
+              value={gasFee}
+            />
+          }
           isBalanceLoading={hasError || isCommonDataLoading}
-          isMaxBtnShowed={featuresConfig.maxStakeAmountBtn}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
           renderStats={renderStats}
@@ -102,7 +154,10 @@ export const StakeFantom = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <StakeStats stats={stats} />
+        <StakeStats
+          amount={amount}
+          metricsServiceName={EMetricsServiceName.FTM}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

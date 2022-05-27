@@ -2,20 +2,24 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { t } from 'common';
+
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getTxLinkByNetwork } from 'modules/common/utils/getTxLinkByNetwork';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { t } from 'modules/i18n/utils/intl';
 import { getHistory } from 'modules/stake-fantom/actions/getHistory';
 import { ITxEventsHistoryGroupItem } from 'modules/stake/api/getTxEventsHistoryGroup';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
-  staked: IHistoryDialogRow[];
-  unstaked: IHistoryDialogRow[];
-  pendingUnstakeHistory: IPendingTableRow[];
+  stakedAFTMB: IHistoryDialogRow[];
+  stakedAFTMC: IHistoryDialogRow[];
+  unstakedAFTMB: IHistoryDialogRow[];
+  unstakedAFTMC: IHistoryDialogRow[];
+  pendingUnstakeHistoryAFTMB: IPendingTableRow[];
+  pendingUnstakeHistoryAFTMC: IPendingTableRow[];
   hasHistory: boolean;
   isHistoryLoading: boolean;
   pendingValue: BigNumber;
@@ -49,16 +53,20 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
     };
   };
 
-  const staked = historyData?.stakeEvents.map(mapTxns) ?? [];
-  const unstaked = historyData?.withdrawnEvents.map(mapTxns) ?? [];
-  const pendingUnstakeHistory =
-    historyData?.pendingEvents.map(mapPending) ?? [];
+  const stakedAFTMB = historyData?.stakeEventsAFTMB.map(mapTxns) ?? [];
+  const stakedAFTMC = historyData?.stakeEventsAFTMC.map(mapTxns) ?? [];
+  const unstakedAFTMB = historyData?.withdrawnEventsAFTMB.map(mapTxns) ?? [];
+  const unstakedAFTMC = historyData?.withdrawnEventsAFTMC.map(mapTxns) ?? [];
+  const pendingUnstakeHistoryAFTMB =
+    historyData?.pendingEventsAFTMB.map(mapPending) ?? [];
+  const pendingUnstakeHistoryAFTMC =
+    historyData?.pendingEventsAFTMC.map(mapPending) ?? [];
 
   const pendingValue = historyData?.totalPending ?? ZERO;
 
   const hasHistory =
-    !!staked?.length ||
-    !!unstaked?.length ||
+    !!stakedAFTMB?.length ||
+    !!unstakedAFTMB?.length ||
     !pendingValue.isZero() ||
     isHistoryLoading;
 
@@ -68,10 +76,13 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
 
   return {
     hasHistory,
-    staked,
-    unstaked,
+    stakedAFTMB,
+    stakedAFTMC,
+    unstakedAFTMB,
+    unstakedAFTMC,
     isHistoryLoading,
-    pendingUnstakeHistory,
+    pendingUnstakeHistoryAFTMB,
+    pendingUnstakeHistoryAFTMC,
     pendingValue,
     handleLoadTxHistory,
   };

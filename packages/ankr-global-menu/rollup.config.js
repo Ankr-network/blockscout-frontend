@@ -5,10 +5,6 @@ import external from 'rollup-plugin-node-externals';
 import json from '@rollup/plugin-json';
 import svg from 'rollup-plugin-svg';
 import copy from 'rollup-plugin-copy-assets';
-import { terser } from 'rollup-plugin-terser';
-import replace from '@rollup/plugin-replace';
-
-import { name } from './package.json';
 
 export default {
   input: 'src/index.ts',
@@ -21,10 +17,6 @@ export default {
   ],
   context: 'window',
   plugins: [
-    replace({
-      preventAssignment: true,
-      values: { __packageName__: name },
-    }),
     external({
       exclude: ['common', 'ui'],
     }),
@@ -48,6 +40,5 @@ export default {
     copy({
       assets: ['src/assets/fonts'],
     }),
-    // terser(),
   ],
 };

@@ -4,11 +4,12 @@ import { resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { useProviderEffect } from 'modules/auth/hooks/useProviderEffect';
+import { t } from 'common';
+
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
@@ -25,11 +26,6 @@ import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 // todo: remove when actual translation will be added
 const isFeeTooltipActual = false;
 
-const calculateTotalAmount = (amount: BigNumber, burnFee: BigNumber) => {
-  const result = amount.minus(burnFee);
-  return result.isLessThan(0) ? ZERO : result;
-};
-
 export const UnstakeFantom = (): JSX.Element => {
   const classes = useUnstakeFantomStyles();
   const dispatch = useAppDispatch();
@@ -45,11 +41,16 @@ export const UnstakeFantom = (): JSX.Element => {
     isBalanceLoading,
     isBurnFeeLoading,
     isLoading,
+    isApproved,
+    isApproveLoading,
+    isWithApprove,
     balance,
     burnFee,
     closeHref,
+    selectedToken,
     onSubmit,
     onChange,
+    calcTotalRecieve,
   } = useUnstakeDialog(onSuccessOpen);
 
   useProviderEffect(() => {
@@ -62,6 +63,16 @@ export const UnstakeFantom = (): JSX.Element => {
 
   const renderFormFooter = useCallback(
     (amount: BigNumber, maxAmount: BigNumber) => {
+      const calculateTotalAmount = (
+        _amount: BigNumber,
+        _burnFee: BigNumber,
+      ) => {
+        const test = calcTotalRecieve(_amount);
+
+        const result = test.minus(_burnFee);
+        return result.isLessThan(0) ? ZERO : result;
+      };
+
       const totalAmount = maxAmount.isLessThan(amount)
         ? calculateTotalAmount(maxAmount, burnFee)
         : calculateTotalAmount(amount, burnFee);
@@ -134,7 +145,7 @@ export const UnstakeFantom = (): JSX.Element => {
         </div>
       );
     },
-    [burnFee, classes, isBurnFeeLoading],
+    [burnFee, classes, isBurnFeeLoading, calcTotalRecieve],
   );
 
   return (
@@ -150,11 +161,14 @@ export const UnstakeFantom = (): JSX.Element => {
                 days: FANTOM_UNSTAKE_PERIOD,
               }),
             })}
+            isApproved={isApproved}
+            isApproveLoading={isApproveLoading}
             isBalanceLoading={isBalanceLoading}
             isLoading={isLoading}
+            isWithApprove={isWithApprove}
             renderFormFooter={renderFormFooter}
             submitDisabled={submitDisabled}
-            token={Token.aFTMb}
+            token={selectedToken}
             onChange={onChange}
             onSubmit={onSubmit}
           />

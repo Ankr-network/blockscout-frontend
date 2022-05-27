@@ -1,48 +1,44 @@
 import { useEffect } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
-import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
-import { PlanRoutes, PlanRoutesConfig } from './domains/plan/Routes';
+import {
+  ChainsRoutes,
+  ChainPrivateRoutes,
+  ChainsRoutesConfig,
+} from './domains/chains/Routes';
 import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
 } from './domains/nodeProviders/Routes';
+import { AccountRoutesConfig } from './domains/account/Routes';
+import { Plan } from 'domains/account/screens/Plan';
+import {
+  RequestExplorerRoutes,
+  ExplorerRoutesConfig,
+} from 'domains/explorer/Routes';
 
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from 'ui';
 import { useAuth } from './modules/auth/hooks/useAuth';
 import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
-import { selectCredentials } from 'modules/user/userSlice';
-import { GuardProviderRoute } from 'modules/auth/components/GuardProviderRoute';
+import { selectAuthData } from 'modules/auth/store/authSlice';
+import { GuardAuthProviderRoute } from 'modules/auth/components/GuardAuthProviderRoute';
 
 export function Routes() {
   const { handleConnect } = useAuth();
 
-  const cachedCredentials = useAppSelector(selectCredentials);
+  const cachedAuthData = useAppSelector(selectAuthData);
 
   useEffect(() => {
-    if (cachedCredentials) {
+    if (cachedAuthData.authorizationToken) {
       handleConnect();
     }
-  }, [handleConnect, cachedCredentials]);
+  }, [handleConnect, cachedAuthData]);
 
   return (
     <Switch>
-      <Route
-        exact
-        path="/"
-        render={() => (
-          <Redirect
-            to={
-              cachedCredentials
-                ? PlanRoutesConfig.plan.path
-                : ChainsRoutesConfig.chains.path
-            }
-          />
-        )}
-      />
       <Route
         exact
         path={[
@@ -55,34 +51,44 @@ export function Routes() {
           </DefaultLayout>
         )}
       />
-      <GuardAuthRoute
-        exact
-        path={[PlanRoutesConfig.plan.path, PlanRoutesConfig.planDeposit.path]}
-        hasCachedCredentials={Boolean(cachedCredentials)}
-        render={() => (
-          <DefaultLayout isPremiumPlanPage disableGutters theme={Themes.light}>
-            <PlanRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardProviderRoute
-        exact
-        path={[
-          PlanRoutesConfig.addEndpoint.path,
-          PlanRoutesConfig.endpoint.path,
-        ]}
-        render={() => (
-          <DefaultLayout>
-            <PageNotFound />
-          </DefaultLayout>
-        )}
-      />
       <Route
         exact
         path={[ProvidersRoutesConfig.providers.path]}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <ProvidersRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <GuardAuthRoute
+        exact
+        path={[
+          AccountRoutesConfig.accountDetails.path,
+          AccountRoutesConfig.topUp.path,
+          AccountRoutesConfig.withdraw.path,
+        ]}
+        isAuthorized={Boolean(cachedAuthData.authorizationToken)}
+        render={() => (
+          <DefaultLayout disableGutters theme={Themes.light}>
+            <Plan />
+          </DefaultLayout>
+        )}
+      />
+      <GuardAuthProviderRoute
+        exact
+        path={[ChainsRoutesConfig.addEndpoint.path]}
+        render={() => (
+          <DefaultLayout>
+            <ChainPrivateRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[ExplorerRoutesConfig.requestExplorer.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <RequestExplorerRoutes />
           </DefaultLayout>
         )}
       />

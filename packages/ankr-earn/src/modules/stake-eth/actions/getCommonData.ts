@@ -36,10 +36,10 @@ export const getCommonData = createAction<
         claimableAETHC,
       ] = await Promise.all([
         sdk.getEthBalance(),
-        sdk.getAethbBalance(isFormatted),
-        sdk.getAethcBalance(isFormatted),
+        sdk.getABBalance(isFormatted),
+        sdk.getACBalance(isFormatted),
         sdk.getMinStake(),
-        sdk.getAethcRatio(isFormatted),
+        sdk.getACRatio(isFormatted),
         sdk.getClaimable(Token.aETHb),
         sdk.getClaimable(Token.aETHc),
       ]);

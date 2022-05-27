@@ -1,22 +1,19 @@
 import React from 'react';
 
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
-import { t } from 'modules/i18n/utils/intl';
 import { RpcItem } from '../RpcItem';
 import { useStyles } from './useStyles';
 import { RpcsListProps } from './RpcsListProps';
-import { useProvider } from 'modules/auth/hooks/useProvider';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
 
 export const RpcList = ({ data }: RpcsListProps) => {
   const classes = useStyles();
   const chains = formatChains(data);
-  const { providerData } = useProvider();
 
   return (
     <div>
       {chains.map(item => {
-        const { id, icon, extenders, extensions, name, requests, urls } = item;
+        const { id, icon, extenders, extensions, name, urls } = item;
 
         const links = [
           ...urls,
@@ -35,10 +32,6 @@ export const RpcList = ({ data }: RpcsListProps) => {
             key={id}
             id={id}
             className={classes.item}
-            hasOnClick={Boolean(providerData)}
-            description={
-              requests ? t('chains.requests', { value: requests }) : ''
-            }
           />
         );
       })}

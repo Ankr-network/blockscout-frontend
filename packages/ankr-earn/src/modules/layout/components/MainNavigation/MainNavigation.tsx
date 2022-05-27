@@ -2,10 +2,11 @@ import { Button, Popover } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo, useState, MouseEvent as ReactMouseEvent } from 'react';
 
+import { t } from 'common';
+
 import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import { Navigation } from 'modules/common/components/Navigation';
 import { NavigationLink } from 'modules/common/components/NavigationLink';
-import { t } from 'modules/i18n/utils/intl';
 import { useNavigationItems } from 'modules/layout/hooks/useNavigationItems';
 
 import { useMainNavigationStyles as useStyles } from './useMainNavigationStyles';

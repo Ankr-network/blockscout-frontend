@@ -1,34 +1,52 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
-import { GuardRoute } from 'modules/auth/components/GuardRoute';
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
 import { FANTOM_PROVIDER_ID, FANTOM_STAKING_NETWORKS } from './const';
+import { TFtmSyntToken } from './types/TFtmSyntToken';
 
 const ROOT = `${StakeRoutes.main.path}fantom/`;
-const STAKE_FANTOM_PATH = ROOT;
+const STAKE_FANTOM_PATH = `${ROOT}?token=:token?`;
 const UNSTAKE_FANTOM_PATH = `${UNSTAKE_PATH}fantom/`;
-const STEP_STAKE_FANTOM_PATH = `${ROOT}:txHash/`;
+const UNSTAKE_FANTOM_BY_TOKEN_PATH = `${UNSTAKE_FANTOM_PATH}?token=:token?`;
+const STEP_STAKE_FANTOM_PATH = `${ROOT}:txHash/:tokenOut/`;
 
 export const RoutesConfig = createRouteConfig(
   {
     stake: {
-      path: STAKE_FANTOM_PATH,
-      generatePath: () => generatePath(STAKE_FANTOM_PATH),
+      path: ROOT,
+      generatePath: (token?: TFtmSyntToken) => {
+        return token
+          ? generatePath(STAKE_FANTOM_PATH, { token })
+          : generatePath(ROOT);
+      },
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
     },
     unstake: {
       path: UNSTAKE_FANTOM_PATH,
-      generatePath: () => generatePath(UNSTAKE_FANTOM_PATH),
+      generatePath: (token?: TFtmSyntToken) => {
+        return token
+          ? generatePath(UNSTAKE_FANTOM_BY_TOKEN_PATH, { token })
+          : generatePath(UNSTAKE_FANTOM_PATH);
+      },
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
     },
     stakeStep: {
       path: STEP_STAKE_FANTOM_PATH,
-      generatePath: () => generatePath(STEP_STAKE_FANTOM_PATH),
+      generatePath: (options: { txHash: string; tokenOut: TFtmSyntToken }) =>
+        generatePath(STEP_STAKE_FANTOM_PATH, options),
     },
   },
   ROOT,
@@ -50,7 +68,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
@@ -59,9 +77,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <Stake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
@@ -70,9 +88,9 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout verticalAlign="center">
             <Unstake />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
-        <GuardRoute
+        <GuardETHRoute
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
@@ -81,7 +99,7 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <StakeSteps />
           </DefaultLayout>
-        </GuardRoute>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

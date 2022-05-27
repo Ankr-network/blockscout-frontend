@@ -11,9 +11,8 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
@@ -25,18 +24,15 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useFetchAPY } from '../../../hooks/useFetchAPY';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useSelectedToken } from './useSelectedToken';
 
-const DEBOUNCE_TIME: Milliseconds = 1_000;
-
 interface IUseStakeFormData {
   amount: BigNumber;
-  fetchAPYData: BigNumber;
   stakeGas: BigNumber;
   relayerFee: BigNumber;
   bnbBalance?: BigNumber;
@@ -68,8 +64,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getStakeGasFee,
   });
 
-  const fetchAPYData = useFetchAPY();
-
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
@@ -93,30 +87,32 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const debouncedOnChange = useDebouncedCallback(
     handleFormChange,
-    DEBOUNCE_TIME,
+    INPUT_DEBOUNCE_TIME,
   );
 
   const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount,
-        relayerFee,
-        balance: bnbBalance,
-        stakeGasFee: stakeGasFee ?? undefined,
-        aBNBcRatio,
-      }),
-    [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee],
-  );
+  const totalAmount = useMemo(() => {
+    if (!stakeGasFee) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount,
+      relayerFee,
+      balance: bnbBalance,
+      stakeGasFee: stakeGasFee ?? undefined,
+      aBNBcRatio,
+    });
+  }, [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
     const binanceSDK = await BinanceSDK.getInstance();
-    const abnbbBalance = await binanceSDK.getABNBBBalance();
+    const abnbbBalance = await binanceSDK.getABBalance();
 
     trackStake({
       address,
@@ -160,7 +156,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     amount,
-    fetchAPYData,
     relayerFee,
     bnbBalance,
     minimumStake,

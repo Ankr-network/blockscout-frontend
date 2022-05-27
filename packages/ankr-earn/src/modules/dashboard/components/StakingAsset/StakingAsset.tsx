@@ -2,11 +2,14 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
+import { t } from 'common';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { BlockchainNetworkId } from 'modules/common/types';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
-import { t } from 'modules/i18n/utils/intl';
+import { nativeTokenMap } from 'modules/dashboard/const';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
@@ -22,12 +25,14 @@ interface IStakingAssetProps {
   token?: Token;
   tokenAddress?: string;
   network?: string;
-  chainId?: BlockchainNetworkId;
+  chainId?: EEthereumNetworkId;
   amount?: BigNumber;
   tradeLink?: string;
   stakeLink?: string;
   unstakeLink?: string;
+  unstakeTooltip?: string;
   pendingSlot?: ReactNode;
+  nativeAmount?: BigNumber;
   isLoading?: boolean;
   isStakeLoading?: boolean;
   onAddTokenToWallet?: () => void;
@@ -48,6 +53,8 @@ export const StakingAsset = ({
   stakeLink,
   unstakeLink,
   pendingSlot,
+  nativeAmount,
+  unstakeTooltip,
   isLoading = false,
   isStakeLoading = false,
   isUnstakeLoading = false,
@@ -71,10 +78,22 @@ export const StakingAsset = ({
     ? t('dashboard.stake-loading')
     : t('dashboard.stake-tooltip');
 
-  const unstakeTooltip = isUnstakeLoading
+  const defaultUnstakeTooltip = isUnstakeLoading
     ? t('dashboard.unstake-loading')
     : t('dashboard.unstake-tooltip');
+
   const comingSoonTooltip = t('common.tooltips.comingSoon');
+
+  const conditionalUnstakeTooltip =
+    unstakeTooltip ?? (unstakeLink ? defaultUnstakeTooltip : comingSoonTooltip);
+
+  const nativeAmountText =
+    nativeAmount &&
+    token &&
+    t('unit.token-value', {
+      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      token: nativeTokenMap[token],
+    });
 
   return (
     <DashboardCard
@@ -98,7 +117,7 @@ export const StakingAsset = ({
               href={unstakeLink}
               icon="minus"
               isLoading={isUnstakeLoading}
-              tooltip={unstakeLink ? unstakeTooltip : comingSoonTooltip}
+              tooltip={conditionalUnstakeTooltip}
             />
           </Grid>
 
@@ -150,6 +169,7 @@ export const StakingAsset = ({
           </Menu>
         </Box>
       }
+      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

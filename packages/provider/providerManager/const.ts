@@ -1,5 +1,5 @@
 import { numberToHex } from 'web3-utils';
-import { BlockchainNetworkId } from './types';
+import { EEthereumNetworkId } from './types';
 
 interface IRPCConfig {
   chainId: string; // A 0x-prefixed hexadecimal string
@@ -16,8 +16,8 @@ interface IRPCConfig {
 
 export const RPCConfig: Record<number, IRPCConfig> = {
   // Mainnet config is partial, because there is no need to specify it fully
-  [BlockchainNetworkId.mainnet]: {
-    chainId: numberToHex(BlockchainNetworkId.mainnet),
+  [EEthereumNetworkId.mainnet]: {
+    chainId: numberToHex(EEthereumNetworkId.mainnet),
     chainName: 'Mainnet',
     nativeCurrency: {
       name: 'ETH',
@@ -28,8 +28,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     blockExplorerUrls: [''],
   },
 
-  [BlockchainNetworkId.goerli]: {
-    chainId: numberToHex(BlockchainNetworkId.goerli),
+  [EEthereumNetworkId.goerli]: {
+    chainId: numberToHex(EEthereumNetworkId.goerli),
     chainName: 'Goerli Test Network',
     nativeCurrency: {
       name: 'ETH',
@@ -43,8 +43,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     ],
   },
 
-  [BlockchainNetworkId.smartchain]: {
-    chainId: numberToHex(BlockchainNetworkId.smartchain),
+  [EEthereumNetworkId.smartchain]: {
+    chainId: numberToHex(EEthereumNetworkId.smartchain),
     chainName: 'Binance Smart Chain',
     nativeCurrency: {
       name: 'BNB',
@@ -55,8 +55,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     blockExplorerUrls: ['https://bscscan.com'],
   },
 
-  [BlockchainNetworkId.smartchainTestnet]: {
-    chainId: numberToHex(BlockchainNetworkId.smartchainTestnet),
+  [EEthereumNetworkId.smartchainTestnet]: {
+    chainId: numberToHex(EEthereumNetworkId.smartchainTestnet),
     chainName: 'Binance Smart Chain - Testnet',
     nativeCurrency: {
       name: 'BNB',
@@ -67,8 +67,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
 
-  [BlockchainNetworkId.avalanche]: {
-    chainId: numberToHex(BlockchainNetworkId.avalanche),
+  [EEthereumNetworkId.avalanche]: {
+    chainId: numberToHex(EEthereumNetworkId.avalanche),
     chainName: 'Avalanche Mainnet C-Chain',
     nativeCurrency: {
       name: 'AVAX',
@@ -79,8 +79,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     blockExplorerUrls: ['https://snowtrace.io/'],
   },
 
-  [BlockchainNetworkId.avalancheTestnet]: {
-    chainId: numberToHex(BlockchainNetworkId.avalancheTestnet),
+  [EEthereumNetworkId.avalancheTestnet]: {
+    chainId: numberToHex(EEthereumNetworkId.avalancheTestnet),
     chainName: 'Avalanche FUJI C-Chain',
     nativeCurrency: {
       name: 'AVAX',
@@ -91,8 +91,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     blockExplorerUrls: ['https://testnet.snowtrace.io/'],
   },
 
-  [BlockchainNetworkId.fantom]: {
-    chainId: numberToHex(BlockchainNetworkId.fantom),
+  [EEthereumNetworkId.fantom]: {
+    chainId: numberToHex(EEthereumNetworkId.fantom),
     chainName: 'Fantom Opera',
     nativeCurrency: {
       name: 'FTM',
@@ -102,8 +102,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://rpc.ftm.tools/'],
     blockExplorerUrls: ['https://ftmscan.com/'],
   },
-  [BlockchainNetworkId.fantomTestnet]: {
-    chainId: numberToHex(BlockchainNetworkId.fantomTestnet),
+  [EEthereumNetworkId.fantomTestnet]: {
+    chainId: numberToHex(EEthereumNetworkId.fantomTestnet),
     chainName: 'Fantom testnet',
     nativeCurrency: {
       name: 'FTM',
@@ -113,8 +113,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://rpc.testnet.fantom.network/'],
     blockExplorerUrls: ['https://testnet.ftmscan.com/'],
   },
-  [BlockchainNetworkId.polygon]: {
-    chainId: numberToHex(BlockchainNetworkId.polygon),
+  [EEthereumNetworkId.polygon]: {
+    chainId: numberToHex(EEthereumNetworkId.polygon),
     chainName: 'Polygon Mainnet',
     nativeCurrency: {
       name: 'MATIC',

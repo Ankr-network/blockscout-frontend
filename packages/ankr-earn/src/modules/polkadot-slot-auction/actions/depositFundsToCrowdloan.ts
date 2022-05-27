@@ -4,10 +4,6 @@ import { createAction } from 'redux-smart-actions';
 
 import { SlotAuctionSdk } from 'polkadot';
 
-import { TStore } from 'modules/common/types/ReduxRequests';
-import { NotificationActions } from 'store/actions/NotificationActions';
-import { IStoreState } from 'store/store';
-
 import { SlotAuctionSdkSingleton } from '../api/SlotAuctionSdkSingleton';
 
 export const depositFundsToCrowdloan = createAction(
@@ -26,21 +22,8 @@ export const depositFundsToCrowdloan = createAction(
       })(),
     },
     meta: {
+      showNotificationOnError: true,
       asMutation: true,
-      onError: (
-        error: Error,
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ): Error => {
-        store.dispatch(
-          NotificationActions.showNotification({
-            message: error.message,
-            severity: 'error',
-          }),
-        );
-
-        throw error;
-      },
     },
   }),
 );

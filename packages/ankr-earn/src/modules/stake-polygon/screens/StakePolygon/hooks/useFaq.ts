@@ -1,8 +1,9 @@
 import { useQuery } from '@redux-requests/react';
 
+import { t, tHTML } from 'common';
+
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
 export const useFaq = (): IFaqItem[] => {
@@ -14,17 +15,17 @@ export const useFaq = (): IFaqItem[] => {
     () => [
       {
         question: t('stake-polygon.faq.question-1'),
-        answer: t('stake-polygon.faq.answer-1'),
+        answer: tHTML('stake-polygon.faq.answer-1'),
       },
       {
         question: t('stake-polygon.faq.question-2'),
-        answer: t('stake-polygon.faq.answer-2', {
-          value: fetchStatsData?.minimumStake ?? 1,
-        }),
+        answer: t('stake-polygon.faq.answer-2'),
       },
       {
         question: t('stake-polygon.faq.question-3'),
-        answer: t('stake-polygon.faq.answer-3'),
+        answer: t('stake-polygon.faq.answer-3', {
+          value: fetchStatsData?.minimumStake ?? 1,
+        }),
       },
       {
         question: t('stake-polygon.faq.question-4'),

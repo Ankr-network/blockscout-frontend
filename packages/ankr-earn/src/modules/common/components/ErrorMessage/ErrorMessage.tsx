@@ -2,7 +2,8 @@ import { Box, Paper, PaperProps, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { Button } from 'uiKit/Button';
 
 import { useErrorMessageStyles } from './useErrorMessageStyles';

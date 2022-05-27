@@ -4,7 +4,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  BlockchainNetworkId,
+  EEthereumNetworkId,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -25,6 +25,17 @@ import {
 
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
 import ABI_AAVAXB from './contracts/FutureBondAVAX.json';
+
+/**
+ * even with this multiplier, the gas estimate is two times less
+ * than if we did not manage this value.
+ *
+ * 60%
+ */
+const ESTIMATE_GAS_MULTIPLIER = 1.6;
+
+// maxAmount = userBalance - gasFee * GAS_FEE_MULTIPLIER
+const GAS_FEE_MULTIPLIER = 3;
 
 type TPastEventsData = EventData[];
 
@@ -76,6 +87,8 @@ export class AvalancheSDK {
   private static instance?: AvalancheSDK;
 
   private currentAccount: string;
+
+  private stakeGasFee?: BigNumber;
 
   private constructor({ readProvider, writeProvider }: IAvalancheSDKProviders) {
     AvalancheSDK.instance = this;
@@ -256,8 +269,8 @@ export class AvalancheSDK {
     const chainId = await web3.eth.getChainId();
 
     return [
-      BlockchainNetworkId.avalanche,
-      BlockchainNetworkId.avalancheTestnet,
+      EEthereumNetworkId.avalanche,
+      EEthereumNetworkId.avalancheTestnet,
     ].includes(chainId);
   }
 
@@ -309,8 +322,8 @@ export class AvalancheSDK {
       symbol,
       decimals,
       chainId: isMainnet
-        ? (BlockchainNetworkId.avalanche as number)
-        : (BlockchainNetworkId.avalancheTestnet as number),
+        ? EEthereumNetworkId.avalanche
+        : EEthereumNetworkId.avalancheTestnet,
     });
   }
 
@@ -416,12 +429,62 @@ export class AvalancheSDK {
       await this.writeProvider.connect();
     }
 
+    let gasFee = this.stakeGasFee;
+    if (!gasFee) {
+      gasFee = await this.getStakeGasFee(amount);
+    }
+
+    const balance = await this.getAVAXBalance();
+
+    // multiplication needs to avoid problems with max amount
+    // and fee calculation in the wallet
+    const multipliedGasFee = gasFee.multipliedBy(GAS_FEE_MULTIPLIER);
+    const maxAllowedAmount = balance.minus(multipliedGasFee);
+
+    const stakeAmount = amount.isGreaterThan(maxAllowedAmount)
+      ? maxAllowedAmount
+      : amount;
+
+    const value = this.convertToHex(stakeAmount);
+
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    await avalanchePoolContract.methods.stake().send({
+    const contractStake = avalanchePoolContract.methods.stake;
+
+    const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
-      value: this.convertToHex(amount),
+      value,
     });
+
+    await contractStake().send({
+      from: this.currentAccount,
+      gas: AvalancheSDK.getIncreasedGasLimit(gasLimit),
+      value,
+    });
+  }
+
+  public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const avalanchePoolContract = await this.getAvalanchePoolContract();
+
+    const estimatedGas: number = await avalanchePoolContract.methods
+      .stake()
+      .estimateGas({
+        from: this.currentAccount,
+        value: this.convertToHex(amount),
+      });
+
+    const increasedGasLimit = AvalancheSDK.getIncreasedGasLimit(estimatedGas);
+
+    const stakeGasFee = await provider.getContractMethodFee(increasedGasLimit);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
+  }
+
+  private static getIncreasedGasLimit(gasLimit: number) {
+    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
   public async unstake(amount: BigNumber): Promise<void> {
