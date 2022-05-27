@@ -28,4 +28,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  buttons: {
+    display: 'flex',
+    gap: theme.spacing(1),
+  },
 }));

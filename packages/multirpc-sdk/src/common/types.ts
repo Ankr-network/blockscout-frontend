@@ -112,6 +112,11 @@ export type TJwtTokenType =
   | 'JWT_TOKEN_TYPE_USER'
   | 'JWT_TOKEN_TYPE_ADMIN';
 
+export enum Tier {
+  PAYG,
+  Premium,
+}
+
 export interface IJwtToken {
   id: PrefixedHex;
   threshold_key: UUID;
@@ -122,6 +127,8 @@ export interface IJwtToken {
   public_key: Base64;
   signed_token: Base64;
   expires_at: number;
+  endpoint_token: Base64;
+  tier: Tier;
 }
 
 export enum Token {
@@ -144,6 +151,10 @@ export interface IConfig {
   walletPrivateUrl: string;
   walletPublicUrl: string;
   workerUrl: string;
+  accountUrl: string;
+
+  payAsYouGoAnkrTokenContractAddress: string;
+  payAsYouGoContractAddress: string;
 }
 
 export type Environment = 'local' | 'staging' | 'prod';

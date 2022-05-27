@@ -7,7 +7,7 @@ export function useProvider() {
   const dispatchRequest = useDispatchRequest();
 
   const handleFetchProvider = useCallback(() => {
-    dispatchRequest(fetchProvider());
+    return dispatchRequest(fetchProvider());
   }, [dispatchRequest]);
 
   const { data, loading } = useQuery({

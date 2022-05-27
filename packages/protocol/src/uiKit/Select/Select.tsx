@@ -23,6 +23,7 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
   children?: ReactNode;
   helperText?: ReactNode;
   label?: ReactNode;
+  iconClassName?: string;
 }
 
 export const Select = ({
@@ -31,6 +32,7 @@ export const Select = ({
   helperText,
   label,
   fullWidth = true,
+  iconClassName,
   ...restProps
 }: ISelectProps) => {
   const classes = useStyles();
@@ -65,9 +67,15 @@ export const Select = ({
           horizontal: 'left',
         },
       },
-      IconComponent: props => <AngleDownIcon fontSize="small" {...props} />,
+      IconComponent: props => (
+        <AngleDownIcon
+          fontSize="small"
+          {...props}
+          classes={iconClassName ? { root: iconClassName } : null}
+        />
+      ),
     }),
-    [classes],
+    [classes, iconClassName],
   );
 
   return (

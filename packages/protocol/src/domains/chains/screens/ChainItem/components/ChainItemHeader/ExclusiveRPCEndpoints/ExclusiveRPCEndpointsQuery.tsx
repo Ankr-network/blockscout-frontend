@@ -1,38 +1,22 @@
 import React from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchPrivateChainDetails } from 'domains/chains/actions/fetchPrivateChainDetails';
 
 import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
 import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpointsSkeleton';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useProvider } from 'modules/auth/hooks/useProvider';
+import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 
-export interface ExclusiveRPCEndpointsQueryProps {
-  chainId: string;
-}
+export interface ExclusiveRPCEndpointsQueryProps {}
 
-export const ExclusiveRPCEndpointsQuery = ({
-  chainId,
-}: ExclusiveRPCEndpointsQueryProps) => {
-  const { handleFetchProvider, providerData } = useProvider();
-
-  const dispatchRequest = useDispatchRequest();
-
-  useOnMount(() => {
-    dispatchRequest(fetchPrivateChainDetails(chainId));
-    handleFetchProvider();
-  });
-
+export const ExclusiveRPCEndpointsQuery = () => {
   return (
-    <Queries<ResponseData<typeof fetchPrivateChainDetails>>
-      requestActions={[fetchPrivateChainDetails]}
+    <Queries<ResponseData<typeof fetchPremiumChainFeatures>>
+      requestActions={[fetchPremiumChainFeatures]}
       spinner={<ExclusiveRPCEndpointsSkeleton />}
     >
-      {({ data }) => (
-        <ExclusiveRPCEndpoints chain={data} isPremium={!!providerData} />
+      {({ data: { privateChainDetails } }) => (
+        <ExclusiveRPCEndpoints chain={privateChainDetails} />
       )}
     </Queries>
   );

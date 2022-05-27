@@ -4,7 +4,7 @@ import { useIsMDDown } from 'ui';
 import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
 import { Link } from 'react-router-dom';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 
 import { ReactComponent as SpeedIcon } from 'uiKit/Icons/speed.svg';
 import { ReactComponent as ProtectIcon } from 'uiKit/Icons/protect.svg';
@@ -20,7 +20,7 @@ const ChainBannerUnblockBtn = () => {
   return (
     <Button
       component={Link}
-      to={PlanRoutesConfig.plan.generatePath()}
+      to={AccountRoutesConfig.accountDetails.generatePath()}
       size="small"
       variant="text"
       className={classes.unblockBtn}

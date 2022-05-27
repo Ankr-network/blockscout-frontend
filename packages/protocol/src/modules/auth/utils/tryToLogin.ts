@@ -2,11 +2,11 @@ import { MultiRpcSdk } from 'multirpc-sdk';
 
 const PROVIDER_ERROR_USER_DENIED = 4001;
 
-export async function tryToLogin(
+export const tryToLogin = async (
   service: MultiRpcSdk,
   address: string,
   key: string,
-) {
+) => {
   try {
     const data = await service.loginAsUser(address, key);
 
@@ -18,4 +18,4 @@ export async function tryToLogin(
 
     return undefined;
   }
-}
+};

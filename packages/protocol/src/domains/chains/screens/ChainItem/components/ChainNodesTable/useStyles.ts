@@ -13,44 +13,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2, 0),
   },
 
-  thead: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-
-  row: {
-    '&:last-child td, &:last-child th': { border: 0 },
-  },
-
-  cellThead: {
-    backgroundColor: theme.palette.background.paper,
-  },
-
-  cell: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    '&:last-child': {
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+  tableContainer: {
+    '&&': {
+      padding: 0,
     },
-  },
-
-  nodeCell: {
-    width: '35%',
-  },
-  heightCell: {
-    width: '20%',
-  },
-
-  countryCell: {
-    width: '35%',
-    paddingRight: theme.spacing(1),
-  },
-
-  weightCell: {
-    paddingLeft: theme.spacing(0),
-    paddingRight: theme.spacing(0),
-    width: '10%',
   },
 
   flag: {

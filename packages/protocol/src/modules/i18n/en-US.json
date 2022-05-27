@@ -10,7 +10,10 @@
     "url-chain-validation": "URL must contain {chainId}",
     "public-url-validation": "Should not be a public endpoint of Ankr",
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
-    "duplicate-url-validation": "This endpoint has already been added"
+    "duplicate-url-validation": "This endpoint has already been added",
+    "number-only": "Must be a number",
+    "min": "Should be greater than {value}",
+    "max": "Should be less than {value}"
   },
   "meta": {
     "title": "Decentralized Infrastructure to Power Your dApp",
@@ -61,7 +64,7 @@
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description":"Use a decentralized and free Ethereum public RPC endpoint"
+      "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
     },
     "providers": {
       "title": "Ankr's Decentralized Node Providers",
@@ -76,26 +79,30 @@
     "unknown": "Unknown error",
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
-    "insufficient-permissions": "Insufficient permissions"
+    "insufficient-permissions": "Insufficient permissions",
+    "expired-session": "Your session has expired",
+    "access-token-error": "Unable to obtain access token from multirpc-sdk",
+    "credentials": "Credentials are not ready"
   },
   "main-navigation": {
-    "private-rpcs": "Exclusive RPCs",
+    "dashboard": "Dashboard",
     "public-rpcs": "Public RPCs",
-    "staking": "Staking",
+    "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "ankr-scan": "Ankr Scan"
+    "request-explorer": "Request Explorer"
   },
   "extra-navigation": {
     "docs": "Docs",
-    "faq": "FAQ",
-    "support": "Support"
+    "faq": "FAQ"
   },
   "mobile-navigation": {
+    "dashboard": "Dashboard",
     "public-rpcs": "Public RPCs",
-    "private-rpcs": "Exclusive RPCs",
+    "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
+    "request-explorer": "Request Explorer",
     "more": "More"
   },
   "staking-info": {
@@ -124,6 +131,7 @@
     "total-asset-value-transferred": "Total Asset Value Transferred"
   },
   "chains": {
+    "connected-breadcrumbs": "Dashboard",
     "breadcrumbs": "Public RPCs",
     "title": "Choose Your Network",
     "more-details": "More",
@@ -132,7 +140,14 @@
     "req": "{value, number, ::compact-short} req",
     "30d": "30d",
     "archive": "Archive",
-    "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics."
+    "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
+    "add-endpoint": {
+      "breadcrumbs": "Add Endpoint"
+    },
+    "sort": {
+      "usage": "Sort by usage",
+      "name": "Sort by name"
+    }
   },
   "chain-item": {
     "banner": {
@@ -167,6 +182,10 @@
         "solana-api": "Solana API{plural}"
       }
     },
+    "tabs": {
+      "data": "Usage Data",
+      "infrastructure": "Infrastructure"
+    },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
       "godwoken-based": "For Godwoken methods"
@@ -200,6 +219,7 @@
     },
     "nodes-table": {
       "header": "Nodes",
+      "more": "Show 10 more",
       "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location.",
       "head": {
         "node": "Node",
@@ -220,23 +240,24 @@
   },
   "plan": {
     "breadcrumbs": "Premium Plan",
-    "unlock-btn": "Contact us",
+    "unlock-btn": "Connect Wallet",
+    "learn-more": "Learn More",
     "more-questions": "Have more questions? Let's hear them!",
     "contact-discord": "Contact Support on Discord",
     "header": {
       "title": "Ship fast, scale and save with Premium features.",
-      "sub-title": "Connect to the network of your choice and build with our fast, reliable, and decentralized infrastructure. Supercharge your dApp with premium features with an annual Premium Plan.",
+      "sub-title": "We&nbsp;have just launched the <b>Pay as&nbsp;you&nbsp;Go</b> (PAYG) pricing model. You only pay for what you use. To&nbsp;start using all the premium features, make a&nbsp;<b>minimum deposit of&nbsp;1000&nbsp;ANKR</b> tokens to&nbsp;create your account.",
       "cost": "{value, number, ::compact-short}",
       "period": "year",
       "until": "Valid until the end of 2022",
       "sub-title2": "Limited-time, developer-first pricing that crushes the competition"
     },
     "purchase-block": {
-      "title": "Purchase an&nbsp;Annual Premium Plan for your personal price.",
-      "sub-title": "Developer-first pricing to scale your project fast. Use ANKR to pay for premium access to leading Web3 infrastructure.",
+      "title": "Start using your Premium Plan and pay as&nbsp;you&nbsp;go.",
+      "sub-title": "<p>Tons of&nbsp;useful features are on&nbsp;their way&nbsp;&mdash; granular stats for your dApps, access control lists, multichain projects and much more.</p><p>Btw, if&nbsp;you don&rsquo;t need premium features anymore, you will be&nbsp;able to&nbsp;claim the unused ANKR tokens back to&nbsp;your wallet.</p>",
       "feature1": "No signup",
       "feature2": "No logins",
-      "feature3": "Just building"
+      "feature3": "Pay as you Go"
     },
     "features-block": {
       "feature1": "WebSockets (WS) Capabilities",
@@ -263,6 +284,7 @@
       "premium": "Premium",
       "free": "Free",
       "current-plan": "Current plan",
+      "payg": "Pay as you go",
       "row1-col1": "Full and archive data",
       "row2-col1": "Advanced API",
       "row2-col1-sub": "Coming soon",
@@ -305,9 +327,6 @@
       "validation": {
         "checkbox": "Please, check this box to proceed"
       }
-    },
-    "add-endpoint": {
-      "breadcrumbs": "Add Endpoint"
     },
     "deposit-success": {
       "title": "Deposited Successfully",
@@ -379,6 +398,11 @@
     },
     "traffic-flow": {
       "title": "Your traffic flow",
+      "items": {
+        "item-1": "My Endpoints",
+        "item-2": "Premium Nodes",
+        "item-3": "Community Nodes"
+      },
       "learn-more-button": {
         "title": "Learn More"
       }
@@ -414,10 +438,99 @@
       }
     }
   },
-  "mobile-details": {
-    "pro-block": {
-      "unlock": "Unlock all features with",
-      "premium": "Ankr Premium"
+  "explorer": {
+    "request-explorer": {
+      "breadcrumbs": "Request Explorer",
+      "title": "Request Explorer",
+      "more": "Show 10 more",
+      "date-time": "{value, date, medium} {value, time, short}",
+      "expand": {
+        "tab-request": {
+          "tab-1": "Params",
+          "tab-2": "RAW REQUEST"
+        },
+        "tab-response": {
+          "tab-1": "Result",
+          "tab-2": "RAW RESPONSE"
+        }
+      },
+      "table": {
+        "col-1": "#",
+        "col-2": "Method",
+        "col-3": "Error Code",
+        "col-4": "HTTP",
+        "col-5": "Response Time",
+        "col-6": "Date & Time",
+        "col-7": "Cost USD"
+      }
+    }
+  },
+  "account": {
+    "currencies": {
+      "ankr": "ANKR",
+      "credit": "Credits"
+    },
+    "balance": "{balance, number, ::compact-short}",
+    "account-details": {
+      "breadcrumbs": "Account Details",
+      "title": "Account Details",
+      "top-up": {
+        "title": "Top Up Balance",
+        "pricing-link": "Pricing",
+        "placeholder": "Amount",
+        "button": "Top Up",
+        "continue-button": "Continue Top Up",
+        "continue": "Continue"
+      },
+      "balance": {
+        "title": "Balance",
+        "withdrawButton": {
+          "title": "Withdraw"
+        },
+        "descriptions": {
+          "premium": {
+            "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
+            "extra": "Then you'll have to Top Up your balance to continue using premium features."
+          },
+          "payg": {
+            "extra": "Top up your balance to continue using our service."
+          }
+        }
+      },
+      "expense-chart": {
+        "title": "Expense Chart",
+        "timeframes": {
+          "week": "week",
+          "month": "month",
+          "year": "year",
+          "all": "All time"
+        },
+        "chart": {
+          "short-date": "{value, time, ::dMMM}",
+          "medium-date": "{value, date, medium}",
+          "expense": "{value, number, ::compact-short}"
+        }
+      }
+    },
+    "payment-table": {
+      "title": "Payments History",
+      "date-time": "{value, date, medium} {value, time, short}",
+      "more": "Show 10 more",
+      "head": {
+        "col-1": "Date & Time",
+        "col-2": "Payment type",
+        "col-3": "Amount USD",
+        "col-4": "Amount ANKR"
+      },
+      "csv-title": "Payment charging for {month} {day}, {year}"
+    },
+    "top-up": {
+      "breadcrumbs": "Top Up",
+      "title": "Top Up"
+    },
+    "withdraw": {
+      "breadcrumbs": "Withdraw",
+      "title": "Withdraw"
     }
   },
   "pro-block": {
@@ -440,6 +553,53 @@
       "3": "Operation will take a while (2-4 min).",
       "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
       "5": "The last step in&nbsp;your sign in&nbsp;process."
+    },
+    "next": "Next"
+  },
+  "top-up-steps": {
+    "title": "Top Up",
+    "metamask": "Metamask",
+    "step-content": {
+      "0": "I&nbsp;understand my&nbsp;wallet will make a&nbsp;top-up that includes a&nbsp;gas fees. Ankr cannot provide assistance if&nbsp;I lose access to&nbsp;my&nbsp;wallet and the associated account.",
+      "1": "Click Confirm and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
+      "2": "Click Confirm and allow&nbsp;us to&nbsp;spend your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
+      "3": "Thank you! Transaction<br/> is&nbsp;on&nbsp;the way.",
+      "4": "Finally, click Done and decrypt the message in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension."
+    },
+    "step-notice": {
+      "1": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
+      "2": "If&nbsp;you changed your mind, click Cancel and give&nbsp;us permission to&nbsp;access your Ankr again so&nbsp;we&nbsp;could revoke your Top&nbsp;Up",
+      "3": "After Ethereum network validation you will see updated balance of&nbsp;your wallet.",
+      "4": "The last step in&nbsp;your top up&nbsp;process."
+    },
+    "button": {
+      "0": "Next",
+      "1": "Confirm",
+      "1-loading": "Check Metamask",
+      "2": "Confirm",
+      "2-loading": "Check Metamask",
+      "3": "Next",
+      "3-loading": "Please wait",
+      "3-done": "Done",
+      "4-loading": "Please wait",
+      "4": "Done",
+      "reject": "Cancel"
+    },
+    "copy-button": "Copy TxID",
+    "confirm": "Сonfirm",
+    "wait": "Please wait"
+  },
+  "withdraw-steps": {
+    "title": "Withdraw",
+    "step-content": {
+      "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
+      "1": "How much would you like to withdraw?",
+      "2": "Operation could take up to 15 minutes.",
+      "3": "Thank you! Transaction is on the way."
+    },
+    "step-notice": {
+      "2": "Don’t worry, our system finalizing calculation.",
+      "3": "After Ethereum network validation you will see updated balance of your wallet."
     },
     "next": "Next"
   },

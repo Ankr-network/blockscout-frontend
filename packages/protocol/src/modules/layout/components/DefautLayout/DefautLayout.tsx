@@ -12,13 +12,13 @@ import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from '../Breadcrumbs';
+import { useAuth } from 'modules/auth/hooks/useAuth';
 
 export interface ILayoutProps {
   children?: ReactChild;
   theme?: Themes;
   withNoReactSnap?: boolean;
   disableGutters?: boolean;
-  isPremiumPlanPage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -26,9 +26,9 @@ export const DefaultLayout = ({
   theme = Themes.light,
   withNoReactSnap = true,
   disableGutters = false,
-  isPremiumPlanPage,
 }: ILayoutProps) => {
   const classes = useStyles();
+  const { isWalletConnected } = useAuth();
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -36,12 +36,12 @@ export const DefaultLayout = ({
   return (
     <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
-        <SideBar className={classes.sidebar} />
+        <SideBar
+          className={classes.sidebar}
+          isWalletConnected={isWalletConnected}
+        />
         <div className={classes.body}>
-          <Header
-            isPremiumPlanPage={isPremiumPlanPage}
-            className={classes.header}
-          />
+          <Header className={classes.header} />
           <MobileHeader className={classes.mobileHeader} />
           <Container disableGutters={disableGutters} className={classes.main}>
             <Container
@@ -53,7 +53,7 @@ export const DefaultLayout = ({
             {withNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>
-        <MobileNavigation />
+        <MobileNavigation isWalletConnected={isWalletConnected} />
       </ThemeProvider>
     </div>
   );
