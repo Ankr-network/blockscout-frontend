@@ -41,7 +41,7 @@ export const LITEPAPER_EN =
 export const LITEPAPER_CN =
   'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
 export const CROWDLOAN_LITEPAPER =
-  'https://stakefi.ankr.com/parachain-liquid-bonding/litepaper.pdf';
+  'https://assets.ankr.com/files/parachain-liquid-bonding-litepaper.pdf';
 
 export const BRIDGE_AUDIT_LINK =
   'https://assets.ankr.com/staking/ankr_bridge_security_audit.pdf';
