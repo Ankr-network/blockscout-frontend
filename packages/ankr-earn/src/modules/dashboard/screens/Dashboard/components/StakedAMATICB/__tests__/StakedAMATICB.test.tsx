@@ -5,7 +5,6 @@ import { EEthereumNetworkId } from 'provider';
 
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 
 import { StakedAMATICB } from '..';
 import {
@@ -14,7 +13,7 @@ import {
 } from '../../StakedTokens/hooks/MATIC/useStakedAMATICBData';
 import {
   ITxHistoryData,
-  useStakedMaticTxHistory,
+  useStakedMATICTxHistory,
 } from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
 jest.mock('store/useAppDispatch', () => ({
@@ -32,8 +31,8 @@ jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICBData', () => ({
   useStakedAMATICBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
-  useStakedMaticTxHistory: jest.fn(),
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMATICTxHistory', () => ({
+  useStakedMATICTxHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
@@ -45,8 +44,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     tradeLink: 'trade',
     unstakeLink: 'unstake',
     stakeLink: 'stake',
-    stakeType: EPolygonPoolEventsMap.StakePending,
-    unstakeType: EPolygonPoolEventsMap.MaticClaimPending,
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
@@ -55,10 +52,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    txHistory: null,
-    pendingUnstakeHistory: [],
-    transactionHistory: {
+    pendingUnstakeHistoryAMATICB: [],
+    transactionHistoryAMATICB: {
       token: Token.aMATICb,
+      staked: [],
+      unstaked: [],
+    },
+    pendingUnstakeHistoryAMATICC: [],
+    transactionHistoryAMATICC: {
+      token: Token.aMATICc,
       staked: [],
       unstaked: [],
     },
@@ -72,7 +74,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
       defaultStakedMaticHookData,
     );
 
-    (useStakedMaticTxHistory as jest.Mock).mockReturnValue(
+    (useStakedMATICTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
   });

@@ -1,8 +1,9 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import { NetworkIconText } from '../NetworkIconText';

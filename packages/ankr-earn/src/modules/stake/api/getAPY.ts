@@ -17,6 +17,9 @@ interface IGetAPYArgs {
   blocksDepth?: number;
 }
 
+/**
+ * @depricated  should use data from metrics API service
+ */
 export const getAPY = async ({
   tokenContract,
   web3,

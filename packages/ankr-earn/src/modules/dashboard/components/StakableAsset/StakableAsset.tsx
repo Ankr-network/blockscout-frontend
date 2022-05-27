@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
@@ -10,7 +11,6 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { IETHNetwork } from 'modules/auth/eth/hooks/useETHNetworks';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
 

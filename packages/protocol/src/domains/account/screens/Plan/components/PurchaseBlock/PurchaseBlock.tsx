@@ -2,10 +2,9 @@ import { Box, Paper, Typography } from '@material-ui/core';
 
 import { useStyles } from './usePurchaseBlockStyles';
 import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
-import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { NavLink, useIsXSDown } from 'ui';
-import { CONTACT_SALES_LINK } from '../../const';
+import { useIsXSDown } from 'ui';
+import { ConnectButton } from '../ConnectButton';
 
 export const PurchaseBlock = () => {
   const classes = useStyles();
@@ -19,7 +18,7 @@ export const PurchaseBlock = () => {
           {tHTML('plan.purchase-block.title')}
         </Typography>
         <Typography variant="body1" className={classes.subTitle}>
-          {t('plan.purchase-block.sub-title')}
+          {tHTML('plan.purchase-block.sub-title')}
         </Typography>
 
         <Box mt={2.5} display="flex" justifyContent="center">
@@ -46,18 +45,7 @@ export const PurchaseBlock = () => {
         </Box>
 
         <Box className={classes.unlockContainer}>
-          <NavLink
-            href={CONTACT_SALES_LINK}
-            tabIndex={0}
-            size="large"
-            className={classes.unlockBtn}
-            startIcon={<PremiumIcon />}
-            variant="contained"
-          >
-            <Typography variant="h5" className={classes.unlockBtnTitle}>
-              {t('plan.unlock-btn')}
-            </Typography>
-          </NavLink>
+          <ConnectButton />
         </Box>
       </Box>
       {isMobile && <div className={classes.mobileFooterImg} />}

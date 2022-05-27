@@ -8,6 +8,7 @@ import { useDashboardCardStyles } from './useDashboardCardStyles';
 
 interface IDashboardCardProps {
   amount?: BigNumber;
+  nativeAmountText?: string;
   badgeSlot?: ReactNode;
   buttonsSlot?: ReactNode;
   menuSlot?: ReactNode;
@@ -16,6 +17,7 @@ interface IDashboardCardProps {
 
 export const DashboardCard = ({
   amount,
+  nativeAmountText,
   badgeSlot,
   buttonsSlot,
   menuSlot,
@@ -45,11 +47,17 @@ export const DashboardCard = ({
         </Grid>
       </Box>
 
-      <Grid container alignItems="center" spacing={2}>
-        <Grid item sm xs={12}>
+      <Grid container alignItems="flex-end" spacing={2}>
+        <Grid item sm>
           {amount && (
             <Typography className={classes.amount}>
               {amount.decimalPlaces(DEFAULT_FIXED).toFormat()}
+            </Typography>
+          )}
+
+          {nativeAmountText && (
+            <Typography color="textSecondary" variant="subtitle1">
+              {nativeAmountText}
             </Typography>
           )}
         </Grid>

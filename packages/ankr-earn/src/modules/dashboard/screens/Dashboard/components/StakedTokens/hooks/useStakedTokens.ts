@@ -1,5 +1,3 @@
-import { featuresConfig } from 'modules/common/const';
-
 import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
 import { useStakedAVAXData } from './AVAX/useStakedAVAXData';
@@ -75,12 +73,11 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAETHCShowed = stakedAETHCData.isShowed;
 
-  const isAVAXShowed =
-    featuresConfig.isActiveAVAXStaking && stakedAVAXData.isShowed;
+  const isAVAXShowed = stakedAVAXData.isShowed;
 
   const isABNBBShowed = stakedBNBData.isShowed;
 
-  const isABNBCShowed = featuresConfig.stakeAbnbc && stakedABNBCData.isShowed;
+  const isABNBCShowed = stakedABNBCData.isShowed;
 
   const isMATICShowed = amaticbData.isShowed;
 

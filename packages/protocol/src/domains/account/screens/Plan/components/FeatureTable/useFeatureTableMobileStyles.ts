@@ -37,4 +37,26 @@ export const useMobileStyles = makeStyles<Theme>(theme => ({
     transition: 'max-height 375ms ease-in-out',
   },
   listIcon: {},
+  unblockBtn: {
+    color: theme.palette.primary.main,
+    marginTop: theme.spacing(1),
+    padding: 0,
+    background: 'none',
+    '&:hover': {
+      background: 'none',
+      color: theme.palette.primary.main,
+    },
+    height: 'auto',
+  },
+  unblockBtnIcon: {
+    lineHeight: 1,
+    fontSize: '14px !important',
+  },
+  unlockBtnTitle: {
+    fontSize: 19,
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+    },
+  },
 }));

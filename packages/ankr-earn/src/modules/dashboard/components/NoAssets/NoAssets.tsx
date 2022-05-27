@@ -1,4 +1,5 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { RoutesConfig } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
 

@@ -5,6 +5,7 @@ import React, { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 
+import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 import {
   AvailableWriteProviders,
@@ -13,8 +14,6 @@ import {
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { featuresConfig } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
@@ -164,13 +163,10 @@ const POLKADOT_COMPATIBLE_WALLETS: TWallets = [
   ],
 ];
 
-export const AVAILABLE_WALLETS_GROUP_TYPES =
-  featuresConfig.isActivePolkadotWallet
-    ? [
-        AvailableWriteProviders.ethCompatible,
-        AvailableWriteProviders.polkadotCompatible,
-      ]
-    : [AvailableWriteProviders.ethCompatible];
+export const AVAILABLE_WALLETS_GROUP_TYPES = [
+  AvailableWriteProviders.ethCompatible,
+  AvailableWriteProviders.polkadotCompatible,
+];
 
 export const ConnectWalletsModal = ({
   isOpen = false,
@@ -184,9 +180,7 @@ export const ConnectWalletsModal = ({
 
   const availableWallets = useMemo(() => {
     if (!walletsGroupTypes?.length) {
-      return featuresConfig.isActivePolkadotWallet
-        ? [...ETH_COMPATIBLE_WALLETS, ...POLKADOT_COMPATIBLE_WALLETS]
-        : [...ETH_COMPATIBLE_WALLETS];
+      return [...ETH_COMPATIBLE_WALLETS, ...POLKADOT_COMPATIBLE_WALLETS];
     }
 
     const resultAvailableWallets: TWallets = [];

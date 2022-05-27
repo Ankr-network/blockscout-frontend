@@ -1,26 +1,21 @@
 import { useQuery } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { t } from 'modules/i18n/utils/intl';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import {
-  ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
-} from '../../../../types';
+import { ITxEventsHistoryGroupItem } from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
-  type: EPolygonPoolEventsMap;
+  type: EPolygonPoolEventsMap | string;
   network?: number;
   data?: ITxEventsHistoryGroupItem[];
 }
@@ -45,42 +40,47 @@ const getCompletedTransactions = ({
 };
 
 export interface ITxHistoryData {
-  txHistory: ITxEventsHistoryData | null;
-  pendingUnstakeHistory: IPendingTableRow[];
-  transactionHistory: HistoryDialogData;
+  transactionHistoryAMATICB: HistoryDialogData;
+  transactionHistoryAMATICC: HistoryDialogData;
+  pendingUnstakeHistoryAMATICB: IPendingTableRow[];
+  pendingUnstakeHistoryAMATICC: IPendingTableRow[];
   hasHistory: boolean;
   isHistoryDataLoading: boolean;
   handleLoadTxHistory: () => void;
 }
 
-export const useStakedMaticTxHistory = (): ITxHistoryData => {
-  const { data, loading: isHistoryDataLoading } =
-    useQuery<ITxEventsHistoryData>({
-      type: fetchTxHistory,
-    });
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+export const useStakedMATICTxHistory = (): ITxHistoryData => {
+  const { data, loading: isHistoryDataLoading } = useQuery({
+    type: fetchTxHistory,
+  });
   const dispatch = useAppDispatch();
 
-  const network = isEVMCompatible(chainId) ? chainId : undefined;
-
-  const staked = getCompletedTransactions({
-    data: data?.completed,
-    type: EPolygonPoolEventsMap.StakePending,
-    network,
+  const stakedAMATICB = getCompletedTransactions({
+    data: data?.completedAMATICB,
+    type: EPolygonPoolEventsMap.Staking,
+    network: ETH_NETWORK_BY_ENV,
   });
 
-  const unstaked = getCompletedTransactions({
-    data: data?.completed,
-    type: EPolygonPoolEventsMap.MaticClaimPending,
-    network,
+  const unstakedAMATICB = getCompletedTransactions({
+    data: data?.completedAMATICB,
+    type: EPolygonPoolEventsMap.Unstaking,
+    network: ETH_NETWORK_BY_ENV,
   });
 
-  const pendingUnstake = data?.pending.filter(
-    ({ txType }) => txType === EPolygonPoolEventsMap.MaticClaimPending,
-  );
+  const stakedAMATICC = getCompletedTransactions({
+    data: data?.completedAMATICC,
+    type: EPolygonPoolEventsMap.Staking,
+    network: ETH_NETWORK_BY_ENV,
+  });
 
-  const pendingUnstakeHistory = pendingUnstake
-    ? pendingUnstake.map((transaction, index) => {
+  const unstakedAMATICC = getCompletedTransactions({
+    data: data?.completedAMATICC,
+    type: EPolygonPoolEventsMap.Unstaking,
+    network: ETH_NETWORK_BY_ENV,
+  });
+
+  const pendingUnstakeHistoryAMATICB = data?.pendingAMATICB
+    ? data?.pendingAMATICB.map((transaction, index) => {
         const date = t('format.date', { value: transaction.txDate });
         const time = t('format.time-short', { value: transaction.txDate });
 
@@ -93,18 +93,45 @@ export const useStakedMaticTxHistory = (): ITxHistoryData => {
       })
     : [];
 
-  const hasHistory = !!staked?.length || !!unstaked?.length;
+  const pendingUnstakeHistoryAMATICC = data?.pendingAMATICC
+    ? data?.pendingAMATICC.map((transaction, index) => {
+        const date = t('format.date', { value: transaction.txDate });
+        const time = t('format.time-short', { value: transaction.txDate });
+
+        return {
+          id: index + 1,
+          token: Token.aMATICc,
+          amount: transaction.txAmount,
+          timerSlot: `${date}, ${time}`,
+        };
+      })
+    : [];
+
+  const hasHistory =
+    !!stakedAMATICB?.length ||
+    !!unstakedAMATICB?.length ||
+    !!stakedAMATICC?.length ||
+    !!unstakedAMATICC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
     dispatch(fetchTxHistory());
   }, [dispatch]);
 
   return {
-    txHistory: data,
     isHistoryDataLoading,
-    pendingUnstakeHistory,
     hasHistory,
-    transactionHistory: { token: Token.aMATICb, staked, unstaked },
+    pendingUnstakeHistoryAMATICB,
+    pendingUnstakeHistoryAMATICC,
+    transactionHistoryAMATICB: {
+      token: Token.aMATICb,
+      staked: stakedAMATICB,
+      unstaked: unstakedAMATICB,
+    },
+    transactionHistoryAMATICC: {
+      token: Token.aMATICc,
+      staked: stakedAMATICC,
+      unstaked: unstakedAMATICC,
+    },
     handleLoadTxHistory,
   };
 };

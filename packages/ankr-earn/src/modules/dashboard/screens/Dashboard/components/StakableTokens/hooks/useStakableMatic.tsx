@@ -4,11 +4,11 @@ import { useMemo } from 'react';
 import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchAPY } from 'modules/stake-polygon/actions/fetchAPY';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
 import { MATIC_STAKING_NETWORKS } from 'modules/stake-polygon/const';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 import { IUseStakableToken } from '../types';
@@ -20,7 +20,7 @@ export const useStakableMatic = (): IUseStakableToken => {
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
-  const { data: apy, loading: loadingAPY } = useQuery({ type: fetchAPY });
+  const { data: metrics, loading: loadingAPY } = useQuery({ type: getMetrics });
 
   const networksData = useMemo(
     () =>
@@ -30,13 +30,14 @@ export const useStakableMatic = (): IUseStakableToken => {
     [networks],
   );
 
+  const apy = metrics ? +metrics.matic.apy : 0;
   const balance = data?.maticBalance ?? ZERO;
 
   return {
     icon: <MaticIcon />,
     token: Token.MATIC,
     href: StakePolygonRoutes.stake.generatePath(),
-    apy: apy?.toNumber() ?? 0,
+    apy,
     balance,
     networks: networksData,
     isLoading: loadingStats || loadingAPY,

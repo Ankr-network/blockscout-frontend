@@ -8,8 +8,9 @@ import {
 import { ChangeEvent, ReactChild, RefObject } from 'react';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import { ReactComponent as AngleDownIcon } from 'assets/img/angle-down-icon.svg';
-import { t } from 'modules/i18n/utils/intl';
 
 import { useFaqStyles as useStyles } from './useFaqStyles';
 

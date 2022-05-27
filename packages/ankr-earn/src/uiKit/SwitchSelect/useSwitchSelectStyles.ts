@@ -63,9 +63,15 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
   },
 
   switchIcon: {
-    borderRadius: 12,
+    margin: theme.spacing(1.5, 2),
 
-    margin: theme.spacing(1.5),
+    minWidth: 0,
+    padding: 0,
+    width: 36,
+    height: 36,
+
+    borderRadius: 6,
+    fontSize: 18,
   },
 
   switchChip: {
@@ -75,7 +81,7 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
 
     flex: 1,
     justifyContent: 'flex-start',
-    height: 80,
+    height: 60,
     padding: 0,
     width: '100%',
 

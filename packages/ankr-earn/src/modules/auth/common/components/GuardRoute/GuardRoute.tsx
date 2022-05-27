@@ -2,10 +2,12 @@ import { Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
@@ -23,7 +25,6 @@ interface IGuardRouteProps<
 > extends RouteProps {
   availableNetworks: NetworkId[];
   currentNetwork?: string;
-  infoTxt?: string;
   isConnected: boolean;
   isLoading: boolean;
   isOpenConnectInstantly?: boolean;
@@ -45,7 +46,6 @@ export const GuardRoute = <
 >({
   availableNetworks,
   currentNetwork,
-  infoTxt,
   isConnected,
   isLoading,
   isOpenConnectInstantly,
@@ -68,8 +68,20 @@ export const GuardRoute = <
   }, [isConnected, isOpenConnectInstantly, onDispatchConnect]);
 
   if (isUnsupportedNetwork) {
-    const renderedNetworkItems = supportedNetworks.map(
-      ({ icon, title, chainId: network }) => (
+    const isSingleSwitcher = supportedNetworks.length === 1;
+    const singleNetworkItem = supportedNetworks[0];
+
+    const renderedNetworkItems = isSingleSwitcher ? (
+      <Button
+        color="primary"
+        size="medium"
+        style={{ width: '50%' }}
+        onClick={onSwitchNetwork(singleNetworkItem.chainId)}
+      >
+        {t('connect.switch-network')}
+      </Button>
+    ) : (
+      supportedNetworks.map(({ icon, title, chainId: network }) => (
         <NetworkSelectorItem
           key={network}
           disabled={!isValidWallet}
@@ -77,7 +89,7 @@ export const GuardRoute = <
           title={title}
           onClick={onSwitchNetwork(network)}
         />
-      ),
+      ))
     );
 
     return (
@@ -86,12 +98,14 @@ export const GuardRoute = <
           <Container maxWidth="640px">
             <UnsupportedNetwork
               currentNetwork={currentNetwork}
-              infoTxt={infoTxt}
+              iconSlot={isSingleSwitcher ? singleNetworkItem.icon : null}
               networksSlot={
                 <NetworkSelector>
                   {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}
                 </NetworkSelector>
               }
+              newNetwork={isSingleSwitcher ? singleNetworkItem.title : null}
+              singleSwitcher={isSingleSwitcher}
             />
           </Container>
         </Box>
@@ -113,6 +127,7 @@ export const GuardRoute = <
                 <NetworkSelectorItem
                   key={network}
                   disabled
+                  oldVersion
                   iconSlot={icon}
                   title={title}
                 />
