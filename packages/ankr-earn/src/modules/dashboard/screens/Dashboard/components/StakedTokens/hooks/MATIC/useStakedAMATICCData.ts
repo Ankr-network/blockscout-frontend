@@ -50,8 +50,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
 
   const amount = statsData?.aMATICcBalance ?? ZERO;
 
-  // TODO: STAKAN-1421 use actual pending value
-  const pendingValue = statsData?.pendingClaim ?? ZERO;
+  const pendingValue = statsData?.pendingAMATICC ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;

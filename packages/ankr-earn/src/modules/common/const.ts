@@ -24,6 +24,8 @@ export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
+export const ZERO_EVENT_HASH =
+  '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
@@ -68,34 +70,24 @@ export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
 export const featuresConfig = {
-  isActiveAVAXStaking: true,
-  isActiveAVAXUnstaking: true,
   isActiveClaimNotification: false,
-  isActivePolkadotClaiming: true,
-  isActivePolkadotUnstaking: true,
-  isActivePolkadotWallet: true,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActivePolkadotStaking: currentEnv !== Env.Production,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
-  // todo: STAKAN-917 remove after completion
-  bridge: true,
   bridgeAnotherAddr: false,
-  maxStakeAmountBtn: false,
-  switcherFantom: currentEnv !== Env.Production,
-  stakeETH: true,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
-  // todo: remove after completion of https://ankrnetwork.atlassian.net/browse/STAKAN-1228
-  stakeAbnbc: true,
-  stakeAFTMC: currentEnv !== Env.Production,
-  // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1302
-  bnbHistory: false,
+  stakeAFTMC: true,
+  bnbHistory: true,
   showOldBanner: false,
   aMATICcUnstakeEnabled: true,
-  maticHistory: false,
-  isSplitedMATICHistory: false,
+  isSplitedMATICHistory: true,
+  maticHistory: true,
+  avaxSwitcher: currentEnv !== Env.Production,
   newBinancePool: currentEnv !== Env.Production,
+  dashboardNativeAmount: false,
 };
 
 export enum SupportedChainIDS {

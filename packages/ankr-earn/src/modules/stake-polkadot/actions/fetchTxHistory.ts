@@ -21,7 +21,6 @@ export const fetchTxHistory = createSmartAction<
   },
   meta: {
     asMutation: false,
-    getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
     requestKey: getPolkadotRequestKey(network),
   },
 }));

@@ -1,7 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { fetchAPY } from 'modules/stake-bnb/actions/fetchAPY';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessage {
   hasError: boolean;
@@ -11,8 +11,8 @@ interface IUseErrorMessage {
 export const useErrorMessage = (): IUseErrorMessage => {
   const dispatchRequest = useDispatchRequest();
 
-  const { error: apyError } = useQuery({
-    type: fetchAPY,
+  const { error: metricsError } = useQuery({
+    type: getMetrics,
   });
 
   const { error: commonDataError } = useQuery({
@@ -24,12 +24,12 @@ export const useErrorMessage = (): IUseErrorMessage => {
       dispatchRequest(fetchStats());
     }
 
-    if (apyError) {
-      dispatchRequest(fetchAPY());
+    if (metricsError) {
+      dispatchRequest(getMetrics());
     }
   };
 
-  const hasError = !!commonDataError || !!apyError;
+  const hasError = !!commonDataError || !!metricsError;
 
   return {
     hasError,

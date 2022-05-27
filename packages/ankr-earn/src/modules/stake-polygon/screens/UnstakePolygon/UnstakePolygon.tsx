@@ -2,21 +2,21 @@ import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
-import { fetchValidatorsDetails } from 'modules/metrics/actions/fetchValidatorsDetails';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchAPY } from '../../actions/fetchAPY';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
@@ -48,8 +48,7 @@ export const UnstakePolygon = (): JSX.Element => {
   } = useUnstakeMatic(onSuccessOpen);
 
   useProviderEffect(() => {
-    dispatchRequest(fetchAPY());
-    dispatchRequest(fetchValidatorsDetails());
+    dispatchRequest(getMetrics());
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());

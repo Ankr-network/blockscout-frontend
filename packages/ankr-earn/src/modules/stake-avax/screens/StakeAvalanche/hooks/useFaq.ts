@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 
+import { t, tHTML } from 'common';
+
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 

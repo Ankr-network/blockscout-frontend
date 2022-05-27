@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { ReactText, useCallback } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 import { ZERO } from '../const';
 

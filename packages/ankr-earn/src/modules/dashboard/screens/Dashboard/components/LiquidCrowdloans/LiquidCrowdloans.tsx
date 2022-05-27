@@ -1,9 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { LiquidCrowdloanAsset } from 'modules/dashboard/components/LiquidCrowdloanAsset';
-import { t } from 'modules/i18n/utils/intl';
 
 import { useLiquidCrowdloanAsset } from './useLiquidCrowdloanAsset';
 import { useLiquidCrowdloansStyles } from './useLiquidCrowdloansStyles';

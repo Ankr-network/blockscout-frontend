@@ -3,6 +3,8 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
+
 import {
   Table,
   TableBody,
@@ -13,7 +15,6 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { RoutesConfig } from 'modules/polkadot-slot-auction/Routes';
 import { Button } from 'uiKit/Button';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';

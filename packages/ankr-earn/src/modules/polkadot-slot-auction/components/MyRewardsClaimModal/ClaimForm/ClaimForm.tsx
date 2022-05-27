@@ -10,13 +10,13 @@ import {
 } from 'react-final-form';
 import { AnyAction } from 'redux';
 
+import { t } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { featuresConfig } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { isValidETHAddress } from 'modules/common/utils/isValidETHAddress';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { InputField } from 'uiKit/InputField';

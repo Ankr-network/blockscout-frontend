@@ -23,10 +23,10 @@ import {
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
   MAX_UINT256,
+  ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { getAPY } from 'modules/stake/api/getAPY';
 
 import {
   BLOCK_OFFSET,
@@ -37,20 +37,33 @@ import { TMaticSyntToken } from '../types';
 
 import ABI_AMATICB from './contracts/aMATICb.json';
 import ABI_AMATICC from './contracts/aMATICc.json';
-import ABI_POLYGON_POOL from './contracts/PolygonPoolV2.json';
+import ABI_POLYGON_POOL from './contracts/PolygonPoolV3.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
 enum EPolygonPoolEvents {
   MaticClaimPending = 'MaticClaimPending',
-  StakePending = 'StakePending',
+  StakePendingV2 = 'StakePendingV2',
   StakeAndClaimBonds = 'stakeAndClaimBonds',
   StakeAndClaimCerts = 'stakeAndClaimCerts',
+  IsRebasing = 'IsRebasing',
+  TokensBurned = 'TokensBurned',
 }
 
 export enum EPolygonPoolEventsMap {
-  MaticClaimPending = 'STAKE_ACTION_UNSTAKED',
-  StakePending = 'STAKE_ACTION_STAKED',
+  Unstaking = 'STAKE_ACTION_UNSTAKED',
+  Staking = 'STAKE_ACTION_STAKED',
+}
+
+interface IEventsBatch {
+  stakeRawEvents: EventData[];
+  unstakeRawEvents: EventData[];
+  ratio: BigNumber;
+}
+
+interface IPendingData {
+  pendingAMATICB: BigNumber;
+  pendingAMATICC: BigNumber;
 }
 
 export interface IGetTxData {
@@ -71,8 +84,10 @@ export interface ITxEventsHistoryGroupItem {
 }
 
 export interface ITxEventsHistoryData {
-  completed: TTxEventsHistoryGroupData;
-  pending: TTxEventsHistoryGroupData;
+  completedAMATICB: TTxEventsHistoryGroupData;
+  completedAMATICC: TTxEventsHistoryGroupData;
+  pendingAMATICB: TTxEventsHistoryGroupData;
+  pendingAMATICC: TTxEventsHistoryGroupData;
 }
 
 interface IPolygonSDKProviders {
@@ -230,10 +245,11 @@ export class PolygonSDK implements ISwitcher {
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
       case EPolygonPoolEvents.MaticClaimPending:
-        return EPolygonPoolEventsMap.MaticClaimPending;
+      case EPolygonPoolEvents.TokensBurned:
+        return EPolygonPoolEventsMap.Unstaking;
 
-      case EPolygonPoolEvents.StakePending:
-        return EPolygonPoolEventsMap.StakePending;
+      case EPolygonPoolEvents.StakePendingV2:
+        return EPolygonPoolEventsMap.Staking;
 
       default:
         return null;
@@ -437,17 +453,6 @@ export class PolygonSDK implements ISwitcher {
     );
   }
 
-  public static async getAMaticbAPY(web3: Web3): Promise<BigNumber> {
-    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
-
-    return getAPY({
-      tokenContract: aMaticbTokenContract,
-      web3,
-      batchSize: 12,
-      blocksDepth: 3000,
-    });
-  }
-
   public async getPendingClaim(): Promise<BigNumber> {
     const polygonPoolContract = await this.getPolygonPoolContract();
 
@@ -458,6 +463,57 @@ export class PolygonSDK implements ISwitcher {
     return this.convertFromWei(pending);
   }
 
+  public async getPendingData(): Promise<IPendingData> {
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
+    let totalUnstakingValue = await this.getPendingClaim();
+
+    let pendingRawEvents: EventData[] = [];
+
+    if (totalUnstakingValue.isGreaterThan(ZERO)) {
+      const unstakePendingReverse: EventData[] = unstakeRawEvents.reverse();
+
+      for (let i = 0; i < unstakePendingReverse.length; i += 1) {
+        const unstakeEventItem = unstakePendingReverse[i];
+        const isCert = !unstakeEventItem.returnValues.isRebasing;
+
+        const itemAmount = isCert
+          ? this.convertFromWei(unstakeEventItem.returnValues.amount).dividedBy(
+              ratio,
+            )
+          : this.convertFromWei(unstakeEventItem.returnValues.amount);
+
+        totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
+
+        pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
+
+        if (totalUnstakingValue.isZero()) {
+          break;
+        }
+      }
+    }
+
+    const pendingAMATICBEvents = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingAMATICCEvents = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+
+    return {
+      pendingAMATICB: pendingAMATICBEvents.reduce(
+        (sum, item) => sum.plus(this.convertFromWei(item.returnValues.amount)),
+        ZERO,
+      ),
+      pendingAMATICC: pendingAMATICCEvents.reduce(
+        (sum, item) =>
+          sum.plus(
+            this.convertFromWei(item.returnValues.amount).multipliedBy(ratio),
+          ),
+        ZERO,
+      ),
+    };
+  }
+
   public async getMinimumStake(): Promise<BigNumber> {
     const polygonPoolContract = await this.getPolygonPoolContract();
 
@@ -466,7 +522,7 @@ export class PolygonSDK implements ISwitcher {
     return this.convertFromWei(minStake);
   }
 
-  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+  private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
     const latestBlockNumber = await this.readProvider
@@ -474,11 +530,11 @@ export class PolygonSDK implements ISwitcher {
       .eth.getBlockNumber();
     const startBlock = latestBlockNumber - BLOCK_OFFSET;
 
-    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
+    const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.StakePending,
+        eventName: EPolygonPoolEvents.StakePendingV2,
         startBlock,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { staker: this.currentAccount },
@@ -486,12 +542,24 @@ export class PolygonSDK implements ISwitcher {
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.MaticClaimPending,
+        eventName: EPolygonPoolEvents.TokensBurned,
         startBlock,
         rangeStep: MAX_BLOCK_RANGE,
-        filter: { claimer: this.currentAccount },
+        filter: { staker: this.currentAccount },
       }),
+      this.getACRatio(),
     ]);
+
+    return {
+      stakeRawEvents,
+      unstakeRawEvents,
+      ratio,
+    };
+  }
+
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const { stakeRawEvents, unstakeRawEvents, ratio } =
+      await this.getPoolEventsBatch();
 
     let pendingUnstakes = await this.getPendingClaim();
     let completedRawEvents: EventData[] = [];
@@ -502,9 +570,14 @@ export class PolygonSDK implements ISwitcher {
 
       for (let i = 0; i < unstakeRawEventsReverse.length; i += 1) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
-        const itemAmount = this.convertFromWei(
-          unstakeRawEventItem.returnValues.amount,
-        );
+        const isCert = !unstakeRawEventItem.returnValues.isRebasing;
+
+        const itemAmount = isCert
+          ? this.convertFromWei(
+              unstakeRawEventItem.returnValues.amount,
+            ).dividedBy(ratio)
+          : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
+
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
@@ -522,12 +595,40 @@ export class PolygonSDK implements ISwitcher {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const [completed, pending] = await Promise.all([
-      this.getTxEventsHistoryGroup(completedRawEvents),
-      this.getTxEventsHistoryGroup(pendingRawEvents),
-    ]);
+    const completedAMATICBEvents = completedRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const completedAMATICCEvents = completedRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
 
-    return { completed, pending };
+    const pendingAMATICBEvents = pendingRawEvents.filter(
+      x => x.returnValues.isRebasing,
+    );
+    const pendingAMATICCEvents = pendingRawEvents.filter(
+      x => !x.returnValues.isRebasing,
+    );
+
+    const [completedAMATICB, completedAMATICC, pendingAMATICB, pendingAMATICC] =
+      await Promise.all([
+        this.getTxEventsHistoryGroup(completedAMATICBEvents),
+        this.getTxEventsHistoryGroup(completedAMATICCEvents),
+        this.getTxEventsHistoryGroup(pendingAMATICBEvents),
+        this.getTxEventsHistoryGroup(pendingAMATICCEvents),
+      ]);
+
+    return {
+      completedAMATICB,
+      completedAMATICC: completedAMATICC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+      pendingAMATICB,
+      pendingAMATICC: pendingAMATICC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+    };
   }
 
   public async fetchTxData(txHash: string): Promise<IGetTxData> {

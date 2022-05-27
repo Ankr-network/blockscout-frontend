@@ -6,10 +6,9 @@ import { AvailableWriteProviders } from 'provider';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
-  BSC_NETWORK_BY_ENV,
   STAKING_PATH,
+  BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
-  featuresConfig,
   FTM_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -44,7 +43,7 @@ const TransactionStep = loadComponent(() =>
 const AVAILABLE_NETWORKS = compact([
   ETH_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
-  featuresConfig.switcherFantom && FTM_NETWORK_BY_ENV,
+  FTM_NETWORK_BY_ENV,
 ]);
 
 export function getRoutes(): JSX.Element {

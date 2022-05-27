@@ -3,7 +3,8 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  IGetAccountBalanceData,
+  ApiGateway,
+  EActionStatuses,
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
@@ -26,9 +27,14 @@ import ABI_POLKADOT_POOL from './contracts/PolkadotPool.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
-export enum EPoolEventsMap {
-  Staked = 'Staked',
-  Unstaked = 'Unstaked',
+export interface IPolkadotStakeSDKError extends Error {
+  code: EErrorCodes;
+  payload: IPolkadotStakeSDKErrorPayload;
+}
+
+export interface IPolkadotStakeSDKErrorPayload {
+  id?: string;
+  status?: string;
 }
 
 interface IPolkadotStakeSDKProps {
@@ -49,9 +55,22 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
+export enum EErrorCodes {
+  StakeNotCompleted = 'STAKE_NOT_COMPLETED',
+}
+
+export enum EPoolEventsMap {
+  Staked = 'Staked',
+  Unstaked = 'Unstaked',
+}
+
 const INVALID_ETH_TOKEN_ADDR_MSG = 'Invalid ETH token address';
 
+const POLKADOT_API_CACHE_MS = 10_000;
+
 export class PolkadotStakeSDK {
+  private readonly apiPolkadotGateway: ApiGateway;
+
   private readonly ethReadProvider: Web3KeyReadProvider;
 
   private readonly ethWriteProvider: Web3KeyWriteProvider;
@@ -69,7 +88,16 @@ export class PolkadotStakeSDK {
     ethWriteProvider,
     polkadotWriteProvider,
   }: IPolkadotStakeSDKProps) {
+    const {
+      gatewayConfig: { baseUrl },
+    } = configFromEnv();
+
     PolkadotStakeSDK.instance = this;
+
+    this.apiPolkadotGateway = new ApiGateway({
+      baseUrl,
+      cacheAge: POLKADOT_API_CACHE_MS,
+    });
 
     this.currentETHAccount = ethWriteProvider.currentAccount;
     this.currentPolkadotAccount =
@@ -78,6 +106,18 @@ export class PolkadotStakeSDK {
     this.ethReadProvider = ethReadProvider;
     this.ethWriteProvider = ethWriteProvider;
     this.polkadotWriteProvider = polkadotWriteProvider;
+  }
+
+  private getError(
+    code: EErrorCodes,
+    payload: IPolkadotStakeSDKErrorPayload = {},
+  ): IPolkadotStakeSDKError {
+    const err = new Error() as IPolkadotStakeSDKError;
+
+    err.code = code;
+    err.payload = payload;
+
+    return err;
   }
 
   private getETHTokenAddress(
@@ -265,6 +305,13 @@ export class PolkadotStakeSDK {
     );
   }
 
+  async getMaxDecimalsStake(): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+    const maxDecimals = polkadotProvider.getNetworkMaxDecimals();
+
+    return new BigNumber(maxDecimals);
+  }
+
   async getMaxDecimalsUnstake(): Promise<BigNumber> {
     const ethTokenContract = await this.getETHTokenContract();
     const decimals: string = await ethTokenContract.methods.decimals().call();
@@ -299,10 +346,23 @@ export class PolkadotStakeSDK {
     return new BigNumber(minStakeValue);
   }
 
-  async getPolkadotBalanceData(): Promise<IGetAccountBalanceData> {
+  async getPolkadotAccountMaxSafeBalance(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<BigNumber> {
     const polkadotProvider = await this.getPolkadotProvider();
 
-    return polkadotProvider.getAccountBalance(this.currentPolkadotAccount);
+    const [{ address: depositAddress }, { free: amount }] = await Promise.all([
+      this.apiPolkadotGateway.depositAddress({
+        network: currNetwork,
+      }),
+      polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
+    ]);
+
+    return polkadotProvider.getMaxPossibleSendAmount(
+      this.currentPolkadotAccount,
+      depositAddress,
+      amount,
+    );
   }
 
   async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -310,6 +370,36 @@ export class PolkadotStakeSDK {
       completed: [],
       pending: [],
     };
+  }
+
+  async stake(
+    currNetwork: EPolkadotNetworks,
+    amount: BigNumber,
+  ): Promise<void> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    const { address: depositAddress } =
+      await this.apiPolkadotGateway.depositAddress({
+        network: currNetwork,
+      });
+
+    const { extId: extrinsic } = await polkadotProvider.sendFundsWithExtrinsic(
+      this.currentPolkadotAccount,
+      depositAddress,
+      amount,
+    );
+
+    const { id, status } = await this.apiPolkadotGateway.deposit({
+      network: currNetwork,
+      extrinsic,
+    });
+
+    if (status !== EActionStatuses.Completed) {
+      throw this.getError(EErrorCodes.StakeNotCompleted, {
+        id,
+        status,
+      });
+    }
   }
 
   async unstake(address: TPolkadotAddress, amount: BigNumber): Promise<void> {

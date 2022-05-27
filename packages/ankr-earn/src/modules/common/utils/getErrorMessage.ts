@@ -1,10 +1,14 @@
 import { ErrorProps } from '@redux-requests/react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
 
 export function getErrorMessage(props: ErrorProps | Error): string {
   if (props instanceof Error) {
     return props.toString();
+  }
+
+  if (props.message) {
+    return props.message;
   }
 
   if (typeof props.error?.error === 'string') {
