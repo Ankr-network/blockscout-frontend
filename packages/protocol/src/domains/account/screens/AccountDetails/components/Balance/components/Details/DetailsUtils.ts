@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { AccountStatus } from 'multirpc-sdk';
 import { formatBalance } from 'domains/account/utils/formatBalance';
-import { i18nKeyRoot } from '../BalanceUtils';
+import { root as commonRoot } from '../../const';
 import { t } from 'modules/i18n/utils/intl';
 
 export interface GetDescriptionsParams {
@@ -11,7 +11,7 @@ export interface GetDescriptionsParams {
   usdBalance: BigNumber;
 }
 
-const root = `${i18nKeyRoot}.descriptions`;
+const root = `${commonRoot}.descriptions`;
 
 const getPremiumDescription = (date: Date) =>
   t(`${root}.premium.main`, { date });

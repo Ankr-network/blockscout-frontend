@@ -5,9 +5,10 @@ import { Currency } from 'domains/account/types';
 
 export type BalanceData = {
   balance: BigNumber;
+  currency: Currency;
   isLoading?: boolean;
-  onCurrencySwitch: (currency: Currency) => void;
   premiumUntil?: Date;
   status: AccountStatus;
+  switchCurrency: () => void;
   usdBalance: BigNumber;
 };

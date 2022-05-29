@@ -14,7 +14,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontWeight: 600,
     fontSize: 14,
     lineHeight: '20px',

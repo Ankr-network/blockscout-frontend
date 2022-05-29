@@ -468,7 +468,8 @@
   "account": {
     "currencies": {
       "ankr": "ANKR",
-      "credit": "Credits"
+      "credit": "Credits",
+      "usd": "USD"
     },
     "balance": "{balance, number, ::compact-short}",
     "account-details": {

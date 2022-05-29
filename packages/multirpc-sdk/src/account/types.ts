@@ -67,9 +67,8 @@ export interface IAggregatedPaymentHistoryRequest {
   blockchains?: string[];
   limit?: number;
   types: IPaymentHistoryEntityType[];
-  // unix timestamps
-  from: number;
-  to: number;
+  from?: number;
+  to?: number;
   time_group: 'TOTAL' | 'DAY' | 'HOUR';
 }
 

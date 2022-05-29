@@ -11,8 +11,6 @@ import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
 import { useStyles } from './AccountDetailsStyles';
 
-const HAS_EXPENSE_CHART = false;
-
 export const AccountDetails = () => {
   const classes = useStyles();
 
@@ -32,11 +30,9 @@ export const AccountDetails = () => {
         <Box className={classes.payments}>
           <PaymentsHistoryTable />
         </Box>
-        {HAS_EXPENSE_CHART && (
-          <Box className={classes.expenseChart}>
-            <ExpenseChart />
-          </Box>
-        )}
+        <Box className={classes.expenseChart}>
+          <ExpenseChart />
+        </Box>
       </Box>
     </ThemeProvider>
   );

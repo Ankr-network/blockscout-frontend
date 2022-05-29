@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { stringify } from 'qs';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
@@ -64,6 +65,8 @@ export class AccountGateway implements IAccountGateway {
       '/api/v1/auth/aggregatedTransactions',
       {
         params,
+        paramsSerializer: (request: IAggregatedPaymentHistoryRequest) =>
+          stringify(request, { indices: false }),
       },
     );
 
