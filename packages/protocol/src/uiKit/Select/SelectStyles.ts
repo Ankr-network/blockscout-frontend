@@ -56,9 +56,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
 
       '&.Mui-selected': {
-        color: theme.palette.action.disabledBackground,
+        color: theme.palette.primary.main,
         background: 'none',
-        cursor: 'default',
 
         '&:hover': {
           background: 'none',
