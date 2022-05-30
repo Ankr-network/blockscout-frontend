@@ -13,6 +13,7 @@ import { Address, Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import { Milliseconds } from 'modules/common/types';
 
 import {
   ETH_NETWORKS,
@@ -66,7 +67,8 @@ export enum EPoolEventsMap {
 
 const INVALID_ETH_TOKEN_ADDR_MSG = 'Invalid ETH token address';
 
-const POLKADOT_API_CACHE_MS = 10_000;
+const CLAIM_TOKEN_LIFE_TIME: Milliseconds = 600_000; // 10 min
+const POLKADOT_API_CACHE: Milliseconds = 10_000;
 
 export class PolkadotStakeSDK {
   private readonly apiPolkadotGateway: ApiGateway;
@@ -96,7 +98,7 @@ export class PolkadotStakeSDK {
 
     this.apiPolkadotGateway = new ApiGateway({
       baseUrl,
-      cacheAge: POLKADOT_API_CACHE_MS,
+      cacheAge: POLKADOT_API_CACHE,
     });
 
     this.currentETHAccount = ethWriteProvider.currentAccount;
@@ -288,6 +290,84 @@ export class PolkadotStakeSDK {
     });
   }
 
+  /**
+   *  @note An alpha version of method. Awaiting fixes on the Server side
+   *
+   *  TODO Add fixes for this (Polkadot - Claim)
+   */
+  async claim(
+    currNetwork: EPolkadotNetworks,
+    amount: BigNumber,
+    claimableAmount: BigNumber,
+    isLedgerWallet = false,
+  ): Promise<void> {
+    // eslint-disable-next-line no-console
+    console.log('Polkadot - Claim - isLedgerWallet', isLedgerWallet);
+
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    const expirationTimestamp = Date.now() + CLAIM_TOKEN_LIFE_TIME;
+
+    const [maxPolkadotNetworkDecimals, signature] = await Promise.all([
+      this.getMaxPolkadotNetworkDecimals(),
+      polkadotProvider.getRawTokenSignature(
+        this.currentPolkadotAccount,
+        this.currentETHAccount,
+        expirationTimestamp,
+      ),
+    ]);
+
+    const totalAmount = amount
+      .plus(claimableAmount)
+      .decimalPlaces(
+        maxPolkadotNetworkDecimals.toNumber(),
+        BigNumber.ROUND_DOWN,
+      )
+      .toString(10);
+
+    const { claim } = await this.apiPolkadotGateway.claim({
+      address: this.currentPolkadotAccount,
+      amount: totalAmount,
+      ethAddress: this.currentETHAccount,
+      network: currNetwork,
+      signature,
+      timestamp: expirationTimestamp,
+    });
+
+    const [ethPoolContract, ethTokenContract] = await Promise.all([
+      this.getETHPoolContract(),
+      this.getETHTokenContract(),
+    ]);
+
+    const isClaimValid = await ethPoolContract.methods
+      .isClaimValid(
+        ethTokenContract.options.address,
+        claim.data.claimId,
+        claim.data.claimBeforeBlock,
+        claim.data.nativeAmount,
+        this.currentETHAccount,
+        claim.data.signature,
+      )
+      .call();
+
+    if (!isClaimValid) {
+      throw new Error('Invalid claim');
+    }
+
+    await ethPoolContract.methods
+      .claimBonds(
+        ethTokenContract.options.address,
+        claim.data.claimId,
+        claim.data.nativeAmount,
+        claim.data.claimBeforeBlock,
+        this.currentETHAccount,
+        claim.data.signature,
+      )
+      .send({
+        from: this.currentETHAccount,
+      });
+  }
+
   async getETHTokenBalance(
     currNetwork?: EPolkadotNetworks,
   ): Promise<BigNumber> {
@@ -305,18 +385,18 @@ export class PolkadotStakeSDK {
     );
   }
 
-  async getMaxDecimalsStake(): Promise<BigNumber> {
-    const polkadotProvider = await this.getPolkadotProvider();
-    const maxDecimals = polkadotProvider.getNetworkMaxDecimals();
-
-    return new BigNumber(maxDecimals);
-  }
-
-  async getMaxDecimalsUnstake(): Promise<BigNumber> {
+  async getMaxETHTokenDecimals(): Promise<BigNumber> {
     const ethTokenContract = await this.getETHTokenContract();
     const decimals: string = await ethTokenContract.methods.decimals().call();
 
     return new BigNumber(decimals);
+  }
+
+  async getMaxPolkadotNetworkDecimals(): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+    const maxDecimals = polkadotProvider.getNetworkMaxDecimals();
+
+    return new BigNumber(maxDecimals);
   }
 
   async getMinStake(): Promise<BigNumber> {
@@ -411,14 +491,14 @@ export class PolkadotStakeSDK {
       await this.ethWriteProvider.connect();
     }
 
-    const [ethPoolContract, ethTokenContract, maxDecimalsUnstake] =
+    const [ethPoolContract, ethTokenContract, maxETHTokenDecimals] =
       await Promise.all([
         this.getETHPoolContract(),
         this.getETHTokenContract(),
-        this.getMaxDecimalsUnstake(),
+        this.getMaxETHTokenDecimals(),
       ]);
 
-    const decimals = Number.parseInt(maxDecimalsUnstake.toString(10), 10);
+    const decimals = Number.parseInt(maxETHTokenDecimals.toString(10), 10);
     const scaledAmount = amount.multipliedBy(10 ** decimals).toString(10);
 
     const polkadotAddressBytes =

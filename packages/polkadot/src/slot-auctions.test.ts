@@ -1,11 +1,12 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { u8aToHex } from '@polkadot/util';
 import BigNumber from 'bignumber.js';
+import { TEthereumAddress } from './entity';
 import { SlotAuctionSdk } from './slot-auction';
 
 class TestSlotAuctionSdk extends SlotAuctionSdk {
   static createRemarkPayload(
-    ethereumAddress: string,
+    ethereumAddress: TEthereumAddress,
     loanId: number,
     amount: BigNumber,
   ): Uint8Array {

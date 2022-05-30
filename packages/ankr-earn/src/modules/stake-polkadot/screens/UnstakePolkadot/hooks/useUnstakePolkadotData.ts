@@ -15,19 +15,18 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
-import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
-
-import { fetchUnstakeStats } from '../../../actions/fetchUnstakeStats';
-import { unstake } from '../../../actions/unstake';
-import { useETHPolkadotProvidersEffect } from '../../../hooks/useETHPolkadotProvidersEffect';
+import { fetchUnstakeStats } from 'modules/stake-polkadot/actions/fetchUnstakeStats';
+import { unstake } from 'modules/stake-polkadot/actions/unstake';
+import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
   TPolkadotETHToken,
   TPolkadotToken,
-} from '../../../types';
-import { getRedeemPeriod } from '../../../utils/getRedeemPeriod';
+} from 'modules/stake-polkadot/types';
+import { getRedeemPeriod } from 'modules/stake-polkadot/utils/getRedeemPeriod';
+import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
+import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
 
 interface IUseUnstakePolkadotData {
   ethToken: TPolkadotETHToken;
@@ -94,8 +93,8 @@ export const useUnstakePolkadotData = (
   );
 
   const maxAmountDecimals = useMemo(
-    () => fetchStatsData?.maxDecimalsUnstake.toNumber(),
-    [fetchStatsData?.maxDecimalsUnstake],
+    () => fetchStatsData?.maxETHTokenDecimals.toNumber(),
+    [fetchStatsData?.maxETHTokenDecimals],
   );
 
   const networkName = useMemo(

@@ -5,7 +5,13 @@ import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
 import { ContractManager } from './contract';
-import { ICrowdloanType, TClaimMethod, TCrowdloanStatus } from './entity';
+import {
+  ICrowdloanType,
+  TClaimMethod,
+  TCrowdloanStatus,
+  TEthereumAddress,
+  TPolkadotAddress,
+} from './entity';
 import { ApiGateway } from './gateway';
 import { PolkadotProvider } from './polkadot';
 
@@ -202,9 +208,9 @@ export class SlotAuctionSdk {
   }
 
   public async claimRewardPoolTokensOnchain(
-    polkadotAccount: string,
+    polkadotAccount: TPolkadotAddress,
     loanId: number,
-    ethereumAddress?: string,
+    ethereumAddress?: TEthereumAddress,
   ): Promise<{
     transactionHash: string;
     transactionReceipt: any;
@@ -220,7 +226,7 @@ export class SlotAuctionSdk {
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
 
-    let claims = await this.apiGateway.getClaims({
+    let claims = await this.apiGateway.getRewardClaims({
       network: currentNetwork,
       address: polkadotAccount,
       loanId,
@@ -255,7 +261,7 @@ export class SlotAuctionSdk {
     };
     await sleep(3000); // This is small hack to allow backend to process transaction in case of race conditions
 
-    claims = await this.apiGateway.getClaims({
+    claims = await this.apiGateway.getRewardClaims({
       network: currentNetwork,
       address: polkadotAccount,
       loanId,
@@ -284,9 +290,9 @@ export class SlotAuctionSdk {
   }
 
   public async claimRewardPoolTokens(
-    polkadotAccount: string,
+    polkadotAccount: TPolkadotAddress,
     loanId: number,
-    ethereumAddress?: string,
+    ethereumAddress?: TEthereumAddress,
   ): Promise<{
     transactionHash: string;
     transactionReceipt: any;
@@ -303,7 +309,7 @@ export class SlotAuctionSdk {
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
     // create signature
     const expirationTimestamp = new Date().getTime() + 10_000 * 60; // 10 minutes (seconds);
-    const sigOrToken64 = await this.createRawTokenSignature(
+    const sigOrToken64 = await this.polkadotProvider.getRawTokenSignature(
       polkadotAccount,
       ethereumAddress,
       expirationTimestamp,
@@ -339,7 +345,7 @@ export class SlotAuctionSdk {
     return { transactionReceipt, transactionHash };
   }
 
-  protected static ethereumAddressToBytes(address: string): Buffer {
+  protected static ethereumAddressToBytes(address: TEthereumAddress): Buffer {
     if (address.startsWith('0x')) {
       address = address.slice(2);
     }
@@ -347,7 +353,7 @@ export class SlotAuctionSdk {
   }
 
   protected static createRemarkPayload(
-    ethereumAddress: string,
+    ethereumAddress: TEthereumAddress,
     loanId: number,
     amount: BigNumber,
   ): Uint8Array {
@@ -373,37 +379,14 @@ export class SlotAuctionSdk {
     );
   }
 
-  public async createRawTokenSignature(
-    polkadotAccount: string,
-    ethereumAddress: string,
-    expirationTimestamp: number,
-  ): Promise<string> {
-    if (!this.polkadotProvider.isAPIConnected())
-      throw new Error(`Polkadot must be connected`);
-    const signMessage = Buffer.from(
-      `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
-        polkadotAccount,
-      )}\n${ethereumAddress}\n${expirationTimestamp}`,
-      'ascii',
-    );
-    console.log(
-      `Signing raw message (ASCII): ${signMessage.toString('ascii')}`,
-    );
-    console.log(`Signing raw message (HEX): ${signMessage.toString('hex')}`);
-    return this.polkadotProvider.signRawMessage(
-      polkadotAccount,
-      `0x${signMessage.toString('hex')}`,
-    );
-  }
-
   public async createVerifiableTokenSignature(
-    polkadotAccount: string,
-    ethereumAddress: string,
+    polkadotAccount: TPolkadotAddress,
+    ethereumAddress: TEthereumAddress,
     expirationTimestamp: number,
   ): Promise<string> {
     if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
-    const signature = await this.createRawTokenSignature(
+    const signature = await this.polkadotProvider.getRawTokenSignature(
       polkadotAccount,
       ethereumAddress,
       expirationTimestamp,

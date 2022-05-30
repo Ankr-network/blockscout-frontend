@@ -1,5 +1,8 @@
 import BigNumber from 'bignumber.js';
 
+import { Address } from 'provider';
+
+export type TEthereumAddress = Address;
 export type TPolkadotAddress = string;
 
 export type TNetworkType = 'DOT' | 'KSM' | 'WND' | 'ROC';
@@ -74,7 +77,7 @@ export interface ICrowdloanType {
   totalRaiseTarget: BigNumber;
 }
 
-export interface IClaim {
+export interface IRewardClaim {
   claim: {
     address: string;
     status: TClaimStatus;

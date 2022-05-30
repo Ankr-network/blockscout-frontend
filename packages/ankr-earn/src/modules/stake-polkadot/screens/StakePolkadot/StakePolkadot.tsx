@@ -1,5 +1,4 @@
 import { Box, ButtonBase } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -7,7 +6,6 @@ import { t, tHTML } from 'common';
 
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -22,50 +20,40 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchPolkadotAccountMaxSafeBalance } from '../../actions/fetchPolkadotAccountMaxSafeBalance';
-import { fetchStakeStats } from '../../actions/fetchStakeStats';
-import { useETHPolkadotProvidersEffect } from '../../hooks/useETHPolkadotProvidersEffect';
 import { IPolkadotRouteLoadableComponentProps } from '../../types';
 import { getRedeemPeriod } from '../../utils/getRedeemPeriod';
 
-import { useFaq } from './hooks/useFaq';
+import { StakeClaimDialog } from './components/StakeClaimDialog';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakePolkadotStyles } from './useStakePolkadotStyles';
 
 export const StakePolkadot = ({
   network,
 }: IPolkadotRouteLoadableComponentProps): JSX.Element => {
   const classes = useStakePolkadotStyles();
-  const dispatchRequest = useDispatchRequest();
-
-  const { isSuccessOpened, onAddTokenClick, onSuccessClose, onSuccessOpen } =
-    useSuccessDialog(network);
 
   const {
     amount,
     ethToken,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
+    isActiveStakeClaimForm,
+    isActiveStakeForm,
+    isActiveSuccessForm,
     isFetchStatsLoading,
     isStakeLoading,
     metricsServiceName,
     polkadotBalance,
     polkadotToken,
-    onFormChange,
-    onFormSubmit,
-  } = useStakeForm({
-    network,
-    openSuccessModal: onSuccessOpen,
-  });
+    onAddTokenClick,
+    onStakeChange,
+    onStakeClaimSubmit,
+    onStakeSubmit,
+    onSuccessClose,
+  } = useStakeForm(network);
 
-  const faqItems = useFaq({
-    ethToken,
-    network,
-    polkadotToken,
-  });
-
-  const onRenderStats = (rawAmount: BigNumber): JSX.Element => (
+  const onStakeFormRenderStats = (rawAmount: BigNumber): JSX.Element => (
     <StakeDescriptionContainer>
       <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
 
@@ -89,18 +77,6 @@ export const StakePolkadot = ({
     </StakeDescriptionContainer>
   );
 
-  useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
-    dispatchRequest(fetchStakeStats());
-    dispatchRequest(getMetrics());
-  }, [
-    dispatchRequest,
-    fetchPolkadotAccountMaxSafeBalance,
-    fetchStakeStats,
-    getMetrics,
-    network,
-  ]);
-
   if (isFetchStatsLoading) {
     return (
       <Box mt={5}>
@@ -117,39 +93,55 @@ export const StakePolkadot = ({
         </StakeContainer>
       )}
 
-      {fetchStatsError === null &&
-        fetchStatsData !== null &&
-        (isSuccessOpened ? (
-          <Container>
-            <StakeSuccessDialog
-              tokenName={ethToken}
-              onAddTokenClick={onAddTokenClick}
-              onClose={onSuccessClose}
-            />
-          </Container>
-        ) : (
-          <StakeContainer>
-            <StakeForm
-              balance={polkadotBalance}
-              loading={isStakeLoading}
-              maxAmount={polkadotBalance}
-              maxAmountDecimals={fetchStatsData.maxDecimalsStake.toNumber()}
-              minAmount={fetchStatsData.minStake}
-              renderStats={onRenderStats}
-              tokenIn={polkadotToken}
-              tokenOut={ethToken}
-              onChange={onFormChange}
-              onSubmit={onFormSubmit}
-            />
+      {fetchStatsError === null && fetchStatsData !== null && (
+        <>
+          {isActiveStakeForm && (
+            <StakeContainer>
+              <StakeForm
+                balance={polkadotBalance}
+                loading={isStakeLoading}
+                maxAmount={polkadotBalance}
+                maxAmountDecimals={fetchStatsData.maxPolkadotNetworkDecimals.toNumber()}
+                minAmount={fetchStatsData.minStake}
+                renderStats={onStakeFormRenderStats}
+                tokenIn={polkadotToken}
+                tokenOut={ethToken}
+                onChange={onStakeChange}
+                onSubmit={onStakeSubmit}
+              />
 
-            <StakeStats
-              amount={amount}
-              metricsServiceName={metricsServiceName}
-            />
+              <StakeStats
+                amount={amount}
+                metricsServiceName={metricsServiceName}
+              />
 
-            <Faq data={faqItems} />
-          </StakeContainer>
-        ))}
+              <Faq data={faqItems} />
+            </StakeContainer>
+          )}
+
+          {isActiveStakeClaimForm && (
+            <Container>
+              <StakeClaimDialog
+                ethAmount={amount}
+                ethToken={ethToken}
+                network={network}
+                polkadotToken={polkadotToken}
+                onSubmit={onStakeClaimSubmit}
+              />
+            </Container>
+          )}
+
+          {isActiveSuccessForm && (
+            <Container>
+              <StakeSuccessDialog
+                tokenName={ethToken}
+                onAddTokenClick={onAddTokenClick}
+                onClose={onSuccessClose}
+              />
+            </Container>
+          )}
+        </>
+      )}
     </section>
   );
 };

@@ -29,7 +29,12 @@ import {
   STAGING_ROCOCO_CONFIG,
   STAGING_WESTEND_CONFIG,
 } from './config';
-import { EEnvTypes, TNetworkType, TPolkadotAddress } from './entity';
+import {
+  EEnvTypes,
+  TEthereumAddress,
+  TNetworkType,
+  TPolkadotAddress,
+} from './entity';
 
 interface IConfig {
   polkadotUrl: string;
@@ -224,6 +229,33 @@ export class PolkadotProvider implements IProvider {
   public getRawApi(): ApiPromise {
     if (!this.api) throw new Error(`Polkadot API is not initialized`);
     return this.api;
+  }
+
+  public async getRawTokenSignature(
+    polkadotAccount: TPolkadotAddress,
+    ethereumAddress: TEthereumAddress,
+    expirationTimestamp: number,
+  ): Promise<string> {
+    if (!this.isAPIConnected()) {
+      throw new Error('Polkadot must be connected');
+    }
+
+    const signMessage = Buffer.from(
+      `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
+        polkadotAccount,
+      )}\n${ethereumAddress}\n${expirationTimestamp}`,
+      'ascii',
+    );
+
+    console.log(
+      `Signing raw message (ASCII): ${signMessage.toString('ascii')}`,
+      `\nSigning raw message (HEX): ${signMessage.toString('hex')}`,
+    );
+
+    return this.signRawMessage(
+      polkadotAccount,
+      `0x${signMessage.toString('hex')}`,
+    );
   }
 
   public getWalletMeta(): IWalletMeta {

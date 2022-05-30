@@ -4,14 +4,13 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { IPolkadotRouteLoadableComponentProps } from 'modules/stake-polkadot/types';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UnstakeUserWallet } from 'modules/stake/components/UnstakeUserWallet';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-
-import { IPolkadotRouteLoadableComponentProps } from '../../types';
 
 import { UnstakeRenderFormFooter } from './components/UnstakeRenderFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';

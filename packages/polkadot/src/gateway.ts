@@ -3,14 +3,36 @@ import { setupCache } from 'axios-cache-adapter';
 import BigNumber from 'bignumber.js';
 import {
   EActionStatuses,
-  IClaim,
   ICrowdloanType,
+  IRewardClaim,
   TActionType,
   TClaimStatus,
   TCrowdloanStatus,
+  TEthereumAddress,
   TNetworkType,
   TPolkadotAddress,
 } from './entity';
+
+interface IClaimRes {
+  claim: {
+    address: TPolkadotAddress;
+    createdTimestamp: number;
+    data: {
+      amount: string;
+      claimBeforeBlock: number;
+      claimId: string;
+      ethAddress: TEthereumAddress;
+      nativeAmount: string;
+      network: number;
+      signature: string;
+    };
+    expiresTimestamp: number;
+    loanId: number;
+    status: TClaimStatus;
+    tokenAddress: TEthereumAddress;
+  };
+  tokenAddress: TEthereumAddress;
+}
 
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
@@ -104,16 +126,16 @@ export class ApiGateway {
   }
 
   public async claim(request: {
+    address: TPolkadotAddress;
+    amount: string;
+    ethAddress: TEthereumAddress;
     network: TNetworkType;
-    address: string;
-    ethAddress: string;
-    amount: BigNumber;
-    timestamp: number;
     signature: string;
-  }): Promise<IClaim> {
-    return ApiGateway.mapClaimResponse(
-      await this.api.post(`/v1alpha/polkadot/claim`, request),
-    );
+    timestamp: number;
+  }): Promise<IClaimRes> {
+    const { data } = await this.api.post('/v1alpha/polkadot/claim', request);
+
+    return data;
   }
 
   public async getCrowdloanById(request: {
@@ -267,18 +289,18 @@ export class ApiGateway {
     });
   }
 
-  public async getClaims(request: {
+  public async getRewardClaims(request: {
     network: TNetworkType;
     address: string;
     loanId: number;
-  }): Promise<IClaim[]> {
+  }): Promise<IRewardClaim[]> {
     const queryParams = Object.entries(request)
       .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
       .join('&');
     const {
       data: { claims },
     } = await this.api.get(`/v1alpha/polkadot/claims?${queryParams}`);
-    return claims.map(ApiGateway.mapClaimResponse);
+    return claims.map(ApiGateway.mapRewardClaimResponse);
   }
 
   public async crowdloanClaim(request: {
@@ -331,7 +353,7 @@ export class ApiGateway {
     };
   }
 
-  private static mapClaimResponse(claim: any): IClaim {
+  private static mapRewardClaimResponse(claim: any): IRewardClaim {
     return {
       claim: {
         address: claim.address,
