@@ -6,9 +6,11 @@ import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedAVAXData } from '../StakedTokens/hooks/AVAX/useStakedAVAXData';
 import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
@@ -16,7 +18,18 @@ import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAX
 export const StakedAVAX = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
 
-  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const {
     transactionHistory,
     pendingUnstakeHistory,
@@ -59,9 +72,9 @@ export const StakedAVAX = (): JSX.Element => {
   };
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
@@ -86,20 +99,29 @@ export const StakedAVAX = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aAVAXb}
-        tokenAddress={avalancheConfig.aAVAXb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={transactionHistory}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aAVAXb"
+        moreHref={getStakingOverviewUrl(Token.AVAX)}
+        open={isOpenedInfo}
+        tokenAddress={avalancheConfig.aAVAXb}
+        tokenName={Token.aAVAXb}
+        onClose={onCloseInfo}
       />
     </>
   );

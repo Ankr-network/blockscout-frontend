@@ -34,6 +34,7 @@ export interface IStakedABNBCData {
   unstakeLink: string;
   pendingValue: BigNumber;
   isUnstakeLoading: boolean;
+  ratio: BigNumber;
   isPendingUnstakeLoading: boolean;
   onAddTokenToWallet: () => void;
 }
@@ -80,6 +81,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     unstakeLink: RoutesConfig.unstake.generatePath(token),
     isUnstakeLoading,
     pendingValue,
+    ratio: statsData?.aBNBcRatio ?? ZERO,
     isPendingUnstakeLoading,
     onAddTokenToWallet,
   };

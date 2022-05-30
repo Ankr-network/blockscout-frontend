@@ -33,6 +33,7 @@ export interface IStakedAFTMCData {
   isUnstakeLoading: boolean;
   walletName?: string;
   address?: string;
+  ratio: BigNumber;
   handleAddTokenToWallet: () => void;
 }
 
@@ -79,6 +80,7 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
     isUnstakeLoading,
     walletName,
     address,
+    ratio: commonData?.aFTMcRatio ?? ZERO,
     handleAddTokenToWallet,
   };
 };

@@ -7,12 +7,14 @@ import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import {
   Pending,
   PendingTemporary,
 } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -22,7 +24,18 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
 
-  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const dispatch = useAppDispatch();
 
   const {
@@ -70,9 +83,9 @@ export const StakedAMATICB = (): JSX.Element | null => {
   }, [dispatch]);
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const renderedPendingSlot =
     !pendingValue.isZero() &&
@@ -101,22 +114,31 @@ export const StakedAMATICB = (): JSX.Element | null => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aMATICb}
-        tokenAddress={contractConfig.aMaticbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={
           featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
         }
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={transactionHistoryAMATICB}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aMATICb"
+        moreHref={getStakingOverviewUrl(Token.MATIC)}
+        open={isOpenedInfo}
+        tokenAddress={contractConfig.aMaticbToken}
+        tokenName={Token.aMATICb}
+        onClose={onCloseInfo}
       />
     </>
   );

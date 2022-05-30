@@ -6,16 +6,29 @@ import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedABNBBData } from '../StakedTokens/hooks/BNB/useStakedABNBBData';
 import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
 
 export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
-  const { isOpened, onClose, onOpen } = useDialog();
+
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
 
   const {
     amount,
@@ -60,9 +73,9 @@ export const StakedABNBB = (): JSX.Element => {
   };
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryABNBB.length || isHistoryDataLoading;
@@ -92,20 +105,29 @@ export const StakedABNBB = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aBNBb}
-        tokenAddress={binanceConfig.aBNBbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={transactionHistoryABNBB}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aBNBb"
+        moreHref={getStakingOverviewUrl(Token.BNB)}
+        open={isOpenedInfo}
+        tokenAddress={binanceConfig.aBNBbToken}
+        tokenName={Token.aBNBb}
+        onClose={onCloseInfo}
       />
     </>
   );

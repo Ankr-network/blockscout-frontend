@@ -6,12 +6,14 @@ import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import {
   IPendingTableRow,
   PendingTable,
 } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { KSM_PROPS } from '../StakedTokens/const';
 import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotData';
@@ -22,7 +24,13 @@ import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedP
 export const StakedAKSMB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
 
-  const { isOpened, onClose } = useDialog();
+  const { isOpened: isOpenedHistory, onClose: onCloseHistory } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
 
   const handleLoadTxHistory = useCallback(() => {}, []);
   const isHistoryDataLoading = false;
@@ -84,20 +92,29 @@ export const StakedAKSMB = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aKSMb}
-        tokenAddress={polkadotConfig.aKSMbToken ?? ''}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={undefined}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={transactionHistory}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aKSMb"
+        moreHref={getStakingOverviewUrl(Token.KSM)}
+        open={isOpenedInfo}
+        tokenAddress={polkadotConfig.aKSMbToken ?? ''}
+        tokenName={Token.aKSMb}
+        onClose={onCloseInfo}
       />
     </>
   );

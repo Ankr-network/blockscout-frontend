@@ -33,6 +33,7 @@ export interface IStakedAMATICCData {
   unstakeLink: string;
   pendingValue: BigNumber;
   isUnstakeLoading: boolean;
+  ratio: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
@@ -74,6 +75,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     unstakeLink: StakePolygonRoutes.unstake.generatePath(Token.aMATICc),
     isUnstakeLoading,
     pendingValue,
+    ratio: statsData?.aMATICcRatio ?? ZERO,
     onAddTokenToWallet,
   };
 };

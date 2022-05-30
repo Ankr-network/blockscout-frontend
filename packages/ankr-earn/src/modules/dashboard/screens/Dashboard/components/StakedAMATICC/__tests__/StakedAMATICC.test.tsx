@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -53,6 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
+    ratio: ZERO,
     onAddTokenToWallet: jest.fn(),
   };
 

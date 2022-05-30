@@ -701,11 +701,29 @@
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
       "addToMetamask": "Add token to Metamask",
-      "copyTokenAddress": "Copy token address"
+      "copyTokenAddress": "Copy token address",
+      "tokenInfo": "Token information"
     },
     "guard": {
       "connect-btn": "Connect wallet",
       "title": "Please connect your wallet to continue"
+    },
+    "token-info": {
+      "title": "What is {token}?",
+      "addToken": "Add {token} to wallet",
+      "contract": "Contract:",
+      "learn-more": "Learn more",
+      "aAVAXb": "aAVAXb represents your staked AVAX and provides liquidity for your staked position.<br/><br/>aAVAXb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aAVAXb = 1 AVAX.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the 1–28 days unbonding period, depending on validator's closest unlocking date.<br/><br/>While staking, you can also use aAVAXb for trading and other DeFi opportunities.",
+      "aBNBb": "aBNBb represents your staked BNB and provides liquidity for your staked position.<br/><br/>aBNBb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aBNBb = 1 BNB.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7–15 days unbonding period.<br/>While staking, you can also use aBNBb for trading and other DeFi opportunities.",
+      "aBNBc": "aBNBc represents your staked BNB and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aBNBc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aBNBc = {ratio} BNB.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7–15 days unbonding period.<br/>While staking, you can also use aBNBc for trading and other DeFi opportunities.",
+      "aETHb": "aETHb represents your staked ETH and provides liquidity for your staked position.<br/><br/>aETHb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aETHb = 1 ETH.<br/><br/>You can redeem your aETHb for ETH and rewards when Ethereum 2.0 enters the 1.5 phase and implements the unstaking functionality.<br/><br/>While staking, you can also use aETHb for trading and other DeFi opportunities.",
+      "aETHc": "aETHc represents your staked ETH and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aETHc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aETHc = {ratio} ETH.<br/><br/>You can redeem your aETHc for ETH and rewards when Ethereum 2.0 enters the 1.5 phase and implements the unstaking functionality.<br/><br/>While staking, you can also use aETHc for trading and other DeFi opportunities.",
+      "aFTMb": "aFTMb represents your staked FTM and provides liquidity for your staked position.<br/><br/>aFTMb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aFTMb = 1 FTM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the 1–35 days unbonding period, depending on validator's closest unlocking date.<br/><br/>While staking, you can also use aFTMb for trading and other DeFi opportunities.",
+      "aFTMc": "aFTMc represents your staked FTM and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aFTMc grows daily in value, but never in number.<br/>Redemption ratio now is 1 aFTMc = {ratio} FTM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~1–35 days unbonding period, depending on validator's closest unlocking date.<br/><br/>While staking, you can also use aFTMc for trading and other DeFi opportunities.",
+      "aDOTb": "aDOTb represents your staked DOT and provides liquidity for your staked position.<br/><br/>aDOTb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aDOTb = 1 DOT.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~28 days unbonding period.<br/><br/>While staking, you can also use aDOTb for trading and other DeFi opportunities.",
+      "aKSMb": "aKSMb represents your staked KSM and provides liquidity for your staked position.<br/><br/>aKSMb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aKSMb = 1 KSM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aKSMb for trading and other DeFi opportunities.",
+      "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
+      "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities."
     }
   },
   "features": {

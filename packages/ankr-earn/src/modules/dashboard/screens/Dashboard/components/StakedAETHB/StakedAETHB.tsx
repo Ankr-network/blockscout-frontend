@@ -8,9 +8,11 @@ import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedAETHBData } from '../StakedTokens/hooks/ETH/useStakedAETHBData';
 import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
@@ -18,7 +20,18 @@ import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHist
 export const StakedAETHB = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const {
+    isOpened: isOpenedHistory,
+    onOpen: onOpenHistory,
+    onClose: onCloseHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const {
     amount,
     network,
@@ -41,9 +54,9 @@ export const StakedAETHB = (): JSX.Element => {
   } = useStakedTxHistoryETH();
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [onOpen, handleLoadTxHistory]);
+  }, [onOpenHistory, handleLoadTxHistory]);
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -84,12 +97,11 @@ export const StakedAETHB = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aETHb}
-        tokenAddress={contractConfig.fethContract}
         tradeLink={tradeLink}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
@@ -100,8 +112,18 @@ export const StakedAETHB = (): JSX.Element => {
           unstaked: [],
         }}
         isHistoryLoading={isHistoryLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aETHb"
+        moreHref={getStakingOverviewUrl(Token.ETH)}
+        open={isOpenedInfo}
+        tokenAddress={contractConfig.fethContract}
+        tokenName={Token.aETHb}
+        onClose={onCloseInfo}
       />
     </>
   );

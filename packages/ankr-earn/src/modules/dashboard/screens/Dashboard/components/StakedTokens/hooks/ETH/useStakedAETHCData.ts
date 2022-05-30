@@ -30,6 +30,7 @@ export interface IStakedAETHCData {
   stakeLink?: string;
   walletName?: string;
   address?: string;
+  ratio: BigNumber;
   nativeAmount?: BigNumber;
   handleAddTokenToWallet: () => void;
 }
@@ -75,6 +76,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     isStakeLoading,
     walletName,
     address,
+    ratio: statsData?.aETHcRatio ?? ZERO,
     nativeAmount,
     handleAddTokenToWallet,
   };

@@ -37,6 +37,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     isShowed: true,
     isBalancesLoading: false,
     isStakeLoading: false,
+    ratio: ZERO,
     handleAddTokenToWallet: jest.fn(),
   };
 

@@ -6,16 +6,28 @@ import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedAFTMBData } from '../StakedTokens/hooks/FTM/useStakedAFTMBData';
 import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 export const StakedAFTMB = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
-  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
 
   const {
     pendingUnstakeHistoryAFTMB,
@@ -60,9 +72,9 @@ export const StakedAFTMB = (): JSX.Element | null => {
   };
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
@@ -87,12 +99,11 @@ export const StakedAFTMB = (): JSX.Element | null => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aFTMb}
-        tokenAddress={fantomConfig.aftmbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
@@ -103,8 +114,18 @@ export const StakedAFTMB = (): JSX.Element | null => {
           unstaked: unstakedAFTMB,
         }}
         isHistoryLoading={isHistoryLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aFTMb"
+        moreHref={getStakingOverviewUrl(Token.FTM)}
+        open={isOpenedInfo}
+        tokenAddress={fantomConfig.aftmbToken}
+        tokenName={Token.aFTMb}
+        onClose={onCloseInfo}
       />
     </>
   );

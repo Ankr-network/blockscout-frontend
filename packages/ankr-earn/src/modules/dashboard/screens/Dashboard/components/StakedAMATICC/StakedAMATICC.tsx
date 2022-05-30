@@ -4,12 +4,14 @@ import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import {
   Pending,
   PendingTemporary,
 } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
 import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
@@ -17,7 +19,18 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 
 export const StakedAMATICC = (): JSX.Element => {
-  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const {
     amount,
     pendingValue,
@@ -30,6 +43,7 @@ export const StakedAMATICC = (): JSX.Element => {
     tokenAddress,
     unstakeLink,
     isUnstakeLoading,
+    ratio,
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
@@ -43,9 +57,9 @@ export const StakedAMATICC = (): JSX.Element => {
   } = useStakedMATICTxHistory();
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
@@ -77,20 +91,30 @@ export const StakedAMATICC = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
-        tokenAddress={tokenAddress}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={onAddTokenToWallet}
         onHistoryBtnClick={
           featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
         }
+        onTokenInfoClick={onOpenInfo}
       />
 
       <HistoryDialog
         history={transactionHistoryAMATICC}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={onAddTokenToWallet}
+        description="dashboard.token-info.aMATICc"
+        moreHref={getStakingOverviewUrl(Token.MATIC)}
+        open={isOpenedInfo}
+        ratio={ratio}
+        tokenAddress={tokenAddress}
+        tokenName={Token.aMATICc}
+        onClose={onCloseInfo}
       />
     </>
   );
