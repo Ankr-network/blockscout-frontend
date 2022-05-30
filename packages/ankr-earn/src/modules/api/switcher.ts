@@ -13,7 +13,7 @@ export interface IFetchTxData {
 
 export type IFetchTxReceiptData = TransactionReceipt | null;
 
-export interface ShareArgs {
+export interface IShareArgs {
   amount: BigNumber;
 }
 
@@ -28,7 +28,7 @@ export interface ISwitcher {
     amount?: BigNumber,
     scale?: BigNumber.Value,
   ): Promise<IWeb3SendResult | undefined>;
-  lockShares(data: ShareArgs): Promise<IWeb3SendResult>;
-  unlockShares(data: ShareArgs): Promise<IWeb3SendResult>;
+  lockShares(data: IShareArgs): Promise<IWeb3SendResult>;
+  unlockShares(data: IShareArgs): Promise<IWeb3SendResult>;
   addTokenToWallet(token: Token): Promise<boolean>;
 }

@@ -14,9 +14,10 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ISwitcher, ShareArgs } from 'modules/api/switcher';
-import { isMainnet, ZERO } from 'modules/common/const';
+import { ISwitcher, IShareArgs } from 'modules/api/switcher';
+import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -364,17 +365,35 @@ export class AvalancheSDK implements ISwitcher {
     return this.convertFromWei(balance);
   }
 
-  // TODO: STAKAN-1509 support methods
   public async getACBalance(): Promise<BigNumber> {
-    return ZERO;
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+
+    const balance = await aAVAXcTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
   public async getACRatio(): Promise<BigNumber> {
-    return ZERO;
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const rawRatio = await aAVAXcTokenContract.methods.ratio().call();
+
+    return this.convertFromWei(rawRatio);
   }
 
-  public async getACAllowance(): Promise<BigNumber> {
-    return ZERO;
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const allowance = await aAVAXcTokenContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || avalancheConfig.aAVAXb,
+      )
+      .call();
+
+    return new BigNumber(allowance);
   }
 
   public async fetchTxData(txHash: string): Promise<IGetTxData> {
@@ -407,20 +426,78 @@ export class AvalancheSDK implements ISwitcher {
     return receipt as TransactionReceipt | null;
   }
 
-  public approveACForAB(): Promise<IWeb3SendResult | undefined> {
-    return Promise.resolve(undefined);
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const hexAmount = convertNumberToHex(amount, scale);
+    const isAllowed = await this.checkAllowance(hexAmount);
+
+    if (isAllowed) {
+      return undefined;
+    }
+
+    const { avalancheConfig } = configFromEnv();
+
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+
+    const data = aAVAXcTokenContract.methods
+      .approve(avalancheConfig.aAVAXb, hexAmount)
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXc,
+      { data, estimate: true },
+    );
   }
 
-  public lockShares(data: ShareArgs): Promise<IWeb3SendResult> {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    return {} as unknown as Promise<IWeb3SendResult>;
+  public async checkAllowance(hexAmount: string): Promise<boolean> {
+    const allowance = await this.getACAllowance();
+
+    return allowance.isGreaterThanOrEqualTo(hexAmount);
   }
 
-  public unlockShares(data: ShareArgs): Promise<IWeb3SendResult> {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    return {} as unknown as Promise<IWeb3SendResult>;
+  public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const data = aAVAXbTokenContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXb,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const data = aAVAXbTokenContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXb,
+      { data, estimate: true },
+    );
   }
 
   public async getAVAXBalance(): Promise<BigNumber> {
