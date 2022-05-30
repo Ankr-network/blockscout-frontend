@@ -6,7 +6,7 @@ export const useDialogStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     margin: theme.spacing(4, 0),
     textAlign: 'center',
-    padding: theme.spacing(5, 2, 2, 2),
+    padding: theme.spacing(7, 2, 2, 2),
 
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(7.5),

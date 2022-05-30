@@ -3,16 +3,15 @@ import { makeStyles } from '@material-ui/core';
 export const useConnectWalletsModalStyles = makeStyles(theme => ({
   root: {
     maxWidth: 660,
-    minWidth: 660,
-  },
-
-  container: {
-    margin: 0,
-    padding: 0,
   },
 
   title: {
-    padding: theme.spacing(0, 0, 5, 0),
+    fontSize: 24,
+    marginBottom: theme.spacing(5),
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 30,
+    },
   },
 
   loading: {
@@ -21,22 +20,30 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
   },
 
   walletItem: {
-    maxWidth: 160,
-    maxHeight: 144,
-    width: 160,
-    height: 144,
-    margin: theme.spacing(1.25, 1.25, 1.25, 1.25),
+    width: '100%',
+    padding: theme.spacing(1, 2, 1, 1),
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'start',
+
     border: `2px solid ${theme.palette.background.default}`,
     borderRadius: 18,
     cursor: 'pointer',
+    transition: 'background 0.2s',
+
+    [theme.breakpoints.up('sm')]: {
+      height: 144,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: theme.spacing(0),
+    },
 
     '&:hover': {
       backgroundColor: theme.palette.background.default,
     },
-    '&:hover > div > h6': {
-      textDecoration: 'underline',
-    },
   },
+
   walletItemDisabled: {
     backgroundColor: theme.palette.action.disabledBackground,
     borderColor: theme.palette.action.disabledBackground,
@@ -45,25 +52,28 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.action.disabledBackground,
     },
   },
+
   walletItemDisabledCursor: {
     cursor: 'not-allowed',
   },
-  walletItemBody: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-  },
+
   walletItemTitle: {
-    margin: theme.spacing(2.25, 0, 0, 0),
     fontSize: 14,
+    marginLeft: theme.spacing(1),
+
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(2.25, 0, 0, 0),
+    },
   },
+
   walletItemInstall: {
-    margin: theme.spacing(0.5, 0, 0, 0),
+    marginLeft: 'auto',
     color: theme.palette.primary.main,
     fontSize: 13,
     fontWeight: 700,
+
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(0.5, 0, 0, 0),
+    },
   },
 }));

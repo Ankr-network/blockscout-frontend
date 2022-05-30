@@ -6,11 +6,6 @@ export const useSocialsStyles = makeStyles<Theme>(
   theme => ({
     root: {
       display: 'flex',
-      margin: theme.spacing(0, -1),
-
-      [theme.breakpoints.up('md')]: {
-        marginRight: theme.spacing(9),
-      },
     },
 
     link: {
