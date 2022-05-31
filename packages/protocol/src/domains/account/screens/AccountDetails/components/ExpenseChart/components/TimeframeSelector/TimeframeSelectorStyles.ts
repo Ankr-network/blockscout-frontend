@@ -3,14 +3,22 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    color: `${theme.palette.primary.main} !important`,
-
     backgroundColor: 'transparent !important',
+
+    '&:hover': {
+      '& svg': {
+        color: theme.palette.primary.main,
+      },
+    },
+
+    '&.Mui-focused': {
+      '& svg': {
+        color: `${theme.palette.text.secondary}`,
+      },
+    },
   },
   select: {
     padding: `3px ${theme.spacing(3)}px 0 0 !important`,
-
-    color: `${theme.palette.primary.main} !important`,
 
     letterSpacing: '0.01em',
 
@@ -20,6 +28,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '&:hover': {
       backgroundColor: 'transparent',
+      color: theme.palette.primary.main,
     },
 
     '&:focus': {
