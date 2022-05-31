@@ -33,6 +33,11 @@ export const TimeframeSelector = ({
 
   return (
     <Select
+      MenuProps={{
+        classes: {
+          paper: classes.menuPaper,
+        },
+      }}
       className={classes.root}
       classes={{
         select: classes.select,

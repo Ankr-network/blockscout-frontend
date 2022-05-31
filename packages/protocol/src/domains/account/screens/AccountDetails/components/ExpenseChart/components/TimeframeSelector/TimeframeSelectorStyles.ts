@@ -29,4 +29,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   selectIcon: {
     right: 9,
   },
+  menuPaper: {
+    '& li': {
+      '&.Mui-selected': {
+        color: theme.palette.primary.main,
+      },
+    },
+  },
 }));
