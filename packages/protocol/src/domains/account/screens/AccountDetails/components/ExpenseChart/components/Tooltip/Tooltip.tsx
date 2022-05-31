@@ -19,6 +19,8 @@ interface TooltipProps {
   payload?: Payload[];
 }
 
+const MAX_DECIMAL_PART = 18;
+
 export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
   const classes = useStyles();
 
@@ -27,7 +29,8 @@ export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
   return isActive ? (
     <Box className={classes.tooltipRoot}>
       <div className={classes.value}>
-        {payload[0].payload.value} {currenciesMap[currency]}
+        {Number(payload[0].payload.value).toFixed(MAX_DECIMAL_PART)}{' '}
+        {currenciesMap[currency]}
       </div>
       <div className={classes.time}>
         {t(`${root}.chart.medium-date`, { value: payload[0].payload.time })}

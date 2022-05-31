@@ -22,12 +22,12 @@ export const getTransactions = ({
   payments,
   timeframe,
 }: TransactionsParams): IChartData[] => {
-  const transactions = payments.map<IChartData>(
-    ({ timestamp, ...payment }) => ({
+  const transactions = payments
+    .map<IChartData>(({ timestamp, ...payment }) => ({
       time: new Date(Number(timestamp)),
-      value: payment[keysMap[currency]],
-    }),
-  );
+      value: Number(payment[keysMap[currency]]),
+    }))
+    .sort((a, b) => a.time.getTime() - b.time.getTime());
 
   if (!transactions.length) {
     const { from = new Date().getTime(), to = new Date().getTime() } =
