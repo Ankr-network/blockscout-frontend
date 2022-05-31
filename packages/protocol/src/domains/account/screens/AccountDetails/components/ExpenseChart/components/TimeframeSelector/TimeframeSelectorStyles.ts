@@ -22,7 +22,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     letterSpacing: '0.01em',
 
-    fontWeight: 600,
+    fontWeight: 400,
     fontSize: 14,
     lineHeight: '20px',
 
