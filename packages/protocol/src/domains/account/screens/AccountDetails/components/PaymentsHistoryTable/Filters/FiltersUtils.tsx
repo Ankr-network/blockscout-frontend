@@ -24,6 +24,7 @@ export const useTimeSelectOptions = () => {
   );
 };
 
+// note: commented options will be available in a future version of PAYG
 export const useTypeSelectOptions = () => {
   return useLocaleMemo(
     () => [
@@ -31,10 +32,10 @@ export const useTypeSelectOptions = () => {
         value: 'ALL',
         label: t('account.payment-table.payment-type.all'),
       },
-      {
-        value: 'TRANSACTION_TYPE_UNKNOWN',
-        label: t('account.payment-table.payment-type.unknown'),
-      },
+      // {
+      //   value: 'TRANSACTION_TYPE_UNKNOWN',
+      //   label: t('account.payment-table.payment-type.unknown'),
+      // },
       {
         value: 'TRANSACTION_TYPE_DEPOSIT',
         label: t('account.payment-table.payment-type.top-up'),
@@ -43,18 +44,18 @@ export const useTypeSelectOptions = () => {
         value: 'TRANSACTION_TYPE_DEDUCTION',
         label: t('account.payment-table.payment-type.deduction'),
       },
-      {
-        value: 'TRANSACTION_TYPE_WITHDRAW',
-        label: t('account.payment-table.payment-type.withdrawal'),
-      },
-      {
-        value: 'TRANSACTION_TYPE_BONUS',
-        label: t('account.payment-table.payment-type.bonus'),
-      },
-      {
-        value: 'TRANSACTION_TYPE_COMPENSATION',
-        label: t('account.payment-table.payment-type.compensation'),
-      },
+      // {
+      //   value: 'TRANSACTION_TYPE_WITHDRAW',
+      //   label: t('account.payment-table.payment-type.withdrawal'),
+      // },
+      // {
+      //   value: 'TRANSACTION_TYPE_BONUS',
+      //   label: t('account.payment-table.payment-type.bonus'),
+      // },
+      // {
+      //   value: 'TRANSACTION_TYPE_COMPENSATION',
+      //   label: t('account.payment-table.payment-type.compensation'),
+      // },
     ],
     [],
   );
