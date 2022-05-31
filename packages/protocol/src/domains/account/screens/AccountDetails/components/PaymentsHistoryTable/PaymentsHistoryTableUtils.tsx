@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ClassNameMap } from '@material-ui/styles';
@@ -6,12 +7,20 @@ import {
   IPaymentHistoryEntityType,
   IDailyChargingParams,
 } from 'multirpc-sdk';
+import { format } from 'date-fns';
+import { DispatchRequest } from '@redux-requests/core';
 
 import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { VirtualTableColumn } from 'ui';
 import { useStyles } from './useStyles';
 import { ArrowTopRightIcon } from 'uiKit/Icons/ArrowTopRightIcon';
+import { downloadCsv } from 'modules/common/utils/downloadCsv';
+import { fetchDailyCharging } from 'domains/account/actions/fetchDailyCharging';
+import {
+  DEFAULT_TIME_VALUE,
+  prepareTimeForRequest,
+} from './Filters/FiltersUtils';
 
 export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_UNKNOWN: 'Unknown',
@@ -24,10 +33,8 @@ export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
 
 export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 
-export const PaymentHistoryDefaultParams = {
-  // page: 1,
-  // order_by: 'timestamp',
-  // sort: 'desc',
+export const PAYMENT_HISTORY_DEFAULT_PARAMS = {
+  ...prepareTimeForRequest(DEFAULT_TIME_VALUE),
   time_group: 'DAY',
 };
 
@@ -52,9 +59,16 @@ export const getPaymentHistoryItemSign = (direction?: boolean): string => {
   return direction ? '+' : '-';
 };
 
-export const preparePaymentHistoryRequest = () => {
+export const preparePaymentHistoryRequest = (
+  from?: number,
+  to?: number,
+  type?: IPaymentHistoryEntityType,
+) => {
   return {
+    from,
+    to,
     time_group: 'DAY',
+    types: type,
   };
 };
 
@@ -223,4 +237,28 @@ export const prepareDailyChargingRequest = (
   return {
     day_offset: currentDate - timestampDate,
   };
+};
+
+export const useDownloadTransaction = (dispatchRequest: DispatchRequest) => {
+  return useCallback(
+    async (timestamp: string) => {
+      const query = prepareDailyChargingRequest(timestamp);
+
+      const { data } = await dispatchRequest(fetchDailyCharging(query));
+
+      if (data) {
+        const date = new Date(Number(timestamp));
+
+        downloadCsv(
+          data,
+          t('account.payment-table.csv-title', {
+            month: format(date, 'LLLL'),
+            day: format(date, 'dd'),
+            year: format(date, 'yyyy'),
+          }),
+        );
+      }
+    },
+    [dispatchRequest],
+  );
 };

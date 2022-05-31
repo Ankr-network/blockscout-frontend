@@ -17,7 +17,9 @@ const title = t(`${root}.title`);
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
 export const Balance = ({
+  accountType,
   balance,
+  balanceEndTime,
   currency,
   premiumUntil,
   status,
@@ -46,6 +48,8 @@ export const Balance = ({
       </div>
       <BalanceString balance={balance} className={classes.balance} />
       <Details
+        accountType={accountType}
+        balanceEndTime={balanceEndTime}
         premiumUntil={premiumUntil}
         status={status}
         usdBalance={usdBalance}

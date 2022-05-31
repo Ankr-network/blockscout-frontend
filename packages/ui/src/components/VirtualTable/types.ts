@@ -17,6 +17,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
   moreBtnText?: string;
   classes?: { root?: string; container?: string };
+  emptyMessage?: string;
 }
 
 export interface VirtualTableColumn<T> {

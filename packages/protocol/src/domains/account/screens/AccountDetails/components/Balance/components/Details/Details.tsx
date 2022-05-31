@@ -2,25 +2,35 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 
 import { AccountMarker } from 'domains/account/components/AccountMarker';
-import { AccountStatus } from 'multirpc-sdk';
-import { getDescriptions } from './DetailsUtils';
+import { AccountType, BalanceStatus } from 'domains/account/types';
+import { getDescriptions } from './utils/getDescriptions';
+import { parseDays } from './utils/parseDays';
 
 import { useStyles } from './DetailsStyles';
 
 export interface DetailsProps {
+  accountType: AccountType;
+  balanceEndTime: number;
   premiumUntil?: Date;
-  status: AccountStatus;
+  status: BalanceStatus;
   usdBalance: BigNumber;
 }
 
-export const Details = ({ premiumUntil, status, usdBalance }: DetailsProps) => {
+export const Details = ({
+  accountType,
+  balanceEndTime,
+  premiumUntil,
+  status,
+  usdBalance,
+}: DetailsProps) => {
   const isPremium = !!premiumUntil;
 
   const classes = useStyles(isPremium);
 
   const [description, extraDescription] = getDescriptions({
+    accountType,
+    endTime: parseDays(balanceEndTime),
     premiumUntil,
-    status,
     usdBalance,
   });
 

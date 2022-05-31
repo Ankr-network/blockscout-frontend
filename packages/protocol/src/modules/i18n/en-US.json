@@ -489,12 +489,38 @@
           "title": "Withdraw"
         },
         "descriptions": {
+          "new": {
+            "extra": "Top up your balance to use our service."
+          },
           "premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
           },
-          "payg": {
+          "premium-expired": {
+            "main": "Your premium subscription is ended.",
             "extra": "Top up your balance to continue using our service."
+          },
+          "payg-active": {
+            "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
+          },
+          "payg-inactive": {
+            "extra": "Top up your balance to continue using our service."
+          },
+          "payg-warning": {
+            "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
+          },
+          "payg-warning-zero": {
+            "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
+          },
+          "periods": {
+            "day": "day{plural}",
+            "month": "month{plural}",
+            "year": "year{plural}",
+            "plural": "s"
+          },
+          "quantifiers": {
+            "approximately": "~",
+            "more": "more than "
           }
         }
       },
@@ -516,13 +542,29 @@
       "title": "Payments History",
       "date-time": "{value, date, medium} {value, time, short}",
       "more": "Show 10 more",
+      "empty": "No data",
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",
         "col-3": "Amount USD",
         "col-4": "Amount ANKR"
       },
-      "csv-title": "Payment charging for {month} {day}, {year}"
+      "csv-title": "Payment charging for {month} {day}, {year}",
+      "payment-type": {
+        "placeholder": "Payment type",
+        "all": "All",
+        "unknown": "Unknown",
+        "top-up": "Top Up",
+        "deduction": "Payment charging",
+        "withdrawal": "Withdrawal",
+        "bonus": "Bonus",
+        "compensation": "Compensation"
+      },
+      "time-type": {
+        "week": "Past week",
+        "month": "Past month",
+        "year": "Past year"
+      }
     },
     "top-up": {
       "breadcrumbs": "Top Up",
