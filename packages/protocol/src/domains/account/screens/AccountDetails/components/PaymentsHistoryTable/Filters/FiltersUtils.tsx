@@ -2,7 +2,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { IPaymentEntityType, ITimeType } from './FiltersTypes';
 
-export const DEFAULT_TIME_VALUE = 'MONTH';
+export const DEFAULT_TIME_VALUE = 'WEEK';
 
 export const useTimeSelectOptions = () => {
   return useLocaleMemo(
