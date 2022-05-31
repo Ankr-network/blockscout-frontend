@@ -44,6 +44,11 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
   return (
     <Box className={classes.root}>
       <Select
+        MenuProps={{
+          classes: {
+            paper: classes.menuPaper,
+          },
+        }}
         className={classes.select}
         value={timeValue}
         onChange={handleTimeChange}
@@ -51,6 +56,11 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
         fullWidth={false}
       />
       <Select
+        MenuProps={{
+          classes: {
+            paper: classes.menuPaper,
+          },
+        }}
         className={classes.select}
         onChange={handleTypeChange}
         options={typeOptions}

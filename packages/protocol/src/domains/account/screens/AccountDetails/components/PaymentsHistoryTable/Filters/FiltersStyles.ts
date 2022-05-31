@@ -11,4 +11,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       alignSelf: 'flex-end',
     },
   },
+  menuPaper: {
+    '& li': {
+      '&.Mui-selected': {
+        color: theme.palette.primary.main,
+      },
+    },
+  },
 }));
