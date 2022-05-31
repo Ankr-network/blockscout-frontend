@@ -542,13 +542,29 @@
       "title": "Payments History",
       "date-time": "{value, date, medium} {value, time, short}",
       "more": "Show 10 more",
+      "empty": "No data",
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",
         "col-3": "Amount USD",
         "col-4": "Amount ANKR"
       },
-      "csv-title": "Payment charging for {month} {day}, {year}"
+      "csv-title": "Payment charging for {month} {day}, {year}",
+      "payment-type": {
+        "placeholder": "Payment type",
+        "all": "All",
+        "unknown": "Unknown",
+        "top-up": "Top Up",
+        "deduction": "Payment charging",
+        "withdrawal": "Withdrawal",
+        "bonus": "Bonus",
+        "compensation": "Compensation"
+      },
+      "time-type": {
+        "week": "Past week",
+        "month": "Past month",
+        "year": "Past year"
+      }
     },
     "top-up": {
       "breadcrumbs": "Top Up",

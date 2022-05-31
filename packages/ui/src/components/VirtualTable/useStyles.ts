@@ -91,4 +91,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
       background: 'none',
     },
   },
+  empty: {
+    textAlign: 'center',
+    padding: theme.spacing(3)
+  }
 }));
