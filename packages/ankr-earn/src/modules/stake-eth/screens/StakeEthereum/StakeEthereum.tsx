@@ -2,15 +2,16 @@ import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { t } from 'common';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { ZERO } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
-import { getAPY } from 'modules/stake-eth/actions/getAPY';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
@@ -22,7 +23,6 @@ import { Unclaimed } from './components/Unclaimed';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useStakeStats } from './hooks/useStakeStats';
 import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
 export const StakeEthereum = (): JSX.Element => {
@@ -41,20 +41,15 @@ export const StakeEthereum = (): JSX.Element => {
     loading,
     tokenIn,
     tokenOut,
-    apy,
     onInputChange,
     onSubmit,
   } = useStakeForm();
 
-  const stats = useStakeStats({
-    amount: amount ?? ZERO,
-    apy,
-  });
   const faqItems = useFaq();
 
   useProviderEffect(() => {
     dispatch(getCommonData());
-    dispatch(getAPY());
+    dispatch(getMetrics());
 
     return () => {
       dispatch(resetRequests([getStakeGasFee.toString()]));
@@ -82,7 +77,6 @@ export const StakeEthereum = (): JSX.Element => {
         )}
 
         <StakeForm
-          isMaxBtnShowed
           balance={balance}
           feeSlot={
             <StakeFeeInfo
@@ -107,7 +101,10 @@ export const StakeEthereum = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <StakeStats stats={stats} />
+        <StakeStats
+          amount={amount ?? 0}
+          metricsServiceName={EMetricsServiceName.ETH}
+        />
 
         <Faq data={faqItems} />
       </StakeContainer>

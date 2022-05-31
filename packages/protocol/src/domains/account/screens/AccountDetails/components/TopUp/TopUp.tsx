@@ -5,8 +5,7 @@ import classNames from 'classnames';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './TopUpStyles';
 import { TopUpForm } from './TopUpForm';
-
-const PRICING_LINK = '#';
+import { PRICING_LINK } from '../const';
 
 export interface TopUpProps {
   className?: string;

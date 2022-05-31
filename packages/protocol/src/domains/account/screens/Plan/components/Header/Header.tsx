@@ -1,13 +1,12 @@
 import { Box, Container, Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
-import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
-import { useIsMDDown, useIsXSDown, NavLink } from 'ui';
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import { useIsMDDown, useIsXSDown } from 'ui';
 
 import MobileHeader from 'assets/img/premium/mobile-fold-header-1.png';
 import DeskFoldHeaderLeft from 'assets/img/premium/desk-fold-header-left.png';
 import DeskFoldHeaderRight from 'assets/img/premium/desk-fold-header-right.png';
 import { useStyles } from './usePlanHeaderStyles';
-import { CONTACT_SALES_LINK } from '../../const';
+import { ConnectButton } from '../ConnectButton';
 
 export const Header = () => {
   const classes = useStyles();
@@ -46,27 +45,9 @@ export const Header = () => {
             {t('plan.header.title')}
           </Typography>
           <Typography className={classes.headerSubTitle} variant="body1">
-            {t('plan.header.sub-title')}
+            {tHTML('plan.header.sub-title')}
           </Typography>
-          <NavLink
-            href={CONTACT_SALES_LINK}
-            tabIndex={0}
-            size="large"
-            className={classes.unlockBtn}
-            startIcon={<PremiumIcon className={classes.unlockIcon} />}
-            variant="contained"
-          >
-            <Typography variant="h5" className={classes.unlockBtnTitle}>
-              {t('plan.unlock-btn')}
-            </Typography>
-          </NavLink>
-          <Typography
-            align="center"
-            variant="subtitle1"
-            className={classes.headerSubTitle2}
-          >
-            {t('plan.header.sub-title2')}
-          </Typography>
+          <ConnectButton />
         </Container>
       </Box>
       {!isMobile && !isTablet && (

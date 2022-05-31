@@ -6,7 +6,6 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 
 import { useStakedAMATICBData } from '../useStakedAMATICBData';
 
@@ -74,10 +73,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB/useStaked
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
     expect(result.current.tradeLink).toBe('/trade');
-    expect(result.current.stakeType).toBe(EPolygonPoolEventsMap.StakePending);
-    expect(result.current.unstakeType).toBe(
-      EPolygonPoolEventsMap.MaticClaimPending,
-    );
   });
 
   test('should handle add token to metamask', () => {

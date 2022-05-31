@@ -9,6 +9,7 @@ import { BinanceSDK } from '../api/BinanceSDK';
 import { TBnbSyntToken } from '../types';
 
 import { approveABNBCUnstake } from './approveABNBCUnstake';
+import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
@@ -40,6 +41,7 @@ export const unstake = createSmartAction<
         store: TStore<IStoreState>,
       ) => {
         store.dispatchRequest(fetchStats());
+        store.dispatchRequest(fetchPendingValues());
         store.dispatchRequest(fetchTxHistory());
         store.dispatch(resetRequests([approveABNBCUnstake.toString()]));
 

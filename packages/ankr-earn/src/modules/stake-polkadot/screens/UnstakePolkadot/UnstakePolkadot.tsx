@@ -1,8 +1,9 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UnstakeUserWallet } from 'modules/stake/components/UnstakeUserWallet';
@@ -10,18 +11,14 @@ import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
-import { EPolkadotNetworks } from '../../types';
+import { IPolkadotRouteLoadableComponentProps } from '../../types';
 
 import { UnstakeRenderFormFooter } from './components/UnstakeRenderFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';
 
-interface IUnstakePolkadotProps {
-  network: EPolkadotNetworks;
-}
-
 export const UnstakePolkadot = ({
   network,
-}: IUnstakePolkadotProps): JSX.Element => {
+}: IPolkadotRouteLoadableComponentProps): JSX.Element => {
   const {
     ethToken,
     isActiveSuccessForm,

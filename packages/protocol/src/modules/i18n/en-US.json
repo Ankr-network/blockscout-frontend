@@ -240,23 +240,24 @@
   },
   "plan": {
     "breadcrumbs": "Premium Plan",
-    "unlock-btn": "Contact us",
+    "unlock-btn": "Connect Wallet",
+    "learn-more": "Learn More",
     "more-questions": "Have more questions? Let's hear them!",
     "contact-discord": "Contact Support on Discord",
     "header": {
       "title": "Ship fast, scale and save with Premium features.",
-      "sub-title": "Connect to the network of your choice and build with our fast, reliable, and decentralized infrastructure. Supercharge your dApp with premium features with an annual Premium Plan.",
+      "sub-title": "We&nbsp;have just launched the <b>Pay as&nbsp;you&nbsp;Go</b> (PAYG) pricing model. You only pay for what you use. To&nbsp;start using all the premium features, make a&nbsp;<b>minimum deposit of&nbsp;1000&nbsp;ANKR</b> tokens to&nbsp;create your account.",
       "cost": "{value, number, ::compact-short}",
       "period": "year",
       "until": "Valid until the end of 2022",
       "sub-title2": "Limited-time, developer-first pricing that crushes the competition"
     },
     "purchase-block": {
-      "title": "Purchase an&nbsp;Annual Premium Plan for your personal price.",
-      "sub-title": "Developer-first pricing to scale your project fast. Use ANKR to pay for premium access to leading Web3 infrastructure.",
+      "title": "Start using your Premium Plan and pay as&nbsp;you&nbsp;go.",
+      "sub-title": "<p>Tons of&nbsp;useful features are on&nbsp;their way&nbsp;&mdash; granular stats for your dApps, access control lists, multichain projects and much more.</p><p>Btw, if&nbsp;you don&rsquo;t need premium features anymore, you will be&nbsp;able to&nbsp;claim the unused ANKR tokens back to&nbsp;your wallet.</p>",
       "feature1": "No signup",
       "feature2": "No logins",
-      "feature3": "Just building"
+      "feature3": "Pay as you Go"
     },
     "features-block": {
       "feature1": "WebSockets (WS) Capabilities",
@@ -283,6 +284,7 @@
       "premium": "Premium",
       "free": "Free",
       "current-plan": "Current plan",
+      "payg": "Pay as you go",
       "row1-col1": "Full and archive data",
       "row2-col1": "Advanced API",
       "row2-col1-sub": "Coming soon",

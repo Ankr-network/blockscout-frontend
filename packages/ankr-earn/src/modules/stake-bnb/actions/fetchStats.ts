@@ -2,7 +2,6 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { featuresConfig } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { BinanceSDK } from '../api/BinanceSDK';
@@ -14,7 +13,6 @@ interface IFetchStatsResponseData {
   minStake: BigNumber;
   minAbnbbUnstake: BigNumber;
   minAbnbcUnstake: BigNumber;
-  pendingUnstakes: BigNumber;
   relayerFee: BigNumber;
   aBNBcRatio: BigNumber;
 }
@@ -32,7 +30,6 @@ export const fetchStats = createSmartAction<
           aBNBbBalance,
           bnbBalance,
           minimumStake,
-          pendingUnstakes,
           relayerFee,
           aBNBcRatio,
           aBNBcBalance,
@@ -40,11 +37,9 @@ export const fetchStats = createSmartAction<
           sdk.getABBalance(),
           sdk.getBNBBalance(),
           sdk.getMinimumStake(),
-          sdk.getPendingUnstakes(),
           sdk.getRelayerFee(),
-          ...(featuresConfig.stakeAbnbc
-            ? [sdk.getACRatio(), sdk.getACBalance()]
-            : []),
+          sdk.getACRatio(),
+          sdk.getACBalance(),
         ]);
 
         return {
@@ -54,7 +49,6 @@ export const fetchStats = createSmartAction<
           minStake: minimumStake,
           minAbnbbUnstake: minimumStake,
           minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
-          pendingUnstakes,
           relayerFee,
           aBNBcRatio,
         };

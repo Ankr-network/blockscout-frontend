@@ -16,10 +16,10 @@ import { useStyles } from './useFeatureTableStyles';
 import { useMobileStyles } from './useFeatureTableMobileStyles';
 import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
 import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
-import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
 import { NavLink } from 'ui';
-import { CONTACT_SALES_LINK } from '../../const';
+import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+import { PAYG_DOCS_LINK } from '../../const';
 
 export const FeatureTableMobile = () => {
   const classes = useStyles();
@@ -155,16 +155,25 @@ export const FeatureTableMobile = () => {
             >
               {t('plan.table.premium')}
             </Typography>
+            <Typography
+              className={classes.subTitle}
+              variant="body1"
+              color="textPrimary"
+            >
+              {t('plan.table.payg')}
+            </Typography>
             <NavLink
-              href={CONTACT_SALES_LINK}
+              href={PAYG_DOCS_LINK}
               tabIndex={0}
-              className={classes.unblockBtn}
-              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+              className={classesMobile.unblockBtn}
+              endIcon={
+                <ArrowRightIcon className={classesMobile.unblockBtnIcon} />
+              }
               variant="text"
               color="default"
             >
-              <Typography variant="h5" className={classes.unlockBtnTitle}>
-                {t('plan.unlock-btn')}
+              <Typography variant="h5" className={classesMobile.unlockBtnTitle}>
+                {t('plan.learn-more')}
               </Typography>
             </NavLink>
             <Divider className={classesMobile.divider} />

@@ -1,9 +1,10 @@
+import { t } from 'common';
+
 import {
   CROWDLOAN_LITEPAPER,
   LITEPAPER_CN,
   LITEPAPER_EN,
 } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 
 import { Navigation } from '../../../common/components/Navigation';
 

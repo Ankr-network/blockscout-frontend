@@ -2,11 +2,11 @@ import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { Field, Form } from 'react-final-form';
 
+import { t } from 'common';
 import { Notice } from 'ui';
 
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';

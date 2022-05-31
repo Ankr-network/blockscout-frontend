@@ -1,7 +1,6 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { t } from 'common';
 import { EPolkadotNetworkId } from 'provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
@@ -12,7 +11,6 @@ import {
 } from 'modules/auth/common/components/GuardRoute';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import {
   IPolkadotNetwork,
@@ -60,11 +58,6 @@ export const useGuardPolkadotRoute = ({
       ? !availableNetworks.includes(chainId)
       : false;
 
-  const infoTxt = useLocaleMemo(
-    () => t('connect.unsupported-polkadot-network'),
-    [],
-  );
-
   const supportedNetworks = networks.filter(network =>
     availableNetworks.includes(network.chainId),
   );
@@ -82,7 +75,6 @@ export const useGuardPolkadotRoute = ({
   );
 
   return {
-    infoTxt,
     isConnected,
     isLoading,
     isOpenedModal,

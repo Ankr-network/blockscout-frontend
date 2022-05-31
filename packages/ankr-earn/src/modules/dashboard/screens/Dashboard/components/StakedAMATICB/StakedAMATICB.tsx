@@ -17,7 +17,7 @@ import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
-import { useStakedMaticTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
@@ -25,8 +25,11 @@ export const StakedAMATICB = (): JSX.Element | null => {
   const { isOpened, onClose, onOpen } = useDialog();
   const dispatch = useAppDispatch();
 
-  const { isHistoryDataLoading, pendingUnstakeHistory, transactionHistory } =
-    useStakedMaticTxHistory();
+  const {
+    isHistoryDataLoading,
+    pendingUnstakeHistoryAMATICB,
+    transactionHistoryAMATICB,
+  } = useStakedMATICTxHistory();
 
   const {
     amount,
@@ -77,7 +80,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
       <Pending
         isLoading={isHistoryDataLoading}
         token={Token.aMATICb}
-        tooltip={<PendingTable data={pendingUnstakeHistory} />}
+        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICB} />}
         value={pendingValue}
         onLoadHistory={handleLoadTxHistory}
       />
@@ -110,7 +113,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
       />
 
       <HistoryDialog
-        history={transactionHistory}
+        history={transactionHistoryAMATICB}
         isHistoryLoading={isHistoryDataLoading}
         open={isOpened}
         onClose={onClose}

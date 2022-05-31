@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 
 export enum EStep {

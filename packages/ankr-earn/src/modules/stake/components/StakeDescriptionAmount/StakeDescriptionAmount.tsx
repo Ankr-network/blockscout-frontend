@@ -1,7 +1,8 @@
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from 'common';
+
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useStakeDescriptionValueStyles } from './useStakeDescriptionAmountStyles';

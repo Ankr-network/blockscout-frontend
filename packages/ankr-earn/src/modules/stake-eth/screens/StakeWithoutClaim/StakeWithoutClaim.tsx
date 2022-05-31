@@ -13,9 +13,12 @@ import {
   useMutation,
   useQuery,
 } from '@redux-requests/react';
+import { VariantType } from 'notistack';
+import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { showNotification } from 'modules/notifications';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stakeWithoutClaim } from 'modules/stake-eth/actions/stakeWithoutClaim';
 import { RoutesConfig as ETHRoutesConfig } from 'modules/stake-eth/Routes';
@@ -33,6 +36,7 @@ import { Spinner } from 'uiKit/Spinner';
  * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
  */
 export const StakeWithoutClaim = (): JSX.Element => {
+  const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -51,6 +55,19 @@ export const StakeWithoutClaim = (): JSX.Element => {
     }
     dispatchRequest(stakeWithoutClaim(stakeAmount));
   };
+
+  const handleShowNotification =
+    (variant: VariantType = 'error') =>
+    () => {
+      dispatch(
+        showNotification({
+          key: `test_ERROR_${new Date().getTime()}`,
+          message: 'test',
+          variant,
+          autoHideDuration: null,
+        }),
+      );
+    };
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
@@ -158,6 +175,24 @@ export const StakeWithoutClaim = (): JSX.Element => {
             </Grid>
 
             <CloseButton href={RoutesConfig.main.generatePath()} />
+          </Box>
+        </Paper>
+
+        <Paper style={{ marginTop: 20 }}>
+          <Box position="relative" px={2} py={4}>
+            <Typography variant="h3">Notifications test</Typography>
+
+            <Box mt={3}>
+              <Button onClick={handleShowNotification()}>Error</Button>
+
+              <Button onClick={handleShowNotification('success')}>
+                success
+              </Button>
+
+              <Button onClick={handleShowNotification('warning')}>
+                warning
+              </Button>
+            </Box>
           </Box>
         </Paper>
       </Container>
