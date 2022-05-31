@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import { ChartCurrency } from '../../types';
 import { IChartData } from 'modules/common/components/Chart';
 import { currenciesMap, root } from '../../const';
+import { formatNumber } from './utils/formatNumber';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './TooltipStyles';
@@ -19,8 +20,6 @@ interface TooltipProps {
   payload?: Payload[];
 }
 
-const MAX_DECIMAL_PART = 18;
-
 export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
   const classes = useStyles();
 
@@ -29,7 +28,7 @@ export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
   return isActive ? (
     <Box className={classes.tooltipRoot}>
       <div className={classes.value}>
-        {Number(payload[0].payload.value).toFixed(MAX_DECIMAL_PART)}{' '}
+        {formatNumber(payload[0].payload.value, currency)}{' '}
         {currenciesMap[currency]}
       </div>
       <div className={classes.time}>
