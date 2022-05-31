@@ -32,7 +32,8 @@
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions",
-    "btn": "Try again"
+    "btn": "Try again",
+    "metamask-fill-password": "Please fill the password in the Metamask window"
   },
   "main-navigation": {
     "stake": "Stake",

@@ -19,7 +19,7 @@ interface IAppBase {
 
 export const AppBase = ({ children }: IAppBase): JSX.Element => {
   const isInitialized = useInitializeLocale();
-  const conectionRestorePending = useRestoreConnection();
+  const connectionRestorePending = useRestoreConnection();
 
   return (
     <RewiredStylesProvider>
@@ -29,7 +29,7 @@ export const AppBase = ({ children }: IAppBase): JSX.Element => {
 
           <Notifier />
 
-          {isInitialized && !conectionRestorePending ? (
+          {isInitialized && !connectionRestorePending ? (
             <ConnectedRouter
               context={ReactReduxContext}
               history={historyInstance}

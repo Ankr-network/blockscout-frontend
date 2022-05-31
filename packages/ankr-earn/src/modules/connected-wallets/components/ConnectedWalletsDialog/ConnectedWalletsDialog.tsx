@@ -38,6 +38,7 @@ export const ConnectedWalletsDialog = ({
 
   const isAddWalletBtnShowed = !!walletsGroupTypes?.length;
 
+  // todo: use disconnectAll hook
   const disconnectAll = () => {
     networks.forEach(network => network.onDisconnect && network.onDisconnect());
   };
