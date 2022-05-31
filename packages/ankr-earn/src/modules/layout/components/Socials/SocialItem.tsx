@@ -17,6 +17,7 @@ export const SocialItem = ({ title, icon, href }: ISocialItem): JSX.Element => {
       key={title}
       className={classes.link}
       component="a"
+      data-testid={title}
       href={href}
       rel="noopener noreferrer"
       target="_blank"
