@@ -535,9 +535,9 @@
         "compensation": "Compensation"
       },
       "time-type": {
-        "week": "Week",
-        "month": "Month",
-        "year": "Year"
+        "week": "Past week",
+        "month": "Past month",
+        "year": "Past year"
       }
     },
     "top-up": {
