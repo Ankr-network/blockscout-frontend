@@ -3,6 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
   IBalance,
+  IBalanceEndTimeResult,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsResponse,
@@ -98,5 +99,17 @@ export class AccountGateway implements IAccountGateway {
     );
 
     return response;
+  }
+
+  async getBalanceEndTime(blockchains?: string[]): Promise<number> {
+    const { data: { NumberOfDaysEstimate } } =
+      await this.api.get<IBalanceEndTimeResult>(
+      '/api/v1/auth/numberOfDaysEstimate',
+        {
+          params: { blockchains },
+        },
+      );
+
+    return NumberOfDaysEstimate;
   }
 }
