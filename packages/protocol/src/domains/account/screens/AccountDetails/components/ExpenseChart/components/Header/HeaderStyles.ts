@@ -19,7 +19,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
 
     fontWeight: 700,
-    fontSize: 17,
+    fontSize: theme.spacing(2),
     lineHeight: `${theme.spacing(3)}px`,
   },
   currency: {
