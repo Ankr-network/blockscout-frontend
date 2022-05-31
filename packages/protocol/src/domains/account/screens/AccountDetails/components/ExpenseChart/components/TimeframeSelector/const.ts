@@ -6,27 +6,18 @@ import { t } from 'modules/i18n/utils/intl';
 const week = t(`${root}.timeframes.week`);
 const month = t(`${root}.timeframes.month`);
 const year = t(`${root}.timeframes.year`);
-const all = t(`${root}.timeframes.all`);
 
 export const options: ISelectOption[] = [
   {
-    label: `1 ${week}`,
+    label: week,
     value: ChartTimeframe.WEEK,
   },
   {
-    label: `1 ${month}`,
+    label: month,
     value: ChartTimeframe.MONTH,
   },
   {
-    label: `3 ${month}`,
-    value: ChartTimeframe.THREE_MONTHS,
-  },
-  {
-    label: `1 ${year}`,
+    label: year,
     value: ChartTimeframe.YEAR,
-  },
-  {
-    label: all,
-    value: ChartTimeframe.ALL,
   },
 ];

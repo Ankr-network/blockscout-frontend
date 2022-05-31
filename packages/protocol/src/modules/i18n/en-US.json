@@ -501,10 +501,9 @@
       "expense-chart": {
         "title": "Expense Chart",
         "timeframes": {
-          "week": "week",
-          "month": "month",
-          "year": "year",
-          "all": "All time"
+          "week": "Past week",
+          "month": "Past month",
+          "year": "Past year"
         },
         "chart": {
           "short-date": "{value, time, ::dMMM}",

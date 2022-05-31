@@ -5,7 +5,7 @@ import { ChartTimeframe } from '../types';
 type Setter = (timeframe: ChartTimeframe) => void;
 
 export const useTimeframe = (): [ChartTimeframe, Setter] => {
-  const [timeframe, setTimeframe] = useState(ChartTimeframe.MONTH);
+  const [timeframe, setTimeframe] = useState(ChartTimeframe.WEEK);
 
   return [timeframe, setTimeframe];
 };
