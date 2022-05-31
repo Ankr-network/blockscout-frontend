@@ -10,6 +10,7 @@ import { fetchPaymentHistory } from 'domains/account/actions/fetchPaymentHistory
 import { getTimeframeBorders } from '../utils/getTimeframeBorders';
 
 const type = fetchPaymentHistory.toString();
+const requestKey = 'chart';
 const defaultData: IAggregatedPaymentHistoryReponse = {
   transactions: [],
 };
@@ -28,7 +29,11 @@ export const usePaymentHistory = ({
   const {
     data: { transactions = [] },
     loading,
-  } = useQuery<IAggregatedPaymentHistoryReponse>({ defaultData, type });
+  } = useQuery<IAggregatedPaymentHistoryReponse>({
+    defaultData,
+    requestKey,
+    type,
+  });
 
   const dispatch = useDispatchRequest();
 
@@ -37,11 +42,14 @@ export const usePaymentHistory = ({
       const borders = getTimeframeBorders(timeframe);
 
       dispatch(
-        fetchPaymentHistory({
-          ...borders,
-          time_group: 'DAY',
-          types: ['TRANSACTION_TYPE_DEDUCTION'],
-        }),
+        fetchPaymentHistory(
+          {
+            ...borders,
+            time_group: 'DAY',
+            types: ['TRANSACTION_TYPE_DEDUCTION'],
+          },
+          requestKey,
+        ),
       );
     }
   }, [dispatch, isConnected, timeframe]);
