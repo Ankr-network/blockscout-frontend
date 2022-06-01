@@ -16,6 +16,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
+import { stake } from 'modules/stake-avax/actions/stake';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -23,15 +24,10 @@ import {
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { stake } from '../../../actions/stake';
 import {
   IUseFetchStatsData,
   useFetchStats,
 } from '../../../hooks/useFetchStats';
-
-interface IUseStakeFormArgs {
-  openSuccessModal: () => void;
-}
 
 interface IUseStakeFormData {
   amount: BigNumber;
@@ -46,9 +42,7 @@ interface IUseStakeFormData {
   handleSubmit: (values: IStakeSubmitPayload) => void;
 }
 
-export const useStakeForm = ({
-  openSuccessModal,
-}: IUseStakeFormArgs): IUseStakeFormData => {
+export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
@@ -116,14 +110,15 @@ export const useStakeForm = ({
   const handleSubmit = (values: IStakeSubmitPayload): void => {
     const resultAmount = new BigNumber(values.amount);
 
-    dispatchRequest(stake(resultAmount)).then(({ error }) => {
-      if (!error) {
-        sendAnalytics();
-        openSuccessModal();
+    dispatchRequest(stake({ amount: resultAmount, token: Token.aAVAXb })).then(
+      ({ error }) => {
+        if (!error) {
+          sendAnalytics();
 
-        setAmount(ZERO);
-      }
-    });
+          setAmount(ZERO);
+        }
+      },
+    );
   };
 
   return {

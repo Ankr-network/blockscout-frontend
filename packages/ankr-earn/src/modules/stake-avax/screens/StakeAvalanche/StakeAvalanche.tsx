@@ -19,8 +19,6 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
-import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
@@ -30,7 +28,6 @@ import { fetchStats } from '../../actions/fetchStats';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
-import { useSuccessDialog } from './hooks/useSuccessDialog';
 import { useStakeAvalancheStyles } from './useStakeAvalancheStyles';
 
 const AVAX_STAKING_AMOUNT_STEP = 1;
@@ -40,14 +37,6 @@ export const StakeAvalanche = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const faqItems = useFaq();
-
-  const {
-    isSuccessOpened,
-    onAddTokenClick,
-    onSuccessClose,
-    onSuccessOpen,
-    token,
-  } = useSuccessDialog();
 
   const {
     amount,
@@ -60,7 +49,7 @@ export const StakeAvalanche = (): JSX.Element => {
     totalAmount,
     handleFormChange,
     handleSubmit,
-  } = useStakeForm({ openSuccessModal: onSuccessOpen });
+  } = useStakeForm();
 
   const onRenderStats = (): JSX.Element => (
     <StakeDescriptionContainer>
@@ -106,47 +95,37 @@ export const StakeAvalanche = (): JSX.Element => {
         </StakeContainer>
       )}
 
-      {fetchStatsError === null &&
-        fetchStatsData !== null &&
-        (isSuccessOpened ? (
-          <Container>
-            <StakeSuccessDialog
-              tokenName={token}
-              onAddTokenClick={onAddTokenClick}
-              onClose={onSuccessClose}
-            />
-          </Container>
-        ) : (
-          <StakeContainer>
-            <StakeForm
-              isIntegerOnly
-              balance={fetchStatsData.avaxBalance}
-              feeSlot={
-                <StakeFeeInfo
-                  isLoading={isStakeGasLoading}
-                  token={t('unit.avax')}
-                  value={stakeGasFee}
-                />
-              }
-              loading={isStakeLoading}
-              maxAmount={fetchStatsData.avaxBalance}
-              minAmount={ZERO}
-              renderStats={onRenderStats}
-              stakingAmountStep={AVAX_STAKING_AMOUNT_STEP}
-              tokenIn={t('unit.avax')}
-              tokenOut={t('unit.aavaxb')}
-              onChange={handleFormChange}
-              onSubmit={handleSubmit}
-            />
+      {fetchStatsError === null && fetchStatsData !== null && (
+        <StakeContainer>
+          <StakeForm
+            isIntegerOnly
+            balance={fetchStatsData.avaxBalance}
+            feeSlot={
+              <StakeFeeInfo
+                isLoading={isStakeGasLoading}
+                token={t('unit.avax')}
+                value={stakeGasFee}
+              />
+            }
+            loading={isStakeLoading}
+            maxAmount={fetchStatsData.avaxBalance}
+            minAmount={ZERO}
+            renderStats={onRenderStats}
+            stakingAmountStep={AVAX_STAKING_AMOUNT_STEP}
+            tokenIn={t('unit.avax')}
+            tokenOut={t('unit.aavaxb')}
+            onChange={handleFormChange}
+            onSubmit={handleSubmit}
+          />
 
-            <StakeStats
-              amount={amount}
-              metricsServiceName={EMetricsServiceName.AVAX}
-            />
+          <StakeStats
+            amount={amount}
+            metricsServiceName={EMetricsServiceName.AVAX}
+          />
 
-            <Faq data={faqItems} />
-          </StakeContainer>
-        ))}
+          <Faq data={faqItems} />
+        </StakeContainer>
+      )}
     </section>
   );
 };

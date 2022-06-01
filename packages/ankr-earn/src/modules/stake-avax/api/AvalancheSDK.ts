@@ -588,7 +588,7 @@ export class AvalancheSDK implements ISwitcher {
     return { completed, pending };
   }
 
-  public async stake(amount: BigNumber): Promise<void> {
+  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -620,11 +620,13 @@ export class AvalancheSDK implements ISwitcher {
       value,
     });
 
-    await contractStake().send({
+    const tx = await contractStake().send({
       from: this.currentAccount,
       gas: AvalancheSDK.getIncreasedGasLimit(gasLimit),
       value,
     });
+
+    return { txHash: tx.transactionHash };
   }
 
   public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
