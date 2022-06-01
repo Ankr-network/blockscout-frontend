@@ -542,7 +542,7 @@
       "title": "Payments History",
       "date-time": "{value, date, medium} {value, time, short}",
       "more": "Show 10 more",
-      "empty": "No data",
+      "empty": "No data for the selected filter parameters.",
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",
