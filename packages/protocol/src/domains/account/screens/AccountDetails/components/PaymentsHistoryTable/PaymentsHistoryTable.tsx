@@ -40,9 +40,9 @@ export const PaymentsHistoryTable = () => {
     },
     [dispatchRequest],
   );
-  const [preloader, rows] = loading
-    ? [<Preloader className={classes.preloader} />, []]
-    : [null, data?.transactions || []];
+  const preloader = loading ? (
+    <Preloader className={classes.preloader} />
+  ) : null;
 
   return (
     <Box display="flex" flexDirection="column">
@@ -56,7 +56,7 @@ export const PaymentsHistoryTable = () => {
         cols={columns}
         minWidth={650}
         preloader={preloader}
-        rows={rows}
+        rows={data?.transactions || []}
         emptyMessage={t('account.payment-table.empty')}
       />
     </Box>
