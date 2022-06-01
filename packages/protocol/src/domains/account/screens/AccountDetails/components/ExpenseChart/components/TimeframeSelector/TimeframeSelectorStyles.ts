@@ -36,6 +36,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   selectIcon: {
+    top: 7,
     right: 9,
   },
   menuPaper: {
