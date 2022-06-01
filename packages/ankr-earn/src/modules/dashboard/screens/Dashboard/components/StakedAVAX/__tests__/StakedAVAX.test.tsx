@@ -17,6 +17,10 @@ import {
   useStakedAVAXTxHistory,
 } from '../../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ AVAX: { label: '' } }),
+}));
+
 jest.mock('../../StakedTokens/hooks/AVAX/useStakedAVAXData', () => ({
   useStakedAVAXData: jest.fn(),
 }));

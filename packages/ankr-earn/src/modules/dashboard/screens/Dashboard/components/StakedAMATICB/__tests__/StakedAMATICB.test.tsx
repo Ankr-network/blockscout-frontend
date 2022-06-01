@@ -20,6 +20,10 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ MATIC: { label: '' } }),
+}));
+
 jest.mock('modules/common/const', () => ({
   ...jest.requireActual('modules/common/const'),
   featuresConfig: {

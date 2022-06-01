@@ -11,12 +11,14 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAFTMBData } from '../StakedTokens/hooks/FTM/useStakedAFTMBData';
 import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 export const StakedAFTMB = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.FTM });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -80,7 +82,12 @@ export const StakedAFTMB = (): JSX.Element | null => {
     <Pending
       isLoading={isHistoryLoading}
       token={Token.aFTMb}
-      tooltip={<PendingTable data={pendingUnstakeHistoryAFTMB} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryAFTMB}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />

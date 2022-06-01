@@ -16,6 +16,7 @@ import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
@@ -24,6 +25,7 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
 
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -93,7 +95,12 @@ export const StakedAMATICB = (): JSX.Element | null => {
       <Pending
         isLoading={isHistoryDataLoading}
         token={Token.aMATICb}
-        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICB} />}
+        tooltip={
+          <PendingTable
+            data={pendingUnstakeHistoryAMATICB}
+            unstakeLabel={unstakePendingData.label}
+          />
+        }
         value={pendingValue}
         onLoadHistory={handleLoadTxHistory}
       />

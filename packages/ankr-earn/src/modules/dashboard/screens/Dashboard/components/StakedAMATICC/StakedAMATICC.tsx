@@ -12,6 +12,7 @@ import {
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
 import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
@@ -19,6 +20,7 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 
 export const StakedAMATICC = (): JSX.Element => {
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -70,7 +72,12 @@ export const StakedAMATICC = (): JSX.Element => {
       <Pending
         isLoading={isHistoryDataLoading}
         token={Token.aMATICc}
-        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICC} />}
+        tooltip={
+          <PendingTable
+            data={pendingUnstakeHistoryAMATICC}
+            unstakeLabel={unstakePendingData.label}
+          />
+        }
         value={pendingValue}
         onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
       />

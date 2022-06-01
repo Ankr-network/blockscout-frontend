@@ -21,6 +21,10 @@ import {
   useStakedABNBCAnalytics,
 } from '../useStakedABNBCAnalytics';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
+}));
+
 jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBCData', () => ({
   useStakedABNBCData: jest.fn(),
 }));

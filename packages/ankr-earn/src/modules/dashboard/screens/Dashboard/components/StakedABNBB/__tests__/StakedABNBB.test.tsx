@@ -16,6 +16,10 @@ import {
   useStakedBNBTxHistory,
 } from '../../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
+}));
+
 jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBBData', () => ({
   useStakedABNBBData: jest.fn(),
 }));

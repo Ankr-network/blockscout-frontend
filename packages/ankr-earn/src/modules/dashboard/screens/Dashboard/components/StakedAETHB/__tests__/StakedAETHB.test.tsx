@@ -12,6 +12,10 @@ import {
 } from '../../StakedTokens/hooks/ETH/useStakedAETHBData';
 import { useStakedTxHistoryETH } from '../../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ ETH: { label: '' } }),
+}));
+
 jest.mock('modules/common/const', () => ({
   ...jest.requireActual('modules/common/const'),
   featuresConfig: {

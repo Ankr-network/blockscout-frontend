@@ -1,6 +1,8 @@
 import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
 
 import { ETH_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 export const MATIC_STAKING_NETWORKS = [ETH_NETWORK_BY_ENV];
 
@@ -18,4 +20,4 @@ export const POLYGON_PROVIDER_READ_ID = isMainnet
 
 export const MATIC_STAKING_AMOUNT_STEP = 0.1;
 
-export const UNSTAKE_TIME_WAIT_HOURS = 25;
+export const UNSTAKE_PERIOD = UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.MATIC];

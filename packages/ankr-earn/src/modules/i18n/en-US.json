@@ -693,6 +693,9 @@
     "reward": "{value} ACA",
     "pending-amount": "Amount",
     "pending-time": "Requested time",
+    "willGetUnstake": "You will get your {token} in {days}d:{hours}h:{minutes}m",
+    "unstakeTime": "{days}d:{hours}h:{minutes}m", 
+    "willTakeUnstake": "It takes about {days} days to unstake",
     "history-tooltip": "Transactions history",
     "card": {
       "claiming-info": "Need to be claimed",

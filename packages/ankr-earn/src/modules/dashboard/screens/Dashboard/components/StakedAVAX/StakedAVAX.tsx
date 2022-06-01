@@ -11,6 +11,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAVAXData } from '../StakedTokens/hooks/AVAX/useStakedAVAXData';
 import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
@@ -18,6 +19,7 @@ import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAX
 export const StakedAVAX = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
 
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.AVAX });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -80,7 +82,12 @@ export const StakedAVAX = (): JSX.Element => {
     <Pending
       isLoading={isHistoryDataLoading}
       token={Token.aAVAXb}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistory}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />

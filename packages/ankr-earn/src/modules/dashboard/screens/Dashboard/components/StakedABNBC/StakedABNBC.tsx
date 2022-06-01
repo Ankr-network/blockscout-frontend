@@ -8,6 +8,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedABNBCData } from '../StakedTokens/hooks/BNB/useStakedABNBCData';
 import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
@@ -15,6 +16,7 @@ import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxH
 import { useStakedABNBCAnalytics } from './useStakedABNBCAnalytics';
 
 export const StakedABNBC = (): JSX.Element => {
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.BNB });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -67,7 +69,12 @@ export const StakedABNBC = (): JSX.Element => {
       isLoading={isHistoryDataLoading}
       isUnstakeValueLoading={isPendingUnstakeLoading}
       token={Token.aBNBc}
-      tooltip={<PendingTable data={pendingUnstakeHistoryABNBC} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryABNBC}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingValue}
       onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
     />

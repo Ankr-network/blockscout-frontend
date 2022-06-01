@@ -13,6 +13,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAETHCData } from '../StakedTokens/hooks/ETH/useStakedAETHCData';
 import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
@@ -20,6 +21,7 @@ import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHist
 export const StakedAETHC = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.ETH });
   const {
     isOpened: isOpenedHistory,
     onOpen: onOpenHistory,
@@ -82,7 +84,12 @@ export const StakedAETHC = (): JSX.Element => {
     <Pending
       isLoading={isHistoryLoading}
       token={Token.aETHc}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistory}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />

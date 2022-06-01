@@ -1,5 +1,8 @@
 import { AvailableReadProviders, AvailableWriteProviders } from 'provider';
 
+import { Token } from 'modules/common/types/token';
+import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
+
 import { ETH_NETWORK_BY_ENV, isMainnet } from '../common/const';
 
 import { EPolkadotNetworksMainnet, EPolkadotNetworksTestnet } from './types';
@@ -28,7 +31,7 @@ export const MIN_STAKE_VALUE = {
 
 export const REDEEM_PERIOD_DAYS = {
   DEFAULT: 7,
-  DOT: 28,
-  KSM: 7,
-  WND: 7,
+  DOT: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.DOT]),
+  KSM: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.KSM]),
+  WND: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.WND]),
 };

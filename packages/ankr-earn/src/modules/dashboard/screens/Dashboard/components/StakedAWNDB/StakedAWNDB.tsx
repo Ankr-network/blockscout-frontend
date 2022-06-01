@@ -14,6 +14,7 @@ import {
 } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { WND_PROPS } from '../StakedTokens/const';
 import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotData';
@@ -24,6 +25,7 @@ import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedP
 export const StakedAWNDB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
 
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.WND });
   const { isOpened: isOpenedHistory, onClose: onCloseHistory } = useDialog();
 
   const {
@@ -74,7 +76,12 @@ export const StakedAWNDB = (): JSX.Element => {
     <Pending
       isLoading={isHistoryDataLoading}
       token={Token.aWNDb}
-      tooltip={<PendingTable data={pendingUnstakeHistory} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistory}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingValue}
       onLoadHistory={handleLoadTxHistory}
     />
