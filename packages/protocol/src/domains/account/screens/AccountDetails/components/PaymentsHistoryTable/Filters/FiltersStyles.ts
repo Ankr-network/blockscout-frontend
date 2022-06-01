@@ -13,6 +13,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       '&:hover': {
         borderRadius: 0,
       },
+
+      '&.Mui-focused': {
+        borderRadius: 0,
+      },
     },
 
     [theme.breakpoints.down('xs')]: {
@@ -37,6 +41,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   selector: {
     padding: `3px ${theme.spacing(3)}px 0 0 !important`,
 
+    borderRadius: 0,
+
     letterSpacing: '0.01em',
 
     fontWeight: 400,
@@ -44,11 +50,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
     lineHeight: '20px',
 
     '&:hover': {
+      borderRadius: 0,
+
       backgroundColor: 'transparent',
       color: theme.palette.primary.main,
     },
 
     '&:focus': {
+      borderRadius: 0,
+
       backgroundColor: 'transparent',
     },
   },
