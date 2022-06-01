@@ -43,6 +43,7 @@ export const UnstakePolygon = (): JSX.Element => {
     selectedToken,
     syntTokenBalance,
     unstakeFee,
+    onExtraValidation,
     calcTotalRecieve,
     onUnstakeSubmit,
   } = useUnstakeMatic(onSuccessOpen);
@@ -52,6 +53,7 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());
+    dispatchRequest(getAnkrBalance());
   }, [dispatchRequest]);
 
   const onRenderFormFooter = (amount: BigNumber, maxAmount: BigNumber) => {
@@ -132,6 +134,7 @@ export const UnstakePolygon = (): JSX.Element => {
             balance={syntTokenBalance}
             closeHref={closeHref}
             endText={t('stake-polygon-dashboard.unstake-eta')}
+            extraValidation={onExtraValidation}
             isApproved={isApproved}
             isApproveLoading={isApproveLoading}
             isBalanceLoading={isFetchStatsLoading}
