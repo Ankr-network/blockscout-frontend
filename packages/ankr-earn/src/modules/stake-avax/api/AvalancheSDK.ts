@@ -28,8 +28,9 @@ import {
   AVAX_SCALE_FACTOR,
 } from '../const';
 
+import ABI_AAVAXB from './contracts/aAVAXb.json';
+import ABI_AAVAXC from './contracts/aAVAXc.json';
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
-import ABI_AAVAXB from './contracts/FutureBondAVAX.json';
 
 /**
  * even with this multiplier, the gas estimate is two times less
@@ -136,7 +137,7 @@ export class AvalancheSDK implements ISwitcher {
     const web3 = provider.getWeb3();
 
     return new web3.eth.Contract(
-      ABI_AAVAXB as AbiItem[], // TODO: STAKAN-1509 change ABI
+      ABI_AAVAXC as AbiItem[],
       avalancheConfig.aAVAXc,
     );
   }

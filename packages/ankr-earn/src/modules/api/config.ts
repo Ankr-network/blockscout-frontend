@@ -89,7 +89,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
     aAVAXb: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
-    aAVAXc: ZERO_ADDR, // TODO: STAKAN-1509 add aAVAXc address
+    aAVAXc: '0x22f70fE6C3949cDcA413A6D441D7972255440660',
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',

@@ -10,7 +10,8 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-const { contractConfig, binanceConfig, fantomConfig } = configFromEnv();
+const { contractConfig, binanceConfig, fantomConfig, avalancheConfig } =
+  configFromEnv();
 
 export type AvailableSwitcherToken =
   | Token.aETHb
@@ -49,8 +50,8 @@ export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aMATICc]: contractConfig.aMaticCToken,
   [Token.aFTMb]: fantomConfig.aftmbToken,
   [Token.aFTMc]: fantomConfig.aftmcToken,
-  [Token.aAVAXb]: '', // TODO: add avax tokens
-  [Token.aAVAXc]: '',
+  [Token.aAVAXb]: avalancheConfig.aAVAXb,
+  [Token.aAVAXc]: avalancheConfig.aAVAXc,
 };
 
 export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
@@ -145,10 +146,10 @@ export const DEFAULT_TOKENS_BY_NETWORK: Record<
     from: Token.aFTMb,
     to: Token.aFTMc,
   },
-  [EEthereumNetworkId.avalanche]: { from: Token.aFTMb, to: Token.aFTMc },
+  [EEthereumNetworkId.avalanche]: { from: Token.aAVAXb, to: Token.aAVAXc },
   [EEthereumNetworkId.avalancheTestnet]: {
-    from: Token.aFTMb,
-    to: Token.aFTMc,
+    from: Token.aAVAXb,
+    to: Token.aAVAXc,
   },
 };
 
