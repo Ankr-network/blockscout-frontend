@@ -22,6 +22,19 @@ export const useDashboardCardStyles = makeStyles(theme => ({
     },
   },
 
+  amountInfo: {
+    marginTop: theme.spacing(1),
+
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: 'auto',
+    alignItems: 'center',
+    justifyContent: 'start',
+    gap: theme.spacing(0, 0.5),
+
+    lineHeight: 1,
+  },
+
   menuCol: {
     [theme.breakpoints.up('sm')]: {
       order: 1,

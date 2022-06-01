@@ -11,7 +11,7 @@ import {
   SupportedChainIDS,
   BSC_NETWORK_BY_ENV,
 } from 'modules/common/const';
-import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 
 export interface IStakedMaticData {
   amount: BigNumber;
@@ -22,9 +22,9 @@ export interface IStakedMaticData {
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeAMATICCBSC = (): IStakedMaticData => {
+export const useBridgedMaticBondBSC = (): IStakedMaticData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchAMATICCBridgedBSC,
+    type: fetchAMATICBBridgedBSC,
   });
 
   const dispatchRequest = useDispatchRequest();
@@ -39,7 +39,7 @@ export const useStakedBridgeAMATICCBSC = (): IStakedMaticData => {
   const onAddTokenClick = () => {
     dispatchRequest(
       watchAsset({
-        token: AvailableBridgeTokens.aMATICc,
+        token: AvailableBridgeTokens.aMATICb,
         chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
       }),
     );
@@ -47,10 +47,10 @@ export const useStakedBridgeAMATICCBSC = (): IStakedMaticData => {
 
   return {
     amount,
-    network,
+    chainId,
     isBalancesLoading,
     isShowed,
+    network,
     onAddTokenClick,
-    chainId,
   };
 };

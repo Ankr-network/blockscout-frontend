@@ -11,20 +11,27 @@ import {
   SupportedChainIDS,
   BSC_NETWORK_BY_ENV,
 } from 'modules/common/const';
-import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
+import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
 export interface IStakedMaticData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
-  network: string;
   isBalancesLoading: boolean;
   isShowed: boolean;
+  nativeAmount?: BigNumber;
+  network: string;
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeBSCMaticData = (): IStakedMaticData => {
+export const useBridgedMaticCertBSC = (): IStakedMaticData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchAMATICBBridgedBSC,
+    type: fetchAMATICCBridgedBSC,
+  });
+
+  const { data: commonData } = useQuery({
+    type: fetchStats,
   });
 
   const dispatchRequest = useDispatchRequest();
@@ -36,10 +43,12 @@ export const useStakedBridgeBSCMaticData = (): IStakedMaticData => {
 
   const isShowed = !amount.isZero() || isBalancesLoading;
 
+  const nativeAmount = getTokenNativeAmount(amount, commonData?.aMATICcRatio);
+
   const onAddTokenClick = () => {
     dispatchRequest(
       watchAsset({
-        token: AvailableBridgeTokens.aMATICb,
+        token: AvailableBridgeTokens.aMATICc,
         chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
       }),
     );
@@ -47,10 +56,11 @@ export const useStakedBridgeBSCMaticData = (): IStakedMaticData => {
 
   return {
     amount,
-    network,
+    chainId,
     isBalancesLoading,
     isShowed,
+    nativeAmount,
+    network,
     onAddTokenClick,
-    chainId,
   };
 };

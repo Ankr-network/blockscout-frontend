@@ -165,6 +165,7 @@ export const StakingAsset = ({
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }
+      tooltip={t('dashboard.amount-tooltip')}
     />
   );
 };

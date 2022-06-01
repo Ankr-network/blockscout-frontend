@@ -12,19 +12,26 @@ import {
   POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
 export interface IStakedMaticData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
-  network: string;
   isBalancesLoading: boolean;
   isShowed: boolean;
+  nativeAmount?: BigNumber;
+  network: string;
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeAMATICCPolygon = (): IStakedMaticData => {
+export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAMATICCBridgedPolygon,
+  });
+
+  const { data: commonData } = useQuery({
+    type: fetchStats,
   });
 
   const dispatchRequest = useDispatchRequest();
@@ -35,6 +42,8 @@ export const useStakedBridgeAMATICCPolygon = (): IStakedMaticData => {
   const chainId = POLYGON_NETWORK_BY_ENV;
 
   const isShowed = !amount.isZero() || isBalancesLoading;
+
+  const nativeAmount = getTokenNativeAmount(amount, commonData?.aMATICcRatio);
 
   const onAddTokenClick = () => {
     dispatchRequest(
@@ -47,10 +56,11 @@ export const useStakedBridgeAMATICCPolygon = (): IStakedMaticData => {
 
   return {
     amount,
-    network,
+    chainId,
     isBalancesLoading,
     isShowed,
+    nativeAmount,
+    network,
     onAddTokenClick,
-    chainId,
   };
 };

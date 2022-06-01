@@ -1,17 +1,17 @@
 import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
-import { StakingBridgeAsset } from 'modules/dashboard/components/StakingBridgeAsset';
+import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
-import { useStakedBridgeMaticData } from '../StakedTokens/hooks/MATIC/useStakedBridgeMatic';
+import { useBridgedMaticBond } from '../StakedTokens/hooks/MATIC/useBridgedMaticBond';
 
-export const StakedBridgeMatic = (): JSX.Element => {
+export const BridgedMaticBond = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
   const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
-    useStakedBridgeMaticData();
+    useBridgedMaticBond();
 
   return (
-    <StakingBridgeAsset
+    <BridgedAsset
       amount={amount}
       chainId={chainId}
       isLoading={isBalancesLoading}

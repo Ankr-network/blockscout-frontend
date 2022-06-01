@@ -46,6 +46,7 @@ export const StakedAMATICC = (): JSX.Element => {
     unstakeLink,
     isUnstakeLoading,
     ratio,
+    nativeAmount,
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
@@ -94,6 +95,7 @@ export const StakedAMATICC = (): JSX.Element => {
         isLoading={isLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}

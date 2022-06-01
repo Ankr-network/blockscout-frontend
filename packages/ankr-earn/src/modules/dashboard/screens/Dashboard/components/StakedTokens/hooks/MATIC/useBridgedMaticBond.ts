@@ -22,7 +22,7 @@ export interface IStakedMaticData {
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeMaticData = (): IStakedMaticData => {
+export const useBridgedMaticBond = (): IStakedMaticData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAMATICBBridged,
   });

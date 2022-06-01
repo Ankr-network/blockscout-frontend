@@ -1,23 +1,23 @@
 import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
-import { StakingBridgeAsset } from 'modules/dashboard/components/StakingBridgeAsset';
+import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
-import { useStakedBridgeBSCMaticData } from '../StakedTokens/hooks/MATIC/useStakedBridgeBSCMatic';
+import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/ETH/useStakedBridgeAETHBData';
 
-export const StakedBridgeAMATICBBSC = (): JSX.Element => {
+export const BridgedEthBond = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
   const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
-    useStakedBridgeBSCMaticData();
+    useStakedBridgeAETHBData();
 
   return (
-    <StakingBridgeAsset
+    <BridgedAsset
       amount={amount}
       chainId={chainId}
       isLoading={isBalancesLoading}
       network={network}
-      token={Token.aMATICb}
-      tokenAddress={binanceConfig.aMATICbToken}
+      token={Token.aETHb}
+      tokenAddress={binanceConfig.aETHbToken}
       onAddTokenToWallet={onAddTokenClick}
     />
   );

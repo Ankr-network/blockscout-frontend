@@ -9,12 +9,12 @@ import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
+import { useBridgedMaticBond } from './MATIC/useBridgedMaticBond';
+import { useBridgedMaticBondBSC } from './MATIC/useBridgedMaticBondBSC';
+import { useBridgedMaticCertBSC } from './MATIC/useBridgedMaticCertBSC';
+import { useBridgedMaticCertPolygon } from './MATIC/useBridgedMaticCertPolygon';
 import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
 import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
-import { useStakedBridgeAMATICCBSC } from './MATIC/useStakedBridgeAMATICCBSC';
-import { useStakedBridgeAMATICCPolygon } from './MATIC/useStakedBridgeAMATICCPolygon';
-import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
-import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
 import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
@@ -45,10 +45,10 @@ interface IUseStakedTokensData {
 
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedAMATICBData();
-  const amaticbPolygonData = useStakedBridgeMaticData();
-  const amaticbBSCData = useStakedBridgeBSCMaticData();
-  const amaticcBSCData = useStakedBridgeAMATICCBSC();
-  const amaticcPolygonData = useStakedBridgeAMATICCPolygon();
+  const amaticbPolygonData = useBridgedMaticBond();
+  const amaticbBSCData = useBridgedMaticBondBSC();
+  const amaticcBSCData = useBridgedMaticCertBSC();
+  const amaticcPolygonData = useBridgedMaticCertPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
   const stakedAVAXData = useStakedAVAXData();

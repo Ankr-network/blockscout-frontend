@@ -6,8 +6,10 @@ import { t } from 'common';
 import { EEthereumNetworkId } from 'provider';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
+import { nativeTokenMap } from 'modules/dashboard/const';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
@@ -17,7 +19,7 @@ import { CopyTokenAddress } from '../CopyTokenAddress';
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
-import { useStakingBridgeAssetStyles as useStyles } from './useStakingBridgeAssetStyles';
+import { useStakingBridgeAssetStyles as useStyles } from './useBridgedAssetStyles';
 
 interface IStakingAssetProps {
   token?: Token;
@@ -28,10 +30,11 @@ interface IStakingAssetProps {
   tradeLink?: string;
   pendingSlot?: ReactNode;
   isLoading?: boolean;
+  nativeAmount?: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
-export const StakingBridgeAsset = ({
+export const BridgedAsset = ({
   network,
   token,
   tokenAddress,
@@ -39,6 +42,7 @@ export const StakingBridgeAsset = ({
   amount,
   tradeLink,
   pendingSlot,
+  nativeAmount,
   isLoading = false,
   onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
@@ -49,6 +53,14 @@ export const StakingBridgeAsset = ({
   }
 
   const comingSoonTooltip = t('common.tooltips.comingSoon');
+
+  const nativeAmountText =
+    nativeAmount &&
+    token &&
+    t('unit.token-value', {
+      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      token: nativeTokenMap[token],
+    });
 
   return (
     <DashboardCard
@@ -104,6 +116,7 @@ export const StakingBridgeAsset = ({
           </Menu>
         </Box>
       }
+      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

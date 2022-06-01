@@ -5,6 +5,11 @@ import { t } from 'common';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 
+import { BridgedEthBond } from '../BridgedEthBond';
+import { BridgedMaticBond } from '../BridgedMaticBond';
+import { BridgedMaticBondBSC } from '../BridgedMaticBondBSC';
+import { BridgedMaticCertBSC } from '../BridgedMaticCertBSC';
+import { BridgedMaticCertPolygon } from '../BridgedMaticCertPolygon';
 import { StakedABNBB } from '../StakedABNBB';
 import { StakedABNBC } from '../StakedABNBC';
 import { StakedADOTB } from '../StakedADOTB';
@@ -17,11 +22,6 @@ import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
-import { StakedBridgeAETHB } from '../StakedBridgeAETHB';
-import { StakedBridgeAMATICBBSC } from '../StakedBridgeAMATICBBSC';
-import { StakedBridgeAMATICCBSC } from '../StakedBridgeAMATICCBSC';
-import { StakedBridgeAMATICCPolygon } from '../StakedBridgeAMATICCPolygon';
-import { StakedBridgeMatic } from '../StakedBridgeMatic';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
 import { UnclaimedKSM } from '../UnclaimedKSM';
@@ -77,17 +77,17 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isMATICShowed && <StakedAMATICB />}
 
-            {isAMATICBPolygonShowed && <StakedBridgeMatic />}
+            {isAMATICBPolygonShowed && <BridgedMaticBond />}
 
-            {isAMATICBBSCShowed && <StakedBridgeAMATICBBSC />}
+            {isAMATICBBSCShowed && <BridgedMaticBondBSC />}
 
-            {isAMATICCBSCShowed && <StakedBridgeAMATICCBSC />}
+            {isAMATICCBSCShowed && <BridgedMaticCertBSC />}
 
-            {isAMATICCPolygonShowed && <StakedBridgeAMATICCPolygon />}
+            {isAMATICCPolygonShowed && <BridgedMaticCertPolygon />}
 
             {isAMATICCShowed && <StakedAMATICC />}
 
-            {isAETHBBridgedShowed && <StakedBridgeAETHB />}
+            {isAETHBBridgedShowed && <BridgedEthBond />}
 
             {isAETHBShowed && <StakedAETHB />}
 
