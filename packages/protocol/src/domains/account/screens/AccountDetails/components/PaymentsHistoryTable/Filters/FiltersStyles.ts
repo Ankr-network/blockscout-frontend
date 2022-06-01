@@ -7,6 +7,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'flex-end',
     gap: theme.spacing(1),
 
+    '& div': {
+      borderRadius: 0,
+    },
+
     [theme.breakpoints.down('xs')]: {
       alignSelf: 'flex-end',
     },
