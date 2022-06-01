@@ -1,7 +1,10 @@
-import { OptionsObject, useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  INotificationOptions,
+  useNotification,
+} from 'modules/notifications/hooks/useNotification';
 import {
   getDisplayed,
   removeDisplayed,
@@ -12,7 +15,6 @@ import {
   hideNotification,
   selectNotificationsData,
 } from '../../store/notificationsSlice';
-import { NotificationClose } from '../NotificationClose';
 
 // todo: we should cover this hook with tests
 /**
@@ -21,7 +23,7 @@ import { NotificationClose } from '../NotificationClose';
 export const useNotifier = (): void => {
   const dispatch = useDispatch();
   const notificationsState = useSelector(selectNotificationsData);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     const notificationsKeys = Object.keys(notificationsState);
@@ -36,23 +38,22 @@ export const useNotifier = (): void => {
         return;
       }
 
-      const { message, ...stateOptions } = notificationsState[key];
+      const stateOptions = notificationsState[key];
 
-      const options: OptionsObject = {
+      const options: INotificationOptions = {
         ...stateOptions,
-        action: id => <NotificationClose onClick={() => closeSnackbar(id)} />,
-        onExited: (_, myKey) => {
+        onExited: () => {
           // remove this snackbar from redux store
-          dispatch(hideNotification(myKey));
-          removeDisplayed(myKey);
+          dispatch(hideNotification(key));
+          removeDisplayed(key);
         },
       };
 
       // display snackbar using notistack
-      enqueueSnackbar(message, options);
+      showNotification(options);
 
       // keep track of snackbars that we've displayed
       storeDisplayed(key);
     });
-  }, [closeSnackbar, dispatch, enqueueSnackbar, notificationsState]);
+  }, [dispatch, notificationsState, showNotification]);
 };

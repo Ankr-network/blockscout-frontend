@@ -182,9 +182,10 @@ export const BridgeMainView = (): JSX.Element => {
           </Box>
         )}
 
-        <Box className={classes.swapFields}>
+        <Box mb={2}>
           <SwitchSelect
             from={networksOptionsFrom}
+            isDisabled={isApproved || isApproveButtonLoading}
             to={networksOptionsTo}
             values={{
               from: swapNetworkItem.from.toString(),
