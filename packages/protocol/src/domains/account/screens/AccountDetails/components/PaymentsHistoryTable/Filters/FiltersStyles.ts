@@ -9,6 +9,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '& div': {
       borderRadius: 0,
+
+      '&:hover': {
+        borderRadius: 0,
+      },
     },
 
     [theme.breakpoints.down('xs')]: {
