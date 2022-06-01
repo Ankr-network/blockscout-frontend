@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import { Preloader } from 'ui';
 
 import { Chart } from './components/Chart';
 import { Header } from './components/Header';
@@ -24,7 +23,6 @@ export const ExpenseChart = () => {
 
   return (
     <Box className={classes.expenseChartRoot}>
-      {isLoading && <Preloader className={classes.preloader} />}
       <Header
         currency={currency}
         setTimeframe={setTimeframe}
@@ -33,6 +31,7 @@ export const ExpenseChart = () => {
       />
       <Chart
         currency={currency}
+        isLoading={isLoading}
         transactions={transactions}
         xFormatter={xFormatter}
         yFormatter={yFormatter}
