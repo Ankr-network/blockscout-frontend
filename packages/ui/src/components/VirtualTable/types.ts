@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 type VirtualTablePaginationType = 'more';
 
 export interface VirtualTableQuery {
@@ -18,6 +20,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   moreBtnText?: string;
   classes?: { root?: string; container?: string };
   emptyMessage?: string;
+  preloader?: ReactNode;
 }
 
 export interface VirtualTableColumn<T> {

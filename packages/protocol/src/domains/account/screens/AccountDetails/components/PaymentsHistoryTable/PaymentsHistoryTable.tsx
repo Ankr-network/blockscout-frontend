@@ -6,7 +6,7 @@ import { t } from 'common';
 import { fetchPaymentHistory } from 'domains/account/actions/fetchPaymentHistory';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { IPaymentHistoryReponse } from 'multirpc-sdk';
-import { VirtualTable } from 'ui';
+import { Preloader, VirtualTable } from 'ui';
 import {
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
@@ -24,7 +24,7 @@ export const PaymentsHistoryTable = () => {
 
   const columns = usePaymentHistoryTableColumns(handleDownloadTransaction);
 
-  const { data } = useQuery<IPaymentHistoryReponse>({
+  const { data, loading } = useQuery<IPaymentHistoryReponse>({
     type: fetchPaymentHistory,
   });
 
@@ -40,6 +40,9 @@ export const PaymentsHistoryTable = () => {
     },
     [dispatchRequest],
   );
+  const [preloader, rows] = loading
+    ? [<Preloader className={classes.preloader} />, []]
+    : [null, data?.transactions || []];
 
   return (
     <Box display="flex" flexDirection="column">
@@ -52,7 +55,8 @@ export const PaymentsHistoryTable = () => {
       <VirtualTable
         cols={columns}
         minWidth={650}
-        rows={data?.transactions || []}
+        preloader={preloader}
+        rows={rows}
         emptyMessage={t('account.payment-table.empty')}
       />
     </Box>
