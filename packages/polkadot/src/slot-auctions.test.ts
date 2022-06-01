@@ -1,24 +1,13 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { u8aToHex } from '@polkadot/util';
 import BigNumber from 'bignumber.js';
-import { TEthereumAddress } from './entity';
-import { SlotAuctionSdk } from './slot-auction';
-
-class TestSlotAuctionSdk extends SlotAuctionSdk {
-  static createRemarkPayload(
-    ethereumAddress: TEthereumAddress,
-    loanId: number,
-    amount: BigNumber,
-  ): Uint8Array {
-    return SlotAuctionSdk.createRemarkPayload(ethereumAddress, loanId, amount);
-  }
-}
+import { PolkadotProvider } from './polkadot';
 
 describe('Test: SlotAuctionSdk', (): void => {
   describe('Case: onchain claim', (): void => {
     it('Remark payload composed correctly', (): void => {
       const payload: Buffer = Buffer.from(
-        TestSlotAuctionSdk.createRemarkPayload(
+        PolkadotProvider.getClaimTransactionPayload(
           '0x527e4403255053669cE5f5C1124480fe46138de2',
           2000,
           new BigNumber('123'),

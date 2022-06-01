@@ -6,6 +6,7 @@ import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
 import { ContractManager } from './contract';
 import {
+  EClaimStatuses,
   ICrowdloanType,
   TClaimMethod,
   TCrowdloanStatus,
@@ -231,7 +232,7 @@ export class SlotAuctionSdk {
       address: polkadotAccount,
       loanId,
     });
-    if (claims.some(c => c.claim.status === 'ACTIVE')) {
+    if (claims.some(c => c.claim.status === EClaimStatuses.Active)) {
       throw new Error(
         `Address ${polkadotAccount} already has active claim for crowdloan ${loanId}`,
       );
@@ -239,7 +240,7 @@ export class SlotAuctionSdk {
     const polkadotDecimals = this.polkadotProvider.getNetworkMaxDecimals();
     const scaledAmount = claimable.multipliedBy(10 ** polkadotDecimals);
 
-    const data = SlotAuctionSdk.createRemarkPayload(
+    const data = PolkadotProvider.getClaimTransactionPayload(
       ethereumAddress,
       loanId,
       scaledAmount,
@@ -266,7 +267,7 @@ export class SlotAuctionSdk {
       address: polkadotAccount,
       loanId,
     });
-    const active = claims.filter(c => c.claim.status === 'ACTIVE');
+    const active = claims.filter(c => c.claim.status === EClaimStatuses.Active);
     if (active.length !== 1) {
       throw new Error(
         `Internal error: no active claims for ${polkadotAccount} for crowdloan ${loanId} after onchain request`,
@@ -343,40 +344,6 @@ export class SlotAuctionSdk {
       );
     const transactionReceipt = await receiptPromise;
     return { transactionReceipt, transactionHash };
-  }
-
-  protected static ethereumAddressToBytes(address: TEthereumAddress): Buffer {
-    if (address.startsWith('0x')) {
-      address = address.slice(2);
-    }
-    return Buffer.from(address, 'hex');
-  }
-
-  protected static createRemarkPayload(
-    ethereumAddress: TEthereumAddress,
-    loanId: number,
-    amount: BigNumber,
-  ): Uint8Array {
-    const header = Buffer.from(
-      'Stakefi Signed Message:\nCreateClaim\n',
-      'ascii',
-    );
-    const address = SlotAuctionSdk.ethereumAddressToBytes(ethereumAddress);
-    const lineBreak = Buffer.from('\n', 'ascii');
-    let amountHex = amount.toString(16);
-    amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
-    let loanIdHex = loanId.toString(16);
-    loanIdHex = '0'.repeat(8 - loanIdHex.length) + loanIdHex;
-    return Uint8Array.from(
-      Buffer.concat([
-        header,
-        address,
-        lineBreak,
-        Buffer.from(loanIdHex, 'hex'),
-        lineBreak,
-        Buffer.from(amountHex, 'hex'),
-      ]),
-    );
   }
 
   public async createVerifiableTokenSignature(

@@ -4,16 +4,17 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { showNotification } from 'modules/notifications';
 
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
+import { getFormattedErrMsg, IError } from '../utils/getFormattedErrMsg';
 
 import { fetchStakeStats } from './fetchStakeStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
 interface IClaimProps {
   amount: BigNumber;
-  claimableAmount: BigNumber;
   isLedgerWallet?: boolean;
   network: EPolkadotNetworks;
 }
@@ -27,17 +28,34 @@ export const claim = createSmartAction<
   [IClaimProps]
 >(
   'polkadot/claim',
-  ({ amount, claimableAmount, isLedgerWallet, network }): RequestAction => ({
+  ({ amount, isLedgerWallet, network }): RequestAction => ({
     request: {
       promise: (async (): Promise<void> => {
         const sdk = await PolkadotStakeSDK.getInstance();
 
-        return sdk.claim(network, amount, claimableAmount, isLedgerWallet);
+        return isLedgerWallet
+          ? sdk.claimLedgerWallet(network, amount)
+          : sdk.claim(network, amount);
       })(),
     },
     meta: {
       asMutation: true,
-      showNotificationOnError: true,
+      onError: (
+        error: IError,
+        _action: RequestAction,
+        store: TStore<IStoreState>,
+      ): Error => {
+        const err = new Error(getFormattedErrMsg(error));
+
+        store.dispatch(
+          showNotification({
+            message: err.toString(),
+            variant: 'error',
+          }),
+        );
+
+        throw err;
+      },
       onSuccess: (
         response: IRes,
         _action: RequestAction,

@@ -7,7 +7,6 @@ import { t, tHTML } from 'common';
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { ReactComponent as SecondStepIcon } from 'modules/stake-polkadot/assets/second-step-icon.svg';
 import {
   EPolkadotNetworks,
   TPolkadotETHToken,
@@ -29,7 +28,6 @@ import {
 import { useStakeClaimDialogStyles } from './useStakeClaimDialogStyles';
 
 interface IStakeClaimDialogProps {
-  ethAmount: number;
   ethToken: TPolkadotETHToken;
   network: EPolkadotNetworks;
   polkadotToken: TPolkadotToken;
@@ -37,7 +35,6 @@ interface IStakeClaimDialogProps {
 }
 
 export const StakeClaimDialog = ({
-  ethAmount,
   ethToken,
   network,
   polkadotToken,
@@ -62,7 +59,6 @@ export const StakeClaimDialog = ({
     onCloseModal,
     onFormSubmit,
   } = useStakeClaimDialogData({
-    ethAmount,
     ethToken,
     network,
     polkadotToken,
@@ -74,7 +70,7 @@ export const StakeClaimDialog = ({
   }: FormRenderProps<IFormPayload>): JSX.Element => (
     <>
       <Box className={classes.itemTop}>
-        <SecondStepIcon className={classes.icon} />
+        <Box className={classNames(classes.icon, classes.iconSecond)}>2</Box>
 
         <Typography className={classes.text} variant="h4">
           {secondStepTitle}

@@ -5,6 +5,8 @@ import { AbiItem } from 'web3-utils';
 import {
   ApiGateway,
   EActionStatuses,
+  EClaimStatuses,
+  IClaimItem,
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
@@ -14,6 +16,7 @@ import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
+import { sleep } from 'modules/common/utils/sleep';
 
 import {
   ETH_NETWORKS,
@@ -67,6 +70,7 @@ export enum EPoolEventsMap {
 
 const INVALID_ETH_TOKEN_ADDR_MSG = 'Invalid ETH token address';
 
+const CLAIM_LEDGER_SLEEP_TIME: Milliseconds = 3_000;
 const CLAIM_TOKEN_LIFE_TIME: Milliseconds = 600_000; // 10 min
 const POLKADOT_API_CACHE: Milliseconds = 10_000;
 
@@ -108,6 +112,56 @@ export class PolkadotStakeSDK {
     this.ethReadProvider = ethReadProvider;
     this.ethWriteProvider = ethWriteProvider;
     this.polkadotWriteProvider = polkadotWriteProvider;
+  }
+
+  private async claimCommon(claimItem: IClaimItem): Promise<void> {
+    const [ethPoolContract, ethTokenContract] = await Promise.all([
+      this.getETHPoolContract(),
+      this.getETHTokenContract(),
+    ]);
+
+    const isClaimValid = await ethPoolContract.methods
+      .isClaimValid(
+        ethTokenContract.options.address,
+        claimItem.data.claimId,
+        claimItem.data.claimBeforeBlock,
+        claimItem.data.nativeAmount,
+        this.currentETHAccount,
+        claimItem.data.signature,
+      )
+      .call();
+
+    if (!isClaimValid) {
+      throw new Error('Invalid claim');
+    }
+
+    await ethPoolContract.methods
+      .claimBonds(
+        ethTokenContract.options.address,
+        claimItem.data.claimId,
+        claimItem.data.nativeAmount,
+        claimItem.data.claimBeforeBlock,
+        this.currentETHAccount,
+        claimItem.data.signature,
+      )
+      .send({
+        from: this.currentETHAccount,
+      });
+  }
+
+  private async getAllActiveClaims(
+    currNetwork: EPolkadotNetworks,
+    loanId: number,
+  ): Promise<IClaimItem[]> {
+    const claims = await this.apiPolkadotGateway.getAllClaims({
+      address: this.currentPolkadotAccount,
+      loanId,
+      network: currNetwork,
+    });
+
+    return claims
+      .filter(({ status }) => status === EClaimStatuses.Active)
+      .sort((a, b) => b.createdTimestamp - a.createdTimestamp);
   }
 
   private getError(
@@ -298,12 +352,7 @@ export class PolkadotStakeSDK {
   async claim(
     currNetwork: EPolkadotNetworks,
     amount: BigNumber,
-    claimableAmount: BigNumber,
-    isLedgerWallet = false,
   ): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('Polkadot - Claim - isLedgerWallet', isLedgerWallet);
-
     const polkadotProvider = await this.getPolkadotProvider();
 
     const expirationTimestamp = Date.now() + CLAIM_TOKEN_LIFE_TIME;
@@ -317,55 +366,90 @@ export class PolkadotStakeSDK {
       ),
     ]);
 
-    const totalAmount = amount
-      .plus(claimableAmount)
+    const claimableAmount = amount
       .decimalPlaces(
         maxPolkadotNetworkDecimals.toNumber(),
         BigNumber.ROUND_DOWN,
       )
       .toString(10);
 
-    const { claim } = await this.apiPolkadotGateway.claim({
+    const { claim: claimItem } = await this.apiPolkadotGateway.claim({
       address: this.currentPolkadotAccount,
-      amount: totalAmount,
+      amount: claimableAmount,
       ethAddress: this.currentETHAccount,
       network: currNetwork,
       signature,
       timestamp: expirationTimestamp,
     });
 
-    const [ethPoolContract, ethTokenContract] = await Promise.all([
-      this.getETHPoolContract(),
-      this.getETHTokenContract(),
+    await this.claimCommon(claimItem);
+  }
+
+  /**
+   *  @note A draft version of method. Awaiting fixes on the Server side
+   *
+   *  TODO Add fixes for this (Polkadot - Claim - Ledger Nano X)
+   */
+  async claimLedgerWallet(
+    currNetwork: EPolkadotNetworks,
+    amount: BigNumber,
+  ): Promise<void> {
+    const loanId = 0;
+
+    const [activeClaimsCheck, polkadotProvider] = await Promise.all([
+      this.getAllActiveClaims(currNetwork, loanId),
+      this.getPolkadotProvider(),
     ]);
 
-    const isClaimValid = await ethPoolContract.methods
-      .isClaimValid(
-        ethTokenContract.options.address,
-        claim.data.claimId,
-        claim.data.claimBeforeBlock,
-        claim.data.nativeAmount,
-        this.currentETHAccount,
-        claim.data.signature,
-      )
-      .call();
-
-    if (!isClaimValid) {
-      throw new Error('Invalid claim');
+    if (activeClaimsCheck.length) {
+      throw new Error(
+        `Internal Error: "${this.currentPolkadotAccount}" address has active claims`,
+      );
     }
 
-    await ethPoolContract.methods
-      .claimBonds(
-        ethTokenContract.options.address,
-        claim.data.claimId,
-        claim.data.nativeAmount,
-        claim.data.claimBeforeBlock,
-        this.currentETHAccount,
-        claim.data.signature,
-      )
-      .send({
-        from: this.currentETHAccount,
-      });
+    const maxPolkadotNetworkDecimals =
+      await this.getMaxPolkadotNetworkDecimals();
+
+    const decimals = maxPolkadotNetworkDecimals.toNumber();
+
+    const claimableAmount = amount.decimalPlaces(
+      decimals,
+      BigNumber.ROUND_DOWN,
+    );
+
+    const scaledAmount = claimableAmount.multipliedBy(10 ** decimals);
+
+    const claimTransactionPayload = PolkadotProvider.getClaimTransactionPayload(
+      this.currentETHAccount,
+      loanId,
+      scaledAmount,
+    );
+
+    const { blockHash, extId, transactionHash } =
+      await polkadotProvider.sendSystemRemarkWithExtrinsic(
+        this.currentPolkadotAccount,
+        claimTransactionPayload,
+      );
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `Transaction has been sent to block="${blockHash}" with ext="${extId}" and transactionHash="${transactionHash}"`,
+    );
+
+    // TODO Please check it (Polkadot Claim)
+    await sleep(CLAIM_LEDGER_SLEEP_TIME);
+
+    const activeClaims = await this.getAllActiveClaims(currNetwork, loanId);
+
+    if (!activeClaims.length) {
+      throw new Error(
+        `Internal Error: No active claims for the "${this.currentPolkadotAccount}" address`,
+      );
+    }
+
+    const [claimItem] = activeClaims;
+
+    await this.claimCommon(claimItem);
   }
 
   async getETHTokenBalance(

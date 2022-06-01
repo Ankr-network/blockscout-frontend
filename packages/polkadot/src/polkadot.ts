@@ -123,8 +123,18 @@ export class PolkadotProvider implements IProvider {
     return this.networkType;
   }
 
-  public constructor(private config: IConfig) {
+  constructor(private config: IConfig) {
     this.networkType = config.networkType;
+  }
+
+  protected static getEthereumAddressInBytes(
+    address: TEthereumAddress,
+  ): Buffer {
+    if (address.startsWith('0x')) {
+      address = address.slice(2);
+    }
+
+    return Buffer.from(address, 'hex');
   }
 
   private static async sendSignedExtrinsic(
@@ -224,6 +234,37 @@ export class PolkadotProvider implements IProvider {
 
   private scaleUp(value: BigNumber): BigNumber {
     return value.multipliedBy(10 ** this.getNetworkMaxDecimals());
+  }
+
+  public static getClaimTransactionPayload(
+    ethereumAddress: TEthereumAddress,
+    loanId: number,
+    amount: BigNumber,
+  ): Uint8Array {
+    const header = Buffer.from(
+      'Stakefi Signed Message:\nCreateClaim\n',
+      'ascii',
+    );
+
+    const address = PolkadotProvider.getEthereumAddressInBytes(ethereumAddress);
+    const lineBreak = Buffer.from('\n', 'ascii');
+
+    let amountHex = amount.toString(16);
+    let loanIdHex = loanId.toString(16);
+
+    amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
+    loanIdHex = '0'.repeat(8 - loanIdHex.length) + loanIdHex;
+
+    return Uint8Array.from(
+      Buffer.concat([
+        header,
+        address,
+        lineBreak,
+        Buffer.from(loanIdHex, 'hex'),
+        lineBreak,
+        Buffer.from(amountHex, 'hex'),
+      ]),
+    );
   }
 
   public getRawApi(): ApiPromise {
@@ -376,7 +417,7 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async sendSystemRemarkWithExtrinsic(
-    sender: string,
+    sender: TPolkadotAddress,
     data: Uint8Array,
   ): Promise<{
     extId: string;
@@ -511,7 +552,7 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async sendSystemRemark(
-    sender: string,
+    sender: TPolkadotAddress,
     data: Uint8Array,
   ): Promise<{
     submittableResult: ISubmittableResult;

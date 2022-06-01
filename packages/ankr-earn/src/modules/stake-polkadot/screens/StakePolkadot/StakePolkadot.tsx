@@ -122,7 +122,6 @@ export const StakePolkadot = ({
           {isActiveStakeClaimForm && (
             <Container>
               <StakeClaimDialog
-                ethAmount={amount}
                 ethToken={ethToken}
                 network={network}
                 polkadotToken={polkadotToken}

@@ -38,8 +38,19 @@ export const useStakeClaimDialogStyles = makeStyles(theme => ({
   icon: {
     width: 44,
     minWidth: 44,
-    height: 'auto',
+    height: 44,
     margin: theme.spacing(0, 2, 0, 0),
+  },
+  iconSecond: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.secondary,
+    fontSize: 24,
+    fontWeight: 'bold',
+    borderRadius: '50%',
   },
   text: {
     width: '100%',

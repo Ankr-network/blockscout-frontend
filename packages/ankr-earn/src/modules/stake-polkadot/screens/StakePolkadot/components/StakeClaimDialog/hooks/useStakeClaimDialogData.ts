@@ -36,7 +36,6 @@ export interface IFormPayload {
 }
 
 interface IUseStakeClaimDialogDataProps {
-  ethAmount: number;
   ethToken: TPolkadotETHToken;
   network: EPolkadotNetworks;
   polkadotToken: TPolkadotToken;
@@ -64,7 +63,6 @@ interface IUseStakeClaimDialogData {
 const FIRST_VALID_ETH_CHAIN_ID = ETH_NETWORKS[0];
 
 export const useStakeClaimDialogData = ({
-  ethAmount: rawETHAmount,
   ethToken,
   network,
   polkadotToken,
@@ -123,14 +121,12 @@ export const useStakeClaimDialogData = ({
   const isShowBottomItems =
     isWithClaimableTokens || (!isWithClaimableTokens && !isLoadingClaim);
 
-  const ethAmount = useMemo(() => new BigNumber(rawETHAmount), [rawETHAmount]);
-
   const ethAmountTxt = useMemo(
     () =>
       isValidETHNetwork
-        ? ethAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat()
+        ? claimableTokensAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat()
         : null,
-    [ethAmount, isValidETHNetwork],
+    [claimableTokensAmount, isValidETHNetwork],
   );
 
   const ethNetworkName = isMainnet
@@ -189,10 +185,13 @@ export const useStakeClaimDialogData = ({
       return;
     }
 
+    if (claimableTokensAmount.isLessThanOrEqualTo(0)) {
+      return;
+    }
+
     const { error } = await dispatchRequest(
       claim({
-        amount: ethAmount,
-        claimableAmount: claimableTokensAmount,
+        amount: claimableTokensAmount,
         isLedgerWallet,
         network,
       }),

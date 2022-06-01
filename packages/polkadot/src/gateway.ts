@@ -3,34 +3,27 @@ import { setupCache } from 'axios-cache-adapter';
 import BigNumber from 'bignumber.js';
 import {
   EActionStatuses,
+  EClaimStatuses,
+  IClaimItem,
   ICrowdloanType,
   IRewardClaim,
   TActionType,
-  TClaimStatus,
   TCrowdloanStatus,
   TEthereumAddress,
   TNetworkType,
   TPolkadotAddress,
 } from './entity';
 
+interface IQueryParams {}
+
+interface IClaimsParams extends IQueryParams {
+  address: TPolkadotAddress;
+  loanId: number;
+  network: TNetworkType;
+}
+
 interface IClaimRes {
-  claim: {
-    address: TPolkadotAddress;
-    createdTimestamp: number;
-    data: {
-      amount: string;
-      claimBeforeBlock: number;
-      claimId: string;
-      ethAddress: TEthereumAddress;
-      nativeAmount: string;
-      network: number;
-      signature: string;
-    };
-    expiresTimestamp: number;
-    loanId: number;
-    status: TClaimStatus;
-    tokenAddress: TEthereumAddress;
-  };
+  claim: IClaimItem;
   tokenAddress: TEthereumAddress;
 }
 
@@ -52,6 +45,12 @@ export class ApiGateway {
       responseType: 'json',
     };
     this.api = axios.create(this.defaultConfig);
+  }
+
+  private getQueryParams<T extends IQueryParams>(params: T): string {
+    return Object.entries(params)
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+      .join('&');
   }
 
   public async depositAddress(request: { network: TNetworkType }): Promise<{
@@ -289,17 +288,19 @@ export class ApiGateway {
     });
   }
 
-  public async getRewardClaims(request: {
-    network: TNetworkType;
-    address: string;
-    loanId: number;
-  }): Promise<IRewardClaim[]> {
-    const queryParams = Object.entries(request)
-      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
-      .join('&');
+  public async getAllClaims(params: IClaimsParams): Promise<IClaimItem[]> {
+    const queryParams = this.getQueryParams<IClaimsParams>(params);
+
     const {
       data: { claims },
     } = await this.api.get(`/v1alpha/polkadot/claims?${queryParams}`);
+
+    return claims;
+  }
+
+  public async getRewardClaims(params: IClaimsParams): Promise<IRewardClaim[]> {
+    const claims = await this.getAllClaims(params);
+
     return claims.map(ApiGateway.mapRewardClaimResponse);
   }
 
@@ -314,7 +315,7 @@ export class ApiGateway {
   }): Promise<{
     claim: {
       address: string;
-      status: TClaimStatus;
+      status: EClaimStatuses;
       data: {
         network: number;
         claimId: string;
