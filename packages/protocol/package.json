@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-app-rewired start",
