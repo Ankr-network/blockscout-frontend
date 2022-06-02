@@ -20,16 +20,15 @@ import {
   UnstakeDialog,
 } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { fetchStats } from '../../actions/fetchStats';
-import { fetchUnstakeEndDate } from '../../actions/fetchUnstakeEndDate';
 import { unstake } from '../../actions/unstake';
 import { useFetchStats } from '../../hooks/useFetchStats';
 
-import { useUnstakeTimer } from './hooks/useUnstakeTimer';
 import { useUnstakeAvalancheStyles } from './useUnstakeAvalancheStyles';
 
 export const UnstakeAvalanche = (): JSX.Element => {
@@ -52,7 +51,9 @@ export const UnstakeAvalanche = (): JSX.Element => {
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
-  const { duration, isTimeOver } = useUnstakeTimer();
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: Token.AVAX,
+  });
 
   const onClose = useCallback((): void => {
     history.push(DashboardRoutes.dashboard.generatePath());
@@ -114,7 +115,6 @@ export const UnstakeAvalanche = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(fetchStats());
-    dispatchRequest(fetchUnstakeEndDate());
   }, [dispatchRequest]);
 
   if (isFetchStatsLoading) {
@@ -135,13 +135,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
           (!isSuccessOpened ? (
             <UnstakeDialog
               balance={fetchStatsData.aAVAXbBalance}
-              endText={
-                isTimeOver
-                  ? undefined
-                  : t('stake-avax.unstake.timer', {
-                      duration,
-                    })
-              }
+              endText={unstakeLabel}
               isLoading={isUnstakeLoading}
               renderFormFooter={onRenderFormFooter}
               submitDisabled={isUnstakeLoading}
@@ -150,16 +144,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
               onSubmit={onUnstakeSubmit}
             />
           ) : (
-            <UnstakeSuccess
-              infoText={
-                isTimeOver
-                  ? t('stake-avax.unstake.timer-off')
-                  : t('stake-avax.unstake.timer', {
-                      duration,
-                    })
-              }
-              onClose={onSuccessClose}
-            />
+            <UnstakeSuccess infoText={unstakeLabel} onClose={onSuccessClose} />
           ))}
       </Container>
     </Box>

@@ -16,6 +16,7 @@ export interface IUseUnstakePendingTimestampArgs {
 export interface IUseUnstakePendingTimestampData {
   timestamp: number;
   label: string;
+  isTimeOver: boolean;
 }
 
 const UNSTAKE_UPDATE_INTERVAL_MS = 60_000;
@@ -50,5 +51,6 @@ export const useUnstakePendingTimestamp = ({
   return {
     label,
     timestamp: date ? +date : 0,
+    isTimeOver: timeRemaining.total <= 0,
   };
 };

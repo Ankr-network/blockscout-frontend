@@ -13,6 +13,7 @@ import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -47,6 +48,10 @@ export const UnstakePolygon = (): JSX.Element => {
     calcTotalRecieve,
     onUnstakeSubmit,
   } = useUnstakeMatic(onSuccessOpen);
+
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: Token.MATIC,
+  });
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
@@ -133,7 +138,7 @@ export const UnstakePolygon = (): JSX.Element => {
           <UnstakeDialog
             balance={syntTokenBalance}
             closeHref={closeHref}
-            endText={t('stake-polygon-dashboard.unstake-eta')}
+            endText={unstakeLabel}
             extraValidation={onExtraValidation}
             isApproved={isApproved}
             isApproveLoading={isApproveLoading}
@@ -147,7 +152,7 @@ export const UnstakePolygon = (): JSX.Element => {
           />
         ) : (
           <UnstakeSuccess
-            period={t('unstake-polygon.success.period')}
+            infoText={unstakeLabel}
             tokenName={Token.MATIC}
             onClose={onSuccessClose}
           />
