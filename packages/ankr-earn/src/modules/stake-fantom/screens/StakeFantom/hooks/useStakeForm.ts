@@ -153,7 +153,7 @@ export const useStakeForm = (): IUseStakeForm => {
     tokenOut: selectedToken,
     amount,
     totalAmount,
-    aFTMcRatio,
+    aFTMcRatio: aFTMcRatio ? new BigNumber(1).div(aFTMcRatio) : ZERO,
     onChange,
     onSubmit,
     onTokenSelect,
