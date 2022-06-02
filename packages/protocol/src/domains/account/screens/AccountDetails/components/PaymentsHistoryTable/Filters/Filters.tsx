@@ -50,6 +50,10 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
           },
         }}
         className={classes.select}
+        classes={{
+          select: classes.selector,
+        }}
+        iconClassName={classes.selectIcon}
         value={timeValue}
         onChange={handleTimeChange}
         options={timeOptions}
@@ -62,6 +66,10 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
           },
         }}
         className={classes.select}
+        classes={{
+          select: classes.selector,
+        }}
+        iconClassName={classes.selectIcon}
         onChange={handleTypeChange}
         options={typeOptions}
         displayEmpty
