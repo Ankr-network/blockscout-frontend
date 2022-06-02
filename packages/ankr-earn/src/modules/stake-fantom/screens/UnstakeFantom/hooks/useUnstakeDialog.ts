@@ -12,7 +12,7 @@ import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
@@ -64,9 +64,7 @@ export const useUnstakeDialog = (
   const stakedAFTMBData = useStakedAFTMBData();
 
   const stakeParamsToken = FantomRoutesConfig.unstake.useParams().token;
-  const selectedToken = featuresConfig.stakeAFTMC
-    ? getValidSelectedToken(stakeParamsToken)
-    : Token.aFTMb;
+  const selectedToken = getValidSelectedToken(stakeParamsToken);
 
   const isBondToken = selectedToken === Token.aFTMb;
 

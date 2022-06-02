@@ -740,6 +740,7 @@
     "polkadot": "Polkadot (DOT)",
     "ethereum": "Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
+    "wnd": "Westend (WND)",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
     "staked-amount": "{value} {token}",

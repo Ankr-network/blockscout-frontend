@@ -1,14 +1,10 @@
 import { useCallback } from 'react';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
-import {
-  Pending,
-  PendingTemporary,
-} from 'modules/dashboard/components/Pending';
+import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
@@ -67,24 +63,20 @@ export const StakedAMATICC = (): JSX.Element => {
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
 
-  const renderedPendingSlot =
-    !pendingValue.isZero() &&
-    (featuresConfig.isSplitedMATICHistory ? (
-      <Pending
-        isLoading={isHistoryDataLoading}
-        token={Token.aMATICc}
-        tooltip={
-          <PendingTable
-            data={pendingUnstakeHistoryAMATICC}
-            unstakeLabel={unstakePendingData.label}
-          />
-        }
-        value={pendingValue}
-        onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
-      />
-    ) : (
-      <PendingTemporary />
-    ));
+  const renderedPendingSlot = !pendingValue.isZero() && (
+    <Pending
+      isLoading={isHistoryDataLoading}
+      token={Token.aMATICc}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryAMATICC}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
+      value={pendingValue}
+      onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+    />
+  );
 
   return (
     <>
@@ -102,9 +94,7 @@ export const StakedAMATICC = (): JSX.Element => {
         token={token}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onHistoryBtnClick={
-          featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
       />
 

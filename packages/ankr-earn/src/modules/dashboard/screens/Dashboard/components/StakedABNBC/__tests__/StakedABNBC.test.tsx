@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -109,10 +109,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   });
 
   test('should open history dialog properly', async () => {
-    if (!featuresConfig.bnbHistory) {
-      return;
-    }
-
     render(
       <MemoryRouter>
         <StakedABNBC />
