@@ -44,4 +44,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     top: -2,
     left: 2,
   },
+  preloader: {
+    height: theme.spacing(8.25),
+  },
 }));

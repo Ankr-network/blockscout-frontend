@@ -12,6 +12,7 @@ import { useStyles } from './ChartStyles';
 
 export interface ChartProps {
   currency: ChartCurrency;
+  isLoading: boolean;
   transactions: IChartData[];
   xFormatter: (value: Date) => string;
   yFormatter: (value: number) => string;
@@ -19,6 +20,7 @@ export interface ChartProps {
 
 export const Chart = ({
   currency,
+  isLoading,
   transactions,
   xFormatter,
   yFormatter,
@@ -29,6 +31,7 @@ export const Chart = ({
     <Box className={classes.chartRoot}>
       <BaseChart
         data={transactions}
+        loading={isLoading}
         tooltipContent={<Tooltip currency={currency} />}
         xAxisTickFormatter={xFormatter}
         yAxisTickFormatter={yFormatter}
