@@ -10,11 +10,11 @@ import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/Payments
 import { TopUp } from './components/TopUp';
 import { Balance } from './components/Balance';
 import { useStyles } from './AccountDetailsStyles';
-
-const HAS_EXPENSE_CHART = false;
+import { useAuth } from 'domains/account/hooks/useAuth';
 
 export const AccountDetails = () => {
   const classes = useStyles();
+  const { isNew } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -29,13 +29,15 @@ export const AccountDetails = () => {
           <Balance />
           <TopUp className={classes.topUp} />
         </Box>
-        <Box className={classes.payments}>
-          <PaymentsHistoryTable />
-        </Box>
-        {HAS_EXPENSE_CHART && (
-          <Box className={classes.expenseChart}>
-            <ExpenseChart />
-          </Box>
+        {!isNew && (
+          <>
+            <Box className={classes.payments}>
+              <PaymentsHistoryTable />
+            </Box>
+            <Box className={classes.expenseChart}>
+              <ExpenseChart />
+            </Box>
+          </>
         )}
       </Box>
     </ThemeProvider>

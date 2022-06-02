@@ -1,5 +1,5 @@
 import { Quantifier } from './types';
-import { i18nKeyRoot } from '../../BalanceUtils';
+import { root as i18nKeyRoot } from '../../../const';
 import { t } from 'modules/i18n/utils/intl';
 
 const root = `${i18nKeyRoot}.descriptions.quantifiers`;

@@ -21,10 +21,12 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
     isMoreRowsAvailable,
     emptyMessage,
     classes: tableClasses,
+    preloader,
   } = props;
   const classes = useStyles();
   const { cache, ref, rows } = useTable();
   const rowRenderer = useRowRenderer();
+  const isEmpty = rows.length === 0;
 
   return (
     <div className={classNames(classes.root, tableClasses?.root)}>
@@ -34,7 +36,8 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
       >
         <TableHead />
         <div className={classes.listContainer}>
-          {rows.length === 0 ? (
+          {isEmpty && preloader}
+          {isEmpty && !preloader ? (
             <Typography variant="h5" className={classes.empty}>
               {emptyMessage}
             </Typography>

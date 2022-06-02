@@ -468,7 +468,8 @@
   "account": {
     "currencies": {
       "ankr": "ANKR",
-      "credit": "Credits"
+      "credit": "Credits",
+      "usd": "USD"
     },
     "balance": "{balance, number, ::compact-short}",
     "account-details": {
@@ -526,10 +527,9 @@
       "expense-chart": {
         "title": "Expense Chart",
         "timeframes": {
-          "week": "week",
-          "month": "month",
-          "year": "year",
-          "all": "All time"
+          "week": "Past week",
+          "month": "Past month",
+          "year": "Past year"
         },
         "chart": {
           "short-date": "{value, time, ::dMMM}",
@@ -542,7 +542,7 @@
       "title": "Payments History",
       "date-time": "{value, date, medium} {value, time, short}",
       "more": "Show 10 more",
-      "empty": "No data",
+      "empty": "No data for the selected filter parameters.",
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",

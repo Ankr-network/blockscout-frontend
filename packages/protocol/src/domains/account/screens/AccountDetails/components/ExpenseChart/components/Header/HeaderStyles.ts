@@ -2,9 +2,27 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  currencySwitcherRoot: {
-    height: 'auto',
-    minWidth: 'auto',
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    marginBottom: 15,
+  },
+  left: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: theme.spacing(1.25),
+  },
+  title: {
+    color: theme.palette.text.primary,
+
+    fontWeight: 700,
+    fontSize: theme.spacing(2),
+    lineHeight: `${theme.spacing(3)}px`,
+  },
+  currency: {
     padding: theme.spacing(0.5, 1),
 
     borderRadius: 18,

@@ -1,11 +1,9 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    width: 370,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: theme.spacing(1),
+    backgroundColor: 'transparent !important',
 
     '& div': {
       borderRadius: 0,
@@ -19,13 +17,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    [theme.breakpoints.down('xs')]: {
-      alignSelf: 'flex-end',
-    },
-  },
-  select: {
-    backgroundColor: 'transparent !important',
-
     '&:hover': {
       '& svg': {
         color: theme.palette.primary.main,
@@ -38,7 +29,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
-  selector: {
+  select: {
     padding: `3px ${theme.spacing(3)}px 0 0 !important`,
 
     borderRadius: 0,

@@ -5,7 +5,7 @@ import { ParsedDays } from './types';
 import { formatBalance } from 'domains/account/utils/formatBalance';
 import { getPeriod } from './getPeriod';
 import { getQuantifier } from './getQuantifier';
-import { i18nKeyRoot } from '../../BalanceUtils';
+import { root as i18nKeyRoot } from '../../../const';
 import { t } from 'modules/i18n/utils/intl';
 
 export interface GetDescriptionsParams {

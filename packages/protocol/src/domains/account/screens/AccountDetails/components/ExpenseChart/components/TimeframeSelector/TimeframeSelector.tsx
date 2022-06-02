@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
-import { ExpenseChartTimeframe } from '../types';
+import { ChartTimeframe } from '../../types';
 import { Select } from 'uiKit/Select';
-import { options } from './TimeframeSelectorUtils';
+import { options } from './const';
 
 import { useStyles } from './TimeframeSelectorStyles';
 
@@ -12,33 +12,37 @@ interface Target {
 }
 
 export interface TimeframeSelectorProps {
-  onChange?: (timeframe: ExpenseChartTimeframe) => void;
+  onChange: (timeframe: ChartTimeframe) => void;
+  timeframe: ChartTimeframe;
 }
 
 export const TimeframeSelector = ({
-  onChange: _onChange = () => {},
+  onChange: onChange_,
+  timeframe,
 }: TimeframeSelectorProps) => {
-  const [timeframe, setTimeframe] = useState(ExpenseChartTimeframe.OneMonth);
-
   const onChange = useCallback(
     (event: React.ChangeEvent<Target>) => {
-      const frame = event.target.value as ExpenseChartTimeframe;
+      const frame = event.target.value as ChartTimeframe;
 
-      setTimeframe(frame);
-
-      _onChange(frame);
+      onChange_(frame);
     },
-    [_onChange],
+    [onChange_],
   );
 
   const classes = useStyles();
 
   return (
     <Select
+      MenuProps={{
+        classes: {
+          paper: classes.menuPaper,
+        },
+      }}
       className={classes.root}
       classes={{
         select: classes.select,
       }}
+      fullWidth={false}
       iconClassName={classes.selectIcon}
       onChange={onChange}
       options={options}
