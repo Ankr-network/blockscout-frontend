@@ -14,9 +14,8 @@ const POLL_INTERVAL: Seconds = 5;
 
 type TGetTxReceiptResponse = TransactionReceipt | null;
 
-interface IGetTxReceipt {
-  status: boolean;
-}
+export interface IGetTxReceipt
+  extends Pick<TransactionReceipt, 'status' | 'transactionHash'> {}
 
 export const getTxReceipt = createAction<
   RequestAction<TGetTxReceiptResponse, IGetTxReceipt | null>,
@@ -34,7 +33,12 @@ export const getTxReceipt = createAction<
         return null;
       }
 
-      return { status: data.status };
+      const updatedData: IGetTxReceipt = {
+        status: data.status,
+        transactionHash: data.transactionHash,
+      };
+
+      return updatedData;
     },
     onRequest: request => {
       const providerPromise =
@@ -60,11 +64,11 @@ export const getTxReceipt = createAction<
           meta?.requestKey ?? ''
         }`;
 
+        store.dispatch(stopPolling([actionName]));
+
         if (typeof meta?.onSuccess === 'function') {
           meta.onSuccess(response, action, store);
         }
-
-        store.dispatch(stopPolling([actionName]));
       }
 
       return response;

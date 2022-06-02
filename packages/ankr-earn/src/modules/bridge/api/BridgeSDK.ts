@@ -109,7 +109,7 @@ export class BridgeSDK {
     amount: BigNumber,
     fromToken: string,
     toChainId: SupportedChainIDS,
-  ): Promise<IWeb3SendResult> {
+  ): Promise<string> {
     const bridgeAddr = getBridgeAddr(this.provider.currentChain);
     const bridgeContract = this.provider.createContract(ABI_BRIDGE, bridgeAddr);
 
@@ -128,11 +128,13 @@ export class BridgeSDK {
       )
       .encodeABI();
 
-    return this.provider.sendTransactionAsync(
+    const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
       { data: depositData },
     );
+
+    return transactionHash;
   }
 
   public async notarize(

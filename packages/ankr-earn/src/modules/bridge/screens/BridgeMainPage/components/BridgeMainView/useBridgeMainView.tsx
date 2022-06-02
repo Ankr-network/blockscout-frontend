@@ -1,7 +1,6 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText, useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
+import { ReactText, useState } from 'react';
 
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
@@ -10,7 +9,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
-import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
 import { useBalance } from 'modules/bridge/hooks/useBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
@@ -18,7 +16,6 @@ import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { getWithdrawalQuery } from 'modules/bridge/utils/getWithdrawalQuery';
 import { isMainnet, SupportedChainIDS } from 'modules/common/const';
 import {
   TUseValidateAmount,
@@ -27,6 +24,7 @@ import {
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { useApprove } from './useApprove';
+import { useDeposit } from './useDeposit';
 
 interface ISwapNetworkItemState {
   from: SupportedChainIDS;
@@ -96,17 +94,12 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
-  const history = useHistory();
 
   const {
     isOpened: isOpenedModal,
     onClose: onCloseModal,
     onOpen: onOpenModal,
   } = useDialog();
-
-  const { loading: isSendButtonLoading } = useQuery({
-    type: deposit,
-  });
 
   const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
     writeProviderId: providerId,
@@ -118,9 +111,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     ? writeProviderData?.chainId
     : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
-  const isMetaMask = writeProviderData?.walletName
-    ? getIsMetaMask(writeProviderData.walletName)
-    : false;
+  const isMetaMask = getIsMetaMask(writeProviderData?.walletName);
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -143,6 +134,13 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     token: tokenValue,
     chainId: swapNetworkItem.from,
     amount: inputValue ? new BigNumber(inputValue) : undefined,
+  });
+
+  const { onClick: onSendClick, isLoading: isSendButtonLoading } = useDeposit({
+    amount: inputValue ? new BigNumber(inputValue) : undefined,
+    fromChainId: swapNetworkItem.from,
+    toChainId: swapNetworkItem.to,
+    token: tokenValue,
   });
 
   const onChangeToken = (token: string) => {
@@ -169,43 +167,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   };
 
   const validateAmount = useValidateAmount(balance);
-
-  const onSuccessDeposit = useCallback(
-    (transactionHash: string) => {
-      history.push({
-        search: `?${getWithdrawalQuery(
-          {
-            tx: transactionHash,
-            amount: `${inputValue}`,
-            token: tokenValue,
-            chainIdFrom: swapNetworkItem.from,
-            chainIdTo: swapNetworkItem.to,
-          },
-          document.location.search,
-        )}`,
-      });
-    },
-    [history, inputValue, swapNetworkItem, tokenValue],
-  );
-
-  const onSendClick = () => {
-    if (!inputValue) {
-      return;
-    }
-
-    dispatchRequest(
-      deposit({
-        fromChainId: swapNetworkItem.from,
-        toChainId: swapNetworkItem.to,
-        amount: new BigNumber(inputValue),
-        token: tokenValue,
-      }),
-    ).then(data => {
-      if (data.data) {
-        onSuccessDeposit(data.data.transactionHash);
-      }
-    });
-  };
 
   const onAddrCheckboxClick = () => setIsSendAnother(s => !s);
 
