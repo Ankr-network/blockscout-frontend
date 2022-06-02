@@ -33,10 +33,10 @@ export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
 
 export const PAYMENT_HISTORY_PAGE_SIZE = 10;
 
-export const PAYMENT_HISTORY_DEFAULT_PARAMS = {
+export const getPaymentHistoryDefaultParams = () => ({
   ...prepareTimeForRequest(DEFAULT_TIME_VALUE),
   time_group: 'DAY',
-};
+});
 
 export const getPaymentHistoryItemDirection = (
   type: IPaymentHistoryEntity['type'],

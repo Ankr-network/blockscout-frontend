@@ -8,10 +8,10 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { IPaymentHistoryReponse } from 'multirpc-sdk';
 import { Preloader, VirtualTable } from 'ui';
 import {
+  getPaymentHistoryDefaultParams,
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
   useDownloadTransaction,
-  PAYMENT_HISTORY_DEFAULT_PARAMS,
 } from './PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
 import { Filters } from './Filters';
@@ -29,7 +29,7 @@ export const PaymentsHistoryTable = () => {
   });
 
   useOnMount(() => {
-    dispatchRequest(fetchPaymentHistory(PAYMENT_HISTORY_DEFAULT_PARAMS));
+    dispatchRequest(fetchPaymentHistory(getPaymentHistoryDefaultParams()));
   });
 
   const handleFetchPaymentHistory = useCallback(
