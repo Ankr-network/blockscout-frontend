@@ -14,7 +14,8 @@ import { useAuth } from 'domains/account/hooks/useAuth';
 
 export const AccountDetails = () => {
   const classes = useStyles();
-  const { isNew } = useAuth();
+  const { isNew, premiumUntil } = useAuth();
+  const isPremium = !!premiumUntil;
 
   useSetBreadcrumbs([
     {
@@ -34,9 +35,11 @@ export const AccountDetails = () => {
             <Box className={classes.payments}>
               <PaymentsHistoryTable />
             </Box>
-            <Box className={classes.expenseChart}>
-              <ExpenseChart />
-            </Box>
+            {!isPremium && (
+              <Box className={classes.expenseChart}>
+                <ExpenseChart />
+              </Box>
+            )}
           </>
         )}
       </Box>
