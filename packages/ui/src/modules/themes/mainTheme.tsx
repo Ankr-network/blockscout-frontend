@@ -338,7 +338,7 @@ export const mainTheme = createTheme({
       iconOutlined: {
         fontSize: 12,
         right: 16,
-        top: 'calc(50% - 4px)',
+        top: 'calc(50% - 6px)',
         color: 'inherit',
       },
     },
