@@ -6,7 +6,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { t } from 'common';
@@ -34,6 +34,7 @@ import { Progress } from '../Progress';
 
 import { EStep, useSteps } from './useSteps';
 import { useTxViewStyles } from './useTxViewStyles';
+import { useWithdraw } from './useWithdraw';
 
 export interface ITxViewProps {
   token: AvailableBridgeTokens;
@@ -56,10 +57,17 @@ export const TxView = ({
   const { stepTitle, stepsCount, stepText, currentStep, setStep } = useSteps();
   const dispatch = useAppDispatch();
 
+  const {
+    isLoading: isWithdrawalLoading,
+    isReceived,
+    txHash: withdrawalTxHash,
+    onClick: onWithdrawlClick,
+  } = useWithdraw();
+
   const { loading: isNotarizeLoading, data: notarizeData } = useQuery({
     type: notarize,
   });
-  const [depositTx, setDepositTx] = useState('');
+
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
   const { chainId, isMetaMask } = useAuth(
@@ -70,12 +78,6 @@ export const TxView = ({
     type: switchNetwork,
   });
 
-  const { data: withdrawalData, loading: isWithdrawalLoading } = useQuery({
-    type: withdrawal,
-  });
-
-  const isReceive = !!withdrawalData;
-
   const { dispatchConnect, isConnected } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
@@ -83,26 +85,6 @@ export const TxView = ({
 
   const onAddTokenClick = () => {
     dispatchRequest(watchAsset({ token, chainId: chainIdTo }));
-  };
-
-  const onWithdrawlClick = () => {
-    if (!isNotarizeCompleted) {
-      return;
-    }
-
-    setStep(EStep.ReciveProgress);
-
-    dispatchRequest(
-      withdrawal(
-        notarizeData.encodedProof,
-        notarizeData.encodedReceipt,
-        notarizeData.signature,
-      ),
-    ).then(({ error }) => {
-      if (error) {
-        setStep(EStep.Receive);
-      }
-    });
   };
 
   const onSwitchNetworkClick = () => {
@@ -129,9 +111,9 @@ export const TxView = ({
 
   const isWrongNetwork = chainId !== chainIdTo;
   const showWithdrawlBtn =
-    isConnected && !isReceive && !isWrongNetwork && isNotarizeCompleted;
+    isConnected && !isReceived && !isWrongNetwork && isNotarizeCompleted;
   const showConnectBtn = !isConnected;
-  const showAddTokenBtn = isConnected && isReceive && isMetaMask;
+  const showAddTokenBtn = isConnected && isReceived && isMetaMask;
   const showSwitchNetworkBtn = isConnected && isWrongNetwork && isMetaMask;
 
   useEffect(() => {
@@ -139,11 +121,7 @@ export const TxView = ({
       return;
     }
 
-    dispatchRequest(notarize(tx, chainIdFrom)).then(({ error }) => {
-      if (!error) {
-        setStep(EStep.Receive);
-      }
-    });
+    dispatchRequest(notarize(tx, chainIdFrom));
   }, [
     chainIdFrom,
     dispatchRequest,
@@ -154,18 +132,34 @@ export const TxView = ({
   ]);
 
   useEffect(() => {
-    if (isNotarizeCompleted && isConnected) {
+    if (
+      isConnected &&
+      isNotarizeCompleted &&
+      !isReceived &&
+      !isWithdrawalLoading
+    ) {
       setStep(EStep.Receive);
     }
-  }, [isConnected, isNotarizeCompleted, setStep]);
+  }, [
+    isConnected,
+    isNotarizeCompleted,
+    setStep,
+    isReceived,
+    isWithdrawalLoading,
+  ]);
 
   useEffect(() => {
-    if (withdrawalData) {
+    if (isWithdrawalLoading) {
+      setStep(EStep.ReciveProgress);
+    }
+  }, [isWithdrawalLoading, setStep]);
+
+  useEffect(() => {
+    if (isReceived) {
       setStep(EStep.Finish);
-      setDepositTx(withdrawalData.transactionHash);
       history.replace({ search: '' });
     }
-  }, [history, setStep, withdrawalData]);
+  }, [history, setStep, isReceived]);
 
   return (
     <>
@@ -212,8 +206,8 @@ export const TxView = ({
             </Box>
 
             <Box className={classes.gridCellValue}>
-              {depositTx ? (
-                <Transaction chainId={chainIdTo} tx={depositTx} />
+              {isReceived && withdrawalTxHash ? (
+                <Transaction chainId={chainIdTo} tx={withdrawalTxHash} />
               ) : (
                 <Transaction chainId={chainIdFrom} tx={tx} />
               )}
@@ -260,6 +254,7 @@ export const TxView = ({
           )}
 
           {showConnectBtn && (
+            // todo: use new connection modal
             <Button color="primary" size="large" onClick={dispatchConnect}>
               {t('bridge.tx.buttons.connect-wallet')}
             </Button>

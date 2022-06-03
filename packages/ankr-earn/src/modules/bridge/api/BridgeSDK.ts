@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import { IWeb3SendResult, Web3KeyWriteProvider } from 'provider';
+import { Web3KeyWriteProvider } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
@@ -155,7 +155,7 @@ export class BridgeSDK {
     proof: string,
     receipt: string,
     signature: string,
-  ): Promise<IWeb3SendResult> {
+  ): Promise<string> {
     const bridgeAddr = getBridgeAddr(this.provider.currentChain);
     const bridgeContract = this.provider.createContract(ABI_BRIDGE, bridgeAddr);
 
@@ -163,10 +163,12 @@ export class BridgeSDK {
       .withdraw(proof, receipt, signature)
       .encodeABI();
 
-    return this.provider.sendTransactionAsync(
+    const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
       { data: withdrawalData },
     );
+
+    return transactionHash;
   }
 }
