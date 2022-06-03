@@ -13,7 +13,8 @@ module.exports = function (config) {
   config.plugins.push(
     new ESLintPlugin({
       ...esLintPluginOptions,
-      exclude: [],
+      // to avoid parsing .eslintrc files from node_modules
+      exclude: ['**/node_modules/**'],
       context: path.resolve(paths.appPath + '/..'),
     }),
   );

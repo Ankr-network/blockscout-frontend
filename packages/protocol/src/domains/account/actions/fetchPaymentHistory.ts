@@ -14,7 +14,7 @@ export const fetchPaymentHistory = createSmartAction<
   RequestAction<IPaymentHistoryEntity[], IAggregatedPaymentHistoryReponse>
 >(
   'account/fetchPaymentHistory',
-  (params: IAggregatedPaymentHistoryRequest) => ({
+  (params: IAggregatedPaymentHistoryRequest, requestKey?: string) => ({
     request: {
       promise: (async () => {
         const { service } = MultiService.getInstance();
@@ -23,8 +23,9 @@ export const fetchPaymentHistory = createSmartAction<
       })(),
     },
     meta: {
-      cache: false,
       asMutation: false,
+      cache: false,
+      requestKey,
     },
   }),
 );

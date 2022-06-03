@@ -1,4 +1,5 @@
 import React, { ReactNode, useMemo } from 'react';
+import classNames from 'classnames';
 import {
   FormControl,
   FormHelperText,
@@ -27,6 +28,7 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
 }
 
 export const Select = ({
+  MenuProps: { classes: menuClasses = {} } = {},
   children,
   options,
   helperText,
@@ -54,7 +56,7 @@ export const Select = ({
       variant: 'outlined',
       MenuProps: {
         classes: {
-          paper: classes.menuPaper,
+          paper: classNames(menuClasses.paper, classes.menuPaper),
         },
         elevation: 0,
         getContentAnchorEl: null,
@@ -75,7 +77,7 @@ export const Select = ({
         />
       ),
     }),
-    [classes, iconClassName],
+    [classes, menuClasses, iconClassName],
   );
 
   return (
