@@ -1,15 +1,13 @@
 import { t } from 'common';
 
-import { STAKEFI_LINK } from 'modules/common/const';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
+import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { AvailableTokens } from 'modules/trading-cockpit/types';
-
-const STAKEFI_EHT_STAKE_URL = `${STAKEFI_LINK}/ETH`;
 
 interface IUseStakeBtn {
   href: string;
@@ -48,7 +46,7 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
         },
         [AvailableTokens.ETH]: {
           btnText: stakeText,
-          href: STAKEFI_EHT_STAKE_URL,
+          href: StakeEthRoutes.stake.generatePath(),
           disabled: false,
         },
         [AvailableTokens.aETHb]: {
