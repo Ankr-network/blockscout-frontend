@@ -1,4 +1,4 @@
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
@@ -13,18 +13,20 @@ import {
   useTableContext,
 } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
   const {
     minWidth,
     minHeight,
     moreBtnText,
     isMoreRowsAvailable,
+    emptyMessage,
     classes: tableClasses,
+    preloader,
   } = props;
   const classes = useStyles();
   const { cache, ref, rows } = useTable();
   const rowRenderer = useRowRenderer();
+  const isEmpty = rows.length === 0;
 
   return (
     <div className={classNames(classes.root, tableClasses?.root)}>
@@ -34,38 +36,45 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
       >
         <TableHead />
         <div className={classes.listContainer}>
-          <WindowScroller>
-            {({
-              height,
-              scrollTop,
-              isScrolling,
-              onChildScroll,
-              registerChild,
-            }) => {
-              return (
-                <AutoSizer disableHeight>
-                  {({ width }) => (
-                    <div ref={registerChild}>
-                      <List
-                        autoHeight
-                        ref={ref as any}
-                        scrollTop={scrollTop}
-                        isScrolling={isScrolling}
-                        onScroll={onChildScroll}
-                        deferredMeasurementCache={cache}
-                        height={height}
-                        width={width}
-                        overscanRowCount={10}
-                        rowCount={rows.length}
-                        rowHeight={cache.rowHeight}
-                        rowRenderer={rowRenderer}
-                      />
-                    </div>
-                  )}
-                </AutoSizer>
-              );
-            }}
-          </WindowScroller>
+          {isEmpty && preloader}
+          {isEmpty && !preloader ? (
+            <Typography variant="h5" className={classes.empty}>
+              {emptyMessage}
+            </Typography>
+          ) : (
+            <WindowScroller>
+              {({
+                height,
+                scrollTop,
+                isScrolling,
+                onChildScroll,
+                registerChild,
+              }) => {
+                return (
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <div ref={registerChild}>
+                        <List
+                          autoHeight
+                          ref={ref as any}
+                          scrollTop={scrollTop}
+                          isScrolling={isScrolling}
+                          onScroll={onChildScroll}
+                          deferredMeasurementCache={cache}
+                          height={height}
+                          width={width}
+                          overscanRowCount={10}
+                          rowCount={rows.length}
+                          rowHeight={cache.rowHeight}
+                          rowRenderer={rowRenderer}
+                        />
+                      </div>
+                    )}
+                  </AutoSizer>
+                );
+              }}
+            </WindowScroller>
+          )}
         </div>
         {isMoreRowsAvailable && <PaginationMore text={moreBtnText} />}
       </Paper>
