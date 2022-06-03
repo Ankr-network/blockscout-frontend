@@ -36,14 +36,18 @@ import {
   TPolkadotAddress,
 } from './entity';
 
+interface IAPINetworkMap {
+  [networkType: string /* TNetworkType */]: ApiPromise | undefined;
+}
+
 interface IConfig {
   polkadotUrl: string;
   networkType?: TNetworkType;
 }
 
 export interface IGetAccountBalanceData {
-  free: BigNumber;
   feeFrozen: BigNumber;
+  free: BigNumber;
   miscFrozen: BigNumber;
   nonce: BigNumber;
   reserved: BigNumber;
@@ -105,6 +109,8 @@ export class PolkadotProvider implements IProvider {
     return web3FromAddress(address);
   }
 
+  protected apiNetworkMap: IAPINetworkMap = {};
+
   protected currAccount: TPolkadotAddress | null = null;
 
   private api?: ApiPromise;
@@ -135,6 +141,55 @@ export class PolkadotProvider implements IProvider {
     }
 
     return Buffer.from(address, 'hex');
+  }
+
+  protected static getNetworkConfig(
+    networkType: TNetworkType,
+  ): ISlotAuctionConfig {
+    let config: ISlotAuctionConfig | undefined;
+
+    switch (networkType) {
+      case 'DOT':
+        config = MAINNET_POLKADOT_CONFIG;
+        break;
+
+      case 'KSM':
+        config = MAINNET_KUSAMA_CONFIG;
+        break;
+
+      case 'WND':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_WESTEND_CONFIG
+            : DEVELOP_WESTEND_CONFIG;
+        break;
+
+      case 'ROC':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_ROCOCO_CONFIG
+            : DEVELOP_ROCOCO_CONFIG;
+        break;
+
+      default:
+        break;
+    }
+
+    if (typeof config === 'undefined') {
+      throw new Error(`Not supported Polkadot network type: ${networkType}`);
+    }
+
+    return config;
+  }
+
+  protected async resetAPINetworkMap(): Promise<void> {
+    await Object.values(this.apiNetworkMap).forEach(
+      async (api): Promise<void> => {
+        await api?.disconnect();
+      },
+    );
+
+    this.apiNetworkMap = {};
   }
 
   private static async sendSignedExtrinsic(
@@ -333,12 +388,19 @@ export class PolkadotProvider implements IProvider {
 
     // eslint-disable-next-line prefer-destructuring
     this.currAccount = accounts[0];
+
+    await this.resetAPINetworkMap();
+    await this.api?.disconnect();
+
     this.api = await ApiPromise.create({ provider: wsProvider });
 
     await this.getNetworkType();
   }
 
   public disconnect(): void {
+    this.resetAPINetworkMap();
+    this.api?.disconnect();
+
     this.currAccount = null;
     this.api = undefined;
     this.networkType = this.config.networkType;
@@ -368,12 +430,41 @@ export class PolkadotProvider implements IProvider {
     const { nonce, data } = await this.getRawApi().query.system.account(
       address,
     );
+
     return {
-      reserved: this.scaleDown(new BigNumber(data.reserved.toString(10))),
-      miscFrozen: this.scaleDown(new BigNumber(data.miscFrozen.toString(10))),
-      free: this.scaleDown(new BigNumber(data.free.toString(10))),
       feeFrozen: this.scaleDown(new BigNumber(data.feeFrozen.toString(10))),
+      free: this.scaleDown(new BigNumber(data.free.toString(10))),
+      miscFrozen: this.scaleDown(new BigNumber(data.miscFrozen.toString(10))),
       nonce: new BigNumber(nonce.toString()),
+      reserved: this.scaleDown(new BigNumber(data.reserved.toString(10))),
+    };
+  }
+
+  public async getAccountBalanceByNetwork(
+    networkType: TNetworkType,
+    address: TPolkadotAddress,
+  ): Promise<IGetAccountBalanceData> {
+    const { polkadotUrl } = PolkadotProvider.getNetworkConfig(networkType);
+
+    this.apiNetworkMap[networkType] =
+      this.apiNetworkMap[networkType] ??
+      (await ApiPromise.create({
+        provider: new WsProvider(polkadotUrl),
+      }));
+
+    const api = this.apiNetworkMap[networkType] as ApiPromise;
+
+    const {
+      data: { feeFrozen, free, miscFrozen, reserved },
+      nonce,
+    } = await api.query.system.account(address);
+
+    return {
+      feeFrozen: this.scaleDown(new BigNumber(feeFrozen.toString(10))),
+      free: this.scaleDown(new BigNumber(free.toString(10))),
+      miscFrozen: this.scaleDown(new BigNumber(miscFrozen.toString(10))),
+      nonce: new BigNumber(nonce.toString()),
+      reserved: this.scaleDown(new BigNumber(reserved.toString(10))),
     };
   }
 
@@ -442,38 +533,7 @@ export class PolkadotProvider implements IProvider {
       throw new Error('Please to set a Polkadot account');
     }
 
-    let config: ISlotAuctionConfig | undefined;
-
-    switch (networkType) {
-      case 'DOT':
-        config = MAINNET_POLKADOT_CONFIG;
-        break;
-
-      case 'KSM':
-        config = MAINNET_KUSAMA_CONFIG;
-        break;
-
-      case 'WND':
-        config =
-          CURRENT_ENV === EEnvTypes.Stage
-            ? STAGING_WESTEND_CONFIG
-            : DEVELOP_WESTEND_CONFIG;
-        break;
-
-      case 'ROC':
-        config =
-          CURRENT_ENV === EEnvTypes.Stage
-            ? STAGING_ROCOCO_CONFIG
-            : DEVELOP_ROCOCO_CONFIG;
-        break;
-
-      default:
-        break;
-    }
-
-    if (typeof config === 'undefined') {
-      throw new Error(`Not supported Polkadot network type: ${networkType}`);
-    }
+    const config = PolkadotProvider.getNetworkConfig(networkType);
 
     const isAvailableAccount = await this.isAvailableAccount(this.currAccount);
 
@@ -485,6 +545,9 @@ export class PolkadotProvider implements IProvider {
       polkadotUrl: config.polkadotUrl,
       networkType: config.networkType,
     };
+
+    await this.resetAPINetworkMap();
+    await this.api?.disconnect();
 
     this.api = await ApiPromise.create({
       provider: new WsProvider(config.polkadotUrl),

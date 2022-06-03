@@ -512,6 +512,7 @@ export class PolkadotStakeSDK {
 
   async getPolkadotAccountMaxSafeBalance(
     currNetwork: EPolkadotNetworks,
+    isExternalCall = false,
   ): Promise<BigNumber> {
     const polkadotProvider = await this.getPolkadotProvider();
 
@@ -519,7 +520,12 @@ export class PolkadotStakeSDK {
       this.apiPolkadotGateway.depositAddress({
         network: currNetwork,
       }),
-      polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
+      isExternalCall
+        ? polkadotProvider.getAccountBalanceByNetwork(
+            currNetwork,
+            this.currentPolkadotAccount,
+          )
+        : polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
     ]);
 
     return polkadotProvider.getMaxPossibleSendAmount(

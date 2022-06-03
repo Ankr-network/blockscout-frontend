@@ -21,6 +21,7 @@ import {
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
+import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import {
@@ -70,6 +71,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
 
   const { data: rawPolkadotBalance } = useQuery({
     type: fetchPolkadotAccountMaxSafeBalance,
+    requestKey: getPolkadotRequestKey(network),
   });
 
   const {
@@ -134,7 +136,11 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   };
 
   useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
+    dispatchRequest(
+      fetchPolkadotAccountMaxSafeBalance({
+        network,
+      }),
+    );
     dispatchRequest(fetchStakeStats());
     dispatchRequest(getMetrics());
   }, [

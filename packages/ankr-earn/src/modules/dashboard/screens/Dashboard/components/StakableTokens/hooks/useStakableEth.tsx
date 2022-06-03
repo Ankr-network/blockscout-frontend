@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
+import {
+  IETHNetwork,
+  useETHNetworks,
+} from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -13,7 +16,7 @@ import { EthIcon } from 'uiKit/Icons/EthIcon';
 
 import { IUseStakableToken } from '../types';
 
-export const useStakableEth = (): IUseStakableToken => {
+export const useStakableEth = (): IUseStakableToken<IETHNetwork> => {
   const networks = useETHNetworks();
 
   const { data: metrics, loading: isLoadingAPY } = useQuery({
