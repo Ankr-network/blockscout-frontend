@@ -2,7 +2,11 @@ import { Box } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
+import {
+  featuresConfig,
+  isMainnet,
+  STAKE_LEGACY_LINKS,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
@@ -96,7 +100,7 @@ export const Main = (): JSX.Element => {
             onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
           />
 
-          {featuresConfig.isActivePolkadotStaking ? (
+          {featuresConfig.isActivePolkadotStaking && isMainnet ? (
             <FeatureItem
               apy={metrics && +metrics.dot.apy}
               iconSlot={<DotIcon />}
@@ -117,7 +121,7 @@ export const Main = (): JSX.Element => {
             />
           )}
 
-          {featuresConfig.isActivePolkadotStaking ? (
+          {featuresConfig.isActivePolkadotStaking && isMainnet ? (
             <FeatureItem
               apy={metrics && +metrics.ksm.apy}
               iconSlot={<KsmIcon />}
@@ -138,7 +142,7 @@ export const Main = (): JSX.Element => {
             />
           )}
 
-          {featuresConfig.isActiveWndStaking && (
+          {featuresConfig.isActivePolkadotStaking && !isMainnet && (
             <FeatureItem
               apy={metrics && +metrics.wnd.apy}
               iconSlot={<DotIcon />}

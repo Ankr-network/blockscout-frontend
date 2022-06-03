@@ -83,8 +83,6 @@ export const featuresConfig = {
   avaxSwitcher: currentEnv !== Env.Production,
   newBinancePool: currentEnv !== Env.Production,
   isActivePolkadotStaking: currentEnv !== Env.Production,
-  // dev and stage only
-  isActiveWndStaking: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {

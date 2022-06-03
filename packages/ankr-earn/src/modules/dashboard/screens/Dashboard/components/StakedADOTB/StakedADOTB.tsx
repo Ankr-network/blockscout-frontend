@@ -44,6 +44,7 @@ export const StakedADOTB = (): JSX.Element => {
     amount,
     handleAddTokenToWallet,
     isBalancesLoading,
+    isShowedTradeLink,
     isStakeLoading,
     isUnstakeLoading,
     network,
@@ -93,6 +94,7 @@ export const StakedADOTB = (): JSX.Element => {
         amount={amount}
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
+        isShowedTradeLink={isShowedTradeLink}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
         network={network}

@@ -31,6 +31,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   nativeAmount?: BigNumber;
   isLoading?: boolean;
+  isShowedTradeLink?: boolean;
   isStakeLoading?: boolean;
   isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
@@ -52,6 +53,7 @@ export const StakingAsset = ({
   nativeAmount,
   unstakeTooltip,
   isLoading = false,
+  isShowedTradeLink = true,
   isStakeLoading = false,
   isUnstakeLoading = false,
   isHistoryLoading = false,
@@ -117,30 +119,32 @@ export const StakingAsset = ({
             />
           </Grid>
 
-          <Grid item>
-            {tradeLink ? (
-              <NavLink
-                className={classes.tradeButton}
-                href={tradeLink}
-                variant="outlined"
-                onClick={onTradeClick}
-              >
-                {t('dashboard.trade')}
-              </NavLink>
-            ) : (
-              <Tooltip arrow title={comingSoonTooltip}>
-                <Box component="span" display="flex">
-                  <Button
-                    disabled
-                    className={classes.tradeButton}
-                    variant="outlined"
-                  >
-                    {t('dashboard.trade')}
-                  </Button>
-                </Box>
-              </Tooltip>
-            )}
-          </Grid>
+          {isShowedTradeLink && (
+            <Grid item>
+              {tradeLink ? (
+                <NavLink
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                  variant="outlined"
+                  onClick={onTradeClick}
+                >
+                  {t('dashboard.trade')}
+                </NavLink>
+              ) : (
+                <Tooltip arrow title={comingSoonTooltip}>
+                  <Box component="span" display="flex">
+                    <Button
+                      disabled
+                      className={classes.tradeButton}
+                      variant="outlined"
+                    >
+                      {t('dashboard.trade')}
+                    </Button>
+                  </Box>
+                </Tooltip>
+              )}
+            </Grid>
+          )}
         </Grid>
       }
       menuSlot={
