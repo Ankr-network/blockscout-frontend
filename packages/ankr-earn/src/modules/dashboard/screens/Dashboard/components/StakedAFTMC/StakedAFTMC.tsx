@@ -1,9 +1,11 @@
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -130,7 +132,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
         description="dashboard.token-info.aFTMc"
         moreHref={getStakingOverviewUrl(Token.FTM)}
         open={isOpenedInfo}
-        ratio={ratio}
+        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={fantomConfig.aftmcToken}
         tokenName={Token.aFTMc}
         onClose={onCloseInfo}

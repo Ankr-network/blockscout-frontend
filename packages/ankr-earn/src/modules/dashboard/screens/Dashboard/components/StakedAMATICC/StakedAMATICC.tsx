@@ -1,6 +1,8 @@
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -110,7 +112,7 @@ export const StakedAMATICC = (): JSX.Element => {
         description="dashboard.token-info.aMATICc"
         moreHref={getStakingOverviewUrl(Token.MATIC)}
         open={isOpenedInfo}
-        ratio={ratio}
+        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={tokenAddress}
         tokenName={Token.aMATICc}
         onClose={onCloseInfo}
