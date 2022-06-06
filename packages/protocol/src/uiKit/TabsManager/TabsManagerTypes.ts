@@ -1,19 +1,20 @@
 import { ReactNode } from 'react';
 
-export type TabID = string | number;
+export type DefaultTabID = string | number;
+export type TabID<TI> = TI extends DefaultTabID ? TI : DefaultTabID;
 
-export interface Tab {
-  content: ReactNode;
-  id: TabID;
+export interface Tab<TI = DefaultTabID> {
+  content?: ReactNode;
+  id: TabID<TI>;
   isDisabled?: boolean;
   title: ReactNode;
 }
 
-export interface TabsManagerProps {
+export interface TabsManagerProps<TI = DefaultTabID> {
   additionalContent?: ReactNode;
-  initialTabID?: TabID;
-  onTabSelect?: (id: TabID) => void;
-  tabs: Tab[];
+  initialTabID?: TabID<TI>;
+  onTabSelect?: (id: TabID<TI>) => void;
+  tabs: Tab<TI>[];
   title?: ReactNode;
   className?: string;
 }
