@@ -88,7 +88,13 @@ export const SelectWallet = ({
         )}
       </Box>
 
-      <Box display="flex" justifyContent="center" mb={10}>
+      <Box
+        alignItems="center"
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="space-around"
+        mb={10}
+      >
         <WalletItem
           preferable
           href={!isCloverWalletAvailable ? CLOVER_LINK : undefined}
