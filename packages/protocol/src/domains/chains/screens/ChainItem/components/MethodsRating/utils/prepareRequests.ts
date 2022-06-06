@@ -1,5 +1,4 @@
-import { MethodRequest } from 'domains/chains/types';
-import { PreparedRequest } from '../types';
+import { MethodRequest, PreparedRequest } from 'domains/chains/types';
 import { getMaxCalls } from './getMaxCalls';
 
 export const prepareRequests = (requests: MethodRequest[]) => {

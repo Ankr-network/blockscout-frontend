@@ -1,7 +1,7 @@
-import { t } from 'modules/i18n/utils/intl';
 import React from 'react';
 
-import { PreparedRequest } from '../../../../types';
+import { PreparedRequest } from 'domains/chains/types';
+import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './RowStyles';
 

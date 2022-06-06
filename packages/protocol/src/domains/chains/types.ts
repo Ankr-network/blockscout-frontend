@@ -13,3 +13,7 @@ export interface MethodRequest {
   method: string;
   calls: number;
 }
+
+export interface PreparedRequest extends MethodRequest {
+  percent: number;
+}

@@ -1,5 +1,4 @@
-import { ChainType, Period } from 'domains/chains/types';
-import { PreparedRequest } from '../types';
+import { ChainType, Period, PreparedRequest } from 'domains/chains/types';
 import { prepareRequests } from '../utils/prepareRequests';
 import { useAuth } from 'modules/auth/hooks/useAuth';
 import { useChainType } from './useChainType';

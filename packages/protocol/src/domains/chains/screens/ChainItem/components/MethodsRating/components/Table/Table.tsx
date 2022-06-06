@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Header } from './components/Header';
-import { PreparedRequest } from '../../types';
+import { PreparedRequest } from 'domains/chains/types';
 import { Row } from './components/Row';
 
 import { useStyles } from './TableStyles';
