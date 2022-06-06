@@ -82,5 +82,7 @@ export const isGlobalMenuItemActive = (link: string): boolean => {
     return false;
   }
 
-  return window.location.href.includes(link);
+  const [, href] = window.location.pathname.split(ANKR_MAIN_PAGE);
+
+  return href === link;
 };
