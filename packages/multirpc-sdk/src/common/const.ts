@@ -26,8 +26,8 @@ export const STAGING_CONFIG: IConfig = {
   accountUrl: 'https://staging.multirpc.ankr.com/',
 
   payAsYouGoAnkrTokenContractAddress:
-    '0x573896F7475419f784086ADeC8d2074FF71dAB0B',
-  payAsYouGoContractAddress: '0xF0A1DE386086A3e3914037c55e9B5405E9A2CBd0',
+    '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
+  payAsYouGoContractAddress: '0x43FC63725b9f9A74EE4eD420635e78231456b52f',
 };
 
 export const LOCAL_CONFIG: IConfig = {

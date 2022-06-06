@@ -30,4 +30,6 @@ export interface IAccountGateway {
   getAggregatedPaymentHistory(
     params: IAggregatedPaymentHistoryRequest,
   ): Promise<IAggregatedPaymentHistoryReponse>;
+
+  getBalanceEndTime(blockchains?: string[]): Promise<number>;
 }

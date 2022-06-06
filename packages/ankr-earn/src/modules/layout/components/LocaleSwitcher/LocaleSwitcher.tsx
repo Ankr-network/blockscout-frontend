@@ -1,5 +1,7 @@
 import { ChangeEvent, useCallback } from 'react';
 
+import { t } from 'common';
+
 import { setLocale } from 'modules/i18n/store/i18nSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Select } from 'uiKit/Select';
@@ -7,7 +9,6 @@ import { Select } from 'uiKit/Select';
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { useLocaleMemo } from '../../../i18n/hooks/useLocaleMemo';
 import { Locale } from '../../../i18n/types/locale';
-import { t } from '../../../i18n/utils/intl';
 
 export interface ILocaleSwitcher {
   className?: string;

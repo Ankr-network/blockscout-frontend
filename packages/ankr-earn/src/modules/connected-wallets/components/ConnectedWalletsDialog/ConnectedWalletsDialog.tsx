@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { useEffect } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 

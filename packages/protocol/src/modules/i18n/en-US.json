@@ -253,23 +253,24 @@
   },
   "plan": {
     "breadcrumbs": "Premium Plan",
-    "unlock-btn": "Contact us",
+    "unlock-btn": "Connect Wallet",
+    "learn-more": "Learn More",
     "more-questions": "Have more questions? Let's hear them!",
     "contact-discord": "Contact Support on Discord",
     "header": {
       "title": "Ship fast, scale and save with Premium features.",
-      "sub-title": "Connect to the network of your choice and build with our fast, reliable, and decentralized infrastructure. Supercharge your dApp with premium features with an annual Premium Plan.",
+      "sub-title": "We&nbsp;have just launched the <b>Pay as&nbsp;you&nbsp;Go</b> (PAYG) pricing model. You only pay for what you use. To&nbsp;start using all the premium features, make a&nbsp;<b>minimum deposit of&nbsp;1000&nbsp;ANKR</b> tokens to&nbsp;create your account.",
       "cost": "{value, number, ::compact-short}",
       "period": "year",
       "until": "Valid until the end of 2022",
       "sub-title2": "Limited-time, developer-first pricing that crushes the competition"
     },
     "purchase-block": {
-      "title": "Purchase an&nbsp;Annual Premium Plan for your personal price.",
-      "sub-title": "Developer-first pricing to scale your project fast. Use ANKR to pay for premium access to leading Web3 infrastructure.",
+      "title": "Start using your Premium Plan and pay as&nbsp;you&nbsp;go.",
+      "sub-title": "<p>Tons of&nbsp;useful features are on&nbsp;their way&nbsp;&mdash; granular stats for your dApps, access control lists, multichain projects and much more.</p><p>Btw, if&nbsp;you don&rsquo;t need premium features anymore, you will be&nbsp;able to&nbsp;claim the unused ANKR tokens back to&nbsp;your wallet.</p>",
       "feature1": "No signup",
       "feature2": "No logins",
-      "feature3": "Just building"
+      "feature3": "Pay as you Go"
     },
     "features-block": {
       "feature1": "WebSockets (WS) Capabilities",
@@ -296,6 +297,7 @@
       "premium": "Premium",
       "free": "Free",
       "current-plan": "Current plan",
+      "payg": "Pay as you go",
       "row1-col1": "Full and archive data",
       "row2-col1": "Advanced API",
       "row2-col1-sub": "Coming soon",
@@ -479,7 +481,8 @@
   "account": {
     "currencies": {
       "ankr": "ANKR",
-      "credit": "Credits"
+      "credit": "Credits",
+      "usd": "USD"
     },
     "balance": "{balance, number, ::compact-short}",
     "account-details": {
@@ -499,22 +502,47 @@
           "title": "Withdraw"
         },
         "descriptions": {
+          "new": {
+            "extra": "Top up your balance to use our service."
+          },
           "premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
           },
-          "payg": {
+          "premium-expired": {
+            "main": "Your premium subscription is ended.",
             "extra": "Top up your balance to continue using our service."
+          },
+          "payg-active": {
+            "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
+          },
+          "payg-inactive": {
+            "extra": "Top up your balance to continue using our service."
+          },
+          "payg-warning": {
+            "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
+          },
+          "payg-warning-zero": {
+            "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
+          },
+          "periods": {
+            "day": "day{plural}",
+            "month": "month{plural}",
+            "year": "year{plural}",
+            "plural": "s"
+          },
+          "quantifiers": {
+            "approximately": "~",
+            "more": "more than "
           }
         }
       },
       "expense-chart": {
         "title": "Expense Chart",
         "timeframes": {
-          "week": "week",
-          "month": "month",
-          "year": "year",
-          "all": "All time"
+          "week": "Past week",
+          "month": "Past month",
+          "year": "Past year"
         },
         "chart": {
           "short-date": "{value, time, ::dMMM}",
@@ -527,13 +555,29 @@
       "title": "Payments History",
       "date-time": "{value, date, medium} {value, time, short}",
       "more": "Show 10 more",
+      "empty": "No data for the selected filter parameters.",
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",
         "col-3": "Amount USD",
         "col-4": "Amount ANKR"
       },
-      "csv-title": "Payment charging for {month} {day}, {year}"
+      "csv-title": "Payment charging for {month} {day}, {year}",
+      "payment-type": {
+        "placeholder": "Payment type",
+        "all": "All",
+        "unknown": "Unknown",
+        "top-up": "Top Up",
+        "deduction": "Payment charging",
+        "withdrawal": "Withdrawal",
+        "bonus": "Bonus",
+        "compensation": "Compensation"
+      },
+      "time-type": {
+        "week": "Past week",
+        "month": "Past month",
+        "year": "Past year"
+      }
     },
     "top-up": {
       "breadcrumbs": "Top Up",

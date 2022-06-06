@@ -6,7 +6,7 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 
 import { useStakedAETHBData } from '../useStakedAETHBData';
 
@@ -54,7 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
 
   test('should return data', () => {
     const { result } = renderHook(() => useStakedAETHBData());
-    const expectedStakeLink = featuresConfig.stakeETH ? '/stake' : undefined;
+    const expectedStakeLink = '/stake';
 
     expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);

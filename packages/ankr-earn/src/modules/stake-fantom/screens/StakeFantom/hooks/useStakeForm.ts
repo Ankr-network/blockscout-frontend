@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -6,16 +7,15 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { t } from 'modules/i18n/utils/intl';
-import { getAPY } from 'modules/stake-fantom/actions/getAPY';
-import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { calcTotalAmount } from 'modules/stake-fantom/utils/calcTotalAmount';
@@ -33,20 +33,23 @@ interface IUseStakeForm {
   loading: boolean;
   isCommonDataLoading: boolean;
   isStakeLoading: boolean;
+  gasFee: BigNumber;
+  isGasFeeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
   amount: BigNumber;
+  totalAmount: BigNumber;
   aFTMcRatio: BigNumber;
   balance?: BigNumber;
   minAmount?: number;
-  apy: BigNumber;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: IStakeFormPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
   onTokenSelect: (token: TFtmSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeForm => {
   const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
   const dispatch = useAppDispatch();
 
   const dispatchRequest = useDispatchRequest();
@@ -55,7 +58,10 @@ export const useStakeForm = (): IUseStakeForm => {
   const { data, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-  const { data: apy } = useQuery({ type: getAPY });
+
+  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
+    type: getStakeGasFee,
+  });
 
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
@@ -64,23 +70,34 @@ export const useStakeForm = (): IUseStakeForm => {
   const ftmBalance = data?.ftmBalance;
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
 
-  const totalAmount = useMemo(
-    () =>
-      calcTotalAmount({
-        selectedToken,
-        amount,
-        balance: ftmBalance,
-        stakeGasFee: ZERO ?? undefined,
-        aFTMcRatio,
-      }),
-    [aFTMcRatio, amount, ftmBalance, selectedToken],
-  );
+  const totalAmount = useMemo(() => {
+    if (isError || !ftmBalance || ftmBalance.isLessThan(amount)) {
+      return ZERO;
+    }
+
+    return calcTotalAmount({
+      selectedToken,
+      amount,
+      balance: ftmBalance,
+      stakeGasFee: ZERO ?? undefined,
+      aFTMcRatio,
+    });
+  }, [aFTMcRatio, amount, ftmBalance, selectedToken, isError]);
 
   const balance = data?.ftmBalance;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
-  const onChange = (values: IStakeFormPayload) => {
+  const onChange = (values: IStakeFormPayload, invalid: boolean) => {
+    // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
+    setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
+
+    if (invalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (values.amount) {
+      const readyAmount = new BigNumber(values.amount);
+      dispatch(getStakeGasFee(readyAmount, selectedToken));
+    }
   };
 
   const sendAnalytics = async () => {
@@ -116,25 +133,27 @@ export const useStakeForm = (): IUseStakeForm => {
     (token: TFtmSyntToken) => () => {
       handleTokenSelect(token);
 
-      const shouldUpdateGasFee = !totalAmount.isZero() && amount;
+      const shouldUpdateGasFee = !totalAmount.isZero() && amount && !isError;
       if (shouldUpdateGasFee) {
-        dispatch(getBurnFee(amount));
+        dispatch(getStakeGasFee(amount, token));
       }
     },
-    [amount, dispatch, handleTokenSelect, totalAmount],
+    [amount, dispatch, handleTokenSelect, isError, totalAmount],
   );
 
   return {
     isCommonDataLoading,
     isStakeLoading: isCommonDataLoading,
+    gasFee: gasFee ?? ZERO,
+    isGasFeeLoading,
     balance,
     minAmount,
     loading: isStakeLoading,
     tokenIn: t('unit.ftm'),
     tokenOut: selectedToken,
     amount,
-    aFTMcRatio,
-    apy: apy ?? ZERO,
+    totalAmount,
+    aFTMcRatio: aFTMcRatio ? new BigNumber(1).div(aFTMcRatio) : ZERO,
     onChange,
     onSubmit,
     onTokenSelect,

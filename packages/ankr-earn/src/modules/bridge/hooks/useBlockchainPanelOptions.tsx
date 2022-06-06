@@ -1,7 +1,8 @@
+import { t } from 'common';
+
 import { currentEnv, SupportedChainIDS } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { t } from 'modules/i18n/utils/intl';
 import { BSCIcon } from 'uiKit/Icons/BSCIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';

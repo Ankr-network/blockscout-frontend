@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Timeframe } from 'multirpc-sdk';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { stopPolling } from '@redux-requests/core';
+import { useDispatch } from 'react-redux';
 
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { t } from 'modules/i18n/utils/intl';
@@ -39,12 +41,25 @@ export const useChainItemBreadcrumbs = (chainName: string) => {
 };
 
 export const useTimeframeData = (chainId: string, date: Timeframe = '24h') => {
+  const dispatch = useDispatch();
+
   const dispatchRequest = useDispatchRequest();
   const [timeframe, setTimeframe] = useState<Timeframe>(date);
 
   useEffect(() => {
     dispatchRequest(fetchChainTimeframeData(chainId, timeframe, POLL_INTERVAL));
-  }, [dispatchRequest, chainId, timeframe]);
+
+    return () => {
+      dispatch(
+        stopPolling([
+          {
+            requestType: fetchChainTimeframeData.toString(),
+            requestKey: chainId,
+          },
+        ]),
+      );
+    };
+  }, [dispatchRequest, chainId, timeframe, dispatch]);
 
   const { data, loading, error, pristine } = useQuery({
     type: fetchChainTimeframeData.toString(),

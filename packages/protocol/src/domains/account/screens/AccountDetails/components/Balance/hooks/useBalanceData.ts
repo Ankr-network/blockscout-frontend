@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react';
-
 import { Balance } from 'domains/account/actions/balance/types';
 import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
-import { useAccountStatus } from 'domains/account/hooks/useAccountStatus';
+import { getAccountType } from 'domains/account/utils/getAccountType';
+import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
+import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
+import { useCurrency } from './useCurrency';
 
 type BalanceMap = Record<
   Currency,
@@ -18,23 +19,31 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, premiumUntil } = useAuth();
-  const [currency, setCurrency] = useState(Currency.ANKR);
+  const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
 
   const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
 
-  const status = useAccountStatus({ balance: balance.ankrBalance });
+  const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
+    useBalanceEndTime(isConnected);
 
-  const onCurrencySwitch = useCallback((currency_: Currency) => {
-    setCurrency(currency_);
-  }, []);
+  const [currency, switchCurrency] = useCurrency();
+
+  const accountType = getAccountType({
+    balance: balance.ankrBalance,
+    balanceEndTime,
+    isNew,
+    premiumUntil,
+  });
 
   return {
+    accountType,
     balance: balance[balancesMap[currency]],
-    isLoading: isConnecting || isLoading,
-    onCurrencySwitch,
+    currency,
+    balanceEndTime,
+    isLoading: isConnecting || isLoading || isBalanceEndTimeLoading,
     premiumUntil,
-    status,
+    status: getBalanceStatus(accountType),
+    switchCurrency,
     usdBalance,
   };
 };

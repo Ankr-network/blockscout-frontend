@@ -1,5 +1,6 @@
+import { t } from 'common';
+
 import { ReactComponent as AuditedIcon } from 'assets/img/audited.svg';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useAuditedLabelStyles } from './useAuditedLabelStyles';

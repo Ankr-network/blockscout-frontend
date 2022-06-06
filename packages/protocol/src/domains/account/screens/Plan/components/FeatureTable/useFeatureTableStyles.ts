@@ -36,7 +36,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   unblockBtn: {
     color: theme.palette.primary.main,
-    marginTop: theme.spacing(5.5),
     padding: 0,
     background: 'none',
     '&:hover': {
@@ -61,5 +60,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   textSecondary: {
     color: theme.palette.grey[600],
+  },
+  unlockBtn: {
+    marginTop: theme.spacing(1),
   },
 }));

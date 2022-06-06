@@ -2,8 +2,9 @@ import { Box, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from 'common';
+
 import { STAKING_PATH } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { NavLink } from 'uiKit/NavLink';

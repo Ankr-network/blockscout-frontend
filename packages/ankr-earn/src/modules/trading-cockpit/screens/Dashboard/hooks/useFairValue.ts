@@ -1,9 +1,10 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { useInitEffect } from 'modules/common/hooks/useInitEffect';
-import { t } from 'modules/i18n/utils/intl';
 import { getAETHCRatio } from 'modules/trading-cockpit/actions/getAETHCRatio';
 import { BOND_TOKENS_RATIO } from 'modules/trading-cockpit/const';
 import { AvailableTokens } from 'modules/trading-cockpit/types';

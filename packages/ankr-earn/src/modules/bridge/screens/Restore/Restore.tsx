@@ -5,6 +5,7 @@ import React, { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 import { Notice } from 'ui';
 
@@ -16,7 +17,6 @@ import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { isValidETHTransaction } from 'modules/common/utils/isValidETHTransaction';
-import { t } from 'modules/i18n/utils/intl';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';

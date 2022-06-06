@@ -1,13 +1,15 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountStatus } from 'multirpc-sdk';
-import { Currency } from 'domains/account/types';
+import { AccountType, BalanceStatus, Currency } from 'domains/account/types';
 
 export type BalanceData = {
+  accountType: AccountType;
   balance: BigNumber;
+  currency: Currency;
+  balanceEndTime: number;
   isLoading?: boolean;
-  onCurrencySwitch: (currency: Currency) => void;
   premiumUntil?: Date;
-  status: AccountStatus;
+  status: BalanceStatus;
+  switchCurrency: () => void;
   usdBalance: BigNumber;
 };

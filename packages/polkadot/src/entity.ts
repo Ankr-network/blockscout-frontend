@@ -4,14 +4,6 @@ export type TPolkadotAddress = string;
 
 export type TNetworkType = 'DOT' | 'KSM' | 'WND' | 'ROC';
 
-export type TActionStatus =
-  | 'UNKNOWN'
-  | 'PENDING'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'CANCELED'
-  | 'REVERTED';
-
 export type TActionType =
   | 'UNDEFINED'
   | 'DEPOSIT'
@@ -22,6 +14,8 @@ export type TActionType =
 
 export type TClaimStatus = 'ACTIVE' | 'CLAIMED' | 'EXPIRED';
 
+export type TClaimMethod = 'ERC20' | 'PARACHAIN';
+
 export type TCrowdloanStatus =
   | 'CREATED' // crowdloan is created, no contributions allowed and no claims
   | 'ONGOING' // contributions allowed, claims not allowed
@@ -31,6 +25,21 @@ export type TCrowdloanStatus =
   | 'SUCCEEDED' // contributions is not allowed, claim is available
   | 'FAILED_RETIRED' // auction is failed, we're returning money, nothing is available
   | 'FAILED_REFUNDING'; // refunding, we're distributing, claim (proof of key) is available
+
+export enum EActionStatuses {
+  Canceled = 'CANCELED',
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  Pending = 'PENDING',
+  Reverted = 'REVERTED',
+  Unknown = 'UNKNOWN',
+}
+
+export enum EEnvTypes {
+  Develop = 'develop',
+  Production = 'prod',
+  Stage = 'staging',
+}
 
 export interface ICrowdloanType {
   airdropPool: string;
@@ -81,12 +90,4 @@ export interface IClaim {
     expiresTimestamp: number;
   };
   tokenAddress: string;
-}
-
-export type TClaimMethod = 'ERC20' | 'PARACHAIN';
-
-export enum EEnvTypes {
-  Develop = 'develop',
-  Production = 'prod',
-  Stage = 'staging',
 }

@@ -8,6 +8,7 @@ import {
   FormRenderProps,
 } from 'react-final-form';
 
+import { t, tHTML } from 'common';
 import { useIsMDUp } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
@@ -19,7 +20,6 @@ import {
 } from 'modules/bridge/types';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';

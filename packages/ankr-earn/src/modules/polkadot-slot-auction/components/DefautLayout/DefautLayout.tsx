@@ -3,10 +3,10 @@ import { useQuery } from '@redux-requests/react';
 import React, { ReactNode, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { t } from 'common';
 import { Themes } from 'ui';
 
 import { getTheme } from 'modules/common/utils/getTheme';
-import { t } from 'modules/i18n/utils/intl';
 import { Footer } from 'modules/layout/components/Footer';
 import { Header } from 'modules/layout/components/Header';
 import { ILayoutProps, Layout } from 'modules/layout/components/Layout';

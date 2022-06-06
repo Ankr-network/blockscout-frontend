@@ -46,6 +46,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     token: Token.aBNBc,
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
+    isPendingUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
     onAddTokenToWallet: jest.fn(),
   };
@@ -55,10 +56,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    txHistory: null,
-    pendingUnstakeHistory: [],
-    transactionHistory: {
+    pendingUnstakeHistoryABNBB: [],
+    pendingUnstakeHistoryABNBC: [],
+    transactionHistoryABNBB: {
       token: Token.aBNBb,
+      staked: [],
+      unstaked: [],
+    },
+    transactionHistoryABNBC: {
+      token: Token.aBNBc,
       staked: [],
       unstaked: [],
     },

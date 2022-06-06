@@ -2,8 +2,9 @@ import { useMutation, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IGetCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { TMetrics } from 'modules/stake/actions/getMetrics';
 
 import { useStakableEth } from '../useStakableEth';
 
@@ -37,9 +38,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
     data: undefined,
   };
 
-  const defaultQueryApy = {
+  const defaultQueryMetrics = {
     ...defaultQueryAction,
-    data: 4,
+    data: {
+      eth: {
+        totalStaked: new BigNumber(100),
+        totalStakedUsd: new BigNumber(1000),
+        stakers: '20',
+        apy: new BigNumber(4),
+      } as TMetrics['eth'],
+    },
   };
 
   const defaultQueryCommonData = {
@@ -50,13 +58,13 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
       aETHcBalance: new BigNumber(0),
       minStake: new BigNumber(0.5),
       aETHcRatio: new BigNumber(0.3),
-    },
+    } as IGetCommonData,
   };
 
   beforeEach(() => {
     (useMutation as jest.Mock).mockReturnValue(defaultQueryAction);
     (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultQueryApy)
+      .mockReturnValueOnce(defaultQueryMetrics)
       .mockReturnValueOnce(defaultQueryCommonData);
   });
 
@@ -64,18 +72,17 @@ describe('modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/us
     jest.resetAllMocks();
   });
 
-  test('should return ', () => {
+  test('should return initial data', () => {
     const { result } = renderHook(() => useStakableEth());
 
     expect(result.current.token).toBe(Token.ETH);
     expect(result.current.href).toBe('/stake');
-    expect(result.current.apy).toBe(defaultQueryApy.data);
+    expect(result.current.apy).toBe(4);
     expect(result.current.balance).toStrictEqual(
       defaultQueryCommonData.data.ethBalance,
     );
     expect(result.current.isStakeLoading).toBe(false);
-    expect(result.current.isLoading).toStrictEqual(false);
-    expect(result.current.isShowed).toBe(featuresConfig.stakeETH);
+    expect(result.current.isLoading).toBe(false);
     expect(result.current.networks).toStrictEqual([
       {
         title: 'goerli',

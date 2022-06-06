@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { ReactNode, useState } from 'react';
 import { uid } from 'react-uid';
 
+import { t } from 'common';
 import { SlotAuctionSdk } from 'polkadot';
 
-import { t } from 'modules/i18n/utils/intl';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoading } from 'uiKit/QueryLoading';

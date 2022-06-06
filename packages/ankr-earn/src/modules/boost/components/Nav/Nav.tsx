@@ -1,6 +1,7 @@
+import { t } from 'common';
+
 import { RoutesConfig } from 'modules/boost/Routes';
 import { featuresConfig } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 
 import { NavItem } from '../NavItem';
 

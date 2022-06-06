@@ -19,7 +19,6 @@ export const fetchTxHistory = createSmartAction<
     },
     meta: {
       asMutation: false,
-      getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
       // ! seems it is not working with promise based requests
       cache: ACTION_CACHE_SEC,
     },

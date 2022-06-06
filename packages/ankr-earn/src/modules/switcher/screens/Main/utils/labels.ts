@@ -31,6 +31,10 @@ export const getFromLabel = ({ token }: IGetFromLabelArgs): string => {
     case Token.aFTMc:
       return `1 ${Token.aFTMb} = 1 ${nativeToken}`;
 
+    case Token.aAVAXb:
+    case Token.aAVAXc:
+      return `1 ${Token.aAVAXb} = 1 ${nativeToken}`;
+
     default:
       return '';
   }
@@ -64,6 +68,10 @@ export const getToLabel = ({ token, ratio }: IGetToLabelArgs): string => {
     case Token.aFTMb:
     case Token.aFTMc:
       return `1 ${Token.aFTMc} = ${nativeValue} ${nativeToken}`;
+
+    case Token.aAVAXb:
+    case Token.aAVAXc:
+      return `1 ${Token.aAVAXc} = ${nativeValue} ${nativeToken}`;
 
     default:
       return '';

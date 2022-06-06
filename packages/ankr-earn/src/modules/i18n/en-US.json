@@ -71,6 +71,7 @@
     "feth": "aETHb",
     "bnb": "BNB",
     "polygon": "MATIC",
+    "matic": "MATIC",
     "abnbb": "aBNBb",
     "abnbc": "aBNBc",
     "amaticb": "aMATICb",
@@ -80,6 +81,9 @@
     "aftmc": "aFTMc",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
+    "dot": "DOT",
+    "ksm": "KSM",
+    "wnd": "WND",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
@@ -135,22 +139,27 @@
     "info": "Click and select a wallet to connect",
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
-    "available-networks": "Ensure your wallet is connected to the following networks:",
-    "unsupported-network": "This page is not available on <b>{network}</b> network.<br />Please select the network you need:",
+    "available-networks": "Ensure your wallet is connected to the following networks:",    "unsupported-network-header": "Wrong network",
+    "unsupported-network-description": "Please select a supported network to continue",
+    "unsupported-network-single-description": "The current page is not available on {currentNetwork} network",
+    "unsupported-network-single-switch": "Please switch to ",
+    "unsupported-network-single-network": "{newNetwork}",
+    "switch-network": "Switch network",
+    "connect": "Connect",
     "unsupported-polkadot-network": "Please, choose required network for unstake:",
     "current": "current",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
       "ethereum-goerli": "Ethereum Goerli",
       "binance": "Binance Chain",
-      "binance-testnet": "Binance Chain Testnet",
-      "binance-smart-chain": "Binance Smart Chain",
+      "binance-testnet": "BNB Testnet",
+      "binance-smart-chain": "BNB Chain",
       "smart-chain-testnet": "Smart Chain Testnet",
-      "avax-chain": "AVAX C Chain",
-      "avax-fuji-testnet": "AVAX Fuji Testnet",
-      "fantom": "Fantom Opera",
+      "avax-chain": "Avalanche C-chain",
+      "avax-fuji-testnet": "Avalanche Fuji Testnet",
+      "fantom": "Fantom Chain",
       "fantom-testnet": "Fantom Testnet",
-      "polygon": "Polygon",
+      "polygon": "Polygon Chain",
       "mumbai": "Mumbai",
       "kusama": "Kusama",
       "polkadot": "Polkadot",
@@ -320,7 +329,8 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}"
+      "fee": "Est Network Fee: {value}",
+      "usd-equivalent": "${value}"
     },
     "buttons": {
       "addToWallet": "Add {token} to wallet",
@@ -405,7 +415,7 @@
       "answer-11": "You can check all available DeFi platforms on ANKR DeFi: <br/>- <a href=\"{aBNBbLink}\">aBNBb</a> <br/>- aBNBc (coming soon)"
     },
     "relayer-fee": "Relayer Fee",
-    "abnbb-descr": "aBNBb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
+    "abnbb-descr": "aBNBb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
     "abnbc-descr": "aBNBс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aBNBc={rate} BNB</b>",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
@@ -417,11 +427,41 @@
     }
   },
   "stake-polkadot": {
+    "errors": {
+      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
+    },
+    "faq": {
+      "question-1": "Which wallets are compatible with the a{network}b tokens?",
+      "answer-1": "a{network}b is an ERC-20 token that is compatible with Ethereum-based wallets like Metamask.",
+      "question-2": "Are there any docs about the {network} staking and how I set up my wallet etc.?",
+      "answer-2": "Yes — there is a <a href='https://www.ankr.com/docs/staking/liquid-staking/{network}/stake-{network}/' rel='noopener noreferrer' target='_blank'>user guide</a>.",
+      "question-3": "What is the minimum amount of {network} I can stake?",
+      "answer-3": "{value} {network}.",
+      "question-4": "Is there a maximum amount I can stake?",
+      "answer-4": "No, you can stake at your discretion, unlimited.",
+      "question-5": "What is the unbonding period for a{network}b?",
+      "answer-5": "You receive the unstaked amount after the unbonding period of up to ~{period} days.",
+      "question-6": "How do I receive rewards?",
+      "answer-6": "a{network}b is a rebasing token. When holding a{network}b, your balance will increase in proportion to your {network} staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your a{network}b increase by a small amount.",
+      "question-7": "How soon after staking will I begin to receive rewards?",
+      "answer-7": "a{network}b will increase with every rebase; rebasing occurs daily.",
+      "question-8": "Does Ankr charge for the service?",
+      "answer-8": "2% commission from the staking reward.",
+      "question-9": "What determines the amount of reward I receive each rebase of a{network}b?",
+      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
+      "question-10": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction, attacks the network, or goes offline. The delegated staked {network} is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+      "question-11": "Is there any liquidity for a{network}b anywhere currently?",
+      "answer-11": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
+    },
     "networks": {
       "DOT": "Polkadot",
       "KSM": "Kusama",
       "ROC": "Rococo",
       "WND": "Westend"
+    },
+    "tooltips": {
+      "you-will-get": "a{token}b represents your staked {token} and provides liquidity for your staked position.<br/><br/>a{token}b balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 a{token}b = 1 {token}. You can unstake it anytime and receive your stake and earned rewards after the ~{period} days unbonding period. While staking, you can also use a{token}b for trading and other DeFi opportunities."
     },
     "unstake": {
       "info": "You will get your {token} in ~{period} days",
@@ -471,7 +511,7 @@
       "question-7": "If I unstake, is there a lead time required for this to happen, or is it immediate?",
       "answer-7": "You will need to wait for a period of around 3-4 days. This is because the blockchain needs to undergo 80 “checkpoints” to process this transaction."
     },
-    "amaticb-descr": "aMATICb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
+    "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
     "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
   "stake-fantom": {
@@ -498,12 +538,12 @@
       "question-9": "Is there liquidity for aFTMb anywhere currently?",
       "answer-9": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>."
     },
-    "aftmb-descr": "aFTMb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
+    "aftmb-descr": "aFTMb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
     "aftmc-descr": "aFTMс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aFTMc={rate} FTM</b>",
     "relayer-fee": "Relayer Fee"
   },
   "stake-ethereum": {
-    "aethb-descr": "aETHb (reward earning) its quantity grow daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
+    "aethb-descr": "aETHb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
     "aethc-descr": "aETHc (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aETHc={ethRate} ETH</b>",
     "unstake-period": "{days} days or earlier",
     "token-select-label": "Choose token",
@@ -552,7 +592,9 @@
       "aMATICc": "Ankr Reward-Bearing Staked MATIC (aMATICc) is a reward-bearing token. Its value compared with MATIC represents the redemption value of aMATICc, increasing over time to reflect MATIC staking rewards earned.",
       "pendingTx": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",
       "aFTMb": "Ankr Reward-Earning Staked FTM (aFTMb) is a rebasing token. When holding aFTMb, its balance will increase on a daily basis proportional to your FTM staking rewards. Therefore, the ratio of aFTMb vs. FTM is always 1:1.",
-      "aFTMc": "Ankr Reward-Bearing Staked FTM (aFTMc) is a reward-bearing token. Its value compared with FTM represents the redemption value of aFTMc, increasing over time to reflect FTM staking rewards earned."
+      "aFTMc": "Ankr Reward-Bearing Staked FTM (aFTMc) is a reward-bearing token. Its value compared with FTM represents the redemption value of aFTMc, increasing over time to reflect FTM staking rewards earned.",
+      "aAVAXb": "Ankr Reward-Earning Staked AVAX (aAVAXb) is a rebasing token. When holding aAVAXb, its balance will increase on a daily basis proportional to your AVAX staking rewards. Therefore, the ratio of aAVAXb vs. AVAX is always 1:1.",
+      "aAVAXc": "Ankr Reward-Bearing Staked AVAX (aAVAXc) is a reward-bearing token. Its value compared with AVAX represents the redemption value of aAVAXc, increasing over time to reflect AVAX staking rewards earned."
     },
     "buttons": {
       "approve": "Approve",

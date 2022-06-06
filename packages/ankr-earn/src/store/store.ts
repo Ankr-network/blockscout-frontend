@@ -22,19 +22,21 @@ import {
   i18nPersistReducer,
   Ti18nState,
 } from 'modules/i18n/store/i18nPersistReducer';
+import {
+  TNotificationsState,
+  notificationsReducer,
+  showNotification,
+} from 'modules/notifications';
 
-import { NotificationActions } from './actions/NotificationActions';
 import { dialog } from './dialogs/reducer';
 import { IDialogState } from './dialogs/selectors';
-import { notificationReducer } from './reducers/notificationReducer';
 import { rootSagas } from './sagas';
 
 export interface IStoreState {
   auth: TAuthState;
   dialog: IDialogState;
   i18n: Ti18nState;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  notification: any;
+  notifications: TNotificationsState;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   requests: any;
   router: RouterState<unknown>;
@@ -68,9 +70,10 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
   onError: (error: Error, action: RequestAction, store: Store) => {
     if (action.meta?.showNotificationOnError) {
       store.dispatch(
-        NotificationActions.showNotification({
+        showNotification({
+          key: `${action.type}_ERROR`,
           message: getErrorMessage(error),
-          severity: 'error',
+          variant: 'error',
         }),
       );
     }
@@ -85,7 +88,7 @@ const rootReducer = combineReducers<IStoreState>({
   auth: authPersistReducer,
   dialog,
   i18n: i18nPersistReducer,
-  notification: notificationReducer,
+  notifications: notificationsReducer,
   requests: requestsReducer,
   router: connectRouter(historyInstance),
 });

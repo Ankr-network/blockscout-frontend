@@ -12,7 +12,7 @@ import {
 } from '../../StakedTokens/hooks/MATIC/useStakedAMATICCData';
 import {
   ITxHistoryData,
-  useStakedMaticTxHistory,
+  useStakedMATICTxHistory,
 } from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 import { StakedAMATICC } from '../StakedAMATICC';
 import {
@@ -35,8 +35,8 @@ jest.mock('../useStakedAMATICCAnalytics', () => ({
   useStakedAMATICCAnalytics: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
-  useStakedMaticTxHistory: jest.fn(),
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMATICTxHistory', () => ({
+  useStakedMATICTxHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
@@ -61,10 +61,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    txHistory: null,
-    pendingUnstakeHistory: [],
-    transactionHistory: {
+    pendingUnstakeHistoryAMATICB: [],
+    transactionHistoryAMATICB: {
       token: Token.aMATICb,
+      staked: [],
+      unstaked: [],
+    },
+    pendingUnstakeHistoryAMATICC: [],
+    transactionHistoryAMATICC: {
+      token: Token.aMATICc,
       staked: [],
       unstaked: [],
     },
@@ -82,7 +87,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
       defaultStakedAMATICCAnalyticsData,
     );
 
-    (useStakedMaticTxHistory as jest.Mock).mockReturnValue(
+    (useStakedMATICTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
   });

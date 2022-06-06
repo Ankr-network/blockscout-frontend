@@ -418,7 +418,7 @@ describe('modules/api/EthSDK', () => {
       txHash: 'hash1',
       txType: 'event1',
     });
-    expect(completedAETHB).toHaveLength(14);
+    expect(completedAETHB).toHaveLength(4);
     expect(completedAETHC).toHaveLength(0);
     expect(totalPending).toStrictEqual(ZERO);
   });

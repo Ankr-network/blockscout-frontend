@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 
 import { Balance } from './Balance';
-import { BalanceSkeleton } from './Skeleton';
+import { BalanceSkeleton } from './components/Skeleton';
 import { useBalanceData } from './hooks/useBalanceData';
 import { useStyles } from './BalanceStyles';
 

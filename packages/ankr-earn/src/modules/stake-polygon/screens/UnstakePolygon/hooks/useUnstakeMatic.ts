@@ -21,6 +21,7 @@ import { useUnstakeMaticAnalytics } from './useUnstakeMaticAnalytics';
 
 interface IUseUnstakeMatic {
   syntTokenBalance?: BigNumber;
+  minAmount: BigNumber;
   isFetchStatsLoading: boolean;
   isUnstakeLoading: boolean;
   isApproved: boolean;
@@ -33,7 +34,6 @@ interface IUseUnstakeMatic {
   calcTotalRecieve: (amount: BigNumber) => string;
 }
 
-// TODO: add tests
 export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
   const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeMaticAnalytics();
@@ -55,8 +55,11 @@ export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
     ? fetchStatsData?.aMATICbBalance
     : fetchStatsData?.aMATICcBalance;
 
+  const minAmaticbAmount = fetchStatsData?.aMATICbBalance ?? ZERO;
+  const minAmaticcAmount = fetchStatsData?.aMATICcBalance ?? ZERO;
   const amaticcRatio = fetchStatsData?.aMATICcRatio ?? ZERO;
   const unstakeFee = fetchStatsData?.unstakeFee ?? ZERO;
+  const minAmount = isBondToken ? minAmaticbAmount : minAmaticcAmount;
 
   const isApproved = !!approveData;
   const isWithApprove = !isBondToken;
@@ -106,6 +109,7 @@ export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
   return {
     syntTokenBalance,
     selectedToken,
+    minAmount,
     isFetchStatsLoading,
     isUnstakeLoading,
     unstakeFee,

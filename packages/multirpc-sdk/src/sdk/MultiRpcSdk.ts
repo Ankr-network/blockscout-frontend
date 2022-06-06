@@ -4,7 +4,6 @@ import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
 
 import {
-  AccountStatus,
   IBlockchainEntity,
   IPrivateEndpoint,
   IProvider,
@@ -677,10 +676,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.getAccountGateway().getAnkrBalance();
   }
 
-  async getAccountStatus(account: string): Promise<AccountStatus> {
-    return this.getWorkerGateway().getAccountStatus(account);
-  }
-
   async sign(
     data: Buffer | string | Record<string, unknown>,
     address: string,
@@ -722,5 +717,11 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     await this.getAccountGateway().addToken(token);
 
     return token;
+  }
+
+  async getBalanceEndTime(blockchains?: string[]): Promise<number> {
+    const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
+
+    return time;
   }
 }

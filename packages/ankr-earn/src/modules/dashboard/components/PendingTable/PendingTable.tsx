@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactNode, ReactText } from 'react';
 
+import { t } from 'common';
+
 import { DEFAULT_ROUNDING } from 'modules/common/const';
-import { t } from 'modules/i18n/utils/intl';
 
 import { usePendingTableStyles } from './usePendingTableStyles';
 

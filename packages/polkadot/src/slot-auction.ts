@@ -230,7 +230,7 @@ export class SlotAuctionSdk {
         `Address ${polkadotAccount} already has active claim for crowdloan ${loanId}`,
       );
     }
-    const polkadotDecimals = this.polkadotProvider.calcDecimals();
+    const polkadotDecimals = this.polkadotProvider.getNetworkMaxDecimals();
     const scaledAmount = claimable.multipliedBy(10 ** polkadotDecimals);
 
     const data = SlotAuctionSdk.createRemarkPayload(
@@ -322,7 +322,7 @@ export class SlotAuctionSdk {
     const contractManager = new ContractManager(keyProvider, {
       rewardPoolAddress: tokenAddress,
     });
-    const polkadotDecimals = this.polkadotProvider.calcDecimals();
+    const polkadotDecimals = this.polkadotProvider.getNetworkMaxDecimals();
     // aDOTp has the same scale factor as native polkadot tokens
     const scaledAmount = claim.data.amount
       .multipliedBy(10 ** polkadotDecimals)

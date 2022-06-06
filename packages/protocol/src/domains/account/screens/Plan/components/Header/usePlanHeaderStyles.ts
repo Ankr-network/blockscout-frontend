@@ -57,9 +57,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       marginTop: theme.spacing(2.5),
       flexDirection: 'column',
-      '& $unlockBtn': {
-        marginTop: theme.spacing(2.5),
-      },
     },
   },
   headerPaperTitle: {
@@ -72,20 +69,5 @@ export const useStyles = makeStyles<Theme>(theme => ({
   headerPaperSubTitle: {
     fontSize: 14,
     color: theme.palette.grey[600],
-  },
-  unlockBtn: {
-    marginTop: theme.spacing(3.5),
-    height: 52,
-    padding: theme.spacing(1, 3),
-    flexShrink: 0,
-  },
-  unlockIcon: {
-    fontSize: '24px !important',
-  },
-  unlockBtnTitle: {
-    fontSize: 19,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 16,
-    },
   },
 }));

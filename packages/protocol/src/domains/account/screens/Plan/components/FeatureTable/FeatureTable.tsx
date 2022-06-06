@@ -16,7 +16,7 @@ import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { NavLink, useIsXSDown } from 'ui';
 import { FeatureTableMobile } from './FeatureTableMobile';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
-import { CONTACT_SALES_LINK } from '../../const';
+import { PAYG_DOCS_LINK } from '../../const';
 
 export const FeatureTable = () => {
   const classes = useStyles();
@@ -62,18 +62,30 @@ export const FeatureTable = () => {
             >
               {t('plan.table.premium')}
             </Typography>
-            <NavLink
-              href={CONTACT_SALES_LINK}
-              tabIndex={0}
-              className={classes.unblockBtn}
-              endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
-              variant="text"
-              color="default"
-            >
-              <Typography variant="h5" className={classes.unlockBtnTitle}>
-                {t('plan.unlock-btn')}
+
+            <Box mt={1}>
+              <Typography
+                className={classes.subTitle}
+                variant="body1"
+                color="textPrimary"
+              >
+                {t('plan.table.payg')}
               </Typography>
-            </NavLink>
+            </Box>
+            <Box mt={1}>
+              <NavLink
+                href={PAYG_DOCS_LINK}
+                tabIndex={0}
+                className={classes.unblockBtn}
+                endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}
+                variant="text"
+                color="default"
+              >
+                <Typography variant="h5" className={classes.unlockBtnTitle}>
+                  {t('plan.learn-more')}
+                </Typography>
+              </NavLink>
+            </Box>
           </TableCell>
         </TableRow>
       </TableHead>
