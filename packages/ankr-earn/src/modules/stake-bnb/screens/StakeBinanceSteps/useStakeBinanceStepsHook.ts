@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -63,10 +64,15 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     dispatchRequest(addBNBTokenToWallet(tokenOut));
   };
 
-  // todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
   const calculatedAmount = useMemo(() => {
-    const amount = data?.amount;
     const ratio = stats?.aBNBcRatio;
+    const isActiveForAC = tokenOut === Token.aBNBc && ratio;
+    if (isActiveForAC) {
+      return new BigNumber(receipt?.certAmount ?? ZERO);
+    }
+
+    const amount = data?.amount;
+
     const relayerFee = stats?.relayerFee;
 
     if (!amount || !relayerFee) {
@@ -75,13 +81,8 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
 
     const amountWithoutFee = amount.minus(relayerFee);
 
-    const shouldCalcForAbnbc = tokenOut === Token.aBNBc && ratio;
-    if (shouldCalcForAbnbc) {
-      return amountWithoutFee.multipliedBy(ratio);
-    }
-
     return amountWithoutFee;
-  }, [data?.amount, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
+  }, [data?.amount, receipt, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
 
   const isPending = !receipt && !!data?.isPending;
 

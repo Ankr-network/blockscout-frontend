@@ -32,6 +32,7 @@ import {
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
+  CERT_STAKING_LOG_HASH,
 } from '../const';
 import { TBnbSyntToken } from '../types';
 
@@ -73,6 +74,10 @@ export interface IGetTxData {
   amount: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
+}
+
+export interface IGetTxReceipt extends TransactionReceipt {
+  certAmount?: string;
 }
 
 export interface ITxEventsHistoryData {
@@ -642,15 +647,35 @@ export class BinanceSDK {
     };
   }
 
-  public async fetchTxReceipt(
-    txHash: string,
-  ): Promise<TransactionReceipt | null> {
+  public async fetchTxReceipt(txHash: string): Promise<IGetTxReceipt | null> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
 
-    return receipt as TransactionReceipt | null;
+    const certUnlockedLog = receipt.logs.find(log =>
+      log.topics.includes(CERT_STAKING_LOG_HASH),
+    );
+
+    if (certUnlockedLog) {
+      const certDecodedLog = web3.eth.abi.decodeLog(
+        [
+          {
+            type: 'uint256',
+            name: 'amount',
+          },
+        ],
+        certUnlockedLog?.data,
+        certUnlockedLog?.topics,
+      );
+
+      return {
+        ...receipt,
+        certAmount: web3.utils.fromWei(certDecodedLog.amount),
+      } as IGetTxReceipt | null;
+    }
+
+    return receipt as IGetTxReceipt | null;
   }
 
   public async stake(
