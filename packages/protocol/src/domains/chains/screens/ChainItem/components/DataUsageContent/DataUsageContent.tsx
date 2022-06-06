@@ -8,6 +8,8 @@ import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { useTimeframeData } from './DataUsageContentUtils';
 import { useStyles } from './DataUsageContentStyles';
 
+const IS_MEHTODS_RATING_VISIBLE = false;
+
 interface IDataUsageContentProps {
   chainId: string;
 }
@@ -54,7 +56,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
           )}
-          <MethodsRating />
+          {IS_MEHTODS_RATING_VISIBLE && <MethodsRating />}
         </>
       )}
     </div>
