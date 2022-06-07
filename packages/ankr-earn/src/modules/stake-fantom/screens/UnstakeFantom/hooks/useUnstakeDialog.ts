@@ -16,7 +16,6 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
-import { approveAFTMCUnstake } from 'modules/stake-fantom/actions/approveAFTMCUnstake';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
@@ -35,9 +34,6 @@ interface IUseUnstakeDialog
   submitDisabled: boolean;
   isBalanceLoading: boolean;
   isBurnFeeLoading: boolean;
-  isApproved: boolean;
-  isWithApprove: boolean;
-  isApproveLoading: boolean;
   isLoading: boolean;
   burnFee: BigNumber;
   balance: BigNumber;
@@ -71,14 +67,6 @@ export const useUnstakeDialog = (
   const syntTokenBalance = isBondToken
     ? commonData?.aFTMbBalance || ZERO
     : commonData?.aFTMcBalance || ZERO;
-
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approveAFTMCUnstake,
-  });
-
-  const isApproved = !!approveData;
-  const isWithApprove = !isBondToken;
-  const shouldBeApproved = isWithApprove && !isApproved;
 
   const submitDisabled = isBalanceLoading || isUnstakeLoading;
   const tokenBalance = commonData?.ftmBalance ?? ZERO;
@@ -120,27 +108,17 @@ export const useUnstakeDialog = (
 
       const resultAmount = new BigNumber(amount);
 
-      if (shouldBeApproved) {
-        dispatchRequest(approveAFTMCUnstake(resultAmount));
-      } else {
-        dispatchRequest(unstake(resultAmount, selectedToken)).then(
-          ({ error }) => {
-            if (!error) {
-              openSuccess();
+      dispatchRequest(unstake(resultAmount, selectedToken)).then(
+        ({ error }) => {
+          if (!error) {
+            openSuccess();
 
-              sendAnalytics(resultAmount);
-            }
-          },
-        );
-      }
+            sendAnalytics(resultAmount);
+          }
+        },
+      );
     },
-    [
-      dispatchRequest,
-      openSuccess,
-      sendAnalytics,
-      shouldBeApproved,
-      selectedToken,
-    ],
+    [dispatchRequest, openSuccess, sendAnalytics, selectedToken],
   );
 
   const onChange = useCallback(
@@ -176,9 +154,6 @@ export const useUnstakeDialog = (
     isLoading: isUnstakeLoading,
     balance: syntTokenBalance,
     selectedToken,
-    isWithApprove,
-    isApproved,
-    isApproveLoading,
     burnFee,
     closeHref: RoutesConfig.dashboard.generatePath(),
     onSubmit,

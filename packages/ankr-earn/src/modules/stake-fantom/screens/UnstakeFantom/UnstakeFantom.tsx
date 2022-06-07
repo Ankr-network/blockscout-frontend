@@ -41,9 +41,6 @@ export const UnstakeFantom = (): JSX.Element => {
     isBalanceLoading,
     isBurnFeeLoading,
     isLoading,
-    isApproved,
-    isApproveLoading,
-    isWithApprove,
     balance,
     burnFee,
     closeHref,
@@ -160,11 +157,8 @@ export const UnstakeFantom = (): JSX.Element => {
             balance={balance}
             closeHref={closeHref}
             endText={unstakeLabel}
-            isApproved={isApproved}
-            isApproveLoading={isApproveLoading}
             isBalanceLoading={isBalanceLoading}
             isLoading={isLoading}
-            isWithApprove={isWithApprove}
             renderFormFooter={renderFormFooter}
             submitDisabled={submitDisabled}
             token={selectedToken}
