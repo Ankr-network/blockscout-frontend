@@ -29,7 +29,7 @@ export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
       promise: (async (): Promise<{ txHash: string }> => {
         const sdk = await AvalancheSDK.getInstance();
 
-        return sdk.stake(amount);
+        return sdk.stake(amount, token);
       })(),
     },
     meta: {

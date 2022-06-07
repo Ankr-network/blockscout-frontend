@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -8,6 +9,7 @@ import { useCallback } from 'react';
 
 import { tHTML } from 'common';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   ANKR_1INCH_BUY_LINK,
   DECIMAL_PLACES,
@@ -24,6 +26,7 @@ import { RoutesConfig } from 'modules/stake-polygon/Routes';
 import { TMaticSyntToken } from 'modules/stake-polygon/types';
 import { getValidSelectedToken } from 'modules/stake-polygon/utils/getValidSelectedToken';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useUnstakeMaticAnalytics } from './useUnstakeMaticAnalytics';
 
@@ -48,6 +51,7 @@ interface IUseUnstakeMatic {
 
 export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
   const dispatchRequest = useDispatchRequest();
+  const dispatch = useAppDispatch();
   const { sendAnalytics } = useUnstakeMaticAnalytics();
 
   const { data: ankrBalance } = useQuery({
@@ -80,6 +84,10 @@ export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
   const isApproved = !!approveData;
   const isWithApprove = !isBondToken;
   const shouldBeApproved = isWithApprove && !isApproved;
+
+  useProviderEffect(() => {
+    dispatch(resetRequests([approveAMATICCUnstake.toString()]));
+  }, []);
 
   const handleSubmit = useCallback(
     (amount: BigNumber) => {

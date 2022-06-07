@@ -113,6 +113,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
     const binanceSDK = await BinanceSDK.getInstance();
     const abnbbBalance = await binanceSDK.getABBalance();
+    const abnbcBalance = await binanceSDK.getACBalance();
 
     trackStake({
       address,
@@ -122,7 +123,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       tokenIn: Token.BNB,
       tokenOut: selectedToken,
       prevStakedAmount: stakableBNBData.balance,
-      synthBalance: abnbbBalance,
+      synthBalance: selectedToken === Token.aBNBb ? abnbbBalance : abnbcBalance,
     });
   };
 

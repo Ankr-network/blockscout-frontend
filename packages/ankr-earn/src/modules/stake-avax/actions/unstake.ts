@@ -7,6 +7,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
 import { AvalancheSDK } from '../api/AvalancheSDK';
+import { TAvaxSyntToken } from '../types';
 
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
@@ -15,14 +16,22 @@ interface IRes {
   data: void;
 }
 
-export const unstake = createSmartAction<RequestAction<void, void>>(
+interface IUnstakeArgs {
+  amount: BigNumber;
+  token: TAvaxSyntToken;
+}
+
+export const unstake = createSmartAction<
+  RequestAction<void, void>,
+  [IUnstakeArgs]
+>(
   'avax/unstake',
-  (amount: BigNumber): RequestAction => ({
+  ({ amount, token }): RequestAction => ({
     request: {
       promise: (async (): Promise<void> => {
         const sdk = await AvalancheSDK.getInstance();
 
-        return sdk.unstake(amount);
+        return sdk.unstake(amount, token);
       })(),
     },
     meta: {

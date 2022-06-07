@@ -27,6 +27,7 @@ import {
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
 } from '../const';
+import { TAvaxSyntToken } from '../types';
 
 import ABI_AAVAXB from './contracts/aAVAXb.json';
 import ABI_AAVAXC from './contracts/aAVAXc.json';
@@ -324,7 +325,7 @@ export class AvalancheSDK implements ISwitcher {
     return instance;
   }
 
-  public async addTokenToWallet(token: Token): Promise<boolean> {
+  public async addTokenToWallet(token: TAvaxSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -588,14 +589,27 @@ export class AvalancheSDK implements ISwitcher {
     return { completed, pending };
   }
 
-  public async stake(amount: BigNumber): Promise<{ txHash: string }> {
+  private getStakeMethodName(token: TAvaxSyntToken) {
+    switch (token) {
+      case Token.aAVAXc:
+        return 'stakeAndClaimCerts';
+
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<{ txHash: string }> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
     let gasFee = this.stakeGasFee;
     if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount);
+      gasFee = await this.getStakeGasFee(amount, token);
     }
 
     const balance = await this.getAVAXBalance();
@@ -609,36 +623,35 @@ export class AvalancheSDK implements ISwitcher {
       ? maxAllowedAmount
       : amount;
 
-    const value = this.convertToHex(stakeAmount);
+    const value = convertNumberToHex(stakeAmount, AVAX_SCALE_FACTOR);
 
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    const contractStake = avalanchePoolContract.methods.stake;
-
-    const gasLimit: number = await contractStake().estimateGas({
-      from: this.currentAccount,
-      value,
-    });
+    const contractStake =
+      avalanchePoolContract.methods[this.getStakeMethodName(token)];
 
     const tx = await contractStake().send({
       from: this.currentAccount,
-      gas: AvalancheSDK.getIncreasedGasLimit(gasLimit),
       value,
     });
 
     return { txHash: tx.transactionHash };
   }
 
-  public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<BigNumber> {
     const provider = await this.getProvider();
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    const estimatedGas: number = await avalanchePoolContract.methods
-      .stake()
-      .estimateGas({
-        from: this.currentAccount,
-        value: this.convertToHex(amount),
-      });
+    const contractStake =
+      avalanchePoolContract.methods[this.getStakeMethodName(token)];
+
+    const estimatedGas: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: convertNumberToHex(amount, AVAX_SCALE_FACTOR),
+    });
 
     const increasedGasLimit = AvalancheSDK.getIncreasedGasLimit(estimatedGas);
 
@@ -653,7 +666,20 @@ export class AvalancheSDK implements ISwitcher {
     return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  private getUnstakeMethodName(token: TAvaxSyntToken) {
+    switch (token) {
+      case Token.aAVAXc:
+        return 'claimCerts';
+
+      default:
+        return 'claimBonds';
+    }
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -661,7 +687,10 @@ export class AvalancheSDK implements ISwitcher {
     const avalanchePoolContract = await this.getAvalanchePoolContract();
     const value = this.convertToHex(amount);
 
-    await avalanchePoolContract.methods.claim(value).send({
+    const contractUnstake =
+      avalanchePoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(value).send({
       from: this.currentAccount,
     });
   }

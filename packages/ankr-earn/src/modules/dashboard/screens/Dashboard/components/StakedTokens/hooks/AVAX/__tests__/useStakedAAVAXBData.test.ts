@@ -8,7 +8,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 
-import { useStakedAVAXData } from '../useStakedAVAXData';
+import { useStakedAAVAXBData } from '../useStakedAAVAXBData';
 
 jest.mock('@redux-requests/react', () => ({
   useMutation: jest.fn(),
@@ -54,7 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   });
 
   test('should return amount and pending value', () => {
-    const { result } = renderHook(() => useStakedAVAXData());
+    const { result } = renderHook(() => useStakedAAVAXBData());
 
     expect(result.current.amount).toStrictEqual(ONE);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
@@ -69,7 +69,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       loading: true,
     });
 
-    const { result } = renderHook(() => useStakedAVAXData());
+    const { result } = renderHook(() => useStakedAAVAXBData());
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
@@ -84,7 +84,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const mockDispatch = jest.fn();
     (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
 
-    const { result } = renderHook(() => useStakedAVAXData());
+    const { result } = renderHook(() => useStakedAAVAXBData());
 
     act(() => {
       result.current.handleAddTokenToWallet();

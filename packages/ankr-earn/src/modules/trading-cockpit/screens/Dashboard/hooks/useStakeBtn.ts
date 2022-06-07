@@ -71,6 +71,11 @@ export const useStakeBtn = (token: AvailableTokens): IUseStakeBtn => {
           href: StakeAvalancheRoutes.unstake.generatePath(),
           disabled: false,
         },
+        [AvailableTokens.aAVAXc]: {
+          btnText: unstakeText,
+          href: StakeAvalancheRoutes.unstake.generatePath(),
+          disabled: false,
+        },
         [AvailableTokens.FTM]: {
           btnText: stakeText,
           href: StakeFantomRoutes.stake.generatePath(),

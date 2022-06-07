@@ -6,6 +6,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { ADOTBIcon } from 'uiKit/Icons/ADOTBIcon';
@@ -30,6 +31,7 @@ import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
 type TIconMap = Record<
   | Token.aAVAXb
+  | Token.aAVAXc
   | Token.aBNBb
   | Token.aBNBc
   | Token.aDOTb
@@ -56,6 +58,7 @@ type TNetworkIconMap = {
 
 const iconByTokenMap: TIconMap = {
   [Token.aAVAXb]: AAvaxBIcon,
+  [Token.aAVAXc]: AAvaxCIcon,
   [Token.aBNBb]: ABNBBIcon,
   [Token.aBNBc]: ABNBCIcon,
   [Token.aDOTb]: ADOTBIcon,

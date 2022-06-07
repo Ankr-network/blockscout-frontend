@@ -10,6 +10,8 @@ import { BridgedMaticBond } from '../BridgedMaticBond';
 import { BridgedMaticBondBSC } from '../BridgedMaticBondBSC';
 import { BridgedMaticCertBSC } from '../BridgedMaticCertBSC';
 import { BridgedMaticCertPolygon } from '../BridgedMaticCertPolygon';
+import { StakedAAVAXB } from '../StakedAAVAXB';
+import { StakedAAVAXC } from '../StakedAAVAXC';
 import { StakedABNBB } from '../StakedABNBB';
 import { StakedABNBC } from '../StakedABNBC';
 import { StakedADOTB } from '../StakedADOTB';
@@ -20,7 +22,6 @@ import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
-import { StakedAVAX } from '../StakedAVAX';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
@@ -37,7 +38,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
-    isAVAXShowed,
+    isAAVAXBShowed,
+    isAAVAXCShowed,
     isABNBBShowed,
     isABNBCShowed,
     isMATICShowed,
@@ -101,7 +103,9 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isAFTMCShowed && <StakedAFTMC />}
 
-            {isAVAXShowed && <StakedAVAX />}
+            {isAAVAXBShowed && <StakedAAVAXB />}
+
+            {isAAVAXCShowed && <StakedAAVAXC />}
 
             {isADOTBShowed && <StakedADOTB />}
 

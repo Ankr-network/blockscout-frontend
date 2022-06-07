@@ -20,8 +20,8 @@ export interface IContractConfig {
 
 export interface IAvalancheConfig {
   avalanchePool: string;
-  aAVAXc: string;
   aAVAXb: string;
+  aAVAXc: string;
 }
 
 export interface IBinanceConfig {

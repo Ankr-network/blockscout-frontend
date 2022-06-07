@@ -7,14 +7,14 @@ import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
+import { TAvaxSyntToken } from 'modules/stake-avax/types';
 
-interface IUseUnstakeBNBAnalytics {
-  sendAnalytics: (amount: BigNumber, syntheticToken: TBnbSyntToken) => void;
+interface IUseUnstakeAVAXAnalytics {
+  sendAnalytics: (amount: BigNumber, syntheticToken: TAvaxSyntToken) => void;
 }
 
-export const useUnstakeBNBAnalytics = (): IUseUnstakeBNBAnalytics => {
+export const useUnstakeAvaxAnalytics = (): IUseUnstakeAVAXAnalytics => {
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
@@ -23,16 +23,16 @@ export const useUnstakeBNBAnalytics = (): IUseUnstakeBNBAnalytics => {
     type: fetchStats,
   });
 
-  const sendAnalytics = (amount: BigNumber, syntheticToken: TBnbSyntToken) => {
+  const sendAnalytics = (amount: BigNumber, syntheticToken: TAvaxSyntToken) => {
     trackUnstake({
       address,
       name: walletName,
       amount,
-      stakeToken: Token.BNB,
+      stakeToken: Token.AVAX,
       syntheticToken,
-      newTokenBalance: fetchStatsData?.bnbBalance ?? ZERO,
-      newStakedBalance: fetchStatsData?.aBNBbBalance ?? ZERO,
-      newSynthTokens: fetchStatsData?.aBNBbBalance ?? ZERO,
+      newTokenBalance: fetchStatsData?.avaxBalance ?? ZERO,
+      newStakedBalance: fetchStatsData?.aAVAXbBalance ?? ZERO,
+      newSynthTokens: fetchStatsData?.aAVAXbBalance ?? ZERO,
     });
   };
 

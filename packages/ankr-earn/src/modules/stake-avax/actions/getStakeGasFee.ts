@@ -3,20 +3,25 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
 import { AvalancheSDK } from '../api/AvalancheSDK';
+import { TAvaxSyntToken } from '../types';
 
-export const getStakeGasFee = createAction<RequestAction<BigNumber, BigNumber>>(
-  `avax/getStakeGasFee`,
-  (amount: BigNumber) => ({
-    request: {
-      promise: (async (): Promise<BigNumber> => {
-        const sdk = await AvalancheSDK.getInstance();
+interface IGetStakeGasFeeArgs {
+  amount: BigNumber;
+  token: TAvaxSyntToken;
+}
 
-        return sdk.getStakeGasFee(amount);
-      })(),
-    },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-    },
-  }),
-);
+export const getStakeGasFee = createAction<
+  RequestAction<BigNumber, BigNumber>,
+  [IGetStakeGasFeeArgs]
+>(`avax/getStakeGasFee`, ({ amount, token }) => ({
+  request: {
+    promise: (async (): Promise<BigNumber> => {
+      const sdk = await AvalancheSDK.getInstance();
+
+      return sdk.getStakeGasFee(amount, token);
+    })(),
+  },
+  meta: {
+    showNotificationOnError: true,
+  },
+}));

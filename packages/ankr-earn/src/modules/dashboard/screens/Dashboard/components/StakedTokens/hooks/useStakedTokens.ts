@@ -1,6 +1,7 @@
 import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
-import { useStakedAVAXData } from './AVAX/useStakedAVAXData';
+import { useStakedAAVAXBData } from './AVAX/useStakedAAVAXBData';
+import { useStakedAAVAXCData } from './AVAX/useStakedAAVAXCData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
 import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
@@ -22,7 +23,8 @@ interface IUseStakedTokensData {
   isAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
-  isAVAXShowed: boolean;
+  isAAVAXBShowed: boolean;
+  isAAVAXCShowed: boolean;
   isABNBBShowed: boolean;
   isABNBCShowed: boolean;
   isMATICShowed: boolean;
@@ -51,7 +53,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticcPolygonData = useBridgedMaticCertPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
-  const stakedAVAXData = useStakedAVAXData();
+  const stakedAAVAXBData = useStakedAAVAXBData();
+  const stakedAAVAXCData = useStakedAAVAXCData();
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
   const stakedAETHBData = useStakedAETHBData();
@@ -73,7 +76,9 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAETHCShowed = stakedAETHCData.isShowed;
 
-  const isAVAXShowed = stakedAVAXData.isShowed;
+  const isAAVAXBShowed = stakedAAVAXBData.isShowed;
+
+  const isAAVAXCShowed = stakedAAVAXCData.isShowed;
 
   const isABNBBShowed = stakedBNBData.isShowed;
 
@@ -107,7 +112,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
-    isAVAXShowed ||
+    isAAVAXBShowed ||
+    isAAVAXCShowed ||
     isABNBBShowed ||
     isABNBCShowed ||
     isMATICShowed ||
@@ -131,7 +137,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAssetsShowed: atLeastOneShowed,
     isAETHBShowed,
     isAETHCShowed,
-    isAVAXShowed,
+    isAAVAXBShowed,
+    isAAVAXCShowed,
     isABNBBShowed,
     isABNBCShowed,
     isMATICShowed,

@@ -1,43 +1,23 @@
-import { useCallback } from 'react';
-
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
-import { Pending } from 'modules/dashboard/components/Pending';
-import { PendingTable } from 'modules/dashboard/components/PendingTable';
+import { PendingTemporary } from 'modules/dashboard/components/Pending';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
-import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAVAXData } from '../StakedTokens/hooks/AVAX/useStakedAVAXData';
-import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
+import { useStakedAAVAXBData } from '../StakedTokens/hooks/AVAX/useStakedAAVAXBData';
 
-export const StakedAVAX = (): JSX.Element => {
+export const StakedAAVAXB = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
-
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.AVAX });
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
 
   const {
     isOpened: isOpenedInfo,
     onClose: onCloseInfo,
     onOpen: onOpenInfo,
   } = useDialog();
-
-  const {
-    transactionHistory,
-    pendingUnstakeHistory,
-    isHistoryDataLoading,
-    handleLoadTxHistory,
-  } = useStakedAVAXTxHistory();
 
   const {
     amount,
@@ -53,7 +33,7 @@ export const StakedAVAX = (): JSX.Element => {
     walletName,
     address,
     handleAddTokenToWallet,
-  } = useStakedAVAXData();
+  } = useStakedAAVAXBData();
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -73,32 +53,13 @@ export const StakedAVAX = (): JSX.Element => {
     });
   };
 
-  const handleOpenHistoryDialog = useCallback(() => {
-    onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
-
-  const renderedPendingSlot = !pendingValue.isZero() && (
-    <Pending
-      isLoading={isHistoryDataLoading}
-      token={Token.aAVAXb}
-      tooltip={
-        <PendingTable
-          data={pendingUnstakeHistory}
-          unstakeLabel={unstakePendingData.label}
-        />
-      }
-      value={pendingValue}
-      onLoadHistory={handleLoadTxHistory}
-    />
-  );
+  const renderedPendingSlot = !pendingValue.isZero() && <PendingTemporary />;
 
   return (
     <>
       <StakingAsset
         amount={amount}
         chainId={chainId}
-        isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
@@ -109,16 +70,8 @@ export const StakedAVAX = (): JSX.Element => {
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
-      />
-
-      <HistoryDialog
-        history={transactionHistory}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
       />
 
       <TokenInfoDialog

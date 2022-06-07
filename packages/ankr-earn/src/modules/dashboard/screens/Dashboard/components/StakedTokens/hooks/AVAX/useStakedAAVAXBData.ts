@@ -20,7 +20,7 @@ import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 
-export interface IStakedAVAXData {
+export interface IStakedAAVAXBData {
   amount: BigNumber;
   pendingValue: BigNumber;
   network: string;
@@ -39,7 +39,7 @@ export interface IStakedAVAXData {
   handleAddTokenToWallet: () => void;
 }
 
-export const useStakedAVAXData = (): IStakedAVAXData => {
+export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeAVAXStats,
