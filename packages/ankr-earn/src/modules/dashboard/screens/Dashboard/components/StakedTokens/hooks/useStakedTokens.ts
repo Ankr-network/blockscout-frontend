@@ -111,6 +111,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isABNBBShowed ||
     isABNBCShowed ||
     isMATICShowed ||
+    isAMATICCShowed ||
     isAMATICBPolygonShowed ||
     isAMATICBBSCShowed ||
     isAMATICCBSCShowed ||
