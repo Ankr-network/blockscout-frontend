@@ -113,7 +113,8 @@ export const formatPaymentHistoryAmount = (
 };
 
 const MS_IN_DAY = 3_600_000 * 24;
-const MS_IN_WEEK = 7 * MS_IN_DAY;
+const BACKEND_REPORT_PERIOD = 6;
+const MS_IN_PERIOD = BACKEND_REPORT_PERIOD * MS_IN_DAY;
 
 const renderDeductionPayment = (
   type: IPaymentHistoryEntityType,
@@ -121,7 +122,7 @@ const renderDeductionPayment = (
   downloadTransaction: (timestamp: string) => void,
   classes: ClassNameMap<string>,
 ) => {
-  const canDownload = Number(timestamp) > Date.now() - MS_IN_WEEK;
+  const canDownload = Number(timestamp) > Date.now() - MS_IN_PERIOD;
 
   return (
     <span
