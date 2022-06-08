@@ -40,7 +40,7 @@ jest.mock('../useStakedAMATICCAnalytics', () => ({
   useStakedAMATICCAnalytics: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMATICTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 

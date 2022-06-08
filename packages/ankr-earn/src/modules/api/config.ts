@@ -158,7 +158,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
     aAVAXb: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
-    aAVAXc: ZERO_ADDR, // TODO: STAKAN-1509 add aAVAXc address
+    aAVAXc: '0xc3344870d52688874b06d844e0c36cc39fc727f6',
   },
   binanceConfig: {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
