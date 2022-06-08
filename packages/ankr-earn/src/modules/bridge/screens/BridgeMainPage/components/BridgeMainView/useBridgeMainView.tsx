@@ -21,7 +21,6 @@ import {
   TUseValidateAmount,
   useValidateAmount,
 } from 'modules/common/hooks/useAmountValidation';
-import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { useApprove } from './useApprove';
 import { useDeposit } from './useDeposit';
@@ -45,7 +44,6 @@ interface IUseBridgeMainView {
   isConnected: boolean;
   isApproved: boolean;
   isMetaMask: boolean;
-  isOpenedModal: boolean;
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
@@ -59,14 +57,11 @@ interface IUseBridgeMainView {
     direction: 'from' | 'to',
   ) => void;
   onChangeInputValue: (value: ReactText) => void;
-  onCloseModal: () => void;
-  onOpenModal: () => void;
   onSwapClick: () => void;
   onSubmit: () => void;
   onSwitchNetworkClick: () => void;
   onAddrCheckboxClick: () => void;
   validateAmount: TUseValidateAmount;
-  walletsGroupTypes?: AvailableWriteProviders[];
 }
 
 const defaultFrom = isMainnet
@@ -95,13 +90,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
 
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
-
-  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+  const { writeProviderData } = useWalletsGroupTypes({
     writeProviderId: providerId,
   });
 
@@ -230,14 +219,12 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     isSendAnother,
     isApproved,
     isActualNetwork,
-    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
-    walletsGroupTypes,
     onChangeNetwork,
     onChangeToken,
     validateAmount,
@@ -245,8 +232,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
-    onCloseModal,
-    onOpenModal,
     onSwapClick,
   };
 };

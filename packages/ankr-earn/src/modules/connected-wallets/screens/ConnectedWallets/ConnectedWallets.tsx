@@ -1,7 +1,8 @@
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import { useDialog as useLocalDialog } from 'modules/common/hooks/useDialog';
 import { ConnectedWalletsButton } from 'modules/connected-wallets/components/ConnectedWalletsButton';
 import { ConnectedWalletsDialog } from 'modules/connected-wallets/components/ConnectedWalletsDialog';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useAuthWallets } from '../../hooks/useAuthWallets';
 
@@ -16,12 +17,13 @@ export const ConnectedWallets = ({
     isOpened: isOpenedDialog,
     onClose: onCloseDialog,
     onOpen: onOpenDialog,
-  } = useDialog();
+  } = useLocalDialog();
+
   const {
     isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
+    handleOpen: onOpenModal,
+    handleClose: onCloseModal,
+  } = useDialog(EKnownDialogs.connect);
 
   const { wallets, walletsGroupTypes } = useAuthWallets();
 

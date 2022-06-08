@@ -6,10 +6,10 @@ import { PolkadotProvider } from 'polkadot';
 
 import {
   closeModalAction,
-  DIALOG_POLKADOT_EXTENSION,
-  OPEN_MODAL_ACTION,
+  EKnownDialogs,
   openModalAction,
-} from 'store/dialogs/actions';
+  OPEN_MODAL_ACTION,
+} from 'modules/dialogs';
 
 import { connect } from '../actions/connect';
 import {
@@ -30,7 +30,7 @@ function* connectNotification() {
 
   if (isProviderAvailable(ProviderName.polkadot)) {
     yield put(
-      openModalAction(DIALOG_POLKADOT_EXTENSION, {
+      openModalAction(EKnownDialogs.polkadotExtension, {
         isCloverWalletAvailable: false,
         isPolkadotWalletAvailable: true,
       }),
@@ -47,7 +47,7 @@ function* connectNotification() {
 
   if (!PolkadotProvider.isInjected()) {
     yield put(
-      openModalAction(DIALOG_POLKADOT_EXTENSION, {
+      openModalAction(EKnownDialogs.polkadotExtension, {
         isCloverWalletAvailable: false,
         isPolkadotWalletAvailable: false,
       }),

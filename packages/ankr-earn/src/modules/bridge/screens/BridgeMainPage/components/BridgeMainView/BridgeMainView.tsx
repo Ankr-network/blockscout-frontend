@@ -11,7 +11,6 @@ import {
 import { t, tHTML } from 'common';
 import { useIsMDUp } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import {
@@ -20,6 +19,7 @@ import {
 } from 'modules/bridge/types';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
@@ -57,14 +57,12 @@ export const BridgeMainView = (): JSX.Element => {
     tokenValue,
     isSendAnother,
     isApproved,
-    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
-    walletsGroupTypes,
     onChangeNetwork,
     onChangeToken,
     validateAmount,
@@ -72,10 +70,10 @@ export const BridgeMainView = (): JSX.Element => {
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
-    onCloseModal,
-    onOpenModal,
     onSwapClick,
   } = useBridgeMainView();
+
+  const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
 
   const setMaxAmount = useCallback(
     (form: FormApi<IFormValues>, maxValue: string) => () =>
@@ -277,7 +275,7 @@ export const BridgeMainView = (): JSX.Element => {
             className={classes.submitBtn}
             color="primary"
             size="large"
-            onClick={onOpenModal}
+            onClick={handleConnectOpen}
           >
             {t('bridge.main.connectBtn')}
           </Button>
@@ -303,12 +301,6 @@ export const BridgeMainView = (): JSX.Element => {
   return (
     <>
       <Form render={renderForm} onSubmit={onSubmit} />
-
-      <ConnectWalletsModal
-        isOpen={isOpenedModal}
-        walletsGroupTypes={walletsGroupTypes}
-        onClose={onCloseModal}
-      />
     </>
   );
 };

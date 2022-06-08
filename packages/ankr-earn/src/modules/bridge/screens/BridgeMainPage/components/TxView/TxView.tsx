@@ -25,6 +25,7 @@ import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
@@ -78,9 +79,9 @@ export const TxView = ({
     type: switchNetwork,
   });
 
-  const { dispatchConnect, isConnected } = useAuth(
-    AvailableWriteProviders.ethCompatible,
-  );
+  const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
+  const { isConnected } = useAuth(AvailableWriteProviders.ethCompatible);
+
   const isNotarizeCompleted = !!notarizeData;
 
   const onAddTokenClick = () => {
@@ -254,8 +255,7 @@ export const TxView = ({
           )}
 
           {showConnectBtn && (
-            // todo: use new connection modal
-            <Button color="primary" size="large" onClick={dispatchConnect}>
+            <Button color="primary" size="large" onClick={handleConnectOpen}>
               {t('bridge.tx.buttons.connect-wallet')}
             </Button>
           )}
