@@ -81,7 +81,6 @@ export const featuresConfig = {
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: currentEnv !== Env.Production,
-  newBinancePool: currentEnv !== Env.Production,
   isActivePolkadotStaking: currentEnv !== Env.Production,
 };
 

@@ -18,7 +18,6 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   ETH_SCALE_FACTOR,
-  featuresConfig,
   isMainnet,
   MAX_UINT256,
   ZERO,
@@ -39,7 +38,6 @@ import { TBnbSyntToken } from '../types';
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_ABNBC from './contracts/aBNBc.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
-import ABI_BINANCE_R5_POOL from './contracts/BinancePoolR5.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 
@@ -303,11 +301,10 @@ export class BinanceSDK {
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
 
-    const abi = (
-      featuresConfig.newBinancePool ? ABI_BINANCE_R5_POOL : ABI_BINANCE_POOL
-    ) as AbiItem[];
-
-    return new web3.eth.Contract(abi, binanceConfig.binancePool);
+    return new web3.eth.Contract(
+      ABI_BINANCE_POOL as AbiItem[],
+      binanceConfig.binancePool,
+    );
   }
 
   private async getWrappedBNBContract(isForceRead = false): Promise<Contract> {
@@ -728,12 +725,9 @@ export class BinanceSDK {
     const contractUnstake =
       binancePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    const args =
-      featuresConfig.newBinancePool && token === Token.aBNBc
-        ? [this.currentAccount, hexAmount]
-        : [hexAmount];
-
-    await contractUnstake(...args).send({ from: this.currentAccount });
+    await contractUnstake(hexAmount).send({
+      from: this.currentAccount,
+    });
   }
 
   private getUnstakeMethodName(token: TBnbSyntToken) {
