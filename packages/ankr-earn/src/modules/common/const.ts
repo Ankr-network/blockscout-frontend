@@ -80,7 +80,7 @@ export const featuresConfig = {
   dashboardNativeAmount: false,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
-  avaxSwitcher: currentEnv !== Env.Production,
+  avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
 };
 
