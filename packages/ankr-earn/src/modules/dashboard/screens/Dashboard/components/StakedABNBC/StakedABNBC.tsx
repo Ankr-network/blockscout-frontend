@@ -1,11 +1,16 @@
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedABNBCData } from '../StakedTokens/hooks/BNB/useStakedABNBCData';
 import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
@@ -13,7 +18,19 @@ import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxH
 import { useStakedABNBCAnalytics } from './useStakedABNBCAnalytics';
 
 export const StakedABNBC = (): JSX.Element => {
-  const { isOpened, onClose, onOpen } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.BNB });
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const {
     amount,
     isLoading,
@@ -26,7 +43,9 @@ export const StakedABNBC = (): JSX.Element => {
     unstakeLink,
     isUnstakeLoading,
     pendingValue,
+    ratio,
     isPendingUnstakeLoading,
+    nativeAmount,
     onAddTokenToWallet,
   } = useStakedABNBCData();
 
@@ -40,9 +59,9 @@ export const StakedABNBC = (): JSX.Element => {
   } = useStakedBNBTxHistory();
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryABNBC.length || isHistoryDataLoading;
@@ -53,7 +72,12 @@ export const StakedABNBC = (): JSX.Element => {
       isLoading={isHistoryDataLoading}
       isUnstakeValueLoading={isPendingUnstakeLoading}
       token={Token.aBNBc}
-      tooltip={<PendingTable data={pendingUnstakeHistoryABNBC} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryABNBC}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingValue}
       onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
     />
@@ -67,22 +91,33 @@ export const StakedABNBC = (): JSX.Element => {
         isLoading={isLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
-        tokenAddress={tokenAddress}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={onAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
       />
 
       <HistoryDialog
         history={transactionHistoryABNBC}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={onAddTokenToWallet}
+        description="dashboard.token-info.aBNBc"
+        moreHref={getStakingOverviewUrl(Token.BNB)}
+        open={isOpenedInfo}
+        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
+        tokenAddress={tokenAddress}
+        tokenName={Token.aBNBc}
+        onClose={onCloseInfo}
       />
     </>
   );

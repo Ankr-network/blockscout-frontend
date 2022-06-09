@@ -240,6 +240,12 @@ export const mainTheme = createTheme({
       },
     },
 
+    MuiDrawer: {
+      root: {
+        zIndex: `${defaultTheme.zIndex.drawer} !important` as unknown,
+      },
+    },
+
     MuiInputBase: {
       root: {
         fontSize: 16,

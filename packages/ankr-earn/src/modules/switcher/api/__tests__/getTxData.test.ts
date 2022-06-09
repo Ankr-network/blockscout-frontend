@@ -5,6 +5,7 @@ import { EEthereumNetworkId } from 'provider';
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO_ADDR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -26,6 +27,10 @@ jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
 
 jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
@@ -65,6 +70,15 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
       }),
   };
 
+  const defaultAvaxSDK = {
+    fetchTxData: () =>
+      Promise.resolve({
+        amount: new BigNumber(1.5),
+        isPending: false,
+        destinationAddress: ZERO_ADDR,
+      }),
+  };
+
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
@@ -73,6 +87,8 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultAvaxSDK);
   });
 
   afterEach(() => {
@@ -149,7 +165,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     });
   });
 
-  test('should return tx data for binance network', async () => {
+  test('should return tx data for fantom network', async () => {
     const sdk = await SwitcherSDK.getInstance();
     const expected = {
       amount: new BigNumber(1.5),
@@ -164,6 +180,30 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
             chainId: chainId as AvailableSwitchNetwork,
             txHash: 'hash',
             token: Token.aFTMb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
+  test('should return tx data for avalanche network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+    const expected = {
+      amount: new BigNumber(1.5),
+      isPending: false,
+      destinationAddress: ZERO_ADDR,
+    };
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalancheTestnet].map(
+        chainId =>
+          sdk.fetchTxData({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aAVAXb,
           }),
       ),
     );

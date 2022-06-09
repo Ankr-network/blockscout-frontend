@@ -3,14 +3,29 @@ import { setupCache } from 'axios-cache-adapter';
 import BigNumber from 'bignumber.js';
 import {
   EActionStatuses,
-  IClaim,
+  EClaimStatuses,
+  IClaimItem,
   ICrowdloanType,
+  IRewardClaim,
   TActionType,
-  TClaimStatus,
   TCrowdloanStatus,
+  TEthereumAddress,
   TNetworkType,
   TPolkadotAddress,
 } from './entity';
+
+interface IQueryParams {}
+
+interface IClaimsParams extends IQueryParams {
+  address: TPolkadotAddress;
+  loanId: number;
+  network: TNetworkType;
+}
+
+interface IClaimRes {
+  claim: IClaimItem;
+  tokenAddress: TEthereumAddress;
+}
 
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
@@ -30,6 +45,12 @@ export class ApiGateway {
       responseType: 'json',
     };
     this.api = axios.create(this.defaultConfig);
+  }
+
+  private getQueryParams<T extends IQueryParams>(params: T): string {
+    return Object.entries(params)
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+      .join('&');
   }
 
   public async depositAddress(request: { network: TNetworkType }): Promise<{
@@ -104,16 +125,16 @@ export class ApiGateway {
   }
 
   public async claim(request: {
+    address: TPolkadotAddress;
+    amount: string;
+    ethAddress: TEthereumAddress;
     network: TNetworkType;
-    address: string;
-    ethAddress: string;
-    amount: BigNumber;
-    timestamp: number;
     signature: string;
-  }): Promise<IClaim> {
-    return ApiGateway.mapClaimResponse(
-      await this.api.post(`/v1alpha/polkadot/claim`, request),
-    );
+    timestamp: number;
+  }): Promise<IClaimRes> {
+    const { data } = await this.api.post('/v1alpha/polkadot/claim', request);
+
+    return data;
   }
 
   public async getCrowdloanById(request: {
@@ -267,18 +288,20 @@ export class ApiGateway {
     });
   }
 
-  public async getClaims(request: {
-    network: TNetworkType;
-    address: string;
-    loanId: number;
-  }): Promise<IClaim[]> {
-    const queryParams = Object.entries(request)
-      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
-      .join('&');
+  public async getAllClaims(params: IClaimsParams): Promise<IClaimItem[]> {
+    const queryParams = this.getQueryParams<IClaimsParams>(params);
+
     const {
       data: { claims },
     } = await this.api.get(`/v1alpha/polkadot/claims?${queryParams}`);
-    return claims.map(ApiGateway.mapClaimResponse);
+
+    return claims;
+  }
+
+  public async getRewardClaims(params: IClaimsParams): Promise<IRewardClaim[]> {
+    const claims = await this.getAllClaims(params);
+
+    return claims.map(ApiGateway.mapRewardClaimResponse);
   }
 
   public async crowdloanClaim(request: {
@@ -292,7 +315,7 @@ export class ApiGateway {
   }): Promise<{
     claim: {
       address: string;
-      status: TClaimStatus;
+      status: EClaimStatuses;
       data: {
         network: number;
         claimId: string;
@@ -331,7 +354,7 @@ export class ApiGateway {
     };
   }
 
-  private static mapClaimResponse(claim: any): IClaim {
+  private static mapRewardClaimResponse(claim: any): IRewardClaim {
     return {
       claim: {
         address: claim.address,

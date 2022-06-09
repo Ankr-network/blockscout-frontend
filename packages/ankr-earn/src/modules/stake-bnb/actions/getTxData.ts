@@ -1,11 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
-import { TransactionReceipt } from 'web3-eth';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-import { BinanceSDK } from '../api/BinanceSDK';
+import { BinanceSDK, IGetTxReceipt } from '../api/BinanceSDK';
 
 export interface IGetTXData {
   amount: BigNumber;
@@ -34,7 +33,7 @@ export const getTxData = createAction<RequestAction<IGetTXData, IGetTXData>>(
 const POLL_INTERVAL_SECONDS = 3;
 
 export const getTxReceipt = createAction<
-  RequestAction<TransactionReceipt, TransactionReceipt>
+  RequestAction<IGetTxReceipt, IGetTxReceipt>
 >('bnb/getTxReceipt', ({ txHash }: { txHash: string }) => ({
   request: {
     promise: (async () => null)(),

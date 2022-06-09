@@ -10,6 +10,7 @@ export interface ISwitcherSDKArgs {
   ethSDK: ISwitcher;
   maticSDK: ISwitcher;
   fantomSDK: ISwitcher;
+  avaxSDK: ISwitcher;
   account: string;
 }
 

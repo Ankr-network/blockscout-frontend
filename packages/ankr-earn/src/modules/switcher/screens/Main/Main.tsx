@@ -15,7 +15,8 @@ import { DECIMAL_PLACES } from 'modules/common/const';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
-  TOKEN_TOOLTIPS,
+  TOKEN_TOOLTIPS_FROM,
+  TOKEN_TOOLTIPS_TO,
 } from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
@@ -138,7 +139,7 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={TOKEN_TOOLTIPS[from]}>
+              <Tooltip title={TOKEN_TOOLTIPS_FROM[from]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
@@ -157,7 +158,7 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={TOKEN_TOOLTIPS[to]}>
+              <Tooltip title={TOKEN_TOOLTIPS_TO[to]}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }

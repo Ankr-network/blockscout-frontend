@@ -1,16 +1,21 @@
 import BigNumber from 'bignumber.js';
 
-import { IETHNetwork } from 'modules/auth/eth/hooks/useETHNetworks';
+import {
+  INetworkItem,
+  TNetworkId,
+} from 'modules/auth/common/components/GuardRoute';
 import { Token } from 'modules/common/types/token';
 
-export interface IUseStakableToken {
-  balance: BigNumber;
-  isShowed: boolean;
-  icon: JSX.Element;
-  networks: IETHNetwork[];
-  token: Token;
-  href: string;
+export interface IUseStakableToken<
+  NetworkItem extends INetworkItem<TNetworkId>,
+> {
   apy: number;
-  isStakeLoading: boolean;
+  balance: BigNumber;
+  href: string;
+  icon: JSX.Element;
   isLoading: boolean;
+  isShowed: boolean;
+  isStakeLoading: boolean;
+  networks: NetworkItem[];
+  token: Token;
 }

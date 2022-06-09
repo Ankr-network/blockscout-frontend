@@ -18,6 +18,7 @@ import {
 } from 'modules/auth/common/store/authPersistReducer';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
+import { dialog, IDialogState } from 'modules/dialogs';
 import {
   i18nPersistReducer,
   Ti18nState,
@@ -28,8 +29,6 @@ import {
   showNotification,
 } from 'modules/notifications';
 
-import { dialog } from './dialogs/reducer';
-import { IDialogState } from './dialogs/selectors';
 import { rootSagas } from './sagas';
 
 export interface IStoreState {

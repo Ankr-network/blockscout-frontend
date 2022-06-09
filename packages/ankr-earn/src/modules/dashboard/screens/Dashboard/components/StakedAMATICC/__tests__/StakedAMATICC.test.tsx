@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -20,6 +21,10 @@ import {
   useStakedAMATICCAnalytics,
 } from '../useStakedAMATICCAnalytics';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ MATIC: { label: '' } }),
+}));
+
 jest.mock('modules/common/const', () => ({
   ...jest.requireActual('modules/common/const'),
   featuresConfig: {
@@ -35,7 +40,7 @@ jest.mock('../useStakedAMATICCAnalytics', () => ({
   useStakedAMATICCAnalytics: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMATICTxHistory', () => ({
+jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 
@@ -53,6 +58,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
+    ratio: ZERO,
     onAddTokenToWallet: jest.fn(),
   };
 

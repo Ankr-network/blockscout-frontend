@@ -7,8 +7,11 @@ import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
+import {
+  INetworkItem,
+  TNetworkId,
+} from 'modules/auth/common/components/GuardRoute';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { IETHNetwork } from 'modules/auth/eth/hooks/useETHNetworks';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
@@ -19,7 +22,7 @@ import { useStakableAssetStyles as useStyles } from './useStakableAssetStyles';
 interface IStakableAssetProps {
   icon: JSX.Element;
   balance: BigNumber;
-  networks: IETHNetwork[];
+  networks: INetworkItem<TNetworkId>[];
   token: Token;
   href: string;
   apy: number;

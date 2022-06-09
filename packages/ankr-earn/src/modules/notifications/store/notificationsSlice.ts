@@ -1,8 +1,12 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OptionsObject } from 'notistack';
+
+import { INotificationOptions } from '../hooks/useNotification';
 
 export interface INotificationProps
-  extends Pick<OptionsObject, 'variant' | 'autoHideDuration'> {
+  extends Pick<
+    INotificationOptions,
+    'variant' | 'autoHideDuration' | 'anchorOrigin'
+  > {
   message: string;
 }
 

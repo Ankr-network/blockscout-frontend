@@ -2,6 +2,8 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
+
 import { PolygonSDK } from '../api/PolygonSDK';
 import { TMaticSyntToken } from '../types';
 
@@ -34,6 +36,8 @@ export const unstake = createSmartAction<
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());
       store.dispatchRequest(getAnkrBalance());
+      store.dispatchRequest(getUnstakeDate());
+
       return response;
     },
   },

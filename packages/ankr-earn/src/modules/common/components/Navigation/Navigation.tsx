@@ -16,6 +16,7 @@ export const Navigation = ({
       {items.map(({ label, href = '', isDisabled }) => (
         <NavigationLink
           key={label}
+          data-testid={label}
           href={href}
           isDisabled={isDisabled}
           label={label}

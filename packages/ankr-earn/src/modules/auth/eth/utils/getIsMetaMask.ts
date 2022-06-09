@@ -1,5 +1,5 @@
 const METAMASK_WALLET_NAME = 'MetaMask';
 
-export const getIsMetaMask = (walletName: string): boolean => {
+export const getIsMetaMask = (walletName?: string): boolean => {
   return walletName === METAMASK_WALLET_NAME;
 };

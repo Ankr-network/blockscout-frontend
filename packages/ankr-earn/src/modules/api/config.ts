@@ -20,7 +20,8 @@ export interface IContractConfig {
 
 export interface IAvalancheConfig {
   avalanchePool: string;
-  futureBondAVAX: string;
+  aAVAXb: string;
+  aAVAXc: string;
 }
 
 export interface IBinanceConfig {
@@ -87,7 +88,8 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
-    futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
+    aAVAXb: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
+    aAVAXc: '0x22f70fE6C3949cDcA413A6D441D7972255440660',
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
@@ -155,7 +157,8 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
-    futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
+    aAVAXb: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
+    aAVAXc: '0xc3344870d52688874b06d844e0c36cc39fc727f6',
   },
   binanceConfig: {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',

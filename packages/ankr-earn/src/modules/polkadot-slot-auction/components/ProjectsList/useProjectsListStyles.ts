@@ -4,7 +4,7 @@ export const useProjectsListStyles = makeStyles(theme => ({
   label: {
     position: 'absolute',
     top: -13,
-    left: -18,
+    left: -12,
     padding: theme.spacing(0.5, 1.25),
     fontSize: 13,
     lineHeight: 1,
@@ -15,10 +15,6 @@ export const useProjectsListStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       top: 0,
       left: 0,
-    },
-
-    [theme.breakpoints.up('xl')]: {
-      left: -8,
     },
   },
 

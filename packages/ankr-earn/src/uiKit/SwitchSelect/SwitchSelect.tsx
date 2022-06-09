@@ -28,6 +28,7 @@ export interface ISwitchSelectProps {
   to: TOption[];
   values: { from: string; to: string };
   isPairSelect?: boolean;
+  isDisabled?: boolean;
   onChangeFrom: (value: string) => void;
   onChangeTo: (value: string) => void;
   onChangeSwitch: () => void;
@@ -37,6 +38,7 @@ export const SwitchSelect = ({
   from,
   to,
   isPairSelect = false,
+  isDisabled = false,
   values,
   onChangeFrom,
   onChangeTo,
@@ -145,7 +147,7 @@ export const SwitchSelect = ({
         classes={{ select: classes.select }}
         className={classes.select}
         data-testid="switch-from"
-        disabled={fromOptions.length === 1}
+        disabled={isDisabled || fromOptions.length === 1}
         options={fromOptions}
         renderValue={renderValue(t('common.labels.from'))}
         rootClassName={classes.selectContainer}
@@ -156,6 +158,7 @@ export const SwitchSelect = ({
       <Button
         className={classes.switchIcon}
         data-testid="switch-icon"
+        disabled={isDisabled}
         variant="outlined"
         onClick={onChangeSwitch}
       >
@@ -167,7 +170,7 @@ export const SwitchSelect = ({
         classes={{ select: classes.select }}
         className={classes.select}
         data-testid="switch-to"
-        disabled={toOptions.length === 1}
+        disabled={isDisabled || toOptions.length === 1}
         options={toOptions}
         renderValue={renderValue(t('common.labels.to'))}
         rootClassName={classes.selectContainer}

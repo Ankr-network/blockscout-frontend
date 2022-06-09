@@ -13,6 +13,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -33,6 +34,8 @@ export interface IStakedAFTMCData {
   isUnstakeLoading: boolean;
   walletName?: string;
   address?: string;
+  ratio: BigNumber;
+  nativeAmount?: BigNumber;
   handleAddTokenToWallet: () => void;
 }
 
@@ -61,6 +64,8 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
   const isShowed =
     !amount.isZero() || isBalancesLoading || !pendingUnstakes.isZero();
 
+  const nativeAmount = getTokenNativeAmount(amount, commonData?.aFTMcRatio);
+
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addFTMTokenToWallet(Token.aFTMc));
   }, [dispatchRequest]);
@@ -79,6 +84,8 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
     isUnstakeLoading,
     walletName,
     address,
+    ratio: commonData?.aFTMcRatio ?? ZERO,
+    nativeAmount,
     handleAddTokenToWallet,
   };
 };

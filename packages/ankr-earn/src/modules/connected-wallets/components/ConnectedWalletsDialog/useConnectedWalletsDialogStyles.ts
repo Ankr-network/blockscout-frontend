@@ -2,7 +2,11 @@ import { darken, makeStyles } from '@material-ui/core';
 
 export const useConnectedWalletsDialogStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(5, 5, 0, 5),
+    padding: theme.spacing(3),
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(5, 5, 0, 5),
+    },
   },
   wrapper: {
     display: 'flex',
@@ -18,11 +22,21 @@ export const useConnectedWalletsDialogStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4.25),
   },
   header: {
-    fontSize: 30,
     textAlign: 'left',
+    fontSize: 20,
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 30,
+    },
   },
-  addWalletButton: {
-    margin: theme.spacing(0, 0, 0, 1.5),
+
+  plusWalletButton: {
+    display: 'none',
+
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      margin: theme.spacing(0, 0, 0, 1.5),
+    },
 
     '& > button': {
       width: 36,
@@ -40,6 +54,17 @@ export const useConnectedWalletsDialogStyles = makeStyles(theme => ({
       fontSize: 14,
     },
   },
+
+  addWalletButton: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+
+  addWalletIcon: {
+    color: 'inherit',
+  },
+
   network: {
     marginBottom: theme.spacing(4.25),
     width: '100%',

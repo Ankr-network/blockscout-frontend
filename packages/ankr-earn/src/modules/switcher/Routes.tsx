@@ -10,6 +10,7 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  AVAX_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -44,6 +45,7 @@ const AVAILABLE_NETWORKS = compact([
   ETH_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  AVAX_NETWORK_BY_ENV,
 ]);
 
 export function getRoutes(): JSX.Element {
