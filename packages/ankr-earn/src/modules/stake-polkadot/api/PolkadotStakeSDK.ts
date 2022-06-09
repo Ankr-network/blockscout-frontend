@@ -5,8 +5,10 @@ import { AbiItem } from 'web3-utils';
 import {
   ApiGateway,
   EActionStatuses,
+  EActionTypes,
   EClaimStatuses,
   IClaimItem,
+  IHistoryItem,
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
@@ -14,7 +16,7 @@ import { Address, Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { sleep } from 'modules/common/utils/sleep';
 
@@ -30,6 +32,11 @@ import ABI_ANKR_BOND from './contracts/AnkrBond.json';
 import ABI_POLKADOT_POOL from './contracts/PolkadotPool.json';
 
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
+
+interface IPolkadotHistoryData {
+  completedHistory: IHistoryItem[];
+  pendingHistory: IHistoryItem[];
+}
 
 export interface IPolkadotStakeSDKError extends Error {
   code: EErrorCodes;
@@ -63,7 +70,7 @@ export enum EErrorCodes {
   StakeNotCompleted = 'STAKE_NOT_COMPLETED',
 }
 
-export enum EPoolEventsMap {
+export enum ETxTypes {
   Staked = 'Staked',
   Unstaked = 'Unstaked',
 }
@@ -245,6 +252,65 @@ export class PolkadotStakeSDK {
     return isValidETHNetwork ? this.ethWriteProvider : this.ethReadProvider;
   }
 
+  private async getPolkadotHistoryData(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<IPolkadotHistoryData> {
+    const completedHistory = [];
+    const pendingHistory = [];
+
+    const rawData = await this.apiPolkadotGateway.getHistory({
+      address: this.currentPolkadotAccount,
+      network: currNetwork,
+    });
+
+    // TODO Add "Unstake" type supporting (Polkadot History)
+    const rawHistoryData = rawData.filter(
+      ({ type }) => type === EActionTypes.Deposit,
+    );
+
+    for (let i = 0; i < rawHistoryData.length; i += 1) {
+      const historyItem = rawHistoryData[i];
+
+      switch (historyItem.status) {
+        case EActionStatuses.Completed:
+          completedHistory.push(historyItem);
+          break;
+
+        case EActionStatuses.Unknown:
+          // TODO Add "Unstake" type supporting here only (Polkadot History)
+          pendingHistory.push(historyItem);
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return {
+      completedHistory,
+      pendingHistory,
+    };
+  }
+
+  private getPolkadotHistoryGroup(
+    rawHistory?: IHistoryItem[],
+  ): TTxEventsHistoryGroupData {
+    if (!Array.isArray(rawHistory) || !rawHistory.length) {
+      return [];
+    }
+
+    return rawHistory
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map(
+        ({ amount, timestamp, txId, type }): ITxEventsHistoryGroupItem => ({
+          txAmount: new BigNumber(amount),
+          txDate: new Date(timestamp * 1_000),
+          txHash: txId,
+          txType: this.getTxType(type),
+        }),
+      );
+  }
+
   private async getPolkadotProvider(): Promise<PolkadotProvider> {
     const isValidPolkadotNetwork = this.isValidPolkadotNetwork();
 
@@ -253,6 +319,17 @@ export class PolkadotStakeSDK {
     }
 
     return this.polkadotWriteProvider;
+  }
+
+  private getTxType(rawTxType: EActionTypes): string | null {
+    // TODO Add "Unstake" type supporting (Polkadot History)
+    switch (rawTxType) {
+      case EActionTypes.Deposit:
+        return ETxTypes.Staked;
+
+      default:
+        return null;
+    }
   }
 
   private async isValidETHNetwork(): Promise<boolean> {
@@ -535,10 +612,25 @@ export class PolkadotStakeSDK {
     );
   }
 
-  async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+  async getPolkadotPendingHistoryAmountSum(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<BigNumber> {
+    const { pendingHistory } = await this.getPolkadotHistoryData(currNetwork);
+
+    return pendingHistory.reduce((sum, { amount }) => sum.plus(amount), ZERO);
+  }
+
+  async getTxEventsHistory(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<ITxEventsHistoryData> {
+    const {
+      completedHistory: rawCompletedHistory,
+      pendingHistory: rawPendingHistory,
+    } = await this.getPolkadotHistoryData(currNetwork);
+
     return {
-      completed: [],
-      pending: [],
+      completed: this.getPolkadotHistoryGroup(rawCompletedHistory),
+      pending: this.getPolkadotHistoryGroup(rawPendingHistory),
     };
   }
 

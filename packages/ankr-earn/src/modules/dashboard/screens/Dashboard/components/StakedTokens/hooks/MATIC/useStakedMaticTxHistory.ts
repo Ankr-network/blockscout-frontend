@@ -123,14 +123,16 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
     pendingUnstakeHistoryAMATICB,
     pendingUnstakeHistoryAMATICC,
     transactionHistoryAMATICB: {
-      token: Token.aMATICb,
       staked: stakedAMATICB,
+      stakedToken: Token.aMATICb,
       unstaked: unstakedAMATICB,
+      unstakedToken: Token.aMATICb,
     },
     transactionHistoryAMATICC: {
-      token: Token.aMATICc,
       staked: stakedAMATICC,
+      stakedToken: Token.aMATICc,
       unstaked: unstakedAMATICC,
+      unstakedToken: Token.aMATICc,
     },
     handleLoadTxHistory,
   };

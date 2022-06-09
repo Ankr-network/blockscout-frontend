@@ -145,14 +145,16 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     pendingUnstakeHistoryABNBC,
     hasHistory,
     transactionHistoryABNBB: {
-      token: Token.aBNBb,
       staked: stakedABNBB,
+      stakedToken: Token.aBNBb,
       unstaked: unstakedABNBB,
+      unstakedToken: Token.aBNBb,
     },
     transactionHistoryABNBC: {
-      token: Token.aBNBc,
       staked: stakedABNBC,
+      stakedToken: Token.aBNBc,
       unstaked: unstakedABNBC,
+      unstakedToken: Token.aBNBc,
     },
     handleLoadTxHistory,
   };

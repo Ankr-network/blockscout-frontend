@@ -118,9 +118,10 @@ export const StakedAFTMC = (): JSX.Element | null => {
 
       <HistoryDialog
         history={{
-          token: Token.aFTMc,
           staked: stakedAFTMC,
+          stakedToken: Token.aFTMc,
           unstaked: unstakedAFTMC,
+          unstakedToken: Token.aFTMc,
         }}
         isHistoryLoading={isHistoryLoading}
         open={isOpenedHistory}

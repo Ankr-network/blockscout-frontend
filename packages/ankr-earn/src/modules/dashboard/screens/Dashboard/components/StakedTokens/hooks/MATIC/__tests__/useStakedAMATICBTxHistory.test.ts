@@ -4,6 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
@@ -121,7 +122,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
       },
     ]);
     expect(result.current.transactionHistoryAMATICB).toStrictEqual({
-      token: Token.aMATICb,
       staked: [
         {
           amount: ONE_ETH,
@@ -130,6 +130,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           link: 'https://goerli.etherscan.io/tx/txHash1',
         },
       ],
+      stakedToken: Token.aMATICb,
       unstaked: [
         {
           amount: ONE_ETH.multipliedBy(2),
@@ -138,7 +139,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           link: 'https://goerli.etherscan.io/tx/txHash2',
         },
       ],
-    });
+      unstakedToken: Token.aMATICb,
+    } as HistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -164,9 +166,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistoryAMATICB).toStrictEqual([]);
     expect(result.current.transactionHistoryAMATICB).toStrictEqual({
-      token: Token.aMATICb,
       staked: [],
+      stakedToken: Token.aMATICb,
       unstaked: [],
-    });
+      unstakedToken: Token.aMATICb,
+    } as HistoryDialogData);
   });
 });

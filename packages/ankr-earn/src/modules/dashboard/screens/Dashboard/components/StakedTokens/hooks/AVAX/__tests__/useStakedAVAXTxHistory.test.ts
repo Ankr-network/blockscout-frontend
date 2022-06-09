@@ -4,6 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
@@ -89,7 +90,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       },
     ]);
     expect(result.current.transactionHistory).toStrictEqual({
-      token: Token.aAVAXb,
       staked: [
         {
           amount: ONE,
@@ -98,6 +98,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           link: 'https://snowtrace.io/tx/txHash1',
         },
       ],
+      stakedToken: Token.aAVAXb,
       unstaked: [
         {
           amount: ONE.multipliedBy(2),
@@ -106,7 +107,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           link: 'https://snowtrace.io/tx/txHash2',
         },
       ],
-    });
+      unstakedToken: Token.aAVAXb,
+    } as HistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -133,9 +135,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
     expect(result.current.transactionHistory).toStrictEqual({
-      token: Token.aAVAXb,
       staked: [],
+      stakedToken: Token.aAVAXb,
       unstaked: [],
-    });
+      unstakedToken: Token.aAVAXb,
+    } as HistoryDialogData);
   });
 });

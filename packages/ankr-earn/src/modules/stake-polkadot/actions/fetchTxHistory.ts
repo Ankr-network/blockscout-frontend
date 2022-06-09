@@ -16,7 +16,7 @@ export const fetchTxHistory = createSmartAction<
     promise: (async (): Promise<ITxEventsHistoryData> => {
       const sdk = await PolkadotStakeSDK.getInstance();
 
-      return sdk.getTxEventsHistory();
+      return sdk.getTxEventsHistory(network);
     })(),
   },
   meta: {

@@ -104,7 +104,12 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
     isHistoryDataLoading,
     pendingUnstakeHistory,
     hasHistory,
-    transactionHistory: { token: Token.aAVAXb, staked, unstaked },
+    transactionHistory: {
+      staked,
+      stakedToken: Token.aAVAXb,
+      unstaked,
+      unstakedToken: Token.aAVAXb,
+    },
     handleLoadTxHistory,
   };
 };

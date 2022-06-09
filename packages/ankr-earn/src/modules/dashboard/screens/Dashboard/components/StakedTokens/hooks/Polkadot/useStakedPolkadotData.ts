@@ -13,13 +13,16 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,
+  featuresConfig,
   STAKE_LEGACY_LINKS,
   ZERO,
 } from 'modules/common/const';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
+import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
+import { stake } from 'modules/stake-polkadot/actions/stake';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';
-import { EPoolEventsMap } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
+import { ETxTypes } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { RoutesConfig } from 'modules/stake-polkadot/Routes';
 import {
   EPolkadotNetworks,
@@ -37,7 +40,6 @@ export interface IUseStakedPolkadotDataProps {
 interface IStakedPolkadotData {
   address?: string;
   amount: BigNumber;
-  handleAddTokenToWallet: () => void;
   isBalancesLoading: boolean;
   isShowed: boolean;
   isShowedTradeLink: boolean;
@@ -51,10 +53,11 @@ interface IStakedPolkadotData {
   unstakeLink: string;
   unstakeType: string;
   walletName?: string;
+  handleAddTokenToWallet: () => void;
 }
 
 /**
- *  TODO Add logic for this beta version (Polkadot staking)
+ *  TODO Add logic for this beta version (Polkadot Staking)
  */
 export const useStakedPolkadotData = ({
   ethToken,
@@ -66,36 +69,55 @@ export const useStakedPolkadotData = ({
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
+
+  const { loading: isStakeLoading } = useMutation({ type: stake });
+
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+
   const { data: balance, loading: isBalancesLoading } = useQuery({
     type: fetchETHTokenBalance,
     requestKey: getPolkadotRequestKey(network),
   });
 
-  const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
-  const amount = balance ?? ZERO;
-  const isShowed = !amount.isZero() || isBalancesLoading;
+  const { data: pendingAmountSum, loading: isPendingAmountSumLoading } =
+    useQuery({
+      type: fetchPolkadotPendingHistoryAmountSum,
+      requestKey: getPolkadotRequestKey(network),
+    });
 
-  const handleAddTokenToWallet = useCallback(() => {
+  const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
+
+  const amount = balance ?? ZERO;
+  const pendingValue = pendingAmountSum ?? ZERO;
+
+  const isShowed =
+    !amount.isZero() ||
+    isBalancesLoading ||
+    !pendingValue.isZero() ||
+    isPendingAmountSumLoading;
+
+  const handleAddTokenToWallet = useCallback((): void => {
     dispatchRequest(addETHTokenToWallet(network));
   }, [dispatchRequest, network]);
 
   return {
     address,
     amount,
-    handleAddTokenToWallet,
     isBalancesLoading,
     isShowed,
     isShowedTradeLink: false,
-    isStakeLoading: false,
+    isStakeLoading,
     isUnstakeLoading,
     network: chainTitle,
-    pendingValue: ZERO,
-    stakeLink: STAKE_LEGACY_LINKS[network] ?? '',
-    stakeType: EPoolEventsMap.Staked,
+    pendingValue,
+    stakeLink: featuresConfig.isActivePolkadotStaking
+      ? RoutesConfig.stake.generatePath(network)
+      : STAKE_LEGACY_LINKS[network] ?? '',
+    stakeType: ETxTypes.Staked,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
-    unstakeType: EPoolEventsMap.Unstaked,
+    unstakeType: ETxTypes.Unstaked,
     walletName,
+    handleAddTokenToWallet,
   };
 };

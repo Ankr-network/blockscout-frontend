@@ -53,9 +53,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     txHistory: null,
     pendingUnstakeHistory: [],
     transactionHistory: {
-      token: Token.aAVAXb,
       staked: [],
+      stakedToken: Token.aAVAXb,
       unstaked: [],
+      unstakedToken: Token.aAVAXb,
     },
     hasHistory: false,
     isHistoryDataLoading: false,
