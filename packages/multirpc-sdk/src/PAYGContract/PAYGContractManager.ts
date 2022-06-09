@@ -121,7 +121,7 @@ export class PAYGContractManager implements IPAYGContractManager {
 
   async getAllowance(amount: BigNumber) {
     const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString()),
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
     );
 
     await this.canAllowAndDeposit(scaledAmount);
@@ -136,7 +136,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     expiresAfter = '31536000',
   ): Promise<IWeb3SendResult> {
     const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString()),
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
     );
 
     await this.canAllowAndDeposit(scaledAmount);
