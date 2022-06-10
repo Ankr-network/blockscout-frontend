@@ -650,7 +650,7 @@ export class BinanceSDK {
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
 
-    const certUnlockedLog = receipt.logs.find(log =>
+    const certUnlockedLog = receipt?.logs.find(log =>
       log.topics.includes(CERT_STAKING_LOG_HASH),
     );
 
