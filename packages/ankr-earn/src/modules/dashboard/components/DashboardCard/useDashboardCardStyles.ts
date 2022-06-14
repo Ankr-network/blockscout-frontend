@@ -23,15 +23,11 @@ export const useDashboardCardStyles = makeStyles(theme => ({
   },
 
   amountInfo: {
-    marginTop: theme.spacing(1),
-
-    display: 'grid',
-    gridAutoFlow: 'column',
-    gridAutoColumns: 'auto',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'start',
-    gap: theme.spacing(0, 0.5),
-
+    marginTop: theme.spacing(1),
     lineHeight: 1,
   },
 

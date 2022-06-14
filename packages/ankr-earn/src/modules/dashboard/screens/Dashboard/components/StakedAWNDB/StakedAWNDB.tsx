@@ -55,6 +55,7 @@ export const StakedAWNDB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
+    usdAmount,
     walletName,
     handleAddTokenToWallet,
   } = useStakedPolkadotData(WND_PROPS);
@@ -113,6 +114,7 @@ export const StakedAWNDB = (): JSX.Element => {
         token={Token.aWNDb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={
           featuresConfig.isActivePolkadotStaking

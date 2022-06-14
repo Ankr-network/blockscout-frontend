@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
@@ -30,6 +30,8 @@ import {
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IUseStakedPolkadotDataProps {
   ethToken: TPolkadotETHToken;
@@ -52,6 +54,7 @@ interface IStakedPolkadotData {
   tradeLink: string;
   unstakeLink: string;
   unstakeType: string;
+  usdAmount?: BigNumber;
   walletName?: string;
   handleAddTokenToWallet: () => void;
 }
@@ -85,10 +88,33 @@ export const useStakedPolkadotData = ({
       requestKey: getPolkadotRequestKey(network),
     });
 
+  const { data: metrics, loading: isLoadingUSD } = useQuery({
+    type: getMetrics,
+  });
+
   const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
 
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
+  const usdAmount = useMemo(() => {
+    if (isLoadingUSD || metrics === null) {
+      return undefined;
+    }
+
+    const serviceName = network.toLowerCase() as EMetricsServiceName;
+    const currMetric = metrics[serviceName];
+
+    if (typeof currMetric === 'undefined') {
+      return undefined;
+    }
+
+    const { totalStaked, totalStakedUsd } = currMetric;
+
+    const oneTokenUSD = totalStakedUsd.div(totalStaked);
+    const usdVal = oneTokenUSD.multipliedBy(amount);
+
+    return usdVal.isZero() ? undefined : usdVal;
+  }, [amount, isLoadingUSD, metrics, network]);
 
   const isShowed =
     !amount.isZero() ||
@@ -117,6 +143,7 @@ export const useStakedPolkadotData = ({
     tradeLink: BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
     unstakeType: ETxTypes.Unstaked,
+    usdAmount,
     walletName,
     handleAddTokenToWallet,
   };

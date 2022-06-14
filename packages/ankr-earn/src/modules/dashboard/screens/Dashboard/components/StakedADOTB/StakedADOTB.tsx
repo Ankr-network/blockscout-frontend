@@ -55,6 +55,7 @@ export const StakedADOTB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
+    usdAmount,
     walletName,
     handleAddTokenToWallet,
   } = useStakedPolkadotData(DOT_PROPS);
@@ -113,6 +114,7 @@ export const StakedADOTB = (): JSX.Element => {
         token={Token.aDOTb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={
           featuresConfig.isActivePolkadotStaking

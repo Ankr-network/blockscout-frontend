@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box, ButtonBase, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -12,6 +12,7 @@ import { nativeTokenMap } from 'modules/dashboard/const';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
+import { QuestionIcon } from 'uiKit/RangeField/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
@@ -20,47 +21,68 @@ import { NetworkIconText } from '../NetworkIconText';
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
-  token?: Token;
-  network?: string;
-  chainId?: EEthereumNetworkId;
   amount?: BigNumber;
-  tradeLink?: string;
-  stakeLink?: string;
-  unstakeLink?: string;
-  unstakeTooltip?: string;
-  pendingSlot?: ReactNode;
-  nativeAmount?: BigNumber;
+  chainId?: EEthereumNetworkId;
+  isHistoryLoading?: boolean;
   isLoading?: boolean;
   isShowedTradeLink?: boolean;
   isStakeLoading?: boolean;
-  isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
+  nativeAmount?: BigNumber;
+  network?: string;
+  pendingSlot?: ReactNode;
+  stakeLink?: string;
+  token?: Token;
+  tradeLink?: string;
+  unstakeLink?: string;
+  unstakeTooltip?: string;
+  usdAmount?: BigNumber;
+  onAddStakingClick?: () => void;
   onHistoryBtnClick?: () => void;
   onTokenInfoClick?: () => void;
   onTradeClick?: () => void;
-  onAddStakingClick?: () => void;
 }
 
+const getAmountInfoTooltip = (
+  nativeAmount?: BigNumber,
+  usdAmount?: BigNumber,
+): string | null => {
+  if (typeof nativeAmount !== 'undefined' && typeof usdAmount !== 'undefined') {
+    return t('dashboard.amount-usd-tooltip');
+  }
+
+  if (typeof nativeAmount !== 'undefined' && typeof usdAmount === 'undefined') {
+    return t('dashboard.amount-tooltip');
+  }
+
+  if (typeof nativeAmount === 'undefined' && typeof usdAmount !== 'undefined') {
+    return t('dashboard.usd-tooltip');
+  }
+
+  return null;
+};
+
 export const StakingAsset = ({
-  network,
-  token,
   amount,
   chainId,
-  tradeLink,
-  stakeLink,
-  unstakeLink,
-  pendingSlot,
-  nativeAmount,
-  unstakeTooltip,
+  isHistoryLoading = false,
   isLoading = false,
   isShowedTradeLink = true,
   isStakeLoading = false,
   isUnstakeLoading = false,
-  isHistoryLoading = false,
+  nativeAmount,
+  network,
+  pendingSlot,
+  stakeLink,
+  token,
+  tradeLink,
+  unstakeLink,
+  unstakeTooltip,
+  usdAmount,
+  onAddStakingClick,
   onHistoryBtnClick,
   onTokenInfoClick,
   onTradeClick,
-  onAddStakingClick,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
@@ -68,9 +90,24 @@ export const StakingAsset = ({
     return <DashboardCardSkeleton />;
   }
 
-  const handleHistoryClick = () => {
-    if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
-  };
+  const isActiveAmountInfo =
+    typeof nativeAmount !== 'undefined' || typeof usdAmount !== 'undefined';
+
+  const nativeAmountText =
+    nativeAmount &&
+    token &&
+    t('unit.token-value', {
+      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      token: nativeTokenMap[token],
+    });
+
+  const usdAmountText =
+    usdAmount &&
+    t('unit.usd-value', {
+      value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    });
+
+  const amountInfoTooltip = getAmountInfoTooltip(nativeAmount, usdAmount);
 
   const stakeTooltip = isStakeLoading
     ? t('dashboard.stake-loading')
@@ -85,17 +122,38 @@ export const StakingAsset = ({
   const conditionalUnstakeTooltip =
     unstakeTooltip ?? (unstakeLink ? defaultUnstakeTooltip : comingSoonTooltip);
 
-  const nativeAmountText =
-    nativeAmount &&
-    token &&
-    t('unit.token-value', {
-      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-      token: nativeTokenMap[token],
-    });
+  const handleHistoryClick = () => {
+    if (!isHistoryLoading && onHistoryBtnClick) {
+      onHistoryBtnClick();
+    }
+  };
 
   return (
     <DashboardCard
       amount={amount}
+      amountInfoSlot={
+        isActiveAmountInfo && (
+          <>
+            {nativeAmountText && <Box>{nativeAmountText}</Box>}
+
+            {nativeAmountText && usdAmountText && (
+              <Box className={classes.amountInfoSplitter} />
+            )}
+
+            {usdAmountText && <Box>{usdAmountText}</Box>}
+
+            {amountInfoTooltip && (
+              <Box className={classes.amountInfoIcon}>
+                <Tooltip arrow title={amountInfoTooltip}>
+                  <ButtonBase>
+                    <QuestionIcon htmlColor="inherit" size="xs" />
+                  </ButtonBase>
+                </Tooltip>
+              </Box>
+            )}
+          </>
+        )
+      }
       badgeSlot={pendingSlot}
       buttonsSlot={
         <Grid container alignItems="center" spacing={2}>
@@ -165,11 +223,9 @@ export const StakingAsset = ({
           </Menu>
         </Box>
       }
-      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }
-      tooltip={t('dashboard.amount-tooltip')}
     />
   );
 };

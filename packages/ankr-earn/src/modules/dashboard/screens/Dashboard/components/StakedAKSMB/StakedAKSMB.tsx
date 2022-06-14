@@ -55,6 +55,7 @@ export const StakedAKSMB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
+    usdAmount,
     walletName,
     handleAddTokenToWallet,
   } = useStakedPolkadotData(KSM_PROPS);
@@ -113,6 +114,7 @@ export const StakedAKSMB = (): JSX.Element => {
         token={Token.aKSMb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={
           featuresConfig.isActivePolkadotStaking

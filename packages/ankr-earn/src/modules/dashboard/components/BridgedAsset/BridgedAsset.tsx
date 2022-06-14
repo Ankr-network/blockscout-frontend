@@ -65,6 +65,7 @@ export const BridgedAsset = ({
   return (
     <DashboardCard
       amount={amount}
+      amountInfoSlot={nativeAmountText}
       badgeSlot={pendingSlot}
       buttonsSlot={
         <Grid container alignItems="center" spacing={2}>
@@ -116,7 +117,6 @@ export const BridgedAsset = ({
           </Menu>
         </Box>
       }
-      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

@@ -92,7 +92,8 @@
     "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
-    "ankr-value": "{value} ANKR"
+    "ankr-value": "{value} ANKR",
+    "usd-value": "${value}"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -332,8 +333,7 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}",
-      "usd-equivalent": "${value}"
+      "fee": "Est Network Fee: {value}"
     },
     "buttons": {
       "addToWallet": "Add {token} to wallet",
@@ -680,11 +680,13 @@
     "unknown-network": "Current network",
     "copied": "Copied!",
     "amount-tooltip": "Amount of staked token, plus accumulated reward.",
+    "amount-usd-tooltip": "Amount of staked token, plus accumulated reward / USD equivalent.",
     "claim-tooltip": "Get liquid staking tokens to your Ethereum wallet",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
     "unstake-loading": "Unstake in progress",
+    "usd-tooltip": "USD equivalent of staked token and accumulated reward.",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value, number, ::.0#}%",
