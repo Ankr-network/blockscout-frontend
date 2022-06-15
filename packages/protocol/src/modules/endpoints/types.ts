@@ -18,6 +18,7 @@ export enum ChainGroupID {
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',
   SOLANA = 'solana',
+  SOLANA_DEVNET = 'solana_devnet',
   STANDARD_EVM = 'standard-evm',
   X_CHAIN = 'x-chain',
 }
