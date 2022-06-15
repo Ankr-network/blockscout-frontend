@@ -31,6 +31,29 @@ export const formatChains = (data: ChainsListProps['data']): Chain[] => {
   });
 };
 
+const chainNameCoinMap = {
+  avalanche: 'avax',
+  ethereum: 'eth',
+  bsc: 'bnb',
+  fantom: 'ftm',
+  gnosis: 'gno',
+  harmony: 'one',
+  iotex: 'IOTX',
+  metis: 'mts',
+  moonbeam: 'glmr',
+  near: 'near',
+  nervos: 'ckb',
+  polygon: 'matic',
+  solana: 'sol',
+  syscoin: 'sys',
+};
+
+export type TChainName = keyof typeof chainNameCoinMap;
+
+export const getChainCoin = (chainName: TChainName) => {
+  return chainNameCoinMap[chainName.toLowerCase() as TChainName] || chainName;
+};
+
 export const sortChains = (data: Chain[], sortType: SortType): Chain[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
 
