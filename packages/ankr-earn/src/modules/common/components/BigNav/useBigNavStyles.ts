@@ -1,12 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useNavStyles = makeStyles<Theme>(theme => ({
+export const useBigNavStyles = makeStyles<Theme>(theme => ({
   root: {},
 
   list: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    margin: 0,
+    margin: theme.spacing(0, 0, -1.5),
     padding: theme.spacing(0, 0, 1.5),
     listStyle: 'none',
     overflow: 'hidden',

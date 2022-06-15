@@ -863,5 +863,16 @@
   "zendesk": {
     "help": "Help",
     "needHelp": "Need help"
+  },
+  "stake-ankr": {
+    "header": {
+      "my": "My",
+      "staking": "ANKR Staking",
+      "node-providers": "Node providers"
+    },
+    "balance": {
+      "label": "Your balance:",
+      "btn": "Get"
+    }
   }
 }

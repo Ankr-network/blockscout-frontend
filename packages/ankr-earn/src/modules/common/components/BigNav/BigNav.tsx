@@ -3,17 +3,22 @@ import classNames from 'classnames';
 import React, { Children } from 'react';
 import { uid } from 'react-uid';
 
-import { useNavStyles } from './useNavStyles';
+import { useBigNavStyles } from './useBigNavStyles';
 
-export const NavComponent = ({
+export const BigNav = ({
   children,
   className,
+  component = 'nav',
   ...restBoxProps
 }: BoxProps): JSX.Element => {
-  const classes = useNavStyles();
+  const classes = useBigNavStyles();
 
   return (
-    <Box {...restBoxProps} className={classNames(classes.root, className)}>
+    <Box
+      {...restBoxProps}
+      className={classNames(classes.root, className)}
+      component={component}
+    >
       <ul className={classes.list}>
         {Children.map(children, (child, index) => (
           <li key={uid(index)} className={classes.item}>

@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useNavItemStyles = makeStyles<Theme>(theme => ({
+export const useBigNavItemStyles = makeStyles<Theme>(theme => ({
   root: {
     height: 'auto',
     padding: 0,

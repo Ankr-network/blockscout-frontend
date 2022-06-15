@@ -8,12 +8,18 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
 const ROOT = `${STAKING_PATH}ankr-stake/`;
+const ANKR_PROVIDERS = `${ROOT}providers/`;
 
 export const RoutesConfig = createRouteConfig(
   {
     main: {
       path: ROOT,
       generatePath: () => generatePath(ROOT),
+    },
+
+    providers: {
+      path: ANKR_PROVIDERS,
+      generatePath: () => generatePath(ANKR_PROVIDERS),
     },
   },
   ROOT,
@@ -23,15 +29,25 @@ const Main = loadComponent(() =>
   import('./screens/Main').then(module => module.Main),
 );
 
+const Providers = loadComponent(() =>
+  import('./screens/Providers').then(module => module.Providers),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root]}>
       <Switch>
         {/* todo: add guard route */}
 
-        <Route path={RoutesConfig.main.path}>
+        <Route exact path={RoutesConfig.main.path}>
           <DefaultLayout>
             <Main />
+          </DefaultLayout>
+        </Route>
+
+        <Route exact path={RoutesConfig.providers.path}>
+          <DefaultLayout>
+            <Providers />
           </DefaultLayout>
         </Route>
 

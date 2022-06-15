@@ -3,23 +3,24 @@ import React, { ReactNode } from 'react';
 
 import { NavLink } from 'uiKit/NavLink';
 
-import { useNavItemStyles } from './useNavItemStyles';
+import { useBigNavItemStyles } from './useBigNavItemStyles';
 
-interface INavItemProps {
+interface IBigNavItemProps {
   className?: string;
   children: ReactNode;
   href: string;
 }
 
-export const NavItem = ({
+export const BigNavItem = ({
   className,
   children,
   href,
-}: INavItemProps): JSX.Element => {
-  const classes = useNavItemStyles();
+}: IBigNavItemProps): JSX.Element => {
+  const classes = useBigNavItemStyles();
 
   return (
     <NavLink
+      exactMatch
       activeClassName={classes.active}
       className={classNames(classes.root, className)}
       href={href}
