@@ -20,4 +20,5 @@ export enum Token {
   aKSMb = 'aKSMb',
   WND = 'WND',
   aWNDb = 'aWNDb',
+  ANKR = 'ANKR',
 }
