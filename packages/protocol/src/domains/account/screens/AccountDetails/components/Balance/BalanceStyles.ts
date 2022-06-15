@@ -37,7 +37,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontWeight: 700,
     fontSize: 14,
     lineHeight: '20px',
@@ -48,7 +47,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontWeight: 600,
     fontSize: 14,
     lineHeight: '20px',
@@ -63,7 +61,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     letterSpacing: '-0.01em',
 
-    fontFamily: 'TT Firs Neue',
     fontWeight: 600,
     fontSize: 45,
     lineHeight: '52px',
@@ -89,7 +86,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.grey[600],
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontWeight: 700,
     fontSize: 14,
     lineHeight: '20px',
@@ -105,7 +101,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.grey[600],
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontWeight: 400,
     fontSize: 14,
     lineHeight: '20px',
