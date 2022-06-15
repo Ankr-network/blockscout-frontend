@@ -82,6 +82,7 @@ export const featuresConfig = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
+  ankrStaking: false,
 };
 
 export enum SupportedChainIDS {

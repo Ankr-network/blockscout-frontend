@@ -3,13 +3,14 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { STAKING_PATH } from 'modules/common/const';
+import { featuresConfig, STAKING_PATH } from 'modules/common/const';
 import {
   getRoutes as getDashboardRoutes,
   RoutesConfig as DashboardRoutes,
 } from 'modules/dashboard/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
+import { getRoutes as getStakeAnkrRoutes } from 'modules/stake-ankr/Routes';
 import { getRoutes as getStakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { getRoutes as getStakeEthereumRoutes } from 'modules/stake-eth/Routes';
@@ -48,7 +49,11 @@ export function Routes(): JSX.Element {
 
       {getStakeEthereumRoutes()}
 
+      {featuresConfig.ankrStaking && getStakeAnkrRoutes()}
+
       {getStakePolkadotRoutes()}
+
+      {/* ⚠️ [STAKAN-1686] all routes after getStakePolkadotRoutes() would not work */}
 
       <Route>
         <DefaultLayout>

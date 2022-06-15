@@ -99,6 +99,7 @@ const routeRender =
     );
   };
 
+// todo: [STAKAN-1686] fix this routes
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
