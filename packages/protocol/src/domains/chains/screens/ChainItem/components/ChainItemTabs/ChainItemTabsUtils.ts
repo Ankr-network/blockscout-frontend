@@ -8,16 +8,21 @@ import { DefaultTabID } from 'uiKit/TabsManager';
 export enum TabId {
   data = 'data',
   infrastructure = 'infrastructure',
+  integration = 'integration',
 }
 
 export const QUERY_NAME = 'tab';
 
-export const useInitialTabId = () => {
+export const useInitialTabId = (withIntegrationTab: boolean) => {
   const params = useQueryParams();
 
   const tabId = params.get(QUERY_NAME);
+  const isTabIdCorrected =
+    tabId === TabId.data ||
+    tabId === TabId.infrastructure ||
+    (tabId === TabId.integration && withIntegrationTab);
 
-  if (tabId === TabId.data || tabId === TabId.infrastructure) return tabId;
+  if (isTabIdCorrected) return tabId;
 
   return TabId.data;
 };
