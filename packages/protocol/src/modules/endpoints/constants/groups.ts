@@ -96,4 +96,10 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('solana-api', true),
     chains: ['solana'],
   },
+  {
+    id: 'solana_devnet',
+    name: getName('solana-api'),
+    pluralName: getName('solana-api', true),
+    chains: ['solana_devnet'],
+  },
 ];
