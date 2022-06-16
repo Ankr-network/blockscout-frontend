@@ -13,7 +13,7 @@ export const Section = ({
   withContainer = true,
 }: ISectionProps): JSX.Element => {
   return (
-    <Box component="section" py={{ xs: 4, md: 5 }}>
+    <Box component="section" py={{ xs: 4, md: 8 }}>
       {withContainer ? <Container>{children}</Container> : children}
     </Box>
   );
