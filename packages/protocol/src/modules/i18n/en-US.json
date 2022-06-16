@@ -123,13 +123,6 @@
     "title": "Premium Endpoints",
     "provider-title": "Dashboard"
   },
-  "30-days-statistics": {
-    "30days": "30d",
-    "title": "30 days statistics",
-    "total-requests-made": "Total Requests Made",
-    "unique-users-served": "Unique Users Served",
-    "total-asset-value-transferred": "Total Asset Value Transferred"
-  },
   "chains": {
     "connected-breadcrumbs": "Dashboard",
     "breadcrumbs": "Public RPCs",
@@ -147,6 +140,19 @@
     "sort": {
       "usage": "Sort by usage",
       "name": "Sort by name"
+    },
+    "user-stats": {
+      "title": "Your stats",
+      "timeframes": {
+        "day": "24h",
+        "month": "30d",
+        "week": "7d"
+      },
+      "stats": {
+        "total": "Total Requests Made",
+        "failovers": "Total Requests Recovered",
+        "successPercent": "Successful Requests %"
+      }
     }
   },
   "chain-item": {

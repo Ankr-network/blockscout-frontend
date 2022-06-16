@@ -7,7 +7,7 @@ export interface SwitcherParams<Data = string> {
 }
 
 const getCurrentIndex = <Data = string>(startIndex: number, items: Data[]) =>
-  items[startIndex] ? startIndex : 0;
+  startIndex === items.length ? 0 : startIndex;
 
 export const useSwitcher = <Data = string>({
   currentItem = 0,

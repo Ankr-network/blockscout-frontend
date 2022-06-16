@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ChartCurrency } from '../../types';
-import { Switcher } from 'domains/account/components/Switcher';
+import { Switcher } from 'modules/common/components/Switcher';
 import { valuesMap } from './const';
 
 export interface CurrencySwitcherProps {

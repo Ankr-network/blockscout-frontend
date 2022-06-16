@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useChainsStyles = makeStyles<Theme>(() => ({
+export const useChainsStyles = makeStyles<Theme>(theme => ({
   title: {
     marginBottom: 30,
   },
@@ -10,5 +10,8 @@ export const useChainsStyles = makeStyles<Theme>(() => ({
     alignItems: 'center',
     gridTemplateColumns: 'repeat(3, 1fr)',
     marginBottom: 46,
+  },
+  userStats: {
+    marginBottom: theme.spacing(5.25),
   },
 }));

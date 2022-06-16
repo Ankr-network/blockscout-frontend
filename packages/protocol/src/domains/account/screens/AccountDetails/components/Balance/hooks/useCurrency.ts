@@ -1,5 +1,5 @@
 import { Currency } from 'domains/account/types';
-import { useSwitcher } from 'domains/account/hooks/useSwitcher';
+import { useSwitcher } from 'modules/common/hooks/useSwitcher';
 
 const { ANKR, CREDIT } = Currency;
 
