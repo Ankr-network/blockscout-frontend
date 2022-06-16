@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { useETHNetworks } from 'modules/auth/eth/hooks/useETHNetworks';
+import {
+  IETHNetwork,
+  useETHNetworks,
+} from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
@@ -13,7 +16,7 @@ import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 
 import { IUseStakableToken } from '../types';
 
-export const useStakableAvax = (): IUseStakableToken => {
+export const useStakableAvax = (): IUseStakableToken<IETHNetwork> => {
   const networks = useETHNetworks();
 
   const { data: metrics, loading: isLoadingAPY } = useQuery({

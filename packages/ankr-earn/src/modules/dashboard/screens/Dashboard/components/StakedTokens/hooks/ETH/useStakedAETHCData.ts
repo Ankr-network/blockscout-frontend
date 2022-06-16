@@ -11,8 +11,9 @@ import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
-import { ETH_NETWORK_BY_ENV, featuresConfig, ZERO } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
@@ -30,6 +31,7 @@ export interface IStakedAETHCData {
   stakeLink?: string;
   walletName?: string;
   address?: string;
+  ratio: BigNumber;
   nativeAmount?: BigNumber;
   handleAddTokenToWallet: () => void;
 }
@@ -52,10 +54,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
-  const nativeAmount =
-    featuresConfig.dashboardNativeAmount && statsData
-      ? amount.dividedBy(statsData.aETHcRatio)
-      : undefined;
+  const nativeAmount = getTokenNativeAmount(amount, statsData?.aETHcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(
@@ -75,6 +74,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     isStakeLoading,
     walletName,
     address,
+    ratio: statsData?.aETHcRatio ?? ZERO,
     nativeAmount,
     handleAddTokenToWallet,
   };

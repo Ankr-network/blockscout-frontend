@@ -19,12 +19,16 @@ export const useConnectedWalletsNetworkStyles = makeStyles(theme => ({
     height: 24,
     padding: 0,
 
-    fontSize: 14,
+    fontSize: 12,
     color: theme.palette.text.secondary,
     fontWeight: 500,
     transition: '0.2s color',
 
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 14,
+    },
 
     '&:hover': {
       background: 'none',

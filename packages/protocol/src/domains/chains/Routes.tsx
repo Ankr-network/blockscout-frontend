@@ -7,7 +7,7 @@ import { Spinner } from 'ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const INDEX_PATH = '/';
-export const PATH_CHAINS = `${INDEX_PATH}dashboard/`;
+export const PATH_CHAINS = `${INDEX_PATH}public/`;
 export const PATH_CHAIN_DETAILS = `${PATH_CHAINS}:chainId/`;
 export const PATH_ADD_ENDPOINT = `${PATH_CHAIN_DETAILS}add`;
 

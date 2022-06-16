@@ -12,7 +12,7 @@ const {
     aMaticbToken,
     maticToken,
   },
-  avalancheConfig: { futureBondAVAX },
+  avalancheConfig: { aAVAXb },
   binanceConfig: { aBNBbToken },
   fantomConfig: { aftmbToken, ftmToken },
 } = configFromEnv(Env.Production);
@@ -32,7 +32,7 @@ export const getTokenAddr = (token: AvailableTokens): string => {
       return maticToken as string;
 
     case AvailableTokens.aAVAXb:
-      return futureBondAVAX as string;
+      return aAVAXb as string;
 
     case AvailableTokens.AVAX:
       return ZERO_ADDR as string;

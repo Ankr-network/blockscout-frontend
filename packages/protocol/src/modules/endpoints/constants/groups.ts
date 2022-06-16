@@ -28,6 +28,7 @@ export const chainGroups: ChainGroup[] = [
       'syscoin',
       'fantom_testnet',
       'optimism',
+      'polygon_mumbai',
     ],
   },
   {

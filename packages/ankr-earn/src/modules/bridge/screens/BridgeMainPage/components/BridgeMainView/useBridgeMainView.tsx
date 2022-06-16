@@ -1,7 +1,6 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { ReactText, useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
+import { ReactText, useState } from 'react';
 
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
@@ -10,8 +9,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
-import { approve } from 'modules/bridge/actions/approve';
-import { deposit } from 'modules/bridge/actions/deposit';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
 import { useBalance } from 'modules/bridge/hooks/useBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
@@ -24,9 +21,9 @@ import {
   TUseValidateAmount,
   useValidateAmount,
 } from 'modules/common/hooks/useAmountValidation';
-import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { getWithdrawalQuery } from '../../../../utils/getWithdrawalQuery';
+import { useApprove } from './useApprove';
+import { useDeposit } from './useDeposit';
 
 interface ISwapNetworkItemState {
   from: SupportedChainIDS;
@@ -47,7 +44,6 @@ interface IUseBridgeMainView {
   isConnected: boolean;
   isApproved: boolean;
   isMetaMask: boolean;
-  isOpenedModal: boolean;
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
@@ -61,14 +57,11 @@ interface IUseBridgeMainView {
     direction: 'from' | 'to',
   ) => void;
   onChangeInputValue: (value: ReactText) => void;
-  onCloseModal: () => void;
-  onOpenModal: () => void;
   onSwapClick: () => void;
   onSubmit: () => void;
   onSwitchNetworkClick: () => void;
   onAddrCheckboxClick: () => void;
   validateAmount: TUseValidateAmount;
-  walletsGroupTypes?: AvailableWriteProviders[];
 }
 
 const defaultFrom = isMainnet
@@ -96,23 +89,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
-  const history = useHistory();
 
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
-
-  const { data: approveData, loading: isApproveButtonLoading } = useQuery({
-    type: approve,
-  });
-
-  const { loading: isSendButtonLoading } = useQuery({
-    type: deposit,
-  });
-
-  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
+  const { writeProviderData } = useWalletsGroupTypes({
     writeProviderId: providerId,
   });
 
@@ -122,9 +100,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     ? writeProviderData?.chainId
     : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
-  const isMetaMask = writeProviderData?.walletName
-    ? getIsMetaMask(writeProviderData.walletName)
-    : false;
+  const isMetaMask = getIsMetaMask(writeProviderData?.walletName);
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -139,7 +115,22 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
   );
 
-  const isApproved = !!approveData;
+  const {
+    isApproved,
+    onClick: onApproveClick,
+    isLoading: isApproveButtonLoading,
+  } = useApprove({
+    token: tokenValue,
+    chainId: swapNetworkItem.from,
+    amount: inputValue ? new BigNumber(inputValue) : undefined,
+  });
+
+  const { onClick: onSendClick, isLoading: isSendButtonLoading } = useDeposit({
+    amount: inputValue ? new BigNumber(inputValue) : undefined,
+    fromChainId: swapNetworkItem.from,
+    toChainId: swapNetworkItem.to,
+    token: tokenValue,
+  });
 
   const onChangeToken = (token: string) => {
     setSwapNetworkItem({ from: defaultFrom, to: defaultTo });
@@ -165,53 +156,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   };
 
   const validateAmount = useValidateAmount(balance);
-
-  const onApproveClick = () => {
-    if (!inputValue) {
-      return;
-    }
-
-    const amount = new BigNumber(inputValue);
-
-    dispatchRequest(approve(amount, tokenValue, swapNetworkItem.from));
-  };
-
-  const onSuccessDeposit = useCallback(
-    (transactionHash: string) => {
-      history.push({
-        search: `?${getWithdrawalQuery(
-          {
-            tx: transactionHash,
-            amount: `${inputValue}`,
-            token: tokenValue,
-            chainIdFrom: swapNetworkItem.from,
-            chainIdTo: swapNetworkItem.to,
-          },
-          document.location.search,
-        )}`,
-      });
-    },
-    [history, inputValue, swapNetworkItem, tokenValue],
-  );
-
-  const onSendClick = () => {
-    if (!inputValue) {
-      return;
-    }
-
-    dispatchRequest(
-      deposit({
-        fromChainId: swapNetworkItem.from,
-        toChainId: swapNetworkItem.to,
-        amount: new BigNumber(inputValue),
-        token: tokenValue,
-      }),
-    ).then(data => {
-      if (data.data) {
-        onSuccessDeposit(data.data.transactionHash);
-      }
-    });
-  };
 
   const onAddrCheckboxClick = () => setIsSendAnother(s => !s);
 
@@ -275,14 +219,12 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     isSendAnother,
     isApproved,
     isActualNetwork,
-    isOpenedModal,
     swapNetworkItem,
     balance,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
-    walletsGroupTypes,
     onChangeNetwork,
     onChangeToken,
     validateAmount,
@@ -290,8 +232,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     onSwitchNetworkClick,
     onAddrCheckboxClick,
     onChangeInputValue,
-    onCloseModal,
-    onOpenModal,
     onSwapClick,
   };
 };

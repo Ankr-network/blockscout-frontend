@@ -83,7 +83,13 @@ export const ConnectedWalletsButton = ({
 
   return networks.length > 0 ? (
     <div className={classes.root}>
-      <Button className={classNames(classes.btn, className)} onClick={onClick}>
+      <Button
+        classes={{
+          root: classNames(classes.btn, className),
+          label: classes.btnLabel,
+        }}
+        onClick={onClick}
+      >
         {leftSide}
 
         <AngleDownIcon className={classes.arrowIcon} />

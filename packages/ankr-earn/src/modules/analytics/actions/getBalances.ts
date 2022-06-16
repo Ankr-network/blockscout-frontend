@@ -42,7 +42,7 @@ export const getBalances = async (): Promise<IGetBalances> => {
     binanceSDK.getBNBBalance(),
     binanceSDK.getABBalance(),
     avalancheSDK.getAVAXBalance(),
-    avalancheSDK.getAAVAXBBalance(),
+    avalancheSDK.getABBalance(),
     ethSDK.getABBalance(),
     ethSDK.getEthBalance(),
     polygonSDK.getMaticBalance(),

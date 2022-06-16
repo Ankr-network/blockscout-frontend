@@ -16,7 +16,7 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
     width: '100%',
 
     [theme.breakpoints.up('md')]: {
-      width: 290,
+      maxWidth: 290,
     },
 
     '& label': {
@@ -63,6 +63,7 @@ export const useSwitchSelectStyles = makeStyles(theme => ({
   },
 
   switchIcon: {
+    flexShrink: 0,
     margin: theme.spacing(1.5, 2),
 
     minWidth: 0,

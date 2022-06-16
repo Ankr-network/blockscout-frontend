@@ -1,21 +1,37 @@
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAFTMCData } from '../StakedTokens/hooks/FTM/useStakedAFTMCData';
 import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
 export const StakedAFTMC = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
-  const { isOpened, onClose, onOpen } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.FTM });
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
 
   const {
     pendingUnstakeHistoryAFTMC,
@@ -37,6 +53,8 @@ export const StakedAFTMC = (): JSX.Element | null => {
     stakeLink,
     walletName,
     address,
+    ratio,
+    nativeAmount,
     handleAddTokenToWallet,
   } = useStakedAFTMCData();
 
@@ -59,15 +77,20 @@ export const StakedAFTMC = (): JSX.Element | null => {
   };
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
       isLoading={isHistoryLoading}
       token={Token.aFTMc}
-      tooltip={<PendingTable data={pendingUnstakeHistoryAFTMC} />}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryAFTMC}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
       value={pendingUnstakes}
       onLoadHistory={handleLoadTxHistory}
     />
@@ -81,15 +104,15 @@ export const StakedAFTMC = (): JSX.Element | null => {
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aFTMc}
-        tokenAddress={fantomConfig.aftmbToken}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
         onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
@@ -100,8 +123,19 @@ export const StakedAFTMC = (): JSX.Element | null => {
           unstaked: unstakedAFTMC,
         }}
         isHistoryLoading={isHistoryLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aFTMc"
+        moreHref={getStakingOverviewUrl(Token.FTM)}
+        open={isOpenedInfo}
+        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
+        tokenAddress={fantomConfig.aftmcToken}
+        tokenName={Token.aFTMc}
+        onClose={onCloseInfo}
       />
     </>
   );

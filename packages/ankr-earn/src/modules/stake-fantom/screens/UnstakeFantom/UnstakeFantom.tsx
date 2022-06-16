@@ -12,9 +12,9 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
-import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -41,9 +41,6 @@ export const UnstakeFantom = (): JSX.Element => {
     isBalanceLoading,
     isBurnFeeLoading,
     isLoading,
-    isApproved,
-    isApproveLoading,
-    isWithApprove,
     balance,
     burnFee,
     closeHref,
@@ -52,6 +49,10 @@ export const UnstakeFantom = (): JSX.Element => {
     onChange,
     calcTotalRecieve,
   } = useUnstakeDialog(onSuccessOpen);
+
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: Token.FTM,
+  });
 
   useProviderEffect(() => {
     dispatch(getCommonData());
@@ -155,17 +156,9 @@ export const UnstakeFantom = (): JSX.Element => {
           <UnstakeDialog
             balance={balance}
             closeHref={closeHref}
-            endText={t('unstake-dialog.eta', {
-              token: Token.FTM,
-              period: t('stake-fantom.unstake-period', {
-                days: FANTOM_UNSTAKE_PERIOD,
-              }),
-            })}
-            isApproved={isApproved}
-            isApproveLoading={isApproveLoading}
+            endText={unstakeLabel}
             isBalanceLoading={isBalanceLoading}
             isLoading={isLoading}
-            isWithApprove={isWithApprove}
             renderFormFooter={renderFormFooter}
             submitDisabled={submitDisabled}
             token={selectedToken}
@@ -174,9 +167,7 @@ export const UnstakeFantom = (): JSX.Element => {
           />
         ) : (
           <UnstakeSuccess
-            period={t('stake-fantom.unstake-period', {
-              days: FANTOM_UNSTAKE_PERIOD,
-            })}
+            infoText={unstakeLabel}
             tokenName={Token.FTM}
             onClose={onSuccessClose}
           />

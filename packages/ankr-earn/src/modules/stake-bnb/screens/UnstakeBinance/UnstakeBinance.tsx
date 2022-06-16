@@ -10,6 +10,7 @@ import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { Container } from 'uiKit/Container';
 
 import { fetchStats } from '../../actions/fetchStats';
@@ -34,8 +35,6 @@ export const UnstakeBinance = (): JSX.Element => {
     isUnstakeLoading,
     isWithApprove,
     minAmount,
-    redeemPeriod,
-    redeemValue,
     selectedToken,
     syntTokenBalance,
     calcTotalRecieve,
@@ -44,6 +43,10 @@ export const UnstakeBinance = (): JSX.Element => {
   } = useUnstakeBnb(onSuccessOpen);
 
   const dispatchRequest = useDispatchRequest();
+
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: Token.BNB,
+  });
 
   useProviderEffect(() => {
     dispatchRequest(fetchStats());
@@ -88,10 +91,7 @@ export const UnstakeBinance = (): JSX.Element => {
           <UnstakeDialog
             balance={syntTokenBalance}
             closeHref={closeHref}
-            endText={t('stake-bnb.unstake.info', {
-              value: redeemValue,
-              period: redeemPeriod,
-            })}
+            endText={unstakeLabel}
             extraValidation={onExtraValidation}
             isApproved={isApproved}
             isApproveLoading={isApproveLoading}
@@ -105,10 +105,7 @@ export const UnstakeBinance = (): JSX.Element => {
           />
         ) : (
           <UnstakeSuccess
-            period={t('stake-bnb.unstake.period', {
-              value: redeemValue,
-              period: redeemPeriod,
-            })}
+            infoText={unstakeLabel}
             tokenName={Token.BNB}
             onClose={onSuccessClose}
           />

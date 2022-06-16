@@ -1,7 +1,7 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 
@@ -14,7 +14,6 @@ import {
 } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -168,6 +167,7 @@ export const AVAILABLE_WALLETS_GROUP_TYPES = [
   AvailableWriteProviders.polkadotCompatible,
 ];
 
+// todo: it is necessary to decompose the component
 export const ConnectWalletsModal = ({
   isOpen = false,
   walletsGroupTypes,
@@ -242,7 +242,7 @@ export const ConnectWalletsModal = ({
       open={isOpen}
       onClose={onClose}
     >
-      <Container className={classes.container}>
+      <Box width="100%">
         <Typography className={classes.title} variant="h3">
           {t('wallets.modal-title')}
         </Typography>
@@ -254,10 +254,10 @@ export const ConnectWalletsModal = ({
         )}
 
         {!isLoading && (
-          <Grid container direction="column">
+          <Grid container spacing={2}>
             {availableWallets.map(
               (walletsGroup): JSX.Element => (
-                <Grid key={uid(walletsGroup)} container item xs direction="row">
+                <Fragment key={uid(walletsGroup)}>
                   {walletsGroup.map((walletItem: IWalletItem): JSX.Element => {
                     const {
                       href,
@@ -271,32 +271,26 @@ export const ConnectWalletsModal = ({
                     } = walletItem;
 
                     return (
-                      <Grid
-                        key={uid(walletItem)}
-                        item
-                        xs
-                        className={classNames(
-                          classes.walletItem,
-                          isDisabled && classes.walletItemDisabled,
-                          isDisabled &&
-                            isInjected &&
-                            classes.walletItemDisabledCursor,
-                        )}
-                        onClick={onWalletItemClick({
-                          href,
-                          isDisabled,
-                          isInjected,
-                          providerId,
-                          walletId,
-                        })}
-                      >
+                      <Grid key={uid(walletItem)} item sm={4} xs={12}>
                         <Tooltip
                           arrow
                           title={isDisabled && tooltip ? t(tooltip) : ''}
                         >
-                          <Box
-                            className={classes.walletItemBody}
-                            component="div"
+                          <ButtonBase
+                            className={classNames(
+                              classes.walletItem,
+                              isDisabled && classes.walletItemDisabled,
+                              isDisabled &&
+                                isInjected &&
+                                classes.walletItemDisabledCursor,
+                            )}
+                            onClick={onWalletItemClick({
+                              href,
+                              isDisabled,
+                              isInjected,
+                              providerId,
+                              walletId,
+                            })}
                           >
                             {icon}
 
@@ -315,17 +309,17 @@ export const ConnectWalletsModal = ({
                                 {t('wallets.wallet-install')}
                               </Typography>
                             )}
-                          </Box>
+                          </ButtonBase>
                         </Tooltip>
                       </Grid>
                     );
                   })}
-                </Grid>
+                </Fragment>
               ),
             )}
           </Grid>
         )}
-      </Container>
+      </Box>
     </Dialog>
   );
 };

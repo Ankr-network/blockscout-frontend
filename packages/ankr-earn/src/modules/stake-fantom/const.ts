@@ -2,6 +2,8 @@ import { AvailableReadProviders, AvailableWriteProviders } from 'provider';
 
 import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';
+import { Token } from 'modules/common/types/token';
+import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 export const ACTIONS_PREFIX = 'fantom/';
 
@@ -19,4 +21,6 @@ export const FANTOM_PROVIDER_READ_ID = isMainnet
 
 export const FANTOM_STAKING_NETWORKS = [FTM_NETWORK_BY_ENV];
 
-export const FANTOM_UNSTAKE_PERIOD: Days = 35;
+export const FANTOM_UNSTAKE_PERIOD: Days = Number(
+  UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.FTM],
+);

@@ -4,6 +4,8 @@ import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from 'provider';
 
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
+
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
@@ -24,9 +26,10 @@ export const unstake = createAction<RequestAction, [BigNumber, TFtmSyntToken]>(
     meta: {
       showNotificationOnError: true,
       asMutation: true,
-      onSuccess: async (response, _action, { dispatch }) => {
+      onSuccess: async (response, _action, { dispatch, dispatchRequest }) => {
         dispatch(getCommonData());
         dispatch(resetRequests([getBurnFee.toString()]));
+        dispatchRequest(getUnstakeDate());
 
         return response;
       },

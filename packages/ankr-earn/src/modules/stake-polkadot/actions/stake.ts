@@ -4,9 +4,11 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { showNotification } from 'modules/notifications';
 
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
+import { getFormattedErrMsg, IError } from '../utils/getFormattedErrMsg';
 
 import { fetchStakeStats } from './fetchStakeStats';
 import { fetchTxHistory } from './fetchTxHistory';
@@ -30,7 +32,22 @@ export const stake = createSmartAction<
     },
     meta: {
       asMutation: true,
-      showNotificationOnError: true,
+      onError: (
+        error: IError,
+        _action: RequestAction,
+        store: TStore<IStoreState>,
+      ): Error => {
+        const err = new Error(getFormattedErrMsg(error));
+
+        store.dispatch(
+          showNotification({
+            message: err.toString(),
+            variant: 'error',
+          }),
+        );
+
+        throw err;
+      },
       onSuccess: (
         response: IRes,
         _action: RequestAction,

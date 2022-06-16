@@ -1,28 +1,37 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
 
 import { BridgeSDK } from '../api/BridgeSDK';
 
-export interface IWithdrawalRes {
-  transactionHash: string;
-}
+import { getTxReceipt, getTxReceiptRequestKey } from './getTxReceipt';
 
-export const withdrawal = createSmartAction<
-  RequestAction<IWithdrawalRes, IWithdrawalRes>
->('bridge/withdrawal', (proof: string, receipt: string, signature: string) => ({
-  request: {
-    promise: (async (): Promise<IWithdrawalRes> => {
-      const sdk = await BridgeSDK.getInstance();
+export const withdrawal = createAction<RequestAction<string, string>>(
+  'bridge/withdrawal',
+  (proof: string, receipt: string, signature: string) => ({
+    request: {
+      promise: (async (): Promise<string> => {
+        const sdk = await BridgeSDK.getInstance();
 
-      const withdrawResponse = await sdk.withdraw(proof, receipt, signature);
-      const { receiptPromise, transactionHash } = withdrawResponse;
-      await receiptPromise;
+        const transactionHash = await sdk.withdraw(proof, receipt, signature);
 
-      return { transactionHash };
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    getData: data => data,
-  },
-}));
+        return transactionHash;
+      })(),
+    },
+    meta: {
+      showNotificationOnError: true,
+      onSuccess: (
+        response: { data: string },
+        _action,
+        store: RequestsStore,
+      ) => {
+        store.dispatch(
+          getTxReceipt(response.data, {
+            requestKey: getTxReceiptRequestKey(withdrawal.toString()),
+          }),
+        );
+
+        return response;
+      },
+    },
+  }),
+);

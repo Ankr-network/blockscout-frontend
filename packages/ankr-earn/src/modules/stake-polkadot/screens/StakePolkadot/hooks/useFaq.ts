@@ -6,14 +6,13 @@ import { t, tHTML } from 'common';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-
-import { fetchStakeStats } from '../../../actions/fetchStakeStats';
+import { fetchStakeStats } from 'modules/stake-polkadot/actions/fetchStakeStats';
 import {
   EPolkadotNetworks,
   TPolkadotETHToken,
   TPolkadotToken,
-} from '../../../types';
-import { getRedeemPeriod } from '../../../utils/getRedeemPeriod';
+} from 'modules/stake-polkadot/types';
+import { getRedeemPeriod } from 'modules/stake-polkadot/utils/getRedeemPeriod';
 
 interface IUseFaqProps {
   ethToken: TPolkadotETHToken;

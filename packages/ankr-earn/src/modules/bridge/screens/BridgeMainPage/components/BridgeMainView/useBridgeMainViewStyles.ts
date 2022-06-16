@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useBridgeMainViewStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(6, 3, 3),
+    padding: theme.spacing(10, 3, 3),
     backgroundColor: theme.palette.background.paper,
     borderRadius: 18,
     position: 'relative',
@@ -75,17 +75,6 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     gap: theme.spacing(0, 1),
     margin: theme.spacing(-1, 0, 4),
     fontSize: 12,
-  },
-
-  swapFields: {
-    display: 'grid',
-    alignItems: 'center',
-    gap: theme.spacing(1, 2),
-    margin: theme.spacing(0, 0, 2),
-
-    [theme.breakpoints.up('md')]: {
-      gridTemplateColumns: '1fr',
-    },
   },
 
   submitBtn: {

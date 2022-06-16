@@ -8,14 +8,12 @@ import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
-import { isFirefox } from 'modules/common/utils/isFirefox';
 import { nativeTokenMap } from 'modules/dashboard/const';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { CopyTokenAddress } from '../CopyTokenAddress';
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
@@ -23,7 +21,6 @@ import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
   token?: Token;
-  tokenAddress?: string;
   network?: string;
   chainId?: EEthereumNetworkId;
   amount?: BigNumber;
@@ -34,11 +31,12 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   nativeAmount?: BigNumber;
   isLoading?: boolean;
+  isShowedTradeLink?: boolean;
   isStakeLoading?: boolean;
-  onAddTokenToWallet?: () => void;
   isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
   onHistoryBtnClick?: () => void;
+  onTokenInfoClick?: () => void;
   onTradeClick?: () => void;
   onAddStakingClick?: () => void;
 }
@@ -46,7 +44,6 @@ interface IStakingAssetProps {
 export const StakingAsset = ({
   network,
   token,
-  tokenAddress,
   amount,
   chainId,
   tradeLink,
@@ -56,13 +53,14 @@ export const StakingAsset = ({
   nativeAmount,
   unstakeTooltip,
   isLoading = false,
+  isShowedTradeLink = true,
   isStakeLoading = false,
   isUnstakeLoading = false,
   isHistoryLoading = false,
   onHistoryBtnClick,
+  onTokenInfoClick,
   onTradeClick,
   onAddStakingClick,
-  onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
@@ -121,30 +119,32 @@ export const StakingAsset = ({
             />
           </Grid>
 
-          <Grid item>
-            {tradeLink ? (
-              <NavLink
-                className={classes.tradeButton}
-                href={tradeLink}
-                variant="outlined"
-                onClick={onTradeClick}
-              >
-                {t('dashboard.trade')}
-              </NavLink>
-            ) : (
-              <Tooltip arrow title={comingSoonTooltip}>
-                <Box component="span" display="flex">
-                  <Button
-                    disabled
-                    className={classes.tradeButton}
-                    variant="outlined"
-                  >
-                    {t('dashboard.trade')}
-                  </Button>
-                </Box>
-              </Tooltip>
-            )}
-          </Grid>
+          {isShowedTradeLink && (
+            <Grid item>
+              {tradeLink ? (
+                <NavLink
+                  className={classes.tradeButton}
+                  href={tradeLink}
+                  variant="outlined"
+                  onClick={onTradeClick}
+                >
+                  {t('dashboard.trade')}
+                </NavLink>
+              ) : (
+                <Tooltip arrow title={comingSoonTooltip}>
+                  <Box component="span" display="flex">
+                    <Button
+                      disabled
+                      className={classes.tradeButton}
+                      variant="outlined"
+                    >
+                      {t('dashboard.trade')}
+                    </Button>
+                  </Box>
+                </Tooltip>
+              )}
+            </Grid>
+          )}
         </Grid>
       }
       menuSlot={
@@ -159,13 +159,9 @@ export const StakingAsset = ({
                 : t('dashboard.card.stakingHistoryComingSoon')}
             </Menu.Item>
 
-            <CopyTokenAddress address={tokenAddress ?? ''} />
-
-            {!isFirefox ? (
-              <Menu.Item onClick={onAddTokenToWallet}>
-                {t('dashboard.card.addToMetamask')}
-              </Menu.Item>
-            ) : null}
+            <Menu.Item disabled={!onTokenInfoClick} onClick={onTokenInfoClick}>
+              {t('dashboard.card.tokenInfo')}
+            </Menu.Item>
           </Menu>
         </Box>
       }
@@ -173,6 +169,7 @@ export const StakingAsset = ({
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }
+      tooltip={t('dashboard.amount-tooltip')}
     />
   );
 };

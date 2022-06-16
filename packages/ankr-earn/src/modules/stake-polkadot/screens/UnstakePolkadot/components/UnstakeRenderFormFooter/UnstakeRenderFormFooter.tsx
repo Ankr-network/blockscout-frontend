@@ -4,8 +4,7 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
-
-import { TPolkadotToken } from '../../../../types';
+import { TPolkadotToken } from 'modules/stake-polkadot/types';
 
 import { useUnstakeRenderFormFooterStyles } from './useUnstakeRenderFormFooterStyles';
 

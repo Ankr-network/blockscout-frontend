@@ -49,6 +49,7 @@ export const platformsByTokenMap: Record<string, string[]> = {
 export const chainIdByTokenMap = {
   [AvailableTokens.AVAX]: EEthereumNetworkId.avalanche,
   [AvailableTokens.aAVAXb]: EEthereumNetworkId.avalanche,
+  [AvailableTokens.aAVAXc]: EEthereumNetworkId.avalanche,
   [AvailableTokens.ETH]: EEthereumNetworkId.mainnet,
   [AvailableTokens.aETHb]: EEthereumNetworkId.mainnet,
   [AvailableTokens.aETHc]: EEthereumNetworkId.mainnet,

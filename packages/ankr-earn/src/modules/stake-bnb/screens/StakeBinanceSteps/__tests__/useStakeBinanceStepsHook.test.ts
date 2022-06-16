@@ -106,12 +106,17 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
 
     (useQuery as jest.Mock)
       .mockReturnValueOnce(defaultQueryTxData)
-      .mockReturnValueOnce(defaultQueryAction)
+      .mockReturnValueOnce({
+        loading: false,
+        data: {
+          certAmount: '2.4',
+        },
+      })
       .mockReturnValueOnce(defaultQueryFetchStats);
 
     const { result } = renderHook(() => useStakeBinanceStepsHook());
 
-    expect(result.current.amount).toStrictEqual(new BigNumber('1.6'));
+    expect(result.current.amount).toStrictEqual(new BigNumber('2.4'));
   });
 
   test('should return error if there is provider error', async () => {

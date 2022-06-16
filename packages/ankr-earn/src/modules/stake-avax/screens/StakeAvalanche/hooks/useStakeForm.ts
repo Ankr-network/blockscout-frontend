@@ -16,6 +16,9 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
+import { stake } from 'modules/stake-avax/actions/stake';
+import { TAvaxSyntToken } from 'modules/stake-avax/types';
+import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -23,15 +26,12 @@ import {
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { stake } from '../../../actions/stake';
 import {
   IUseFetchStatsData,
   useFetchStats,
 } from '../../../hooks/useFetchStats';
 
-interface IUseStakeFormArgs {
-  openSuccessModal: () => void;
-}
+import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   amount: BigNumber;
@@ -42,15 +42,17 @@ interface IUseStakeFormData {
   isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   isStakeGasLoading: boolean;
+  tokenOut: string;
+  aAVAXcRatio?: BigNumber;
+  onTokenSelect: (token: TAvaxSyntToken) => () => void;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
 }
 
-export const useStakeForm = ({
-  openSuccessModal,
-}: IUseStakeFormArgs): IUseStakeFormData => {
+export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
+  const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -71,13 +73,26 @@ export const useStakeForm = ({
   const stakableAVAXData = useStakableAvax();
   const [amount, setAmount] = useState(ZERO);
 
+  const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
+
   const totalAmount = useMemo(() => {
     if (!fetchStatsData || fetchStatsData.avaxBalance.isLessThan(amount)) {
       return ZERO;
     }
 
-    return new BigNumber(amount);
-  }, [fetchStatsData, amount]);
+    return calcTotalAmount({
+      selectedToken,
+      amount: new BigNumber(amount),
+      balance: stakableAVAXData.balance,
+      aAVAXcRatio,
+    });
+  }, [
+    fetchStatsData,
+    amount,
+    selectedToken,
+    stakableAVAXData.balance,
+    aAVAXcRatio,
+  ]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -87,7 +102,12 @@ export const useStakeForm = ({
       dispatch(resetRequests([getStakeGasFee.toString()]));
     } else if (formAmount) {
       const readyAmount = new BigNumber(formAmount);
-      dispatch(getStakeGasFee(readyAmount));
+      dispatch(
+        getStakeGasFee({
+          amount: readyAmount,
+          token: selectedToken,
+        }),
+      );
     }
 
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
@@ -107,23 +127,31 @@ export const useStakeForm = ({
       amount: currentAmount,
       willGetAmount: currentAmount,
       tokenIn: Token.AVAX,
-      tokenOut: Token.aAVAXb,
+      tokenOut: selectedToken,
       prevStakedAmount: stakableAVAXData.balance,
-      synthBalance: fetchStatsData?.aAVAXbBalance ?? ZERO,
+      synthBalance:
+        selectedToken === Token.aAVAXb
+          ? fetchStatsData?.aAVAXbBalance ?? ZERO
+          : fetchStatsData?.aAVAXcBalance ?? ZERO,
     });
   };
 
   const handleSubmit = (values: IStakeSubmitPayload): void => {
     const resultAmount = new BigNumber(values.amount);
 
-    dispatchRequest(stake(resultAmount)).then(({ error }) => {
-      if (!error) {
-        sendAnalytics();
-        openSuccessModal();
+    dispatchRequest(stake({ amount: resultAmount, token: selectedToken })).then(
+      ({ error }) => {
+        if (!error) {
+          sendAnalytics();
 
-        setAmount(ZERO);
-      }
-    });
+          setAmount(ZERO);
+        }
+      },
+    );
+  };
+
+  const onTokenSelect = (token: TAvaxSyntToken) => () => {
+    handleTokenSelect(token);
   };
 
   return {
@@ -137,5 +165,8 @@ export const useStakeForm = ({
     stakeGasFee: stakeGasFeeData ?? ZERO,
     isStakeGasLoading,
     handleSubmit,
+    tokenOut: selectedToken,
+    onTokenSelect,
+    aAVAXcRatio: aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO,
   };
 };
