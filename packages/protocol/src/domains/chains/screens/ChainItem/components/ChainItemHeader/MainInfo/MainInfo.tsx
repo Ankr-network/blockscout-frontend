@@ -5,6 +5,10 @@ import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/Cha
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ArchiveLabel } from 'modules/common/components/ChainMainInfo/ArchiveLabel';
 import { useStyles } from './MainInfoStyles';
+import {
+  getChainCoin,
+  TChainName,
+} from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 
 interface MainInfoProps {
   icon: string;
@@ -20,6 +24,8 @@ export const MainInfo = ({ name, icon, nodes }: MainInfoProps) => {
     [nodes],
   );
 
+  const coinName = getChainCoin(name as TChainName);
+
   return (
     <ChainMainInfo
       logoSrc={icon}
@@ -27,7 +33,7 @@ export const MainInfo = ({ name, icon, nodes }: MainInfoProps) => {
       description={
         <div className={classes.description}>
           <ChainRequestsLabel
-            description={name}
+            description={coinName}
             descriptionColor="textSecondary"
           />
           {hasArchiveNodes && <ArchiveLabel className={classes.archive} />}

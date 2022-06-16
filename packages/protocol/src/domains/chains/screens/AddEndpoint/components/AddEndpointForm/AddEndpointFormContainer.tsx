@@ -1,14 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatchRequest } from '@redux-requests/react';
 
-import { formatDataForRequest } from './AddEndpointFormUtils';
+import {
+  formatDataForRequest,
+  usePrivateUrls,
+  usePublicUrls,
+} from './AddEndpointFormUtils';
 import { AddEndpointForm } from './AddEndpointForm';
 import { apiAddPrivateEndpoint } from 'domains/nodeProviders/actions/addPrivateEndpoint';
 import { useEndpointBreadcrumbs } from '../../AddEndpointUtils';
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemTabs/ChainItemTabsUtils';
 
 export interface AddEndpointFormProps {
   chainId: string;
@@ -25,36 +28,10 @@ export const AddEndpointFormContainer = ({
   publicChain,
   userEndpoints,
 }: AddEndpointFormProps) => {
-  const history = useHistory();
   const dispatchRequest = useDispatchRequest();
 
-  const privateUrls = useMemo(
-    () =>
-      [
-        ...(privateChain?.urls || []),
-        ...(privateChain?.extensions || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
-        ...(privateChain?.extenders || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
-      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
-    [privateChain],
-  );
-
-  const publicUrls = useMemo(
-    () =>
-      [
-        ...(publicChain?.urls || []),
-        ...(publicChain?.extensions || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
-        ...(publicChain?.extenders || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
-      ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
-    [publicChain],
-  );
+  const privateUrls = usePrivateUrls(privateChain);
+  const publicUrls = usePublicUrls(publicChain);
 
   const endpoints = useMemo(
     () => userEndpoints?.map(item => item.requestUrl) || [],
@@ -63,9 +40,7 @@ export const AddEndpointFormContainer = ({
 
   useEndpointBreadcrumbs(privateChain?.name, privateChain?.id);
 
-  const redirect = useCallback(() => {
-    history.push(ChainsRoutesConfig.chainDetails.generatePath(chainId));
-  }, [history, chainId]);
+  const redirect = useRedirect(chainId);
 
   const onSubmit = useCallback(
     async (httpAddress: string) => {

@@ -184,7 +184,8 @@
     },
     "tabs": {
       "data": "Usage Data",
-      "infrastructure": "Infrastructure"
+      "infrastructure": "Infrastructure",
+      "integration": "Integration Assistant"
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
@@ -217,6 +218,19 @@
         "value": "{value, number, ::compact-short}"
       }
     },
+    "methods-rating": {
+      "title": "Top 10 requests by volume",
+      "periods": {
+        "day": "24h",
+        "week": "7d",
+        "month": "30d"
+      },
+      "table": {
+        "methods-title": "Method",
+        "requests-title": "Requests",
+        "calls": "{calls, number, ::compact-short}"
+      }
+    },
     "nodes-table": {
       "header": "Nodes",
       "more": "Show 10 more",
@@ -236,6 +250,28 @@
         "failed": "Failed",
         "success": "Success"
       }
+    },
+    "integration-assistant": {
+      "connection-snippet": {
+        "connection-types": {
+          "http": "HTTP",
+          "wss": "WSS"
+        },
+        "copy-code-button": {
+          "copy-message": "Copied!",
+          "label": "Copy code"
+        },
+        "expand-button": {
+          "label": "Show All"
+        },
+        "technologies": {
+          "curl": "Curl",
+          "go": "Go",
+          "python": "Python",
+          "web3-js": "Web3.js"
+        },
+        "title": "Connection code snippet"
+      } 
     }
   },
   "plan": {

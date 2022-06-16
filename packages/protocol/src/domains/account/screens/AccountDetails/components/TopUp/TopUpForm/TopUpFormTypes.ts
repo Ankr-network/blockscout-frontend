@@ -3,7 +3,7 @@ export enum TopUpFormFields {
 }
 
 export interface TopUpFormValues {
-  [TopUpFormFields.amount]: number;
+  [TopUpFormFields.amount]: string;
 }
 
 export interface TopUpFormProps {

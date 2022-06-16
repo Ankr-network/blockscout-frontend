@@ -8,7 +8,7 @@ import MetamaskIcon from './assets/metamask.svg';
 interface IStepperTitleProps {
   step: TopUpStep;
   className: string;
-  amount?: number;
+  amount?: string;
 }
 
 export const StepperTitle = ({
