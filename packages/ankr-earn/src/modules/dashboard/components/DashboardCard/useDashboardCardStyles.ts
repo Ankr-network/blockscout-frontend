@@ -12,25 +12,6 @@ export const useDashboardCardStyles = makeStyles(theme => ({
     },
   },
 
-  amount: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    lineHeight: 1,
-
-    [theme.breakpoints.up('sm')]: {
-      fontSize: 40,
-    },
-  },
-
-  amountInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: theme.spacing(1),
-    lineHeight: 1,
-  },
-
   menuCol: {
     [theme.breakpoints.up('sm')]: {
       order: 1,

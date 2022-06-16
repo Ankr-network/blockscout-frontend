@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -9,12 +9,13 @@ import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { nativeTokenMap } from 'modules/dashboard/const';
+import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoTooltip';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
-import { QuestionIcon } from 'uiKit/RangeField/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { Amount } from '../Amount';
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
@@ -42,25 +43,6 @@ interface IStakingAssetProps {
   onTokenInfoClick?: () => void;
   onTradeClick?: () => void;
 }
-
-const getAmountInfoTooltip = (
-  nativeAmount?: BigNumber,
-  usdAmount?: BigNumber,
-): string | null => {
-  if (typeof nativeAmount !== 'undefined' && typeof usdAmount !== 'undefined') {
-    return t('dashboard.amount-usd-tooltip');
-  }
-
-  if (typeof nativeAmount !== 'undefined' && typeof usdAmount === 'undefined') {
-    return t('dashboard.amount-tooltip');
-  }
-
-  if (typeof nativeAmount === 'undefined' && typeof usdAmount !== 'undefined') {
-    return t('dashboard.usd-tooltip');
-  }
-
-  return null;
-};
 
 export const StakingAsset = ({
   amount,
@@ -90,23 +72,6 @@ export const StakingAsset = ({
     return <DashboardCardSkeleton />;
   }
 
-  const isActiveAmountInfo =
-    typeof nativeAmount !== 'undefined' || typeof usdAmount !== 'undefined';
-
-  const nativeAmountText =
-    nativeAmount &&
-    token &&
-    t('unit.token-value', {
-      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-      token: nativeTokenMap[token],
-    });
-
-  const usdAmountText =
-    usdAmount &&
-    t('unit.usd-value', {
-      value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    });
-
   const amountInfoTooltip = getAmountInfoTooltip(nativeAmount, usdAmount);
 
   const stakeTooltip = isStakeLoading
@@ -128,31 +93,36 @@ export const StakingAsset = ({
     }
   };
 
+  const withNativeAmount = !!(nativeAmount && token);
+  const withUsdAmount = !!usdAmount;
+
+  const renderAmountInfoSlot = (withNativeAmount || withUsdAmount) && (
+    <>
+      {withNativeAmount &&
+        t('unit.token-value', {
+          value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+          token: nativeTokenMap[token],
+        })}
+
+      {withNativeAmount && withUsdAmount && (
+        <span className={classes.amountInfoSplitter} />
+      )}
+
+      {withUsdAmount &&
+        t('unit.usd-value', {
+          value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+        })}
+    </>
+  );
+
   return (
     <DashboardCard
-      amount={amount}
-      amountInfoSlot={
-        isActiveAmountInfo && (
-          <>
-            {nativeAmountText && <Box>{nativeAmountText}</Box>}
-
-            {nativeAmountText && usdAmountText && (
-              <Box className={classes.amountInfoSplitter} />
-            )}
-
-            {usdAmountText && <Box>{usdAmountText}</Box>}
-
-            {amountInfoTooltip && (
-              <Box className={classes.amountInfoIcon}>
-                <Tooltip arrow title={amountInfoTooltip}>
-                  <ButtonBase>
-                    <QuestionIcon htmlColor="inherit" size="xs" />
-                  </ButtonBase>
-                </Tooltip>
-              </Box>
-            )}
-          </>
-        )
+      amountSlot={
+        <Amount
+          infoSlot={renderAmountInfoSlot}
+          infoTooltip={amountInfoTooltip}
+          value={amount}
+        />
       }
       badgeSlot={pendingSlot}
       buttonsSlot={

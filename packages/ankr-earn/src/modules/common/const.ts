@@ -114,6 +114,11 @@ export const ETH_NETWORK_BY_ENV =
     ? EEthereumNetworkId.mainnet
     : EEthereumNetworkId.goerli;
 
+export const ANKR_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
+
 export const AVAX_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.avalanche

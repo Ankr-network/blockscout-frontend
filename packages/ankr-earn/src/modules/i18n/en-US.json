@@ -715,7 +715,10 @@
       "stakingHistoryComingSoon": "Staking history (coming soon)",
       "addToMetamask": "Add token to Metamask",
       "copyTokenAddress": "Copy token address",
-      "tokenInfo": "Token information"
+      "tokenInfo": "Token information",
+      "manage": "Manage",
+      "staked": "Staked",
+      "rewards": "Rewards"
     },
     "guard": {
       "connect-btn": "Connect wallet",

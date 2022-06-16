@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
@@ -22,8 +22,8 @@ export const useUnclaimedEth = (): IUseUnclaimedEth => {
     type: getCommonData,
   });
 
-  const isZero = !data || data.claimableAETHB.isZero();
-  const isShowed = !isZero || loading;
+  const amount = data?.claimableAETHB ?? ZERO;
+  const isShowed = !amount.isZero() || loading;
 
   return {
     chainId: ETH_NETWORK_BY_ENV,
