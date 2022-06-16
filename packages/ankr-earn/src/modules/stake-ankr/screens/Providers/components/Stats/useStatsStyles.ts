@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
+export const useStatsStyles = makeStyles<Theme>(theme => ({
   statisticWrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -37,31 +37,10 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  usd: {
-    color: theme.palette.text.disabled,
-    width: '100%',
-    textAlign: 'right',
-    fontSize: 12,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-
-    [theme.breakpoints.up('md')]: {
-      width: 'auto',
-      maxWidth: 120,
-      textAlign: 'center',
-      marginTop: theme.spacing(0.5),
-    },
-  },
-
-  questionBtn: {
-    marginTop: theme.spacing(-0.5),
-  },
-
-  questionIcon: {
-    color: theme.palette.text.secondary,
-  },
-
   statisticLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     color: `${theme.palette.text.secondary}`,
     fontSize: 14,
     fontWeight: 'bold',
@@ -71,39 +50,11 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  statisticValueWrapper: {
-    cursor: 'help',
-
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'flex-end',
-    },
+  questionBtn: {
+    marginTop: theme.spacing(-0.5),
   },
 
-  statisticValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    maxWidth: 120,
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
-    },
-  },
-
-  statisticToken: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: theme.spacing(1),
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
-    },
+  questionIcon: {
+    color: theme.palette.text.secondary,
   },
 }));

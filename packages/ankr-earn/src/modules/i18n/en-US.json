@@ -876,6 +876,15 @@
     "balance": {
       "label": "Your balance:",
       "btn": "Get"
+    },
+    "provider": {
+      "cur-highest-apy": "Current Highest APY",
+      "tvl": "TVL",
+      "locking-period": "Locking Period",
+      "24h-rewards": "24h Rewards",
+      "30d-rewards": "30d Rewards",
+      "percent-value": "{value, number, ::.0#}%",
+      "days-value": "{value, number}d"
     }
   }
 }
