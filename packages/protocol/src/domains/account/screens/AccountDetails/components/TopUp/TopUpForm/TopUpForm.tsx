@@ -29,7 +29,7 @@ export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
           ? {
               [TopUpFormFields.amount]: new BigNumber(
                 transaction?.amount ?? 0,
-              ).toNumber(),
+              ).toString(10),
             }
           : undefined
       }

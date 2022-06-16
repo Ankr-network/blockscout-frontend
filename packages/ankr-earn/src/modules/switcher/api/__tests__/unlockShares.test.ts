@@ -4,6 +4,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -25,6 +26,10 @@ jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
 
 jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
+}));
+
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
@@ -60,6 +65,8 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
   });
 
   afterEach(() => {
@@ -177,6 +184,38 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
             ...params,
             chainId: chainId as AvailableSwitchNetwork,
             token: Token.aFTMb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+
+    expect(defaultFantomSDK.unlockShares).toBeCalledTimes(2);
+    expect(defaultFantomSDK.unlockShares).toHaveBeenNthCalledWith(1, {
+      amount: params.amount.multipliedBy(params.ratio),
+    });
+    expect(defaultFantomSDK.unlockShares).toHaveBeenNthCalledWith(2, {
+      amount: params.amount.multipliedBy(params.ratio),
+    });
+  });
+
+  test('should unlock shares on avalanche network properly', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const params = {
+      amount: new BigNumber(1),
+      ratio: new BigNumber(1),
+    };
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalancheTestnet].map(
+        async chainId =>
+          sdk.unlockShares({
+            ...params,
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aAVAXb,
           }),
       ),
     );

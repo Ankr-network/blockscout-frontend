@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
 import { BinanceSDK } from '../api/BinanceSDK';
 import { TBnbSyntToken } from '../types';
@@ -43,6 +44,7 @@ export const unstake = createSmartAction<
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
         store.dispatchRequest(fetchTxHistory());
+        store.dispatchRequest(getUnstakeDate());
         store.dispatch(resetRequests([approveABNBCUnstake.toString()]));
 
         return response;

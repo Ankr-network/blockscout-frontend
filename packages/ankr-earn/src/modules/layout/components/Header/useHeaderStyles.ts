@@ -21,9 +21,10 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     },
   },
   toggle: {
-    zIndex: 1301,
+    zIndex: theme.zIndex.drawer + 1,
     marginRight: theme.spacing(-2.5),
   },
+
   logo: {
     marginLeft: theme.spacing(-2),
   },

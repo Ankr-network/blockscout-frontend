@@ -5,7 +5,14 @@ import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
 import { ContractManager } from './contract';
-import { ICrowdloanType, TClaimMethod, TCrowdloanStatus } from './entity';
+import {
+  EClaimStatuses,
+  ICrowdloanType,
+  TClaimMethod,
+  TCrowdloanStatus,
+  TEthereumAddress,
+  TPolkadotAddress,
+} from './entity';
 import { ApiGateway } from './gateway';
 import { PolkadotProvider } from './polkadot';
 
@@ -202,9 +209,9 @@ export class SlotAuctionSdk {
   }
 
   public async claimRewardPoolTokensOnchain(
-    polkadotAccount: string,
+    polkadotAccount: TPolkadotAddress,
     loanId: number,
-    ethereumAddress?: string,
+    ethereumAddress?: TEthereumAddress,
   ): Promise<{
     transactionHash: string;
     transactionReceipt: any;
@@ -220,12 +227,12 @@ export class SlotAuctionSdk {
     const currentNetwork = await this.polkadotProvider.getNetworkType();
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
 
-    let claims = await this.apiGateway.getClaims({
+    let claims = await this.apiGateway.getRewardClaims({
       network: currentNetwork,
       address: polkadotAccount,
       loanId,
     });
-    if (claims.some(c => c.claim.status === 'ACTIVE')) {
+    if (claims.some(c => c.claim.status === EClaimStatuses.Active)) {
       throw new Error(
         `Address ${polkadotAccount} already has active claim for crowdloan ${loanId}`,
       );
@@ -233,7 +240,7 @@ export class SlotAuctionSdk {
     const polkadotDecimals = this.polkadotProvider.getNetworkMaxDecimals();
     const scaledAmount = claimable.multipliedBy(10 ** polkadotDecimals);
 
-    const data = SlotAuctionSdk.createRemarkPayload(
+    const data = PolkadotProvider.getClaimTransactionPayload(
       ethereumAddress,
       loanId,
       scaledAmount,
@@ -255,12 +262,12 @@ export class SlotAuctionSdk {
     };
     await sleep(3000); // This is small hack to allow backend to process transaction in case of race conditions
 
-    claims = await this.apiGateway.getClaims({
+    claims = await this.apiGateway.getRewardClaims({
       network: currentNetwork,
       address: polkadotAccount,
       loanId,
     });
-    const active = claims.filter(c => c.claim.status === 'ACTIVE');
+    const active = claims.filter(c => c.claim.status === EClaimStatuses.Active);
     if (active.length !== 1) {
       throw new Error(
         `Internal error: no active claims for ${polkadotAccount} for crowdloan ${loanId} after onchain request`,
@@ -284,9 +291,9 @@ export class SlotAuctionSdk {
   }
 
   public async claimRewardPoolTokens(
-    polkadotAccount: string,
+    polkadotAccount: TPolkadotAddress,
     loanId: number,
-    ethereumAddress?: string,
+    ethereumAddress?: TEthereumAddress,
   ): Promise<{
     transactionHash: string;
     transactionReceipt: any;
@@ -303,7 +310,7 @@ export class SlotAuctionSdk {
     if (claimable.isZero()) throw new Error(`Claimable balance is zero`);
     // create signature
     const expirationTimestamp = new Date().getTime() + 10_000 * 60; // 10 minutes (seconds);
-    const sigOrToken64 = await this.createRawTokenSignature(
+    const sigOrToken64 = await this.polkadotProvider.getRawTokenSignature(
       polkadotAccount,
       ethereumAddress,
       expirationTimestamp,
@@ -339,71 +346,14 @@ export class SlotAuctionSdk {
     return { transactionReceipt, transactionHash };
   }
 
-  protected static ethereumAddressToBytes(address: string): Buffer {
-    if (address.startsWith('0x')) {
-      address = address.slice(2);
-    }
-    return Buffer.from(address, 'hex');
-  }
-
-  protected static createRemarkPayload(
-    ethereumAddress: string,
-    loanId: number,
-    amount: BigNumber,
-  ): Uint8Array {
-    const header = Buffer.from(
-      'Stakefi Signed Message:\nCreateClaim\n',
-      'ascii',
-    );
-    const address = SlotAuctionSdk.ethereumAddressToBytes(ethereumAddress);
-    const lineBreak = Buffer.from('\n', 'ascii');
-    let amountHex = amount.toString(16);
-    amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
-    let loanIdHex = loanId.toString(16);
-    loanIdHex = '0'.repeat(8 - loanIdHex.length) + loanIdHex;
-    return Uint8Array.from(
-      Buffer.concat([
-        header,
-        address,
-        lineBreak,
-        Buffer.from(loanIdHex, 'hex'),
-        lineBreak,
-        Buffer.from(amountHex, 'hex'),
-      ]),
-    );
-  }
-
-  public async createRawTokenSignature(
-    polkadotAccount: string,
-    ethereumAddress: string,
-    expirationTimestamp: number,
-  ): Promise<string> {
-    if (!this.polkadotProvider.isAPIConnected())
-      throw new Error(`Polkadot must be connected`);
-    const signMessage = Buffer.from(
-      `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
-        polkadotAccount,
-      )}\n${ethereumAddress}\n${expirationTimestamp}`,
-      'ascii',
-    );
-    console.log(
-      `Signing raw message (ASCII): ${signMessage.toString('ascii')}`,
-    );
-    console.log(`Signing raw message (HEX): ${signMessage.toString('hex')}`);
-    return this.polkadotProvider.signRawMessage(
-      polkadotAccount,
-      `0x${signMessage.toString('hex')}`,
-    );
-  }
-
   public async createVerifiableTokenSignature(
-    polkadotAccount: string,
-    ethereumAddress: string,
+    polkadotAccount: TPolkadotAddress,
+    ethereumAddress: TEthereumAddress,
     expirationTimestamp: number,
   ): Promise<string> {
     if (!this.polkadotProvider.isAPIConnected())
       throw new Error(`Polkadot must be connected`);
-    const signature = await this.createRawTokenSignature(
+    const signature = await this.polkadotProvider.getRawTokenSignature(
       polkadotAccount,
       ethereumAddress,
       expirationTimestamp,

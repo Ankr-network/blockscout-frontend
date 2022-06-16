@@ -21,7 +21,11 @@ const balancesMap: BalanceMap = {
 export const useBalanceData = (): BalanceData => {
   const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
 
-  const { isLoading, usdBalance, ...balance } = useBalance(isConnected);
+  const {
+    isLoadingInitially: isBalanceLoading,
+    usdBalance,
+    ...balance
+  } = useBalance(isConnected);
 
   const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
     useBalanceEndTime(isConnected);
@@ -40,7 +44,7 @@ export const useBalanceData = (): BalanceData => {
     balance: balance[balancesMap[currency]],
     currency,
     balanceEndTime,
-    isLoading: isConnecting || isLoading || isBalanceEndTimeLoading,
+    isLoading: isConnecting || isBalanceLoading || isBalanceEndTimeLoading,
     premiumUntil,
     status: getBalanceStatus(accountType),
     switchCurrency,

@@ -74,8 +74,8 @@ export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
       return undefined;
     }
 
-    const shouldCalcForAbnbc = tokenOut === Token.aMATICc && ratio;
-    if (shouldCalcForAbnbc) {
+    const isActiveForAC = tokenOut === Token.aMATICc && ratio;
+    if (isActiveForAC) {
       return amount.multipliedBy(ratio);
     }
 

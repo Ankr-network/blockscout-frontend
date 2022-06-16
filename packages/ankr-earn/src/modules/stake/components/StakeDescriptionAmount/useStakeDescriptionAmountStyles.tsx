@@ -4,6 +4,8 @@ export const useStakeDescriptionValueStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     fontSize: 16,
+  },
+  rootCursor: {
     cursor: 'help',
   },
 

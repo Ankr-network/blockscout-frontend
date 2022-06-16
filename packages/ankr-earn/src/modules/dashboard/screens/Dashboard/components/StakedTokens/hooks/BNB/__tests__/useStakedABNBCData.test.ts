@@ -25,7 +25,7 @@ jest.mock('modules/stake-bnb/Routes', () => ({
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedABNBCData', () => {
   const defaultStatsData = {
-    data: { aBNBcBalance: new BigNumber(1) },
+    data: { aBNBcBalance: new BigNumber(1), aBNBcRatio: new BigNumber(0.5) },
     loading: false,
   };
 
@@ -48,12 +48,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   test('should return proper data', () => {
     const { result } = renderHook(() => useStakedABNBCData());
 
+    const expectedNativeAmount = new BigNumber(2);
+
     expect(result.current.amount).toStrictEqual(
       defaultStatsData.data.aBNBcBalance,
     );
     expect(result.current.isLoading).toBe(defaultStatsData.loading);
     expect(result.current.isStakeLoading).toBe(defaultMutationData.loading);
     expect(result.current.token).toBe(Token.aBNBc);
+    expect(result.current.nativeAmount).toStrictEqual(expectedNativeAmount);
   });
 
   test('should return links and types', () => {

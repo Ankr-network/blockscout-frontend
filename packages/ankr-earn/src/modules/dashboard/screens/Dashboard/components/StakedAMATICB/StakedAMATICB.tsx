@@ -4,16 +4,15 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import {
-  Pending,
-  PendingTemporary,
-} from 'modules/dashboard/components/Pending';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
+import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
@@ -22,7 +21,19 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
 
-  const { isOpened, onClose, onOpen } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const dispatch = useAppDispatch();
 
   const {
@@ -70,23 +81,24 @@ export const StakedAMATICB = (): JSX.Element | null => {
   }, [dispatch]);
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
-  const renderedPendingSlot =
-    !pendingValue.isZero() &&
-    (featuresConfig.isSplitedMATICHistory ? (
-      <Pending
-        isLoading={isHistoryDataLoading}
-        token={Token.aMATICb}
-        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICB} />}
-        value={pendingValue}
-        onLoadHistory={handleLoadTxHistory}
-      />
-    ) : (
-      <PendingTemporary />
-    ));
+  const renderedPendingSlot = !pendingValue.isZero() && (
+    <Pending
+      isLoading={isHistoryDataLoading}
+      token={Token.aMATICb}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryAMATICB}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
+      value={pendingValue}
+      onLoadHistory={handleLoadTxHistory}
+    />
+  );
 
   return (
     <>
@@ -101,22 +113,29 @@ export const StakedAMATICB = (): JSX.Element | null => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aMATICb}
-        tokenAddress={contractConfig.aMaticbToken}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={handleAddTokenToWallet}
-        onHistoryBtnClick={
-          featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />
 
       <HistoryDialog
         history={transactionHistoryAMATICB}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
+        description="dashboard.token-info.aMATICb"
+        moreHref={getStakingOverviewUrl(Token.MATIC)}
+        open={isOpenedInfo}
+        tokenAddress={contractConfig.aMaticbToken}
+        tokenName={Token.aMATICb}
+        onClose={onCloseInfo}
       />
     </>
   );

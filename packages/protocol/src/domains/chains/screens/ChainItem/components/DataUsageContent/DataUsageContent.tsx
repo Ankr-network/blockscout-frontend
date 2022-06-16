@@ -2,10 +2,13 @@ import React from 'react';
 
 import { ChainItemDetails } from '../ChainItemDetails';
 import { ChainRequestsOverview } from '../ChainRequestsOverview';
+import { MethodsRating } from '../MethodsRating';
 import { RequestsMap } from '../RequestsMap';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { useTimeframeData } from './DataUsageContentUtils';
 import { useStyles } from './DataUsageContentStyles';
+
+const IS_MEHTODS_RATING_VISIBLE = false;
 
 interface IDataUsageContentProps {
   chainId: string;
@@ -53,6 +56,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
           )}
+          {IS_MEHTODS_RATING_VISIBLE && <MethodsRating />}
         </>
       )}
     </div>

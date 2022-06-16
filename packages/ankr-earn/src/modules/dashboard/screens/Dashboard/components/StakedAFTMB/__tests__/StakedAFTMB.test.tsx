@@ -15,6 +15,10 @@ import {
   useStakedFTMTxHistory,
 } from '../../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ FTM: { label: '' } }),
+}));
+
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));

@@ -1,5 +1,6 @@
 import { Drawer } from '@material-ui/core';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 import { GlobalMenu } from '@ankr.com/global-menu';
 import { useIsLGUp, useIsSMDown } from 'ui';
@@ -31,12 +32,17 @@ export const Header = ({
   const isLGUp = useIsLGUp();
   const isMobile = useIsSMDown();
   const { locale } = useLocale();
+  const history = useHistory();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [history.location.pathname]);
 
   return (
     <header>

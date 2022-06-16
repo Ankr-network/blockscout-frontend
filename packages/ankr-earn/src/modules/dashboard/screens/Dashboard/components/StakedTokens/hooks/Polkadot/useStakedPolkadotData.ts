@@ -40,6 +40,7 @@ interface IStakedPolkadotData {
   handleAddTokenToWallet: () => void;
   isBalancesLoading: boolean;
   isShowed: boolean;
+  isShowedTradeLink: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   network: string;
@@ -85,6 +86,7 @@ export const useStakedPolkadotData = ({
     handleAddTokenToWallet,
     isBalancesLoading,
     isShowed,
+    isShowedTradeLink: false,
     isStakeLoading: false,
     isUnstakeLoading,
     network: chainTitle,

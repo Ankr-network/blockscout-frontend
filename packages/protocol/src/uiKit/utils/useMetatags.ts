@@ -65,7 +65,9 @@ export const useMetatags = (pathname: string) => {
 
     let name = '';
     if (location.indexOf('chain-item') > -1) {
-      name = getChainName(pathname.substring(11, pathname.length - 1));
+      name = getChainName(
+        pathname.substring(PATH_CHAINS.length, pathname.length - 1),
+      );
     }
 
     document.title = t(`meta.${location}title`, { chainId: name });

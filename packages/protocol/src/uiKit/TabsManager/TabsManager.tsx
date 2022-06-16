@@ -1,23 +1,25 @@
 import React, { useCallback, useState } from 'react';
-
-import { TabID, TabsManagerProps } from './TabsManagerTypes';
-import { useStyles } from './TabsManagerStyles';
 import classNames from 'classnames';
 
-export const TabsManager = ({
+import { DefaultTabID, TabID, TabsManagerProps } from './TabsManagerTypes';
+import { useStyles } from './TabsManagerStyles';
+
+// A named function is used here to allow using generic types
+// and avoid jsx-parcer collisions
+export function TabsManager<TI = DefaultTabID>({
   additionalContent,
   initialTabID,
   onTabSelect,
   tabs,
   title,
   className = '',
-}: TabsManagerProps) => {
-  const [selectedTabID, setSelectedTabID] = useState<TabID>(
+}: TabsManagerProps<TI>) {
+  const [selectedTabID, setSelectedTabID] = useState<TabID<TI>>(
     typeof initialTabID === 'undefined' ? tabs[0]?.id : initialTabID,
   );
 
   const getTabTitleClickHandler = useCallback(
-    (id: TabID) => () => {
+    (id: TabID<TI>) => () => {
       const isDisabled = tabs.find(tab => tab.id === id)?.isDisabled;
 
       if (!isDisabled) {
@@ -49,7 +51,7 @@ export const TabsManager = ({
                 tabIndex={index}
               >
                 {typeof tab.title === 'function'
-                  ? tab.title(id === selectedTabID, isDisabled)
+                  ? tab.title(id === selectedTabID, isDisabled, id)
                   : tab.title}
               </div>
             ))}
@@ -61,4 +63,4 @@ export const TabsManager = ({
       {content}
     </>
   );
-};
+}

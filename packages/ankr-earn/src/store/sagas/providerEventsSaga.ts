@@ -150,14 +150,21 @@ function* listenProviderWeb3Events({
 
       switch (event.type) {
         case ProviderEvents.AccountsChanged: {
-          const selectedAccount = event.data[0];
+          const selectedAccount = event.data[0] as string | undefined;
 
-          yield put(
-            updateAccountAddress({
-              address: selectedAccount,
-              providerId,
-            }),
-          );
+          // when a user locks a wallet in the metamask interface,
+          // an account change event with empty data is triggered instead of disconnecting
+          if (!selectedAccount) {
+            yield put(disconnect(providerId));
+          } else {
+            yield put(
+              updateAccountAddress({
+                address: selectedAccount,
+                providerId,
+              }),
+            );
+          }
+
           break;
         }
 

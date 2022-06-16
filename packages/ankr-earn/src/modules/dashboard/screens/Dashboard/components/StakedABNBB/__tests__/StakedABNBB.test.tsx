@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { featuresConfig, ONE_ETH } from 'modules/common/const';
+import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { StakedABNBB } from '..';
@@ -15,6 +15,10 @@ import {
   ITxHistoryData,
   useStakedBNBTxHistory,
 } from '../../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
+}));
 
 jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBBData', () => ({
   useStakedABNBBData: jest.fn(),
@@ -86,10 +90,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
   });
 
   test('should open history dialog properly', async () => {
-    if (!featuresConfig.bnbHistory) {
-      return;
-    }
-
     render(
       <MemoryRouter>
         <StakedABNBB />

@@ -12,6 +12,10 @@ import {
 } from '../../StakedTokens/hooks/ETH/useStakedAETHCData';
 import { useStakedTxHistoryETH } from '../../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
 
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ ETH: { label: '' } }),
+}));
+
 jest.mock('modules/common/const', () => ({
   ...jest.requireActual('modules/common/const'),
   featuresConfig: {
@@ -37,6 +41,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     isShowed: true,
     isBalancesLoading: false,
     isStakeLoading: false,
+    ratio: ZERO,
     handleAddTokenToWallet: jest.fn(),
   };
 

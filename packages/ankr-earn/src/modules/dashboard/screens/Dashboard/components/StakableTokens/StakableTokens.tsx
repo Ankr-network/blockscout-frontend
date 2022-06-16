@@ -4,28 +4,49 @@ import { uid } from 'react-uid';
 
 import { t } from 'common';
 
+import { IETHNetwork } from 'modules/auth/eth/hooks/useETHNetworks';
+import { IPolkadotNetwork } from 'modules/auth/polkadot/hooks/usePolkadotNetworks';
+import { featuresConfig, isMainnet } from 'modules/common/const';
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
 import { StakableList } from 'modules/dashboard/components/StakableList';
 
 import { useStakableAvax } from './hooks/useStakableAvax';
 import { useStakableBnb } from './hooks/useStakableBnb';
+import { useStakableDOT } from './hooks/useStakableDOT';
 import { useStakableEth } from './hooks/useStakableEth';
 import { useStakableFtm } from './hooks/useStakableFtm';
+import { useStakableKSM } from './hooks/useStakableKSM';
 import { useStakableMatic } from './hooks/useStakableMatic';
+import { useStakableWND } from './hooks/useStakableWND';
+import { IUseStakableToken } from './types';
 import { useStakableTokensStyles } from './useStakableTokensStyles';
 
+type TStakableTokens = (
+  | (() => IUseStakableToken<IETHNetwork>)
+  | (() => IUseStakableToken<IPolkadotNetwork>)
+)[];
+
 const SKELETON_COUNT = 2;
+
+const STAKABLE_TOKENS_LIST = [
+  // ETH
+  useStakableEth,
+  useStakableMatic,
+  useStakableBnb,
+  useStakableFtm,
+  useStakableAvax,
+  // Polkadot
+  featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
+  featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableKSM : null,
+  featuresConfig.isActivePolkadotStaking && !isMainnet ? useStakableWND : null,
+].filter(stakableToken => stakableToken !== null) as TStakableTokens;
 
 export const StakableTokens = (props: BoxProps): JSX.Element | null => {
   const classes = useStakableTokensStyles();
 
-  const stakableTokens = [
-    useStakableEth(),
-    useStakableMatic(),
-    useStakableBnb(),
-    useStakableFtm(),
-    useStakableAvax(),
-  ];
+  const stakableTokens = STAKABLE_TOKENS_LIST.map(stakableToken =>
+    stakableToken(),
+  );
 
   const { isLoading, isTokensShowed } = stakableTokens.reduce(
     (prev, current) => {

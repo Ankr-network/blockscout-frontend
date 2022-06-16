@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
@@ -7,6 +7,7 @@ import { AvailableWriteProviders } from 'provider';
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
+import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
 import { IWalletItem } from '../../hooks/useAuthWallets';
@@ -31,21 +32,13 @@ export const ConnectedWalletsDialog = ({
 }: IConnectedWalletsDialogProps): JSX.Element => {
   const classes = useStyles();
 
-  const connectedWallets = networks.map(network => (
-    <ConnectedWalletsNetwork
-      key={network.network}
-      addresses={network.addresses}
-      className={classes.network}
-      network={network.network}
-      onAddressUpdate={network.onAddressUpdate}
-      onDisconnect={network.onDisconnect}
-    />
-  ));
-
   const disconnectsCount = networks.filter(
     network => network.onDisconnect,
   ).length;
 
+  const isAddWalletBtnShowed = !!walletsGroupTypes?.length;
+
+  // todo: use disconnectAll hook
   const disconnectAll = () => {
     networks.forEach(network => network.onDisconnect && network.onDisconnect());
   };
@@ -53,6 +46,21 @@ export const ConnectedWalletsDialog = ({
   useEffect(() => {
     if (!networks || networks.length === 0) onClose();
   }, [networks, onClose]);
+
+  const renderedConnectedWallets = useMemo(
+    () =>
+      networks.map(network => (
+        <ConnectedWalletsNetwork
+          key={network.network}
+          addresses={network.addresses}
+          className={classes.network}
+          network={network.network}
+          onAddressUpdate={network.onAddressUpdate}
+          onDisconnect={network.onDisconnect}
+        />
+      )),
+    [classes.network, networks],
+  );
 
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
@@ -62,17 +70,17 @@ export const ConnectedWalletsDialog = ({
             {t('wallets.connected-wallets')}
           </Typography>
 
-          {walletsGroupTypes?.length ? (
+          {isAddWalletBtnShowed && (
             <PlusMinusBtn
-              className={classes.addWalletButton}
+              className={classes.plusWalletButton}
               icon="plus"
               tooltip={t('wallets.add-btn-tooltip')}
               onClick={onAddWallet}
             />
-          ) : null}
+          )}
         </div>
 
-        {connectedWallets}
+        {renderedConnectedWallets}
 
         {disconnectsCount > 1 && (
           <Button
@@ -85,6 +93,18 @@ export const ConnectedWalletsDialog = ({
             <span className={classes.buttonText}>
               {t('wallets.disconnect-all')}
             </span>
+          </Button>
+        )}
+
+        {isAddWalletBtnShowed && (
+          <Button
+            fullWidth
+            className={classes.addWalletButton}
+            startIcon={<PlusIcon className={classes.addWalletIcon} />}
+            variant="outlined"
+            onClick={onAddWallet}
+          >
+            {t('wallets.add-btn-tooltip')}
           </Button>
         )}
       </div>

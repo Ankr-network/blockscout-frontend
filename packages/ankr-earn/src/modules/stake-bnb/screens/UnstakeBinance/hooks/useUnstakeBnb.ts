@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -8,6 +9,7 @@ import { useCallback } from 'react';
 
 import { t } from 'common';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
@@ -20,6 +22,7 @@ import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useUnstakeBNBAnalytics } from './useUnstakeBnbAnalytics';
 
@@ -45,6 +48,7 @@ interface IUseUnstakeBnb {
 
 export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
   const dispatchRequest = useDispatchRequest();
+  const dispatch = useAppDispatch();
   const { sendAnalytics } = useUnstakeBNBAnalytics();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
@@ -73,6 +77,10 @@ export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
   const minAbnbbAmount = fetchStatsData?.minAbnbbUnstake ?? ZERO;
   const minAbnbcAmount = fetchStatsData?.minAbnbcUnstake ?? ZERO;
   const minAmount = isBondToken ? minAbnbbAmount : minAbnbcAmount;
+
+  useProviderEffect(() => {
+    dispatch(resetRequests([approveABNBCUnstake.toString()]));
+  }, []);
 
   const onExtraValidation = (
     { amount }: Partial<IUnstakeFormValues>,

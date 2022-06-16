@@ -1,6 +1,8 @@
 import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
 
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
   ? 15_336_167
@@ -20,7 +22,10 @@ export const BNB_STAKING_NETWORKS = [BSC_NETWORK_BY_ENV];
 export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
 
 // Note: Mainnet = ~7-15 days. Testnet = ~4 hours
-export const BNB_REDEEM_PERIOD = isMainnet ? '7-15' : '4';
+export const BNB_REDEEM_PERIOD = UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.BNB];
 
 export const BNB_STAKING_MAX_DECIMALS_LEN = 8;
 export const BNB_SAFE_PRECISION = BNB_STAKING_MAX_DECIMALS_LEN + 1;
+
+export const CERT_STAKING_LOG_HASH =
+  '0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d';

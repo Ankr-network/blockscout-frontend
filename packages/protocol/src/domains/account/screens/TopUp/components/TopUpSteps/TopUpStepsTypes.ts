@@ -4,7 +4,7 @@ export interface ITopUpStepsProps {
   step: TopUpStep;
   onConfirm: () => void;
   loading: boolean;
-  amount: number;
+  amount: string;
   hasCredentials: boolean;
   onReject: () => void;
   isRejectAllowanceLoading: boolean;

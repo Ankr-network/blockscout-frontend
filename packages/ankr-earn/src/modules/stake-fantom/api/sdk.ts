@@ -16,7 +16,6 @@ import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,
-  featuresConfig,
   isMainnet,
   MAX_UINT256,
   ZERO,
@@ -412,10 +411,6 @@ export class FantomSDK implements ISwitcher {
   }
 
   private getStakeMethodName(token: TFtmSyntToken) {
-    if (!featuresConfig.stakeAFTMC) {
-      return 'stake';
-    }
-
     switch (token) {
       case Token.aFTMc:
         return 'stakeAndClaimCerts';
@@ -538,10 +533,6 @@ export class FantomSDK implements ISwitcher {
   }
 
   private getUnstakeMethodName(token: TFtmSyntToken) {
-    if (!featuresConfig.stakeAFTMC) {
-      return 'burn';
-    }
-
     switch (token) {
       case Token.aFTMc:
         return 'burnCerts';

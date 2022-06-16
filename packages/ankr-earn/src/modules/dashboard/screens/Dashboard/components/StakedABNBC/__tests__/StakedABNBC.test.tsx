@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from 'provider';
 
-import { featuresConfig } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -20,6 +20,10 @@ import {
   IUseStakedABNBCAnalytics,
   useStakedABNBCAnalytics,
 } from '../useStakedABNBCAnalytics';
+
+jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
+  useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
+}));
 
 jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBCData', () => ({
   useStakedABNBCData: jest.fn(),
@@ -46,9 +50,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     token: Token.aBNBc,
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
-    isPendingUnstakeLoading: false,
+    ratio: ZERO,
     pendingValue: new BigNumber(0.1),
     onAddTokenToWallet: jest.fn(),
+    isPendingUnstakeLoading: false,
   };
 
   const defaultStakedABNBCAnalyticsData: IUseStakedABNBCAnalytics = {
@@ -104,10 +109,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
   });
 
   test('should open history dialog properly', async () => {
-    if (!featuresConfig.bnbHistory) {
-      return;
-    }
-
     render(
       <MemoryRouter>
         <StakedABNBC />

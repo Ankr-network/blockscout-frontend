@@ -31,9 +31,7 @@ export const notarize = createSmartAction<
       })(),
     },
     meta: {
-      asMutation: false,
       showNotificationOnError: true,
-      getData: data => data,
     },
   }),
 );

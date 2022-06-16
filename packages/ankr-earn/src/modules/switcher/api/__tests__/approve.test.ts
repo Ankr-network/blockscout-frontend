@@ -2,6 +2,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -25,6 +26,10 @@ jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#approve', () => {
   const defaultEthSDK = {
     approveACForAB: () => Promise.resolve({ value: 'ethereum' }),
@@ -42,6 +47,10 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     approveACForAB: () => Promise.resolve({ value: 'fantom' }),
   };
 
+  const defaultAvaxSDK = {
+    approveACForAB: () => Promise.resolve({ value: 'avalanche' }),
+  };
+
   beforeEach(() => {
     (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultEthSDK);
 
@@ -50,6 +59,8 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultAvaxSDK);
   });
 
   afterEach(() => {
@@ -123,6 +134,24 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
 
     results.forEach(result => {
       expect(result).toStrictEqual({ value: 'fantom' });
+    });
+  });
+
+  test('should approve certificate for bond on avalanche network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalancheTestnet].map(
+        chainId =>
+          sdk.approve({
+            chainId: chainId as AvailableSwitchNetwork,
+            token: Token.aAVAXb,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toStrictEqual({ value: 'avalanche' });
     });
   });
 

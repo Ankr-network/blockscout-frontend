@@ -1,5 +1,8 @@
 import BigNumber from 'bignumber.js';
 
+import { Address } from 'provider';
+
+export type TEthereumAddress = Address;
 export type TPolkadotAddress = string;
 
 export type TNetworkType = 'DOT' | 'KSM' | 'WND' | 'ROC';
@@ -11,8 +14,6 @@ export type TActionType =
   | 'BURN'
   | 'CLAIM_FUTURES'
   | 'EXIT';
-
-export type TClaimStatus = 'ACTIVE' | 'CLAIMED' | 'EXPIRED';
 
 export type TClaimMethod = 'ERC20' | 'PARACHAIN';
 
@@ -33,6 +34,12 @@ export enum EActionStatuses {
   Pending = 'PENDING',
   Reverted = 'REVERTED',
   Unknown = 'UNKNOWN',
+}
+
+export enum EClaimStatuses {
+  Active = 'ACTIVE',
+  Claimed = 'CLAIMED',
+  Expired = 'EXPIRED',
 }
 
 export enum EEnvTypes {
@@ -74,20 +81,38 @@ export interface ICrowdloanType {
   totalRaiseTarget: BigNumber;
 }
 
-export interface IClaim {
+export interface IClaimItem {
+  address: TPolkadotAddress;
+  createdTimestamp: number;
+  data: {
+    amount: string;
+    claimBeforeBlock: number;
+    claimId: string;
+    ethAddress: TEthereumAddress;
+    nativeAmount: string;
+    network: number;
+    signature: string;
+  };
+  expiresTimestamp: number;
+  loanId: number;
+  status: EClaimStatuses;
+  tokenAddress: TEthereumAddress;
+}
+
+export interface IRewardClaim {
   claim: {
-    address: string;
-    status: TClaimStatus;
+    address: TPolkadotAddress;
+    createdTimestamp: number;
     data: {
-      network: number;
+      amount: BigNumber;
+      claimBeforeBlock: number;
       claimId: string;
       issueBlock: number;
-      claimBeforeBlock: number;
-      amount: BigNumber;
+      network: number;
       signature: string;
     };
-    createdTimestamp: number;
     expiresTimestamp: number;
+    status: EClaimStatuses;
   };
-  tokenAddress: string;
+  tokenAddress: TEthereumAddress;
 }
