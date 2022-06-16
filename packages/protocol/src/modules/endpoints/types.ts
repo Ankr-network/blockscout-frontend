@@ -1,13 +1,30 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 
 export interface ChainGroup {
-  id: string;
+  id: ChainGroupID;
   name: string;
   pluralName: string;
   chains: IApiChain['id'][];
 }
 
+export enum ChainGroupID {
+  C_CHAIN = 'c-chain',
+  ETH_MAINNET = 'eth-mainnet',
+  GOERLI = 'goerli',
+  KOVAN = 'kovan',
+  NERVOS_EVM = 'nervos-evm',
+  NERVOS_GW = 'nervos-gw',
+  P_CHAIN = 'p-chain',
+  RINKEBY = 'rinkeby',
+  ROPSTEN = 'ropsten',
+  SOLANA = 'solana',
+  SOLANA_DEVNET = 'solana_devnet',
+  STANDARD_EVM = 'standard-evm',
+  X_CHAIN = 'x-chain',
+}
+
 export interface EndpointGroup {
+  id: ChainGroupID;
   name: ChainGroup['name'];
   pluralName: ChainGroup['pluralName'];
   urls: IApiChainURL[];

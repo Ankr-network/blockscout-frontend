@@ -11,7 +11,7 @@ import {
 } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
 
-interface IPremiumFeatures {
+export interface IPremiumFeatures {
   publicChains: IApiChain[];
   privateChains: IApiChain[];
   privateChainDetails: IApiChain;

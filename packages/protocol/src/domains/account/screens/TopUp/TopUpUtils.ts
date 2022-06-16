@@ -33,7 +33,6 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     loading,
     isRejectAllowanceLoading,
   } = useTopUp();
-
   const history = useHistory();
 
   const onConfirm = useMemo(() => {
@@ -116,7 +115,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   return {
     step,
     loading,
-    amount: amount?.toNumber(),
+    amount: amount?.toString(10),
     onConfirm,
     onReject: onRejectAllowance,
     isRejectAllowanceLoading,

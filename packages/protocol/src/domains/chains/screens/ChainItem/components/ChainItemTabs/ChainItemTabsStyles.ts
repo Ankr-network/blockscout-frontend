@@ -12,10 +12,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.palette.grey['400'],
       borderRadius: 16,
       padding: 3,
-
-      '& > div': {
-        width: 'calc(50% - 4px)',
-      },
     },
   },
 
@@ -28,8 +24,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 14,
     },
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       padding: theme.spacing(1.5, 2),
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1.5, 1),
     },
   },
 }));

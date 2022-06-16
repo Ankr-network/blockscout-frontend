@@ -55,11 +55,11 @@ const getEndpointGroups = (
     ids.some(id => !!chainsMap[id]),
   );
 
-  return filteredGroups.map(({ name, pluralName, chains: ids }) => {
+  return filteredGroups.map(({ id, name, pluralName, chains: ids }) => {
     const urls = getEndpointUrls(ids, chainsMap);
     const urlsCount = getUrlsCount(urls);
 
-    return { name, pluralName, urls, urlsCount };
+    return { id, name, pluralName, urls, urlsCount };
   });
 };
 
