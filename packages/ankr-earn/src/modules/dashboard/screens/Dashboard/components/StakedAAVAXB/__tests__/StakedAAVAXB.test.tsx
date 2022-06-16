@@ -47,12 +47,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     isUnstakeLoading: false,
     isShowed: false,
     handleAddTokenToWallet: jest.fn(),
+    isPendingUnstakeLoading: false,
   };
 
   const defaultTxHistoryHookData: ITxHistoryData = {
-    txHistory: null,
-    pendingUnstakeHistory: [],
-    transactionHistory: {
+    pendingUnstakeHistoryAAVAXB: [],
+    transactionHistoryAAVAXB: {
       staked: [],
       stakedToken: Token.aAVAXb,
       unstaked: [],
@@ -61,6 +61,13 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     hasHistory: false,
     isHistoryDataLoading: false,
     handleLoadTxHistory: jest.fn(),
+    transactionHistoryAAVAXC: {
+      staked: [],
+      stakedToken: Token.aAVAXc,
+      unstaked: [],
+      unstakedToken: Token.aAVAXc,
+    },
+    pendingUnstakeHistoryAAVAXC: [],
   };
 
   beforeEach(() => {

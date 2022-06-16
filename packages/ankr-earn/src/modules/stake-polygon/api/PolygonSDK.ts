@@ -26,6 +26,7 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getFilteredContractEvents } from 'modules/common/utils/getFilteredContractEvents';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
@@ -469,6 +470,9 @@ export class PolygonSDK implements ISwitcher {
 
     let pendingRawEvents: EventData[] = [];
 
+    let pendingAMATICB: BigNumber = ZERO;
+    let pendingAMATICC: BigNumber = ZERO;
+
     if (totalUnstakingValue.isGreaterThan(ZERO)) {
       const unstakePendingReverse: EventData[] = unstakeRawEvents.reverse();
 
@@ -484,6 +488,17 @@ export class PolygonSDK implements ISwitcher {
 
         totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
 
+        if (unstakeEventItem.returnValues.isRebasing) {
+          pendingAMATICB = pendingAMATICB.plus(
+            this.convertFromWei(unstakeEventItem.returnValues.amount),
+          );
+        } else {
+          pendingAMATICC = pendingAMATICC.plus(
+            this.convertFromWei(
+              unstakeEventItem.returnValues.amount,
+            ).multipliedBy(ratio),
+          );
+        }
         pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
 
         if (totalUnstakingValue.isZero()) {
@@ -492,25 +507,9 @@ export class PolygonSDK implements ISwitcher {
       }
     }
 
-    const pendingAMATICBEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingAMATICCEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
-
     return {
-      pendingAMATICB: pendingAMATICBEvents.reduce(
-        (sum, item) => sum.plus(this.convertFromWei(item.returnValues.amount)),
-        ZERO,
-      ),
-      pendingAMATICC: pendingAMATICCEvents.reduce(
-        (sum, item) =>
-          sum.plus(
-            this.convertFromWei(item.returnValues.amount).multipliedBy(ratio),
-          ),
-        ZERO,
-      ),
+      pendingAMATICB,
+      pendingAMATICC,
     };
   }
 
@@ -572,11 +571,12 @@ export class PolygonSDK implements ISwitcher {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
         const isCert = !unstakeRawEventItem.returnValues.isRebasing;
 
-        const itemAmount = isCert
-          ? this.convertFromWei(
-              unstakeRawEventItem.returnValues.amount,
-            ).dividedBy(ratio)
-          : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
+        const itemAmount =
+          isCert && !ratio.isZero()
+            ? this.convertFromWei(
+                unstakeRawEventItem.returnValues.amount,
+              ).dividedBy(ratio)
+            : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
 
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
@@ -595,19 +595,15 @@ export class PolygonSDK implements ISwitcher {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const completedAMATICBEvents = completedRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const completedAMATICCEvents = completedRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: completedAMATICBEvents,
+      certEvents: completedAMATICCEvents,
+    } = getFilteredContractEvents(completedRawEvents);
 
-    const pendingAMATICBEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingAMATICCEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: pendingAMATICBEvents,
+      certEvents: pendingAMATICCEvents,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     const [completedAMATICB, completedAMATICC, pendingAMATICB, pendingAMATICC] =
       await Promise.all([

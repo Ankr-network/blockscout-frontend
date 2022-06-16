@@ -22,6 +22,7 @@ import {
 } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { getFilteredContractEvents } from 'modules/common/utils/getFilteredContractEvents';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import {
   getTxEventsHistoryGroup,
@@ -260,24 +261,18 @@ export class FantomSDK implements ISwitcher {
       }
     });
 
-    const stakeRawEventsAFTMB = stakeRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const stakeRawEventsAFTMC = stakeRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
-    const withdrawnRawEventsAFTMB = withdrawnRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const withdrawnRawEventsAFTMC = withdrawnRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
-    const pendingRawEventsAFTMB = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingRawEventsAFTMC = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const { bondEvents: stakeRawEventsAFTMB, certEvents: stakeRawEventsAFTMC } =
+      getFilteredContractEvents(stakeRawEvents);
+
+    const {
+      bondEvents: withdrawnRawEventsAFTMB,
+      certEvents: withdrawnRawEventsAFTMC,
+    } = getFilteredContractEvents(withdrawnRawEvents);
+
+    const {
+      bondEvents: pendingRawEventsAFTMB,
+      certEvents: pendingRawEventsAFTMC,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     const [
       stakeEventsAFTMCB,

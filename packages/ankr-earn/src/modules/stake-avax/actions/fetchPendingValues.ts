@@ -4,11 +4,11 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-import { BinanceSDK } from '../api/BinanceSDK';
+import { AvalancheSDK } from '../api/AvalancheSDK';
 
 interface IFetchPendingValuesResponseData {
-  pendingAbnbbUnstakes: BigNumber;
-  pendingAbnbcUnstakes: BigNumber;
+  pendingAavaxbUnstakes: BigNumber;
+  pendingAavaxcUnstakes: BigNumber;
 }
 
 export const fetchPendingValues = createSmartAction<
@@ -17,17 +17,17 @@ export const fetchPendingValues = createSmartAction<
     IFetchPendingValuesResponseData
   >
 >(
-  'bnb/fetchPendingValues',
+  'avax/fetchPendingValues',
   (): RequestAction => ({
     request: {
       promise: async (): Promise<IFetchPendingValuesResponseData> => {
-        const sdk = await BinanceSDK.getInstance();
+        const sdk = await AvalancheSDK.getInstance();
 
-        const { pendingABNBB, pendingABNBC } = await sdk.getPendingUnstakes();
+        const { pendingAAVAXB, pendingAAVAXC } = await sdk.getPendingUnstakes();
 
         return {
-          pendingAbnbbUnstakes: pendingABNBB,
-          pendingAbnbcUnstakes: pendingABNBC,
+          pendingAavaxbUnstakes: pendingAAVAXB,
+          pendingAavaxcUnstakes: pendingAAVAXC,
         };
       },
     },

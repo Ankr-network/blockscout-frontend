@@ -13,6 +13,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
+import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
@@ -38,6 +39,7 @@ export interface IStakedAVAXData {
   walletName?: string;
   address?: string;
   ratio: BigNumber;
+  isPendingUnstakeLoading: boolean;
   handleAddTokenToWallet: () => void;
 }
 
@@ -45,6 +47,9 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeAVAXStats,
+  });
+  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
+    type: fetchPendingValues,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeAVAX });
@@ -57,8 +62,7 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const chainId = AVAX_NETWORK_BY_ENV;
 
   const amount = statsData?.aAVAXcBalance ?? ZERO;
-  // TODO: change for actual pending value for certs
-  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
+  const pendingValue = pendingValues?.pendingAavaxcUnstakes ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
@@ -84,6 +88,7 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     walletName,
     address,
     ratio: statsData?.aAVAXcRatio ?? ZERO,
+    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   };
 };
