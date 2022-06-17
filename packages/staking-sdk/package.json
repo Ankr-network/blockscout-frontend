@@ -1,7 +1,6 @@
 {
 	"name": "@ankr.com/staking-sdk",
 	"version": "0.1.0",
-	"main": "./build/index.js",
 	"files": [
 		"build"
 	],
@@ -36,7 +35,6 @@
 			"last 1 safari version"
 		]
 	},
-	"types": "./build/index.d.ts",
 	"dependencies": {
 		"axios": "^0.24.0",
 		"bignumber.js": "^9.0.1",

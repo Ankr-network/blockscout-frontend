@@ -51,10 +51,12 @@ export interface IGetPastEvents {
 
 export interface ILockSharesArgs {
   amount: BigNumber;
+  scale?: number;
 }
 
 export interface IUnlockSharesArgs {
   amount: BigNumber;
+  scale?: number;
 }
 
 export enum EErrorCodes {

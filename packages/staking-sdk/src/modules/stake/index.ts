@@ -1,8 +1,12 @@
 import BigNumber from 'bignumber.js';
 
 export interface IStakable {
-  stake: (amount: BigNumber, token: string) => Promise<{ txHash: string }>;
-  unstake: (amount: BigNumber, token: string) => Promise<void>;
+  stake: (
+    amount: BigNumber,
+    token: string,
+    scale?: number,
+  ) => Promise<{ txHash: string }>;
+  unstake: (amount: BigNumber, token: string, scale?: number) => Promise<void>;
   getMinimumStake: () => Promise<BigNumber>;
   getPendingClaim: () => Promise<BigNumber>;
   getPendingData: () => Promise<IPendingData>;

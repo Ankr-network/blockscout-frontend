@@ -351,6 +351,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   public async lockShares({
     amount,
+    scale = ETH_SCALE_FACTOR,
   }: ILockSharesArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EErrorCodes.ZERO_AMOUNT);
@@ -365,7 +366,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
-      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .lockShares(convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -377,6 +378,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   public async unlockShares({
     amount,
+    scale = ETH_SCALE_FACTOR,
   }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EErrorCodes.ZERO_AMOUNT);
@@ -391,7 +393,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
-      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .unlockShares(convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -625,6 +627,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async stake(
     amount: BigNumber,
     token: string,
+    scale = ETH_SCALE_FACTOR,
   ): Promise<{ txHash: string }> {
     const { contractConfig } = configFromEnv();
 
@@ -636,7 +639,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
       this.getPolygonPoolContract(),
       this.getMaticTokenContract(),
     ]);
-    const rawAmount = amount.multipliedBy(1e18);
+    const rawAmount = amount.multipliedBy(scale);
     // 0. Check current allowance
     const allowance = new BigNumber(
       await maticTokenContract.methods
@@ -691,7 +694,11 @@ export class PolygonSDK implements ISwitcher, IStakable {
     }
   }
 
-  public async unstake(amount: BigNumber, token: string): Promise<void> {
+  public async unstake(
+    amount: BigNumber,
+    token: string,
+    scale = ETH_SCALE_FACTOR,
+  ): Promise<void> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EErrorCodes.ZERO_AMOUNT);
     }
@@ -704,7 +711,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
     const polygonPoolContract = await this.getPolygonPoolContract();
     const ankrTokenContract = await this.getAnkrTokenContract();
-    const rawAmount = amount.multipliedBy(1e18);
+    const rawAmount = amount.multipliedBy(scale);
     // Do unstaking
     // 0. Check current allowance
     const allowance = new BigNumber(
