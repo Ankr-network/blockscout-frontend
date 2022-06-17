@@ -29,7 +29,7 @@ export const DashboardCardSkeleton = (): JSX.Element => {
 
       <Grid container alignItems="flex-end" spacing={2}>
         <Grid item sm xs={12}>
-          <Typography variant="h2">
+          <Typography variant="h3">
             <Skeleton width={80} />
           </Typography>
         </Grid>

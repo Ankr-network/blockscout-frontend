@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { t } from 'common';
 
@@ -17,28 +17,22 @@ export const Header = (): JSX.Element => {
   const { balance, getTokensLink } = useHeader();
 
   return (
-    <Box mb={3}>
-      <Grid container alignItems="center" spacing={3}>
-        <Grid item lg xs={12}>
-          <BigNav>
-            <BigNavItem href={RoutesConfig.main.generatePath()}>
-              {t('stake-ankr.header.my')}
+    <Box className={classes.root} mb={4}>
+      <BigNav minWidth={0}>
+        <BigNavItem href={RoutesConfig.main.generatePath()}>
+          {t('stake-ankr.header.my')}
 
-              <AnkrIcon className={classes.icon} />
+          <AnkrIcon className={classes.icon} />
 
-              {t('stake-ankr.header.staking')}
-            </BigNavItem>
+          {t('stake-ankr.header.staking')}
+        </BigNavItem>
 
-            <BigNavItem href={RoutesConfig.providers.generatePath()}>
-              {t('stake-ankr.header.node-providers')}
-            </BigNavItem>
-          </BigNav>
-        </Grid>
+        <BigNavItem href={RoutesConfig.providers.generatePath()}>
+          {t('stake-ankr.header.node-providers')}
+        </BigNavItem>
+      </BigNav>
 
-        <Grid item lg="auto" xs={12}>
-          <AnkrBalance link={getTokensLink} value={balance} />
-        </Grid>
-      </Grid>
+      <AnkrBalance link={getTokensLink} value={balance} />
     </Box>
   );
 };

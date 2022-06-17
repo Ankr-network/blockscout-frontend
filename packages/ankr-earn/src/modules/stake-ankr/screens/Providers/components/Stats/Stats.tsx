@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 import { t } from 'common';
 
@@ -16,54 +16,38 @@ export const Stats = (): JSX.Element => {
   return (
     <Paper className={classes.statisticWrapper} variant="elevation">
       <StatsItem
-        amountSlot={
-          <Typography variant="h3">
-            {t('stake-ankr.provider.percent-value', { value: highestAPY })}
-          </Typography>
-        }
+        primaryValue={t('stake-ankr.provider.percent-value', {
+          value: highestAPY,
+        })}
         title={t('stake-ankr.provider.cur-highest-apy')}
         tooltip="tooltip"
       />
 
       <StatsItem
-        amountSlot={
-          <Box
-            alignItems="center"
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-          >
-            <Box mr={1}>
-              <Typography variant="h3">{tvl}</Typography>
-            </Box>
-
-            <Typography color="textSecondary" variant="h3">
-              {t('stake-ankr.provider.percent-value', { value: tvlPercent })}
-            </Typography>
-          </Box>
-        }
+        primaryValue={tvl}
+        secondaryValue={t('stake-ankr.provider.percent-value', {
+          value: tvlPercent,
+        })}
         title={t('stake-ankr.provider.tvl')}
         tooltip="tooltip"
       />
 
       <StatsItem
-        amountSlot={
-          <Typography variant="h3">
-            {t('stake-ankr.provider.days-value', { value: lockingPeriod })}
-          </Typography>
-        }
+        primaryValue={t('stake-ankr.provider.days-value', {
+          value: lockingPeriod,
+        })}
         title={t('stake-ankr.provider.locking-period')}
         tooltip="tooltip"
       />
 
       <StatsItem
-        amountSlot={<Typography variant="h3">{rewards24h}</Typography>}
+        primaryValue={rewards24h}
         title={t('stake-ankr.provider.24h-rewards')}
         tooltip="tooltip"
       />
 
       <StatsItem
-        amountSlot={<Typography variant="h3">{rewards30d}</Typography>}
+        primaryValue={rewards30d}
         title={t('stake-ankr.provider.30d-rewards')}
         tooltip="tooltip"
       />

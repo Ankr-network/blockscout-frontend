@@ -877,6 +877,14 @@
       "label": "Your balance:",
       "btn": "Get"
     },
+    "total-info": {
+      "stake": "Stake ANKR",
+      "claim-all": "Claim all",
+      "staked": "Total Staked",
+      "rewards": "Total Rewards",
+      "claimable-rewards": "Claimable rewards",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
+    },
     "provider": {
       "cur-highest-apy": "Current Highest APY",
       "tvl": "TVL",

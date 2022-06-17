@@ -7,9 +7,9 @@ export const useStatsStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-evenly',
     padding: theme.spacing(0.5, 2),
 
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       flexDirection: 'row',
-      padding: theme.spacing(4.5, 0),
+      padding: theme.spacing(3, 0),
     },
   },
 
@@ -22,10 +22,10 @@ export const useStatsStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(1, 0),
     borderBottom: `2px solid ${theme.palette.background.default}`,
 
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       maxWidth: '50%',
       flexGrow: 1,
-      justifyContent: 'start',
+      justifyContent: 'center',
       flexDirection: 'column',
       padding: theme.spacing(0, 3),
       borderBottom: 'none',
@@ -44,17 +44,14 @@ export const useStatsStyles = makeStyles<Theme>(theme => ({
     color: `${theme.palette.text.secondary}`,
     fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: 0,
+
+    [theme.breakpoints.up('lg')]: {
+      marginBottom: theme.spacing(1),
     },
   },
 
-  questionBtn: {
-    marginTop: theme.spacing(-0.5),
-  },
-
-  questionIcon: {
-    color: theme.palette.text.secondary,
+  value: {
+    fontSize: 18,
+    fontWeight: 700,
   },
 }));
