@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import external from 'rollup-plugin-node-externals';
 import json from '@rollup/plugin-json';
+import svg from 'rollup-plugin-svg';
 
 export default {
   input: './index.ts',
@@ -31,5 +32,6 @@ export default {
       include: /node_modules/,
     }),
     json(),
+    svg({ base64: true }),
   ],
 };
