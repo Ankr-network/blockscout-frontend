@@ -49,6 +49,8 @@ export const BNB_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_bnb.pdf';
 export const FTM_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_ftm.pdf';
+export const MATIC_AUDIT_LINK =
+  'https://assets.ankr.com/staking/smart_contract_security_audit_matic.pdf';
 
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/uYaNu23Ww7',
