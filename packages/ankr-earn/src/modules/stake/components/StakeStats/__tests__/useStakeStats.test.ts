@@ -45,7 +45,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
   test('should return initial data', () => {
     const { result } = renderHook(() => useStakeStats(defaultArgs));
 
-    expect(result.current.apy).toBe('4');
+    expect(result.current.apy).toBe('4.0%');
     expect(result.current.yearlyEarning).toBe('0.08');
     expect(result.current.yearlyEarningUSD).toBe('0.8');
     expect(result.current.totalStaked).toBe('100');
@@ -58,7 +58,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
 
     const { result } = renderHook(() => useStakeStats(defaultArgs));
 
-    expect(result.current.apy).toBe('0');
+    expect(result.current.apy).toBe('0.0%');
     expect(result.current.yearlyEarning).toBe('0');
     expect(result.current.yearlyEarningUSD).toBe(undefined);
     expect(result.current.totalStaked).toBe(undefined);

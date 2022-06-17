@@ -1,6 +1,8 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -44,7 +46,9 @@ export const useStakeStats = ({
     : undefined;
 
   return {
-    apy: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    apy: t('stake.stats.apy-value', {
+      value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    }),
     yearlyEarning: yearlyEarning.toFormat(),
     yearlyEarningUSD,
     totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
