@@ -889,6 +889,15 @@
       "30d-rewards": "30d Rewards",
       "percent-value": "{value, number, ::.0#}%",
       "days-value": "{value, number}d"
+    },
+    "empty-state": {
+      "start": "Start staking ANKR",
+      "start-description": "Stake ANKR tokens directly to node providers on Ankr Protocol.",
+      "how-it-works": "How it works?",
+      "description-1": "Earn ANKR for facilitating Web3 development",
+      "description-2": "Stake to Full Nodes for the first time ever",
+      "description-3": "Boost Web3 integration and adoption",
+      "description-4": "Earn participation in ANKR DAO governance"
     }
   }
 }
