@@ -890,6 +890,11 @@
       "percent-value": "{value, number, ::.0#}%",
       "days-value": "{value, number}d"
     },
+    "claim-dialog": {
+      "header": "Claim undelegated stake",
+      "claim-all": "Claim all",
+      "total": "Total"
+    },
     "table": {
       "node-provider": "Node Provider",
       "apy": "Current APY",

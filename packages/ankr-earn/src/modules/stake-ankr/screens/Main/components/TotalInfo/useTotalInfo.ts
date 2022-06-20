@@ -10,7 +10,6 @@ interface IUseTotalInfo {
   isTotalStakedLoading: boolean;
   isTotalRewardsLoading: boolean;
   isClimableRewardsLoading: boolean;
-  claimAllLink: string;
   stakeLink: string;
 }
 
@@ -25,7 +24,6 @@ export const useTotalInfo = (): IUseTotalInfo => {
     isTotalStakedLoading: false,
     isTotalRewardsLoading: false,
     isClimableRewardsLoading: false,
-    claimAllLink: '',
     stakeLink: '',
   };
 };
