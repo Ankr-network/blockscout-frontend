@@ -59,12 +59,12 @@ export const useEmptyStateStyles = makeStyles(theme => ({
 
   desciptionItem: {
     fontSize: 14,
-    textAlign: 'center',
+    marginTop: 0,
+    marginLeft: theme.spacing(1),
+    textAlign: 'start',
 
-    [theme.breakpoints.down('md')]: {
-      marginTop: 0,
-      marginLeft: theme.spacing(1),
-      textAlign: 'start',
+    [theme.breakpoints.up('md')]: {
+      textAlign: 'center',
     },
   },
 }));

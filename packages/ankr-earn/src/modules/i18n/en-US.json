@@ -890,6 +890,30 @@
       "percent-value": "{value, number, ::.0#}%",
       "days-value": "{value, number}d"
     },
+    "staking-table": {
+      "node-provider": "Node Provider",
+      "locking-period": "Locking Period",
+      "your-stake": "Your Stake",
+      "rewards": "Rewards",
+      "unstake-amount": "Unstake Amount",
+      "apy": "APY: {value}%",
+      "unlocked": "Unlocked",
+      "restake": "Restake",
+      "claim": "Claim",
+      "left-days": "{value} days left",
+      "left-day": "{value} day left",
+      "date": "Date",
+      "hash": "Hash",
+      "event": "Event",
+      "amount": "Amount",
+      "date-cell": "{month} {day}, {year}"
+    },
+    "tabs": {
+      "active-staking": "Active Staking",
+      "unstaking": "Unstaking",
+      "history": "History",
+      "claim-all": "Claim all"
+    },
     "empty-state": {
       "start": "Start staking ANKR",
       "start-description": "Stake ANKR tokens directly to node providers on Ankr Protocol.",
