@@ -890,6 +890,19 @@
       "percent-value": "{value, number, ::.0#}%",
       "days-value": "{value, number}d"
     },
+    "how-it-works": {
+      "header": "How it works?",
+      "description": "Independent node providers serve blockchain requests from developers, dApps, games, and other sources. But to serve traffic, node providers need a substantial amount of ANKR deposited or ‘staked’ to their nodes to ensure they behave properly and keep within high performance requirements. Earn staking rewards by helping node providers meet the collateral requirements to participate in the protocol.",
+      "title-1": "Select a node",
+      "article-1": "Choose a node that matches your risk tolerance. Newer nodes with a smaller staked pool and shorter history on the protocol may have higher APYs but could have more potential for performance issues and slashing, which means missed rewards. Conversely, longstanding providers may offer more modest APYs as rewards are split between more stakers, but less risk is involved.",
+      "title-2": "Stake your ANKR tokens",
+      "article-2": "After choosing your preferred node, select ‘Stake’ and connect your wallet containing ANKR. Then choose the amount of ANKR you would like to stake.",
+      "title-3": "Earn staking rewards",
+      "article-3": "Receive staking rewards directly to independent wallets such as MetaMask. You are able to check your staked balance and rewards on the dashboard at any time or unstake your ANKR.",
+      "info": "Earn staking rewards by helping node providers meet the collateral requirements to participate in the protocol.",
+      "choose-provider": "Choose Node Provider",
+      "view-docs": "View Docs"
+    },
     "claim-dialog": {
       "header": "Claim undelegated stake",
       "claim-all": "Claim all",
