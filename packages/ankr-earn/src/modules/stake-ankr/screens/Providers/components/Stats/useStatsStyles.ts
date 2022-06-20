@@ -6,6 +6,7 @@ export const useStatsStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     padding: theme.spacing(0.5, 2),
+    marginBottom: theme.spacing(3),
 
     [theme.breakpoints.up('lg')]: {
       flexDirection: 'row',

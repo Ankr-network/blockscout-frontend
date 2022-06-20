@@ -899,10 +899,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * Stake tokens
-   * 
+   *
    * @public
    * @note Initiates two transactions and connect if write provider isn't connected.
-   * @note Checks allowance and approves if it's needed. Then, does stake. 
+   * @note Checks allowance and approves if it's needed. Then, does stake.
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive
    * @param {number} [scale] - scale factor for amount
@@ -952,7 +952,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * Get unstake fee
-   * 
+   *
    * @public
    * @note uses backend endpoint to get unstake fee
    * @returns {Promise<{ unstakeFee: string; useBeforeBlock: number; signature: string; }>}
@@ -994,14 +994,14 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * Unstake tokens
-   * 
+   *
    * @public
    * @note Initiates connect if write provider isn't connected.
    * @note Checks allowance and approves if it's needed. Then, does unstake.
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to receive
    * @param {number} [scale] - scale factor for amount;
-   * @returns {Promise<void>} 
+   * @returns {Promise<void>}
    */
   public async unstake(
     amount: BigNumber,

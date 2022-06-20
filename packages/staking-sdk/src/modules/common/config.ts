@@ -72,7 +72,7 @@ export interface IStkrConfig {
 
 /**
  * Local contract addresses and api endpoints
- * 
+ *
  * @note need to move to a separate package
  */
 const LOCAL_CONFIG: IStkrConfig = {
@@ -132,7 +132,7 @@ const LOCAL_CONFIG: IStkrConfig = {
 
 /**
  * Develop contract addresses and api endpoints
- * 
+ *
  * @note need to move to a separate package
  */
 const DEVELOP_CONFIG: IStkrConfig = {
@@ -144,7 +144,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 
 /**
  * Stage contract addresses and api endpoints
- * 
+ *
  * @note need to move to a separate package
  */
 const GOERLI_CONFIG: IStkrConfig = {
@@ -156,7 +156,7 @@ const GOERLI_CONFIG: IStkrConfig = {
 
 /**
  * Mainnet contract addresses and api endpoints
- * 
+ *
  * @note need to move to a separate package
  */
 const MAINNET_CONFIG: IStkrConfig = {
@@ -216,7 +216,7 @@ const MAINNET_CONFIG: IStkrConfig = {
 
 /**
  * Get config for env
- * 
+ *
  * @note Need to move it to a separate package
  * @deprecated
  * @param {Env} env - environment

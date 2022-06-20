@@ -29,7 +29,7 @@ export enum EPolygonPoolEventsMap {
 }
 
 /**
- * Internal raw data for history events 
+ * Internal raw data for history events
  */
 export interface IEventsBatch {
   stakeRawEvents: EventData[];

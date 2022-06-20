@@ -5,7 +5,7 @@ export type BigNumberish = string | number | BigNumber;
 
 /**
  * Convert value to hex number
- * 
+ *
  * @param {(string | number | BigNumber)} value - value to convert to hex
  * @param {(string | number | BigNumber)} [scale = 1] - scale factor for value
  * @returns {string} - hex value

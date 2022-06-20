@@ -890,6 +890,20 @@
       "percent-value": "{value, number, ::.0#}%",
       "days-value": "{value, number}d"
     },
+    "table": {
+      "node-provider": "Node Provider",
+      "apy": "Current APY",
+      "staked-pool": "Staked Pool",
+      "rps": "RPS",
+      "online": "Online",
+      "percent-value": "{value, number, ::.0#}%",
+      "stake": "Stake",
+      "details": "Details",
+      "exit-days": "Exit in {value} days",
+      "exit-day": "Exit in {value} day",
+      "bonding-days": "Bonding, {value} days left",
+      "bonding-day": "Bonding, {value} day left"
+    },
     "staking-table": {
       "node-provider": "Node Provider",
       "locking-period": "Locking Period",

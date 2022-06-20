@@ -21,7 +21,7 @@ export interface IShareArgs {
 
 /**
  * You need to implement this interface if you'd like to integrate tokens into ankr switcher.
- * 
+ *
  * @interface
  */
 export interface ISwitcher {

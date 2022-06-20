@@ -3,7 +3,7 @@ import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
 import { isMainnet } from '../common';
 
 /**
- * Events block range for stake/unstake history 
+ * Events block range for stake/unstake history
  */
 export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
 
