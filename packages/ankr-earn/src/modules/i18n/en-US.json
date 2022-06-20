@@ -486,8 +486,9 @@
       }
     },
     "unstake": {
+      "external-wallet": "External wallet address",
       "info": "You will get your {token} in ~{period} days",
-      "user-wallet-info": "You can unstake {token}s to any {network} compatible address"
+      "send-external-wallet": "Send to external {network} wallet"
     }
   },
   "stake-polygon-dashboard": {
@@ -656,12 +657,7 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
-    "user-wallet": {
-      "title": "Enter {network} wallet to which you want to receive {token}",
-      "field-label": "Wallet address",
-      "continue-btn": "Continue"
-    }
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
   "unstake-polygon": {
     "success": {

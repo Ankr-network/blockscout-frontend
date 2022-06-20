@@ -434,25 +434,15 @@ export class PolkadotStakeSDK {
 
     const expirationTimestamp = Date.now() + CLAIM_TOKEN_LIFE_TIME;
 
-    const [maxPolkadotNetworkDecimals, signature] = await Promise.all([
-      this.getMaxPolkadotNetworkDecimals(),
-      polkadotProvider.getRawTokenSignature(
-        this.currentPolkadotAccount,
-        this.currentETHAccount,
-        expirationTimestamp,
-      ),
-    ]);
-
-    const claimableAmount = amount
-      .decimalPlaces(
-        maxPolkadotNetworkDecimals.toNumber(),
-        BigNumber.ROUND_DOWN,
-      )
-      .toString(10);
+    const signature = await polkadotProvider.getRawTokenSignature(
+      this.currentPolkadotAccount,
+      this.currentETHAccount,
+      expirationTimestamp,
+    );
 
     const { claim: claimItem } = await this.apiPolkadotGateway.claim({
       address: this.currentPolkadotAccount,
-      amount: claimableAmount,
+      amount: amount.toString(10),
       ethAddress: this.currentETHAccount,
       network: currNetwork,
       signature,
@@ -488,13 +478,7 @@ export class PolkadotStakeSDK {
       await this.getMaxPolkadotNetworkDecimals();
 
     const decimals = maxPolkadotNetworkDecimals.toNumber();
-
-    const claimableAmount = amount.decimalPlaces(
-      decimals,
-      BigNumber.ROUND_DOWN,
-    );
-
-    const scaledAmount = claimableAmount.multipliedBy(10 ** decimals);
+    const scaledAmount = amount.multipliedBy(10 ** decimals);
 
     const claimTransactionPayload = PolkadotProvider.getClaimTransactionPayload(
       this.currentETHAccount,
