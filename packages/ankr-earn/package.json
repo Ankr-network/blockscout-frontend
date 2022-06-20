@@ -95,6 +95,7 @@
     "start:dev": "env-cmd -f .env.dev react-app-rewired start",
     "start:stage": "env-cmd -f .env.stage react-app-rewired start",
     "start:prod": "env-cmd -f .env.prod react-app-rewired start",
+    "start:local": "env-cmd -f .env.local react-app-rewired start",
     "start": "yarn start:stage",
     "build:dev": "env-cmd -f .env.dev react-app-rewired build",
     "build:stage": "env-cmd -f .env.stage react-app-rewired build",

@@ -32,6 +32,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
+const isLocal = !!process.env.REACT_APP_IS_LOCAL;
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
@@ -84,7 +85,7 @@ export const featuresConfig = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
-  ankrStaking: false,
+  ankrStaking: isLocal,
 };
 
 export enum SupportedChainIDS {
