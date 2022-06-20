@@ -2,7 +2,6 @@ import { LoadableComponent } from '@loadable/component';
 import { ExtractRouteParams } from 'react-router';
 import {
   generatePath,
-  Redirect,
   Route,
   RouteComponentProps,
   Switch,
@@ -20,6 +19,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import {
   ETH_NETWORKS,
   ETH_WRITE_PROVIDER_ID,
+  POLKADOT_NETWORK_KEYS,
   POLKADOT_WRITE_PROVIDER_ID,
 } from './const';
 import {
@@ -29,28 +29,34 @@ import {
 import { getPolkadotPath } from './utils/getPolkadotPath';
 import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
 
-const ROOT = `${StakeRoutes.main.path}:network/`;
-const STAKE_POLKADOT_PATH = ROOT;
+const STAKE_POLKADOT_PATH = `${StakeRoutes.main.path}:network/`;
 const UNSTAKE_POLKADOT_PATH = `${UNSTAKE_PATH}:network/`;
+
+const STAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
+  STAKE_POLKADOT_PATH.replace(':network', network.toLowerCase()),
+);
+
+const UNSTAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
+  UNSTAKE_POLKADOT_PATH.replace(':network', network.toLowerCase()),
+);
 
 export const RoutesConfig = createRouteConfig(
   {
     stake: {
-      path: STAKE_POLKADOT_PATH,
       generatePath: (network: EPolkadotNetworks) =>
         generatePath(STAKE_POLKADOT_PATH, {
           network: network.toLowerCase(),
         }),
     },
     unstake: {
-      path: UNSTAKE_POLKADOT_PATH,
       generatePath: (network: EPolkadotNetworks) =>
         generatePath(UNSTAKE_POLKADOT_PATH, {
           network: network.toLowerCase(),
         }),
     },
   },
-  ROOT,
+  // Note: Potential issue. Please don't use "RoutesConfig.root" from this constant and this is pointless in our cases
+  STAKE_POLKADOT_PATH,
 );
 
 const Stake = loadComponent(() =>
@@ -67,28 +73,34 @@ const routeRender =
     Component: LoadableComponent<IPolkadotRouteLoadableComponentProps>,
   ) =>
   ({
-    match: { params },
+    location: { pathname },
   }: RouteComponentProps<ExtractRouteParams<string, string>>): JSX.Element => {
-    const currNetwork = params.network;
+    const isMultiSlashes = pathname.includes('//');
+    const pathNames = pathname.split('/').filter(path => path !== '');
+    const currNetwork = pathNames[pathNames.length - 1];
 
     const { isValid, network, path } = getPolkadotPath(currNetwork, targetPath);
     const availableNetworks = getPolkadotStakingNetworks(network);
 
-    if (!isValid || availableNetworks === null) {
-      return <Redirect to={path} />;
+    if (isMultiSlashes || !isValid || availableNetworks === null) {
+      return (
+        <DefaultLayout>
+          <PageNotFound />
+        </DefaultLayout>
+      );
     }
 
     return (
       <GuardPolkadotRoute
         exact
         availableNetworks={availableNetworks}
-        path={path}
+        path={path as string}
         providerId={POLKADOT_WRITE_PROVIDER_ID}
       >
         <GuardETHRoute
           exact
           availableNetworks={ETH_NETWORKS}
-          path={path}
+          path={path as string}
           providerId={ETH_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
@@ -99,20 +111,19 @@ const routeRender =
     );
   };
 
-// todo: [STAKAN-1686] fix this routes
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
+    <Route path={[...STAKE_POLKADOT_PATHS, ...UNSTAKE_POLKADOT_PATHS]}>
       <Switch>
         {featuresConfig.isActivePolkadotStaking && (
           <Route
-            path={RoutesConfig.root}
+            path={STAKE_POLKADOT_PATHS}
             render={routeRender(STAKE_POLKADOT_PATH, Stake)}
           />
         )}
 
         <Route
-          path={RoutesConfig.unstake.path}
+          path={UNSTAKE_POLKADOT_PATHS}
           render={routeRender(UNSTAKE_POLKADOT_PATH, Unstake)}
         />
 

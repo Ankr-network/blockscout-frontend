@@ -53,8 +53,6 @@ export function Routes(): JSX.Element {
 
       {getStakePolkadotRoutes()}
 
-      {/* ⚠️ [STAKAN-1686] all routes after getStakePolkadotRoutes() would not work */}
-
       <Route>
         <DefaultLayout>
           <PageNotFound />
