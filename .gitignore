@@ -13,3 +13,4 @@ coverage
 lerna-debug.log
 dist
 output
+docs

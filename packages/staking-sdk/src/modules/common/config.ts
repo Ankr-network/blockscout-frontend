@@ -70,6 +70,11 @@ export interface IStkrConfig {
   polygonConfig: IPolygonConfig;
 }
 
+/**
+ * Local contract addresses and api endpoints
+ * 
+ * @note need to move to a separate package
+ */
 const LOCAL_CONFIG: IStkrConfig = {
   contractConfig: {
     // for eth staking
@@ -125,6 +130,11 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
 };
 
+/**
+ * Develop contract addresses and api endpoints
+ * 
+ * @note need to move to a separate package
+ */
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
@@ -132,6 +142,11 @@ const DEVELOP_CONFIG: IStkrConfig = {
   },
 };
 
+/**
+ * Stage contract addresses and api endpoints
+ * 
+ * @note need to move to a separate package
+ */
 const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
@@ -139,6 +154,11 @@ const GOERLI_CONFIG: IStkrConfig = {
   },
 };
 
+/**
+ * Mainnet contract addresses and api endpoints
+ * 
+ * @note need to move to a separate package
+ */
 const MAINNET_CONFIG: IStkrConfig = {
   contractConfig: {
     // for eth staking
@@ -195,11 +215,14 @@ const MAINNET_CONFIG: IStkrConfig = {
 };
 
 /**
- * Need to move it to a separate package
- *
+ * Get config for env
+ * 
+ * @note Need to move it to a separate package
  * @deprecated
+ * @param {Env} env - environment
+ * @returns {IStkrConfig}
  */
-export function configFromEnv(env = currentEnv): IStkrConfig {
+export function configFromEnv(env: Env = currentEnv): IStkrConfig {
   switch (env) {
     case Env.Production:
       return MAINNET_CONFIG;

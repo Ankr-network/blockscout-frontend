@@ -1,3 +1,6 @@
+/**
+ * Common constants for staking sdk package
+ */
 import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from 'provider';

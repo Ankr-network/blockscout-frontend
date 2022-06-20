@@ -57,17 +57,55 @@ import {
   EErrorCodes,
 } from './types';
 
+/**
+ * PolygonSDK allows to interact with Ethereum blockchain, aMATICb/aMATICc tokens and Polygon pool contracts.
+ *
+ * @class
+ */
 export class PolygonSDK implements ISwitcher, IStakable {
+  /**
+   * instance - sdk instance
+   * @type {Web3KeyWriteProvider}
+   * @static
+   * @private
+   */
   private static instance?: PolygonSDK;
 
+  /**
+   * writeProvider - provider which has signer
+   * @type {Web3KeyWriteProvider}
+   * @private
+   */
   private readonly writeProvider: Web3KeyWriteProvider;
 
+  /**
+   * readProvider - provider which allows to read data without connecting the wallet
+   * @type {Web3KeyReadProvider}
+   * @private
+   */
   private readonly readProvider: Web3KeyReadProvider;
 
+  /**
+   * apiGateWay - gateway instance
+   * @type {ApiGateway}
+   * @private
+   */
   private readonly apiGateWay: ApiGateway;
 
+  /**
+   * currentAccount - connected account
+   * @type {string}
+   * @private
+   */
   private currentAccount: string;
 
+  /**
+   * Private constructor - use `PolygonSDK.getInstance` instead
+   *
+   * @constructor
+   * @private
+   * @param {IPolygonSDKProviders} - read and write providers
+   */
   private constructor({ writeProvider, readProvider }: IPolygonSDKProviders) {
     PolygonSDK.instance = this;
 
@@ -78,6 +116,15 @@ export class PolygonSDK implements ISwitcher, IStakable {
     this.apiGateWay = new ApiGateway(config.gatewayConfig);
   }
 
+  /**
+   * Initialization method for sdk
+   *
+   * Auto connects write provider if chains are the same.
+   * Initialize read provider to support multiple chains.
+   *
+   * @public
+   * @returns {Promise<PolygonSDK>}
+   */
   public static async getInstance(): Promise<PolygonSDK> {
     const providerManager = new ProviderManager(DEFAULT_THEME);
     const [writeProvider, readProvider] = (await Promise.all([
@@ -105,6 +152,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return instance;
   }
 
+  /**
+   * Internal function to choose right provider for read on write purpose.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
+   */
   private async getProvider(
     isForceRead = false,
   ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
@@ -125,6 +179,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.readProvider;
   }
 
+  /**
+   * Internal function to check current network
+   *
+   * @private
+   * @param {Web3KeyWriteProvider} provider - current selected provider
+   * @returns {Promise<boolean>}
+   */
   private async isEthNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
@@ -134,6 +195,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Matic token contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getMaticTokenContract(isForceRead = false): Promise<Contract> {
     const { contractConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -145,6 +213,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Bond Matic token contract
+   *
+   * @private
+   * @param {Web3} web3 - web3 instance
+   * @returns {Promise<Contract>}
+   */
   private static getAMATICBTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
 
@@ -154,6 +229,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Certificate Matic token contract
+   *
+   * @private
+   * @param {Web3} web3 - web3 instance
+   * @returns {Promise<Contract>}
+   */
   private static getAMATICCTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
 
@@ -163,6 +245,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Polygon pool contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getPolygonPoolContract(isForceRead = false): Promise<Contract> {
     const { contractConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -174,6 +263,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Ankr token contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getAnkrTokenContract(isForceRead = false): Promise<Contract> {
     const { contractConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -185,6 +281,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function map event type to transaction type
+   *
+   * @private
+   * @param {string} [rawTxType] - transaction type
+   * @returns {string | null}
+   */
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
       case EPolygonPoolEvents.MaticClaimPending:
@@ -199,10 +302,32 @@ export class PolygonSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Internal function to convert wei value to human readable format
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 
+  /**
+   * Internal function to get past events using the defined range
+   *
+   * @typedef {Object} IGetPastEvents
+   * @property {Contract} contract - selected contract
+   * @property {string} eventName - event name
+   * @property {number} startBlock - start block (from)
+   * @property {number} latestBlockNumber - last block (to)
+   * @property {number} rangeStep - range
+   * @property {Filter} filter - events filter
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
   private async getPastEvents({
     contract,
     eventName,
@@ -227,7 +352,20 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return flatten(pastEvents);
   }
 
-  // TODO: reuse it form stake/api/getTxEventsHistoryGroup
+  /**
+   * Internal function returns transaction history group from events
+   * TODO: reuse it form stake/api/getTxEventsHistoryGroup
+   *
+   * @typedef {Object} ITxEventsHistoryGroupItem
+   * @property {BigNumber} txAmount - transaction amount
+   * @property {Date} txDate - transaction date
+   * @property {string} txHash - transaction hash
+   * @property {string | null} txType - transaction type
+   *
+   * @private
+   * @param {EventData} [rawEvents] - events
+   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
   ): Promise<ITxEventsHistoryGroupItem[]> {
@@ -266,6 +404,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
       );
   }
 
+  /**
+   * Returns matic token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getMaticBalance(): Promise<BigNumber> {
     const maticTokenContract = await this.getMaticTokenContract();
 
@@ -276,6 +420,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns bond matic token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -288,6 +438,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns certificate matic token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -300,6 +456,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns certificate matic token ratio
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -310,6 +472,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(ratio);
   }
 
+  /**
+   * Returns certificate matic token allowance
+   *
+   * @public
+   * @param {string} [spender] - spender address (by default it's aMATICb token address)
+   * @returns {Promise<BigNumber>} - allowance in wei
+   */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -326,9 +495,18 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return new BigNumber(allowance);
   }
 
+  /**
+   * Approve certificate token for bond.
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
+   * @param {number} [scale = 1] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult | undefined>}
+   */
   public async approveACForAB(
-    amount = MAX_UINT256,
-    scale = 1,
+    amount: BigNumber = MAX_UINT256,
+    scale?: number,
   ): Promise<IWeb3SendResult | undefined> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -349,6 +527,15 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Lock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async lockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
@@ -376,6 +563,15 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Unlock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async unlockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
@@ -403,6 +599,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Get total pending unstake amount
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getPendingClaim(): Promise<BigNumber> {
     const polygonPoolContract = await this.getPolygonPoolContract();
 
@@ -413,6 +615,16 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(pending);
   }
 
+  /**
+   * Get pending data by bond and certificate
+   *
+   * @typedef {Object} IPendingData
+   * @property {BigNumber} pendingBond - pending bond unstakes
+   * @property {BigNumber} pendingCertificate - pending certificate unstakes
+   *
+   * @public
+   * @returns {Promise<IPendingData>}
+   */
   public async getPendingData(): Promise<IPendingData> {
     const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
     let totalUnstakingValue = await this.getPendingClaim();
@@ -465,6 +677,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get minimum stake amount
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getMinimumStake(): Promise<BigNumber> {
     const polygonPoolContract = await this.getPolygonPoolContract();
 
@@ -473,6 +691,17 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return this.convertFromWei(minStake);
   }
 
+  /**
+   * Internal function returns pool raw events
+   *
+   * @typedef {Object} IEventsBatch
+   * @property {EventData[]} stakeRawEvents - stake raw events
+   * @property {EventData[]} unstakeRawEvents - unstake raw events
+   * @property {BigNumber} ratio - certificate ratio
+   *
+   * @private
+   * @returns {Promise<IEventsBatch>}
+   */
   private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
@@ -508,6 +737,24 @@ export class PolygonSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get transaction history
+   *
+   * @typedef {Object} ITxEventsHistoryGroupItem
+   * @property {BigNumber} txAmount - transaction amount
+   * @property {Date} txDate - transaction date
+   * @property {string} txHash - transaction hash
+   * @property {(string | null)} txType - transaction type (stake or unstake)
+   *
+   * @typedef {Object} ITxEventsHistoryData
+   * @property {ITxEventsHistoryGroupItem[]} completedBond - completed transactions for bond tokens
+   * @property {ITxEventsHistoryGroupItem[]} completedCertificate - completed transaction for certificate tokens
+   * @property {ITxEventsHistoryGroupItem[]} pendingBond - pending unstakes for bond tokens
+   * @property {ITxEventsHistoryGroupItem[]} pendingCertificate - pending unstakes for certificate tokens
+   *
+   * @public
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const { stakeRawEvents, unstakeRawEvents, ratio } =
       await this.getPoolEventsBatch();
@@ -586,6 +833,19 @@ export class PolygonSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Fetch transaction data.
+   *
+   * @typedef {Object} IFetchTxData
+   * @property {BigNumber} [amount] - transaction amount or value
+   * @property {boolean} isPending - is transaction still in pending state
+   * @property {string} [destinationAddress] - transaction destination address
+   *
+   * @public
+   * @note parses first uint256 param from transaction input
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
   public async fetchTxData(txHash: string): Promise<IGetTxData> {
     const provider = await this.getProvider();
 
@@ -604,6 +864,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Fetch transaction receipt
+   *
+   * @public
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<TransactionReceipt | null>}
+   */
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
@@ -615,7 +882,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return receipt as TransactionReceipt | null;
   }
 
-  private getStakeMethodName(token: TMaticSyntToken) {
+  /**
+   * Internal function returns stake method by token symbol
+   *
+   * @param {string} token - token symbol
+   * @returns {string}
+   */
+  private getStakeMethodName(token: TMaticSyntToken): string {
     switch (token) {
       case 'aMATICc':
         return 'stakeAndClaimCerts';
@@ -624,6 +897,17 @@ export class PolygonSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Stake tokens
+   * 
+   * @public
+   * @note Initiates two transactions and connect if write provider isn't connected.
+   * @note Checks allowance and approves if it's needed. Then, does stake. 
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive
+   * @param {number} [scale] - scale factor for amount
+   * @returns {Promise<{ txHash: string }>}
+   */
   public async stake(
     amount: BigNumber,
     token: string,
@@ -666,6 +950,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return { txHash: tx2.transactionHash };
   }
 
+  /**
+   * Get unstake fee
+   * 
+   * @public
+   * @note uses backend endpoint to get unstake fee
+   * @returns {Promise<{ unstakeFee: string; useBeforeBlock: number; signature: string; }>}
+   */
   public async getUnstakeFee(): Promise<{
     unstakeFee: string;
     useBeforeBlock: number;
@@ -684,7 +975,14 @@ export class PolygonSDK implements ISwitcher, IStakable {
     };
   }
 
-  private getUnstakeMethodName(token: TMaticSyntToken) {
+  /**
+   * Internal function returns unstake method by token symbol
+   *
+   * @private
+   * @param {string} token - token symbol
+   * @returns {string}
+   */
+  private getUnstakeMethodName(token: TMaticSyntToken): string {
     switch (token) {
       case 'aMATICc':
         return 'unstakeCerts';
@@ -694,6 +992,17 @@ export class PolygonSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Unstake tokens
+   * 
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @note Checks allowance and approves if it's needed. Then, does unstake.
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to receive
+   * @param {number} [scale] - scale factor for amount;
+   * @returns {Promise<void>} 
+   */
   public async unstake(
     amount: BigNumber,
     token: string,
@@ -750,6 +1059,14 @@ export class PolygonSDK implements ISwitcher, IStakable {
     ).send({ from: this.currentAccount });
   }
 
+  /**
+   * Add token to wallet
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {string} token - token symbol (aMATICc or aMATICb)
+   * @returns {Promise<boolean>}
+   */
   public async addTokenToWallet(token: string): Promise<boolean> {
     const { contractConfig } = configFromEnv();
 
