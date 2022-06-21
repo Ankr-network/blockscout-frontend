@@ -4,6 +4,7 @@ import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -13,7 +14,6 @@ import {
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher, IShareArgs } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,

@@ -9,7 +9,6 @@ import { AbiItem } from 'web3-utils';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
-  ProviderManager,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -21,6 +20,7 @@ import {
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
   MAX_UINT256,
+  ProviderManagerSingleton,
   ZERO,
 } from '../common';
 import ABI_AMATICB from '../contracts/aMATICb.json';
@@ -39,7 +39,6 @@ import { convertNumberToHex } from '../utils';
 import {
   ALLOWANCE_RATE,
   BLOCK_OFFSET,
-  DEFAULT_THEME,
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_READ_ID,
 } from './const';
@@ -126,7 +125,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @returns {Promise<PolygonSDK>}
    */
   public static async getInstance(): Promise<PolygonSDK> {
-    const providerManager = new ProviderManager(DEFAULT_THEME);
+    const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
       providerManager.getETHWriteProvider(),
       providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),

@@ -33,16 +33,3 @@ export const POLYGON_PROVIDER_READ_ID = isMainnet
  * Multiplication factor for fee when approving funds
  */
 export const ALLOWANCE_RATE = 5;
-
-/**
- * Need to get rid of theme from ProviderManager
- *
- * @deprecated
- */
-export const DEFAULT_THEME = {
-  background: '#FFF',
-  main: '#1F2226',
-  secondary: '#1F2226',
-  border: '#F2F5FA',
-  hover: '#F2F5FA',
-};

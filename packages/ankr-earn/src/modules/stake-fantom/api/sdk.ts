@@ -4,6 +4,7 @@ import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -12,7 +13,6 @@ import {
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,

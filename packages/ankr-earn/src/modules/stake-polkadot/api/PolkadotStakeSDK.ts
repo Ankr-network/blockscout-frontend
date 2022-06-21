@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   ApiGateway,
   EActionStatuses,
@@ -15,7 +16,6 @@ import {
 import { Address, Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Milliseconds } from 'modules/common/types';
 import { sleep } from 'modules/common/utils/sleep';

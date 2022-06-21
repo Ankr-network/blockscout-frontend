@@ -1,14 +1,15 @@
 import BigNumber from 'bignumber.js';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { MAX_UINT256, ZERO, ZERO_ADDR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { EthSDK, TEthToken } from '..';
 import { ETH_POOL_START_BLOCK } from '../const';
 
-jest.mock('modules/api/ProviderManagerSingleton', () => ({
+jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 

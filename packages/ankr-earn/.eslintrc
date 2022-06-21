@@ -1,7 +1,7 @@
 {
   "extends": "../../.common-eslintrc",
   "settings": {
-    "import/core-modules": ["ui", "polkadot", "provider"],
+    "import/core-modules": ["ui", "polkadot", "provider", "staking-sdk"],
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },

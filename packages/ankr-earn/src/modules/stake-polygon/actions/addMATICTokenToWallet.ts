@@ -1,9 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { PolygonSDK } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 
-import { PolygonSDK } from '../api/PolygonSDK';
 import { TMaticSyntToken } from '../types';
 
 export const addMATICTokenToWallet = createAction<
