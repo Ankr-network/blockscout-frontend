@@ -1,4 +1,4 @@
-import { Contract } from 'web3-eth-contract';
+import { Contract, EventData } from 'web3-eth-contract';
 import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
@@ -9,7 +9,7 @@ import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
-import { IPayAsYouGo } from './abi/IPayAsYouGo';
+import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
 
 const GAS_LIMIT = '200000';
 
@@ -159,18 +159,22 @@ export class PAYGContractManager implements IPAYGContractManager {
     return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
   }
 
-  async getLatestUserEventLogHash(
+  async getLatestUserEventLogHash(event: IPayAsYouGoEvents, user: Web3Address) {
+    return this.payAsYouGoContract.getPastEvents(event, {
+      filter: {
+        sender: user,
+      },
+      fromBlock: 'earliest',
+      toBlock: 'latest',
+    });
+  }
+
+  async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
   ): Promise<PrefixedHex | false> {
-    const tierAssignedEvents = await this.payAsYouGoContract.getPastEvents(
+    const tierAssignedEvents = await this.getLatestUserEventLogHash(
       'TierAssigned',
-      {
-        filter: {
-          sender: user,
-        },
-        fromBlock: 'earliest',
-        toBlock: 'latest',
-      },
+      user,
     );
 
     const validEvents = tierAssignedEvents.filter(event => {
@@ -184,6 +188,12 @@ export class PAYGContractManager implements IPAYGContractManager {
     if (!validEvents.length) return false;
 
     return validEvents[validEvents.length - 1].transactionHash;
+  }
+
+  async getLatestUserLockedFundsEventLogHash(
+    user: Web3Address,
+  ): Promise<EventData[]> {
+    return this.getLatestUserEventLogHash('FundsLocked', user);
   }
 
   async decryptMessageUsingPrivateKey(

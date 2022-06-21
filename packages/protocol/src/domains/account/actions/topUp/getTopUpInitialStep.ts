@@ -34,6 +34,36 @@ const checkTopUpTransaction = async (
   return null;
 };
 
+const checkLoginStep = async (address: string, store: RequestsStore) => {
+  const { service } = MultiService.getInstance();
+
+  // last topup event
+  const lastEvent = await service.getLastLockedFundsEvent(address);
+
+  const { data: connectData } = getQuery(store.getState(), {
+    type: connect.toString(),
+    action: connect,
+  });
+
+  // the first topup
+  if (Boolean(lastEvent) && !connectData?.credentials) {
+    // It will return null for pending transactions and an object if the transaction is successful.
+    const transactionReceipt = await service.getTransactionReceipt(
+      lastEvent?.transactionHash as string,
+    );
+
+    if (!transactionReceipt) {
+      store.dispatchRequest(waitTransactionConfirming());
+
+      return TopUpStep.waitTransactionConfirming;
+    }
+
+    return TopUpStep.login;
+  }
+
+  return null;
+};
+
 export const getTopUpInitialStep = createSmartAction<
   RequestAction<TopUpStep, TopUpStep>
 >('topUp/getTopUpInitialStep', () => ({
@@ -46,6 +76,10 @@ export const getTopUpInitialStep = createSmartAction<
         promise: (async (): Promise<any> => {
           const { service } = MultiService.getInstance();
           const address = service.getKeyProvider().currentAccount();
+
+          const loginStep = await checkLoginStep(address, store);
+
+          if (loginStep) return loginStep;
 
           const transaction = selectAccount(store.getState(), address);
 

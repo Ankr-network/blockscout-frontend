@@ -2,6 +2,7 @@ import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
+import { EventData } from 'web3-eth-contract';
 
 import {
   IBlockchainEntity,
@@ -226,7 +227,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     }
 
     const PAYGTransactionHash =
-      await this.getPAYGContractManager().getLatestUserEventLogHash(user);
+      await this.getPAYGContractManager().getLatestUserTierAssignedEventLogHash(
+        user,
+      );
 
     if (PAYGTransactionHash === false) {
       return false;
@@ -395,6 +398,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       .eth.getTransactionReceipt(transactionHash);
 
     return transactionReceipt;
+  }
+
+  async getLastLockedFundsEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined> {
+    const events =
+      await this.getPAYGContractManager().getLatestUserLockedFundsEventLogHash(
+        user,
+      );
+
+    return events?.[0];
   }
 
   async isJwtTokenIssueAvailable(

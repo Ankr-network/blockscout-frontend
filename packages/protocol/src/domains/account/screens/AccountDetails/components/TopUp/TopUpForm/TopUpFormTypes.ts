@@ -8,4 +8,5 @@ export interface TopUpFormValues {
 
 export interface TopUpFormProps {
   onSubmit: (data: TopUpFormValues) => void;
+  hasLoginStep: boolean;
 }

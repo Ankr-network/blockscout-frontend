@@ -8,13 +8,15 @@ import { useAppSelector } from 'store/useAppSelector';
 import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
 
-export const TopUpForm = ({ onSubmit }: TopUpFormProps) => {
+export const TopUpForm = ({ onSubmit, hasLoginStep }: TopUpFormProps) => {
   const classes = useStyles();
 
   const transaction = useAppSelector(selectTransaction);
 
   const isTopUpInProcess = Boolean(
-    transaction?.allowanceTransactionHash || transaction?.topUpTransactionHash,
+    transaction?.allowanceTransactionHash ||
+      transaction?.topUpTransactionHash ||
+      hasLoginStep,
   );
 
   const renderForm = useRenderForm(classes);
