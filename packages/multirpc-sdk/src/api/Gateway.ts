@@ -97,7 +97,7 @@ export class ApiGateway implements IApiGateway {
   }
 
   public async getJwtTokens(
-    address: Web3Address,
+    address?: Web3Address,
     offset?: number,
     limit?: number,
   ): Promise<JwtTokens> {

@@ -32,7 +32,7 @@ export interface IApiGateway {
   getJwtTokenById(id: UUID): Promise<IJwtToken>;
 
   getJwtTokens(
-    address: Web3Address,
+    address?: Web3Address,
     offset?: number,
     limit?: number,
   ): Promise<JwtTokens>;
@@ -51,7 +51,7 @@ export interface IApiGateway {
   getThresholdKeys(
     offset: number,
     limit: number,
-    filter: IThresholdKeysFilter,
+    filter?: IThresholdKeysFilter,
   ): Promise<ThresholdKeys>;
 
   issueJwtToken(request: IIssueJwtTokenRequest): Promise<IJwtToken>;

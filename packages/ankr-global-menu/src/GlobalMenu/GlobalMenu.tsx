@@ -1,10 +1,5 @@
 import { Drawer, IconButton, Popover } from '@material-ui/core';
-import {
-  MouseEventHandler,
-  useEffect,
-  useState,
-  useRef,
-} from 'react';
+import { MouseEventHandler, useEffect, useState, useRef } from 'react';
 import { ReactComponent as MenuDotIcon } from '../assets/menuDot.svg';
 import { useStyles } from './GlobalMenuStyles';
 import { useLocaleInitializer } from '../i18n/utils/useLocaleInitializer';

@@ -14,7 +14,8 @@ export type Network =
   | 'arbitrum'
   | 'bsc'
   | 'iotex'
-  | 'nervos';
+  | 'nervos'
+  | 'eth';
 
 export type TBlockchain = 'BLOCKCHAIN_WEB3' | 'BLOCKCHAIN_SUBSTRATE';
 
@@ -152,6 +153,7 @@ export interface IConfig {
   walletPublicUrl: string;
   workerUrl: string;
   accountUrl: string;
+  backofficeUrl: string;
 
   payAsYouGoAnkrTokenContractAddress: string;
   payAsYouGoContractAddress: string;
