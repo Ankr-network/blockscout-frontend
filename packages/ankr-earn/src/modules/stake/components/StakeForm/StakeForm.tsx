@@ -1,6 +1,5 @@
-import { Box, ButtonBase, Paper, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import classNames from 'classnames';
 import { FormApi } from 'final-form';
 import { ReactNode, ReactText, useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
@@ -13,10 +12,12 @@ import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { Button } from 'uiKit/Button';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { OnChange } from 'uiKit/OnChange';
-import { Tooltip } from 'uiKit/Tooltip';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
+import { StakeFormBox } from './StakeFormBox';
+import { StakeFormFooter } from './StakeFormFooter';
+import { StakeFormTitle } from './StakeFormTitle';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
@@ -48,7 +49,7 @@ export interface IStakeFormComponentProps {
   maxAmountDecimals?: number;
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
-  labelTooltip?: ReactNode;
+  labelTooltip?: ReactText | JSX.Element;
   auditLink?: string;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
@@ -130,79 +131,58 @@ export const StakeForm = ({
     const amountNumber = getAmountNum(amount);
 
     return (
-      <Paper
-        className={className}
-        component="form"
-        variant="elevation"
-        onSubmit={handleSubmit}
-      >
-        <div className={classes.body}>
-          <div className={classes.wrapper}>
-            <Typography classes={{ root: classes.title }} variant="h2">
-              {t('stake.title', {
-                token: tokenIn,
+      <StakeFormBox className={className} onSubmit={handleSubmit}>
+        <StakeFormTitle>{t('stake.title', { token: tokenIn })}</StakeFormTitle>
+
+        <AmountInput
+          balance={balance}
+          disabled={isDisabled}
+          isBalanceLoading={isBalanceLoading}
+          isIntegerOnly={isIntegerOnly}
+          label={
+            <Box alignItems="center" component="span" display="flex">
+              {t('stake.amount', { token: tokenIn })}
+
+              {labelTooltip && (
+                <QuestionWithTooltip>{labelTooltip}</QuestionWithTooltip>
+              )}
+            </Box>
+          }
+          maxAmount={maxAmount}
+          maxDecimals={maxAmountDecimals}
+          minAmount={minAmount?.toNumber()}
+          name={FieldsNames.amount}
+          tokenName={tokenIn}
+          onMaxClick={
+            isMaxBtnShowed ? setMaxAmount(form, maxStakeAmount) : undefined
+          }
+        />
+
+        {renderStats && renderStats(amountNumber)}
+
+        {feeSlot}
+
+        <StakeFormFooter>
+          {typeof renderFooter === 'function' ? (
+            renderFooter(amountNumber)
+          ) : (
+            <Button
+              fullWidth
+              className={classes.submit}
+              color="primary"
+              disabled={isDisabled || loading || isBalanceLoading}
+              isLoading={loading}
+              size="large"
+              type="submit"
+            >
+              {t('stake.stake', {
+                token: tokenOut,
               })}
-            </Typography>
-
-            <AmountInput
-              balance={balance}
-              disabled={isDisabled}
-              isBalanceLoading={isBalanceLoading}
-              isIntegerOnly={isIntegerOnly}
-              label={
-                <Box alignItems="center" component="span" display="flex">
-                  {t('stake.amount', { token: tokenIn })}
-
-                  {labelTooltip && (
-                    <Tooltip arrow title={labelTooltip}>
-                      <Box component={ButtonBase} pl={1} pr={1}>
-                        <QuestionIcon
-                          className={classes.questionIcon}
-                          size="xs"
-                        />
-                      </Box>
-                    </Tooltip>
-                  )}
-                </Box>
-              }
-              maxAmount={maxAmount}
-              maxDecimals={maxAmountDecimals}
-              minAmount={minAmount?.toNumber()}
-              name={FieldsNames.amount}
-              tokenName={tokenIn}
-              onMaxClick={
-                isMaxBtnShowed ? setMaxAmount(form, maxStakeAmount) : undefined
-              }
-            />
-
-            {renderStats && renderStats(amountNumber)}
-
-            {feeSlot}
-          </div>
-        </div>
-
-        <div className={classes.footer}>
-          <div className={classNames(classes.wrapper, classes.footerWrapper)}>
-            {typeof renderFooter === 'function' ? (
-              renderFooter(amountNumber)
-            ) : (
-              <Button
-                className={classes.submit}
-                color="primary"
-                disabled={isDisabled || loading || isBalanceLoading}
-                isLoading={loading}
-                size="large"
-                type="submit"
-              >
-                {t('stake.stake', {
-                  token: tokenOut,
-                })}
-              </Button>
-            )}
-          </div>
+            </Button>
+          )}
 
           {auditLink && <AuditedLabel auditLink={auditLink} />}
-        </div>
+        </StakeFormFooter>
 
         <OnChange name={FieldsNames.amount}>
           {() => {
@@ -211,7 +191,7 @@ export const StakeForm = ({
             }
           }}
         </OnChange>
-      </Paper>
+      </StakeFormBox>
     );
   };
 

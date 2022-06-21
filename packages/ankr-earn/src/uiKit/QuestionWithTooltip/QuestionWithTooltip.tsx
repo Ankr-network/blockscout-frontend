@@ -1,5 +1,6 @@
 import { ButtonBase } from '@material-ui/core';
 import classNames from 'classnames';
+import { ReactText } from 'react';
 
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -7,7 +8,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { useQuestionWithTooltipStyles } from './useQuestionWithTooltipStyles';
 
 interface IQuestionWithTooltipProps {
-  children: string | JSX.Element;
+  children: ReactText | JSX.Element;
   className?: string;
   leftOffset?: number;
 }

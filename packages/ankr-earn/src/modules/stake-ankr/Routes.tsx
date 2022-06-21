@@ -1,5 +1,6 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -7,8 +8,11 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
+import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
+
 const ROOT = `${STAKING_PATH}ankr-stake/`;
-const ANKR_PROVIDERS = `${ROOT}providers/`;
+const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
+const STAKE_PATH = `${ROOT}stake/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -18,8 +22,13 @@ export const RoutesConfig = createRouteConfig(
     },
 
     providers: {
-      path: ANKR_PROVIDERS,
-      generatePath: () => generatePath(ANKR_PROVIDERS),
+      path: ANKR_PROVIDERS_PATH,
+      generatePath: () => generatePath(ANKR_PROVIDERS_PATH),
+    },
+
+    stake: {
+      path: STAKE_PATH,
+      generatePath: () => generatePath(STAKE_PATH),
     },
   },
   ROOT,
@@ -31,6 +40,10 @@ const Main = loadComponent(() =>
 
 const Providers = loadComponent(() =>
   import('./screens/Providers').then(module => module.Providers),
+);
+
+const Stake = loadComponent(() =>
+  import('./screens/Stake').then(module => module.Stake),
 );
 
 export function getRoutes(): JSX.Element {
@@ -50,6 +63,17 @@ export function getRoutes(): JSX.Element {
             <Providers />
           </DefaultLayout>
         </Route>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.stake.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

@@ -7,7 +7,7 @@ export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'baseline',
-    margin: theme.spacing(-2, -2, 0),
+    margin: theme.spacing(-2, 0, 0),
   },
 
   listItem: {

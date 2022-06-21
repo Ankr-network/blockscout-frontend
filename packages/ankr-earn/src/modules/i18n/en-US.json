@@ -72,6 +72,7 @@
     "eth": "ETH",
     "aeth": "aETHc",
     "feth": "aETHb",
+    "ankr": "ANKR",
     "bnb": "BNB",
     "polygon": "MATIC",
     "matic": "MATIC",
@@ -954,6 +955,14 @@
       "description-2": "Stake to Full Nodes for the first time ever",
       "description-3": "Boost Web3 integration and adoption",
       "description-4": "Earn participation in ANKR DAO governance"
+    },
+    "staking": {
+      "title": "ANKR Staking",
+      "submit": "Stake ANKR",
+      "provider-label": "Node Provider",
+      "provider-placeholder": "Select node provider",
+      "locking-period": "Locking period",
+      "locking-period-value": "{days} days"
     }
   }
 }

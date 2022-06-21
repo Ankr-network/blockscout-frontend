@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
+
 interface IUseTotalInfo {
   totalStaked: BigNumber;
   totalStakedUsd: BigNumber;
@@ -24,6 +26,6 @@ export const useTotalInfo = (): IUseTotalInfo => {
     isTotalStakedLoading: false,
     isTotalRewardsLoading: false,
     isClimableRewardsLoading: false,
-    stakeLink: '',
+    stakeLink: RoutesConfig.stake.generatePath(),
   };
 };
