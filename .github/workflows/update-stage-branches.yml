@@ -71,3 +71,25 @@ jobs:
           labels: |
             standalone
           base: stage-standalone
+
+  update-stage-backoffice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: stage-backoffice
+
+      - name: Reset stage-backoffice branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: 'chore: update stage-backoffice'
+          title: 'chore: update stage-backoffice'
+          branch: chore/update-stage-backoffice
+          labels: |
+            backoffice
+          base: stage-backoffice

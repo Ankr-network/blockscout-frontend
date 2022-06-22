@@ -1,7 +1,9 @@
 import { AxiosInstance } from 'axios';
 
+import { IJwtToken } from '../common';
 import {
   IBlockchainEntity,
+  ICountersEntity,
   IImportJWTTokenResult,
   INodeEntity,
   IPrivateEndpoint,
@@ -15,7 +17,6 @@ import {
   RestrictedIps,
   Timeframe,
 } from './types';
-import { IJwtToken } from '../common';
 
 export interface IWorkerBackofficeGateway {
   api: AxiosInstance;
@@ -33,6 +34,8 @@ export interface IWorkerBackofficeGateway {
   deleteNode(node: INodeEntity): Promise<INodeEntity>;
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
+
+  getCounters(limit?: number): Promise<ICountersEntity[]>;
 
   getNodes(blockchain?: string): Promise<INodeEntity[]>;
 
