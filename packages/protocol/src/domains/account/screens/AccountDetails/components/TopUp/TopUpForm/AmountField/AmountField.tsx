@@ -6,15 +6,17 @@ import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'modules/form/components/InputField';
 import { useStyles } from './AmountFieldStyles';
 import { CURRENCY, normalizeAmount, validateAmount } from './AmountFieldUtils';
+import { OnChange } from 'modules/form/utils/OnChange';
+import { AmountInputField } from '../TopUpFormTypes';
 
 interface AmountFieldProps {
-  name: string;
+  name: AmountInputField.amount;
   isDisabled?: boolean;
+  change?: (name: AmountInputField.amount, value: string) => void;
 }
 
-export const AmountField = ({ name, isDisabled }: AmountFieldProps) => {
+export const AmountField = ({ name, isDisabled, change }: AmountFieldProps) => {
   const classes = useStyles();
-
   return (
     <FormGroup className={classes.formGroup}>
       <Field
@@ -35,6 +37,13 @@ export const AmountField = ({ name, isDisabled }: AmountFieldProps) => {
           endAdornment: <Typography variant="subtitle1">{CURRENCY}</Typography>,
         }}
       />
+      {change && (
+        <OnChange name={name}>
+          {(value: string) => {
+            change(name, normalizeAmount(value));
+          }}
+        </OnChange>
+      )}
     </FormGroup>
   );
 };

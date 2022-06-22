@@ -3,7 +3,7 @@ import { Form } from 'react-final-form';
 import BigNumber from 'bignumber.js';
 
 import { useStyles } from './TopUpFormStyles';
-import { TopUpFormFields, TopUpFormProps } from './TopUpFormTypes';
+import { AmountInputField, TopUpFormProps } from './TopUpFormTypes';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
@@ -29,7 +29,7 @@ export const TopUpForm = ({ onSubmit, hasLoginStep }: TopUpFormProps) => {
       initialValues={
         isTopUpInProcess
           ? {
-              [TopUpFormFields.amount]: new BigNumber(
+              [AmountInputField.amount]: new BigNumber(
                 transaction?.amount ?? 0,
               ).toString(10),
             }

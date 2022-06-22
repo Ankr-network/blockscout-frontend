@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from '@material-ui/core';
 
-import { WithdrawFormValues, WithdrawFormFields } from './WithdrawFormTypes';
+import { WithdrawFormValues, AmountInputField } from './WithdrawFormTypes';
 import { AmountField } from 'domains/account/screens/AccountDetails/components/TopUp/TopUpForm/AmountField';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './WithdrawFormStyles';
@@ -28,7 +28,7 @@ export const WithdrawForm = ({ onClick }: WithdrawFormProps) => {
           onSubmit={handleSubmit}
           className={classes.root}
         >
-          <AmountField name={WithdrawFormFields.amount} />
+          <AmountField name={AmountInputField.amount} />
           <Button fullWidth onClick={handleSubmit} className={classes.button}>
             {t('withdraw-steps.next')}
           </Button>

@@ -9,7 +9,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink, useIsSMDown } from 'ui';
 import { AmountField } from './AmountField';
-import { TopUpFormFields, TopUpFormValues } from './TopUpFormTypes';
+import { AmountInputField, TopUpFormValues } from './TopUpFormTypes';
 
 import { getLastLockedFundsEvent } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useAuth } from 'modules/auth/hooks/useAuth';
@@ -23,7 +23,7 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
   return useCallback(() => {
     return (
       <form autoComplete="off" className={classes.form}>
-        <AmountField name={TopUpFormFields.amount} isDisabled />
+        <AmountField name={AmountInputField.amount} isDisabled />
         <NavLink
           color="primary"
           variant="contained"
@@ -44,14 +44,18 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
 
 export const useRenderForm = (classes: ClassNameMap) => {
   return useCallback(
-    ({ handleSubmit, validating }: FormRenderProps<TopUpFormValues>) => {
+    ({
+      handleSubmit,
+      validating,
+      form: { change },
+    }: FormRenderProps<TopUpFormValues>) => {
       return (
         <form
           autoComplete="off"
           onSubmit={handleSubmit}
           className={classes.form}
         >
-          <AmountField name={TopUpFormFields.amount} />
+          <AmountField name={AmountInputField.amount} change={change} />
           <Button
             color="primary"
             fullWidth
