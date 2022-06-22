@@ -124,4 +124,15 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://polygon-rpc.com/'],
     blockExplorerUrls: ['https://polygonscan.com'],
   },
+  [EEthereumNetworkId.mumbai]: {
+    chainId: numberToHex(EEthereumNetworkId.mumbai),
+    chainName: 'Polygon testnet',
+    nativeCurrency: {
+      name: 'MATIC',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+    rpcUrls: ['https://matic-mumbai.chainstacklabs.com/'],
+    blockExplorerUrls: ['https://mumbai.polygonscan.com'],
+  },
 };

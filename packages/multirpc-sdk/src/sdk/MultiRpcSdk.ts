@@ -57,6 +57,7 @@ import { ManagedPromise } from '../stepper';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
 import { catchSignError, formatPrivateUrls, formatPublicUrls } from './utils';
+import { BackofficeGateway, IBackofficeGateway } from '../backoffice';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private workerGateway?: IWorkerGateway;
@@ -72,6 +73,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   private PAYGContractManager?: IPAYGContractManager;
 
   private accountGateway?: IAccountGateway;
+
+  private backofficeGateway?: IBackofficeGateway;
 
   public constructor(
     private readonly keyProvider: IWeb3KeyProvider,
@@ -451,8 +454,16 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   async issueJwtToken(
     transactionHash: PrefixedHex,
     thresholdKey: UUID,
-    encryptionKey: Base64,
+    encryptionKey?: Base64,
   ): Promise<IJwtToken> {
+    const currentAccount = this.keyProvider.currentAccount();
+    // requests user's x25519 encryption key
+    if (!encryptionKey) {
+      encryptionKey = await this.getContractManager().getEncryptionPublicKey(
+        currentAccount,
+      );
+    }
+
     // send issue request to ankr protocol
     const jwtToken = await this.getApiGateway().requestJwtToken({
       public_key: encryptionKey,
@@ -576,6 +587,19 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       });
 
     return this.accountGateway;
+  }
+
+  /**
+   * @internal for internal usage, try to avoid
+   */
+  getBackofficeGateway(): IBackofficeGateway {
+    this.backofficeGateway =
+      this.backofficeGateway ||
+      new BackofficeGateway({
+        baseURL: this.config.backofficeUrl,
+      });
+
+    return this.backofficeGateway;
   }
 
   getKeyProvider(): IWeb3KeyProvider {
@@ -709,10 +733,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     }
   }
 
-  async signLoginData(lifeTime: number): Promise<string> {
+  async signLoginData(lifeTime: number, message: string): Promise<string> {
     const currentTime = Math.floor(new Date().getTime());
     const expiresAfter = currentTime + lifeTime;
-    const data = `Multirpc Login Message:\n${expiresAfter}`;
+    const data = `${message}\n${expiresAfter}`;
     const address = this.getKeyProvider().currentAccount();
 
     const signature = await this.sign(data, address);
@@ -726,13 +750,27 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       throw new Error('Key provider must be connected');
     }
 
-    const token = await this.signLoginData(lifeTime);
+    const token = await this.signLoginData(lifeTime, 'Multirpc Login Message:');
 
     await this.getAccountGateway().addToken(token);
 
     return token;
   }
 
+
+  public async authorizeBackoffice(lifeTime: number): Promise<string> {
+    if (!this.keyProvider) {
+      throw new Error('Key provider must be connected');
+    }
+
+    const token = await this.signLoginData(
+      lifeTime,
+      'Multirpc Backoffice Login Message:',
+    );
+
+    return token;
+  }
+  
   async getBalanceEndTime(blockchains?: string[]): Promise<number> {
     const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
 
