@@ -24,6 +24,7 @@ export const STAGING_CONFIG: IConfig = {
   walletPublicUrl: 'https://staging.protocol.ankr.com/',
   workerUrl: 'https://staging.multi-rpc.com/',
   accountUrl: 'https://staging.multirpc.ankr.com/',
+  backofficeUrl: 'https://backoffice-gateway.staging.multirpc.ankr.com/',
 
   payAsYouGoAnkrTokenContractAddress:
     '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
@@ -48,6 +49,7 @@ export const PROD_CONFIG: IConfig = {
   walletPublicUrl: 'https://mainnet.protocol.ankr.com/',
   workerUrl: 'https://next.multi-rpc.com/',
   accountUrl: 'https://mainnet.multirpc.ankr.com/',
+  backofficeUrl: 'https://backoffice-gateway.staging.multirpc.ankr.com/',
 
   payAsYouGoAnkrTokenContractAddress:
     '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',

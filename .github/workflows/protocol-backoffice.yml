@@ -8,11 +8,8 @@ on:
         description: Target
         required: true
         options:
-          - STAGE # www-stage.ankr.com/
-          - BS1 # bs-1-stage.dccn.ankr.com
-          - BS2 # bs-2-stage.dccn.ankr.com
-          - BS3 # bs-3-stage.dccn.ankr.com
-          - BS4 # bs-4-stage.dccn.ankr.com
+          - stage #https://multirpc-backoffice-stage.dccn.ankr.com/
+          - prod  #https://multirpc-backoffice.dccn.ankr.com/
       api:
         type: choice
         description: API
@@ -69,15 +66,34 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Copy files to the production website with the AWS CLI
+      - name: Copy files to the staging website with the AWS CLI 
         working-directory: ./packages/protocol-backoffice
+        if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
-          DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
-          DISTRIBUTION_ID: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
+          DOMAIN: ${{ secrets.MULTIRPC_BACKOFFICE_STAGE_DOMAIN }} 
+          DISTRIBUTION_ID: ${{ secrets.MULTIRPC_BACKOFFICE_STAGE_DISTRIBUTION_ID }} 
         run: |
-          aws s3 sync --delete ./build s3://$DOMAIN/protocol-backoffice/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
           echo "Invalidation ID is $INVALIDATION_ID"
           echo "CDN Invalidation request is sent."
+
+      - name: Copy files to the production website with the AWS CLI 
+        working-directory: ./packages/protocol-backoffice
+        if: ${{ github.event.inputs.api == 'PROD' }}
+        env:
+          DOMAIN: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DOMAIN }} 
+          DISTRIBUTION_ID: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DISTRIBUTION_ID }} 
+        run: |
+          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws configure set preview.cloudfront true
+          echo "Invalidating CDN network"
+          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+          echo "Invalidation ID is $INVALIDATION_ID"
+          echo "CDN Invalidation request is sent."
+
+
+
+
