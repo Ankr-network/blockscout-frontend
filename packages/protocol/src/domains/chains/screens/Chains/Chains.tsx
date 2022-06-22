@@ -15,7 +15,7 @@ import { useChainsStyles } from './ChainsStyles';
 import { usePublicChainsInfo } from './ChainsUtils';
 import { H1Tag } from 'uiKit/H1Tag';
 import { useSortSelect } from './components/ChainsSortSelect/ChainsSortSelectUtils';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 const ENABLE_HOW_TO_INTEGRATE = false;
 

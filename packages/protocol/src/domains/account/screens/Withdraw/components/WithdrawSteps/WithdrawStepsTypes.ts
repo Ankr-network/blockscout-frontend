@@ -1,4 +1,4 @@
-import { WithdrawStep } from 'modules/auth/actions/fetchWithdrawStatus';
+import { WithdrawStep } from 'domains/auth/actions/fetchWithdrawStatus';
 
 export interface IWithdrawStepsProps {
   step: WithdrawStep;

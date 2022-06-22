@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 import { RequestAction } from '@redux-requests/core';
 import { getAnkrUsdt } from 'modules/api/sdk';
-import { withStore } from 'modules/auth/utils/withStore';
+import { withStore } from 'domains/auth/utils/withStore';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 export interface IRates {

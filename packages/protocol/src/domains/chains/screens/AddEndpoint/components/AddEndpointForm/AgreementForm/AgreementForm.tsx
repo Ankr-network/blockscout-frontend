@@ -7,7 +7,7 @@ import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxFie
 import { useStyles } from './AgreementFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
 import { Mutation } from '@redux-requests/react';
-import { apiAddPrivateEndpoint } from 'domains/nodeProviders/actions/addPrivateEndpoint';
+import { apiAddPrivateEndpoint } from 'domains/infrastructure/actions/addPrivateEndpoint';
 
 const HAS_CHECKBOX = false;
 

@@ -4,7 +4,7 @@ import { useStyles } from './ChainItemStyles';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { useChainItemBreadcrumbs } from './useChainItem';
 import { IChainItemDetails } from '../../actions/fetchChain';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
 import { t } from 'common';

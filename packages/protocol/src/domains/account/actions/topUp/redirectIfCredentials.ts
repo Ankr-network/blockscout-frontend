@@ -4,7 +4,7 @@ import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import { push } from 'connected-react-router';
 
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
-import { connect } from 'modules/auth/actions/connect';
+import { connect } from 'domains/auth/actions/connect';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { MultiService } from 'modules/api/MultiService';
 

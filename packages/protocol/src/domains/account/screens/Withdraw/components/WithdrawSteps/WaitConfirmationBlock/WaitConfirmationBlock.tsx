@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, LinearProgress } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
 
-import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
+import { fetchCredentialsStatus } from 'domains/auth/actions/fetchCredentialsStatus';
 import { getProgressValue } from './WaitConfirmationBlockUtils';
 
 export const WaitConfirmationBlock = () => {

@@ -1,9 +1,9 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { fetchProvider } from 'domains/nodeProviders/actions/fetchProvider';
+import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { MultiService } from 'modules/api/MultiService';
 import { IJwtToken } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { credentialsGuard } from '../../../modules/auth/utils/credentialsGuard';
+import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 import {
   IApiChain,
   IFetchChainsResponseData,

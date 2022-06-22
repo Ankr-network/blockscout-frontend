@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import { tHTML } from 'modules/i18n/utils/intl';
-import { WithdrawStep } from 'modules/auth/actions/fetchWithdrawStatus';
+import { WithdrawStep } from 'domains/auth/actions/fetchWithdrawStatus';
 
 interface IStepperTitleProps {
   step: WithdrawStep;

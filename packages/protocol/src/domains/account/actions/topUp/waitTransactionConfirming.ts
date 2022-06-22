@@ -4,7 +4,7 @@ import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { throwIfError } from 'common';
 import { retry } from 'modules/api/utils/retry';
-import { fetchCredentialsStatus } from 'modules/auth/actions/fetchCredentialsStatus';
+import { fetchCredentialsStatus } from 'domains/auth/actions/fetchCredentialsStatus';
 import { fetchBalance } from '../balance/fetchBalance';
 import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { t } from 'modules/i18n/utils/intl';

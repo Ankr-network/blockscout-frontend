@@ -2,8 +2,8 @@ import { INodeEntity as IApiNodeEntity } from 'multirpc-sdk';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MultiService } from '../../../modules/api/MultiService';
-import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
+import { MultiService } from 'modules/api/MultiService';
+import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 interface INodeEntity extends IApiNodeEntity {
   icon: string;

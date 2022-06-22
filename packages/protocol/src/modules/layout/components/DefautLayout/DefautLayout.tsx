@@ -12,7 +12,7 @@ import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface ILayoutProps {
   children?: ReactChild;

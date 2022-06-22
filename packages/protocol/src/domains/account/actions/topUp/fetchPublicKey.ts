@@ -2,8 +2,8 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { throwIfError } from 'common';
-import { fetchEncryptionKey } from 'modules/auth/actions/fetchEncryptionKey';
-import { selectAuthData, setAuthData } from 'modules/auth/store/authSlice';
+import { fetchEncryptionKey } from 'domains/auth/actions/fetchEncryptionKey';
+import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 
 export const fetchPublicKey = createSmartAction<RequestAction<string, string>>(
   'topUp/fetchPublicKey',

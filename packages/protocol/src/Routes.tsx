@@ -21,10 +21,10 @@ import {
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { Themes } from 'ui';
-import { useAuth } from './modules/auth/hooks/useAuth';
-import { GuardAuthRoute } from './modules/auth/components/GuardAuthRoute';
-import { selectAuthData } from 'modules/auth/store/authSlice';
-import { GuardAuthProviderRoute } from 'modules/auth/components/GuardAuthProviderRoute';
+import { useAuth } from './domains/auth/hooks/useAuth';
+import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
 
 export function Routes() {
   const { handleConnect } = useAuth();

@@ -7,7 +7,7 @@ import { Stepper } from './Stepper';
 import { StepperTitle } from './StepperTitle';
 import { StepperNotice } from './StepperNotice';
 import { WaitConfirmationBlock } from './WaitConfirmationBlock';
-import { WithdrawStep } from 'modules/auth/actions/fetchWithdrawStatus';
+import { WithdrawStep } from 'domains/auth/actions/fetchWithdrawStatus';
 import { WithdrawForm } from './WithdrawForm';
 
 interface IWithdrawStepsProps {

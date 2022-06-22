@@ -8,7 +8,7 @@ import { TopUpStep } from './const';
 // eslint-disable-next-line import/no-cycle
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { connect } from 'modules/auth/actions/connect';
+import { connect } from 'domains/auth/actions/connect';
 
 const checkTopUpTransaction = async (
   store: RequestsStore,

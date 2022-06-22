@@ -13,11 +13,12 @@ import { historyInstance } from '../modules/common/utils/historyInstance';
 import { NotificationActions } from '../domains/notification/store/NotificationActions';
 import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { rootSaga } from './rootSaga';
-import { i18nPersistConfig, authPersistConfig } from './webStorageConfigs';
-import { authSlice } from 'modules/auth/store/authSlice';
+import { authSlice } from 'domains/auth/store/authSlice';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
-import { disconnect } from 'modules/auth/actions/disconnect';
+import { disconnect } from 'domains/auth/actions/disconnect';
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
+import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
+import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';

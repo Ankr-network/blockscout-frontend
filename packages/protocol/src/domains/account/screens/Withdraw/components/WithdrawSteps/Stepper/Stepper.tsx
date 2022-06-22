@@ -1,7 +1,7 @@
 import React from 'react';
 import { Step, StepLabel, Stepper as MuiStepper } from '@material-ui/core';
 
-import { WithdrawStep } from 'modules/auth/actions/fetchWithdrawStatus';
+import { WithdrawStep } from 'domains/auth/actions/fetchWithdrawStatus';
 
 interface IStepperProps {
   step: WithdrawStep;

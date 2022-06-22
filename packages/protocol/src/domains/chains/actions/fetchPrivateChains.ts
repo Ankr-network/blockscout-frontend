@@ -8,7 +8,7 @@ import {
   IFetchChainsResponseData,
   mapChains,
 } from '../api/queryChains';
-import { credentialsGuard } from '../../../modules/auth/utils/credentialsGuard';
+import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 
 export const fetchPrivateChains = createSmartAction<
   RequestAction<IFetchChainsResponseData, IApiChain[]>

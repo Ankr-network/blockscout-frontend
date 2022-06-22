@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 
 import { DomainsForm } from './DomainsForm';
-import { editChainRestrictedDomains } from 'domains/nodeProviders/actions/editChainRestrictedDomains';
+import { editChainRestrictedDomains } from 'domains/infrastructure/actions/editChainRestrictedDomains';
 import { DomainsFormContainerProps } from './DomainsFormTypes';
 
 export const DomainsFormContainer = ({

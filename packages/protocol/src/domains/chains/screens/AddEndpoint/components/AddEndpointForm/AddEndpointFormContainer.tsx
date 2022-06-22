@@ -7,10 +7,10 @@ import {
   usePublicUrls,
 } from './AddEndpointFormUtils';
 import { AddEndpointForm } from './AddEndpointForm';
-import { apiAddPrivateEndpoint } from 'domains/nodeProviders/actions/addPrivateEndpoint';
+import { apiAddPrivateEndpoint } from 'domains/infrastructure/actions/addPrivateEndpoint';
 import { useEndpointBreadcrumbs } from '../../AddEndpointUtils';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemTabs/ChainItemTabsUtils';
 
 export interface AddEndpointFormProps {
