@@ -12,6 +12,8 @@ yarn add @ankr.com/staking-sdk
 npm i @ankr.com/staking-sdk
 ```
 
+>To choose testsnet contracts use `REACT_APP_API_ENV=staging` environment variable. For mainnet - use `REACT_APP_API_ENV=prod`.
+
 ### Examples of usage:
 
 ```typescript

@@ -10,6 +10,7 @@ on:
         options:
           - ankr-global-menu
           - provider
+          - staking-sdk
 
 jobs:
   publish:
