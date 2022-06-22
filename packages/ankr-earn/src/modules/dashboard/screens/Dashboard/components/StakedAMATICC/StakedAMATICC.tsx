@@ -33,18 +33,19 @@ export const StakedAMATICC = (): JSX.Element => {
 
   const {
     amount,
-    pendingValue,
+    chainId,
     isLoading,
     isStakeLoading,
+    isUnstakeLoading,
+    nativeAmount,
     network,
-    chainId,
+    pendingValue,
+    ratio,
     stakeLink,
     token,
     tokenAddress,
     unstakeLink,
-    isUnstakeLoading,
-    ratio,
-    nativeAmount,
+    usdAmount,
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
@@ -95,6 +96,7 @@ export const StakedAMATICC = (): JSX.Element => {
         stakeLink={stakeLink}
         token={token}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

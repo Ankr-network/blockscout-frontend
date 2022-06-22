@@ -42,19 +42,20 @@ export const StakedAFTMC = (): JSX.Element | null => {
   } = useStakedFTMTxHistory();
 
   const {
+    address,
     amount,
-    pendingUnstakes,
-    network,
     chainId,
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
-    unstakeLink,
-    stakeLink,
-    walletName,
-    address,
-    ratio,
     nativeAmount,
+    network,
+    pendingUnstakes,
+    ratio,
+    stakeLink,
+    unstakeLink,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   } = useStakedAFTMCData();
 
@@ -110,6 +111,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
         stakeLink={stakeLink}
         token={Token.aFTMc}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

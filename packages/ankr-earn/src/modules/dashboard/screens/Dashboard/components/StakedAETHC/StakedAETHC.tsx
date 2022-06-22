@@ -37,17 +37,18 @@ export const StakedAETHC = (): JSX.Element => {
   } = useDialog();
 
   const {
-    amount,
-    network,
-    chainId,
-    tradeLink,
-    stakeLink,
-    isStakeLoading,
-    isBalancesLoading,
-    walletName,
     address,
-    ratio,
+    amount,
+    chainId,
+    isBalancesLoading,
+    isStakeLoading,
     nativeAmount,
+    network,
+    ratio,
+    stakeLink,
+    tradeLink,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   } = useStakedAETHCData();
 
@@ -111,6 +112,7 @@ export const StakedAETHC = (): JSX.Element => {
         token={Token.aETHc}
         tradeLink={tradeLink}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

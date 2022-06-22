@@ -20,6 +20,7 @@ export const ACTION_CACHE_SEC = 600;
 
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
+export const ONE = new BigNumber(1);
 export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',

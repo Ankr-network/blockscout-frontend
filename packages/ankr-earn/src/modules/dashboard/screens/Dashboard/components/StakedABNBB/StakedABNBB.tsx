@@ -33,19 +33,20 @@ export const StakedABNBB = (): JSX.Element => {
   } = useDialog();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
+    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
+    network,
+    pendingValue,
+    stakeLink,
     tradeLink,
+    unstakeLink,
+    usdAmount,
     walletName,
-    address,
-    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   } = useStakedABNBBData();
 
@@ -114,6 +115,7 @@ export const StakedABNBB = (): JSX.Element => {
         token={Token.aBNBb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

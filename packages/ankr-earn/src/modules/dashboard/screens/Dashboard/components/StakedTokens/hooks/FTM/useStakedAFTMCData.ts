@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
@@ -14,28 +14,32 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig } from 'modules/stake-fantom/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IStakedAFTMCData {
+  address?: string;
   amount: BigNumber;
-  pendingUnstakes: BigNumber;
-  network: string;
   chainId: EEthereumNetworkId;
-  tradeLink: string;
-  stakeLink: string;
-  unstakeLink?: string;
-  isShowed: boolean;
   isBalancesLoading: boolean;
+  isShowed: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
-  walletName?: string;
-  address?: string;
-  ratio: BigNumber;
   nativeAmount?: BigNumber;
+  network: string;
+  pendingUnstakes: BigNumber;
+  ratio: BigNumber;
+  stakeLink: string;
+  tradeLink: string;
+  unstakeLink?: string;
+  usdAmount?: BigNumber;
+  walletName?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -44,6 +48,10 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
 
   const { data: commonData, loading: isBalancesLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: metrics } = useQuery({
+    type: getMetrics,
   });
 
   const { loading: isStakeLoading } = useMutation({
@@ -61,6 +69,17 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
 
   const amount = commonData?.aFTMcBalance ?? ZERO;
   const pendingUnstakes = commonData?.certPendingUnstakes ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.FTM]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.FTM]?.totalStakedUsd,
+        ratio: commonData?.aFTMcRatio,
+      }),
+    [amount, commonData, metrics],
+  );
+
   const isShowed =
     !amount.isZero() || isBalancesLoading || !pendingUnstakes.isZero();
 
@@ -71,21 +90,22 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
   }, [dispatchRequest]);
 
   return {
+    address,
     amount,
-    pendingUnstakes,
-    network,
     chainId,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMc, Token.FTM),
-    isShowed,
     isBalancesLoading,
-    stakeLink: RoutesConfig.stake.generatePath(Token.aFTMc),
-    unstakeLink: RoutesConfig.unstake.generatePath(Token.aFTMc),
+    isShowed,
     isStakeLoading,
     isUnstakeLoading,
-    walletName,
-    address,
-    ratio: commonData?.aFTMcRatio ?? ZERO,
     nativeAmount,
+    network,
+    pendingUnstakes,
+    ratio: commonData?.aFTMcRatio ?? ZERO,
+    stakeLink: RoutesConfig.stake.generatePath(Token.aFTMc),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMc, Token.FTM),
+    unstakeLink: RoutesConfig.unstake.generatePath(Token.aFTMc),
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   };
 };

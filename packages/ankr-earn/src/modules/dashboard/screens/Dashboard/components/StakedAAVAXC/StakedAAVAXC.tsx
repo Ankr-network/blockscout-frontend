@@ -41,20 +41,22 @@ export const StakedAAVAXC = (): JSX.Element => {
   } = useStakedAVAXTxHistory();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    tradeLink,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
+    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
-    walletName,
+    nativeAmount,
+    network,
+    pendingValue,
     ratio,
-    address,
-    isPendingUnstakeLoading,
+    stakeLink,
+    tradeLink,
+    unstakeLink,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   } = useStakedAAVAXCData();
 
@@ -98,12 +100,14 @@ export const StakedAAVAXC = (): JSX.Element => {
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aAVAXc}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

@@ -5,8 +5,8 @@ export const getTokenNativeAmount = (
   ratio: BigNumber | undefined,
 ): BigNumber | undefined => {
   if (!ratio || ratio.isZero()) {
-    return undefined
-  };
+    return undefined;
+  }
 
   return amount.dividedBy(ratio);
 };

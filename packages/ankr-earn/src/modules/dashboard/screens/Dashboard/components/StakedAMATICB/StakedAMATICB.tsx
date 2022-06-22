@@ -43,18 +43,19 @@ export const StakedAMATICB = (): JSX.Element | null => {
   } = useStakedMATICTxHistory();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    tradeLink,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
     isStakeLoading,
     isUnstakeLoading,
+    network,
+    pendingValue,
+    stakeLink,
+    tradeLink,
+    unstakeLink,
+    usdAmount,
     walletName,
-    address,
     handleAddTokenToWallet,
   } = useStakedAMATICBData();
 
@@ -115,6 +116,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
         token={Token.aMATICb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
