@@ -39,7 +39,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
     unstakedAFTMC,
     isHistoryLoading,
     handleLoadTxHistory,
-  } = useStakedFTMTxHistory();
+  } = useStakedFTMTxHistory(Token.aFTMc);
 
   const {
     address,
