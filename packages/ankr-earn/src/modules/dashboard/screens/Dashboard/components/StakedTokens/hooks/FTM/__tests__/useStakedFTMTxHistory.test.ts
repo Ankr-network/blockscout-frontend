@@ -23,6 +23,8 @@ jest.mock('store/useAppDispatch', () => ({
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedFTMTxHistory.ts', () => {
   const NOW = new Date();
 
+  const token = Token.aFTMb;
+
   const defaultData: {
     loading: boolean;
     data: IGetHistory;
@@ -94,14 +96,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   test('should return tx history data', () => {
     const date = t('format.date', { value: NOW });
     const time = t('format.time-short', { value: NOW });
-    const { result } = renderHook(() => useStakedFTMTxHistory());
+    const { result } = renderHook(() => useStakedFTMTxHistory(token));
 
     expect(result.current.pendingUnstakeHistoryAFTMB);
     expect(result.current.pendingUnstakeHistoryAFTMB).toStrictEqual([
       {
         id: NOW.getTime(),
         amount: ONE_ETH.multipliedBy(3),
-        token: Token.aFTMb,
+        token,
         timerSlot: `${date}, ${time}`,
       },
     ]);
@@ -128,7 +130,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     const mockDispatch = jest.fn();
     (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
 
-    const { result } = renderHook(() => useStakedFTMTxHistory());
+    const { result } = renderHook(() => useStakedFTMTxHistory(token));
 
     act(() => {
       result.current.handleLoadTxHistory();
@@ -140,7 +142,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   test('should return empty data', () => {
     (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
 
-    const { result } = renderHook(() => useStakedFTMTxHistory());
+    const { result } = renderHook(() => useStakedFTMTxHistory(token));
 
     expect(result.current.hasHistory).toBe(true);
     expect(result.current.pendingUnstakeHistoryAFTMB).toStrictEqual([]);
