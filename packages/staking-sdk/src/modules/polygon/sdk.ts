@@ -32,8 +32,11 @@ import {
   ITxEventsHistoryGroupItem,
   ITxEventsHistoryData,
   IStakable,
+  IGetPastEvents,
+  IEventsBatch,
+  ITxHistoryEventData,
 } from '../stake';
-import { ISwitcher } from '../switcher';
+import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
@@ -46,13 +49,7 @@ import {
   TMaticSyntToken,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
-  IEventsBatch,
-  IGetTxData,
-  ITxHistoryEventData,
   IPolygonSDKProviders,
-  IGetPastEvents,
-  ILockSharesArgs,
-  IUnlockSharesArgs,
   EErrorCodes,
 } from './types';
 
@@ -538,7 +535,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async lockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
-  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+  }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EErrorCodes.ZERO_AMOUNT);
     }
@@ -574,7 +571,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async unlockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
-  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+  }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EErrorCodes.ZERO_AMOUNT);
     }
@@ -711,6 +708,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
+        provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.StakePendingV2,
         startBlock,
@@ -719,6 +717,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
         filter: { staker: this.currentAccount },
       }),
       this.getPastEvents({
+        provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.TokensBurned,
         startBlock,
@@ -732,6 +731,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     return {
       stakeRawEvents,
       unstakeRawEvents,
+      rebasingEvents: [],
       ratio,
     };
   }
@@ -845,7 +845,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IFetchTxData>}
    */
-  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+  public async fetchTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
 
     const web3 = provider.getWeb3();
