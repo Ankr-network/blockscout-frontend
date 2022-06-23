@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
 import { EEthereumNetworkId } from 'provider';
@@ -13,31 +13,35 @@ import { configFromEnv } from 'modules/api/config';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
 import { unstake } from 'modules/stake-bnb/actions/unstake';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aBNBc;
 
 export interface IStakedABNBCData {
-  isShowed: boolean;
   amount: BigNumber;
-  isLoading: boolean;
-  isStakeLoading: boolean;
-  network: string;
   chainId: EEthereumNetworkId;
+  isLoading: boolean;
+  isPendingUnstakeLoading: boolean;
+  isShowed: boolean;
+  isStakeLoading: boolean;
+  isUnstakeLoading: boolean;
+  nativeAmount?: BigNumber;
+  network: string;
+  pendingValue: BigNumber;
+  ratio: BigNumber;
   stakeLink: string;
   token: Token;
   tokenAddress: string;
   unstakeLink: string;
-  pendingValue: BigNumber;
-  isUnstakeLoading: boolean;
-  ratio: BigNumber;
-  isPendingUnstakeLoading: boolean;
-  nativeAmount?: BigNumber;
+  usdAmount?: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
@@ -50,6 +54,10 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     type: fetchPendingValues,
   });
 
+  const { data: metrics } = useQuery({
+    type: getMetrics,
+  });
+
   const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
@@ -60,6 +68,16 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
   const amount = statsData?.aBNBcBalance ?? ZERO;
 
   const pendingValue = pendingValues?.pendingAbnbcUnstakes ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.BNB]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.BNB]?.totalStakedUsd,
+        ratio: statsData?.aBNBcRatio,
+      }),
+    [amount, metrics, statsData],
+  );
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;
@@ -73,21 +91,22 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
   }, [dispatchRequest]);
 
   return {
-    isShowed,
     amount,
-    isLoading: isCommonDataLoading,
-    isStakeLoading,
-    network,
     chainId,
+    isLoading: isCommonDataLoading,
+    isPendingUnstakeLoading,
+    isShowed,
+    isStakeLoading,
+    isUnstakeLoading,
+    nativeAmount,
+    network,
+    pendingValue,
+    ratio: statsData?.aBNBcRatio ?? ZERO,
     stakeLink: RoutesConfig.stake.generatePath(token),
     token,
     tokenAddress: binanceConfig.aBNBcToken,
     unstakeLink: RoutesConfig.unstake.generatePath(token),
-    isUnstakeLoading,
-    pendingValue,
-    ratio: statsData?.aBNBcRatio ?? ZERO,
-    isPendingUnstakeLoading,
-    nativeAmount,
+    usdAmount,
     onAddTokenToWallet,
   };
 };

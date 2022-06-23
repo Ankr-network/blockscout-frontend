@@ -20,19 +20,4 @@ export const useProviderItemStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     color: theme.palette.text.secondary,
   },
-
-  dot: {
-    height: 8,
-    width: 8,
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-
-  greenDot: {
-    backgroundColor: theme.palette.success.main,
-  },
-
-  redDot: {
-    backgroundColor: theme.palette.error.main,
-  },
 }));

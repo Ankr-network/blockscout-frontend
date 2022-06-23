@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 import { t } from 'common';
 
@@ -8,24 +8,19 @@ import { useProviderItemStyles } from './useProviderItemStyles';
 interface IProviderItemProps {
   name: string;
   nodeAPY: BigNumber;
-  status?: string;
+  statusSlot?: ReactNode;
 }
 
 export const ProviderItem = ({
   name,
   nodeAPY,
-  status,
+  statusSlot,
 }: IProviderItemProps): JSX.Element => {
   const classes = useProviderItemStyles();
 
   return (
     <div className={classes.root}>
-      <div
-        className={classNames(classes.dot, {
-          [classes.greenDot]: status === 'green',
-          [classes.redDot]: status === 'red',
-        })}
-      />
+      {statusSlot}
 
       <div className={classes.infoWrapper}>
         {name}

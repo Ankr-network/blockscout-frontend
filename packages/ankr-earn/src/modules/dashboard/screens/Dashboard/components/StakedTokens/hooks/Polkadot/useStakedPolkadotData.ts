@@ -17,6 +17,7 @@ import {
   STAKE_LEGACY_LINKS,
   ZERO,
 } from 'modules/common/const';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
@@ -88,7 +89,7 @@ export const useStakedPolkadotData = ({
       requestKey: getPolkadotRequestKey(network),
     });
 
-  const { data: metrics, loading: isLoadingUSD } = useQuery({
+  const { data: metrics } = useQuery({
     type: getMetrics,
   });
 
@@ -96,29 +97,21 @@ export const useStakedPolkadotData = ({
 
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
-  const usdAmount = useMemo(() => {
-    if (!featuresConfig.isActiveUSDEquivalent) {
-      return undefined;
-    }
 
-    if (isLoadingUSD || metrics === null) {
-      return undefined;
-    }
+  // Note: This is unsafe type conversion. Please be carefully
+  const serviceName = network.toLowerCase() as EMetricsServiceName;
 
-    const serviceName = network.toLowerCase() as EMetricsServiceName;
-    const currMetric = metrics[serviceName];
-
-    if (typeof currMetric === 'undefined') {
-      return undefined;
-    }
-
-    const { totalStaked, totalStakedUsd } = currMetric;
-
-    const oneTokenUSD = totalStakedUsd.div(totalStaked);
-    const usdVal = oneTokenUSD.multipliedBy(amount);
-
-    return usdVal.isZero() ? undefined : usdVal;
-  }, [amount, isLoadingUSD, metrics, network]);
+  const usdAmount = useMemo(
+    () =>
+      featuresConfig.isActiveUSDEquivalent
+        ? getUSDAmount({
+            amount,
+            totalStaked: metrics?.[serviceName]?.totalStaked,
+            totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+          })
+        : undefined,
+    [amount, metrics, serviceName],
+  );
 
   const isShowed =
     !amount.isZero() ||

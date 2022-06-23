@@ -13,6 +13,10 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import {
+  ProviderStatus,
+  ProviderStatusTooltip,
+} from 'modules/stake-ankr/components/ProviderStatus';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
@@ -104,7 +108,20 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 <ProviderItem
                   name={row.provider}
                   nodeAPY={row.apy}
-                  status={row.status}
+                  statusSlot={
+                    <ProviderStatus
+                      tooltipSlot={
+                        <ProviderStatusTooltip
+                          currentPeriod={10}
+                          latency={40}
+                          status={row.status}
+                          successRate={20}
+                          totalPeriod={10}
+                        />
+                      }
+                      type={row.status}
+                    />
+                  }
                 />
               </TableBodyCell>
 

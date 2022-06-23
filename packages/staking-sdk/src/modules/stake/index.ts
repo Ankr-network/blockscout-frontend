@@ -1,4 +1,7 @@
+/* istanbul ignore file */
 import BigNumber from 'bignumber.js';
+
+import { IPendingData, ITxEventsHistoryData } from './types';
 
 /**
  * You need to implement this interface if you'd like to integrate tokens into ankr staking.
@@ -69,30 +72,4 @@ export interface IStakable {
   getTxEventsHistory: () => Promise<ITxEventsHistoryData>;
 }
 
-/**
- * Unstake pending data
- */
-export interface IPendingData {
-  pendingBond: BigNumber;
-  pendingCertificate: BigNumber;
-}
-
-/**
- * Transaction history by token type and state
- */
-export interface ITxEventsHistoryData {
-  completedBond: ITxEventsHistoryGroupItem[];
-  completedCertificate: ITxEventsHistoryGroupItem[];
-  pendingBond: ITxEventsHistoryGroupItem[];
-  pendingCertificate: ITxEventsHistoryGroupItem[];
-}
-
-/**
- * Transaction history data
- */
-export interface ITxEventsHistoryGroupItem {
-  txAmount: BigNumber;
-  txDate: Date;
-  txHash: string;
-  txType: string | null;
-}
+export * from './types';

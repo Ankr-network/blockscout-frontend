@@ -1,6 +1,7 @@
 import { Token } from 'modules/common/types/token';
 
 export const nativeTokenMap: Partial<Record<Token, Token>> = {
+  [Token.aAVAXc]: Token.AVAX,
   [Token.aBNBc]: Token.BNB,
   [Token.aETHc]: Token.ETH,
   [Token.aFTMc]: Token.FTM,

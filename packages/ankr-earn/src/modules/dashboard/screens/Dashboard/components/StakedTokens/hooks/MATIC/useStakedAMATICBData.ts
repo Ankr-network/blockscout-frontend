@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
 import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
@@ -13,26 +13,30 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
 import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake';
 import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IStakedAMATICBData {
+  address?: string;
   amount: BigNumber;
-  pendingValue: BigNumber;
-  network: string;
   chainId: EEthereumNetworkId;
-  tradeLink: string;
-  unstakeLink: string;
-  stakeLink: string;
   isBalancesLoading: boolean;
+  isShowed: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
-  isShowed: boolean;
+  network: string;
+  pendingValue: BigNumber;
+  stakeLink: string;
+  tradeLink: string;
+  unstakeLink: string;
+  usdAmount?: BigNumber;
   walletName?: string;
-  address?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -40,6 +44,10 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakePolygonStats,
+  });
+
+  const { data: metrics } = useQuery({
+    type: getMetrics,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakePolygon });
@@ -53,6 +61,15 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
 
   const amount = statsData?.aMATICbBalance ?? ZERO;
   const pendingValue = statsData?.pendingBond ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.MATIC]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.MATIC]?.totalStakedUsd,
+      }),
+    [amount, metrics],
+  );
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
@@ -62,22 +79,23 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
   }, [dispatchRequest]);
 
   return {
+    address,
     amount,
-    network,
     chainId,
+    isBalancesLoading,
+    isShowed,
+    isStakeLoading,
+    isUnstakeLoading,
+    network,
     pendingValue,
+    stakeLink: StakePolygonRoutes.stake.generatePath(),
     tradeLink: BoostRoutes.tradingCockpit.generatePath(
       Token.aMATICb,
       Token.MATIC,
     ),
-    stakeLink: StakePolygonRoutes.stake.generatePath(),
     unstakeLink: StakePolygonRoutes.unstake.generatePath(),
-    isBalancesLoading,
-    isStakeLoading,
-    isUnstakeLoading,
-    isShowed,
+    usdAmount,
     walletName,
-    address,
     handleAddTokenToWallet,
   };
 };

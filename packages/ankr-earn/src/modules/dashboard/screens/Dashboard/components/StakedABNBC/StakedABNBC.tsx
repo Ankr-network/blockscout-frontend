@@ -33,19 +33,20 @@ export const StakedABNBC = (): JSX.Element => {
 
   const {
     amount,
-    isLoading,
-    isStakeLoading,
-    network,
     chainId,
+    isLoading,
+    isPendingUnstakeLoading,
+    isStakeLoading,
+    isUnstakeLoading,
+    nativeAmount,
+    network,
+    pendingValue,
+    ratio,
     stakeLink,
     token,
     tokenAddress,
     unstakeLink,
-    isUnstakeLoading,
-    pendingValue,
-    ratio,
-    isPendingUnstakeLoading,
-    nativeAmount,
+    usdAmount,
     onAddTokenToWallet,
   } = useStakedABNBCData();
 
@@ -97,6 +98,7 @@ export const StakedABNBC = (): JSX.Element => {
         stakeLink={stakeLink}
         token={token}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}

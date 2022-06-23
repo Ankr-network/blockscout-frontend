@@ -1,23 +1,10 @@
+/* istanbul ignore file */
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
 import { IWeb3SendResult } from 'provider';
 
-/**
- * Transaction information
- */
-export interface IFetchTxData {
-  amount?: BigNumber;
-  isPending: boolean;
-  destinationAddress?: string;
-}
-
-/**
- * Shares args
- */
-export interface IShareArgs {
-  amount: BigNumber;
-}
+import { IFetchTxData, IShareArgs } from './types';
 
 /**
  * You need to implement this interface if you'd like to integrate tokens into ankr switcher.
@@ -111,3 +98,5 @@ export interface ISwitcher {
    */
   addTokenToWallet(token: string): Promise<boolean>;
 }
+
+export * from './types';
