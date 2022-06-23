@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { EProviderStatus } from 'modules/stake-ankr/const';
+
 interface IActiveStakingData {
   isLoading: boolean;
   data: {
@@ -15,7 +17,7 @@ interface IActiveStakingData {
     unstakeLink: string;
     restakeLink: string;
     claimLink: string;
-    status: string;
+    status: EProviderStatus;
   }[];
 }
 
@@ -36,7 +38,7 @@ export const useActiveStakingData = (): IActiveStakingData => {
         unstakeLink: 'unstakeLink',
         restakeLink: 'restakeLink',
         claimLink: 'claimLink',
-        status: 'green',
+        status: EProviderStatus.good,
       },
       {
         provider: 'Provider 2',
@@ -51,7 +53,7 @@ export const useActiveStakingData = (): IActiveStakingData => {
         unstakeLink: '',
         restakeLink: 'restakeLink',
         claimLink: '',
-        status: 'red',
+        status: EProviderStatus.bad,
       },
       {
         provider: 'Provider 3',
@@ -66,7 +68,7 @@ export const useActiveStakingData = (): IActiveStakingData => {
         unstakeLink: '',
         restakeLink: '',
         claimLink: '',
-        status: '',
+        status: EProviderStatus.bonding,
       },
     ],
   };

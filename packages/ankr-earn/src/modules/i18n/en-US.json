@@ -96,7 +96,8 @@
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR",
-    "usd-value": "${value}"
+    "usd-value": "${value}",
+    "percentage-value": "{value}%"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -889,7 +890,12 @@
       "24h-rewards": "24h Rewards",
       "30d-rewards": "30d Rewards",
       "percent-value": "{value, number, ::.0#}%",
-      "days-value": "{value, number}d"
+      "days-value": "{value, number}d",
+      "status": {
+        "success-rate": "Success Rate",
+        "latency": "Latency",
+        "bonding": "Bonding <br/>Day {current} of {total}"
+      }
     },
     "how-it-works": {
       "header": "How it works?",
