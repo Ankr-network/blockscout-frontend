@@ -97,6 +97,10 @@ export const useStakedPolkadotData = ({
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
   const usdAmount = useMemo(() => {
+    if (!featuresConfig.isActiveUSDEquivalent) {
+      return undefined;
+    }
+
     if (isLoadingUSD || metrics === null) {
       return undefined;
     }
