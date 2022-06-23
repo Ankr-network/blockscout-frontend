@@ -12,6 +12,8 @@ import {
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
 import { NavLink } from 'uiKit/NavLink';
 
+import { Amount } from '../Amount';
+
 import { ReactComponent as ExclamationIcon } from './assets/exclamation-mark.svg';
 import { useUnclaimedAssetStyles } from './useUnclaimedAssetStyles';
 
@@ -41,7 +43,7 @@ export const UnclaimedAsset = ({
 
   return (
     <DashboardCard
-      amount={amount}
+      amountSlot={<Amount value={amount} />}
       badgeSlot={
         <div className={classes.badge}>
           <SvgIcon

@@ -1,19 +1,14 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { t } from 'common';
-
-import { DEFAULT_FIXED } from 'modules/common/const';
 import { IPolkadotRouteLoadableComponentProps } from 'modules/stake-polkadot/types';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
-import { UnstakeUserWallet } from 'modules/stake/components/UnstakeUserWallet';
-import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
-import { UnstakeRenderFormFooter } from './components/UnstakeRenderFormFooter';
+import { UnstakeFormFooter } from './components/UnstakeFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';
 
 export const UnstakePolkadot = ({
@@ -21,31 +16,26 @@ export const UnstakePolkadot = ({
 }: IPolkadotRouteLoadableComponentProps): JSX.Element => {
   const {
     ethToken,
-    isActiveSuccessForm,
-    isActiveUnstakeForm,
-    isActiveUserWalletForm,
-    isFetchStatsLoading,
-    isUnstakeLoading,
     fetchStatsData,
     fetchStatsError,
+    isFetchStatsLoading,
+    isSuccessOpened,
+    isUnstakeLoading,
     maxAmountDecimals,
-    networkName,
     polkadotToken,
-    userAmount,
+    unstakeExtraValidation,
+    unstakeLabel,
     onSuccessClose,
     onUnstakeFormClose,
     onUnstakeSubmit,
-    onUserWalletClose,
-    onUserWalletExtraValidation,
-    onUserWalletSubmit,
   } = useUnstakePolkadotData(network);
 
-  const { label: unstakeLabel } = useUnstakePendingTimestamp({
-    token: polkadotToken,
-  });
-
-  const onRenderFormFooter = (amount: BigNumber): JSX.Element => (
-    <UnstakeRenderFormFooter amount={amount} polkadotToken={polkadotToken} />
+  const renderFormFooter = (amount: BigNumber): JSX.Element => (
+    <UnstakeFormFooter
+      amount={amount}
+      network={network}
+      polkadotToken={polkadotToken}
+    />
   );
 
   if (isFetchStatsLoading) {
@@ -61,48 +51,24 @@ export const UnstakePolkadot = ({
       <Container>
         {fetchStatsError !== null && <QueryError error={fetchStatsError} />}
 
-        {fetchStatsError === null && fetchStatsData !== null && (
-          <>
-            {isActiveUnstakeForm && (
-              <UnstakeDialog
-                balance={fetchStatsData.ethTokenBalance}
-                endText={unstakeLabel}
-                maxAmountDecimals={maxAmountDecimals}
-                renderFormFooter={onRenderFormFooter}
-                token={ethToken}
-                onClose={onUnstakeFormClose}
-                onSubmit={onUnstakeSubmit}
-              />
-            )}
-
-            {isActiveUserWalletForm && (
-              <UnstakeUserWallet
-                endText={t('stake-polkadot.unstake.user-wallet-info', {
-                  token: polkadotToken,
-                  network: networkName,
-                })}
-                extraValidation={onUserWalletExtraValidation}
-                isLoading={isUnstakeLoading}
-                network={networkName}
-                submitDisabled={isUnstakeLoading}
-                token={polkadotToken}
-                tokenAmountTxt={t('unit.token-value', {
-                  value: userAmount?.decimalPlaces(DEFAULT_FIXED) ?? 0,
-                  token: ethToken,
-                })}
-                onClose={onUserWalletClose}
-                onSubmit={onUserWalletSubmit}
-              />
-            )}
-
-            {isActiveSuccessForm && (
-              <UnstakeSuccess
-                infoText={unstakeLabel}
-                onClose={onSuccessClose}
-              />
-            )}
-          </>
-        )}
+        {fetchStatsError === null &&
+          fetchStatsData !== null &&
+          (!isSuccessOpened ? (
+            <UnstakeDialog
+              balance={fetchStatsData.ethTokenBalance}
+              endText={unstakeLabel}
+              extraValidation={unstakeExtraValidation}
+              isLoading={isUnstakeLoading}
+              maxAmountDecimals={maxAmountDecimals}
+              renderFormFooter={renderFormFooter}
+              submitDisabled={isUnstakeLoading}
+              token={ethToken}
+              onClose={onUnstakeFormClose}
+              onSubmit={onUnstakeSubmit}
+            />
+          ) : (
+            <UnstakeSuccess infoText={unstakeLabel} onClose={onSuccessClose} />
+          ))}
       </Container>
     </Box>
   );

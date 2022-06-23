@@ -37,6 +37,8 @@
   },
   "main-navigation": {
     "stake": "Stake",
+    "liquid-staking": "Liquid Staking",
+    "ankr-staking": "Ankr Staking",
     "dashboard": "Dashboard",
     "parachain": "Liquid Crowdloan",
     "boost": "DeFi",
@@ -70,6 +72,7 @@
     "eth": "ETH",
     "aeth": "aETHc",
     "feth": "aETHb",
+    "ankr": "ANKR",
     "bnb": "BNB",
     "polygon": "MATIC",
     "matic": "MATIC",
@@ -92,7 +95,8 @@
     "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
-    "ankr-value": "{value} ANKR"
+    "ankr-value": "{value} ANKR",
+    "usd-value": "${value}"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -332,8 +336,7 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}",
-      "usd-equivalent": "${value}"
+      "fee": "Est Network Fee: {value}"
     },
     "buttons": {
       "addToWallet": "Add {token} to wallet",
@@ -484,8 +487,9 @@
       }
     },
     "unstake": {
+      "external-wallet": "External wallet address",
       "info": "You will get your {token} in ~{period} days",
-      "user-wallet-info": "You can unstake {token}s to any {network} compatible address"
+      "send-external-wallet": "Send to external {network} wallet"
     }
   },
   "stake-polygon-dashboard": {
@@ -654,12 +658,7 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
-    "user-wallet": {
-      "title": "Enter {network} wallet to which you want to receive {token}",
-      "field-label": "Wallet address",
-      "continue-btn": "Continue"
-    }
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
   "unstake-polygon": {
     "success": {
@@ -680,11 +679,13 @@
     "unknown-network": "Current network",
     "copied": "Copied!",
     "amount-tooltip": "Amount of staked token, plus accumulated reward.",
+    "amount-usd-tooltip": "Amount of staked token, plus accumulated reward / USD equivalent.",
     "claim-tooltip": "Get liquid staking tokens to your Ethereum wallet",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
     "unstake-tooltip": "Unstake",
     "unstake-loading": "Unstake in progress",
+    "usd-tooltip": "USD equivalent of staked token and accumulated reward.",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
     "stakable-asset-apy": "APY: {value, number, ::.0#}%",
@@ -699,7 +700,7 @@
     "pending-amount": "Amount",
     "pending-time": "Requested time",
     "willGetUnstake": "You will get your {token} in {days}d:{hours}h:{minutes}m",
-    "unstakeTime": "{days}d:{hours}h:{minutes}m", 
+    "unstakeTime": "{days}d:{hours}h:{minutes}m",
     "willTakeUnstake": "It takes about {days} days to unstake",
     "history-tooltip": "Transactions history",
     "card": {
@@ -711,7 +712,10 @@
       "stakingHistoryComingSoon": "Staking history (coming soon)",
       "addToMetamask": "Add token to Metamask",
       "copyTokenAddress": "Copy token address",
-      "tokenInfo": "Token information"
+      "tokenInfo": "Token information",
+      "manage": "Manage",
+      "staked": "Staked",
+      "rewards": "Rewards"
     },
     "guard": {
       "connect-btn": "Connect wallet",
@@ -859,5 +863,106 @@
   "zendesk": {
     "help": "Help",
     "needHelp": "Need help"
+  },
+  "stake-ankr": {
+    "header": {
+      "my": "My",
+      "staking": "ANKR Staking",
+      "node-providers": "Node providers"
+    },
+    "balance": {
+      "label": "Your balance:",
+      "btn": "Get"
+    },
+    "total-info": {
+      "stake": "Stake ANKR",
+      "claim-all": "Claim all",
+      "staked": "Total Staked",
+      "rewards": "Total Rewards",
+      "claimable-rewards": "Claimable rewards",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
+    },
+    "provider": {
+      "cur-highest-apy": "Current Highest APY",
+      "tvl": "TVL",
+      "locking-period": "Locking Period",
+      "24h-rewards": "24h Rewards",
+      "30d-rewards": "30d Rewards",
+      "percent-value": "{value, number, ::.0#}%",
+      "days-value": "{value, number}d"
+    },
+    "how-it-works": {
+      "header": "How it works?",
+      "description": "Independent node providers serve blockchain requests from developers, dApps, games, and other sources. But to serve traffic, node providers need a substantial amount of ANKR deposited or ‘staked’ to their nodes to ensure they behave properly and keep within high performance requirements. Earn staking rewards by helping node providers meet the collateral requirements to participate in the protocol.",
+      "title-1": "Select a node",
+      "article-1": "Choose a node that matches your risk tolerance. Newer nodes with a smaller staked pool and shorter history on the protocol may have higher APYs but could have more potential for performance issues and slashing, which means missed rewards. Conversely, longstanding providers may offer more modest APYs as rewards are split between more stakers, but less risk is involved.",
+      "title-2": "Stake your ANKR tokens",
+      "article-2": "After choosing your preferred node, select ‘Stake’ and connect your wallet containing ANKR. Then choose the amount of ANKR you would like to stake.",
+      "title-3": "Earn staking rewards",
+      "article-3": "Receive staking rewards directly to independent wallets such as MetaMask. You are able to check your staked balance and rewards on the dashboard at any time or unstake your ANKR.",
+      "info": "Earn staking rewards by helping node providers meet the collateral requirements to participate in the protocol.",
+      "choose-provider": "Choose Node Provider",
+      "view-docs": "View Docs"
+    },
+    "claim-dialog": {
+      "header": "Claim undelegated stake",
+      "claim-all": "Claim all",
+      "total": "Total"
+    },
+    "table": {
+      "node-provider": "Node Provider",
+      "apy": "Current APY",
+      "staked-pool": "Staked Pool",
+      "rps": "RPS",
+      "online": "Online",
+      "percent-value": "{value, number, ::.0#}%",
+      "stake": "Stake",
+      "details": "Details",
+      "exit-days": "Exit in {value} days",
+      "exit-day": "Exit in {value} day",
+      "bonding-days": "Bonding, {value} days left",
+      "bonding-day": "Bonding, {value} day left"
+    },
+    "staking-table": {
+      "node-provider": "Node Provider",
+      "locking-period": "Locking Period",
+      "your-stake": "Your Stake",
+      "rewards": "Rewards",
+      "unstake-amount": "Unstake Amount",
+      "apy": "APY: {value}%",
+      "unlocked": "Unlocked",
+      "restake": "Restake",
+      "claim": "Claim",
+      "left-days": "{value} days left",
+      "left-day": "{value} day left",
+      "date": "Date",
+      "hash": "Hash",
+      "event": "Event",
+      "amount": "Amount",
+      "date-cell": "{month} {day}, {year}"
+    },
+    "tabs": {
+      "active-staking": "Active Staking",
+      "unstaking": "Unstaking",
+      "history": "History",
+      "claim-all": "Claim all"
+    },
+    "empty-state": {
+      "start": "Start staking ANKR",
+      "start-description": "Stake ANKR tokens directly to node providers on Ankr Protocol.",
+      "how-it-works": "How it works?",
+      "description-1": "Earn ANKR for facilitating Web3 development",
+      "description-2": "Stake to Full Nodes for the first time ever",
+      "description-3": "Boost Web3 integration and adoption",
+      "description-4": "Earn participation in ANKR DAO governance"
+    },
+    "staking": {
+      "title": "ANKR Staking",
+      "submit": "Stake ANKR",
+      "provider-label": "Node Provider",
+      "provider-placeholder": "Select node provider",
+      "locking-period": "Locking period",
+      "locking-period-value": "{days} days"
+    }
   }
 }

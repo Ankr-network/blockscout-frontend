@@ -25,6 +25,10 @@ export const useSnackbarProviderStyles = makeStyles(theme => {
   };
 
   return {
+    notificationRoot: {
+      wordBreak: 'break-word',
+    },
+
     containerAnchorOriginTopCenter: {
       width: '100%',
       maxWidth: `calc(100% - ${theme.spacing(2)})`,

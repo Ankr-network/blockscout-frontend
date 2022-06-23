@@ -52,7 +52,7 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
   const chainId = ETH_NETWORK_BY_ENV;
 
   const amount = statsData?.aMATICbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingAMATICB ?? ZERO;
+  const pendingValue = statsData?.pendingBond ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;

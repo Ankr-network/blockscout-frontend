@@ -29,6 +29,7 @@ module.exports = function (config) {
       path.resolve('../multirpc-sdk'),
       path.resolve('../common'),
       path.resolve('../ankr-global-menu'),
+      path.resolve('../staking-sdk'),
     ]),
   )(config);
 };

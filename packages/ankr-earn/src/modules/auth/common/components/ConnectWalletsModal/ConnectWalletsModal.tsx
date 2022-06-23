@@ -5,6 +5,7 @@ import React, { Fragment, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 import {
@@ -13,7 +14,6 @@ import {
   Web3KeyReadProvider,
 } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';

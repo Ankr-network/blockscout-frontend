@@ -3,6 +3,7 @@ import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
@@ -18,7 +19,6 @@ import AETHC_CONTRACT from 'modules/api/contract/AETH.json';
 import EHT_POOL_CONTRACT from 'modules/api/contract/EthereumPool.json';
 import AETHB_CONTRACT from 'modules/api/contract/FETH.json';
 import ABI_SYSTEM from 'modules/api/contract/SystemParameters.json';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   ETH_SCALE_FACTOR,
   isMainnet,

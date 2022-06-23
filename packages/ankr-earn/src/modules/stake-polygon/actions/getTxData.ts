@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { PolygonSDK } from '@ankr.com/staking-sdk';
 
-import { PolygonSDK } from '../api/PolygonSDK';
+import { withStore } from 'modules/common/utils/withStore';
 
 export interface IGetTXData {
   amount: BigNumber;
@@ -43,7 +43,6 @@ export const getTxReceipt = createAction<
     asMutation: false,
     showNotificationOnError: true,
     poll: POLL_INTERVAL_SECONDS,
-    getData: data => data,
     onRequest: request => {
       request.promise = PolygonSDK.getInstance().then(sdk =>
         sdk.fetchTxReceipt(txHash),

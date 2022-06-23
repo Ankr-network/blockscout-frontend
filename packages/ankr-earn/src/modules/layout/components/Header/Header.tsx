@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { GlobalMenu } from '@ankr.com/global-menu';
-import { useIsLGUp, useIsSMDown } from 'ui';
+import { useIsSMDown, useIsXLUp } from 'ui';
 
 import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
@@ -29,7 +29,7 @@ export const Header = ({
   bannerSlot,
 }: IHeader): JSX.Element => {
   const classes = useStyles();
-  const isLGUp = useIsLGUp();
+  const isXLUp = useIsXLUp();
   const isMobile = useIsSMDown();
   const { locale } = useLocale();
   const history = useHistory();
@@ -58,7 +58,7 @@ export const Header = ({
         <div className={classes.center}>{mainNavigationSlot}</div>
 
         <div className={classes.rightSide}>
-          {featuresConfig.localeSwitcher && isLGUp && (
+          {featuresConfig.localeSwitcher && isXLUp && (
             <LocaleSwitcher className={classes.localeSwitcher} />
           )}
 
@@ -68,7 +68,7 @@ export const Header = ({
             </div>
           )}
 
-          {!isLGUp && (
+          {!isXLUp && (
             <Toggle
               className={classes.toggle}
               opened={drawerOpen}
@@ -78,7 +78,7 @@ export const Header = ({
         </div>
       </Container>
 
-      {!isLGUp && (
+      {!isXLUp && (
         <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
           {mainNavigationMobileSlot}
         </Drawer>

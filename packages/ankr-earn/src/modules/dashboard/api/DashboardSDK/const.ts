@@ -1,3 +1,5 @@
+import { AMATICB_ABI, AMATICC_ABI } from '@ankr.com/staking-sdk';
+
 import { configFromEnv } from 'modules/api/config';
 import ABI_AETHB from 'modules/api/contract/FETH.json';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
@@ -10,8 +12,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import AFTMB_ABI from 'modules/stake-fantom/api/contracts/aFTMb.json';
 import AFTMC_ABI from 'modules/stake-fantom/api/contracts/aFTMc.json';
-import AMATICB_ABI from 'modules/stake-polygon/api/contracts/aMATICb.json';
-import AMATICC_ABI from 'modules/stake-polygon/api/contracts/aMATICc.json';
 
 import { IDashboardSDKCotractData } from './types';
 

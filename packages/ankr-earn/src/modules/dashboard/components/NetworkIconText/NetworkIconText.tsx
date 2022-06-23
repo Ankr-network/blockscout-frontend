@@ -17,6 +17,7 @@ import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
+import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -46,7 +47,8 @@ type TIconMap = Record<
   | Token.DOT
   | Token.KSM
   | Token.WND
-  | Token.ETH,
+  | Token.ETH
+  | Token.ANKR,
   MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
@@ -74,6 +76,7 @@ const iconByTokenMap: TIconMap = {
   [Token.KSM]: KsmIcon,
   [Token.WND]: DotIcon,
   [Token.ETH]: EthIcon,
+  [Token.ANKR]: AnkrIcon,
 };
 
 const iconByNetworkMap: TNetworkIconMap = {
