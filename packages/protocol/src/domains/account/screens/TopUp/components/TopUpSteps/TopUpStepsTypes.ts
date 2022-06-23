@@ -8,4 +8,5 @@ export interface ITopUpStepsProps {
   hasCredentials: boolean;
   onReject: () => void;
   isRejectAllowanceLoading: boolean;
+  transactionHash?: string;
 }

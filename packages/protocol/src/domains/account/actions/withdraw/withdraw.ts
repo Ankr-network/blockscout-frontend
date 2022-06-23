@@ -4,30 +4,30 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { MultiService } from 'modules/api/MultiService';
-import { fetchPublicKey } from '../fetchPublicKey';
 import {
-  setAllowanceTransaction,
-  setTopUpTransaction,
-} from 'domains/account/store/accountTopUpSlice';
+  selectTransaction,
+  setWithdrawTransaction,
+} from 'domains/account/store/accountWithdrawSlice';
+import { t } from 'modules/i18n/utils/intl';
 
 const setTransaction = (
   store: RequestsStore,
   address: string,
-  topUpTransactionHash: string,
+  withdrawTransactionHash: string,
 ) => {
-  if (topUpTransactionHash) {
+  if (withdrawTransactionHash) {
     store.dispatch(
-      setTopUpTransaction({
+      setWithdrawTransaction({
         address,
-        topUpTransactionHash,
+        withdrawTransactionHash,
       }),
     );
   }
 };
 
-export const deposit = createSmartAction<
+export const withdraw = createSmartAction<
   RequestAction<string, IWeb3SendResult>
->('topUp/deposit', (amount: BigNumber) => ({
+>('withdraw/withdraw', () => ({
   request: {
     promise: (async () => null)(),
   },
@@ -38,19 +38,25 @@ export const deposit = createSmartAction<
           const { service } = MultiService.getInstance();
           const address = service.getKeyProvider().currentAccount();
 
-          const { data: publicKey } = await store.dispatchRequest(
-            fetchPublicKey(),
+          const transaction = selectTransaction(store.getState());
+
+          const amount = transaction?.amount;
+
+          if (!amount) {
+            throw new Error(
+              t('validation.min', {
+                value: 0,
+              }),
+            );
+          }
+
+          const witdrawResponse = await service.withdrawAnkr(
+            new BigNumber(amount),
           );
 
-          const depositResponse = await service.depositAnkrToPAYG(
-            amount,
-            publicKey as string,
-          );
+          setTransaction(store, address, witdrawResponse.transactionHash);
 
-          store.dispatch(setAllowanceTransaction({ address }));
-          setTransaction(store, address, depositResponse.transactionHash);
-
-          return depositResponse;
+          return witdrawResponse;
         })(),
       };
     },

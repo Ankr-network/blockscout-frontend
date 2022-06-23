@@ -7,7 +7,7 @@ import { setAuthData } from 'domains/auth/store/authSlice';
 import { connect } from 'domains/auth/actions/connect';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
-import { fetchPublicKey } from './fetchPublicKey';
+import { fetchPublicKey } from '../fetchPublicKey';
 import { IJwtToken } from 'multirpc-sdk';
 
 interface IDeposit {

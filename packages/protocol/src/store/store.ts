@@ -15,8 +15,10 @@ import { notificationSlice } from '../domains/notification/store/notificationSli
 import { rootSaga } from './rootSaga';
 import { authSlice } from 'domains/auth/store/authSlice';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
+import { accountWithdrawSlice } from 'domains/account/store/accountWithdrawSlice';
 import { disconnect } from 'domains/auth/actions/disconnect';
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
+import { accountWithdrawPersistConfig } from 'domains/account/storage/accountWithdrawPersistConfig';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 
@@ -79,6 +81,10 @@ const rootReducer = combineReducers({
   accountTopUp: persistReducer(
     accountTopUpPersistConfig,
     accountTopUpSlice.reducer,
+  ),
+  accountWithdraw: persistReducer(
+    accountWithdrawPersistConfig,
+    accountWithdrawSlice.reducer,
   ),
   requests: requestsReducer,
   router: connectRouter(historyInstance),

@@ -51,6 +51,7 @@ import {
   IDailyChargingReponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IWithdrawalStatusResponse,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
@@ -403,6 +404,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return transactionReceipt;
   }
 
+  async withdrawAnkr(
+    amount: BigNumber | BigNumber.Value,
+  ): Promise<IWeb3SendResult> {
+    return this.getPAYGContractManager().withdrawAnkr(new BigNumber(amount));
+  }
+
   async getLastLockedFundsEvent(
     user: Web3Address,
   ): Promise<EventData | undefined> {
@@ -411,7 +418,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
         user,
       );
 
-    return events?.[0];
+    if (!events?.length) return undefined;
+
+    return events?.[events.length - 1];
   }
 
   async isJwtTokenIssueAvailable(
@@ -757,7 +766,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return token;
   }
 
-
   public async authorizeBackoffice(lifeTime: number): Promise<string> {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
@@ -770,10 +778,20 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     return token;
   }
-  
+
   async getBalanceEndTime(blockchains?: string[]): Promise<number> {
     const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
 
     return time;
+  }
+
+  async getWithdrawalStatus(
+    transactionHash: string,
+  ): Promise<IWithdrawalStatusResponse> {
+    const withdrawalStatus = await this.getAccountGateway().getWithdrawalStatus(
+      transactionHash,
+    );
+
+    return withdrawalStatus;
   }
 }

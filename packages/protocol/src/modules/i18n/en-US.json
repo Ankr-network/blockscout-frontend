@@ -82,7 +82,8 @@
     "insufficient-permissions": "Insufficient permissions",
     "expired-session": "Your session has expired",
     "access-token-error": "Unable to obtain access token from multirpc-sdk",
-    "credentials": "Credentials are not ready"
+    "credentials": "Credentials are not ready",
+    "failed": "The transaction failed"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -271,7 +272,7 @@
           "web3-js": "Web3.js"
         },
         "title": "Connection code snippet"
-      } 
+      }
     }
   },
   "plan": {
@@ -670,16 +671,33 @@
   "withdraw-steps": {
     "title": "Withdraw",
     "step-content": {
-      "0": "I understand my wallet will make a deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated account",
+      "0": "I&nbsp;understand my&nbsp;withdrawal could be&nbsp;less after any pending charges are subtracted. The processing time will depend on&nbsp;the Ethereum network load.",
       "1": "How much would you like to withdraw?",
-      "2": "Operation could take up to 15 minutes.",
-      "3": "Thank you! Transaction is on the way."
+      "2": "Thank you! Transaction is on the way.",
+      "2-error": "Oops! Transaction has not been completed.",
+      "3": "Your request for withdrawal is&nbsp;submitted."
     },
     "step-notice": {
-      "2": "Don’t worry, our system finalizing calculation.",
-      "3": "After Ethereum network validation you will see updated balance of your wallet."
+      "2": "After 12&nbsp;block validations, our system will perform the final calculation. This may take up&nbsp;to&nbsp;15&nbsp;minutes",
+      "2-error": "Don’t worry, your funds are safe. Just try again.",
+      "3": "It&nbsp;will take up&nbsp;to&nbsp;15&nbsp;minutes for our system to&nbsp;finish the calculation. You can leave this page now."
     },
-    "next": "Next"
+    "button": {
+      "0": "Next",
+      "1": "Confirm",
+      "1-loading": "Check Metamask",
+      "2": "Next",
+      "2-loading": "Please wait",
+      "2-error": "Try Again",
+      "3": "Done",
+      "3-loading": "Please wait"
+    },
+    "form": {
+      "balance-error": "You cannot make a withdrawal as your balance is zero or negative",
+      "min": "The minimum withdrawal amount is {value} ANKR",
+      "max": "You cannot make a withdrawal, as your balance is less than {value} ANKR",
+      "excess": "The entered amount exceeds your balance"
+    }
   },
   "continents": {
     "AS": "Asia",

@@ -5,15 +5,15 @@ import {
 } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { getAllowance } from './getAllowance';
-import { fetchPublicKey } from '../fetchPublicKey';
-import { deposit } from './deposit';
+// eslint-disable-next-line import/no-cycle
+import { getWithdrawInitialStep } from './getWithdrawInitialStep';
+import { withdraw } from './withdraw';
 import { waitTransactionConfirming } from './waitTransactionConfirming';
-import { login } from './login';
-import { getTopUpInitialStep } from './getTopUpInitialStep';
+// eslint-disable-next-line import/no-cycle
+import { checkWithdrawStatus } from './checkWithdrawStatus';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
-  'topUp/reset',
+  'withdraw/reset',
   () => ({
     request: {
       promise: (async () => null)(),
@@ -28,18 +28,15 @@ export const reset = createSmartAction<RequestAction<string, string>>(
           promise: (async () => {
             store.dispatch(
               resetRequests([
-                getTopUpInitialStep.toString(),
-                getAllowance.toString(),
-                fetchPublicKey.toString(),
-                deposit.toString(),
+                getWithdrawInitialStep.toString(),
+                withdraw.toString(),
                 waitTransactionConfirming.toString(),
-                login.toString(),
+                checkWithdrawStatus.toString(),
               ]),
             );
           })(),
         };
       },
-      asMutation: false,
     },
   }),
 );

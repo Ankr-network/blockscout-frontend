@@ -147,7 +147,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   async hasEnoughAllowance(amount: BigNumber): Promise<boolean> {
     const currentAccount = this.keyProvider.currentAccount();
     const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString()),
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
     );
 
     const scaledAllowance = new BigNumber(
@@ -209,5 +209,26 @@ export class PAYGContractManager implements IPAYGContractManager {
 
   async rejectAllowance() {
     return this.sendAllowance(new BigNumber(0));
+  }
+
+  async withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult> {
+    const scaledAmount = new BigNumber(
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
+    );
+
+    const currentAccount = this.keyProvider.currentAccount();
+
+    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
+      .withdraw(scaledAmount.toString(10))
+      .encodeABI();
+
+    return this.keyProvider.sendTransactionAsync(
+      currentAccount,
+      this.config.payAsYouGoContractAddress,
+      {
+        data,
+        gasLimit: GAS_LIMIT,
+      },
+    );
   }
 }

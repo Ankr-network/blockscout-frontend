@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
@@ -12,6 +12,7 @@ import {
   preparePaymentHistoryRequest,
   usePaymentHistoryTableColumns,
   useDownloadTransaction,
+  getFilteredTransactions,
 } from './PaymentsHistoryTableUtils';
 import { useStyles } from './useStyles';
 import { Filters } from './Filters';
@@ -33,9 +34,9 @@ export const PaymentsHistoryTable = () => {
   });
 
   const handleFetchPaymentHistory = useCallback(
-    (from, to, type) => {
+    (from, to, types) => {
       dispatchRequest(
-        fetchPaymentHistory(preparePaymentHistoryRequest(from, to, type)),
+        fetchPaymentHistory(preparePaymentHistoryRequest(from, to, types)),
       );
     },
     [dispatchRequest],
@@ -43,6 +44,11 @@ export const PaymentsHistoryTable = () => {
   const preloader = loading ? (
     <Preloader className={classes.preloader} />
   ) : null;
+
+  const filteredTransactions = useMemo(
+    () => getFilteredTransactions(data?.transactions),
+    [data?.transactions],
+  );
 
   return (
     <Box display="flex" flexDirection="column">
@@ -56,7 +62,7 @@ export const PaymentsHistoryTable = () => {
         cols={columns}
         minWidth={650}
         preloader={preloader}
-        rows={data?.transactions || []}
+        rows={filteredTransactions}
         emptyMessage={t('account.payment-table.empty')}
       />
     </Box>

@@ -4,3 +4,5 @@ export enum WithdrawStep {
   waitTransactionConfirming,
   done,
 }
+
+export const MIN_AMOUNT = 500;

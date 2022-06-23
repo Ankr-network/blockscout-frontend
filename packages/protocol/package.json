@@ -178,6 +178,7 @@
       "/public/optimism/add/",
       "/account/",
       "/account/topup/",
+      "/account/withdraw/",
       "/providers/",
       "/explorer/"
     ],

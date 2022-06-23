@@ -24,4 +24,6 @@ export interface IPAYGContractManager {
   decryptMessageUsingPrivateKey(compatibleJsonData: string): Promise<string>;
 
   rejectAllowance(): Promise<IWeb3SendResult>;
+
+  withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult>;
 }

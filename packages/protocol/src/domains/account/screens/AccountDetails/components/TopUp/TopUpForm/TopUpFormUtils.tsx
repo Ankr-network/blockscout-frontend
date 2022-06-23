@@ -12,10 +12,10 @@ import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './TopUpFormTypes';
 
 import { getLastLockedFundsEvent } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { MessageEventData } from 'provider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -42,6 +42,8 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
   }, [classes.button, classes.form, isMobile]);
 };
 
+const MAX_DECIMALS = 1;
+
 export const useRenderForm = (classes: ClassNameMap) => {
   return useCallback(
     ({
@@ -55,7 +57,11 @@ export const useRenderForm = (classes: ClassNameMap) => {
           onSubmit={handleSubmit}
           className={classes.form}
         >
-          <AmountField name={AmountInputField.amount} change={change} />
+          <AmountField
+            name={AmountInputField.amount}
+            change={change}
+            maxDecimals={MAX_DECIMALS}
+          />
           <Button
             color="primary"
             fullWidth

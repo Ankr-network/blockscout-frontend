@@ -1,3 +1,5 @@
+import { t } from 'modules/i18n/utils/intl';
+
 const DEFAULT_MAX_ATTEMPTS = 10;
 const ETH_BLOCK_TIME = 10 * 1000;
 
@@ -11,6 +13,7 @@ export const retry = async <T>(
   // eslint-disable-next-line no-async-promise-executor
   const result = await new Promise(async (resolve, reject) => {
     let attempts = 0;
+
     // eslint-disable-next-line consistent-return
     const i = setInterval(async () => {
       try {
@@ -18,6 +21,11 @@ export const retry = async <T>(
         clearInterval(i);
         return resolve(value);
       } catch (e: any) {
+        if (e.message === t('error.failed')) {
+          clearInterval(i);
+          reject(errorMessage || e);
+        }
+
         if (!e.response?.data || !skipCondition(e.response.data)) {
           if (attempts < maxAttempts) {
             attempts++;

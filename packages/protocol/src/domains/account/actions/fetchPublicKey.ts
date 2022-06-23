@@ -6,7 +6,7 @@ import { fetchEncryptionKey } from 'domains/auth/actions/fetchEncryptionKey';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 
 export const fetchPublicKey = createSmartAction<RequestAction<string, string>>(
-  'topUp/fetchPublicKey',
+  'account/fetchPublicKey',
   () => ({
     request: {
       promise: (async () => null)(),

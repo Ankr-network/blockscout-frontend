@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { deposit } from '../actions/topUp/deposit';
-import { fetchPublicKey } from '../actions/topUp/fetchPublicKey';
+import { fetchPublicKey } from '../actions/fetchPublicKey';
 import { getAllowance } from '../actions/topUp/getAllowance';
 import { login } from '../actions/topUp/login';
 import { waitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
@@ -22,7 +22,7 @@ import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
 import { MultiService } from 'modules/api/MultiService';
 
-export function useTopUp() {
+export const useTopUp = () => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
@@ -134,4 +134,4 @@ export function useTopUp() {
     handleRejectAllowance,
     handleRedirectIfCredentials,
   };
-}
+};

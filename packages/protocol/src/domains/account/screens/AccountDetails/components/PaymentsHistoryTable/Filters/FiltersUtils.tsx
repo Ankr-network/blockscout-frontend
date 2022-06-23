@@ -1,6 +1,7 @@
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { IPaymentEntityType, ITimeType } from './FiltersTypes';
+import { IPaymentHistoryEntityType } from 'multirpc-sdk';
 
 export const DEFAULT_TIME_VALUE = 'WEEK';
 
@@ -44,10 +45,10 @@ export const useTypeSelectOptions = () => {
         value: 'TRANSACTION_TYPE_DEDUCTION',
         label: t('account.payment-table.payment-type.deduction'),
       },
-      // {
-      //   value: 'TRANSACTION_TYPE_WITHDRAW',
-      //   label: t('account.payment-table.payment-type.withdrawal'),
-      // },
+      {
+        value: 'TRANSACTION_TYPE_WITHDRAW',
+        label: t('account.payment-table.payment-type.withdrawal'),
+      },
       // {
       //   value: 'TRANSACTION_TYPE_BONUS',
       //   label: t('account.payment-table.payment-type.bonus'),
@@ -98,6 +99,20 @@ export const prepareTimeForRequest = (value: ITimeType) => {
   }
 };
 
-export const prepareTypeForRequest = (value: IPaymentEntityType) => {
-  return value === 'ALL' ? undefined : value;
+export const prepareTypeForRequest = (
+  value: IPaymentEntityType,
+): IPaymentHistoryEntityType[] | undefined => {
+  if (value === 'ALL') {
+    return undefined;
+  }
+
+  if (value === 'TRANSACTION_TYPE_WITHDRAW') {
+    return [
+      value,
+      'TRANSACTION_TYPE_WITHDRAW_INIT',
+      'TRANSACTION_TYPE_WITHDRAW_ADJUST',
+    ];
+  }
+
+  return [value];
 };

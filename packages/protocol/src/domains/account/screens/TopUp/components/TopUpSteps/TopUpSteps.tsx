@@ -19,6 +19,7 @@ export const TopUpSteps = ({
   amount,
   hasCredentials,
   isRejectAllowanceLoading,
+  transactionHash,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -37,7 +38,7 @@ export const TopUpSteps = ({
           <StepperTitle step={step} className={classes.title} amount={amount} />
           <StepperNotice step={step} className={classes.notice} />
           {step === TopUpStep.waitTransactionConfirming && (
-            <TransactionButton />
+            <TransactionButton transactionHash={transactionHash} />
           )}
         </Box>
         <Buttons

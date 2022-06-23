@@ -6,6 +6,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { getButtonText } from './ButtonsUtils';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { ITopUpStepsProps } from '../TopUpStepsTypes';
+import { LoadingButton } from '../LoadingButton/LoadingButton';
 
 interface IButtonProps extends Omit<ITopUpStepsProps, 'amount'> {}
 
@@ -21,16 +22,14 @@ export const Buttons = ({
 
   return (
     <Box className={classes.root}>
-      <Button
+      <LoadingButton
         className={classes.button}
-        disabled={loading || isRejectAllowanceLoading}
+        isDisabled={loading || isRejectAllowanceLoading}
         onClick={onConfirm}
-        startIcon={
-          loading ? <CircularProgress size={18} color="inherit" /> : null
-        }
+        loading={loading}
       >
         {getButtonText(loading, step, hasCredentials)}
-      </Button>
+      </LoadingButton>
       {step === TopUpStep.deposit && (
         <Button
           fullWidth
