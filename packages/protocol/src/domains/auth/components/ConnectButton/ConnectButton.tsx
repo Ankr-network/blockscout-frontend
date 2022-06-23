@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Box, Button, Fade, Menu, MenuItem } from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
@@ -23,6 +23,12 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
     handleClose();
     handleDisconnect();
   }, [handleClose, handleDisconnect]);
+
+  useEffect(() => {
+    if (!address) {
+      handleClose();
+    }
+  }, [address, handleClose]);
 
   return address ? (
     <>

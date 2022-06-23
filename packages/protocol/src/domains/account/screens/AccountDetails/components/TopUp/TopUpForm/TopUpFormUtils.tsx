@@ -12,10 +12,10 @@ import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './TopUpFormTypes';
 
 import { getLastLockedFundsEvent } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
-import { useAuth } from 'modules/auth/hooks/useAuth';
 import { MessageEventData } from 'provider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
