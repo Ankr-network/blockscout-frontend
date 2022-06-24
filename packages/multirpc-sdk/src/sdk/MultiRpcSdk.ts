@@ -418,8 +418,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
         user,
       );
 
-    if (!events?.length) return undefined;
-
     return events?.[events.length - 1];
   }
 

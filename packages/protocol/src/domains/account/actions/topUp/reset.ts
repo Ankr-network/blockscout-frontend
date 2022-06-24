@@ -11,6 +11,7 @@ import { deposit } from './deposit';
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { login } from './login';
 import { getTopUpInitialStep } from './getTopUpInitialStep';
+import { getLastLockedFundsEvent } from './getLastLockedFundsEvent';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
   'topUp/reset',
@@ -34,6 +35,7 @@ export const reset = createSmartAction<RequestAction<string, string>>(
                 deposit.toString(),
                 waitTransactionConfirming.toString(),
                 login.toString(),
+                getLastLockedFundsEvent.toString(),
               ]),
             );
           })(),

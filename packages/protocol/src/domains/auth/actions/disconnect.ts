@@ -7,7 +7,8 @@ import { MultiService } from 'modules/api/MultiService';
 import { store } from 'store';
 import { resetAuthData } from 'domains/auth/store/authSlice';
 import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
-import { reset } from 'domains/account/actions/withdraw/reset';
+import { reset as topUpReset } from 'domains/account/actions/topUp/reset';
+import { reset as withdrawReset } from 'domains/account/actions/withdraw/reset';
 
 export const disconnect = createSmartAction<RequestAction>(
   'auth/disconnect',
@@ -21,7 +22,8 @@ export const disconnect = createSmartAction<RequestAction>(
         await service.getKeyProvider().disconnect();
 
         store.dispatch(resetAuthData());
-        store.dispatch(reset());
+        store.dispatch(withdrawReset());
+        store.dispatch(topUpReset());
       })(),
     },
     meta: {
