@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { useCopyTokenAddressHook } from '../useCopyTokenAddressHook';
+import { useCopyTokenAddressHook } from 'modules/common/hooks/useCopyTokenAddressHook';
 
 describe('modules/dashboard/components/CopyTokenAddress/useCopyTokenAddressHook', () => {
   beforeEach(() => {
