@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-// TODO: remove ignore when tests are ready
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { BlockTransactionObject } from 'web3-eth';
@@ -35,8 +33,9 @@ import {
   IPendingData,
   ITxEventsHistoryGroupItem,
   IEventsBatch,
+  IStakable,
 } from '../stake';
-import { IFetchTxData, IShareArgs } from '../switcher';
+import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
@@ -53,9 +52,10 @@ import {
   IGetTxReceipt,
   EBinancePoolEvents,
   EBinancePoolEventsMap,
+  EErrorCodes,
 } from './types';
 
-export class BinanceSDK {
+export class BinanceSDK implements ISwitcher, IStakable {
   private static instance?: BinanceSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -162,12 +162,10 @@ export class BinanceSDK {
   }
 
   private convertToHex(amount: BigNumber): string {
-    return this.readProvider
-      .getWeb3()
-      .utils.numberToHex(amount.multipliedBy(1e18).toString(10));
+    return convertNumberToHex(amount, ETH_SCALE_FACTOR);
   }
 
-  // todo: reuse it form stake/api/getTxEventsHistoryGroup
+  // TODO: reuse it form stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
   ): Promise<ITxEventsHistoryGroupItem[]> {
@@ -353,19 +351,23 @@ export class BinanceSDK {
     };
   }
 
-  public async getPendingUnstakes(): Promise<IPendingData> {
+  public async getPendingData(): Promise<IPendingData> {
     const {
       unstakeRawEvents,
       rebasingEvents: isRebasingEvents,
       ratio,
     } = await this.getPoolEventsBatch();
-    let pendingUnstakes = await this.getTotalPendingUnstakes();
+    let pendingUnstakes = await this.getPendingClaim();
     let pendingRawEvents: EventData[] = [];
 
     if (pendingUnstakes.isGreaterThan(0)) {
       const unstakePendingReverse = unstakeRawEvents.reverse();
 
-      for (let i = 0; i < unstakePendingReverse.length; i += 1) {
+      for (
+        let i = 0;
+        i < unstakePendingReverse.length && !pendingUnstakes.isZero();
+        i += 1
+      ) {
         const unstakeEventItem = unstakePendingReverse[i];
         const itemAmount = this.convertFromWei(
           unstakeEventItem.returnValues.amount,
@@ -373,10 +375,6 @@ export class BinanceSDK {
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
-
-        if (pendingUnstakes.isZero()) {
-          break;
-        }
       }
     }
 
@@ -408,7 +406,7 @@ export class BinanceSDK {
     };
   }
 
-  public async getTotalPendingUnstakes(): Promise<BigNumber> {
+  public async getPendingClaim(): Promise<BigNumber> {
     const binancePoolContract = await this.getBinancePoolContract();
 
     const pending = await binancePoolContract.methods
@@ -493,14 +491,18 @@ export class BinanceSDK {
         .map(y => y.transactionHash),
     );
 
-    let pendingUnstakes = await this.getTotalPendingUnstakes();
+    let pendingUnstakes = await this.getPendingClaim();
     let completedRawEvents: EventData[] = [];
     let pendingRawEvents: EventData[] = [];
 
     if (pendingUnstakes.isGreaterThan(0)) {
       const unstakeRawEventsReverse = unstakeRawEvents.reverse();
 
-      for (let i = 0; i < unstakeRawEventsReverse.length; i += 1) {
+      for (
+        let i = 0;
+        i < unstakeRawEventsReverse.length && !pendingUnstakes.isZero();
+        i += 1
+      ) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
         const itemAmount = this.convertFromWei(
           unstakeRawEventItem.returnValues.amount,
@@ -508,10 +510,6 @@ export class BinanceSDK {
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
-
-        if (pendingUnstakes.isZero()) {
-          break;
-        }
       }
 
       completedRawEvents = [
@@ -593,14 +591,9 @@ export class BinanceSDK {
 
     if (certUnlockedLog) {
       const certDecodedLog = web3.eth.abi.decodeLog(
-        [
-          {
-            type: 'uint256',
-            name: 'amount',
-          },
-        ],
-        certUnlockedLog?.data,
-        certUnlockedLog?.topics,
+        [{ type: 'uint256', name: 'amount' }],
+        certUnlockedLog.data,
+        certUnlockedLog.topics,
       );
 
       return {
@@ -614,15 +607,19 @@ export class BinanceSDK {
 
   public async stake(
     amount: BigNumber,
-    token: TBnbSyntToken,
+    token: string,
   ): Promise<{ txHash: string }> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
     let gasFee = this.stakeGasFee;
     if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount, token);
+      gasFee = await this.getStakeGasFee(amount, token as TBnbSyntToken);
     }
 
     const balance = await this.getBNBBalance();
@@ -635,7 +632,9 @@ export class BinanceSDK {
     );
 
     const contractStake =
-      binancePoolContract.methods[this.getStakeMethodName(token)];
+      binancePoolContract.methods[
+        this.getStakeMethodName(token as TBnbSyntToken)
+      ];
 
     const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
@@ -651,7 +650,11 @@ export class BinanceSDK {
     return { txHash: tx.transactionHash };
   }
 
-  public async unstake(amount: BigNumber, token: TBnbSyntToken): Promise<void> {
+  public async unstake(amount: BigNumber, token: string): Promise<void> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -660,7 +663,9 @@ export class BinanceSDK {
     const hexAmount = this.convertToHex(amount);
 
     const contractUnstake =
-      binancePoolContract.methods[this.getUnstakeMethodName(token)];
+      binancePoolContract.methods[
+        this.getUnstakeMethodName(token as TBnbSyntToken)
+      ];
 
     await contractUnstake(hexAmount).send({
       from: this.currentAccount,
@@ -738,11 +743,7 @@ export class BinanceSDK {
   public async checkAllowance(hexAmount: string): Promise<boolean> {
     const allowance = await this.getACAllowance();
 
-    try {
-      return allowance.isGreaterThanOrEqualTo(hexAmount);
-    } catch (error) {
-      throw new Error(`checkAllowance error. ${error}`);
-    }
+    return allowance.isGreaterThanOrEqualTo(hexAmount);
   }
 
   public async getACAllowance(spender?: string): Promise<BigNumber> {
@@ -763,6 +764,10 @@ export class BinanceSDK {
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -785,6 +790,10 @@ export class BinanceSDK {
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }

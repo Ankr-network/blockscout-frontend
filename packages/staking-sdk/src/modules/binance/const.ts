@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-// TODO: remove ignore when tests are ready
 import { AvailableWriteProviders, AvailableReadProviders } from 'provider';
 
 import { BSC_NETWORK_BY_ENV, isMainnet } from '../common';

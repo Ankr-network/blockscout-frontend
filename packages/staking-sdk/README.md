@@ -26,7 +26,7 @@ const { txHash } = await sdk.stake(new BigNumber(1_200), 'aMATICc');
 ```
 
 ```typescript
-// unstake aMATICb token
+// unstake aMATICc token
 import { PolygonSDK } from '@ankr.com/staking-sdk';
 
 const sdk = await PolygonSDK.getInstance();

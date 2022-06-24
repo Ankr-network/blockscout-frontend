@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-// TODO: remove ignore when tests are ready
 import { TransactionReceipt } from 'web3-core';
 
 import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
@@ -25,4 +23,8 @@ export interface IGetTxReceipt extends TransactionReceipt {
 export interface IBinanceSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
+}
+
+export enum EErrorCodes {
+  ZERO_AMOUNT = 'zero-amount',
 }
