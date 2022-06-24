@@ -6,7 +6,11 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
-import { DECIMAL_PLACES, DEFAULT_FIXED } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_FIXED,
+  MATIC_AUDIT_LINK,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -99,6 +103,7 @@ export const StakePolygon = (): JSX.Element => {
         <section className={classes.root}>
           <StakeContainer>
             <StakeForm
+              auditLink={MATIC_AUDIT_LINK}
               balance={data.maticBalance}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}

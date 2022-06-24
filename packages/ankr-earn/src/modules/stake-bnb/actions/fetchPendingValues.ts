@@ -33,9 +33,6 @@ export const fetchPendingValues = createSmartAction<
     },
     meta: {
       asMutation: false,
-      getData: (
-        data: IFetchPendingValuesResponseData,
-      ): IFetchPendingValuesResponseData => data,
       onRequest: withStore,
     },
   }),

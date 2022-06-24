@@ -25,7 +25,7 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
-jest.mock('modules/api/ProviderManagerSingleton', () => ({
+jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 

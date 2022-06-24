@@ -6,8 +6,8 @@ import {
   EClaimStatuses,
   IClaimItem,
   ICrowdloanType,
+  IHistoryItem,
   IRewardClaim,
-  TActionType,
   TCrowdloanStatus,
   TEthereumAddress,
   TNetworkType,
@@ -25,6 +25,11 @@ interface IClaimsParams extends IQueryParams {
 interface IClaimRes {
   claim: IClaimItem;
   tokenAddress: TEthereumAddress;
+}
+
+interface IHistoryParams extends IQueryParams {
+  address: TPolkadotAddress;
+  network: TNetworkType;
 }
 
 export class ApiGateway {
@@ -93,35 +98,14 @@ export class ApiGateway {
     };
   }
 
-  public async getHistory(request: {
-    network: TNetworkType;
-    address: string;
-  }): Promise<
-    {
-      address: string;
-      timestamp: number;
-      type: TActionType;
-      amount: BigNumber;
-      status: EActionStatuses;
-      id: string;
-    }[]
-  > {
-    const queryParams = Object.entries(request)
-      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
-      .join('&');
-    const { data } = await this.api.get(
-      `/v1alpha/polkadot/history?${queryParams}`,
-    );
-    return data.map(({ address, timestamp, type, amount, status, id }: any) => {
-      return {
-        address,
-        timestamp,
-        type,
-        amount: new BigNumber(amount),
-        status,
-        id,
-      };
-    });
+  public async getHistory(params: IHistoryParams): Promise<IHistoryItem[]> {
+    const queryParams = this.getQueryParams<IHistoryParams>(params);
+
+    const {
+      data: { actions },
+    } = await this.api.get(`/v1alpha/polkadot/history?${queryParams}`);
+
+    return actions as IHistoryItem[];
   }
 
   public async claim(request: {

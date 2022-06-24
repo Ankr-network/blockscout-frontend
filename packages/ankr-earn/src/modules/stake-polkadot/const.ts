@@ -5,7 +5,11 @@ import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 import { ETH_NETWORK_BY_ENV, isMainnet } from '../common/const';
 
-import { EPolkadotNetworksMainnet, EPolkadotNetworksTestnet } from './types';
+import {
+  EPolkadotNetworks,
+  EPolkadotNetworksMainnet,
+  EPolkadotNetworksTestnet,
+} from './types';
 
 export const ETH_READ_PROVIDER_ID = isMainnet
   ? AvailableReadProviders.ethMainnet
@@ -21,6 +25,12 @@ export const ETH_NETWORKS = [ETH_NETWORK_BY_ENV];
 export const POLKADOT_NETWORK_KEYS = Object.keys(
   isMainnet ? EPolkadotNetworksMainnet : EPolkadotNetworksTestnet,
 );
+
+export const EXPLORER_POLKADOT_URLS: Record<EPolkadotNetworks, string> = {
+  [EPolkadotNetworks.DOT]: 'https://polkadot.subscan.io',
+  [EPolkadotNetworks.KSM]: 'https://kusama.subscan.io',
+  [EPolkadotNetworks.WND]: 'https://westend.subscan.io',
+};
 
 export const MIN_STAKE_VALUE = {
   DEFAULT: 0.1,

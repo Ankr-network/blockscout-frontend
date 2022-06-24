@@ -11,7 +11,6 @@ interface IFetchStatsResponseData {
   aAVAXcBalance: BigNumber;
   avaxBalance: BigNumber;
   minimumStake: BigNumber;
-  pendingUnstakes: BigNumber;
   aAVAXcRatio: BigNumber;
 }
 
@@ -24,28 +23,20 @@ export const fetchStats = createSmartAction<
       promise: async (): Promise<IFetchStatsResponseData> => {
         const sdk = await AvalancheSDK.getInstance();
 
-        const [
-          aAVAXbBalance,
-          aAVAXcBalance,
-          avaxBalance,
-          minimumStake,
-          pendingUnstakes,
-          ratio,
-        ] = await Promise.all([
-          sdk.getABBalance(),
-          sdk.getACBalance(),
-          sdk.getAVAXBalance(),
-          sdk.getMinimumStake(),
-          sdk.getPendingUnstakes(),
-          sdk.getACRatio(),
-        ]);
+        const [aAVAXbBalance, aAVAXcBalance, avaxBalance, minimumStake, ratio] =
+          await Promise.all([
+            sdk.getABBalance(),
+            sdk.getACBalance(),
+            sdk.getAVAXBalance(),
+            sdk.getMinimumStake(),
+            sdk.getACRatio(),
+          ]);
 
         return {
           aAVAXbBalance,
           aAVAXcBalance,
           avaxBalance,
           minimumStake,
-          pendingUnstakes,
           aAVAXcRatio: ratio,
         };
       },

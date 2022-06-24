@@ -28,7 +28,7 @@ export const StakeStatsItem = ({
 }: IStakeStatsItemProps): JSX.Element => {
   const classes = useStakeStatsStyles();
 
-  const usdEquivalentText = t('stake.stats.usd-equivalent', {
+  const usdEquivalentText = t('unit.usd-value', {
     value: usdEquivalent,
   });
 

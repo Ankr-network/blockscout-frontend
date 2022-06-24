@@ -14,6 +14,7 @@ import {
 } from 'redux-saga/effects';
 import Web3 from 'web3';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AccountChangedEventData,
   AvailableWriteProviders,
@@ -32,7 +33,6 @@ import {
   ProviderRpcError,
 } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';
 import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';

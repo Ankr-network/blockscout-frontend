@@ -1,13 +1,13 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
   EthereumWeb3KeyProvider,
 } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { getAuthRequestKey } from 'modules/auth/common/utils/getAuthRequestKey';
 

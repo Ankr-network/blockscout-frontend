@@ -1,7 +1,6 @@
 import { Box } from '@material-ui/core';
-import React from 'react';
 
-import { Nav } from 'modules/boost/components/Nav/Nav';
+import { Nav } from 'modules/boost/components/Nav';
 import { Dashboard } from 'modules/trading-cockpit/screens/Dashboard';
 import { Container } from 'uiKit/Container';
 

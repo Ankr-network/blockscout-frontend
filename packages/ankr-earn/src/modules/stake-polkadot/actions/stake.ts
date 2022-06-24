@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { featuresConfig } from 'modules/common/const';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { showNotification } from 'modules/notifications';
 
@@ -54,7 +55,10 @@ export const stake = createSmartAction<
         store: TStore<IStoreState>,
       ): IRes => {
         store.dispatchRequest(fetchStakeStats());
-        store.dispatchRequest(fetchTxHistory(network));
+
+        if (featuresConfig.isActivePolkadotStaking) {
+          store.dispatchRequest(fetchTxHistory(network));
+        }
 
         return response;
       },

@@ -10,6 +10,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
@@ -84,6 +85,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(fetchStats());
+    dispatchRequest(fetchPendingValues());
   }, [dispatchRequest]);
 
   if (isFetchStatsLoading) {

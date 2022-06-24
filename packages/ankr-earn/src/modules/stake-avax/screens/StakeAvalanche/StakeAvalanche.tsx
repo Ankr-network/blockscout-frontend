@@ -8,6 +8,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES, DEFAULT_FIXED, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -97,6 +98,7 @@ export const StakeAvalanche = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(fetchStats());
+    dispatch(fetchPendingValues());
     dispatch(getMetrics());
 
     return () => {
