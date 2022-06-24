@@ -100,7 +100,7 @@ export const GuardRoute = <
               currentNetwork={currentNetwork}
               iconSlot={isSingleSwitcher ? singleNetworkItem.icon : null}
               networksSlot={
-                <NetworkSelector>
+                <NetworkSelector direction="column">
                   {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}
                 </NetworkSelector>
               }
@@ -122,7 +122,7 @@ export const GuardRoute = <
       <Box component="section" py={{ xs: 5, md: 8 }}>
         <Connect
           networksSlot={
-            <NetworkSelector>
+            <NetworkSelector direction="row">
               {supportedNetworks.map(({ icon, title, chainId: network }) => (
                 <NetworkSelectorItem
                   key={network}
