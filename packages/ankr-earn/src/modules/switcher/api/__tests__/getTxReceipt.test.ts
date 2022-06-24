@@ -1,3 +1,4 @@
+import { PolygonSDK } from '@ankr.com/staking-sdk';
 import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
@@ -5,7 +6,6 @@ import { Token } from 'modules/common/types/token';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
-import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -18,7 +18,8 @@ jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
-jest.mock('modules/stake-polygon/api/PolygonSDK', () => ({
+jest.mock('@ankr.com/staking-sdk', (): unknown => ({
+  ...jest.requireActual('@ankr.com/staking-sdk'),
   PolygonSDK: { getInstance: jest.fn() },
 }));
 

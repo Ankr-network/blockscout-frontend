@@ -9,58 +9,62 @@ import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { nativeTokenMap } from 'modules/dashboard/const';
+import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoTooltip';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { Amount } from '../Amount';
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
 import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 
 interface IStakingAssetProps {
-  token?: Token;
-  network?: string;
-  chainId?: EEthereumNetworkId;
   amount?: BigNumber;
-  tradeLink?: string;
-  stakeLink?: string;
-  unstakeLink?: string;
-  unstakeTooltip?: string;
-  pendingSlot?: ReactNode;
-  nativeAmount?: BigNumber;
+  chainId?: EEthereumNetworkId;
+  isHistoryLoading?: boolean;
   isLoading?: boolean;
   isShowedTradeLink?: boolean;
   isStakeLoading?: boolean;
-  isHistoryLoading?: boolean;
   isUnstakeLoading?: boolean;
+  nativeAmount?: BigNumber;
+  network?: string;
+  pendingSlot?: ReactNode;
+  stakeLink?: string;
+  token?: Token;
+  tradeLink?: string;
+  unstakeLink?: string;
+  unstakeTooltip?: string;
+  usdAmount?: BigNumber;
+  onAddStakingClick?: () => void;
   onHistoryBtnClick?: () => void;
   onTokenInfoClick?: () => void;
   onTradeClick?: () => void;
-  onAddStakingClick?: () => void;
 }
 
 export const StakingAsset = ({
-  network,
-  token,
   amount,
   chainId,
-  tradeLink,
-  stakeLink,
-  unstakeLink,
-  pendingSlot,
-  nativeAmount,
-  unstakeTooltip,
+  isHistoryLoading = false,
   isLoading = false,
   isShowedTradeLink = true,
   isStakeLoading = false,
   isUnstakeLoading = false,
-  isHistoryLoading = false,
+  nativeAmount,
+  network,
+  pendingSlot,
+  stakeLink,
+  token,
+  tradeLink,
+  unstakeLink,
+  unstakeTooltip,
+  usdAmount,
+  onAddStakingClick,
   onHistoryBtnClick,
   onTokenInfoClick,
   onTradeClick,
-  onAddStakingClick,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
 
@@ -68,9 +72,7 @@ export const StakingAsset = ({
     return <DashboardCardSkeleton />;
   }
 
-  const handleHistoryClick = () => {
-    if (!isHistoryLoading && onHistoryBtnClick) onHistoryBtnClick();
-  };
+  const amountInfoTooltip = getAmountInfoTooltip(nativeAmount, usdAmount);
 
   const stakeTooltip = isStakeLoading
     ? t('dashboard.stake-loading')
@@ -85,17 +87,43 @@ export const StakingAsset = ({
   const conditionalUnstakeTooltip =
     unstakeTooltip ?? (unstakeLink ? defaultUnstakeTooltip : comingSoonTooltip);
 
-  const nativeAmountText =
-    nativeAmount &&
-    token &&
-    t('unit.token-value', {
-      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-      token: nativeTokenMap[token],
-    });
+  const handleHistoryClick = () => {
+    if (!isHistoryLoading && onHistoryBtnClick) {
+      onHistoryBtnClick();
+    }
+  };
+
+  const withNativeAmount = !!(nativeAmount && token);
+  const withUsdAmount = !!usdAmount;
+
+  const renderAmountInfoSlot = (withNativeAmount || withUsdAmount) && (
+    <>
+      {withNativeAmount &&
+        t('unit.token-value', {
+          value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+          token: nativeTokenMap[token],
+        })}
+
+      {withNativeAmount && withUsdAmount && (
+        <span className={classes.amountInfoSplitter} />
+      )}
+
+      {withUsdAmount &&
+        t('unit.usd-value', {
+          value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+        })}
+    </>
+  );
 
   return (
     <DashboardCard
-      amount={amount}
+      amountSlot={
+        <Amount
+          infoSlot={renderAmountInfoSlot}
+          infoTooltip={amountInfoTooltip}
+          value={amount}
+        />
+      }
       badgeSlot={pendingSlot}
       buttonsSlot={
         <Grid container alignItems="center" spacing={2}>
@@ -165,11 +193,9 @@ export const StakingAsset = ({
           </Menu>
         </Box>
       }
-      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }
-      tooltip={t('dashboard.amount-tooltip')}
     />
   );
 };

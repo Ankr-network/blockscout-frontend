@@ -5,6 +5,7 @@ import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -15,7 +16,6 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import ABI_ERC20 from 'modules/api/contract/IERC20.json';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   ETH_SCALE_FACTOR,
   isMainnet,

@@ -31,6 +31,7 @@ export const CustomizedSnackbarProvider = ({
         variantWarning: classes.warning,
         variantInfo: classes.info,
         containerAnchorOriginTopCenter: classes.containerAnchorOriginTopCenter,
+        root: classes.notificationRoot,
       }}
       maxSnack={3}
     />

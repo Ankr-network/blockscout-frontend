@@ -2,29 +2,16 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStakeFormStyles = makeStyles(theme => {
   return {
-    body: {
-      padding: theme.spacing(6, 0, 4.5),
+    box: {
+      padding: theme.spacing(6, 2, 2.5),
+
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(6, 7.5, 7.5),
+      },
     },
 
     footer: {
-      padding: theme.spacing(0, 0, 7.5, 0),
-
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(0, 0, 2.5, 0),
-      },
-    },
-
-    wrapper: {
-      padding: theme.spacing(0, 7.5),
-
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(0, 2),
-        margin: '0 auto',
-      },
-    },
-
-    footerWrapper: {
-      display: 'flex',
+      marginTop: theme.spacing(5),
     },
 
     title: {
@@ -38,12 +25,7 @@ export const useStakeFormStyles = makeStyles(theme => {
     },
 
     submit: {
-      width: '100%',
       height: 54,
-    },
-
-    questionIcon: {
-      color: theme.palette.text.secondary,
     },
   };
 });

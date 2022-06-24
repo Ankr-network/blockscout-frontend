@@ -6,9 +6,10 @@ import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridg
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
+import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -60,7 +61,8 @@ export const useDashboard = (): void => {
     dispatch(getMetrics());
     dispatch(fetchAVAXStats());
     dispatch(fetchBNBStats());
-    dispatch(fetchPendingValues());
+    dispatch(fetchBNBPendingValues());
+    dispatch(fetchAVAXPendingValues());
     dispatch(getFTMStats());
   }, [dispatch]);
 };

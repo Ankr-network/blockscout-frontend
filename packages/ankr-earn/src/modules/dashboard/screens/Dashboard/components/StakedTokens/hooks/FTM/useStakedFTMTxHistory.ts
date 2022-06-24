@@ -35,7 +35,9 @@ const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
   };
 };
 
-export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
+export const useStakedFTMTxHistory = (
+  token: Token.aFTMb | Token.aFTMc,
+): IUseStakedFTMTxHistory => {
   const { data: historyData, loading: isHistoryLoading } = useQuery({
     type: getHistory,
   });
@@ -47,7 +49,7 @@ export const useStakedFTMTxHistory = (): IUseStakedFTMTxHistory => {
 
     return {
       id: data.txDate.getTime(),
-      token: Token.aFTMb,
+      token,
       amount: data.txAmount,
       timerSlot: `${date}, ${time}`,
     };

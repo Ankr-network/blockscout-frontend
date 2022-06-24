@@ -1,21 +1,17 @@
 import { generatePath } from 'react-router';
 
-import { RoutesConfig } from 'modules/dashboard/Routes';
-
 import { POLKADOT_NETWORK_KEYS } from '../const';
 import { EPolkadotNetworks } from '../types';
 
 export interface IGetPolkadotPathData {
   isValid: boolean;
   network: EPolkadotNetworks | null;
-  path: string;
+  path: string | null;
 }
 
 const POLKADOT_NETWORK_LOWER_KEYS = POLKADOT_NETWORK_KEYS.map(network =>
   network.toLowerCase(),
 );
-
-export const INVALID_DEFAULT_PATH = RoutesConfig.dashboard.generatePath();
 
 export const getPolkadotPath = (
   currNetwork: EPolkadotNetworks | unknown,
@@ -24,7 +20,7 @@ export const getPolkadotPath = (
   const invalidState = {
     isValid: false,
     network: null,
-    path: INVALID_DEFAULT_PATH,
+    path: null,
   };
 
   if (typeof currNetwork !== 'string') {

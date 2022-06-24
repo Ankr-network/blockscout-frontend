@@ -4,9 +4,11 @@ import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { featuresConfig } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountMaxSafeBalance';
+import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
 import { fetchTxHistory } from 'modules/stake-polkadot/actions/fetchTxHistory';
 import { POLKADOT_NETWORK_KEYS } from 'modules/stake-polkadot/const';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
@@ -22,7 +24,7 @@ export const usePolkadot = (): void => {
 
   // Polkadot
   useProviderEffect(
-    () => {
+    (): void => {
       dispatch(
         resetRequests(
           getPolkadotResetRequests([
@@ -64,11 +66,12 @@ export const usePolkadot = (): void => {
   );
 
   // ETH
-  useProviderEffect(() => {
+  useProviderEffect((): void => {
     dispatch(
       resetRequests(
         getPolkadotResetRequests([
           fetchETHTokenBalance.toString(),
+          fetchPolkadotPendingHistoryAmountSum.toString(),
           fetchTxHistory.toString(),
         ]),
       ),
@@ -76,6 +79,15 @@ export const usePolkadot = (): void => {
 
     (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach((network): void => {
       dispatch(fetchETHTokenBalance(network));
+
+      if (featuresConfig.isActivePolkadotStaking) {
+        dispatch(fetchPolkadotPendingHistoryAmountSum(network));
+      }
     });
-  }, [dispatch, fetchETHTokenBalance, fetchTxHistory]);
+  }, [
+    dispatch,
+    fetchETHTokenBalance,
+    fetchPolkadotPendingHistoryAmountSum,
+    fetchTxHistory,
+  ]);
 };

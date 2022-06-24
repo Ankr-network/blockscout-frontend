@@ -14,6 +14,7 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
+import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
@@ -36,6 +37,7 @@ export interface IStakedAAVAXBData {
   isShowed: boolean;
   walletName?: string;
   address?: string;
+  isPendingUnstakeLoading: boolean;
   handleAddTokenToWallet: () => void;
 }
 
@@ -43,6 +45,9 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   const dispatchRequest = useDispatchRequest();
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchStakeAVAXStats,
+  });
+  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
+    type: fetchPendingValues,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeAVAX });
@@ -55,7 +60,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   const chainId = AVAX_NETWORK_BY_ENV;
 
   const amount = statsData?.aAVAXbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingUnstakes ?? ZERO;
+  const pendingValue = pendingValues?.pendingAavaxbUnstakes ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
@@ -83,6 +88,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     isShowed,
     walletName,
     address,
+    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   };
 };

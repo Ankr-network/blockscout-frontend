@@ -10,6 +10,7 @@ import { featuresConfig, isMainnet } from 'modules/common/const';
 import { StakableAsset } from 'modules/dashboard/components/StakableAsset';
 import { StakableList } from 'modules/dashboard/components/StakableList';
 
+import { useStakableAnkr } from './hooks/useStakableAnkr';
 import { useStakableAvax } from './hooks/useStakableAvax';
 import { useStakableBnb } from './hooks/useStakableBnb';
 import { useStakableDOT } from './hooks/useStakableDOT';
@@ -35,6 +36,7 @@ const STAKABLE_TOKENS_LIST = [
   useStakableBnb,
   useStakableFtm,
   useStakableAvax,
+  useStakableAnkr,
   // Polkadot
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableKSM : null,

@@ -7,6 +7,7 @@ import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
   DOCS_LINK,
+  featuresConfig,
   isMainnet,
   LITEPAPER_CN,
   LITEPAPER_EN,
@@ -17,6 +18,7 @@ import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
 import { RoutesConfig as PolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
+import { RoutesConfig as AnkrStakingRoutes } from 'modules/stake-ankr/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { RoutesConfig as SwitcherRoutes } from 'modules/switcher/Routes';
 
@@ -40,6 +42,7 @@ interface IUseNavigationItemsData {
 
 export const useNavigationItems = (): IUseNavigationItemsData => {
   const { locale } = useLocale();
+
   const links: Record<string, INavItem> = useLocaleMemo(
     () => ({
       dashboard: {
@@ -47,8 +50,16 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
         href: DashboardRoutes.dashboard.generatePath(),
       },
       stake: {
-        label: t('main-navigation.stake'),
+        label: t(
+          `main-navigation.${
+            featuresConfig.ankrStaking ? 'liquid-staking' : 'stake'
+          }`,
+        ),
         href: StakeRoutes.main.generatePath(),
+      },
+      ankrStaking: {
+        label: t('main-navigation.ankr-staking'),
+        href: AnkrStakingRoutes.main.generatePath(),
       },
       parachain: {
         label: t('main-navigation.parachain'),
@@ -85,6 +96,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
   const desktopItems: INavItem[] = useMemo(
     () => [
       links.dashboard,
+      ...(featuresConfig.ankrStaking ? [links.ankrStaking] : []),
       links.stake,
       links.boost,
       links.bridge,
@@ -101,6 +113,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
   const mobileItems: INavItem[] = useMemo(
     () => [
       links.dashboard,
+      ...(featuresConfig.ankrStaking ? [links.ankrStaking] : []),
       links.stake,
       links.boost,
       links.bridge,

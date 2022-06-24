@@ -3,7 +3,8 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { PolygonSDK } from '../api/PolygonSDK';
+import { PolygonSDK } from '@ankr.com/staking-sdk';
+
 import { RoutesConfig } from '../Routes';
 import { TMaticSyntToken } from '../types';
 
@@ -30,7 +31,6 @@ export const stake = createSmartAction<
   meta: {
     asMutation: true,
     showNotificationOnError: true,
-    getData: data => data,
     onSuccess: (response, _action, store) => {
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());

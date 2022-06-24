@@ -7,7 +7,8 @@ import {
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+
 import { Seconds } from 'modules/common/types';
 
 const POLL_INTERVAL: Seconds = 5;

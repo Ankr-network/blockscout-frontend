@@ -5,10 +5,10 @@ import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 import { Address, AvailableWriteProviders } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
 import { createWalletConnectionGuard } from 'modules/common/utils/createWalletConnectionGuard';
 

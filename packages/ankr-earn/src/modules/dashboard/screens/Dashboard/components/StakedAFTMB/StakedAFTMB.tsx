@@ -37,7 +37,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     unstakedAFTMB,
     isHistoryLoading,
     handleLoadTxHistory,
-  } = useStakedFTMTxHistory();
+  } = useStakedFTMTxHistory(Token.aFTMb);
 
   const {
     amount,
@@ -116,9 +116,10 @@ export const StakedAFTMB = (): JSX.Element | null => {
 
       <HistoryDialog
         history={{
-          token: Token.aFTMb,
           staked: stakedAFTMB,
+          stakedToken: Token.aFTMb,
           unstaked: unstakedAFTMB,
+          unstakedToken: Token.aFTMb,
         }}
         isHistoryLoading={isHistoryLoading}
         open={isOpenedHistory}

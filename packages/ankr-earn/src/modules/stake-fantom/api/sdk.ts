@@ -4,6 +4,7 @@ import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -12,7 +13,6 @@ import {
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher } from 'modules/api/switcher';
 import {
   ETH_SCALE_FACTOR,
@@ -22,6 +22,7 @@ import {
 } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { getFilteredContractEvents } from 'modules/common/utils/getFilteredContractEvents';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import {
   getTxEventsHistoryGroup,
@@ -260,24 +261,18 @@ export class FantomSDK implements ISwitcher {
       }
     });
 
-    const stakeRawEventsAFTMB = stakeRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const stakeRawEventsAFTMC = stakeRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
-    const withdrawnRawEventsAFTMB = withdrawnRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const withdrawnRawEventsAFTMC = withdrawnRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
-    const pendingRawEventsAFTMB = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingRawEventsAFTMC = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const { bondEvents: stakeRawEventsAFTMB, certEvents: stakeRawEventsAFTMC } =
+      getFilteredContractEvents(stakeRawEvents);
+
+    const {
+      bondEvents: withdrawnRawEventsAFTMB,
+      certEvents: withdrawnRawEventsAFTMC,
+    } = getFilteredContractEvents(withdrawnRawEvents);
+
+    const {
+      bondEvents: pendingRawEventsAFTMB,
+      certEvents: pendingRawEventsAFTMC,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     const [
       stakeEventsAFTMCB,

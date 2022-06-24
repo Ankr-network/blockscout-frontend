@@ -6,7 +6,9 @@ import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
+import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
 import { getTxData, getTxReceipt } from 'modules/stake-avax/actions/getTxData';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -31,6 +33,7 @@ export const useStakeAvalancheStepsHook = (): IStakeAvalancheStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
+  const { data: stats } = useQuery({ type: fetchStats });
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
@@ -40,6 +43,10 @@ export const useStakeAvalancheStepsHook = (): IStakeAvalancheStepsHook => {
   useProviderEffect(() => {
     dispatchRequest(getTxData({ txHash }));
     dispatchRequest(getTxReceipt({ txHash }));
+
+    if (!stats) {
+      dispatchRequest(fetchStats());
+    }
 
     return () => {
       dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
@@ -59,11 +66,16 @@ export const useStakeAvalancheStepsHook = (): IStakeAvalancheStepsHook => {
   // todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
   const calculatedAmount = useMemo(() => {
     const amount = data?.amount;
+    const ratio = stats?.aAVAXcRatio;
 
     if (!amount) return undefined;
 
+    const isActiveForAC = tokenOut === Token.aAVAXc && ratio;
+    if (isActiveForAC) {
+      return amount.multipliedBy(ratio);
+    }
     return amount;
-  }, [data?.amount]);
+  }, [data?.amount, stats?.aAVAXcRatio, tokenOut]);
 
   const isPending = !receipt && !!data?.isPending;
 

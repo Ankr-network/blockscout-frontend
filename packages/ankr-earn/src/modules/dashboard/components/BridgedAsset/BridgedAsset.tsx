@@ -10,16 +10,18 @@ import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { nativeTokenMap } from 'modules/dashboard/const';
+import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoTooltip';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { Amount } from '../Amount';
 import { CopyTokenAddress } from '../CopyTokenAddress';
 import { DashboardCard, DashboardCardSkeleton } from '../DashboardCard';
 import { NetworkIconText } from '../NetworkIconText';
 
-import { useStakingBridgeAssetStyles as useStyles } from './useBridgedAssetStyles';
+import { useStakingBridgeAssetStyles } from './useBridgedAssetStyles';
 
 interface IStakingAssetProps {
   token?: Token;
@@ -46,17 +48,19 @@ export const BridgedAsset = ({
   isLoading = false,
   onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
-  const classes = useStyles();
+  const classes = useStakingBridgeAssetStyles();
 
   if (isLoading) {
     return <DashboardCardSkeleton />;
   }
 
   const comingSoonTooltip = t('common.tooltips.comingSoon');
+  const amountInfoTooltip = getAmountInfoTooltip(nativeAmount);
+
+  const isActiveAmountInfo = nativeAmount && token;
 
   const nativeAmountText =
-    nativeAmount &&
-    token &&
+    isActiveAmountInfo &&
     t('unit.token-value', {
       value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
       token: nativeTokenMap[token],
@@ -64,7 +68,13 @@ export const BridgedAsset = ({
 
   return (
     <DashboardCard
-      amount={amount}
+      amountSlot={
+        <Amount
+          infoSlot={nativeAmountText}
+          infoTooltip={amountInfoTooltip}
+          value={amount}
+        />
+      }
       badgeSlot={pendingSlot}
       buttonsSlot={
         <Grid container alignItems="center" spacing={2}>
@@ -116,7 +126,6 @@ export const BridgedAsset = ({
           </Menu>
         </Box>
       }
-      nativeAmountText={nativeAmountText}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

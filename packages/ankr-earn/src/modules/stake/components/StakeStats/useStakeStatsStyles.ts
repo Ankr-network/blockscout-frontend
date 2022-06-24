@@ -57,6 +57,10 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     marginTop: theme.spacing(-0.5),
   },
 
+  questionIcon: {
+    color: theme.palette.text.secondary,
+  },
+
   statisticLabel: {
     color: `${theme.palette.text.secondary}`,
     fontSize: 14,

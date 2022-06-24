@@ -5,6 +5,7 @@ import { IStoreState } from 'store';
 
 import { TPolkadotAddress } from 'polkadot';
 
+import { featuresConfig } from 'modules/common/const';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
@@ -38,8 +39,11 @@ export const unstake = createSmartAction<
       store: TStore<IStoreState>,
     ): IRes => {
       store.dispatchRequest(fetchUnstakeStats());
-      store.dispatchRequest(fetchTxHistory(network));
-      store.dispatchRequest(getUnstakeDate());
+
+      if (featuresConfig.isActivePolkadotStaking) {
+        store.dispatchRequest(fetchTxHistory(network));
+        store.dispatchRequest(getUnstakeDate());
+      }
 
       return response;
     },

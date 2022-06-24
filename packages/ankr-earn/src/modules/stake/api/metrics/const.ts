@@ -7,6 +7,7 @@ export enum EMetricsServiceName {
   FTM = 'ftm',
   KSM = 'ksm',
   DOT = 'dot',
+  ANKR = 'ankr',
 
   // DEV mode only
   WND = 'wnd',
