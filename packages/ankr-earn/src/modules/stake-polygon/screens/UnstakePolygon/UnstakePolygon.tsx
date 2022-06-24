@@ -58,7 +58,6 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatchRequest(fetchStats());
     dispatchRequest(getAnkrBalance());
     dispatchRequest(fetchTxHistory());
-    dispatchRequest(getAnkrBalance());
   }, [dispatchRequest]);
 
   const onRenderFormFooter = (amount: BigNumber, maxAmount: BigNumber) => {

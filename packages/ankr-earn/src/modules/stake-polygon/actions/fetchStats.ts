@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { PolygonSDK } from '@ankr.com/staking-sdk';
 
-import { PolygonSDK } from '../api/PolygonSDK';
+import { withStore } from 'modules/common/utils/withStore';
 
 export interface IFetchStatsResponseData {
   maticBalance: BigNumber;
@@ -13,8 +13,8 @@ export interface IFetchStatsResponseData {
   aMATICcBalance: BigNumber;
   minimumStake: BigNumber;
   unstakeFee: BigNumber;
-  pendingAMATICB: BigNumber;
-  pendingAMATICC: BigNumber;
+  pendingBond: BigNumber;
+  pendingCertificate: BigNumber;
   aMATICcRatio: BigNumber;
 }
 
@@ -31,7 +31,7 @@ export const fetchStats = createSmartAction<
         aMATICbBalance,
         aMATICcBalance,
         minimumStake,
-        { pendingAMATICB, pendingAMATICC },
+        { pendingBond, pendingCertificate },
         aMATICcRatio,
       ] = await Promise.all([
         sdk.getMaticBalance(),
@@ -48,8 +48,8 @@ export const fetchStats = createSmartAction<
         aMATICcBalance,
         minimumStake,
         unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
-        pendingAMATICB,
-        pendingAMATICC,
+        pendingBond,
+        pendingCertificate,
         aMATICcRatio,
       };
     },
@@ -57,6 +57,5 @@ export const fetchStats = createSmartAction<
   meta: {
     asMutation: false,
     onRequest: withStore,
-    getData: data => data,
   },
 }));

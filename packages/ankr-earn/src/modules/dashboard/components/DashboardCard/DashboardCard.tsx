@@ -1,31 +1,22 @@
-import { Box, ButtonBase, Grid, Paper, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
+import { Box, Grid, Paper } from '@material-ui/core';
 import { ReactNode } from 'react';
-
-import { DEFAULT_FIXED } from 'modules/common/const';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { useDashboardCardStyles } from './useDashboardCardStyles';
 
 interface IDashboardCardProps {
-  amount?: BigNumber;
-  nativeAmountText?: string;
+  amountSlot?: ReactNode;
   badgeSlot?: ReactNode;
   buttonsSlot?: ReactNode;
   menuSlot?: ReactNode;
   networkAndIconSlot?: ReactNode;
-  tooltip?: string;
 }
 
 export const DashboardCard = ({
-  amount,
-  nativeAmountText,
+  amountSlot,
   badgeSlot,
   buttonsSlot,
   menuSlot,
   networkAndIconSlot,
-  tooltip,
 }: IDashboardCardProps): JSX.Element => {
   const classes = useDashboardCardStyles();
 
@@ -52,31 +43,8 @@ export const DashboardCard = ({
       </Box>
 
       <Grid container alignItems="flex-end" spacing={2}>
-        <Grid item sm>
-          {amount && (
-            <Typography className={classes.amount}>
-              {amount.decimalPlaces(DEFAULT_FIXED).toFormat()}
-            </Typography>
-          )}
-
-          {nativeAmountText && (
-            <Typography
-              className={classes.amountInfo}
-              color="textSecondary"
-              component="p"
-              variant="subtitle1"
-            >
-              {nativeAmountText}
-
-              {tooltip && (
-                <Tooltip arrow title={tooltip}>
-                  <ButtonBase>
-                    <QuestionIcon htmlColor="inherit" size="xs" />
-                  </ButtonBase>
-                </Tooltip>
-              )}
-            </Typography>
-          )}
+        <Grid item sm xs={12}>
+          {amountSlot}
         </Grid>
 
         {buttonsSlot && (

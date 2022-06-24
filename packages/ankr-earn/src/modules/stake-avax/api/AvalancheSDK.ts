@@ -4,6 +4,7 @@ import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -13,10 +14,15 @@ import {
 } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { ISwitcher, IShareArgs } from 'modules/api/switcher';
-import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import {
+  ETH_SCALE_FACTOR,
+  isMainnet,
+  MAX_UINT256,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getFilteredContractEvents } from 'modules/common/utils/getFilteredContractEvents';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
@@ -49,8 +55,8 @@ type TPastEventsData = EventData[];
 export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 
 enum EAvalanchePoolEvents {
-  AvaxClaimPending = 'AvaxClaimPending',
-  StakePending = 'StakePending',
+  AvaxClaimPending = 'AvaxClaimPendingV2',
+  StakePending = 'StakePendingV2',
 }
 
 export enum EAvalanchePoolEventsMap {
@@ -77,9 +83,22 @@ export interface ITxEventsHistoryGroupItem {
   txType: string | null;
 }
 
+interface IPendingData {
+  pendingAAVAXB: BigNumber;
+  pendingAAVAXC: BigNumber;
+}
+
 export interface ITxEventsHistoryData {
-  completed: TTxEventsHistoryGroupData;
-  pending: TTxEventsHistoryGroupData;
+  completedAAVAXB: TTxEventsHistoryGroupData;
+  completedAAVAXC: TTxEventsHistoryGroupData;
+  pendingAAVAXB: TTxEventsHistoryGroupData;
+  pendingAAVAXC: TTxEventsHistoryGroupData;
+}
+
+interface IEventsBatch {
+  stakeRawEvents: EventData[];
+  unstakeRawEvents: EventData[];
+  ratio: BigNumber;
 }
 
 interface ITxHistoryEventData extends EventData {
@@ -520,23 +539,10 @@ export class AvalancheSDK implements ISwitcher {
     return this.convertFromWei(minStake);
   }
 
-  public async getPendingUnstakes(): Promise<BigNumber> {
-    const avalanchePoolContract = await this.getAvalanchePoolContract();
-
-    const pending = await avalanchePoolContract.methods
-      .pendingAvaxClaimsOf(this.currentAccount)
-      .call();
-
-    return this.convertFromWei(pending);
-  }
-
-  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+  private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
-    const [stakeRawEvents, unstakeRawEvents]: [
-      TPastEventsData,
-      TPastEventsData,
-    ] = await Promise.all([
+    const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: avalanchePoolContract,
@@ -549,26 +555,97 @@ export class AvalancheSDK implements ISwitcher {
         eventName: EAvalanchePoolEvents.AvaxClaimPending,
         filter: { claimer: this.currentAccount },
       }),
+      this.getACRatio(),
     ]);
 
-    let pendingUnstakes = await this.getPendingUnstakes();
+    return {
+      stakeRawEvents,
+      unstakeRawEvents,
+      ratio,
+    };
+  }
+
+  public async getTotalPendingUnstakes(): Promise<BigNumber> {
+    const avalanchePoolContract = await this.getAvalanchePoolContract();
+
+    const pending = await avalanchePoolContract.methods
+      .pendingAvaxClaimsOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(pending);
+  }
+
+  public async getPendingUnstakes(): Promise<IPendingData> {
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
+    let totalUnstakingValue = await this.getTotalPendingUnstakes();
+
+    let pendingAAVAXB: BigNumber = ZERO;
+    let pendingAAVAXC: BigNumber = ZERO;
+
+    if (totalUnstakingValue.isGreaterThan(ZERO)) {
+      const unstakePendingReverse: EventData[] = unstakeRawEvents.reverse();
+
+      for (let i = 0; i < unstakePendingReverse.length; i += 1) {
+        const unstakeEventItem = unstakePendingReverse[i];
+
+        const itemAmount = this.convertFromWei(
+          unstakeEventItem.returnValues.amount,
+        );
+
+        totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
+
+        if (unstakeEventItem.returnValues.isRebasing) {
+          pendingAAVAXB = pendingAAVAXB.plus(
+            this.convertFromWei(unstakeEventItem.returnValues.amount),
+          );
+        } else {
+          pendingAAVAXC = pendingAAVAXC.plus(
+            this.convertFromWei(
+              unstakeEventItem.returnValues.amount,
+            ).multipliedBy(ratio),
+          );
+        }
+
+        if (totalUnstakingValue.isZero()) {
+          break;
+        }
+      }
+    }
+
+    return {
+      pendingAAVAXB,
+      pendingAAVAXC,
+    };
+  }
+
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const { stakeRawEvents, unstakeRawEvents, ratio } =
+      await this.getPoolEventsBatch();
+
+    let totalPendingUnstakes = await this.getTotalPendingUnstakes();
     let completedRawEvents: TPastEventsData = [];
     let pendingRawEvents: TPastEventsData = [];
 
-    if (pendingUnstakes.isGreaterThan(0)) {
+    if (totalPendingUnstakes.isGreaterThan(0)) {
       const unstakeRawEventsReverse: TPastEventsData =
         unstakeRawEvents.reverse();
 
       for (let i = 0; i < unstakeRawEventsReverse.length; i += 1) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
-        const itemAmount = this.convertFromWei(
-          unstakeRawEventItem.returnValues.amount,
-        );
-        pendingUnstakes = pendingUnstakes.minus(itemAmount);
+        const isCert = !unstakeRawEventItem.returnValues.isRebasing;
+
+        const itemAmount =
+          isCert && !ratio.isZero()
+            ? this.convertFromWei(
+                unstakeRawEventItem.returnValues.amount,
+              ).dividedBy(ratio)
+            : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
+
+        totalPendingUnstakes = totalPendingUnstakes.minus(itemAmount);
 
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
 
-        if (pendingUnstakes.isZero()) {
+        if (totalPendingUnstakes.isZero()) {
           break;
         }
       }
@@ -581,12 +658,34 @@ export class AvalancheSDK implements ISwitcher {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const [completed, pending] = await Promise.all([
-      this.getTxEventsHistoryGroup(completedRawEvents),
-      this.getTxEventsHistoryGroup(pendingRawEvents),
-    ]);
+    const {
+      bondEvents: completedAAVAXBEvents,
+      certEvents: completedAAVAXCEvents,
+    } = getFilteredContractEvents(completedRawEvents);
 
-    return { completed, pending };
+    const { bondEvents: pendingAAVAXBEvents, certEvents: pendingAAVAXCEvents } =
+      getFilteredContractEvents(pendingRawEvents);
+
+    const [completedAAVAXB, completedAAVAXC, pendingAAVAXB, pendingAAVAXC] =
+      await Promise.all([
+        this.getTxEventsHistoryGroup(completedAAVAXBEvents),
+        this.getTxEventsHistoryGroup(completedAAVAXCEvents),
+        this.getTxEventsHistoryGroup(pendingAAVAXBEvents),
+        this.getTxEventsHistoryGroup(pendingAAVAXCEvents),
+      ]);
+
+    return {
+      completedAAVAXB,
+      completedAAVAXC: completedAAVAXC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+      pendingAAVAXB,
+      pendingAAVAXC: pendingAAVAXC.map(x => ({
+        ...x,
+        txAmount: x.txAmount.multipliedBy(ratio),
+      })),
+    };
   }
 
   private getStakeMethodName(token: TAvaxSyntToken) {

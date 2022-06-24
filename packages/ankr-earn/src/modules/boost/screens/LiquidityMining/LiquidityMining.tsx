@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { Nav } from 'modules/boost/components/Nav/Nav';
+import { Nav } from 'modules/boost/components/Nav';
 import { Container } from 'uiKit/Container';
 
 export const LiquidityMining = (): JSX.Element => {

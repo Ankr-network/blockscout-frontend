@@ -1,9 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { Web3KeyWriteProvider } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { configFromEnv } from '../../api/config';

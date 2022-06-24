@@ -53,7 +53,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
 
   const amount = statsData?.aMATICcBalance ?? ZERO;
 
-  const pendingValue = statsData?.pendingAMATICC ?? ZERO;
+  const pendingValue = statsData?.pendingCertificate ?? ZERO;
 
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isCommonDataLoading;

@@ -4,12 +4,13 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
 
 import { t } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
@@ -17,6 +18,7 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { fetchUnstakeStats } from 'modules/stake-polkadot/actions/fetchUnstakeStats';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';
+import { POLKADOT_WRITE_PROVIDER_ID } from 'modules/stake-polkadot/const';
 import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
 import {
   EPolkadotETHReverseMap,
@@ -24,31 +26,27 @@ import {
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
-import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
-import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
+
+import { IFormPayload } from '../components/UnstakeFormFooter';
 
 interface IUseUnstakePolkadotData {
   ethToken: TPolkadotETHToken;
-  isActiveSuccessForm: boolean;
-  isActiveUnstakeForm: boolean;
-  isActiveUserWalletForm: boolean;
-  isFetchStatsLoading: boolean;
-  isUnstakeLoading: boolean;
   fetchStatsData: ResponseData<typeof fetchUnstakeStats> | null;
   fetchStatsError: Error | null;
+  isFetchStatsLoading: boolean;
+  isSuccessOpened: boolean;
+  isUnstakeLoading: boolean;
   maxAmountDecimals: number | undefined;
-  networkName: string;
   polkadotToken: TPolkadotToken;
-  userAmount: BigNumber | null;
+  unstakeExtraValidation: (
+    data: Partial<IFormPayload>,
+    errors: FormErrors<IFormPayload>,
+  ) => FormErrors<IFormPayload>;
+  unstakeLabel: string;
   onSuccessClose: () => void;
   onUnstakeFormClose: () => void;
-  onUnstakeSubmit: ({ amount }: IUnstakeFormValues) => void;
-  onUserWalletClose: () => void;
-  onUserWalletExtraValidation: (
-    data: Partial<IUnstakeUserWalletFormValues>,
-    errors: FormErrors<IUnstakeUserWalletFormValues>,
-  ) => FormErrors<IUnstakeUserWalletFormValues>;
-  onUserWalletSubmit: ({ userWallet }: IUnstakeUserWalletFormValues) => void;
+  onUnstakeSubmit: (data: IFormPayload) => void;
 }
 
 export const useUnstakePolkadotData = (
@@ -57,7 +55,21 @@ export const useUnstakePolkadotData = (
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
 
-  const [userAmount, setUserAmount] = useState<BigNumber | null>(null);
+  const ethToken = useMemo(
+    () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
+    [network],
+  );
+
+  const polkadotToken = useMemo(() => Token[network], [network]);
+
+  const networkName = useMemo(
+    () => t(`stake-polkadot.networks.${network}`),
+    [network],
+  );
+
+  const { address: currPolkadotAddress } = useConnectedData(
+    POLKADOT_WRITE_PROVIDER_ID,
+  );
 
   const {
     isOpened: isSuccessOpened,
@@ -65,11 +77,7 @@ export const useUnstakePolkadotData = (
     onOpen: onSuccessOpen,
   } = useDialog();
 
-  const {
-    isOpened: isUserWalletOpened,
-    onClose: onUserWalletClose,
-    onOpen: onUserWalletOpen,
-  } = useDialog();
+  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
   const {
     data: fetchStatsData,
@@ -79,73 +87,58 @@ export const useUnstakePolkadotData = (
     type: fetchUnstakeStats,
   });
 
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
-
-  const isActiveUnstakeForm = !isUserWalletOpened && !isSuccessOpened;
-  const isActiveUserWalletForm = isUserWalletOpened && !isSuccessOpened;
-  const isActiveSuccessForm = !isUserWalletOpened && isSuccessOpened;
-
-  const ethToken = useMemo(
-    () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
-    [network],
-  );
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: polkadotToken,
+  });
 
   const maxAmountDecimals = useMemo(
     () => fetchStatsData?.maxETHTokenDecimals.toNumber(),
     [fetchStatsData?.maxETHTokenDecimals],
   );
 
-  const networkName = useMemo(
-    () => t(`stake-polkadot.networks.${network}`),
-    [network],
-  );
-
-  const polkadotToken = useMemo(() => Token[network], [network]);
-
-  const onUnstakeFormClose = useCallback((): void => {
-    history.push(DashboardRoutes.dashboard.generatePath());
-  }, [history]);
-
-  const onUnstakeSubmit = ({ amount }: IUnstakeFormValues): void => {
-    if (typeof amount !== 'string') {
-      return;
-    }
-
-    const resultAmount = new BigNumber(amount);
-
-    setUserAmount(resultAmount);
-
-    onUserWalletOpen();
-  };
-
-  const onUserWalletExtraValidation = (
-    data: Partial<IUnstakeUserWalletFormValues>,
-    errors: FormErrors<IUnstakeUserWalletFormValues>,
-  ): FormErrors<IUnstakeUserWalletFormValues> => {
-    if (
-      typeof data.userWallet === 'string' &&
-      !PolkadotProvider.isValidAddress(data.userWallet)
-    ) {
-      errors.userWallet = t('validation.invalid-network-address', {
-        network: networkName,
-      });
+  const unstakeExtraValidation = (
+    data: Partial<IFormPayload>,
+    errors: FormErrors<IFormPayload>,
+  ): FormErrors<IFormPayload> => {
+    if (data.isExternalWallet) {
+      if (typeof data.externalWallet !== 'string') {
+        errors.externalWallet = t('validation.required');
+      } else if (!PolkadotProvider.isValidAddress(data.externalWallet)) {
+        errors.externalWallet = t('validation.invalid-network-address', {
+          network: networkName,
+        });
+      }
     }
 
     return errors;
   };
 
-  const onUserWalletSubmit = ({
-    userWallet,
-  }: IUnstakeUserWalletFormValues): void => {
-    if (userAmount === null || typeof userWallet !== 'string') {
+  const onUnstakeFormClose = useCallback((): void => {
+    history.push(DashboardRoutes.dashboard.generatePath());
+  }, [history]);
+
+  const onUnstakeSubmit = (data: IFormPayload): void => {
+    const { amount, externalWallet, isExternalWallet } = data;
+
+    if (
+      typeof amount !== 'string' ||
+      (isExternalWallet && typeof externalWallet !== 'string')
+    ) {
       return;
     }
 
-    dispatchRequest(unstake(network, userWallet, userAmount)).then(
+    const resultAmount = new BigNumber(amount);
+    const resultWallet = isExternalWallet
+      ? externalWallet
+      : currPolkadotAddress;
+
+    if (typeof resultWallet === 'undefined') {
+      return;
+    }
+
+    dispatchRequest(unstake(network, resultWallet, resultAmount)).then(
       ({ error }): void => {
         if (!error) {
-          onUserWalletClose();
-
           onSuccessOpen();
         }
       },
@@ -158,22 +151,17 @@ export const useUnstakePolkadotData = (
 
   return {
     ethToken,
-    isActiveSuccessForm,
-    isActiveUnstakeForm,
-    isActiveUserWalletForm,
-    isFetchStatsLoading,
-    isUnstakeLoading,
     fetchStatsData,
     fetchStatsError,
+    isFetchStatsLoading,
+    isSuccessOpened,
+    isUnstakeLoading,
     maxAmountDecimals,
-    networkName,
     polkadotToken,
-    userAmount,
+    unstakeExtraValidation,
+    unstakeLabel,
     onSuccessClose,
     onUnstakeFormClose,
     onUnstakeSubmit,
-    onUserWalletClose,
-    onUserWalletExtraValidation,
-    onUserWalletSubmit,
   };
 };

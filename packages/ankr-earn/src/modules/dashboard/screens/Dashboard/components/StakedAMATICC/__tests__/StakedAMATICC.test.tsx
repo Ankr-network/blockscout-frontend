@@ -69,15 +69,17 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   const defaultTxHistoryHookData: ITxHistoryData = {
     pendingUnstakeHistoryAMATICB: [],
     transactionHistoryAMATICB: {
-      token: Token.aMATICb,
       staked: [],
+      stakedToken: Token.aMATICb,
       unstaked: [],
+      unstakedToken: Token.aMATICb,
     },
     pendingUnstakeHistoryAMATICC: [],
     transactionHistoryAMATICC: {
-      token: Token.aMATICc,
       staked: [],
+      stakedToken: Token.aMATICc,
       unstaked: [],
+      unstakedToken: Token.aMATICc,
     },
     hasHistory: false,
     isHistoryDataLoading: false,

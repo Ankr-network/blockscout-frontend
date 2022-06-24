@@ -32,6 +32,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
+const isLocal = !!process.env.REACT_APP_IS_LOCAL;
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
@@ -49,6 +50,8 @@ export const BNB_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_bnb.pdf';
 export const FTM_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_ftm.pdf';
+export const MATIC_AUDIT_LINK =
+  'https://assets.ankr.com/staking/smart_contract_security_audit_matic.pdf';
 
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/uYaNu23Ww7',
@@ -72,6 +75,7 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActiveUSDEquivalent: false,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
@@ -82,6 +86,7 @@ export const featuresConfig = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
+  ankrStaking: isLocal,
 };
 
 export enum SupportedChainIDS {
@@ -109,6 +114,11 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
 };
 
 export const ETH_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
+
+export const ANKR_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.mainnet
     : EEthereumNetworkId.goerli;

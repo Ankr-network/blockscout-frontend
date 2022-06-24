@@ -1,0 +1,85 @@
+{
+  "extends": "../../.common-eslintrc",
+  "settings": {
+    "import/core-modules": ["provider", "ui"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/internal-regex": "^(modules)/"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "bundledDependencies": false,
+            "devDependencies": ["**/*.test.ts", "**/setupTests.ts"]
+          }
+        ],
+        // TODO: change to error
+        "import/no-unresolved": "off",
+        //
+        "import/order": [
+          "error",
+          {
+            "groups": [
+              "external",
+              "builtin",
+              "internal",
+              "type",
+              "parent",
+              "sibling",
+              "index",
+              "object"
+            ],
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            },
+            "warnOnUnassignedImports": true,
+            "newlines-between": "always"
+          }
+        ],
+        "no-plusplus": "error",
+        "no-return-assign": "error",
+        "no-unreachable": "error",
+        "prefer-template": "error",
+        "camelcase": ["error"],
+        "no-case-declarations": "error",
+        "no-unused-vars": "error",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": [
+          "error",
+          {
+            "functions": false
+          }
+        ],
+        "no-nested-ternary": "error",
+        "no-underscore-dangle": "error",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/explicit-module-boundary-types": "error",
+        "@typescript-eslint/no-inferrable-types": [
+          "error",
+          {
+            "ignoreParameters": false,
+            "ignoreProperties": false
+          }
+        ],
+        "@typescript-eslint/ban-ts-comment": "error",
+        "@typescript-eslint/no-non-null-assertion": "error",
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "types": {
+              "React.FC": {
+                "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

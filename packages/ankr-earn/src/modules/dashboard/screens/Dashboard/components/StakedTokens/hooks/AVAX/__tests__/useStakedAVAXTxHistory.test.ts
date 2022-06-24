@@ -4,6 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
@@ -29,7 +30,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   const defaultData = {
     loading: false,
     data: {
-      completed: [
+      completedAAVAXB: [
         {
           txAmount: ONE,
           txDate: NOW,
@@ -43,7 +44,35 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EAvalanchePoolEventsMap.AvaxClaimPending,
         },
       ],
-      pending: [
+      completedAAVAXC: [
+        {
+          txAmount: ONE,
+          txDate: NOW,
+          txHash: 'txHash1',
+          txType: EAvalanchePoolEventsMap.StakePending,
+        },
+        {
+          txAmount: ONE.multipliedBy(2),
+          txDate: NOW,
+          txHash: 'txHash2',
+          txType: EAvalanchePoolEventsMap.AvaxClaimPending,
+        },
+      ],
+      pendingAAVAXB: [
+        {
+          txAmount: ONE.multipliedBy(3),
+          txDate: NOW,
+          txHash: 'txHash3',
+          txType: EAvalanchePoolEventsMap.AvaxClaimPending,
+        },
+        {
+          txAmount: ONE.multipliedBy(4),
+          txDate: NOW,
+          txHash: 'txHash4',
+          txType: EAvalanchePoolEventsMap.StakePending,
+        },
+      ],
+      pendingAAVAXC: [
         {
           txAmount: ONE.multipliedBy(3),
           txDate: NOW,
@@ -78,9 +107,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
-    expect(result.current.txHistory).toStrictEqual(defaultData.data);
     expect(result.current.hasHistory).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([
+    expect(result.current.pendingUnstakeHistoryAAVAXB).toStrictEqual([
       {
         id: 1,
         amount: ONE.multipliedBy(3),
@@ -88,8 +116,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
         timerSlot: `${date}, ${time}`,
       },
     ]);
-    expect(result.current.transactionHistory).toStrictEqual({
-      token: Token.aAVAXb,
+    expect(result.current.transactionHistoryAAVAXB).toStrictEqual({
       staked: [
         {
           amount: ONE,
@@ -98,6 +125,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           link: 'https://snowtrace.io/tx/txHash1',
         },
       ],
+      stakedToken: Token.aAVAXb,
       unstaked: [
         {
           amount: ONE.multipliedBy(2),
@@ -106,7 +134,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           link: 'https://snowtrace.io/tx/txHash2',
         },
       ],
-    });
+      unstakedToken: Token.aAVAXb,
+    } as HistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -128,14 +157,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
-    expect(result.current.txHistory).toBeNull();
     expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
-    expect(result.current.pendingUnstakeHistory).toStrictEqual([]);
-    expect(result.current.transactionHistory).toStrictEqual({
-      token: Token.aAVAXb,
+    expect(result.current.pendingUnstakeHistoryAAVAXB).toStrictEqual([]);
+    expect(result.current.transactionHistoryAAVAXB).toStrictEqual({
       staked: [],
+      stakedToken: Token.aAVAXb,
       unstaked: [],
-    });
+      unstakedToken: Token.aAVAXb,
+    } as HistoryDialogData);
   });
 });

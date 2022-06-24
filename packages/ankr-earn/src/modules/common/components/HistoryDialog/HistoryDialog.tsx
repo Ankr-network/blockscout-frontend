@@ -19,23 +19,24 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
 
 export interface IHistoryDialogRow {
+  amount?: BigNumber;
   date?: Date;
   hash?: string;
   link?: string;
-  amount?: BigNumber;
 }
 
 export interface HistoryDialogData {
-  token?: Token;
-  staked?: IHistoryDialogRow[];
-  unstaked?: IHistoryDialogRow[];
+  staked: IHistoryDialogRow[];
+  stakedToken: Token;
+  unstaked: IHistoryDialogRow[];
+  unstakedToken: Token;
 }
 
 export interface IHistoryDialogProps {
-  open: boolean;
-  isHistoryLoading: boolean;
-  onClose?: () => void;
   history: HistoryDialogData;
+  isHistoryLoading: boolean;
+  open: boolean;
+  onClose?: () => void;
 }
 
 export const HistoryDialog = ({
@@ -76,11 +77,14 @@ export const HistoryDialog = ({
 
         <td className={classNames(classes.td, classes.amount)}>
           {amount ? (
-            <Tooltip arrow title={`${amount.toFormat()} ${history.token}`}>
+            <Tooltip
+              arrow
+              title={`${amount.toFormat()} ${history[`${showType}Token`]}`}
+            >
               <div>
                 {t('history-dialog.amount-cell', {
                   value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
-                  token: history.token,
+                  token: history[`${showType}Token`],
                 })}
               </div>
             </Tooltip>

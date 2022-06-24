@@ -1,9 +1,8 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { AvailableWriteProviders } from 'provider';
-
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
 import {
   IProviderStatus,

@@ -1,9 +1,5 @@
 import { EPolkadotNetworks } from '../../types';
-import {
-  getPolkadotPath,
-  IGetPolkadotPathData,
-  INVALID_DEFAULT_PATH,
-} from '../getPolkadotPath';
+import { getPolkadotPath, IGetPolkadotPathData } from '../getPolkadotPath';
 
 jest.mock('../../const', () => ({
   POLKADOT_NETWORK_KEYS: ['DOT', 'KSM', 'WND'] as EPolkadotNetworks[],
@@ -28,7 +24,7 @@ describe('modules/stake-polkadot/utils/getPolkadotPath', (): void => {
     const RESULT_DATA: IGetPolkadotPathData = {
       isValid: false,
       network: null,
-      path: INVALID_DEFAULT_PATH,
+      path: null,
     };
 
     INVALID_INPUT_DATA.forEach((currNetwork): void => {

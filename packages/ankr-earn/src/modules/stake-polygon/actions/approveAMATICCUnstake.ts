@@ -2,9 +2,9 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { ETH_SCALE_FACTOR } from 'modules/common/const';
+import { PolygonSDK } from '@ankr.com/staking-sdk';
 
-import { PolygonSDK } from '../api/PolygonSDK';
+import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
 export const approveAMATICCUnstake = createAction<
   RequestAction<BigNumber, BigNumber>,

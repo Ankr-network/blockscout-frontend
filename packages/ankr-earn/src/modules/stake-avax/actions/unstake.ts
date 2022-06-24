@@ -9,6 +9,7 @@ import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { AvalancheSDK } from '../api/AvalancheSDK';
 import { TAvaxSyntToken } from '../types';
 
+import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
@@ -44,6 +45,7 @@ export const unstake = createSmartAction<
         store: TStore<IStoreState>,
       ): IRes => {
         store.dispatchRequest(fetchStats());
+        store.dispatchRequest(fetchPendingValues());
         store.dispatchRequest(fetchTxHistory());
         store.dispatchRequest(getUnstakeDate());
 
