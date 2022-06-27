@@ -38,6 +38,9 @@ export const METHOD_NAME_BY_SYMBOL: Record<
 
 const config = configFromEnv();
 
+/**
+ * Tokens config for wallet
+ */
 export const TOKENS_CONFIG_BY_SYMBOL: Record<
   TEthToken,
   { address: string; symbol: string; decimals: number }

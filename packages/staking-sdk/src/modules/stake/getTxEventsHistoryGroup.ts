@@ -4,11 +4,20 @@ import { EventData } from 'web3-eth-contract';
 
 import { ITxEventsHistoryGroupItem } from './types';
 
+/**
+ * Arguments for getTxEventsHistoryGroup
+ */
 interface IGetTxEventsHistoryGroupArgs {
   rawEvents?: EventData[];
   web3: Web3;
 }
 
+/**
+ * Get transaction events history group
+ *
+ * @param {IGetTxEventsHistoryGroupArgs} args
+ * @return {Promise<ITxEventsHistoryGroupItem[]>}
+ */
 export const getTxEventsHistoryGroup = async ({
   rawEvents,
   web3,

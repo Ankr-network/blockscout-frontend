@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { ProviderManager } from 'provider';
 
-import { EthSDK, TEthToken } from '..';
+import { EEthereumErrorCodes, EthereumSDK, TEthToken } from '..';
 import { configFromEnv, MAX_UINT256, ZERO, ZERO_ADDRESS } from '../../common';
 import { ETH_POOL_START_BLOCK } from '../const';
 
@@ -211,7 +211,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should return contracts data', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const [
       ratio,
@@ -246,7 +246,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should return tx data with zero tx.value field', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.fetchTxData('txHash');
 
@@ -259,7 +259,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should return tx data with non-zero tx.value fielda', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.fetchTxData('_txHash');
 
@@ -272,7 +272,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should lock shares', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.lockShares({
       amount: new BigNumber(1),
@@ -299,7 +299,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should unlock shares', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.unlockShares({
       amount: new BigNumber(1),
@@ -330,7 +330,7 @@ describe('modules/ethereum/sdk', () => {
       contractConfig: { fethContract, aethContract },
     } = configFromEnv();
 
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.approveACForAB();
 
@@ -356,7 +356,7 @@ describe('modules/ethereum/sdk', () => {
       contractConfig: { fethContract, aethContract },
     } = configFromEnv();
 
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.approveACForAB(ZERO);
 
@@ -376,7 +376,7 @@ describe('modules/ethereum/sdk', () => {
 
   test('should add token to wallet', async () => {
     {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       await sdk.addTokenToWallet('aETHc');
 
@@ -388,7 +388,7 @@ describe('modules/ethereum/sdk', () => {
     }
 
     {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       await sdk.addTokenToWallet('aETHb');
 
@@ -401,7 +401,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should not add unknown token to wallet', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     expect(async () => {
       await sdk.addTokenToWallet('unknown' as TEthToken);
@@ -409,7 +409,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should return tx history for aETHb', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const { completedBond, completedCertificate } =
       await sdk.getTxEventsHistory();
@@ -425,31 +425,31 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should get min stake with read provider', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
-    const result = await sdk.getMinStake();
+    const result = await sdk.getMinimumStake();
 
     expect(result).toStrictEqual(new BigNumber('8'));
   });
 
   test('should stake and claim aETHb', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.stake(new BigNumber(10), 'aETHb');
 
-    expect(result.transactionHash).toBe('hash1');
+    expect(result.txHash).toBe('hash1');
   });
 
   test('should stake and claim aETHc', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.stake(new BigNumber(10), 'aETHc');
 
-    expect(result.transactionHash).toBe('hash1');
+    expect(result.txHash).toBe('hash1');
   });
 
   test('should claim aETHc', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.claim('aETHc');
 
@@ -457,7 +457,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should claim aETHb', async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.claim('aETHb');
 
@@ -476,10 +476,37 @@ describe('modules/ethereum/sdk', () => {
 
     (ProviderManager as jest.Mock).mockReturnValue(mockProviderManager);
 
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
 
     const result = await sdk.stakeWithoutClaim(new BigNumber(10));
 
     expect(result.transactionHash).toBe('hash1');
+  });
+
+  test('should return total pending', async () => {
+    const sdk = await EthereumSDK.getInstance();
+
+    const result = await sdk.getPendingClaim();
+
+    expect(result).toStrictEqual(ZERO);
+  });
+
+  test('should return total pending', async () => {
+    const sdk = await EthereumSDK.getInstance();
+
+    const result = await sdk.getPendingData();
+
+    expect(result).toStrictEqual({
+      pendingBond: ZERO,
+      pendingCertificate: ZERO,
+    });
+  });
+
+  test('should throw unsupported error on unstake', async () => {
+    const sdk = await EthereumSDK.getInstance();
+
+    expect(sdk.unstake(new BigNumber(1), 'aETHc')).rejects.toThrow(
+      EEthereumErrorCodes.NOT_SUPPORTED,
+    );
   });
 });

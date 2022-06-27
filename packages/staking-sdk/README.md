@@ -91,3 +91,23 @@ const sdk = await BinanceSDK.getInstance();
 
 const history = await sdk.getTxEventsHistory();
 ```
+
+```typescript
+// stake aETHc token
+import { EthereumSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await EthereumSDK.getInstance();
+
+const { txHash } = await sdk.stake(new BigNumber(1_200), 'aETHc');
+```
+
+```typescript
+// switch aETHc and aETHb
+import { EthereumSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await EthereumSDK.getInstance();
+
+const lockResponse = await sdk.lockShares({ amount: new BigNumber(2.65) });
+
+const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
+```
