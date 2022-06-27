@@ -167,6 +167,7 @@
     "header": {
       "mainnet-tab-title": "Mainnet",
       "testnet-tab-title": "Testnet",
+      "devnet-tab-title": "Devnet",
       "endpoints-title": "Provider URLs",
       "private-endpoints-tooltip": "Use Provider URL as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "public-endpoints-tooltip": "Use Provider URL as your main API endpoint for development.",

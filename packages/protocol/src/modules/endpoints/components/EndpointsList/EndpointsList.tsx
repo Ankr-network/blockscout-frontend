@@ -19,7 +19,7 @@ export const EndpointsList = ({ groups }: EndpointsListProps) => {
     <div className={classes.endpointsListRoot}>
       {groups.length ? (
         groups.map(({ name, pluralName, urls, urlsCount }, index) => (
-          <div className={classes.group} key={name}>
+          <div className={classes.group} key={index}>
             <Collapse
               className={classes.header}
               content={<EndpointUrls urls={urls} />}

@@ -36,4 +36,5 @@ export interface EndpointGroup {
 export interface GroupedEndpoints {
   mainnet: EndpointGroup[];
   testnet: EndpointGroup[];
+  devnet: EndpointGroup[];
 }

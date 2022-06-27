@@ -18,8 +18,7 @@ const tooltip = t('chain-item.header.public-endpoints-tooltip');
 
 export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
   const classes = useStyles();
-
-  const { mainnet, testnet } = useGroupedEndpoints(chain);
+  const { mainnet, testnet, devnet } = useGroupedEndpoints(chain);
 
   const tabsTitle = (
     <TooltipWrapper tooltipText={tooltip}>
@@ -32,10 +31,14 @@ export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
   const testnetEndpoints =
     testnet.length > 0 ? <EndpointsList groups={testnet} /> : null;
 
+  const devnetEndpoints =
+    devnet.length > 0 ? <EndpointsList groups={devnet} /> : null;
+
   return (
     <RPCEndpointsTabsManager
       mainnetEndpoints={<EndpointsList groups={mainnet} />}
       testnetEndpoints={testnetEndpoints}
+      devnetEndpoints={devnetEndpoints}
       title={tabsTitle}
     />
   );

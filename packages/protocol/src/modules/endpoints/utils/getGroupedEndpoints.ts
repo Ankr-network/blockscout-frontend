@@ -92,8 +92,15 @@ export const getGroupedEndpoints = (
   );
   if (testnetFallback.urlsCount) testnetGroups.push(testnetFallback);
 
+  const devnetFallback = getFallbackEndpointGroup(chain.name);
+  const devnetGroups = (chain.devnets || []).flatMap(devnet =>
+    getEndpointGroups(devnet, groups, devnetFallback),
+  );
+  if (devnetFallback.urlsCount) devnetGroups.push(devnetFallback);
+
   return {
     mainnet: mainnetGroups,
     testnet: testnetGroups,
+    devnet: devnetGroups,
   };
 };
