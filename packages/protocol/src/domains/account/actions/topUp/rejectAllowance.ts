@@ -21,7 +21,10 @@ export const rejectAllowance = createSmartAction<
           const { service } = MultiService.getInstance();
           const address = service.getKeyProvider().currentAccount();
 
-          await service.rejectAllowanceForPAYG();
+          const rejectAllowanceResponse =
+            await service.rejectAllowanceForPAYG();
+
+          await rejectAllowanceResponse.receiptPromise;
 
           store.dispatch(resetTransaction({ address }));
           store.dispatchRequest(reset());

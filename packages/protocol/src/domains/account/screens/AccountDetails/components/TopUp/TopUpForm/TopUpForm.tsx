@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Form } from 'react-final-form';
 import BigNumber from 'bignumber.js';
 
@@ -22,19 +22,21 @@ export const TopUpForm = ({ onSubmit, hasLoginStep }: TopUpFormProps) => {
   const renderForm = useRenderForm(classes);
   const renderDisabledForm = useRenderDisabledForm(classes);
 
+  const initialValues = useMemo(() => {
+    return isTopUpInProcess
+      ? {
+          [AmountInputField.amount]: new BigNumber(
+            transaction?.amount ?? 0,
+          ).toString(10),
+        }
+      : {};
+  }, [transaction?.amount, isTopUpInProcess]);
+
   return (
     <Form
       onSubmit={onSubmit}
       render={isTopUpInProcess ? renderDisabledForm : renderForm}
-      initialValues={
-        isTopUpInProcess
-          ? {
-              [AmountInputField.amount]: new BigNumber(
-                transaction?.amount ?? 0,
-              ).toString(10),
-            }
-          : undefined
-      }
+      initialValues={initialValues}
     />
   );
 };

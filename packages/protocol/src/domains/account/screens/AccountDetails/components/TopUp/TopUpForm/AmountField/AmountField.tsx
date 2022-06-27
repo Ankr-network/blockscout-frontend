@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup, Typography } from '@material-ui/core';
-import { Field } from 'react-final-form';
+import { Field, useForm } from 'react-final-form';
 
 import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'modules/form/components/InputField';
@@ -32,6 +32,8 @@ export const AmountField = ({
   maxDecimals = MAX_DECIMALS,
 }: AmountFieldProps) => {
   const classes = useStyles({ size });
+  const form = useForm();
+
   return (
     <FormGroup className={classes.formGroup}>
       <Field
@@ -40,7 +42,7 @@ export const AmountField = ({
         name={name}
         variant="outlined"
         placeholder={t('account.account-details.top-up.placeholder')}
-        validate={validate}
+        validate={value => form.getState()?.touched?.[name] && validate(value)}
         parse={value => normalizeAmount(value, maxDecimals)}
         isHelperTextVisible
         disabled={isDisabled}
