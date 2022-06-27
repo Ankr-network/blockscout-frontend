@@ -39,7 +39,11 @@ export const WithdrawSteps = ({
           >
             {t('withdraw-steps.title')}
           </Typography>
-          <Stepper step={step} className={classes.stepper} />
+          <Stepper
+            step={step}
+            className={classes.stepper}
+            hasError={hasError}
+          />
           <StepperTitle
             step={step}
             className={classes.title}
