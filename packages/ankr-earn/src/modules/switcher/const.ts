@@ -10,7 +10,8 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-const { contractConfig, binanceConfig, fantomConfig } = configFromEnv();
+const { contractConfig, binanceConfig, fantomConfig, avalancheConfig } =
+  configFromEnv();
 
 export type AvailableSwitcherToken =
   | Token.aETHb
@@ -49,20 +50,33 @@ export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aMATICc]: contractConfig.aMaticCToken,
   [Token.aFTMb]: fantomConfig.aftmbToken,
   [Token.aFTMc]: fantomConfig.aftmcToken,
-  [Token.aAVAXb]: '', // TODO: add avax tokens
-  [Token.aAVAXc]: '',
+  [Token.aAVAXb]: avalancheConfig.aAVAXb,
+  [Token.aAVAXc]: avalancheConfig.aAVAXc,
 };
 
-export const TOKEN_TOOLTIPS: Record<AvailableSwitcherToken, string> = {
+export const TOKEN_TOOLTIPS_FROM: Record<AvailableSwitcherToken, string> = {
   [Token.aETHb]: t('switcher.tooltips.aETHb'),
-  [Token.aETHc]: t('switcher.tooltips.aETHc'),
+  [Token.aETHc]: t('switcher.tooltips.aETHb'),
   [Token.aBNBb]: t('switcher.tooltips.aBNBb'),
-  [Token.aBNBc]: t('switcher.tooltips.aBNBc'),
+  [Token.aBNBc]: t('switcher.tooltips.aBNBb'),
   [Token.aMATICb]: t('switcher.tooltips.aMATICb'),
-  [Token.aMATICc]: t('switcher.tooltips.aMATICc'),
+  [Token.aMATICc]: t('switcher.tooltips.aMATICb'),
   [Token.aFTMb]: t('switcher.tooltips.aFTMb'),
-  [Token.aFTMc]: t('switcher.tooltips.aFTMc'),
+  [Token.aFTMc]: t('switcher.tooltips.aFTMb'),
   [Token.aAVAXb]: t('switcher.tooltips.aAVAXb'),
+  [Token.aAVAXc]: t('switcher.tooltips.aAVAXb'),
+};
+
+export const TOKEN_TOOLTIPS_TO: Record<AvailableSwitcherToken, string> = {
+  [Token.aETHb]: t('switcher.tooltips.aETHc'),
+  [Token.aETHc]: t('switcher.tooltips.aETHc'),
+  [Token.aBNBb]: t('switcher.tooltips.aBNBc'),
+  [Token.aBNBc]: t('switcher.tooltips.aBNBc'),
+  [Token.aMATICb]: t('switcher.tooltips.aMATICc'),
+  [Token.aMATICc]: t('switcher.tooltips.aMATICc'),
+  [Token.aFTMb]: t('switcher.tooltips.aFTMc'),
+  [Token.aFTMc]: t('switcher.tooltips.aFTMc'),
+  [Token.aAVAXb]: t('switcher.tooltips.aAVAXc'),
   [Token.aAVAXc]: t('switcher.tooltips.aAVAXc'),
 };
 
@@ -145,10 +159,10 @@ export const DEFAULT_TOKENS_BY_NETWORK: Record<
     from: Token.aFTMb,
     to: Token.aFTMc,
   },
-  [EEthereumNetworkId.avalanche]: { from: Token.aFTMb, to: Token.aFTMc },
+  [EEthereumNetworkId.avalanche]: { from: Token.aAVAXb, to: Token.aAVAXc },
   [EEthereumNetworkId.avalancheTestnet]: {
-    from: Token.aFTMb,
-    to: Token.aFTMc,
+    from: Token.aAVAXb,
+    to: Token.aAVAXc,
   },
 };
 

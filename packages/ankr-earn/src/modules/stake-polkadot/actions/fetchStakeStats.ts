@@ -7,7 +7,7 @@ import { withStore } from 'modules/common/utils/withStore';
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 
 interface IFetchStakeStatsData {
-  maxDecimalsStake: BigNumber;
+  maxPolkadotNetworkDecimals: BigNumber;
   minStake: BigNumber;
 }
 
@@ -18,13 +18,13 @@ export const fetchStakeStats = createSmartAction<
     promise: async (): Promise<IFetchStakeStatsData> => {
       const sdk = await PolkadotStakeSDK.getInstance();
 
-      const [maxDecimalsStake, minStake] = await Promise.all([
-        sdk.getMaxDecimalsStake(),
+      const [maxPolkadotNetworkDecimals, minStake] = await Promise.all([
+        sdk.getMaxPolkadotNetworkDecimals(),
         sdk.getMinStake(),
       ]);
 
       return {
-        maxDecimalsStake,
+        maxPolkadotNetworkDecimals,
         minStake,
       };
     },

@@ -1,7 +1,11 @@
 import { useDispatchRequest } from '@redux-requests/react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { t } from 'common';
 import { AvailableWriteProviders } from 'provider';
 
+import { showNotification } from 'modules/notifications';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { connect } from '../actions/connect';
@@ -11,10 +15,15 @@ import {
 } from '../store/authSlice';
 
 import { useConnectedData } from './useConnectedData';
+import { useDisconnectAll } from './useDisconnectAll';
 import { useProviderEffect } from './useProviderEffect';
+
+const NOTIFIER_TIMEOUT = 10_000;
 
 export const useRestoreConnection = (): boolean => {
   const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatch();
+  const disconnectAll = useDisconnectAll();
 
   const ethProviderStatus = useAppSelector(selectEthProviderData);
   const polkadotProviderStatus = useAppSelector(selectPolkadotProviderData);
@@ -67,6 +76,22 @@ export const useRestoreConnection = (): boolean => {
     isShouldBeRestoredEth,
     isShouldBeRestoredPolkadot,
   ]);
+
+  useEffect(() => {
+    if (!isActiveAndNotConnected) return undefined;
+
+    const timeoutId = setTimeout(() => {
+      disconnectAll();
+      dispatch(
+        showNotification({
+          message: t('error.metamask-fill-password'),
+          variant: 'info',
+        }),
+      );
+    }, NOTIFIER_TIMEOUT);
+
+    return () => clearInterval(timeoutId);
+  }, [disconnectAll, dispatch, isActiveAndNotConnected]);
 
   return isActiveAndNotConnected;
 };

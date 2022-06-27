@@ -3,3 +3,8 @@ export interface IBridgeNotarizeResponse {
   encodedReceipt: string;
   signature: string;
 }
+
+export interface IBridgeApproveResponse {
+  isApproved: boolean;
+  txHash?: string;
+}

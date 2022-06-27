@@ -12,7 +12,6 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   DECIMAL_PLACES,
   DEFAULT_FIXED,
-  featuresConfig,
   FTM_AUDIT_LINK,
   ZERO,
 } from 'modules/common/const';
@@ -79,31 +78,29 @@ export const StakeFantom = (): JSX.Element => {
   const renderStats = useCallback(() => {
     return (
       <>
-        {featuresConfig.stakeAFTMC && (
-          <TokenVariantList my={5}>
-            <TokenVariant
-              description={tHTML('stake-fantom.aftmb-descr')}
-              iconSlot={<AFTMBIcon />}
-              isActive={tokenOut === Token.aFTMb}
-              isDisabled={isStakeLoading}
-              title={t('unit.aftmb')}
-              onClick={onTokenSelect(Token.aFTMb)}
-            />
+        <TokenVariantList my={5}>
+          <TokenVariant
+            description={tHTML('stake-fantom.aftmb-descr')}
+            iconSlot={<AFTMBIcon />}
+            isActive={tokenOut === Token.aFTMb}
+            isDisabled={isStakeLoading}
+            title={t('unit.aftmb')}
+            onClick={onTokenSelect(Token.aFTMb)}
+          />
 
-            <TokenVariant
-              description={tHTML('stake-fantom.aftmc-descr', {
-                rate: isCommonDataLoading
-                  ? '...'
-                  : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-              })}
-              iconSlot={<AFTMCIcon />}
-              isActive={tokenOut === Token.aFTMc}
-              isDisabled={isStakeLoading}
-              title={t('unit.aftmc')}
-              onClick={onTokenSelect(Token.aFTMc)}
-            />
-          </TokenVariantList>
-        )}
+          <TokenVariant
+            description={tHTML('stake-fantom.aftmc-descr', {
+              rate: isCommonDataLoading
+                ? '...'
+                : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
+            })}
+            iconSlot={<AFTMCIcon />}
+            isActive={tokenOut === Token.aFTMc}
+            isDisabled={isStakeLoading}
+            title={t('unit.aftmc')}
+            onClick={onTokenSelect(Token.aFTMc)}
+          />
+        </TokenVariantList>
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>

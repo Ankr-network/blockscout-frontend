@@ -1,10 +1,12 @@
 import BigNumber from 'bignumber.js';
+import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
   EEthereumNetworkId,
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -12,7 +14,10 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
-import { isMainnet } from 'modules/common/const';
+import { ISwitcher, IShareArgs } from 'modules/api/switcher';
+import { ETH_SCALE_FACTOR, isMainnet, MAX_UINT256 } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -22,9 +27,11 @@ import {
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
 } from '../const';
+import { TAvaxSyntToken } from '../types';
 
+import ABI_AAVAXB from './contracts/aAVAXb.json';
+import ABI_AAVAXC from './contracts/aAVAXc.json';
 import ABI_AVALANCHE_POOL from './contracts/AvalanchePool.json';
-import ABI_AAVAXB from './contracts/FutureBondAVAX.json';
 
 /**
  * even with this multiplier, the gas estimate is two times less
@@ -79,7 +86,13 @@ interface ITxHistoryEventData extends EventData {
   timestamp: number;
 }
 
-export class AvalancheSDK {
+export interface IGetTxData {
+  amount: BigNumber;
+  isPending: boolean;
+  destinationAddress?: string;
+}
+
+export class AvalancheSDK implements ISwitcher {
   private readonly readProvider: Web3KeyReadProvider;
 
   private readonly writeProvider: Web3KeyWriteProvider;
@@ -115,7 +128,18 @@ export class AvalancheSDK {
 
     return new web3.eth.Contract(
       ABI_AAVAXB as AbiItem[],
-      avalancheConfig.futureBondAVAX,
+      avalancheConfig.aAVAXb,
+    );
+  }
+
+  private async getAAVAXCTokenContract(isForceRead = false): Promise<Contract> {
+    const { avalancheConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_AAVAXC as AbiItem[],
+      avalancheConfig.aAVAXc,
     );
   }
 
@@ -301,7 +325,7 @@ export class AvalancheSDK {
     return instance;
   }
 
-  public async addAAVAXBToWallet(): Promise<void> {
+  public async addTokenToWallet(token: TAvaxSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -309,16 +333,22 @@ export class AvalancheSDK {
     const { avalancheConfig } = configFromEnv();
 
     const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const contract =
+      token === Token.aAVAXb ? aAVAXbTokenContract : aAVAXcTokenContract;
 
     const [symbol, rawDecimals]: [string, string] = await Promise.all([
-      aAVAXbTokenContract.methods.symbol().call(),
-      aAVAXbTokenContract.methods.decimals().call(),
+      contract.methods.symbol().call(),
+      contract.methods.decimals().call(),
     ]);
 
     const decimals = Number.parseInt(rawDecimals, 10);
 
-    await this.writeProvider.addTokenToWallet({
-      address: avalancheConfig.futureBondAVAX,
+    return this.writeProvider.addTokenToWallet({
+      address:
+        token === Token.aAVAXb
+          ? avalancheConfig.aAVAXb
+          : avalancheConfig.aAVAXc,
       symbol,
       decimals,
       chainId: isMainnet
@@ -327,7 +357,7 @@ export class AvalancheSDK {
     });
   }
 
-  public async getAAVAXBBalance(): Promise<BigNumber> {
+  public async getABBalance(): Promise<BigNumber> {
     const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
 
     const balance = await aAVAXbTokenContract.methods
@@ -335,6 +365,141 @@ export class AvalancheSDK {
       .call();
 
     return this.convertFromWei(balance);
+  }
+
+  public async getACBalance(): Promise<BigNumber> {
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+
+    const balance = await aAVAXcTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  public async getACRatio(): Promise<BigNumber> {
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const rawRatio = await aAVAXcTokenContract.methods.ratio().call();
+
+    return this.convertFromWei(rawRatio);
+  }
+
+  public async getACAllowance(spender?: string): Promise<BigNumber> {
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const allowance = await aAVAXcTokenContract.methods
+      .allowance(
+        this.writeProvider.currentAccount,
+        spender || avalancheConfig.aAVAXb,
+      )
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
+  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    const { 0: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+        : { 0: tx.value };
+
+    return {
+      amount: this.convertFromWei(amount),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
+  public async approveACForAB(
+    amount = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult | undefined> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const hexAmount = convertNumberToHex(amount, scale);
+    const isAllowed = await this.checkAllowance(hexAmount);
+
+    if (isAllowed) {
+      return undefined;
+    }
+
+    const { avalancheConfig } = configFromEnv();
+
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+
+    const data = aAVAXcTokenContract.methods
+      .approve(avalancheConfig.aAVAXb, hexAmount)
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXc,
+      { data, estimate: true },
+    );
+  }
+
+  public async checkAllowance(hexAmount: string): Promise<boolean> {
+    const allowance = await this.getACAllowance();
+
+    return allowance.isGreaterThanOrEqualTo(hexAmount);
+  }
+
+  public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const data = aAVAXbTokenContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXb,
+      { data, estimate: true },
+    );
+  }
+
+  public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const { avalancheConfig } = configFromEnv();
+
+    const data = aAVAXbTokenContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.aAVAXb,
+      { data, estimate: true },
+    );
   }
 
   public async getAVAXBalance(): Promise<BigNumber> {
@@ -424,14 +589,27 @@ export class AvalancheSDK {
     return { completed, pending };
   }
 
-  public async stake(amount: BigNumber): Promise<void> {
+  private getStakeMethodName(token: TAvaxSyntToken) {
+    switch (token) {
+      case Token.aAVAXc:
+        return 'stakeAndClaimCerts';
+
+      default:
+        return 'stakeAndClaimBonds';
+    }
+  }
+
+  public async stake(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<{ txHash: string }> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
     let gasFee = this.stakeGasFee;
     if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount);
+      gasFee = await this.getStakeGasFee(amount, token);
     }
 
     const balance = await this.getAVAXBalance();
@@ -445,34 +623,35 @@ export class AvalancheSDK {
       ? maxAllowedAmount
       : amount;
 
-    const value = this.convertToHex(stakeAmount);
+    const value = convertNumberToHex(stakeAmount, AVAX_SCALE_FACTOR);
 
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    const contractStake = avalanchePoolContract.methods.stake;
+    const contractStake =
+      avalanchePoolContract.methods[this.getStakeMethodName(token)];
 
-    const gasLimit: number = await contractStake().estimateGas({
+    const tx = await contractStake().send({
       from: this.currentAccount,
       value,
     });
 
-    await contractStake().send({
-      from: this.currentAccount,
-      gas: AvalancheSDK.getIncreasedGasLimit(gasLimit),
-      value,
-    });
+    return { txHash: tx.transactionHash };
   }
 
-  public async getStakeGasFee(amount: BigNumber): Promise<BigNumber> {
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<BigNumber> {
     const provider = await this.getProvider();
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
-    const estimatedGas: number = await avalanchePoolContract.methods
-      .stake()
-      .estimateGas({
-        from: this.currentAccount,
-        value: this.convertToHex(amount),
-      });
+    const contractStake =
+      avalanchePoolContract.methods[this.getStakeMethodName(token)];
+
+    const estimatedGas: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: convertNumberToHex(amount, AVAX_SCALE_FACTOR),
+    });
 
     const increasedGasLimit = AvalancheSDK.getIncreasedGasLimit(estimatedGas);
 
@@ -487,7 +666,20 @@ export class AvalancheSDK {
     return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
-  public async unstake(amount: BigNumber): Promise<void> {
+  private getUnstakeMethodName(token: TAvaxSyntToken) {
+    switch (token) {
+      case Token.aAVAXc:
+        return 'claimCerts';
+
+      default:
+        return 'claimBonds';
+    }
+  }
+
+  public async unstake(
+    amount: BigNumber,
+    token: TAvaxSyntToken,
+  ): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -495,7 +687,10 @@ export class AvalancheSDK {
     const avalanchePoolContract = await this.getAvalanchePoolContract();
     const value = this.convertToHex(amount);
 
-    await avalanchePoolContract.methods.claim(value).send({
+    const contractUnstake =
+      avalanchePoolContract.methods[this.getUnstakeMethodName(token)];
+
+    await contractUnstake(value).send({
       from: this.currentAccount,
     });
   }

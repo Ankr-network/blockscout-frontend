@@ -2,13 +2,19 @@ import { Box } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
+import {
+  featuresConfig,
+  isMainnet,
+  STAKE_LEGACY_LINKS,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
+import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
+import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { RoutesConfig as PolygonRoutes } from 'modules/stake-polygon/Routes';
 import { Container } from 'uiKit/Container';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
@@ -94,17 +100,62 @@ export const Main = (): JSX.Element => {
             onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
           />
 
-          <FeatureItemLegacy
-            href={STAKE_LEGACY_LINKS.DOT}
-            iconSlot={<DotIcon />}
-            title={t('features.polkadot')}
-          />
+          {featuresConfig.isActivePolkadotStaking && isMainnet ? (
+            <FeatureItem
+              apy={metrics && +metrics.dot.apy}
+              iconSlot={<DotIcon />}
+              mainHref={PolkadotRoutes.stake.generatePath(
+                EPolkadotNetworks.DOT,
+              )}
+              moreHref={getStakingOverviewUrl(Token.DOT)}
+              stakedTvl={metrics?.dot.totalStaked}
+              title={t('features.polkadot')}
+              token={Token.DOT}
+              onStakeClick={onTrackEnterStakingFlow(Token.DOT)}
+            />
+          ) : (
+            <FeatureItemLegacy
+              href={STAKE_LEGACY_LINKS.DOT}
+              iconSlot={<DotIcon />}
+              title={t('features.polkadot')}
+            />
+          )}
 
-          <FeatureItemLegacy
-            href={STAKE_LEGACY_LINKS.KSM}
-            iconSlot={<KsmIcon />}
-            title={t('features.ksm')}
-          />
+          {featuresConfig.isActivePolkadotStaking && isMainnet ? (
+            <FeatureItem
+              apy={metrics && +metrics.ksm.apy}
+              iconSlot={<KsmIcon />}
+              mainHref={PolkadotRoutes.stake.generatePath(
+                EPolkadotNetworks.KSM,
+              )}
+              moreHref={getStakingOverviewUrl(Token.KSM)}
+              stakedTvl={metrics?.ksm.totalStaked}
+              title={t('features.ksm')}
+              token={Token.KSM}
+              onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
+            />
+          ) : (
+            <FeatureItemLegacy
+              href={STAKE_LEGACY_LINKS.KSM}
+              iconSlot={<KsmIcon />}
+              title={t('features.ksm')}
+            />
+          )}
+
+          {featuresConfig.isActivePolkadotStaking && !isMainnet && (
+            <FeatureItem
+              apy={metrics && +metrics.wnd.apy}
+              iconSlot={<DotIcon />}
+              mainHref={PolkadotRoutes.stake.generatePath(
+                EPolkadotNetworks.WND,
+              )}
+              moreHref={getStakingOverviewUrl(Token.WND)}
+              stakedTvl={metrics?.wnd.totalStaked}
+              title={t('features.wnd')}
+              token={Token.WND}
+              onStakeClick={onTrackEnterStakingFlow(Token.WND)}
+            />
+          )}
         </Features>
       </Container>
     </Box>

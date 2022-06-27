@@ -17,7 +17,7 @@ const ROOT = `${StakeRoutes.main.path}fantom/`;
 const STAKE_FANTOM_PATH = `${ROOT}?token=:token?`;
 const UNSTAKE_FANTOM_PATH = `${UNSTAKE_PATH}fantom/`;
 const UNSTAKE_FANTOM_BY_TOKEN_PATH = `${UNSTAKE_FANTOM_PATH}?token=:token?`;
-const STEP_STAKE_FANTOM_PATH = `${ROOT}:txHash/:tokenOut/`;
+const STEP_STAKE_FANTOM_PATH = `${ROOT}:tokenOut/:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {

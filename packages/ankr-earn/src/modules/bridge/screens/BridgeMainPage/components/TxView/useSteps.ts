@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { t } from 'common';
 
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 
 export enum EStep {
@@ -24,39 +25,38 @@ export function useSteps(): IUseSteps {
   const query = useQueryParams();
   const toChainId = query.get('chainIdTo');
 
-  const steps = {
-    [EStep.SendingProgress]: {
-      title: t('bridge.tx.titles.send-in-progress'),
-      descr: t('bridge.tx.description.progress', {
-        token: query.get('token') ?? '',
-        network: t(`chain.${toChainId}`),
-      }),
-    },
-    [EStep.Receive]: {
-      title: t('bridge.tx.titles.receive-assets'),
-      descr: t('bridge.tx.description.connect-wallet'),
-    },
+  const steps = useLocaleMemo(
+    () => ({
+      [EStep.SendingProgress]: {
+        title: t('bridge.tx.titles.send-in-progress'),
+        descr: t('bridge.tx.description.progress', {
+          token: query.get('token') ?? '',
+          network: t(`chain.${toChainId}`),
+        }),
+      },
+      [EStep.Receive]: {
+        title: t('bridge.tx.titles.receive-assets'),
+        descr: t('bridge.tx.description.connect-wallet'),
+      },
 
-    [EStep.ReciveProgress]: {
-      title: t('bridge.tx.titles.receiving-in-process'),
-      descr: t('bridge.tx.description.take-moment'),
-    },
+      [EStep.ReciveProgress]: {
+        title: t('bridge.tx.titles.receiving-in-process'),
+        descr: t('bridge.tx.description.take-moment'),
+      },
 
-    [EStep.Finish]: {
-      title: t('bridge.tx.titles.successeful'),
-      descr: '',
-    },
-  };
-
-  const setStep = useCallback((newStep: EStep) => {
-    setCurrentStep(newStep);
-  }, []);
+      [EStep.Finish]: {
+        title: t('bridge.tx.titles.successeful'),
+        descr: '',
+      },
+    }),
+    [query],
+  );
 
   return {
     stepTitle: steps[currentStep].title,
     stepsCount: Object.keys(steps).length - 1,
     stepText: steps[currentStep].descr,
     currentStep,
-    setStep,
+    setStep: setCurrentStep,
   };
 }

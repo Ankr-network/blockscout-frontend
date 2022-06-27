@@ -21,7 +21,7 @@ export const ChainRequestsLabel = ({
         noWrap
         color={descriptionColor}
       >
-        {description}
+        {description?.toUpperCase()}
       </Typography>
       {label && (
         <Typography

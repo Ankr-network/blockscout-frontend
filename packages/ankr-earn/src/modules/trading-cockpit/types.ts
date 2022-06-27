@@ -6,6 +6,7 @@ export enum AvailableTokens {
   aMATICb = 'aMATICb',
   AVAX = 'AVAX',
   aAVAXb = 'aAVAXb',
+  aAVAXc = 'aAVAXc',
   BNB = 'BNB',
   aBNBb = 'aBNBb',
   FTM = 'FTM',

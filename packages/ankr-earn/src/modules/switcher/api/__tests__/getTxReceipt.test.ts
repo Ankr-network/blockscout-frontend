@@ -2,6 +2,7 @@ import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';
+import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
@@ -25,6 +26,10 @@ jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
 }));
 
+jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
+  AvalancheSDK: { getInstance: jest.fn() },
+}));
+
 describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
   const defaultSDK = {
     fetchTxReceipt: () => Promise.resolve({}),
@@ -38,6 +43,8 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
     (PolygonSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+
+    (AvalancheSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
   });
 
   afterEach(() => {
@@ -109,6 +116,25 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
             chainId: chainId as AvailableSwitchNetwork,
             txHash: 'hash',
             token: Token.aFTMc,
+          }),
+      ),
+    );
+
+    results.forEach(result => {
+      expect(result).toBeDefined();
+    });
+  });
+
+  test('should return tx receipt for avalanche network', async () => {
+    const sdk = await SwitcherSDK.getInstance();
+
+    const results = await Promise.all(
+      [EEthereumNetworkId.avalanche, EEthereumNetworkId.avalancheTestnet].map(
+        chainId =>
+          sdk.fetchTxReceipt({
+            chainId: chainId as AvailableSwitchNetwork,
+            txHash: 'hash',
+            token: Token.aAVAXc,
           }),
       ),
     );

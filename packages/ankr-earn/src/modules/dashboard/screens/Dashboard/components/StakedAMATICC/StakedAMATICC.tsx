@@ -1,15 +1,16 @@
+import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
-import {
-  Pending,
-  PendingTemporary,
-} from 'modules/dashboard/components/Pending';
+import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
+import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
 import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
@@ -17,7 +18,19 @@ import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMa
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 
 export const StakedAMATICC = (): JSX.Element => {
-  const { isOpened, onClose, onOpen } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
+  const {
+    isOpened: isOpenedHistory,
+    onClose: onCloseHistory,
+    onOpen: onOpenHistory,
+  } = useDialog();
+
+  const {
+    isOpened: isOpenedInfo,
+    onClose: onCloseInfo,
+    onOpen: onOpenInfo,
+  } = useDialog();
+
   const {
     amount,
     pendingValue,
@@ -30,6 +43,8 @@ export const StakedAMATICC = (): JSX.Element => {
     tokenAddress,
     unstakeLink,
     isUnstakeLoading,
+    ratio,
+    nativeAmount,
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
@@ -43,26 +58,27 @@ export const StakedAMATICC = (): JSX.Element => {
   } = useStakedMATICTxHistory();
 
   const handleOpenHistoryDialog = useCallback(() => {
-    onOpen();
+    onOpenHistory();
     handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpen]);
+  }, [handleLoadTxHistory, onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
 
-  const renderedPendingSlot =
-    !pendingValue.isZero() &&
-    (featuresConfig.isSplitedMATICHistory ? (
-      <Pending
-        isLoading={isHistoryDataLoading}
-        token={Token.aMATICc}
-        tooltip={<PendingTable data={pendingUnstakeHistoryAMATICC} />}
-        value={pendingValue}
-        onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
-      />
-    ) : (
-      <PendingTemporary />
-    ));
+  const renderedPendingSlot = !pendingValue.isZero() && (
+    <Pending
+      isLoading={isHistoryDataLoading}
+      token={Token.aMATICc}
+      tooltip={
+        <PendingTable
+          data={pendingUnstakeHistoryAMATICC}
+          unstakeLabel={unstakePendingData.label}
+        />
+      }
+      value={pendingValue}
+      onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+    />
+  );
 
   return (
     <>
@@ -73,24 +89,33 @@ export const StakedAMATICC = (): JSX.Element => {
         isLoading={isLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
-        tokenAddress={tokenAddress}
         unstakeLink={unstakeLink}
         onAddStakingClick={onAddStakingClick}
-        onAddTokenToWallet={onAddTokenToWallet}
-        onHistoryBtnClick={
-          featuresConfig.maticHistory ? handleOpenHistoryDialog : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
+        onTokenInfoClick={onOpenInfo}
       />
 
       <HistoryDialog
         history={transactionHistoryAMATICC}
         isHistoryLoading={isHistoryDataLoading}
-        open={isOpened}
-        onClose={onClose}
+        open={isOpenedHistory}
+        onClose={onCloseHistory}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={onAddTokenToWallet}
+        description="dashboard.token-info.aMATICc"
+        moreHref={getStakingOverviewUrl(Token.MATIC)}
+        open={isOpenedInfo}
+        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
+        tokenAddress={tokenAddress}
+        tokenName={Token.aMATICc}
+        onClose={onCloseInfo}
       />
     </>
   );

@@ -41,4 +41,8 @@ export const usePendingTableStyles = makeStyles<Theme>(theme => ({
     fontSize: 12,
     borderTop: `2px solid ${theme.palette.background.default}`,
   },
+
+  informer: {
+    fontWeight: 'bold',
+  },
 }));

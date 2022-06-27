@@ -29,7 +29,16 @@ import {
   STAGING_ROCOCO_CONFIG,
   STAGING_WESTEND_CONFIG,
 } from './config';
-import { EEnvTypes, TNetworkType, TPolkadotAddress } from './entity';
+import {
+  EEnvTypes,
+  TEthereumAddress,
+  TNetworkType,
+  TPolkadotAddress,
+} from './entity';
+
+interface IAPINetworkMap {
+  [networkType: string /* TNetworkType */]: ApiPromise | undefined;
+}
 
 interface IConfig {
   polkadotUrl: string;
@@ -37,8 +46,8 @@ interface IConfig {
 }
 
 export interface IGetAccountBalanceData {
-  free: BigNumber;
   feeFrozen: BigNumber;
+  free: BigNumber;
   miscFrozen: BigNumber;
   nonce: BigNumber;
   reserved: BigNumber;
@@ -100,6 +109,8 @@ export class PolkadotProvider implements IProvider {
     return web3FromAddress(address);
   }
 
+  protected apiNetworkMap: IAPINetworkMap = {};
+
   protected currAccount: TPolkadotAddress | null = null;
 
   private api?: ApiPromise;
@@ -118,8 +129,67 @@ export class PolkadotProvider implements IProvider {
     return this.networkType;
   }
 
-  public constructor(private config: IConfig) {
+  constructor(private config: IConfig) {
     this.networkType = config.networkType;
+  }
+
+  protected static getEthereumAddressInBytes(
+    address: TEthereumAddress,
+  ): Buffer {
+    if (address.startsWith('0x')) {
+      address = address.slice(2);
+    }
+
+    return Buffer.from(address, 'hex');
+  }
+
+  protected static getNetworkConfig(
+    networkType: TNetworkType,
+  ): ISlotAuctionConfig {
+    let config: ISlotAuctionConfig | undefined;
+
+    switch (networkType) {
+      case 'DOT':
+        config = MAINNET_POLKADOT_CONFIG;
+        break;
+
+      case 'KSM':
+        config = MAINNET_KUSAMA_CONFIG;
+        break;
+
+      case 'WND':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_WESTEND_CONFIG
+            : DEVELOP_WESTEND_CONFIG;
+        break;
+
+      case 'ROC':
+        config =
+          CURRENT_ENV === EEnvTypes.Stage
+            ? STAGING_ROCOCO_CONFIG
+            : DEVELOP_ROCOCO_CONFIG;
+        break;
+
+      default:
+        break;
+    }
+
+    if (typeof config === 'undefined') {
+      throw new Error(`Not supported Polkadot network type: ${networkType}`);
+    }
+
+    return config;
+  }
+
+  protected async resetAPINetworkMap(): Promise<void> {
+    await Object.values(this.apiNetworkMap).forEach(
+      async (api): Promise<void> => {
+        await api?.disconnect();
+      },
+    );
+
+    this.apiNetworkMap = {};
   }
 
   private static async sendSignedExtrinsic(
@@ -221,9 +291,67 @@ export class PolkadotProvider implements IProvider {
     return value.multipliedBy(10 ** this.getNetworkMaxDecimals());
   }
 
+  public static getClaimTransactionPayload(
+    ethereumAddress: TEthereumAddress,
+    loanId: number,
+    amount: BigNumber,
+  ): Uint8Array {
+    const header = Buffer.from(
+      'Stakefi Signed Message:\nCreateClaim\n',
+      'ascii',
+    );
+
+    const address = PolkadotProvider.getEthereumAddressInBytes(ethereumAddress);
+    const lineBreak = Buffer.from('\n', 'ascii');
+
+    let amountHex = amount.toString(16);
+    let loanIdHex = loanId.toString(16);
+
+    amountHex = '0'.repeat(32 - amountHex.length) + amountHex;
+    loanIdHex = '0'.repeat(8 - loanIdHex.length) + loanIdHex;
+
+    return Uint8Array.from(
+      Buffer.concat([
+        header,
+        address,
+        lineBreak,
+        Buffer.from(loanIdHex, 'hex'),
+        lineBreak,
+        Buffer.from(amountHex, 'hex'),
+      ]),
+    );
+  }
+
   public getRawApi(): ApiPromise {
     if (!this.api) throw new Error(`Polkadot API is not initialized`);
     return this.api;
+  }
+
+  public async getRawTokenSignature(
+    polkadotAccount: TPolkadotAddress,
+    ethereumAddress: TEthereumAddress,
+    expirationTimestamp: number,
+  ): Promise<string> {
+    if (!this.isAPIConnected()) {
+      throw new Error('Polkadot must be connected');
+    }
+
+    const signMessage = Buffer.from(
+      `StakeFi Signed Message:\n${PolkadotProvider.extractPublicKeyHexFromAddress(
+        polkadotAccount,
+      )}\n${ethereumAddress}\n${expirationTimestamp}`,
+      'ascii',
+    );
+
+    console.log(
+      `Signing raw message (ASCII): ${signMessage.toString('ascii')}`,
+      `\nSigning raw message (HEX): ${signMessage.toString('hex')}`,
+    );
+
+    return this.signRawMessage(
+      polkadotAccount,
+      `0x${signMessage.toString('hex')}`,
+    );
   }
 
   public getWalletMeta(): IWalletMeta {
@@ -260,12 +388,19 @@ export class PolkadotProvider implements IProvider {
 
     // eslint-disable-next-line prefer-destructuring
     this.currAccount = accounts[0];
+
+    await this.resetAPINetworkMap();
+    await this.api?.disconnect();
+
     this.api = await ApiPromise.create({ provider: wsProvider });
 
     await this.getNetworkType();
   }
 
   public disconnect(): void {
+    this.resetAPINetworkMap();
+    this.api?.disconnect();
+
     this.currAccount = null;
     this.api = undefined;
     this.networkType = this.config.networkType;
@@ -295,12 +430,41 @@ export class PolkadotProvider implements IProvider {
     const { nonce, data } = await this.getRawApi().query.system.account(
       address,
     );
+
     return {
-      reserved: this.scaleDown(new BigNumber(data.reserved.toString(10))),
-      miscFrozen: this.scaleDown(new BigNumber(data.miscFrozen.toString(10))),
-      free: this.scaleDown(new BigNumber(data.free.toString(10))),
       feeFrozen: this.scaleDown(new BigNumber(data.feeFrozen.toString(10))),
+      free: this.scaleDown(new BigNumber(data.free.toString(10))),
+      miscFrozen: this.scaleDown(new BigNumber(data.miscFrozen.toString(10))),
       nonce: new BigNumber(nonce.toString()),
+      reserved: this.scaleDown(new BigNumber(data.reserved.toString(10))),
+    };
+  }
+
+  public async getAccountBalanceByNetwork(
+    networkType: TNetworkType,
+    address: TPolkadotAddress,
+  ): Promise<IGetAccountBalanceData> {
+    const { polkadotUrl } = PolkadotProvider.getNetworkConfig(networkType);
+
+    this.apiNetworkMap[networkType] =
+      this.apiNetworkMap[networkType] ??
+      (await ApiPromise.create({
+        provider: new WsProvider(polkadotUrl),
+      }));
+
+    const api = this.apiNetworkMap[networkType] as ApiPromise;
+
+    const {
+      data: { feeFrozen, free, miscFrozen, reserved },
+      nonce,
+    } = await api.query.system.account(address);
+
+    return {
+      feeFrozen: this.scaleDown(new BigNumber(feeFrozen.toString(10))),
+      free: this.scaleDown(new BigNumber(free.toString(10))),
+      miscFrozen: this.scaleDown(new BigNumber(miscFrozen.toString(10))),
+      nonce: new BigNumber(nonce.toString()),
+      reserved: this.scaleDown(new BigNumber(reserved.toString(10))),
     };
   }
 
@@ -344,7 +508,7 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async sendSystemRemarkWithExtrinsic(
-    sender: string,
+    sender: TPolkadotAddress,
     data: Uint8Array,
   ): Promise<{
     extId: string;
@@ -369,38 +533,7 @@ export class PolkadotProvider implements IProvider {
       throw new Error('Please to set a Polkadot account');
     }
 
-    let config: ISlotAuctionConfig | undefined;
-
-    switch (networkType) {
-      case 'DOT':
-        config = MAINNET_POLKADOT_CONFIG;
-        break;
-
-      case 'KSM':
-        config = MAINNET_KUSAMA_CONFIG;
-        break;
-
-      case 'WND':
-        config =
-          CURRENT_ENV === EEnvTypes.Stage
-            ? STAGING_WESTEND_CONFIG
-            : DEVELOP_WESTEND_CONFIG;
-        break;
-
-      case 'ROC':
-        config =
-          CURRENT_ENV === EEnvTypes.Stage
-            ? STAGING_ROCOCO_CONFIG
-            : DEVELOP_ROCOCO_CONFIG;
-        break;
-
-      default:
-        break;
-    }
-
-    if (typeof config === 'undefined') {
-      throw new Error(`Not supported Polkadot network type: ${networkType}`);
-    }
+    const config = PolkadotProvider.getNetworkConfig(networkType);
 
     const isAvailableAccount = await this.isAvailableAccount(this.currAccount);
 
@@ -412,6 +545,9 @@ export class PolkadotProvider implements IProvider {
       polkadotUrl: config.polkadotUrl,
       networkType: config.networkType,
     };
+
+    await this.resetAPINetworkMap();
+    await this.api?.disconnect();
 
     this.api = await ApiPromise.create({
       provider: new WsProvider(config.polkadotUrl),
@@ -479,7 +615,7 @@ export class PolkadotProvider implements IProvider {
   }
 
   public async sendSystemRemark(
-    sender: string,
+    sender: TPolkadotAddress,
     data: Uint8Array,
   ): Promise<{
     submittableResult: ISubmittableResult;

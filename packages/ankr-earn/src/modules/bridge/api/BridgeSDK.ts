@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import { IWeb3SendResult, Web3KeyWriteProvider } from 'provider';
+import { Web3KeyWriteProvider } from 'provider';
 
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { SupportedChainIDS } from 'modules/common/const';
@@ -11,7 +11,7 @@ import ABI_ERC20 from '../../api/contract/IERC20.json';
 import { getBridgeAddr } from '../utils/getBridgeAddr';
 
 import ABI_BRIDGE from './contracts/CrossChainBridge.json';
-import { IBridgeNotarizeResponse } from './types/types';
+import { IBridgeNotarizeResponse, IBridgeApproveResponse } from './types/types';
 
 export class BridgeSDK {
   private static instance?: BridgeSDK;
@@ -72,11 +72,16 @@ export class BridgeSDK {
     return allowance.isGreaterThanOrEqualTo(rawAmount);
   }
 
-  public async approve(amount: BigNumber, tokenAddr: string): Promise<boolean> {
+  public async approve(
+    amount: BigNumber,
+    tokenAddr: string,
+  ): Promise<IBridgeApproveResponse> {
     const isAllowed = await this.checkAllowance(amount, tokenAddr);
 
     if (isAllowed) {
-      return true;
+      return {
+        isApproved: true,
+      };
     }
 
     const tokenContract = this.provider.createContract(ABI_ERC20, tokenAddr);
@@ -88,22 +93,23 @@ export class BridgeSDK {
       .approve(bridgeAddr, rawAmount)
       .encodeABI();
 
-    const { receiptPromise } = await this.provider.sendTransactionAsync(
+    const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       tokenAddr,
       { data: approveData },
     );
 
-    const result = await receiptPromise;
-
-    return !!result;
+    return {
+      isApproved: false,
+      txHash: transactionHash,
+    };
   }
 
   public async deposit(
     amount: BigNumber,
     fromToken: string,
     toChainId: SupportedChainIDS,
-  ): Promise<IWeb3SendResult> {
+  ): Promise<string> {
     const bridgeAddr = getBridgeAddr(this.provider.currentChain);
     const bridgeContract = this.provider.createContract(ABI_BRIDGE, bridgeAddr);
 
@@ -122,11 +128,13 @@ export class BridgeSDK {
       )
       .encodeABI();
 
-    return this.provider.sendTransactionAsync(
+    const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
       { data: depositData },
     );
+
+    return transactionHash;
   }
 
   public async notarize(
@@ -147,7 +155,7 @@ export class BridgeSDK {
     proof: string,
     receipt: string,
     signature: string,
-  ): Promise<IWeb3SendResult> {
+  ): Promise<string> {
     const bridgeAddr = getBridgeAddr(this.provider.currentChain);
     const bridgeContract = this.provider.createContract(ABI_BRIDGE, bridgeAddr);
 
@@ -155,10 +163,12 @@ export class BridgeSDK {
       .withdraw(proof, receipt, signature)
       .encodeABI();
 
-    return this.provider.sendTransactionAsync(
+    const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
       { data: withdrawalData },
     );
+
+    return transactionHash;
   }
 }

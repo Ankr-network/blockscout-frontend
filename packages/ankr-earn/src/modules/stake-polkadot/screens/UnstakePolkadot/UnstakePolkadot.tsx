@@ -4,14 +4,14 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { IPolkadotRouteLoadableComponentProps } from 'modules/stake-polkadot/types';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UnstakeUserWallet } from 'modules/stake/components/UnstakeUserWallet';
+import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-
-import { IPolkadotRouteLoadableComponentProps } from '../../types';
 
 import { UnstakeRenderFormFooter } from './components/UnstakeRenderFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';
@@ -31,7 +31,6 @@ export const UnstakePolkadot = ({
     maxAmountDecimals,
     networkName,
     polkadotToken,
-    redeemPeriodTxt,
     userAmount,
     onSuccessClose,
     onUnstakeFormClose,
@@ -40,6 +39,10 @@ export const UnstakePolkadot = ({
     onUserWalletExtraValidation,
     onUserWalletSubmit,
   } = useUnstakePolkadotData(network);
+
+  const { label: unstakeLabel } = useUnstakePendingTimestamp({
+    token: polkadotToken,
+  });
 
   const onRenderFormFooter = (amount: BigNumber): JSX.Element => (
     <UnstakeRenderFormFooter amount={amount} polkadotToken={polkadotToken} />
@@ -63,7 +66,7 @@ export const UnstakePolkadot = ({
             {isActiveUnstakeForm && (
               <UnstakeDialog
                 balance={fetchStatsData.ethTokenBalance}
-                endText={redeemPeriodTxt}
+                endText={unstakeLabel}
                 maxAmountDecimals={maxAmountDecimals}
                 renderFormFooter={onRenderFormFooter}
                 token={ethToken}
@@ -94,7 +97,7 @@ export const UnstakePolkadot = ({
 
             {isActiveSuccessForm && (
               <UnstakeSuccess
-                infoText={redeemPeriodTxt}
+                infoText={unstakeLabel}
                 onClose={onSuccessClose}
               />
             )}

@@ -2,9 +2,8 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-
-import { addETHTokenToWallet } from '../../../actions/addETHTokenToWallet';
-import { EPolkadotNetworks } from '../../../types';
+import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
+import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 
 interface IUseSuccessDialogData {
   isSuccessOpened: boolean;

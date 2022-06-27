@@ -15,19 +15,17 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
-import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
-
-import { fetchUnstakeStats } from '../../../actions/fetchUnstakeStats';
-import { unstake } from '../../../actions/unstake';
-import { useETHPolkadotProvidersEffect } from '../../../hooks/useETHPolkadotProvidersEffect';
+import { fetchUnstakeStats } from 'modules/stake-polkadot/actions/fetchUnstakeStats';
+import { unstake } from 'modules/stake-polkadot/actions/unstake';
+import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
   TPolkadotETHToken,
   TPolkadotToken,
-} from '../../../types';
-import { getRedeemPeriod } from '../../../utils/getRedeemPeriod';
+} from 'modules/stake-polkadot/types';
+import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
+import { IUnstakeUserWalletFormValues } from 'modules/stake/components/UnstakeUserWallet';
 
 interface IUseUnstakePolkadotData {
   ethToken: TPolkadotETHToken;
@@ -41,7 +39,6 @@ interface IUseUnstakePolkadotData {
   maxAmountDecimals: number | undefined;
   networkName: string;
   polkadotToken: TPolkadotToken;
-  redeemPeriodTxt: string;
   userAmount: BigNumber | null;
   onSuccessClose: () => void;
   onUnstakeFormClose: () => void;
@@ -94,8 +91,8 @@ export const useUnstakePolkadotData = (
   );
 
   const maxAmountDecimals = useMemo(
-    () => fetchStatsData?.maxDecimalsUnstake.toNumber(),
-    [fetchStatsData?.maxDecimalsUnstake],
+    () => fetchStatsData?.maxETHTokenDecimals.toNumber(),
+    [fetchStatsData?.maxETHTokenDecimals],
   );
 
   const networkName = useMemo(
@@ -104,15 +101,6 @@ export const useUnstakePolkadotData = (
   );
 
   const polkadotToken = useMemo(() => Token[network], [network]);
-
-  const redeemPeriodTxt = useMemo(
-    () =>
-      t('stake-polkadot.unstake.info', {
-        token: polkadotToken,
-        period: getRedeemPeriod(network),
-      }),
-    [network, polkadotToken],
-  );
 
   const onUnstakeFormClose = useCallback((): void => {
     history.push(DashboardRoutes.dashboard.generatePath());
@@ -180,7 +168,6 @@ export const useUnstakePolkadotData = (
     maxAmountDecimals,
     networkName,
     polkadotToken,
-    redeemPeriodTxt,
     userAmount,
     onSuccessClose,
     onUnstakeFormClose,

@@ -7,13 +7,12 @@ import { t } from 'common';
 import { Themes } from 'ui';
 
 import { getTheme } from 'modules/common/utils/getTheme';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { Footer } from 'modules/layout/components/Footer';
 import { Header } from 'modules/layout/components/Header';
 import { ILayoutProps, Layout } from 'modules/layout/components/Layout';
 import { MainNavigation } from 'modules/layout/components/MainNavigation';
 import { MainNavigationMobile } from 'modules/layout/components/MainNavigationMobile';
-import { DIALOG_POLKADOT_EXTENSION } from 'store/dialogs/actions';
-import { useDialog } from 'store/dialogs/selectors';
 import { Button } from 'uiKit/Button';
 import { QueryLoading } from 'uiKit/QueryLoading';
 
@@ -54,7 +53,7 @@ export const DefaultLayout = ({
     useFetchPolkadotAccounts();
 
   const { context, isOpened, handleClose } = useDialog<IDialog | undefined>(
-    DIALOG_POLKADOT_EXTENSION,
+    EKnownDialogs.polkadotExtension,
   );
 
   const { loading: connectLoading } = useQuery({

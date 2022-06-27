@@ -31,7 +31,6 @@ export const useUnstakeBNBAnalytics = (): IUseUnstakeBNBAnalytics => {
       stakeToken: Token.BNB,
       syntheticToken,
       newTokenBalance: fetchStatsData?.bnbBalance ?? ZERO,
-      // todo: please check if this data is correct?
       newStakedBalance: fetchStatsData?.aBNBbBalance ?? ZERO,
       newSynthTokens: fetchStatsData?.aBNBbBalance ?? ZERO,
     });

@@ -1,6 +1,7 @@
 import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
-import { useStakedAVAXData } from './AVAX/useStakedAVAXData';
+import { useStakedAAVAXBData } from './AVAX/useStakedAAVAXBData';
+import { useStakedAAVAXCData } from './AVAX/useStakedAAVAXCData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
 import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
@@ -9,12 +10,12 @@ import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
+import { useBridgedMaticBond } from './MATIC/useBridgedMaticBond';
+import { useBridgedMaticBondBSC } from './MATIC/useBridgedMaticBondBSC';
+import { useBridgedMaticCertBSC } from './MATIC/useBridgedMaticCertBSC';
+import { useBridgedMaticCertPolygon } from './MATIC/useBridgedMaticCertPolygon';
 import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
 import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
-import { useStakedBridgeAMATICCBSC } from './MATIC/useStakedBridgeAMATICCBSC';
-import { useStakedBridgeAMATICCPolygon } from './MATIC/useStakedBridgeAMATICCPolygon';
-import { useStakedBridgeBSCMaticData } from './MATIC/useStakedBridgeBSCMatic';
-import { useStakedBridgeMaticData } from './MATIC/useStakedBridgeMatic';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
 import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
@@ -22,7 +23,8 @@ interface IUseStakedTokensData {
   isAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
-  isAVAXShowed: boolean;
+  isAAVAXBShowed: boolean;
+  isAAVAXCShowed: boolean;
   isABNBBShowed: boolean;
   isABNBCShowed: boolean;
   isMATICShowed: boolean;
@@ -45,13 +47,14 @@ interface IUseStakedTokensData {
 
 export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticbData = useStakedAMATICBData();
-  const amaticbPolygonData = useStakedBridgeMaticData();
-  const amaticbBSCData = useStakedBridgeBSCMaticData();
-  const amaticcBSCData = useStakedBridgeAMATICCBSC();
-  const amaticcPolygonData = useStakedBridgeAMATICCPolygon();
+  const amaticbPolygonData = useBridgedMaticBond();
+  const amaticbBSCData = useBridgedMaticBondBSC();
+  const amaticcBSCData = useBridgedMaticCertBSC();
+  const amaticcPolygonData = useBridgedMaticCertPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
-  const stakedAVAXData = useStakedAVAXData();
+  const stakedAAVAXBData = useStakedAAVAXBData();
+  const stakedAAVAXCData = useStakedAAVAXCData();
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
   const stakedAETHBData = useStakedAETHBData();
@@ -73,7 +76,9 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAETHCShowed = stakedAETHCData.isShowed;
 
-  const isAVAXShowed = stakedAVAXData.isShowed;
+  const isAAVAXBShowed = stakedAAVAXBData.isShowed;
+
+  const isAAVAXCShowed = stakedAAVAXCData.isShowed;
 
   const isABNBBShowed = stakedBNBData.isShowed;
 
@@ -107,10 +112,12 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
-    isAVAXShowed ||
+    isAAVAXBShowed ||
+    isAAVAXCShowed ||
     isABNBBShowed ||
     isABNBCShowed ||
     isMATICShowed ||
+    isAMATICCShowed ||
     isAMATICBPolygonShowed ||
     isAMATICBBSCShowed ||
     isAMATICCBSCShowed ||
@@ -130,7 +137,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAssetsShowed: atLeastOneShowed,
     isAETHBShowed,
     isAETHCShowed,
-    isAVAXShowed,
+    isAAVAXBShowed,
+    isAAVAXCShowed,
     isABNBBShowed,
     isABNBCShowed,
     isMATICShowed,

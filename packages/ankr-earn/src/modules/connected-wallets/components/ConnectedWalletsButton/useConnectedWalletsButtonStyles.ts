@@ -7,12 +7,17 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   instanceText: {
-    margin: theme.spacing(0, 1),
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
+
   arrowIcon: {
     fontSize: 14,
   },
+
   btn: {
     height: 36,
     padding: theme.spacing(0, 1.75),
@@ -26,6 +31,14 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
       color: theme.palette.text.primary,
     },
   },
+
+  btnLabel: {
+    display: 'grid',
+    gridAutoColumns: 'auto',
+    gridAutoFlow: 'column',
+    gap: theme.spacing(0, 1),
+  },
+
   addWalletButton: {
     margin: theme.spacing(0, 0, 0, 1.5),
 
@@ -40,10 +53,12 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
         backgroundColor: alpha(theme.palette.background.paper, 0.4),
       },
     },
+
     '& span > svg': {
       fontSize: 14,
     },
   },
+
   connectButton: {
     fontWeight: 600,
   },

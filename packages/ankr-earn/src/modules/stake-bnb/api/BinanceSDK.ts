@@ -18,7 +18,6 @@ import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   ETH_SCALE_FACTOR,
-  featuresConfig,
   isMainnet,
   MAX_UINT256,
   ZERO,
@@ -32,13 +31,13 @@ import {
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
+  CERT_STAKING_LOG_HASH,
 } from '../const';
 import { TBnbSyntToken } from '../types';
 
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_ABNBC from './contracts/aBNBc.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
-import ABI_BINANCE_R5_POOL from './contracts/BinancePoolR5.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 
@@ -73,6 +72,10 @@ export interface IGetTxData {
   amount: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
+}
+
+export interface IGetTxReceipt extends TransactionReceipt {
+  certAmount?: string;
 }
 
 export interface ITxEventsHistoryData {
@@ -298,11 +301,10 @@ export class BinanceSDK {
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
 
-    const abi = (
-      featuresConfig.newBinancePool ? ABI_BINANCE_R5_POOL : ABI_BINANCE_POOL
-    ) as AbiItem[];
-
-    return new web3.eth.Contract(abi, binanceConfig.binancePool);
+    return new web3.eth.Contract(
+      ABI_BINANCE_POOL as AbiItem[],
+      binanceConfig.binancePool,
+    );
   }
 
   private async getWrappedBNBContract(isForceRead = false): Promise<Contract> {
@@ -642,15 +644,35 @@ export class BinanceSDK {
     };
   }
 
-  public async fetchTxReceipt(
-    txHash: string,
-  ): Promise<TransactionReceipt | null> {
+  public async fetchTxReceipt(txHash: string): Promise<IGetTxReceipt | null> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
 
-    return receipt as TransactionReceipt | null;
+    const certUnlockedLog = receipt?.logs.find(log =>
+      log.topics.includes(CERT_STAKING_LOG_HASH),
+    );
+
+    if (certUnlockedLog) {
+      const certDecodedLog = web3.eth.abi.decodeLog(
+        [
+          {
+            type: 'uint256',
+            name: 'amount',
+          },
+        ],
+        certUnlockedLog?.data,
+        certUnlockedLog?.topics,
+      );
+
+      return {
+        ...receipt,
+        certAmount: web3.utils.fromWei(certDecodedLog.amount),
+      } as IGetTxReceipt | null;
+    }
+
+    return receipt as IGetTxReceipt | null;
   }
 
   public async stake(
@@ -703,12 +725,9 @@ export class BinanceSDK {
     const contractUnstake =
       binancePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    const args =
-      featuresConfig.newBinancePool && token === Token.aBNBc
-        ? [this.currentAccount, hexAmount]
-        : [hexAmount];
-
-    await contractUnstake(...args).send({ from: this.currentAccount });
+    await contractUnstake(hexAmount).send({
+      from: this.currentAccount,
+    });
   }
 
   private getUnstakeMethodName(token: TBnbSyntToken) {

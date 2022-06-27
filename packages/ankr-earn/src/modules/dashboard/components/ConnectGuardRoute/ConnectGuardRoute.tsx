@@ -35,11 +35,7 @@ export const ConnectGuardRoute = ({
 }: IConnectGuardRouteProps): JSX.Element => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
     writeProviderId: providerId,
@@ -66,7 +62,7 @@ export const ConnectGuardRoute = ({
         <Container>
           <Placeholder
             btnSlot={
-              <Button onClick={onOpenModal}>
+              <Button onClick={onOpen}>
                 {t('dashboard.guard.connect-btn')}
               </Button>
             }
@@ -76,9 +72,9 @@ export const ConnectGuardRoute = ({
       </Box>
 
       <ConnectWalletsModal
-        isOpen={isOpenedModal}
+        isOpen={isOpened}
         walletsGroupTypes={walletsGroupTypes}
-        onClose={onCloseModal}
+        onClose={onClose}
       />
     </DefaultLayout>
   );

@@ -23,12 +23,18 @@ export class EthereumWeb3KeyProvider extends Web3KeyWriteProvider {
       theme: this.web3ModalTheme,
     });
 
-    // get provider after user selects the provider and grants access
-    this.provider = walletId
-      ? await web3Modal.connectTo(walletId)
-      : await web3Modal.connect();
+    try {
+      // get provider after user selects the provider and grants access
+      this.provider = walletId
+        ? await web3Modal.connectTo(walletId)
+        : await web3Modal.connect();
 
-    // inject web3
-    this.web3 = new Web3(this.provider);
+      // inject web3
+      this.web3 = new Web3(this.provider);
+    } catch (error) {
+      throw new Error(
+        `Unable to connect. Please check if the connection has already been requested.`,
+      );
+    }
   }
 }
