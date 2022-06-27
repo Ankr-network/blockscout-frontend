@@ -76,7 +76,6 @@ export const ANKR_1INCH_BUY_LINK =
 export const featuresConfig = {
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveUSDEquivalent: isLocal,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,

@@ -191,7 +191,7 @@ export const useStakeClaimDialogData = ({
 
     const { error } = await dispatchRequest(
       claim({
-        amount: claimableTokensAmount,
+        claimableAmount: claimableTokensAmount,
         isLedgerWallet,
         network,
       }),

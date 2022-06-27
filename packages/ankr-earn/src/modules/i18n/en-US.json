@@ -438,6 +438,10 @@
   },
   "stake-polkadot": {
     "errors": {
+      "claim-invalid": "Claim is invalid",
+      "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
+      "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
+      "invalid-eth-token-address": "Invalid Ethereum's token address",
       "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
     },
     "faq": {
