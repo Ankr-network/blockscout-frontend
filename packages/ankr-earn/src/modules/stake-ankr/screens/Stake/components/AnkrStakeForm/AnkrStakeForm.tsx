@@ -20,6 +20,7 @@ import {
 } from 'modules/stake/components/StakeForm';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
+import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
@@ -47,6 +48,7 @@ interface IAnkrStakeFormProps {
   isBalanceLoading?: boolean;
   isDisabled?: boolean;
   tokenIn?: string;
+  providerSelectHref: string;
   maxAmountDecimals?: number;
   closeHref: string;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
@@ -54,7 +56,6 @@ interface IAnkrStakeFormProps {
     values: Partial<IAnkrStakeSubmitPayload>,
     invalid: boolean,
   ) => void;
-  onProviderSelectClick?: () => void;
 }
 
 export const AnkrStakeForm = ({
@@ -67,9 +68,9 @@ export const AnkrStakeForm = ({
   tokenIn = t('unit.ankr'),
   maxAmountDecimals,
   closeHref,
+  providerSelectHref,
   onSubmit,
   onChange,
-  onProviderSelectClick,
 }: IAnkrStakeFormProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
@@ -140,17 +141,17 @@ export const AnkrStakeForm = ({
                   </StakeDescriptionName>
                 </Box>
 
-                <Button
+                <NavLink
                   className={classes.selectProviderBtn}
+                  href={providerSelectHref}
                   variant="outlined"
-                  onClick={onProviderSelectClick}
                 >
                   {input.value?.toString().length
                     ? input.value
                     : t('stake-ankr.staking.provider-placeholder')}
 
                   <AngleRightIcon className={classes.selectProviderIcon} />
-                </Button>
+                </NavLink>
 
                 <div
                   className={classNames(

@@ -10,20 +10,19 @@ interface IUseAnkrStake {
   balance: BigNumber;
   tokenIn: string;
   closeHref: string;
+  providerSelectHref: string;
   onSubmit: () => void;
-  onProviderSelectClick: () => void;
 }
 
 export const useAnkrStake = (): IUseAnkrStake => {
   const onSubmit = () => {};
-  const onProviderSelectClick = () => {};
 
   return {
     loading: false,
     balance: ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
+    providerSelectHref: RoutesConfig.selectProvider.generatePath(),
     onSubmit,
-    onProviderSelectClick,
   };
 };
