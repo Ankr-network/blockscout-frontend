@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { ProviderManager } from 'provider';
 
-import { BinanceSDK, EBinancePoolEvents, EErrorCodes } from '..';
+import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { BLOCK_OFFSET } from '../../polygon/const';
 import { CERT_STAKING_LOG_HASH } from '../const';
@@ -169,7 +169,7 @@ describe('modules/binance/sdk', () => {
     const sdk = await BinanceSDK.getInstance();
 
     expect(sdk.lockShares({ amount: ZERO })).rejects.toThrowError(
-      EErrorCodes.ZERO_AMOUNT,
+      EBinanceErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -193,7 +193,7 @@ describe('modules/binance/sdk', () => {
     const sdk = await BinanceSDK.getInstance();
 
     expect(sdk.unlockShares({ amount: ZERO })).rejects.toThrowError(
-      EErrorCodes.ZERO_AMOUNT,
+      EBinanceErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -407,7 +407,9 @@ describe('modules/binance/sdk', () => {
   test('should throw error if unstake amount is less than or equals to zero', async () => {
     const sdk = await BinanceSDK.getInstance();
 
-    expect(sdk.unstake(ZERO, 'aBNBb')).rejects.toThrow(EErrorCodes.ZERO_AMOUNT);
+    expect(sdk.unstake(ZERO, 'aBNBb')).rejects.toThrow(
+      EBinanceErrorCodes.ZERO_AMOUNT,
+    );
   });
 
   test('should stake properly', async () => {
@@ -462,7 +464,9 @@ describe('modules/binance/sdk', () => {
   test('should throw error if stake amount is less than or equals to zero', async () => {
     const sdk = await BinanceSDK.getInstance();
 
-    expect(sdk.stake(ZERO, 'aBNBb')).rejects.toThrow(EErrorCodes.ZERO_AMOUNT);
+    expect(sdk.stake(ZERO, 'aBNBb')).rejects.toThrow(
+      EBinanceErrorCodes.ZERO_AMOUNT,
+    );
   });
 
   test('should return tx receipt properly', async () => {

@@ -44,3 +44,50 @@ const lockResponse = await sdk.lockShares({ amount: new BigNumber(2.65) });
 
 const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
 ```
+
+```typescript
+// Get MATIC transaction history
+import { PolygonSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await PolygonSDK.getInstance();
+
+const history = await sdk.getTxEventsHistory();
+```
+
+```typescript
+// stake aBNBc token
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await BinanceSDK.getInstance();
+
+const { txHash } = await sdk.stake(new BigNumber(1_200), 'aBNBc');
+```
+
+```typescript
+// unstake aBNBc token
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await BinanceSDK.getInstance();
+
+await sdk.unstake(new BigNumber(1_200), 'aBNBc');
+```
+
+```typescript
+// switch aBNBb and aBNBc
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await BinanceSDK.getInstance();
+
+const lockResponse = await sdk.lockShares({ amount: new BigNumber(2.65) });
+
+const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
+```
+
+```typescript
+// Get BNB transaction history
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+const sdk = await BinanceSDK.getInstance();
+
+const history = await sdk.getTxEventsHistory();
+```

@@ -34,6 +34,7 @@ import {
   ITxEventsHistoryGroupItem,
   IEventsBatch,
   IStakable,
+  IStakeData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -52,20 +53,57 @@ import {
   IGetTxReceipt,
   EBinancePoolEvents,
   EBinancePoolEventsMap,
-  EErrorCodes,
+  EBinanceErrorCodes,
 } from './types';
 
+/**
+ * BinanceSDK allows to interact with Binance smartchain, aBNBb/aBNBc tokens and Binance pool contracts.
+ *
+ * @class
+ */
 export class BinanceSDK implements ISwitcher, IStakable {
+  /**
+   * instance - sdk instance
+   * @type {BinanceSDK}
+   * @static
+   * @private
+   */
   private static instance?: BinanceSDK;
 
+  /**
+   * writeProvider - provider which has signer
+   * @type {Web3KeyWriteProvider}
+   * @private
+   */
   private readonly writeProvider: Web3KeyWriteProvider;
 
+  /**
+   * readProvider - provider which allows to read data without connecting the wallet
+   * @type {Web3KeyReadProvider}
+   * @private
+   */
   private readonly readProvider: Web3KeyReadProvider;
 
+  /**
+   * currentAccount - connected account
+   * @type {string}
+   * @private
+   */
   private currentAccount: string;
 
+  /**
+   * stakeGasFee - saved stake gas fee
+   * @type {BigNumber}
+   * @private
+   */
   private stakeGasFee?: BigNumber;
 
+  /**
+   * Private constructor - use `BinanceSDK.getInstance` instead
+   *
+   * @constructor
+   * @private
+   */
   private constructor({ readProvider, writeProvider }: IBinanceSDKProviders) {
     BinanceSDK.instance = this;
 
@@ -74,6 +112,15 @@ export class BinanceSDK implements ISwitcher, IStakable {
     this.writeProvider = writeProvider;
   }
 
+  /**
+   * Initialization method for sdk
+   *
+   * Auto connects write provider if chains are the same.
+   * Initialize read provider to support multiple chains.
+   *
+   * @public
+   * @returns {Promise<PolygonSDK>}
+   */
   public static async getInstance(): Promise<BinanceSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
@@ -101,6 +148,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return instance;
   }
 
+  /**
+   * Internal function to choose right provider for read on write purpose.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
+   */
   private async getProvider(
     isForceRead = false,
   ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
@@ -121,6 +175,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.readProvider;
   }
 
+  /**
+   * Internal function to check current network
+   *
+   * @private
+   * @param {Web3KeyWriteProvider} provider - current selected provider
+   * @returns {Promise<boolean>}
+   */
   private async isBinanceNetwork(
     provider: Web3KeyWriteProvider,
   ): Promise<boolean> {
@@ -133,6 +194,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     ].includes(chainId);
   }
 
+  /**
+   * Internal function to get past events using the defined range
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
   private async getPastEvents({
     contract,
     eventName,
@@ -157,15 +225,36 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return flatten(pastEvents);
   }
 
+  /**
+   * Internal function to convert wei value to human readable format
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 
+  /**
+   * Internal function to convert value to hex format
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertToHex(amount: BigNumber): string {
     return convertNumberToHex(amount, ETH_SCALE_FACTOR);
   }
 
-  // TODO: reuse it form stake/api/getTxEventsHistoryGroup
+  /**
+   * Internal function returns transaction history group from events
+   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
+   *
+   * @private
+   * @param {EventData} [rawEvents] - events
+   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
   ): Promise<ITxEventsHistoryGroupItem[]> {
@@ -204,6 +293,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
       );
   }
 
+  /**
+   * Internal function map event type to transaction type
+   *
+   * @private
+   * @param {string} [rawTxType] - transaction type
+   * @returns {string | null}
+   */
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
       case EBinancePoolEvents.Staked:
@@ -217,6 +313,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Internal function to get Bond BNB token contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getABNBBContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -228,6 +331,27 @@ export class BinanceSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get Certificate BNB token contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getABNBCContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+
+    return provider.createContract(ABI_ABNBC, binanceConfig.aBNBcToken);
+  }
+
+  /**
+   * Internal function to get BNB pool contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getBinancePoolContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -239,6 +363,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get WBNB token contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getWrappedBNBContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -250,6 +381,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Add token to wallet
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {string} token - token symbol (aBNBb or aBNBc)
+   * @returns {Promise<boolean>}
+   */
   public async addTokenToWallet(token: TBnbSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -285,6 +424,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     });
   }
 
+  /**
+   * Returns bond BNB token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getABBalance(): Promise<BigNumber> {
     const aBNBbTokenContract = await this.getABNBBContract();
 
@@ -295,6 +440,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns BNB token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getBNBBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -308,6 +459,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.readProvider.getFormattedBalance(currBalance, decimals);
   }
 
+  /**
+   * Get minimum stake amount
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getMinimumStake(): Promise<BigNumber> {
     const binancePoolContract = await this.getBinancePoolContract();
 
@@ -316,6 +473,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.convertFromWei(minStake);
   }
 
+  /**
+   * Internal function returns pool raw events
+   *
+   * @private
+   * @returns {Promise<IEventsBatch>}
+   */
   private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const binancePoolContract = await this.getBinancePoolContract(true);
     const provider = await this.getProvider();
@@ -351,6 +514,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get pending data by bond and certificate
+   *
+   * @public
+   * @returns {Promise<IPendingData>}
+   */
   public async getPendingData(): Promise<IPendingData> {
     const {
       unstakeRawEvents,
@@ -406,6 +575,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get total pending unstake amount
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getPendingClaim(): Promise<BigNumber> {
     const binancePoolContract = await this.getBinancePoolContract();
 
@@ -416,6 +591,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.convertFromWei(pending);
   }
 
+  /**
+   * Get relayer fee
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getRelayerFee(): Promise<BigNumber> {
     const binancePoolContract = await this.getBinancePoolContract();
 
@@ -424,6 +605,15 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.convertFromWei(relayerFee);
   }
 
+  /**
+   * Get stake gas fee
+   *
+   * @public
+   * @note This method safes computed gas fee for future computations.
+   * @param {string} amount - amount to stake
+   * @param {TBnbSyntToken} token - token symbol
+   * @returns {Promise<BigNumber>}
+   */
   public async getStakeGasFee(
     amount: BigNumber,
     token: TBnbSyntToken,
@@ -452,6 +642,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return stakeGasFee;
   }
 
+  /**
+   * Internal function returns stake method by token symbol
+   *
+   * @param {TBnbSyntToken} token - token symbol
+   * @returns {string}
+   */
   private getStakeMethodName(token: TBnbSyntToken) {
     switch (token) {
       case 'aBNBc':
@@ -462,10 +658,23 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
   }
 
-  private getIncreasedGasLimit(gasLimit: number) {
+  /**
+   * Internal function returns increased gas limit
+   *
+   * @param {number} gasLimit - initial gas limit
+   * @returns {number}
+   */
+  private getIncreasedGasLimit(gasLimit: number): number {
     return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
+  /**
+   * Get transaction history
+   *
+   * @public
+   * @note Current method only returns data for the last 14 days.
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const binancePoolContract = await this.getBinancePoolContract(true);
     const provider = await this.getProvider();
@@ -560,6 +769,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Fetch transaction data.
+   *
+   * @public
+   * @note parses first uint256 param from transaction input
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
 
@@ -579,6 +796,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Fetch transaction receipt
+   *
+   * @public
+   * @note It scans logs to find topic `0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d` to show certificate amount.
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IGetTxReceipt | null>}
+   */
   public async fetchTxReceipt(txHash: string): Promise<IGetTxReceipt | null> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -605,12 +830,19 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return receipt as IGetTxReceipt | null;
   }
 
-  public async stake(
-    amount: BigNumber,
-    token: string,
-  ): Promise<{ txHash: string }> {
+  /**
+   * Stake tokens
+   *
+   * @public
+   * @note Initiates two transactions and connect if write provider isn't connected.
+   * @note Estimates gas and multiply it by `ESTIMATE_GAS_MULTIPLIER` to prevent metamask issue with gas calculation.
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive
+   * @returns {Promise<IStakeData>}
+   */
+  public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -650,9 +882,18 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return { txHash: tx.transactionHash };
   }
 
+  /**
+   * Unstake tokens
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to receive
+   * @returns {Promise<void>}
+   */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -672,6 +913,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     });
   }
 
+  /**
+   * Internal function returns unstake method by token symbol
+   *
+   * @private
+   * @param {TBnbSyntToken} token - token symbol
+   * @returns {string}
+   */
   private getUnstakeMethodName(token: TBnbSyntToken) {
     switch (token) {
       case 'aBNBc':
@@ -682,6 +930,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Returns certificate BNB token ratio
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aBNBcContract = await this.getABNBCContract();
@@ -693,13 +947,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return new BigNumber(ratio);
   }
 
-  private async getABNBCContract(isForceRead = false): Promise<Contract> {
-    const { binanceConfig } = configFromEnv();
-    const provider = await this.getProvider(isForceRead);
-
-    return provider.createContract(ABI_ABNBC, binanceConfig.aBNBcToken);
-  }
-
+  /**
+   * Returns Certificate BNB token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getACBalance(): Promise<BigNumber> {
     const aBNBcContract = await this.getABNBCContract();
 
@@ -710,8 +963,17 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.convertFromWei(rawBalance);
   }
 
+  /**
+   * Approve certificate token for bond.
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
+   * @param {number} [scale = 1] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult | undefined>}
+   */
   public async approveACForAB(
-    amount = MAX_UINT256,
+    amount: BigNumber = MAX_UINT256,
     scale = 1,
   ): Promise<IWeb3SendResult | undefined> {
     if (!this.writeProvider.isConnected()) {
@@ -740,12 +1002,26 @@ export class BinanceSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Checks if allowance is greater or equal to amount
+   *
+   * @public
+   * @param {string} [amount] - amount
+   * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
+   */
   public async checkAllowance(hexAmount: string): Promise<boolean> {
     const allowance = await this.getACAllowance();
 
     return allowance.isGreaterThanOrEqualTo(hexAmount);
   }
 
+  /**
+   * Returns certificate BNB token allowance
+   *
+   * @public
+   * @param {string} [spender] - spender address (by default it's aBNBb token address)
+   * @returns {Promise<BigNumber>} - allowance in wei
+   */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aBNBcContract = await this.getABNBCContract();
     const { binanceConfig } = configFromEnv();
@@ -760,12 +1036,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return new BigNumber(allowance);
   }
 
+  /**
+   * Lock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async lockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -786,12 +1071,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Unlock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async unlockShares({
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
