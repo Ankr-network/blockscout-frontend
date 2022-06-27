@@ -180,7 +180,10 @@
         "etherium-endpoint": "Ethereum Endpoint{plural}",
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
-        "solana-api": "Solana API{plural}"
+        "solana-api": "Solana API{plural}",
+
+        "fallback": "{chain} Endpoint{plural}",
+        "empty": "Endpoints will be available soon"
       }
     },
     "tabs": {

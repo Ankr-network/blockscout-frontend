@@ -1,11 +1,10 @@
-import React from 'react';
 import { Typography } from '@material-ui/core';
 
-import { EndpointsList } from 'modules/endpoints/components/EndpointsList';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { RPCEndpointsTabsManager } from 'modules/common/components/RPCEndpointsTabManager';
-import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { EndpointsList } from 'modules/endpoints/components/EndpointsList';
 import { t } from 'modules/i18n/utils/intl';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { useStyles } from './PublicRPCEndpointsStyles';

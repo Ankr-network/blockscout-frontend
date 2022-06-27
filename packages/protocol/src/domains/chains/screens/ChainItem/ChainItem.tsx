@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { useStyles } from './ChainItemStyles';
-import { ChainItemHeader } from './components/ChainItemHeader';
-import { useChainItemBreadcrumbs } from './useChainItem';
-import { IChainItemDetails } from '../../actions/fetchChain';
+import { t } from 'common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
-import { t } from 'common';
-import { ChainItemTabs } from './components/ChainItemTabs';
+import { IChainItemDetails } from '../../actions/fetchChain';
+import { useStyles } from './ChainItemStyles';
 import { ChainBanner } from './components/ChainBanner';
+import { ChainItemHeader } from './components/ChainItemHeader';
+import { ChainItemTabs } from './components/ChainItemTabs';
+import { useChainItemBreadcrumbs } from './useChainItem';
 
 interface IChainItemUIProps {
   data: IChainItemDetails;
