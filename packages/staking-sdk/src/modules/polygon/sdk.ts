@@ -56,7 +56,7 @@ import {
 } from './types';
 
 /**
- * PolygonSDK allows to interact with Ethereum blockchain, aMATICb/aMATICc tokens and Polygon pool contracts .
+ * PolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool. <br /><br />For more information on Polygon Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics">development details</a>.
  *
  * @class
  */
