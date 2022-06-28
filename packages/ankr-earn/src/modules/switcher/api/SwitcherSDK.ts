@@ -1,6 +1,13 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonSDK, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import {
+  PolygonSDK,
+  ProviderManagerSingleton,
+  BinanceSDK,
+  ISwitcher,
+  IFetchTxData,
+  IFetchTxReceiptData,
+} from '@ankr.com/staking-sdk';
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
@@ -8,14 +15,8 @@ import {
 } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
-import {
-  IFetchTxData,
-  IFetchTxReceiptData,
-  ISwitcher,
-} from 'modules/api/switcher';
 import { Token } from 'modules/common/types/token';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';

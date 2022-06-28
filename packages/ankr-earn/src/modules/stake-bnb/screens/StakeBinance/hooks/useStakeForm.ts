@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
+import { BinanceSDK } from '@ankr.com/staking-sdk';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
@@ -17,7 +18,6 @@ import { Token } from 'modules/common/types/token';
 import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import {

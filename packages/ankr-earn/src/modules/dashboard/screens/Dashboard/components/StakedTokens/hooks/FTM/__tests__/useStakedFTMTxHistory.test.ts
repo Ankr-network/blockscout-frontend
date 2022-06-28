@@ -1,11 +1,11 @@
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { IGetHistory } from 'modules/stake-fantom/actions/getHistory';
 import { EFantomPoolEvents } from 'modules/stake-fantom/api/sdk';
 import { useAppDispatch } from 'store/useAppDispatch';

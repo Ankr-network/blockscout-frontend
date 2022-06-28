@@ -2,9 +2,9 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { BinanceSDK } from '@ankr.com/staking-sdk';
 
-import { BinanceSDK } from '../api/BinanceSDK';
+import { withStore } from 'modules/common/utils/withStore';
 
 interface IFetchPendingValuesResponseData {
   pendingAbnbbUnstakes: BigNumber;
@@ -23,11 +23,11 @@ export const fetchPendingValues = createSmartAction<
       promise: async (): Promise<IFetchPendingValuesResponseData> => {
         const sdk = await BinanceSDK.getInstance();
 
-        const { pendingABNBB, pendingABNBC } = await sdk.getPendingUnstakes();
+        const { pendingBond, pendingCertificate } = await sdk.getPendingData();
 
         return {
-          pendingAbnbbUnstakes: pendingABNBB,
-          pendingAbnbcUnstakes: pendingABNBC,
+          pendingAbnbbUnstakes: pendingBond,
+          pendingAbnbcUnstakes: pendingCertificate,
         };
       },
     },

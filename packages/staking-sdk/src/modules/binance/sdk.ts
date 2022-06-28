@@ -389,7 +389,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @param {string} token - token symbol (aBNBb or aBNBc)
    * @returns {Promise<boolean>}
    */
-  public async addTokenToWallet(token: TBnbSyntToken): Promise<boolean> {
+  public async addTokenToWallet(token: string): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
