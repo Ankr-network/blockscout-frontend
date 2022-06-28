@@ -99,6 +99,7 @@ export enum SupportedChainIDS {
   FANTOM_OPERA = EEthereumNetworkId.fantom,
   FANTOM_TESTNET = EEthereumNetworkId.fantomTestnet,
   POLYGON = EEthereumNetworkId.polygon,
+  POLYGON_MUMBAI_TESTNET = EEthereumNetworkId.mumbai,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -111,6 +112,7 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
+  [SupportedChainIDS.POLYGON_MUMBAI_TESTNET]: 'https://mumbai.polygonscan.com',
 };
 
 export const ETH_NETWORK_BY_ENV =
@@ -141,7 +143,7 @@ export const FTM_NETWORK_BY_ENV =
 export const POLYGON_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.polygon
-    : EEthereumNetworkId.smartchainTestnet;
+    : EEthereumNetworkId.mumbai;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production

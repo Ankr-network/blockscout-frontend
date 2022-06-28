@@ -32,6 +32,7 @@ export const getTokenAddr = (
     case SupportedChainIDS.BSC_TESTNET:
       return bscTokenAddressesMap[token];
 
+    case SupportedChainIDS.POLYGON_MUMBAI_TESTNET:
     case SupportedChainIDS.POLYGON:
       return polygonTokenAddressesMap[token];
 

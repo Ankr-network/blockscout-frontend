@@ -85,6 +85,11 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
               icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC_TESTNET,
             },
+            {
+              label: t(`chain.${SupportedChainIDS.POLYGON_MUMBAI_TESTNET}`),
+              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
+            },
           ],
           [AvailableBridgeTokens.aMATICc]: [
             {
@@ -96,6 +101,11 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
               label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
               icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
               value: SupportedChainIDS.BSC_TESTNET,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.POLYGON_MUMBAI_TESTNET}`),
+              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
             },
           ],
           [AvailableBridgeTokens.aETHb]: [

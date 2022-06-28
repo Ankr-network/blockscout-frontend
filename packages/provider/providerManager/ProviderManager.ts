@@ -24,7 +24,7 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
     'https://data-seed-prebsc-2-s2.binance.org:8545',
   [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
   [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
-  [AvailableReadProviders.mumbai]: 'https://rpc-mumbai.matic.today',
+  [AvailableReadProviders.mumbai]: 'https://matic-mumbai.chainstacklabs.com',
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
 };
 

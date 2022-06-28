@@ -96,6 +96,7 @@ export class DashboardSDK {
         return ethereumTokenConfig[token] || EMPTY_CONTRACT_DATA;
       }
 
+      case EEthereumNetworkId.mumbai:
       case EEthereumNetworkId.polygon: {
         return polygonTokenConfig[token] || EMPTY_CONTRACT_DATA;
       }
