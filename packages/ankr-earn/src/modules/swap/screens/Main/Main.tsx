@@ -30,6 +30,7 @@ export const Main = (): JSX.Element => {
       hint={t('convert.description', { token })}
       isLoading={isLoading}
       isPending={isPending}
+      symbol={token}
       title={t('convert.title')}
       txHash={transactionId}
       onAddTokenToWallet={handleAddTokenToWallet}

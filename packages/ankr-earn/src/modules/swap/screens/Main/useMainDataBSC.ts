@@ -6,7 +6,6 @@ import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -45,13 +44,6 @@ export function useMainDataBSC(): IMainDataBSC {
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   const calculatedAmount = useMemo(() => {
-    const ratio = stats?.aETHRatio;
-    const isActiveForAC = token === Token.aETHc && ratio;
-    if (!isActiveForAC) {
-      console.log('isActiveForAC', isActiveForAC?.toString());
-      return new BigNumber(receipt?.certAmount ?? ZERO);
-    }
-
     const amount = data?.amount;
     const relayerFee = stats?.relayerFee;
     if (!amount || !relayerFee) {
@@ -59,13 +51,7 @@ export function useMainDataBSC(): IMainDataBSC {
     }
 
     return amount.minus(relayerFee);
-  }, [
-    data?.amount,
-    receipt?.certAmount,
-    stats?.aETHRatio,
-    stats?.relayerFee,
-    token,
-  ]);
+  }, [data?.amount, stats?.relayerFee]);
 
   const isPending = !receipt && !!data?.isPending;
 

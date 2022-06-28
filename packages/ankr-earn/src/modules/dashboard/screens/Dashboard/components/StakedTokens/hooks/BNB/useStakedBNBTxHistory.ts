@@ -66,7 +66,6 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
   });
   const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
-  console.log('txHistory', txHistory);
   const network = isEVMCompatible(chainId) ? chainId : undefined;
 
   const stakedABNBB = useMemo(() => {

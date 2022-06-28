@@ -69,7 +69,6 @@ export const StakingAsset = ({
   onTradeClick,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStyles();
-  console.log('network', network);
 
   if (isLoading) {
     return <DashboardCardSkeleton />;

@@ -70,7 +70,6 @@ export const StakedAETHBSC = (): JSX.Element => {
       />
 
       <TokenInfoDialog
-        addTokenToWallet={() => {}}
         description="dashboard.token-info.aETHBNB"
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
