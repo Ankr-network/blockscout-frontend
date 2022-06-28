@@ -85,12 +85,12 @@ export function useMainDataBSC(): IMainDataBSC {
   }, [dispatch, receipt]);
 
   return {
-    amount: calculatedAmount,
-    destination: data?.destinationAddress,
-    transactionId: txHash,
     token,
     isLoading,
     isPending,
+    amount: calculatedAmount,
+    destination: data?.destinationAddress,
+    transactionId: txHash,
     error: error || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
