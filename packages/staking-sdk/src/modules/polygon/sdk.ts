@@ -404,7 +404,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns aMATICb token balance.
+   * Return aMATICb token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -804,7 +804,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Parses first uint256 param from transaction input.
-   * @param {string} txHash - transaction hash.
+   * @param {string} txHash - transaction hash
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
