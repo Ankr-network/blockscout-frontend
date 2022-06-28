@@ -56,7 +56,7 @@ import {
 } from './types';
 
 /**
- * PolygonSDK allows to interact with Ethereum blockchain, aMATICb/aMATICc tokens and Polygon pool contracts.
+ * PolygonSDK allows to interact with Ethereum blockchain, aMATICb/aMATICc tokens and Polygon pool contracts .
  *
  * @class
  */
