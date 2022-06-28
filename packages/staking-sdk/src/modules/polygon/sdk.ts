@@ -62,7 +62,7 @@ import {
  */
 export class PolygonSDK implements ISwitcher, IStakable {
   /**
-   * instance - sdk instance
+   * instance — SDK instance.
    * @type {PolygonSDK}
    * @static
    * @private
@@ -70,35 +70,35 @@ export class PolygonSDK implements ISwitcher, IStakable {
   private static instance?: PolygonSDK;
 
   /**
-   * writeProvider - provider which has signer
+   * writeProvider — provider which has signer for signing transactions.
    * @type {Web3KeyWriteProvider}
    * @private
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
-   * readProvider - provider which allows to read data without connecting the wallet
+   * readProvider — provider which allows to read data without connecting the wallet.
    * @type {Web3KeyReadProvider}
    * @private
    */
   private readonly readProvider: Web3KeyReadProvider;
 
   /**
-   * apiGateWay - gateway instance
+   * apiGateWay — gateway instance.
    * @type {ApiGateway}
    * @private
    */
   private readonly apiGateWay: ApiGateway;
 
   /**
-   * currentAccount - connected account
+   * currentAccount — connected account.
    * @type {string}
    * @private
    */
   private currentAccount: string;
 
   /**
-   * Private constructor - use `PolygonSDK.getInstance` instead
+   * Private constructor. Instead, use `PolygonSDK.getInstance`.
    *
    * @constructor
    * @private
@@ -114,10 +114,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Initialization method for sdk
+   * Initialization method for the SDK
    *
-   * Auto connects write provider if chains are the same.
-   * Initialize read provider to support multiple chains.
+   * Auto connects writeProvider if chains are the same.
+   * Initialize readProvider to support multiple chains.
    *
    * @public
    * @returns {Promise<PolygonSDK>}
@@ -150,10 +150,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to choose right provider for read on write purpose.
+   * Internal function to choose the right provider for read or write purpose.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
    */
   private async getProvider(
@@ -177,7 +177,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to check current network
+   * Internal function to check the current network.
    *
    * @private
    * @param {Web3KeyWriteProvider} provider - current selected provider
@@ -193,7 +193,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Matic token contract
+   * Internal function to get MATIC token contract.
    *
    * @private
    * @param {boolean} [isForceRead = false] - forces to use read provider
