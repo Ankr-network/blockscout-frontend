@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React, { Fragment, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
+import { isMobile } from 'web3modal';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { t } from 'common';
@@ -54,6 +55,7 @@ interface IWalletItem {
   href: THref;
   icon: JSX.Element;
   isDisabled: TIsDisabled;
+  isHidden: boolean;
   isInjected: TIsInjected;
   providerId: TProviderId;
   title: string;
@@ -75,6 +77,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: 'https://metamask.io/download/',
       icon: <MetaMaskIcon />,
       isDisabled: false,
+      isHidden: isMobile(),
       get isInjected() {
         return Web3KeyReadProvider.isInjected();
       },
@@ -87,6 +90,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: '',
       icon: <WalletConnectIcon />,
       isDisabled: false,
+      isHidden: false,
       isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'WalletConnect',
@@ -97,6 +101,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: '',
       icon: <ImTokenWalletIcon />,
       isDisabled: false,
+      isHidden: false,
       isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'imToken',
@@ -109,6 +114,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: '',
       icon: <MathWalletIcon />,
       isDisabled: false,
+      isHidden: false,
       isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Math Wallet',
@@ -119,6 +125,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: '',
       icon: <TrustWalletIcon />,
       isDisabled: false,
+      isHidden: false,
       isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Trust Wallet',
@@ -129,6 +136,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       href: '',
       icon: <HuobiWalletIcon />,
       isDisabled: false,
+      isHidden: false,
       isInjected: true,
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'Huobi Wallet',
@@ -151,6 +159,7 @@ const POLKADOT_COMPATIBLE_WALLETS: TWallets = [
 
         return !ethProvider?.isConnected();
       },
+      isHidden: false,
       get isInjected() {
         return PolkadotProvider.isInjected();
       },
@@ -258,62 +267,69 @@ export const ConnectWalletsModal = ({
             {availableWallets.map(
               (walletsGroup): JSX.Element => (
                 <Fragment key={uid(walletsGroup)}>
-                  {walletsGroup.map((walletItem: IWalletItem): JSX.Element => {
-                    const {
-                      href,
-                      icon,
-                      isDisabled,
-                      isInjected,
-                      providerId,
-                      title,
-                      tooltip,
-                      walletId,
-                    } = walletItem;
+                  {walletsGroup.map(
+                    (walletItem: IWalletItem): JSX.Element | null => {
+                      const {
+                        href,
+                        icon,
+                        isDisabled,
+                        isHidden,
+                        isInjected,
+                        providerId,
+                        title,
+                        tooltip,
+                        walletId,
+                      } = walletItem;
 
-                    return (
-                      <Grid key={uid(walletItem)} item sm={4} xs={12}>
-                        <Tooltip
-                          arrow
-                          title={isDisabled && tooltip ? t(tooltip) : ''}
-                        >
-                          <ButtonBase
-                            className={classNames(
-                              classes.walletItem,
-                              isDisabled && classes.walletItemDisabled,
-                              isDisabled &&
-                                isInjected &&
-                                classes.walletItemDisabledCursor,
-                            )}
-                            onClick={onWalletItemClick({
-                              href,
-                              isDisabled,
-                              isInjected,
-                              providerId,
-                              walletId,
-                            })}
+                      if (isHidden) {
+                        return null;
+                      }
+
+                      return (
+                        <Grid key={uid(walletItem)} item sm={4} xs={12}>
+                          <Tooltip
+                            arrow
+                            title={isDisabled && tooltip ? t(tooltip) : ''}
                           >
-                            {icon}
-
-                            <Typography
-                              className={classes.walletItemTitle}
-                              variant="h5"
+                            <ButtonBase
+                              className={classNames(
+                                classes.walletItem,
+                                isDisabled && classes.walletItemDisabled,
+                                isDisabled &&
+                                  isInjected &&
+                                  classes.walletItemDisabledCursor,
+                              )}
+                              onClick={onWalletItemClick({
+                                href,
+                                isDisabled,
+                                isInjected,
+                                providerId,
+                                walletId,
+                              })}
                             >
-                              {title}
-                            </Typography>
+                              {icon}
 
-                            {!isInjected && (
                               <Typography
-                                className={classes.walletItemInstall}
-                                variant="subtitle2"
+                                className={classes.walletItemTitle}
+                                variant="h5"
                               >
-                                {t('wallets.wallet-install')}
+                                {title}
                               </Typography>
-                            )}
-                          </ButtonBase>
-                        </Tooltip>
-                      </Grid>
-                    );
-                  })}
+
+                              {!isInjected && (
+                                <Typography
+                                  className={classes.walletItemInstall}
+                                  variant="subtitle2"
+                                >
+                                  {t('wallets.wallet-install')}
+                                </Typography>
+                              )}
+                            </ButtonBase>
+                          </Tooltip>
+                        </Grid>
+                      );
+                    },
+                  )}
                 </Fragment>
               ),
             )}
