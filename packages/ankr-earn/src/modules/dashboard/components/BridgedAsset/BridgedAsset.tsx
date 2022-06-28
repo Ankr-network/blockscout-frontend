@@ -57,13 +57,13 @@ export const BridgedAsset = ({
   const comingSoonTooltip = t('common.tooltips.comingSoon');
   const amountInfoTooltip = getAmountInfoTooltip(nativeAmount);
 
-  const isActiveAmountInfo = nativeAmount && token;
+  const isActiveAmountInfo = nativeAmount && chainId;
 
   const nativeAmountText =
     isActiveAmountInfo &&
     t('unit.token-value', {
       value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-      token: nativeTokenMap[token],
+      token: nativeTokenMap[chainId],
     });
 
   return (

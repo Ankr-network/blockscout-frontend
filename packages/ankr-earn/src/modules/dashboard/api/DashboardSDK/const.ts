@@ -10,6 +10,8 @@ import {
   POLYGON_PROVIDER_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import ABI_AETH from 'modules/stake-bnb/api/contracts/aETH.json';
+import ABI_AETHС from 'modules/stake-bnb/api/contracts/aETHc.json';
 import AFTMB_ABI from 'modules/stake-fantom/api/contracts/aFTMb.json';
 import AFTMC_ABI from 'modules/stake-fantom/api/contracts/aFTMc.json';
 
@@ -29,6 +31,18 @@ export const bscTokenConfig: TNetworkTokenConfig = {
   [Token.aMATICb]: {
     abi: AMATICB_ABI,
     address: config.binanceConfig.aMATICbToken,
+    providerName: BSC_PROVIDER_BY_ENV,
+  },
+
+  [Token.aETH]: {
+    abi: ABI_AETH,
+    address: config.binanceConfig.aETHToken,
+    providerName: BSC_PROVIDER_BY_ENV,
+  },
+
+  [Token.aETHc]: {
+    abi: ABI_AETHС,
+    address: config.binanceConfig.aETHcToken,
     providerName: BSC_PROVIDER_BY_ENV,
   },
 

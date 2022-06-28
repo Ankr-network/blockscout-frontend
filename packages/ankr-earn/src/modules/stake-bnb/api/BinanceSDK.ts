@@ -6,6 +6,7 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { t } from 'common';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -37,6 +38,8 @@ import { TBnbSyntToken } from '../types';
 
 import ABI_ABNBB from './contracts/aBNBb.json';
 import ABI_ABNBC from './contracts/aBNBc.json';
+import ABI_AETH from './contracts/aETH.json';
+import ABI_AETHC from './contracts/aETHc.json';
 import ABI_BINANCE_POOL from './contracts/BinancePool.json';
 
 const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
@@ -296,6 +299,28 @@ export class BinanceSDK {
     );
   }
 
+  private async getAETHContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_AETH as AbiItem[],
+      binanceConfig.aETHToken,
+    );
+  }
+
+  private async getAETHCContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_AETHC as AbiItem[],
+      binanceConfig.aETHcToken,
+    );
+  }
+
   private async getBinancePoolContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -324,19 +349,30 @@ export class BinanceSDK {
     }
 
     const { binanceConfig } = configFromEnv();
-    const isAbnbb = token === Token.aBNBb;
 
-    const tokenContract = isAbnbb
-      ? await this.getABNBBContract()
-      : await this.getABNBCContract();
-
-    const address = isAbnbb
-      ? binanceConfig.aBNBbToken
-      : binanceConfig.aBNBcToken;
+    let contract: Contract;
+    let address: string;
+    switch (token) {
+      case Token.aBNBb:
+        contract = await this.getABNBBContract();
+        address = binanceConfig.aBNBbToken;
+        break;
+      case Token.aBNBc:
+        contract = await this.getABNBCContract();
+        address = binanceConfig.aBNBcToken;
+        break;
+      case Token.aETHc:
+        contract = await this.getAETHCContract();
+        address = binanceConfig.aETHcToken;
+        break;
+      default: {
+        throw new Error(t('error.some'));
+      }
+    }
 
     const [symbol, rawDecimals]: [string, string] = await Promise.all([
-      tokenContract.methods.symbol().call(),
-      tokenContract.methods.decimals().call(),
+      contract.methods.symbol().call(),
+      contract.methods.decimals().call(),
     ]);
 
     const decimals = Number.parseInt(rawDecimals, 10);
@@ -374,6 +410,26 @@ export class BinanceSDK {
     ]);
 
     return this.readProvider.getFormattedBalance(currBalance, decimals);
+  }
+
+  public async getAETHBalance(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const balance = await contract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  public async getAvailableToSwapAETHC(): Promise<BigNumber> {
+    const { binanceConfig } = configFromEnv();
+    const contract = await this.getAETHCContract();
+
+    const balance = await contract.methods
+      .balanceOf(binanceConfig.aETHToken)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
   public async getMinimumStake(): Promise<BigNumber> {
@@ -751,6 +807,13 @@ export class BinanceSDK {
     return new BigNumber(ratio);
   }
 
+  public async getAETHRatio(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const ratio = await contract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
+  }
+
   private async getABNBCContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -860,6 +923,21 @@ export class BinanceSDK {
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.aBNBbToken,
+      { data, estimate: true },
+    );
+  }
+
+  public async swapOldAETHC(amount: BigNumber): Promise<IWeb3SendResult> {
+    const contract = await this.getAETHContract();
+    const { binanceConfig } = configFromEnv();
+
+    const data = contract.methods
+      .swapOld(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aETHToken,
       { data, estimate: true },
     );
   }

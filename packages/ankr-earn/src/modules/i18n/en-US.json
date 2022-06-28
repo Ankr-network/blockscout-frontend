@@ -684,8 +684,11 @@
     "claim-tooltip": "Get liquid staking tokens to your Ethereum wallet",
     "stake-tooltip": "Stake",
     "stake-loading": "Stake in progress",
+    "switch": "Switch to new",
+    "old-version-tooltip": "We are decommissioning an older version of the aETHc liquid staking token on the BNB chain and switching to a new aETHc token that will be compatible with Ankr Bridge.<br/><br/>To switch your aETHc to the new version, click the “Switch” button and confirm the action in your wallet. <br/><br/>The process will take a few seconds, after which the new tokens will be displayed on your dashboard.",
     "unstake-tooltip": "Unstake",
     "unstake-loading": "Unstake in progress",
+    "unsupported": "Unsupported old version",
     "usd-tooltip": "USD equivalent of staked token and accumulated reward.",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
@@ -732,6 +735,7 @@
       "aBNBb": "aBNBb represents your staked BNB and provides liquidity for your staked position.<br/><br/>aBNBb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aBNBb = 1 BNB.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7–15 days unbonding period.<br/>While staking, you can also use aBNBb for trading and other DeFi opportunities.",
       "aBNBc": "aBNBc represents your staked BNB and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aBNBc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aBNBc = {ratio} BNB.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7–15 days unbonding period.<br/>While staking, you can also use aBNBc for trading and other DeFi opportunities.",
       "aETHb": "aETHb represents your staked ETH and provides liquidity for your staked position.<br/><br/>aETHb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aETHb = 1 ETH.<br/><br/>You can redeem your aETHb for ETH and rewards when Ethereum 2.0 enters the 1.5 phase and implements the unstaking functionality.<br/><br/>While staking, you can also use aETHb for trading and other DeFi opportunities.",
+      "aETHBNB": "aETHc represents your staked BNB and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aETHc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aETHc = {ratio} BNB.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7–15 days unbonding period.<br/>While staking, you can also use aETHc for trading and other DeFi opportunities.",
       "aETHc": "aETHc represents your staked ETH and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aETHc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aETHc = {ratio} ETH.<br/><br/>You can redeem your aETHc for ETH and rewards when Ethereum 2.0 enters the 1.5 phase and implements the unstaking functionality.<br/><br/>While staking, you can also use aETHc for trading and other DeFi opportunities.",
       "aFTMb": "aFTMb represents your staked FTM and provides liquidity for your staked position.<br/><br/>aFTMb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aFTMb = 1 FTM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the 1–35 days unbonding period, depending on validator's closest unlocking date.<br/><br/>While staking, you can also use aFTMb for trading and other DeFi opportunities.",
       "aFTMc": "aFTMc represents your staked FTM and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aFTMc grows daily in value, but never in number.<br/>Redemption ratio now is 1 aFTMc = {ratio} FTM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~1–35 days unbonding period, depending on validator's closest unlocking date.<br/><br/>While staking, you can also use aFTMc for trading and other DeFi opportunities.",
@@ -970,5 +974,10 @@
       "locking-period": "Locking period",
       "locking-period-value": "{days} days"
     }
+  },
+  "convert": {
+    "title": "Switch",
+    "description": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",
+    "add-to-wallet": "Add {token} to wallet"
   }
 }

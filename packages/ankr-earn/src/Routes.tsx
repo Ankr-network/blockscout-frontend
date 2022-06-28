@@ -18,6 +18,7 @@ import { getRoutes as getStakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { getRoutes as getStakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
+import { getRoutes as getConvertRoutes } from 'modules/swap/Routes';
 import { getRoutes as getSwitcherRoutes } from 'modules/switcher/Routes';
 
 export function Routes(): JSX.Element {
@@ -52,6 +53,8 @@ export function Routes(): JSX.Element {
       {featuresConfig.ankrStaking && getStakeAnkrRoutes()}
 
       {getStakePolkadotRoutes()}
+
+      {getConvertRoutes()}
 
       <Route>
         <DefaultLayout>
