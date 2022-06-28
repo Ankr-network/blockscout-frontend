@@ -40,6 +40,7 @@ interface IProviders {
   [AvailableReadProviders.ftmOpera]: Web3KeyReadProvider;
   [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
   [AvailableReadProviders.mumbai]: Web3KeyReadProvider;
+  [AvailableReadProviders.polygon]: Web3KeyReadProvider;
 }
 
 const POLKADOT_CONNECT_WAIT_MS = 250;
