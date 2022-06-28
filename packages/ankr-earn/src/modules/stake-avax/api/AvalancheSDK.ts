@@ -253,7 +253,7 @@ export class AvalancheSDK implements ISwitcher {
     return this.readProvider;
   }
 
-  // todo: reuse it form stake/api/getTxEventsHistoryGroup
+  // todo: reuse it from stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
     rawEvents?: TPastEventsData,
   ): Promise<TTxEventsHistoryGroupData> {

@@ -43,11 +43,6 @@ export interface ISwitcher {
   /**
    * Fetch transaction data
    *
-   * @typedef {Object} IFetchTxData
-   * @property {BigNumber} [amount] - transaction amount or value
-   * @property {boolean} isPending - is transaction still in pending state
-   * @property {string} [destinationAddress] - transaction destination address
-   *
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IFetchTxData>}
    */
@@ -73,18 +68,12 @@ export interface ISwitcher {
   /**
    * Lock shares
    *
-   * @typedef {Object} IShareArgs
-   * @property {BigNumber} amount - transaction amount
-   *
    * @param {IShareArgs} data - lock shares args.
    * @returns {Promise<IWeb3SendResult>}
    */
   lockShares(data: IShareArgs): Promise<IWeb3SendResult>;
   /**
    * Unlock shares
-   *
-   * @typedef {Object} IShareArgs
-   * @property {BigNumber} amount - transaction amount
    *
    * @param {IShareArgs} data - lock shares args.
    * @returns {Promise<IWeb3SendResult>}

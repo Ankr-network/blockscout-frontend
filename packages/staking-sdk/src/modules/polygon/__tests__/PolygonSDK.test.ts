@@ -7,7 +7,7 @@ import { PolygonSDK } from '..';
 import { ETH_SCALE_FACTOR, ZERO } from '../../common';
 import { BLOCK_OFFSET } from '../const';
 import {
-  EErrorCodes,
+  EPolygonErrorCodes,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
 } from '../types';
@@ -144,7 +144,7 @@ describe('modules/polygon/sdk', () => {
     const sdk = await PolygonSDK.getInstance();
 
     expect(sdk.unstake(new BigNumber(0), 'aMATICb')).rejects.toThrow(
-      EErrorCodes.ZERO_AMOUNT,
+      EPolygonErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -267,7 +267,7 @@ describe('modules/polygon/sdk', () => {
     expect(result).toStrictEqual(new BigNumber(12));
   });
 
-  test('should get minimum stake properly', async () => {
+  test('should get pending claim properly', async () => {
     const contract = {
       ...defaultContract,
       methods: {
@@ -347,7 +347,7 @@ describe('modules/polygon/sdk', () => {
     expect(balance).toStrictEqual(new BigNumber(10_000));
   });
 
-  test('should return bond balance', async () => {
+  test('should return matic balance', async () => {
     const contract = {
       ...defaultContract,
       methods: {
@@ -490,7 +490,7 @@ describe('modules/polygon/sdk', () => {
     const sdk = await PolygonSDK.getInstance();
 
     expect(sdk.lockShares({ amount: ZERO })).rejects.toThrowError(
-      EErrorCodes.ZERO_AMOUNT,
+      EPolygonErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -514,7 +514,7 @@ describe('modules/polygon/sdk', () => {
     const sdk = await PolygonSDK.getInstance();
 
     expect(sdk.unlockShares({ amount: ZERO })).rejects.toThrowError(
-      EErrorCodes.ZERO_AMOUNT,
+      EPolygonErrorCodes.ZERO_AMOUNT,
     );
   });
 

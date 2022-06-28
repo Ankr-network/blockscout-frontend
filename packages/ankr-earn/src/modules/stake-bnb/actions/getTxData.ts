@@ -2,12 +2,12 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { BinanceSDK, IGetTxReceipt } from '@ankr.com/staking-sdk';
+
 import { withStore } from 'modules/common/utils/withStore';
 
-import { BinanceSDK, IGetTxReceipt } from '../api/BinanceSDK';
-
 export interface IGetTXData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }

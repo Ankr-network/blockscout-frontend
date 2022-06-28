@@ -35,6 +35,7 @@ import {
   IGetPastEvents,
   IEventsBatch,
   ITxHistoryEventData,
+  IStakeData,
 } from '../stake';
 import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -50,7 +51,8 @@ import {
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
   IPolygonSDKProviders,
-  EErrorCodes,
+  EPolygonErrorCodes,
+  IUnstakeFeeData,
 } from './types';
 
 /**
@@ -61,7 +63,7 @@ import {
 export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * instance - sdk instance
-   * @type {Web3KeyWriteProvider}
+   * @type {PolygonSDK}
    * @static
    * @private
    */
@@ -100,7 +102,6 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @constructor
    * @private
-   * @param {IPolygonSDKProviders} - read and write providers
    */
   private constructor({ writeProvider, readProvider }: IPolygonSDKProviders) {
     PolygonSDK.instance = this;
@@ -312,14 +313,6 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Internal function to get past events using the defined range
    *
-   * @typedef {Object} IGetPastEvents
-   * @property {Contract} contract - selected contract
-   * @property {string} eventName - event name
-   * @property {number} startBlock - start block (from)
-   * @property {number} latestBlockNumber - last block (to)
-   * @property {number} rangeStep - range
-   * @property {Filter} filter - events filter
-   *
    * @private
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
@@ -350,13 +343,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * Internal function returns transaction history group from events
-   * TODO: reuse it form stake/api/getTxEventsHistoryGroup
-   *
-   * @typedef {Object} ITxEventsHistoryGroupItem
-   * @property {BigNumber} txAmount - transaction amount
-   * @property {Date} txDate - transaction date
-   * @property {string} txHash - transaction hash
-   * @property {string | null} txType - transaction type
+   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
    * @param {EventData} [rawEvents] - events
@@ -537,7 +524,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -573,7 +560,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -613,10 +600,6 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * Get pending data by bond and certificate
-   *
-   * @typedef {Object} IPendingData
-   * @property {BigNumber} pendingBond - pending bond unstakes
-   * @property {BigNumber} pendingCertificate - pending certificate unstakes
    *
    * @public
    * @returns {Promise<IPendingData>}
@@ -690,11 +673,6 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Internal function returns pool raw events
    *
-   * @typedef {Object} IEventsBatch
-   * @property {EventData[]} stakeRawEvents - stake raw events
-   * @property {EventData[]} unstakeRawEvents - unstake raw events
-   * @property {BigNumber} ratio - certificate ratio
-   *
    * @private
    * @returns {Promise<IEventsBatch>}
    */
@@ -739,19 +717,8 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Get transaction history
    *
-   * @typedef {Object} ITxEventsHistoryGroupItem
-   * @property {BigNumber} txAmount - transaction amount
-   * @property {Date} txDate - transaction date
-   * @property {string} txHash - transaction hash
-   * @property {(string | null)} txType - transaction type (stake or unstake)
-   *
-   * @typedef {Object} ITxEventsHistoryData
-   * @property {ITxEventsHistoryGroupItem[]} completedBond - completed transactions for bond tokens
-   * @property {ITxEventsHistoryGroupItem[]} completedCertificate - completed transaction for certificate tokens
-   * @property {ITxEventsHistoryGroupItem[]} pendingBond - pending unstakes for bond tokens
-   * @property {ITxEventsHistoryGroupItem[]} pendingCertificate - pending unstakes for certificate tokens
-   *
    * @public
+   * @note Current method only returns data for the last 7 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -835,11 +802,6 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Fetch transaction data.
    *
-   * @typedef {Object} IFetchTxData
-   * @property {BigNumber} [amount] - transaction amount or value
-   * @property {boolean} isPending - is transaction still in pending state
-   * @property {string} [destinationAddress] - transaction destination address
-   *
    * @public
    * @note parses first uint256 param from transaction input
    * @param {string} txHash - transaction hash.
@@ -904,14 +866,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @note Checks allowance and approves if it's needed. Then, does stake.
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive
-   * @param {number} [scale] - scale factor for amount
-   * @returns {Promise<{ txHash: string }>}
+   * @returns {Promise<IStakeData>}
    */
   public async stake(
     amount: BigNumber,
     token: string,
     scale = ETH_SCALE_FACTOR,
-  ): Promise<{ txHash: string }> {
+  ): Promise<IStakeData> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -954,13 +915,9 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note uses backend endpoint to get unstake fee
-   * @returns {Promise<{ unstakeFee: string; useBeforeBlock: number; signature: string; }>}
+   * @returns {Promise<IUnstakeFeeData>}
    */
-  public async getUnstakeFee(): Promise<{
-    unstakeFee: string;
-    useBeforeBlock: number;
-    signature: string;
-  }> {
+  public async getUnstakeFee(): Promise<IUnstakeFeeData> {
     const { data } = await this.apiGateWay.api.get<{
       unstakeFee: string;
       useBeforeBlock: number;
@@ -978,7 +935,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Internal function returns unstake method by token symbol
    *
    * @private
-   * @param {string} token - token symbol
+   * @param {TMaticSyntToken} token - token symbol
    * @returns {string}
    */
   private getUnstakeMethodName(token: TMaticSyntToken): string {
@@ -1008,7 +965,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   ): Promise<void> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EErrorCodes.ZERO_AMOUNT);
+      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
     }
 
     const { contractConfig } = configFromEnv();

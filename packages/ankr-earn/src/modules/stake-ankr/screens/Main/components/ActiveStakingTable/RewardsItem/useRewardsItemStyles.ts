@@ -1,6 +1,15 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useRewardsItemStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
+  },
+
   btn: {
     height: 50,
     paddingLeft: theme.spacing(2),
@@ -14,10 +23,5 @@ export const useRewardsItemStyles = makeStyles(theme => ({
 
   btnWrapper: {
     display: 'flex',
-    flexWrap: 'wrap',
-
-    [theme.breakpoints.up('md')]: {
-      flexWrap: 'nowrap',
-    },
   },
 }));

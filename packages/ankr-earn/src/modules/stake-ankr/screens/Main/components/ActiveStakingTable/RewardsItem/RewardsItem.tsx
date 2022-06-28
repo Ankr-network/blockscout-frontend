@@ -24,32 +24,34 @@ export const RewardsItem = ({
   const classes = useRewardsItemStyles();
 
   return (
-    <BaseAnkrAmount
-      ankrAmount={ankrAmount}
-      buttonSlot={
-        <div className={classes.btnWrapper}>
-          {restakeLink && (
-            <NavLink
-              className={classes.btn}
-              href={restakeLink}
-              variant="outlined"
-            >
-              {t('stake-ankr.staking-table.restake')}
-            </NavLink>
-          )}
+    <div className={classes.root}>
+      <BaseAnkrAmount
+        ankrAmount={ankrAmount}
+        buttonSlot={
+          <div className={classes.btnWrapper}>
+            {restakeLink && (
+              <NavLink
+                className={classes.btn}
+                href={restakeLink}
+                variant="outlined"
+              >
+                {t('stake-ankr.staking-table.restake')}
+              </NavLink>
+            )}
 
-          {claimLink && (
-            <NavLink
-              className={classes.btn}
-              href={claimLink}
-              variant="outlined"
-            >
-              {t('stake-ankr.staking-table.claim')}
-            </NavLink>
-          )}
-        </div>
-      }
-      usdAmount={usdAmount}
-    />
+            {claimLink && (
+              <NavLink
+                className={classes.btn}
+                href={claimLink}
+                variant="outlined"
+              >
+                {t('stake-ankr.staking-table.claim')}
+              </NavLink>
+            )}
+          </div>
+        }
+        usdAmount={usdAmount}
+      />
+    </div>
   );
 };

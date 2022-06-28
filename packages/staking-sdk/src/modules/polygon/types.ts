@@ -36,6 +36,15 @@ export interface IPolygonSDKProviders {
 /**
  * Error codes for PolygonSDK
  */
-export enum EErrorCodes {
+export enum EPolygonErrorCodes {
   ZERO_AMOUNT = 'zero-amount',
+}
+
+/**
+ * Unstake fee data
+ */
+export interface IUnstakeFeeData {
+  unstakeFee: string;
+  useBeforeBlock: number;
+  signature: string;
 }

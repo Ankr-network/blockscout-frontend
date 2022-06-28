@@ -60,3 +60,10 @@ export interface ITxEventsHistoryGroupItem {
   txHash: string;
   txType: string | null;
 }
+
+/**
+ * Stake transaction data
+ */
+export interface IStakeData {
+  txHash: string;
+}

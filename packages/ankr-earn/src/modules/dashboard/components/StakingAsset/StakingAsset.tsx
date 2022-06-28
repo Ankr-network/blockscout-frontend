@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED, DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { nativeTokenMap } from 'modules/dashboard/const';
@@ -103,7 +103,7 @@ export const StakingAsset = ({
       {withNativeAmount &&
         chainId &&
         t('unit.token-value', {
-          value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+          value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
           token: nativeTokenMap[chainId],
         })}
 

@@ -1,6 +1,7 @@
 import { EEthereumNetworkId } from 'provider';
 
 // semantic types
+export type TAmountUnit = number;
 export type Timestamp = number;
 export type Days = number;
 export type Minutes = number;

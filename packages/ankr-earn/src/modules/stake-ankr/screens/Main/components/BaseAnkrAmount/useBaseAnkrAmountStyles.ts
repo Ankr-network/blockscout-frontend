@@ -2,9 +2,13 @@ import { makeStyles } from '@material-ui/core';
 
 export const useBaseAnkrAmountStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
     alignItems: 'inherit',
-    justifyContent: 'inherit',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      alignItems: 'inherit',
+      justifyContent: 'inherit',
+    },
   },
 
   infoWrapper: {
@@ -12,6 +16,12 @@ export const useBaseAnkrAmountStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'inherit',
     justifyContent: 'center',
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: 0,
+    },
   },
 
   usdAmount: {

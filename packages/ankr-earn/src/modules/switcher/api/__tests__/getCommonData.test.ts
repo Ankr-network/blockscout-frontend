@@ -1,13 +1,12 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonSDK, BinanceSDK } from '@ankr.com/staking-sdk';
 import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -17,13 +16,10 @@ jest.mock('modules/api/EthSDK', () => ({
   EthSDK: { getInstance: jest.fn() },
 }));
 
-jest.mock('modules/stake-bnb/api/BinanceSDK', () => ({
-  BinanceSDK: { getInstance: jest.fn() },
-}));
-
 jest.mock('@ankr.com/staking-sdk', (): unknown => ({
   ...jest.requireActual('@ankr.com/staking-sdk'),
   PolygonSDK: { getInstance: jest.fn() },
+  BinanceSDK: { getInstance: jest.fn() },
 }));
 
 jest.mock('modules/stake-fantom/api/sdk', () => ({

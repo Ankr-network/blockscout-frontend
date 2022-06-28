@@ -64,6 +64,7 @@
   },
   "format": {
     "date": "{value, date, medium}",
+    "long-date": "{value, date, long}",
     "time-short": "{value, time, short}"
   },
   "unit": {
@@ -97,7 +98,8 @@
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR",
     "usd-value": "${value}",
-    "percentage-value": "{value}%"
+    "percentage-value": "{value}%",
+    "milliseconds-value": "{value}ms"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -973,6 +975,43 @@
       "provider-placeholder": "Select node provider",
       "locking-period": "Locking period",
       "locking-period-value": "{days} days"
+    },
+    "select-provider": {
+      "title": "Select provider to stake ANKR",
+      "table": {
+        "node-provider": "Node Provider",
+        "nodes-count": "{value} nodes",
+        "apy": "Current APY",
+        "staked-pool": "Staked Pool",
+        "uptime": "30d Uptime",
+        "rps": "RPS",
+        "btn": "Select provider"
+      }
+    },
+    "provider-info": {
+      "provider-stats": {
+        "success-rate": "Success Rate:",
+        "latency": "Latency:",
+        "uptime": "Uptime:",
+        "current-apy": "Current APY",
+        "staked-pool": "Staked Pool",
+        "nodes": "Nodes",
+        "shared-revenue": "Shared Revenue",
+        "online": "Online",
+        "online-days": "{value} days",
+        "online-day": "{value} day",
+        "percent-value": "{value, number, ::.0#}%",
+        "stake-btn": "Stake ANKR"
+      },
+      "node-list": {
+        "node": "Node",
+        "location": "Location",
+        "block-height": "Block Height",
+        "total-requests": "Total Requests",
+        "30d-uptime": "30d Uptime",
+        "latency": "Latency",
+        "paid-value": "{value} Paid"
+      }
     }
   },
   "convert": {

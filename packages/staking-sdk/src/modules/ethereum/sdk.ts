@@ -1,0 +1,774 @@
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData } from 'web3-eth-contract';
+
+import {
+  AvailableReadProviders,
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from 'provider';
+
+import {
+  ETH_SCALE_FACTOR,
+  isMainnet,
+  MAX_UINT256,
+  configFromEnv,
+  ZERO,
+  ProviderManagerSingleton,
+} from '../common';
+import {
+  AETHB_ABI,
+  AETHC_ABI,
+  ETHEREUM_POOL_ABI,
+  SYSTEM_PARAMETERS_ABI,
+} from '../contracts';
+import {
+  ITxEventsHistoryData,
+  IGetPastEvents,
+  getTxEventsHistoryGroup,
+  IStakable,
+  IStakeData,
+  IPendingData,
+} from '../stake';
+import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
+import { convertNumberToHex } from '../utils';
+
+import {
+  ETH_BLOCK_OFFSET,
+  ETH_HISTORY_RANGE_STEP,
+  METHOD_NAME_BY_SYMBOL,
+  TOKENS_CONFIG_BY_SYMBOL,
+} from './const';
+import {
+  EPoolEvents,
+  IEthSDKProviders,
+  TEthToken,
+  EEthereumErrorCodes,
+} from './types';
+
+const CONFIG = configFromEnv();
+
+/**
+ * EthereumSDK allows to interact with ethereum chains (goerli, mainnet), aETHb/aETHc tokens and Ethereum pool contracts.
+ *
+ * @class
+ */
+export class EthereumSDK implements ISwitcher, IStakable {
+  /**
+   * instance - sdk instance
+   * @type {EthereumSDK}
+   * @static
+   * @private
+   */
+  private static instance?: EthereumSDK;
+
+  /**
+   * writeProvider - provider which has signer
+   * @type {Web3KeyWriteProvider}
+   * @private
+   */
+  private readonly writeProvider: Web3KeyWriteProvider;
+
+  /**
+   * readProvider - provider which allows to read data without connecting the wallet
+   * @type {Web3KeyReadProvider}
+   * @private
+   */
+  private readonly readProvider: Web3KeyReadProvider;
+
+  /**
+   * currentAccount - connected account
+   * @type {string}
+   * @private
+   */
+  private currentAccount: string;
+
+  /**
+   * stakeGasFee - saved stake gas fee
+   * @type {BigNumber}
+   * @private
+   */
+  private stakeGasFee?: BigNumber;
+
+  /**
+   * Private constructor - use `EthereumSDK.getInstance` instead
+   *
+   * @constructor
+   * @private
+   */
+  private constructor({ readProvider, writeProvider }: IEthSDKProviders) {
+    EthereumSDK.instance = this;
+
+    this.currentAccount = writeProvider.currentAccount;
+    this.readProvider = readProvider;
+    this.writeProvider = writeProvider;
+  }
+
+  /**
+   * Initialization method for sdk
+   *
+   * Auto connects write provider if chains are the same.
+   * Initialize read provider to support multiple chains.
+   *
+   * @public
+   * @returns {Promise<PolygonSDK>}
+   */
+  public static async getInstance(): Promise<EthereumSDK> {
+    const providerManager = ProviderManagerSingleton.getInstance();
+    const [writeProvider, readProvider] = await Promise.all([
+      providerManager.getETHWriteProvider(),
+      providerManager.getETHReadProvider(
+        isMainnet
+          ? AvailableReadProviders.ethMainnet
+          : AvailableReadProviders.ethGoerli,
+      ),
+    ]);
+
+    const addrHasNotBeenUpdated =
+      EthereumSDK.instance?.currentAccount === writeProvider.currentAccount;
+    const hasNewProvider =
+      EthereumSDK.instance?.writeProvider === writeProvider &&
+      EthereumSDK.instance?.readProvider === readProvider;
+
+    if (EthereumSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+      return EthereumSDK.instance;
+    }
+
+    const instance = new EthereumSDK({ writeProvider, readProvider });
+    const isEthChain = instance.getIsEthChain();
+
+    if (isEthChain && !writeProvider.isConnected()) {
+      await writeProvider.connect();
+    }
+
+    return instance;
+  }
+
+  /**
+   * Internal function to check current network
+   *
+   * @private
+   * @returns {Promise<boolean>}
+   */
+  private getIsEthChain(): boolean {
+    return [EEthereumNetworkId.mainnet, EEthereumNetworkId.goerli].includes(
+      this.writeProvider.currentChain,
+    );
+  }
+
+  /**
+   * Get ETH balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
+  public async getEthBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const balance = await web3.eth.getBalance(this.currentAccount);
+
+    return new BigNumber(web3.utils.fromWei(balance));
+  }
+
+  /**
+   * Internal function to choose right provider for read on write purpose.
+   *
+   * @private
+   * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
+   */
+  private async getProvider(): Promise<
+    Web3KeyWriteProvider | Web3KeyReadProvider
+  > {
+    const isEthChain = this.getIsEthChain();
+
+    if (isEthChain) {
+      await this.connectWriteProvider();
+      return this.writeProvider;
+    }
+
+    return this.readProvider;
+  }
+
+  /**
+   * Returns bond ETH token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getABBalance(isFormatted?: boolean): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aETHbContract = EthereumSDK.getAethbContract(provider);
+    const web3 = provider.getWeb3();
+
+    const rawBalance = await aETHbContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    const balance = isFormatted ? web3.utils.fromWei(rawBalance) : rawBalance;
+
+    return new BigNumber(balance);
+  }
+
+  /**
+   * Internal function to get aETHb token contract
+   *
+   * @private
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @returns {Contract}
+   */
+  private static getAethbContract(
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { contractConfig } = CONFIG;
+
+    return provider.createContract(AETHB_ABI, contractConfig.fethContract);
+  }
+
+  /**
+   * Returns Certificate ETH token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getACBalance(isFormatted?: boolean): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aETHcContract = EthereumSDK.getAethcContract(provider);
+    const web3 = provider.getWeb3();
+
+    const rawBalance = await aETHcContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    const balance = isFormatted ? web3.utils.fromWei(rawBalance) : rawBalance;
+
+    return new BigNumber(balance);
+  }
+
+  /**
+   * Internal function to get aETHc token contract
+   *
+   * @private
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @returns {Contract}
+   */
+  private static getAethcContract(
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { contractConfig } = CONFIG;
+
+    return provider.createContract(AETHC_ABI, contractConfig.aethContract);
+  }
+
+  /**
+   * Returns certificate ETH token ratio
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
+  public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aETHcContract = EthereumSDK.getAethcContract(provider);
+    const web3 = provider.getWeb3();
+
+    const rawRatio = await aETHcContract.methods.ratio().call();
+    const ratio = isFormatted ? web3.utils.fromWei(rawRatio) : rawRatio;
+
+    return new BigNumber(ratio);
+  }
+
+  /**
+   * Add token to wallet
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {string} token - token symbol (aETHb or aETHc)
+   * @returns {Promise<boolean>}
+   */
+  public async addTokenToWallet(token: string): Promise<boolean> {
+    await this.connectWriteProvider();
+
+    const data = TOKENS_CONFIG_BY_SYMBOL[token as TEthToken];
+
+    if (!data) {
+      throw new Error('Failed to add token to wallet');
+    }
+
+    return this.writeProvider.addTokenToWallet(data);
+  }
+
+  private async connectWriteProvider(): Promise<void> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+  }
+
+  /**
+   * Returns certificate ETH token allowance
+   *
+   * @public
+   * @param {string} [spender] - spender address (by default it's aETHb token address)
+   * @returns {Promise<BigNumber>} - allowance in wei
+   */
+  public async getACAllowance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const aETHcContract = EthereumSDK.getAethcContract(provider);
+    const { contractConfig } = CONFIG;
+
+    const allowance = await aETHcContract.methods
+      .allowance(this.currentAccount, contractConfig.fethContract)
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
+  /**
+   * Stake without claim
+   *
+   * This method is only for creating a testing ability.
+   * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
+   * Do not use it for the production code.
+   *
+   * @deprecated
+   * @public
+   * @param {BigNumber} amount - amount to stake
+   * @return {Promise<IWeb3SendResult>}
+   */
+  public async stakeWithoutClaim(amount: BigNumber): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+
+    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+
+    const ethPoolContract = EthereumSDK.getEthPoolContract(this.writeProvider);
+
+    return ethPoolContract.methods.stake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+    });
+  }
+
+  /**
+   * Stake tokens
+   *
+   * @public
+   * @note Initiates two transactions and connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive
+   * @returns {Promise<IStakeData>}
+   */
+  public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
+    await this.connectWriteProvider();
+
+    let gasFee = this.stakeGasFee;
+    if (!gasFee) {
+      gasFee = await this.getStakeGasFee(amount, token);
+    }
+
+    const balance = await this.getEthBalance();
+    const maxAmount = balance.minus(gasFee);
+    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+    const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
+
+    const ethPoolContract = EthereumSDK.getEthPoolContract(this.writeProvider);
+
+    const contractStake =
+      ethPoolContract.methods[METHOD_NAME_BY_SYMBOL[token as TEthToken].stake];
+
+    const gasLimit: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: hexAmount,
+    });
+
+    const response = await contractStake().send({
+      from: this.currentAccount,
+      value: hexAmount,
+      gas: gasLimit,
+    });
+
+    return { txHash: response.transactionHash };
+  }
+
+  /**
+   * Unstake tokens
+   *
+   * @public
+   * @note not supported yet.
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to receive
+   * @returns {Promise<void>}
+   */
+  // eslint-disable-next-line
+  public async unstake(_amount: BigNumber, _token: string): Promise<void> {
+    throw new Error(EEthereumErrorCodes.NOT_SUPPORTED);
+  }
+
+  /**
+   * Get total pending unstake amount
+   *
+   * @public
+   * @note not supported yet.
+   * @returns {Promise<BigNumber>}
+   */
+  public async getPendingClaim(): Promise<BigNumber> {
+    return ZERO;
+  }
+
+  /**
+   * Get pending data by bond and certificate
+   *
+   * @public
+   * @note not supported yet.
+   * @returns {Promise<IPendingData>}
+   */
+  public async getPendingData(): Promise<IPendingData> {
+    return {
+      pendingBond: ZERO,
+      pendingCertificate: ZERO,
+    };
+  }
+
+  /**
+   * Get stake gas fee
+   *
+   * @public
+   * @note This method safes computed gas fee for future computations.
+   * @param {string} amount - amount to stake
+   * @param {string} token - token symbol
+   * @returns {Promise<BigNumber>}
+   */
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: string,
+  ): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
+
+    const contractStake =
+      ethPoolContract.methods[METHOD_NAME_BY_SYMBOL[token as TEthToken].stake];
+
+    const estimatedGas: number = await contractStake().estimateGas({
+      from: this.currentAccount,
+      value: convertNumberToHex(amount, ETH_SCALE_FACTOR),
+    });
+
+    const stakeGasFee = await provider.getContractMethodFee(estimatedGas);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
+  }
+
+  /**
+   * Internal function to get ETH pool contract
+   *
+   * @private
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @returns {Contract}
+   */
+  private static getEthPoolContract(
+    provider: Web3KeyWriteProvider | Web3KeyReadProvider,
+  ): Contract {
+    const { contractConfig } = CONFIG;
+
+    return provider.createContract(
+      ETHEREUM_POOL_ABI,
+      contractConfig.ethereumPool,
+    );
+  }
+
+  /**
+   * Get minimum stake amount
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
+  public async getMinimumStake(): Promise<BigNumber> {
+    const { contractConfig } = CONFIG;
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const systemContract = provider.createContract(
+      SYSTEM_PARAMETERS_ABI,
+      contractConfig.systemContract,
+    );
+
+    const minStake = await systemContract.methods
+      .REQUESTER_MINIMUM_POOL_STAKING()
+      .call();
+
+    return new BigNumber(web3.utils.fromWei(minStake));
+  }
+
+  /**
+   * Fetch transaction data.
+   *
+   * @public
+   * @note parses first uint256 param from transaction input
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
+  public async fetchTxData(
+    txHash: string,
+    shouldDecodeAmount = true,
+  ): Promise<IFetchTxData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const tx = await web3.eth.getTransaction(txHash);
+
+    const decodeAmount = (): BigNumber => {
+      const { 0: rawAmount } =
+        tx.value === '0'
+          ? web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10))
+          : { 0: tx.value };
+
+      return new BigNumber(web3.utils.fromWei(rawAmount));
+    };
+
+    return {
+      amount: shouldDecodeAmount ? decodeAmount() : undefined,
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  /**
+   * Fetch transaction receipt
+   *
+   * @public
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IGetTxReceipt | null>}
+   */
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
+  /**
+   * Get transaction history
+   *
+   * @public
+   * @note Current method only returns data for the last 7 days.
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const startBlock = latestBlockNumber - ETH_BLOCK_OFFSET;
+
+    const [claimEvents, ratio] = await Promise.all([
+      this.getPastEvents({
+        provider: this.readProvider,
+        contract: ethPoolContract,
+        eventName: EPoolEvents.RewardClaimed,
+        startBlock,
+        latestBlockNumber,
+        rangeStep: ETH_HISTORY_RANGE_STEP,
+        filter: {
+          staker: this.currentAccount,
+        },
+      }),
+      this.getACRatio(),
+    ]);
+
+    const mapEvents = (events: EventData[]): EventData[] =>
+      events.map(event => ({
+        ...event,
+        returnValues: {
+          ...event.returnValues,
+          amount: new BigNumber(event.returnValues.amount)
+            .dividedBy(ratio)
+            .multipliedBy(10 ** 18)
+            .toFixed(),
+        },
+      }));
+
+    const [completedCertificate, completedBond] = await Promise.all([
+      getTxEventsHistoryGroup({
+        rawEvents: mapEvents(
+          claimEvents.filter(({ returnValues }) => returnValues.isAETH),
+        ),
+        web3,
+      }),
+      getTxEventsHistoryGroup({
+        rawEvents: mapEvents(
+          claimEvents.filter(({ returnValues }) => !returnValues.isAETH),
+        ),
+        web3,
+      }),
+    ]);
+
+    return {
+      completedCertificate,
+      completedBond,
+      pendingBond: [],
+      pendingCertificate: [],
+    };
+  }
+
+  /**
+   * Internal function to get past events using the defined range
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    rangeStep,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const eventsPromises: Promise<EventData[]>[] = [];
+
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
+
+      eventsPromises.push(
+        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+      );
+    }
+
+    const pastEvents = await Promise.all(eventsPromises);
+
+    return flatten(pastEvents);
+  }
+
+  /**
+   * Approve certificate token for bond.
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
+   * @param {number} [scale = 1] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult | undefined>}
+   */
+  public async approveACForAB(
+    amount: BigNumber = MAX_UINT256,
+    scale = 1,
+  ): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+
+    const { contractConfig } = CONFIG;
+
+    const aETHcContract = EthereumSDK.getAethcContract(this.writeProvider);
+
+    const data = aETHcContract.methods
+      .approve(contractConfig.fethContract, convertNumberToHex(amount, scale))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.aethContract,
+      { data, estimate: true },
+    );
+  }
+
+  /**
+   * Lock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+    const aETHbContract = EthereumSDK.getAethbContract(this.writeProvider);
+    const { contractConfig } = CONFIG;
+
+    const data = aETHbContract.methods
+      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.fethContract,
+      { data, estimate: true },
+    );
+  }
+
+  /**
+   * Unlock shares
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {BigNumber} amount - amount to lock
+   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+    const aETHbContract = EthereumSDK.getAethbContract(this.writeProvider);
+    const { contractConfig } = CONFIG;
+
+    const data = aETHbContract.methods
+      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.fethContract,
+      { data, estimate: true },
+    );
+  }
+
+  /**
+   * Get claimable amount
+   *
+   * @public
+   * @param {string} token - token symbol
+   * @returns {Promise<BigNumber>}
+   */
+  public async getClaimable(token: string): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
+    const web3 = provider.getWeb3();
+
+    const contractGetClaimable =
+      ethPoolContract.methods[
+        METHOD_NAME_BY_SYMBOL[token as TEthToken].claimable
+      ];
+
+    const rawValue = await contractGetClaimable(this.currentAccount).call();
+
+    return new BigNumber(web3.utils.fromWei(rawValue));
+  }
+
+  /**
+   * Claim tokens
+   *
+   * @public
+   * @note Initiates connect if write provider isn't connected.
+   * @param {string} token - token symbol
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async claim(token: string): Promise<IWeb3SendResult> {
+    await this.connectWriteProvider();
+    const { contractConfig } = CONFIG;
+    const ethPoolContract = EthereumSDK.getEthPoolContract(this.writeProvider);
+    const contractClaim =
+      ethPoolContract.methods[METHOD_NAME_BY_SYMBOL[token as TEthToken].claim];
+    const data: string = contractClaim().encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.ethereumPool,
+      { data },
+    );
+  }
+}

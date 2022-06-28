@@ -103,13 +103,11 @@ export const useStakedPolkadotData = ({
 
   const usdAmount = useMemo(
     () =>
-      featuresConfig.isActiveUSDEquivalent
-        ? getUSDAmount({
-            amount,
-            totalStaked: metrics?.[serviceName]?.totalStaked,
-            totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
-          })
-        : undefined,
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[serviceName]?.totalStaked,
+        totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+      }),
     [amount, metrics, serviceName],
   );
 

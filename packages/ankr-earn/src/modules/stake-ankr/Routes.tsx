@@ -13,6 +13,7 @@ import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 const ROOT = `${STAKING_PATH}ankr-stake/`;
 const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
+const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provier/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -30,6 +31,11 @@ export const RoutesConfig = createRouteConfig(
       path: STAKE_PATH,
       generatePath: () => generatePath(STAKE_PATH),
     },
+
+    selectProvider: {
+      path: SELECT_PROVIDER_PATH,
+      generatePath: () => generatePath(SELECT_PROVIDER_PATH),
+    },
   },
   ROOT,
 );
@@ -44,6 +50,10 @@ const Providers = loadComponent(() =>
 
 const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
+);
+
+const SelectProvider = loadComponent(() =>
+  import('./screens/SelectProvider').then(module => module.SelectProvider),
 );
 
 export function getRoutes(): JSX.Element {
@@ -72,6 +82,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.selectProvider.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <SelectProvider />
           </DefaultLayout>
         </GuardETHRoute>
 
