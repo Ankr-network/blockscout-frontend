@@ -1,6 +1,7 @@
 import { Chip, Typography, Tab, Tabs as BaseTabs } from '@material-ui/core';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
+import { uid } from 'react-uid';
 
 import { t } from 'common';
 
@@ -45,6 +46,7 @@ export const Tabs = ({
 
           return (
             <Tab
+              key={uid(title)}
               classes={{ root: classes.tabArea, selected: classes.tabSelected }}
               className={classes.tabArea}
               label={title}

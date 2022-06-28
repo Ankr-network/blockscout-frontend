@@ -4,8 +4,12 @@ export const useProviderItemStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     color: theme.palette.text.primary,
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
   },
 
   infoWrapper: {

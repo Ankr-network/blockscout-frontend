@@ -1,13 +1,14 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useBaseAnkrAmountStyles = makeStyles(theme => ({
+export const useDateTimeItemStyles = makeStyles(theme => ({
   root: {
     alignItems: 'inherit',
+    justifyContent: 'flex-end',
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'flex',
       alignItems: 'inherit',
-      justifyContent: 'inherit',
+      justifyContent: 'flex-start',
     },
   },
 
@@ -24,7 +25,7 @@ export const useBaseAnkrAmountStyles = makeStyles(theme => ({
     },
   },
 
-  usdAmount: {
+  time: {
     fontSize: 14,
     color: theme.palette.text.secondary,
   },

@@ -64,6 +64,7 @@
   },
   "format": {
     "date": "{value, date, medium}",
+    "long-date": "{value, date, long}",
     "time-short": "{value, time, short}"
   },
   "unit": {

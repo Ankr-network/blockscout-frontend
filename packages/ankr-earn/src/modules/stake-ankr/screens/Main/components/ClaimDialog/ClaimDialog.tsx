@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useMemo } from 'react';
+import { uid } from 'react-uid';
 
 import { t } from 'common';
 
@@ -79,8 +80,12 @@ export const ClaimDialog = ({
 
             {isFewClaims && (
               <table className={classes.table}>
-                {availableClaims.map(claim => (
-                  <TableRow provider={claim.provider} value={claim.value} />
+                {availableClaims.map((claim, i) => (
+                  <TableRow
+                    key={uid(i)}
+                    provider={claim.provider}
+                    value={claim.value}
+                  />
                 ))}
 
                 <tr className={classes.totalTr}>

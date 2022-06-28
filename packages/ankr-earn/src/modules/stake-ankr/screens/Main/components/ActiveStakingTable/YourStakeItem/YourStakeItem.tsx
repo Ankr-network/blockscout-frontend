@@ -22,28 +22,30 @@ export const YourStakeItem = ({
   const classes = useYourStakeItemStyles();
 
   return (
-    <BaseAnkrAmount
-      ankrAmount={ankrAmount}
-      buttonSlot={
-        <div className={classes.btnWrapper}>
-          {stakeLink && (
-            <PlusMinusBtn
-              className={classes.plusWalletButton}
-              href={stakeLink}
-              icon="plus"
-            />
-          )}
+    <div className={classes.root}>
+      <BaseAnkrAmount
+        ankrAmount={ankrAmount}
+        buttonSlot={
+          <div className={classes.btnWrapper}>
+            {stakeLink && (
+              <PlusMinusBtn
+                className={classes.plusWalletButton}
+                href={stakeLink}
+                icon="plus"
+              />
+            )}
 
-          {unstakeLink && (
-            <PlusMinusBtn
-              className={classes.plusWalletButton}
-              href={unstakeLink}
-              icon="minus"
-            />
-          )}
-        </div>
-      }
-      usdAmount={usdAmount}
-    />
+            {unstakeLink && (
+              <PlusMinusBtn
+                className={classes.plusWalletButton}
+                href={unstakeLink}
+                icon="minus"
+              />
+            )}
+          </div>
+        }
+        usdAmount={usdAmount}
+      />
+    </div>
   );
 };

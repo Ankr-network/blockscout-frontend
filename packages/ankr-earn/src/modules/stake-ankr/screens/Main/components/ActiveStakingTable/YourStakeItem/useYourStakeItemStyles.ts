@@ -1,6 +1,15 @@
 import { darken, makeStyles } from '@material-ui/core';
 
 export const useYourStakeItemStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
+  },
+
   plusWalletButton: {
     display: 'flex',
     margin: theme.spacing(0.5, 0, 0.5, 0.5),
@@ -28,10 +37,5 @@ export const useYourStakeItemStyles = makeStyles(theme => ({
 
   btnWrapper: {
     display: 'flex',
-    flexWrap: 'wrap',
-
-    [theme.breakpoints.up('md')]: {
-      flexWrap: 'nowrap',
-    },
   },
 }));
