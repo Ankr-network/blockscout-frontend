@@ -12,7 +12,7 @@ import {
   TNetworkId,
 } from 'modules/auth/common/components/GuardRoute';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
@@ -81,7 +81,7 @@ export const StakableAsset = ({
         <div className={classes.balanceNetworkWrapper}>
           <Typography className={classes.balance}>
             {t('dashboard.wallet-balance', {
-              value: balance.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+              value: balance.decimalPlaces(DEFAULT_FIXED).toFormat(),
               token,
             })}
           </Typography>
