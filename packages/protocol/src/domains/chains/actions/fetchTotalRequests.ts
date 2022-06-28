@@ -34,6 +34,7 @@ export const fetchTotalRequests = createSmartAction<
   },
   meta: {
     driver: 'axios',
+    asMutation: true,
     getData: data => {
       const totalRequestsHistory: Record<string, number> = {};
       data.entries.forEach((item: IEntries) => {
