@@ -211,10 +211,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Bond Matic token contract
+   * Internal function to get aMATICb token contract.
    *
    * @private
-   * @param {Web3} web3 - web3 instance
+   * @param {Web3} web3 - Web3 instance
    * @returns {Promise<Contract>}
    */
   private static getAMATICBTokenContract(web3: Web3): Contract {
@@ -227,10 +227,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Certificate Matic token contract
+   * Internal function to get aMATICc token contract.
    *
    * @private
-   * @param {Web3} web3 - web3 instance
+   * @param {Web3} web3 - Web3 instance
    * @returns {Promise<Contract>}
    */
   private static getAMATICCTokenContract(web3: Web3): Contract {
@@ -243,10 +243,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Polygon pool contract
+   * Internal function to get polygonPool contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getPolygonPoolContract(isForceRead = false): Promise<Contract> {
@@ -261,10 +261,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Ankr token contract
+   * Internal function to get ANKR token contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getAnkrTokenContract(isForceRead = false): Promise<Contract> {
@@ -279,7 +279,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function map event type to transaction type
+   * Internal function to map event type to transaction type.
    *
    * @private
    * @param {string} [rawTxType] - transaction type
@@ -300,7 +300,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to convert wei value to human readable format
+   * Internal function to convert wei value to human readable format.
    *
    * @private
    * @param {string} amount - value in wei
@@ -311,7 +311,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range
+   * Internal function to get past events using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -342,7 +342,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns transaction history group from events
+   * Internal function to return transaction history group from events.
    * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
@@ -388,7 +388,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns matic token balance
+   * Return MATIC token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -404,7 +404,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns bond matic token balance
+   * Returns aMATICb token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -422,7 +422,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate matic token balance
+   * Return aMATICc token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -440,7 +440,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate matic token ratio
+   * Return aMATICc/MATIC ratio.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable ratio
@@ -456,10 +456,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate matic token allowance
+   * Return aMATICc token allowance (the amount which _spender is still allowed to withdraw from _owner).
    *
    * @public
-   * @param {string} [spender] - spender address (by default it's aMATICb token address)
+   * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
@@ -479,10 +479,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Approve certificate token for bond.
+   * Approve aMATICc for aMATICb to access and transfer tokens.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -511,10 +511,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Lock shares
+   * Lock shares.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {BigNumber} amount - amount to lock
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -547,10 +547,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unlock shares
+   * Unlock shares.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {BigNumber} amount - amount to lock
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -583,7 +583,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get total pending unstake amount
+   * Get total pending unstake amount.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -599,7 +599,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get pending data by bond and certificate
+   * Get pending data for aMATICb or aMATICc.
    *
    * @public
    * @returns {Promise<IPendingData>}
@@ -657,7 +657,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get minimum stake amount
+   * Get minimum stake amount.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -671,7 +671,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns pool raw events
+   * Internal function to return pool raw events.
    *
    * @private
    * @returns {Promise<IEventsBatch>}
@@ -715,7 +715,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get transaction history
+   * Get transaction history.
    *
    * @public
    * @note Current method only returns data for the last 7 days.
@@ -803,7 +803,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Fetch transaction data.
    *
    * @public
-   * @note parses first uint256 param from transaction input
+   * @note Parses first uint256 param from transaction input.
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IFetchTxData>}
    */
@@ -826,7 +826,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Fetch transaction receipt
+   * Fetch transaction receipt.
    *
    * @public
    * @param {string} txHash - transaction hash.
@@ -844,7 +844,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns stake method by token symbol
+   * Internal function to return stake method by token symbol.
    *
    * @param {string} token - token symbol
    * @returns {string}
@@ -859,11 +859,11 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Stake tokens
+   * Stake tokens.
    *
    * @public
-   * @note Initiates two transactions and connect if write provider isn't connected.
-   * @note Checks allowance and approves if it's needed. Then, does stake.
+   * @note Initiates two transactions and connect if writeProvider isn't connected.
+   * @note Checks allowance and approves if it's needed. Then stakes.
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive
    * @returns {Promise<IStakeData>}
@@ -890,7 +890,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
         .allowance(this.currentAccount, contractConfig.polygonPool)
         .call(),
     );
-    // 1. Approve MATIC token transfer to our PolygonPool contract
+    // 1. Approve MATIC token transfer to our polygonPool contract
     if (allowance.isLessThan(rawAmount)) {
       await maticTokenContract.methods
         .approve(contractConfig.polygonPool, convertNumberToHex(rawAmount))
@@ -911,10 +911,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get unstake fee
+   * Get unstake fee.
    *
    * @public
-   * @note uses backend endpoint to get unstake fee
+   * @note Uses backend endpoint to get the unstake fee.
    * @returns {Promise<IUnstakeFeeData>}
    */
   public async getUnstakeFee(): Promise<IUnstakeFeeData> {
@@ -932,7 +932,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns unstake method by token symbol
+   * Internal function to return unstake method by token symbol.
    *
    * @private
    * @param {TMaticSyntToken} token - token symbol
@@ -952,11 +952,11 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Unstake tokens
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
-   * @note Checks allowance and approves if it's needed. Then, does unstake.
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note Checks allowance and approves if it's needed. Then unstakes.
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to receive
-   * @param {number} [scale] - scale factor for amount;
+   * @param {number} [scale] - scale factor for amount
    * @returns {Promise<void>}
    */
   public async unstake(
@@ -1016,10 +1016,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Add token to wallet
+   * Add token to wallet.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {string} token - token symbol (aMATICc or aMATICb)
    * @returns {Promise<boolean>}
    */
