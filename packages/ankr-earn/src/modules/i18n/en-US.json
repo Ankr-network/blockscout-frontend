@@ -439,10 +439,6 @@
   },
   "stake-polkadot": {
     "errors": {
-      "claim-invalid": "Claim is invalid",
-      "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
-      "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
-      "invalid-eth-token-address": "Invalid Ethereum's token address",
       "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
     },
     "faq": {
@@ -988,19 +984,30 @@
         "btn": "Select provider"
       }
     },
-    "provider-stats": {
-      "success-rate": "Success Rate:",
-      "latency": "Latency:",
-      "uptime": "Uptime:",
-      "current-apy": "Current APY",
-      "staked-pool": "Staked Pool",
-      "nodes": "Nodes",
-      "shared-revenue": "Shared Revenue",
-      "online": "Online",
-      "online-days": "{value} days",
-      "online-day": "{value} day",
-      "percent-value": "{value, number, ::.0#}%",
-      "stake-btn": "Stake ANKR"
+    "provider-info": {
+      "provider-stats": {
+        "success-rate": "Success Rate:",
+        "latency": "Latency:",
+        "uptime": "Uptime:",
+        "current-apy": "Current APY",
+        "staked-pool": "Staked Pool",
+        "nodes": "Nodes",
+        "shared-revenue": "Shared Revenue",
+        "online": "Online",
+        "online-days": "{value} days",
+        "online-day": "{value} day",
+        "percent-value": "{value, number, ::.0#}%",
+        "stake-btn": "Stake ANKR"
+      },
+      "node-list": {
+        "node": "Node",
+        "location": "Location",
+        "block-height": "Block Height",
+        "total-requests": "Total Requests",
+        "30d-uptime": "30d Uptime",
+        "latency": "Latency",
+        "paid-value": "{value} Paid"
+      }
     }
   }
 }

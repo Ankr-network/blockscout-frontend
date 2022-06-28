@@ -49,28 +49,30 @@ export const Tabs = ({
               key={uid(title)}
               classes={{ root: classes.tabArea, selected: classes.tabSelected }}
               className={classes.tabArea}
-              label={title}
-              value={title}
-            >
-              <Typography
-                className={classNames(classes.tabText, {
-                  [classes.tabActive]: isActiveTab,
-                })}
-                color={isActiveTab ? 'initial' : 'textSecondary'}
-                variant="h3"
-              >
-                {title}
-              </Typography>
+              label={
+                <div className={classes.itemWrapper}>
+                  <Typography
+                    className={classNames(classes.tabText, {
+                      [classes.tabActive]: isActiveTab,
+                    })}
+                    color={isActiveTab ? 'initial' : 'textSecondary'}
+                    variant="h3"
+                  >
+                    {title}
+                  </Typography>
 
-              {unstakingAmount && showAmount && (
-                <Chip
-                  className={classes.chip}
-                  color="primary"
-                  label={unstakingAmount}
-                  size="small"
-                />
-              )}
-            </Tab>
+                  {unstakingAmount && showAmount && (
+                    <Chip
+                      className={classes.chip}
+                      color="primary"
+                      label={unstakingAmount}
+                      size="small"
+                    />
+                  )}
+                </div>
+              }
+              value={title}
+            />
           );
         })}
       </BaseTabs>

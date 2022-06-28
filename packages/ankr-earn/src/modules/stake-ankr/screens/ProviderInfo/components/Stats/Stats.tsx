@@ -24,43 +24,49 @@ export const Stats = (): JSX.Element => {
   return (
     <Paper className={classes.statisticWrapper} variant="elevation">
       <StatsItem
-        primaryValue={t('stake-ankr.provider.percent-value', {
-          value: apy,
-        })}
-        title={t('stake-ankr.provider-stats.current-apy')}
+        primaryValue={t(
+          'stake-ankr.provider-info.provider-stats.percent-value',
+          {
+            value: apy,
+          },
+        )}
+        title={t('stake-ankr.provider-info.provider-stats.current-apy')}
       />
 
       <StatsItem
         primaryValue={stakedPool.toFormat()}
-        secondaryValue={t('stake-ankr.provider-stats.percent-value', {
-          value: stakedPoolPercent,
-        })}
-        title={t('stake-ankr.provider-stats.staked-pool')}
+        secondaryValue={t(
+          'stake-ankr.provider-info.provider-stats.percent-value',
+          {
+            value: stakedPoolPercent,
+          },
+        )}
+        title={t('stake-ankr.provider-info.provider-stats.staked-pool')}
         tooltip="tooltip"
       />
 
       <StatsItem
         primaryValue={nodes}
-        title={t('stake-ankr.provider-stats.nodes')}
+        title={t('stake-ankr.provider-info.provider-stats.nodes')}
       />
 
       <StatsItem
         primaryValue={sharedRevenue.toFormat()}
-        title={t('stake-ankr.provider-stats.shared-revenue')}
+        title={t('stake-ankr.provider-info.provider-stats.shared-revenue')}
         tooltip="tooltip"
       />
 
       <StatsItem
         primaryValue={
           onlineDays === 1
-            ? t('stake-ankr.provider-stats.online-day', {
+            ? t('stake-ankr.provider-info.provider-stats.online-day', {
                 value: onlineDays,
               })
-            : t('stake-ankr.provider-stats.online-days', {
+            : t('stake-ankr.provider-info.provider-stats.online-days', {
                 value: onlineDays,
               })
         }
-        title={t('stake-ankr.provider-stats.online')}
+        title={t('stake-ankr.provider-info.provider-stats.online')}
       />
     </Paper>
   );

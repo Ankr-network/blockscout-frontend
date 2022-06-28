@@ -18,6 +18,7 @@ import { NavLink } from 'uiKit/NavLink';
 import { ReactComponent as DiscordIcon } from './assets/discord.svg';
 import { ReactComponent as TelegramIcon } from './assets/telegram.svg';
 import { AdditionalInfo } from './components/AdditionalInfo';
+import { NodeList } from './components/NodeList';
 import { Stats } from './components/Stats';
 import { useProviderInfoStyles } from './useProviderInfoStyles';
 
@@ -46,68 +47,72 @@ export const ProviderInfo = ({
   const stakeBtnText = t('stake-ankr.total-info.stake');
 
   return (
-    <Paper className={classes.paper}>
-      <div className={classes.headerRow}>
-        <ProviderStatus
-          tooltipSlot={
-            <ProviderStatusTooltip
-              currentPeriod={10}
-              latency={40}
-              status={status}
-              successRate={20}
-              totalPeriod={20}
-            />
-          }
-          type={status}
-        />
-
-        <Typography variant="h3">{providerName}</Typography>
-
-        <NavLink className={classes.icon} href={discordLink}>
-          <DiscordIcon />
-        </NavLink>
-
-        <NavLink className={classes.icon} href={telegramLink}>
-          <TelegramIcon />
-        </NavLink>
-      </div>
-
-      <AdditionalInfo />
-
-      <div className={classes.addressRow}>
-        <div className={classes.addressWrappes}>
-          <Typography className={classes.tokenAddress} color="textSecondary">
-            {providerAddress}
-          </Typography>
-
-          <div className={classes.addressBtns}>
-            {!isCopied ? (
-              <CopyToClipboard
-                data-testid="copy-destination-address"
-                text={providerAddress}
-                onCopy={handleCopy}
-              >
-                <CopyIcon />
-              </CopyToClipboard>
-            ) : (
-              <CompleteIcon
-                data-testid="copy-destination-address-complete"
-                size="xs"
+    <>
+      <Paper className={classes.paper}>
+        <div className={classes.headerRow}>
+          <ProviderStatus
+            tooltipSlot={
+              <ProviderStatusTooltip
+                currentPeriod={10}
+                latency={40}
+                status={status}
+                successRate={20}
+                totalPeriod={20}
               />
-            )}
+            }
+            type={status}
+          />
 
-            <NavLink className={classes.link} href={addressLink}>
-              <ExternalLinkIcon />
-            </NavLink>
-          </div>
+          <Typography variant="h3">{providerName}</Typography>
+
+          <NavLink className={classes.icon} href={discordLink}>
+            <DiscordIcon />
+          </NavLink>
+
+          <NavLink className={classes.icon} href={telegramLink}>
+            <TelegramIcon />
+          </NavLink>
         </div>
 
-        <NavLink className={classes.btn} href={stakeLink} variant="contained">
-          {stakeBtnText}
-        </NavLink>
-      </div>
+        <AdditionalInfo />
 
-      <Stats />
-    </Paper>
+        <div className={classes.addressRow}>
+          <div className={classes.addressWrappes}>
+            <Typography className={classes.tokenAddress} color="textSecondary">
+              {providerAddress}
+            </Typography>
+
+            <div className={classes.addressBtns}>
+              {!isCopied ? (
+                <CopyToClipboard
+                  data-testid="copy-destination-address"
+                  text={providerAddress}
+                  onCopy={handleCopy}
+                >
+                  <CopyIcon />
+                </CopyToClipboard>
+              ) : (
+                <CompleteIcon
+                  data-testid="copy-destination-address-complete"
+                  size="xs"
+                />
+              )}
+
+              <NavLink className={classes.link} href={addressLink}>
+                <ExternalLinkIcon />
+              </NavLink>
+            </div>
+          </div>
+
+          <NavLink className={classes.btn} href={stakeLink} variant="contained">
+            {stakeBtnText}
+          </NavLink>
+        </div>
+
+        <Stats />
+      </Paper>
+
+      <NodeList />
+    </>
   );
 };

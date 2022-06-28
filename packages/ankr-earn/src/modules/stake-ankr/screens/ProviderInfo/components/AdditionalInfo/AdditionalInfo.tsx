@@ -17,19 +17,19 @@ export const AdditionalInfo = (): JSX.Element => {
   return (
     <Paper className={classes.infoWrapper} variant="elevation">
       <AdditionalInfoItem
-        label={t('stake-ankr.provider-stats.success-rate')}
+        label={t('stake-ankr.provider-info.provider-stats.success-rate')}
         status={EStatus.Bad}
         value={t('unit.percentage-value', { value: successRate })}
       />
 
       <AdditionalInfoItem
-        label={t('stake-ankr.provider-stats.latency')}
+        label={t('stake-ankr.provider-info.provider-stats.latency')}
         status={EStatus.Ok}
         value={t('unit.milliseconds-value', { value: latency })}
       />
 
       <AdditionalInfoItem
-        label={t('stake-ankr.provider-stats.uptime')}
+        label={t('stake-ankr.provider-info.provider-stats.uptime')}
         status={EStatus.Ok}
         value={t('unit.percentage-value', { value: uptime })}
       />

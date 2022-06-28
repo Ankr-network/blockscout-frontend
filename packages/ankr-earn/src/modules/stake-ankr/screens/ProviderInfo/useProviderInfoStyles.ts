@@ -6,6 +6,7 @@ export const useProviderInfoStyles = makeStyles(theme => ({
 
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(3, 4),
+      marginBottom: theme.spacing(2),
     },
   },
 
