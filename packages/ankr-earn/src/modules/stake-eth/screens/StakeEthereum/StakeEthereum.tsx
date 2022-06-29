@@ -16,6 +16,7 @@ import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 
 import { TokenVariants } from './components/TokenVariants';
 import { TotalAmount } from './components/TotalAmount';
@@ -75,6 +76,8 @@ export const StakeEthereum = (): JSX.Element => {
         {hasError && (
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
+
+        <StakeTradeInfo />
 
         <StakeForm
           balance={balance}
