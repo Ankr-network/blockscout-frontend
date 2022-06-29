@@ -116,8 +116,8 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Initialization method for the SDK
    *
-   * Auto connects writeProvider if chains are the same.
-   * Initialize readProvider to support multiple chains.
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
    *
    * @public
    * @returns {Promise<PolygonSDK>}
@@ -511,11 +511,11 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Lock shares.
+   * Switch aMATICc to aMATICb.
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */
@@ -547,11 +547,11 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unlock shares.
+   * Switch aMATICb to aMATICc.
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */
@@ -599,7 +599,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get pending data for aMATICb or aMATICc.
+   * Get pending data for aMATICb and aMATICc.
    *
    * @public
    * @returns {Promise<IPendingData>}
