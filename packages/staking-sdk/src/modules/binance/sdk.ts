@@ -57,7 +57,9 @@ import {
 } from './types';
 
 /**
- * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, and BinancePool. <br /><br />For more information on Binance Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics">development details</a>.
+ * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, and BinancePool.
+ *
+ * For more information on Binance Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics).
  *
  * @class
  */
@@ -837,7 +839,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Estimates gas and multiplies it by `ESTIMATE_GAS_MULTIPLIER` to prevent MetaMask issue with gas calculation.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
    * @returns {Promise<IStakeData>}
@@ -889,7 +891,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
    * @returns {Promise<void>}
@@ -937,7 +939,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc/BNB ratio.
    *
    * @public
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio">Read more on aBNBc/BNB ratio</a>.
+   * @note [Read more on aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio).
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {

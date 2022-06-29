@@ -52,7 +52,9 @@ import {
 const CONFIG = configFromEnv();
 
 /**
- * EthereumSDK allows you to interact with Ethereum Liquid Staking smart contracts on Ethereum (Mainnet, Goerli Tesnet) BNB Smart Chain: aETHb, aETHc, and GlobalPool. <br /><br />For more information on Binance Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics">development details</a>..
+ * EthereumSDK allows you to interact with Ethereum Liquid Staking smart contracts on Ethereum (Mainnet, Goerli Tesnet) BNB Smart Chain: aETHb, aETHc, and GlobalPool.
+ *
+ * For more information on Ethereum Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/eth/staking-mechanics).
  *
  * @class
  */
@@ -266,7 +268,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Return aETHc/ETH ratio.
    *
    * @public
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio">Read more on aBNBc/BNB ratio</a> and draw analogy between BNB and ETH in respect to the ratio.
+   * @note [Read more on aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio) and draw analogy between BNB and ETH in respect to the ratio.
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
@@ -356,7 +358,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aETHb or aETHc)
    * @returns {Promise<IStakeData>}
@@ -397,8 +399,8 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Unstake token.
    *
    * @public
-   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note not supported yet. [Read why unstaking ETH is not possible at the moment](https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth).
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aETHb or aETHc)
    * @returns {Promise<void>}
@@ -412,7 +414,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Get total pending unstake amount.
    *
    * @public
-   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
+   * @note not supported yet. [Read why unstaking ETH is not possible at the moment](https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth).
    * @returns {Promise<BigNumber>}
    */
   public async getPendingClaim(): Promise<BigNumber> {
@@ -423,7 +425,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Get pending data for aETHb and aETHc.
    *
    * @public
-   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
+   * @note not supported yet. [Read why unstaking ETH is not possible at the moment](https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth).
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {

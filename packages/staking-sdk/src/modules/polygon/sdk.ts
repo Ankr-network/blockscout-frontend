@@ -56,7 +56,9 @@ import {
 } from './types';
 
 /**
- * PolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool. <br /><br />For more information on Polygon Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics">development details</a>.
+ * PolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool.
+ *
+ * For more information on Polygon Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics).
  *
  * @class
  */
@@ -864,7 +866,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then stakes.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aMATICb or aMATICc)
    * @returns {Promise<IStakeData>}
@@ -955,7 +957,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then unstakes.
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
    * @param {number} [scale] - scale factor for amount
