@@ -12,7 +12,7 @@ export interface IStakable {
   /**
    * Stake token.
    *
-   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more on Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (-b or -c)
    * @param {number} [scale] - scale factor for amount
@@ -26,7 +26,7 @@ export interface IStakable {
   /**
    * Unstake token.
    *
-   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more on Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (-b or -c)
    * @param {number} [scale] - scale factor for amount

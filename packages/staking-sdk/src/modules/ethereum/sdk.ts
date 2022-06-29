@@ -268,7 +268,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Return aETHc/ETH ratio.
    *
    * @public
-   * @note [Read more on aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio) and draw analogy between BNB and ETH in respect to the ratio.
+   * @note [Read about aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio) and draw analogy between BNB and ETH in respect to the ratio.
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
