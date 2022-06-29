@@ -479,7 +479,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Approve aMATICc for aMATICb to access and transfer tokens.
+   * Approve aMATICc for aMATICb, i.e. allow aMATICb smart contract to access and transfer aMATICc tokens.
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
@@ -859,13 +859,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Stake tokens.
+   * Stake token.
    *
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then stakes.
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to receive (aMATICb or aMATICc)
    * @returns {Promise<IStakeData>}
    */
   public async stake(
@@ -949,13 +949,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unstake tokens
+   * Unstake token.
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then unstakes.
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
    * @param {number} [scale] - scale factor for amount
    * @returns {Promise<void>}
    */
