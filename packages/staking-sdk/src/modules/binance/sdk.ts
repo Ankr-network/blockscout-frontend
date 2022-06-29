@@ -57,13 +57,15 @@ import {
 } from './types';
 
 /**
- * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, and BinancePool. <br /><br />For more information on Binance Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics">development details</a>.
+ * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
+ *
+ * For more information on Binance Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics).
  *
  * @class
  */
 export class BinanceSDK implements ISwitcher, IStakable {
   /**
-   * instance - SDK instance.
+   * instance — SDK instance.
    * @type {BinanceSDK}
    * @static
    * @private
@@ -176,7 +178,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to check current network.
+   * Internal function to check the current network.
    *
    * @private
    * @param {Web3KeyWriteProvider} provider - current selected provider
@@ -195,7 +197,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range.
+   * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -518,6 +520,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get pending data for aBNBb and aBNBc.
    *
    * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
@@ -595,7 +598,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get relayer fee.
    *
    * @public
-   * @note This is a fee for cross-chain transfer of BNB between BNB Chain and BNB (Smart) Chain while staking it.
+   * @note The fee for cross-chain transfer of BNB between BNB Chain and BNB (Smart) Chain while staking it.
    * @returns {Promise<BigNumber>}
    */
   public async getRelayerFee(): Promise<BigNumber> {
@@ -610,7 +613,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get stake gas fee.
    *
    * @public
-   * @note This method caches computed gas fee value for future computations.
+   * @note Caches computed gas fee value for future computations.
    * @param {string} amount - amount to stake
    * @param {TBnbSyntToken} token - token symbol
    * @returns {Promise<BigNumber>}
@@ -673,7 +676,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Current method only returns data for the last 14 days.
+   * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -837,6 +840,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Estimates gas and multiplies it by `ESTIMATE_GAS_MULTIPLIER` to prevent MetaMask issue with gas calculation.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
    * @returns {Promise<IStakeData>}
@@ -888,6 +892,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
    * @returns {Promise<void>}
@@ -935,7 +940,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc/BNB ratio.
    *
    * @public
-   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio">Read more on aBNBc/BNB ratio</a>.
+   * @note [Read about aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio).
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
@@ -970,6 +975,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -1022,6 +1028,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc token allowance.
    *
    * @public
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
    * @param {string} [spender] - spender address (by default it is aBNBb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -1044,6 +1051,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -1079,6 +1087,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
