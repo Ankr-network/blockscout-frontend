@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
-import { Token } from 'multirpc-sdk';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { t } from 'common';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -41,7 +41,7 @@ import {
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
-import { t } from 'common';
+
 
 import {
   BINANCE_HISTORY_BLOCK_OFFSET,
