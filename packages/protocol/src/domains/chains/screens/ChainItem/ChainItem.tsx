@@ -4,9 +4,9 @@ import { t } from 'common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
+import { ContentBanner } from '../Chains/components/Banner/ContentBanner';
 import { IChainItemDetails } from '../../actions/fetchChain';
 import { useStyles } from './ChainItemStyles';
-import { ChainBanner } from './components/ChainBanner';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemTabs } from './components/ChainItemTabs';
 import { useChainItemBreadcrumbs } from './useChainItem';
@@ -37,10 +37,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         nodes={nodes}
         loading={authLoading}
       />
-
-      {!isWalletConnected && !authLoading && (
-        <ChainBanner className={classes.chainBanner} />
-      )}
+      {!credentials && <ContentBanner />}
       <ChainItemTabs chainId={chainId} data={data} />
     </div>
   );

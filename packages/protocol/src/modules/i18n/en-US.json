@@ -148,6 +148,15 @@
     "sort": {
       "usage": "Sort by usage",
       "name": "Sort by name"
+    },
+    "banner": {
+      "dashbaord": "Starting July 15, public plans are limited to 250k calls a day. To get unlimited, upgrade to a",
+      "premium-plan": "Premium Plan",
+      "chain-item": {
+        "top": "Starting July 15, public plans are limited to 250k calls a day.",
+        "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
+        "button": "Unlock Premium"
+      }
     }
   },
   "chain-item": {

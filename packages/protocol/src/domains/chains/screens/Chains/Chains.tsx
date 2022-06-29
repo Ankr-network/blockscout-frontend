@@ -16,6 +16,7 @@ import { usePublicChainsInfo } from './ChainsUtils';
 import { H1Tag } from 'uiKit/H1Tag';
 import { useSortSelect } from './components/ChainsSortSelect/ChainsSortSelectUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { InfoBanner } from './components/Banner';
 
 const ENABLE_HOW_TO_INTEGRATE = false;
 
@@ -28,7 +29,7 @@ const totalRequestsData = '';
 const loading = false;
 
 export const Chains = () => {
-  const { isWalletConnected } = useAuth();
+  const { isWalletConnected, credentials } = useAuth();
 
   const classes = useChainsStyles();
   usePublicChainsInfo();
@@ -45,6 +46,7 @@ export const Chains = () => {
 
   return (
     <>
+      {!credentials && <InfoBanner />}
       {SHOW_STATISTICS && (
         <>
           <Typography variant="h5" noWrap className={classes.title}>
