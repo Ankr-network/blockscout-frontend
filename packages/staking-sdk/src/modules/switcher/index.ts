@@ -71,7 +71,7 @@ export interface ISwitcher {
     scale?: BigNumber.Value,
   ): Promise<IWeb3SendResult | undefined>;
   /**
-   * Switch -c token for -b token, such as switch aBNBc for aBNBb.
+   * Switch -c token to -b token, such as switch aBNBc to aBNBb.
    *
    * @note This function is used, e.g., when switching -c tokens for -b tokens.
    * @note -b and -c tokens are Ankr Liquid Staking tokens, such as <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking">aETHb or aETHc</a>. <br /><a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read more on Ankr LS token types</a>.
@@ -80,7 +80,7 @@ export interface ISwitcher {
    */
   lockShares(data: IShareArgs): Promise<IWeb3SendResult>;
   /**
-   * Switch -b token for -c token, such as switch aBNBb for aBNBc.
+   * Switch -b token to -c token, such as switch aBNBb to aBNBc.
    *
    * @note -b and -c tokens are Ankr Liquid Staking tokens, such as <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking">aETHb or aETHc</a>. <br /><a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read more on Ankr LS token types</a>.
    * @param {IShareArgs} data - lock shares args.
