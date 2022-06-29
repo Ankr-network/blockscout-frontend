@@ -311,7 +311,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range.
+   * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -718,7 +718,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Current method only returns data for the last 7 days.
+   * @note Currently returns data for the last 7 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {

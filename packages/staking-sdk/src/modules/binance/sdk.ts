@@ -63,7 +63,7 @@ import {
  */
 export class BinanceSDK implements ISwitcher, IStakable {
   /**
-   * instance - SDK instance.
+   * instance — SDK instance.
    * @type {BinanceSDK}
    * @static
    * @private
@@ -176,7 +176,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to check current network.
+   * Internal function to check the current network.
    *
    * @private
    * @param {Web3KeyWriteProvider} provider - current selected provider
@@ -195,7 +195,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range.
+   * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -610,7 +610,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get stake gas fee.
    *
    * @public
-   * @note This method caches computed gas fee value for future computations.
+   * @note Caches computed gas fee value for future computations.
    * @param {string} amount - amount to stake
    * @param {TBnbSyntToken} token - token symbol
    * @returns {Promise<BigNumber>}
@@ -673,7 +673,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Current method only returns data for the last 14 days.
+   * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -837,6 +837,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Estimates gas and multiplies it by `ESTIMATE_GAS_MULTIPLIER` to prevent MetaMask issue with gas calculation.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
    * @returns {Promise<IStakeData>}
@@ -888,6 +889,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
    * @returns {Promise<void>}

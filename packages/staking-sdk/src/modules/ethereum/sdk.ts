@@ -52,13 +52,13 @@ import {
 const CONFIG = configFromEnv();
 
 /**
- * EthereumSDK allows to interact with ethereum chains (goerli, mainnet), aETHb/aETHc tokens and Ethereum pool contracts.
+ * EthereumSDK allows you to interact with Ethereum Liquid Staking smart contracts on Ethereum (Mainnet, Goerli Tesnet) BNB Smart Chain: aETHb, aETHc, and GlobalPool. <br /><br />For more information on Binance Liquid Staking from Ankr, refer to the <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics">development details</a>..
  *
  * @class
  */
 export class EthereumSDK implements ISwitcher, IStakable {
   /**
-   * instance - sdk instance
+   * instance — SDK instance
    * @type {EthereumSDK}
    * @static
    * @private
@@ -66,35 +66,35 @@ export class EthereumSDK implements ISwitcher, IStakable {
   private static instance?: EthereumSDK;
 
   /**
-   * writeProvider - provider which has signer
+   * writeProvider — provider which has signer for signing transactions.
    * @type {Web3KeyWriteProvider}
    * @private
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
-   * readProvider - provider which allows to read data without connecting the wallet
+   * readProvider — provider which allows to read data without connecting the wallet.
    * @type {Web3KeyReadProvider}
    * @private
    */
   private readonly readProvider: Web3KeyReadProvider;
 
   /**
-   * currentAccount - connected account
+   * currentAccount — connected account.
    * @type {string}
    * @private
    */
   private currentAccount: string;
 
   /**
-   * stakeGasFee - saved stake gas fee
+   * stakeGasFee — cached stake gas fee.
    * @type {BigNumber}
    * @private
    */
   private stakeGasFee?: BigNumber;
 
   /**
-   * Private constructor - use `EthereumSDK.getInstance` instead
+   * Private constructor. Instead, use `EthereumSDK.getInstance`.
    *
    * @constructor
    * @private
@@ -108,10 +108,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Initialization method for sdk
+   * Initialization method for SDK.
    *
-   * Auto connects write provider if chains are the same.
-   * Initialize read provider to support multiple chains.
+   * Auto-connects write provider if chains are the same.
+   * Initializes read provider to support multiple chains.
    *
    * @public
    * @returns {Promise<PolygonSDK>}
@@ -148,7 +148,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to check current network
+   * Internal function to check the current network.
    *
    * @private
    * @returns {Promise<boolean>}
@@ -160,7 +160,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get ETH balance
+   * Return ETH balance.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -174,7 +174,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to choose right provider for read on write purpose.
+   * Internal function to choose the right provider for read or write purpose.
    *
    * @private
    * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
@@ -193,7 +193,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns bond ETH token balance
+   * Return aETHb token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -213,10 +213,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get aETHb token contract
+   * Internal function to get aETHb token contract.
    *
    * @private
-   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - readProvider or writeProvider
    * @returns {Contract}
    */
   private static getAethbContract(
@@ -228,7 +228,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns Certificate ETH token balance
+   * Return aETHc token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -248,10 +248,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get aETHc token contract
+   * Internal function to get aETHc token contract.
    *
    * @private
-   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - readProvider or writeProvider
    * @returns {Contract}
    */
   private static getAethcContract(
@@ -263,9 +263,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate ETH token ratio
+   * Return aETHc/ETH ratio.
    *
    * @public
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio">Read more on aBNBc/BNB ratio</a> and draw analogy between BNB and ETH in respect to the ratio.
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
@@ -280,10 +281,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Add token to wallet
+   * Add token to wallet.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {string} token - token symbol (aETHb or aETHc)
    * @returns {Promise<boolean>}
    */
@@ -306,9 +307,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate ETH token allowance
+   * Return aETHc allowance.
    *
    * @public
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
    * @param {string} [spender] - spender address (by default it's aETHb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -325,9 +327,9 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Stake without claim
+   * Stake without claim.
    *
-   * This method is only for creating a testing ability.
+   * This method is only for creating a testing capability.
    * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
    * Do not use it for the production code.
    *
@@ -350,12 +352,13 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Stake tokens
+   * Stake token.
    *
    * @public
-   * @note Initiates two transactions and connect if write provider isn't connected.
+   * @note Initiates two transactions and connect if writeProvider isn't connected.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to receive (aETHb or aETHc)
    * @returns {Promise<IStakeData>}
    */
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
@@ -391,12 +394,13 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unstake tokens
+   * Unstake token.
    *
    * @public
-   * @note not supported yet.
+   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to unstake (aETHb or aETHc)
    * @returns {Promise<void>}
    */
   // eslint-disable-next-line
@@ -405,10 +409,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get total pending unstake amount
+   * Get total pending unstake amount.
    *
    * @public
-   * @note not supported yet.
+   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
    * @returns {Promise<BigNumber>}
    */
   public async getPendingClaim(): Promise<BigNumber> {
@@ -416,10 +420,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get pending data by bond and certificate
+   * Get pending data for aETHb and aETHc.
    *
    * @public
-   * @note not supported yet.
+   * @note not supported yet. <a href="https://www.ankr.com/docs/staking/liquid-staking/eth/unstake-eth">Read why unstaking ETH is not possible at the moment</a>.
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
@@ -430,10 +434,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get stake gas fee
+   * Get stake gas fee.
    *
    * @public
-   * @note This method safes computed gas fee for future computations.
+   * @note Cahes computed gas fee value for future computations.
    * @param {string} amount - amount to stake
    * @param {string} token - token symbol
    * @returns {Promise<BigNumber>}
@@ -461,10 +465,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get ETH pool contract
+   * Internal function to get GlobalPool contract.
    *
    * @private
-   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - read or write provider
+   * @param {Web3KeyWriteProvider | Web3KeyReadProvider} provider - readProvider or writeProvider
    * @returns {Contract}
    */
   private static getEthPoolContract(
@@ -479,7 +483,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get minimum stake amount
+   * Get minimum stake amount.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -505,7 +509,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Fetch transaction data.
    *
    * @public
-   * @note parses first uint256 param from transaction input
+   * @note Parses first uint256 param from transaction input.
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IFetchTxData>}
    */
@@ -534,7 +538,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Fetch transaction receipt
+   * Fetch transaction receipt.
    *
    * @public
    * @param {string} txHash - transaction hash.
@@ -552,10 +556,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get transaction history
+   * Get transaction history.
    *
    * @public
-   * @note Current method only returns data for the last 7 days.
+   * @note Currently returns data for the last 7 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -617,7 +621,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range
+   * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -648,10 +652,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Approve certificate token for bond.
+   * Approve aETHc for aETHb, i.e. allow aETHb smart contract to access and transfer aETHc tokens.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -678,11 +682,11 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Lock shares
+   * Switch aETHc to aETHb.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */
@@ -703,11 +707,11 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unlock shares
+   * Switch aETHb to aETHc.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */
@@ -728,7 +732,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get claimable amount
+   * Get claimable amount.
    *
    * @public
    * @param {string} token - token symbol
@@ -750,10 +754,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Claim tokens
+   * Claim tokens.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {string} token - token symbol
    * @returns {Promise<IWeb3SendResult>}
    */
