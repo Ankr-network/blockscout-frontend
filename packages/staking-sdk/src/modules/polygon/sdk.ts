@@ -864,6 +864,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates two transactions and connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then stakes.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aMATICb or aMATICc)
    * @returns {Promise<IStakeData>}
@@ -954,6 +955,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note Checks allowance and approves if it's needed. Then unstakes.
+   * @note <a href="https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens">Read about Ankr Liquid Staking token types</a>.
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
    * @param {number} [scale] - scale factor for amount
