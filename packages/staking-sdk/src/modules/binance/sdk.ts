@@ -57,7 +57,7 @@ import {
 } from './types';
 
 /**
- * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, and BinancePool.
+ * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
  *
  * For more information on Binance Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics).
  *
@@ -520,6 +520,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get pending data for aBNBb and aBNBc.
    *
    * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
@@ -597,7 +598,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get relayer fee.
    *
    * @public
-   * @note This is a fee for cross-chain transfer of BNB between BNB Chain and BNB (Smart) Chain while staking it.
+   * @note The fee for cross-chain transfer of BNB between BNB Chain and BNB (Smart) Chain while staking it.
    * @returns {Promise<BigNumber>}
    */
   public async getRelayerFee(): Promise<BigNumber> {
@@ -939,7 +940,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc/BNB ratio.
    *
    * @public
-   * @note [Read more on aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio).
+   * @note [Read about aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio).
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
@@ -974,6 +975,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -1026,6 +1028,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc token allowance.
    *
    * @public
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
    * @param {string} [spender] - spender address (by default it is aBNBb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -1048,6 +1051,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -1083,6 +1087,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}

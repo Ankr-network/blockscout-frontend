@@ -116,7 +116,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Initialization method for the SDK
+   * Initialization method for the SDK.
    *
    * Auto-connects writeProvider if chains are the same.
    * Initializes readProvider to support multiple chains.
@@ -458,9 +458,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Return aMATICc token allowance (the amount which _spender is still allowed to withdraw from _owner).
+   * Return aMATICc token allowance.
    *
    * @public
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
    * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -485,6 +486,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -517,6 +519,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -553,6 +556,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
@@ -604,6 +608,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Get pending data for aMATICb and aMATICc.
    *
    * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
