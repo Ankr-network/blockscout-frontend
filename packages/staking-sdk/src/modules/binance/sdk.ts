@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
+import { Token } from 'multirpc-sdk';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -26,6 +27,8 @@ import {
   ABI_ABNBB,
   ABI_ABNBC,
   ABI_BINANCE_POOL,
+  AETHC_BSC_ABI,
+  AETH_BSC_ABI,
 } from '../contracts';
 import {
   ITxEventsHistoryData,
@@ -38,6 +41,7 @@ import {
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
+import { t } from 'common';
 
 import {
   BINANCE_HISTORY_BLOCK_OFFSET,
@@ -382,6 +386,42 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Internal function to get old aETHc contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getAETHContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      AETH_BSC_ABI as AbiItem[],
+      binanceConfig.aETHToken,
+    );
+  }
+
+  /**
+   * Internal function to get aETHc contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getAETHCContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      AETHC_BSC_ABI as AbiItem[],
+      binanceConfig.aETHcToken,
+    );
+  }
+
+  /**
    * Add token to wallet
    *
    * @public
@@ -395,19 +435,30 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
 
     const { binanceConfig } = configFromEnv();
-    const isAbnbb = token === 'aBNBb';
 
-    const tokenContract = isAbnbb
-      ? await this.getABNBBContract()
-      : await this.getABNBCContract();
-
-    const address = isAbnbb
-      ? binanceConfig.aBNBbToken
-      : binanceConfig.aBNBcToken;
+    let contract: Contract;
+    let address: string;
+    switch (token) {
+      case 'aBNBb':
+        contract = await this.getABNBBContract();
+        address = binanceConfig.aBNBbToken;
+        break;
+      case 'aBNBc':
+        contract = await this.getABNBCContract();
+        address = binanceConfig.aBNBcToken;
+        break;
+      case 'aETHc':
+        contract = await this.getAETHCContract();
+        address = binanceConfig.aETHcToken;
+        break;
+      default: {
+        throw new Error(t('error.some'));
+      }
+    }
 
     const [symbol, rawDecimals]: [string, string] = await Promise.all([
-      tokenContract.methods.symbol().call(),
-      tokenContract.methods.decimals().call(),
+      contract.methods.symbol().call(),
+      contract.methods.decimals().call(),
     ]);
 
     const decimals = Number.parseInt(rawDecimals, 10);
@@ -457,6 +508,38 @@ export class BinanceSDK implements ISwitcher, IStakable {
     ]);
 
     return this.readProvider.getFormattedBalance(currBalance, decimals);
+  }
+
+  /**
+   * Returns old aETHc token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAETHBalance(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const balance = await contract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Returns available aETHc token balance for oldSwap
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAvailableToSwapAETHC(): Promise<BigNumber> {
+    const { binanceConfig } = configFromEnv();
+    const contract = await this.getAETHCContract();
+
+    const balance = await contract.methods
+      .balanceOf(binanceConfig.aETHToken)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
   /**
@@ -948,6 +1031,19 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Returns certificate old aETHc token ratio
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
+  public async getAETHRatio(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const ratio = await contract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
+  }
+
+  /**
    * Returns Certificate BNB token balance
    *
    * @public
@@ -1102,6 +1198,28 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.aBNBbToken,
+      { data, estimate: true },
+    );
+  }
+
+  /**
+   * Swap old aETHc to new aETHc
+   *
+   * @public
+   * @param {BigNumber} amount - amount to swap
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async swapOldAETHC(amount: BigNumber): Promise<IWeb3SendResult> {
+    const contract = await this.getAETHContract();
+    const { binanceConfig } = configFromEnv();
+
+    const data = contract.methods
+      .swapOld(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aETHToken,
       { data, estimate: true },
     );
   }
