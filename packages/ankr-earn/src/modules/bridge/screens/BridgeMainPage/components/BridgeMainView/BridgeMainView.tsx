@@ -59,6 +59,7 @@ export const BridgeMainView = (): JSX.Element => {
     isApproved,
     swapNetworkItem,
     balance,
+    isBalanceLoading,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,
@@ -81,7 +82,8 @@ export const BridgeMainView = (): JSX.Element => {
     [],
   );
 
-  const isDisabledForm = isApproved || isApproveButtonLoading;
+  const isDisabledForm =
+    isBalanceLoading || isApproved || isApproveButtonLoading;
   const isSwitchNetworkShowed = isConnected && !isActualNetwork && isMetaMask;
   const isBalanceShowed = isConnected && isActualNetwork;
 
@@ -180,10 +182,10 @@ export const BridgeMainView = (): JSX.Element => {
           </Box>
         )}
 
-        <Box mb={2}>
+        <Box className={classes.switcher} mb={2}>
           <SwitchSelect
             from={networksOptionsFrom}
-            isDisabled={isApproved || isApproveButtonLoading}
+            isDisabled={isDisabledForm}
             to={networksOptionsTo}
             values={{
               from: swapNetworkItem.from.toString(),
@@ -223,7 +225,7 @@ export const BridgeMainView = (): JSX.Element => {
               <Box className={classes.footerBtn}>
                 <Button
                   color="primary"
-                  disabled={isApproved || isApproveButtonLoading}
+                  disabled={isDisabledForm}
                   endIcon={
                     <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
                       <Box component="span" display="flex">
@@ -266,7 +268,7 @@ export const BridgeMainView = (): JSX.Element => {
             size="large"
             onClick={onSwitchNetworkClick}
           >
-            {t('Switch network')}
+            {t('connect.switch-network')}
           </Button>
         )}
 

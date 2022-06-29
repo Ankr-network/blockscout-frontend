@@ -20,7 +20,7 @@ import { isMainnet, SupportedChainIDS } from 'modules/common/const';
 import {
   TUseValidateAmount,
   useValidateAmount,
-} from 'modules/common/hooks/useAmountValidation';
+} from 'modules/common/hooks/useValidateAmount';
 
 import { useApprove } from './useApprove';
 import { useDeposit } from './useDeposit';
@@ -47,6 +47,7 @@ interface IUseBridgeMainView {
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
+  isBalanceLoading: boolean;
   isSendButtonLoading: boolean;
   isApproveButtonLoading: boolean;
   networksOptionsFrom: IBridgeBlockchainPanelItem[];
@@ -75,7 +76,7 @@ const defaultTo = isMainnet
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
-  const balance = useBalance();
+  const { balance, isBalanceLoading } = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
   const [tokenValue, setTokenValue] = useState(AvailableBridgeTokens.aMATICb);
@@ -221,6 +222,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     isActualNetwork,
     swapNetworkItem,
     balance,
+    isBalanceLoading,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,

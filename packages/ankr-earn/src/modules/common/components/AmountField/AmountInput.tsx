@@ -7,7 +7,7 @@ import { Field } from 'react-final-form';
 import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
+import { useValidateAmount } from 'modules/common/hooks/useValidateAmount';
 import { AmountField } from 'uiKit/AmountField';
 
 import { useAmountFieldStyles } from './useAmountFieldStyles';
@@ -50,6 +50,7 @@ export const AmountInput = ({
   const roundedBalance = balance
     ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
     : '0';
+  const isDisabledAmountField = disabled || isBalanceLoading;
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 
   const validateAmount = useValidateAmount(
@@ -83,14 +84,14 @@ export const AmountInput = ({
       <Field
         fullWidth
         component={AmountField}
-        disabled={disabled}
+        disabled={isDisabledAmountField}
         InputProps={{
           classes: {
             input: inputClassName,
           },
           endAdornment: isMaxBtnShowed && (
             <Button
-              disabled={disabled}
+              disabled={isDisabledAmountField}
               size="small"
               variant="outlined"
               onClick={onMaxClick}
