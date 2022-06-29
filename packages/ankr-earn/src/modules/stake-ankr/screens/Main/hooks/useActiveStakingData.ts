@@ -78,7 +78,7 @@ const DEMO_DATA = [
         claimLink: 'claimLink',
       },
     ],
-    status: EProviderStatus.good,
+    status: EProviderStatus.active,
   },
   {
     provider: 'Provider 2',
@@ -93,7 +93,7 @@ const DEMO_DATA = [
     unstakeLink: '',
     restakeLink: 'restakeLink',
     claimLink: '',
-    status: EProviderStatus.bad,
+    status: EProviderStatus.notFound,
   },
   {
     provider: 'Provider 3',
@@ -108,7 +108,7 @@ const DEMO_DATA = [
     unstakeLink: '',
     restakeLink: '',
     claimLink: '',
-    status: EProviderStatus.bonding,
+    status: EProviderStatus.pending,
   },
 ];
 

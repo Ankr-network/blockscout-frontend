@@ -971,6 +971,7 @@
     },
     "staking": {
       "title": "ANKR Staking",
+      "approve": "Approve",
       "submit": "Stake ANKR",
       "provider-label": "Node Provider",
       "provider-placeholder": "Select node provider",

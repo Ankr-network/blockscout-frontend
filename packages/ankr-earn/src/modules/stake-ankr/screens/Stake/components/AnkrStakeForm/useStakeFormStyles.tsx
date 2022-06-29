@@ -22,8 +22,11 @@ export const useStakeFormStyles = makeStyles(theme => {
 
       '&:hover': {
         background: darken(theme.palette.background.default, 0.02),
-        color: theme.palette.text.primary,
       },
+    },
+
+    selectProviderBtnActive: {
+      color: theme.palette.text.primary,
     },
 
     selectProviderIcon: {
@@ -42,6 +45,25 @@ export const useStakeFormStyles = makeStyles(theme => {
     selectProviderError: {
       margin: theme.spacing(0.5, 1.5, 0),
       fontSize: '0.75rem',
+    },
+
+    balanceLink: {
+      height: 'auto',
+      padding: 0,
+      marginLeft: theme.spacing(1),
+      fontWeight: 400,
+      transition: 'color 0.2s',
+
+      '&:hover': {
+        background: 'none',
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+      },
+    },
+
+    stepper: {
+      maxWidth: 380,
+      margin: theme.spacing(1, 'auto', 0),
     },
   };
 });

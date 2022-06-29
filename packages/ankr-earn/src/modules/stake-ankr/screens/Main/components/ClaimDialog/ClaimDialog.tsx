@@ -80,9 +80,9 @@ export const ClaimDialog = ({
 
             {isFewClaims && (
               <table className={classes.table}>
-                {availableClaims.map((claim, i) => (
+                {availableClaims.map(claim => (
                   <TableRow
-                    key={uid(i)}
+                    key={uid(claim)}
                     provider={claim.provider}
                     value={claim.value}
                   />

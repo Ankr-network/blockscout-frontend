@@ -16,6 +16,8 @@ export interface IContractConfig {
   systemContract: string;
   ankrContract: string;
   bridge: string;
+  ankrTokenStaking: string;
+  ankrStakingChainConfig: string;
 }
 
 export interface IAvalancheConfig {
@@ -85,6 +87,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    // AnkrTokenStakingProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    ankrTokenStaking: '0xc4a66dE9a08F690EDa17fba94d764be0F8c5817b',
+    // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    ankrStakingChainConfig: '0x304351967EF449c1c3Ea04c74C73A6e4F45b7d22',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -154,6 +160,10 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
     aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
+    // todo: add actual production address
+    ankrTokenStaking: ZERO_ADDR,
+    // todo: add actual production address
+    ankrStakingChainConfig: ZERO_ADDR,
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',

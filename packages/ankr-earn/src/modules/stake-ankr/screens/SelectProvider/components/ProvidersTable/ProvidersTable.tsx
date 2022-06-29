@@ -48,6 +48,10 @@ export interface IProvidersTableRow {
   uptime: string;
   rps: string;
   providerLink: string;
+  latency?: number;
+  currentPeriod?: number;
+  totalPeriod?: number;
+  successRate?: number;
 }
 
 interface IProvidersTableProps {
@@ -130,79 +134,94 @@ export const ProvidersTable = ({
         {isLoading && renderedSkeletonRows}
 
         {!isLoading &&
-          data?.map((row, i) => (
-            <TableRow key={uid(i)} className={classes.row}>
-              <TableBodyCell
-                {...commonTdProps}
-                className={classNames(
-                  commonTdProps.className,
-                  classes.cellProvider,
-                )}
-                label={`${captions[ECellLabels.providerName].label}`}
-              >
-                <ProviderCell
-                  nodesCount={0}
-                  statusSlot={
-                    <ProviderStatus
-                      tooltipSlot={
-                        <ProviderStatusTooltip
-                          currentPeriod={10}
-                          latency={40}
-                          status={row.status}
-                          successRate={20}
-                          totalPeriod={20}
-                        />
-                      }
-                      type={row.status}
-                    />
-                  }
-                  title={row.providerName}
-                />
-              </TableBodyCell>
+          data?.map((row, i) => {
+            const hasSuccessRate = typeof row.successRate !== 'undefined';
+            const hasLatency = typeof row.latency !== 'undefined';
+            const hasCurrentPeriod = typeof row.currentPeriod !== 'undefined';
+            const hasTotaltPeriod = typeof row.totalPeriod !== 'undefined';
 
-              <TableBodyCell
-                {...commonTdProps}
-                label={`${captions[ECellLabels.apy].label}`}
-              >
-                {row.apy}
-              </TableBodyCell>
+            const hasData =
+              hasSuccessRate ||
+              hasLatency ||
+              hasCurrentPeriod ||
+              hasTotaltPeriod;
 
-              <TableBodyCell
-                {...commonTdProps}
-                label={`${captions[ECellLabels.stakedPool].label}`}
-              >
-                {row.stakedPool}
-              </TableBodyCell>
-
-              <TableBodyCell
-                {...commonTdProps}
-                label={`${captions[ECellLabels.uptime].label}`}
-              >
-                {row.uptime}
-              </TableBodyCell>
-
-              <TableBodyCell
-                {...commonTdProps}
-                label={`${captions[ECellLabels.rps].label}`}
-              >
-                {row.rps}
-              </TableBodyCell>
-
-              <TableBodyCell
-                {...commonTdProps}
-                align="right"
-                label={`${captions[ECellLabels.providerLink].label}`}
-              >
-                <NavLink
-                  className={classes.btn}
-                  href={row.providerLink}
-                  variant="contained"
+            return (
+              <TableRow key={uid(i)} className={classes.row}>
+                <TableBodyCell
+                  {...commonTdProps}
+                  className={classNames(
+                    commonTdProps.className,
+                    classes.cellProvider,
+                  )}
+                  label={`${captions[ECellLabels.providerName].label}`}
                 >
-                  {t('stake-ankr.select-provider.table.btn')}
-                </NavLink>
-              </TableBodyCell>
-            </TableRow>
-          ))}
+                  <ProviderCell
+                    nodesCount={0}
+                    statusSlot={
+                      <ProviderStatus
+                        tooltipSlot={
+                          hasData && (
+                            <ProviderStatusTooltip
+                              currentPeriod={row.currentPeriod}
+                              latency={row.latency}
+                              status={row.status}
+                              successRate={row.successRate}
+                              totalPeriod={row.totalPeriod}
+                            />
+                          )
+                        }
+                        type={row.status}
+                      />
+                    }
+                    title={row.providerName}
+                  />
+                </TableBodyCell>
+
+                <TableBodyCell
+                  {...commonTdProps}
+                  label={`${captions[ECellLabels.apy].label}`}
+                >
+                  {row.apy}
+                </TableBodyCell>
+
+                <TableBodyCell
+                  {...commonTdProps}
+                  label={`${captions[ECellLabels.stakedPool].label}`}
+                >
+                  {row.stakedPool}
+                </TableBodyCell>
+
+                <TableBodyCell
+                  {...commonTdProps}
+                  label={`${captions[ECellLabels.uptime].label}`}
+                >
+                  {row.uptime}
+                </TableBodyCell>
+
+                <TableBodyCell
+                  {...commonTdProps}
+                  label={`${captions[ECellLabels.rps].label}`}
+                >
+                  {row.rps}
+                </TableBodyCell>
+
+                <TableBodyCell
+                  {...commonTdProps}
+                  align="right"
+                  label={`${captions[ECellLabels.providerLink].label}`}
+                >
+                  <NavLink
+                    className={classes.btn}
+                    href={row.providerLink}
+                    variant="contained"
+                  >
+                    {t('stake-ankr.select-provider.table.btn')}
+                  </NavLink>
+                </TableBodyCell>
+              </TableRow>
+            );
+          })}
       </TableBody>
     </BasicTable>
   );

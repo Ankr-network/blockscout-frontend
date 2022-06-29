@@ -14,19 +14,19 @@ interface IProviderStatusProps {
 }
 
 export const ProviderStatus = ({
-  type = EProviderStatus.good,
+  type = EProviderStatus.active,
   tooltipSlot,
   className,
 }: IProviderStatusProps): JSX.Element => {
   const withTooltip = !!tooltipSlot;
   const classes = useProviderStatusStyles();
-  const isBonding = type === EProviderStatus.bonding;
+  const isBonding = type === EProviderStatus.pending;
 
   const renderedStatus = (
     <span
       className={classNames(classes.status, className, {
-        [classes.green]: type === EProviderStatus.good,
-        [classes.red]: type === EProviderStatus.bad,
+        [classes.green]: type === EProviderStatus.active,
+        [classes.red]: type === EProviderStatus.notFound,
         [classes.statusWithTooltip]: withTooltip,
         [classes.statusDotIcon]: !isBonding,
       })}

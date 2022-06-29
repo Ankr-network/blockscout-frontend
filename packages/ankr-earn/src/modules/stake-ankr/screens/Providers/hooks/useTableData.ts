@@ -39,7 +39,7 @@ function getDemoData() {
     stakedPoolPercent: 23,
     rps: new BigNumber(11920),
     online: 37,
-    status: EProviderStatus.good,
+    status: EProviderStatus.active,
     exitDays: 1,
   });
 
@@ -51,7 +51,7 @@ function getDemoData() {
     stakedPoolPercent: 14,
     rps: new BigNumber(10202),
     online: 31,
-    status: EProviderStatus.bad,
+    status: EProviderStatus.notFound,
     stakeLink: 'stakeLink',
     detailsLink: 'detailsLink',
   });
@@ -65,7 +65,7 @@ function getDemoData() {
     rps: new BigNumber(289),
     online: 1,
     bondingDays: 13,
-    status: EProviderStatus.bonding,
+    status: EProviderStatus.pending,
   });
 
   return data;

@@ -5,6 +5,7 @@ import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
@@ -13,6 +14,7 @@ import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 const ROOT = `${STAKING_PATH}ankr-stake/`;
 const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
+const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provier/`;
 
 export const RoutesConfig = createRouteConfig(
@@ -29,7 +31,18 @@ export const RoutesConfig = createRouteConfig(
 
     stake: {
       path: STAKE_PATH,
-      generatePath: () => generatePath(STAKE_PATH),
+      generatePath: (provider?: string) => {
+        return provider
+          ? generatePath(STAKE_WITH_PROVIDER_PATH, { provider })
+          : generatePath(STAKE_PATH);
+      },
+      useParams: () => {
+        const queryProvider = useQueryParams().get('provider');
+
+        return {
+          provider: queryProvider ?? undefined,
+        };
+      },
     },
 
     selectProvider: {

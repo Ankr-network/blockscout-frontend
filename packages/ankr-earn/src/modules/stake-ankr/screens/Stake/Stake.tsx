@@ -5,8 +5,20 @@ import { AnkrStakeForm } from './components/AnkrStakeForm';
 import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
-  const { balance, loading, tokenIn, closeHref, providerSelectHref, onSubmit } =
-    useAnkrStake();
+  const {
+    balance,
+    closeHref,
+    initialProvider,
+    isApproved,
+    isApproveLoading,
+    isBalanceLoading,
+    isDisabled,
+    isStakeLoading,
+    providerName,
+    providerSelectHref,
+    tokenIn,
+    onSubmit,
+  } = useAnkrStake();
 
   return (
     <Section withContainer={false}>
@@ -14,9 +26,13 @@ export const Stake = (): JSX.Element => {
         <AnkrStakeForm
           balance={balance}
           closeHref={closeHref}
-          isBalanceLoading={false}
-          isDisabled={loading}
-          loading={loading}
+          initialProvider={initialProvider}
+          isApproved={isApproved}
+          isApproveLoading={isApproveLoading}
+          isBalanceLoading={isBalanceLoading}
+          isDisabled={isDisabled}
+          loading={isStakeLoading}
+          providerName={providerName}
           providerSelectHref={providerSelectHref}
           tokenIn={tokenIn}
           onSubmit={onSubmit}

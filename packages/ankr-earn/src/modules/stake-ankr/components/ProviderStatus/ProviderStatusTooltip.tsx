@@ -16,15 +16,22 @@ interface IProviderStatusTooltipProps {
 }
 
 export const ProviderStatusTooltip = ({
-  successRate = 0,
-  latency = 0,
-  currentPeriod = 0,
-  totalPeriod = 0,
+  successRate,
+  latency,
+  currentPeriod,
+  totalPeriod,
   status,
-}: IProviderStatusTooltipProps): JSX.Element => {
+}: IProviderStatusTooltipProps): JSX.Element | null => {
   const classes = useProviderStatusStyles();
 
-  if (status === EProviderStatus.bonding) {
+  const hasCurrentPeriod = typeof currentPeriod !== 'undefined';
+  const hasTotaltPeriod = typeof totalPeriod !== 'undefined';
+
+  if (
+    status === EProviderStatus.pending &&
+    hasCurrentPeriod &&
+    hasTotaltPeriod
+  ) {
     return (
       <>
         {tHTML('stake-ankr.provider.status.bonding', {
@@ -35,40 +42,54 @@ export const ProviderStatusTooltip = ({
     );
   }
 
+  const hasSuccessRate = typeof successRate !== 'undefined';
+  const hasLatency = typeof latency !== 'undefined';
   const successRateStatus = getStatusByPercent(successRate);
   const LatencyRateStatus = getStatusByPercent(latency);
 
   return (
     <dl className={classes.statsTooltip}>
-      <dt className={classes.statsTitle}>{t('Success Rate')}</dt>
+      {hasSuccessRate && (
+        <>
+          <dt className={classes.statsTitle}>
+            {t('stake-ankr.provider.status.success-rate')}
+          </dt>
 
-      <dd
-        className={classNames(classes.statsDescr, {
-          [classes.green]: successRateStatus === EProviderStatus.good,
-          [classes.red]: successRateStatus === EProviderStatus.bad,
-        })}
-      >
-        {t('unit.percentage-value', { value: Math.round(successRate) })}
-      </dd>
+          <dd
+            className={classNames(classes.statsDescr, {
+              [classes.green]: successRateStatus === EProviderStatus.active,
+              [classes.red]: successRateStatus === EProviderStatus.notFound,
+            })}
+          >
+            {t('unit.percentage-value', { value: Math.round(successRate) })}
+          </dd>
+        </>
+      )}
 
-      <dt className={classes.statsTitle}>{t('Latency')}</dt>
+      {hasLatency && (
+        <>
+          <dt className={classes.statsTitle}>
+            {t('stake-ankr.provider.status.latency')}
+          </dt>
 
-      <dd
-        className={classNames(classes.statsDescr, {
-          [classes.green]: LatencyRateStatus === EProviderStatus.good,
-          [classes.red]: LatencyRateStatus === EProviderStatus.bad,
-        })}
-      >
-        {t('unit.percentage-value', { value: Math.round(latency) })}
-      </dd>
+          <dd
+            className={classNames(classes.statsDescr, {
+              [classes.green]: LatencyRateStatus === EProviderStatus.active,
+              [classes.red]: LatencyRateStatus === EProviderStatus.notFound,
+            })}
+          >
+            {t('unit.percentage-value', { value: Math.round(latency) })}
+          </dd>
+        </>
+      )}
     </dl>
   );
 };
 
 function getStatusByPercent(percent = 0): EProviderStatus {
   if (percent < BAD_STATUS_RANGE) {
-    return EProviderStatus.bad;
+    return EProviderStatus.notFound;
   }
 
-  return EProviderStatus.good;
+  return EProviderStatus.active;
 }

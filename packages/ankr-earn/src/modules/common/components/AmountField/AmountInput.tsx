@@ -27,6 +27,7 @@ interface IAmountInputProps {
   maxAmount?: BigNumber;
   showBalance?: boolean;
   maxDecimals?: number;
+  balanceLinkSlot?: ReactNode;
   onMaxClick?: () => void;
 }
 
@@ -43,6 +44,7 @@ export const AmountInput = ({
   minAmount = MIN_AMOUNT,
   showBalance = true,
   maxDecimals,
+  balanceLinkSlot,
   onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
@@ -71,13 +73,19 @@ export const AmountInput = ({
           {t('stake.balance-label')}
 
           <>{': '}</>
+
           {isBalanceLoading ? (
             <div className={classes.balanceLoadingBox}>
               <Skeleton width={40} />
             </div>
           ) : (
-            `${roundedBalance} ${tokenName}`
+            t('unit.token-value', {
+              token: tokenName,
+              value: roundedBalance,
+            })
           )}
+
+          {balanceLinkSlot}
         </Typography>
       )}
 
