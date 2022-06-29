@@ -116,8 +116,8 @@ export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * Initialization method for the SDK
    *
-   * Auto connects writeProvider if chains are the same.
-   * Initialize readProvider to support multiple chains.
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
    *
    * @public
    * @returns {Promise<PolygonSDK>}
