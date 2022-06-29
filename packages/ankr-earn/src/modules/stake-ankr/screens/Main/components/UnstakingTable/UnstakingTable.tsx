@@ -14,11 +14,11 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { ActionCell } from 'modules/stake-ankr/common/components/ActionCell';
 
+import { BaseAnkrAmount } from '../../../../common/components/BaseAnkrAmount';
 import { useUnstakingData } from '../../hooks/useUnstakingData';
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
-import { ActionCell } from './ActionCell';
 import { useUnstakingTableStyles } from './useUnstakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;

@@ -18,14 +18,14 @@ import {
   ProviderStatusTooltip,
 } from 'modules/stake-ankr/components/ProviderStatus';
 
+import { LockingPeriodItem } from '../../../../common/components/LockingPeriodItem/LockingPeriodItem';
+import { RewardsItem } from '../../../../common/components/RewardsItem';
+import { YourStakeItem } from '../../../../common/components/YourStakeItem';
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
 import { DateTimeItem } from './DateTimeItem';
-import { LockingPeriodItem } from './LockingPeriodItem/LockingPeriodItem';
 import { ProviderItem } from './ProviderItem';
-import { RewardsItem } from './RewardsItem';
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
-import { YourStakeItem } from './YourStakeItem';
 
 const SKELETON_ROWS_COUNT = 3;
 const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 300];

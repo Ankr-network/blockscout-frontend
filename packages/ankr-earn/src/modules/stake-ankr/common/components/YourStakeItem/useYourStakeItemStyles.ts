@@ -12,7 +12,11 @@ export const useYourStakeItemStyles = makeStyles(theme => ({
 
   plusWalletButton: {
     display: 'flex',
+    height: 40,
+    width: 40,
+    minWidth: 40,
     margin: theme.spacing(0.5, 0, 0.5, 0.5),
+    backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.up('md')]: {
       margin: theme.spacing(0, 0, 0, 1.5),
@@ -23,7 +27,6 @@ export const useYourStakeItemStyles = makeStyles(theme => ({
       minWidth: 36,
       height: 36,
       margin: 0,
-      backgroundColor: theme.palette.background.default,
 
       '&:hover': {
         backgroundColor: darken(theme.palette.background.default, 0.03),
@@ -37,5 +40,11 @@ export const useYourStakeItemStyles = makeStyles(theme => ({
 
   btnWrapper: {
     display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+
+    [theme.breakpoints.up('md')]: {
+      flexWrap: 'nowrap',
+    },
   },
 }));

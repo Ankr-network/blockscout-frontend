@@ -4,7 +4,7 @@ import { t } from 'common';
 
 import { NavLink } from 'uiKit/NavLink';
 
-import { useUnstakingTableStyles } from './useUnstakingTableStyles';
+import { useActionCellStyles } from './useActionCellStyles';
 
 interface IActionCellProps {
   claimLink: string;
@@ -15,7 +15,7 @@ export const ActionCell = ({
   claimLink,
   daysLeft,
 }: IActionCellProps): JSX.Element => {
-  const classes = useUnstakingTableStyles();
+  const classes = useActionCellStyles();
 
   if (daysLeft) {
     return (
