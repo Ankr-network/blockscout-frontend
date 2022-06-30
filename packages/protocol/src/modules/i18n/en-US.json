@@ -131,7 +131,6 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
-    "30d": "30d",
     "archive": "Archive",
     "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
     "add-endpoint": {
@@ -141,13 +140,13 @@
       "usage": "Sort by usage",
       "name": "Sort by name"
     },
-    "user-stats": {
+    "stats-timeframes": {
+      "day": "24h",
+      "month": "30d",
+      "week": "7d"
+    },
+    "private-stats": {
       "title": "Your stats",
-      "timeframes": {
-        "day": "24h",
-        "month": "30d",
-        "week": "7d"
-      },
       "stats": {
         "total": "Total Requests Made",
         "failovers": "Total Requests Recovered",

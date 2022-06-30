@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface SwitcherParams<Data = string> {
   currentItem?: number;
   items: Data[];
   onSwitch?: (item: Data) => void;
+  resetDeps?: any[];
 }
 
 const getCurrentIndex = <Data = string>(startIndex: number, items: Data[]) =>
@@ -13,6 +14,7 @@ export const useSwitcher = <Data = string>({
   currentItem = 0,
   items,
   onSwitch = () => {},
+  resetDeps,
 }: SwitcherParams<Data>): [Data, () => void] => {
   const [currentIndex, setCurrentIndex] = useState(
     getCurrentIndex<Data>(currentItem, items),
@@ -25,6 +27,11 @@ export const useSwitcher = <Data = string>({
 
     onSwitch(items[index]);
   }, [currentIndex, items, onSwitch]);
+
+  useEffect(() => {
+    setCurrentIndex(getCurrentIndex<Data>(currentItem, items));
+    // eslint-disable-next-line
+  }, resetDeps);
 
   return [items[currentIndex], onClick];
 };

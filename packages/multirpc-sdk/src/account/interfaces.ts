@@ -8,6 +8,8 @@ import {
   IPaymentHistoryRequest,
   IRequestsRequest,
   IRequestsResponse,
+  PrivateStats,
+  PrivateStatsInterval,
 } from './types';
 
 export interface IAccountGateway {
@@ -32,4 +34,6 @@ export interface IAccountGateway {
   ): Promise<IAggregatedPaymentHistoryReponse>;
 
   getBalanceEndTime(blockchains?: string[]): Promise<number>;
+
+  getPrivateStats(intervalType: PrivateStatsInterval): Promise<PrivateStats>;
 }

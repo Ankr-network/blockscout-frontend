@@ -1,20 +1,23 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
+import { Typography } from '@material-ui/core';
 
-import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
+import { StatsTimeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
+import { timeframeLabelsMap } from './const';
+import { useStyles } from './ChainMainInfoStyles';
 
 export const ChainMainInfo = ({
+  className = '',
+  description,
   isLoading,
+  label,
   logoSrc,
   name,
-  description,
-  className = '',
+  statsTimeframe = StatsTimeframe.MONTH,
   totalRequests = '',
-  label,
 }: ChainMainInfoProps) => {
   const classes = useStyles();
 
@@ -36,7 +39,9 @@ export const ChainMainInfo = ({
                   {t('chains.req', {
                     value: totalRequests,
                   })}
-                  <span className={classes.day}>{t('chains.30d')}</span>
+                  <span className={classes.day}>
+                    {timeframeLabelsMap[statsTimeframe]}
+                  </span>
                 </>
               )}
             </>

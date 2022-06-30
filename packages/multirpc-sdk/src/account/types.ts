@@ -79,3 +79,30 @@ export interface IAggregatedPaymentHistoryRequest {
 export interface IAggregatedPaymentHistoryReponse {
   transactions: IPaymentHistoryEntity[];
 }
+
+export interface PrivateStat {
+  blockchain: string;
+  counts: PrivateStatCounts;
+  topRequests: PrivateStatTopRequests;
+  totalRequests: number;
+}
+
+// key is a timestamp in ms
+export type PrivateStatCounts = Record<string, number>;
+
+// key is a method name
+export type PrivateStatTopRequests = Record<string, number>;
+
+export interface PrivateStats {
+  stats?: PrivateStatsInternal;
+  totalRequests?: number;
+}
+
+// key is a blockchain name
+export type PrivateStatsInternal = Record<string, PrivateStat>;
+
+export enum PrivateStatsInterval {
+  DAY = 'h24',
+  WEEK = 'd7',
+  MONTH = 'd30',
+}

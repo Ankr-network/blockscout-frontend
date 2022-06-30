@@ -1,26 +1,13 @@
-import { useCallback, useState } from 'react';
-
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { SortType } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
-export enum SortType {
-  Name = 'name',
-  Usage = 'usage',
+export interface Option {
+  label: string;
+  value: string;
 }
 
-type IUseSortSelectType = [SortType, (type: SortType) => void];
-
-export const useSortSelect = (): IUseSortSelectType => {
-  const [sortType, setSortType] = useState(SortType.Name);
-
-  const onSetSortType = useCallback((type: SortType) => {
-    setSortType(type);
-  }, []);
-
-  return [sortType, onSetSortType];
-};
-
-export const useOptions = () => {
+export const useOptions = (): Option[] => {
   return useLocaleMemo(
     () => [
       {

@@ -50,6 +50,8 @@ import {
   IDailyChargingReponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  PrivateStats,
+  PrivateStatsInterval,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
@@ -723,5 +725,11 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
 
     return time;
+  }
+
+  async getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats> {
+    const stats = await this.getAccountGateway().getPrivateStats(interval);
+
+    return stats;
   }
 }

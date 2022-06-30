@@ -10,6 +10,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   stat: {
-    flex: 1,
+    flex: '0 0 50%',
   },
 }));

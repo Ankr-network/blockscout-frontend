@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Timeframe } from '../../types';
+import { StatsTimeframe } from 'domains/chains/types';
 import { TimeframeSwitcher } from '../TimeframeSwitcher';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {
   switchTimeframe: () => void;
-  timeframe: Timeframe;
+  timeframe: StatsTimeframe;
 }
 
-const title = t('chains.user-stats.title');
+const title = t('chains.private-stats.title');
 
 export const Header = ({ timeframe, switchTimeframe }: HeaderProps) => {
   const classes = useStyles();

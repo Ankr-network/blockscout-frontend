@@ -1,12 +1,12 @@
 import React from 'react';
 
+import { StatsTimeframe } from 'domains/chains/types';
 import { Switcher } from 'modules/common/components/Switcher';
-import { Timeframe } from '../../types';
 import { valuesMap } from './const';
 
 export interface TimeframeSwitcherProps {
   onSwitch: () => void;
-  timeframe: Timeframe;
+  timeframe: StatsTimeframe;
 }
 
 type Props = TimeframeSwitcherProps;

@@ -28,6 +28,8 @@ import {
   IBalance,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  PrivateStats,
+  PrivateStatsInterval,
 } from '../account';
 
 export interface IMultiRpcSdk {
@@ -140,4 +142,6 @@ export interface IMultiRpcSdk {
   rejectAllowanceForPAYG(): Promise<IWeb3SendResult>;
 
   getBalanceEndTime(blockchain?: string[]): Promise<number>;
+
+  getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats>;
 }
