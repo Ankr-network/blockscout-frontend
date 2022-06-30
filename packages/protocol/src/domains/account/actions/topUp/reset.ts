@@ -10,8 +10,10 @@ import { fetchPublicKey } from '../fetchPublicKey';
 import { deposit } from './deposit';
 import { waitTransactionConfirming } from './waitTransactionConfirming';
 import { login } from './login';
-import { getTopUpInitialStep } from './getTopUpInitialStep';
+// eslint-disable-next-line import/no-cycle
+import { getInitialStep } from './getInitialStep/getInitialStep';
 import { getLastLockedFundsEvent } from './getLastLockedFundsEvent';
+import { checkAllowanceTransaction } from './checkAllowanceTransaction';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
   'topUp/reset',
@@ -29,13 +31,14 @@ export const reset = createSmartAction<RequestAction<string, string>>(
           promise: (async () => {
             store.dispatch(
               resetRequests([
-                getTopUpInitialStep.toString(),
+                getInitialStep.toString(),
                 getAllowance.toString(),
                 fetchPublicKey.toString(),
                 deposit.toString(),
                 waitTransactionConfirming.toString(),
                 login.toString(),
                 getLastLockedFundsEvent.toString(),
+                checkAllowanceTransaction.toString(),
               ]),
             );
           })(),

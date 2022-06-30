@@ -11,15 +11,16 @@ import { fetchPublicKey } from '../actions/fetchPublicKey';
 import { getAllowance } from '../actions/topUp/getAllowance';
 import { login } from '../actions/topUp/login';
 import { waitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
-import { useAppDispatch } from 'store/useAppDispatch';
-import {
-  setTopUpTransaction,
-  setAmount,
-  selectTransaction,
-} from 'domains/account/store/accountTopUpSlice';
-import { useAppSelector } from 'store/useAppSelector';
 import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
+import { checkAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  setAmount,
+  selectTransaction,
+  resetTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { MultiService } from 'modules/api/MultiService';
 
 export const useTopUp = () => {
@@ -60,10 +61,9 @@ export const useTopUp = () => {
     [dispatchRequest],
   );
 
-  const handleResetTopUpTransaction = useCallback(
-    () => dispatch(setTopUpTransaction({ address })),
-    [dispatch, address],
-  );
+  const handleResetTopUpTransaction = useCallback(() => {
+    dispatch(resetTransaction({ address }));
+  }, [dispatch, address]);
 
   const handleSetAmount = useCallback(
     (value: BigNumber) => dispatch(setAmount({ address, amount: value })),
@@ -108,6 +108,10 @@ export const useTopUp = () => {
     type: rejectAllowance.toString(),
   });
 
+  const { loading: loadingCheckAllowanceTransaction } = useQuery({
+    type: checkAllowanceTransaction.toString(),
+  });
+
   return {
     handleSetAmount,
     amount,
@@ -116,7 +120,8 @@ export const useTopUp = () => {
       loadingFetchPublicKey ||
       loadingDeposit ||
       loadingWaitTransactionConfirming ||
-      loadingLogin,
+      loadingLogin ||
+      loadingCheckAllowanceTransaction,
     hasError: Boolean(
       errorGetAllowance ||
         errorFetchPublicKey ||

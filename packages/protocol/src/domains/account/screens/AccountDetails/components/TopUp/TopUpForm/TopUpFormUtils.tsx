@@ -16,6 +16,8 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { MessageEventData } from 'provider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -116,4 +118,19 @@ export const useCheckLoginStep = () => {
     hasLoginStep,
     loading,
   };
+};
+
+export const useCheckBrokenTransaction = () => {
+  const transaction = useAppSelector(selectTransaction);
+  const { handleResetTopUpTransaction } = useTopUp();
+
+  const isAmountEmpty =
+    !transaction?.amount || transaction?.amount?.toString() === '0';
+
+  if (
+    isAmountEmpty &&
+    (transaction?.allowanceTransactionHash || transaction?.topUpTransactionHash)
+  ) {
+    handleResetTopUpTransaction();
+  }
 };

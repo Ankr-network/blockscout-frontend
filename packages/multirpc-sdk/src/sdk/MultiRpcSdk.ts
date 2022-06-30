@@ -394,6 +394,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     );
   }
 
+  // Will return null for pending transactions and an object if the transaction is successful.
   async getTransactionReceipt(
     transactionHash: PrefixedHex,
   ): Promise<TransactionReceipt> {

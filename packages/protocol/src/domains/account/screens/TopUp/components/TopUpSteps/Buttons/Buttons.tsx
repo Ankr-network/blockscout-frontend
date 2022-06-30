@@ -26,7 +26,7 @@ export const Buttons = ({
         className={classes.button}
         isDisabled={loading || isRejectAllowanceLoading}
         onClick={onConfirm}
-        loading={loading}
+        loading={isRejectAllowanceLoading ? false : loading}
       >
         {getButtonText(loading, step, hasCredentials)}
       </LoadingButton>

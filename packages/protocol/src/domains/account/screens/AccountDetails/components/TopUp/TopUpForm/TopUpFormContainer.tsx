@@ -7,12 +7,14 @@ import { TopUpForm } from './TopUpForm';
 import { TopUpFormValues } from './TopUpFormTypes';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useCheckLoginStep } from './TopUpFormUtils';
+import { useCheckLoginStep, useCheckBrokenTransaction } from './TopUpFormUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const TopUpFormContainer = () => {
   const dispatch = useDispatch();
   const { handleSetAmount } = useTopUp();
+
+  useCheckBrokenTransaction();
 
   const { handleCheckLockedFunds, hasLoginStep } = useCheckLoginStep();
 
