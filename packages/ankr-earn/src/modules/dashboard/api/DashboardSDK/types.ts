@@ -1,4 +1,4 @@
-import { AvailableReadProviders } from 'provider';
+import { AvailableReadProviders } from '@ankr.com/provider';
 
 export interface IDashboardSDKCotractData {
   abi: unknown;

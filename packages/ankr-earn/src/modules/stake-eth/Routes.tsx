@@ -1,6 +1,7 @@
 import { generatePath, Route, Switch, useParams } from 'react-router-dom';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { STAKING_PATH, featuresConfig } from 'modules/common/const';

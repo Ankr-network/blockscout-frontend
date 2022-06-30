@@ -1,13 +1,13 @@
+import { ProviderManager } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
-import { ProviderManager } from 'provider';
 
 import { EEthereumErrorCodes, EthereumSDK, TEthToken } from '..';
 import { configFromEnv, MAX_UINT256, ZERO, ZERO_ADDRESS } from '../../common';
 import { ETH_POOL_START_BLOCK } from '../const';
 
-jest.mock('provider', (): unknown => ({
-  ...jest.requireActual('provider'),
+jest.mock('@ankr.com/provider', (): unknown => ({
+  ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 

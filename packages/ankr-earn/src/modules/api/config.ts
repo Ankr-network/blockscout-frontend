@@ -1,4 +1,4 @@
-import { Address } from 'provider';
+import { Address } from '@ankr.com/provider';
 
 import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';

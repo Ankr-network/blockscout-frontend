@@ -1,4 +1,4 @@
-import { ProviderManager } from 'provider';
+import { ProviderManager } from '@ankr.com/provider';
 
 /**
  * Need to get rid of theme from ProviderManager

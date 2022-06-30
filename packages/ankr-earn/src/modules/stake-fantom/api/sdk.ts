@@ -1,16 +1,20 @@
+import {
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
-  EEthereumNetworkId,
-  IWeb3SendResult,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from 'provider';
+  getTxEventsHistoryGroup,
+  ProviderManagerSingleton,
+  ITxEventsHistoryGroupItem,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { ISwitcher } from 'modules/api/switcher';
@@ -24,10 +28,6 @@ import { Env } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { getFilteredContractEvents } from 'modules/common/utils/getFilteredContractEvents';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import {
-  getTxEventsHistoryGroup,
-  TTxEventsHistoryGroupData,
-} from 'modules/stake/api/getTxEventsHistoryGroup';
 
 import {
   FANTOM_PROVIDER_READ_ID,
@@ -73,12 +73,12 @@ export interface IGetTxData {
 }
 
 interface ITxEventsHistoryData {
-  stakeEventsAFTMB: TTxEventsHistoryGroupData;
-  stakeEventsAFTMC: TTxEventsHistoryGroupData;
-  pendingEventsAFTMB: TTxEventsHistoryGroupData;
-  pendingEventsAFTMC: TTxEventsHistoryGroupData;
-  withdrawnEventsAFTMB: TTxEventsHistoryGroupData;
-  withdrawnEventsAFTMC: TTxEventsHistoryGroupData;
+  stakeEventsAFTMB: ITxEventsHistoryGroupItem[];
+  stakeEventsAFTMC: ITxEventsHistoryGroupItem[];
+  pendingEventsAFTMB: ITxEventsHistoryGroupItem[];
+  pendingEventsAFTMC: ITxEventsHistoryGroupItem[];
+  withdrawnEventsAFTMB: ITxEventsHistoryGroupItem[];
+  withdrawnEventsAFTMC: ITxEventsHistoryGroupItem[];
   totalPending: BigNumber;
 }
 

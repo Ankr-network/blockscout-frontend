@@ -1,7 +1,6 @@
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-
-import { EEthereumNetworkId } from 'provider';
 
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

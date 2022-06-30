@@ -1,7 +1,7 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 
 import { throwIfError } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
 

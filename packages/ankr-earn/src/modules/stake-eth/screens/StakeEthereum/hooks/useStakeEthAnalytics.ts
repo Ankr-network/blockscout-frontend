@@ -1,11 +1,11 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { EthSDK } from 'modules/api/EthSDK';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -34,7 +34,7 @@ export const useStakeEthAnalytics = ({
   });
 
   const sendAnalytics = useCallback(async () => {
-    const sdk = await EthSDK.getInstance();
+    const sdk = await EthereumSDK.getInstance();
     const synthBalance =
       tokenOut === Token.aETHb
         ? await sdk.getABBalance()
@@ -47,8 +47,8 @@ export const useStakeEthAnalytics = ({
       willGetAmount,
       tokenIn: Token.ETH,
       tokenOut,
-      prevStakedAmount: commonData?.ethBalance,
       synthBalance,
+      prevStakedAmount: commonData?.ethBalance,
     });
   }, [
     address,

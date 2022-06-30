@@ -1,4 +1,8 @@
 import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
+import {
   useDispatchRequest,
   useMutation,
   useQuery,
@@ -8,7 +12,6 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

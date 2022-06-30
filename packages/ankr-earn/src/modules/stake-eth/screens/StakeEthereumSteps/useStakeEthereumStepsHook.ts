@@ -4,7 +4,8 @@ import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';

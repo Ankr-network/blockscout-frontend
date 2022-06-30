@@ -1,4 +1,4 @@
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 // semantic types
 export type TAmountUnit = number;

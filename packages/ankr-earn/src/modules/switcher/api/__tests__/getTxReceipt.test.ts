@@ -1,7 +1,7 @@
-import { PolygonSDK, BinanceSDK } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { EthSDK } from 'modules/api/EthSDK';
+import { PolygonSDK, BinanceSDK, EthereumSDK } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
@@ -9,13 +9,10 @@ import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
 
-jest.mock('modules/api/EthSDK', () => ({
-  EthSDK: { getInstance: jest.fn() },
-}));
-
 jest.mock('@ankr.com/staking-sdk', (): unknown => ({
   ...jest.requireActual('@ankr.com/staking-sdk'),
   PolygonSDK: { getInstance: jest.fn() },
+  EthereumSDK: { getInstance: jest.fn() },
   BinanceSDK: { getInstance: jest.fn() },
 }));
 
@@ -33,7 +30,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxReceipt', () => {
   };
 
   beforeEach(() => {
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
+    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultSDK);
 

@@ -1,13 +1,12 @@
+import { Web3KeyWriteProvider } from '@ankr.com/provider';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { Web3KeyWriteProvider } from 'provider';
+import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { configFromEnv } from '../../api/config';
-import ABI_ERC20 from '../../api/contract/IERC20.json';
 import { getBridgeAddr } from '../utils/getBridgeAddr';
 
 import ABI_BRIDGE from './contracts/CrossChainBridge.json';

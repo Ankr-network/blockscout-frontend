@@ -1,7 +1,6 @@
+import { ProviderManager } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
-
-import { ProviderManager } from 'provider';
 
 import { PolygonSDK } from '..';
 import { ETH_SCALE_FACTOR, ZERO } from '../../common';
@@ -12,8 +11,8 @@ import {
   EPolygonPoolEventsMap,
 } from '../types';
 
-jest.mock('provider', (): unknown => ({
-  ...jest.requireActual('provider'),
+jest.mock('@ankr.com/provider', (): unknown => ({
+  ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 

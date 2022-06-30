@@ -3,7 +3,8 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';

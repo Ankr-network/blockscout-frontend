@@ -1,8 +1,8 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Box, Button } from '@material-ui/core';
 import { Route, RouteProps } from 'react-router';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';

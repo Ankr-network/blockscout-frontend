@@ -1,8 +1,7 @@
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
-
-import { EEthereumNetworkId } from 'provider';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

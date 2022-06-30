@@ -1,7 +1,6 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useMemo } from 'react';
-
-import { AvailableWriteProviders } from 'provider';
 
 import { disconnect } from 'modules/auth/common/actions/disconnect';
 import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';

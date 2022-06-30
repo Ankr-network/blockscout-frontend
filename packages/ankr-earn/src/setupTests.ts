@@ -43,7 +43,79 @@ Object.defineProperty(window, 'zE', {
 });
 
 // Mocks for libraries
+jest.mock('web3modal', () => ({
+  isMobile: () => true,
+}));
+
 jest.mock('polkadot', () => jest.fn());
+
+jest.mock('@ankr.com/provider', () => {
+  return {
+    ProviderManager: function ProviderManager() {
+      const defaultProvider = {
+        currentAccount: 'account',
+        isConnected: jest.fn(),
+        connect: jest.fn(),
+        getWeb3: jest.fn(),
+        createContract: jest.fn(),
+      };
+
+      return {
+        getWriteProviderById: jest.fn(() => defaultProvider),
+        getETHWriteProvider: jest.fn(() => defaultProvider),
+        getETHReadProvider: jest.fn(() => defaultProvider),
+      };
+    },
+    AvailableWriteProviders: {
+      ethCompatible: 'ethCompatible',
+      polkadotCompatible: 'polkadotCompatible',
+    },
+    AvailableReadProviders: {
+      ethMainnet: 'ethMainnetHttpProvider',
+      ethGoerli: 'ethGoerliHttpProvider',
+      mumbai: 'polygonHttpWeb3KeyProvider',
+      polygon: 'polygonHttpWeb3KeyProvider',
+      avalancheChain: 'avalancheChainHttpProvider',
+      avalancheChainTest: 'avalancheChainTestHttpProvider',
+      binanceChain: 'binanceChainHttpProvider',
+      binanceChainTest: 'binanceChainTestHttpProvider',
+      ftmOpera: 'ftmOperaHttpProvider',
+      ftmTestnet: 'ftmTestnetHttpProvider',
+    },
+    EEthereumNetworkId: {
+      mainnet: 1,
+      ropsten: 3,
+      rinkeby: 4,
+      goerli: 5,
+      dev: 2018,
+      classic: 61,
+      mordor: 63,
+      kotti: 6,
+      smartchain: 56,
+      smartchainTestnet: 97,
+      avalanche: 43114,
+      avalancheTestnet: 43113,
+      polygon: 137,
+      fantom: 250,
+      fantomTestnet: 4002,
+      mumbai: 80001,
+    },
+    EWalletId: {
+      huobi: 'custom-huobi',
+      imtoken: 'custom-imtoken',
+      injected: 'injected',
+      math: 'custom-math',
+      trust: 'custom-trust',
+      walletconnect: 'walletconnect',
+    },
+    EPolkadotNetworkId: {
+      kusama: 'KSM',
+      polkadot: 'DOT',
+      rococo: 'ROC',
+      westend: 'WND',
+    },
+  };
+});
 
 jest.mock('mixpanel-browser', () => ({
   default: { init: jest.fn(), track: jest.fn() },

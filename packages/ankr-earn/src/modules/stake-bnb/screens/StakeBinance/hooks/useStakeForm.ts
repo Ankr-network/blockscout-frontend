@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -9,7 +10,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { BinanceSDK } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

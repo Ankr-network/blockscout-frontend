@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 

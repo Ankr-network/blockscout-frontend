@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
 import { Days, Percentage } from 'modules/common/types';

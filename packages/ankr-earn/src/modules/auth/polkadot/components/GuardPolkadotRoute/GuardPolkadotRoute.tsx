@@ -1,6 +1,8 @@
+import {
+  AvailableWriteProviders,
+  EPolkadotNetworkId,
+} from '@ankr.com/provider';
 import { RouteProps } from 'react-router';
-
-import { AvailableWriteProviders, EPolkadotNetworkId } from 'provider';
 
 import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 

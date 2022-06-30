@@ -1,10 +1,10 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';

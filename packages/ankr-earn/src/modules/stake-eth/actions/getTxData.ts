@@ -3,7 +3,8 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
-import { EthSDK } from 'modules/api/EthSDK';
+import { EthereumSDK } from '@ankr.com/staking-sdk';
+
 import { withStore } from 'modules/common/utils/withStore';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
@@ -25,7 +26,7 @@ export const getTxData = createAction<
 >(`${ETH_ACTIONS_PREFIX}getTxData`, ({ txHash, shouldDecodeAmount }) => ({
   request: {
     promise: async (): Promise<IGetSwitcherData> => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       return sdk.fetchTxData(txHash, shouldDecodeAmount);
     },
@@ -51,7 +52,7 @@ export const getTxReceipt = createAction<
     poll: POLL_INTERVAL_SECONDS,
     getData: data => data,
     onRequest: request => {
-      request.promise = EthSDK.getInstance().then(sdk =>
+      request.promise = EthereumSDK.getInstance().then(sdk =>
         sdk.fetchTxReceipt(txHash),
       );
 

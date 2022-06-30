@@ -1,7 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { EthSDK, ITxEventsHistoryData } from 'modules/api/EthSDK';
+import { EthereumSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
+
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
@@ -11,7 +12,7 @@ export const getTxHistoryETH = createAction<
 >(`${ETH_ACTIONS_PREFIX}getTxHistoryAETHB`, () => ({
   request: {
     promise: (async (): Promise<ITxEventsHistoryData> => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       return sdk.getTxEventsHistory();
     })(),
@@ -19,7 +20,6 @@ export const getTxHistoryETH = createAction<
   meta: {
     asMutation: false,
     showNotificationOnError: true,
-    getData: data => data,
     cache: ACTION_CACHE_SEC,
   },
 }));
