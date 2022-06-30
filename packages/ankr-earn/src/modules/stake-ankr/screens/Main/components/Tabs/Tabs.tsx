@@ -1,7 +1,6 @@
 import { Chip, Typography, Tab, Tabs as BaseTabs } from '@material-ui/core';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
-import { uid } from 'react-uid';
 
 import { t } from 'common';
 
@@ -42,11 +41,11 @@ export const Tabs = ({
         onChange={(_, value) => handleChangeTab(value)}
       >
         {tabs.map(({ title, showAmount }: ITabItem): ReactNode => {
-          const isActiveTab: boolean = title === activeTab;
+          const isActiveTab = title === activeTab;
 
           return (
             <Tab
-              key={uid(title)}
+              key={title}
               classes={{ root: classes.tabArea, selected: classes.tabSelected }}
               className={classes.tabArea}
               label={

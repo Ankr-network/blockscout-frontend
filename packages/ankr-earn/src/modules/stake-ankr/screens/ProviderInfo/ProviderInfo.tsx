@@ -19,6 +19,7 @@ import { ReactComponent as DiscordIcon } from './assets/discord.svg';
 import { ReactComponent as TelegramIcon } from './assets/telegram.svg';
 import { AdditionalInfo } from './components/AdditionalInfo';
 import { NodeList } from './components/NodeList';
+import { StakeInfo } from './components/StakeInfo';
 import { Stats } from './components/Stats';
 import { useProviderInfoStyles } from './useProviderInfoStyles';
 
@@ -108,6 +109,8 @@ export const ProviderInfo = ({
             {stakeBtnText}
           </NavLink>
         </div>
+
+        <StakeInfo />
 
         <Stats />
       </Paper>

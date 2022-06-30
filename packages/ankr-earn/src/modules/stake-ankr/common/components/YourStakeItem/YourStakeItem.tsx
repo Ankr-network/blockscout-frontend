@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 
-import { BaseAnkrAmount } from '../../BaseAnkrAmount';
+import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
 import { useYourStakeItemStyles } from './useYourStakeItemStyles';
 
@@ -32,6 +32,7 @@ export const YourStakeItem = ({
                 className={classes.plusWalletButton}
                 href={stakeLink}
                 icon="plus"
+                variant="outlined"
               />
             )}
 
@@ -40,6 +41,7 @@ export const YourStakeItem = ({
                 className={classes.plusWalletButton}
                 href={unstakeLink}
                 icon="minus"
+                variant="outlined"
               />
             )}
           </div>

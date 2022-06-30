@@ -77,6 +77,13 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     fontSize: 12,
   },
 
+  switcher: {
+    '& [aria-disabled] > div': {
+      color: theme.palette.text.secondary,
+      cursor: 'default',
+    },
+  },
+
   submitBtn: {
     width: '100%',
     height: 54,

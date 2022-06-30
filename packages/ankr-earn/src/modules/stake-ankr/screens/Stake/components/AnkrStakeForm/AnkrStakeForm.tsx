@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { FormApi } from 'final-form';
@@ -8,9 +8,9 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { ZERO } from 'modules/common/const';
-import { Days } from 'modules/common/types';
+import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';
 import { getErrorText, hasError } from 'modules/common/utils/form';
+import { LOCKING_PERIOD } from 'modules/stake-ankr/const';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
@@ -23,12 +23,12 @@ import { CloseButton } from 'uiKit/CloseButton';
 import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+import { NumericStepper } from 'uiKit/Stepper';
 
 import { ReactComponent as AngleRightIcon } from './assets/angle-right.svg';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
-const LOCKING_PERIOD: Days = 90;
 
 enum EFieldsNames {
   amount = 'amount',
@@ -46,11 +46,15 @@ interface IAnkrStakeFormProps {
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
+  isApproveLoading?: boolean;
   isDisabled?: boolean;
+  isApproved?: boolean;
   tokenIn?: string;
   providerSelectHref: string;
   maxAmountDecimals?: number;
   closeHref: string;
+  initialProvider?: string;
+  providerName?: string;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -64,11 +68,15 @@ export const AnkrStakeForm = ({
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
+  isApproveLoading = false,
   isDisabled = false,
+  isApproved = false,
   tokenIn = t('unit.ankr'),
   maxAmountDecimals,
   closeHref,
   providerSelectHref,
+  initialProvider,
+  providerName,
   onSubmit,
   onChange,
 }: IAnkrStakeFormProps): JSX.Element => {
@@ -94,6 +102,8 @@ export const AnkrStakeForm = ({
   // todo: add actual text
   const lockingPeriodTooltip = t('stake-ankr.staking.locking-period');
 
+  const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
+
   const renderForm = ({
     form,
     handleSubmit,
@@ -108,7 +118,16 @@ export const AnkrStakeForm = ({
 
         <AmountInput
           balance={balance}
-          disabled={isDisabled}
+          balanceLinkSlot={
+            <NavLink
+              className={classes.balanceLink}
+              href={ANKR_1INCH_BUY_LINK}
+              variant="text"
+            >
+              {t('unstake-dialog.buy-ankr')}
+            </NavLink>
+          }
+          disabled={isDisabled || isApproved}
           isBalanceLoading={isBalanceLoading}
           label={
             <StakeDescriptionName component="span">
@@ -142,12 +161,16 @@ export const AnkrStakeForm = ({
                 </Box>
 
                 <NavLink
-                  className={classes.selectProviderBtn}
+                  className={classNames(
+                    classes.selectProviderBtn,
+                    providerName && classes.selectProviderBtnActive,
+                  )}
+                  disabled={isDisabled || isApproved}
                   href={providerSelectHref}
                   variant="outlined"
                 >
-                  {input.value?.toString().length
-                    ? input.value
+                  {input.value?.toString().length && providerName
+                    ? providerName
                     : t('stake-ankr.staking.provider-placeholder')}
 
                   <AngleRightIcon className={classes.selectProviderIcon} />
@@ -181,16 +204,39 @@ export const AnkrStakeForm = ({
         </StakeDescriptionContainer>
 
         <StakeFormFooter>
-          <Button
-            fullWidth
-            color="primary"
-            disabled={isDisabled || loading || isBalanceLoading}
-            isLoading={loading}
-            size="large"
-            type="submit"
-          >
-            {t('stake-ankr.staking.submit')}
-          </Button>
+          <Grid container spacing={2}>
+            <Grid item xs>
+              <Button
+                fullWidth
+                color="primary"
+                disabled={isApproved || isSubmitDisabled}
+                isLoading={isApproveLoading}
+                size="large"
+                type="submit"
+              >
+                {t('stake-ankr.staking.approve')}
+              </Button>
+            </Grid>
+
+            <Grid item xs>
+              <Button
+                fullWidth
+                color="primary"
+                disabled={!isApproved || isSubmitDisabled}
+                isLoading={loading}
+                size="large"
+                type="submit"
+              >
+                {t('stake-ankr.staking.submit')}
+              </Button>
+            </Grid>
+          </Grid>
+
+          <NumericStepper
+            activeStep={isApproved ? 1 : 0}
+            className={classes.stepper}
+            stepsCount={2}
+          />
         </StakeFormFooter>
 
         <OnChange name={EFieldsNames.amount}>
@@ -204,7 +250,15 @@ export const AnkrStakeForm = ({
     );
   };
 
-  return <Form render={renderForm} onSubmit={onSubmitForm} />;
+  return (
+    <Form
+      initialValues={{
+        provider: initialProvider,
+      }}
+      render={renderForm}
+      onSubmit={onSubmitForm}
+    />
+  );
 };
 
 function setMaxAmount(

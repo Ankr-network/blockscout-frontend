@@ -341,6 +341,11 @@
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
       "fee": "Est Network Fee: {value}"
     },
+    "trade-info": {
+      "description-one-token": "Receive a {value, number, ::.0#}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "description-two-tokens": "Receive a {valueOne, number, ::.0#}% discount for {tokenOne} or a {valueTwo, number, ::.0#}% discount for {tokenTwo} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "title": "Better option on OpenOcean"
+    },
     "buttons": {
       "addToWallet": "Add {token} to wallet",
       "return": "Go to dashboard"
@@ -970,23 +975,12 @@
     },
     "staking": {
       "title": "ANKR Staking",
+      "approve": "Approve",
       "submit": "Stake ANKR",
       "provider-label": "Node Provider",
       "provider-placeholder": "Select node provider",
       "locking-period": "Locking period",
       "locking-period-value": "{days} days"
-    },
-    "select-provider": {
-      "title": "Select provider to stake ANKR",
-      "table": {
-        "node-provider": "Node Provider",
-        "nodes-count": "{value} nodes",
-        "apy": "Current APY",
-        "staked-pool": "Staked Pool",
-        "uptime": "30d Uptime",
-        "rps": "RPS",
-        "btn": "Select provider"
-      }
     },
     "provider-info": {
       "provider-stats": {
@@ -1001,7 +995,9 @@
         "online-days": "{value} days",
         "online-day": "{value} day",
         "percent-value": "{value, number, ::.0#}%",
-        "stake-btn": "Stake ANKR"
+        "stake-btn": "Stake ANKR",
+        "my-stake": "My Stake",
+        "unstake": "Unstake"
       },
       "node-list": {
         "node": "Node",
@@ -1010,7 +1006,20 @@
         "total-requests": "Total Requests",
         "30d-uptime": "30d Uptime",
         "latency": "Latency",
-        "paid-value": "{value} Paid"
+        "paid-value": "{value} Paid",
+        "ms-value": "{value}ms"
+      },
+      "select-provider": {
+        "title": "Select provider to stake ANKR",
+        "table": {
+          "node-provider": "Node Provider",
+          "nodes-count": "{value} nodes",
+          "apy": "Current APY",
+          "staked-pool": "Staked Pool",
+          "uptime": "30d Uptime",
+          "rps": "RPS",
+          "btn": "Select provider"
+        }
       }
     }
   },

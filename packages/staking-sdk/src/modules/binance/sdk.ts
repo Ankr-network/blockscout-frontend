@@ -60,13 +60,15 @@ import {
 } from './types';
 
 /**
- * BinanceSDK allows to interact with Binance smartchain, aBNBb/aBNBc tokens and Binance pool contracts.
+ * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
+ *
+ * For more information on Binance Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics).
  *
  * @class
  */
 export class BinanceSDK implements ISwitcher, IStakable {
   /**
-   * instance - sdk instance
+   * instance — SDK instance.
    * @type {BinanceSDK}
    * @static
    * @private
@@ -74,35 +76,35 @@ export class BinanceSDK implements ISwitcher, IStakable {
   private static instance?: BinanceSDK;
 
   /**
-   * writeProvider - provider which has signer
+   * writeProvider — provider which has signer for signing transactions.
    * @type {Web3KeyWriteProvider}
    * @private
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
-   * readProvider - provider which allows to read data without connecting the wallet
+   * readProvider — provider which allows to read data without connecting the wallet.
    * @type {Web3KeyReadProvider}
    * @private
    */
   private readonly readProvider: Web3KeyReadProvider;
 
   /**
-   * currentAccount - connected account
+   * currentAccount — connected account.
    * @type {string}
    * @private
    */
   private currentAccount: string;
 
   /**
-   * stakeGasFee - saved stake gas fee
+   * stakeGasFee — cached stake gas fee.
    * @type {BigNumber}
    * @private
    */
   private stakeGasFee?: BigNumber;
 
   /**
-   * Private constructor - use `BinanceSDK.getInstance` instead
+   * Private constructor. Instead, use `BinanceSDK.getInstance`.
    *
    * @constructor
    * @private
@@ -116,10 +118,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Initialization method for sdk
+   * Initialization method for SDK.
    *
-   * Auto connects write provider if chains are the same.
-   * Initialize read provider to support multiple chains.
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
    *
    * @public
    * @returns {Promise<PolygonSDK>}
@@ -152,7 +154,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to choose right provider for read on write purpose.
+   * Internal function to choose the right provider for read or write purpose.
    *
    * @private
    * @param {boolean} [isForceRead = false] - forces to use read provider
@@ -179,7 +181,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to check current network
+   * Internal function to check the current network.
    *
    * @private
    * @param {Web3KeyWriteProvider} provider - current selected provider
@@ -198,7 +200,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get past events using the defined range
+   * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
@@ -229,7 +231,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to convert wei value to human readable format
+   * Internal function to convert wei value to human readable format.
    *
    * @private
    * @param {string} amount - value in wei
@@ -240,7 +242,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to convert value to hex format
+   * Internal function to convert value to hex format.
    *
    * @private
    * @param {string} amount - value in wei
@@ -251,7 +253,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns transaction history group from events
+   * Internal function to return transaction history group from events.
    * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
@@ -297,7 +299,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function map event type to transaction type
+   * Internal function to map event type to transaction type.
    *
    * @private
    * @param {string} [rawTxType] - transaction type
@@ -317,10 +319,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Bond BNB token contract
+   * Internal function to get aBNBb token contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getABNBBContract(isForceRead = false): Promise<Contract> {
@@ -335,10 +337,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get Certificate BNB token contract
+   * Internal function to get aBNBc token contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getABNBCContract(isForceRead = false): Promise<Contract> {
@@ -349,10 +351,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get BNB pool contract
+   * Internal function to get BinancePool contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getBinancePoolContract(isForceRead = false): Promise<Contract> {
@@ -367,10 +369,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to get WBNB token contract
+   * Internal function to get WBNB token contract.
    *
    * @private
-   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
    * @returns {Promise<Contract>}
    */
   private async getWrappedBNBContract(isForceRead = false): Promise<Contract> {
@@ -421,10 +423,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Add token to wallet
+   * Add token to wallet.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
    * @param {string} token - token symbol (aBNBb or aBNBc or aETHc)
    * @returns {Promise<boolean>}
    */
@@ -475,7 +477,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns bond BNB token balance
+   * Return aBNBb token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -491,7 +493,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns BNB token balance
+   * Return BNB token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -542,7 +544,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get minimum stake amount
+   * Get minimum stake amount.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -556,7 +558,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns pool raw events
+   * Internal function to return raw pool events.
    *
    * @private
    * @returns {Promise<IEventsBatch>}
@@ -597,9 +599,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get pending data by bond and certificate
+   * Get pending data for aBNBb and aBNBc.
    *
    * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
@@ -658,7 +661,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get total pending unstake amount
+   * Get total pending unstake amount.
    *
    * @public
    * @returns {Promise<BigNumber>}
@@ -674,9 +677,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get relayer fee
+   * Get relayer fee.
    *
    * @public
+   * @note The fee for cross-chain transfer of BNB between BNB Chain and BNB (Smart) Chain while staking it.
    * @returns {Promise<BigNumber>}
    */
   public async getRelayerFee(): Promise<BigNumber> {
@@ -688,10 +692,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get stake gas fee
+   * Get stake gas fee.
    *
    * @public
-   * @note This method safes computed gas fee for future computations.
+   * @note Caches computed gas fee value for future computations.
    * @param {string} amount - amount to stake
    * @param {TBnbSyntToken} token - token symbol
    * @returns {Promise<BigNumber>}
@@ -725,7 +729,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns stake method by token symbol
+   * Internal function to return stake method by token symbol.
    *
    * @param {TBnbSyntToken} token - token symbol
    * @returns {string}
@@ -741,7 +745,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns increased gas limit
+   * Internal function to return increased gas limit.
    *
    * @param {number} gasLimit - initial gas limit
    * @returns {number}
@@ -751,10 +755,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get transaction history
+   * Get transaction history.
    *
    * @public
-   * @note Current method only returns data for the last 14 days.
+   * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
@@ -855,7 +859,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Fetch transaction data.
    *
    * @public
-   * @note parses first uint256 param from transaction input
+   * @note Parses first uint256 param from transaction input.
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IFetchTxData>}
    */
@@ -879,10 +883,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Fetch transaction receipt
+   * Fetch transaction receipt.
    *
    * @public
-   * @note It scans logs to find topic `0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d` to show certificate amount.
+   * @note Scans logs to find topic `0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d` to show the aBNBc amount.
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IGetTxReceipt | null>}
    */
@@ -913,13 +917,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Stake tokens
+   * Stake token.
    *
    * @public
-   * @note Initiates two transactions and connect if write provider isn't connected.
-   * @note Estimates gas and multiply it by `ESTIMATE_GAS_MULTIPLIER` to prevent metamask issue with gas calculation.
+   * @note Initiates two transactions and connect if writeProvider isn't connected.
+   * @note Estimates gas and multiplies it by `ESTIMATE_GAS_MULTIPLIER` to prevent MetaMask issue with gas calculation.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to receive (aBNBb or aBNBc)
    * @returns {Promise<IStakeData>}
    */
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
@@ -965,12 +970,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unstake tokens
+   * Unstake token.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
    * @returns {Promise<void>}
    */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
@@ -996,7 +1002,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function returns unstake method by token symbol
+   * Internal function to return unstake method by token symbol.
    *
    * @private
    * @param {TBnbSyntToken} token - token symbol
@@ -1013,9 +1019,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate BNB token ratio
+   * Return aBNBc/BNB ratio.
    *
    * @public
+   * @note [Read about aBNBc/BNB ratio](https://www.ankr.com/docs/staking/liquid-staking/bnb/staking-mechanics#exchange-ratio).
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
@@ -1059,10 +1066,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Approve certificate token for bond.
+   * Approve aBNBc for aBNBb, i.e. allow aBNBb smart contract to access and transfer aBNBc tokens.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
    * @param {number} [scale = 1] - scale factor for amount
    * @returns {Promise<IWeb3SendResult | undefined>}
@@ -1098,9 +1106,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Checks if allowance is greater or equal to amount
+   * Checks if allowance is greater or equal to amount.
    *
    * @public
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
    * @param {string} [amount] - amount
    * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
    */
@@ -1111,10 +1120,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns certificate BNB token allowance
+   * Return aBNBc token allowance.
    *
    * @public
-   * @param {string} [spender] - spender address (by default it's aBNBb token address)
+   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @param {string} [spender] - spender address (by default it is aBNBb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
@@ -1132,11 +1142,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Lock shares
+   * Switch aBNBc to aBNBb.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */
@@ -1167,11 +1178,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Unlock shares
+   * Switch aBNBb to aBNBc.
    *
    * @public
-   * @note Initiates connect if write provider isn't connected.
-   * @param {BigNumber} amount - amount to lock
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to switch
    * @param {number} [scale = 10 ** 18] - scale factor for amount
    * @returns {Promise<IWeb3SendResult>}
    */

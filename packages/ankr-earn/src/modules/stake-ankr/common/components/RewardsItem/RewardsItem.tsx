@@ -4,7 +4,7 @@ import { t } from 'common';
 
 import { NavLink } from 'uiKit/NavLink';
 
-import { BaseAnkrAmount } from '../../BaseAnkrAmount';
+import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
 import { useRewardsItemStyles } from './useRewardsItemStyles';
 

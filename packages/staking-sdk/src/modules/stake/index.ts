@@ -4,16 +4,17 @@ import BigNumber from 'bignumber.js';
 import { IPendingData, ITxEventsHistoryData, IStakeData } from './types';
 
 /**
- * You need to implement this interface if you'd like to integrate tokens into ankr staking.
+ * You need to implement this interface if you want to integrate new tokens into Ankr Staking.
  *
  * @interface
  */
 export interface IStakable {
   /**
-   * Stake
+   * Stake token.
    *
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to receive (-b or -c)
    * @param {number} [scale] - scale factor for amount
    * @returns {Promise<IStakeData>}
    */
@@ -23,22 +24,23 @@ export interface IStakable {
     scale?: number,
   ) => Promise<IStakeData>;
   /**
-   * Unstake
+   * Unstake token.
    *
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to receive
-   * @param {number} [scale] - scale factor for amount;
+   * @param {string} token - choose which token to unstake (-b or -c)
+   * @param {number} [scale] - scale factor for amount
    * @returns {Promise<void>}
    */
   unstake: (amount: BigNumber, token: string, scale?: number) => Promise<void>;
   /**
-   * Get minimum stake amount
+   * Get minimum stake amount.
    *
    * @returns {Promise<BigNumber>}
    */
   getMinimumStake: () => Promise<BigNumber>;
   /**
-   * Get total pending unstake amount
+   * Get total pending unstake amount.
    *
    * @returns {Promise<BigNumber>}
    */
@@ -49,7 +51,7 @@ export interface IStakable {
    */
   getPendingData: () => Promise<IPendingData>;
   /**
-   * Get transaction history
+   * Get transaction history.
    *
    * @returns {Promise<ITxEventsHistoryData>}
    */

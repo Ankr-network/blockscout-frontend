@@ -13,7 +13,7 @@ import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { Spinner } from 'uiKit/Spinner';
 
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
+import { BaseAnkrAmount } from '../../../../common/components/BaseAnkrAmount';
 
 import { TableRow } from './TableRow';
 import { useClaimDialogStyles } from './useClaimDialogStyles';
@@ -80,9 +80,9 @@ export const ClaimDialog = ({
 
             {isFewClaims && (
               <table className={classes.table}>
-                {availableClaims.map((claim, i) => (
+                {availableClaims.map(claim => (
                   <TableRow
-                    key={uid(i)}
+                    key={uid(claim)}
                     provider={claim.provider}
                     value={claim.value}
                   />

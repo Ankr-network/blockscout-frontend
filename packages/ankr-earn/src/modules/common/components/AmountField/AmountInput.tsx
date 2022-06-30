@@ -7,7 +7,7 @@ import { Field } from 'react-final-form';
 import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { useValidateAmount } from 'modules/common/hooks/useAmountValidation';
+import { useValidateAmount } from 'modules/common/hooks/useValidateAmount';
 import { AmountField } from 'uiKit/AmountField';
 
 import { useAmountFieldStyles } from './useAmountFieldStyles';
@@ -27,6 +27,7 @@ interface IAmountInputProps {
   maxAmount?: BigNumber;
   showBalance?: boolean;
   maxDecimals?: number;
+  balanceLinkSlot?: ReactNode;
   onMaxClick?: () => void;
 }
 
@@ -43,6 +44,7 @@ export const AmountInput = ({
   minAmount = MIN_AMOUNT,
   showBalance = true,
   maxDecimals,
+  balanceLinkSlot,
   onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
@@ -50,6 +52,7 @@ export const AmountInput = ({
   const roundedBalance = balance
     ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
     : '0';
+  const isDisabledAmountField = disabled || isBalanceLoading;
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 
   const validateAmount = useValidateAmount(
@@ -70,27 +73,33 @@ export const AmountInput = ({
           {t('stake.balance-label')}
 
           <>{': '}</>
+
           {isBalanceLoading ? (
             <div className={classes.balanceLoadingBox}>
               <Skeleton width={40} />
             </div>
           ) : (
-            `${roundedBalance} ${tokenName}`
+            t('unit.token-value', {
+              token: tokenName,
+              value: roundedBalance,
+            })
           )}
+
+          {balanceLinkSlot}
         </Typography>
       )}
 
       <Field
         fullWidth
         component={AmountField}
-        disabled={disabled}
+        disabled={isDisabledAmountField}
         InputProps={{
           classes: {
             input: inputClassName,
           },
           endAdornment: isMaxBtnShowed && (
             <Button
-              disabled={disabled}
+              disabled={isDisabledAmountField}
               size="small"
               variant="outlined"
               onClick={onMaxClick}

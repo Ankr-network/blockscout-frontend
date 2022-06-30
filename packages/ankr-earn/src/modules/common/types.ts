@@ -11,6 +11,7 @@ export type Megabytes = number;
 export type Percentage = number;
 export type ETH = number;
 export declare type Web3Address = string;
+export type Web3Uint256 = string;
 
 export enum Env {
   Develop = 'develop',
