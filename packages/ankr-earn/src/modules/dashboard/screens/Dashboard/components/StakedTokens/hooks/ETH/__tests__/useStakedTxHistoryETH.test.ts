@@ -24,8 +24,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   const defaultData = {
     loading: false,
     data: {
-      totalPending: ONE_ETH,
-      completedAETHC: [
+      completedCertificate: [
         {
           txDate: NOW,
           txAmount: ONE_ETH,
@@ -33,7 +32,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: 'type1',
         },
       ],
-      completedAETHB: [
+      completedBond: [
         {
           txDate: NOW,
           txAmount: ONE_ETH,
@@ -41,7 +40,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: 'type1',
         },
       ],
-      pending: [
+      pendingBond: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,

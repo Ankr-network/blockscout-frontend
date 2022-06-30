@@ -3,7 +3,8 @@ import { RequestAction, getQuery } from '@redux-requests/core';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
-import { EthSDK, TEthToken } from 'modules/api/EthSDK';
+import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
@@ -17,14 +18,14 @@ export const claim = createAction<
 >(`${ETH_ACTIONS_PREFIX}claim`, token => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       return sdk.claim(token);
     })(),
   },
   meta: {
-    showNotificationOnError: true,
     asMutation: true,
+    showNotificationOnError: true,
     onSuccess: (
       response: { data: IWeb3SendResult },
       _action,

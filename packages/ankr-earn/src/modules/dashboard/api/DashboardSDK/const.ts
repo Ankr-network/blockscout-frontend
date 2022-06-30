@@ -1,8 +1,11 @@
-import { AMATICB_ABI, AMATICC_ABI } from '@ankr.com/staking-sdk';
+import {
+  AMATICB_ABI,
+  AMATICC_ABI,
+  ABI_ERC20,
+  AETHB_ABI,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import ABI_AETHB from 'modules/api/contract/FETH.json';
-import ABI_ERC20 from 'modules/api/contract/IERC20.json';
 import {
   BSC_PROVIDER_BY_ENV,
   ETH_PROVIDER_BY_ENV,
@@ -33,7 +36,7 @@ export const bscTokenConfig: TNetworkTokenConfig = {
   },
 
   [Token.aETHb]: {
-    abi: ABI_AETHB,
+    abi: AETHB_ABI,
     address: config.binanceConfig.aETHbToken,
     providerName: BSC_PROVIDER_BY_ENV,
   },
@@ -53,7 +56,7 @@ export const ethereumTokenConfig: TNetworkTokenConfig = {
   },
 
   [Token.aETHb]: {
-    abi: ABI_AETHB,
+    abi: AETHB_ABI,
     address: config.contractConfig.fethContract,
     providerName: ETH_PROVIDER_BY_ENV,
   },

@@ -2,7 +2,8 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { EthSDK } from 'modules/api/EthSDK';
+import { EthereumSDK } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
@@ -22,7 +23,7 @@ export const getCommonData = createAction<
 >(`${ETH_ACTIONS_PREFIX}getCommonData`, () => ({
   request: {
     promise: (async (): Promise<IGetCommonData> => {
-      const sdk = await EthSDK.getInstance();
+      const sdk = await EthereumSDK.getInstance();
 
       const isFormatted = true;
 
@@ -38,7 +39,7 @@ export const getCommonData = createAction<
         sdk.getEthBalance(),
         sdk.getABBalance(isFormatted),
         sdk.getACBalance(isFormatted),
-        sdk.getMinStake(),
+        sdk.getMinimumStake(),
         sdk.getACRatio(isFormatted),
         sdk.getClaimable(Token.aETHb),
         sdk.getClaimable(Token.aETHc),

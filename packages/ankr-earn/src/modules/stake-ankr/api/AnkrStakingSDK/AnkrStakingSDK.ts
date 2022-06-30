@@ -1,11 +1,10 @@
+import { EEthereumNetworkId, Web3KeyWriteProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import prettyTime from 'pretty-time';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId, Web3KeyWriteProvider } from 'provider';
+import { ProviderManagerSingleton, ANKR_ABI } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import ABI_ANKR from 'modules/api/contract/ANKR.json';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
@@ -84,7 +83,7 @@ export class AnkrStakingSDK {
 
   private getAnkrTokenContract() {
     return this.writeProvider.createContract(
-      ABI_ANKR,
+      ANKR_ABI,
       config.contractConfig.ankrContract,
     );
   }
