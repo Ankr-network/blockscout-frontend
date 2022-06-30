@@ -1,4 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useQuery,
+  useMutation,
+} from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
@@ -67,6 +71,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
 
   beforeEach(() => {
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    (useMutation as jest.Mock).mockReturnValue({ loading: false });
   });
 
   afterEach(() => {
@@ -91,6 +96,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
       EEthereumNetworkId.smartchainTestnet,
     );
     expect(result.current.isBalancesLoading).toBe(false);
+    expect(result.current.isSwapLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
   });
 
