@@ -421,6 +421,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return events?.[events.length - 1];
   }
 
+  async getLastProviderRequestEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined> {
+    const events =
+      await this.getPAYGContractManager().getLatestProviderRequestEvents(user);
+
+    if (!events?.length) return undefined;
+
+    return events[events.length - 1];
+  }
+
   async isJwtTokenIssueAvailable(
     transactionHash: PrefixedHex,
   ): Promise<IIsJwtTokenIssueAvailableResult> {

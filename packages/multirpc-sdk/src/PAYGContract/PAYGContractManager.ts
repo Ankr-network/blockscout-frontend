@@ -159,7 +159,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
   }
 
-  async getLatestUserEventLogHash(event: IPayAsYouGoEvents, user: Web3Address) {
+  async getLatestUserEventLogs(event: IPayAsYouGoEvents, user: Web3Address) {
     return this.payAsYouGoContract.getPastEvents(event, {
       filter: {
         sender: user,
@@ -172,7 +172,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
   ): Promise<PrefixedHex | false> {
-    const tierAssignedEvents = await this.getLatestUserEventLogHash(
+    const tierAssignedEvents = await this.getLatestUserEventLogs(
       'TierAssigned',
       user,
     );
@@ -193,7 +193,19 @@ export class PAYGContractManager implements IPAYGContractManager {
   async getLatestUserLockedFundsEventLogHash(
     user: Web3Address,
   ): Promise<EventData[]> {
-    return this.getLatestUserEventLogHash('FundsLocked', user);
+    return this.getLatestUserEventLogs('FundsLocked', user);
+  }
+
+  async getLatestProviderRequestEvents(
+    user: Web3Address,
+  ): Promise<EventData[]> {
+    const events = await this.getLatestUserEventLogs('ProviderRequest', user);
+
+    const providerRequestEvents = events
+      .filter(event => event.returnValues.sender === user)
+      .sort((a, b) => a.blockNumber - b.blockNumber);
+
+    return providerRequestEvents;
   }
 
   async decryptMessageUsingPrivateKey(

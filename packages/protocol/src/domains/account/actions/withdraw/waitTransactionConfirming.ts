@@ -6,9 +6,15 @@ import { throwIfError } from 'common';
 import { retry } from 'modules/api/utils/retry';
 import { fetchCredentialsStatus } from 'domains/auth/actions/fetchCredentialsStatus';
 import { fetchBalance } from '../balance/fetchBalance';
-import { selectTransaction } from 'domains/account/store/accountWithdrawSlice';
+import {
+  selectTransaction,
+  setWithdrawTransaction,
+} from 'domains/account/store/accountWithdrawSlice';
 import { t } from 'modules/i18n/utils/intl';
 import { getTransactionReceipt } from './getTransactionReceipt';
+import { MultiService } from 'modules/api/MultiService';
+import { checkPendingWithdrawal } from './getInitialStep/checkPendingWithdrawal';
+import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 
 const MAX_ATTEMPTS = 50;
 
@@ -31,21 +37,64 @@ const fetchCredentialsData = async (
   return credentialsData;
 };
 
-const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
-  await checkTransactionStatus(transactionHash);
+const waitForBlocks = async (
+  store: RequestsStore,
+  initialTransactionHash: string,
+) => {
+  await checkTransactionStatus(initialTransactionHash);
 
-  const credentialsStatus = await fetchCredentialsData(transactionHash, store);
+  const credentialsStatus = await fetchCredentialsData(
+    initialTransactionHash,
+    store,
+  );
 
   if (credentialsStatus?.isReady) return undefined;
 
   return retry(
     async () => {
-      await checkTransactionStatus(transactionHash);
+      await checkPendingWithdrawal();
 
-      const data = await fetchCredentialsData(transactionHash, store);
+      const { service } = MultiService.getInstance();
+      const address = service.getKeyProvider().currentAccount();
+      const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
+        address,
+      );
+
+      const currentBlockNumber = await service
+        .getKeyProvider()
+        .getWeb3()
+        .eth.getBlockNumber();
+
+      // This is old withdrawal. New withdrawal failed
+      if (
+        currentBlockNumber - (lastWithdrawalEvent?.blockNumber || 0) >
+        CONFIRMATION_BLOCKS
+      ) {
+        throw new Error(t('error.failed'));
+      }
+
+      let newTransactionHash = initialTransactionHash;
+
+      if (
+        lastWithdrawalEvent?.transactionHash &&
+        lastWithdrawalEvent?.transactionHash !== initialTransactionHash
+      ) {
+        newTransactionHash = lastWithdrawalEvent?.transactionHash as string;
+
+        store.dispatch(
+          setWithdrawTransaction({
+            address,
+            withdrawTransactionHash: newTransactionHash,
+          }),
+        );
+      }
+
+      await checkTransactionStatus(newTransactionHash);
+
+      const data = await fetchCredentialsData(newTransactionHash, store);
 
       if (!data?.isReady) {
-        throw new Error(t('error.credentials'));
+        throw new Error();
       }
 
       return data;

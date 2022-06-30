@@ -143,4 +143,8 @@ export interface IMultiRpcSdk {
   getBalanceEndTime(blockchain?: string[]): Promise<number>;
 
   getLastLockedFundsEvent(user: Web3Address): Promise<EventData | undefined>;
+
+  getLastProviderRequestEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined>;
 }

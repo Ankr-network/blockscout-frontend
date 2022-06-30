@@ -9,7 +9,7 @@ import { MultiService } from 'modules/api/MultiService';
 export const WIHDRAWAL_STATUS_INTERVAL = 30;
 
 export const checkWithdrawStatus = createSmartAction<
-  RequestAction<IWithdrawalStatusResponse, IWithdrawalStatusResponse>
+  RequestAction<IWithdrawalStatusResponse, WithdrawStatus | undefined>
 >('withdraw/checkWithdrawStatus', (transactionHash: string, poll?: number) => ({
   request: {
     promise: (async () => null)(),
@@ -27,14 +27,18 @@ export const checkWithdrawStatus = createSmartAction<
 
             const status = data?.withdraw?.status;
 
-            if (status === WithdrawStatus.WITHDRAW_STATUS_COMPLETED) {
+            if (poll && status === WithdrawStatus.WITHDRAW_STATUS_COMPLETED) {
               await store.dispatchRequest(resetWithdraw());
             }
+
+            return status;
           } catch (error) {
             // ignore error if transaction wasn't found
             // eslint-disable-next-line no-console
             console.log('error', error);
           }
+
+          return undefined;
         })(),
       };
     },

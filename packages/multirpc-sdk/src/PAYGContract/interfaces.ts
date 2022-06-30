@@ -21,6 +21,8 @@ export interface IPAYGContractManager {
 
   getLatestUserLockedFundsEventLogHash(user: Web3Address): Promise<EventData[]>;
 
+  getLatestProviderRequestEvents(user: Web3Address): Promise<EventData[]>;
+
   decryptMessageUsingPrivateKey(compatibleJsonData: string): Promise<string>;
 
   rejectAllowance(): Promise<IWeb3SendResult>;
