@@ -5,7 +5,6 @@ import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -426,7 +425,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if write provider isn't connected.
-   * @param {string} token - token symbol (aBNBb or aBNBc)
+   * @param {string} token - token symbol (aBNBb or aBNBc or aETHc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -452,7 +451,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
         address = binanceConfig.aETHcToken;
         break;
       default: {
-        throw new Error(t('error.some'));
+        throw new Error(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
       }
     }
 

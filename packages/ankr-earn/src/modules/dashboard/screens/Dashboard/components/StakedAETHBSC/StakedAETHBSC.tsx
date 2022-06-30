@@ -27,6 +27,7 @@ export const StakedAETHBSC = (): JSX.Element => {
     usdAmount,
     nativeAmount,
     isBalancesLoading,
+    isSwapLoading,
     onSwapToken,
     swapDisabled,
   } = useStakedAETHBSCData();
@@ -43,7 +44,8 @@ export const StakedAETHBSC = (): JSX.Element => {
         amount={amount}
         buttonsSlot={
           <Button
-            disabled={swapDisabled}
+            disabled={swapDisabled || isSwapLoading}
+            isLoading={isSwapLoading}
             type="button"
             variant="outlined"
             onClick={onSwapToken}

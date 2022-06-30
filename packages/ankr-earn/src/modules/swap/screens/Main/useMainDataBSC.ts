@@ -1,8 +1,10 @@
 import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
+
+import { AVAILABLE_BNB_SYNT_TOKENS } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
@@ -10,7 +12,6 @@ import { Token } from 'modules/common/types/token';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { getTxData, getTxReceipt } from 'modules/stake-bnb/actions/getTxData';
-import { AVAILABLE_BNB_SYNT_TOKENS } from 'modules/stake-bnb/const';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -42,16 +43,6 @@ export function useMainDataBSC(): IMainDataBSC {
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
-
-  const calculatedAmount = useMemo(() => {
-    const amount = data?.amount;
-    const relayerFee = stats?.relayerFee;
-    if (!amount || !relayerFee) {
-      return undefined;
-    }
-
-    return amount.minus(relayerFee);
-  }, [data?.amount, stats?.relayerFee]);
 
   const isPending = !receipt && !!data?.isPending;
 
@@ -88,7 +79,7 @@ export function useMainDataBSC(): IMainDataBSC {
     token,
     isLoading,
     isPending,
-    amount: calculatedAmount,
+    amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     error: error || txFailError,

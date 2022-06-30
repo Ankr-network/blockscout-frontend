@@ -47,4 +47,5 @@ export interface IBinanceSDKProviders {
  */
 export enum EBinanceErrorCodes {
   ZERO_AMOUNT = 'zero-amount',
+  UNSUPPORTED_TOKEN = 'unsupported-token',
 }

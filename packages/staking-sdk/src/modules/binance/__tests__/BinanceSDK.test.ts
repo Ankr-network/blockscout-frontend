@@ -254,6 +254,36 @@ describe('modules/binance/sdk', () => {
     expect(allowance).toStrictEqual(new BigNumber(1));
   });
 
+  test('should return balance, ratio for old aETHc', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        ratio: () => ({ call: () => ZERO }),
+        balanceOf: () => ({ call: () => new BigNumber(10_000) }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const [balance, ratio] = await Promise.all([
+      sdk.getAETHBalance(),
+      sdk.getAETHRatio(),
+    ]);
+
+    expect(balance).toStrictEqual(new BigNumber(10_000));
+    expect(ratio).toStrictEqual(ZERO);
+  });
+
   test('should return bond balance', async () => {
     const contract = {
       ...defaultContract,
@@ -308,6 +338,40 @@ describe('modules/binance/sdk', () => {
     const balance = await sdk.getBNBBalance();
 
     expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
+  test('should swap old aETHc to new aETHc', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        swapOld: jest.fn(() => ({ encodeABI: () => 'abi' })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await sdk.swapOldAETHC(new BigNumber(1));
+
+    expect(contract.methods.swapOld).toBeCalledTimes(1);
+    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(contract.methods.swapOld).toBeCalledWith(
+      "0xde0b6b3a7640000"
+    );
+    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
+      'address',
+      '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
+      { data: 'abi', estimate: true },
+    );
   });
 
   test('should approve cetrificate for bond properly', async () => {
