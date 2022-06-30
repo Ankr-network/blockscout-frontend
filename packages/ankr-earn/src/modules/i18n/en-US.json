@@ -581,7 +581,7 @@
     "token-select-label": "Choose token",
     "unclaimed-label": "Unclaimed ETH balance",
     "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
-    "unstake-tooltip": "Unstaking will be enabled during phase 1.5 of Ethereum 2.0. The release date of phase 1.5 is expected sometime between 2021 and 2022.",
+    "unstake-tooltip": "Unstaking will be enabled after The Merge of 'Eth1' and 'Eth2' into a single chain and withdrawal activation. Expected ~Q3/Q4 2022.",
     "amount-tooltip": "Amount must be multiple of {step}",
     "faq": {
       "question-1": "Where can I find a detailed tutorial for ETH staking?",
@@ -593,7 +593,7 @@
       "question-4": "Is there a maximum amount I can stake?",
       "answer-4": "No, you can stake at your discretion, unlimited. You should know that currently staking starts once 32 ETH are accumulated, so if your stake is >32 ETH, it’ll be divided into chunks and the rule will apply to each of them.",
       "question-5": "What is the unbonding period for aETHb/aETHc?",
-      "answer-5": "Currently, there is no unbonding period, as there is no unstaking for ETH. This functionality is to be implemented by the Ethereum team in future updates.",
+      "answer-5": "Currently, there is no unbonding period, as there is no unstaking for ETH. Unstaking will be enabled after The Merge of 'Eth1' and 'Eth2' into a single chain and withdrawal activation. Expected ~Q3/Q4 2022.",
       "question-6": "How do I receive rewards?",
       "answer-6": "aETHb is a rebasing token. When holding aETHb, your balance will increase in proportion to your ETH staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount. <br/>aETHc, though, does not change in quantity but will appreciate in value, daily. <br/>Mind that to pull out your rewards, you’ll need to sell aETHb/aETHc on Ankr DeFi, as Ethereum hasn’t implemented the unstaking functionality yet.",
       "question-7": "How soon after staking will I begin to receive rewards?",
