@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -8,7 +9,6 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

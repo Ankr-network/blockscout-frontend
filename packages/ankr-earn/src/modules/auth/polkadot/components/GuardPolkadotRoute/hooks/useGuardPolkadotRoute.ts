@@ -1,7 +1,6 @@
+import { EPolkadotNetworkId } from '@ankr.com/provider';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
-
-import { EPolkadotNetworkId } from 'provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';

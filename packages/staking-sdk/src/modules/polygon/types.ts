@@ -1,4 +1,4 @@
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
  * Available tokens for PolygonSDK

@@ -1,4 +1,8 @@
 import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
+import {
   useDispatchRequest,
   useMutation,
   useQuery,
@@ -7,7 +11,6 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

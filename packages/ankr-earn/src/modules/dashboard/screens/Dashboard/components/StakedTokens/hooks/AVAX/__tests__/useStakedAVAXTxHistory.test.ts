@@ -24,6 +24,10 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/stake-avax/actions/fetchTxHistory', () => ({
+  fetchTxHistory: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAVAXTxHistory', () => {
   const NOW = new Date();
 

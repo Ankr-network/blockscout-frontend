@@ -1,3 +1,8 @@
+import {
+  Address,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
@@ -15,7 +20,6 @@ import {
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
-import { Address, Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

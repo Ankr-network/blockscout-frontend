@@ -1,7 +1,6 @@
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-
-import { EEthereumNetworkId } from 'provider';
 
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -15,6 +14,10 @@ import {
   ITxHistoryData,
   useStakedMATICTxHistory,
 } from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+
+jest.mock('modules/stake-polygon/actions/fetchTxHistory', () => ({
+  fetchTxHistory: jest.fn(),
+}));
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),

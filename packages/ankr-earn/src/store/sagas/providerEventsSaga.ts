@@ -1,3 +1,19 @@
+import {
+  AccountChangedEventData,
+  AvailableWriteProviders,
+  EthereumWeb3KeyProvider,
+  EventProvider,
+  EVENTS,
+  getProvider,
+  IAccountChangedEvent,
+  IChainChangedEvent,
+  IDisconnectEvent,
+  IMessageEvent,
+  MessageEventData,
+  ProviderEvent,
+  ProviderEvents,
+  ProviderRpcError,
+} from '@ankr.com/provider';
 import { RequestActionMeta, success } from '@redux-requests/core';
 import { SelectEffect, TakeEffect } from '@redux-saga/core/effects';
 import { Channel, END, eventChannel, Task } from 'redux-saga';
@@ -15,23 +31,6 @@ import {
 import Web3 from 'web3';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import {
-  AccountChangedEventData,
-  AvailableWriteProviders,
-  EthereumWeb3KeyProvider,
-  EventProvider,
-  EVENTS,
-  getProvider,
-  IAccountChangedEvent,
-  IChainChangedEvent,
-  IDisconnectEvent,
-  IMessageEvent,
-  MessageEventData,
-  ProviderEvent,
-  ProviderEvents,
-  ProviderManager,
-  ProviderRpcError,
-} from 'provider';
 
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';
@@ -205,8 +204,7 @@ function* listenProviderWeb3Events({
 }
 
 function* connectSuccessWeb3Worker(providerId: AvailableWriteProviders) {
-  const providerManager: ProviderManager =
-    ProviderManagerSingleton.getInstance();
+  const providerManager = ProviderManagerSingleton.getInstance();
 
   let ethWeb3KeyProvider: EthereumWeb3KeyProvider;
 

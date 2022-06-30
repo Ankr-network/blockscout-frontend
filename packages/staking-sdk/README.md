@@ -4,12 +4,12 @@
 
 ```bash
 # yarn
-yarn add @ankr.com/staking-sdk
+yarn add @ankr.com/staking-sdk reselect
 ```
 
 ```bash
 # npm
-npm i @ankr.com/staking-sdk
+npm i @ankr.com/staking-sdk reselect
 ```
 
 >To choose testsnet contracts use `REACT_APP_API_ENV=staging` environment variable. For mainnet - use `REACT_APP_API_ENV=prod`.

@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import {
   RequestAction,
   RequestsStore,
@@ -6,7 +7,6 @@ import {
 import { createAction } from 'redux-smart-actions';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'provider';
 
 import { withStore } from 'modules/common/utils/withStore';
 

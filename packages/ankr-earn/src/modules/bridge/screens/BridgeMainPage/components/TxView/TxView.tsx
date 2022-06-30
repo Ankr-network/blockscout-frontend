@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Box, Paper } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import {
@@ -10,7 +11,6 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

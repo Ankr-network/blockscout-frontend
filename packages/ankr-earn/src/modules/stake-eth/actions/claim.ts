@@ -1,8 +1,7 @@
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { RequestAction, getQuery } from '@redux-requests/core';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
-
-import { IWeb3SendResult } from 'provider';
 
 import { EthSDK, TEthToken } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';

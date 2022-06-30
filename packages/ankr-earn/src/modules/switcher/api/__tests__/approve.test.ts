@@ -1,5 +1,6 @@
+import { EEthereumNetworkId } from '@ankr.com/provider';
+
 import { PolygonSDK, BinanceSDK } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';

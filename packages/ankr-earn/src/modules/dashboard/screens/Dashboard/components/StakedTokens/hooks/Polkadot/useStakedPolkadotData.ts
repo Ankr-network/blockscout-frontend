@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import {
   useDispatchRequest,
   useMutation,
@@ -7,7 +8,6 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';

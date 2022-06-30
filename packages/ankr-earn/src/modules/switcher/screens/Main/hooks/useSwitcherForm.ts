@@ -1,10 +1,10 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { number, object } from 'yup';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';

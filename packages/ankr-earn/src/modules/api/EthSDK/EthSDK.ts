@@ -1,9 +1,3 @@
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData, Filter } from 'web3-eth-contract';
-
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
@@ -12,7 +6,13 @@ import {
   ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'provider';
+} from '@ankr.com/provider';
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
+
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import AETHC_CONTRACT from 'modules/api/contract/AETH.json';

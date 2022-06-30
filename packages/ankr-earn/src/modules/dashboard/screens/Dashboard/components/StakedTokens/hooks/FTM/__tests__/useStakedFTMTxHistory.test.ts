@@ -20,6 +20,10 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/stake-fantom/actions/getHistory', () => ({
+  getHistory: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedFTMTxHistory.ts', () => {
   const NOW = new Date();
 

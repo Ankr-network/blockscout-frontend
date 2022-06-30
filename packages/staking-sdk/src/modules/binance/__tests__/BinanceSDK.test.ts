@@ -1,14 +1,13 @@
+import { ProviderManager } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
-
-import { ProviderManager } from 'provider';
 
 import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { BLOCK_OFFSET } from '../../polygon/const';
 import { CERT_STAKING_LOG_HASH } from '../const';
 
-jest.mock('provider', (): unknown => ({
-  ...jest.requireActual('provider'),
+jest.mock('@ankr.com/provider', (): unknown => ({
+  ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 

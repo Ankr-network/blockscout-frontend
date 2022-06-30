@@ -1,8 +1,10 @@
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useState } from 'react';
-
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

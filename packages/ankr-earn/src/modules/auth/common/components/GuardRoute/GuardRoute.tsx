@@ -1,9 +1,9 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';

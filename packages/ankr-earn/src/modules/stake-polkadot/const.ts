@@ -1,4 +1,7 @@
-import { AvailableReadProviders, AvailableWriteProviders } from 'provider';
+import {
+  AvailableReadProviders,
+  AvailableWriteProviders,
+} from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';

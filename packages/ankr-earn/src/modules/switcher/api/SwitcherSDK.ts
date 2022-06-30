@@ -1,3 +1,8 @@
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+  IWeb3SendResult,
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -8,11 +13,6 @@ import {
   IFetchTxData,
   IFetchTxReceiptData,
 } from '@ankr.com/staking-sdk';
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-  IWeb3SendResult,
-} from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { Token } from 'modules/common/types/token';

@@ -1,7 +1,6 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-
-import { AvailableWriteProviders } from 'provider';
 
 import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitchToken';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

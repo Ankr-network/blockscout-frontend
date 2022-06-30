@@ -1,7 +1,6 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-
-import { AvailableWriteProviders } from 'provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

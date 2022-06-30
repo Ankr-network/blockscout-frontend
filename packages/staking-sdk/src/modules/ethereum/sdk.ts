@@ -1,15 +1,14 @@
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData } from 'web3-eth-contract';
-
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'provider';
+} from '@ankr.com/provider';
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData } from 'web3-eth-contract';
 
 import {
   ETH_SCALE_FACTOR,

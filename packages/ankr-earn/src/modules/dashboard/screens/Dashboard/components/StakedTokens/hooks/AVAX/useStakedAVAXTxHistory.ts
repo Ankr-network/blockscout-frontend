@@ -1,8 +1,8 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';

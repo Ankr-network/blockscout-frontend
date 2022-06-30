@@ -1,7 +1,7 @@
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
 import { PolygonSDK, BinanceSDK } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId } from 'provider';
 
 import { EthSDK } from 'modules/api/EthSDK';
 import { ZERO_ADDR } from 'modules/common/const';

@@ -14,6 +14,10 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getTxHistoryAETHB', () => ({
+  getTxHistoryETH: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedTxHistoryETH', () => {
   const NOW = new Date();
 

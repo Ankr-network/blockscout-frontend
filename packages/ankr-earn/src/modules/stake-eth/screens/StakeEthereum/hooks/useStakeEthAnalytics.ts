@@ -1,8 +1,7 @@
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
-
-import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { EthSDK } from 'modules/api/EthSDK';
