@@ -37,7 +37,10 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
 
   return (
     <div data-test-id="cross-menu">
-      <IconButton onClick={handleMenuClick} className={classes.dropMenu}>
+      <IconButton
+        onClick={handleMenuClick}
+        className={classNames(classes.dropMenu, open && classes.closeIcon)}
+      >
         {open ? <CloseIcon /> : <MenuIcon />}
       </IconButton>
       <div
