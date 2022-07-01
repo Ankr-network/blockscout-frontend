@@ -37,7 +37,7 @@ export const MENU_LIST = [
     chainId: ChainId.Polygon,
     name: 'Polygon',
     logo: <PolygonLogo />,
-    url: 'https://polygon-rpc.com/ ',
+    url: 'https://rpc.ankr.com/polygon ',
   },
   {
     chainId: ChainId.Nervos,
@@ -55,7 +55,7 @@ export const MENU_LIST = [
     chainId: ChainId.Fantom,
     name: 'Fantom',
     logo: <FantomLogo />,
-    url: 'https://rpc.ftm.tools/ ',
+    url: 'https://rpc.ankr.com/fantom ',
   },
   {
     chainId: ChainId.Avalanche,

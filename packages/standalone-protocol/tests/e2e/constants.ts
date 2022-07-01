@@ -22,8 +22,8 @@ export const NON_LEGACY_STANDALONES = [
 
 export const LEGACY_STANDALONES = [
   { network: 'bsc', endPoint: 'https://bscrpc.com/' },
-  { network: 'polygon', endPoint: 'https://polygon-rpc.com/' },
-  { network: 'fantom', endPoint: 'https://rpc.ftm.tools/' },
+  { network: 'polygon', endPoint: 'https://rpc.ankr.com/polygon' },
+  { network: 'fantom', endPoint: 'https://rpc.ankr.com/fantom' },
 ];
 
 export const THEME = {
