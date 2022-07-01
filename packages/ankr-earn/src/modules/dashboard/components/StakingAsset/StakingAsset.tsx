@@ -156,7 +156,7 @@ export const StakingAsset = ({
                   variant="outlined"
                   onClick={onTradeClick}
                 >
-                  {t('dashboard.defi')}
+                  {t('dashboard.trade')}
                 </NavLink>
               ) : (
                 <Tooltip arrow title={comingSoonTooltip}>

@@ -13,11 +13,11 @@ import { useCallback, useMemo } from 'react';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -105,7 +105,7 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
     pendingUnstakes,
     ratio: commonData?.aFTMcRatio ?? ZERO,
     stakeLink: RoutesConfig.stake.generatePath(Token.aFTMc),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aFTMc),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMc, Token.FTM),
     unstakeLink: RoutesConfig.unstake.generatePath(Token.aFTMc),
     usdAmount,
     walletName,

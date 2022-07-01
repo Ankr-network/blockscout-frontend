@@ -13,10 +13,10 @@ import { useCallback, useMemo } from 'react';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -103,7 +103,10 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     pendingValue,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     stakeType: EAvalanchePoolEventsMap.StakePending,
-    tradeLink: DefiRoutes.defi.generatePath(Token.aAVAXb),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(
+      Token.aAVAXb,
+      Token.AVAX,
+    ),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(),
     unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
     usdAmount,

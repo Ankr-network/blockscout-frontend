@@ -364,23 +364,6 @@
     "no-tokens": "You have no unclaimed liquid staking tokens.",
     "progress-title": "Claim"
   },
-  "defi": {
-    "defi-aggregator": "DeFi Agregator",
-    "all-networks": "All networks",
-    "all-assets": "All assets",
-    "all": "All",
-    "assets": "Assets",
-    "network": "Network",
-    "protocol": "Protocol",
-    "type": "Type",
-    "rewards": "Rewards",
-    "liquid-staking": "Liquid Staking",
-    "liquidity-pool": "Liquidity Pool",
-    "farming": "Farming",
-    "vault": "Vault",
-    "borrowing": "Borrowing",
-    "deposit": "Deposit"
-  },
   "stake-avax": {
     "faq": {
       "question-1": "Where can I find a detailed tutorial for AVAX staking?",
@@ -698,7 +681,6 @@
     "pending": "Unstaking in progress {value} {token}",
     "pending-temp": "Unstaking in progress",
     "trade": "Trade",
-    "defi": "DeFi",
     "start-staking": "Start staking with Ankr Staking",
     "stake": "Stake",
     "copy": "Copy contract address",

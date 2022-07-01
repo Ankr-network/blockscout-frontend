@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import { t, tHTML } from 'common';
 
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { Token } from 'modules/common/types/token';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
@@ -13,7 +13,7 @@ export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();
 
   const tradeLink = useMemo(
-    () => DefiRoutes.defi.generatePath(Token.aAVAXb),
+    () => BoostRoutes.tradingCockpit.generatePath(Token.aAVAXb, Token.AVAX),
     [],
   );
 

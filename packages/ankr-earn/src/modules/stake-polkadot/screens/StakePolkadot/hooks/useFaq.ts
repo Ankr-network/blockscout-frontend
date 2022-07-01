@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 
 import { t, tHTML } from 'common';
 
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { fetchStakeStats } from 'modules/stake-polkadot/actions/fetchStakeStats';
 import {
@@ -20,14 +20,18 @@ interface IUseFaqProps {
   polkadotToken: TPolkadotToken;
 }
 
-export const useFaq = ({ ethToken, network }: IUseFaqProps): IFaqItem[] => {
+export const useFaq = ({
+  ethToken,
+  network,
+  polkadotToken,
+}: IUseFaqProps): IFaqItem[] => {
   const { data: stats } = useQuery({
     type: fetchStakeStats,
   });
 
   const tradeLink = useMemo(
-    () => DefiRoutes.defi.generatePath(ethToken),
-    [ethToken],
+    () => BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
+    [ethToken, polkadotToken],
   );
 
   return useLocaleMemo(

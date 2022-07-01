@@ -13,10 +13,10 @@ import { useCallback, useMemo } from 'react';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -99,7 +99,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     network,
     pendingValue,
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aBNBb),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aBNBb, Token.BNB),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
     usdAmount,
     walletName,

@@ -26,8 +26,8 @@ jest.mock('modules/stake-eth/Routes', () => ({
   },
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/boost/Routes', () => ({
+  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
@@ -58,7 +58,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
 
     expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.tradeLink).toBe('/trade');
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isShowed).toBe(true);
     expect(result.current.isStakeLoading).toBe(false);

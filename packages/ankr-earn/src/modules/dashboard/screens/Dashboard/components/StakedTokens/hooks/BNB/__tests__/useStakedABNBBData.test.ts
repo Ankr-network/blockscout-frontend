@@ -26,8 +26,8 @@ jest.mock('modules/stake-bnb/Routes', () => ({
   },
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/boost/Routes', () => ({
+  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
@@ -96,7 +96,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedAB
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.tradeLink).toBe('/trade');
   });
 
   test('should handle add token to metamask', () => {
