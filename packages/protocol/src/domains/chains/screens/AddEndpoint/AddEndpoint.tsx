@@ -8,7 +8,7 @@ import { fetchChainNodes } from 'domains/chains/actions/fetchChainNodes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { getScheme } from './AddEndpointUtils';
 import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
-import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';

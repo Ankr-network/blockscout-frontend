@@ -28,7 +28,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     marginBottom: theme.spacing(2.75),
-    // minHeight: 110,
     fontFamily: `${FONTS.secondary}`,
 
     'h3&': {
@@ -44,12 +43,4 @@ export const useStyles = makeStyles<Theme>(theme => ({
     minHeight: 45,
     marginBottom: theme.spacing(3),
   },
-  buttons: {
-    display: 'flex',
-    gap: 12,
-  },
-  button: {
-    minWidth: 210,
-  },
-  rejectButton: {},
 }));

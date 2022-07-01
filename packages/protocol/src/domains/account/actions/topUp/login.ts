@@ -2,13 +2,18 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
-import { tryToLogin } from 'modules/auth/utils/tryToLogin';
-import { setAuthData } from 'modules/auth/store/authSlice';
-import { connect } from 'modules/auth/actions/connect';
+import { tryToLogin } from 'domains/auth/utils/tryToLogin';
+import { setAuthData } from 'domains/auth/store/authSlice';
+import { connect } from 'domains/auth/actions/connect';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { IDeposit } from 'modules/auth/actions/deposit';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
-import { fetchPublicKey } from './fetchPublicKey';
+import { fetchPublicKey } from '../fetchPublicKey';
+import { IJwtToken } from 'multirpc-sdk';
+
+interface IDeposit {
+  address: string;
+  credentials: IJwtToken;
+}
 
 export const login = createSmartAction<RequestAction<string, string>>(
   'topUp/login',

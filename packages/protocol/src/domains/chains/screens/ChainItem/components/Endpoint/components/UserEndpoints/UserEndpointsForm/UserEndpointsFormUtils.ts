@@ -1,4 +1,4 @@
-import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { IPrivateEndpoint } from 'multirpc-sdk';
 import {
   UserEndpointsFormData,

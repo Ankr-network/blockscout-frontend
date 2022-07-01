@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
-import { ConnectButton } from 'modules/auth/components/ConnectButton';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useStyles } from './useStyles';
 import { NoReactSnap } from 'uiKit/NoReactSnap';

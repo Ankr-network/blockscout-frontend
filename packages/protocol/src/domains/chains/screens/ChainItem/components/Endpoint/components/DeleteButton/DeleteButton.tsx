@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { DeleteButtonProps } from './DeleteButtonTypes';
 import { DeleteEndpointDialog } from '../DeleteEndpointDialog';
 import { ReactComponent as TrashBinIcon } from 'uiKit/Icons/trashBin.svg';
-import { deletePrivateEndpoint } from 'domains/nodeProviders/actions/deletePrivateEndpoint';
+import { deletePrivateEndpoint } from 'domains/infrastructure/actions/deletePrivateEndpoint';
 
 import { useStyles } from './DeleteButtonStyles';
 

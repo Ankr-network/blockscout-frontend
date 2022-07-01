@@ -17,6 +17,23 @@ const keysMap: Record<ChartCurrency, ValueKey> = {
   [ChartCurrency.USD]: 'amountUsd',
 };
 
+const injectExtremes = (
+  transactions: IChartData[],
+  timeframe: ChartTimeframe,
+): IChartData[] => {
+  const { from = new Date().getTime(), to = new Date().getTime() } =
+    getTimeframeBorders(timeframe);
+
+  const extremes = [from, to].map<IChartData>(time => ({
+    time: new Date(time),
+    value: 0,
+  }));
+
+  extremes.length -= Math.min(transactions.length, extremes.length);
+
+  return [...extremes, ...transactions];
+};
+
 export const getTransactions = ({
   currency,
   payments,
@@ -29,15 +46,5 @@ export const getTransactions = ({
     }))
     .sort((a, b) => a.time.getTime() - b.time.getTime());
 
-  if (!transactions.length) {
-    const { from = new Date().getTime(), to = new Date().getTime() } =
-      getTimeframeBorders(timeframe);
-
-    return [from, to].map<IChartData>(time => ({
-      time: new Date(time),
-      value: 0,
-    }));
-  }
-
-  return transactions;
+  return injectExtremes(transactions, timeframe);
 };

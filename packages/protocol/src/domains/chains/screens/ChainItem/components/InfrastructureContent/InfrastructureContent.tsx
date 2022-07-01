@@ -2,13 +2,13 @@ import React from 'react';
 
 import { ChainNodesTable } from '../ChainNodesTable';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { EndpointQuery } from '../Endpoint/EndpointQuery';
 import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
-import { useProvider } from 'modules/auth/hooks/useProvider';
+import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
-import { canAddEndpoint } from 'domains/plan/screens/Dashboard/DashboardUtils';
 import { useStyles } from './InfrastructureContentStyles';
+import { canAddEndpoint } from '../Endpoint/EndpointUtils';
 
 interface IInfrastructureContentProps {
   chainId: string;

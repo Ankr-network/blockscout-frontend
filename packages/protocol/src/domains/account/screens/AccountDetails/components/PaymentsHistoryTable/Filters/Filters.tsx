@@ -36,9 +36,9 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
 
   useEffect(() => {
     const { from, to } = prepareTimeForRequest(timeValue);
-    const type = prepareTypeForRequest(typeValue);
+    const types = prepareTypeForRequest(typeValue);
 
-    onFetchPaymentHistory(from, to, type);
+    onFetchPaymentHistory(from, to, types);
   }, [onFetchPaymentHistory, timeValue, typeValue]);
 
   return (

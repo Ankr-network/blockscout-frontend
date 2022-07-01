@@ -20,6 +20,7 @@ export interface IApiChain {
   isArchive?: boolean;
   name: string;
   testnets?: IApiChain[];
+  devnets?: IApiChain[];
   totalRequests?: BigNumber;
   type: BlockchainType;
   urls: IApiChainURL[];
@@ -97,27 +98,11 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
     {},
   );
 
-  const chainsWithTestnets = extendedChains.reduce<IApiChain[]>(
+  const devnets = extendedChains.reduce<Record<string, IApiChain[]>>(
     (result, chain) => {
-      const { id, type } = chain;
+      const { chainExtends, type } = chain;
 
-      if (type !== BlockchainType.Testnet) {
-        result.push({
-          ...chain,
-          testnets: testnets[id],
-        });
-      }
-
-      return result;
-    },
-    [],
-  );
-
-  const extenders = chainsWithTestnets.reduce<Record<string, IApiChain[]>>(
-    (result, chain) => {
-      const { chainExtends } = chain;
-
-      if (chainExtends) {
+      if (type === BlockchainType.Devnet && chainExtends) {
         result[chainExtends] = result[chainExtends]
           ? [...result[chainExtends], chain]
           : [chain];
@@ -128,7 +113,38 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
     {},
   );
 
-  return chainsWithTestnets.reduce<IApiChain[]>((result, chain) => {
+  const chainsWithTestnetsOrDevnets = extendedChains.reduce<IApiChain[]>(
+    (result, chain) => {
+      const { id, type } = chain;
+
+      if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
+        result.push({
+          ...chain,
+          testnets: testnets[id],
+          devnets: devnets[id],
+        });
+      }
+
+      return result;
+    },
+    [],
+  );
+
+  const extenders = chainsWithTestnetsOrDevnets.reduce<
+    Record<string, IApiChain[]>
+  >((result, chain) => {
+    const { chainExtends } = chain;
+
+    if (chainExtends) {
+      result[chainExtends] = result[chainExtends]
+        ? [...result[chainExtends], chain]
+        : [chain];
+    }
+
+    return result;
+  }, {});
+
+  return chainsWithTestnetsOrDevnets.reduce<IApiChain[]>((result, chain) => {
     const { chainExtends, id } = chain;
 
     if (!chainExtends) {

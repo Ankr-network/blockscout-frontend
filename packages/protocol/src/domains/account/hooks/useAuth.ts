@@ -1,5 +1,5 @@
 import { Tier } from 'multirpc-sdk';
-import { useAuth as useCommonAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth as useCommonAuth } from 'domains/auth/hooks/useAuth';
 
 export interface Auth {
   isConnected: boolean;

@@ -4,7 +4,11 @@ export type IPaymentHistoryEntityType =
   | 'TRANSACTION_TYPE_DEDUCTION'
   | 'TRANSACTION_TYPE_WITHDRAW'
   | 'TRANSACTION_TYPE_BONUS'
-  | 'TRANSACTION_TYPE_COMPENSATION';
+  | 'TRANSACTION_TYPE_COMPENSATION'
+  | 'TRANSACTION_TYPE_VOUCHER_TOPUP'
+  | 'TRANSACTION_TYPE_VOUCHER_ADJUST'
+  | 'TRANSACTION_TYPE_WITHDRAW_INIT'
+  | 'TRANSACTION_TYPE_WITHDRAW_ADJUST';
 
 export interface IPaymentHistoryEntity {
   timestamp: string;
@@ -78,4 +82,22 @@ export interface IAggregatedPaymentHistoryRequest {
 
 export interface IAggregatedPaymentHistoryReponse {
   transactions: IPaymentHistoryEntity[];
+}
+
+export enum WithdrawStatus {
+  WITHDRAW_STATUS_UNKNOWN = 'WITHDRAW_STATUS_UNKNOWN',
+  WITHDRAW_STATUS_PENDING = 'WITHDRAW_STATUS_PENDING',
+  WITHDRAW_STATUS_WAITING = 'WITHDRAW_STATUS_WAITING',
+  WITHDRAW_STATUS_READY = 'WITHDRAW_STATUS_READY',
+  WITHDRAW_STATUS_COMPLETED = 'WITHDRAW_STATUS_COMPLETED'
+}
+
+export interface IWithdrawalStatusResponse {
+  withdraw: {
+    ankrAmount: string;
+    handleTxHash: string;
+    requestTxHash: string;
+    status: WithdrawStatus;
+    user: string;
+  };
 }

@@ -4,7 +4,7 @@ import { useQuery } from '@redux-requests/react';
 
 import { DeleteEndpointDialogProps } from './DeleteEndpointDialogTypes';
 import { Preloader } from 'uiKit/Preloader';
-import { deletePrivateEndpoint } from 'domains/nodeProviders/actions/deletePrivateEndpoint';
+import { deletePrivateEndpoint } from 'domains/infrastructure/actions/deletePrivateEndpoint';
 import { tHTML } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './DeleteEndpointDialogStyles';
