@@ -6,6 +6,7 @@ export enum BlockchainType {
   Mainnet = 'mainnet',
   Extension = 'extension',
   Testnet = 'testnet',
+  Devnet = 'devnet',
 }
 
 export interface IBlockchainEntity {

@@ -1,33 +1,25 @@
-import { AccountRoutesConfig } from 'domains/account/Routes';
-import { useState, useCallback } from 'react';
-import { useHistory } from 'react-router';
+import { WithdrawStep } from 'domains/account/actions/withdraw/const';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectTransaction } from 'domains/account/store/accountWithdrawSlice';
+import { WithdrawSteps } from './components/WithdrawSteps';
+import { useWithdrawSteps } from './WithdrawUtils';
 
-import { WithdrawStepsContainer as WithdrawSteps } from './components/WithdrawSteps';
-import { useWithdrawBreadcrumbs } from './WithdrawUtils';
+interface WithdrawProps {
+  initialStep: WithdrawStep;
+}
 
-const STEP = 0;
+export const Withdraw = ({ initialStep }: WithdrawProps) => {
+  const { step, onConfirm, loading, hasError } = useWithdrawSteps(initialStep);
 
-export const Withdraw = () => {
-  const history = useHistory();
-  const [step, setStep] = useState(STEP);
+  const transaction = useAppSelector(selectTransaction);
 
-  useWithdrawBreadcrumbs();
-
-  const onDeposit = useCallback(() => {
-    setStep(oldStep => {
-      if (oldStep === 3) {
-        const link = AccountRoutesConfig.accountDetails.generatePath();
-
-        history.push(link);
-
-        return STEP;
-      }
-
-      return ++oldStep;
-    });
-  }, [history]);
-
-  const loading = false;
-
-  return <WithdrawSteps step={step} onDeposit={onDeposit} loading={loading} />;
+  return (
+    <WithdrawSteps
+      step={step}
+      loading={loading}
+      onConfirm={onConfirm}
+      withdrawalTransactionHash={transaction?.withdrawTransactionHash}
+      hasError={hasError}
+    />
+  );
 };

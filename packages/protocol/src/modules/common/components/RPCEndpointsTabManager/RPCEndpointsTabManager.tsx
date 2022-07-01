@@ -1,20 +1,22 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
-import { Tab, TabsManager } from 'uiKit/TabsManager';
 import { t } from 'modules/i18n/utils/intl';
+import { Tab, TabsManager } from 'uiKit/TabsManager';
 
 import { useStyles } from './RPCEndpointsTabsManagerStyles';
 
 export enum RPCEndpointsTabID {
   MAINNET = 'mainnet',
   TESTNET = 'testnet',
+  DEVNET = 'devnet',
 }
 
 export interface RPCEndpointsTabsManagerProps {
   additionalContent?: ReactNode;
   mainnetEndpoints: ReactNode;
   testnetEndpoints?: ReactNode;
+  devnetEndpoints?: ReactNode;
   title: ReactNode;
 }
 
@@ -32,10 +34,18 @@ const testnetEndpointsTitleRenderFn = (isSelected: boolean) => (
   />
 );
 
+const devnetEndpointsTitleRenderFn = (isSelected: boolean) => (
+  <ChainTypeTab
+    content={t('chain-item.header.devnet-tab-title')}
+    isSelected={isSelected}
+  />
+);
+
 export const RPCEndpointsTabsManager = ({
   additionalContent,
   mainnetEndpoints,
   testnetEndpoints,
+  devnetEndpoints,
   title,
 }: RPCEndpointsTabsManagerProps) => {
   const classes = useStyles();
@@ -50,6 +60,11 @@ export const RPCEndpointsTabsManager = ({
       id: RPCEndpointsTabID.TESTNET,
       content: testnetEndpoints,
       title: testnetEndpointsTitleRenderFn,
+    },
+    {
+      id: RPCEndpointsTabID.DEVNET,
+      content: devnetEndpoints,
+      title: devnetEndpointsTitleRenderFn,
     },
   ].filter(({ content }) => !!content);
 

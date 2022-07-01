@@ -6,7 +6,7 @@ export interface IFiltersProps {
   onFetchPaymentHistory: (
     from?: number,
     to?: number,
-    type?: IPaymentHistoryEntityType,
+    types?: IPaymentHistoryEntityType[],
   ) => void;
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { INodeEntity } from 'multirpc-sdk';
 
-import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
+import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { MainInfo } from './MainInfo';
 import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
 import { PublicRPCEndpoints } from './PublicRPCEndpoints';

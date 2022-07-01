@@ -1,9 +1,9 @@
-export enum WithdrawFormFields {
+export enum AmountInputField {
   amount = 'amount',
 }
 
 export interface WithdrawFormValues {
-  [WithdrawFormFields.amount]: number;
+  [AmountInputField.amount]: number;
 }
 
 export interface WithdrawFormProps {

@@ -3,7 +3,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { MultiService } from 'modules/api/MultiService';
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
+import {
+  resetTransaction,
+  setRejectAllowanceTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { fetchBalance } from '../balance/fetchBalance';
 // eslint-disable-next-line import/no-cycle
 import { reset } from './reset';
@@ -21,7 +24,22 @@ export const rejectAllowance = createSmartAction<
           const { service } = MultiService.getInstance();
           const address = service.getKeyProvider().currentAccount();
 
-          await service.rejectAllowanceForPAYG();
+          const rejectAllowanceResponse =
+            await service.rejectAllowanceForPAYG();
+
+          const rejectAllowanceTransactionHash =
+            rejectAllowanceResponse?.transactionHash;
+
+          if (rejectAllowanceTransactionHash) {
+            store.dispatch(
+              setRejectAllowanceTransaction({
+                address,
+                rejectAllowanceTransactionHash,
+              }),
+            );
+          }
+
+          await rejectAllowanceResponse.receiptPromise;
 
           store.dispatch(resetTransaction({ address }));
           store.dispatchRequest(reset());

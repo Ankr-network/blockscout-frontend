@@ -10,6 +10,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     marginTop: 37,
   },
+  emptyMessage: {
+    marginBottom: 37,
+  },
   group: {
     '&:not(:last-child)': {
       borderBottom: `2px solid ${theme.palette.background.default}`,

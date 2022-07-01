@@ -1,6 +1,10 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+interface IHeight {
+  size: 'm' | 'l';
+}
+
+export const useStyles = makeStyles<Theme, IHeight>(theme => ({
   formGroup: {
     [theme.breakpoints.down('sm')]: {
       width: '100%',
@@ -9,9 +13,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
   inputBase: {
     fontSize: 14,
     borderRadius: 12,
-    maxHeight: 44,
+    maxHeight: ({ size }) => (size === 'l' ? 48 : 44),
   },
   input: {
-    minHeight: 44,
+    minHeight: ({ size }) => (size === 'l' ? 48 : 44),
   },
 }));

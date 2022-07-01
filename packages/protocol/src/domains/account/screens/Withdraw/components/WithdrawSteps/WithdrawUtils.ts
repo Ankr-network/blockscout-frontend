@@ -1,8 +1,18 @@
-import { IGetButtonPropsParams } from './WithdrawStepsTypes';
+import { WithdrawStep } from 'domains/account/actions/withdraw/const';
+import { t } from 'modules/i18n/utils/intl';
 
-export const getButtonProps = ({ onDeposit }: IGetButtonPropsParams) => {
-  return {
-    disabled: false,
-    onClick: onDeposit,
-  };
+export const getButtonText = (
+  loading: boolean,
+  step: WithdrawStep,
+  hasError?: boolean,
+): string => {
+  if (loading) {
+    return t(`withdraw-steps.button.${step}-loading`);
+  }
+
+  if (hasError && step === WithdrawStep.waitTransactionConfirming) {
+    return t(`withdraw-steps.button.${step}-error`);
+  }
+
+  return t(`withdraw-steps.button.${step}`);
 };

@@ -8,6 +8,7 @@ import {
   IPaymentHistoryRequest,
   IRequestsRequest,
   IRequestsResponse,
+  IWithdrawalStatusResponse,
 } from './types';
 
 export interface IAccountGateway {
@@ -32,4 +33,8 @@ export interface IAccountGateway {
   ): Promise<IAggregatedPaymentHistoryReponse>;
 
   getBalanceEndTime(blockchains?: string[]): Promise<number>;
+
+  getWithdrawalStatus(
+    transactionHash: string,
+  ): Promise<IWithdrawalStatusResponse>;
 }

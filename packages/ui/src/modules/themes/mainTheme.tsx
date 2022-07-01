@@ -50,6 +50,9 @@ export const PALETTE: PaletteOptions = {
     main: '#E3453D',
     light: alpha('#E3453D', 0.15),
   },
+  warning: {
+    main: '#EEA941',
+  },
   grey: {
     400: '#E7EBF3',
     500: '#808692',

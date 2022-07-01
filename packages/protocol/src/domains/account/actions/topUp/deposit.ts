@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 
 import { MultiService } from 'modules/api/MultiService';
-import { fetchPublicKey } from './fetchPublicKey';
+import { fetchPublicKey } from '../fetchPublicKey';
 import {
   setAllowanceTransaction,
   setTopUpTransaction,

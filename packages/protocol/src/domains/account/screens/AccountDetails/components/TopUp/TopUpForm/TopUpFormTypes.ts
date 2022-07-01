@@ -1,11 +1,12 @@
-export enum TopUpFormFields {
+export enum AmountInputField {
   amount = 'amount',
 }
 
 export interface TopUpFormValues {
-  [TopUpFormFields.amount]: string;
+  [AmountInputField.amount]: string;
 }
 
 export interface TopUpFormProps {
   onSubmit: (data: TopUpFormValues) => void;
+  hasLoginStep: boolean;
 }
