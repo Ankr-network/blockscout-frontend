@@ -11,6 +11,7 @@ import {
 } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { useDimensions } from 'modules/common/hooks/useDimensions';
 import { renderChainName } from 'modules/common/types/unit';
+import { Banner } from 'domains/chains/screens/ChainItem/components/Banner';
 
 export const Header = ({ chainId, className = '' }: HeaderProps) => {
   const bannerRef = useRef() as MutableRefObject<HTMLDivElement | null>;
@@ -19,6 +20,7 @@ export const Header = ({ chainId, className = '' }: HeaderProps) => {
 
   return (
     <div className={classNames(classes.root, className)} data-test-id="header">
+      <Banner />
       {hasBanner(chainId) && (
         <div ref={bannerRef} className={classNames(classes.banner, chainId)}>
           {getBannerContent(chainId)}

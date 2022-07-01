@@ -19,7 +19,7 @@ export const MENU_LIST = [
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
     logo: <EthereumLogo />,
-    url: 'http://ethereum.public-rpc.com/',
+    url: 'https://eth.public-rpc.com/',
   },
   {
     chainId: ChainId.Solana,
