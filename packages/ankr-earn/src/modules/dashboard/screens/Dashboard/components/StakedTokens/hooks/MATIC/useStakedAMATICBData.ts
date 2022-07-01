@@ -13,10 +13,10 @@ import { useCallback, useMemo } from 'react';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
 import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
@@ -92,10 +92,7 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
     network,
     pendingValue,
     stakeLink: StakePolygonRoutes.stake.generatePath(),
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(
-      Token.aMATICb,
-      Token.MATIC,
-    ),
+    tradeLink: DefiRoutes.defi.generatePath(Token.MATIC),
     unstakeLink: StakePolygonRoutes.unstake.generatePath(),
     usdAmount,
     walletName,

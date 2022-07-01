@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
@@ -16,7 +16,7 @@ export const useFaq = (): IFaqItem[] => {
   const { redeemPeriod, redeemValue } = useRedeemData();
 
   const aBNBbLink: string = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
+    () => DefiRoutes.defi.generatePath(Token.BNB),
     [],
   );
 
