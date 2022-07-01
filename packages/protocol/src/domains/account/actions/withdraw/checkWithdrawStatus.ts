@@ -15,7 +15,7 @@ export const checkWithdrawStatus = createSmartAction<
     promise: (async () => null)(),
   },
   meta: {
-    showNotificationOnError: false,
+    hideNotificationOnError: true,
     poll,
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {

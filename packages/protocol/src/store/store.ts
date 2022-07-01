@@ -60,7 +60,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
       customMessageKey = 'error.expired-session';
     }
 
-    if (!action.meta?.suppressErrorNotification) {
+    if (!action.meta?.hideNotificationOnError) {
       store.dispatch(
         NotificationActions.showNotification({
           message: extractMessage(error, customMessageKey),

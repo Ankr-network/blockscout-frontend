@@ -131,6 +131,6 @@ export const waitTransactionConfirming = createSmartAction<
 
       return response;
     },
-    showNotificationOnError: false,
+    hideNotificationOnError: true,
   },
 }));

@@ -25,7 +25,6 @@ export const apiAddPrivateEndpoint = createSmartAction<
     meta: {
       asMutation: true,
       onRequest: credentialsGuard,
-      showNotificationOnError: true,
     },
   }),
 );

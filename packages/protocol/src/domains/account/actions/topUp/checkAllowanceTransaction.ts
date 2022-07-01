@@ -15,7 +15,7 @@ export const checkAllowanceTransaction = createSmartAction<
       promise: (async () => null)(),
     },
     meta: {
-      showNotificationOnError: false,
+      hideNotificationOnError: true,
       onRequest: () => {
         return {
           promise: (async (): Promise<any> => {

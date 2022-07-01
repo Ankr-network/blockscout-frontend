@@ -26,7 +26,6 @@ export const deletePrivateEndpoint = createAction<Action, Params>(
         store.dispatchRequest(fetchEndpoints());
       },
       requestKey: endpointId,
-      showNotificationOnError: true,
     },
   }),
 );

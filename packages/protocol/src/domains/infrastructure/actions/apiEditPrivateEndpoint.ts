@@ -26,7 +26,6 @@ export const apiEditPrivateEndpoint = createSmartAction<
     meta: {
       asMutation: true,
       onRequest: credentialsGuard,
-      showNotificationOnError: true,
 
       onSuccess: (
         response: any,

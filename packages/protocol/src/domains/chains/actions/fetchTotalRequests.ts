@@ -35,13 +35,16 @@ export const fetchTotalRequests = createSmartAction<
   meta: {
     driver: 'axios',
     asMutation: true,
+    hideNotificationOnError: true,
     getData: data => {
       const totalRequestsHistory: Record<string, number> = {};
+
       data.entries.forEach((item: IEntries) => {
         const key = new Date(item.toTime).getTime().toString();
         const value = item.data.requests;
         totalRequestsHistory[key] = value;
       });
+
       return {
         cachedRequests: data.totals.cachedRequests,
         requests: data.totals.requests,

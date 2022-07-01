@@ -32,7 +32,6 @@ export const editChainRestrictedIps = createSmartAction<
     meta: {
       asMutation: true,
       onRequest: credentialsGuard,
-      showNotificationOnError: true,
       mutations: {
         [fetchSecuritySettings.toString()]: (
           data: ResponseData<typeof fetchSecuritySettings>,

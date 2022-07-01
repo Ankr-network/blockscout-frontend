@@ -62,25 +62,31 @@ export const fetchChainTimeframeData = createSmartAction<
               chainId,
               timeframe,
             );
+
             const url = getUrlByChainId(chainId);
+
             if (url) {
               const { data: result } = await store.dispatchRequest(
                 fetchTotalRequests(url),
               );
+
               const multiplier = getMultiplier(timeframe);
               data.totalRequests = new BigNumber(result?.requests ?? 0)
                 .multipliedBy(multiplier)
                 .plus(data.totalRequests)
                 .toNumber();
+
               data.totalCached = new BigNumber(result?.cachedRequests ?? 0)
                 .multipliedBy(multiplier)
                 .plus(data.totalCached)
                 .toNumber();
+
               const totalRequestsHistory = result?.totalRequestsHistory ?? {};
 
               if (timeframe === '30d') {
                 const onedayRequests =
                   calculateOnedayRequests(totalRequestsHistory);
+
                 Object.keys(data.totalRequestsHistory).forEach(
                   (key: string) => {
                     data.totalRequestsHistory[key] += onedayRequests;
@@ -91,6 +97,7 @@ export const fetchChainTimeframeData = createSmartAction<
                   timeframe,
                   totalRequestsHistory,
                 );
+
                 Object.keys(mappingHistory).forEach((key: string) => {
                   if (key in data.totalRequestsHistory) {
                     data.totalRequestsHistory[key] += mappingHistory[key];

@@ -21,6 +21,6 @@ export const fetchProvider = createSmartAction<
     asMutation: false,
     getData: data => data,
     onRequest: credentialsGuard,
-    suppressErrorNotification: true,
+    hideNotificationOnError: true,
   },
 }));
