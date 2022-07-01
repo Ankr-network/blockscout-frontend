@@ -1,6 +1,6 @@
 import { ChainType, Period, PreparedRequest } from 'domains/chains/types';
 import { prepareRequests } from '../utils/prepareRequests';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainType } from './useChainType';
 import { useMethodRequests } from './useMethodRequests';
 import { usePeriod } from './usePeriod';

@@ -21,6 +21,8 @@ export enum ChainGroupID {
   SOLANA_DEVNET = 'solana_devnet',
   STANDARD_EVM = 'standard-evm',
   X_CHAIN = 'x-chain',
+
+  FALLBACK = 'FALLBACK',
 }
 
 export interface EndpointGroup {
@@ -34,4 +36,5 @@ export interface EndpointGroup {
 export interface GroupedEndpoints {
   mainnet: EndpointGroup[];
   testnet: EndpointGroup[];
+  devnet: EndpointGroup[];
 }

@@ -3,13 +3,13 @@ import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { mainTheme } from 'ui';
 // eslint-disable-next-line import/no-cycle

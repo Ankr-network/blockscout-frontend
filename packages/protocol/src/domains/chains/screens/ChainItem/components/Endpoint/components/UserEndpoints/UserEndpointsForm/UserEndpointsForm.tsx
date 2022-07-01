@@ -13,7 +13,7 @@ import {
   UserEndpointsFormFields,
   UserEndpointsProps,
 } from './UserEndpointsFormTypes';
-import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { RowInputField } from './RowInputField';
 
 export const UserEndpointsForm = ({

@@ -29,6 +29,11 @@ export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_WITHDRAW: 'Withdrawal',
   TRANSACTION_TYPE_BONUS: 'Bonus',
   TRANSACTION_TYPE_COMPENSATION: 'Compensation',
+
+  TRANSACTION_TYPE_VOUCHER_TOPUP: 'Voucher Top Up',
+  TRANSACTION_TYPE_VOUCHER_ADJUST: 'Voucher Adjust',
+  TRANSACTION_TYPE_WITHDRAW_INIT: 'Withdrawal Request',
+  TRANSACTION_TYPE_WITHDRAW_ADJUST: 'Withdrawal Adjust',
 };
 
 export const PAYMENT_HISTORY_PAGE_SIZE = 10;
@@ -62,13 +67,13 @@ export const getPaymentHistoryItemSign = (direction?: boolean): string => {
 export const preparePaymentHistoryRequest = (
   from?: number,
   to?: number,
-  type?: IPaymentHistoryEntityType,
+  types?: IPaymentHistoryEntityType[],
 ) => {
   return {
     from,
     to,
     time_group: 'DAY',
-    types: type,
+    types,
   };
 };
 
@@ -262,4 +267,21 @@ export const useDownloadTransaction = (dispatchRequest: DispatchRequest) => {
     },
     [dispatchRequest],
   );
+};
+
+export const getFilteredTransactions = (
+  transactions?: IPaymentHistoryEntity[],
+) => {
+  if (!Array.isArray(transactions) || transactions.length === 0) return [];
+
+  return transactions.filter(item => {
+    if (
+      item.type === 'TRANSACTION_TYPE_WITHDRAW_ADJUST' &&
+      new BigNumber(item.amountAnkr).isEqualTo(0)
+    ) {
+      return null;
+    }
+
+    return item;
+  });
 };

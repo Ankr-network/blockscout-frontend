@@ -2,7 +2,7 @@ import { Typography, Button } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './ConnectButtonStyles';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const ConnectButton = () => {
   const classes = useStyles();

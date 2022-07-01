@@ -21,7 +21,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
         className={classes.tooltipWrapper}
         iconClassName={classes.tooltipIcon}
       >
-        <Typography variant="body2" className={classes.title}>
+        <Typography variant="body2" className={classes.summary}>
           {t('providers.endpoint.security.title')}
         </Typography>
       </TooltipWrapper>

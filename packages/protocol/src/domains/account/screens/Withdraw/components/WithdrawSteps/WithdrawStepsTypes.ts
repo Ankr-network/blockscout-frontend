@@ -1,11 +1,9 @@
-import { WithdrawStep } from 'modules/auth/actions/fetchWithdrawStatus';
+import { WithdrawStep } from 'domains/account/actions/withdraw/const';
 
 export interface IWithdrawStepsProps {
   step: WithdrawStep;
-  onDeposit: () => void;
+  onConfirm: () => void;
   loading: boolean;
-}
-
-export interface IGetButtonPropsParams {
-  onDeposit: () => void;
+  withdrawalTransactionHash?: string;
+  hasError: boolean;
 }

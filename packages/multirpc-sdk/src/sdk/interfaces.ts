@@ -29,6 +29,7 @@ import {
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
 } from '../account';
+import { EventData } from 'web3-eth-contract';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -133,11 +134,17 @@ export interface IMultiRpcSdk {
 
   authorizeProvider(lifeTime: number): Promise<string>;
 
-  getAllowanceForPAYG(
+  sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult>;
 
   rejectAllowanceForPAYG(): Promise<IWeb3SendResult>;
 
   getBalanceEndTime(blockchain?: string[]): Promise<number>;
+
+  getLastLockedFundsEvent(user: Web3Address): Promise<EventData | undefined>;
+
+  getLastProviderRequestEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined>;
 }

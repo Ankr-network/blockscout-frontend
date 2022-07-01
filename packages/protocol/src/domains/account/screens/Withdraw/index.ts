@@ -1,1 +1,1 @@
-export * from './Withdraw';
+export { WithdrawQuery as Withdraw } from './WithdrawQuery';

@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { useStyles } from './ChainItemStyles';
-import { ChainItemHeader } from './components/ChainItemHeader';
-import { useChainItemBreadcrumbs } from './useChainItem';
-import { IChainItemDetails } from '../../actions/fetchChain';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { t } from 'common';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
-import { t } from 'common';
+import { ContentBanner } from '../Chains/components/Banner/ContentBanner';
+import { IChainItemDetails } from '../../actions/fetchChain';
+import { useStyles } from './ChainItemStyles';
+import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemTabs } from './components/ChainItemTabs';
-import { ChainBanner } from './components/ChainBanner';
+import { useChainItemBreadcrumbs } from './useChainItem';
 
 interface IChainItemUIProps {
   data: IChainItemDetails;
@@ -37,10 +37,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         nodes={nodes}
         loading={authLoading}
       />
-
-      {!isWalletConnected && !authLoading && (
-        <ChainBanner className={classes.chainBanner} />
-      )}
+      {!credentials && <ContentBanner />}
       <ChainItemTabs chainId={chainId} data={data} />
     </div>
   );

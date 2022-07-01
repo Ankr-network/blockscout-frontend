@@ -2,6 +2,7 @@ import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
+import { EventData } from 'web3-eth-contract';
 
 import {
   IBlockchainEntity,
@@ -50,6 +51,7 @@ import {
   IDailyChargingReponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IWithdrawalStatusResponse,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { ManagedPromise } from '../stepper';
@@ -229,7 +231,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     }
 
     const PAYGTransactionHash =
-      await this.getPAYGContractManager().getLatestUserEventLogHash(user);
+      await this.getPAYGContractManager().getLatestUserTierAssignedEventLogHash(
+        user,
+      );
 
     if (PAYGTransactionHash === false) {
       return false;
@@ -372,7 +376,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     );
   }
 
-  async getAllowanceForPAYG(
+  async sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult> {
     return this.getPAYGContractManager().getAllowance(new BigNumber(amount));
@@ -390,6 +394,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     );
   }
 
+  // Will return null for pending transactions and an object if the transaction is successful.
   async getTransactionReceipt(
     transactionHash: PrefixedHex,
   ): Promise<TransactionReceipt> {
@@ -398,6 +403,34 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       .eth.getTransactionReceipt(transactionHash);
 
     return transactionReceipt;
+  }
+
+  async withdrawAnkr(
+    amount: BigNumber | BigNumber.Value,
+  ): Promise<IWeb3SendResult> {
+    return this.getPAYGContractManager().withdrawAnkr(new BigNumber(amount));
+  }
+
+  async getLastLockedFundsEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined> {
+    const events =
+      await this.getPAYGContractManager().getLatestUserLockedFundsEventLogHash(
+        user,
+      );
+
+    return events?.[events.length - 1];
+  }
+
+  async getLastProviderRequestEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined> {
+    const events =
+      await this.getPAYGContractManager().getLatestProviderRequestEvents(user);
+
+    if (!events?.length) return undefined;
+
+    return events[events.length - 1];
   }
 
   async isJwtTokenIssueAvailable(
@@ -743,7 +776,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return token;
   }
 
-
   public async authorizeBackoffice(lifeTime: number): Promise<string> {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
@@ -756,10 +788,20 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     return token;
   }
-  
+
   async getBalanceEndTime(blockchains?: string[]): Promise<number> {
     const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
 
     return time;
+  }
+
+  async getWithdrawalStatus(
+    transactionHash: string,
+  ): Promise<IWithdrawalStatusResponse> {
+    const withdrawalStatus = await this.getAccountGateway().getWithdrawalStatus(
+      transactionHash,
+    );
+
+    return withdrawalStatus;
   }
 }
