@@ -4,6 +4,7 @@ import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
+import { useIsMDDown } from 'ui';
 
 interface IAddNetworkProps {
   chain: Chain;
@@ -22,8 +23,10 @@ export const AddNetworkButton = ({
     chain,
   });
 
+  const isMDDown = useIsMDDown();
+
   /* hiding the addNetwork button for some browsers which have problems with add network method */
-  if (!isAddNetworkSupported()) {
+  if (!isAddNetworkSupported(isMDDown)) {
     return null;
   }
 

@@ -24,8 +24,8 @@ erigonbsc - https://erigonbsc.public-rpc.com/, https://bscrpc.com/erigonbsc
 
 ### Legacy multi-rpc (not in this repo)
 bsc - https://bscrpc.com/
-polygon - https://polygon-rpc.com/
-fantom - https://rpc.ftm.tools/
+polygon - https://rpc.ankr.com/polygon
+fantom - https://rpc.ankr.com/fantom
 
 ## Stage build
 Start `$ yarn build:stage`

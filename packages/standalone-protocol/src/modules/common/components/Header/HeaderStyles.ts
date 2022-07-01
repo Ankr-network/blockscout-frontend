@@ -1,4 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { RATE_LIMIT_BANNER_HEIGHT } from 'domains/chains/screens/ChainItem/components/Banner/useBannerStyles';
+import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 
 export const useStyles = makeStyles<
   Theme,
@@ -6,15 +8,16 @@ export const useStyles = makeStyles<
 >(theme => ({
   root: {
     width: '100%',
-    paddingTop: ({ bannerHeight }) => `${theme.spacing(3) + bannerHeight}px`,
+    paddingTop: ({ bannerHeight }) =>
+      `${theme.spacing(3) + bannerHeight + RATE_LIMIT_BANNER_HEIGHT}px`,
     paddingBottom: theme.spacing(8),
     textAlign: 'center',
   },
   banner: {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
+    top: RATE_LIMIT_BANNER_HEIGHT,
+    left: MENU_WIDTH,
+    width: `calc(100% - ${MENU_WIDTH}px)`,
     zIndex: 100,
     textAlign: 'center',
     padding: '1em',
@@ -23,7 +26,8 @@ export const useStyles = makeStyles<
     fontSize: 16,
 
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(9),
+      width: '100%',
+      left: 0,
     },
 
     '&.moonbeam': {
