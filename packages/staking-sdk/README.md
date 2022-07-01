@@ -16,6 +16,8 @@ npm i @ankr.com/staking-sdk reselect
 
 ### Examples of usage:
 
+Here is a codesandbox sample how to get balance using `@ankr.com/staking-sdk` [https://codesandbox.io/s/ankr-staking-sdk-e1jvvi](https://codesandbox.io/s/ankr-staking-sdk-e1jvvi)
+
 ```typescript
 // stake aMATICc token
 import { PolygonSDK } from '@ankr.com/staking-sdk';
