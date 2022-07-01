@@ -3,6 +3,7 @@ import { Chip } from '@material-ui/core';
 import { t, tHTML } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
+import { ZERO, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -72,10 +73,11 @@ export const StakedAETHBSC = (): JSX.Element => {
       />
 
       <TokenInfoDialog
-        description="dashboard.token-info.aETHBNB"
+        description={tHTML('dashboard.token-info.aETHBNB', {
+          ratio: (ratio && !ratio?.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
-        ratio={ratio}
         tokenAddress={contractConfig.aethContract}
         tokenName={Token.aETHc}
         onClose={onCloseInfo}

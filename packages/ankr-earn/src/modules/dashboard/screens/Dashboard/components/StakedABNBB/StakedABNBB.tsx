@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -131,7 +134,9 @@ export const StakedABNBB = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aBNBb"
+        description={tHTML('dashboard.token-info.aBNBb', {
+          ratio: ONE.toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
         tokenAddress={binanceConfig.aBNBbToken}

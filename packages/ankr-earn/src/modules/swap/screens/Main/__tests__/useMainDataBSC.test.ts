@@ -26,8 +26,25 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
+}));
+
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
+  addBNBTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/getTxData', () => ({
+  getTxData: jest.fn(),
+  getTxReceipt: jest.fn(),
 }));
 
 describe('modules/swap/screens/Main/useMainDataBSC.ts', () => {

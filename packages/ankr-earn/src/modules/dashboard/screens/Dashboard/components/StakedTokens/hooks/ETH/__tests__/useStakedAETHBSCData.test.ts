@@ -30,6 +30,18 @@ jest.mock('modules/dashboard/utils/getTokenNativeAmount', () => ({
   getTokenNativeAmount: () => mockONE,
 }));
 
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
+jest.mock('modules/dashboard/actions/fetchAETHCBridgeBalanceBSC', () => ({
+  fetchAETHCBridgeBalanceBSC: jest.fn(),
+}));
+
 jest.mock('modules/dashboard/actions/swapOldAETHCBSC', () => ({
   swapOldAETHCBSC: (...params: unknown[]) => mockSwapOldAETHCBSC(...params),
 }));

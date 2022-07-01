@@ -1,11 +1,9 @@
 import { Button, Container, Grid, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { useCallback, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { t, tHTML } from 'common';
+import { t } from 'common';
 
-import { DEFAULT_FIXED } from 'modules/common/const';
 import { Dialog } from 'uiKit/Dialog';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
@@ -18,7 +16,6 @@ export interface IHistoryDialogProps {
   tokenName: string;
   tokenAddress: string;
   moreHref?: string;
-  ratio?: BigNumber;
   description: string;
   addTokenToWallet?: () => void;
   onClose?: () => void;
@@ -29,7 +26,6 @@ export const TokenInfoDialog = ({
   tokenName,
   moreHref,
   tokenAddress,
-  ratio = new BigNumber(1),
   description,
   addTokenToWallet,
   onClose,
@@ -84,9 +80,7 @@ export const TokenInfoDialog = ({
         </div>
 
         <Typography align="left" className={classes.description}>
-          {tHTML(description, {
-            ratio: ratio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-          })}
+          {description}
         </Typography>
 
         <div className={classes.buttons}>
