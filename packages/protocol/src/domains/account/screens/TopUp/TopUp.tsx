@@ -17,6 +17,7 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
     loading,
     onReject,
     isRejectAllowanceLoading,
+    hasError,
   } = useTopupSteps(initialStep);
 
   const transaction = useAppSelector(selectTransaction);
@@ -31,6 +32,7 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
       onReject={onReject}
       isRejectAllowanceLoading={isRejectAllowanceLoading}
       transactionHash={transaction?.topUpTransactionHash}
+      hasError={hasError}
     />
   );
 };

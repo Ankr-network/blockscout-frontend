@@ -20,6 +20,7 @@ export const TopUpSteps = ({
   hasCredentials,
   isRejectAllowanceLoading,
   transactionHash,
+  hasError,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -48,6 +49,7 @@ export const TopUpSteps = ({
           isRejectAllowanceLoading={isRejectAllowanceLoading}
           hasCredentials={hasCredentials}
           step={step}
+          hasError={hasError}
         />
       </Paper>
     </Container>

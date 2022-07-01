@@ -17,6 +17,7 @@ export const Buttons = ({
   loading,
   hasCredentials,
   isRejectAllowanceLoading,
+  hasError,
 }: IButtonProps) => {
   const classes = useStyles();
 
@@ -24,7 +25,11 @@ export const Buttons = ({
     <Box className={classes.root}>
       <LoadingButton
         className={classes.button}
-        isDisabled={loading || isRejectAllowanceLoading}
+        isDisabled={
+          loading ||
+          isRejectAllowanceLoading ||
+          Boolean(step === TopUpStep.waitTransactionConfirming && hasError)
+        }
         onClick={onConfirm}
         loading={isRejectAllowanceLoading ? false : loading}
       >

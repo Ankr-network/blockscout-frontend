@@ -9,4 +9,5 @@ export interface ITopUpStepsProps {
   onReject: () => void;
   isRejectAllowanceLoading: boolean;
   transactionHash?: string;
+  hasError?: boolean;
 }

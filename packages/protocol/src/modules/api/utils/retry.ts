@@ -19,6 +19,7 @@ export const retry = async <T>(
       try {
         const value = await action();
         clearInterval(i);
+
         return resolve(value);
       } catch (e: any) {
         if (e.message === t('error.failed')) {

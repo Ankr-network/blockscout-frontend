@@ -124,8 +124,7 @@ export const useCheckBrokenTransaction = () => {
   const transaction = useAppSelector(selectTransaction);
   const { handleResetTopUpTransaction } = useTopUp();
 
-  const isAmountEmpty =
-    !transaction?.amount || transaction?.amount?.toString() === '0';
+  const isAmountEmpty = !transaction?.amount || transaction?.amount?.isZero();
 
   if (
     isAmountEmpty &&

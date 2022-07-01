@@ -32,10 +32,8 @@ export const checkWithdrawStatus = createSmartAction<
             }
 
             return status;
-          } catch (error) {
+          } catch (_error) {
             // ignore error if transaction wasn't found
-            // eslint-disable-next-line no-console
-            console.log('error', error);
           }
 
           return undefined;

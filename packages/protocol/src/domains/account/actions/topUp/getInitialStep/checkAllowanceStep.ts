@@ -18,25 +18,27 @@ export const checkAllowanceStep = async (
   const address = service.getKeyProvider().currentAccount();
 
   if (rejectAllowanceTransactionHash) {
-    store.dispatchRequest(
-      checkAllowanceTransaction(rejectAllowanceTransactionHash, () => {
+    store
+      .dispatchRequest(
+        checkAllowanceTransaction(rejectAllowanceTransactionHash),
+      )
+      .then(() => {
         store.dispatch(resetTransaction({ address }));
         store.dispatchRequest(reset());
 
         store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-      }),
-    );
+      });
 
     return TopUpStep.deposit;
   }
 
   if (!allowanceTransactionHash) return null;
 
-  store.dispatchRequest(
-    checkAllowanceTransaction(allowanceTransactionHash, () => {
+  store
+    .dispatchRequest(checkAllowanceTransaction(allowanceTransactionHash))
+    .then(() => {
       store.dispatch(resetRequests([checkAllowanceTransaction.toString()]));
-    }),
-  );
+    });
 
   return TopUpStep.deposit;
 };

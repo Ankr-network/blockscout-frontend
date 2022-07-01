@@ -134,7 +134,7 @@ export interface IMultiRpcSdk {
 
   authorizeProvider(lifeTime: number): Promise<string>;
 
-  getAllowanceForPAYG(
+  sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult>;
 

@@ -8,7 +8,7 @@ import { useCallback, useMemo } from 'react';
 
 import { deposit } from '../actions/topUp/deposit';
 import { fetchPublicKey } from '../actions/fetchPublicKey';
-import { getAllowance } from '../actions/topUp/getAllowance';
+import { sendAllowance } from '../actions/topUp/sendAllowance';
 import { login } from '../actions/topUp/login';
 import { waitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { rejectAllowance } from '../actions/topUp/rejectAllowance';
@@ -42,7 +42,7 @@ export const useTopUp = () => {
   );
 
   const handleGetAllowance = useCallback(
-    () => dispatchRequest(getAllowance(amount)),
+    () => dispatchRequest(sendAllowance(amount)),
     [dispatchRequest, amount],
   );
 
@@ -81,7 +81,7 @@ export const useTopUp = () => {
   );
 
   const { loading: loadingGetAllowance, error: errorGetAllowance } = useQuery({
-    type: getAllowance.toString(),
+    type: sendAllowance.toString(),
   });
 
   const { loading: loadingFetchPublicKey, error: errorFetchPublicKey } =

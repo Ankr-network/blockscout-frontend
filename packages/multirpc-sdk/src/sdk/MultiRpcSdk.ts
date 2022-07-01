@@ -376,7 +376,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     );
   }
 
-  async getAllowanceForPAYG(
+  async sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult> {
     return this.getPAYGContractManager().getAllowance(new BigNumber(amount));

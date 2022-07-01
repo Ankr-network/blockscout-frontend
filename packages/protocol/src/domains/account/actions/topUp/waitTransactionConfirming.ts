@@ -11,7 +11,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 const MAX_ATTEMPTS = 50;
 
-async function waitForBlocks(store: RequestsStore, transactionHash: string) {
+const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   const { data: credentialsData } = await store.dispatchRequest(
     fetchCredentialsStatus(transactionHash),
   );
@@ -37,7 +37,7 @@ async function waitForBlocks(store: RequestsStore, transactionHash: string) {
     () => false,
     MAX_ATTEMPTS,
   );
-}
+};
 
 export const waitTransactionConfirming = createSmartAction<
   RequestAction<IWeb3SendResult, null>

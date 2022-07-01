@@ -6,6 +6,7 @@ import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import { MultiService } from 'modules/api/MultiService';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { fetchBalance } from '../balance/fetchBalance';
+import { checkAllowanceTransaction } from './checkAllowanceTransaction';
 
 const setTransaction = (
   store: RequestsStore,
@@ -22,10 +23,13 @@ const setTransaction = (
   }
 };
 
-export const getAllowance = createSmartAction<
+const NOT_MINED_TRANSACTION_ERROR =
+  'Transaction was not mined within 50 blocks, please make sure your transaction was properly sent. Be aware that it might still be mined!';
+
+export const sendAllowance = createSmartAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [BigNumber]
->('topUp/getAllowance', (amount: BigNumber) => ({
+>('topUp/sendAllowance', (amount: BigNumber) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -35,11 +39,24 @@ export const getAllowance = createSmartAction<
         promise: (async () => {
           const { service } = MultiService.getInstance();
           const address = service.getKeyProvider().currentAccount();
-          const allowanceResponse = await service.getAllowanceForPAYG(amount);
+          const allowanceResponse = await service.sendAllowanceForPAYG(amount);
 
-          setTransaction(store, address, allowanceResponse?.transactionHash);
+          const transactionHash = allowanceResponse?.transactionHash;
+          setTransaction(store, address, transactionHash);
 
-          await allowanceResponse.receiptPromise;
+          try {
+            await allowanceResponse.receiptPromise;
+          } catch (error: any) {
+            if (error.message === NOT_MINED_TRANSACTION_ERROR) {
+              await store.dispatchRequest(
+                checkAllowanceTransaction(transactionHash),
+              );
+
+              return;
+            }
+
+            throw error;
+          }
         })(),
       };
     },
