@@ -3,7 +3,7 @@ import { Container } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
-import { ConnectButton } from 'modules/auth/components/ConnectButton';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { useStyles } from './useStyles';
 import { Logo } from '../Logo';
 

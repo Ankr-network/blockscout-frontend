@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { EventData } from 'web3-eth-contract';
+
 import { PrefixedHex, Web3Address } from '../common';
 
 export interface IPAYGContractManager {
@@ -13,9 +15,17 @@ export interface IPAYGContractManager {
 
   hasEnoughAllowance(amount: BigNumber): Promise<boolean>;
 
-  getLatestUserEventLogHash(user: Web3Address): Promise<PrefixedHex | false>;
+  getLatestUserTierAssignedEventLogHash(
+    user: Web3Address,
+  ): Promise<PrefixedHex | false>;
+
+  getLatestUserLockedFundsEventLogHash(user: Web3Address): Promise<EventData[]>;
+
+  getLatestProviderRequestEvents(user: Web3Address): Promise<EventData[]>;
 
   decryptMessageUsingPrivateKey(compatibleJsonData: string): Promise<string>;
 
   rejectAllowance(): Promise<IWeb3SendResult>;
+
+  withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult>;
 }

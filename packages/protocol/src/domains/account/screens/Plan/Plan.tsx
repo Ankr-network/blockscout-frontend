@@ -1,5 +1,4 @@
 import { Box, Button, Container, Typography } from '@material-ui/core';
-import { PlanRoutesConfig } from 'domains/plan/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useIsXSDown } from 'ui';
@@ -17,7 +16,7 @@ export const Plan = () => {
 
   useSetBreadcrumbs([
     {
-      title: t(PlanRoutesConfig.plan.breadcrumbs),
+      title: t('plan.breadcrumbs'),
     },
   ]);
 

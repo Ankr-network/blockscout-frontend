@@ -11,7 +11,6 @@ import { root } from './const';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './BalanceStyles';
 
-const HAS_WITHDRAW_LINK = false;
 const title = t(`${root}.title`);
 
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
@@ -35,16 +34,14 @@ export const Balance = ({
           <span className={classes.title}>{title}</span>
           <CurrencySwitcher currency={currency} onClick={switchCurrency} />
         </div>
-        {HAS_WITHDRAW_LINK && (
-          <Button
-            className={classes.withdrawButton}
-            component={Link}
-            to={AccountRoutesConfig.withdraw.path}
-            variant="text"
-          >
-            {t(`${root}.withdrawButton.title`)}
-          </Button>
-        )}
+        <Button
+          className={classes.withdrawButton}
+          component={Link}
+          to={AccountRoutesConfig.withdraw.path}
+          variant="text"
+        >
+          {t(`${root}.withdrawButton.title`)}
+        </Button>
       </div>
       <BalanceString balance={balance} className={classes.balance} />
       <Details

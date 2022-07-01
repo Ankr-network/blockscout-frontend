@@ -5,6 +5,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   title: {
     fontWeight: 700,
     marginTop: theme.spacing(3.5),
+    fontSize: 14,
   },
 
   domainRows: {

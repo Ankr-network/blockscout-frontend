@@ -1,4 +1,4 @@
-import { Contract } from 'web3-eth-contract';
+import { Contract, EventData } from 'web3-eth-contract';
 import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
@@ -9,7 +9,7 @@ import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
-import { IPayAsYouGo } from './abi/IPayAsYouGo';
+import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
 
 const GAS_LIMIT = '200000';
 
@@ -147,7 +147,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   async hasEnoughAllowance(amount: BigNumber): Promise<boolean> {
     const currentAccount = this.keyProvider.currentAccount();
     const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString()),
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
     );
 
     const scaledAllowance = new BigNumber(
@@ -159,18 +159,22 @@ export class PAYGContractManager implements IPAYGContractManager {
     return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
   }
 
-  async getLatestUserEventLogHash(
+  async getLatestUserEventLogs(event: IPayAsYouGoEvents, user: Web3Address) {
+    return this.payAsYouGoContract.getPastEvents(event, {
+      filter: {
+        sender: user,
+      },
+      fromBlock: 'earliest',
+      toBlock: 'latest',
+    });
+  }
+
+  async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
   ): Promise<PrefixedHex | false> {
-    const tierAssignedEvents = await this.payAsYouGoContract.getPastEvents(
+    const tierAssignedEvents = await this.getLatestUserEventLogs(
       'TierAssigned',
-      {
-        filter: {
-          sender: user,
-        },
-        fromBlock: 'earliest',
-        toBlock: 'latest',
-      },
+      user,
     );
 
     const validEvents = tierAssignedEvents.filter(event => {
@@ -186,6 +190,24 @@ export class PAYGContractManager implements IPAYGContractManager {
     return validEvents[validEvents.length - 1].transactionHash;
   }
 
+  async getLatestUserLockedFundsEventLogHash(
+    user: Web3Address,
+  ): Promise<EventData[]> {
+    return this.getLatestUserEventLogs('FundsLocked', user);
+  }
+
+  async getLatestProviderRequestEvents(
+    user: Web3Address,
+  ): Promise<EventData[]> {
+    const events = await this.getLatestUserEventLogs('ProviderRequest', user);
+
+    const providerRequestEvents = events
+      .filter(event => event.returnValues.sender === user)
+      .sort((a, b) => a.blockNumber - b.blockNumber);
+
+    return providerRequestEvents;
+  }
+
   async decryptMessageUsingPrivateKey(
     compatibleJsonData: string,
   ): Promise<string> {
@@ -199,5 +221,26 @@ export class PAYGContractManager implements IPAYGContractManager {
 
   async rejectAllowance() {
     return this.sendAllowance(new BigNumber(0));
+  }
+
+  async withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult> {
+    const scaledAmount = new BigNumber(
+      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
+    );
+
+    const currentAccount = this.keyProvider.currentAccount();
+
+    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
+      .withdraw(scaledAmount.toString(10))
+      .encodeABI();
+
+    return this.keyProvider.sendTransactionAsync(
+      currentAccount,
+      this.config.payAsYouGoContractAddress,
+      {
+        data,
+        gasLimit: GAS_LIMIT,
+      },
+    );
   }
 }

@@ -7,22 +7,23 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { deposit } from '../actions/topUp/deposit';
-import { fetchPublicKey } from '../actions/topUp/fetchPublicKey';
-import { getAllowance } from '../actions/topUp/getAllowance';
+import { fetchPublicKey } from '../actions/fetchPublicKey';
+import { sendAllowance } from '../actions/topUp/sendAllowance';
 import { login } from '../actions/topUp/login';
 import { waitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
-import { useAppDispatch } from 'store/useAppDispatch';
-import {
-  setTopUpTransaction,
-  setAmount,
-  selectTransaction,
-} from 'domains/account/store/accountTopUpSlice';
-import { useAppSelector } from 'store/useAppSelector';
 import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
+import { checkAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  setAmount,
+  selectTransaction,
+  resetTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { MultiService } from 'modules/api/MultiService';
 
-export function useTopUp() {
+export const useTopUp = () => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
@@ -41,7 +42,7 @@ export function useTopUp() {
   );
 
   const handleGetAllowance = useCallback(
-    () => dispatchRequest(getAllowance(amount)),
+    () => dispatchRequest(sendAllowance(amount)),
     [dispatchRequest, amount],
   );
 
@@ -60,10 +61,9 @@ export function useTopUp() {
     [dispatchRequest],
   );
 
-  const handleResetTopUpTransaction = useCallback(
-    () => dispatch(setTopUpTransaction({ address })),
-    [dispatch, address],
-  );
+  const handleResetTopUpTransaction = useCallback(() => {
+    dispatch(resetTransaction({ address }));
+  }, [dispatch, address]);
 
   const handleSetAmount = useCallback(
     (value: BigNumber) => dispatch(setAmount({ address, amount: value })),
@@ -81,7 +81,7 @@ export function useTopUp() {
   );
 
   const { loading: loadingGetAllowance, error: errorGetAllowance } = useQuery({
-    type: getAllowance.toString(),
+    type: sendAllowance.toString(),
   });
 
   const { loading: loadingFetchPublicKey, error: errorFetchPublicKey } =
@@ -108,6 +108,10 @@ export function useTopUp() {
     type: rejectAllowance.toString(),
   });
 
+  const { loading: loadingCheckAllowanceTransaction } = useQuery({
+    type: checkAllowanceTransaction.toString(),
+  });
+
   return {
     handleSetAmount,
     amount,
@@ -116,7 +120,8 @@ export function useTopUp() {
       loadingFetchPublicKey ||
       loadingDeposit ||
       loadingWaitTransactionConfirming ||
-      loadingLogin,
+      loadingLogin ||
+      loadingCheckAllowanceTransaction,
     hasError: Boolean(
       errorGetAllowance ||
         errorFetchPublicKey ||
@@ -134,4 +139,4 @@ export function useTopUp() {
     handleRejectAllowance,
     handleRedirectIfCredentials,
   };
-}
+};
