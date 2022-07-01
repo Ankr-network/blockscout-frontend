@@ -24,17 +24,18 @@ import { useSelectedToken } from './useSelectedToken';
 import { useStakeEthAnalytics } from './useStakeEthAnalytics';
 
 interface IUseStakeForm {
+  amount?: BigNumber;
   balance?: BigNumber;
+  certificateRatio: BigNumber;
   fee: BigNumber;
-  loading: boolean;
   isCommonDataLoading: boolean;
   isFeeLoading: boolean;
+  loading: boolean;
+  minAmount?: BigNumber;
   tokenIn: string;
   tokenOut: string;
-  amount?: BigNumber;
-  minAmount?: BigNumber;
-  onSubmit: (payload: IStakeSubmitPayload) => void;
   onInputChange: (values: IStakeFormPayload, invalid: boolean) => void;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
 }
 
 export const useStakeForm = (): IUseStakeForm => {
@@ -93,6 +94,7 @@ export const useStakeForm = (): IUseStakeForm => {
   return {
     amount,
     balance: commonData?.ethBalance,
+    certificateRatio: commonData?.aETHcRatio ?? ZERO,
     fee: stakeGasFee ?? ZERO,
     isCommonDataLoading,
     isFeeLoading,

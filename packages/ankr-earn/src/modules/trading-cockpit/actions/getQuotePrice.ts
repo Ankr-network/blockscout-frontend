@@ -1,12 +1,12 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { OPENOCEAN_QUOTE_URL } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 
 import {
   IGetQuotePriceParams,
   IGetQuotePriceReply,
-  OPENOCEAN_QUOTE_URL,
   TExChange,
 } from '../api/getQuotePrice';
 import { AvailableTokens } from '../types';

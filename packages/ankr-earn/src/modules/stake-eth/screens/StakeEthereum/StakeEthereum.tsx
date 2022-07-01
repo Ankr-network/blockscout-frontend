@@ -7,16 +7,19 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
+import { featuresConfig } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
+import { EOpenOceanTokens } from 'modules/stake/types';
 
 import { TokenVariants } from './components/TokenVariants';
 import { TotalAmount } from './components/TotalAmount';
@@ -33,13 +36,14 @@ export const StakeEthereum = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
+    amount,
+    balance,
+    certificateRatio,
+    fee,
     isCommonDataLoading,
     isFeeLoading,
-    balance,
-    fee,
-    amount,
-    minAmount,
     loading,
+    minAmount,
     tokenIn,
     tokenOut,
     onInputChange,
@@ -56,6 +60,21 @@ export const StakeEthereum = (): JSX.Element => {
       dispatch(resetRequests([getStakeGasFee.toString()]));
     };
   }, [dispatch]);
+
+  useProviderEffect(() => {
+    if (!featuresConfig.isActiveStakeTradeInfo) {
+      return;
+    }
+
+    dispatch(
+      getStakeTradeInfoData({
+        baseToken: EOpenOceanTokens.ETH,
+        bondToken: EOpenOceanTokens.aETHb,
+        certificateRatio,
+        certificateToken: EOpenOceanTokens.aETHc,
+      }),
+    );
+  }, [certificateRatio, dispatch]);
 
   const renderStats = useCallback(
     () => (
@@ -77,7 +96,7 @@ export const StakeEthereum = (): JSX.Element => {
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
 
-        <StakeTradeInfo />
+        {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 
         <StakeForm
           balance={balance}

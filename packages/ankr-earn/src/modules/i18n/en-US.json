@@ -342,8 +342,8 @@
       "fee": "Est Network Fee: {value}"
     },
     "trade-info": {
-      "description-one-token": "Receive a {value, number, ::.0#}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
-      "description-two-tokens": "Receive a {valueOne, number, ::.0#}% discount for {tokenOne} or a {valueTwo, number, ::.0#}% discount for {tokenTwo} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "description-one-token": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "description-two-tokens": "Receive a {valueOne}% discount for {tokenOne} or a {valueTwo}% discount for {tokenTwo} on <b>OpenOcean</b> compared with direct staking on Ankr.",
       "title": "Better option on OpenOcean"
     },
     "buttons": {
@@ -444,6 +444,10 @@
   },
   "stake-polkadot": {
     "errors": {
+      "claim-invalid": "Claim is invalid",
+      "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
+      "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
+      "invalid-eth-token-address": "Invalid Ethereum's token address",
       "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
     },
     "faq": {

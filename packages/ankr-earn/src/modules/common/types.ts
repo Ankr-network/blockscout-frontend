@@ -2,6 +2,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 // semantic types
 export type TAmountUnit = number;
+export type TNumberAsString = string;
 export type Timestamp = number;
 export type Days = number;
 export type Minutes = number;

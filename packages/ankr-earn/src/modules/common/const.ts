@@ -17,6 +17,8 @@ export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ACTION_CACHE_SEC = 600;
 
+export const OPENOCEAN_MAX_SAFE_GAS_VALUE = 300; // Note: "5_000" is a maximum
+
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
 export const ONE = new BigNumber(1);
@@ -71,6 +73,11 @@ export const STAKE_LEGACY_LINKS = {
 
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
+
+export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
+
+export const OPENOCEAN_QUOTE_URL =
+  'https://open-api.openocean.finance/v1/cross/quote';
 
 export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
