@@ -121,13 +121,17 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @param {Partial<IBinanceSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
-  public static async getInstance(): Promise<BinanceSDK> {
+  public static async getInstance(
+    args?: Partial<IBinanceSDKProviders>,
+  ): Promise<BinanceSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(BINANCE_READ_PROVIDER_ID),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(BINANCE_READ_PROVIDER_ID),
     ]);
 
     const addrHasNotBeenUpdated =

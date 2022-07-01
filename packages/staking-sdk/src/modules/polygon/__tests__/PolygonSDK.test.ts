@@ -1,4 +1,8 @@
-import { ProviderManager } from '@ankr.com/provider';
+import {
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
 
@@ -65,6 +69,15 @@ describe('modules/polygon/sdk', () => {
 
   test('should initialize sdk', async () => {
     const sdk = await PolygonSDK.getInstance();
+
+    expect(sdk).toBeDefined();
+  });
+
+  test('should initialize sdk with user providers', async () => {
+    const sdk = await PolygonSDK.getInstance({
+      readProvider: defaultReadProvider as unknown as Web3KeyReadProvider,
+      writeProvider: defaultWriteProvider as unknown as Web3KeyWriteProvider,
+    });
 
     expect(sdk).toBeDefined();
   });

@@ -12,7 +12,7 @@ yarn add @ankr.com/staking-sdk reselect
 npm i @ankr.com/staking-sdk reselect
 ```
 
->To choose testsnet contracts use `REACT_APP_API_ENV=staging` environment variable. For mainnet - use `REACT_APP_API_ENV=prod`.
+> To choose testsnet contracts use `REACT_APP_API_ENV=staging` environment variable. For mainnet - use `REACT_APP_API_ENV=prod`.
 
 ### Examples of usage:
 
@@ -112,4 +112,15 @@ const sdk = await EthereumSDK.getInstance();
 const lockResponse = await sdk.lockShares({ amount: new BigNumber(2.65) });
 
 const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
+```
+
+```typescript
+// User defined providers
+import { PolygonSDK, Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
+
+const readProvider: Web3KeyReadProvider = { ... };
+const writeProvider: Web3KeyWriteProvider = { ... };
+const sdk = await PolygonSDK.getInstance({ readProvider, writeProvider });
+
+const { txHash } = await sdk.stake(new BigNumber(1_200), 'aMATICc');
 ```

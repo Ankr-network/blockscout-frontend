@@ -121,13 +121,17 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @param {Partial<IPolygonSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
-  public static async getInstance(): Promise<PolygonSDK> {
+  public static async getInstance(
+    args?: Partial<IPolygonSDKProviders>,
+  ): Promise<PolygonSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
     const addressHasNotBeenUpdated =

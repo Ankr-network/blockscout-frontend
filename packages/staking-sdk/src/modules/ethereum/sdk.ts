@@ -115,17 +115,21 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Initializes read provider to support multiple chains.
    *
    * @public
+   * @param {Partial<IEthSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
-  public static async getInstance(): Promise<EthereumSDK> {
+  public static async getInstance(
+    args?: Partial<IEthSDKProviders>,
+  ): Promise<EthereumSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(
-        isMainnet
-          ? AvailableReadProviders.ethMainnet
-          : AvailableReadProviders.ethGoerli,
-      ),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(
+          isMainnet
+            ? AvailableReadProviders.ethMainnet
+            : AvailableReadProviders.ethGoerli,
+        ),
     ]);
 
     const addrHasNotBeenUpdated =
