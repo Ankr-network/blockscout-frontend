@@ -11,14 +11,21 @@ const MENU_TOP = 60;
 
 export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
   dropMenu: {
-    position: 'fixed',
-    top: 20,
-    left: 20,
-    zIndex: 220,
-    visibility: 'hidden',
-    border: 'none',
-    [theme.breakpoints.down('sm')]: {
-      visibility: 'visible',
+    '&&': {
+      position: 'fixed',
+      top: 108,
+      left: 8,
+      zIndex: 220,
+      visibility: 'hidden',
+      border: 'none',
+      [theme.breakpoints.down('sm')]: {
+        visibility: 'visible',
+      },
+    },
+  },
+  closeIcon: {
+    '&&': {
+      top: 20,
     },
   },
   root: {
