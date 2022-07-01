@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Typography } from '@material-ui/core';
 import { useEffect, useMemo } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';

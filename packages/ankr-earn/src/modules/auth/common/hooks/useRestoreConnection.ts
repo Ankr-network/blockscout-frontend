@@ -1,8 +1,8 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { showNotification } from 'modules/notifications';

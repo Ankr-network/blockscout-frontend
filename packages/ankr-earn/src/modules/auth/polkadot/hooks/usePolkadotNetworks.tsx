@@ -1,5 +1,4 @@
 import { EPolkadotNetworkId } from '@ankr.com/provider';
-
 import { t } from 'common';
 
 import { INetworkItem } from 'modules/auth/common/components/GuardRoute';

@@ -1,7 +1,8 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

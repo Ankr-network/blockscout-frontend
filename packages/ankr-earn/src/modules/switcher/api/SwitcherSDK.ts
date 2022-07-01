@@ -1,10 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
   IWeb3SendResult,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-
 import {
   PolygonSDK,
   BinanceSDK,

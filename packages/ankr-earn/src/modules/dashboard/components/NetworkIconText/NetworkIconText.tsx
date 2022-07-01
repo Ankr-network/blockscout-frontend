@@ -1,7 +1,7 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';

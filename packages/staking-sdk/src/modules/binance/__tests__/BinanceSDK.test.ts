@@ -1,9 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
   ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
 
 import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';

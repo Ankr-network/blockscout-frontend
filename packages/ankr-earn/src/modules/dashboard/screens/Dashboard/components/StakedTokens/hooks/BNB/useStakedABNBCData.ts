@@ -1,4 +1,3 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import {
   useDispatchRequest,
   useMutation,
@@ -7,6 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { configFromEnv } from 'modules/api/config';

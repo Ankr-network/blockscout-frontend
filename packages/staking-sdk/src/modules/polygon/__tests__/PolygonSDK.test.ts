@@ -1,10 +1,11 @@
+import BigNumber from 'bignumber.js';
+import nock from 'nock';
+
 import {
   ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import nock from 'nock';
 
 import { PolygonSDK } from '..';
 import { ETH_SCALE_FACTOR, ZERO } from '../../common';

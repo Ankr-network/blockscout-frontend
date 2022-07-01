@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import {
   useDispatchRequest,
   useMutation,
@@ -7,6 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { PolygonSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';

@@ -1,5 +1,6 @@
-import { AvailableReadProviders } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import { AvailableReadProviders } from '@ankr.com/provider';
 
 import packageJson from '../../../package.json';
 

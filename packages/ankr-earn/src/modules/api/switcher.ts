@@ -1,6 +1,7 @@
-import { IWeb3SendResult } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
+
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 

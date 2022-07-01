@@ -1,8 +1,8 @@
-import { IWeb3SendResult } from '@ankr.com/provider';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';

@@ -1,9 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
   ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
 
 import { EEthereumErrorCodes, EthereumSDK, TEthToken } from '..';
 import { configFromEnv, MAX_UINT256, ZERO, ZERO_ADDRESS } from '../../common';

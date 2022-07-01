@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

@@ -1,8 +1,9 @@
-import { IWeb3SendResult } from '@ankr.com/provider';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
+
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';

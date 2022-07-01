@@ -1,12 +1,12 @@
+import BigNumber from 'bignumber.js';
+import prettyTime from 'pretty-time';
+
 import {
   Address,
   EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import prettyTime from 'pretty-time';
-
 import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';

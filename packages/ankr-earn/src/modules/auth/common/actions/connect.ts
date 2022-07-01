@@ -1,11 +1,11 @@
+import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { createAction } from 'redux-smart-actions';
+
 import {
   Address,
   AvailableWriteProviders,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { PolkadotProvider } from 'polkadot';
 

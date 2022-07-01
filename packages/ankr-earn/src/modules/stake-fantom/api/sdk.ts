@@ -1,15 +1,15 @@
-import {
-  EEthereumNetworkId,
-  IWeb3SendResult,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
 import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
+import {
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import {
   getTxEventsHistoryGroup,
   ProviderManagerSingleton,
