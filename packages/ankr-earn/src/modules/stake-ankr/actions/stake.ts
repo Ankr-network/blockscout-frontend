@@ -1,6 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
@@ -44,7 +43,7 @@ export const stake = createSmartAction<
 
         if (txHash) {
           // todo: use routes config
-          store.dispatch(push(`${txHash}/`));
+          // store.dispatch(push(`${txHash}/`));
         }
 
         return response;

@@ -982,6 +982,18 @@
       "locking-period": "Locking period",
       "locking-period-value": "{days} days"
     },
+    "select-provider": {
+      "title": "Select provider to stake ANKR",
+      "table": {
+        "node-provider": "Node Provider",
+        "nodes-count": "{value} nodes",
+        "apy": "Current APY",
+        "staked-pool": "Staked Pool",
+        "uptime": "30d Uptime",
+        "rps": "RPS",
+        "btn": "Select provider"
+      }
+    },
     "provider-info": {
       "provider-stats": {
         "success-rate": "Success Rate:",
