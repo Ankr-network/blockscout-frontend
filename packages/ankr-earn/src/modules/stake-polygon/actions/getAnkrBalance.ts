@@ -17,7 +17,7 @@ export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
         const { contractConfig } = configFromEnv();
         const ankrContract = provider.createContract(
           ANKR_ABI,
-          contractConfig.ankrContract,
+          contractConfig.ankrToken,
         );
 
         return provider.getErc20Balance(ankrContract, currentAccount);

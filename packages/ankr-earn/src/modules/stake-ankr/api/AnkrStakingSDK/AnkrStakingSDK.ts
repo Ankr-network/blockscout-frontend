@@ -1,11 +1,16 @@
-import { EEthereumNetworkId, Web3KeyWriteProvider } from '@ankr.com/provider';
+import {
+  Address,
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import prettyTime from 'pretty-time';
 
-import { ProviderManagerSingleton, ANKR_ABI } from '@ankr.com/staking-sdk';
+import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 
@@ -22,7 +27,11 @@ import {
 } from './types';
 import { sortEventData } from './utils';
 
-const config = configFromEnv();
+const { contractConfig } = configFromEnv();
+
+const ankrToken: Address = isMainnet
+  ? contractConfig.ankrToken
+  : contractConfig.testAnkrToken;
 
 interface IAnkrStakingSDKProviders {
   writeProvider: Web3KeyWriteProvider;
@@ -82,10 +91,7 @@ export class AnkrStakingSDK {
   }
 
   private getAnkrTokenContract() {
-    return this.writeProvider.createContract(
-      ANKR_ABI,
-      config.contractConfig.ankrContract,
-    );
+    return this.writeProvider.createContract(ANKR_ABI, ankrToken);
   }
 
   public async getAllValidators(epoch?: number): Promise<IValidator[]> {
@@ -135,7 +141,7 @@ export class AnkrStakingSDK {
   private getAnkrTokenStakingContract() {
     return this.writeProvider.createContract(
       ANKR_TOKEN_STAKING_ABI,
-      config.contractConfig.ankrTokenStaking,
+      contractConfig.ankrTokenStaking,
     );
   }
 
@@ -177,7 +183,7 @@ export class AnkrStakingSDK {
   private getStakingConfigContract() {
     return this.writeProvider.createContract(
       STAKING_CONFIG_ABI,
-      config.contractConfig.ankrStakingChainConfig,
+      contractConfig.ankrStakingChainConfig,
     );
   }
 
@@ -236,7 +242,7 @@ export class AnkrStakingSDK {
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
-      config.contractConfig.ankrTokenStaking,
+      contractConfig.ankrTokenStaking,
       { data },
     );
 
@@ -383,7 +389,7 @@ export class AnkrStakingSDK {
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
-      config.contractConfig.ankrTokenStaking,
+      contractConfig.ankrTokenStaking,
       { data },
     );
 
@@ -401,14 +407,14 @@ export class AnkrStakingSDK {
 
     const data = ankrTokenContract.methods
       .approve(
-        config.contractConfig.ankrTokenStaking,
+        contractConfig.ankrTokenStaking,
         convertNumberToHex(amount, ETH_SCALE_FACTOR),
       )
       .encodeABI();
 
     const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
-      config.contractConfig.ankrContract,
+      ankrToken,
       { data },
     );
 
@@ -421,11 +427,30 @@ export class AnkrStakingSDK {
     const ankrTokenContract = this.getAnkrTokenContract();
 
     const allowance = await ankrTokenContract.methods
-      .allowance(this.currentAccount, config.contractConfig.ankrTokenStaking)
+      .allowance(this.currentAccount, contractConfig.ankrTokenStaking)
       .call();
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
 
     return new BigNumber(allowance).isGreaterThanOrEqualTo(hexAmount);
+  }
+
+  /**
+   * Issuance of test tokens, aka test Ankr faucet
+   */
+  public getTestAnkrTokens(): Promise<IWeb3SendResult> {
+    const fromAddr = this.currentAccount;
+
+    // remove 0x from address
+    const preparedFromAddr = fromAddr.substring(2);
+
+    // data to request ankr tokens
+    const data = `0x40c10f19000000000000000000000000${preparedFromAddr}00000000000000000000000000000000000000000033b2e3c9fd0803ce80000000`;
+
+    return this.writeProvider.sendTransactionAsync(
+      fromAddr,
+      contractConfig.testAnkrToken,
+      { data },
+    );
   }
 }
