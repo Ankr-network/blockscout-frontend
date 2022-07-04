@@ -1,7 +1,8 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ZERO } from 'modules/common/const';
 

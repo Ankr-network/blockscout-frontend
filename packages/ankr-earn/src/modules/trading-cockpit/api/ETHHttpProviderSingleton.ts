@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 
-import { AETHB_ABI } from '@ankr.com/staking-sdk';
+import { AETHC_ABI } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { currentEnv, ETH_SCALE_FACTOR } from 'modules/common/const';
@@ -19,7 +19,7 @@ export class ETHHttpProviderSingleton {
     const web3 = new Web3(ethHttpProviderUrl);
 
     this.aETHcContract = new web3.eth.Contract(
-      AETHB_ABI as AbiItem[],
+      AETHC_ABI as AbiItem[],
       config.contractConfig.aethContract,
     );
   }

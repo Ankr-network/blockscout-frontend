@@ -1,6 +1,7 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 
@@ -106,7 +107,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
       </MemoryRouter>,
     );
 
-    const unstakeTitleBox = await screen.findByTitle(/during phase/);
+    const unstakeTitleBox = await screen.findByTitle(/after The Merge/);
 
     expect(unstakeTitleBox).toBeInTheDocument();
   });

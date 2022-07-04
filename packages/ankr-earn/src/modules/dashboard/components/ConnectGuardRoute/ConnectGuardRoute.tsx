@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Box, Button } from '@material-ui/core';
 import { Route, RouteProps } from 'react-router';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';

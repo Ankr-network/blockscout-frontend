@@ -1,10 +1,3 @@
-import {
-  EEthereumNetworkId,
-  IWeb3SendResult,
-  TWeb3BatchCallback,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import Web3 from 'web3';
@@ -12,6 +5,14 @@ import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
+
+import {
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  TWeb3BatchCallback,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 
 import { ApiGateway } from '../api';
 import {
@@ -121,13 +122,17 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @param {Partial<IPolygonSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
-  public static async getInstance(): Promise<PolygonSDK> {
+  public static async getInstance(
+    args?: Partial<IPolygonSDKProviders>,
+  ): Promise<PolygonSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
     const addressHasNotBeenUpdated =

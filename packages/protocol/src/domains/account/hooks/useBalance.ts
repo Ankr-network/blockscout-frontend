@@ -14,7 +14,7 @@ export interface Balance extends AccountBalance {
 
 const actionType = fetchBalance.toString();
 
-export const useBalance = (isConnected: boolean): Balance => {
+export const useBalance = (isConnected = true): Balance => {
   const { data: balances, loading: isLoading } = useQuery<AccountBalance>({
     type: actionType,
   });

@@ -3,8 +3,8 @@ import { useDispatchRequest } from '@redux-requests/react';
 
 import { formatDataForRequest } from './UserEndpointsFormUtils';
 import { UserEndpointsForm } from './UserEndpointsForm';
-import { apiEditPrivateEndpoint } from 'domains/nodeProviders/actions/apiEditPrivateEndpoint';
-import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { apiEditPrivateEndpoint } from 'domains/infrastructure/actions/apiEditPrivateEndpoint';
+import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 
 interface UserEndpointsFormContainerProps {
   endpoints: IUserEndpoint[];

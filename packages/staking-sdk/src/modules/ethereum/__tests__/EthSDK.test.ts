@@ -1,6 +1,10 @@
-import { ProviderManager } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
+import {
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 
 import { EEthereumErrorCodes, EthereumSDK, TEthToken } from '..';
 import { configFromEnv, MAX_UINT256, ZERO, ZERO_ADDRESS } from '../../common';
@@ -208,6 +212,15 @@ describe('modules/ethereum/sdk', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+  });
+
+  test('should initialize sdk with user providers', async () => {
+    const sdk = await EthereumSDK.getInstance({
+      readProvider: defaultProvider as unknown as Web3KeyReadProvider,
+      writeProvider: defaultProvider as unknown as Web3KeyWriteProvider,
+    });
+
+    expect(sdk).toBeDefined();
   });
 
   test('should return contracts data', async () => {

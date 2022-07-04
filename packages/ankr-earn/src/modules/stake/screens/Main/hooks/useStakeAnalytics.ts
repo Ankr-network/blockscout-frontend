@@ -1,5 +1,6 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useCallback } from 'react';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

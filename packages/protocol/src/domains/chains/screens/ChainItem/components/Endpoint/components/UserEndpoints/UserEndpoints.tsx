@@ -5,7 +5,7 @@ import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './UserEndpointsStyles';
 import { AddEndpointButton } from 'domains/nodeProviders/screens/ProvidersList/components/AddEndpointButton';
 import { UserEndpointsForm } from './UserEndpointsForm';
-import { IUserEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { getRpcLinks } from './UserEndpointsUtils';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';

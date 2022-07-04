@@ -1,9 +1,10 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { stopPolling, resetRequests } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

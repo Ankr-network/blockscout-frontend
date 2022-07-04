@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -8,6 +7,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

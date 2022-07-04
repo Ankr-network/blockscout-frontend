@@ -1,19 +1,3 @@
-import {
-  AccountChangedEventData,
-  AvailableWriteProviders,
-  EthereumWeb3KeyProvider,
-  EventProvider,
-  EVENTS,
-  getProvider,
-  IAccountChangedEvent,
-  IChainChangedEvent,
-  IDisconnectEvent,
-  IMessageEvent,
-  MessageEventData,
-  ProviderEvent,
-  ProviderEvents,
-  ProviderRpcError,
-} from '@ankr.com/provider';
 import { RequestActionMeta, success } from '@redux-requests/core';
 import { SelectEffect, TakeEffect } from '@redux-saga/core/effects';
 import { Channel, END, eventChannel, Task } from 'redux-saga';
@@ -30,6 +14,22 @@ import {
 } from 'redux-saga/effects';
 import Web3 from 'web3';
 
+import {
+  AccountChangedEventData,
+  AvailableWriteProviders,
+  EthereumWeb3KeyProvider,
+  EventProvider,
+  EVENTS,
+  getProvider,
+  IAccountChangedEvent,
+  IChainChangedEvent,
+  IDisconnectEvent,
+  IMessageEvent,
+  MessageEventData,
+  ProviderEvent,
+  ProviderEvents,
+  ProviderRpcError,
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { connect, IConnect } from 'modules/auth/common/actions/connect';

@@ -6,6 +6,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.background.paper,
     borderRadius: 18,
     padding: theme.spacing(2.5, 3.5),
+    marginBottom: theme.spacing(3.75),
   },
   top: {
     display: 'flex',

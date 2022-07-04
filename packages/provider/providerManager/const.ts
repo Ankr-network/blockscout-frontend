@@ -99,7 +99,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'FTM',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.ftm.tools/'],
+    rpcUrls: ['https://rpc.ankr.com/fantom'],
     blockExplorerUrls: ['https://ftmscan.com/'],
   },
   [EEthereumNetworkId.fantomTestnet]: {
@@ -121,7 +121,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'MATIC',
       decimals: 18,
     },
-    rpcUrls: ['https://polygon-rpc.com/'],
+    rpcUrls: ['https://rpc.ankr.com/polygon'],
     blockExplorerUrls: ['https://polygonscan.com'],
   },
   [EEthereumNetworkId.mumbai]: {

@@ -1,8 +1,8 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Box } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useEffect } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

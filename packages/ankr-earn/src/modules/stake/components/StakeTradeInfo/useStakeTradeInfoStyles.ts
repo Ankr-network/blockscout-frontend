@@ -25,7 +25,7 @@ export const useStakeTradeInfoStyles = makeStyles(theme => ({
     fontWeight: 600,
   },
 
-  btn: {
+  link: {
     height: 38,
 
     '&:nth-child(2)': {

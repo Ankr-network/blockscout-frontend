@@ -14,6 +14,8 @@ export const Stake = (): JSX.Element => {
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
+    lockingPeriod,
+    minStake,
     providerName,
     providerSelectHref,
     tokenIn,
@@ -32,6 +34,8 @@ export const Stake = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
+          lockingPeriod={lockingPeriod}
+          minAmount={minStake}
           providerName={providerName}
           providerSelectHref={providerSelectHref}
           tokenIn={tokenIn}

@@ -1,8 +1,6 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { DashboardRoutesConfig } from 'domains/dashboard/Routes';
-import { t } from 'modules/i18n/utils/intl';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useCallback, useRef } from 'react';
+import { IEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { IProvider } from 'multirpc-sdk';
 
 export const getChainById = (
   chains: IApiChain[],
@@ -13,29 +11,47 @@ export const getChainById = (
   return chain as IApiChain;
 };
 
-export const useEndpointBreadcrumbs = (chainName: string) => {
-  const { setBreadcrumbs } = useBreadcrumbs();
+export const hasLimit = (
+  providerData: IProvider | null,
+  endpoints: IEndpoint,
+) => {
+  if (typeof providerData === 'string' || !providerData) return false;
 
-  const hasBreadcrumbsRef = useRef<boolean>(false);
+  let endpointsCount = 0;
 
-  const handleSetBreadcrumbs = useCallback(
-    (title: string) => {
-      if (hasBreadcrumbsRef.current) return;
+  Object.keys(endpoints).forEach(key => {
+    endpointsCount += endpoints[key].length;
+  });
 
-      hasBreadcrumbsRef.current = true;
+  return endpointsCount >= providerData.limit;
+};
 
-      setBreadcrumbs([
-        {
-          title: t(DashboardRoutesConfig.dashboard.breadcrumbs),
-          link: DashboardRoutesConfig.dashboard.path,
-        },
-        {
-          title,
-        },
-      ]);
-    },
-    [setBreadcrumbs],
-  );
+export const getLimit = (providerData: IProvider | null): number => {
+  if (typeof providerData === 'string' || !providerData) return 0;
 
-  handleSetBreadcrumbs(chainName);
+  return providerData.limit;
+};
+
+const hasChain = (providerData: IProvider, chainId: string) => {
+  if (typeof providerData === 'string') return false;
+
+  const { blockchains = [] } = providerData;
+
+  // we can add all blockchains
+  if (blockchains.length === 0) return true;
+
+  return blockchains.includes(chainId);
+};
+
+export const canAddEndpoint = (
+  providerData: IProvider | null,
+  chainId?: string,
+): boolean => {
+  if (!providerData) return false;
+
+  if (chainId) {
+    return hasChain(providerData, chainId);
+  }
+
+  return true;
 };

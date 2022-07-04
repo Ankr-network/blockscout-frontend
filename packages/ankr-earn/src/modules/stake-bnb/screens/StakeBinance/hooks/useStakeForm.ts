@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -9,6 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';

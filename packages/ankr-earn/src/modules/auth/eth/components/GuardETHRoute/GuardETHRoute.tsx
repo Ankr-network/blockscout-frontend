@@ -1,8 +1,9 @@
+import { RouteProps } from 'react-router';
+
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
-import { RouteProps } from 'react-router';
 
 import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
 

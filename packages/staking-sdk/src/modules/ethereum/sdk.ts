@@ -1,3 +1,8 @@
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData } from 'web3-eth-contract';
+
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
@@ -5,10 +10,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData } from 'web3-eth-contract';
 
 import {
   ETH_SCALE_FACTOR,
@@ -115,17 +116,21 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Initializes read provider to support multiple chains.
    *
    * @public
+   * @param {Partial<IEthSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
-  public static async getInstance(): Promise<EthereumSDK> {
+  public static async getInstance(
+    args?: Partial<IEthSDKProviders>,
+  ): Promise<EthereumSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(
-        isMainnet
-          ? AvailableReadProviders.ethMainnet
-          : AvailableReadProviders.ethGoerli,
-      ),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(
+          isMainnet
+            ? AvailableReadProviders.ethMainnet
+            : AvailableReadProviders.ethGoerli,
+        ),
     ]);
 
     const addrHasNotBeenUpdated =

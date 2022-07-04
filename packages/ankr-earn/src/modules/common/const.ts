@@ -1,5 +1,6 @@
-import { AvailableReadProviders } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import { AvailableReadProviders } from '@ankr.com/provider';
 
 import packageJson from '../../../package.json';
 
@@ -17,6 +18,8 @@ export const ETH_SCALE_FACTOR = 10 ** 18;
 
 export const ACTION_CACHE_SEC = 600;
 
+export const OPENOCEAN_MAX_SAFE_GAS_VALUE = 300; // Note: "5_000" is a maximum
+
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
 export const ONE = new BigNumber(1);
@@ -32,7 +35,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
-const isLocal = !!process.env.REACT_APP_IS_LOCAL;
+export const isLocal = !!process.env.REACT_APP_IS_LOCAL;
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
@@ -72,7 +75,13 @@ export const STAKE_LEGACY_LINKS = {
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
+export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
+
+export const OPENOCEAN_QUOTE_URL =
+  'https://open-api.openocean.finance/v1/cross/quote';
+
 export const featuresConfig = {
+  testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
   isActiveStakeTradeInfo: currentEnv !== Env.Production,
@@ -86,7 +95,7 @@ export const featuresConfig = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
-  ankrStaking: isLocal,
+  ankrStaking: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {

@@ -9,32 +9,6 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@ankr.com/provider@^1.5.21":
-  version "1.5.21"
-  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-1.5.21.tgz#518959203a3fe942a27551d7b6498c8746ad4198"
-  integrity sha512-t3v+IPYpBjAhac2DI5+HwuJQl9YXFI+9JboWPM36ZWLVpGZ6ySnAxwOe+EtpsbvKE0v0CEvw/B/qcd9XUwuevA==
-  dependencies:
-    "@ethereumjs/common" "^2.5.0"
-    "@ethereumjs/tx" "^3.3.2"
-    "@polkadot/wasm-crypto-asmjs" "4.5.1"
-    "@polkadot/wasm-crypto-wasm" "4.5.1"
-    "@polkadot/x-fetch" "8.2.2"
-    "@polkadot/x-randomvalues" "8.2.2"
-    "@polkadot/x-textdecoder" "8.2.2"
-    "@polkadot/x-textencoder" "8.2.2"
-    "@polkadot/x-ws" "8.2.2"
-    "@redux-requests/core" "1.6.1"
-    "@walletconnect/web3-provider" "^1.7.0"
-    bignumber.js "^9.0.1"
-    ethereumjs-util "^7.1.3"
-    redux "^4.1.2"
-    redux-saga "^1.1.3"
-    web3 "^1.6.1"
-    web3-core "^1.6.1"
-    web3-eth-contract "^1.6.1"
-    web3-utils "^1.3.5"
-    web3modal "^1.9.4"
-
 "@ankr.com/stakefi-web3@^0.0.122":
   version "0.0.122"
   resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.122.tgz#23ce41b854a834e8d05eb685bd57ac9a2454a885"
@@ -23398,7 +23372,7 @@ react-error-boundary@^3.1.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-error-overlay@^6.0.9:
+react-error-overlay@6.0.9, react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==

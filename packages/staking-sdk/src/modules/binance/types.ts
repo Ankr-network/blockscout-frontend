@@ -1,5 +1,6 @@
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 import { TransactionReceipt } from 'web3-core';
+
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 
 import { AVAILABLE_BNB_SYNT_TOKENS } from './const';

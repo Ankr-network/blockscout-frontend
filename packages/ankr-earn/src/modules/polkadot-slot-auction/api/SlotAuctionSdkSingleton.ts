@@ -1,7 +1,7 @@
-import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { alpha, lighten } from '@material-ui/core';
 import { ThemeColors } from 'web3modal';
 
+import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { ISlotAuctionConfig, SlotAuctionSdk } from 'polkadot';
 import { mainTheme } from 'ui';
 

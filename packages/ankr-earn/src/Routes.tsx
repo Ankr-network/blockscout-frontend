@@ -20,6 +20,7 @@ import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
 import { getRoutes as getSwapRoutes } from 'modules/swap/Routes';
 import { getRoutes as getSwitcherRoutes } from 'modules/switcher/Routes';
+import { getRoutes as getTestUIRoutes } from 'modules/testing-ui/Routes';
 
 export function Routes(): JSX.Element {
   return (
@@ -27,6 +28,8 @@ export function Routes(): JSX.Element {
       <Route exact path={['/', STAKING_PATH]}>
         <Redirect to={DashboardRoutes.dashboard.generatePath()} />
       </Route>
+
+      {featuresConfig.testingUi && getTestUIRoutes()}
 
       {getBoostRoutes()}
 

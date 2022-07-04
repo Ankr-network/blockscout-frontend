@@ -27,8 +27,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       rowGap: theme.spacing(2),
     },
   },
-  title: {
+  summary: {
     fontWeight: 700,
+  },
+  title: {
+    fontSize: 14,
+    lineHeight: '20px',
+    fontWeight: 700,
+    letterSpacing: '0.01em',
   },
   label: {
     display: 'inline',

@@ -1,5 +1,10 @@
-import { ProviderManager } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import {
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 
 import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
@@ -64,6 +69,15 @@ describe('modules/binance/sdk', () => {
 
   test('should initialize sdk', async () => {
     const sdk = await BinanceSDK.getInstance();
+
+    expect(sdk).toBeDefined();
+  });
+
+  test('should initialize sdk with user providers', async () => {
+    const sdk = await BinanceSDK.getInstance({
+      readProvider: defaultReadProvider as unknown as Web3KeyReadProvider,
+      writeProvider: defaultWriteProvider as unknown as Web3KeyWriteProvider,
+    });
 
     expect(sdk).toBeDefined();
   });

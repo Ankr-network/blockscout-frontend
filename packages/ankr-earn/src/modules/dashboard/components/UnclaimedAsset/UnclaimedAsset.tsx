@@ -1,7 +1,7 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import { Box, SvgIcon } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';

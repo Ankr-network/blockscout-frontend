@@ -11,8 +11,9 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { approve } from 'modules/stake-ankr/actions/approve';
-import { getAnkrBalance } from 'modules/stake-ankr/actions/getAnkrBalance';
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -26,11 +27,13 @@ interface IUseAnkrStake {
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
+  minStake: BigNumber;
   tokenIn: string;
   closeHref: string;
   providerSelectHref: string;
   initialProvider?: string;
   providerName?: string;
+  lockingPeriod?: Days;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
 }
 
@@ -42,8 +45,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
     type: getProviders,
   });
 
-  const { data: ankrBalance, loading: isBalanceLoading } = useQuery({
-    type: getAnkrBalance,
+  const { data: commonData, loading: isCommonDataLoading } = useQuery({
+    type: getCommonData,
   });
 
   const { data: approveData, loading: isApproveLoading } = useQuery({
@@ -54,7 +57,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
-    dispatchRequest(getAnkrBalance());
+    dispatchRequest(getCommonData());
 
     return () => {
       dispatch(resetRequests([approve.toString()]));
@@ -85,20 +88,22 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   return {
     isStakeLoading,
-    isBalanceLoading,
+    isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
     isApproved,
     isDisabled:
       isProvidersLoading ||
-      isBalanceLoading ||
+      isCommonDataLoading ||
       isStakeLoading ||
       isApproveLoading,
-    balance: ankrBalance ?? ZERO,
+    balance: commonData?.ankrBalance ?? ZERO,
+    minStake: commonData?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerSelectHref: RoutesConfig.selectProvider.generatePath(),
     initialProvider,
     providerName,
+    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     onSubmit,
   };
 };
