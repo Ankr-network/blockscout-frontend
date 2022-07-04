@@ -6,15 +6,19 @@ import {
 import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
 
-import { EEthereumNetworkId } from '@ankr.com/provider';
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { t } from 'common';
 
+import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { swapOldAETHCBSC } from 'modules/dashboard/actions/swapOldAETHCBSC';
-import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -24,9 +28,7 @@ export interface IStakedAETHBSCData {
   isBalancesLoading: boolean;
   isSwapLoading: boolean;
   isShowed: boolean;
-  nativeAmount?: BigNumber;
   network: string;
-  ratio: BigNumber;
   usdAmount?: BigNumber;
   swapDisabled: boolean;
   onSwapToken: () => void;
@@ -51,6 +53,11 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     type: swapOldAETHCBSC,
   });
 
+  const { onSwitchNetwork, isUnsupportedNetwork } = useGuardETHRoute({
+    providerId: AvailableWriteProviders.ethCompatible,
+    availableNetworks: BNB_STAKING_NETWORKS,
+  });
+
   const amount = statsData?.aETHBalance ?? ZERO;
   const usdAmount = useMemo(
     () =>
@@ -63,13 +70,15 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     [amount, metrics, statsData?.aETHRatio],
   );
 
-  const nativeAmount = getTokenNativeAmount(amount, statsData?.aETHRatio);
-
   const isShowed = !amount.isZero() || isCommonDataLoading;
 
   const onSwapToken = async () => {
     if (!availableBalance || availableBalance.isZero()) {
       return;
+    }
+
+    if (isUnsupportedNetwork) {
+      await onSwitchNetwork(BSC_NETWORK_BY_ENV)();
     }
 
     const swappableAmount = amount.isGreaterThan(availableBalance)
@@ -85,7 +94,6 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
   return {
     isShowed,
     amount,
-    nativeAmount,
     usdAmount,
     onSwapToken,
     isSwapLoading,
@@ -93,6 +101,5 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     network: t(`chain.${BSC_NETWORK_BY_ENV}`),
     swapDisabled: !availableBalance || availableBalance.isZero(),
     isBalancesLoading: isCommonDataLoading,
-    ratio: statsData?.aETHRatio || ZERO,
   };
 }

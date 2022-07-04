@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
+import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useStakedAETHBSCData } from '../useStakedAETHBSCData';
@@ -50,6 +51,13 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
+jest.mock(
+  'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute',
+  () => ({
+    useGuardETHRoute: jest.fn(),
+  }),
+);
+
 jest.mock('modules/stake-bnb/Routes', () => ({
   RoutesConfig: {
     stake: { generatePath: () => '/stake' },
@@ -84,6 +92,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
   beforeEach(() => {
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
     (useMutation as jest.Mock).mockReturnValue({ loading: false });
+    (useGuardETHRoute as jest.Mock).mockReturnValue({
+      onSwitchNetwork: () => () => Promise.resolve(),
+      isUnsupportedNetwork: false,
+    });
   });
 
   afterEach(() => {
@@ -100,9 +112,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
 
     expect(result.current.amount).toStrictEqual(mockONE);
     expect(result.current.usdAmount).toStrictEqual(mockONE);
-    expect(result.current.nativeAmount).toStrictEqual(mockONE);
     expect(result.current.network).toStrictEqual('Binance SmartChain Testnet');
-    expect(result.current.ratio).toStrictEqual(mockONE);
     expect(result.current.swapDisabled).toStrictEqual(false);
     expect(result.current.chainId).toStrictEqual(
       EEthereumNetworkId.smartchainTestnet,
@@ -128,6 +138,33 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
     });
 
     expect(mockSwapOldAETHCBSC).toBeCalledWith(mockONE);
+  });
+
+  test('should swap tokens with switching network', () => {
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce(defaultStatsData)
+      .mockReturnValueOnce(defaultAvailableBalanceData)
+      .mockReturnValueOnce(defaultMetricsData);
+
+    const mockOnSwitchNetwork = jest.fn();
+    (useGuardETHRoute as jest.Mock).mockReturnValue({
+      onSwitchNetwork: () => () => {
+        mockOnSwitchNetwork();
+        return Promise.resolve();
+      },
+      isUnsupportedNetwork: true,
+    });
+
+    const mockDispatch = jest.fn();
+    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+
+    const { result } = renderHook(() => useStakedAETHBSCData());
+
+    act(() => {
+      result.current.onSwapToken();
+    });
+
+    expect(mockOnSwitchNetwork).toBeCalledTimes(1);
   });
 
   test('should swap tokens with max available balance', () => {

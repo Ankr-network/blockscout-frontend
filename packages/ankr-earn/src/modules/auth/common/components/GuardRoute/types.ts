@@ -32,5 +32,5 @@ export interface IUseGuardRouteData<
   onCloseModal: () => void;
   onDispatchConnect: () => TActionPromise<IConnect>;
   onOpenModal: () => void;
-  onSwitchNetwork: (network: NetworkId) => () => void;
+  onSwitchNetwork: (network: NetworkId) => () => Promise<void>;
 }

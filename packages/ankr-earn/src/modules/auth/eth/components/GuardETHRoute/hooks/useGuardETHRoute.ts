@@ -77,8 +77,8 @@ export const useGuardETHRoute = ({
   );
 
   const onSwitchNetwork = useCallback(
-    (network: EEthereumNetworkId) => (): void => {
-      dispatchRequest(switchNetwork({ providerId, chainId: network }));
+    (network: EEthereumNetworkId) => async () => {
+      await dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
   );

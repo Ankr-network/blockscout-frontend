@@ -3,7 +3,6 @@ import { Chip } from '@material-ui/core';
 import { t, tHTML } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
-import { ZERO, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -21,12 +20,10 @@ export const StakedAETHBSC = (): JSX.Element => {
   const classes = useStyles();
 
   const {
-    ratio,
     chainId,
     network,
     amount,
     usdAmount,
-    nativeAmount,
     isBalancesLoading,
     isSwapLoading,
     onSwapToken,
@@ -56,7 +53,6 @@ export const StakedAETHBSC = (): JSX.Element => {
         }
         chainId={chainId}
         isLoading={isBalancesLoading}
-        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={
           <Tooltip arrow title={tHTML('dashboard.old-version-tooltip')}>
@@ -73,10 +69,8 @@ export const StakedAETHBSC = (): JSX.Element => {
       />
 
       <TokenInfoDialog
-        description={tHTML('dashboard.token-info.aETHBNB', {
-          ratio: (ratio && !ratio?.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
-        })}
-        moreHref={getStakingOverviewUrl(Token.BNB)}
+        description={tHTML('dashboard.token-info.aETHBNB')}
+        moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
         tokenAddress={contractConfig.aethContract}
         tokenName={Token.aETHc}
