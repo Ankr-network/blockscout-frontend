@@ -16,7 +16,7 @@ import { useStakedAETHBSCData } from '../StakedTokens/hooks/ETH/useStakedAETHBSC
 import { useStyles } from './useStakedAETHBSCStyles';
 
 export const StakedAETHBSC = (): JSX.Element => {
-  const { contractConfig } = configFromEnv();
+  const { binanceConfig } = configFromEnv();
   const classes = useStyles();
 
   const {
@@ -72,7 +72,7 @@ export const StakedAETHBSC = (): JSX.Element => {
         description={tHTML('dashboard.token-info.aETHBNB')}
         moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
-        tokenAddress={contractConfig.aethContract}
+        tokenAddress={binanceConfig.aETHToken}
         tokenName={Token.aETHc}
         onClose={onCloseInfo}
       />
