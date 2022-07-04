@@ -5,9 +5,9 @@ import { ChainRequestsOverview } from '../ChainRequestsOverview';
 import { MethodsRating } from '../MethodsRating';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { RequestsMap } from '../RequestsMap';
+import { UsageSummary } from '../UsageSummary';
 import { useStyles } from './DataUsageContentStyles';
 import { useUsageData } from './hooks/useUsageData';
-import { UsageSummary } from '../UsageSummary';
 
 interface IDataUsageContentProps {
   chainId: string;
@@ -24,7 +24,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
     methodRequests,
     pristine,
     setTimeframe,
-    switchStatsTimeframe,
+    switchTimeframe,
     timeframe,
     totalCached,
     totalRequests,
@@ -32,7 +32,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
   } = useUsageData(chainId);
 
   return (
-    <div>
+    <>
       {error ? (
         <div className={classes.error}>
           <QueryError error={error} />
@@ -44,11 +44,11 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           )}
           <ChainRequestsOverview
             className={classes.chainRequestsOverview}
-            totalRequestsHistory={totalRequestsHistory}
-            onClick={setTimeframe}
-            timeframe={timeframe}
             loading={loading}
+            onClick={setTimeframe}
             pristine={pristine}
+            timeframe={timeframe}
+            totalRequestsHistory={totalRequestsHistory}
           >
             <ChainItemDetails
               className={classes.chainItemDetails}
@@ -65,12 +65,12 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           {isWalletConnected && methodRequests.length > 0 && (
             <MethodsRating
               methodRequests={methodRequests}
-              switchStatsTimeframe={switchStatsTimeframe}
+              switchTimeframe={switchTimeframe}
               timeframe={timeframe}
             />
           )}
         </>
       )}
-    </div>
+    </>
   );
 };

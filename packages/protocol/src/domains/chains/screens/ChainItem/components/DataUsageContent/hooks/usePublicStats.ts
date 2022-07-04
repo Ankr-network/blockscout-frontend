@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
+import { POLL_INTERVAL } from '../const';
 import { PublicStats } from '../types';
 import { StatsTimeframe } from 'domains/chains/types';
 import { fetchChainTimeframeData } from 'domains/chains/actions/fetchChainTimeframeData';
@@ -9,19 +10,19 @@ import { statsTimeframeToTimeframeMap } from 'domains/chains/constants/statsTime
 
 export interface PublicStatsParams {
   chainId: string;
+  isWalletConnected: boolean;
   statsTimeframe: StatsTimeframe;
 }
 
-const POLL_INTERVAL = 20;
-
 export const usePublicStats = ({
   chainId,
+  isWalletConnected,
   statsTimeframe,
 }: PublicStatsParams): PublicStats => {
   const {
     data: stats,
-    loading,
     error,
+    loading,
     pristine,
     stopPolling,
   } = useQuery({
@@ -29,19 +30,21 @@ export const usePublicStats = ({
     requestKey: chainId,
     type: fetchChainTimeframeData,
   });
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    dispatchRequest(
-      fetchChainTimeframeData(
-        chainId,
-        statsTimeframeToTimeframeMap[statsTimeframe],
-        POLL_INTERVAL,
-      ),
-    );
+    if (!isWalletConnected) {
+      dispatch(
+        fetchChainTimeframeData(
+          chainId,
+          statsTimeframeToTimeframeMap[statsTimeframe],
+          POLL_INTERVAL,
+        ),
+      );
+    }
 
     return stopPolling;
-  }, [dispatchRequest, chainId, statsTimeframe, stopPolling]);
+  }, [dispatch, chainId, isWalletConnected, statsTimeframe, stopPolling]);
 
   const { totalCached, totalRequests, totalRequestsHistory, countries } = stats;
 

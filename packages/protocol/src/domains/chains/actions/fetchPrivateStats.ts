@@ -6,12 +6,16 @@ import { MultiService } from 'modules/api/MultiService';
 
 export const fetchPrivateStats = createAction<RequestAction<PrivateStats>>(
   'chains/fetchPrivateStats',
-  (interval: PrivateStatsInterval, requestKey?: string) => ({
+  (interval: PrivateStatsInterval, poll?: number, requestKey?: string) => ({
     request: {
-      promise: MultiService.getInstance().service.getPrivateStats(interval),
+      promise: (async () => {})(),
     },
     meta: {
       asMutation: false,
+      onRequest: () => ({
+        promise: MultiService.getInstance().service.getPrivateStats(interval),
+      }),
+      poll,
       requestKey,
       takeLatest: true,
     },

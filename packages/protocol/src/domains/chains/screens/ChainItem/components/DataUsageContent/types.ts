@@ -18,12 +18,12 @@ export interface UsageData {
   error: any;
   isWalletConnected: boolean;
   loading: boolean;
+  methodRequests: MethodRequest[];
   pristine: boolean;
   setTimeframe: (timeframe: StatsTimeframe) => void;
-  switchStatsTimeframe: () => void;
+  switchTimeframe: () => void;
   timeframe: StatsTimeframe;
   totalCached: BigNumber;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
-  methodRequests: MethodRequest[];
 }

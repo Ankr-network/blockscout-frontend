@@ -7,24 +7,20 @@ import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {
   timeframe: StatsTimeframe;
-  switchStatsTimeframe: () => void;
+  switchTimeframe: () => void;
 }
 
 const title = t('chain-item.methods-rating.title');
 
-export const Header = ({ switchStatsTimeframe, timeframe }: HeaderProps) => {
+export const Header = ({ switchTimeframe, timeframe }: HeaderProps) => {
   const classes = useStyles();
 
   return (
     <div className={classes.headerRoot}>
       <div className={classes.titleBox}>
         <div className={classes.title}>{title}</div>
-        <TimeframeSwitcher
-          onSwitch={switchStatsTimeframe}
-          timeframe={timeframe}
-        />
+        <TimeframeSwitcher onSwitch={switchTimeframe} timeframe={timeframe} />
       </div>
-      {/* <Tabs setChainType={setChainType} /> */}
     </div>
   );
 };

@@ -9,13 +9,13 @@ import { useStyles } from './MethodsRatingStyles';
 
 export interface MethodsRatingProps {
   methodRequests: MethodRequest[];
-  switchStatsTimeframe: () => void;
+  switchTimeframe: () => void;
   timeframe: StatsTimeframe;
 }
 
 export const MethodsRating = ({
   methodRequests,
-  switchStatsTimeframe,
+  switchTimeframe,
   timeframe,
 }: MethodsRatingProps) => {
   const classes = useStyles();
@@ -24,10 +24,7 @@ export const MethodsRating = ({
 
   return (
     <Box className={classes.requestsRatingRoot}>
-      <Header
-        switchStatsTimeframe={switchStatsTimeframe}
-        timeframe={timeframe}
-      />
+      <Header switchTimeframe={switchTimeframe} timeframe={timeframe} />
       <Table requests={requests} />
     </Box>
   );

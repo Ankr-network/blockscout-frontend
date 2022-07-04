@@ -30,7 +30,7 @@ export const getUsageData = ({
   },
   setStatsTimeframe: setTimeframe,
   statsTimeframe: timeframe,
-  switchStatsTimeframe,
+  switchStatsTimeframe: switchTimeframe,
 }: UsageDataParams): UsageData => {
   const publicUsageData: UsageData = {
     countries,
@@ -40,7 +40,7 @@ export const getUsageData = ({
     methodRequests: [],
     pristine,
     setTimeframe,
-    switchStatsTimeframe,
+    switchTimeframe,
     timeframe,
     totalCached,
     totalRequests: publicTotalRequests,
@@ -61,7 +61,7 @@ export const getUsageData = ({
     methodRequests: getMethodRequests(topRequests),
     pristine: false,
     setTimeframe,
-    switchStatsTimeframe,
+    switchTimeframe,
     timeframe,
     totalCached: new BigNumber(0),
     totalRequests: new BigNumber(privateTotalRequests),
