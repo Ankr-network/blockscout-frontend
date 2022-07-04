@@ -1,4 +1,4 @@
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 

@@ -6,8 +6,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
-import { EEthereumNetworkId } from 'provider';
 
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';

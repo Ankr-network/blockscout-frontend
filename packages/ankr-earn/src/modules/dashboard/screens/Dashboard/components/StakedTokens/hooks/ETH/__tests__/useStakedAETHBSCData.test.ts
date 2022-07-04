@@ -6,7 +6,7 @@ import {
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
