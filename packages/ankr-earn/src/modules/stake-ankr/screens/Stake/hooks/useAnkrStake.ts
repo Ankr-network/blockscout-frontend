@@ -16,9 +16,8 @@ import { approve } from 'modules/stake-ankr/actions/approve';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
+import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-
-import { IAnkrStakeSubmitPayload } from '../components/AnkrStakeForm';
 
 interface IUseAnkrStake {
   isStakeLoading: boolean;
@@ -65,7 +64,9 @@ export const useAnkrStake = (): IUseAnkrStake => {
   }, []);
 
   const { provider: queryProvider } = RoutesConfig.stake.useParams();
-  const currentProvider = providers?.find(p => p.validator === queryProvider);
+  const currentProvider = providers?.find(
+    provider => provider.validator === queryProvider,
+  );
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 

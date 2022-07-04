@@ -1,16 +1,7 @@
 import { darken, makeStyles } from '@material-ui/core';
 
-export const useStakeFormStyles = makeStyles(theme => {
+export const useNodeProviderFieldStyles = makeStyles(theme => {
   return {
-    box: {
-      position: 'relative',
-    },
-
-    periodLabel: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-
     selectProviderBtn: {
       width: '100%',
       height: 54,
@@ -45,11 +36,6 @@ export const useStakeFormStyles = makeStyles(theme => {
     selectProviderError: {
       margin: theme.spacing(0.5, 1.5, 0),
       fontSize: '0.75rem',
-    },
-
-    stepper: {
-      maxWidth: 380,
-      margin: theme.spacing(1, 'auto', 0),
     },
   };
 });

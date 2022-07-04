@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
+
 interface IStakeRow {
   isUnlocked: boolean;
   lockingPeriod: number;
@@ -18,7 +20,7 @@ interface IStakeData {
   data: IStakeRow[];
 }
 
-const DEMO_DATA = [
+const getDemoData = (provider: string): IStakeRow[] => [
   {
     isUnlocked: false,
     lockingPeriod: 23,
@@ -26,8 +28,8 @@ const DEMO_DATA = [
     usdStakeAmount: new BigNumber(2132),
     rewards: new BigNumber(42),
     usdRewards: new BigNumber(5),
-    stakeLink: 'stakeLink',
-    unstakeLink: 'unstakeLink',
+    stakeLink: RoutesConfig.stakeMore.generatePath(provider),
+    unstakeLink: RoutesConfig.unstake.generatePath(provider),
     restakeLink: 'restakeLink',
     claimLink: 'claimLink',
   },
@@ -38,7 +40,7 @@ const DEMO_DATA = [
     usdStakeAmount: new BigNumber(3),
     rewards: new BigNumber(12),
     usdRewards: new BigNumber(5),
-    stakeLink: 'stakeLink',
+    stakeLink: RoutesConfig.stakeMore.generatePath(provider),
     unstakeLink: '',
     restakeLink: 'restakeLink',
     claimLink: '',
@@ -57,9 +59,9 @@ const DEMO_DATA = [
   },
 ];
 
-export const useStakeData = (): IStakeData => {
+export const useStakeData = (provider: string): IStakeData => {
   return {
     isLoading: false,
-    data: DEMO_DATA,
+    data: getDemoData(provider),
   };
 };

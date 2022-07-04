@@ -11,6 +11,7 @@ import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
+import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -118,7 +119,7 @@ export const StakeForm = ({
   const onSubmitForm = (payload: IStakeFormPayload): void =>
     onSubmit({
       ...payload,
-      amount: getAmountNum(payload?.amount).toFixed(),
+      amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IStakeSubmitPayload);
 
   const renderForm = ({
@@ -128,7 +129,7 @@ export const StakeForm = ({
     invalid,
   }: FormRenderProps<IStakeFormPayload>) => {
     const { amount } = values;
-    const amountNumber = getAmountNum(amount);
+    const amountNumber = convertAmountToBN(amount);
 
     return (
       <StakeFormBox className={className} onSubmit={handleSubmit}>
@@ -206,14 +207,4 @@ export const StakeForm = ({
 
 function setMaxAmount(form: FormApi<IStakeFormPayload>, maxValue: string) {
   return () => form.change(FieldsNames.amount, maxValue);
-}
-
-function getAmountNum(amount?: ReactText): BigNumber {
-  if (typeof amount === 'undefined') {
-    return ZERO;
-  }
-
-  const currAmount = new BigNumber(amount);
-
-  return currAmount.isGreaterThan(0) ? currAmount : ZERO;
 }

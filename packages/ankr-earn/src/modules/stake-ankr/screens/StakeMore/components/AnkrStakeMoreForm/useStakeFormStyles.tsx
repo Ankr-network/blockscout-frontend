@@ -1,4 +1,4 @@
-import { darken, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 export const useStakeFormStyles = makeStyles(theme => {
   return {
@@ -11,31 +11,22 @@ export const useStakeFormStyles = makeStyles(theme => {
       alignItems: 'center',
     },
 
-    selectProviderBtn: {
+    providerField: {
+      display: 'flex',
+      margin: 0,
       width: '100%',
       height: 54,
+      borderRadius: 8,
+      paddingLeft: theme.spacing(2),
+      alignItems: 'center',
       justifyContent: 'flex-start',
       background: theme.palette.background.default,
-      color: theme.palette.text.secondary,
+    },
+
+    providerText: {
+      color: theme.palette.text.primary,
       fontSize: 16,
       fontWeight: 400,
-
-      '&:hover': {
-        background: darken(theme.palette.background.default, 0.02),
-      },
-    },
-
-    selectProviderBtnActive: {
-      color: theme.palette.text.primary,
-    },
-
-    selectProviderIcon: {
-      display: 'flex',
-      width: '1em',
-      height: '1em',
-      marginLeft: 'auto',
-      fontSize: 24,
-      color: theme.palette.text.primary,
     },
 
     selectProviderErrorColor: {
@@ -47,9 +38,8 @@ export const useStakeFormStyles = makeStyles(theme => {
       fontSize: '0.75rem',
     },
 
-    stepper: {
-      maxWidth: 380,
-      margin: theme.spacing(1, 'auto', 0),
+    stakeBtn: {
+      borderRadius: 16,
     },
   };
 });

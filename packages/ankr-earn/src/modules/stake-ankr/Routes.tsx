@@ -14,6 +14,10 @@ import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 const ROOT = `${STAKING_PATH}ankr-stake/`;
 const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
+const STAKE_MORE_PATH = `${ROOT}stake-more/`;
+const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
+const UNSTAKE_PATH = `${ROOT}unstake/`;
+const UNSTAKE_WITH_PROVIDER_PATH = `${UNSTAKE_PATH}?provider=:provider?`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provier/`;
 
@@ -45,6 +49,32 @@ export const RoutesConfig = createRouteConfig(
       },
     },
 
+    stakeMore: {
+      path: STAKE_MORE_PATH,
+      generatePath: (provider: string) =>
+        generatePath(STAKE_MORE_WITH_PROVIDER_PATH, { provider }),
+      useParams: () => {
+        const queryProvider = useQueryParams().get('provider');
+
+        return {
+          provider: queryProvider ?? undefined,
+        };
+      },
+    },
+
+    unstake: {
+      path: UNSTAKE_PATH,
+      generatePath: (provider: string) =>
+        generatePath(UNSTAKE_WITH_PROVIDER_PATH, { provider }),
+      useParams: () => {
+        const queryProvider = useQueryParams().get('provider');
+
+        return {
+          provider: queryProvider ?? undefined,
+        };
+      },
+    },
+
     selectProvider: {
       path: SELECT_PROVIDER_PATH,
       generatePath: () => generatePath(SELECT_PROVIDER_PATH),
@@ -63,6 +93,14 @@ const Providers = loadComponent(() =>
 
 const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
+);
+
+const StakeMore = loadComponent(() =>
+  import('./screens/StakeMore').then(module => module.StakeMore),
+);
+
+const Unstake = loadComponent(() =>
+  import('./screens/Unstake').then(module => module.Unstake),
 );
 
 const SelectProvider = loadComponent(() =>
@@ -95,6 +133,28 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.stakeMore.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeMore />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Unstake />
           </DefaultLayout>
         </GuardETHRoute>
 

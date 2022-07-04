@@ -1,4 +1,3 @@
-import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Form, FormRenderProps } from 'react-final-form';
 
@@ -7,7 +6,6 @@ import { t } from 'common';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { ZERO } from 'modules/common/const';
-import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
 import {
@@ -15,7 +13,6 @@ import {
   EFieldsNames,
 } from 'modules/stake-ankr/common/types';
 import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
-import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
   StakeFormBox,
@@ -25,29 +22,24 @@ import {
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
-import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
-import { NumericStepper } from 'uiKit/Stepper';
+import { Quote } from 'uiKit/Quote';
 
-import { useStakeFormStyles } from './useStakeFormStyles';
+import { useUnstakeFormStyles } from './useUnstakeFormStyles';
 
 const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
 
-interface IAnkrStakeFormProps {
+interface IAnkrUnstakeFormProps {
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
-  isApproveLoading?: boolean;
   isDisabled?: boolean;
-  isApproved?: boolean;
   tokenIn?: string;
-  providerSelectHref: string;
   maxAmountDecimals?: number;
   closeHref: string;
-  initialProvider?: string;
+  providerId: string;
   providerName?: string;
-  lockingPeriod?: Days;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -55,26 +47,22 @@ interface IAnkrStakeFormProps {
   ) => void;
 }
 
-export const AnkrStakeForm = ({
+export const AnkrUnstakeForm = ({
   balance = ZERO,
   minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
-  isApproveLoading = false,
   isDisabled = false,
-  isApproved = false,
   tokenIn = t('unit.ankr'),
   maxAmountDecimals,
   closeHref,
-  providerSelectHref,
-  initialProvider,
+  providerId,
   providerName,
-  lockingPeriod = 0,
   onSubmit,
   onChange,
-}: IAnkrStakeFormProps): JSX.Element => {
-  const classes = useStakeFormStyles();
+}: IAnkrUnstakeFormProps): JSX.Element => {
+  const classes = useUnstakeFormStyles();
 
   const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
@@ -85,9 +73,6 @@ export const AnkrStakeForm = ({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
-
-  // todo: add actual text
-  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period');
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -101,12 +86,12 @@ export const AnkrStakeForm = ({
       <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
         <CloseButton href={closeHref} />
 
-        <StakeFormTitle>{t('stake-ankr.staking.title')}</StakeFormTitle>
+        <StakeFormTitle>{t('stake-ankr.unstaking.title')}</StakeFormTitle>
 
         <AmountInput
           balance={balance}
           balanceLinkSlot={<BuyAnkrLink />}
-          disabled={isDisabled || isApproved}
+          disabled={isDisabled}
           isBalanceLoading={isBalanceLoading}
           label={
             <StakeDescriptionName component="span">
@@ -122,60 +107,25 @@ export const AnkrStakeForm = ({
         />
 
         <NodeProviderField
-          isDisabled={isDisabled || isApproved}
+          isDisabled
           mt={5}
           providerName={providerName}
-          providerSelectHref={providerSelectHref}
+          providerSelectHref=""
         />
 
-        <StakeDescriptionContainer>
-          <StakeDescriptionName className={classes.periodLabel}>
-            {t('stake-ankr.staking.locking-period')}
-
-            {lockingPeriodTooltip && (
-              <QuestionWithTooltip>{lockingPeriodTooltip}</QuestionWithTooltip>
-            )}
-          </StakeDescriptionName>
-
-          {t('stake-ankr.staking.locking-period-value', {
-            days: lockingPeriod,
-          })}
-        </StakeDescriptionContainer>
+        <Quote mt={6}>{t('stake-ankr.unstaking.undelegeting-info')}</Quote>
 
         <StakeFormFooter>
-          <Grid container spacing={2}>
-            <Grid item xs>
-              <Button
-                fullWidth
-                color="primary"
-                disabled={isApproved || isSubmitDisabled}
-                isLoading={isApproveLoading}
-                size="large"
-                type="submit"
-              >
-                {t('stake-ankr.staking.approve')}
-              </Button>
-            </Grid>
-
-            <Grid item xs>
-              <Button
-                fullWidth
-                color="primary"
-                disabled={!isApproved || isSubmitDisabled}
-                isLoading={loading}
-                size="large"
-                type="submit"
-              >
-                {t('stake-ankr.staking.submit')}
-              </Button>
-            </Grid>
-          </Grid>
-
-          <NumericStepper
-            activeStep={isApproved ? 1 : 0}
-            className={classes.stepper}
-            stepsCount={2}
-          />
+          <Button
+            fullWidth
+            color="primary"
+            disabled={isSubmitDisabled}
+            isLoading={loading}
+            size="large"
+            type="submit"
+          >
+            {t('stake-ankr.unstaking.submit')}
+          </Button>
         </StakeFormFooter>
 
         <OnChange name={EFieldsNames.amount}>
@@ -192,7 +142,7 @@ export const AnkrStakeForm = ({
   return (
     <Form
       initialValues={{
-        provider: initialProvider,
+        provider: providerId,
       }}
       render={renderForm}
       onSubmit={onSubmitForm}

@@ -33,10 +33,12 @@ enum ELabel {
   rewards,
 }
 
+const TEST_PROVIDER_ID = '0x100dd6c27454cb1DAdd1391214A344C6208A8C80';
+
 export const MyStakeTable = (): JSX.Element | null => {
   const classes = useStakeInfoStyles();
 
-  const { data, isLoading } = useStakeData();
+  const { data, isLoading } = useStakeData(TEST_PROVIDER_ID);
 
   const captions = useLocaleMemo(
     () => [
