@@ -9,8 +9,8 @@ import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { getErrorText, hasError } from 'modules/common/utils/form';
-import { LOCKING_PERIOD } from 'modules/stake-ankr/const';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
@@ -55,6 +55,7 @@ interface IAnkrStakeFormProps {
   closeHref: string;
   initialProvider?: string;
   providerName?: string;
+  lockingPeriod?: Days;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -77,6 +78,7 @@ export const AnkrStakeForm = ({
   providerSelectHref,
   initialProvider,
   providerName,
+  lockingPeriod = 0,
   onSubmit,
   onChange,
 }: IAnkrStakeFormProps): JSX.Element => {
@@ -199,7 +201,7 @@ export const AnkrStakeForm = ({
           </StakeDescriptionName>
 
           {t('stake-ankr.staking.locking-period-value', {
-            days: LOCKING_PERIOD,
+            days: lockingPeriod,
           })}
         </StakeDescriptionContainer>
 

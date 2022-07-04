@@ -1,7 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { Address, EEthereumNetworkId } from 'provider';
+import { Address, EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {

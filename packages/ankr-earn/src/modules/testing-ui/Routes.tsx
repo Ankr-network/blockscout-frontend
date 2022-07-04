@@ -86,11 +86,16 @@ export function getRoutes(): JSX.Element {
           </DefaultLayout>
         </Route>
 
-        <Route exact path={RoutesConfig.ankrFaucet.path}>
+        <GuardETHRoute
+          exact
+          availableNetworks={ETH_STAKING_NETWORKS}
+          path={RoutesConfig.ankrFaucet.path}
+          providerId={ETH_PROVIDER_ID}
+        >
           <DefaultLayout>
             <AnkrFaucet />
           </DefaultLayout>
-        </Route>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

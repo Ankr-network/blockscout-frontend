@@ -1,8 +1,9 @@
-import { IWeb3SendResult } from '@ankr.com/provider';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { getAnkrBalance } from 'modules/stake-ankr/actions/getAnkrBalance';
+import { IWeb3SendResult } from '@ankr.com/provider';
+
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
 
 export const getTestAnkrTokens = createAction<
@@ -20,7 +21,7 @@ export const getTestAnkrTokens = createAction<
       asMutation: true,
       showNotificationOnError: true,
       onSuccess: (response, _action, { dispatchRequest }) => {
-        dispatchRequest(getAnkrBalance());
+        dispatchRequest(getCommonData());
 
         return response;
       },

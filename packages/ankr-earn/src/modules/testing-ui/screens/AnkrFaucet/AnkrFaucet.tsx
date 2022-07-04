@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { configFromEnv } from 'modules/api/config';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getAnkrBalance as getTestAnkrBalance } from 'modules/stake-ankr/actions/getAnkrBalance';
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import { getTestAnkrTokens } from 'modules/testing-ui/actions/getTestAnkrTokens';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
@@ -21,8 +21,9 @@ export const AnkrFaucet = (): JSX.Element => {
     type: getTestAnkrTokens,
   });
 
-  const { data: testAnkrBalanceData, loading: isTestAnkrBalanceLoading } =
-    useQuery({ type: getTestAnkrBalance });
+  const { data: ankrCommonData, loading: isTestAnkrBalanceLoading } = useQuery({
+    type: getCommonData,
+  });
 
   const { data: ankrBalanceData, loading: isAnkrBalanceLoading } = useQuery({
     type: getAnkrBalance,
@@ -33,13 +34,13 @@ export const AnkrFaucet = (): JSX.Element => {
   }, [dispatch]);
 
   useProviderEffect(() => {
-    dispatch(getTestAnkrBalance());
+    dispatch(getCommonData());
     dispatch(getAnkrBalance());
   }, []);
 
   const testAnkrBalance =
-    testAnkrBalanceData && !isTestAnkrBalanceLoading
-      ? testAnkrBalanceData.toFormat()
+    ankrCommonData && !isTestAnkrBalanceLoading
+      ? ankrCommonData.ankrBalance.toFormat()
       : '...';
 
   const ankrBalance =

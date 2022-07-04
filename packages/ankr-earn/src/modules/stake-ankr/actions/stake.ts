@@ -8,7 +8,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
 
-import { getAnkrBalance } from './getAnkrBalance';
+import { getCommonData } from './getCommonData';
 
 type TTxHash = string;
 
@@ -38,7 +38,7 @@ export const stake = createSmartAction<
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {
-        store.dispatchRequest(getAnkrBalance());
+        store.dispatchRequest(getCommonData());
         const txHash = response.data;
 
         if (txHash) {

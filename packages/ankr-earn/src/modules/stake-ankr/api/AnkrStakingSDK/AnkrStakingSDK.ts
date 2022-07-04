@@ -453,4 +453,39 @@ export class AnkrStakingSDK {
       { data },
     );
   }
+
+  /**
+   * Get minimum stake amount.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
+  public async getMinimumStake(): Promise<BigNumber> {
+    const stakingConfig = this.getStakingConfigContract();
+
+    const minStake = await stakingConfig.methods.getMinStakingAmount().call();
+
+    return this.convertFromWei(minStake);
+  }
+
+  /**
+   * Internal function to convert wei value to human readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
+  private convertFromWei(amount: string): BigNumber {
+    return new BigNumber(this.writeProvider.getWeb3().utils.fromWei(amount));
+  }
+
+  // todo: need to verify
+  public async getLockingPeriod(): Promise<number> {
+    const { epochBlockInterval, lockPeriod } = await this.getChainConfig();
+    const { blockTime } = await this.getChainParams();
+    const lockingPeriodSec = lockPeriod * epochBlockInterval * blockTime;
+    const lockingPeriodDays = lockingPeriodSec / (3600 * 24);
+
+    return lockingPeriodDays;
+  }
 }
