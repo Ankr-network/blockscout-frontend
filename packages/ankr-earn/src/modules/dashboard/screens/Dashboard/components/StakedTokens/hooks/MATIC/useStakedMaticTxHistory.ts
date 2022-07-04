@@ -1,6 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import { useCallback } from 'react';
 
+import {
+  EPolygonPoolEventsMap,
+  ITxEventsHistoryGroupItem,
+} from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
@@ -9,10 +13,7 @@ import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
-import { EPolygonPoolEventsMap } from 'modules/stake-polygon/api/PolygonSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-import { ITxEventsHistoryGroupItem } from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
   type: EPolygonPoolEventsMap | string;
@@ -56,31 +57,31 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
   const dispatch = useAppDispatch();
 
   const stakedAMATICB = getCompletedTransactions({
-    data: data?.completedAMATICB,
+    data: data?.completedBond,
     type: EPolygonPoolEventsMap.Staking,
     network: ETH_NETWORK_BY_ENV,
   });
 
   const unstakedAMATICB = getCompletedTransactions({
-    data: data?.completedAMATICB,
+    data: data?.completedBond,
     type: EPolygonPoolEventsMap.Unstaking,
     network: ETH_NETWORK_BY_ENV,
   });
 
   const stakedAMATICC = getCompletedTransactions({
-    data: data?.completedAMATICC,
+    data: data?.completedCertificate,
     type: EPolygonPoolEventsMap.Staking,
     network: ETH_NETWORK_BY_ENV,
   });
 
   const unstakedAMATICC = getCompletedTransactions({
-    data: data?.completedAMATICC,
+    data: data?.completedCertificate,
     type: EPolygonPoolEventsMap.Unstaking,
     network: ETH_NETWORK_BY_ENV,
   });
 
-  const pendingUnstakeHistoryAMATICB = data?.pendingAMATICB
-    ? data?.pendingAMATICB.map((transaction, index) => {
+  const pendingUnstakeHistoryAMATICB = data?.pendingBond
+    ? data.pendingBond.map((transaction, index) => {
         const date = t('format.date', { value: transaction.txDate });
         const time = t('format.time-short', { value: transaction.txDate });
 
@@ -93,8 +94,8 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
       })
     : [];
 
-  const pendingUnstakeHistoryAMATICC = data?.pendingAMATICC
-    ? data?.pendingAMATICC.map((transaction, index) => {
+  const pendingUnstakeHistoryAMATICC = data?.pendingCertificate
+    ? data?.pendingCertificate.map((transaction, index) => {
         const date = t('format.date', { value: transaction.txDate });
         const time = t('format.time-short', { value: transaction.txDate });
 
@@ -123,14 +124,16 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
     pendingUnstakeHistoryAMATICB,
     pendingUnstakeHistoryAMATICC,
     transactionHistoryAMATICB: {
-      token: Token.aMATICb,
       staked: stakedAMATICB,
+      stakedToken: Token.aMATICb,
       unstaked: unstakedAMATICB,
+      unstakedToken: Token.aMATICb,
     },
     transactionHistoryAMATICC: {
-      token: Token.aMATICc,
       staked: stakedAMATICC,
+      stakedToken: Token.aMATICc,
       unstaked: unstakedAMATICC,
+      unstakedToken: Token.aMATICc,
     },
     handleLoadTxHistory,
   };

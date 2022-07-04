@@ -1,6 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { PolkadotProvider } from 'polkadot';
 import {
   Address,
@@ -8,7 +9,6 @@ import {
   Web3KeyWriteProvider,
 } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { Web3Address } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
 

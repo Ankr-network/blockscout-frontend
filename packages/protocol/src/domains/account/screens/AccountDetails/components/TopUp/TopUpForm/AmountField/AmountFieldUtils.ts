@@ -26,21 +26,21 @@ export const validateAmount = (value: string) => {
   return undefined;
 };
 
-const MAX_DIGITS_AFTER_DOT = 8;
+export const MAX_DECIMALS = 8;
 
-const cutDecimals = (value: string) => {
+const cutDecimals = (value: string, maxDecimals: number) => {
   const [, decimals] = value.split('.');
 
-  if (decimals && decimals.length > MAX_DIGITS_AFTER_DOT) {
+  if (decimals && decimals.length > maxDecimals) {
     return value.slice(0, -1);
   }
 
   return value;
 };
 
-export const normalizeAmount = (value: string): string => {
+export const normalizeAmount = (value: string, maxDecimals: number): string => {
   // only numbers and dot
   const normilized = value.replace(',', '.').replace(/[^0-9.]/g, '');
 
-  return cutDecimals(normilized);
+  return cutDecimals(normilized, maxDecimals);
 };

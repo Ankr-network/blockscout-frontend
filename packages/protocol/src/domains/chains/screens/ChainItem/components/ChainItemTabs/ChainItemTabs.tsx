@@ -29,7 +29,11 @@ export const ChainItemTabs = ({ chainId, data }: IChainItemTabsProps) => {
           id: TabId.data,
           content: <DataUsageContent chainId={chainId} />,
           title: (isSelected: boolean) => (
-            <ToggleButton className={classes.button} selected={isSelected}>
+            <ToggleButton
+              value="data"
+              className={classes.button}
+              selected={isSelected}
+            >
               {t('chain-item.tabs.data')}
             </ToggleButton>
           ),
@@ -38,7 +42,11 @@ export const ChainItemTabs = ({ chainId, data }: IChainItemTabsProps) => {
           id: TabId.infrastructure,
           content: <InfrastructureContent chainId={chainId} data={data} />,
           title: (isSelected: boolean) => (
-            <ToggleButton className={classes.button} selected={isSelected}>
+            <ToggleButton
+              value="infrastructure"
+              className={classes.button}
+              selected={isSelected}
+            >
               {t('chain-item.tabs.infrastructure')}
             </ToggleButton>
           ),
@@ -47,7 +55,11 @@ export const ChainItemTabs = ({ chainId, data }: IChainItemTabsProps) => {
           id: TabId.integration,
           content: <IntegrationContent />,
           title: (isSelected: boolean) => (
-            <ToggleButton className={classes.button} selected={isSelected}>
+            <ToggleButton
+              value="integration"
+              className={classes.button}
+              selected={isSelected}
+            >
               {t('chain-item.tabs.integration')}
             </ToggleButton>
           ),

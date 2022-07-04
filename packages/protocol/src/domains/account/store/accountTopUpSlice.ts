@@ -4,9 +4,10 @@ import { MultiService } from 'modules/api/MultiService';
 
 import { RootState } from 'store';
 
-interface ITransaction {
+export interface ITransaction {
   allowanceTransactionHash?: string;
   topUpTransactionHash?: string;
+  rejectAllowanceTransactionHash?: string;
   amount?: BigNumber;
 }
 
@@ -32,6 +33,16 @@ export const accountTopUpSlice = createSlice({
       state[action.payload.address] = {
         ...state[action.payload.address],
         allowanceTransactionHash: action.payload.allowanceTransactionHash,
+      };
+    },
+    setRejectAllowanceTransaction: (
+      state,
+      action: PayloadAction<ISetTransactionPayload>,
+    ) => {
+      state[action.payload.address] = {
+        ...state[action.payload.address],
+        rejectAllowanceTransactionHash:
+          action.payload.rejectAllowanceTransactionHash,
       };
     },
     setTopUpTransaction: (
@@ -75,6 +86,7 @@ export const selectTransaction = (
 export const {
   setAllowanceTransaction,
   setTopUpTransaction,
+  setRejectAllowanceTransaction,
   setAmount,
   resetTransaction,
 } = accountTopUpSlice.actions;

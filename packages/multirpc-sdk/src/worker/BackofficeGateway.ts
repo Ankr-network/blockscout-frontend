@@ -2,8 +2,13 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { v4 } from 'uuid';
 
 import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
-import { IBlockchainEntity, INodeEntity } from './types';
 import { IWorkerBackofficeGateway } from './interfaces';
+import {
+  IBlockchainEntity,
+  ICountersEntity,
+  ICountersResponse,
+  INodeEntity,
+} from './types';
 
 export class WorkerBackofficeGateway implements IWorkerBackofficeGateway {
   api: AxiosInstance;
@@ -31,6 +36,18 @@ export class WorkerBackofficeGateway implements IWorkerBackofficeGateway {
       '/backoffice/v1/blockchain',
     );
     return data;
+  }
+
+  async getCounters(limit: number): Promise<ICountersEntity[]> {
+    const {
+      data: { result = [] },
+    } = await this.api.get<ICountersResponse>('/backoffice/v1/counters', {
+      params: {
+        limit,
+      },
+    });
+
+    return result;
   }
 
   async createOrUpdateBlockchain(

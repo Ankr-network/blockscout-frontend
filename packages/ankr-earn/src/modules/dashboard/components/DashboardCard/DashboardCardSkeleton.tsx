@@ -27,9 +27,9 @@ export const DashboardCardSkeleton = (): JSX.Element => {
         </Grid>
       </Box>
 
-      <Grid container alignItems="center" spacing={2}>
+      <Grid container alignItems="flex-end" spacing={2}>
         <Grid item sm xs={12}>
-          <Typography className={classes.amount}>
+          <Typography variant="h3">
             <Skeleton width={80} />
           </Typography>
         </Grid>

@@ -1,10 +1,28 @@
-import { ChainGroup, ChainGroupID } from '../types';
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { t } from 'modules/i18n/utils/intl';
+import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
-const getName = (key: string, isPlural?: boolean) =>
+export const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plural: isPlural ? t('chain-item.header.plural') : '',
   });
+
+export const getFallbackEndpointGroup = (
+  endpointName: IApiChain['name'],
+): EndpointGroup => {
+  const name = t('chain-item.header.endpoint-groups.fallback', {
+    chain: endpointName,
+    plural: t('chain-item.header.plural'),
+  });
+
+  return {
+    id: ChainGroupID.FALLBACK,
+    name,
+    pluralName: name,
+    urls: [],
+    urlsCount: 0,
+  };
+};
 
 export const chainGroups: ChainGroup[] = [
   {

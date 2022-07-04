@@ -10,6 +10,7 @@ import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { ChainId } from 'domains/chains/api/chain';
+import { useIsMDDown } from 'ui';
 
 interface INervosButtonsProps {
   chainId: ChainId;
@@ -27,6 +28,7 @@ export const NervosButtons = ({
   chain,
 }: INervosButtonsProps) => {
   const classes = useStyles();
+  const isMDDown = useIsMDDown();
 
   return (
     <div data-test-id="copy-button">
@@ -69,7 +71,7 @@ export const NervosButtons = ({
       <div
         className={classNames(
           classes.top,
-          chain && isAddNetworkSupported() ? chainId : '',
+          chain && isAddNetworkSupported(isMDDown) ? chainId : '',
         )}
       >
         <div className={classes.link}>

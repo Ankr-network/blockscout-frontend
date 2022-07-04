@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { uid } from 'react-uid';
 
+import {
+  ITxEventsHistoryData,
+  ITxEventsHistoryGroupItem,
+} from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import {
@@ -19,11 +23,6 @@ import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTxLink } from 'modules/common/utils/links/getTxLink';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { NavLink } from 'uiKit/NavLink';
-
-import {
-  ITxEventsHistoryData,
-  TTxEventsHistoryGroupData,
-} from '../../api/PolygonSDK';
 
 import { useHistoryTableStyles } from './useHistoryTableStyles';
 
@@ -44,7 +43,7 @@ interface ITableDataItem {
 
 const DEFAULT_ACTIVE_SWITCHER_ID = 0;
 
-function getPreparedData(data?: TTxEventsHistoryGroupData): TTableData {
+function getPreparedData(data?: ITxEventsHistoryGroupItem[]): TTableData {
   if (!Array.isArray(data) || !data.length) {
     return [];
   }
@@ -117,11 +116,9 @@ export const HistoryTable = ({
     setActiveSwitcherId(DEFAULT_ACTIVE_SWITCHER_ID);
 
     const newCompletedData: TTableData = getPreparedData(
-      queryData?.completedAMATICB,
+      queryData?.completedBond,
     );
-    const newPendingData: TTableData = getPreparedData(
-      queryData?.pendingAMATICB,
-    );
+    const newPendingData: TTableData = getPreparedData(queryData?.pendingBond);
 
     setCompletedData(newCompletedData);
     setPendingData(newPendingData);

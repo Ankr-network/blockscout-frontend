@@ -1,9 +1,16 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
+import { fetchTotalRequests } from './fetchTotalRequests';
+import {
+  calculateOnedayRequests,
+  getMultiplier,
+  getUrlByChainId,
+  mappingTotalRequestsHistory,
+} from '../utils/statsUtils';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -43,7 +50,11 @@ export const fetchChainTimeframeData = createSmartAction<
       takeLatest: false,
       cache: false,
       poll,
-      onRequest: () => {
+      onRequest: (
+        request: any,
+        action: RequestAction,
+        store: RequestsStore,
+      ) => {
         return {
           promise: (async () => {
             const { service } = MultiService.getInstance();
@@ -52,6 +63,50 @@ export const fetchChainTimeframeData = createSmartAction<
               timeframe,
             );
 
+            const url = getUrlByChainId(chainId);
+
+            if (url) {
+              const { data: result } = await store.dispatchRequest(
+                fetchTotalRequests(url),
+              );
+
+              const multiplier = getMultiplier(timeframe);
+              data.totalRequests = new BigNumber(result?.requests ?? 0)
+                .multipliedBy(multiplier)
+                .plus(data.totalRequests)
+                .toNumber();
+
+              data.totalCached = new BigNumber(result?.cachedRequests ?? 0)
+                .multipliedBy(multiplier)
+                .plus(data.totalCached)
+                .toNumber();
+
+              const totalRequestsHistory = result?.totalRequestsHistory ?? {};
+
+              if (timeframe === '30d') {
+                const onedayRequests =
+                  calculateOnedayRequests(totalRequestsHistory);
+
+                Object.keys(data.totalRequestsHistory).forEach(
+                  (key: string) => {
+                    data.totalRequestsHistory[key] += onedayRequests;
+                  },
+                );
+              } else {
+                const mappingHistory = mappingTotalRequestsHistory(
+                  timeframe,
+                  totalRequestsHistory,
+                );
+
+                Object.keys(mappingHistory).forEach((key: string) => {
+                  if (key in data.totalRequestsHistory) {
+                    data.totalRequestsHistory[key] += mappingHistory[key];
+                  } else {
+                    data.totalRequestsHistory[key] = mappingHistory[key];
+                  }
+                });
+              }
+            }
             return data;
           })(),
         };

@@ -1,6 +1,6 @@
 import { UsageData } from '../types';
 import { getUsageData } from '../utils/getUsageData';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { usePublicStats } from './usePublicStats';
 import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';

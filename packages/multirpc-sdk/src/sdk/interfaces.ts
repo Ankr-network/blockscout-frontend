@@ -31,6 +31,7 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from '../account';
+import { EventData } from 'web3-eth-contract';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -135,7 +136,7 @@ export interface IMultiRpcSdk {
 
   authorizeProvider(lifeTime: number): Promise<string>;
 
-  getAllowanceForPAYG(
+  sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult>;
 
@@ -144,4 +145,10 @@ export interface IMultiRpcSdk {
   getBalanceEndTime(blockchain?: string[]): Promise<number>;
 
   getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats>;
+
+  getLastLockedFundsEvent(user: Web3Address): Promise<EventData | undefined>;
+
+  getLastProviderRequestEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined>;
 }

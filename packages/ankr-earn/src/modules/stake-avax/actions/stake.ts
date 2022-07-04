@@ -10,6 +10,7 @@ import { AvalancheSDK } from '../api/AvalancheSDK';
 import { RoutesConfig } from '../Routes';
 import { TAvaxSyntToken } from '../types';
 
+import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
@@ -41,6 +42,7 @@ export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
         store: TStore<IStoreState>,
       ): IRes => {
         store.dispatchRequest(fetchStats());
+        store.dispatchRequest(fetchPendingValues());
         store.dispatchRequest(fetchTxHistory());
 
         if (response.data.txHash) {

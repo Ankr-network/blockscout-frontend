@@ -5,7 +5,7 @@ import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/Cha
 import { t } from 'modules/i18n/utils/intl';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ArchiveLabel } from 'modules/common/components/ChainMainInfo/ArchiveLabel';
-import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
+import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';

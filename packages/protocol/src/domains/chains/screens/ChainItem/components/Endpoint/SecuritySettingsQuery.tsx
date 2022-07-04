@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
-import { fetchSecuritySettings } from 'domains/nodeProviders/actions/fetchSecuritySettings';
+import { fetchSecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { SecuritySettings } from './components/SecuritySettings';

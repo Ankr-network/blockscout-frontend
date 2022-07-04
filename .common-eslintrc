@@ -18,7 +18,8 @@
       "ankr-earn",
       "multirpc-sdk",
       "@ankr.com/global-menu",
-      "common"
+      "common",
+      "@ankr.com/staking-sdk"
     ]
   },
   "extends": [

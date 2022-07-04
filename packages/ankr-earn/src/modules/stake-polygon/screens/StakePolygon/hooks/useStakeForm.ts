@@ -6,6 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
+import { PolygonSDK } from '@ankr.com/staking-sdk';
 import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
@@ -18,7 +19,6 @@ import {
   IFetchStatsResponseData,
 } from 'modules/stake-polygon/actions/fetchStats';
 import { stake } from 'modules/stake-polygon/actions/stake';
-import { PolygonSDK } from 'modules/stake-polygon/api/PolygonSDK';
 import { TMaticSyntToken } from 'modules/stake-polygon/types';
 import { calcTotalAmount } from 'modules/stake-polygon/utils/calcTotalAmount';
 import {

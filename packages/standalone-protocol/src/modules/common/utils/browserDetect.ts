@@ -9,4 +9,6 @@ export const isFirefox = (): boolean =>
 // browser features
 
 // https://github.com/MetaMask/metamask-extension/issues/11377
-export const isAddNetworkSupported = (): boolean => !isFirefox();
+export const isAddNetworkSupported = (isMDDown: boolean): boolean => {
+  return !isMDDown && !isFirefox();
+};

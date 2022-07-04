@@ -4,6 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
@@ -81,7 +82,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
       },
     ]);
     expect(result.current.transactionHistoryABNBB).toStrictEqual({
-      token: Token.aBNBb,
       staked: [
         {
           amount: ONE_ETH,
@@ -90,6 +90,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           link: 'https://etherscan.io/tx/txHash1',
         },
       ],
+      stakedToken: Token.aBNBb,
       unstaked: [
         {
           amount: ONE_ETH.multipliedBy(2),
@@ -98,7 +99,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           link: 'https://etherscan.io/tx/txHash2',
         },
       ],
-    });
+      unstakedToken: Token.aBNBb,
+    } as HistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -124,14 +126,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
     expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistoryABNBB).toStrictEqual([]);
     expect(result.current.transactionHistoryABNBB).toStrictEqual({
-      token: Token.aBNBb,
       staked: [],
+      stakedToken: Token.aBNBb,
       unstaked: [],
-    });
+      unstakedToken: Token.aBNBb,
+    } as HistoryDialogData);
     expect(result.current.transactionHistoryABNBC).toStrictEqual({
-      token: Token.aBNBc,
       staked: [],
+      stakedToken: Token.aBNBc,
       unstaked: [],
-    });
+      unstakedToken: Token.aBNBc,
+    } as HistoryDialogData);
   });
 });

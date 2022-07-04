@@ -144,12 +144,13 @@ export interface IPayAsYouGoEventsContext {
   ): EventResponse;
 }
 export type IPayAsYouGoMethodNames =
-  | 'initialize'
-  | 'getUserBalance'
   | 'deposit'
-  | 'withdraw'
+  | 'getUserBalance'
   | 'handleChargeFee'
-  | 'handleWithdraw';
+  | 'handleWithdraw'
+  | 'initialize'
+  | 'withdraw';
+
 export interface FeeChargedEventEmittedResponse {
   sender: string;
   fee: string;
@@ -197,25 +198,6 @@ export interface IPayAsYouGo {
    * Constant: false
    * StateMutability: nonpayable
    * Type: function
-   * @param chainConfig Type: address, Indexed: false
-   * @param ankrToken Type: address, Indexed: false
-   */
-  initialize(chainConfig: string, ankrToken: string): MethodReturnContext;
-  /**
-   * Payable: false
-   * Constant: true
-   * StateMutability: view
-   * Type: function
-   * @param user Type: address, Indexed: false
-   */
-  getUserBalance(
-    user: string,
-  ): MethodConstantReturnContext<GetUserBalanceResponse>;
-  /**
-   * Payable: false
-   * Constant: false
-   * StateMutability: nonpayable
-   * Type: function
    * @param amount Type: uint256, Indexed: false
    * @param timeout Type: uint64, Indexed: false
    * @param publicKey Type: bytes32, Indexed: false
@@ -227,12 +209,14 @@ export interface IPayAsYouGo {
   ): MethodReturnContext;
   /**
    * Payable: false
-   * Constant: false
-   * StateMutability: nonpayable
+   * Constant: true
+   * StateMutability: view
    * Type: function
-   * @param amount Type: uint256, Indexed: false
+   * @param user Type: address, Indexed: false
    */
-  withdraw(amount: string): MethodReturnContext;
+  getUserBalance(
+    user: string,
+  ): MethodConstantReturnContext<GetUserBalanceResponse>;
   /**
    * Payable: false
    * Constant: false
@@ -256,4 +240,21 @@ export interface IPayAsYouGo {
     amounts: string[],
     fees: string[],
   ): MethodReturnContext;
+  /**
+   * Payable: false
+   * Constant: false
+   * StateMutability: nonpayable
+   * Type: function
+   * @param chainConfig Type: address, Indexed: false
+   * @param ankrToken Type: address, Indexed: false
+   */
+  initialize(chainConfig: string, ankrToken: string): MethodReturnContext;
+  /**
+   * Payable: false
+   * Constant: false
+   * StateMutability: nonpayable
+   * Type: function
+   * @param amount Type: uint256, Indexed: false
+   */
+  withdraw(amount: string): MethodReturnContext;
 }

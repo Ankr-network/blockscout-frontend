@@ -1,13 +1,15 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType, StatsTimeframe } from 'domains/chains/types';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePublicChains } from './usePublicChains';
 import { useSortType } from './useSortType';
 import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
+import { IJwtToken } from 'multirpc-sdk';
 
 export interface Chains {
   chains: IApiChain[];
+  credentials?: IJwtToken;
   isWalletConnected: boolean;
   loading: boolean;
   setSortType: (type: SortType) => void;
@@ -17,7 +19,7 @@ export interface Chains {
 }
 
 export const useChains = (): Chains => {
-  const { isWalletConnected } = useAuth();
+  const { credentials, isWalletConnected } = useAuth();
   const [chains, loading] = usePublicChains();
   const [statsTimeframe, switchStatsTimeframe] =
     useStatsTimeframe(isWalletConnected);
@@ -28,6 +30,7 @@ export const useChains = (): Chains => {
 
   return {
     chains,
+    credentials,
     isWalletConnected,
     loading,
     setSortType,

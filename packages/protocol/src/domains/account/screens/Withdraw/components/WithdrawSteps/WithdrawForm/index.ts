@@ -1,1 +1,1 @@
-export * from './WithdrawForm';
+export { WithdrawFormContainer as WithdrawForm } from './WithdrawFormContainer';

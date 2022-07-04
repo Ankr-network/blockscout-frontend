@@ -26,6 +26,7 @@ interface IPlusMinusBtnProps {
   icon?: IconNameType;
   disabled?: boolean;
   href?: string;
+  variant?: 'outlined' | 'contained';
 }
 
 export const PlusMinusBtn = ({
@@ -36,6 +37,7 @@ export const PlusMinusBtn = ({
   isLoading = false,
   disabled = false,
   href = '',
+  variant = 'outlined',
 }: IPlusMinusBtnProps): JSX.Element => {
   const classes = usePlusMinusBtnStyles();
 
@@ -53,7 +55,7 @@ export const PlusMinusBtn = ({
     > = {
       className: classNames(classes.root, className),
       disabled: isLoading || disabled,
-      variant: 'outlined',
+      variant,
     };
 
     return href ? (
@@ -73,7 +75,7 @@ export const PlusMinusBtn = ({
         {renderedIcon}
       </Button>
     );
-  }, [Icon, className, classes, disabled, href, isLoading, onClick]);
+  }, [Icon, className, classes, disabled, href, isLoading, onClick, variant]);
 
   return tooltip ? (
     <Tooltip

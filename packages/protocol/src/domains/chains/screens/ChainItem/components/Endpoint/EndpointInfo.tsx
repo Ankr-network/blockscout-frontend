@@ -3,12 +3,8 @@ import { IProvider } from 'multirpc-sdk';
 
 import { useStyles } from './EndpointStyles';
 import { UserEndpoints } from './components/UserEndpoints';
-import {
-  canAddEndpoint,
-  hasLimit,
-  getLimit,
-} from 'domains/plan/screens/Dashboard/DashboardUtils';
-import { IEndpoint } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { canAddEndpoint, hasLimit, getLimit } from './EndpointUtils';
+import { IEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 
 interface EndpointInfoProps {

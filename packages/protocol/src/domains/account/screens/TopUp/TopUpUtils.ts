@@ -32,6 +32,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     amount,
     loading,
     isRejectAllowanceLoading,
+    hasError,
   } = useTopUp();
   const history = useHistory();
 
@@ -119,5 +120,6 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     onConfirm,
     onReject: onRejectAllowance,
     isRejectAllowanceLoading,
+    hasError,
   };
 };

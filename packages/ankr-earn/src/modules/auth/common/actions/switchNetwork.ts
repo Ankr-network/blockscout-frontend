@@ -1,6 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { ISwitchNetworkData, PolkadotProvider } from 'polkadot';
 import {
   AvailableWriteProviders,
@@ -9,7 +10,6 @@ import {
   EthereumWeb3KeyProvider,
 } from 'provider';
 
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 import { withStore } from 'modules/common/utils/withStore';

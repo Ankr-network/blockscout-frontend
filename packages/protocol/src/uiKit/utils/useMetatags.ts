@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { t } from 'modules/i18n/utils/intl';
 import { PATH_CHAINS } from 'domains/chains/Routes';
-import { PATH_PLAN } from 'domains/plan/Routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
 const PROTOCOL_URL = 'https://www.ankr.com/protocol';
@@ -30,8 +29,6 @@ const getLocation = (pathname: string): string => {
     }
   } else if (pathname === PATH_CHAINS) {
     location = 'public.';
-  } else if (pathname === PATH_PLAN) {
-    location = 'plan.';
   } else if (pathname === PATH_PROVIDERS) {
     location = 'providers.';
   }

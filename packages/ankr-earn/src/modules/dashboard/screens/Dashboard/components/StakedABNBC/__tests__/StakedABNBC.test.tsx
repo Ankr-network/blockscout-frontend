@@ -64,14 +64,16 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     pendingUnstakeHistoryABNBB: [],
     pendingUnstakeHistoryABNBC: [],
     transactionHistoryABNBB: {
-      token: Token.aBNBb,
       staked: [],
+      stakedToken: Token.aBNBb,
       unstaked: [],
+      unstakedToken: Token.aBNBb,
     },
     transactionHistoryABNBC: {
-      token: Token.aBNBc,
       staked: [],
+      stakedToken: Token.aBNBc,
       unstaked: [],
+      unstakedToken: Token.aBNBc,
     },
     hasHistory: false,
     isHistoryDataLoading: false,

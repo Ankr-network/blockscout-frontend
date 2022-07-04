@@ -8,6 +8,7 @@ import {
   IPaymentHistoryRequest,
   IRequestsRequest,
   IRequestsResponse,
+  IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
 } from './types';
@@ -36,4 +37,8 @@ export interface IAccountGateway {
   getBalanceEndTime(blockchains?: string[]): Promise<number>;
 
   getPrivateStats(intervalType: PrivateStatsInterval): Promise<PrivateStats>;
+  
+  getWithdrawalStatus(
+    transactionHash: string,
+  ): Promise<IWithdrawalStatusResponse>;
 }

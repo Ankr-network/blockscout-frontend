@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 
 import { IpsForm } from './IpsForm';
-import { editChainRestrictedIps } from 'domains/nodeProviders/actions/editChainRestrictedIps';
+import { editChainRestrictedIps } from 'domains/infrastructure/actions/editChainRestrictedIps';
 import { IpsFormContainerProps } from './IpsFormTypes';
 
 export const IpsFormContainer = ({ data, chainId }: IpsFormContainerProps) => {

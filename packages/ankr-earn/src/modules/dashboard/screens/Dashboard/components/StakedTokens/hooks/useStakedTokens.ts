@@ -1,5 +1,6 @@
 import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
+import { useStakedANKRData } from './ANKR/useStakedANKRData';
 import { useStakedAAVAXBData } from './AVAX/useStakedAAVAXBData';
 import { useStakedAAVAXCData } from './AVAX/useStakedAAVAXCData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
@@ -43,6 +44,7 @@ interface IUseStakedTokensData {
   isKSMShowed: boolean;
   isWNDShowed: boolean;
   isUnclaimedEthShowed: boolean;
+  isANKRShowed: boolean;
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
@@ -71,6 +73,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const claimedWNDData = useUnclaimedPolkadotData(WND_PROPS);
   const stakedAWNDBData = useStakedPolkadotData(WND_PROPS);
+
+  const stakedANKRData = useStakedANKRData();
 
   const isAETHBShowed = stakedAETHBData.isShowed;
 
@@ -109,6 +113,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isUnclaimedEthShowed = unclaimedEthData.isShowed;
 
+  const isANKRShowed = stakedANKRData.isShowed;
+
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
@@ -131,7 +137,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isKSMShowed ||
     isAWNDBShowed ||
     isWNDShowed ||
-    isUnclaimedEthShowed;
+    isUnclaimedEthShowed ||
+    isANKRShowed;
 
   return {
     isAssetsShowed: atLeastOneShowed,
@@ -157,5 +164,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isKSMShowed,
     isWNDShowed,
     isUnclaimedEthShowed,
+    isANKRShowed,
   };
 };

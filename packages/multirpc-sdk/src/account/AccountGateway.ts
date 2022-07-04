@@ -13,6 +13,7 @@ import {
   IPaymentHistoryRequest,
   IRequestsRequest,
   IRequestsResponse,
+  IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
 } from './types';
@@ -107,13 +108,14 @@ export class AccountGateway implements IAccountGateway {
   }
 
   async getBalanceEndTime(blockchains?: string[]): Promise<number> {
-    const { data: { NumberOfDaysEstimate } } =
-      await this.api.get<IBalanceEndTimeResult>(
+    const {
+      data: { NumberOfDaysEstimate },
+    } = await this.api.get<IBalanceEndTimeResult>(
       '/api/v1/auth/numberOfDaysEstimate',
-        {
-          params: { blockchains },
-        },
-      );
+      {
+        params: { blockchains },
+      },
+    );
 
     return NumberOfDaysEstimate;
   }
@@ -129,5 +131,16 @@ export class AccountGateway implements IAccountGateway {
     );
 
     return data;
+  }
+  
+  async getWithdrawalStatus(
+    transactionHash: string,
+  ): Promise<IWithdrawalStatusResponse> {
+    const { data: response } = await this.api.get<IWithdrawalStatusResponse>(
+      `/api/v1/auth/withdraw/status`,
+      { params: { tx_hash: transactionHash } },
+    );
+
+    return response;
   }
 }

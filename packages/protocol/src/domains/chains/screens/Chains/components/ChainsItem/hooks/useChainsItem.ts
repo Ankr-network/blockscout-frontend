@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { Chain } from '../../ChainsList/ChainsListTypes';
 import { StatsTimeframe } from 'domains/chains/types';
-import { useAuth } from 'modules/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
 import { usePublicStats } from './usePublicStats';
 

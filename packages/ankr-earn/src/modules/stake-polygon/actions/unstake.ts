@@ -2,9 +2,10 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { PolygonSDK } from '@ankr.com/staking-sdk';
+
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
-import { PolygonSDK } from '../api/PolygonSDK';
 import { TMaticSyntToken } from '../types';
 
 import { fetchStats } from './fetchStats';
@@ -31,7 +32,6 @@ export const unstake = createSmartAction<
   meta: {
     showNotificationOnError: true,
     asMutation: true,
-    getData: data => data,
     onSuccess: (response, action, store) => {
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());

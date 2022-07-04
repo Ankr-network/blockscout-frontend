@@ -7,14 +7,6 @@ export type TPolkadotAddress = string;
 
 export type TNetworkType = 'DOT' | 'KSM' | 'WND' | 'ROC';
 
-export type TActionType =
-  | 'UNDEFINED'
-  | 'DEPOSIT'
-  | 'CLAIM_BOND'
-  | 'BURN'
-  | 'CLAIM_FUTURES'
-  | 'EXIT';
-
 export type TClaimMethod = 'ERC20' | 'PARACHAIN';
 
 export type TCrowdloanStatus =
@@ -34,6 +26,15 @@ export enum EActionStatuses {
   Pending = 'PENDING',
   Reverted = 'REVERTED',
   Unknown = 'UNKNOWN',
+}
+
+export enum EActionTypes {
+  Burn = 'BURN',
+  ClaimBond = 'CLAIM_BOND',
+  ClaimFutures = 'CLAIM_FUTURES',
+  Deposit = 'DEPOSIT',
+  Exit = 'EXIT',
+  Undefined = 'UNDEFINED',
 }
 
 export enum EClaimStatuses {
@@ -97,6 +98,16 @@ export interface IClaimItem {
   loanId: number;
   status: EClaimStatuses;
   tokenAddress: TEthereumAddress;
+}
+
+export interface IHistoryItem {
+  address: TPolkadotAddress;
+  amount: string; // number;
+  id: string;
+  status: EActionStatuses;
+  timestamp: number;
+  txId: string;
+  type: EActionTypes;
 }
 
 export interface IRewardClaim {

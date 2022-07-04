@@ -1,7 +1,7 @@
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { fetchEndpoints } from 'domains/nodeProviders/actions/fetchEndpoints';
+import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useProvider } from 'modules/auth/hooks/useProvider';
+import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
 import React from 'react';

@@ -6,6 +6,7 @@ import { ChainsList } from './components/ChainsList';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { H1Tag } from 'uiKit/H1Tag';
+import { InfoBanner } from './components/Banner';
 import { PageHeader } from 'modules/common/components/PageHeader';
 import { UsageSummary } from './components/UsageSummary';
 import { t } from 'modules/i18n/utils/intl';
@@ -18,6 +19,7 @@ const ENABLE_HOW_TO_INTEGRATE = false;
 export const Chains = () => {
   const {
     chains,
+    credentials,
     isWalletConnected,
     loading,
     setSortType,
@@ -38,6 +40,7 @@ export const Chains = () => {
 
   return (
     <>
+      {!credentials && <InfoBanner />}
       {isWalletConnected && (
         <UsageSummary
           timeframe={statsTimeframe}

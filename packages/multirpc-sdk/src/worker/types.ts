@@ -6,6 +6,7 @@ export enum BlockchainType {
   Mainnet = 'mainnet',
   Extension = 'extension',
   Testnet = 'testnet',
+  Devnet = 'devnet',
 }
 
 export interface IBlockchainEntity {
@@ -18,6 +19,22 @@ export interface IBlockchainEntity {
     reqs: number;
   };
   type: BlockchainType;
+}
+
+export interface ICountersEntity {
+  hourly: number;
+  daily: number;
+  monthly: number;
+  delta: number;
+  timestamp: number;
+  user: string;
+  address?: Web3Address;
+  ttl?: number;
+  hash?: string;
+}
+
+export interface ICountersResponse {
+  result?: ICountersEntity[];
 }
 
 export interface ICountry {
