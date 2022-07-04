@@ -109,6 +109,10 @@ export const useFaq = ({
           link: tradeLink,
         }),
       },
+      {
+        question: t('stake-polkadot.faq.question-12'),
+        answer: t('stake-polkadot.faq.answer-12'),
+      },
     ],
     [network, stats?.minStake, tradeLink],
   );
