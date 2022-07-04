@@ -8,12 +8,6 @@ export interface MethodRequest {
   calls: number;
 }
 
-export enum Period {
-  Day = '24h',
-  Week = '7d',
-  Month = '30d',
-}
-
 export interface PreparedRequest extends MethodRequest {
   percent: number;
 }
