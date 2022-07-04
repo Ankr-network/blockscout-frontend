@@ -1,36 +1,36 @@
 import React, { ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
-import { Timeframe } from 'multirpc-sdk';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
-import { t } from 'modules/i18n/utils/intl';
 import { ChainRequestsChart } from '../ChainRequestsChart';
-import { useStyles } from './useStyles';
 import { Spinner } from 'ui';
+import { StatsTimeframe } from 'domains/chains/types';
+import { t } from 'modules/i18n/utils/intl';
+import { useStyles } from './useStyles';
 
 interface ChainRequestsOverviewProps {
-  className?: string;
-  totalRequestsHistory?: Record<string, number>;
-  timeframe: Timeframe;
-  onClick: (timeframe: Timeframe) => void;
   children: ReactNode;
+  className?: string;
   loading: boolean;
+  onClick: (timeframe: StatsTimeframe) => void;
   pristine: boolean;
+  timeframe: StatsTimeframe;
+  totalRequestsHistory?: Record<string, number>;
 }
 
 export const ChainRequestsOverview = ({
-  className,
-  totalRequestsHistory,
-  onClick,
-  timeframe,
   children,
+  className,
   loading,
+  onClick,
   pristine,
+  timeframe,
+  totalRequestsHistory,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
   const handleTimeframe = useCallback(
-    (event: React.MouseEvent<HTMLElement>, value: Timeframe) => {
+    (_, value: StatsTimeframe) => {
       onClick(value);
     },
     [onClick],
@@ -62,13 +62,13 @@ export const ChainRequestsOverview = ({
           value={timeframe}
           className={classes.toggleButtonGroup}
         >
-          <ToggleButton value="24h" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.DAY} disabled={loading}>
             {t('chain-item.timeframe.24-hours')}
           </ToggleButton>
-          <ToggleButton value="7d" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.WEEK} disabled={loading}>
             {t('chain-item.timeframe.7-days')}
           </ToggleButton>
-          <ToggleButton value="30d" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.MONTH} disabled={loading}>
             {t('chain-item.timeframe.30-days')}
           </ToggleButton>
         </ToggleButtonGroup>

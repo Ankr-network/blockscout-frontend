@@ -15,7 +15,7 @@ export const useSwitcher = <Data = string>({
   items,
   onSwitch = () => {},
   resetDeps,
-}: SwitcherParams<Data>): [Data, () => void] => {
+}: SwitcherParams<Data>): [Data, () => void, (item: Data) => void] => {
   const [currentIndex, setCurrentIndex] = useState(
     getCurrentIndex<Data>(currentItem, items),
   );
@@ -28,10 +28,19 @@ export const useSwitcher = <Data = string>({
     onSwitch(items[index]);
   }, [currentIndex, items, onSwitch]);
 
+  const setItem = useCallback(
+    (item: Data) => {
+      const index = items.findIndex(item_ => item_ === item);
+
+      setCurrentIndex(index > -1 ? index : 0);
+    },
+    [items],
+  );
+
   useEffect(() => {
     setCurrentIndex(getCurrentIndex<Data>(currentItem, items));
     // eslint-disable-next-line
   }, resetDeps);
 
-  return [items[currentIndex], onClick];
+  return [items[currentIndex], onClick, setItem];
 };

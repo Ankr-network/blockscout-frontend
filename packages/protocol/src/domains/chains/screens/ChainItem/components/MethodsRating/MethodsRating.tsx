@@ -2,22 +2,31 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 
 import { Header } from './components/Header';
+import { MethodRequest, StatsTimeframe } from 'domains/chains/types';
 import { Table } from './components/Table';
-
-import { useMethodsRating } from './hooks/useMethodsRating';
+import { prepareRequests } from './utils/prepareRequests';
 import { useStyles } from './MethodsRatingStyles';
 
-export const MethodsRating = () => {
+export interface MethodsRatingProps {
+  methodRequests: MethodRequest[];
+  switchStatsTimeframe: () => void;
+  timeframe: StatsTimeframe;
+}
+
+export const MethodsRating = ({
+  methodRequests,
+  switchStatsTimeframe,
+  timeframe,
+}: MethodsRatingProps) => {
   const classes = useStyles();
 
-  const { period, requests, setChainType, switchPeriod } = useMethodsRating();
+  const requests = prepareRequests(methodRequests);
 
   return (
     <Box className={classes.requestsRatingRoot}>
       <Header
-        period={period}
-        setChainType={setChainType}
-        switchPeriod={switchPeriod}
+        switchStatsTimeframe={switchStatsTimeframe}
+        timeframe={timeframe}
       />
       <Table requests={requests} />
     </Box>

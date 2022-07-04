@@ -13,25 +13,30 @@ const timeframeToIntervalMap: Record<StatsTimeframe, PrivateStatsInterval> = {
 
 export interface PrivateStatsParams {
   isWalletConnected: boolean;
+  requestKey?: string;
   statsTimeframe: StatsTimeframe;
 }
 
 export const usePrivateStats = ({
   isWalletConnected,
+  requestKey,
   statsTimeframe,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
   const { data: stats, loading } = useQuery({
     defaultData: {},
     type: fetchPrivateStats,
+    requestKey,
   });
 
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
     if (isWalletConnected) {
-      dispatch(fetchPrivateStats(timeframeToIntervalMap[statsTimeframe]));
+      dispatch(
+        fetchPrivateStats(timeframeToIntervalMap[statsTimeframe], requestKey),
+      );
     }
-  }, [dispatch, isWalletConnected, statsTimeframe]);
+  }, [dispatch, isWalletConnected, statsTimeframe, requestKey]);
 
   return [stats, loading];
 };

@@ -1,5 +1,5 @@
-import { useSwitcher } from 'modules/common/hooks/useSwitcher';
 import { StatsTimeframe } from 'domains/chains/types';
+import { useSwitcher } from 'modules/common/hooks/useSwitcher';
 
 const { DAY, WEEK, MONTH } = StatsTimeframe;
 

@@ -1,30 +1,30 @@
 import React from 'react';
 
-import { ChainType, Period } from 'domains/chains/types';
-import { PeriodSwitcher } from '../PeriodSwitcher';
-import { Tabs } from '../Tabs';
+import { StatsTimeframe } from 'domains/chains/types';
+import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { t } from 'modules/i18n/utils/intl';
-
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {
-  period: Period;
-  switchPeriod: () => void;
-  setChainType: (type: ChainType) => void;
+  timeframe: StatsTimeframe;
+  switchStatsTimeframe: () => void;
 }
 
 const title = t('chain-item.methods-rating.title');
 
-export const Header = ({ period, setChainType, switchPeriod }: HeaderProps) => {
+export const Header = ({ switchStatsTimeframe, timeframe }: HeaderProps) => {
   const classes = useStyles();
 
   return (
     <div className={classes.headerRoot}>
       <div className={classes.titleBox}>
         <div className={classes.title}>{title}</div>
-        <PeriodSwitcher onSwitch={switchPeriod} period={period} />
+        <TimeframeSwitcher
+          onSwitch={switchStatsTimeframe}
+          timeframe={timeframe}
+        />
       </div>
-      <Tabs setChainType={setChainType} />
+      {/* <Tabs setChainType={setChainType} /> */}
     </div>
   );
 };

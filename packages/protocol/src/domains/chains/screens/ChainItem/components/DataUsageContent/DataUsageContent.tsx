@@ -3,12 +3,11 @@ import React from 'react';
 import { ChainItemDetails } from '../ChainItemDetails';
 import { ChainRequestsOverview } from '../ChainRequestsOverview';
 import { MethodsRating } from '../MethodsRating';
-import { RequestsMap } from '../RequestsMap';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
-import { useTimeframeData } from './DataUsageContentUtils';
+import { RequestsMap } from '../RequestsMap';
 import { useStyles } from './DataUsageContentStyles';
-
-const IS_MEHTODS_RATING_VISIBLE = false;
+import { useUsageData } from './hooks/useUsageData';
+import { UsageSummary } from '../UsageSummary';
 
 interface IDataUsageContentProps {
   chainId: string;
@@ -18,16 +17,19 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
   const classes = useStyles();
 
   const {
-    timeframe,
-    setTimeframe,
+    countries,
+    error,
+    isWalletConnected,
     loading,
+    methodRequests,
     pristine,
+    setTimeframe,
+    switchStatsTimeframe,
+    timeframe,
     totalCached,
     totalRequests,
     totalRequestsHistory,
-    countries,
-    error,
-  } = useTimeframeData(chainId);
+  } = useUsageData(chainId);
 
   return (
     <div>
@@ -37,6 +39,9 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
         </div>
       ) : (
         <>
+          {isWalletConnected && (
+            <UsageSummary className={classes.usageSummary} chainId={chainId} />
+          )}
           <ChainRequestsOverview
             className={classes.chainRequestsOverview}
             totalRequestsHistory={totalRequestsHistory}
@@ -47,16 +52,23 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           >
             <ChainItemDetails
               className={classes.chainItemDetails}
+              isWalletConnected={isWalletConnected}
+              loading={loading}
+              timeframe={timeframe}
               totalCached={totalCached}
               totalRequests={totalRequests}
-              timeframe={timeframe}
-              loading={loading}
             />
           </ChainRequestsOverview>
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
           )}
-          {IS_MEHTODS_RATING_VISIBLE && <MethodsRating />}
+          {isWalletConnected && methodRequests.length > 0 && (
+            <MethodsRating
+              methodRequests={methodRequests}
+              switchStatsTimeframe={switchStatsTimeframe}
+              timeframe={timeframe}
+            />
+          )}
         </>
       )}
     </div>

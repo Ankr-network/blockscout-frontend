@@ -277,6 +277,9 @@
         },
         "title": "Connection code snippet"
       } 
+    },
+    "usage-summary": {
+      "total": "Total Requests Processed"
     }
   },
   "plan": {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
@@ -8,7 +8,7 @@ import { useChainBlockStyles } from './useChainBlockStyles';
 interface IChainBlockProps {
   className?: string;
   isLoading: boolean;
-  subtitle: string;
+  subtitle: ReactNode;
   value: string;
 }
 

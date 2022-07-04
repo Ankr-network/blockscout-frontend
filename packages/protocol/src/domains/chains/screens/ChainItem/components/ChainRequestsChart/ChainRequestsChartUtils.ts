@@ -1,10 +1,10 @@
 import { IChartData } from 'modules/common/components/Chart';
 import { RequestsLog } from './ChainRequestsChartTypes';
+import { StatsTimeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
-import { Timeframe } from 'multirpc-sdk';
 
 /* timeFrame in formatDate is used for chart labels view */
-export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
+export const formatDate = (date: Date, timeFrame?: StatsTimeframe): string => {
   const dateString = t('chain-item.chart.date', {
     value: date,
   });
@@ -13,15 +13,15 @@ export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
     value: date,
   });
 
-  if (timeFrame === '24h') {
+  if (timeFrame === StatsTimeframe.DAY) {
     return timeString;
   }
 
-  if (timeFrame === '7d') {
+  if (timeFrame === StatsTimeframe.WEEK) {
     return dateString;
   }
 
-  if (timeFrame === '30d') {
+  if (timeFrame === StatsTimeframe.MONTH) {
     return dateString;
   }
 

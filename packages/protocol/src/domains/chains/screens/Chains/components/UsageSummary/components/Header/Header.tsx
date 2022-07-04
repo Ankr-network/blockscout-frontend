@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { StatsTimeframe } from 'domains/chains/types';
-import { TimeframeSwitcher } from '../TimeframeSwitcher';
+import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './HeaderStyles';
 

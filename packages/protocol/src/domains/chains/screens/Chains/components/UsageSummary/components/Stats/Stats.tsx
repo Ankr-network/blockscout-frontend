@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChainBlock } from 'domains/chains/screens/Chains/components/ChainBlock';
+import { ChainBlock } from 'domains/chains/components/ChainBlock';
 import { Stats as StatsType } from '../../types';
 import { totalTitle } from './const';
 import { useStyles } from './StatsStyles';

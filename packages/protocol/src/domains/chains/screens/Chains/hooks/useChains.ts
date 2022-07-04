@@ -1,10 +1,10 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType, StatsTimeframe } from 'domains/chains/types';
 import { useAuth } from 'modules/auth/hooks/useAuth';
-import { usePrivateStats } from './usePrivateStats';
 import { usePublicChains } from './usePublicChains';
 import { useSortType } from './useSortType';
-import { useStatsTimeframe } from './useStatsTimeframe';
+import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
+import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 
 export interface Chains {
   chains: IApiChain[];
