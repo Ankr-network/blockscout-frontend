@@ -106,7 +106,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
       </MemoryRouter>,
     );
 
-    const unstakeTitleBox = await screen.findByTitle(/during phase/);
+    const unstakeTitleBox = await screen.findByTitle(/after The Merge/);
 
     expect(unstakeTitleBox).toBeInTheDocument();
   });
