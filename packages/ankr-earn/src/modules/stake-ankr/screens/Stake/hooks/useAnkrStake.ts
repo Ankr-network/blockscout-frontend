@@ -17,6 +17,7 @@ import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types';
+import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface IUseAnkrStake {
@@ -108,8 +109,3 @@ export const useAnkrStake = (): IUseAnkrStake => {
     onSubmit,
   };
 };
-
-// todo: refactor
-function getDemoProviderName(addr?: string) {
-  return addr ? 'Mind Heart Sou0l' : undefined;
-}

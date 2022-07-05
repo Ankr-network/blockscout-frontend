@@ -6,6 +6,7 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface IUseAnkrStake {
@@ -46,12 +47,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
-    providerName,
+    providerName: providerName ?? '',
     onSubmit,
   };
 };
-
-// todo: refactor
-function getDemoProviderName(addr?: string) {
-  return addr || 'Mind Heart Sou0l';
-}

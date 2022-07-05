@@ -356,7 +356,7 @@
       "add-to-wallet": "Add {token} to wallet"
     },
     "pending": {
-      "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the dashboard."
+      "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the Dashboard."
     }
   },
   "claim": {
@@ -651,9 +651,10 @@
     "successTitle": "{title} successful!",
     "tx": {
       "grid": {
-        "amount": "Amount:",
-        "destination": "Destination address:",
-        "tx": "Transaction ID:"
+        "amount": "Amount",
+        "destination": "Destination address",
+        "node-provider": "Node provider",
+        "tx": "Transaction ID"
       }
     }
   },

@@ -7,6 +7,7 @@ import { ZERO } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types';
+import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface IUseAnkrUnstake {
@@ -45,12 +46,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
-    providerName,
+    providerName: providerName ?? '',
     onSubmit: () => {},
   };
 };
-
-// todo: refactor
-function getDemoProviderName(addr?: string) {
-  return addr || 'Mind Heart Sou0l';
-}

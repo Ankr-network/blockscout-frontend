@@ -19,7 +19,8 @@ const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
 const UNSTAKE_PATH = `${ROOT}unstake/`;
 const UNSTAKE_WITH_PROVIDER_PATH = `${UNSTAKE_PATH}?provider=:provider?`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
-const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provier/`;
+const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;
+const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provider/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -47,6 +48,11 @@ export const RoutesConfig = createRouteConfig(
           provider: queryProvider ?? undefined,
         };
       },
+    },
+
+    stakeSteps: {
+      path: STEPS_STAKE_PATH,
+      generatePath: () => generatePath(STEPS_STAKE_PATH),
     },
 
     stakeMore: {
@@ -93,6 +99,10 @@ const Providers = loadComponent(() =>
 
 const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
+);
+
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakeSteps').then(module => module.StakeSteps),
 );
 
 const StakeMore = loadComponent(() =>
@@ -144,6 +154,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeMore />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.stakeSteps.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
           </DefaultLayout>
         </GuardETHRoute>
 

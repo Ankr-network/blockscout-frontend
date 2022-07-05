@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import prettyTime from 'pretty-time';
+import { TransactionReceipt } from 'web3-core';
 
 import {
   Address,
@@ -35,6 +36,13 @@ const ankrToken: Address = isMainnet
 
 interface IAnkrStakingSDKProviders {
   writeProvider: Web3KeyWriteProvider;
+}
+
+interface IFetchTxData {
+  amount?: BigNumber;
+  isPending: boolean;
+  provider: string;
+  destinationAddress?: string;
 }
 
 export class AnkrStakingSDK {
@@ -466,6 +474,55 @@ export class AnkrStakingSDK {
     const minStake = await stakingConfig.methods.getMinStakingAmount().call();
 
     return this.convertFromWei(minStake);
+  }
+
+  /**
+   * Fetch transaction data.
+   *
+   * @public
+   * @note Parses first uint256 param from transaction input.
+   * @param {string} txHash - transaction hash
+   * @returns {Promise<IFetchTxData>}
+   */
+  public async fetchTxData(txHash: string): Promise<IFetchTxData> {
+    const { writeProvider } = this;
+
+    const web3 = writeProvider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+    const providerHash = tx.input.slice(10, 74);
+    const amountHash = tx.input.slice(74, 138);
+
+    const { 0: lockShares } = web3.eth.abi.decodeParameters(
+      ['uint256'],
+      amountHash,
+    );
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      destinationAddress: tx.to as string | undefined,
+      isPending: tx.transactionIndex === null,
+      provider: `0x${providerHash.slice(24)}`,
+    };
+  }
+
+  /**
+   * Fetch transaction receipt.
+   *
+   * @public
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<TransactionReceipt | null>}
+   */
+  public async fetchTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const { writeProvider } = this;
+
+    const web3 = writeProvider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
   }
 
   /**
