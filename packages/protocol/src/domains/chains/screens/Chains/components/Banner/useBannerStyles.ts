@@ -14,20 +14,10 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     padding: theme.spacing(2.5),
     boxSizing: 'content-box',
-  },
-  icon: {
-    width: 24,
-    height: 24,
+    textAlign: 'center',
   },
   banner: {
     padding: theme.spacing(3.75),
-  },
-  top: {
-    display: 'flex',
-    boxSizing: 'content-box',
-    paddingBottom: theme.spacing(3.75),
-    marginBottom: theme.spacing(3.75),
-    borderBottom: '1px solid #E7EBF3',
   },
   message: {
     maxWidth: 610,
@@ -51,6 +41,9 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
   },
   text: {
     marginRight: '0.5em',
+    '& .link': {
+      color: theme.palette.primary.main,
+    },
   },
   link: {
     padding: 0,

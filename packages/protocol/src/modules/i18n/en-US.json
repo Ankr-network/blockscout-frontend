@@ -150,10 +150,8 @@
       "name": "Sort by name"
     },
     "banner": {
-      "dashbaord": "Starting July 15, public plans are limited to 250k calls a day. To get unlimited, upgrade to a",
-      "premium-plan": "Premium Plan",
+      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
       "chain-item": {
-        "top": "Starting July 15, public plans are limited to 250k calls a day.",
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
         "button": "Unlock Premium"
       }
