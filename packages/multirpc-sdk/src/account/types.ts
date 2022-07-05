@@ -91,19 +91,20 @@ export interface PrivateStat {
   totalRequests: number;
 }
 
-// key is a timestamp in ms
-export type PrivateStatCounts = Record<string, number>;
+// in ms
+export type PrivateStatTimestamp = string;
+export type PrivateStatCounts = Record<PrivateStatTimestamp, number>;
 
-// key is a method name
-export type PrivateStatTopRequests = Record<string, number>;
+export type RPCRequestName = string;
+export type PrivateStatTopRequests = Record<RPCRequestName, number>;
 
 export interface PrivateStats {
   stats?: PrivateStatsInternal;
   totalRequests?: number;
 }
 
-// key is a blockchain name
-export type PrivateStatsInternal = Record<string, PrivateStat>;
+export type BlockchainID = string;
+export type PrivateStatsInternal = Record<BlockchainID, PrivateStat>;
 
 export enum PrivateStatsInterval {
   DAY = 'h24',

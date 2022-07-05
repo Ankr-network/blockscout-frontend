@@ -1,4 +1,4 @@
-type TotalRequestsHistory = Record<string, number>;
+import { TotalRequestsHistory } from 'multirpc-sdk';
 
 export const normalizeTotalRequestsHistory = (
   history: TotalRequestsHistory = {},

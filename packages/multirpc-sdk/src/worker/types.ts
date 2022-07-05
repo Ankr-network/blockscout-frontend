@@ -94,6 +94,11 @@ export interface IWorkerEndpoint {
   user: string;
 }
 
+export type TotalRequestsHistoryTimestamp = string;
+
+export type TotalRequestsHistory =
+  Record<TotalRequestsHistoryTimestamp, number>;
+
 export interface IWorkerGlobalStatus {
   uniqueVisitors: number;
   uniqueVisitorsHistory: Record<string, number>;
