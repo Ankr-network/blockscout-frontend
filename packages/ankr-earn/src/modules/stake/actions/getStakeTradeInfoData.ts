@@ -29,7 +29,17 @@ interface IGetStakeTradeInfoDataItem {
 
 const getNetwork = (baseToken: EOpenOceanTokens): string => {
   switch (baseToken) {
+    case EOpenOceanTokens.AVAX:
+      return 'AVAX';
+
+    case EOpenOceanTokens.BNB:
+      return 'BSC';
+
+    case EOpenOceanTokens.FTM:
+      return 'FANTOM';
+
     case EOpenOceanTokens.ETH:
+    case EOpenOceanTokens.MATIC:
     default:
       return 'ETH';
   }
