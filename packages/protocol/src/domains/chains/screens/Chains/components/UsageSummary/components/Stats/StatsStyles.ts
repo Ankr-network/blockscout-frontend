@@ -2,14 +2,17 @@ import { Theme, makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   stats: {
-    display: 'flex',
-    gap: theme.spacing(3.75),
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: theme.spacing(3.5),
+
+    [theme.breakpoints.down('lg')]: {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
 
     [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
     },
-  },
-  stat: {
-    flex: '0 0 50%',
   },
 }));

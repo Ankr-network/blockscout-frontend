@@ -16,7 +16,6 @@ export const Stats = ({ isLoading, stats: { total } }: StatsProps) => {
   return (
     <div className={classes.stats}>
       <ChainBlock
-        className={classes.stat}
         isLoading={isLoading}
         subtitle={totalTitle}
         value={total.toFormat()}
