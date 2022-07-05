@@ -52,9 +52,8 @@ export const connect = async () => {
       currentAccount.toLowerCase() &&
     tokens?.authorizationToken
   ) {
-    const { jwtToken, authorizationToken } = tokens;
+    const { authorizationToken } = tokens;
 
-    service.getWorkerBackofficeGateway().addJwtToken(jwtToken);
     service.getBackofficeGateway().addToken(authorizationToken);
 
     return;
@@ -65,10 +64,6 @@ export const connect = async () => {
 
     const authorizationToken = await service.authorizeBackoffice(LIFETIME);
     service.getBackofficeGateway().addToken(authorizationToken);
-
-    if (newJwtToken) {
-      service.getWorkerBackofficeGateway().addJwtToken(newJwtToken);
-    }
 
     if (newJwtToken && authorizationToken) {
       rememberUserLoginState(newJwtToken, authorizationToken);

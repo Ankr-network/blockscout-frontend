@@ -10,7 +10,7 @@ import { useMultiRpcSdk } from 'stores';
 import { useBackofficeNodes } from 'stores/useBackofficeNodes';
 
 export const NodeNav = observer(({ blockchain }: { blockchain?: string }) => {
-  const api = useMultiRpcSdk().getWorkerBackofficeGateway();
+  const api = useMultiRpcSdk().getBackofficeGateway();
   const gridStore = useBackofficeNodes(blockchain);
 
   const [drawerVisible, setDrawerVisible] = useState(false);

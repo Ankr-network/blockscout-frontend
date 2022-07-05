@@ -1,14 +1,13 @@
 import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
+import { EventData } from 'web3-eth-contract';
 
 import { IApiGateway } from '../api';
 import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
 import { IContractManager, IDepositAnkrToWalletResult } from '../contract';
 import {
-  IBlockchainEntity,
   IPrivateEndpoint,
   IProvider,
-  IWorkerBackofficeGateway,
   IWorkerEndpoint,
   IWorkerGateway,
   IWorkerGlobalStatus,
@@ -18,18 +17,14 @@ import {
   RestrictedIps,
   Timeframe,
 } from '../worker';
-import {
-  IIsJwtTokenIssueAvailableResult,
-  FetchBlockchainUrlsResult,
-  LoginAsUserExResult,
-} from './types';
+import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import { RpcGateway } from '../rpc/RpcGateway';
 import {
   IBalance,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
 } from '../account';
-import { EventData } from 'web3-eth-contract';
+import { IBackofficeGateway, IBlockchainEntity } from '../backoffice';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -99,13 +94,11 @@ export interface IMultiRpcSdk {
 
   getUserLocation(): Promise<IWorkerUserLocation>;
 
-  getWorkerBackofficeGateway(): IWorkerBackofficeGateway;
+  getBackofficeGateway(): IBackofficeGateway;
 
   getWorkerGateway(): IWorkerGateway;
 
-  isJwtTokenIssueAvailable(
-    transactionHash: PrefixedHex,
-  ): Promise<IIsJwtTokenIssueAvailableResult>;
+  canIssueJwtToken(transactionHash: PrefixedHex): Promise<IIssueJwtTokenResult>;
 
   issueJwtToken(
     transactionHash: PrefixedHex,
@@ -113,7 +106,7 @@ export interface IMultiRpcSdk {
     encryptionKey?: Base64,
   ): Promise<IJwtToken>;
 
-  isUserHasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
+  hasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
 
   loginAsAdmin(user: Web3Address): Promise<IJwtToken | false>;
 
@@ -121,8 +114,6 @@ export interface IMultiRpcSdk {
     user: Web3Address,
     encryptionKey?: Base64,
   ): Promise<IJwtToken | false>;
-
-  loginAsUserEx(user: Web3Address): LoginAsUserExResult;
 
   requestUserEncryptionKey(): Promise<Base64>;
 
