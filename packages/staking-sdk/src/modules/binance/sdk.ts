@@ -26,6 +26,7 @@ import {
   ABI_ABNBB,
   ABI_ABNBC,
   ABI_BINANCE_POOL,
+  AETHC_BSC_ABI,
 } from '../contracts';
 import {
   ITxEventsHistoryData,
@@ -388,11 +389,29 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Internal function to get aETHc contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getAETHCContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      AETHC_BSC_ABI as AbiItem[],
+      binanceConfig.aETHcToken,
+    );
+  }
+
+  /**
    * Add token to wallet.
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aBNBb or aBNBc)
+   * @param {string} token - token symbol (aBNBb or aBNBc or aETHc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -401,19 +420,30 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
 
     const { binanceConfig } = configFromEnv();
-    const isAbnbb = token === 'aBNBb';
 
-    const tokenContract = isAbnbb
-      ? await this.getABNBBContract()
-      : await this.getABNBCContract();
-
-    const address = isAbnbb
-      ? binanceConfig.aBNBbToken
-      : binanceConfig.aBNBcToken;
+    let contract: Contract;
+    let address: string;
+    switch (token) {
+      case 'aBNBb':
+        contract = await this.getABNBBContract();
+        address = binanceConfig.aBNBbToken;
+        break;
+      case 'aBNBc':
+        contract = await this.getABNBCContract();
+        address = binanceConfig.aBNBcToken;
+        break;
+      case 'aETHc':
+        contract = await this.getAETHCContract();
+        address = binanceConfig.aETHcToken;
+        break;
+      default: {
+        throw new Error(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
+      }
+    }
 
     const [symbol, rawDecimals]: [string, string] = await Promise.all([
-      tokenContract.methods.symbol().call(),
-      tokenContract.methods.decimals().call(),
+      contract.methods.symbol().call(),
+      contract.methods.decimals().call(),
     ]);
 
     const decimals = Number.parseInt(rawDecimals, 10);
@@ -463,6 +493,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
     ]);
 
     return this.readProvider.getFormattedBalance(currBalance, decimals);
+  }
+
+  /**
+   * Returns aETHc token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAETHCBalance(): Promise<BigNumber> {
+    const contract = await this.getAETHCContract();
+    const balance = await contract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
   }
 
   /**

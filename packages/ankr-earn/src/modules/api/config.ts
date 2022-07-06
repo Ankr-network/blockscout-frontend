@@ -109,8 +109,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
     aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
-    // todo: add actual dev aETHc token address
-    aETHcToken: ZERO_ADDR,
+    aETHcToken: '0x0aE4837cF3D254e4a1B5A77C0fAC591Ba253773D',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
@@ -183,8 +182,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',
-    // todo: add actual production aETHc token address
-    aETHcToken: ZERO_ADDR,
+    aETHcToken: '0xe05a08226c49b636acf99c40da8dc6af83ce5bb3',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },

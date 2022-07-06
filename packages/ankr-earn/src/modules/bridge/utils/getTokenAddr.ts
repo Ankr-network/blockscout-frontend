@@ -9,18 +9,21 @@ const ethTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.contractConfig.aMaticbToken,
   [AvailableBridgeTokens.aMATICc]: config.contractConfig.aMaticCToken,
   [AvailableBridgeTokens.aETHb]: config.contractConfig.fethContract,
+  [AvailableBridgeTokens.aETHc]: config.contractConfig.aethContract,
 };
 
 const bscTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.binanceConfig.aMATICbToken,
   [AvailableBridgeTokens.aMATICc]: config.binanceConfig.aMATICcToken,
   [AvailableBridgeTokens.aETHb]: config.binanceConfig.aETHbToken,
+  [AvailableBridgeTokens.aETHc]: config.binanceConfig.aETHcToken,
 };
 
 const polygonTokenAddressesMap = {
   [AvailableBridgeTokens.aMATICb]: config.polygonConfig.aMATICbToken,
   [AvailableBridgeTokens.aMATICc]: config.polygonConfig.aMATICcToken,
   [AvailableBridgeTokens.aETHb]: ZERO_ADDR,
+  [AvailableBridgeTokens.aETHc]: ZERO_ADDR,
 };
 
 export const getTokenAddr = (

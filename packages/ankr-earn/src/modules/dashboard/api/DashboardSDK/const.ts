@@ -3,6 +3,7 @@ import {
   AMATICC_ABI,
   ABI_ERC20,
   AETHB_ABI,
+  AETHC_BSC_ABI,
 } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
@@ -38,6 +39,12 @@ export const bscTokenConfig: TNetworkTokenConfig = {
   [Token.aETHb]: {
     abi: AETHB_ABI,
     address: config.binanceConfig.aETHbToken,
+    providerName: BSC_PROVIDER_BY_ENV,
+  },
+
+  [Token.aETHc]: {
+    abi: AETHC_BSC_ABI,
+    address: config.binanceConfig.aETHcToken,
     providerName: BSC_PROVIDER_BY_ENV,
   },
 
