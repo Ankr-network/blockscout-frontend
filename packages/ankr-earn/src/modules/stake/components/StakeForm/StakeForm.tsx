@@ -12,6 +12,7 @@ import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
+import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -20,8 +21,6 @@ import { StakeFormBox } from './StakeFormBox';
 import { StakeFormFooter } from './StakeFormFooter';
 import { StakeFormTitle } from './StakeFormTitle';
 import { useStakeFormStyles } from './useStakeFormStyles';
-
-const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
 
 enum FieldsNames {
   amount = 'amount',

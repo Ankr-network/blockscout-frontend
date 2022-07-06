@@ -7,6 +7,7 @@ import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
+import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
@@ -26,8 +27,6 @@ import { OnChange } from 'uiKit/OnChange';
 import { Quote } from 'uiKit/Quote';
 
 import { useStakeFormStyles } from './useStakeFormStyles';
-
-const DEFAULT_MIN_AMOUNT = new BigNumber(0.1);
 
 interface IAnkrStakeMoreFormProps {
   balance?: BigNumber;
@@ -84,85 +83,83 @@ export const AnkrStakeMoreForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IAnkrStakeSubmitPayload>>) => {
-    return (
-      <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
-        <CloseButton href={closeHref} />
+  }: FormRenderProps<Partial<IAnkrStakeSubmitPayload>>) => (
+    <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
+      <CloseButton href={closeHref} />
 
-        <StakeFormTitle>{t('stake-ankr.staking.more-title')}</StakeFormTitle>
+      <StakeFormTitle>{t('stake-ankr.staking.more-title')}</StakeFormTitle>
 
-        <AmountInput
-          balance={balance}
-          disabled={isDisabled}
-          isBalanceLoading={isBalanceLoading}
-          label={
-            <StakeDescriptionName component="span">
-              {t('stake.amount', { token: tokenIn })}
-            </StakeDescriptionName>
+      <AmountInput
+        balance={balance}
+        disabled={isDisabled}
+        isBalanceLoading={isBalanceLoading}
+        label={
+          <StakeDescriptionName component="span">
+            {t('stake.amount', { token: tokenIn })}
+          </StakeDescriptionName>
+        }
+        maxAmount={maxAmount}
+        maxDecimals={maxAmountDecimals}
+        minAmount={minAmount?.toNumber()}
+        name={EFieldsNames.amount}
+        tokenName={tokenIn}
+        onMaxClick={setMaxAmount(form, maxStakeAmount)}
+      />
+
+      <NodeProviderField
+        isDisabled
+        mt={5}
+        providerName={providerName}
+        providerSelectHref=""
+      />
+
+      <StakeDescriptionContainer>
+        <StakeDescriptionName className={classes.periodLabel}>
+          {t('stake-ankr.staking.new-total-stake')}
+        </StakeDescriptionName>
+
+        {t('unit.ankr-value', {
+          value: newTotalStake?.toFormat(),
+        })}
+      </StakeDescriptionContainer>
+
+      <StakeDescriptionSeparator />
+
+      <StakeDescriptionContainer>
+        <StakeDescriptionName className={classes.periodLabel}>
+          {t('stake-ankr.staking.apy')}
+        </StakeDescriptionName>
+
+        {t('unit.percentage-value', {
+          value: apy?.integerValue(),
+        })}
+      </StakeDescriptionContainer>
+
+      <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
+
+      <StakeFormFooter>
+        <Button
+          fullWidth
+          className={classes.stakeBtn}
+          color="primary"
+          disabled={isDisabled || loading || isBalanceLoading}
+          isLoading={loading}
+          size="large"
+          type="submit"
+        >
+          {t('stake-ankr.staking.submit')}
+        </Button>
+      </StakeFormFooter>
+
+      <OnChange name={EFieldsNames.amount}>
+        {() => {
+          if (typeof onChange === 'function') {
+            onChange(values, invalid);
           }
-          maxAmount={maxAmount}
-          maxDecimals={maxAmountDecimals}
-          minAmount={minAmount?.toNumber()}
-          name={EFieldsNames.amount}
-          tokenName={tokenIn}
-          onMaxClick={setMaxAmount(form, maxStakeAmount)}
-        />
-
-        <NodeProviderField
-          isDisabled
-          mt={5}
-          providerName={providerName}
-          providerSelectHref=""
-        />
-
-        <StakeDescriptionContainer>
-          <StakeDescriptionName className={classes.periodLabel}>
-            {t('stake-ankr.staking.new-total-stake')}
-          </StakeDescriptionName>
-
-          {t('unit.ankr-value', {
-            value: newTotalStake?.toFormat(),
-          })}
-        </StakeDescriptionContainer>
-
-        <StakeDescriptionSeparator />
-
-        <StakeDescriptionContainer>
-          <StakeDescriptionName className={classes.periodLabel}>
-            {t('stake-ankr.staking.apy')}
-          </StakeDescriptionName>
-
-          {t('unit.percentage-value', {
-            value: apy?.integerValue(),
-          })}
-        </StakeDescriptionContainer>
-
-        <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
-
-        <StakeFormFooter>
-          <Button
-            fullWidth
-            className={classes.stakeBtn}
-            color="primary"
-            disabled={isDisabled || loading || isBalanceLoading}
-            isLoading={loading}
-            size="large"
-            type="submit"
-          >
-            {t('stake-ankr.staking.submit')}
-          </Button>
-        </StakeFormFooter>
-
-        <OnChange name={EFieldsNames.amount}>
-          {() => {
-            if (typeof onChange === 'function') {
-              onChange(values, invalid);
-            }
-          }}
-        </OnChange>
-      </StakeFormBox>
-    );
-  };
+        }}
+      </OnChange>
+    </StakeFormBox>
+  );
 
   return (
     <Form

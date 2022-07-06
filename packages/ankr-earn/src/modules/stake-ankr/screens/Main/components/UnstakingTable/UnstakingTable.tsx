@@ -15,8 +15,8 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ActionCell } from 'modules/stake-ankr/common/components/ActionCell';
+import { BaseAnkrAmount } from 'modules/stake-ankr/common/components/BaseAnkrAmount';
 
-import { BaseAnkrAmount } from '../../../../common/components/BaseAnkrAmount';
 import { useUnstakingData } from '../../hooks/useUnstakingData';
 
 import { useUnstakingTableStyles } from './useUnstakingTableStyles';

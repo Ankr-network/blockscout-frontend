@@ -1,23 +1,21 @@
-import { Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
+import { FixedInputField } from 'modules/common/components/FixedInputField';
 import { ZERO } from 'modules/common/const';
-import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
 import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
-import {
-  IAnkrStakeSubmitPayload,
-  EFieldsNames,
-} from 'modules/stake-ankr/common/types';
+import { EFieldsNames } from 'modules/stake-ankr/common/types/EFieldsNames';
+import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types/IAnkrStakeSubmitPayload';
 import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
+import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import {
   StakeFormBox,
   StakeFormFooter,
@@ -27,26 +25,26 @@ import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
-import { NumericStepper } from 'uiKit/Stepper';
+import { Quote } from 'uiKit/Quote';
 
-import { useStakeFormStyles } from './useStakeFormStyles';
+import { useRestakeFormStyles } from './useRestakeFormStyles';
 
-interface IAnkrStakeFormProps {
+interface IRestakeFormProps {
+  rewards: BigNumber;
+  epochEnd: Date;
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
-  isApproveLoading?: boolean;
   isDisabled?: boolean;
-  isApproved?: boolean;
   tokenIn?: string;
-  providerSelectHref: string;
+  providerId: string;
+  providerName: string;
   maxAmountDecimals?: number;
   closeHref: string;
-  initialProvider?: string;
-  providerName?: string;
-  lockingPeriod?: Days;
+  apy?: BigNumber;
+  newTotalStake?: BigNumber;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -54,26 +52,39 @@ interface IAnkrStakeFormProps {
   ) => void;
 }
 
-export const AnkrStakeForm = ({
+export const RestakeForm = ({
+  rewards,
+  epochEnd,
   balance = ZERO,
   minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
-  isApproveLoading = false,
   isDisabled = false,
-  isApproved = false,
   tokenIn = t('unit.ankr'),
+  providerId,
+  providerName,
   maxAmountDecimals,
   closeHref,
-  providerSelectHref,
-  initialProvider,
-  providerName,
-  lockingPeriod = 0,
+  apy,
+  newTotalStake,
   onSubmit,
   onChange,
-}: IAnkrStakeFormProps): JSX.Element => {
-  const classes = useStakeFormStyles();
+}: IRestakeFormProps): JSX.Element => {
+  const classes = useRestakeFormStyles();
+
+  // TODO: change it to actual epochEnd type
+  const epochEndDays = epochEnd.getDay();
+  const epochEndHours = epochEnd.getHours();
+  const epochEndMin = epochEnd.getMinutes();
+
+  const epochEndTimeText = t('stake-ankr.restake.epoch-end', {
+    value: `
+        ${epochEndDays} day${epochEndDays === 1 ? '' : 's'},
+        ${epochEndHours} hour${epochEndHours === 1 ? '' : 's'},
+        ${epochEndMin} min
+      `,
+  });
 
   const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
@@ -85,11 +96,6 @@ export const AnkrStakeForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
 
-  // todo: add actual text
-  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period');
-
-  const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
-
   const renderForm = ({
     form,
     handleSubmit,
@@ -99,81 +105,93 @@ export const AnkrStakeForm = ({
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 
-      <StakeFormTitle>{t('stake-ankr.staking.title')}</StakeFormTitle>
+      <StakeFormTitle>{t('stake-ankr.restake.title')}</StakeFormTitle>
+
+      <Box mb={5}>
+        <FixedInputField
+          additionalInfoSlot={<div>{epochEndTimeText}</div>}
+          label={
+            <StakeDescriptionName
+              className={classes.disabledLabel}
+              component="span"
+            >
+              {t('stake-ankr.restake.your-rewards')}
+            </StakeDescriptionName>
+          }
+          name={EFieldsNames.yourRewards}
+        />
+      </Box>
 
       <AmountInput
         balance={balance}
-        balanceLinkSlot={<BuyAnkrLink />}
-        disabled={isDisabled || isApproved}
+        balanceLabel={t('stake-ankr.restake.available')}
+        disabled={isDisabled}
         isBalanceLoading={isBalanceLoading}
         label={
-          <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
-          </StakeDescriptionName>
+          <Box
+            alignItems="center"
+            component="span"
+            display="flex"
+            fontSize={14}
+          >
+            {t('stake-ankr.restake.restake-rewards')}
+
+            <QuestionWithTooltip>
+              {t('stake-ankr.restake.restake-rewards-tooltip')}
+            </QuestionWithTooltip>
+          </Box>
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
         minAmount={minAmount?.toNumber()}
-        name={EFieldsNames.amount}
+        name={EFieldsNames.restakeRewards}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
       />
 
       <NodeProviderField
-        isDisabled={isDisabled || isApproved}
+        isDisabled
         mt={5}
         providerName={providerName}
-        providerSelectHref={providerSelectHref}
+        providerSelectHref=""
       />
 
       <StakeDescriptionContainer>
         <StakeDescriptionName className={classes.periodLabel}>
-          {t('stake-ankr.staking.locking-period')}
-
-          {lockingPeriodTooltip && (
-            <QuestionWithTooltip>{lockingPeriodTooltip}</QuestionWithTooltip>
-          )}
+          {t('stake-ankr.staking.new-total-stake')}
         </StakeDescriptionName>
 
-        {t('stake-ankr.staking.locking-period-value', {
-          days: lockingPeriod,
+        {t('unit.ankr-value', {
+          value: newTotalStake?.toFormat(),
         })}
       </StakeDescriptionContainer>
 
+      <StakeDescriptionSeparator />
+
+      <StakeDescriptionContainer>
+        <StakeDescriptionName className={classes.periodLabel}>
+          {t('stake-ankr.staking.apy')}
+        </StakeDescriptionName>
+
+        {t('unit.percentage-value', {
+          value: apy?.integerValue(),
+        })}
+      </StakeDescriptionContainer>
+
+      <Quote pt={1}>{t('stake-ankr.restake.locking-info')}</Quote>
+
       <StakeFormFooter>
-        <Grid container spacing={2}>
-          <Grid item xs>
-            <Button
-              fullWidth
-              color="primary"
-              disabled={isApproved || isSubmitDisabled}
-              isLoading={isApproveLoading}
-              size="large"
-              type="submit"
-            >
-              {t('stake-ankr.staking.approve')}
-            </Button>
-          </Grid>
-
-          <Grid item xs>
-            <Button
-              fullWidth
-              color="primary"
-              disabled={!isApproved || isSubmitDisabled}
-              isLoading={loading}
-              size="large"
-              type="submit"
-            >
-              {t('stake-ankr.staking.submit')}
-            </Button>
-          </Grid>
-        </Grid>
-
-        <NumericStepper
-          activeStep={isApproved ? 1 : 0}
-          className={classes.stepper}
-          stepsCount={2}
-        />
+        <Button
+          fullWidth
+          className={classes.stakeBtn}
+          color="primary"
+          disabled={isDisabled || loading || isBalanceLoading}
+          isLoading={loading}
+          size="large"
+          type="submit"
+        >
+          {t('stake-ankr.restake.submit')}
+        </Button>
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>
@@ -189,7 +207,8 @@ export const AnkrStakeForm = ({
   return (
     <Form
       initialValues={{
-        provider: initialProvider,
+        provider: providerId,
+        yourRewards: rewards.toFormat(),
       }}
       render={renderForm}
       onSubmit={onSubmitForm}

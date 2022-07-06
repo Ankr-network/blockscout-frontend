@@ -989,8 +989,34 @@
     },
     "unstaking": {
       "title": "Unstake ANKR",
+      "available": "Available",
       "undelegeting-info": "Undelegating process takes about 7 days before you can claim your ANKR.",
       "submit": "Unstake"
+    },
+    "restake": {
+      "title": "Restake ANKR Rewards",
+      "your-rewards": "Your Rewards",
+      "restake-rewards": "Restake Rewards",
+      "restake-rewards-tooltip": "",
+      "available": "Available",
+      "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
+      "submit": "Restake",
+      "epoch-end": "Current epoch ends in: {value}",
+      "epoch-days": "{value} days",
+      "epoch-day": "{value} day",
+      "epoch-min": "{value} min"
+    },
+    "claim": {
+      "title": "Claim Rewards",
+      "your-rewards": "Your Rewards",
+      "claim-rewards": "Claim Rewards",
+      "claim-rewards-tooltip": "",
+      "available": "Available",
+      "submit": "Claim",
+      "epoch-end": "Current epoch ends in: {value}",
+      "epoch-days": "{value} days",
+      "epoch-day": "{value} day",
+      "epoch-min": "{value} min"
     },
     "provider-info": {
       "provider-stats": {

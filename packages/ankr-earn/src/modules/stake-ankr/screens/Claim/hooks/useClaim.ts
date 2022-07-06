@@ -9,11 +9,11 @@ import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
-interface IUseAnkrStake {
+interface IUseClaim {
   loading: boolean;
   balance: BigNumber;
-  apy?: BigNumber;
-  newTotalStake?: BigNumber;
+  epochEnd: Date;
+  rewards: BigNumber;
   tokenIn: string;
   closeHref: string;
   providerId: string;
@@ -21,7 +21,7 @@ interface IUseAnkrStake {
   onSubmit: () => void;
 }
 
-export const useAnkrStakeMore = (): IUseAnkrStake => {
+export const useClaim = (): IUseClaim => {
   const dispatchRequest = useDispatchRequest();
   const onSubmit = () => {};
 
@@ -42,8 +42,8 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   return {
     loading: false,
     balance: ZERO,
-    apy: ZERO,
-    newTotalStake: ZERO,
+    epochEnd: new Date(),
+    rewards: ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(), // TODO: change it
     providerId: initialProvider ?? '',

@@ -30,8 +30,8 @@ const getDemoData = (provider: string): IStakeRow[] => [
     usdRewards: new BigNumber(5),
     stakeLink: RoutesConfig.stakeMore.generatePath(provider),
     unstakeLink: RoutesConfig.unstake.generatePath(provider),
-    restakeLink: 'restakeLink',
-    claimLink: 'claimLink',
+    restakeLink: RoutesConfig.restake.generatePath(provider),
+    claimLink: RoutesConfig.claim.generatePath(provider),
   },
   {
     isUnlocked: false,
@@ -42,7 +42,7 @@ const getDemoData = (provider: string): IStakeRow[] => [
     usdRewards: new BigNumber(5),
     stakeLink: RoutesConfig.stakeMore.generatePath(provider),
     unstakeLink: '',
-    restakeLink: 'restakeLink',
+    restakeLink: RoutesConfig.restake.generatePath(provider),
     claimLink: '',
   },
   {

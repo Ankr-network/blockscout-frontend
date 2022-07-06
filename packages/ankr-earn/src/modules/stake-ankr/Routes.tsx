@@ -16,6 +16,10 @@ const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
 const STAKE_MORE_PATH = `${ROOT}stake-more/`;
 const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
+const RESTAKE_PATH = `${ROOT}restake/`;
+const RESTAKE_WITH_PROVIDER_PATH = `${RESTAKE_PATH}?provider=:provider?`;
+const CLAIM_PATH = `${ROOT}claim/`;
+const CLAIM_WITH_PROVIDER_PATH = `${CLAIM_PATH}?provider=:provider?`;
 const UNSTAKE_PATH = `${ROOT}unstake/`;
 const UNSTAKE_WITH_PROVIDER_PATH = `${UNSTAKE_PATH}?provider=:provider?`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
@@ -68,6 +72,32 @@ export const RoutesConfig = createRouteConfig(
       },
     },
 
+    restake: {
+      path: RESTAKE_PATH,
+      generatePath: (provider: string) =>
+        generatePath(RESTAKE_WITH_PROVIDER_PATH, { provider }),
+      useParams: () => {
+        const queryProvider = useQueryParams().get('provider');
+
+        return {
+          provider: queryProvider ?? undefined,
+        };
+      },
+    },
+
+    claim: {
+      path: CLAIM_PATH,
+      generatePath: (provider: string) =>
+        generatePath(CLAIM_WITH_PROVIDER_PATH, { provider }),
+      useParams: () => {
+        const queryProvider = useQueryParams().get('provider');
+
+        return {
+          provider: queryProvider ?? undefined,
+        };
+      },
+    },
+
     unstake: {
       path: UNSTAKE_PATH,
       generatePath: (provider: string) =>
@@ -99,6 +129,14 @@ const Providers = loadComponent(() =>
 
 const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
+);
+
+const Restake = loadComponent(() =>
+  import('./screens/Restake').then(module => module.Restake),
+);
+
+const Claim = loadComponent(() =>
+  import('./screens/Claim').then(module => module.Claim),
 );
 
 const StakeSteps = loadComponent(() =>
@@ -154,6 +192,28 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeMore />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.restake.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Restake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.claim.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Claim />
           </DefaultLayout>
         </GuardETHRoute>
 

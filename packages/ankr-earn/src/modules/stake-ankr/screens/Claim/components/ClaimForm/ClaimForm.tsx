@@ -1,18 +1,17 @@
+import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
+import { FixedInputField } from 'modules/common/components/FixedInputField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
 import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
-import {
-  IAnkrStakeSubmitPayload,
-  EFieldsNames,
-} from 'modules/stake-ankr/common/types';
+import { EFieldsNames } from 'modules/stake-ankr/common/types/EFieldsNames';
+import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types/IAnkrStakeSubmitPayload';
 import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
@@ -23,11 +22,13 @@ import {
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
-import { Quote } from 'uiKit/Quote';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
-import { useUnstakeFormStyles } from './useUnstakeFormStyles';
+import { useClaimFormStyles } from './useClaimFormStyles';
 
-interface IAnkrUnstakeFormProps {
+interface IClaimFormProps {
+  rewards: BigNumber;
+  epochEnd: Date;
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
@@ -35,10 +36,10 @@ interface IAnkrUnstakeFormProps {
   isBalanceLoading?: boolean;
   isDisabled?: boolean;
   tokenIn?: string;
+  providerId: string;
+  providerName: string;
   maxAmountDecimals?: number;
   closeHref: string;
-  providerId: string;
-  providerName?: string;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -46,7 +47,9 @@ interface IAnkrUnstakeFormProps {
   ) => void;
 }
 
-export const AnkrUnstakeForm = ({
+export const ClaimForm = ({
+  rewards,
+  epochEnd,
   balance = ZERO,
   minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
@@ -54,14 +57,27 @@ export const AnkrUnstakeForm = ({
   isBalanceLoading = false,
   isDisabled = false,
   tokenIn = t('unit.ankr'),
-  maxAmountDecimals,
-  closeHref,
   providerId,
   providerName,
+  maxAmountDecimals,
+  closeHref,
   onSubmit,
   onChange,
-}: IAnkrUnstakeFormProps): JSX.Element => {
-  const classes = useUnstakeFormStyles();
+}: IClaimFormProps): JSX.Element => {
+  const classes = useClaimFormStyles();
+
+  // TODO: change it to actual epochEnd type
+  const epochEndDays = epochEnd.getDay();
+  const epochEndHours = epochEnd.getHours();
+  const epochEndMin = epochEnd.getMinutes();
+
+  const epochEndTimeText = t('stake-ankr.claim.epoch-end', {
+    value: `
+        ${epochEndDays} day${epochEndDays === 1 ? '' : 's'},
+        ${epochEndHours} hour${epochEndHours === 1 ? '' : 's'},
+        ${epochEndMin} min
+      `,
+  });
 
   const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
@@ -73,8 +89,6 @@ export const AnkrUnstakeForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
 
-  const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
-
   const renderForm = ({
     form,
     handleSubmit,
@@ -84,22 +98,46 @@ export const AnkrUnstakeForm = ({
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 
-      <StakeFormTitle>{t('stake-ankr.unstaking.title')}</StakeFormTitle>
+      <StakeFormTitle>{t('stake-ankr.claim.title')}</StakeFormTitle>
+
+      <Box mb={5}>
+        <FixedInputField
+          additionalInfoSlot={<div>{epochEndTimeText}</div>}
+          label={
+            <StakeDescriptionName
+              className={classes.disabledLabel}
+              component="span"
+            >
+              {t('stake-ankr.claim.your-rewards')}
+            </StakeDescriptionName>
+          }
+          name={EFieldsNames.yourRewards}
+        />
+      </Box>
 
       <AmountInput
         balance={balance}
-        balanceLinkSlot={<BuyAnkrLink />}
+        balanceLabel={t('stake-ankr.claim.available')}
         disabled={isDisabled}
         isBalanceLoading={isBalanceLoading}
         label={
-          <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
-          </StakeDescriptionName>
+          <Box
+            alignItems="center"
+            component="span"
+            display="flex"
+            fontSize={14}
+          >
+            {t('stake-ankr.claim.claim-rewards')}
+
+            <QuestionWithTooltip>
+              {t('stake-ankr.claim.claim-rewards-tooltip')}
+            </QuestionWithTooltip>
+          </Box>
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
         minAmount={minAmount?.toNumber()}
-        name={EFieldsNames.amount}
+        name={EFieldsNames.claimRewards}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
       />
@@ -111,18 +149,17 @@ export const AnkrUnstakeForm = ({
         providerSelectHref=""
       />
 
-      <Quote mt={6}>{t('stake-ankr.unstaking.undelegeting-info')}</Quote>
-
       <StakeFormFooter>
         <Button
           fullWidth
+          className={classes.stakeBtn}
           color="primary"
-          disabled={isSubmitDisabled}
+          disabled={isDisabled || loading || isBalanceLoading}
           isLoading={loading}
           size="large"
           type="submit"
         >
-          {t('stake-ankr.unstaking.submit')}
+          {t('stake-ankr.claim.submit')}
         </Button>
       </StakeFormFooter>
 
@@ -140,6 +177,7 @@ export const AnkrUnstakeForm = ({
     <Form
       initialValues={{
         provider: providerId,
+        yourRewards: rewards.toFormat(),
       }}
       render={renderForm}
       onSubmit={onSubmitForm}
