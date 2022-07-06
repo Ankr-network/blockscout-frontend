@@ -16,6 +16,7 @@ import { useStakedAETHBSCData } from '../useStakedAETHBSCData';
 const mockONE = new BigNumber(1);
 const mockTWO = new BigNumber(2);
 const mockSwapOldAETHCBSC = jest.fn();
+const mockAddBNBTokenToWallet = jest.fn();
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -45,6 +46,11 @@ jest.mock('modules/dashboard/actions/fetchAETHCBridgeBalanceBSC', () => ({
 
 jest.mock('modules/dashboard/actions/swapOldAETHCBSC', () => ({
   swapOldAETHCBSC: (...params: unknown[]) => mockSwapOldAETHCBSC(...params),
+}));
+
+jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
+  addBNBTokenToWallet: (...params: unknown[]) =>
+    mockAddBNBTokenToWallet(...params),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
@@ -189,5 +195,22 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
     });
 
     expect(mockSwapOldAETHCBSC).toBeCalledWith(mockONE);
+  });
+
+  test('should add token to wallet', () => {
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce(defaultStatsData)
+      .mockReturnValueOnce(defaultAvailableBalanceData)
+      .mockReturnValueOnce(defaultMetricsData);
+
+    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+
+    const { result } = renderHook(() => useStakedAETHBSCData());
+
+    act(() => {
+      result.current.handleAddTokenToWallet();
+    });
+
+    expect(mockAddBNBTokenToWallet).toBeCalledTimes(1);
   });
 });
