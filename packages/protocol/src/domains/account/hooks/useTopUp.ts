@@ -5,6 +5,7 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+import { resetRequests } from '@redux-requests/core';
 
 import { deposit } from '../actions/topUp/deposit';
 import { fetchPublicKey } from '../actions/fetchPublicKey';
@@ -50,6 +51,12 @@ export const useTopUp = () => {
     () => dispatchRequest(deposit(amount)),
     [dispatchRequest, amount],
   );
+
+  const handleResetDeposit = useCallback(() => {
+    dispatch(
+      resetRequests([deposit.toString(), waitTransactionConfirming.toString()]),
+    );
+  }, [dispatch]);
 
   const handleWaitTransactionConfirming = useCallback(
     () => dispatchRequest(waitTransactionConfirming()),
@@ -138,5 +145,6 @@ export const useTopUp = () => {
     handleResetTopUpTransaction,
     handleRejectAllowance,
     handleRedirectIfCredentials,
+    handleResetDeposit,
   };
 };
