@@ -3,6 +3,7 @@ import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
+import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 
@@ -25,6 +26,11 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
         text: t('unit.feth'),
         iconSlot: <AETHBIcon />,
         value: AvailableBridgeTokens.aETHb,
+      },
+      {
+        text: t('unit.aeth'),
+        iconSlot: <AETHCIcon />,
+        value: AvailableBridgeTokens.aETHc,
       },
     ],
     [],

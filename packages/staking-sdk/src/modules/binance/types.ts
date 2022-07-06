@@ -2,11 +2,13 @@ import { TransactionReceipt } from 'web3-core';
 
 import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
+import { AVAILABLE_BNB_SYNT_TOKENS } from './const';
+
 
 /**
  * Available tokens for BinanceSDK
  */
-export type TBnbSyntToken = 'aBNBb' | 'aBNBc';
+export type TBnbSyntToken = typeof AVAILABLE_BNB_SYNT_TOKENS[number];
 
 /**
  * Binance pool contract events
@@ -46,4 +48,5 @@ export interface IBinanceSDKProviders {
  */
 export enum EBinanceErrorCodes {
   ZERO_AMOUNT = 'zero-amount',
+  UNSUPPORTED_TOKEN = 'unsupported-token',
 }
