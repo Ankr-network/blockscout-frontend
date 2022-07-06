@@ -12,6 +12,7 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   DECIMAL_PLACES,
   DEFAULT_FIXED,
+  featuresConfig,
   FTM_AUDIT_LINK,
   ZERO,
 } from 'modules/common/const';
@@ -19,6 +20,7 @@ import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -28,8 +30,10 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
+import { EOpenOceanTokens } from 'modules/stake/types';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 
@@ -47,15 +51,15 @@ export const StakeFantom = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
-    isCommonDataLoading,
-    amount,
     aFTMcRatio,
+    amount,
     balance,
     gasFee,
-    minAmount,
-    loading,
-    isStakeLoading,
+    isCommonDataLoading,
     isGasFeeLoading,
+    isStakeLoading,
+    loading,
+    minAmount,
     tokenIn,
     tokenOut,
     totalAmount,
@@ -65,15 +69,6 @@ export const StakeFantom = (): JSX.Element => {
   } = useStakeForm();
 
   const faqItems = useFaq();
-
-  useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getMetrics());
-
-    return () => {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
-    };
-  }, [dispatchRequest]);
 
   const renderStats = useCallback(() => {
     return (
@@ -123,12 +118,38 @@ export const StakeFantom = (): JSX.Element => {
     isCommonDataLoading,
   ]);
 
+  useProviderEffect(() => {
+    dispatchRequest(getCommonData());
+    dispatchRequest(getMetrics());
+
+    return () => {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    };
+  }, [dispatchRequest]);
+
+  useProviderEffect(() => {
+    if (!featuresConfig.isActiveStakeTradeInfo) {
+      return;
+    }
+
+    dispatchRequest(
+      getStakeTradeInfoData({
+        baseToken: EOpenOceanTokens.FTM,
+        bondToken: EOpenOceanTokens.aFTMb,
+        certificateRatio: aFTMcRatio,
+        certificateToken: EOpenOceanTokens.aFTMc,
+      }),
+    );
+  }, [aFTMcRatio, dispatchRequest]);
+
   return (
     <section className={classes.root}>
       <StakeContainer>
         {hasError && (
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
+
+        {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 
         <StakeForm
           isMaxBtnShowed

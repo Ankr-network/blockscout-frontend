@@ -1,4 +1,5 @@
 import { Paper } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -11,11 +12,13 @@ import { useAnkrBalanceStyles } from './useAnkrBalanceStyles';
 
 interface IAnkrBalanceProps {
   link: string;
+  isLoading: boolean;
   value?: BigNumber;
 }
 
 export const AnkrBalance = ({
   value = ZERO,
+  isLoading,
   link,
 }: IAnkrBalanceProps): JSX.Element => {
   const classes = useAnkrBalanceStyles();
@@ -26,7 +29,11 @@ export const AnkrBalance = ({
 
       <AnkrIcon size={22} />
 
-      {value.decimalPlaces(DECIMAL_PLACES).toFormat()}
+      {isLoading ? (
+        <Skeleton width={50} />
+      ) : (
+        value.decimalPlaces(DECIMAL_PLACES).toFormat()
+      )}
 
       <NavLink
         className={classes.btn}

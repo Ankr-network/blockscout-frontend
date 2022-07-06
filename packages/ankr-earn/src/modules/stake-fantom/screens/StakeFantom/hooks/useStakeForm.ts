@@ -30,20 +30,20 @@ import { TFtmSyntToken } from '../../../types/TFtmSyntToken';
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeForm {
-  loading: boolean;
-  isCommonDataLoading: boolean;
-  isStakeLoading: boolean;
+  aFTMcRatio: BigNumber;
+  amount: BigNumber;
+  balance?: BigNumber;
   gasFee: BigNumber;
+  isCommonDataLoading: boolean;
   isGasFeeLoading: boolean;
+  isStakeLoading: boolean;
+  loading: boolean;
+  minAmount?: number;
   tokenIn: string;
   tokenOut: string;
-  amount: BigNumber;
   totalAmount: BigNumber;
-  aFTMcRatio: BigNumber;
-  balance?: BigNumber;
-  minAmount?: number;
-  onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TFtmSyntToken) => () => void;
 }
 
@@ -69,6 +69,12 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const ftmBalance = data?.ftmBalance;
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
+
+  const certRatio = useMemo(
+    () =>
+      aFTMcRatio.isGreaterThan(0) ? new BigNumber(1).div(aFTMcRatio) : ZERO,
+    [aFTMcRatio],
+  );
 
   const totalAmount = useMemo(() => {
     if (isError || !ftmBalance || ftmBalance.isLessThan(amount)) {
@@ -142,18 +148,18 @@ export const useStakeForm = (): IUseStakeForm => {
   );
 
   return {
-    isCommonDataLoading,
-    isStakeLoading: isCommonDataLoading,
-    gasFee: gasFee ?? ZERO,
-    isGasFeeLoading,
+    aFTMcRatio: certRatio,
+    amount,
     balance,
-    minAmount,
+    gasFee: gasFee ?? ZERO,
+    isCommonDataLoading,
+    isGasFeeLoading,
+    isStakeLoading: isCommonDataLoading,
     loading: isStakeLoading,
+    minAmount,
     tokenIn: t('unit.ftm'),
     tokenOut: selectedToken,
-    amount,
     totalAmount,
-    aFTMcRatio: aFTMcRatio ? new BigNumber(1).div(aFTMcRatio) : ZERO,
     onChange,
     onSubmit,
     onTokenSelect,

@@ -21,7 +21,7 @@ export const useProvidersTable = (): IUseProvidersTable => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
-  }, []);
+  }, [dispatchRequest]);
 
   return {
     data,

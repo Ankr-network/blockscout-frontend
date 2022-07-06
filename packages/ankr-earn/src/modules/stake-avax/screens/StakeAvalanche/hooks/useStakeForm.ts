@@ -34,19 +34,19 @@ import {
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
+  aAVAXcRatio: BigNumber;
   amount: BigNumber;
-  stakeGasFee: BigNumber;
-  totalAmount: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
-  isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   isStakeGasLoading: boolean;
+  isStakeLoading: boolean;
+  stakeGasFee: BigNumber;
   tokenOut: string;
-  aAVAXcRatio?: BigNumber;
-  onTokenSelect: (token: TAvaxSyntToken) => () => void;
+  totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
+  onTokenSelect: (token: TAvaxSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
@@ -74,6 +74,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const [amount, setAmount] = useState(ZERO);
 
   const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
+
+  const certRatio = useMemo(
+    () => (aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO),
+    [aAVAXcRatio],
+  );
 
   const totalAmount = useMemo(() => {
     if (!fetchStatsData || fetchStatsData.avaxBalance.isLessThan(amount)) {
@@ -155,18 +160,18 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
+    aAVAXcRatio: certRatio,
     amount,
-    totalAmount,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
-    isStakeLoading,
-    handleFormChange: debouncedOnChange,
-    stakeGasFee: stakeGasFeeData ?? ZERO,
     isStakeGasLoading,
-    handleSubmit,
+    isStakeLoading,
+    stakeGasFee: stakeGasFeeData ?? ZERO,
     tokenOut: selectedToken,
+    totalAmount,
+    handleFormChange: debouncedOnChange,
+    handleSubmit,
     onTokenSelect,
-    aAVAXcRatio: aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO,
   };
 };

@@ -29,15 +29,15 @@ import {
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
+  aMATICcRatio: BigNumber;
   amount: BigNumber;
-  totalAmount: BigNumber;
-  isStakeLoading: boolean;
-  isFetchStatsLoading: boolean;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
+  isFetchStatsLoading: boolean;
+  isStakeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
-  aMATICcRatio: BigNumber;
+  totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -65,6 +65,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const stakableMATICData = useStakableMatic();
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
+
+  const certRatio = useMemo(
+    () => (aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO),
+    [aMATICcRatio],
+  );
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -123,17 +128,17 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
+    aMATICcRatio: certRatio,
     amount,
+    fetchStatsData,
+    fetchStatsError,
+    isFetchStatsLoading,
+    isStakeLoading,
+    tokenIn: Token.MATIC,
+    tokenOut: selectedToken,
     totalAmount,
     handleFormChange,
     handleSubmit,
     onTokenSelect,
-    isStakeLoading,
-    isFetchStatsLoading,
-    fetchStatsData,
-    fetchStatsError,
-    tokenIn: Token.MATIC,
-    tokenOut: selectedToken,
-    aMATICcRatio: aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO,
   };
 };

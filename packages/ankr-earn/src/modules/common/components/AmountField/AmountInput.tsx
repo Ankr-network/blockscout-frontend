@@ -16,6 +16,7 @@ const MIN_AMOUNT = 0;
 
 interface IAmountInputProps {
   balance?: BigNumber;
+  balanceLabel?: string;
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
   disabled?: boolean;
@@ -33,6 +34,7 @@ interface IAmountInputProps {
 
 export const AmountInput = ({
   balance,
+  balanceLabel,
   maxAmount = balance,
   isBalanceLoading = false,
   isIntegerOnly = false,
@@ -70,7 +72,7 @@ export const AmountInput = ({
           component="div"
           variant="body2"
         >
-          {t('stake.balance-label')}
+          {balanceLabel || t('stake.balance-label')}
 
           <>{': '}</>
 

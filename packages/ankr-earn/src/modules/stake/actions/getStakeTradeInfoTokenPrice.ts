@@ -5,8 +5,10 @@ import { Address, EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {
+  ETH_DECIMALS,
   OPENOCEAN_MAX_SAFE_GAS_VALUE,
   OPENOCEAN_QUOTE_URL,
+  ZERO_ADDR,
 } from 'modules/common/const';
 import { Env, TNumberAsString } from 'modules/common/types';
 
@@ -29,6 +31,8 @@ interface IGetStakeTradeInfoTokenPriceParams {
   inTokenSymbol: EOpenOceanTokens;
   outTokenAddress: Address;
   outTokenSymbol: EOpenOceanTokens;
+  // eslint-disable-next-line camelcase
+  out_token_decimals: number;
   slippage: number;
 }
 
@@ -57,18 +61,36 @@ interface IGetStakeTradeInfoTokenPriceRes {
 }
 
 const {
+  avalancheConfig: { aAVAXb: aAVAXbContract, aAVAXc: aAVAXcContract },
+  binanceConfig: { aBNBbToken: aBNBbContract, aBNBcToken: aBNBcContract },
   contractConfig: {
     ETHContract,
+    aMaticCToken: aMATICcContract,
+    aMaticbToken: aMATICbContract,
     aethContract: aETHcContract,
     fethContract: aETHbContract,
+    maticToken: MATICContract,
+  },
+  fantomConfig: {
+    aftmbToken: aFTMbContract,
+    aftmcToken: aFTMcContract,
+    ftmToken: FTMContract,
   },
 } = configFromEnv(Env.Production);
 
 const getChainId = (token: EOpenOceanTokens): EEthereumNetworkId => {
   switch (token) {
-    case EOpenOceanTokens.aETHb:
-    case EOpenOceanTokens.aETHc:
+    case EOpenOceanTokens.AVAX:
+      return EEthereumNetworkId.avalanche;
+
+    case EOpenOceanTokens.BNB:
+      return EEthereumNetworkId.smartchain;
+
+    case EOpenOceanTokens.FTM:
+      return EEthereumNetworkId.fantom;
+
     case EOpenOceanTokens.ETH:
+    case EOpenOceanTokens.MATIC:
     default:
       return EEthereumNetworkId.mainnet;
   }
@@ -76,12 +98,46 @@ const getChainId = (token: EOpenOceanTokens): EEthereumNetworkId => {
 
 const getTokenAddress = (token: EOpenOceanTokens): Address => {
   switch (token) {
+    case EOpenOceanTokens.AVAX:
+      return ZERO_ADDR;
+
+    case EOpenOceanTokens.FTM:
+      return FTMContract;
+
+    case EOpenOceanTokens.MATIC:
+      return MATICContract;
+
+    case EOpenOceanTokens.aAVAXb:
+      return aAVAXbContract;
+
+    case EOpenOceanTokens.aAVAXc:
+      return aAVAXcContract;
+
+    case EOpenOceanTokens.aBNBb:
+      return aBNBbContract;
+
+    case EOpenOceanTokens.aBNBc:
+      return aBNBcContract;
+
     case EOpenOceanTokens.aETHb:
       return aETHbContract;
 
     case EOpenOceanTokens.aETHc:
       return aETHcContract;
 
+    case EOpenOceanTokens.aFTMb:
+      return aFTMbContract;
+
+    case EOpenOceanTokens.aFTMc:
+      return aFTMcContract;
+
+    case EOpenOceanTokens.aMATICb:
+      return aMATICbContract;
+
+    case EOpenOceanTokens.aMATICc:
+      return aMATICcContract;
+
+    case EOpenOceanTokens.BNB:
     case EOpenOceanTokens.ETH:
     default:
       return ETHContract;
@@ -111,6 +167,7 @@ export const getStakeTradeInfoTokenPrice = createAction<
         inTokenSymbol: baseToken,
         outTokenAddress: getTokenAddress(targetToken),
         outTokenSymbol: targetToken,
+        out_token_decimals: ETH_DECIMALS,
         slippage: 1,
       } as IGetStakeTradeInfoTokenPriceParams,
       url: OPENOCEAN_QUOTE_URL,
