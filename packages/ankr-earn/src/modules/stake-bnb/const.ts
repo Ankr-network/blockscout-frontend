@@ -36,5 +36,6 @@ export const CERT_STAKING_LOG_HASH =
 export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
   Token.aBNBb,
   Token.aBNBc,
+  Token.aETH,
   Token.aETHc,
 ];

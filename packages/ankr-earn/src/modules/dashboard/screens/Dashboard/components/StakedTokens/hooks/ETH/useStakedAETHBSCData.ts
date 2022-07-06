@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import {
   AvailableWriteProviders,
@@ -14,9 +14,11 @@ import { t } from 'common';
 
 import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { swapOldAETHCBSC } from 'modules/dashboard/actions/swapOldAETHCBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -32,6 +34,7 @@ export interface IStakedAETHBSCData {
   usdAmount?: BigNumber;
   swapDisabled: boolean;
   onSwapToken: () => void;
+  handleAddTokenToWallet: () => void;
 }
 
 export function useStakedAETHBSCData(): IStakedAETHBSCData {
@@ -79,6 +82,8 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
 
     if (isUnsupportedNetwork) {
       await onSwitchNetwork(BSC_NETWORK_BY_ENV)();
+
+      return;
     }
 
     const swappableAmount = amount.isGreaterThan(availableBalance)
@@ -86,6 +91,10 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
       : amount;
     await dispatchRequest(swapOldAETHCBSC(swappableAmount));
   };
+
+  const handleAddTokenToWallet = useCallback(() => {
+    dispatchRequest(addBNBTokenToWallet(Token.aETH));
+  }, [dispatchRequest]);
 
   useEffect(() => {
     dispatchRequest(fetchAETHCBridgeBalanceBSC());
@@ -97,6 +106,7 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     usdAmount,
     onSwapToken,
     isSwapLoading,
+    handleAddTokenToWallet,
     chainId: BSC_NETWORK_BY_ENV,
     network: t(`chain.${BSC_NETWORK_BY_ENV}`),
     swapDisabled: !availableBalance || availableBalance.isZero(),

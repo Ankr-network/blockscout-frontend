@@ -431,7 +431,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aBNBb or aBNBc or aETHc)
+   * @param {string} token - token symbol (aBNBb or aBNBc or aETH or aETHc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -451,6 +451,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
       case 'aBNBc':
         contract = await this.getABNBCContract();
         address = binanceConfig.aBNBcToken;
+        break;
+      case 'aETH':
+        contract = await this.getAETHContract();
+        address = binanceConfig.aETHToken;
         break;
       case 'aETHc':
         contract = await this.getAETHCContract();

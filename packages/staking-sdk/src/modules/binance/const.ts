@@ -54,5 +54,6 @@ export const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
   'aBNBb',
   'aBNBc',
+  'aETH',
   'aETHc',
 ];

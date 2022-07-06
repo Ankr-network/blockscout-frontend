@@ -767,6 +767,35 @@ describe('modules/binance/sdk', () => {
     });
   });
 
+  test('should add aETHc token to wallet', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => 'aETH' })),
+        decimals: jest.fn(() => ({ call: () => 18 })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultWeb3.eth.getChainId.mockReturnValue(9000);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(true);
+    defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const result = await sdk.addTokenToWallet('aETH');
+
+    expect(result).toBe(true);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
+      address: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
+      symbol: 'aETH',
+      decimals: 18,
+      chainId: 97,
+    });
+  });
+
   test('should get error token if token is not supported', async () => {
     const contract = {
       ...defaultContract,

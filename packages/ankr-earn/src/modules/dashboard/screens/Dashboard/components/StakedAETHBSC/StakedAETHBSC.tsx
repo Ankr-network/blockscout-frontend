@@ -28,6 +28,7 @@ export const StakedAETHBSC = (): JSX.Element => {
     isSwapLoading,
     onSwapToken,
     swapDisabled,
+    handleAddTokenToWallet,
   } = useStakedAETHBSCData();
 
   const {
@@ -69,6 +70,7 @@ export const StakedAETHBSC = (): JSX.Element => {
       />
 
       <TokenInfoDialog
+        addTokenToWallet={handleAddTokenToWallet}
         description={tHTML('dashboard.token-info.aETHBNB')}
         moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
