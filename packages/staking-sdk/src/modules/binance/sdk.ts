@@ -41,7 +41,6 @@ import {
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
-
 import {
   BINANCE_HISTORY_BLOCK_OFFSET,
   BINANCE_READ_PROVIDER_ID,
