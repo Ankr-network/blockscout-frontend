@@ -535,6 +535,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Returns aETHc token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAETHCBalance(): Promise<BigNumber> {
+    const contract = await this.getAETHCContract();
+    const balance = await contract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
    * Returns available aETHc token balance for oldSwap
    *
    * @public

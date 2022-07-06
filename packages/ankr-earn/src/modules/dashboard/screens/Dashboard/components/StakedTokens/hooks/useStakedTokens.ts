@@ -9,6 +9,7 @@ import { useStakedAETHBData } from './ETH/useStakedAETHBData';
 import { useStakedAETHBSCData } from './ETH/useStakedAETHBSCData';
 import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
+import { useStakedBridgeAETHCData } from './ETH/useStakedBridgeAETHCData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
@@ -37,6 +38,7 @@ interface IUseStakedTokensData {
   isAMATICCPolygonShowed: boolean;
   isAMATICCShowed: boolean;
   isAETHBBridgedShowed: boolean;
+  isAETHCBridgedShowed: boolean;
   isAFTMBShowed: boolean;
   isAFTMCShowed: boolean;
   isADOTBShowed: boolean;
@@ -57,6 +59,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticcPolygonData = useBridgedMaticCertPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
+  const aethcBridgedData = useStakedBridgeAETHCData();
   const stakedAAVAXBData = useStakedAAVAXBData();
   const stakedAAVAXCData = useStakedAAVAXCData();
   const stakedBNBData = useStakedABNBBData();
@@ -103,6 +106,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAMATICCPolygonShowed = amaticcPolygonData.isShowed;
 
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
+  const isAETHCBridgedShowed = aethcBridgedData.isShowed;
 
   const isAFTMBShowed = stakedAFTMBData.isShowed;
   const isAFTMCShowed = stakedAFTMCData.isShowed;
@@ -135,6 +139,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAMATICCBSCShowed ||
     isAMATICCPolygonShowed ||
     isAETHBBridgedShowed ||
+    isAETHCBridgedShowed ||
     isAFTMBShowed ||
     isAFTMCShowed ||
     isADOTBShowed ||
@@ -164,6 +169,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAMATICBPolygonShowed,
     isAMATICCShowed,
     isAETHBBridgedShowed,
+    isAETHCBridgedShowed,
     isADOTBShowed,
     isAKSMBShowed,
     isAWNDBShowed,

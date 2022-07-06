@@ -5,6 +5,7 @@ import { t } from 'common';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 
+import { BridgedAETHCBSC } from '../BridgedAETHCBSC';
 import { BridgedEthBond } from '../BridgedEthBond';
 import { BridgedMaticBond } from '../BridgedMaticBond';
 import { BridgedMaticBondBSC } from '../BridgedMaticBondBSC';
@@ -40,6 +41,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
+    isAETHCBridgedShowed,
     isAAVAXBShowed,
     isAAVAXCShowed,
     isABNBBShowed,
@@ -96,6 +98,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {isAMATICCShowed && <StakedAMATICC />}
 
             {isAETHBBridgedShowed && <BridgedEthBond />}
+
+            {isAETHCBridgedShowed && <BridgedAETHCBSC />}
 
             {isAETHBShowed && <StakedAETHB />}
 

@@ -54,6 +54,7 @@ export const StakeFantom = (): JSX.Element => {
     aFTMcRatio,
     amount,
     balance,
+    certificateRatio,
     gasFee,
     isCommonDataLoading,
     isGasFeeLoading,
@@ -136,11 +137,11 @@ export const StakeFantom = (): JSX.Element => {
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.FTM,
         bondToken: EOpenOceanTokens.aFTMb,
-        certificateRatio: aFTMcRatio,
+        certificateRatio,
         certificateToken: EOpenOceanTokens.aFTMc,
       }),
     );
-  }, [aFTMcRatio, dispatchRequest]);
+  }, [certificateRatio, dispatchRequest]);
 
   return (
     <section className={classes.root}>

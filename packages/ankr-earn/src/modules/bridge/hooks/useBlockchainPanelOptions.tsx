@@ -68,6 +68,18 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
               value: SupportedChainIDS.BSC,
             },
           ],
+          [AvailableBridgeTokens.aETHc]: [
+            {
+              label: t(`chain.${SupportedChainIDS.MAINNET}`),
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.MAINNET,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.BSC}`),
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.BSC,
+            },
+          ],
         };
 
       case Env.Develop:
@@ -109,6 +121,18 @@ export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
             },
           ],
           [AvailableBridgeTokens.aETHb]: [
+            {
+              label: t(`chain.${SupportedChainIDS.GOERLI}`),
+              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.GOERLI,
+            },
+            {
+              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
+              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
+              value: SupportedChainIDS.BSC_TESTNET,
+            },
+          ],
+          [AvailableBridgeTokens.aETHc]: [
             {
               label: t(`chain.${SupportedChainIDS.GOERLI}`),
               icon: <EthIcon {...DEFAULT_ICON_PROPS} />,

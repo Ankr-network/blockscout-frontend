@@ -36,6 +36,7 @@ import { useSelectedToken } from './useSelectedToken';
 interface IUseStakeFormData {
   aAVAXcRatio: BigNumber;
   amount: BigNumber;
+  certificateRatio: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isFetchStatsLoading: boolean;
@@ -75,7 +76,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
 
-  const certRatio = useMemo(
+  const tokenCertRatio = useMemo(
     () => (aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO),
     [aAVAXcRatio],
   );
@@ -160,8 +161,9 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
-    aAVAXcRatio: certRatio,
+    aAVAXcRatio: tokenCertRatio,
     amount,
+    certificateRatio: aAVAXcRatio ?? ZERO,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

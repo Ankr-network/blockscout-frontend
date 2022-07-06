@@ -411,6 +411,32 @@ describe('modules/binance/sdk', () => {
     );
   });
 
+  test('should return aETHc balance', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        balanceOf: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
+      },
+    };
+
+    defaultWeb3.eth.getBalance.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const balance = await sdk.getAETHCBalance();
+
+    expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
   test('should approve cetrificate for bond properly', async () => {
     const contract = {
       ...defaultContract,
@@ -736,6 +762,25 @@ describe('modules/binance/sdk', () => {
       decimals: 18,
       chainId: 97,
     });
+  });
+
+  test('should get error token if token is not supported', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
+        decimals: jest.fn(() => ({ call: () => 18 })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultWeb3.eth.getChainId.mockReturnValue(9_000);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(true);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
   });
 
   test('should add aETHc token to wallet', async () => {

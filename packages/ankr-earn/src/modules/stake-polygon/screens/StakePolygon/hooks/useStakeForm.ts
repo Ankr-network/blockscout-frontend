@@ -31,6 +31,7 @@ import { useSelectedToken } from './useSelectedToken';
 interface IUseStakeFormData {
   aMATICcRatio: BigNumber;
   amount: BigNumber;
+  certificateRatio: BigNumber;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
   isFetchStatsLoading: boolean;
@@ -66,7 +67,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
 
-  const certRatio = useMemo(
+  const tokenCertRatio = useMemo(
     () => (aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO),
     [aMATICcRatio],
   );
@@ -128,8 +129,9 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
-    aMATICcRatio: certRatio,
+    aMATICcRatio: tokenCertRatio,
     amount,
+    certificateRatio: aMATICcRatio ?? ZERO,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

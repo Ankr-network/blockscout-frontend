@@ -35,6 +35,7 @@ interface IUseStakeFormData {
   aBNBcRatio: BigNumber;
   amount: BigNumber;
   bnbBalance?: BigNumber;
+  certificateRatio: BigNumber;
   isFetchStatsLoading: boolean;
   isStakeGasLoading: boolean;
   isStakeLoading: boolean;
@@ -94,7 +95,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
 
-  const certRatio = useMemo(
+  const tokenCertRatio = useMemo(
     () => (aBNBcRatio ? new BigNumber(1).div(aBNBcRatio) : ZERO),
     [aBNBcRatio],
   );
@@ -161,9 +162,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     : undefined;
 
   return {
-    aBNBcRatio: certRatio,
+    aBNBcRatio: tokenCertRatio,
     amount,
     bnbBalance,
+    certificateRatio: aBNBcRatio ?? ZERO,
     isFetchStatsLoading,
     isStakeGasLoading,
     isStakeLoading,
