@@ -4,8 +4,9 @@ import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
 import { useStakedBridgeAETHCData } from '../StakedTokens/hooks/ETH/useStakedBridgeAETHCData';
 
+const { binanceConfig } = configFromEnv();
+
 export const BridgedAETHCBSC = (): JSX.Element => {
-  const { binanceConfig } = configFromEnv();
   const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
     useStakedBridgeAETHCData();
 

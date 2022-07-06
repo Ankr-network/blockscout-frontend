@@ -686,7 +686,7 @@ describe('modules/binance/sdk', () => {
     };
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultWeb3.eth.getChainId.mockReturnValue(9000);
+    defaultWeb3.eth.getChainId.mockReturnValue(9_000);
     defaultReadProvider.createContract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(true);
 

@@ -48,13 +48,11 @@ export const CERT_STAKING_LOG_HASH =
  */
 export const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 
-
 /**
  * List of supported tokens for BinanceSDK
  */
 export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
   'aBNBb',
   'aBNBc',
-  'aETH',
   'aETHc',
 ];

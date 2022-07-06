@@ -9,7 +9,7 @@ import { withStore } from 'modules/common/utils/withStore';
 import { DashboardSDK } from '../api/DashboardSDK';
 
 export const fetchAETHCBridged = createAction<
-  RequestAction<unknown, BigNumber>
+  RequestAction<undefined, BigNumber>
 >('dashboard/fetchAETHCBridged', () => ({
   request: {
     promise: async (): Promise<BigNumber> => {

@@ -14,7 +14,7 @@ import {
 } from 'modules/common/const';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 
-export interface IStakedAETHCData {
+export interface IStakedBridgeAETHCData {
   amount: BigNumber;
   network: string;
   chainId: EEthereumNetworkId;
@@ -23,7 +23,7 @@ export interface IStakedAETHCData {
   onAddTokenClick: () => void;
 }
 
-export const useStakedBridgeAETHCData = (): IStakedAETHCData => {
+export const useStakedBridgeAETHCData = (): IStakedBridgeAETHCData => {
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAETHCBridged,
   });
