@@ -2,7 +2,7 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
-import { formatBalance } from 'domains/account/utils/formatBalance';
+import { renderBalance } from 'domains/account/utils/formatBalance';
 import { useStyles } from './BalanceStyles';
 
 export interface BalanceProps {
@@ -20,7 +20,7 @@ export const Balance = ({ balance, className }: BalanceProps) => {
         hasIcon={false}
         tooltipText={balance.toFormat()}
       >
-        {formatBalance(balance)}
+        {renderBalance(balance)}
       </TooltipWrapper>
     </div>
   );
