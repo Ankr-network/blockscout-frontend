@@ -32,3 +32,10 @@ export const BNB_SAFE_PRECISION = BNB_STAKING_MAX_DECIMALS_LEN + 1;
 
 export const CERT_STAKING_LOG_HASH =
   '0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d';
+
+export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
+  Token.aBNBb,
+  Token.aBNBc,
+  Token.aETH,
+  Token.aETHc,
+];

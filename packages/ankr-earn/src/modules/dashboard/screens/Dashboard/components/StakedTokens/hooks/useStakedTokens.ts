@@ -6,6 +6,7 @@ import { useStakedAAVAXCData } from './AVAX/useStakedAAVAXCData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
 import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
+import { useStakedAETHBSCData } from './ETH/useStakedAETHBSCData';
 import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
 import { useStakedBridgeAETHCData } from './ETH/useStakedBridgeAETHCData';
@@ -25,6 +26,7 @@ interface IUseStakedTokensData {
   isAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
+  isAETHBSCShowed: boolean;
   isAAVAXBShowed: boolean;
   isAAVAXCShowed: boolean;
   isABNBBShowed: boolean;
@@ -63,6 +65,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
   const stakedAETHBData = useStakedAETHBData();
+  const stakedAETHBSCData = useStakedAETHBSCData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
   const stakedAFTMCData = useStakedAFTMCData();
@@ -82,6 +85,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAETHBShowed = stakedAETHBData.isShowed;
 
   const isAETHCShowed = stakedAETHCData.isShowed;
+
+  const isAETHBSCShowed = stakedAETHBSCData.isShowed;
 
   const isAAVAXBShowed = stakedAAVAXBData.isShowed;
 
@@ -122,6 +127,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
+    isAETHBSCShowed ||
     isAAVAXBShowed ||
     isAAVAXCShowed ||
     isABNBBShowed ||
@@ -149,6 +155,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAssetsShowed: atLeastOneShowed,
     isAETHBShowed,
     isAETHCShowed,
+    isAETHBSCShowed,
     isAAVAXBShowed,
     isAAVAXCShowed,
     isABNBBShowed,

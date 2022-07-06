@@ -267,6 +267,36 @@ describe('modules/binance/sdk', () => {
     expect(allowance).toStrictEqual(new BigNumber(1));
   });
 
+  test('should return balance, ratio for old aETHc', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        ratio: () => ({ call: () => ZERO }),
+        balanceOf: () => ({ call: () => new BigNumber(10_000) }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const [balance, ratio] = await Promise.all([
+      sdk.getAETHBalance(),
+      sdk.getAETHRatio(),
+    ]);
+
+    expect(balance).toStrictEqual(new BigNumber(10_000));
+    expect(ratio).toStrictEqual(ZERO);
+  });
+
   test('should return bond balance', async () => {
     const contract = {
       ...defaultContract,
@@ -321,6 +351,64 @@ describe('modules/binance/sdk', () => {
     const balance = await sdk.getBNBBalance();
 
     expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
+  test('should return available to swap old aETHc balance', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        balanceOf: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
+      },
+    };
+
+    defaultWeb3.eth.getBalance.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const balance = await sdk.getAvailableToSwapAETHC();
+
+    expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
+  test('should swap old aETHc to new aETHc', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        swapOld: jest.fn(() => ({ encodeABI: () => 'abi' })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await sdk.swapOldAETHC(new BigNumber(1));
+
+    expect(contract.methods.swapOld).toBeCalledTimes(1);
+    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
+    expect(contract.methods.swapOld).toBeCalledWith('0xde0b6b3a7640000');
+    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
+      'address',
+      '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
+      { data: 'abi', estimate: true },
+    );
   });
 
   test('should return aETHc balance', async () => {
@@ -687,6 +775,83 @@ describe('modules/binance/sdk', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWeb3.eth.getChainId.mockReturnValue(9_000);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(true);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
+  });
+
+  test('should add aETHc token to wallet', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
+        decimals: jest.fn(() => ({ call: () => 18 })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultWeb3.eth.getChainId.mockReturnValue(9000);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(true);
+    defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const result = await sdk.addTokenToWallet('aETHc');
+
+    expect(result).toBe(true);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
+      address: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
+      symbol: 'aETHc',
+      decimals: 18,
+      chainId: 97,
+    });
+  });
+
+  test('should add aETHc token to wallet', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => 'aETH' })),
+        decimals: jest.fn(() => ({ call: () => 18 })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultWeb3.eth.getChainId.mockReturnValue(9000);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(true);
+    defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const result = await sdk.addTokenToWallet('aETH');
+
+    expect(result).toBe(true);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
+    expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
+      address: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
+      symbol: 'aETH',
+      decimals: 18,
+      chainId: 97,
+    });
+  });
+
+  test('should get error token if token is not supported', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
+        decimals: jest.fn(() => ({ call: () => 18 })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultWeb3.eth.getChainId.mockReturnValue(9000);
     defaultReadProvider.createContract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(true);
 

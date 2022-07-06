@@ -68,8 +68,8 @@ export const useGuardPolkadotRoute = ({
   );
 
   const onSwitchNetwork = useCallback(
-    (network: EPolkadotNetworkId) => (): void => {
-      dispatchRequest(switchNetwork({ providerId, chainId: network }));
+    (network: EPolkadotNetworkId) => async (): Promise<void> => {
+      await dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
   );

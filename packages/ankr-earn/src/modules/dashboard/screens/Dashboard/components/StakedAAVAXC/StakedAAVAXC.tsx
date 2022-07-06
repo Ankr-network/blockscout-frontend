@@ -1,10 +1,11 @@
-import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
+
+import { tHTML } from 'common';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -122,10 +123,11 @@ export const StakedAAVAXC = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aAVAXc"
+        description={tHTML('dashboard.token-info.aAVAXc', {
+          ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.AVAX)}
         open={isOpenedInfo}
-        ratio={ratio ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={avalancheConfig.aAVAXc}
         tokenName={Token.aAVAXc}
         onClose={onCloseInfo}

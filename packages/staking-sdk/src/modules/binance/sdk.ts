@@ -27,6 +27,7 @@ import {
   ABI_ABNBC,
   ABI_BINANCE_POOL,
   AETHC_BSC_ABI,
+  AETH_BSC_ABI,
 } from '../contracts';
 import {
   ITxEventsHistoryData,
@@ -389,6 +390,24 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Internal function to get old aETHc contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getAETHContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      AETH_BSC_ABI as AbiItem[],
+      binanceConfig.aETHToken,
+    );
+  }
+
+  /**
    * Internal function to get aETHc contract
    *
    * @private
@@ -411,7 +430,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aBNBb or aBNBc or aETHc)
+   * @param {string} token - token symbol (aBNBb or aBNBc or aETH or aETHc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -431,6 +450,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
       case 'aBNBc':
         contract = await this.getABNBCContract();
         address = binanceConfig.aBNBcToken;
+        break;
+      case 'aETH':
+        contract = await this.getAETHContract();
+        address = binanceConfig.aETHToken;
         break;
       case 'aETHc':
         contract = await this.getAETHCContract();
@@ -496,6 +519,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Returns old aETHc token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAETHBalance(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const balance = await contract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
    * Returns aETHc token balance
    *
    * @public
@@ -505,6 +543,23 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const contract = await this.getAETHCContract();
     const balance = await contract.methods
       .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Returns available aETHc token balance for oldSwap
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getAvailableToSwapAETHC(): Promise<BigNumber> {
+    const { binanceConfig } = configFromEnv();
+    const contract = await this.getAETHCContract();
+
+    const balance = await contract.methods
+      .balanceOf(binanceConfig.aETHToken)
       .call();
 
     return this.convertFromWei(balance);
@@ -1004,6 +1059,19 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Returns certificate old aETHc token ratio
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
+  public async getAETHRatio(): Promise<BigNumber> {
+    const contract = await this.getAETHContract();
+    const ratio = await contract.methods.ratio().call();
+
+    return this.convertFromWei(ratio);
+  }
+
+  /**
    * Returns Certificate BNB token balance
    *
    * @public
@@ -1163,6 +1231,28 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.aBNBbToken,
+      { data, estimate: true },
+    );
+  }
+
+  /**
+   * Swap old aETHc to new aETHc
+   *
+   * @public
+   * @param {BigNumber} amount - amount to swap
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async swapOldAETHC(amount: BigNumber): Promise<IWeb3SendResult> {
+    const contract = await this.getAETHContract();
+    const { binanceConfig } = configFromEnv();
+
+    const data = contract.methods
+      .swapOld(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.aETHToken,
       { data, estimate: true },
     );
   }

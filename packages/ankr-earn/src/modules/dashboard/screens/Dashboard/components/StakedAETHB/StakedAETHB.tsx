@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -128,7 +129,9 @@ export const StakedAETHB = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aETHb"
+        description={tHTML('dashboard.token-info.aETHb', {
+          ratio: ONE.toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
         tokenAddress={contractConfig.fethContract}
