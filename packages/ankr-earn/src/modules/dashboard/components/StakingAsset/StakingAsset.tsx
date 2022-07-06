@@ -101,10 +101,9 @@ export const StakingAsset = ({
   const renderAmountInfoSlot = (withNativeAmount || withUsdAmount) && (
     <>
       {withNativeAmount &&
-        chainId &&
         t('unit.token-value', {
           value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
-          token: nativeTokenMap[chainId],
+          token: nativeTokenMap[token],
         })}
 
       {withNativeAmount && withUsdAmount && (
