@@ -52,6 +52,7 @@ export const StakeAvalanche = (): JSX.Element => {
   const {
     aAVAXcRatio,
     amount,
+    certificateRatio,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
@@ -123,11 +124,11 @@ export const StakeAvalanche = (): JSX.Element => {
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.AVAX,
         bondToken: EOpenOceanTokens.aAVAXb,
-        certificateRatio: aAVAXcRatio,
+        certificateRatio,
         certificateToken: EOpenOceanTokens.aAVAXc,
       }),
     );
-  }, [aAVAXcRatio, dispatch]);
+  }, [certificateRatio, dispatch]);
 
   if (isFetchStatsLoading) {
     return (

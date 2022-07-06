@@ -33,6 +33,7 @@ interface IUseStakeForm {
   aFTMcRatio: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
+  certificateRatio: BigNumber;
   gasFee: BigNumber;
   isCommonDataLoading: boolean;
   isGasFeeLoading: boolean;
@@ -70,7 +71,7 @@ export const useStakeForm = (): IUseStakeForm => {
   const ftmBalance = data?.ftmBalance;
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
 
-  const certRatio = useMemo(
+  const tokenCertRatio = useMemo(
     () =>
       aFTMcRatio.isGreaterThan(0) ? new BigNumber(1).div(aFTMcRatio) : ZERO,
     [aFTMcRatio],
@@ -148,9 +149,10 @@ export const useStakeForm = (): IUseStakeForm => {
   );
 
   return {
-    aFTMcRatio: certRatio,
+    aFTMcRatio: tokenCertRatio,
     amount,
     balance,
+    certificateRatio: aFTMcRatio,
     gasFee: gasFee ?? ZERO,
     isCommonDataLoading,
     isGasFeeLoading,

@@ -55,6 +55,7 @@ export const StakeBinance = (): JSX.Element => {
     aBNBcRatio,
     amount,
     bnbBalance,
+    certificateRatio,
     isFetchStatsLoading,
     isStakeGasLoading,
     isStakeLoading,
@@ -150,11 +151,11 @@ export const StakeBinance = (): JSX.Element => {
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.BNB,
         bondToken: EOpenOceanTokens.aBNBb,
-        certificateRatio: aBNBcRatio,
+        certificateRatio,
         certificateToken: EOpenOceanTokens.aBNBc,
       }),
     );
-  }, [aBNBcRatio, dispatch]);
+  }, [certificateRatio, dispatch]);
 
   return (
     <section className={classes.root}>

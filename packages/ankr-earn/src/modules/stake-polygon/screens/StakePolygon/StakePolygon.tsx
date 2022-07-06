@@ -43,6 +43,7 @@ export const StakePolygon = (): JSX.Element => {
   const {
     aMATICcRatio,
     amount,
+    certificateRatio,
     isFetchStatsLoading,
     isStakeLoading,
     tokenIn,
@@ -110,11 +111,11 @@ export const StakePolygon = (): JSX.Element => {
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.MATIC,
         bondToken: EOpenOceanTokens.aMATICb,
-        certificateRatio: aMATICcRatio,
+        certificateRatio,
         certificateToken: EOpenOceanTokens.aMATICc,
       }),
     );
-  }, [aMATICcRatio, dispatchRequest]);
+  }, [certificateRatio, dispatchRequest]);
 
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
