@@ -185,8 +185,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',
     aETHToken: '0x973616ff3b9d8F88411C5b4E6F928EE541e4d01f',
-    // todo: add actual production aETHc token address
-    aETHcToken: ZERO_ADDR,
+    aETHcToken: '0xe05a08226c49b636acf99c40da8dc6af83ce5bb3',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },
