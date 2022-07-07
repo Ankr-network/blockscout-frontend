@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

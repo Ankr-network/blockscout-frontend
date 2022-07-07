@@ -1,4 +1,4 @@
-import { Address } from 'provider';
+import { Address } from '@ankr.com/provider';
 
 import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
@@ -14,8 +14,14 @@ export interface IContractConfig {
   globalPoolDepositContract: string;
   ethereumPool: string;
   systemContract: string;
-  ankrContract: string;
+  ankrToken: string;
+  /**
+   * only for testnet
+   */
+  testAnkrToken: string;
   bridge: string;
+  ankrTokenStaking: string;
+  ankrStakingChainConfig: string;
 }
 
 export interface IAvalancheConfig {
@@ -30,6 +36,7 @@ export interface IBinanceConfig {
   aMATICbToken: string;
   aMATICcToken: string;
   aETHbToken: string;
+  aETHToken: string;
   aETHcToken: string;
   binancePool: string;
   WBNBContract: string;
@@ -76,7 +83,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
     ethereumPool: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
     globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
-    ankrContract: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
+    ankrToken: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
+    testAnkrToken: '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -85,6 +93,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    // AnkrTokenStakingProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    ankrTokenStaking: '0xc4a66dE9a08F690EDa17fba94d764be0F8c5817b',
+    // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    ankrStakingChainConfig: '0x304351967EF449c1c3Ea04c74C73A6e4F45b7d22',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -98,8 +110,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
     aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
-    // todo: add actual dev aETHc token address
-    aETHcToken: ZERO_ADDR,
+    aETHToken: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
+    aETHcToken: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
   },
@@ -116,9 +128,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     polkadotPool: '0xc9EdEe06D78aE8Ee0d694b2e96E457a239F4DeeE',
   },
   polygonConfig: {
-    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
-    aMATICbToken: '0xc207D085825B57323B4359c0eE7c286A43952B8f',
-    aMATICcToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
+    bridge: '0x39809FeE5E787e7c60c0c531e85Af90ce0f777FC',
+    aMATICbToken: '0x219316af7edd3870a2ca71dea38c7ebcfb3b3dc0',
+    aMATICcToken: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -145,7 +157,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
     ethereumPool: '0x84db6eE82b7Cf3b47E8F19270abdE5718B936670',
     globalPoolDepositContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
-    ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
+    ankrToken: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
+    testAnkrToken: ZERO_ADDR,
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
     fethContract: '0xD01ef7C0A5d8c432fc2d1a85c66cF2327362E5C6',
@@ -154,6 +167,10 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
     aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
+    // todo: add actual production address
+    ankrTokenStaking: ZERO_ADDR,
+    // todo: add actual production address
+    ankrStakingChainConfig: ZERO_ADDR,
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
@@ -167,8 +184,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',
-    // todo: add actual production aETHc token address
-    aETHcToken: ZERO_ADDR,
+    aETHToken: '0x973616ff3b9d8F88411C5b4E6F928EE541e4d01f',
+    aETHcToken: '0xe05a08226c49b636acf99c40da8dc6af83ce5bb3',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
   },

@@ -23,6 +23,30 @@ jest.mock('modules/stake-bnb/Routes', () => ({
   },
 }));
 
+jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
+  addBNBTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
+  fetchPendingValues: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/stake', () => ({
+  stake: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/unstake', () => ({
+  unstake: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedABNBCData', () => {
   const defaultStatsData = {
     data: { aBNBcBalance: new BigNumber(1), aBNBcRatio: new BigNumber(0.5) },

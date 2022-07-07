@@ -13,12 +13,12 @@
     "import/core-modules": [
       "ui",
       "polkadot",
-      "provider",
       "ankr-academy",
       "ankr-earn",
       "multirpc-sdk",
-      "@ankr.com/global-menu",
       "common",
+      "@ankr.com/global-menu",
+      "@ankr.com/provider",
       "@ankr.com/staking-sdk"
     ]
   },

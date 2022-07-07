@@ -4,15 +4,19 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -20,24 +24,27 @@ import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IStakedAAVAXBData {
+  address?: string;
   amount: BigNumber;
-  pendingValue: BigNumber;
-  network: string;
   chainId: EEthereumNetworkId;
-  tradeLink: string;
-  unstakeLink: string;
-  stakeLink: string;
-  stakeType: string;
-  unstakeType: string;
   isBalancesLoading: boolean;
+  isPendingUnstakeLoading: boolean;
+  isShowed: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
-  isShowed: boolean;
+  network: string;
+  pendingValue: BigNumber;
+  stakeLink: string;
+  stakeType: string;
+  tradeLink: string;
+  unstakeLink: string;
+  unstakeType: string;
+  usdAmount?: BigNumber;
   walletName?: string;
-  address?: string;
-  isPendingUnstakeLoading: boolean;
   handleAddTokenToWallet: () => void;
 }
 
@@ -48,6 +55,10 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   });
   const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
     type: fetchPendingValues,
+  });
+
+  const { data: metrics } = useQuery({
+    type: getMetrics,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeAVAX });
@@ -62,6 +73,16 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   const amount = statsData?.aAVAXbBalance ?? ZERO;
   const pendingValue = pendingValues?.pendingAavaxbUnstakes ?? ZERO;
 
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.AVAX]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.AVAX]?.totalStakedUsd,
+      }),
+    [amount, metrics],
+  );
+
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
@@ -70,25 +91,26 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   }, [dispatchRequest]);
 
   return {
+    address,
     amount,
-    network,
     chainId,
+    isBalancesLoading,
+    isPendingUnstakeLoading,
+    isShowed,
+    isStakeLoading,
+    isUnstakeLoading,
+    network,
     pendingValue,
+    stakeLink: StakeAvalancheRoutes.stake.generatePath(),
+    stakeType: EAvalanchePoolEventsMap.StakePending,
     tradeLink: BoostRoutes.tradingCockpit.generatePath(
       Token.aAVAXb,
       Token.AVAX,
     ),
-    stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(),
-    stakeType: EAvalanchePoolEventsMap.StakePending,
     unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
-    isBalancesLoading,
-    isStakeLoading,
-    isUnstakeLoading,
-    isShowed,
+    usdAmount,
     walletName,
-    address,
-    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   };
 };

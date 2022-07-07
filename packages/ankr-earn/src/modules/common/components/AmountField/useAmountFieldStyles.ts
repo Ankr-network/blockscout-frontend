@@ -2,6 +2,8 @@ import { makeStyles } from '@material-ui/core';
 
 export const useAmountFieldStyles = makeStyles(theme => ({
   balance: {
+    display: 'flex',
+    alignItems: 'center',
     float: 'right',
     marginBottom: -20,
     fontSize: 14,

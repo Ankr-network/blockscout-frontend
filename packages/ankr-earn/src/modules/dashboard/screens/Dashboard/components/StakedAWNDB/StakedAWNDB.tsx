@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig } from 'modules/common/const';
+import { featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -134,7 +136,9 @@ export const StakedAWNDB = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aWNDb"
+        description={tHTML('dashboard.token-info.aWNDb', {
+          ratio: ONE.toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.WND)}
         open={isOpenedInfo}
         tokenAddress={polkadotConfig.aWNDbToken ?? ''}

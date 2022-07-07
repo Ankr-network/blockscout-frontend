@@ -30,6 +30,30 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
+jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
+  addBNBTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
+  fetchPendingValues: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/stake', () => ({
+  stake: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/unstake', () => ({
+  unstake: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedABNBBData', () => {
   const defaultStatsData = {
     data: { aBNBbBalance: ONE_ETH, pendingValue: ZERO },

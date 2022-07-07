@@ -1,12 +1,12 @@
 import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { ETH_DECIMALS, OPENOCEAN_QUOTE_URL } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 
 import {
   IGetQuotePriceParams,
   IGetQuotePriceReply,
-  OPENOCEAN_QUOTE_URL,
   TExChange,
 } from '../api/getQuotePrice';
 import { AvailableTokens } from '../types';
@@ -14,7 +14,6 @@ import { getTokenAddr } from '../utils/getTokenAddr';
 
 // if it is more, an error will occur
 const MAX_GAS_PRICE = 300;
-const DEFAULT_TOKEN_DECIMALS = 18;
 
 export interface IGetQuotePriceArgs {
   exChange?: TExChange;
@@ -80,8 +79,8 @@ export const getQuotePrice = createAction<
         amount,
         gasPrice: gasPrice > MAX_GAS_PRICE ? MAX_GAS_PRICE : gasPrice,
         slippage,
-        in_token_decimals: DEFAULT_TOKEN_DECIMALS,
-        out_token_decimals: DEFAULT_TOKEN_DECIMALS,
+        in_token_decimals: ETH_DECIMALS,
+        out_token_decimals: ETH_DECIMALS,
       } as IGetQuotePriceParams,
     },
     meta: {

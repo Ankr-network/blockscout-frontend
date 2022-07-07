@@ -14,7 +14,7 @@ import { useHeaderStyles } from './useHeaderStyles';
 
 export const Header = (): JSX.Element => {
   const classes = useHeaderStyles();
-  const { balance, getTokensLink } = useHeader();
+  const { balance, isLoading, getTokensLink } = useHeader();
 
   return (
     <Box className={classes.root} mb={4}>
@@ -32,7 +32,7 @@ export const Header = (): JSX.Element => {
         </BigNavItem>
       </BigNav>
 
-      <AnkrBalance link={getTokensLink} value={balance} />
+      <AnkrBalance isLoading={isLoading} link={getTokensLink} value={balance} />
     </Box>
   );
 };

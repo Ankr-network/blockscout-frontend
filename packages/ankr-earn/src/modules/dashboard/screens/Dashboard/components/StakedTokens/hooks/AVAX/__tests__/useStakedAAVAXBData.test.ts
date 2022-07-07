@@ -31,6 +31,30 @@ jest.mock('modules/stake-avax/Routes', () => ({
   },
 }));
 
+jest.mock('modules/stake-avax/actions/addAVAXTokenToWallet', () => ({
+  addAVAXTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-avax/actions/fetchPendingValues', () => ({
+  fetchPendingValues: jest.fn(),
+}));
+
+jest.mock('modules/stake-avax/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake-avax/actions/stake', () => ({
+  stake: jest.fn(),
+}));
+
+jest.mock('modules/stake-avax/actions/unstake', () => ({
+  unstake: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAVAXData', () => {
   const defaultStatsData = {
     data: { aAVAXbBalance: ONE, pendingValue: ZERO },

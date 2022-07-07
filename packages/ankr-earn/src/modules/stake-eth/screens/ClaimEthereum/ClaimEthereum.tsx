@@ -36,7 +36,7 @@ export const ClaimEthereum = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isLoading={isLoading}
           tokenIn={Token.ETH}
-          tokenOut={selectedToken}
+          tokenOut={selectedToken as Token}
           tokenVariantsSlot={
             <TokenVariantList my={5}>
               <TokenVariant

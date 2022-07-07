@@ -1,11 +1,11 @@
-import { Box, ButtonBase, Divider, Link, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ANKR_1INCH_BUY_LINK } from 'modules/common/const';
+import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
@@ -93,14 +93,7 @@ export const UnstakePolygon = (): JSX.Element => {
             })}
           </Typography>
 
-          <Link
-            href={ANKR_1INCH_BUY_LINK}
-            rel="noopener noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            {t('unstake-dialog.buy-ankr')}
-          </Link>
+          <BuyAnkrLink />
         </Box>
 
         <Divider />

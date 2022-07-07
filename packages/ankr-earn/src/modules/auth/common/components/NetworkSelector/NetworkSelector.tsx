@@ -4,12 +4,14 @@ import { useNetworkSelectorStyles } from './useNetworkSelectorStyles';
 
 interface INetworkSelectorProps {
   children: ReactNode;
+  direction: 'row' | 'column';
 }
 
 export const NetworkSelector = ({
   children,
+  direction,
 }: INetworkSelectorProps): JSX.Element => {
-  const classes = useNetworkSelectorStyles();
+  const classes = useNetworkSelectorStyles({ direction });
 
   const modifyChildren = useCallback(
     child => <div className={classes.listItem}>{child}</div>,

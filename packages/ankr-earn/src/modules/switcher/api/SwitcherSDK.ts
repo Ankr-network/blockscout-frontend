@@ -1,21 +1,22 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonSDK, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
   IWeb3SendResult,
-} from 'provider';
-
-import { EthSDK } from 'modules/api/EthSDK';
+} from '@ankr.com/provider';
 import {
+  PolygonSDK,
+  BinanceSDK,
+  EthereumSDK,
+  ProviderManagerSingleton,
+  ISwitcher,
   IFetchTxData,
   IFetchTxReceiptData,
-  ISwitcher,
-} from 'modules/api/switcher';
+} from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
@@ -77,7 +78,7 @@ export class SwitcherSDK {
       const [binanceSDK, ethSDK, maticSDK, fantomSDK, avaxSDK] =
         await Promise.all([
           BinanceSDK.getInstance(),
-          EthSDK.getInstance(),
+          EthereumSDK.getInstance(),
           PolygonSDK.getInstance(),
           FantomSDK.getInstance(),
           AvalancheSDK.getInstance(),

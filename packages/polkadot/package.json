@@ -12,6 +12,7 @@
     "test": "npm run _test-clean && tsc && npm run _copy-assets && jest"
   },
   "dependencies": {
+    "@ankr.com/provider": "^1.5.21",
     "@polkadot/api": "^6.12.1",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/extension-inject": "^0.40.4",

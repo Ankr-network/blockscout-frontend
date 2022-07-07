@@ -1,9 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 
-import { BinanceSDK } from '../api/BinanceSDK';
 import { TBnbSyntToken } from '../types';
 
 export const addBNBTokenToWallet = createAction<

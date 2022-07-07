@@ -1,3 +1,5 @@
+import { featuresConfig } from 'modules/common/const';
+import { TestLink } from 'modules/testing-ui/components/TestLink';
 import { Container } from 'uiKit/Container';
 
 import { Rights } from '../Rights';
@@ -18,6 +20,8 @@ export const Footer = (): JSX.Element => {
 
         <Socials className={classes.rightSide} />
       </Container>
+
+      {featuresConfig.testingUi && <TestLink />}
     </footer>
   );
 };
