@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import prettyTime from 'pretty-time';
 import { TransactionReceipt } from 'web3-core';
+import { EventData } from 'web3-eth-contract';
 
 import {
   Address,
@@ -24,6 +25,7 @@ import {
   IChainParams,
   IDelegatorDelegation,
   ILockPeriod,
+  IStakingReward,
   IValidator,
 } from './types';
 import { sortEventData } from './utils';
@@ -43,6 +45,16 @@ interface IFetchTxData {
   isPending: boolean;
   provider: string;
   destinationAddress?: string;
+}
+
+interface IReward {
+  validator: string;
+  amount: BigNumber;
+}
+
+interface IDelegationHistoryFilter {
+  validator?: Web3Address;
+  staker?: Web3Address;
 }
 
 export class AnkrStakingSDK {
@@ -362,6 +374,70 @@ export class AnkrStakingSDK {
     }, ZERO);
   }
 
+  public async getMyClaimableStakingRewards(): Promise<IStakingReward[]> {
+    return this.getClaimableStakingRewards(this.currentAccount);
+  }
+
+  public async getClaimableStakingRewards(
+    delegator: Web3Address,
+  ): Promise<IStakingReward[]> {
+    const delegationHistory = await this.getDelegationHistory({
+      staker: delegator,
+    });
+    const result: Record<Web3Address, IStakingReward> = {};
+
+    const rewards: IReward[] = await Promise.all(
+      delegationHistory.map(async delegation => ({
+        validator: delegation.validator,
+        amount: new BigNumber(
+          await this.getStakingRewards(delegation.validator, delegator),
+        ).dividedBy(ETH_SCALE_FACTOR),
+      })),
+    );
+
+    if (!rewards.length) return Object.values(result);
+
+    await Promise.all(
+      rewards.map(async reward => {
+        const validator = await this.loadValidatorInfo(reward.validator ?? '');
+        if (!reward.amount.isZero()) {
+          result[reward.validator] = {
+            validator,
+            amount: reward.amount,
+          };
+        }
+      }),
+    );
+
+    return Object.values(result);
+  }
+
+  public async getDelegationHistory(
+    filter: Partial<IDelegationHistoryFilter> = {},
+  ): Promise<IDelegatorDelegation[]> {
+    const stakingContract = this.getAnkrTokenStakingContract();
+
+    const events = await stakingContract.getPastEvents('Delegated', {
+      fromBlock: 'earliest',
+      toBlock: 'latest',
+      filter,
+    });
+
+    return events.map((event: EventData): IDelegatorDelegation => {
+      const { validator, staker, amount, epoch } = event.returnValues;
+      return { event, validator, staker, amount, epoch };
+    });
+  }
+
+  public async getStakingRewards(
+    validator: Web3Address,
+    delegator: Web3Address,
+  ): Promise<string> {
+    const stakingContract = this.getAnkrTokenStakingContract();
+
+    return stakingContract.methods.getDelegatorFee(validator, delegator).call();
+  }
+
   private getDelegatorsFee(addresses: string[]): Promise<string[]> {
     const stakingContract = this.getAnkrTokenStakingContract();
 
@@ -523,6 +599,31 @@ export class AnkrStakingSDK {
     const receipt = await web3.eth.getTransactionReceipt(txHash);
 
     return receipt as TransactionReceipt | null;
+  }
+
+  /**
+   * Get total delegated ANKR amount.
+   *
+   * @public
+   * @returns {BigNumber}
+   */
+  public async getTotalDelegatedAmount(): Promise<BigNumber> {
+    const stakingContract = this.getAnkrTokenStakingContract();
+    const validators = await this.getAllValidators();
+    const delegationsSet = await Promise.all(
+      validators.map(validator =>
+        stakingContract.methods
+          .getValidatorDelegation(validator.validator, this.currentAccount)
+          .call(),
+      ),
+    );
+
+    let result = ZERO;
+    delegationsSet.forEach(validatorDelegation => {
+      result = result.plus(new BigNumber(validatorDelegation.delegatedAmount));
+    });
+
+    return result.dividedBy(ETH_SCALE_FACTOR);
   }
 
   /**

@@ -82,3 +82,8 @@ export interface ILockPeriod {
   availableAfterBlock: number;
   estimationTime: Seconds;
 }
+
+export interface IStakingReward {
+  validator: IValidator;
+  amount: BigNumber;
+}
