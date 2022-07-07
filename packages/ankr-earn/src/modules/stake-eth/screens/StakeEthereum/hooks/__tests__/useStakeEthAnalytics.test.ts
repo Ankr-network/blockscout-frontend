@@ -2,8 +2,9 @@ import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
+import { EthereumSDK } from '@ankr.com/staking-sdk';
+
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { EthSDK } from 'modules/api/EthSDK';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Token } from 'modules/common/types/token';
 
@@ -28,8 +29,8 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/api/EthSDK', () => ({
-  EthSDK: {
+jest.mock('@ankr.com/staking-sdk', () => ({
+  EthereumSDK: {
     getInstance: jest.fn(),
   },
 }));
@@ -80,14 +81,14 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
   test('should return initial data', () => {
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
 
     const { sendAnalytics } = result.current;
     expect(sendAnalytics).toBeDefined();
   });
 
   test('should send stake aETHb analytics', async () => {
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
 
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
 
@@ -117,7 +118,7 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
 
-    (EthSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
 
     await act(async () => {
       await result.current.sendAnalytics();

@@ -30,6 +30,26 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
+jest.mock('modules/stake-fantom/actions/addFTMTokenToWallet', () => ({
+  addFTMTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
+  getCommonData: jest.fn(),
+}));
+
+jest.mock('modules/stake-fantom/actions/stake', () => ({
+  stake: jest.fn(),
+}));
+
+jest.mock('modules/stake-fantom/actions/unstake', () => ({
+  unstake: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAFTMBData', () => {
   const defaultStatsData = {
     data: { aFTMbBalance: ONE_ETH },

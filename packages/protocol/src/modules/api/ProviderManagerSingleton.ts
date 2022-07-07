@@ -1,4 +1,4 @@
-import { ProviderManager } from 'provider';
+import { ProviderManager } from '@ankr.com/provider';
 import { ThemeColors } from 'web3modal';
 import { web3ModalTheme } from './Web3ModalKeyProvider';
 

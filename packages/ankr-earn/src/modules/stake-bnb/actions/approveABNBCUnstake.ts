@@ -2,11 +2,10 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult } from 'provider';
+import { IWeb3SendResult } from '@ankr.com/provider';
+import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
-
-import { BinanceSDK } from '../api/BinanceSDK';
 
 export const approveABNBCUnstake = createAction<
   RequestAction<BigNumber, BigNumber>,

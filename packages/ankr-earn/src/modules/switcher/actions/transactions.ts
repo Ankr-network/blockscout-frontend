@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult } from 'provider';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';

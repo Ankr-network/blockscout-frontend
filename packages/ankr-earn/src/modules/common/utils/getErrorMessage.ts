@@ -2,9 +2,13 @@ import { ErrorProps } from '@redux-requests/react';
 
 import { t } from 'common';
 
+export const ERR_MSG = 'Error: ';
+
 export function getErrorMessage(props: ErrorProps | Error): string {
   if (props instanceof Error) {
-    return props.toString();
+    const { message } = props;
+
+    return message.includes(ERR_MSG) ? message.replace(ERR_MSG, '') : message;
   }
 
   if (props.message) {
@@ -23,11 +27,11 @@ export function getErrorMessage(props: ErrorProps | Error): string {
     return props.error.response.data.message;
   }
 
-  if (typeof props.error.message === 'string') {
+  if (typeof props.error?.message === 'string') {
     return props.error.message;
   }
 
-  if (props.error.toString) {
+  if (props.error?.toString) {
     return props.error.toString();
   }
 

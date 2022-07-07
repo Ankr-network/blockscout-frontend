@@ -1,8 +1,9 @@
-import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -33,19 +34,20 @@ export const StakedABNBC = (): JSX.Element => {
 
   const {
     amount,
-    isLoading,
-    isStakeLoading,
-    network,
     chainId,
+    isLoading,
+    isPendingUnstakeLoading,
+    isStakeLoading,
+    isUnstakeLoading,
+    nativeAmount,
+    network,
+    pendingValue,
+    ratio,
     stakeLink,
     token,
     tokenAddress,
     unstakeLink,
-    isUnstakeLoading,
-    pendingValue,
-    ratio,
-    isPendingUnstakeLoading,
-    nativeAmount,
+    usdAmount,
     onAddTokenToWallet,
   } = useStakedABNBCData();
 
@@ -97,6 +99,7 @@ export const StakedABNBC = (): JSX.Element => {
         stakeLink={stakeLink}
         token={token}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -111,10 +114,11 @@ export const StakedABNBC = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={onAddTokenToWallet}
-        description="dashboard.token-info.aBNBc"
+        description={tHTML('dashboard.token-info.aBNBc', {
+          ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
-        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={tokenAddress}
         tokenName={Token.aBNBc}
         onClose={onCloseInfo}

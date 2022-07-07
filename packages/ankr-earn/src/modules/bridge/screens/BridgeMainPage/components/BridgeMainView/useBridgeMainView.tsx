@@ -2,7 +2,10 @@ import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useState } from 'react';
 
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -20,7 +23,7 @@ import { isMainnet, SupportedChainIDS } from 'modules/common/const';
 import {
   TUseValidateAmount,
   useValidateAmount,
-} from 'modules/common/hooks/useAmountValidation';
+} from 'modules/common/hooks/useValidateAmount';
 
 import { useApprove } from './useApprove';
 import { useDeposit } from './useDeposit';
@@ -47,6 +50,7 @@ interface IUseBridgeMainView {
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
+  isBalanceLoading: boolean;
   isSendButtonLoading: boolean;
   isApproveButtonLoading: boolean;
   networksOptionsFrom: IBridgeBlockchainPanelItem[];
@@ -75,7 +79,7 @@ const defaultTo = isMainnet
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
-  const balance = useBalance();
+  const { balance, isBalanceLoading } = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
   const [tokenValue, setTokenValue] = useState(AvailableBridgeTokens.aMATICb);
@@ -221,6 +225,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     isActualNetwork,
     swapNetworkItem,
     balance,
+    isBalanceLoading,
     isSendButtonLoading,
     isApproveButtonLoading,
     networksOptionsFrom,

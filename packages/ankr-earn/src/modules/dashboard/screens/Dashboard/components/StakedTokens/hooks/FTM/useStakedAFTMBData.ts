@@ -4,35 +4,42 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig } from 'modules/stake-fantom/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IStakedAFTMBData {
+  address?: string;
   amount: BigNumber;
-  pendingUnstakes: BigNumber;
-  network: string;
   chainId: EEthereumNetworkId;
-  tradeLink: string;
-  stakeLink: string;
-  unstakeLink?: string;
-  isShowed: boolean;
   isBalancesLoading: boolean;
+  isShowed: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
+  network: string;
+  pendingUnstakes: BigNumber;
+  stakeLink: string;
+  tradeLink: string;
+  unstakeLink?: string;
+  usdAmount?: BigNumber;
   walletName?: string;
-  address?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -41,6 +48,10 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
 
   const { data: commonData, loading: isBalancesLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: metrics } = useQuery({
+    type: getMetrics,
   });
 
   const { loading: isStakeLoading } = useMutation({
@@ -58,6 +69,16 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
 
   const amount = commonData?.aFTMbBalance ?? ZERO;
   const pendingUnstakes = commonData?.bondPendingUnstakes ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.FTM]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.FTM]?.totalStakedUsd,
+      }),
+    [amount, metrics],
+  );
+
   const isShowed =
     !amount.isZero() || isBalancesLoading || !pendingUnstakes.isZero();
 
@@ -66,19 +87,20 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   }, [dispatchRequest]);
 
   return {
+    address,
     amount,
-    pendingUnstakes,
-    network,
     chainId,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMb, Token.FTM),
-    isShowed,
     isBalancesLoading,
-    stakeLink: RoutesConfig.stake.generatePath(),
-    unstakeLink: RoutesConfig.unstake.generatePath(),
+    isShowed,
     isStakeLoading,
     isUnstakeLoading,
+    network,
+    pendingUnstakes,
+    stakeLink: RoutesConfig.stake.generatePath(),
+    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aFTMb, Token.FTM),
+    unstakeLink: RoutesConfig.unstake.generatePath(),
+    usdAmount,
     walletName,
-    address,
     handleAddTokenToWallet,
   };
 };

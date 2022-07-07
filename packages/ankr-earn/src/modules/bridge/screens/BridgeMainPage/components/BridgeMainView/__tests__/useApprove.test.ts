@@ -21,6 +21,10 @@ jest.mock('modules/bridge/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 
+jest.mock('modules/bridge/actions/approve', () => ({
+  approve: jest.fn(),
+}));
+
 describe('modules/bridge/screens/BridgeMainPage/components/BridgeMainView/useApprove', () => {
   const defaultApproveData = {
     loading: false,

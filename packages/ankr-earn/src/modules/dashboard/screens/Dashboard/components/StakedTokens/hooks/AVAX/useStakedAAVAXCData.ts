@@ -4,14 +4,19 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -19,27 +24,31 @@ import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
 import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aAVAXc;
 
 export interface IStakedAVAXData {
+  address?: string;
   amount: BigNumber;
-  pendingValue: BigNumber;
-  network: string;
   chainId: EEthereumNetworkId;
-  tradeLink: string;
-  unstakeLink: string;
-  stakeLink: string;
-  stakeType: string;
-  unstakeType: string;
   isBalancesLoading: boolean;
+  isPendingUnstakeLoading: boolean;
+  isShowed: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
-  isShowed: boolean;
-  walletName?: string;
-  address?: string;
+  nativeAmount?: BigNumber;
+  network: string;
+  pendingValue: BigNumber;
   ratio: BigNumber;
-  isPendingUnstakeLoading: boolean;
+  stakeLink: string;
+  stakeType: string;
+  tradeLink: string;
+  unstakeLink: string;
+  unstakeType: string;
+  usdAmount?: BigNumber;
+  walletName?: string;
   handleAddTokenToWallet: () => void;
 }
 
@@ -50,6 +59,10 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   });
   const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
     type: fetchPendingValues,
+  });
+
+  const { data: metrics } = useQuery({
+    type: getMetrics,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeAVAX });
@@ -64,31 +77,46 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const amount = statsData?.aAVAXcBalance ?? ZERO;
   const pendingValue = pendingValues?.pendingAavaxcUnstakes ?? ZERO;
 
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.AVAX]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.AVAX]?.totalStakedUsd,
+        ratio: statsData?.aAVAXcRatio,
+      }),
+    [amount, statsData, metrics],
+  );
+
   const isShowed =
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
+
+  const nativeAmount = getTokenNativeAmount(amount, statsData?.aAVAXcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addAVAXTokenToWallet(Token.aAVAXc));
   }, [dispatchRequest]);
 
   return {
+    address,
     amount,
-    network,
     chainId,
-    pendingValue,
-    tradeLink: '',
-    stakeLink: StakeAvalancheRoutes.stake.generatePath(token),
-    unstakeLink: StakeAvalancheRoutes.unstake.generatePath(token),
-    stakeType: EAvalanchePoolEventsMap.StakePending,
-    unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
     isBalancesLoading,
+    isPendingUnstakeLoading,
+    isShowed,
     isStakeLoading,
     isUnstakeLoading,
-    isShowed,
-    walletName,
-    address,
+    nativeAmount,
+    network,
+    pendingValue,
     ratio: statsData?.aAVAXcRatio ?? ZERO,
-    isPendingUnstakeLoading,
+    stakeLink: StakeAvalancheRoutes.stake.generatePath(token),
+    stakeType: EAvalanchePoolEventsMap.StakePending,
+    tradeLink: '',
+    unstakeLink: StakeAvalancheRoutes.unstake.generatePath(token),
+    unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   };
 };

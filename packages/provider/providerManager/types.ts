@@ -2,7 +2,7 @@ export enum AvailableReadProviders {
   ethMainnet = 'ethMainnetHttpProvider',
   ethGoerli = 'ethGoerliHttpProvider',
 
-  mumbai = 'polygonHttpWeb3KeyProvider',
+  mumbai = 'polygonMumbaiHttpWeb3KeyProvider',
   polygon = 'polygonHttpWeb3KeyProvider',
 
   avalancheChain = 'avalancheChainHttpProvider',

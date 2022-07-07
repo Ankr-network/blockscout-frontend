@@ -5,12 +5,13 @@ import { IStoreState } from 'store';
 
 import { featuresConfig } from 'modules/common/const';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { showNotification } from 'modules/notifications';
 
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
-import { getFormattedErrMsg, IError } from '../utils/getFormattedErrMsg';
 
+import { fetchPolkadotAccountMaxSafeBalance } from './fetchPolkadotAccountMaxSafeBalance';
 import { fetchStakeStats } from './fetchStakeStats';
 import { fetchTxHistory } from './fetchTxHistory';
 
@@ -34,11 +35,17 @@ export const stake = createSmartAction<
     meta: {
       asMutation: true,
       onError: (
-        error: IError,
+        error: Error,
         _action: RequestAction,
         store: TStore<IStoreState>,
       ): Error => {
-        const err = new Error(getFormattedErrMsg(error));
+        const err = new Error(getErrorMessage(error));
+
+        store.dispatchRequest(
+          fetchPolkadotAccountMaxSafeBalance({
+            network,
+          }),
+        );
 
         store.dispatch(
           showNotification({
@@ -54,6 +61,12 @@ export const stake = createSmartAction<
         _action: RequestAction,
         store: TStore<IStoreState>,
       ): IRes => {
+        store.dispatchRequest(
+          fetchPolkadotAccountMaxSafeBalance({
+            network,
+          }),
+        );
+
         store.dispatchRequest(fetchStakeStats());
 
         if (featuresConfig.isActivePolkadotStaking) {

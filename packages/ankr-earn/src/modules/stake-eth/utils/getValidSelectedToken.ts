@@ -1,4 +1,5 @@
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { Token } from 'modules/common/types/token';
 
 export function getValidSelectedToken(token?: string | null): TEthToken {

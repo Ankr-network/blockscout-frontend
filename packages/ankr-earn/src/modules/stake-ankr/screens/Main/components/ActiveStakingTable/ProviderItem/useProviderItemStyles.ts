@@ -4,8 +4,12 @@ export const useProviderItemStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     color: theme.palette.text.primary,
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
   },
 
   infoWrapper: {
@@ -19,20 +23,5 @@ export const useProviderItemStyles = makeStyles<Theme>(theme => ({
   nodeAmount: {
     fontSize: 14,
     color: theme.palette.text.secondary,
-  },
-
-  dot: {
-    height: 8,
-    width: 8,
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-
-  greenDot: {
-    backgroundColor: theme.palette.success.main,
-  },
-
-  redDot: {
-    backgroundColor: theme.palette.error.main,
   },
 }));

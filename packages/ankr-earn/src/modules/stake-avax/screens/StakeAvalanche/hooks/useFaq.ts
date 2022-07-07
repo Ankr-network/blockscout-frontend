@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { t, tHTML } from 'common';
+import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
@@ -21,17 +21,17 @@ export const useFaq = (): IFaqItem[] => {
     () => [
       {
         question: t('stake-avax.faq.question-1'),
-        answer: tHTML('stake-avax.faq.answer-1'),
+        answer: t('stake-avax.faq.answer-1'),
       },
       {
         question: t('stake-avax.faq.question-2'),
-        answer: t('stake-avax.faq.answer-2', {
-          value: stats?.minimumStake ?? 1,
-        }),
+        answer: tHTML('stake-avax.faq.answer-2'),
       },
       {
         question: t('stake-avax.faq.question-3'),
-        answer: t('stake-avax.faq.answer-3'),
+        answer: t('stake-avax.faq.answer-3', {
+          value: stats?.minimumStake ?? 1,
+        }),
       },
       {
         question: t('stake-avax.faq.question-4'),
@@ -43,21 +43,37 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-avax.faq.question-6'),
-        answer: t('stake-avax.faq.answer-6'),
+        answer: tHTML('stake-avax.faq.answer-6'),
       },
       {
         question: t('stake-avax.faq.question-7'),
-        answer: tHTML('stake-avax.faq.answer-7'),
+        answer: t('stake-avax.faq.answer-7'),
       },
       {
         question: t('stake-avax.faq.question-8'),
-        answer: tHTML('stake-avax.faq.answer-8'),
+        answer: t('stake-avax.faq.answer-8'),
       },
       {
         question: t('stake-avax.faq.question-9'),
-        answer: tHTML('stake-avax.faq.answer-9', {
+        answer: t('stake-avax.faq.answer-9'),
+      },
+      {
+        question: t('stake-avax.faq.question-10'),
+        answer: tHTML('stake-avax.faq.answer-10'),
+      },
+      {
+        question: t('stake-avax.faq.question-11'),
+        answer: t('stake-avax.faq.answer-11'),
+      },
+      {
+        question: t('stake-avax.faq.question-12'),
+        answer: tHTMLWithRouter('stake-avax.faq.answer-12', {
           link: tradeLink,
         }),
+      },
+      {
+        question: t('stake-avax.faq.question-13'),
+        answer: tHTML('stake-avax.faq.answer-13'),
       },
     ],
     [stats?.minimumStake, tradeLink],

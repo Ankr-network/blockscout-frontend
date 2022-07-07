@@ -4,7 +4,7 @@ import { ReactNode, ReactText } from 'react';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 
 import { usePendingTableStyles } from './usePendingTableStyles';
 
@@ -57,7 +57,7 @@ export const PendingTable = ({
             >
               {t('unit.token-value', {
                 token,
-                value: amount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+                value: amount.decimalPlaces(DEFAULT_FIXED).toFormat(),
               })}
             </td>
           </tr>
