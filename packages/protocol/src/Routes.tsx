@@ -30,6 +30,7 @@ export function Routes() {
   const { handleConnect } = useAuth();
 
   const cachedAuthData = useAppSelector(selectAuthData);
+  const { isWalletConnected } = useAuth();
 
   useEffect(() => {
     if (cachedAuthData.authorizationToken) {
@@ -67,7 +68,9 @@ export function Routes() {
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.withdraw.path,
         ]}
-        isAuthorized={Boolean(cachedAuthData.authorizationToken)}
+        isAuthorized={
+          Boolean(cachedAuthData.authorizationToken) && isWalletConnected
+        }
         render={() => (
           <DefaultLayout disableGutters theme={Themes.light}>
             <Plan />
