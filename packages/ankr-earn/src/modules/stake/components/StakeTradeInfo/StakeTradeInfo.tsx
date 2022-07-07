@@ -29,7 +29,7 @@ export const StakeTradeInfo = (): JSX.Element | null => {
 
   return (
     <Paper className={classes.root}>
-      <OpenOceanIcon size={66} />
+      <OpenOceanIcon className={classes.icon} />
 
       <Box className={classes.infoArea}>
         <Box className={classes.title}>{t('stake.trade-info.title')}</Box>
