@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -94,7 +94,7 @@ export const FeatureItem = ({
 
               <Typography className={classNames(classes.statValue)}>
                 {t('features.staked-amount', {
-                  value: stakedTvl.toFormat(DEFAULT_ROUNDING),
+                  value: stakedTvl.toFormat(DEFAULT_FIXED),
                   token,
                 })}
               </Typography>

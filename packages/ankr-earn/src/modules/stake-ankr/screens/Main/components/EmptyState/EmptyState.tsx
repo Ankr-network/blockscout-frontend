@@ -8,7 +8,7 @@ import { Button } from 'uiKit/Button';
 
 import { HowItWorksDialog } from '../HowItWorksDialog';
 
-import { ReactComponent as AnkrBigLogo } from './assets/ankr-logo-big.svg';
+import ankrBigLogo from './assets/ankr-logo-big.png';
 import { Description } from './Description';
 import { useEmptyStateStyles } from './useEmptyStateStyles';
 
@@ -24,7 +24,9 @@ export const EmptyState = (): JSX.Element => {
   return (
     <>
       <Paper className={classes.paper}>
-        <AnkrBigLogo />
+        {/* todo: add 2x img support */}
+
+        <img alt="" className={classes.bigLogo} src={ankrBigLogo} />
 
         <Typography className={classes.wrapper} variant="h3">
           {t('stake-ankr.empty-state.start')}

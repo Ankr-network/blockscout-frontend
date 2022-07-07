@@ -14,8 +14,6 @@ export const useUnstakingTableStyles = makeStyles(
     },
 
     providerName: {
-      display: 'flex',
-      justifyContent: 'flex-start',
       fontSize: 14,
     },
 

@@ -13,6 +13,10 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import {
+  ProviderStatus,
+  ProviderStatusTooltip,
+} from 'modules/stake-ankr/components/ProviderStatus';
 
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
@@ -118,7 +122,20 @@ export const Table = (): JSX.Element | null => {
                 <ProviderItem
                   name={row.provider}
                   nodeAmount={row.nodeAmount}
-                  status={row.status}
+                  statusSlot={
+                    <ProviderStatus
+                      tooltipSlot={
+                        <ProviderStatusTooltip
+                          currentPeriod={10}
+                          latency={40}
+                          status={row.status}
+                          successRate={20}
+                          totalPeriod={20}
+                        />
+                      }
+                      type={row.status}
+                    />
+                  }
                 />
               </TableBodyCell>
 

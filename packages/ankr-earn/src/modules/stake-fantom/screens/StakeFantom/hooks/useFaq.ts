@@ -26,27 +26,27 @@ export const useFaq = (): IFaqItem[] => {
     () => [
       {
         question: t('stake-fantom.faq.question-1'),
-        answer: tHTML('stake-fantom.faq.answer-1'),
+        answer: t('stake-fantom.faq.answer-1'),
       },
       {
         question: t('stake-fantom.faq.question-2'),
-        answer: tHTML('stake-fantom.faq.answer-2', {
+        answer: tHTML('stake-fantom.faq.answer-2'),
+      },
+      {
+        question: t('stake-fantom.faq.question-3'),
+        answer: t('stake-fantom.faq.answer-3', {
           value: minAmount,
         }),
       },
       {
-        question: t('stake-fantom.faq.question-3'),
-        answer: tHTML('stake-fantom.faq.answer-3', {
-          days: FANTOM_UNSTAKE_PERIOD,
-        }),
-      },
-      {
         question: t('stake-fantom.faq.question-4'),
-        answer: tHTML('stake-fantom.faq.answer-4'),
+        answer: t('stake-fantom.faq.answer-4'),
       },
       {
         question: t('stake-fantom.faq.question-5'),
-        answer: tHTML('stake-fantom.faq.answer-5'),
+        answer: t('stake-fantom.faq.answer-5', {
+          days: FANTOM_UNSTAKE_PERIOD,
+        }),
       },
       {
         question: t('stake-fantom.faq.question-6'),
@@ -58,13 +58,29 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-fantom.faq.question-8'),
-        answer: tHTML('stake-fantom.faq.answer-8'),
+        answer: t('stake-fantom.faq.answer-8'),
       },
       {
         question: t('stake-fantom.faq.question-9'),
-        answer: tHTMLWithRouter('stake-fantom.faq.answer-9', {
+        answer: t('stake-fantom.faq.answer-9'),
+      },
+      {
+        question: t('stake-fantom.faq.question-10'),
+        answer: tHTML('stake-fantom.faq.answer-10'),
+      },
+      {
+        question: t('stake-fantom.faq.question-11'),
+        answer: tHTML('stake-fantom.faq.answer-11'),
+      },
+      {
+        question: t('stake-fantom.faq.question-12'),
+        answer: tHTMLWithRouter('stake-fantom.faq.answer-12', {
           link: tradeLink,
         }),
+      },
+      {
+        question: t('stake-fantom.faq.question-13'),
+        answer: tHTML('stake-fantom.faq.answer-13'),
       },
     ],
     [minAmount, tradeLink],

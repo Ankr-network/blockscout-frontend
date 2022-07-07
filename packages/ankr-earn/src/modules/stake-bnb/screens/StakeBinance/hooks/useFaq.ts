@@ -75,6 +75,10 @@ export const useFaq = (): IFaqItem[] => {
           aBNBbLink,
         }),
       },
+      {
+        question: t('stake-bnb.faq.question-12'),
+        answer: t('stake-bnb.faq.answer-12'),
+      },
     ],
     [redeemPeriod, redeemValue, stats, aBNBbLink],
   );

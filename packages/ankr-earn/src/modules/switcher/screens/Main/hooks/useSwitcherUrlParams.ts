@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';

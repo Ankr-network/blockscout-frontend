@@ -24,6 +24,10 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/stake-polygon/actions/fetchTxHistory', () => ({
+  fetchTxHistory: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory', () => {
   const NOW = new Date();
 

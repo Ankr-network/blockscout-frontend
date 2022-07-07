@@ -4,6 +4,7 @@ export enum AvailableBridgeTokens {
   aMATICb = 'aMATICb',
   aMATICc = 'aMATICc',
   aETHb = 'aETHb',
+  aETHc = 'aETHc',
 }
 
 export interface IBridgeBlockchainPanelItem {

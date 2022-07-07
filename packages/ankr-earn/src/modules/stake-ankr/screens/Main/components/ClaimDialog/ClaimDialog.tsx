@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useMemo } from 'react';
+import { uid } from 'react-uid';
 
 import { t } from 'common';
 
@@ -12,7 +13,7 @@ import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { Spinner } from 'uiKit/Spinner';
 
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
+import { BaseAnkrAmount } from '../../../../common/components/BaseAnkrAmount';
 
 import { TableRow } from './TableRow';
 import { useClaimDialogStyles } from './useClaimDialogStyles';
@@ -80,7 +81,11 @@ export const ClaimDialog = ({
             {isFewClaims && (
               <table className={classes.table}>
                 {availableClaims.map(claim => (
-                  <TableRow provider={claim.provider} value={claim.value} />
+                  <TableRow
+                    key={uid(claim)}
+                    provider={claim.provider}
+                    value={claim.value}
+                  />
                 ))}
 
                 <tr className={classes.totalTr}>

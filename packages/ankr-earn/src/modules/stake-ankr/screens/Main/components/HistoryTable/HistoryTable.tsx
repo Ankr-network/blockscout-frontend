@@ -1,13 +1,12 @@
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
 import { t } from 'common';
 
 import {
-  Table as BasicTable,
+  Table,
   TableBody,
   TableBodyCell,
   TableHead,
@@ -77,7 +76,7 @@ export const HistoryTable = (): JSX.Element | null => {
   }
 
   return (
-    <BasicTable
+    <Table
       columnsCount={captions.length}
       customCell="1fr 1fr 1fr 1fr"
       minWidth={800}
@@ -102,11 +101,7 @@ export const HistoryTable = (): JSX.Element | null => {
             <TableRow key={uid(i)}>
               <TableBodyCell label={`${captions[ELabel.date].label}`}>
                 <Typography className={classes.simpleText}>
-                  {t('stake-ankr.staking-table.date-cell', {
-                    month: format(row.date, 'LLLL'),
-                    day: format(row.date, 'dd'),
-                    year: format(row.date, 'yyyy'),
-                  })}
+                  {t('format.long-date', { value: row.date })}
                 </Typography>
               </TableBodyCell>
 
@@ -132,6 +127,6 @@ export const HistoryTable = (): JSX.Element | null => {
             </TableRow>
           ))}
       </TableBody>
-    </BasicTable>
+    </Table>
   );
 };

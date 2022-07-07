@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
@@ -34,19 +34,20 @@ import {
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
+  aAVAXcRatio: BigNumber;
   amount: BigNumber;
-  stakeGasFee: BigNumber;
-  totalAmount: BigNumber;
+  certificateRatio: BigNumber;
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
-  isStakeLoading: boolean;
   isFetchStatsLoading: boolean;
   isStakeGasLoading: boolean;
+  isStakeLoading: boolean;
+  stakeGasFee: BigNumber;
   tokenOut: string;
-  aAVAXcRatio?: BigNumber;
-  onTokenSelect: (token: TAvaxSyntToken) => () => void;
+  totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
+  onTokenSelect: (token: TAvaxSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
@@ -74,6 +75,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const [amount, setAmount] = useState(ZERO);
 
   const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
+
+  const tokenCertRatio = useMemo(
+    () => (aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO),
+    [aAVAXcRatio],
+  );
 
   const totalAmount = useMemo(() => {
     if (!fetchStatsData || fetchStatsData.avaxBalance.isLessThan(amount)) {
@@ -155,18 +161,19 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
+    aAVAXcRatio: tokenCertRatio,
     amount,
-    totalAmount,
+    certificateRatio: aAVAXcRatio ?? ZERO,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
-    isStakeLoading,
-    handleFormChange: debouncedOnChange,
-    stakeGasFee: stakeGasFeeData ?? ZERO,
     isStakeGasLoading,
-    handleSubmit,
+    isStakeLoading,
+    stakeGasFee: stakeGasFeeData ?? ZERO,
     tokenOut: selectedToken,
+    totalAmount,
+    handleFormChange: debouncedOnChange,
+    handleSubmit,
     onTokenSelect,
-    aAVAXcRatio: aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO,
   };
 };

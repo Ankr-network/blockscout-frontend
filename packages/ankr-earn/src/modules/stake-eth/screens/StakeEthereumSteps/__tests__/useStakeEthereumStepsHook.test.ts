@@ -36,6 +36,19 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
+  addTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  getCommonData: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getTxData', () => ({
+  getTxData: jest.fn(),
+  getTxReceipt: jest.fn(),
+}));
+
 describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook', () => {
   const defaultQueryAction = {
     loading: false,

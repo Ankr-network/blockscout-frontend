@@ -6,16 +6,19 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
-import { AvailableWriteProviders, EEthereumNetworkId } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
-import { DEFAULT_ROUNDING, isMainnet, ZERO } from 'modules/common/const';
+import { DEFAULT_FIXED, isMainnet, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { claim } from 'modules/stake-polkadot/actions/claim';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
@@ -124,7 +127,7 @@ export const useStakeClaimDialogData = ({
   const ethAmountTxt = useMemo(
     () =>
       isValidETHNetwork
-        ? claimableTokensAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat()
+        ? claimableTokensAmount.decimalPlaces(DEFAULT_FIXED).toFormat()
         : null,
     [claimableTokensAmount, isValidETHNetwork],
   );
@@ -191,7 +194,7 @@ export const useStakeClaimDialogData = ({
 
     const { error } = await dispatchRequest(
       claim({
-        amount: claimableTokensAmount,
+        claimableAmount: claimableTokensAmount,
         isLedgerWallet,
         network,
       }),

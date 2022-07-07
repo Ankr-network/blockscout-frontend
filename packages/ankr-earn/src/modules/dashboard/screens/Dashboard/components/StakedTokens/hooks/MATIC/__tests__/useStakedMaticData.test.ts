@@ -30,6 +30,26 @@ jest.mock('modules/boost/Routes', () => ({
   RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
 }));
 
+jest.mock('modules/stake-polygon/actions/addMATICTokenToWallet', () => ({
+  addMATICTokenToWallet: jest.fn(),
+}));
+
+jest.mock('modules/stake-polygon/actions/fetchStats', () => ({
+  fetchStats: jest.fn(),
+}));
+
+jest.mock('modules/stake-polygon/actions/stake', () => ({
+  stake: jest.fn(),
+}));
+
+jest.mock('modules/stake-polygon/actions/unstake', () => ({
+  unstake: jest.fn(),
+}));
+
+jest.mock('modules/stake/actions/getMetrics', () => ({
+  getMetrics: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB/useStakedMaticData', () => {
   const defaultStatsData = {
     data: { aMATICbBalance: ONE_ETH, pendingValue: ZERO },

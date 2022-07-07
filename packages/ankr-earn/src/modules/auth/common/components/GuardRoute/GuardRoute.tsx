@@ -2,8 +2,8 @@ import { Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -100,7 +100,7 @@ export const GuardRoute = <
               currentNetwork={currentNetwork}
               iconSlot={isSingleSwitcher ? singleNetworkItem.icon : null}
               networksSlot={
-                <NetworkSelector>
+                <NetworkSelector direction="column">
                   {isLoading ? <QueryLoadingCentered /> : renderedNetworkItems}
                 </NetworkSelector>
               }
@@ -122,7 +122,7 @@ export const GuardRoute = <
       <Box component="section" py={{ xs: 5, md: 8 }}>
         <Connect
           networksSlot={
-            <NetworkSelector>
+            <NetworkSelector direction="row">
               {supportedNetworks.map(({ icon, title, chainId: network }) => (
                 <NetworkSelectorItem
                   key={network}

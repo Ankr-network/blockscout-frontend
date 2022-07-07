@@ -11,6 +11,7 @@ export interface IStyleProps {
 
 export interface ICustomProps {
   customCell?: string;
+  expandable?: boolean;
 }
 
 export interface ITablesCaptionProps {

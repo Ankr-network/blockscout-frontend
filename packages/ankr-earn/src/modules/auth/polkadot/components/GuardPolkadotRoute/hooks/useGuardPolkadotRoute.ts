@@ -1,7 +1,7 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { EPolkadotNetworkId } from 'provider';
+import { EPolkadotNetworkId } from '@ankr.com/provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
@@ -68,8 +68,8 @@ export const useGuardPolkadotRoute = ({
   );
 
   const onSwitchNetwork = useCallback(
-    (network: EPolkadotNetworkId) => (): void => {
-      dispatchRequest(switchNetwork({ providerId, chainId: network }));
+    (network: EPolkadotNetworkId) => async (): Promise<void> => {
+      await dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
   );

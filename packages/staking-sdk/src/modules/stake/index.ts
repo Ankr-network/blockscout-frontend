@@ -1,98 +1,62 @@
+/* istanbul ignore file */
 import BigNumber from 'bignumber.js';
 
+import { IPendingData, ITxEventsHistoryData, IStakeData } from './types';
+
 /**
- * You need to implement this interface if you'd like to integrate tokens into ankr staking.
+ * You need to implement this interface if you want to integrate new tokens into Ankr Staking.
  *
  * @interface
  */
 export interface IStakable {
   /**
-   * Stake
+   * Stake token.
    *
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive
+   * @param {string} token - choose which token to receive (-b or -c)
    * @param {number} [scale] - scale factor for amount
-   * @returns {Promise<{ txHash: string }>}
+   * @returns {Promise<IStakeData>}
    */
   stake: (
     amount: BigNumber,
     token: string,
     scale?: number,
-  ) => Promise<{ txHash: string }>;
+  ) => Promise<IStakeData>;
   /**
-   * Unstake
+   * Unstake token.
    *
+   * @note -b and -c tokens are Ankr Liquid Staking tokens, such as [aETHb or aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to receive
-   * @param {number} [scale] - scale factor for amount;
+   * @param {string} token - choose which token to unstake (-b or -c)
+   * @param {number} [scale] - scale factor for amount
    * @returns {Promise<void>}
    */
   unstake: (amount: BigNumber, token: string, scale?: number) => Promise<void>;
   /**
-   * Get minimum stake amount
+   * Get minimum stake amount.
    *
    * @returns {Promise<BigNumber>}
    */
   getMinimumStake: () => Promise<BigNumber>;
   /**
-   * Get total pending unstake amount
+   * Get total pending unstake amount.
    *
    * @returns {Promise<BigNumber>}
    */
   getPendingClaim: () => Promise<BigNumber>;
   /**
    *
-   * @typedef {Object} IPendingData
-   * @property {BigNumber} pendingBond - total unstake amount for bond token
-   * @property {BigNumber} pendingCertificate - total unstake amount for certificate token
-   *
    * @returns {Promise<IPendingData>}
    */
   getPendingData: () => Promise<IPendingData>;
   /**
-   * Get transaction history
-   *
-   * @typedef {Object} ITxEventsHistoryGroupItem
-   * @property {BigNumber} txAmount - transaction amount
-   * @property {Date} txDate - transaction date
-   * @property {string} txHash - transaction hash
-   * @property {(string | null)} txType - transaction type (stake or unstake)
-   *
-   * @typedef {Object} ITxEventsHistoryData
-   * @property {ITxEventsHistoryGroupItem[]} completedBond - completed transactions for bond tokens
-   * @property {ITxEventsHistoryGroupItem[]} completedCertificate - completed transaction for certificate tokens
-   * @property {ITxEventsHistoryGroupItem[]} pendingBond - pending unstakes for bond tokens
-   * @property {ITxEventsHistoryGroupItem[]} pendingCertificate - pending unstakes for certificate tokens
+   * Get transaction history.
    *
    * @returns {Promise<ITxEventsHistoryData>}
    */
   getTxEventsHistory: () => Promise<ITxEventsHistoryData>;
 }
 
-/**
- * Unstake pending data
- */
-export interface IPendingData {
-  pendingBond: BigNumber;
-  pendingCertificate: BigNumber;
-}
-
-/**
- * Transaction history by token type and state
- */
-export interface ITxEventsHistoryData {
-  completedBond: ITxEventsHistoryGroupItem[];
-  completedCertificate: ITxEventsHistoryGroupItem[];
-  pendingBond: ITxEventsHistoryGroupItem[];
-  pendingCertificate: ITxEventsHistoryGroupItem[];
-}
-
-/**
- * Transaction history data
- */
-export interface ITxEventsHistoryGroupItem {
-  txAmount: BigNumber;
-  txDate: Date;
-  txHash: string;
-  txType: string | null;
-}
+export * from './types';
+export * from './getTxEventsHistoryGroup';
