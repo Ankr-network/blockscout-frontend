@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED, DEFAULT_ROUNDING } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { nativeTokenMap } from 'modules/dashboard/const';
@@ -32,6 +32,7 @@ interface IStakingAssetProps {
   nativeAmount?: BigNumber;
   network?: string;
   pendingSlot?: ReactNode;
+  buttonsSlot?: ReactNode;
   stakeLink?: string;
   token?: Token;
   tradeLink?: string;
@@ -55,6 +56,7 @@ export const StakingAsset = ({
   nativeAmount,
   network,
   pendingSlot,
+  buttonsSlot,
   stakeLink,
   token,
   tradeLink,
@@ -100,7 +102,7 @@ export const StakingAsset = ({
     <>
       {withNativeAmount &&
         t('unit.token-value', {
-          value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+          value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
           token: nativeTokenMap[token],
         })}
 
@@ -126,54 +128,56 @@ export const StakingAsset = ({
       }
       badgeSlot={pendingSlot}
       buttonsSlot={
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
-            <PlusMinusBtn
-              disabled={!stakeLink}
-              href={stakeLink}
-              isLoading={isStakeLoading}
-              tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
-              onClick={onAddStakingClick}
-            />
-          </Grid>
-
-          <Grid item>
-            <PlusMinusBtn
-              disabled={!unstakeLink}
-              href={unstakeLink}
-              icon="minus"
-              isLoading={isUnstakeLoading}
-              tooltip={conditionalUnstakeTooltip}
-            />
-          </Grid>
-
-          {isShowedTradeLink && (
+        buttonsSlot || (
+          <Grid container alignItems="center" spacing={2}>
             <Grid item>
-              {tradeLink ? (
-                <NavLink
-                  className={classes.tradeButton}
-                  href={tradeLink}
-                  variant="outlined"
-                  onClick={onTradeClick}
-                >
-                  {t('dashboard.trade')}
-                </NavLink>
-              ) : (
-                <Tooltip arrow title={comingSoonTooltip}>
-                  <Box component="span" display="flex">
-                    <Button
-                      disabled
-                      className={classes.tradeButton}
-                      variant="outlined"
-                    >
-                      {t('dashboard.trade')}
-                    </Button>
-                  </Box>
-                </Tooltip>
-              )}
+              <PlusMinusBtn
+                disabled={!stakeLink}
+                href={stakeLink}
+                isLoading={isStakeLoading}
+                tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+                onClick={onAddStakingClick}
+              />
             </Grid>
-          )}
-        </Grid>
+
+            <Grid item>
+              <PlusMinusBtn
+                disabled={!unstakeLink}
+                href={unstakeLink}
+                icon="minus"
+                isLoading={isUnstakeLoading}
+                tooltip={conditionalUnstakeTooltip}
+              />
+            </Grid>
+
+            {isShowedTradeLink && (
+              <Grid item>
+                {tradeLink ? (
+                  <NavLink
+                    className={classes.tradeButton}
+                    href={tradeLink}
+                    variant="outlined"
+                    onClick={onTradeClick}
+                  >
+                    {t('dashboard.trade')}
+                  </NavLink>
+                ) : (
+                  <Tooltip arrow title={comingSoonTooltip}>
+                    <Box component="span" display="flex">
+                      <Button
+                        disabled
+                        className={classes.tradeButton}
+                        variant="outlined"
+                      >
+                        {t('dashboard.trade')}
+                      </Button>
+                    </Box>
+                  </Tooltip>
+                )}
+              </Grid>
+            )}
+          </Grid>
+        )
       }
       menuSlot={
         <Box component="span" display="flex">

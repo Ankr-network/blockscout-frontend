@@ -1,18 +1,31 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ANKR_1INCH_BUY_LINK, ZERO } from 'modules/common/const';
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 
 interface IUseHeader {
   balance?: BigNumber;
+  isLoading: boolean;
   getTokensLink: string;
 }
 
 export const useHeader = (): IUseHeader => {
-  // todo: use actual value
-  const balance = ZERO;
+  const dispatchRequest = useDispatchRequest();
+  const { data, loading } = useQuery({
+    type: getCommonData,
+  });
 
-  // todo: use actual value
-  const getTokensLink = 'https://google.com';
+  const balance = data?.ankrBalance ?? ZERO;
 
-  return { balance, getTokensLink };
+  useProviderEffect(() => {
+    dispatchRequest(getCommonData());
+  }, [dispatchRequest]);
+
+  return {
+    balance,
+    isLoading: loading,
+    getTokensLink: ANKR_1INCH_BUY_LINK,
+  };
 };

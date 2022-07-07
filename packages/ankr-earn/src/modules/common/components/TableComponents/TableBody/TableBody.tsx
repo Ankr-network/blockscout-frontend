@@ -16,12 +16,14 @@ export const TableBodyComponent = ({
   children,
   count,
   customCell,
+  expandable,
 }: ITableBodyProps &
   ICustomProps &
   IStyleProps & { count: number }): JSX.Element => {
   const classes = useTableBodyStyles({
     count,
     customCell,
+    expandable,
   });
 
   return (

@@ -1,8 +1,15 @@
+import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import {
+  Address,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { t } from 'common';
 import {
   ApiGateway,
   EActionStatuses,
@@ -13,12 +20,10 @@ import {
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
-import { Address, Web3KeyReadProvider, Web3KeyWriteProvider } from 'provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
-import { sleep } from 'modules/common/utils/sleep';
+import { Milliseconds, TAmountUnit } from 'modules/common/types';
 
 import {
   ETH_NETWORKS,
@@ -36,16 +41,6 @@ export type TTxEventsHistoryGroupData = ITxEventsHistoryGroupItem[];
 interface IPolkadotHistoryData {
   completedHistory: IHistoryItem[];
   pendingHistory: IHistoryItem[];
-}
-
-export interface IPolkadotStakeSDKError extends Error {
-  code: EErrorCodes;
-  payload: IPolkadotStakeSDKErrorPayload;
-}
-
-export interface IPolkadotStakeSDKErrorPayload {
-  id?: string;
-  status?: string;
 }
 
 interface IPolkadotStakeSDKProps {
@@ -66,18 +61,13 @@ export interface ITxEventsHistoryData {
   pending: TTxEventsHistoryGroupData;
 }
 
-export enum EErrorCodes {
-  StakeNotCompleted = 'STAKE_NOT_COMPLETED',
-}
-
 export enum ETxTypes {
   Staked = 'Staked',
   Unstaked = 'Unstaked',
 }
 
-const INVALID_ETH_TOKEN_ADDR_MSG = 'Invalid ETH token address';
-
-const CLAIM_LEDGER_SLEEP_TIME: Milliseconds = 3_000;
+const CLAIM_LEDGER_WAIT_TIME: Milliseconds = 5_000;
+const CLAIM_LEDGER_REQ_RETRIES: TAmountUnit = 300_000 / CLAIM_LEDGER_WAIT_TIME; // (5 min / 5 sec) = 60
 const CLAIM_TOKEN_LIFE_TIME: Milliseconds = 600_000; // 10 min
 const POLKADOT_API_CACHE: Milliseconds = 10_000;
 
@@ -95,6 +85,8 @@ export class PolkadotStakeSDK {
   private currentETHAccount: Address;
 
   private currentPolkadotAccount: TPolkadotAddress;
+
+  private invalidETHTokenAddrErrMsg?: string;
 
   private constructor({
     ethReadProvider,
@@ -119,6 +111,10 @@ export class PolkadotStakeSDK {
     this.ethReadProvider = ethReadProvider;
     this.ethWriteProvider = ethWriteProvider;
     this.polkadotWriteProvider = polkadotWriteProvider;
+
+    this.invalidETHTokenAddrErrMsg = t(
+      'stake-polkadot.errors.invalid-eth-token-address',
+    );
   }
 
   private async claimCommon(claimItem: IClaimItem): Promise<void> {
@@ -139,7 +135,7 @@ export class PolkadotStakeSDK {
       .call();
 
     if (!isClaimValid) {
-      throw new Error('Invalid claim');
+      throw new Error(t('stake-polkadot.errors.claim-invalid'));
     }
 
     await ethPoolContract.methods
@@ -169,18 +165,6 @@ export class PolkadotStakeSDK {
     return claims
       .filter(({ status }) => status === EClaimStatuses.Active)
       .sort((a, b) => b.createdTimestamp - a.createdTimestamp);
-  }
-
-  private getError(
-    code: EErrorCodes,
-    payload: IPolkadotStakeSDKErrorPayload = {},
-  ): IPolkadotStakeSDKError {
-    const err = new Error() as IPolkadotStakeSDKError;
-
-    err.code = code;
-    err.payload = payload;
-
-    return err;
   }
 
   private getETHTokenAddress(
@@ -215,7 +199,7 @@ export class PolkadotStakeSDK {
           );
 
     if (typeof tokenAddress !== 'string') {
-      throw new Error(INVALID_ETH_TOKEN_ADDR_MSG);
+      throw new Error(this.invalidETHTokenAddrErrMsg);
     }
 
     const ethProvider = await this.getETHProvider(isForceRead);
@@ -401,7 +385,7 @@ export class PolkadotStakeSDK {
     const address = this.getETHTokenAddress(currNetwork);
 
     if (typeof address !== 'string') {
-      throw new Error(INVALID_ETH_TOKEN_ADDR_MSG);
+      throw new Error(this.invalidETHTokenAddrErrMsg);
     }
 
     const ethTokenContract = await this.getETHTokenContract(address);
@@ -421,14 +405,9 @@ export class PolkadotStakeSDK {
     });
   }
 
-  /**
-   *  @note An alpha version of method. Awaiting fixes on the Server side
-   *
-   *  TODO Add fixes for this (Polkadot - Claim)
-   */
   async claim(
     currNetwork: EPolkadotNetworks,
-    amount: BigNumber,
+    claimableAmount: BigNumber,
   ): Promise<void> {
     const polkadotProvider = await this.getPolkadotProvider();
 
@@ -442,7 +421,7 @@ export class PolkadotStakeSDK {
 
     const { claim: claimItem } = await this.apiPolkadotGateway.claim({
       address: this.currentPolkadotAccount,
-      amount: amount.toString(10),
+      amount: claimableAmount.toString(10),
       ethAddress: this.currentETHAccount,
       network: currNetwork,
       signature,
@@ -452,14 +431,9 @@ export class PolkadotStakeSDK {
     await this.claimCommon(claimItem);
   }
 
-  /**
-   *  @note A draft version of method. Awaiting fixes on the Server side
-   *
-   *  TODO Add fixes for this (Polkadot - Claim - Ledger Nano X)
-   */
   async claimLedgerWallet(
     currNetwork: EPolkadotNetworks,
-    amount: BigNumber,
+    claimableAmount: BigNumber,
   ): Promise<void> {
     const loanId = 0;
 
@@ -469,21 +443,19 @@ export class PolkadotStakeSDK {
     ]);
 
     if (activeClaimsCheck.length) {
-      throw new Error(
-        `Internal Error: "${this.currentPolkadotAccount}" address has active claims`,
-      );
+      throw new Error(t('stake-polkadot.errors.claim-ledger-in-progress'));
     }
 
     const maxPolkadotNetworkDecimals =
       await this.getMaxPolkadotNetworkDecimals();
 
     const decimals = maxPolkadotNetworkDecimals.toNumber();
-    const scaledAmount = amount.multipliedBy(10 ** decimals);
+    const scaledClaimableAmount = claimableAmount.multipliedBy(10 ** decimals);
 
     const claimTransactionPayload = PolkadotProvider.getClaimTransactionPayload(
       this.currentETHAccount,
       loanId,
-      scaledAmount,
+      scaledClaimableAmount,
     );
 
     const { blockHash, extId, transactionHash } =
@@ -497,16 +469,27 @@ export class PolkadotStakeSDK {
       `Transaction has been sent to block="${blockHash}" with ext="${extId}" and transactionHash="${transactionHash}"`,
     );
 
-    // TODO Please check it (Polkadot Claim)
-    await sleep(CLAIM_LEDGER_SLEEP_TIME);
+    const activeClaims = await retry(
+      async () => {
+        const data = await this.getAllActiveClaims(currNetwork, loanId);
 
-    const activeClaims = await this.getAllActiveClaims(currNetwork, loanId);
+        if (!data.length) {
+          throw new Error(
+            t('stake-polkadot.errors.claim-ledger-signature-expired', {
+              token: currNetwork,
+            }),
+          );
+        }
 
-    if (!activeClaims.length) {
-      throw new Error(
-        `Internal Error: No active claims for the "${this.currentPolkadotAccount}" address`,
-      );
-    }
+        return data;
+      },
+      {
+        factor: 1,
+        minTimeout: CLAIM_LEDGER_WAIT_TIME,
+        randomize: false,
+        retries: CLAIM_LEDGER_REQ_RETRIES,
+      },
+    );
 
     const [claimItem] = activeClaims;
 
@@ -641,10 +624,12 @@ export class PolkadotStakeSDK {
     });
 
     if (status !== EActionStatuses.Completed) {
-      throw this.getError(EErrorCodes.StakeNotCompleted, {
-        id,
-        status,
-      });
+      throw new Error(
+        t('stake-polkadot.errors.uncompleted-stake-transaction', {
+          id,
+          status,
+        }),
+      );
     }
   }
 

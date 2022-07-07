@@ -1,13 +1,12 @@
-import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -37,17 +36,18 @@ export const StakedAETHC = (): JSX.Element => {
   } = useDialog();
 
   const {
-    amount,
-    network,
-    chainId,
-    tradeLink,
-    stakeLink,
-    isStakeLoading,
-    isBalancesLoading,
-    walletName,
     address,
-    ratio,
+    amount,
+    chainId,
+    isBalancesLoading,
+    isStakeLoading,
     nativeAmount,
+    network,
+    ratio,
+    stakeLink,
+    tradeLink,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   } = useStakedAETHCData();
 
@@ -111,6 +111,7 @@ export const StakedAETHC = (): JSX.Element => {
         token={Token.aETHc}
         tradeLink={tradeLink}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -131,10 +132,11 @@ export const StakedAETHC = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aETHc"
+        description={tHTML('dashboard.token-info.aETHc', {
+          ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
-        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={contractConfig.aethContract}
         tokenName={Token.aETHc}
         onClose={onCloseInfo}

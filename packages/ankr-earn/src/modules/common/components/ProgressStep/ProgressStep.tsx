@@ -21,15 +21,16 @@ import { useProgressStepStyles } from './useProgressStepStyles';
 export interface IProgressStepProps {
   title: ReactNode;
   hint: ReactNode;
-  buttonTitle: ReactNode;
+  buttonTitle?: ReactNode;
   isPending: boolean;
   isLoading?: boolean;
   amount?: BigNumber;
   symbol?: string;
   txHash?: string;
+  nodeProvider?: string;
   destinationAddress?: string;
   error?: Error;
-  onAddTokenToWallet: () => void;
+  onAddTokenToWallet?: () => void;
 }
 
 export enum TxErrorCodes {
@@ -44,6 +45,7 @@ export const ProgressStep = ({
   amount,
   symbol = '',
   txHash,
+  nodeProvider,
   destinationAddress,
   buttonTitle,
   error,
@@ -155,6 +157,20 @@ export const ProgressStep = ({
               </div>
             )}
 
+            {nodeProvider && (
+              <div className={classes.row}>
+                <Typography className={classes.rowName}>
+                  {t('progress.tx.grid.node-provider')}
+                </Typography>
+
+                <div className={classes.navigation}>
+                  <Typography className={classes.rowValue}>
+                    {nodeProvider}
+                  </Typography>
+                </div>
+              </div>
+            )}
+
             {txHash && (
               <div className={classes.row}>
                 <Typography className={classes.rowName}>
@@ -200,13 +216,15 @@ export const ProgressStep = ({
             {t('switcher.buttons.dashboard')}
           </NavLink>
 
-          <Button
-            className={classes.button}
-            variant="outlined"
-            onClick={onAddTokenToWallet}
-          >
-            {buttonTitle}
-          </Button>
+          {typeof onAddTokenToWallet === 'function' && !!buttonTitle && (
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={onAddTokenToWallet}
+            >
+              {buttonTitle}
+            </Button>
+          )}
         </Paper>
       </Container>
     </Box>

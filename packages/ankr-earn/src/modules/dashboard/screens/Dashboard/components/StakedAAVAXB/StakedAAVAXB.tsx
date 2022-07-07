@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -40,19 +43,20 @@ export const StakedAAVAXB = (): JSX.Element => {
   } = useStakedAVAXTxHistory();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    tradeLink,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
+    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
+    network,
+    pendingValue,
+    stakeLink,
+    tradeLink,
+    unstakeLink,
+    usdAmount,
     walletName,
-    address,
-    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   } = useStakedAAVAXBData();
 
@@ -111,6 +115,7 @@ export const StakedAAVAXB = (): JSX.Element => {
         token={Token.aAVAXb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -126,7 +131,9 @@ export const StakedAAVAXB = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aAVAXb"
+        description={tHTML('dashboard.token-info.aAVAXb', {
+          ratio: ONE.toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.AVAX)}
         open={isOpenedInfo}
         tokenAddress={avalancheConfig.aAVAXb}

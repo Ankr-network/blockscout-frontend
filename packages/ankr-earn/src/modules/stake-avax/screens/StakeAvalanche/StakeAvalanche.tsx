@@ -6,11 +6,17 @@ import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Faq } from 'modules/common/components/Faq';
-import { DECIMAL_PLACES, DEFAULT_FIXED, ZERO } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_FIXED,
+  featuresConfig,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -20,8 +26,10 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
+import { EOpenOceanTokens } from 'modules/stake/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { QueryError } from 'uiKit/QueryError';
@@ -42,19 +50,20 @@ export const StakeAvalanche = (): JSX.Element => {
   const faqItems = useFaq();
 
   const {
+    aAVAXcRatio,
     amount,
+    certificateRatio,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
     isStakeGasLoading,
     isStakeLoading,
     stakeGasFee,
-    totalAmount,
     tokenOut,
-    onTokenSelect,
-    aAVAXcRatio,
+    totalAmount,
     handleFormChange,
     handleSubmit,
+    onTokenSelect,
   } = useStakeForm();
 
   const onRenderStats = (): JSX.Element => (
@@ -73,7 +82,7 @@ export const StakeAvalanche = (): JSX.Element => {
           description={tHTML('stake-avax.aavaxc-descr', {
             rate: isFetchStatsLoading
               ? '...'
-              : aAVAXcRatio?.decimalPlaces(DEFAULT_FIXED).toFormat(),
+              : aAVAXcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
           })}
           iconSlot={<AAvaxCIcon />}
           isActive={tokenOut === Token.aAVAXc}
@@ -106,6 +115,21 @@ export const StakeAvalanche = (): JSX.Element => {
     };
   }, [dispatch]);
 
+  useProviderEffect(() => {
+    if (!featuresConfig.isActiveStakeTradeInfo) {
+      return;
+    }
+
+    dispatch(
+      getStakeTradeInfoData({
+        baseToken: EOpenOceanTokens.AVAX,
+        bondToken: EOpenOceanTokens.aAVAXb,
+        certificateRatio,
+        certificateToken: EOpenOceanTokens.aAVAXc,
+      }),
+    );
+  }, [certificateRatio, dispatch]);
+
   if (isFetchStatsLoading) {
     return (
       <Box mt={5}>
@@ -124,6 +148,8 @@ export const StakeAvalanche = (): JSX.Element => {
 
       {fetchStatsError === null && fetchStatsData !== null && (
         <StakeContainer>
+          {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+
           <StakeForm
             isIntegerOnly
             balance={fetchStatsData.avaxBalance}

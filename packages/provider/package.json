@@ -1,5 +1,5 @@
 {
-  "name": "provider",
+  "name": "@ankr.com/provider",
   "version": "1.5.22",
   "main": "./index.ts",
   "files": [

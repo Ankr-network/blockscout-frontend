@@ -8,7 +8,8 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
+import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
@@ -17,7 +18,6 @@ import { Token } from 'modules/common/types/token';
 import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import {
@@ -32,17 +32,18 @@ import { useFetchStats } from '../../../hooks/useFetchStats';
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
+  aBNBcRatio: BigNumber;
   amount: BigNumber;
-  stakeGas: BigNumber;
-  relayerFee: BigNumber;
   bnbBalance?: BigNumber;
+  certificateRatio: BigNumber;
+  isFetchStatsLoading: boolean;
+  isStakeGasLoading: boolean;
+  isStakeLoading: boolean;
   minimumStake?: BigNumber;
+  relayerFee: BigNumber;
+  stakeGas: BigNumber;
   tokenIn: string;
   tokenOut: string;
-  aBNBcRatio: BigNumber;
-  isStakeLoading: boolean;
-  isStakeGasLoading: boolean;
-  isFetchStatsLoading: boolean;
   totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
@@ -93,6 +94,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
+
+  const tokenCertRatio = useMemo(
+    () => (aBNBcRatio ? new BigNumber(1).div(aBNBcRatio) : ZERO),
+    [aBNBcRatio],
+  );
 
   const totalAmount = useMemo(() => {
     if (!stakeGasFee) {
@@ -156,18 +162,19 @@ export const useStakeForm = (): IUseStakeFormData => {
     : undefined;
 
   return {
+    aBNBcRatio: tokenCertRatio,
     amount,
-    relayerFee,
     bnbBalance,
-    minimumStake,
-    tokenIn: Token.BNB,
-    aBNBcRatio: aBNBcRatio ? new BigNumber(1).div(aBNBcRatio) : ZERO,
-    tokenOut: selectedToken,
+    certificateRatio: aBNBcRatio ?? ZERO,
     isFetchStatsLoading,
-    isStakeLoading,
     isStakeGasLoading,
-    totalAmount,
+    isStakeLoading,
+    minimumStake,
+    relayerFee,
     stakeGas: stakeGasFee ?? ZERO,
+    tokenIn: Token.BNB,
+    tokenOut: selectedToken,
+    totalAmount,
     handleFormChange: debouncedOnChange,
     handleSubmit,
     onTokenSelect,

@@ -1,8 +1,8 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import {

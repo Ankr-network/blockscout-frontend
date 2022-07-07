@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 
@@ -32,5 +32,5 @@ export interface IUseGuardRouteData<
   onCloseModal: () => void;
   onDispatchConnect: () => TActionPromise<IConnect>;
   onOpenModal: () => void;
-  onSwitchNetwork: (network: NetworkId) => () => void;
+  onSwitchNetwork: (network: NetworkId) => () => Promise<void>;
 }

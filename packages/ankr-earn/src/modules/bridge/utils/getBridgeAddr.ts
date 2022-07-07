@@ -9,6 +9,7 @@ export const getBridgeAddr = (networkId: SupportedChainIDS): string => {
     case SupportedChainIDS.BSC_TESTNET:
       return binanceConfig.bridge;
 
+    case SupportedChainIDS.POLYGON_MUMBAI_TESTNET:
     case SupportedChainIDS.POLYGON:
       return polygonConfig.bridge;
 

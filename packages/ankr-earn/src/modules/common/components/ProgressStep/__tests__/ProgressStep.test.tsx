@@ -41,13 +41,13 @@ describe('modules/common/components/ProgressStep', () => {
     const buttonTitle = await screen.findByText(props.buttonTitle);
     expect(buttonTitle).toBeInTheDocument();
 
-    const amount = await screen.findByText('Amount:');
+    const amount = await screen.findByText('Amount');
     expect(amount).toBeInTheDocument();
 
-    const destinationAddress = await screen.findByText('Destination address:');
+    const destinationAddress = await screen.findByText('Destination address');
     expect(destinationAddress).toBeInTheDocument();
 
-    const txHash = await screen.findByText('Transaction ID:');
+    const txHash = await screen.findByText('Transaction ID');
     expect(txHash).toBeInTheDocument();
   });
 

@@ -1,8 +1,6 @@
-import { PolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonSDK, BinanceSDK, EthereumSDK } from '@ankr.com/staking-sdk';
 
-import { EthSDK } from 'modules/api/EthSDK';
 import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
-import { BinanceSDK } from 'modules/stake-bnb/api/BinanceSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 interface IGetBalances {
@@ -23,7 +21,7 @@ export const getBalances = async (): Promise<IGetBalances> => {
     await Promise.all([
       BinanceSDK.getInstance(),
       AvalancheSDK.getInstance(),
-      EthSDK.getInstance(),
+      EthereumSDK.getInstance(),
       PolygonSDK.getInstance(),
       FantomSDK.getInstance(),
     ]);

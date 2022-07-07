@@ -6,8 +6,10 @@ import { useStakedAAVAXCData } from './AVAX/useStakedAAVAXCData';
 import { useStakedABNBBData } from './BNB/useStakedABNBBData';
 import { useStakedABNBCData } from './BNB/useStakedABNBCData';
 import { useStakedAETHBData } from './ETH/useStakedAETHBData';
+import { useStakedAETHBSCData } from './ETH/useStakedAETHBSCData';
 import { useStakedAETHCData } from './ETH/useStakedAETHCData';
 import { useStakedBridgeAETHBData } from './ETH/useStakedBridgeAETHBData';
+import { useStakedBridgeAETHCData } from './ETH/useStakedBridgeAETHCData';
 import { useUnclaimedEth } from './ETH/useUnclaimedEth';
 import { useStakedAFTMBData } from './FTM/useStakedAFTMBData';
 import { useStakedAFTMCData } from './FTM/useStakedAFTMCData';
@@ -24,6 +26,7 @@ interface IUseStakedTokensData {
   isAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
+  isAETHBSCShowed: boolean;
   isAAVAXBShowed: boolean;
   isAAVAXCShowed: boolean;
   isABNBBShowed: boolean;
@@ -35,6 +38,7 @@ interface IUseStakedTokensData {
   isAMATICCPolygonShowed: boolean;
   isAMATICCShowed: boolean;
   isAETHBBridgedShowed: boolean;
+  isAETHCBridgedShowed: boolean;
   isAFTMBShowed: boolean;
   isAFTMCShowed: boolean;
   isADOTBShowed: boolean;
@@ -55,11 +59,13 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const amaticcPolygonData = useBridgedMaticCertPolygon();
   const stakedAMATICCData = useStakedAMATICCData();
   const aethbBridgedData = useStakedBridgeAETHBData();
+  const aethcBridgedData = useStakedBridgeAETHCData();
   const stakedAAVAXBData = useStakedAAVAXBData();
   const stakedAAVAXCData = useStakedAAVAXCData();
   const stakedBNBData = useStakedABNBBData();
   const stakedABNBCData = useStakedABNBCData();
   const stakedAETHBData = useStakedAETHBData();
+  const stakedAETHBSCData = useStakedAETHBSCData();
   const stakedAETHCData = useStakedAETHCData();
   const stakedAFTMBData = useStakedAFTMBData();
   const stakedAFTMCData = useStakedAFTMCData();
@@ -80,6 +86,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isAETHCShowed = stakedAETHCData.isShowed;
 
+  const isAETHBSCShowed = stakedAETHBSCData.isShowed;
+
   const isAAVAXBShowed = stakedAAVAXBData.isShowed;
 
   const isAAVAXCShowed = stakedAAVAXCData.isShowed;
@@ -98,6 +106,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAMATICCPolygonShowed = amaticcPolygonData.isShowed;
 
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
+  const isAETHCBridgedShowed = aethcBridgedData.isShowed;
 
   const isAFTMBShowed = stakedAFTMBData.isShowed;
   const isAFTMCShowed = stakedAFTMCData.isShowed;
@@ -118,6 +127,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
+    isAETHBSCShowed ||
     isAAVAXBShowed ||
     isAAVAXCShowed ||
     isABNBBShowed ||
@@ -129,6 +139,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAMATICCBSCShowed ||
     isAMATICCPolygonShowed ||
     isAETHBBridgedShowed ||
+    isAETHCBridgedShowed ||
     isAFTMBShowed ||
     isAFTMCShowed ||
     isADOTBShowed ||
@@ -144,6 +155,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAssetsShowed: atLeastOneShowed,
     isAETHBShowed,
     isAETHCShowed,
+    isAETHBSCShowed,
     isAAVAXBShowed,
     isAAVAXCShowed,
     isABNBBShowed,
@@ -157,6 +169,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAMATICBPolygonShowed,
     isAMATICCShowed,
     isAETHBBridgedShowed,
+    isAETHCBridgedShowed,
     isADOTBShowed,
     isAKSMBShowed,
     isAWNDBShowed,

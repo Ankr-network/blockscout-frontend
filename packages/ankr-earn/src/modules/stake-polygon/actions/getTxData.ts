@@ -8,7 +8,7 @@ import { PolygonSDK } from '@ankr.com/staking-sdk';
 import { withStore } from 'modules/common/utils/withStore';
 
 export interface IGetTXData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }

@@ -1,10 +1,11 @@
-import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
+
+import { tHTML } from 'common';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -41,20 +42,22 @@ export const StakedAAVAXC = (): JSX.Element => {
   } = useStakedAVAXTxHistory();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    tradeLink,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
+    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
-    walletName,
+    nativeAmount,
+    network,
+    pendingValue,
     ratio,
-    address,
-    isPendingUnstakeLoading,
+    stakeLink,
+    tradeLink,
+    unstakeLink,
+    usdAmount,
+    walletName,
     handleAddTokenToWallet,
   } = useStakedAAVAXCData();
 
@@ -98,12 +101,14 @@ export const StakedAAVAXC = (): JSX.Element => {
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
+        nativeAmount={nativeAmount}
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={Token.aAVAXc}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -118,10 +123,11 @@ export const StakedAAVAXC = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aAVAXc"
+        description={tHTML('dashboard.token-info.aAVAXc', {
+          ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.AVAX)}
         open={isOpenedInfo}
-        ratio={ratio ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={avalancheConfig.aAVAXc}
         tokenName={Token.aAVAXc}
         onClose={onCloseInfo}
