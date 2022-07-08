@@ -97,14 +97,28 @@ export const fetchChainTimeframeData = createSmartAction<
                   timeframe,
                   totalRequestsHistory,
                 );
-
-                Object.keys(mappingHistory).forEach((key: string) => {
-                  if (key in data.totalRequestsHistory) {
-                    data.totalRequestsHistory[key] += mappingHistory[key];
-                  } else {
-                    data.totalRequestsHistory[key] = mappingHistory[key];
-                  }
-                });
+                if (timeframe === '7d') {
+                  Object.keys(mappingHistory).forEach((key: string) => {
+                    if (key in data.totalRequestsHistory) {
+                      data.totalRequestsHistory[key] += mappingHistory[key];
+                    } else {
+                      data.totalRequestsHistory[key] = mappingHistory[key];
+                    }
+                  });
+                } else if (timeframe === '24h') {
+                  Object.keys(mappingHistory).forEach((key: string) => {
+                    if (key in data.totalRequestsHistory) {
+                      data.totalRequestsHistory[key] += mappingHistory[key];
+                    }
+                  });
+                  Object.keys(data.totalRequestsHistory).forEach(
+                    (key: string) => {
+                      if (!(key in mappingHistory)) {
+                        delete data.totalRequestsHistory[key];
+                      }
+                    },
+                  );
+                }
               }
             }
             return data;
