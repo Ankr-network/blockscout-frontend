@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { ZERO } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';

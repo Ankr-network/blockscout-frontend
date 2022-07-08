@@ -6,8 +6,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { PolygonSDK } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
@@ -29,15 +29,16 @@ import {
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
+  aMATICcRatio: BigNumber;
   amount: BigNumber;
-  totalAmount: BigNumber;
-  isStakeLoading: boolean;
-  isFetchStatsLoading: boolean;
+  certificateRatio: BigNumber;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
+  isFetchStatsLoading: boolean;
+  isStakeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
-  aMATICcRatio: BigNumber;
+  totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -65,6 +66,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const stakableMATICData = useStakableMatic();
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
+
+  const tokenCertRatio = useMemo(
+    () => (aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO),
+    [aMATICcRatio],
+  );
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -123,17 +129,18 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
+    aMATICcRatio: tokenCertRatio,
     amount,
+    certificateRatio: aMATICcRatio ?? ZERO,
+    fetchStatsData,
+    fetchStatsError,
+    isFetchStatsLoading,
+    isStakeLoading,
+    tokenIn: Token.MATIC,
+    tokenOut: selectedToken,
     totalAmount,
     handleFormChange,
     handleSubmit,
     onTokenSelect,
-    isStakeLoading,
-    isFetchStatsLoading,
-    fetchStatsData,
-    fetchStatsError,
-    tokenIn: Token.MATIC,
-    tokenOut: selectedToken,
-    aMATICcRatio: aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO,
   };
 };

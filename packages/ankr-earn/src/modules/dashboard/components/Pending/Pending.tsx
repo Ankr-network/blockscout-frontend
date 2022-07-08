@@ -6,7 +6,7 @@ import { ReactChild, ReactFragment } from 'react';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { usePendingStyles as useStyles } from './usePendingStyles';
@@ -44,7 +44,7 @@ export const Pending = ({
       onMouseEnter={onLoadHistory}
     >
       {t('dashboard.pending', {
-        value: value.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+        value: value.decimalPlaces(DEFAULT_FIXED).toFormat(),
         token,
       })}
     </Typography>

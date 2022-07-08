@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -33,19 +36,20 @@ export const StakedABNBB = (): JSX.Element => {
   } = useDialog();
 
   const {
+    address,
     amount,
-    pendingValue,
-    network,
     chainId,
-    stakeLink,
-    unstakeLink,
     isBalancesLoading,
+    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
+    network,
+    pendingValue,
+    stakeLink,
     tradeLink,
+    unstakeLink,
+    usdAmount,
     walletName,
-    address,
-    isPendingUnstakeLoading,
     handleAddTokenToWallet,
   } = useStakedABNBBData();
 
@@ -114,6 +118,7 @@ export const StakedABNBB = (): JSX.Element => {
         token={Token.aBNBb}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -129,7 +134,9 @@ export const StakedABNBB = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
-        description="dashboard.token-info.aBNBb"
+        description={tHTML('dashboard.token-info.aBNBb', {
+          ratio: ONE.toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
         tokenAddress={binanceConfig.aBNBbToken}

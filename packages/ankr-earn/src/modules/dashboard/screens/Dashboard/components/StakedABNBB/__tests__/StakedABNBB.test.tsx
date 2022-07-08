@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

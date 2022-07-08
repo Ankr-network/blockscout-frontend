@@ -1,11 +1,19 @@
 import { alpha, makeStyles, Theme } from '@material-ui/core';
 
-export const useNetworkSelectorStyles = makeStyles<Theme>(theme => ({
+interface INetworkSelectorStylesProps {
+  direction?: 'row' | 'column';
+}
+
+export const useNetworkSelectorStyles = makeStyles<
+  Theme,
+  INetworkSelectorStylesProps
+>(theme => ({
   list: {
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    flexDirection: 'column',
+    flexDirection: ({ direction }: INetworkSelectorStylesProps) =>
+      direction || 'row',
     alignItems: 'baseline',
     margin: theme.spacing(-2, 0, 0),
   },

@@ -23,6 +23,14 @@ jest.mock('modules/dashboard/Routes', () => ({
   },
 }));
 
+jest.mock('modules/stake-eth/actions/claim', () => ({
+  claim: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  getCommonData: jest.fn(),
+}));
+
 describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   const defaultQueryData = {
     data: undefined,

@@ -1,30 +1,19 @@
-import { ReactComponent as ClockIcon } from './assets/clock-icon.svg';
+import { ReactNode } from 'react';
+
 import { useProviderItemStyles } from './useProviderItemStyles';
 
 interface IProviderItemProps {
   name: string;
   nodeAmount: number;
-  status?: string;
+  statusSlot?: ReactNode;
 }
 
 export const ProviderItem = ({
   name,
   nodeAmount,
-  status,
+  statusSlot,
 }: IProviderItemProps): JSX.Element => {
   const classes = useProviderItemStyles();
-
-  // TODO: change conditions and probably add a few new colors
-  const renderStatusIcon = (statusValue?: string): JSX.Element => {
-    switch (statusValue) {
-      case 'green':
-        return <div className={classes.greenDot} />;
-      case 'orange':
-        return <div className={classes.redDot} />;
-      default:
-        return <ClockIcon />;
-    }
-  };
 
   const renderNodeAmount = (value: number): string => {
     return `${value} node${value === 1 ? '' : 's'}`;
@@ -32,10 +21,10 @@ export const ProviderItem = ({
 
   return (
     <div className={classes.root}>
-      <div>{renderStatusIcon(status)}</div>
+      {statusSlot}
 
       <div className={classes.infoWrapper}>
-        <div>{name}</div>
+        {name}
 
         <div className={classes.nodeAmount}>{renderNodeAmount(nodeAmount)}</div>
       </div>

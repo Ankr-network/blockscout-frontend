@@ -4,14 +4,14 @@ import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'provider';
+} from '@ankr.com/provider';
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { ISwitcher, IShareArgs } from 'modules/api/switcher';
@@ -253,7 +253,7 @@ export class AvalancheSDK implements ISwitcher {
     return this.readProvider;
   }
 
-  // todo: reuse it form stake/api/getTxEventsHistoryGroup
+  // todo: reuse it from stake/api/getTxEventsHistoryGroup
   private async getTxEventsHistoryGroup(
     rawEvents?: TPastEventsData,
   ): Promise<TTxEventsHistoryGroupData> {

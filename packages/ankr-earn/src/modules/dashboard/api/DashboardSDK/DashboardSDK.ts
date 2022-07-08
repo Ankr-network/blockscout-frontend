@@ -1,11 +1,11 @@
 import { BigNumber } from 'bignumber.js';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
   Web3KeyWriteProvider,
-} from 'provider';
+} from '@ankr.com/provider';
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -96,6 +96,7 @@ export class DashboardSDK {
         return ethereumTokenConfig[token] || EMPTY_CONTRACT_DATA;
       }
 
+      case EEthereumNetworkId.mumbai:
       case EEthereumNetworkId.polygon: {
         return polygonTokenConfig[token] || EMPTY_CONTRACT_DATA;
       }

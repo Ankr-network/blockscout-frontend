@@ -1,3 +1,3 @@
-import { Token } from 'modules/common/types/token';
+import { AVAILABLE_BNB_SYNT_TOKENS } from './const';
 
-export type TBnbSyntToken = Token.aBNBb | Token.aBNBc;
+export type TBnbSyntToken = typeof AVAILABLE_BNB_SYNT_TOKENS[number];

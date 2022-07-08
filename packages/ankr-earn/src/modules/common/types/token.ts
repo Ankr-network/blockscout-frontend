@@ -1,6 +1,7 @@
 export enum Token {
   ETH = 'ETH',
   aETHb = 'aETHb',
+  aETH = 'aETH',
   aETHc = 'aETHc',
   AVAX = 'AVAX',
   aAVAXb = 'aAVAXb',

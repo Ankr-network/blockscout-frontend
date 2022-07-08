@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
-import { EEthereumNetworkId } from 'provider';
 
 import { Token } from 'modules/common/types/token';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';

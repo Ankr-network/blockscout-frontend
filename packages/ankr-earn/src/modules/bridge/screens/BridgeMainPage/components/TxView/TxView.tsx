@@ -9,8 +9,8 @@ import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
-import { AvailableWriteProviders } from 'provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

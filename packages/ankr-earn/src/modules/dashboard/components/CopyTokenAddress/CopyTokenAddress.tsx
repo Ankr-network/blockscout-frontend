@@ -3,9 +3,8 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
 
+import { useCopyTokenAddressHook } from 'modules/common/hooks/useCopyTokenAddressHook';
 import { Menu } from 'uiKit/Menu';
-
-import { useCopyTokenAddressHook } from './useCopyTokenAddressHook';
 
 export interface ICopyTokenAddressProps {
   address: string;

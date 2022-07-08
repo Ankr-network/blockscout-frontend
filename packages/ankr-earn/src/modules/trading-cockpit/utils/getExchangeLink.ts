@@ -1,3 +1,5 @@
+import { OPENOCEAN_CLASSIC_URL } from 'modules/common/const';
+
 import { AvailableTokens } from '../types';
 
 function getMainTokenName(token?: AvailableTokens): string {
@@ -21,5 +23,5 @@ export function getExchangeLink(
   toToken: AvailableTokens,
 ): string {
   const mainTokenName = getMainTokenName(fromToken);
-  return `https://openocean.finance/classic#/${mainTokenName}/${fromToken.toUpperCase()}/${toToken.toUpperCase()}`;
+  return `${OPENOCEAN_CLASSIC_URL}/${mainTokenName}/${fromToken.toUpperCase()}/${toToken.toUpperCase()}`;
 }

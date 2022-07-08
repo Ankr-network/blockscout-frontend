@@ -14,7 +14,6 @@ import {
 } from 'redux-saga/effects';
 import Web3 from 'web3';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AccountChangedEventData,
   AvailableWriteProviders,
@@ -29,9 +28,9 @@ import {
   MessageEventData,
   ProviderEvent,
   ProviderEvents,
-  ProviderManager,
   ProviderRpcError,
-} from 'provider';
+} from '@ankr.com/provider';
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';
@@ -205,8 +204,7 @@ function* listenProviderWeb3Events({
 }
 
 function* connectSuccessWeb3Worker(providerId: AvailableWriteProviders) {
-  const providerManager: ProviderManager =
-    ProviderManagerSingleton.getInstance();
+  const providerManager = ProviderManagerSingleton.getInstance();
 
   let ethWeb3KeyProvider: EthereumWeb3KeyProvider;
 

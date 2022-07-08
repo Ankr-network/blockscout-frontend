@@ -21,7 +21,7 @@ export const NetworkSelectorItem = ({
   disabled,
   oldVersion = false,
 }: INetworkSelectorItemProps): JSX.Element => {
-  const classes = useNetworkSelectorStyles();
+  const classes = useNetworkSelectorStyles({});
   const [hover, setHover] = useState(false);
 
   const setHoverTrue = useCallback(() => setHover(true), []);

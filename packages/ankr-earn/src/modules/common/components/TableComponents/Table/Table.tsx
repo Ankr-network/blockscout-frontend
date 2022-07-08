@@ -11,7 +11,12 @@ type TableContextType = {
   count: number;
 } & Pick<
   ITableComponentProps,
-  'dense' | 'paddingCollapse' | 'customCell' | 'alignCell' | 'stickyHeader'
+  | 'dense'
+  | 'paddingCollapse'
+  | 'customCell'
+  | 'alignCell'
+  | 'stickyHeader'
+  | 'expandable'
 >;
 
 export const TableContext = createPureContext<TableContextType>({
@@ -53,6 +58,7 @@ export const Table = ({
   alignCell,
   columnsCount,
   stickyHeader,
+  expandable,
   ...rest
 }: ITableComponentProps): JSX.Element => {
   return (
@@ -61,6 +67,7 @@ export const Table = ({
         dense,
         paddingCollapse: dense || paddingCollapse,
         customCell,
+        expandable,
         alignCell,
         count: columnsCount,
         stickyHeader,

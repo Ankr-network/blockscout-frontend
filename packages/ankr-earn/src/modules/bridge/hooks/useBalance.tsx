@@ -5,10 +5,18 @@ import { ZERO } from 'modules/common/const';
 
 import { fetchBalance } from '../actions/fetchBalance';
 
-export const useBalance = (): BigNumber => {
-  const { data } = useQuery({
+interface IUseBalanceData {
+  balance: BigNumber;
+  isBalanceLoading: boolean;
+}
+
+export const useBalance = (): IUseBalanceData => {
+  const { data, loading: isBalanceLoading } = useQuery({
     type: fetchBalance,
   });
 
-  return data ?? ZERO;
+  return {
+    balance: data ?? ZERO,
+    isBalanceLoading,
+  };
 };

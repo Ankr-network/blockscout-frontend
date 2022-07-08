@@ -4,9 +4,10 @@ import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { BinanceSDK } from '@ankr.com/staking-sdk';
+
 import { TStore } from 'modules/common/types/ReduxRequests';
 
-import { BinanceSDK } from '../api/BinanceSDK';
 import { TBnbSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';

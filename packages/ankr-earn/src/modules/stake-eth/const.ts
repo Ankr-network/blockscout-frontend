@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 

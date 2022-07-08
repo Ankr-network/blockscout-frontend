@@ -43,6 +43,12 @@ export const useTabsStyles = makeStyles(theme => ({
     },
   },
 
+  itemWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   tabText: {
     fontWeight: 700,
     cursor: 'pointer',

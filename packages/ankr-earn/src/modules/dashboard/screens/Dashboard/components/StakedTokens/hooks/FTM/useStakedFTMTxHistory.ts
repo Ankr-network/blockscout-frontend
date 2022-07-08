@@ -2,6 +2,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
@@ -10,7 +11,6 @@ import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { getHistory } from 'modules/stake-fantom/actions/getHistory';
-import { ITxEventsHistoryGroupItem } from 'modules/stake/api/getTxEventsHistoryGroup';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
