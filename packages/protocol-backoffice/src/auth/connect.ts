@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import { MultiService, web3KeyProvider } from 'api/MultiService';
 import { LIFETIME } from './connectUtils';
 
@@ -39,14 +40,16 @@ export const connect = async () => {
     const newAuthorizationToken = await service.authorizeBackoffice(LIFETIME);
     service.getBackofficeGateway().addToken(newAuthorizationToken);
 
-    if (authorizationToken) {
-      rememberUserLoginState(authorizationToken);
+    if (newAuthorizationToken) {
+      rememberUserLoginState(newAuthorizationToken);
     } else {
-      // eslint-disable-next-line no-console
-      console.error(`Failed to login`);
+      notification.error({
+        message: 'Failed to login',
+      });
     }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e, 'Failed to login');
+  } catch (error) {
+    notification.error({
+      message: `Failed to login ${error}`,
+    });
   }
 };
