@@ -177,43 +177,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return updatedJwtToken;
   }
 
-  async loginAsAdmin(user: Web3Address): Promise<IJwtToken | false> {
-    const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
-      name: 'MultiRPC',
-    });
-
-    if (!thresholdKeys.length) throw new Error(`There is no threshold keys`);
-
-    const currentAccount = this.keyProvider.currentAccount();
-
-    // requests user's x25519 encryption key
-    const publicKey = await this.getContractManager().getEncryptionPublicKey(
-      currentAccount,
-    );
-
-    // send issue request to ankr protocol
-    const jwtToken = await this.getApiGateway().issueJwtToken({
-      jwt_token: user,
-      threshold_key: thresholdKeys[0].id,
-      public_key: publicKey,
-      token_type: 'JWT_TOKEN_TYPE_ADMIN',
-    });
-
-    // decrypt signed token using client's private key
-    const metaMaskJsonData = Buffer.from(
-      jwtToken.signed_token,
-      'base64',
-    ).toString('ascii');
-    jwtToken.signed_token =
-      await this.getContractManager().decryptMessageUsingPrivateKey(
-        metaMaskJsonData,
-      );
-
-    this.getWorkerGateway().addJwtToken(jwtToken);
-
-    return jwtToken;
-  }
-
   async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
     const blockchainsApiResponse =
       await this.getWorkerGateway().getBlockchains();

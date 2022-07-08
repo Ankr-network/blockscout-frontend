@@ -108,8 +108,6 @@ export interface IMultiRpcSdk {
 
   hasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
 
-  loginAsAdmin(user: Web3Address): Promise<IJwtToken | false>;
-
   loginAsUser(
     user: Web3Address,
     encryptionKey?: Base64,
