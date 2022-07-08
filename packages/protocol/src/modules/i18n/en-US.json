@@ -601,11 +601,12 @@
         "placeholder": "Payment type",
         "all": "All",
         "unknown": "Unknown",
-        "top-up": "Top Up",
+        "top-up": "Top up",
         "deduction": "Payment charging",
         "withdrawal": "Withdrawal",
         "bonus": "Bonus",
-        "compensation": "Compensation"
+        "compensation": "Compensation",
+        "voucher": "Voucher operations"
       },
       "time-type": {
         "week": "Past week",

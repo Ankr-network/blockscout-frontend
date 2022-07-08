@@ -49,6 +49,10 @@ export const useTypeSelectOptions = () => {
         value: 'TRANSACTION_TYPE_WITHDRAW',
         label: t('account.payment-table.payment-type.withdrawal'),
       },
+      {
+        value: 'TRANSACTION_TYPE_VOUCHER_TOPUP',
+        label: t('account.payment-table.payment-type.voucher'),
+      },
       // {
       //   value: 'TRANSACTION_TYPE_BONUS',
       //   label: t('account.payment-table.payment-type.bonus'),
@@ -111,6 +115,14 @@ export const prepareTypeForRequest = (
       value,
       'TRANSACTION_TYPE_WITHDRAW_INIT',
       'TRANSACTION_TYPE_WITHDRAW_ADJUST',
+    ];
+  }
+
+  if (value === 'TRANSACTION_TYPE_VOUCHER_TOPUP') {
+    return [
+      value,
+      'TRANSACTION_TYPE_VOUCHER_TOPUP',
+      'TRANSACTION_TYPE_VOUCHER_ADJUST',
     ];
   }
 

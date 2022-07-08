@@ -30,8 +30,8 @@ export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_BONUS: 'Bonus',
   TRANSACTION_TYPE_COMPENSATION: 'Compensation',
 
-  TRANSACTION_TYPE_VOUCHER_TOPUP: 'Voucher Top Up',
-  TRANSACTION_TYPE_VOUCHER_ADJUST: 'Voucher Adjust',
+  TRANSACTION_TYPE_VOUCHER_TOPUP: 'Voucher Credits Accrual',
+  TRANSACTION_TYPE_VOUCHER_ADJUST: 'Voucher Credits Adjustment',
   TRANSACTION_TYPE_WITHDRAW_INIT: 'Withdrawal Request',
   TRANSACTION_TYPE_WITHDRAW_ADJUST: 'Withdrawal Adjust',
 };
@@ -54,6 +54,7 @@ export const getPaymentHistoryItemDirection = (
     'TRANSACTION_TYPE_DEPOSIT',
     'TRANSACTION_TYPE_BONUS',
     'TRANSACTION_TYPE_COMPENSATION',
+    'TRANSACTION_TYPE_VOUCHER_TOPUP',
   ].includes(type);
 };
 
