@@ -45,7 +45,7 @@ const waitForBlocks = async (
       // This is old topUp. New topUp failed
       if (
         currentBlockNumber - (lastTopUpEvent?.blockNumber || 0) >
-        CONFIRMATION_BLOCKS
+        CONFIRMATION_BLOCKS * 3
       ) {
         throw new Error(t('error.failed'));
       }
