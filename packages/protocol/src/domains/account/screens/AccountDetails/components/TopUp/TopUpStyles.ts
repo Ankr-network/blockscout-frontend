@@ -25,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     fontWeight: 700,
-
+    lineHeight: '26px',
     [theme.breakpoints.down('sm')]: {
       fontSize: 14,
     },
@@ -34,5 +34,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     height: 'auto',
     padding: '0',
     minWidth: 'auto',
+    lineHeight: '26px',
   },
 }));

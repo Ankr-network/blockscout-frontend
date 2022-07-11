@@ -80,6 +80,10 @@ export const Filters = ({ onFetchPaymentHistory }: IFiltersProps) => {
             return t('account.payment-table.payment-type.all');
           }
 
+          if (value === 'TRANSACTION_TYPE_VOUCHER_TOPUP') {
+            return t('account.payment-table.payment-type.voucher');
+          }
+
           return value
             ? PAYMENT_HISTORY_TYPE[value as IPaymentHistoryEntityType]
             : t('account.payment-table.payment-type.placeholder');

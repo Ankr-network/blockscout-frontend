@@ -9,7 +9,7 @@ import { EEthereumNetworkId, Env } from './types';
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
 export const DOCS_LINK = 'https://www.ankr.com/docs/staking/overview/';
-export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
+export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
@@ -67,10 +67,10 @@ export const SOCIAL_LINK = {
 };
 
 export const STAKE_LEGACY_LINKS = {
-  DOT: 'https://stakefi.ankr.com/liquid-staking/DOT',
-  ETH: 'https://stakefi.ankr.com/liquid-staking/ETH',
-  KSM: 'https://stakefi.ankr.com/liquid-staking/KSM',
-  WND: 'https://stakefi.ankr.com/liquid-staking/WND',
+  DOT: 'https://old-stakefi.ankr.com/liquid-staking/DOT',
+  ETH: 'https://old-stakefi.ankr.com/liquid-staking/ETH',
+  KSM: 'https://old-stakefi.ankr.com/liquid-staking/KSM',
+  WND: 'https://old-stakefi.ankr.com/liquid-staking/WND',
 };
 
 export const ANKR_1INCH_BUY_LINK =

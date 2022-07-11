@@ -46,6 +46,8 @@ const chainNameCoinMap = {
   polygon: 'matic',
   solana: 'sol',
   syscoin: 'sys',
+  arbitrum: 'aeth',
+  optimism: 'op',
 };
 
 export type TChainName = keyof typeof chainNameCoinMap;

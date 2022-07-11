@@ -52,6 +52,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.primary.main,
   },
   error: {
-    color: '#EEA941',
+    color: theme.palette.warning.main,
   },
 }));
