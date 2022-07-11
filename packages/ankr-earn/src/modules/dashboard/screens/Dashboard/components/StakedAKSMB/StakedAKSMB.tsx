@@ -57,6 +57,7 @@ export const StakedAKSMB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
+    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
@@ -131,6 +132,7 @@ export const StakedAKSMB = (): JSX.Element => {
         history={transactionHistory}
         isHistoryLoading={isHistoryDataLoading}
         open={isOpenedHistory}
+        unsupportedUnstakeHistoryTxt={unsupportedUnstakeHistoryTxt}
         onClose={onCloseHistory}
       />
 

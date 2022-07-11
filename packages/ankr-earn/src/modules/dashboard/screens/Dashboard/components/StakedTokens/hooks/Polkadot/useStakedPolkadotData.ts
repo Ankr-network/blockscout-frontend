@@ -55,6 +55,7 @@ interface IStakedPolkadotData {
   tradeLink: string;
   unstakeLink: string;
   unstakeType: string;
+  unsupportedUnstakeHistoryTxt: string;
   usdAmount?: BigNumber;
   walletName?: string;
   handleAddTokenToWallet: () => void;
@@ -94,6 +95,12 @@ export const useStakedPolkadotData = ({
   });
 
   const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
+  const unsupportedUnstakeHistoryTxt = t(
+    'stake-polkadot.unsupported-unstake-history',
+    {
+      network,
+    },
+  );
 
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
@@ -138,6 +145,7 @@ export const useStakedPolkadotData = ({
     tradeLink: BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
     unstakeType: ETxTypes.Unstaked,
+    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
