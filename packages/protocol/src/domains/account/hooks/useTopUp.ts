@@ -5,6 +5,7 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+import { resetRequests } from '@redux-requests/core';
 
 import { deposit } from '../actions/topUp/deposit';
 import { fetchPublicKey } from '../actions/fetchPublicKey';
@@ -51,6 +52,12 @@ export const useTopUp = () => {
     [dispatchRequest, amount],
   );
 
+  const handleResetDeposit = useCallback(() => {
+    dispatch(
+      resetRequests([deposit.toString(), waitTransactionConfirming.toString()]),
+    );
+  }, [dispatch]);
+
   const handleWaitTransactionConfirming = useCallback(
     () => dispatchRequest(waitTransactionConfirming()),
     [dispatchRequest],
@@ -80,16 +87,15 @@ export const useTopUp = () => {
     [dispatchRequest],
   );
 
-  const { loading: loadingGetAllowance, error: errorGetAllowance } = useQuery({
+  const { loading: loadingGetAllowance } = useQuery({
     type: sendAllowance.toString(),
   });
 
-  const { loading: loadingFetchPublicKey, error: errorFetchPublicKey } =
-    useQuery({
-      type: fetchPublicKey.toString(),
-    });
+  const { loading: loadingFetchPublicKey } = useQuery({
+    type: fetchPublicKey.toString(),
+  });
 
-  const { loading: loadingDeposit, error: errorDeposit } = useQuery({
+  const { loading: loadingDeposit } = useQuery({
     type: deposit.toString(),
   });
 
@@ -100,7 +106,7 @@ export const useTopUp = () => {
     type: waitTransactionConfirming.toString(),
   });
 
-  const { loading: loadingLogin, error: errorLogin } = useMutation({
+  const { loading: loadingLogin } = useMutation({
     type: login.toString(),
   });
 
@@ -122,13 +128,7 @@ export const useTopUp = () => {
       loadingWaitTransactionConfirming ||
       loadingLogin ||
       loadingCheckAllowanceTransaction,
-    hasError: Boolean(
-      errorGetAllowance ||
-        errorFetchPublicKey ||
-        errorDeposit ||
-        errorWaitTransactionConfirming ||
-        errorLogin,
-    ),
+    hasError: Boolean(errorWaitTransactionConfirming),
     isRejectAllowanceLoading: loadingRejectAllowance,
     handleFetchPublicKey,
     handleGetAllowance,
@@ -138,5 +138,6 @@ export const useTopUp = () => {
     handleResetTopUpTransaction,
     handleRejectAllowance,
     handleRedirectIfCredentials,
+    handleResetDeposit,
   };
 };

@@ -75,6 +75,7 @@ export const Chart = ({
           tickFormatter={xAxisTickFormatter}
         />
         <YAxis
+          width={80}
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary, dx: -5 }}
           stroke=""
