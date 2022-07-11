@@ -25,15 +25,11 @@ export const Buttons = ({
     <Box className={classes.root}>
       <LoadingButton
         className={classes.button}
-        isDisabled={
-          loading ||
-          isRejectAllowanceLoading ||
-          Boolean(step === TopUpStep.waitTransactionConfirming && hasError)
-        }
+        isDisabled={loading || isRejectAllowanceLoading}
         onClick={onConfirm}
         loading={isRejectAllowanceLoading ? false : loading}
       >
-        {getButtonText(loading, step, hasCredentials)}
+        {getButtonText(loading, step, hasCredentials, hasError)}
       </LoadingButton>
       {step === TopUpStep.deposit && (
         <Button
