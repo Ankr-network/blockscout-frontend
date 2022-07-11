@@ -240,7 +240,6 @@ export class PolkadotStakeSDK {
     currNetwork: EPolkadotNetworks,
   ): Promise<IPolkadotHistoryData> {
     const completedHistory = [];
-    const pendingHistory = [];
 
     const rawData = await this.apiPolkadotGateway.getHistory({
       address: this.currentPolkadotAccount,
@@ -262,7 +261,7 @@ export class PolkadotStakeSDK {
 
         case EActionStatuses.Unknown:
           // TODO Add "Unstake" type supporting here only (Polkadot History)
-          pendingHistory.push(historyItem);
+          // pendingHistory.push(historyItem);
           break;
 
         default:
@@ -272,7 +271,7 @@ export class PolkadotStakeSDK {
 
     return {
       completedHistory,
-      pendingHistory,
+      pendingHistory: [],
     };
   }
 
@@ -431,6 +430,9 @@ export class PolkadotStakeSDK {
     await this.claimCommon(claimItem);
   }
 
+  /**
+   *  @note Issues on Server side with "ACTIVE" status after sending the Polkadot transaction
+   */
   async claimLedgerWallet(
     currNetwork: EPolkadotNetworks,
     claimableAmount: BigNumber,

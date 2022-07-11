@@ -2,7 +2,7 @@ import { Container, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
 import { t } from 'common';
@@ -17,6 +17,11 @@ import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
+
+enum EHistoryTypes {
+  Staked = 'staked',
+  Unstaked = 'unstaked',
+}
 
 export interface IHistoryDialogRow {
   amount?: BigNumber;
@@ -36,21 +41,23 @@ export interface IHistoryDialogProps {
   history: HistoryDialogData;
   isHistoryLoading: boolean;
   open: boolean;
+  unsupportedUnstakeHistoryTxt?: string;
   onClose?: () => void;
 }
 
 export const HistoryDialog = ({
-  open,
-  isHistoryLoading,
-  onClose,
   history,
+  isHistoryLoading,
+  open,
+  unsupportedUnstakeHistoryTxt,
+  onClose,
 }: IHistoryDialogProps): JSX.Element => {
   const classes = useStyles();
 
-  const [showType, setShowType] = useState<'staked' | 'unstaked'>('staked');
+  const [showType, setShowType] = useState<EHistoryTypes>(EHistoryTypes.Staked);
 
-  const handleSetStakedType = () => setShowType('staked');
-  const handleSetUnstakedType = () => setShowType('unstaked');
+  const handleSetStakedType = () => setShowType(EHistoryTypes.Staked);
+  const handleSetUnstakedType = () => setShowType(EHistoryTypes.Unstaked);
 
   const tableRows = history[showType]?.map(
     ({ date, link, hash, amount }, index) => (
@@ -96,27 +103,52 @@ export const HistoryDialog = ({
     ),
   );
 
-  const EmptyTransactionHistory = (
-    <div className={classes.empty}>
-      {isHistoryLoading ? <Spinner /> : t('history-dialog.empty')}
-    </div>
-  );
+  const txHistory = useMemo(() => {
+    const isFullHistory = Array.isArray(tableRows) && !!tableRows.length;
 
-  const TransactionHistory = (
-    <table className={classes.table}>
-      <thead className={classes.thead}>
-        <tr className={classes.theadTr}>
-          <th className={classes.th}>{t('history-dialog.date')}</th>
+    if (
+      showType === EHistoryTypes.Unstaked &&
+      typeof unsupportedUnstakeHistoryTxt === 'string'
+    ) {
+      return (
+        <div className={classes.empty}>{unsupportedUnstakeHistoryTxt}</div>
+      );
+    }
 
-          <th className={classes.th}>{t('history-dialog.hash')}</th>
+    const emptyHistory = (
+      <div className={classes.empty}>
+        {isHistoryLoading ? <Spinner /> : t('history-dialog.empty')}
+      </div>
+    );
 
-          <th className={classes.th}>{t('history-dialog.amount')}</th>
-        </tr>
-      </thead>
+    const fullHistory = (
+      <table className={classes.table}>
+        <thead className={classes.thead}>
+          <tr className={classes.theadTr}>
+            <th className={classes.th}>{t('history-dialog.date')}</th>
 
-      <tbody>{tableRows}</tbody>
-    </table>
-  );
+            <th className={classes.th}>{t('history-dialog.hash')}</th>
+
+            <th className={classes.th}>{t('history-dialog.amount')}</th>
+          </tr>
+        </thead>
+
+        <tbody>{tableRows}</tbody>
+      </table>
+    );
+
+    return isFullHistory ? fullHistory : emptyHistory;
+  }, [
+    classes.empty,
+    classes.table,
+    classes.th,
+    classes.thead,
+    classes.theadTr,
+    isHistoryLoading,
+    showType,
+    tableRows,
+    unsupportedUnstakeHistoryTxt,
+  ]);
 
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
@@ -130,7 +162,7 @@ export const HistoryDialog = ({
             <Button
               className={classNames(
                 classes.typeButton,
-                showType === 'staked' && classes.typeButtonActive,
+                showType === EHistoryTypes.Staked && classes.typeButtonActive,
               )}
               onClick={handleSetStakedType}
             >
@@ -140,7 +172,7 @@ export const HistoryDialog = ({
             <Button
               className={classNames(
                 classes.typeButton,
-                showType === 'unstaked' && classes.typeButtonActive,
+                showType === EHistoryTypes.Unstaked && classes.typeButtonActive,
               )}
               onClick={handleSetUnstakedType}
             >
@@ -149,9 +181,7 @@ export const HistoryDialog = ({
           </div>
         </div>
 
-        {!!tableRows && !!tableRows.length
-          ? TransactionHistory
-          : EmptyTransactionHistory}
+        {txHistory}
       </Container>
     </Dialog>
   );

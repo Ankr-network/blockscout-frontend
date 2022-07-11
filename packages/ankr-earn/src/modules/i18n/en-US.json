@@ -511,6 +511,7 @@
         "switch-network": "Switch to {network}"
       }
     },
+    "unsupported-unstake-history": "{network} unstaking history not supported yet",
     "unstake": {
       "external-wallet": "External wallet address",
       "info": "You will get your {token} in ~{period} days",

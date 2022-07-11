@@ -5,7 +5,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { t, tHTML } from 'common';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
-import { DEFAULT_FIXED } from 'modules/common/const';
+import { DEFAULT_FIXED, featuresConfig } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import {
   EPolkadotNetworks,
@@ -147,7 +147,7 @@ export const StakeClaimDialog = ({
             </Button>
           )}
 
-          {!isLoadingClaim && (
+          {featuresConfig.isActivePolkadotLedgerNanoX && !isLoadingClaim && (
             <Field
               component={CheckboxField}
               name="isLedgerWallet"

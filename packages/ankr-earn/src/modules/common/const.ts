@@ -85,6 +85,7 @@ export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActivePolkadotLedgerNanoX: false,
   isActiveStakeTradeInfo: true,
   liquidityMining: false,
   localeSwitcher: false,
