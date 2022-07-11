@@ -28,16 +28,29 @@ export const TopUpSteps = ({
     <Container className={classes.root}>
       <Paper variant="elevation" className={classes.paper} elevation={0}>
         <Box className={classes.content}>
-          <Typography variant="h4" color="primary">
+          <Typography
+            variant="h4"
+            className={hasError ? classes.error : classes.header}
+          >
             {t('top-up-steps.title')}
           </Typography>
           <Stepper
             step={step}
             className={classes.stepper}
             hasCredentials={hasCredentials}
+            hasError={hasError}
           />
-          <StepperTitle step={step} className={classes.title} amount={amount} />
-          <StepperNotice step={step} className={classes.notice} />
+          <StepperTitle
+            step={step}
+            className={classes.title}
+            amount={amount}
+            hasError={hasError}
+          />
+          <StepperNotice
+            step={step}
+            className={classes.notice}
+            hasError={hasError}
+          />
           {step === TopUpStep.waitTransactionConfirming && (
             <TransactionButton transactionHash={transactionHash} />
           )}

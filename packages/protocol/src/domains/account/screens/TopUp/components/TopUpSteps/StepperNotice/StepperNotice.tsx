@@ -7,16 +7,23 @@ import { TopUpStep } from 'domains/account/actions/topUp/const';
 interface IStepperTitleProps {
   step: TopUpStep;
   className: string;
+  hasError?: boolean;
 }
 
-export const StepperNotice = ({ step, className }: IStepperTitleProps) => {
+export const StepperNotice = ({
+  step,
+  className,
+  hasError,
+}: IStepperTitleProps) => {
   if (step === TopUpStep.start) {
     return null;
   }
 
   return (
     <Typography variant="h4" color="textSecondary" className={className}>
-      {tHTML(`top-up-steps.step-notice.${step}`)}
+      {hasError && step === TopUpStep.waitTransactionConfirming
+        ? tHTML(`top-up-steps.step-notice.${step}-error`)
+        : tHTML(`top-up-steps.step-notice.${step}`)}
     </Typography>
   );
 };

@@ -5,9 +5,14 @@ export const getButtonText = (
   loading: boolean,
   step: TopUpStep,
   hasCredentials: boolean,
+  hasError?: boolean,
 ): string => {
   if (loading) {
     return t(`top-up-steps.button.${step}-loading`);
+  }
+
+  if (step === TopUpStep.waitTransactionConfirming && hasError) {
+    return t(`top-up-steps.button.${step}-error`);
   }
 
   if (step === TopUpStep.waitTransactionConfirming && hasCredentials) {

@@ -43,4 +43,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     minHeight: 45,
     marginBottom: theme.spacing(3),
   },
+
+  header: {
+    color: theme.palette.primary.main,
+  },
+  error: {
+    color: theme.palette.warning.main,
+  },
 }));

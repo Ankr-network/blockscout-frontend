@@ -7,9 +7,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     width: '100%',
     maxWidth: 616,
-    padding: theme.spacing(2.75, 3.75, 3.75),
+    padding: theme.spacing(2.5, 3.75, 3.75),
 
-    borderRadius: 30,
+    borderRadius: theme.spacing(3),
 
     background: theme.palette.background.paper,
 
@@ -39,7 +39,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 700,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: '26px',
   },
   withdrawButton: {
     height: 'auto',
@@ -49,7 +49,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 600,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: '26px',
 
     '&:hover': {
       background: 'none',

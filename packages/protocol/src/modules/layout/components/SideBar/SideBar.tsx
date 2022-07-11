@@ -4,7 +4,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { MainNavigation } from '../MainNavigation';
 import { ExtraNavigation } from '../ExtraNavigation';
-import { StakingInfo } from '../StakingInfo';
 import { Logo } from '../Logo';
 import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 
@@ -27,7 +26,6 @@ export const SideBar = ({
           <div className={classes.bottom}>
             <MainNavigation isWalletConnected={isWalletConnected} />
             <div>
-              <StakingInfo />
               <ExtraNavigation />
             </div>
           </div>
