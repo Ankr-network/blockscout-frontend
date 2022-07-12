@@ -9,8 +9,7 @@ import {
   DOCS_LINK,
   featuresConfig,
   isMainnet,
-  LITEPAPER_CN,
-  LITEPAPER_EN,
+  LITEPAPER_LINK,
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -25,10 +24,10 @@ import { RoutesConfig as SwitcherRoutes } from 'modules/switcher/Routes';
 const getLitepaperLink = (locale: Locale): string => {
   switch (locale) {
     case Locale.zh:
-      return LITEPAPER_CN;
+      return LITEPAPER_LINK.stakingCN;
 
     default:
-      return LITEPAPER_EN;
+      return LITEPAPER_LINK.stakingEN;
   }
 };
 
