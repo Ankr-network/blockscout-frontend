@@ -6,8 +6,8 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseRestake {
   loading: boolean;

@@ -6,9 +6,9 @@ import { t } from 'common';
 import { ZERO } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types';
-import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseAnkrUnstake {
   isUnstakeLoading: boolean;

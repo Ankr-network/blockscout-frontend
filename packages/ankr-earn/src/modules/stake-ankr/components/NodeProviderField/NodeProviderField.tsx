@@ -6,10 +6,9 @@ import { Field } from 'react-final-form';
 import { t } from 'common';
 
 import { getErrorText, hasError } from 'modules/common/utils/form';
+import { EFieldsNames } from 'modules/stake-ankr/types';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { NavLink } from 'uiKit/NavLink';
-
-import { EFieldsNames } from '../../types';
 
 import { ReactComponent as AngleRightIcon } from './assets/angle-right.svg';
 import { useNodeProviderFieldStyles } from './useNodeProviderFieldStyles';

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core';
 
 export const useActiveStakingTableStyles = makeStyles(
   theme => ({
@@ -38,24 +38,21 @@ export const useActiveStakingTableStyles = makeStyles(
 
       [theme.breakpoints.up('md')]: {
         border: 'none',
-
-        '&:first-child': {
-          borderRadius: '0 0 0 18px',
-        },
-
-        '&:last-child': {
-          borderRadius: '0 0 18px 0',
-        },
       },
     },
 
     table: {
       backgroundColor: 'inherit',
       padding: 0,
+    },
 
-      [theme.breakpoints.up('md')]: {
-        backgroundColor: 'inherit',
-      },
+    expandTable: {
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(2),
+    },
+
+    expandWrapper: {
+      padding: theme.spacing(3),
     },
 
     row: {
@@ -77,10 +74,10 @@ export const useActiveStakingTableStyles = makeStyles(
       padding: theme.spacing(2),
 
       [theme.breakpoints.up('md')]: {
-        borderBottom: `1px solid ${theme.palette.background.default}`,
+        borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
 
         '&:first-of-type': {
-          borderTop: `1px solid ${theme.palette.background.default}`,
+          borderTop: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
         },
 
         '&:last-of-type': {
@@ -89,7 +86,6 @@ export const useActiveStakingTableStyles = makeStyles(
 
         margin: 0,
         padding: 0,
-        backgroundColor: 'inherit',
       },
     },
   }),

@@ -12,6 +12,7 @@ export const StakeMore = (): JSX.Element => {
     closeHref,
     providerId,
     providerName,
+    minStake,
     newTotalStake,
     apy,
     onSubmit,
@@ -27,6 +28,7 @@ export const StakeMore = (): JSX.Element => {
           isBalanceLoading={false}
           isDisabled={loading}
           loading={loading}
+          minAmount={minStake}
           newTotalStake={newTotalStake}
           providerId={providerId}
           providerName={providerName}

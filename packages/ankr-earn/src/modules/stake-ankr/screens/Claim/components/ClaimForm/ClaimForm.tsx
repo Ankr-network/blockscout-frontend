@@ -8,11 +8,12 @@ import { AmountInput } from 'modules/common/components/AmountField';
 import { FixedInputField } from 'modules/common/components/FixedInputField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
-import { EFieldsNames } from 'modules/stake-ankr/common/types/EFieldsNames';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/common/types/IAnkrStakeSubmitPayload';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
+import {
+  IAnkrStakeSubmitPayload,
+  EFieldsNames,
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
   StakeFormBox,
@@ -30,7 +31,6 @@ interface IClaimFormProps {
   rewards: BigNumber;
   epochEnd: Date;
   balance?: BigNumber;
-  minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
@@ -51,7 +51,6 @@ export const ClaimForm = ({
   rewards,
   epochEnd,
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
@@ -136,7 +135,7 @@ export const ClaimForm = ({
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
-        minAmount={minAmount?.toNumber()}
+        minAmount={ZERO.toNumber()} // todo: change it getMinimumStake() from sdk
         name={EFieldsNames.claimRewards}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}

@@ -6,13 +6,12 @@ import { t } from 'common';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
-} from 'modules/stake-ankr/common/types';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
@@ -51,7 +50,7 @@ interface IAnkrStakeMoreFormProps {
 
 export const AnkrStakeMoreForm = ({
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
+  minAmount = ZERO,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,

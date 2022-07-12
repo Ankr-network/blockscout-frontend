@@ -62,6 +62,7 @@ export const Tabs = ({
 
                   {unstakingAmount && showAmount && (
                     <Chip
+                      classes={{ label: classes.chipLabel }}
                       className={classes.chip}
                       color="primary"
                       label={unstakingAmount}
