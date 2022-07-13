@@ -36,6 +36,7 @@ import {
   IEventsBatch,
   ITxHistoryEventData,
   IStakeData,
+  getFilteredContractEvents,
 } from '../stake';
 import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -645,12 +646,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
       }
     }
 
-    const pendingBondEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingCertificateEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: pendingBondEvents,
+      certEvents: pendingCertificateEvents,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     return {
       pendingBond: pendingBondEvents.reduce(
@@ -770,19 +769,15 @@ export class PolygonSDK implements ISwitcher, IStakable {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const completedBondEvents = completedRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const completedCertificateEvents = completedRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: completedBondEvents,
+      certEvents: completedCertificateEvents,
+    } = getFilteredContractEvents(completedRawEvents);
 
-    const pendingBondEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingCertificateEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: pendingBondEvents,
+      certEvents: pendingCertificateEvents,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     const [
       completedBond,

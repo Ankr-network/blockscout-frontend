@@ -11,7 +11,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import {
   ETH_SCALE_FACTOR,
@@ -20,6 +19,7 @@ import {
   ZERO,
   configFromEnv,
   ZERO_EVENT_HASH,
+  ProviderManagerSingleton,
 } from '../common';
 import {
   ABI_ERC20,
