@@ -8,7 +8,7 @@ import { useActionCellStyles } from './useActionCellStyles';
 
 interface IActionCellProps {
   claimLink: string;
-  daysLeft?: number;
+  daysLeft: number;
 }
 
 export const ActionCell = ({
@@ -17,7 +17,7 @@ export const ActionCell = ({
 }: IActionCellProps): JSX.Element => {
   const classes = useActionCellStyles();
 
-  if (daysLeft) {
+  if (daysLeft > 0) {
     return (
       <Chip
         className={classes.chip}

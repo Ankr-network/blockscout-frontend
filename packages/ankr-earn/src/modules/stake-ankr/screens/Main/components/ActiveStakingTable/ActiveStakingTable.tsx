@@ -20,6 +20,7 @@ import {
 } from 'modules/stake-ankr/components/ProviderStatus';
 import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
 import { YourStakeItem } from 'modules/stake-ankr/components/YourStakeItem';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
@@ -134,156 +135,190 @@ export const ActiveStakingTable = (): JSX.Element | null => {
         {isLoading && renderedSkeletonRows}
 
         {!isLoading &&
-          data?.map((row, i) => (
-            <TableRow
-              key={uid(i)}
-              className={classes.row}
-              expandSlot={
-                !!row.detailedData?.length && (
-                  <div className={classes.expandWrapper}>
-                    <Table
-                      dense
-                      className={classes.expandTable}
-                      columnsCount={mainCaptions.length}
-                      customCell="160px 220px 300px 1fr"
-                      minWidth={800}
-                    >
-                      <TableHead>
-                        {expandCaptions.map(({ label }, index) => (
-                          <TableHeadCell
-                            key={uid(index)}
-                            classes={{
-                              content: classes.thContent,
-                            }}
-                            label={<>{label}</>}
+          data?.map((row, i) => {
+            const unstakeLink =
+              row.isUnlocked ||
+              row.detailedData?.some(stake => stake.isUnlocked)
+                ? RoutesConfig.unstake.generatePath(row.provider)
+                : undefined;
+
+            const claimLink = row.isUnlocked
+              ? RoutesConfig.claim.generatePath(row.provider)
+              : undefined;
+
+            const restakeLink = row.isUnlocked
+              ? RoutesConfig.restake.generatePath(row.provider)
+              : undefined;
+            return (
+              <TableRow
+                key={uid(i)}
+                className={classes.row}
+                expandSlot={
+                  !!row.detailedData?.length && (
+                    <div className={classes.expandWrapper}>
+                      <Table
+                        dense
+                        className={classes.expandTable}
+                        columnsCount={mainCaptions.length}
+                        customCell="160px 220px 300px 1fr"
+                        minWidth={800}
+                      >
+                        <TableHead>
+                          {expandCaptions.map(({ label }, index) => (
+                            <TableHeadCell
+                              key={uid(index)}
+                              classes={{
+                                content: classes.thContent,
+                              }}
+                              label={<>{label}</>}
+                            />
+                          ))}
+                        </TableHead>
+
+                        <TableBody>
+                          {row.detailedData.map((additionalInfoItem, j) => {
+                            const internalClaimLink =
+                              additionalInfoItem.isUnlocked
+                                ? RoutesConfig.claim.generatePath(row.provider)
+                                : undefined;
+                            const internalRestakeLink =
+                              additionalInfoItem.isUnlocked
+                                ? RoutesConfig.restake.generatePath(
+                                    row.provider,
+                                  )
+                                : undefined;
+                            return (
+                              <TableRow
+                                key={uid(j)}
+                                className={classes.expandedRow}
+                              >
+                                <TableBodyCell
+                                  className={classes.expandedCell}
+                                  label={`${
+                                    expandCaptions[EExpandLabel.time].label
+                                  }`}
+                                >
+                                  <DateTimeItem
+                                    dateTime={additionalInfoItem.date}
+                                  />
+                                </TableBodyCell>
+
+                                <TableBodyCell
+                                  className={classes.expandedCell}
+                                  label={`${
+                                    expandCaptions[EExpandLabel.lockPeriod]
+                                      .label
+                                  }`}
+                                >
+                                  <LockingPeriodItem
+                                    daysLeft={additionalInfoItem.lockingPeriod}
+                                    isUnlocked={additionalInfoItem.isUnlocked}
+                                    percent={
+                                      additionalInfoItem.lockingPeriodPercent
+                                    }
+                                  />
+                                </TableBodyCell>
+
+                                <TableBodyCell
+                                  className={classes.expandedCell}
+                                  label={`${
+                                    expandCaptions[EExpandLabel.yourStake].label
+                                  }`}
+                                >
+                                  <YourStakeItem
+                                    ankrAmount={additionalInfoItem.stakeAmount}
+                                    usdAmount={
+                                      additionalInfoItem.usdStakeAmount
+                                    }
+                                  />
+                                </TableBodyCell>
+
+                                <TableBodyCell
+                                  className={classes.expandedCell}
+                                  label={`${
+                                    expandCaptions[EExpandLabel.rewards].label
+                                  }`}
+                                >
+                                  <RewardsItem
+                                    ankrAmount={additionalInfoItem.rewards}
+                                    claimLink={internalClaimLink}
+                                    restakeLink={internalRestakeLink}
+                                    usdAmount={additionalInfoItem.usdRewards}
+                                  />
+                                </TableBodyCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )
+                }
+              >
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${expandCaptions[EMainLabel.provider].label}`}
+                >
+                  <ProviderItem
+                    name={getDemoProviderName(row.provider) ?? row.provider}
+                    nodeAPY={row.apy}
+                    statusSlot={
+                      <ProviderStatus
+                        tooltipSlot={
+                          <ProviderStatusTooltip
+                            currentPeriod={10}
+                            latency={40}
+                            status={row.status}
+                            successRate={20}
+                            totalPeriod={10}
                           />
-                        ))}
-                      </TableHead>
+                        }
+                        type={row.status}
+                      />
+                    }
+                  />
+                </TableBodyCell>
 
-                      <TableBody>
-                        {row.detailedData.map((additionalInfoItem, j) => (
-                          <TableRow
-                            key={uid(j)}
-                            className={classes.expandedRow}
-                          >
-                            <TableBodyCell
-                              className={classes.expandedCell}
-                              label={`${
-                                expandCaptions[EExpandLabel.time].label
-                              }`}
-                            >
-                              <DateTimeItem
-                                dateTime={additionalInfoItem.date}
-                              />
-                            </TableBodyCell>
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${expandCaptions[EMainLabel.lockPeriod].label}`}
+                >
+                  <LockingPeriodItem
+                    daysLeft={row.lockingPeriod}
+                    existingStakes={row.detailedData?.length}
+                    isUnlocked={row.isUnlocked}
+                    percent={row.lockingPeriodPercent}
+                  />
+                </TableBodyCell>
 
-                            <TableBodyCell
-                              className={classes.expandedCell}
-                              label={`${
-                                expandCaptions[EExpandLabel.lockPeriod].label
-                              }`}
-                            >
-                              <LockingPeriodItem
-                                daysLeft={additionalInfoItem.lockingPeriod}
-                                isUnlocked={additionalInfoItem.isUnlocked}
-                                percent={
-                                  additionalInfoItem.lockingPeriodPercent
-                                }
-                              />
-                            </TableBodyCell>
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${expandCaptions[EMainLabel.yourStake].label}`}
+                >
+                  <YourStakeItem
+                    ankrAmount={row.stakeAmount}
+                    stakeLink={RoutesConfig.stakeMore.generatePath(
+                      row.provider,
+                    )}
+                    unstakeLink={unstakeLink}
+                    usdAmount={row.usdStakeAmount}
+                  />
+                </TableBodyCell>
 
-                            <TableBodyCell
-                              className={classes.expandedCell}
-                              label={`${
-                                expandCaptions[EExpandLabel.yourStake].label
-                              }`}
-                            >
-                              <YourStakeItem
-                                ankrAmount={additionalInfoItem.stakeAmount}
-                                usdAmount={additionalInfoItem.usdStakeAmount}
-                              />
-                            </TableBodyCell>
-
-                            <TableBodyCell
-                              className={classes.expandedCell}
-                              label={`${
-                                expandCaptions[EExpandLabel.rewards].label
-                              }`}
-                            >
-                              <RewardsItem
-                                ankrAmount={additionalInfoItem.rewards}
-                                usdAmount={additionalInfoItem.usdRewards}
-                              />
-                            </TableBodyCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )
-              }
-            >
-              <TableBodyCell
-                className={classes.cell}
-                label={`${expandCaptions[EMainLabel.provider].label}`}
-              >
-                <ProviderItem
-                  name={getDemoProviderName(row.provider) ?? row.provider}
-                  nodeAPY={row.apy}
-                  statusSlot={
-                    <ProviderStatus
-                      tooltipSlot={
-                        <ProviderStatusTooltip
-                          currentPeriod={10}
-                          latency={40}
-                          status={row.status}
-                          successRate={20}
-                          totalPeriod={10}
-                        />
-                      }
-                      type={row.status}
-                    />
-                  }
-                />
-              </TableBodyCell>
-
-              <TableBodyCell
-                className={classes.cell}
-                label={`${expandCaptions[EMainLabel.lockPeriod].label}`}
-              >
-                <LockingPeriodItem
-                  daysLeft={row.lockingPeriod}
-                  existingStakes={row.detailedData?.length}
-                  isUnlocked={row.isUnlocked}
-                  percent={row.lockingPeriodPercent}
-                />
-              </TableBodyCell>
-
-              <TableBodyCell
-                className={classes.cell}
-                label={`${expandCaptions[EMainLabel.yourStake].label}`}
-              >
-                <YourStakeItem
-                  ankrAmount={row.stakeAmount}
-                  stakeLink={row.stakeLink}
-                  unstakeLink={row.unstakeLink}
-                  usdAmount={row.usdStakeAmount}
-                />
-              </TableBodyCell>
-
-              <TableBodyCell
-                className={classes.cell}
-                label={`${expandCaptions[EMainLabel.rewards].label}`}
-              >
-                <RewardsItem
-                  ankrAmount={row.rewards}
-                  claimLink={row.claimLink}
-                  restakeLink={row.restakeLink}
-                  usdAmount={row.usdRewards}
-                />
-              </TableBodyCell>
-            </TableRow>
-          ))}
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${expandCaptions[EMainLabel.rewards].label}`}
+                >
+                  <RewardsItem
+                    ankrAmount={row.rewards}
+                    claimLink={claimLink}
+                    restakeLink={restakeLink}
+                    usdAmount={row.usdRewards}
+                  />
+                </TableBodyCell>
+              </TableRow>
+            );
+          })}
       </TableBody>
     </Table>
   );

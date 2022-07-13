@@ -16,6 +16,7 @@ import {
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
 import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 import { useUnstakingData } from '../../hooks/useUnstakingData';
 
@@ -93,29 +94,35 @@ export const UnstakingTable = (): JSX.Element | null => {
         {isLoading && renderedSkeletonRows}
 
         {!isLoading &&
-          data?.map((row, i) => (
-            <TableRow key={uid(i)}>
-              <TableBodyCell label={`${captions[ELabel.provider].label}`}>
-                <Typography className={classes.providerName}>
-                  {row.provider}
-                </Typography>
-              </TableBodyCell>
+          data?.map((row, i) => {
+            const claimLink =
+              row.daysLeft <= 0
+                ? RoutesConfig.claim.generatePath(row.provider)
+                : '';
+            return (
+              <TableRow key={uid(i)}>
+                <TableBodyCell label={`${captions[ELabel.provider].label}`}>
+                  <Typography className={classes.providerName}>
+                    {row.provider}
+                  </Typography>
+                </TableBodyCell>
 
-              <TableBodyCell label={`${captions[ELabel.amount].label}`}>
-                <BaseAnkrAmount
-                  ankrAmount={row.unstakeAmount}
-                  usdAmount={row.usdUnstakeAmount}
-                />
-              </TableBodyCell>
+                <TableBodyCell label={`${captions[ELabel.amount].label}`}>
+                  <BaseAnkrAmount
+                    ankrAmount={row.unstakeAmount}
+                    usdAmount={row.usdUnstakeAmount}
+                  />
+                </TableBodyCell>
 
-              <TableBodyCell
-                align="right"
-                label={`${captions[ELabel.action].label}`}
-              >
-                <ActionCell claimLink={row.claimLink} daysLeft={row.daysLeft} />
-              </TableBodyCell>
-            </TableRow>
-          ))}
+                <TableBodyCell
+                  align="right"
+                  label={`${captions[ELabel.action].label}`}
+                >
+                  <ActionCell claimLink={claimLink} daysLeft={row.daysLeft} />
+                </TableBodyCell>
+              </TableRow>
+            );
+          })}
       </TableBody>
     </Table>
   );
