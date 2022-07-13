@@ -4,7 +4,7 @@ import { notificationSaga } from 'domains/notification/effects/notificationSaga'
 import { connect } from 'domains/auth/actions/connect';
 import { disconnect } from 'domains/auth/actions/disconnect';
 import { MultiService } from 'modules/api/MultiService';
-import { providerEventsSaga } from 'provider';
+import { providerEventsSaga } from '@ankr.com/provider';
 
 export function* rootSaga() {
   const { service } = MultiService.getInstance();

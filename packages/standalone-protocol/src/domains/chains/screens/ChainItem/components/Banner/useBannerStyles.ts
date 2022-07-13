@@ -26,12 +26,13 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
     },
   },
   content: {
+    fontSize: 14,
     color: theme.palette.common.black,
     marginLeft: theme.spacing(3),
     fontWeight: 400,
     lineHeight: '28px',
-    maxWidth: 520,
-    textAlign: 'left',
+    maxWidth: 620,
+    textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       marginLeft: theme.spacing(2),
     },

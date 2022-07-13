@@ -6,7 +6,7 @@ import { uid } from 'react-uid';
 import { t } from 'common';
 
 import {
-  Table as BasicTable,
+  Table,
   TableBody,
   TableBodyCell,
   TableHead,
@@ -14,11 +14,11 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { ActionCell } from 'modules/stake-ankr/common/components/ActionCell';
+import { BaseAnkrAmount } from 'modules/stake-ankr/common/components/BaseAnkrAmount';
 
 import { useUnstakingData } from '../../hooks/useUnstakingData';
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
-import { ActionCell } from './ActionCell';
 import { useUnstakingTableStyles } from './useUnstakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
@@ -30,6 +30,7 @@ const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
 enum ELabel {
   provider,
   amount,
+  action,
 }
 
 export const UnstakingTable = (): JSX.Element | null => {
@@ -46,7 +47,7 @@ export const UnstakingTable = (): JSX.Element | null => {
         label: t('stake-ankr.staking-table.unstake-amount'),
       },
       {
-        label: '',
+        label: ' ',
       },
     ],
     [],
@@ -71,7 +72,7 @@ export const UnstakingTable = (): JSX.Element | null => {
   }
 
   return (
-    <BasicTable
+    <Table
       columnsCount={captions.length}
       customCell="1fr 1fr 1fr"
       minWidth={800}
@@ -107,12 +108,15 @@ export const UnstakingTable = (): JSX.Element | null => {
                 />
               </TableBodyCell>
 
-              <TableBodyCell align="right">
+              <TableBodyCell
+                align="right"
+                label={`${captions[ELabel.action].label}`}
+              >
                 <ActionCell claimLink={row.claimLink} daysLeft={row.daysLeft} />
               </TableBodyCell>
             </TableRow>
           ))}
       </TableBody>
-    </BasicTable>
+    </Table>
   );
 };

@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { EEthereumNetworkId } from 'provider';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

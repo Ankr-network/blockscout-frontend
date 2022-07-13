@@ -23,3 +23,5 @@ export const UNSTAKE_DAY_INTERVALS_BY_TOKEN: Record<UnstakableToken, string> = {
 };
 
 export const INPUT_DEBOUNCE_TIME: Milliseconds = 1_000;
+
+export const MIN_STAKE_TRADE_INFO_DISCOUNT_VAL = 0.5;

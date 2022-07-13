@@ -5,7 +5,7 @@ ProviderEvents
 
 - import providerEventsSaga to your root saga
 ```js
-import { providerEventsSaga } from 'provider';
+import { providerEventsSaga } from '@ankr.com/provider';
 ```
 
 - add new fork with params

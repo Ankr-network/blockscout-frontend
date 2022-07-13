@@ -22,6 +22,14 @@ jest.mock('modules/bridge/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 
+jest.mock('modules/bridge/actions/notarize', () => ({
+  notarize: jest.fn(),
+}));
+
+jest.mock('modules/bridge/actions/withdrawal', () => ({
+  withdrawal: jest.fn(),
+}));
+
 describe('modules/bridge/screens/BridgeMainPage/components/TxView/useWithdraw', () => {
   const defaultWithdrawData = {
     loading: false,

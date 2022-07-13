@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
-import { CopyTokenAddress } from '..';
-import { useCopyTokenAddressHook } from '../useCopyTokenAddressHook';
+import { useCopyTokenAddressHook } from 'modules/common/hooks/useCopyTokenAddressHook';
 
-jest.mock('../useCopyTokenAddressHook', () => ({
+import { CopyTokenAddress } from '..';
+
+jest.mock('modules/common/hooks/useCopyTokenAddressHook', () => ({
   useCopyTokenAddressHook: jest.fn(),
 }));
 

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 

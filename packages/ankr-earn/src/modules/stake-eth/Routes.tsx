@@ -1,9 +1,10 @@
 import { generatePath, Route, Switch, useParams } from 'react-router-dom';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { STAKING_PATH, featuresConfig } from 'modules/common/const';
+import { STAKING_PATH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -101,12 +102,6 @@ const ClaimSteps = loadComponent(() =>
   ),
 );
 
-const TestingStake = loadComponent(() =>
-  import('./screens/StakeWithoutClaim').then(
-    module => module.StakeWithoutClaim,
-  ),
-);
-
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.claim.path]}>
@@ -154,19 +149,6 @@ export function getRoutes(): JSX.Element {
             <ClaimSteps />
           </DefaultLayout>
         </GuardETHRoute>
-
-        {featuresConfig.stakeETHWithoutClaim && (
-          <GuardETHRoute
-            exact
-            availableNetworks={ETH_STAKING_NETWORKS}
-            path={RoutesConfig.stakeWithoutClaim.path}
-            providerId={ETH_PROVIDER_ID}
-          >
-            <DefaultLayout>
-              <TestingStake />
-            </DefaultLayout>
-          </GuardETHRoute>
-        )}
 
         <Route>
           <DefaultLayout>

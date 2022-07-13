@@ -2,7 +2,7 @@ import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult } from 'provider';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 

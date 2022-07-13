@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { DEFAULT_FIXED, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 
 import { useTotalInfoStyles } from './useTotalInfoStyles';
 
@@ -19,7 +19,7 @@ export const TotalInfoAmount = ({
   isLoading = false,
 }: ITotalInfoAmountProps): JSX.Element => {
   const classes = useTotalInfoStyles();
-  const formattedValue = value.decimalPlaces(DEFAULT_ROUNDING).toFormat();
+  const formattedValue = value.decimalPlaces(DEFAULT_FIXED).toFormat();
 
   return (
     <>

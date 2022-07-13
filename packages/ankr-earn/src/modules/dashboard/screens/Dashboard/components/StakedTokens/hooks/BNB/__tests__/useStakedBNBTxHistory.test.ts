@@ -1,13 +1,13 @@
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EBinancePoolEventsMap } from 'modules/stake-bnb/api/BinanceSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedBNBTxHistory } from '../useStakedBNBTxHistory';
@@ -24,13 +24,17 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/stake-bnb/actions/fetchTxHistory', () => ({
+  fetchTxHistory: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory', () => {
   const NOW = new Date();
 
   const defaultData = {
     loading: false,
     data: {
-      completedABNBB: [
+      completedBond: [
         {
           txAmount: ONE_ETH,
           txDate: NOW,
@@ -44,7 +48,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           txType: EBinancePoolEventsMap.UnstakePending,
         },
       ],
-      pendingABNBB: [
+      pendingBond: [
         {
           txAmount: ONE_ETH.multipliedBy(3),
           txDate: NOW,

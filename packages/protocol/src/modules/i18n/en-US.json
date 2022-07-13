@@ -155,10 +155,8 @@
       }
     },
     "banner": {
-      "dashbaord": "Starting July 15, public plans are limited to 250k calls a day. To get unlimited, upgrade to a",
-      "premium-plan": "Premium Plan",
+      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
       "chain-item": {
-        "top": "Starting July 15, public plans are limited to 250k calls a day.",
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
         "button": "Unlock Premium"
       }
@@ -196,7 +194,6 @@
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
         "solana-api": "Solana API{plural}",
-
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
       }
@@ -612,11 +609,12 @@
         "placeholder": "Payment type",
         "all": "All",
         "unknown": "Unknown",
-        "top-up": "Top Up",
+        "top-up": "Top up",
         "deduction": "Payment charging",
         "withdrawal": "Withdrawal",
         "bonus": "Bonus",
-        "compensation": "Compensation"
+        "compensation": "Compensation",
+        "voucher": "Voucher operations"
       },
       "time-type": {
         "week": "Past week",
@@ -636,26 +634,6 @@
   "pro-block": {
     "label": "Premium features"
   },
-  "deposit-steps": {
-    "title": "Unlocking Premium",
-    "metamask": "Metamask",
-    "step-content": {
-      "0": "I understand my wallet will make a non-refundable deposit that includes a gas fee. Ankr cannot provide assistance if I lose access to my wallet and the associated Premium account",
-      "1": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and provide us your public encryption key.",
-      "2": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and allow us to spend your ANKR.",
-      "3": "Click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and confirm deposit.",
-      "4": "Thank you! Operation will take 2-4 minutes.",
-      "5": "Finally, click <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension and decrypt the message."
-    },
-    "step-notice": {
-      "1": "To enable Ankr to securely enable your deposit.",
-      "2": "So we could take your deposit.",
-      "3": "Operation will take a while (2-4 min).",
-      "4": "Don’t worry, Ethereum Network needs to calculate 12 blocks. 10-20 seconds each.",
-      "5": "The last step in&nbsp;your sign in&nbsp;process."
-    },
-    "next": "Next"
-  },
   "top-up-steps": {
     "title": "Top Up",
     "metamask": "Metamask",
@@ -664,12 +642,14 @@
       "1": "Click Confirm and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
       "2": "Click Confirm and allow&nbsp;us to&nbsp;spend your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
       "3": "Thank you! Transaction<br/> is&nbsp;on&nbsp;the way.",
+      "3-error": "Oops! Transaction has not been completed.",
       "4": "Finally, click Done and decrypt the message in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension."
     },
     "step-notice": {
       "1": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
       "2": "If&nbsp;you changed your mind, click Cancel and give&nbsp;us permission to&nbsp;access your Ankr again so&nbsp;we&nbsp;could revoke your Top&nbsp;Up",
       "3": "After Ethereum network validation you will see updated balance of&nbsp;your wallet.",
+      "3-error": "Don’t worry, your funds are safe. Just try again.",
       "4": "The last step in&nbsp;your top up&nbsp;process."
     },
     "button": {
@@ -681,6 +661,7 @@
       "3": "Next",
       "3-loading": "Please wait",
       "3-done": "Done",
+      "3-error": "Try Again",
       "4-loading": "Please wait",
       "4": "Done",
       "reject": "Cancel"

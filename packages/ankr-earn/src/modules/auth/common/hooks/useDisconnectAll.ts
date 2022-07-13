@@ -1,7 +1,7 @@
 import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from 'provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { disconnect } from '../actions/disconnect';
 

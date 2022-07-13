@@ -1,7 +1,7 @@
 {
   "extends": "../../.common-eslintrc",
   "settings": {
-    "import/core-modules": ["provider", "ui"],
+    "import/core-modules": ["ui"],
     "import/parsers": {
       "@typescript-eslint/parser": [".ts"]
     },

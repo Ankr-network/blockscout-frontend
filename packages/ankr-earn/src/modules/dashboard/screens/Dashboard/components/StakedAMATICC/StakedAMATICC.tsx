@@ -1,8 +1,9 @@
-import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { tHTML } from 'common';
+
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -33,18 +34,19 @@ export const StakedAMATICC = (): JSX.Element => {
 
   const {
     amount,
-    pendingValue,
+    chainId,
     isLoading,
     isStakeLoading,
+    isUnstakeLoading,
+    nativeAmount,
     network,
-    chainId,
+    pendingValue,
+    ratio,
     stakeLink,
     token,
     tokenAddress,
     unstakeLink,
-    isUnstakeLoading,
-    ratio,
-    nativeAmount,
+    usdAmount,
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
@@ -95,6 +97,7 @@ export const StakedAMATICC = (): JSX.Element => {
         stakeLink={stakeLink}
         token={token}
         unstakeLink={unstakeLink}
+        usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
@@ -109,10 +112,11 @@ export const StakedAMATICC = (): JSX.Element => {
 
       <TokenInfoDialog
         addTokenToWallet={onAddTokenToWallet}
-        description="dashboard.token-info.aMATICc"
+        description={tHTML('dashboard.token-info.aMATICc', {
+          ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+        })}
         moreHref={getStakingOverviewUrl(Token.MATIC)}
         open={isOpenedInfo}
-        ratio={ratio && !ratio.isZero() ? new BigNumber(1).div(ratio) : ZERO}
         tokenAddress={tokenAddress}
         tokenName={Token.aMATICc}
         onClose={onCloseInfo}

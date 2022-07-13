@@ -14,8 +14,6 @@ export const useHistoryTableStyles = makeStyles(
     },
 
     simpleText: {
-      display: 'flex',
-      justifyContent: 'flex-start',
       fontSize: 14,
     },
 

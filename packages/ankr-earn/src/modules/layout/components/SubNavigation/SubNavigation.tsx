@@ -1,10 +1,6 @@
 import { t } from 'common';
 
-import {
-  CROWDLOAN_LITEPAPER,
-  LITEPAPER_CN,
-  LITEPAPER_EN,
-} from 'modules/common/const';
+import { LITEPAPER_LINK } from 'modules/common/const';
 
 import { Navigation } from '../../../common/components/Navigation';
 
@@ -18,15 +14,15 @@ export const SubNavigation = ({
   const items = [
     {
       label: t('litepaper-links.en'),
-      href: LITEPAPER_EN,
+      href: LITEPAPER_LINK.stakingEN,
     },
     {
       label: t('litepaper-links.cn'),
-      href: LITEPAPER_CN,
+      href: LITEPAPER_LINK.stakingCN,
     },
     {
       label: t('litepaper-links.crowdloan'),
-      href: CROWDLOAN_LITEPAPER,
+      href: LITEPAPER_LINK.crowdloan,
     },
   ];
 

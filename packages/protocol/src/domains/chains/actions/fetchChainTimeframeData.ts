@@ -7,9 +7,11 @@ import { MultiService } from 'modules/api/MultiService';
 import { fetchTotalRequests } from './fetchTotalRequests';
 import {
   calculateOnedayRequests,
+  calculateTimestampAmount,
   getMultiplier,
   getUrlByChainId,
   mappingTotalRequestsHistory,
+  SEVEN_DAYS_IN_WEEK,
 } from '../utils/statsUtils';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
@@ -82,8 +84,35 @@ export const fetchChainTimeframeData = createSmartAction<
                 .toNumber();
 
               const totalRequestsHistory = result?.totalRequestsHistory ?? {};
-
-              if (timeframe === '30d') {
+              if (timeframe === '24h') {
+                const mappingHistory =
+                  mappingTotalRequestsHistory(totalRequestsHistory);
+                Object.keys(mappingHistory).forEach((key: string) => {
+                  if (key in data.totalRequestsHistory) {
+                    data.totalRequestsHistory[key] += mappingHistory[key];
+                  }
+                });
+                Object.keys(data.totalRequestsHistory).forEach(
+                  (key: string) => {
+                    if (!(key in mappingHistory)) {
+                      delete data.totalRequestsHistory[key];
+                    }
+                  },
+                );
+              } else if (timeframe === '7d') {
+                const amount = calculateTimestampAmount(
+                  data.totalRequestsHistory,
+                );
+                const oneTimestampRequests = new BigNumber(SEVEN_DAYS_IN_WEEK)
+                  .multipliedBy(calculateOnedayRequests(totalRequestsHistory))
+                  .dividedToIntegerBy(amount)
+                  .toNumber();
+                Object.keys(data.totalRequestsHistory).forEach(
+                  (key: string) => {
+                    data.totalRequestsHistory[key] += oneTimestampRequests;
+                  },
+                );
+              } else {
                 const onedayRequests =
                   calculateOnedayRequests(totalRequestsHistory);
 
@@ -92,19 +121,6 @@ export const fetchChainTimeframeData = createSmartAction<
                     data.totalRequestsHistory[key] += onedayRequests;
                   },
                 );
-              } else {
-                const mappingHistory = mappingTotalRequestsHistory(
-                  timeframe,
-                  totalRequestsHistory,
-                );
-
-                Object.keys(mappingHistory).forEach((key: string) => {
-                  if (key in data.totalRequestsHistory) {
-                    data.totalRequestsHistory[key] += mappingHistory[key];
-                  } else {
-                    data.totalRequestsHistory[key] = mappingHistory[key];
-                  }
-                });
               }
             }
             return data;

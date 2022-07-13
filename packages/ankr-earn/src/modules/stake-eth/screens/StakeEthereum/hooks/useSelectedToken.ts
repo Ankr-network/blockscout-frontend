@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
-import { TEthToken } from 'modules/api/EthSDK';
+import { TEthToken } from '@ankr.com/staking-sdk';
+
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getValidSelectedToken } from 'modules/stake-eth/utils/getValidSelectedToken';
 

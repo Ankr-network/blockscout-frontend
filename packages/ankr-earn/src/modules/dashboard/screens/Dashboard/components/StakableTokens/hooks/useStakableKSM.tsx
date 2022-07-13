@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
-import { EPolkadotNetworkId } from 'provider';
+import { EPolkadotNetworkId } from '@ankr.com/provider';
 
 import {
   IPolkadotNetwork,

@@ -67,4 +67,8 @@ export const useEmptyStateStyles = makeStyles(theme => ({
       textAlign: 'center',
     },
   },
+
+  bigLogo: {
+    width: 159,
+  },
 }));

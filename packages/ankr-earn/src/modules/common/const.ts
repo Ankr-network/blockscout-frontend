@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { AvailableReadProviders } from 'provider';
+import { Address, AvailableReadProviders } from '@ankr.com/provider';
 
 import packageJson from '../../../package.json';
 
@@ -9,17 +9,21 @@ import { EEthereumNetworkId, Env } from './types';
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
 export const DOCS_LINK = 'https://www.ankr.com/docs/staking/overview/';
-export const STAKEFI_LINK = 'https://stakefi.ankr.com/liquid-staking';
+export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;
-export const ETH_SCALE_FACTOR = 10 ** 18;
+export const ETH_DECIMALS = 18;
+export const ETH_SCALE_FACTOR = 10 ** ETH_DECIMALS;
 
 export const ACTION_CACHE_SEC = 600;
 
-export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
+export const OPENOCEAN_MAX_SAFE_GAS_VALUE = 300; // Note: "5_000" is a maximum
+
+export const ZERO_ADDR: Address = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
+export const ONE = new BigNumber(1);
 export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
@@ -32,17 +36,17 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
-const isLocal = !!process.env.REACT_APP_IS_LOCAL;
+export const isLocal = !!process.env.REACT_APP_IS_LOCAL;
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
 
-export const LITEPAPER_EN =
-  'https://assets.ankr.com/files/stakefi_litepaper.pdf';
-export const LITEPAPER_CN =
-  'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
-export const CROWDLOAN_LITEPAPER =
-  'https://assets.ankr.com/files/parachain-liquid-bonding-litepaper.pdf';
+export const LITEPAPER_LINK = {
+  stakingEN: 'https://assets.ankr.com/files/stakefi_litepaper.pdf',
+  stakingCN: 'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf',
+  crowdloan:
+    'https://assets.ankr.com/files/parachain-liquid-bonding-litepaper.pdf',
+};
 
 export const BRIDGE_AUDIT_LINK =
   'https://assets.ankr.com/staking/ankr_bridge_security_audit.pdf';
@@ -54,28 +58,32 @@ export const MATIC_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_matic.pdf';
 
 export const SOCIAL_LINK = {
-  discord: 'https://discord.gg/uYaNu23Ww7',
-  facebook: 'facebook',
+  discord: 'https://discord.gg/hs2SK9pBXP',
   medium: 'https://medium.com/ankr-network',
-  telegram: 'https://t.me/ankrnetwork',
-  telegramAnnouncements: 'https://t.me/anrknetworkann',
-  twitter: 'https://twitter.com/ankr',
+  telegram: 'https://t.me/ankrstaking',
+  twitter: 'https://twitter.com/ankrstaking',
 };
 
 export const STAKE_LEGACY_LINKS = {
-  DOT: 'https://stakefi.ankr.com/liquid-staking/DOT',
-  ETH: 'https://stakefi.ankr.com/liquid-staking/ETH',
-  KSM: 'https://stakefi.ankr.com/liquid-staking/KSM',
-  WND: 'https://stakefi.ankr.com/liquid-staking/WND',
+  DOT: 'https://old-stakefi.ankr.com/liquid-staking/DOT',
+  ETH: 'https://old-stakefi.ankr.com/liquid-staking/ETH',
+  KSM: 'https://old-stakefi.ankr.com/liquid-staking/KSM',
+  WND: 'https://old-stakefi.ankr.com/liquid-staking/WND',
 };
 
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
+export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
+
+export const OPENOCEAN_QUOTE_URL =
+  'https://open-api.openocean.finance/v1/cross/quote';
+
 export const featuresConfig = {
+  testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActiveUSDEquivalent: false,
+  isActiveStakeTradeInfo: true,
   liquidityMining: false,
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
@@ -86,7 +94,7 @@ export const featuresConfig = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
   isActivePolkadotStaking: currentEnv !== Env.Production,
-  ankrStaking: isLocal,
+  ankrStaking: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {
@@ -99,6 +107,7 @@ export enum SupportedChainIDS {
   FANTOM_OPERA = EEthereumNetworkId.fantom,
   FANTOM_TESTNET = EEthereumNetworkId.fantomTestnet,
   POLYGON = EEthereumNetworkId.polygon,
+  POLYGON_MUMBAI_TESTNET = EEthereumNetworkId.mumbai,
 }
 
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
@@ -111,6 +120,7 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_OPERA]: 'https://ftmscan.com',
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
+  [SupportedChainIDS.POLYGON_MUMBAI_TESTNET]: 'https://mumbai.polygonscan.com',
 };
 
 export const ETH_NETWORK_BY_ENV =
@@ -141,7 +151,7 @@ export const FTM_NETWORK_BY_ENV =
 export const POLYGON_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.polygon
-    : EEthereumNetworkId.smartchainTestnet;
+    : EEthereumNetworkId.mumbai;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production

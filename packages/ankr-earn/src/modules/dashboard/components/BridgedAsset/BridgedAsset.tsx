@@ -2,11 +2,11 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
-import { EEthereumNetworkId } from 'provider';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { nativeTokenMap } from 'modules/dashboard/const';
@@ -62,7 +62,7 @@ export const BridgedAsset = ({
   const nativeAmountText =
     isActiveAmountInfo &&
     t('unit.token-value', {
-      value: nativeAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
       token: nativeTokenMap[token],
     });
 

@@ -5,7 +5,7 @@ import { uid } from 'react-uid';
 import { t } from 'common';
 
 import {
-  Table as BasicTable,
+  Table,
   TableBody,
   TableBodyCell,
   TableHead,
@@ -13,14 +13,19 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import {
+  ProviderStatus,
+  ProviderStatusTooltip,
+} from 'modules/stake-ankr/components/ProviderStatus';
 
+import { LockingPeriodItem } from '../../../../common/components/LockingPeriodItem/LockingPeriodItem';
+import { RewardsItem } from '../../../../common/components/RewardsItem';
+import { YourStakeItem } from '../../../../common/components/YourStakeItem';
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
-import { LockingPeriodItem } from './LockingPeriodItem/LockingPeriodItem';
+import { DateTimeItem } from './DateTimeItem';
 import { ProviderItem } from './ProviderItem';
-import { RewardsItem } from './RewardsItem';
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
-import { YourStakeItem } from './YourStakeItem';
 
 const SKELETON_ROWS_COUNT = 3;
 const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 300];
@@ -33,6 +38,7 @@ enum ELabel {
   lockPeriod,
   yourStake,
   rewards,
+  date,
 }
 
 export const ActiveStakingTable = (): JSX.Element | null => {
@@ -54,9 +60,14 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       {
         label: t('stake-ankr.staking-table.rewards'),
       },
+      {
+        label: t('stake-ankr.staking-table.date'),
+      },
     ],
     [],
   );
+
+  const mainCaptions = captions.slice(0, -1);
 
   const renderedSkeletonRows = useMemo(
     () =>
@@ -77,13 +88,15 @@ export const ActiveStakingTable = (): JSX.Element | null => {
   }
 
   return (
-    <BasicTable
-      columnsCount={captions.length}
-      customCell="200px 250px 350px 1fr"
+    <Table
+      expandable
+      className={classes.table}
+      columnsCount={mainCaptions.length}
+      customCell="200px 220px 300px 1fr"
       minWidth={800}
     >
       <TableHead>
-        {captions.map(({ label }, i) => (
+        {mainCaptions.map(({ label }, i) => (
           <TableHeadCell
             key={uid(i)}
             classes={{
@@ -99,16 +112,96 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
         {!isLoading &&
           data?.map((row, i) => (
-            <TableRow key={uid(i)}>
-              <TableBodyCell label={`${captions[ELabel.provider].label}`}>
+            <TableRow
+              key={uid(i)}
+              className={classes.row}
+              expandSlot={
+                !!row.detailedData?.length && (
+                  <Table
+                    className={classes.table}
+                    columnsCount={mainCaptions.length}
+                    customCell="200px 250px 300px 1fr"
+                    minWidth={1100}
+                  >
+                    <TableBody>
+                      {row.detailedData.map((additionalInfoItem, j) => (
+                        <TableRow key={uid(j)} className={classes.expandedRow}>
+                          <TableBodyCell
+                            className={classes.expandedCell}
+                            label={`${captions[ELabel.date].label}`}
+                          >
+                            <DateTimeItem dateTime={additionalInfoItem.date} />
+                          </TableBodyCell>
+
+                          <TableBodyCell
+                            className={classes.expandedCell}
+                            label={`${captions[ELabel.lockPeriod].label}`}
+                          >
+                            <LockingPeriodItem
+                              daysLeft={additionalInfoItem.lockingPeriod}
+                              isUnlocked={additionalInfoItem.isUnlocked}
+                              percent={additionalInfoItem.lockingPeriod}
+                            />
+                          </TableBodyCell>
+
+                          <TableBodyCell
+                            className={classes.expandedCell}
+                            label={`${captions[ELabel.yourStake].label}`}
+                          >
+                            <YourStakeItem
+                              ankrAmount={additionalInfoItem.stakeAmount}
+                              stakeLink={additionalInfoItem.stakeLink}
+                              unstakeLink={additionalInfoItem.unstakeLink}
+                              usdAmount={additionalInfoItem.usdStakeAmount}
+                            />
+                          </TableBodyCell>
+
+                          <TableBodyCell
+                            className={classes.expandedCell}
+                            label={`${captions[ELabel.rewards].label}`}
+                          >
+                            <RewardsItem
+                              ankrAmount={additionalInfoItem.rewards}
+                              claimLink={additionalInfoItem.claimLink}
+                              restakeLink={additionalInfoItem.restakeLink}
+                              usdAmount={additionalInfoItem.usdRewards}
+                            />
+                          </TableBodyCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )
+              }
+            >
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.provider].label}`}
+              >
                 <ProviderItem
                   name={row.provider}
                   nodeAPY={row.apy}
-                  status={row.status}
+                  statusSlot={
+                    <ProviderStatus
+                      tooltipSlot={
+                        <ProviderStatusTooltip
+                          currentPeriod={10}
+                          latency={40}
+                          status={row.status}
+                          successRate={20}
+                          totalPeriod={10}
+                        />
+                      }
+                      type={row.status}
+                    />
+                  }
                 />
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[ELabel.lockPeriod].label}`}>
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.lockPeriod].label}`}
+              >
                 <LockingPeriodItem
                   daysLeft={row.lockingPeriod}
                   isUnlocked={row.isUnlocked}
@@ -116,7 +209,10 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 />
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[ELabel.yourStake].label}`}>
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.yourStake].label}`}
+              >
                 <YourStakeItem
                   ankrAmount={row.stakeAmount}
                   stakeLink={row.stakeLink}
@@ -125,7 +221,10 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 />
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[ELabel.rewards].label}`}>
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.rewards].label}`}
+              >
                 <RewardsItem
                   ankrAmount={row.rewards}
                   claimLink={row.claimLink}
@@ -136,6 +235,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
             </TableRow>
           ))}
       </TableBody>
-    </BasicTable>
+    </Table>
   );
 };
