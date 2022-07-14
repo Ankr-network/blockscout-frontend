@@ -1,14 +1,19 @@
 import { useQuery } from '@redux-requests/react';
-import { useMemo } from 'react';
 
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
+
+const tradeLink: string = BoostRoutes.tradingCockpit.generatePath(
+  Token.FTM,
+  Token.aFTMb,
+);
 
 export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({
@@ -16,11 +21,6 @@ export const useFaq = (): IFaqItem[] => {
   });
 
   const minAmount = data?.minStake.toNumber() || 0;
-
-  const tradeLink: string = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.FTM, Token.aFTMb),
-    [],
-  );
 
   const faqItems = useLocaleMemo(
     () => [
@@ -74,9 +74,18 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-fantom.faq.question-12'),
-        answer: tHTMLWithRouter('stake-fantom.faq.answer-12', {
-          link: tradeLink,
-        }),
+        answer: (
+          <>
+            {tHTMLWithRouter('stake-fantom.faq.answer-12.p1', {
+              link: tradeLink,
+            })}
+
+            {tHTML('stake-fantom.faq.answer-12.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+            })}
+          </>
+        ),
       },
       {
         question: t('stake-fantom.faq.question-13'),

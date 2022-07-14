@@ -1,10 +1,18 @@
 import { useQuery } from '@redux-requests/react';
 
-import { t, tHTML } from 'common';
+import { t, tHTML, tHTMLWithRouter } from 'common';
 
+import { RoutesConfig } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
+
+const tradeLink = RoutesConfig.tradingCockpit.generatePath(
+  Token.aMATICb,
+  Token.MATIC,
+);
 
 export const useFaq = (): IFaqItem[] => {
   const { data: fetchStatsData } = useQuery({
@@ -57,7 +65,18 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-polygon.faq.question-11'),
-        answer: tHTML('stake-polygon.faq.answer-11'),
+        answer: (
+          <>
+            {tHTMLWithRouter('stake-polygon.faq.answer-11.p1', {
+              link: tradeLink,
+            })}
+
+            {tHTML('stake-polygon.faq.answer-11.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+            })}
+          </>
+        ),
       },
       {
         question: t('stake-polygon.faq.question-12'),

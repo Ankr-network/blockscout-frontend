@@ -1,24 +1,23 @@
-import { useMemo } from 'react';
-
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import { useRedeemData } from '../../../hooks/useRedeemData';
 
+const aBNBbLink = BoostRoutes.tradingCockpit.generatePath(
+  Token.BNB,
+  Token.aBNBb,
+);
+
 export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();
 
   const { redeemPeriod, redeemValue } = useRedeemData();
-
-  const aBNBbLink: string = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.BNB, Token.aBNBb),
-    [],
-  );
 
   return useLocaleMemo(
     (): IFaqItem[] => [
@@ -71,15 +70,24 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-bnb.faq.question-11'),
-        answer: tHTMLWithRouter('stake-bnb.faq.answer-11', {
-          aBNBbLink,
-        }),
+        answer: (
+          <>
+            {tHTMLWithRouter('stake-bnb.faq.answer-11.p1', {
+              aBNBbLink,
+            })}
+
+            {tHTML('stake-bnb.faq.answer-11.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+            })}
+          </>
+        ),
       },
       {
         question: t('stake-bnb.faq.question-12'),
         answer: t('stake-bnb.faq.answer-12'),
       },
     ],
-    [redeemPeriod, redeemValue, stats, aBNBbLink],
+    [redeemPeriod, redeemValue, stats],
   );
 };
