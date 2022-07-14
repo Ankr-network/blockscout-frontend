@@ -15,6 +15,7 @@ import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actio
 import { fetchStakeStats } from 'modules/stake-polkadot/actions/fetchStakeStats';
 import { stake } from 'modules/stake-polkadot/actions/stake';
 import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
+import { useSuccessDialog } from 'modules/stake-polkadot/hooks/useSuccessDialog';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
@@ -30,7 +31,6 @@ import {
 } from 'modules/stake/components/StakeForm';
 
 import { useFaq } from './useFaq';
-import { useSuccessDialog } from './useSuccessDialog';
 
 interface IUseStakeFormData {
   amount: number;

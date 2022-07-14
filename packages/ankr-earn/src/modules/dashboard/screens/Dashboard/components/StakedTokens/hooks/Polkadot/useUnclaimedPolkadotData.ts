@@ -4,14 +4,18 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 
-import { STAKE_LEGACY_LINKS, ZERO } from 'modules/common/const';
+import { featuresConfig, STAKE_LEGACY_LINKS, ZERO } from 'modules/common/const';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
+import { RoutesConfig } from 'modules/stake-polkadot/Routes';
 import {
   EPolkadotNetworks,
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IUseClaimedPolkadotDataProps {
   ethToken: TPolkadotETHToken;
@@ -27,11 +31,9 @@ interface IUseClaimedPolkadotData {
   isShowed: boolean;
   networkTxt: string;
   polkadotToken: TPolkadotToken;
+  usdAmount?: BigNumber;
 }
 
-/**
- *  TODO Add logic for this beta version (Polkadot claiming)
- */
 export const useUnclaimedPolkadotData = ({
   ethToken,
   network,
@@ -42,9 +44,29 @@ export const useUnclaimedPolkadotData = ({
     requestKey: getPolkadotRequestKey(network),
   });
 
-  const amount = claimableBalance?.claimable ?? ZERO;
+  const { data: metrics } = useQuery({
+    type: getMetrics,
+  });
 
-  const claimLink = STAKE_LEGACY_LINKS[polkadotToken] ?? '';
+  // Note: This is unsafe type conversion. Please be carefully
+  const serviceName = network.toLowerCase() as EMetricsServiceName;
+
+  const amount = claimableBalance?.claimable ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[serviceName]?.totalStaked,
+        totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+      }),
+    [amount, metrics, serviceName],
+  );
+
+  const claimLink =
+    featuresConfig.isActivePolkadotStaking &&
+    featuresConfig.isActivePolkadotClaiming
+      ? RoutesConfig.claim.generatePath(network)
+      : STAKE_LEGACY_LINKS[polkadotToken] ?? '';
 
   const isShowed = !amount?.isZero() || isLoading;
 
@@ -64,5 +86,6 @@ export const useUnclaimedPolkadotData = ({
     isShowed,
     networkTxt,
     polkadotToken,
+    usdAmount,
   };
 };
