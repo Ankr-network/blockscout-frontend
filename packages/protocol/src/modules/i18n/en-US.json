@@ -222,7 +222,11 @@
     "chart": {
       "date": "{value, date, medium}",
       "time": "{value, time, short}",
-      "calls-count": "{value, number, ::compact-short}"
+      "calls-count": "{value, number, ::compact-short}",
+      "placeholder": {
+        "title": "Send your first request",
+        "subtitle": "Once you start sending requests, your activity will be visible here."
+      }
     },
     "map": {
       "header": "Top 10 countries by requests",

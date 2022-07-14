@@ -3,8 +3,10 @@ import classNames from 'classnames';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
 import { ChainRequestsChart } from '../ChainRequestsChart';
+import { RequestsChartPlaceholder } from './components/RequestsChartPlaceholder';
 import { Spinner } from 'ui';
 import { StatsTimeframe } from 'domains/chains/types';
+import { isTotalRequestsHistoryNotEmpty } from './utils/isTotalRequestsHistoryNotEmpty';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './useStyles';
 
@@ -35,6 +37,10 @@ export const ChainRequestsOverview = ({
     },
     [onClick],
   );
+  console.log({
+    totalRequestsHistory,
+    keys: Object.keys(totalRequestsHistory || {}),
+  });
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -45,14 +51,15 @@ export const ChainRequestsOverview = ({
         </div>
       ) : (
         <div className={classes.chart}>
-          {totalRequestsHistory &&
-            Object.keys(totalRequestsHistory).length !== 0 && (
-              <ChainRequestsChart
-                requestsLog={totalRequestsHistory}
-                timeframe={timeframe}
-                loading={loading}
-              />
-            )}
+          {isTotalRequestsHistoryNotEmpty(totalRequestsHistory) ? (
+            <ChainRequestsChart
+              requestsLog={totalRequestsHistory}
+              timeframe={timeframe}
+              loading={loading}
+            />
+          ) : (
+            <RequestsChartPlaceholder />
+          )}
         </div>
       )}
       <div className={classes.buttonGroup}>
