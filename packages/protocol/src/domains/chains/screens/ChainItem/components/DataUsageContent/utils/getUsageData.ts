@@ -3,7 +3,6 @@ import { PrivateStat } from 'multirpc-sdk';
 
 import { PublicStats, UsageData } from '../types';
 import { StatsTimeframe } from 'domains/chains/types';
-import { getMethodRequests } from './getMethodRequests';
 
 export interface UsageDataParams {
   arePrivateStatsLoading: boolean;
@@ -12,7 +11,6 @@ export interface UsageDataParams {
   publicStats: PublicStats;
   setStatsTimeframe: (timeframe: StatsTimeframe) => void;
   statsTimeframe: StatsTimeframe;
-  switchStatsTimeframe: () => void;
 }
 
 export const getUsageData = ({
@@ -30,17 +28,14 @@ export const getUsageData = ({
   },
   setStatsTimeframe: setTimeframe,
   statsTimeframe: timeframe,
-  switchStatsTimeframe: switchTimeframe,
 }: UsageDataParams): UsageData => {
   const publicUsageData: UsageData = {
     countries,
     error: publicStatsError,
     isWalletConnected,
     loading: arePublicStatsLoading,
-    methodRequests: [],
     pristine,
     setTimeframe,
-    switchTimeframe,
     timeframe,
     totalCached,
     totalRequests: publicTotalRequests,
@@ -50,7 +45,6 @@ export const getUsageData = ({
   const {
     totalRequests: privateTotalRequests = 0,
     counts: privateTotalRequestsHistory = {},
-    topRequests,
   } = privateStats;
 
   const privateUsageData: UsageData = {
@@ -58,10 +52,8 @@ export const getUsageData = ({
     error: undefined,
     isWalletConnected,
     loading: arePrivateStatsLoading,
-    methodRequests: getMethodRequests(topRequests),
     pristine: false,
     setTimeframe,
-    switchTimeframe,
     timeframe,
     totalCached: new BigNumber(0),
     totalRequests: new BigNumber(privateTotalRequests),

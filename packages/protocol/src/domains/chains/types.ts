@@ -3,15 +3,6 @@ export enum ChainType {
   Testnet = 'testnet',
 }
 
-export interface MethodRequest {
-  method: string;
-  calls: number;
-}
-
-export interface PreparedRequest extends MethodRequest {
-  percent: number;
-}
-
 export enum SortType {
   Name = 'name',
   Usage = 'usage',

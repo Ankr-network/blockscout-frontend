@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ChainItemDetails } from '../ChainItemDetails';
 import { ChainRequestsOverview } from '../ChainRequestsOverview';
-import { MethodsRating } from '../MethodsRating';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { RequestsMap } from '../RequestsMap';
 import { UsageSummary } from '../UsageSummary';
@@ -21,10 +20,8 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
     error,
     isWalletConnected,
     loading,
-    methodRequests,
     pristine,
     setTimeframe,
-    switchTimeframe,
     timeframe,
     totalCached,
     totalRequests,
@@ -62,13 +59,6 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           </ChainRequestsOverview>
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
-          )}
-          {isWalletConnected && methodRequests.length > 0 && (
-            <MethodsRating
-              methodRequests={methodRequests}
-              switchTimeframe={switchTimeframe}
-              timeframe={timeframe}
-            />
           )}
         </>
       )}

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 import { Country } from 'domains/chains/actions/fetchChainTimeframeData';
-import { MethodRequest, StatsTimeframe } from 'domains/chains/types';
+import { StatsTimeframe } from 'domains/chains/types';
 
 export interface PublicStats {
   countries: Country;
@@ -18,10 +18,8 @@ export interface UsageData {
   error: any;
   isWalletConnected: boolean;
   loading: boolean;
-  methodRequests: MethodRequest[];
   pristine: boolean;
   setTimeframe: (timeframe: StatsTimeframe) => void;
-  switchTimeframe: () => void;
   timeframe: StatsTimeframe;
   totalCached: BigNumber;
   totalRequests: BigNumber;
