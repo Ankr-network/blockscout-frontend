@@ -6,7 +6,8 @@ type Count = number;
 export type RequestsLog = Record<TimeStamp, Count>;
 
 export interface ChainRequestsChartProps {
-  timeframe: StatsTimeframe;
-  requestsLog: RequestsLog;
+  isWalletConnected: boolean;
   loading?: boolean;
+  requestsLog: RequestsLog;
+  timeframe: StatsTimeframe;
 }

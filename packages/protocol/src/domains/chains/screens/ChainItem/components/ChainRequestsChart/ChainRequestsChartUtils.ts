@@ -28,7 +28,10 @@ export const formatDate = (date: Date, timeFrame?: StatsTimeframe): string => {
   return `${dateString} ${timeString}`;
 };
 
-export const processData = (requestsLog: RequestsLog): IChartData[] => {
+export const processData = (
+  requestsLog: RequestsLog,
+  isWalletConnected: boolean,
+): IChartData[] => {
   if (!requestsLog) return [];
 
   const rows = Object.entries(requestsLog);
@@ -45,6 +48,22 @@ export const processData = (requestsLog: RequestsLog): IChartData[] => {
     .sort((a, b) => a.time.getTime() - b.time.getTime())
     .map((row, index) => {
       const { time, callsCount } = row;
+
+      if (isWalletConnected) {
+        if (rows.length <= 1) {
+          return {
+            time,
+            value: callsCount,
+            extraValue: callsCount,
+          };
+        }
+
+        return {
+          time,
+          value: index <= rows.length - 1 ? callsCount : undefined,
+          extraValue: index >= rows.length - 1 ? callsCount : undefined,
+        };
+      }
 
       return {
         time,

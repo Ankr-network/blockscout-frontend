@@ -8,11 +8,15 @@ import { formatDate, processData } from './ChainRequestsChartUtils';
 import { t } from 'modules/i18n/utils/intl';
 
 export const ChainRequestsChart = ({
-  timeframe,
-  requestsLog,
   loading,
+  isWalletConnected,
+  requestsLog,
+  timeframe,
 }: ChainRequestsChartProps) => {
-  const data = useMemo(() => processData(requestsLog), [requestsLog]);
+  const data = useMemo(
+    () => processData(requestsLog, isWalletConnected),
+    [isWalletConnected, requestsLog],
+  );
   const timeframeRef = useRef<StatsTimeframe>();
   timeframeRef.current = timeframe;
 

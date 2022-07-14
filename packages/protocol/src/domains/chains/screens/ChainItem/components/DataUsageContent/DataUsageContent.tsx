@@ -44,6 +44,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           )}
           <ChainRequestsOverview
             className={classes.chainRequestsOverview}
+            isWalletConnected={isWalletConnected}
             loading={loading}
             onClick={setTimeframe}
             pristine={pristine}
