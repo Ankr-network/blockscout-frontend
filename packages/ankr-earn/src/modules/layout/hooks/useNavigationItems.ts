@@ -6,7 +6,7 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
-  DOCS_LINK,
+  DOCS_OVERVIEW_LINK,
   featuresConfig,
   isMainnet,
   LITEPAPER_LINK,
@@ -82,7 +82,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       },
       docs: {
         label: t('main-navigation.docs'),
-        href: DOCS_LINK,
+        href: DOCS_OVERVIEW_LINK,
       },
       litepaper: {
         label: t('main-navigation.litepaper'),
