@@ -8,7 +8,13 @@ import { EEthereumNetworkId, Env } from './types';
 
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
-export const DOCS_LINK = 'https://www.ankr.com/docs/staking/overview/';
+
+const DOCS_ROOT_LINK = 'https://www.ankr.com/docs/';
+export const DOCS_OVERVIEW_LINK = `${DOCS_ROOT_LINK}staking/overview/`;
+export const DOCS_STAKE_ETH_LINK = `${DOCS_ROOT_LINK}staking/liquid-staking/eth/stake-eth`;
+export const DOCS_DEFI_DEX_LINK = `${DOCS_ROOT_LINK}staking/defi/provide-liquidity-to-dex`;
+export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
+
 export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;

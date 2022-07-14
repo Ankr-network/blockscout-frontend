@@ -24,12 +24,18 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
   },
 
   answer: {
+    display: 'block',
+
     '& a': {
       color: theme.palette.primary.main,
 
       '&:hover': {
         textDecoration: 'underline',
       },
+    },
+
+    '& p:first-child': {
+      marginTop: 0,
     },
 
     '& code': {

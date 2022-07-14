@@ -389,7 +389,10 @@
       "question-11": "Is there any risk from staking, like slashing or any penalties?",
       "answer-11": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction, attacks the network, or goes offline. The delegated staked AVAX is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-12": "Is there any liquidity for aAVAXb/aAVAXc anywhere currently?",
-      "answer-12": "You can check all available DeFi platforms on ANKR DeFi:<br/><ul><li><a href=\"{link}\">aAVAXb</a> </li><li>aAVAXc (coming soon)</li></ul>You can also use your liquid tokens to:<br/><ul class=\"\"><li><a href=\"https://www.ankr.com/docs/staking/defi/provide-liquidity-to-dex\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"https://www.ankr.com/docs/staking/defi/yield-farm\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.</li></ul>",
+      "answer-12": {
+        "p1": "You can check all available DeFi platforms on ANKR DeFi:<br/><ul><li><a href=\"{link}\">aAVAXb</a> </li><li>aAVAXc (coming soon)</li></ul>",
+        "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li></ul>"
+      },
       "question-13": "Can I get staking metrics for my integration?",
       "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/reference/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
@@ -436,7 +439,10 @@
       "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is “in jail” (slashed). Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked BNB is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
 
       "question-11": "Is there any liquidity for aBNBb/aBNBc anywhere currently?",
-      "answer-11": "You can check all available DeFi platforms on ANKR DeFi: <br/>- <a href=\"{aBNBbLink}\">aBNBb</a> <br/>- aBNBc (coming soon)<br/><br/> You can also use your liquid tokens to:<ul class=\"\"><li><a href=\"https://www.ankr.com/docs/staking/defi/provide-liquidity-to-dex\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"https://www.ankr.com/docs/staking/defi/yield-farm\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>",
+      "answer-11": {
+        "p1": "You can check all available DeFi platforms on ANKR DeFi: <br/>- <a href=\"{aBNBbLink}\">aBNBb</a> <br/>- aBNBc (coming soon)",
+        "p2": "<br/><br/> You can also use your liquid tokens to:<ul><li><a href=\"{link1}\" target=\"_blank\" rel=\"noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target=\"_blank\" rel=\"noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>"
+      },
 
       "question-12": "If I click Unstake, does my stake immediately stop accumulating rewards?",
       "answer-12": "Your stake immediately stops accumulating rewards once you clicked Unstake."
@@ -567,7 +573,10 @@
       "question-10": "Is there any risk from staking, like slashing or any penalties?",
       "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked MATIC is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-11": "Is there any liquidity for aMATICb/aMATICc anywhere currently?",
-      "answer-11": "You can check all available DeFi platforms on ANKR DeFi:<ul class=\"\"><li><a href=\"https://www.ankr.com/staking/defi/trade/?from=aMATICb&amp;to=MATIC\" target=\"_blank\" rel=\"noopener noreferrer\">aMATICb</a> </li><li>aMATICc (coming soon)</li></ul>You can also use your liquid tokens to:<ul class=\"\"><li><a href=\"https://www.ankr.com/docs/staking/defi/provide-liquidity-to-dex\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"https://www.ankr.com/docs/staking/defi/yield-farm\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>",
+      "answer-11": {
+        "p1": "You can check all available DeFi platforms on ANKR DeFi:<ul><li><a href=\"{link}\">aMATICb</a> </li><li>aMATICc (coming soon)</li></ul>",
+        "p2": "You can also use your liquid tokens to:<ul><li><a href=\"{link1}\" target=\"_blank\" rel=\"noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target=\"_blank\" rel=\"noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>"
+      },
       "question-12": "Can I get staking metrics for my integration?",
       "answer-12": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/reference/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
@@ -602,7 +611,10 @@
       "question-11": "Is there any risk from staking, like slashing or any penalties?",
       "answer-11": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security.<br/>Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-12": "Is there any liquidity for aFTMb anywhere currently?",
-      "answer-12": "<ul class=\"\"><li><a href=\"{link}\">aFTMb</a> </li><li>aFTMc (coming soon)</li></ul>You can also use your liquid tokens to:<ul class=\"\"><li><a href=\"https://www.ankr.com/docs/staking/defi/provide-liquidity-to-dex\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"https://www.ankr.com/docs/staking/defi/yield-farm\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.</li></ul>",
+      "answer-12": {
+        "p1": "<ul><li><a href=\"{link}\">aFTMb</a> </li><li>aFTMc (coming soon)</li></ul>",
+        "p2": "You can also use your liquid tokens to:<ul ><li><a href=\"{link1}\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.</li></ul>"
+      },
       "question-13": "Can I get staking metrics for my integration?",
       "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/reference/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
@@ -641,7 +653,12 @@
       "question-10": "Is there any risk from staking, like slashing or any penalties?",
       "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked ETH is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
       "question-11": "Is there any liquidity for aETHb/aETHc anywhere currently?",
-      "answer-11": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>.<br/><br/> You can also use your liquid tokens to:<ul class=\"\"><li><a href=\"https://www.ankr.com/docs/staking/defi/provide-liquidity-to-dex\" target=\"_blank\" rel=\"noopener noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"https://www.ankr.com/docs/staking/defi/yield-farm\" target=\"_blank\" rel=\"noopener noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>"
+      "answer-11": {
+        "p1": "You can check all available DeFi platforms and options on <a href=\"{link}\">ANKR DeFi</a>.",
+        "p2": "You can also use your liquid tokens to:",
+        "p3": "<a href=\"{link}\" target='_blank' rel='noreferrer'>Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.",
+        "p4": "<a href=\"{link}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens."
+      }
     }
   },
   "switcher": {
