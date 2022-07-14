@@ -41,12 +41,12 @@ export const isLocal = !!process.env.REACT_APP_IS_LOCAL;
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
 
-export const LITEPAPER_EN =
-  'https://assets.ankr.com/files/stakefi_litepaper.pdf';
-export const LITEPAPER_CN =
-  'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf';
-export const CROWDLOAN_LITEPAPER =
-  'https://assets.ankr.com/files/parachain-liquid-bonding-litepaper.pdf';
+export const LITEPAPER_LINK = {
+  stakingEN: 'https://assets.ankr.com/files/stakefi_litepaper.pdf',
+  stakingCN: 'https://assets.ankr.com/files/stakefi_litepaper_cn.pdf',
+  crowdloan:
+    'https://assets.ankr.com/files/parachain-liquid-bonding-litepaper.pdf',
+};
 
 export const BRIDGE_AUDIT_LINK =
   'https://assets.ankr.com/staking/ankr_bridge_security_audit.pdf';
@@ -58,12 +58,10 @@ export const MATIC_AUDIT_LINK =
   'https://assets.ankr.com/staking/smart_contract_security_audit_matic.pdf';
 
 export const SOCIAL_LINK = {
-  discord: 'https://discord.gg/uYaNu23Ww7',
-  facebook: 'facebook',
+  discord: 'https://discord.gg/hs2SK9pBXP',
   medium: 'https://medium.com/ankr-network',
-  telegram: 'https://t.me/ankrnetwork',
-  telegramAnnouncements: 'https://t.me/anrknetworkann',
-  twitter: 'https://twitter.com/ankr',
+  telegram: 'https://t.me/ankrstaking',
+  twitter: 'https://twitter.com/ankrstaking',
 };
 
 export const STAKE_LEGACY_LINKS = {

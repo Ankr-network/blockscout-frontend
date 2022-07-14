@@ -8,16 +8,32 @@ import { useLockingPeriodItemStyles } from './useLockingPeriodItemStyles';
 
 interface ILockingPeriodItemProps {
   isUnlocked: boolean;
-  daysLeft: number;
-  percent: number;
+  daysLeft?: number;
+  percent?: number;
+  existingStakes?: number;
 }
 
 export const LockingPeriodItem = ({
   isUnlocked,
-  daysLeft,
-  percent,
+  daysLeft = 0,
+  percent = 0,
+  existingStakes,
 }: ILockingPeriodItemProps): JSX.Element => {
   const classes = useLockingPeriodItemStyles();
+
+  if (existingStakes) {
+    return (
+      <Typography className={classes.unlockedText}>
+        {existingStakes === 1
+          ? t('stake-ankr.staking-table.stake-amount', {
+              value: existingStakes,
+            })
+          : t('stake-ankr.staking-table.stakes-amount', {
+              value: existingStakes,
+            })}
+      </Typography>
+    );
+  }
 
   if (isUnlocked) {
     return (

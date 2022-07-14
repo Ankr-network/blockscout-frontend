@@ -69,6 +69,10 @@ export const useTabsStyles = makeStyles(theme => ({
     width: 24,
   },
 
+  chipLabel: {
+    lineHeight: '20px',
+  },
+
   btn: {
     height: 40,
     width: 120,

@@ -8,12 +8,11 @@ import { t } from 'common';
 import { ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
+import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { Spinner } from 'uiKit/Spinner';
-
-import { BaseAnkrAmount } from '../../../../common/components/BaseAnkrAmount';
 
 import { TableRow } from './TableRow';
 import { useClaimDialogStyles } from './useClaimDialogStyles';

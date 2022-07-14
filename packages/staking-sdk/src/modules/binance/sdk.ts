@@ -11,7 +11,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import {
   ETH_SCALE_FACTOR,
@@ -20,6 +19,7 @@ import {
   ZERO,
   configFromEnv,
   ZERO_EVENT_HASH,
+  ProviderManagerSingleton,
 } from '../common';
 import {
   ABI_ERC20,
@@ -68,6 +68,7 @@ import {
 export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
+   *
    * @type {BinanceSDK}
    * @static
    * @private
@@ -76,20 +77,25 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
+   *
    * @type {Web3KeyWriteProvider}
    * @private
+   * @readonly
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
+   *
    * @type {Web3KeyReadProvider}
+   * @readonly
    * @private
    */
   private readonly readProvider: Web3KeyReadProvider;
 
   /**
    * currentAccount — connected account.
+   *
    * @type {string}
    * @private
    */
@@ -97,6 +103,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
   /**
    * stakeGasFee — cached stake gas fee.
+   *
    * @type {BigNumber}
    * @private
    */
@@ -123,8 +130,9 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @static
    * @param {Partial<IBinanceSDKProviders>} [args] - User defined providers.
-   * @returns {Promise<PolygonSDK>}
+   * @returns {Promise<BinanceSDK>}
    */
   public static async getInstance(
     args?: Partial<IBinanceSDKProviders>,
@@ -260,7 +268,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
-   * @param {EventData} [rawEvents] - events
+   * @param {EventData[]} [rawEvents] - events
    * @returns {Promise<ITxEventsHistoryGroupItem[]>}
    */
   private async getTxEventsHistoryGroup(
@@ -430,7 +438,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aBNBb or aBNBc or aETH or aETHc)
+   * @param {string} token - token symbol (aBNBb, aBNBc, aETH, aETHc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -718,7 +726,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Caches computed gas fee value for future computations.
-   * @param {string} amount - amount to stake
+   * @param {BigNumber} amount - amount to stake
    * @param {TBnbSyntToken} token - token symbol
    * @returns {Promise<BigNumber>}
    */
@@ -770,6 +778,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Internal function to return increased gas limit.
    *
    * @param {number} gasLimit - initial gas limit
+   * @private
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
@@ -1072,7 +1081,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns Certificate BNB token balance
+   * Returns aBNBc token balance
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -1131,7 +1140,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Checks if allowance is greater or equal to amount.
    *
    * @public
-   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
    * @param {string} [amount] - amount
    * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
    */
@@ -1145,7 +1154,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Return aBNBc token allowance.
    *
    * @public
-   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
    * @param {string} [spender] - spender address (by default it is aBNBb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -1169,8 +1178,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - amount to switch
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({
@@ -1205,8 +1213,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - amount to switch
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({

@@ -12,7 +12,6 @@ import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -60,7 +59,7 @@ export interface IStakeFormComponentProps {
 export const StakeForm = ({
   className,
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
+  minAmount = ZERO,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,

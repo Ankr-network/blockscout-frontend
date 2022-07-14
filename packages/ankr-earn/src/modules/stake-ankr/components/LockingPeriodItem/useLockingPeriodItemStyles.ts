@@ -11,8 +11,12 @@ export const useLockingPeriodItemStyles = makeStyles(theme => ({
 
   unlockedText: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     fontSize: 14,
     color: theme.palette.primary.main,
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
   },
 }));

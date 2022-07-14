@@ -994,10 +994,13 @@
       "left-days": "{value} days left",
       "left-day": "{value} day left",
       "date": "Date",
+      "time": "Time",
       "hash": "Hash",
       "event": "Event",
       "amount": "Amount",
-      "date-cell": "{month} {day}, {year}"
+      "date-cell": "{month} {day}, {year}",
+      "stake-amount": "{value} stake",
+      "stakes-amount": "{value} stakes"
     },
     "tabs": {
       "active-staking": "Active Staking",

@@ -7,13 +7,12 @@ import { AmountInput } from 'modules/common/components/AmountField';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
-} from 'modules/stake-ankr/common/types';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
   StakeFormBox,
@@ -29,7 +28,6 @@ import { useUnstakeFormStyles } from './useUnstakeFormStyles';
 
 interface IAnkrUnstakeFormProps {
   balance?: BigNumber;
-  minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
@@ -48,7 +46,6 @@ interface IAnkrUnstakeFormProps {
 
 export const AnkrUnstakeForm = ({
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
@@ -98,7 +95,7 @@ export const AnkrUnstakeForm = ({
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
-        minAmount={minAmount?.toNumber()}
+        minAmount={ZERO.toNumber()} // todo: change it getMinimumStake() from sdk
         name={EFieldsNames.amount}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
