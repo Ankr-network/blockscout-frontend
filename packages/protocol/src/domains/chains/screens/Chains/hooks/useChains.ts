@@ -26,7 +26,7 @@ export const useChains = (): Chains => {
 
   usePrivateStats({ isWalletConnected, statsTimeframe });
 
-  const [sortType, setSortType] = useSortType();
+  const [sortType, setSortType] = useSortType(isWalletConnected);
 
   return {
     chains,
