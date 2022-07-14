@@ -1,21 +1,20 @@
-import { useMemo } from 'react';
-
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
+const tradeLink = BoostRoutes.tradingCockpit.generatePath(
+  Token.aAVAXb,
+  Token.AVAX,
+);
+
 export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();
-
-  const tradeLink = useMemo(
-    () => BoostRoutes.tradingCockpit.generatePath(Token.aAVAXb, Token.AVAX),
-    [],
-  );
 
   return useLocaleMemo(
     () => [
@@ -67,9 +66,18 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-avax.faq.question-12'),
-        answer: tHTMLWithRouter('stake-avax.faq.answer-12', {
-          link: tradeLink,
-        }),
+        answer: (
+          <>
+            {tHTMLWithRouter('stake-avax.faq.answer-12.p1', {
+              link: tradeLink,
+            })}
+
+            {tHTML('stake-avax.faq.answer-12.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+            })}
+          </>
+        ),
       },
       {
         question: t('stake-avax.faq.question-13'),

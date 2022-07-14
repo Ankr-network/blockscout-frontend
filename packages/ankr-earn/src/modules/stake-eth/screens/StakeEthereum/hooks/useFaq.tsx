@@ -4,13 +4,15 @@ import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { RoutesConfig } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
+import {
+  DOCS_DEFI_DEX_LINK,
+  DOCS_DEFI_FARM_LINK,
+  DOCS_STAKE_ETH_LINK,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
-
-const ETH_DOCS_LINK =
-  'https://www.ankr.com/docs/staking/liquid-staking/eth/stake-eth';
 
 const tradelink = RoutesConfig.tradingCockpit.generatePath(
   Token.aETHb,
@@ -25,7 +27,7 @@ export const useFaq = (): IFaqItem[] => {
       {
         question: t('stake-ethereum.faq.question-1'),
         answer: tHTML('stake-ethereum.faq.answer-1', {
-          link: ETH_DOCS_LINK,
+          link: DOCS_STAKE_ETH_LINK,
         }),
       },
       {
@@ -72,9 +74,31 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-ethereum.faq.question-11'),
-        answer: tHTMLWithRouter('stake-ethereum.faq.answer-11', {
-          link: tradelink,
-        }),
+        answer: (
+          <>
+            <p>
+              {tHTMLWithRouter('stake-ethereum.faq.answer-11.p1', {
+                link: tradelink,
+              })}
+            </p>
+
+            <p>{tHTML('stake-ethereum.faq.answer-11.p2')}</p>
+
+            <ul>
+              <li>
+                {tHTML('stake-ethereum.faq.answer-11.p3', {
+                  link: DOCS_DEFI_DEX_LINK,
+                })}
+              </li>
+
+              <li>
+                {tHTML('stake-ethereum.faq.answer-11.p4', {
+                  link: DOCS_DEFI_FARM_LINK,
+                })}
+              </li>
+            </ul>
+          </>
+        ),
       },
     ],
     [data?.minStake],
