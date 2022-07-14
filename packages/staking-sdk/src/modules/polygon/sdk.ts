@@ -66,6 +66,7 @@ import {
 export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
+   * 
    * @type {PolygonSDK}
    * @static
    * @private
@@ -74,15 +75,19 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
+   * 
    * @type {Web3KeyWriteProvider}
    * @private
+   * @readonly
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
+   * 
    * @type {Web3KeyReadProvider}
    * @private
+   * @readonly
    */
   private readonly readProvider: Web3KeyReadProvider;
 
@@ -123,6 +128,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @static
    * @param {Partial<IPolygonSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
@@ -353,7 +359,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
-   * @param {EventData} [rawEvents] - events
+   * @param {EventData[]} [rawEvents] - events
    * @returns {Promise<ITxEventsHistoryGroupItem[]>}
    */
   private async getTxEventsHistoryGroup(
@@ -466,7 +472,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Return aMATICc token allowance.
    *
    * @public
-   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
    * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -525,8 +531,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - amount to switch
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({
@@ -562,8 +567,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - amount to switch
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({

@@ -31,6 +31,7 @@ import {
   IEventsBatch,
   ITxEventsHistoryGroupItem,
   ITxHistoryEventData,
+  IStakeData,
 } from '../stake';
 import { ISwitcher, IShareArgs, IFetchTxData } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -42,6 +43,8 @@ import {
   AVAX_MAX_HISTORY_RANGE,
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
+  ESTIMATE_GAS_MULTIPLIER,
+  GAS_FEE_MULTIPLIER,
 } from './const';
 import {
   IAvalancheSDKProviders,
@@ -50,26 +53,62 @@ import {
 } from './types';
 
 /**
- * even with this multiplier, the gas estimate is two times less
- * than if we did not manage this value.
+ * AvalancheSDK allows you to interact with Avalanche Liquid Staking smart contracts on Avalanche network: aAVAXb, aAVAXc and AvalanchePool.
  *
- * 60%
+ * For more information on Avalanche Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/avax/staking-mechanics).
+ *
+ * @class
  */
-const ESTIMATE_GAS_MULTIPLIER = 1.6;
-
-const GAS_FEE_MULTIPLIER = 3;
-
 export class AvalancheSDK implements ISwitcher, IStakable {
+  /**
+   * readProvider — provider which allows to read data without connecting the wallet.
+   * 
+   * @type {Web3KeyReadProvider}
+   * @readonly
+   * @private
+   */
   private readonly readProvider: Web3KeyReadProvider;
 
+  /**
+   * writeProvider — provider which has signer for signing transactions.
+   * 
+   * @type {Web3KeyWriteProvider}
+   * @readonly
+   * @private
+   */
   private readonly writeProvider: Web3KeyWriteProvider;
 
+  /**
+   * instance — SDK instance.
+   * 
+   * @type {AvalancheSDK}
+   * @static
+   * @private
+   */
   private static instance?: AvalancheSDK;
 
+  /**
+   * currentAccount — connected account.
+   * 
+   * @type {string}
+   * @private
+   */
   private currentAccount: string;
 
+  /**
+   * stakeGasFee — cached stake gas fee.
+   * 
+   * @type {BigNumber}
+   * @private
+   */
   private stakeGasFee?: BigNumber;
 
+  /**
+   * Private constructor. Instead, use `AvalancheSDK.getInstance`.
+   *
+   * @constructor
+   * @private
+   */
   private constructor({ readProvider, writeProvider }: IAvalancheSDKProviders) {
     AvalancheSDK.instance = this;
 
@@ -78,16 +117,37 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     this.writeProvider = writeProvider;
   }
 
+  /**
+   * Internal function to convert wei value to human readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 
+  /**
+   * Internal function to convert value to hex format.
+   *
+   * @private
+   * @param {BigNumber} amount - value in human readable format
+   * @returns {string}
+   */
   private convertToHex(amount: BigNumber): string {
     return this.readProvider
       .getWeb3()
       .utils.numberToHex(amount.multipliedBy(AVAX_SCALE_FACTOR).toString(10));
   }
 
+  /**
+   * Internal function to get aAVAXb token contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
   private async getAAVAXBTokenContract(isForceRead = false): Promise<Contract> {
     const { avalancheConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -99,6 +159,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get aAVAXc token contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
   private async getAAVAXCTokenContract(isForceRead = false): Promise<Contract> {
     const { avalancheConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
@@ -110,6 +177,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get AvalanchePool contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
   private async getAvalanchePoolContract(
     isForceRead = false,
   ): Promise<Contract> {
@@ -123,6 +197,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Internal function to get past events, using the defined range.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
   private async getPastEvents({
     provider,
     contract,
@@ -181,6 +262,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return pastEvents.flat();
   }
 
+  /**
+   * Internal function to choose the right provider for read or write purpose.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
+   */
   private async getProvider(
     isForceRead = false,
   ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
@@ -201,7 +289,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.readProvider;
   }
 
-  // TODO: reuse it from stake/api/getTxEventsHistoryGroup
+  /**
+   * Internal function to return transaction history group from events.
+   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
+   *
+   * @private
+   * @param {EventData[]} [rawEvents] - events
+   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
   ): Promise<ITxEventsHistoryGroupItem[]> {
@@ -240,6 +335,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       );
   }
 
+  /**
+   * Internal function to map event type to transaction type.
+   *
+   * @private
+   * @param {string} [rawTxType] - transaction type
+   * @returns {string | null}
+   */
   private getTxType(rawTxType?: string): string | null {
     switch (rawTxType) {
       case EAvalanchePoolEvents.StakePending:
@@ -253,6 +355,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Internal function to check the current network.
+   *
+   * @private
+   * @param {Web3KeyWriteProvider} provider - current selected provider
+   * @returns {Promise<boolean>}
+   */
   private async isAvalancheNetwork(
     provider: Web3KeyWriteProvider,
   ): Promise<boolean> {
@@ -265,11 +374,25 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     ].includes(chainId);
   }
 
-  public static async getInstance(): Promise<AvalancheSDK> {
+  /**
+   * Initialization method for SDK.
+   *
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
+   *
+   * @public
+   * @static
+   * @param {Partial<IAvalancheSDKProviders>} [args] - User defined providers.
+   * @returns {Promise<AvalancheSDK>}
+   */
+  public static async getInstance(
+    args?: Partial<IAvalancheSDKProviders>,
+  ): Promise<AvalancheSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(AVALANCHE_READ_PROVIDER_ID),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(AVALANCHE_READ_PROVIDER_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -292,6 +415,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return instance;
   }
 
+  /**
+   * Add token to wallet.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @returns {Promise<boolean>}
+   */
   public async addTokenToWallet(token: string): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -322,6 +453,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     });
   }
 
+  /**
+   * Return aAVAXb token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getABBalance(): Promise<BigNumber> {
     const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
 
@@ -332,6 +469,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns aAVAXc token balance
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getACBalance(): Promise<BigNumber> {
     const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
 
@@ -342,6 +485,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Return aAVAXc/AVAX ratio.
+   *
+   * @public
+   * @note [Read about aAVAXc/AVAX ratio](https://www.ankr.com/docs/staking/liquid-staking/avax/staking-mechanics/#exchange-ratio).
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
   public async getACRatio(): Promise<BigNumber> {
     const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
     const rawRatio = await aAVAXcTokenContract.methods.ratio().call();
@@ -349,6 +499,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.convertFromWei(rawRatio);
   }
 
+  /**
+   * Checks if allowance is greater or equal to amount.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @param {string} [spender] - spender address (by default it is aAVAXb token address)
+   * @returns {Promise<BigNumber>} - allowance in wei
+   */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
     const { avalancheConfig } = configFromEnv();
@@ -363,6 +521,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return new BigNumber(allowance);
   }
 
+  /**
+   * Fetch transaction data.
+   *
+   * @public
+   * @note Parses first uint256 param from transaction input.
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
 
@@ -382,6 +548,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Fetch transaction receipt.
+   *
+   * @public
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<TransactionReceipt | null>}
+   */
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
@@ -393,6 +566,16 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return receipt as TransactionReceipt | null;
   }
 
+  /**
+   * Approve aAVAXc for aAVAXb, i.e. allow aAVAXb smart contract to access and transfer aAVAXc tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
+   * @param {number} [scale = 1] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult | undefined>}
+   */
   public async approveACForAB(
     amount = MAX_UINT256,
     scale = 1,
@@ -423,12 +606,29 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Checks if allowance is greater or equal to amount.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @param {string} [amount] - amount
+   * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
+   */
   public async checkAllowance(hexAmount: string): Promise<boolean> {
     const allowance = await this.getACAllowance();
 
     return allowance.isGreaterThanOrEqualTo(hexAmount);
   }
 
+  /**
+   * Switch aAVAXc to aAVAXb.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {IShareArgs} args - amount to switch
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -448,6 +648,15 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Switch aAVAXb to aAVAXc.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {IShareArgs} args - amount to switch
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -467,6 +676,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     );
   }
 
+  /**
+   * Return AVAX balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getAVAXBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -475,6 +690,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.readProvider.getFormattedBalance(currBalance, AVAX_DECIMALS);
   }
 
+  /**
+   * Get minimum stake amount.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getMinimumStake(): Promise<BigNumber> {
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
@@ -485,6 +706,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.convertFromWei(minStake);
   }
 
+  /**
+   * Internal function to return raw pool events.
+   *
+   * @private
+   * @returns {Promise<IEventsBatch>}
+   */
   private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
@@ -518,6 +745,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get total pending unstake amount.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getPendingClaim(): Promise<BigNumber> {
     const avalanchePoolContract = await this.getAvalanchePoolContract();
 
@@ -528,6 +761,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return this.convertFromWei(pending);
   }
 
+  /**
+   * Get pending data for aAVAXb and aAVAXc.
+   *
+   * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @returns {Promise<IPendingData>}
+   */
   public async getPendingData(): Promise<IPendingData> {
     const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
     let totalUnstakingValue = await this.getPendingClaim();
@@ -571,6 +811,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     };
   }
 
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for the last 26 days.
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const { stakeRawEvents, unstakeRawEvents, ratio } =
       await this.getPoolEventsBatch();
@@ -644,7 +891,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     };
   }
 
-  private getStakeMethodName(token: string) {
+  /**
+   * Internal function to return stake method by token symbol.
+   *
+   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @private
+   * @returns {string}
+   */
+  private getStakeMethodName(token: string): string {
     switch (token) {
       case 'aAVAXc':
         return 'stakeAndClaimCerts';
@@ -654,10 +908,18 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     }
   }
 
-  public async stake(
-    amount: BigNumber,
-    token: string,
-  ): Promise<{ txHash: string }> {
+  /**
+   * Stake token.
+   *
+   * @public
+   * @note Initiates two transactions and connect if writeProvider isn't connected.
+   * @note Estimates gas and multiplies it by `GAS_FEE_MULTIPLIER` to prevent MetaMask issue with gas calculation.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive (aAVAXb, aAVAXc)
+   * @returns {Promise<IStakeData>}
+   */
+  public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -693,6 +955,15 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return { txHash: tx.transactionHash };
   }
 
+  /**
+   * Get stake gas fee.
+   *
+   * @public
+   * @note Caches computed gas fee value for future computations.
+   * @param {BigNumber} amount - amount to stake
+   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @returns {Promise<BigNumber>}
+   */
   public async getStakeGasFee(
     amount: BigNumber,
     token: string,
@@ -717,11 +988,27 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return stakeGasFee;
   }
 
-  private static getIncreasedGasLimit(gasLimit: number) {
+  /**
+   * Internal function to return increased gas limit.
+   *
+   * @param {number} gasLimit - initial gas limit
+   * @private
+   * @static
+   * @returns {number}
+   */
+  private static getIncreasedGasLimit(gasLimit: number): number {
     return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
   }
 
-  private getUnstakeMethodName(token: string) {
+  /**
+   * Internal function to return unstake method by token symbol.
+   *
+   * @private
+   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @private
+   * @returns {string}
+   */
+  private getUnstakeMethodName(token: string): string {
     switch (token) {
       case 'aAVAXc':
         return 'claimCerts';
@@ -731,6 +1018,16 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     }
   }
 
+  /**
+   * Unstake token.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to unstake (aAVAXb, aAVAXc)
+   * @returns {Promise<void>}
+   */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();

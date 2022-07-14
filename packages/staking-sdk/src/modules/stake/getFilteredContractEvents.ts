@@ -5,6 +5,12 @@ interface IFilteredEvents {
   certEvents: EventData[];
 }
 
+/**
+ * Get filtered contract events.
+ *
+ * @param {EventData[]} events
+ * @return {IFilteredEvents}
+ */
 export const getFilteredContractEvents = (
   events: EventData[],
 ): IFilteredEvents => {
