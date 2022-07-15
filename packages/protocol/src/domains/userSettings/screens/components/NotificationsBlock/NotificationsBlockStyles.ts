@@ -7,6 +7,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     borderRadius: 30,
   },
   title: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(3),
+    fontSize: 20,
   },
 }));

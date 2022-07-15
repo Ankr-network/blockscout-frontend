@@ -559,7 +559,6 @@
     "notifications": {
       "title": "Notifications",
       "form": {
-        "balance-status": "Balance Status",
         "balance-updates": {
           "title": "Balance updates",
           "description": "Top ups, withdrawals, voucher credits added, and other updates."
