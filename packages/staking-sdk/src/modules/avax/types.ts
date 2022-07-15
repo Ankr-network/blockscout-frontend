@@ -23,3 +23,10 @@ export interface IAvalancheSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
 }
+
+/**
+ * Error codes for AvalancheSDK
+ */
+export enum EAvalancheErrorCodes {
+  ZERO_AMOUNT = 'zero-amount',
+}

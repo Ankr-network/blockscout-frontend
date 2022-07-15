@@ -6,16 +6,17 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
+import { AvalancheSDK, EAvalanchePoolEvents, EAvalancheErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
-import { CERT_STAKING_LOG_HASH, BINANCE_HISTORY_BLOCK_OFFSET } from '../const';
+import { convertNumberToHex } from '../../utils';
+import { AVAX_MAX_HISTORY_RANGE } from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 
-describe('modules/binance/sdk', () => {
+describe('modules/avax/sdk', () => {
   const defaultContract = {
     methods: {},
   };
@@ -30,7 +31,10 @@ describe('modules/binance/sdk', () => {
       getBalance: jest.fn(),
       abi: { decodeParameters: jest.fn(), decodeLog: jest.fn() },
     },
-    utils: { fromWei: (value: string) => value },
+    utils: {
+      fromWei: (value: string) => value,
+      numberToHex: convertNumberToHex,
+    },
   };
 
   const defaultReadProvider = {
@@ -52,7 +56,7 @@ describe('modules/binance/sdk', () => {
 
   beforeEach(() => {
     defaultWeb3.eth.Contract.mockReturnValue(defaultContract);
-    defaultWeb3.eth.getChainId.mockReturnValue(97);
+    defaultWeb3.eth.getChainId.mockReturnValue(43113);
 
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
 
@@ -67,13 +71,13 @@ describe('modules/binance/sdk', () => {
   });
 
   test('should initialize sdk', async () => {
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     expect(sdk).toBeDefined();
   });
 
   test('should initialize sdk with user providers', async () => {
-    const sdk = await BinanceSDK.getInstance({
+    const sdk = await AvalancheSDK.getInstance({
       readProvider: defaultReadProvider as unknown as Web3KeyReadProvider,
       writeProvider: defaultWriteProvider as unknown as Web3KeyWriteProvider,
     });
@@ -82,7 +86,7 @@ describe('modules/binance/sdk', () => {
   });
 
   test('should initialize sdk with connect', async () => {
-    defaultWeb3.eth.getChainId.mockReturnValue(97);
+    defaultWeb3.eth.getChainId.mockReturnValue(43113);
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
 
@@ -92,7 +96,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     expect(sdk).toBeDefined();
   });
@@ -114,7 +118,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     await sdk.lockShares({ amount: new BigNumber(10_000) });
 
@@ -123,7 +127,7 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.lockShares).toBeCalledWith('0x21e19e0c9bab2400000');
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
       { data: 'abi', estimate: true },
     );
   });
@@ -145,7 +149,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     await sdk.unlockShares({ amount: new BigNumber(10_000) });
 
@@ -156,7 +160,7 @@ describe('modules/binance/sdk', () => {
     );
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
       { data: 'abi', estimate: true },
     );
   });
@@ -178,10 +182,10 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     expect(sdk.lockShares({ amount: ZERO })).rejects.toThrowError(
-      EBinanceErrorCodes.ZERO_AMOUNT,
+      EAvalancheErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -202,10 +206,10 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     expect(sdk.unlockShares({ amount: ZERO })).rejects.toThrowError(
-      EBinanceErrorCodes.ZERO_AMOUNT,
+      EAvalancheErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -213,7 +217,7 @@ describe('modules/binance/sdk', () => {
     const contract = {
       ...defaultContract,
       methods: {
-        pendingUnstakesOf: () => ({ call: () => ZERO }),
+        pendingAvaxClaimsOf: () => ({ call: () => ZERO }),
       },
     };
 
@@ -226,7 +230,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const result = await sdk.getPendingClaim();
 
@@ -253,7 +257,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const [balance, ratio, allowance] = await Promise.all([
       sdk.getACBalance(),
@@ -264,36 +268,6 @@ describe('modules/binance/sdk', () => {
     expect(balance).toStrictEqual(new BigNumber(10_000));
     expect(ratio).toStrictEqual(ZERO);
     expect(allowance).toStrictEqual(new BigNumber(1));
-  });
-
-  test('should return balance, ratio for old aETHc', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        ratio: () => ({ call: () => ZERO }),
-        balanceOf: () => ({ call: () => new BigNumber(10_000) }),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
-
-    (ProviderManager as jest.Mock).mockReturnValue({
-      getETHWriteProvider: () =>
-        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
-      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
-    });
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const [balance, ratio] = await Promise.all([
-      sdk.getAETHBalance(),
-      sdk.getAETHRatio(),
-    ]);
-
-    expect(balance).toStrictEqual(new BigNumber(10_000));
-    expect(ratio).toStrictEqual(ZERO);
   });
 
   test('should return bond balance', async () => {
@@ -315,14 +289,14 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const balance = await sdk.getABBalance();
 
     expect(balance).toStrictEqual(new BigNumber(10_000));
   });
 
-  test('should return bnb balance', async () => {
+  test('should return AVAX balance', async () => {
     const contract = {
       ...defaultContract,
       methods: {
@@ -345,93 +319,9 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const balance = await sdk.getBNBBalance();
-
-    expect(balance).toStrictEqual(new BigNumber(10_000));
-  });
-
-  test('should return available to swap old aETHc balance', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        balanceOf: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
-      },
-    };
-
-    defaultWeb3.eth.getBalance.mockReturnValue(contract);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
-
-    (ProviderManager as jest.Mock).mockReturnValue({
-      getETHWriteProvider: () =>
-        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
-      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
-    });
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const balance = await sdk.getAvailableToSwapAETHC();
-
-    expect(balance).toStrictEqual(new BigNumber(10_000));
-  });
-
-  test('should swap old aETHc to new aETHc', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        swapOld: jest.fn(() => ({ encodeABI: () => 'abi' })),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
-
-    (ProviderManager as jest.Mock).mockReturnValue({
-      getETHWriteProvider: () =>
-        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
-      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
-    });
-
-    const sdk = await BinanceSDK.getInstance();
-
-    await sdk.swapOldAETHC(new BigNumber(1));
-
-    expect(contract.methods.swapOld).toBeCalledTimes(1);
-    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
-    expect(contract.methods.swapOld).toBeCalledWith('0xde0b6b3a7640000');
-    expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
-      'address',
-      '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
-      { data: 'abi', estimate: true },
-    );
-  });
-
-  test('should return aETHc balance', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        balanceOf: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
-      },
-    };
-
-    defaultWeb3.eth.getBalance.mockReturnValue(contract);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
-
-    (ProviderManager as jest.Mock).mockReturnValue({
-      getETHWriteProvider: () =>
-        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
-      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
-    });
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const balance = await sdk.getAETHCBalance();
+    const balance = await sdk.getAVAXBalance();
 
     expect(balance).toStrictEqual(new BigNumber(10_000));
   });
@@ -455,19 +345,19 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     await sdk.approveACForAB(new BigNumber(1), ETH_SCALE_FACTOR);
 
     expect(contract.methods.approve).toBeCalledTimes(1);
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
     expect(contract.methods.approve).toBeCalledWith(
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
       '0xde0b6b3a7640000',
     );
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
+      '0x22f70fE6C3949cDcA413A6D441D7972255440660',
       { data: 'abi', estimate: true },
     );
   });
@@ -490,7 +380,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const result = await sdk.approveACForAB(new BigNumber(1), ETH_SCALE_FACTOR);
 
@@ -503,8 +393,8 @@ describe('modules/binance/sdk', () => {
       methods: {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
-        unstakeCerts: jest.fn(() => ({ send: jest.fn() })),
-        unstakeBonds: jest.fn(() => ({ send: jest.fn() })),
+        claimCerts: jest.fn(() => ({ send: jest.fn() })),
+        claimBonds: jest.fn(() => ({ send: jest.fn() })),
       },
     };
 
@@ -519,22 +409,22 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    await sdk.unstake(new BigNumber(1), 'aBNBc');
+    await sdk.unstake(new BigNumber(1), 'aAVAXc');
 
-    expect(contract.methods.unstakeCerts).toBeCalledTimes(1);
+    expect(contract.methods.claimCerts).toBeCalledTimes(1);
 
-    await sdk.unstake(new BigNumber(1), 'aBNBb');
+    await sdk.unstake(new BigNumber(1), 'aAVAXb');
 
-    expect(contract.methods.unstakeBonds).toBeCalledTimes(1);
+    expect(contract.methods.claimBonds).toBeCalledTimes(1);
   });
 
   test('should throw error if unstake amount is less than or equals to zero', async () => {
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    expect(sdk.unstake(ZERO, 'aBNBb')).rejects.toThrow(
-      EBinanceErrorCodes.ZERO_AMOUNT,
+    expect(sdk.unstake(ZERO, 'aAVAXb')).rejects.toThrow(
+      EAvalancheErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -574,55 +464,33 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const { txHash: txHash1 } = await sdk.stake(new BigNumber(12), 'aBNBc');
+    const { txHash: txHash1 } = await sdk.stake(new BigNumber(12), 'aAVAXc');
 
     expect(txHash1).toBe('transactionHash1');
-    expect(contract.methods.stakeAndClaimCerts).toBeCalledTimes(3);
+    expect(contract.methods.stakeAndClaimCerts).toBeCalledTimes(2);
 
-    const { txHash: txHash2 } = await sdk.stake(new BigNumber(12), 'aBNBb');
+    const { txHash: txHash2 } = await sdk.stake(new BigNumber(12), 'aAVAXb');
 
     expect(txHash2).toBe('transactionHash2');
-    expect(contract.methods.stakeAndClaimBonds).toBeCalledTimes(2);
+    expect(contract.methods.stakeAndClaimBonds).toBeCalledTimes(1);
   });
 
   test('should throw error if stake amount is less than or equals to zero', async () => {
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    expect(sdk.stake(ZERO, 'aBNBb')).rejects.toThrow(
-      EBinanceErrorCodes.ZERO_AMOUNT,
+    expect(sdk.stake(ZERO, 'aAVAXb')).rejects.toThrow(
+      EAvalancheErrorCodes.ZERO_AMOUNT,
     );
   });
 
   test('should return tx receipt properly', async () => {
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const receipt = await sdk.fetchTxReceipt('hash');
 
     expect(receipt).toBeUndefined();
-  });
-
-  test('should return tx receipt with logs properly', async () => {
-    defaultWeb3.eth.getTransactionReceipt.mockReturnValue({
-      logs: [{ topics: [CERT_STAKING_LOG_HASH, ''] }],
-    });
-
-    defaultWeb3.eth.abi.decodeLog.mockReturnValue({ amount: '2' });
-
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
-
-    (ProviderManager as jest.Mock).mockReturnValue({
-      getETHWriteProvider: () =>
-        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
-      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
-    });
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const receipt = await sdk.fetchTxReceipt('hash');
-
-    expect(receipt?.certAmount).toStrictEqual('2');
   });
 
   test('should return tx data properly', async () => {
@@ -643,7 +511,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const data = await sdk.fetchTxData('hash');
 
@@ -670,7 +538,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const data = await sdk.fetchTxData('hash');
 
@@ -699,7 +567,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const result = await sdk.getMinimumStake();
 
@@ -710,7 +578,7 @@ describe('modules/binance/sdk', () => {
     const contract = {
       ...defaultContract,
       methods: {
-        symbol: jest.fn(() => ({ call: () => 'aBNBb' })),
+        symbol: jest.fn(() => ({ call: () => 'aAVAXb' })),
         decimals: jest.fn(() => ({ call: () => 18 })),
       },
     };
@@ -721,17 +589,17 @@ describe('modules/binance/sdk', () => {
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const result = await sdk.addTokenToWallet('aBNBb');
+    const result = await sdk.addTokenToWallet('aAVAXb');
 
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
-      symbol: 'aBNBb',
+      address: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
+      symbol: 'aAVAXb',
       decimals: 18,
-      chainId: 97,
+      chainId: 43113,
     });
   });
 
@@ -739,7 +607,7 @@ describe('modules/binance/sdk', () => {
     const contract = {
       ...defaultContract,
       methods: {
-        symbol: jest.fn(() => ({ call: () => 'aBNBc' })),
+        symbol: jest.fn(() => ({ call: () => 'aAVAXc' })),
         decimals: jest.fn(() => ({ call: () => 18 })),
       },
     };
@@ -749,118 +617,18 @@ describe('modules/binance/sdk', () => {
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const result = await sdk.addTokenToWallet('aBNBc');
-
-    expect(result).toBe(true);
-    expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
-    expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
-      symbol: 'aBNBc',
-      decimals: 18,
-      chainId: 97,
-    });
-  });
-
-  test('should get error token if token is not supported', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
-        decimals: jest.fn(() => ({ call: () => 18 })),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultWeb3.eth.getChainId.mockReturnValue(9_000);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWriteProvider.isConnected.mockReturnValue(true);
-
-    const sdk = await BinanceSDK.getInstance();
-
-    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(
-      EBinanceErrorCodes.UNSUPPORTED_TOKEN,
-    );
-  });
-
-  test('should add aETHc token to wallet', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
-        decimals: jest.fn(() => ({ call: () => 18 })),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultWeb3.eth.getChainId.mockReturnValue(9000);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWriteProvider.isConnected.mockReturnValue(true);
-    defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const result = await sdk.addTokenToWallet('aETHc');
+    const result = await sdk.addTokenToWallet('aAVAXc');
 
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
-      symbol: 'aETHc',
+      address: '0x22f70fE6C3949cDcA413A6D441D7972255440660',
+      symbol: 'aAVAXc',
       decimals: 18,
-      chainId: 97,
+      chainId: 43113,
     });
-  });
-
-  test('should add old aETHc token to wallet', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        symbol: jest.fn(() => ({ call: () => 'aETH' })),
-        decimals: jest.fn(() => ({ call: () => 18 })),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultWeb3.eth.getChainId.mockReturnValue(9000);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWriteProvider.isConnected.mockReturnValue(true);
-    defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
-
-    const sdk = await BinanceSDK.getInstance();
-
-    const result = await sdk.addTokenToWallet('aETH');
-
-    expect(result).toBe(true);
-    expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
-    expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
-      symbol: 'aETH',
-      decimals: 18,
-      chainId: 97,
-    });
-  });
-
-  test('should get error token if token is not supported', async () => {
-    const contract = {
-      ...defaultContract,
-      methods: {
-        symbol: jest.fn(() => ({ call: () => 'aETHc' })),
-        decimals: jest.fn(() => ({ call: () => 18 })),
-      },
-    };
-
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultWeb3.eth.getChainId.mockReturnValue(9000);
-    defaultReadProvider.createContract.mockReturnValue(contract);
-    defaultWriteProvider.isConnected.mockReturnValue(true);
-
-    const sdk = await BinanceSDK.getInstance();
-
-    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(
-      EBinanceErrorCodes.UNSUPPORTED_TOKEN,
-    );
   });
 
   test('should get pending data properly', async () => {
@@ -873,7 +641,6 @@ describe('modules/binance/sdk', () => {
             isRebasing: false,
           },
           transactionHash: 'tx1',
-          raw: { data: ZERO_EVENT_HASH },
         },
         {
           returnValues: {
@@ -881,7 +648,6 @@ describe('modules/binance/sdk', () => {
             isRebasing: true,
           },
           transactionHash: 'tx2',
-          raw: { data: '' },
         },
         {
           returnValues: {
@@ -889,20 +655,21 @@ describe('modules/binance/sdk', () => {
             isRebasing: true,
           },
           transactionHash: 'tx3',
-          raw: { data: '' },
         },
       ]),
       methods: {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.98),
         })),
-        pendingUnstakesOf: jest.fn(() => ({
+        pendingAvaxClaimsOf: jest.fn(() => ({
           call: () => new BigNumber(60756),
         })),
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      AVAX_MAX_HISTORY_RANGE + 1,
+    );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -914,27 +681,33 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(64800),
-      pendingCertificate: new BigNumber(15876),
+      pendingBond: new BigNumber(200_000),
+      pendingCertificate: new BigNumber(49_000),
     });
   });
 
-  test('should return relayer fee', async () => {
+  test('should get empty pending data properly', async () => {
     const contract = {
       ...defaultContract,
+      getPastEvents: jest.fn().mockResolvedValue([]),
       methods: {
-        getRelayerFee: jest.fn(() => ({
-          call: () => new BigNumber(1e-1),
+        ratio: jest.fn(() => ({
+          call: () => new BigNumber(0.98),
+        })),
+        pendingAvaxClaimsOf: jest.fn(() => ({
+          call: () => new BigNumber(60756),
         })),
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      AVAX_MAX_HISTORY_RANGE - 1,
+    );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -946,11 +719,14 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const data = await sdk.getRelayerFee();
+    const data = await sdk.getPendingData();
 
-    expect(data).toStrictEqual(new BigNumber(1e-1));
+    expect(data).toStrictEqual({
+      pendingBond: ZERO,
+      pendingCertificate: ZERO,
+    });
   });
 
   test('should return stake gas fee', async () => {
@@ -980,9 +756,9 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
-    const fee = await sdk.getStakeGasFee(new BigNumber(1_000), 'aBNBb');
+    const fee = await sdk.getStakeGasFee(new BigNumber(1_000), 'aAVAXb');
 
     expect(fee).toStrictEqual(new BigNumber(1e-2));
   });
@@ -996,7 +772,7 @@ describe('modules/binance/sdk', () => {
         },
         transactionHash: 'txHash1',
         raw: { data: '' },
-        event: EBinancePoolEvents.UnstakePending,
+        event: EAvalanchePoolEvents.AvaxClaimPending,
       },
       {
         returnValues: {
@@ -1005,7 +781,7 @@ describe('modules/binance/sdk', () => {
         },
         transactionHash: 'txHash2',
         raw: { data: '' },
-        event: EBinancePoolEvents.Staked,
+        event: EAvalanchePoolEvents.StakePending,
       },
       {
         returnValues: {
@@ -1014,7 +790,7 @@ describe('modules/binance/sdk', () => {
         },
         transactionHash: 'txHash3',
         raw: { data: '' },
-        event: EBinancePoolEvents.Staked,
+        event: EAvalanchePoolEvents.StakePending,
       },
       {
         returnValues: {
@@ -1040,13 +816,15 @@ describe('modules/binance/sdk', () => {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.98),
         })),
-        pendingUnstakesOf: jest.fn(() => ({
+        pendingAvaxClaimsOf: jest.fn(() => ({
           call: () => new BigNumber(60756),
         })),
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      AVAX_MAX_HISTORY_RANGE + 1,
+    );
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -1059,7 +837,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const result = await sdk.getTxEventsHistory();
 
@@ -1077,7 +855,7 @@ describe('modules/binance/sdk', () => {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.98),
         })),
-        pendingUnstakesOf: jest.fn(() => ({
+        pendingAvaxClaimsOf: jest.fn(() => ({
           call: () => ZERO,
         })),
       },
@@ -1095,7 +873,7 @@ describe('modules/binance/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await BinanceSDK.getInstance();
+    const sdk = await AvalancheSDK.getInstance();
 
     const result = await sdk.getTxEventsHistory();
 
