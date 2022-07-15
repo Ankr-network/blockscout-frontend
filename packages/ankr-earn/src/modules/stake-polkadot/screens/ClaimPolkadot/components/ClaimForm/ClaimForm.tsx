@@ -1,6 +1,5 @@
 import { Box, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
@@ -28,6 +27,8 @@ interface IClaimFormProps {
   onFormSubmit: (data: IPolkadotClaimFormPayload) => Promise<void>;
 }
 
+const CLOSE_HREF = DashboardRoutes.dashboard.generatePath();
+
 export const ClaimForm = ({
   amount,
   ethToken,
@@ -36,8 +37,6 @@ export const ClaimForm = ({
   onFormSubmit,
 }: IClaimFormProps): JSX.Element => {
   const classes = useClaimFormStyles();
-
-  const closeHref = useMemo(() => DashboardRoutes.dashboard.generatePath(), []);
 
   const renderForm = ({
     handleSubmit,
@@ -109,7 +108,7 @@ export const ClaimForm = ({
       {!isLoadingClaim && (
         <NavLink
           className={classes.closeBtn}
-          href={closeHref}
+          href={CLOSE_HREF}
           variant="outlined"
         >
           <CloseIcon htmlColor="inherit" size="xxs" />

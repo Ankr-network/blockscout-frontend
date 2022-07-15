@@ -15,13 +15,13 @@ const INVALID_TRANSACTIONS: string[] = [
 describe('modules/common/utils/isValidETHTransaction', () => {
   it('Case 1: Valid transactions', () => {
     VALID_TRANSACTIONS.forEach((address: string): void => {
-      expect(isValidETHTransaction(address)).toBeTruthy();
+      expect(isValidETHTransaction(address)).toBe(true);
     });
   });
 
   it('Case 2: Invalid transactions', () => {
     INVALID_TRANSACTIONS.forEach((address: string): void => {
-      expect(isValidETHTransaction(address)).toBeFalsy();
+      expect(isValidETHTransaction(address)).toBe(false);
     });
   });
 });

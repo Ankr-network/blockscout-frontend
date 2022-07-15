@@ -76,8 +76,8 @@ describe('modules/stake-polkadot/screens/ClaimPolkadot/hooks/useClaimForm', () =
 
     expect(result.current.amount).toBe(ZERO);
     expect(result.current.ethToken).toBe(EPolkadotETHReverseMap.DOT);
-    expect(result.current.isLoadingClaim).toBeFalsy();
-    expect(result.current.isSuccessOpened).toBeFalsy();
+    expect(result.current.isLoadingClaim).toBe(false);
+    expect(result.current.isSuccessOpened).toBe(false);
     expect(result.current.polkadotAddress).toBe(POLKADOT_ADDR);
     expect(result.current.successTitle).toBe(SUCCESS_TITLE);
     expect(result.current.onAddTokenClick).toEqual(expect.any(Function));
@@ -90,8 +90,8 @@ describe('modules/stake-polkadot/screens/ClaimPolkadot/hooks/useClaimForm', () =
 
     expect(result.current.amount).toBe(ONE);
     expect(result.current.ethToken).toBe(EPolkadotETHReverseMap.DOT);
-    expect(result.current.isLoadingClaim).toBeFalsy();
-    expect(result.current.isSuccessOpened).toBeFalsy();
+    expect(result.current.isLoadingClaim).toBe(false);
+    expect(result.current.isSuccessOpened).toBe(false);
     expect(result.current.polkadotAddress).toBe(POLKADOT_ADDR);
     expect(result.current.successTitle).toBe(SUCCESS_TITLE);
     expect(result.current.onAddTokenClick).toEqual(expect.any(Function));

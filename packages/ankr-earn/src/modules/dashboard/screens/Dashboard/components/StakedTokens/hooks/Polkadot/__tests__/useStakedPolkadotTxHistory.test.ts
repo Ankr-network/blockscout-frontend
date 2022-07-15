@@ -97,8 +97,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/Polk
       useStakedPolkadotTxHistory(EPolkadotNetworks.DOT),
     );
 
-    expect(result.current.hasHistory).toBeFalsy();
-    expect(result.current.isHistoryDataLoading).toBeTruthy();
+    expect(result.current.hasHistory).toBe(false);
+    expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistory).toStrictEqual(
       [] as IPendingTableRow[],
     );
@@ -125,8 +125,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/Polk
       useStakedPolkadotTxHistory(EPolkadotNetworks.DOT),
     );
 
-    expect(result.current.hasHistory).toBeTruthy();
-    expect(result.current.isHistoryDataLoading).toBeFalsy();
+    expect(result.current.hasHistory).toBe(true);
+    expect(result.current.isHistoryDataLoading).toBe(false);
     expect(result.current.txHistory).toStrictEqual(defaultHistoryData);
 
     expect(result.current.pendingUnstakeHistory).toStrictEqual([
