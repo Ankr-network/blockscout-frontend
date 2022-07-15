@@ -18,7 +18,12 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
-import { DEFAULT_FIXED, isMainnet, ZERO } from 'modules/common/const';
+import {
+  DEFAULT_FIXED,
+  featuresConfig,
+  isMainnet,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { claim } from 'modules/stake-polkadot/actions/claim';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
@@ -29,14 +34,11 @@ import {
 } from 'modules/stake-polkadot/const';
 import {
   EPolkadotNetworks,
+  IPolkadotClaimFormPayload,
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
-
-export interface IFormPayload {
-  isLedgerWallet?: boolean;
-}
 
 interface IUseStakeClaimDialogDataProps {
   ethToken: TPolkadotETHToken;
@@ -60,7 +62,7 @@ interface IUseStakeClaimDialogData {
   topBtnTxt: string;
   walletsGroupTypes?: AvailableWriteProviders[];
   onCloseModal: () => void;
-  onFormSubmit: (data: IFormPayload) => Promise<void>;
+  onFormSubmit: (data: IPolkadotClaimFormPayload) => Promise<void>;
 }
 
 const FIRST_VALID_ETH_CHAIN_ID = ETH_NETWORKS[0];
@@ -122,7 +124,10 @@ export const useStakeClaimDialogData = ({
   const isLoadingTopBtn = isLoadingClaimableBalance || isLoadingSwitchNetwork;
 
   const isShowBottomItems =
-    isWithClaimableTokens || (!isWithClaimableTokens && !isLoadingClaim);
+    isWithClaimableTokens ||
+    (!isWithClaimableTokens &&
+      !isLoadingClaim &&
+      featuresConfig.isActivePolkadotLedgerNanoX);
 
   const ethAmountTxt = useMemo(
     () =>
@@ -162,7 +167,7 @@ export const useStakeClaimDialogData = ({
     }
 
     return isValidETHNetwork
-      ? t('stake-polkadot.stake-claim-dialog.second-top-btn.claim')
+      ? t('stake-polkadot.claim.claim-btn')
       : t('stake-polkadot.stake-claim-dialog.second-top-btn.switch-network', {
           network: ethNetworkName,
         });
@@ -170,7 +175,7 @@ export const useStakeClaimDialogData = ({
 
   const onFormSubmit = async ({
     isLedgerWallet,
-  }: IFormPayload): Promise<void> => {
+  }: IPolkadotClaimFormPayload): Promise<void> => {
     if (!isConnectedETHWallet) {
       onOpenModal();
 

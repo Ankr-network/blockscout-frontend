@@ -15,6 +15,7 @@ import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actio
 import { fetchStakeStats } from 'modules/stake-polkadot/actions/fetchStakeStats';
 import { stake } from 'modules/stake-polkadot/actions/stake';
 import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
+import { useSuccessDialog } from 'modules/stake-polkadot/hooks/useSuccessDialog';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
@@ -30,7 +31,6 @@ import {
 } from 'modules/stake/components/StakeForm';
 
 import { useFaq } from './useFaq';
-import { useSuccessDialog } from './useSuccessDialog';
 
 interface IUseStakeFormData {
   amount: number;
@@ -87,8 +87,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   const isActiveSuccessForm = !isStakeClaimOpened && isSuccessOpened;
 
   const metricsServiceName = useMemo(
-    // Note: This is unsafe type conversion. Please be carefully
-    () => network.toLowerCase() as EMetricsServiceName,
+    () => EMetricsServiceName[network],
     [network],
   );
 

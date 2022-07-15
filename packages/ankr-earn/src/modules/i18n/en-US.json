@@ -460,6 +460,12 @@
     }
   },
   "stake-polkadot": {
+    "claim": {
+      "claim-btn": "Claim",
+      "ledger-wallet-info": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
+      "success-title": "Claim successful",
+      "title": "Claim {token} to Ethereum Network"
+    },
     "errors": {
       "claim-invalid": "Claim is invalid",
       "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
@@ -503,16 +509,13 @@
       "you-will-get": "a{token}b represents your staked {token} and provides liquidity for your staked position.<br/><br/>a{token}b balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 a{token}b = 1 {token}. You can unstake it anytime and receive your stake and earned rewards after the ~{period} days unbonding period. While staking, you can also use a{token}b for trading and other DeFi opportunities."
     },
     "stake-claim-dialog": {
-      "claim-btn": "Claim",
       "claimable-info": "You have unclaimed staked {polkadotToken} balance (<b>{value} {polkadotToken}</b>). It will be converted to {ethToken}",
       "first-title": "Stake {token} on {network} network",
-      "ledger-wallet-info": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
       "second-title": {
         "amount": "Claim {value} {token} to Ethereum Network",
         "default": "Claim {token} to Ethereum Network"
       },
       "second-top-btn": {
-        "claim": "Claim",
         "connect": "Connect Ethereum wallet",
         "switch-network": "Switch to {network}"
       }
@@ -770,6 +773,7 @@
     "history-tooltip": "Transactions history",
     "card": {
       "claiming-info": "Need to be claimed",
+      "claiming-tooltip": "Get liquid staking tokens to your Ethereum wallet.",
       "claim-token": "Claim {token}",
       "btn-claim": "Claim",
       "network-info": "{network} Network",
