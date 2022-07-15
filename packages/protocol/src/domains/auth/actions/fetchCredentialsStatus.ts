@@ -15,7 +15,7 @@ export const fetchCredentialsStatus = createSmartAction<
     promise: (async () => {
       const { service } = MultiService.getInstance();
 
-      return service.isJwtTokenIssueAvailable(transactionHash);
+      return service.canIssueJwtToken(transactionHash);
     })(),
   },
   meta: {
