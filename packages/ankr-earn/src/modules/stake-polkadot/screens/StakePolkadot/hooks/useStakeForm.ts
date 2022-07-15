@@ -87,8 +87,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   const isActiveSuccessForm = !isStakeClaimOpened && isSuccessOpened;
 
   const metricsServiceName = useMemo(
-    // Note: This is unsafe type conversion. Please be carefully
-    () => network.toLowerCase() as EMetricsServiceName,
+    () => EMetricsServiceName[network],
     [network],
   );
 

@@ -48,19 +48,16 @@ export const useUnclaimedPolkadotData = ({
     type: getMetrics,
   });
 
-  // Note: This is unsafe type conversion. Please be carefully
-  const serviceName = network.toLowerCase() as EMetricsServiceName;
-
   const amount = claimableBalance?.claimable ?? ZERO;
-  const usdAmount = useMemo(
-    () =>
-      getUSDAmount({
-        amount,
-        totalStaked: metrics?.[serviceName]?.totalStaked,
-        totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
-      }),
-    [amount, metrics, serviceName],
-  );
+  const usdAmount = useMemo(() => {
+    const serviceName = EMetricsServiceName[network];
+
+    return getUSDAmount({
+      amount,
+      totalStaked: metrics?.[serviceName]?.totalStaked,
+      totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+    });
+  }, [amount, metrics, network]);
 
   const claimLink =
     featuresConfig.isActivePolkadotStaking &&

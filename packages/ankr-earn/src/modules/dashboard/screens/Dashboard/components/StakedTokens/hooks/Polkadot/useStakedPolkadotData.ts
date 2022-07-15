@@ -105,18 +105,15 @@ export const useStakedPolkadotData = ({
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
 
-  // Note: This is unsafe type conversion. Please be carefully
-  const serviceName = network.toLowerCase() as EMetricsServiceName;
+  const usdAmount = useMemo(() => {
+    const serviceName = EMetricsServiceName[network];
 
-  const usdAmount = useMemo(
-    () =>
-      getUSDAmount({
-        amount,
-        totalStaked: metrics?.[serviceName]?.totalStaked,
-        totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
-      }),
-    [amount, metrics, serviceName],
-  );
+    return getUSDAmount({
+      amount,
+      totalStaked: metrics?.[serviceName]?.totalStaked,
+      totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+    });
+  }, [amount, metrics, network]);
 
   const isShowed =
     !amount.isZero() ||
