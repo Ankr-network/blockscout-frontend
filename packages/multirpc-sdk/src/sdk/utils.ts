@@ -1,6 +1,7 @@
 import { IConfig, IJwtToken } from '../common';
-import { IBlockchainEntity } from '../worker';
+import { IBlockchainEntity } from '../backoffice';
 import { FetchBlockchainUrlsResult } from './types';
+import { JwtTokens } from '../api';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,
@@ -110,4 +111,18 @@ export const catchSignError = async (error: any) => {
   }
 
   throw error;
+};
+
+export const getFirstActiveToken = (tokens: JwtTokens) => {
+  const [jwtTokens] = tokens;
+
+  const sortedTokens = jwtTokens.sort(
+    (a, b) => Number(a.expires_at) - Number(b.expires_at),
+  );
+
+  const firstActiveToken = sortedTokens.find(
+    token => Number(token.expires_at) * 1000000 > Date.now(),
+  );
+
+  return firstActiveToken;
 };

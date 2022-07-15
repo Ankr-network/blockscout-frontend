@@ -1,7 +1,16 @@
 import { RightOutlined } from '@ant-design/icons';
-import { Button, Col, InputNumber, Modal, Row, Space, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Divider,
+  InputNumber,
+  Modal,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
+import { ClientBalance } from 'components/ClientBalance';
 import ClientBlockchainActionTable from 'components/ClientBlockchainActionTable/ClientBlockchainActionTable';
-import { TClientTableHistoryPushState } from 'components/ClientTable';
 import ClientTransactionTable from 'components/ClientTransactionTable/ClientTransactionTable';
 import {
   IManageClientVoucherCreditsFormProps,
@@ -12,11 +21,11 @@ import { UserTypeTag } from 'components/UserTypeTag';
 import { observer } from 'mobx-react';
 import { ITransactionsEntity, Web3Address } from 'multirpc-sdk';
 import { useCallback, useMemo, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useMultiRpcSdk } from 'stores';
 import { LocalGridStore } from 'stores/LocalGridStore';
+import { TAddressClient, useAddressClient } from 'stores/useAddressClient';
 import { useClientBalance } from 'stores/useClientBalance';
-import { EClientType } from 'stores/useClients/types';
 import { useTransactions } from 'stores/useTransactions';
 import { useUserBlockchainActions } from 'stores/useUserBlockchainActions';
 import { useVoucherModal } from './useManageVoucher';
@@ -35,9 +44,7 @@ export const ClientDetailPage = observer(() => {
   const { address = '' } = useParams<{ address: Web3Address }>();
   const { balance, refetchBalance } = useClientBalance(address);
 
-  const {
-    state: { clientTtl, clientType = EClientType.UNKNOWN },
-  } = useLocation<TClientTableHistoryPushState>();
+  const { clientTtl, clientType }: TAddressClient = useAddressClient(balance);
 
   const backoffice = useMultiRpcSdk().getBackofficeGateway();
 
@@ -106,16 +113,27 @@ export const ClientDetailPage = observer(() => {
             </Col>
 
             <Col>
-              <UserTypeTag
-                clientType={clientType}
-                clientTtl={clientTtl}
-                isTextInline
-              />
+              {clientType && (
+                <UserTypeTag
+                  clientType={clientType}
+                  clientTtl={clientTtl}
+                  isTextInline
+                />
+              )}
             </Col>
           </Row>
         }
         onBack={() => history.goBack()}
       />
+
+      <ClientBalance
+        amountAnkr={balance?.amountAnkr}
+        amountUsd={balance?.amountUsd}
+        amountCredits={balance?.amount}
+        voucherAmount={balance?.voucherAmount}
+      />
+
+      <Divider />
 
       <Space direction="vertical" style={{ display: 'flex' }} size={40}>
         <div>

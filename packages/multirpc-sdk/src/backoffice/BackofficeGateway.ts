@@ -1,9 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { v4 } from 'uuid';
+
 import {
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
   IBalancesRequest,
   IBalancesResponse,
+  IBlockchainEntity,
+  ICountersEntity,
+  ICountersResponse,
+  INodeEntity,
   IStatementRequest,
   IStatementResponse,
   ITransactionsRequest,
@@ -11,7 +17,6 @@ import {
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
 } from './types';
-
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import { IBackofficeGateway } from './interfaces';
 
@@ -38,7 +43,7 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async getBalances(params: IBalancesRequest): Promise<IBalancesResponse> {
     const { data: response } = await this.api.get<IBalancesResponse>(
-      '/api/v1/auth/balances',
+      '/balances',
       {
         params,
       },
@@ -51,7 +56,7 @@ export class BackofficeGateway implements IBackofficeGateway {
     params: ITransactionsRequest,
   ): Promise<ITransactionsResponse> {
     const { data: response } = await this.api.get<ITransactionsResponse>(
-      '/api/v1/auth/transactions',
+      '/transactions',
       {
         params,
       },
@@ -62,7 +67,7 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async getStatement(params: IStatementRequest): Promise<IStatementResponse> {
     const { data: response } = await this.api.get<IStatementResponse>(
-      '/api/v1/auth/statement',
+      '/statement',
       {
         params,
       },
@@ -74,10 +79,7 @@ export class BackofficeGateway implements IBackofficeGateway {
   async addVoucherCredits(
     body: IAddVoucherCreditsRequest,
   ): Promise<IAddVoucherCreditsResponse> {
-    const { data: response } = await this.api.post(
-      '/api/v1/auth/balance/voucher',
-      body,
-    );
+    const { data: response } = await this.api.post('/balance/voucher', body);
 
     return response;
   }
@@ -86,10 +88,77 @@ export class BackofficeGateway implements IBackofficeGateway {
     body: IUpdateVoucherCreditsRequest,
   ): Promise<IUpdateVoucherCreditsResponse> {
     const { data: response } = await this.api.post(
-      '/api/v1/auth/balance/voucher/adjust',
+      '/balance/voucher/adjust',
       body,
     );
 
     return response;
+  }
+
+  async getBlockchains(): Promise<IBlockchainEntity[]> {
+    const { data } = await this.api.get<IBlockchainEntity[]>('/blockchain');
+
+    return data;
+  }
+
+  async getCounters(limit: number): Promise<ICountersEntity[]> {
+    const {
+      data: { result = [] },
+    } = await this.api.get<ICountersResponse>('/counters', {
+      params: {
+        limit,
+      },
+    });
+
+    return result;
+  }
+
+  async createOrUpdateBlockchain(
+    node: IBlockchainEntity,
+  ): Promise<Record<string, any>> {
+    if (!node.id) node.id = v4();
+    const { data } = await this.api.post('blockchain', node);
+
+    return data;
+  }
+
+  async deleteBlockchain(
+    blockchain: IBlockchainEntity,
+  ): Promise<IBlockchainEntity> {
+    const { data } = await this.api.delete<IBlockchainEntity>('/blockchain', {
+      params: { id: blockchain.id },
+    });
+
+    return data;
+  }
+
+  async migrateLegacy(): Promise<any> {
+    const { data } = await this.api.post<INodeEntity[]>('/legacy', {});
+
+    return data;
+  }
+
+  async getNodes(blockchain?: string): Promise<INodeEntity[]> {
+    const { data } = await this.api.get<INodeEntity[]>('/node', {
+      params: { blockchain },
+    });
+
+    return data;
+  }
+
+  async createOrUpdateNode(node: INodeEntity): Promise<Record<string, any>> {
+    if (!node.id) node.id = v4();
+
+    const { data } = await this.api.post('/node', node);
+
+    return data;
+  }
+
+  async deleteNode(node: INodeEntity): Promise<INodeEntity> {
+    const { data } = await this.api.delete<INodeEntity>('/node', {
+      params: { id: node.id, blockchain: node.blockchain },
+    });
+
+    return data;
   }
 }
