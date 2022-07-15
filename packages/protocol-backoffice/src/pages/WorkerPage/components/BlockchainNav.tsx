@@ -10,7 +10,7 @@ import BlockchainTable from 'components/BlockchainTable/BlockchainTable';
 import { useBackofficeBlockchains } from 'stores/useBackofficeBlockchains';
 
 export const BlockchainNav = observer(() => {
-  const api = useMultiRpcSdk().getWorkerBackofficeGateway();
+  const api = useMultiRpcSdk().getBackofficeGateway();
 
   const gridStore = useBackofficeBlockchains();
   const [drawerVisible, setDrawerVisible] = useState(false);

@@ -2,9 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
 import {
-  IBlockchainEntity,
   IImportJWTTokenResult,
-  INodeEntity,
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
@@ -17,6 +15,7 @@ import {
   Timeframe,
 } from './types';
 import { IWorkerGateway } from './interfaces';
+import { IBlockchainEntity, INodeEntity } from '../backoffice';
 
 export class WorkerGateway implements IWorkerGateway {
   public api: AxiosInstance;
