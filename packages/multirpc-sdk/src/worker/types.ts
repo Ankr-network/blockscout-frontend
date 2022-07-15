@@ -1,42 +1,5 @@
 import { Tier, UUID, Web3Address } from '../common';
 
-export type BlockchainFeature = 'rpc' | 'ws';
-
-export enum BlockchainType {
-  Mainnet = 'mainnet',
-  Extension = 'extension',
-  Testnet = 'testnet',
-  Devnet = 'devnet',
-}
-
-export interface IBlockchainEntity {
-  extends?: string;
-  id: string;
-  features: BlockchainFeature[];
-  name: string;
-  paths?: string[];
-  stats?: {
-    reqs: number;
-  };
-  type: BlockchainType;
-}
-
-export interface ICountersEntity {
-  hourly: number;
-  daily: number;
-  monthly: number;
-  delta: number;
-  timestamp: number;
-  user: string;
-  address?: Web3Address;
-  ttl?: number;
-  hash?: string;
-}
-
-export interface ICountersResponse {
-  result?: ICountersEntity[];
-}
-
 export interface ICountry {
   country: string;
   bytes: number;
@@ -50,21 +13,6 @@ export interface IImportJWTTokenResult {
   tier: Tier;
   // use this token for private urls
   token: string;
-}
-
-export interface INodeEntity {
-  id: string;
-  blockchain: string;
-  scheme: string;
-  requestUrl: string;
-  websocketUrl?: string;
-  weight: number;
-  continent: string;
-  country: string;
-  organization: string;
-  city: string;
-  features: string[];
-  isArchive: boolean;
 }
 
 export interface IPrivateEndpoint {

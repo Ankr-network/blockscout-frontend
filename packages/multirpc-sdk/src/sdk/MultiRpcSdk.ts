@@ -5,10 +5,8 @@ import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
 
 import {
-  IBlockchainEntity,
   IPrivateEndpoint,
   IProvider,
-  IWorkerBackofficeGateway,
   IWorkerEndpoint,
   IWorkerGateway,
   IWorkerGlobalStatus,
@@ -17,7 +15,6 @@ import {
   RestrictedDomains,
   RestrictedIps,
   Timeframe,
-  WorkerBackofficeGateway,
   WorkerGateway,
 } from '../worker';
 import { ApiGateway, IApiGateway } from '../api';
@@ -34,13 +31,7 @@ import {
   IContractManager,
   IDepositAnkrToWalletResult,
 } from '../contract';
-import {
-  IIsJwtTokenIssueAvailableResult,
-  FetchBlockchainUrlsResult,
-  ILoginAsUserExState,
-  LoginAsUserExResult,
-  LoginAsUserExResultAction,
-} from './types';
+import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import {
   AccountGateway,
   IAccountGateway,
@@ -54,16 +45,22 @@ import {
   IWithdrawalStatusResponse,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
-import { ManagedPromise } from '../stepper';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
-import { catchSignError, formatPrivateUrls, formatPublicUrls } from './utils';
-import { BackofficeGateway, IBackofficeGateway } from '../backoffice';
+import {
+  catchSignError,
+  formatPrivateUrls,
+  formatPublicUrls,
+  getFirstActiveToken,
+} from './utils';
+import {
+  BackofficeGateway,
+  IBackofficeGateway,
+  IBlockchainEntity,
+} from '../backoffice';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private workerGateway?: IWorkerGateway;
-
-  private workerBackofficeGateway?: IWorkerBackofficeGateway;
 
   private apiGateway?: IApiGateway;
 
@@ -86,106 +83,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.getWorkerGateway().getBlockchains();
   }
 
-  async isUserHasDeposit(user: Web3Address): Promise<PrefixedHex | false> {
+  async hasDeposit(user: Web3Address): Promise<PrefixedHex | false> {
     return this.getContractManager().getLatestUserEventLogHash(user);
-  }
-
-  loginAsUserEx(user: Web3Address): LoginAsUserExResult {
-    const promise = new ManagedPromise<
-      ILoginAsUserExState,
-      IJwtToken | false,
-      LoginAsUserExResultAction
-    >({});
-
-    promise.newAction(
-      'get_user_info',
-      async (ss, resolve): Promise<ILoginAsUserExState> => {
-        // get transaction hash
-        const transactionHash =
-          await this.getContractManager().getLatestUserEventLogHash(user);
-
-        if (!transactionHash) {
-          return resolve(false);
-        }
-
-        // find matching threshold key
-        const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(
-          0,
-          1,
-          {
-            name: 'MultiRPC',
-          },
-        );
-
-        if (!thresholdKeys.length)
-          throw new Error(`There is no threshold keys`);
-
-        const thresholdKey = thresholdKeys[0].id;
-        // get current account
-        const currentAccount = this.keyProvider.currentAccount();
-
-        // return new state
-        return { ...ss, transactionHash, thresholdKey, currentAccount };
-      },
-    );
-
-    promise.newAction(
-      'get_encryption_key',
-      async (ss): Promise<ILoginAsUserExState> => {
-        const { currentAccount } = ss;
-
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        let { encryptionKey } = ss;
-
-        if (!encryptionKey) {
-          encryptionKey =
-            await this.getContractManager().getEncryptionPublicKey(
-              currentAccount!,
-            );
-        }
-
-        return { ...ss, encryptionKey };
-      },
-    );
-
-    promise.newAction(
-      'decrypt_jwt_token',
-      async (ss, resolve): Promise<ILoginAsUserExState> => {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const { transactionHash, thresholdKey, encryptionKey } = ss;
-
-        // send issue request to Ankr protocol
-        const jwtToken = await this.getApiGateway().requestJwtToken({
-          transaction_hash: transactionHash!,
-          public_key: encryptionKey!,
-          threshold_key: thresholdKey!,
-        });
-
-        // decrypt signed token using client's private key
-        const metaMaskJsonData = Buffer.from(
-          jwtToken.signed_token,
-          'base64',
-        ).toString('ascii');
-
-        jwtToken.signed_token =
-          await this.getContractManager().decryptMessageUsingPrivateKey(
-            metaMaskJsonData,
-          );
-
-        // try to import jwt token (backend do it also as well, so failure is not critical)
-        try {
-          await this.getWorkerGateway().importJwtToken(jwtToken.signed_token);
-        } catch (e: any) {
-          // eslint-disable-next-line no-console
-          console.error(`failed to import jwt token: ${e.message}`);
-        }
-
-        // resolve final result
-        return resolve(jwtToken);
-      },
-    );
-
-    return promise;
   }
 
   async loginWithIssuedToken(user: Web3Address) {
@@ -195,15 +94,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return false;
     }
 
-    const [jwtTokens] = jwtTokensResponse;
-
-    const sortedTokens = jwtTokens.sort(
-      (a, b) => Number(a.expires_at) - Number(b.expires_at),
-    );
-
-    const firstActiveToken = sortedTokens.find(
-      token => Number(token.expires_at) * 1000000 > Date.now(),
-    );
+    const firstActiveToken = getFirstActiveToken(jwtTokensResponse);
 
     if (!firstActiveToken) {
       return false;
@@ -286,44 +177,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return updatedJwtToken;
   }
 
-  async loginAsAdmin(user: Web3Address): Promise<IJwtToken | false> {
-    const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
-      name: 'MultiRPC',
-    });
-
-    if (!thresholdKeys.length) throw new Error(`There is no threshold keys`);
-
-    const currentAccount = this.keyProvider.currentAccount();
-
-    // requests user's x25519 encryption key
-    const publicKey = await this.getContractManager().getEncryptionPublicKey(
-      currentAccount,
-    );
-
-    // send issue request to ankr protocol
-    const jwtToken = await this.getApiGateway().issueJwtToken({
-      jwt_token: user,
-      threshold_key: thresholdKeys[0].id,
-      public_key: publicKey,
-      token_type: 'JWT_TOKEN_TYPE_ADMIN',
-    });
-
-    // decrypt signed token using client's private key
-    const metaMaskJsonData = Buffer.from(
-      jwtToken.signed_token,
-      'base64',
-    ).toString('ascii');
-    jwtToken.signed_token =
-      await this.getContractManager().decryptMessageUsingPrivateKey(
-        metaMaskJsonData,
-      );
-
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return jwtToken;
-  }
-
   async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
     const blockchainsApiResponse =
       await this.getWorkerGateway().getBlockchains();
@@ -335,8 +188,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     jwtToken: IJwtToken,
   ): Promise<FetchBlockchainUrlsResult> {
     const blockchains = await this.getWorkerGateway().getBlockchains();
-    // old hash for private urls
-    // const tokenHash = await calcJwtTokenHash(jwtToken);
 
     return formatPrivateUrls(blockchains, this.config, jwtToken.endpoint_token);
   }
@@ -433,9 +284,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return events[events.length - 1];
   }
 
-  async isJwtTokenIssueAvailable(
+  async canIssueJwtToken(
     transactionHash: PrefixedHex,
-  ): Promise<IIsJwtTokenIssueAvailableResult> {
+  ): Promise<IIssueJwtTokenResult> {
     const latestKnownBlockNumber = await this.keyProvider
       .getWeb3()
       .eth.getBlockNumber();
@@ -575,24 +426,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   /**
    * @internal for internal usage, try to avoid
    */
-  getWorkerGateway(): IWorkerGateway {
+  getWorkerGateway(jwtToken?: IJwtToken): IWorkerGateway {
     this.workerGateway =
       this.workerGateway ||
       new WorkerGateway({
         baseURL: this.config.workerUrl,
       });
 
+    if (jwtToken) {
+      this.workerGateway.addJwtToken(jwtToken);
+    }
+
     return this.workerGateway;
-  }
-
-  getWorkerBackofficeGateway(): IWorkerBackofficeGateway {
-    this.workerBackofficeGateway =
-      this.workerBackofficeGateway ||
-      new WorkerBackofficeGateway({
-        baseURL: this.config.workerUrl,
-      });
-
-    return this.workerBackofficeGateway;
   }
 
   /**
@@ -626,67 +471,46 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   }
 
   async fetchProvider(jwtToken: IJwtToken): Promise<IProvider> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().getProvider();
+    return this.getWorkerGateway(jwtToken).getProvider();
   }
 
   async fetchPrivateEndpoints(jwtToken: IJwtToken): Promise<IWorkerEndpoint> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().getEndpoints();
+    return this.getWorkerGateway(jwtToken).getEndpoints();
   }
 
   async addPrivateEndpoint(
     jwtToken: IJwtToken,
     endpoint: IPrivateEndpoint,
   ): Promise<IWorkerEndpoint> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().addPrivateEndpoint(endpoint);
+    return this.getWorkerGateway(jwtToken).addPrivateEndpoint(endpoint);
   }
 
   async editPrivateEndpoint(
     jwtToken: IJwtToken,
     endpoint: IPrivateEndpoint,
   ): Promise<IWorkerEndpoint> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().editPrivateEndpoint(endpoint);
+    return this.getWorkerGateway(jwtToken).editPrivateEndpoint(endpoint);
   }
 
   async deletePrivateEndpoint(
     jwtToken: IJwtToken,
     endpointId: string,
   ): Promise<void> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().deletePrivateEndpoint(endpointId);
+    return this.getWorkerGateway(jwtToken).deletePrivateEndpoint(endpointId);
   }
 
   async getChainRestrictedDomains(
     jwtToken: IJwtToken,
     chainId: string,
   ): Promise<RestrictedDomains> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().getChainRestrictedDomains(chainId);
+    return this.getWorkerGateway(jwtToken).getChainRestrictedDomains(chainId);
   }
 
   async getChainRestrictedIps(
     jwtToken: IJwtToken,
     chainId: string,
   ): Promise<RestrictedIps> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().getChainRestrictedIps(chainId);
+    return this.getWorkerGateway(jwtToken).getChainRestrictedIps(chainId);
   }
 
   async editChainRestrictedDomains(
@@ -694,10 +518,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     chainId: string,
     domains: string[],
   ): Promise<RestrictedDomains> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().editChainRestrictedDomains(chainId, domains);
+    return this.getWorkerGateway(jwtToken).editChainRestrictedDomains(
+      chainId,
+      domains,
+    );
   }
 
   async editChainRestrictedIps(
@@ -705,10 +529,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     chainId: string,
     domains: string[],
   ): Promise<RestrictedIps> {
-    this.getWorkerGateway().addJwtToken(jwtToken);
-    this.getWorkerBackofficeGateway().addJwtToken(jwtToken);
-
-    return this.getWorkerGateway().editChainRestrictedIps(chainId, domains);
+    return this.getWorkerGateway(jwtToken).editChainRestrictedIps(
+      chainId,
+      domains,
+    );
   }
 
   async getPaymentHistory(
