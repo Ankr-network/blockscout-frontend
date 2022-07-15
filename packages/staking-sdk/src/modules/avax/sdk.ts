@@ -53,7 +53,7 @@ import {
 } from './types';
 
 /**
- * AvalancheSDK allows you to interact with Avalanche Liquid Staking smart contracts on Avalanche network: aAVAXb, aAVAXc and AvalanchePool.
+ * AvalancheSDK allows you to interact with Avalanche Liquid Staking smart contracts on Avalanche network: aAVAXb, aAVAXc, and AvalanchePool.
  *
  * For more information on Avalanche Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/avax/staking-mechanics).
  *
@@ -382,7 +382,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IAvalancheSDKProviders>} [args] - User defined providers.
+   * @param {Partial<IAvalancheSDKProviders>} [args] - user-defined providers.
    * @returns {Promise<AvalancheSDK>}
    */
   public static async getInstance(
@@ -420,7 +420,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @param {string} token - token symbol (aAVAXb or aAVAXc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -470,7 +470,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Returns aAVAXc token balance
+   * Return aAVAXc token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
@@ -680,7 +680,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Return AVAX balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getAVAXBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
@@ -894,7 +894,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return stake method by token symbol.
    *
-   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @param {string} token - token symbol (aAVAXb or aAVAXc)
    * @private
    * @returns {string}
    */
@@ -916,7 +916,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @note Estimates gas and multiplies it by `GAS_FEE_MULTIPLIER` to prevent MetaMask issue with gas calculation.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
-   * @param {string} token - choose which token to receive (aAVAXb, aAVAXc)
+   * @param {string} token - choose which token to receive (aAVAXb or aAVAXc)
    * @returns {Promise<IStakeData>}
    */
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
@@ -961,7 +961,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @public
    * @note Caches computed gas fee value for future computations.
    * @param {BigNumber} amount - amount to stake
-   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @param {string} token - token symbol (aAVAXb or aAVAXc)
    * @returns {Promise<BigNumber>}
    */
   public async getStakeGasFee(
@@ -1004,7 +1004,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Internal function to return unstake method by token symbol.
    *
    * @private
-   * @param {string} token - token symbol (aAVAXb, aAVAXc)
+   * @param {string} token - token symbol (aAVAXb or aAVAXc)
    * @private
    * @returns {string}
    */
@@ -1025,7 +1025,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
-   * @param {string} token - choose which token to unstake (aAVAXb, aAVAXc)
+   * @param {string} token - choose which token to unstake (aAVAXb or aAVAXc)
    * @returns {Promise<void>}
    */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
