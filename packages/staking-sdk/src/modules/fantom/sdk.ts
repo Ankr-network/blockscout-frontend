@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData, Filter } from 'web3-eth-contract';
+import { Contract, EventData } from 'web3-eth-contract';
 
 import {
   EEthereumNetworkId,
@@ -25,9 +25,13 @@ import { AFTMB_ABI, AFTMC_ABI, FANTOM_POOL_ABI } from '../contracts';
 import {
   getTxEventsHistoryGroup,
   getFilteredContractEvents,
-  ITxEventsHistoryGroupItem,
+  IStakable,
+  IStakeData,
+  ITxEventsHistoryData,
+  IGetPastEvents,
+  IPendingData,
 } from '../stake';
-import { ISwitcher } from '../switcher';
+import { ISwitcher, IShareArgs, IFetchTxData } from '../switcher';
 import { convertNumberToHex } from '../utils/converters';
 
 import {
@@ -37,65 +41,70 @@ import {
   FANTOM_ESTIMATE_GAS_MULTIPLIER,
   FANTOM_GAS_FEE_MULTIPLIER,
 } from './const';
-import { TFtmSyntToken } from './types';
+import {
+  TFtmSyntToken,
+  TUnstakingStatsType,
+  IFantomSDKProviders,
+  EFantomPoolEvents,
+} from './types';
 
-export enum EFantomPoolEvents {
-  TokensBurned = 'TokensBurned2',
-  Withdrawn = 'Withdrawn',
-  StakeReceived = 'StakeReceived2',
-}
-
-type TUnstakingStatsType = 'bond' | 'cert' | 'all';
-
-interface IFantomSDKProviders {
-  writeProvider: Web3KeyWriteProvider;
-  readProvider: Web3KeyReadProvider;
-}
-
-interface IGetPastEvents {
-  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
-  contract: Contract;
-  eventName: string;
-  startBlock: number;
-  rangeStep: number;
-  filter?: Filter;
-}
-
-export interface IGetTxData {
-  amount: BigNumber;
-  isPending: boolean;
-  destinationAddress?: string;
-}
-
-interface ITxEventsHistoryData {
-  stakeEventsAFTMB: ITxEventsHistoryGroupItem[];
-  stakeEventsAFTMC: ITxEventsHistoryGroupItem[];
-  pendingEventsAFTMB: ITxEventsHistoryGroupItem[];
-  pendingEventsAFTMC: ITxEventsHistoryGroupItem[];
-  withdrawnEventsAFTMB: ITxEventsHistoryGroupItem[];
-  withdrawnEventsAFTMC: ITxEventsHistoryGroupItem[];
-  totalPending: BigNumber;
-}
-
-interface ILockSharesArgs {
-  amount: BigNumber;
-}
-
-interface IUnlockSharesArgs {
-  amount: BigNumber;
-}
-
-export class FantomSDK implements ISwitcher {
+/**
+ * FantomSDK allows you to interact with Fantom Liquid Staking smart contracts on Fantom (Mainnet, Tesnet): aFTMb, aFTMc, and FantomPool.
+ *
+ * For more information on Fantom Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/fantom/staking-mechanics).
+ *
+ * @class
+ */
+export class FantomSDK implements ISwitcher, IStakable {
+  /**
+   * instance — SDK instance.
+   *
+   * @type {FantomSDK}
+   * @static
+   * @private
+   */
   private static instance?: FantomSDK;
 
+  /**
+   * writeProvider — provider which has signer for signing transactions.
+   *
+   * @type {Web3KeyWriteProvider}
+   * @private
+   * @readonly
+   */
   private readonly writeProvider: Web3KeyWriteProvider;
 
+  /**
+   * readProvider — provider which allows to read data without connecting the wallet.
+   *
+   * @type {Web3KeyReadProvider}
+   * @private
+   * @readonly
+   */
   private readonly readProvider: Web3KeyReadProvider;
 
+  /**
+   * currentAccount — connected account.
+   *
+   * @type {string}
+   * @private
+   */
   private currentAccount: string;
 
+  /**
+   * apiGateWay — gateway instance.
+   *
+   * @type {ApiGateway}
+   * @private
+   */
   private readonly apiGateWay: ApiGateway;
 
+  /**
+   * Private constructor. Instead, use `FantomSDK.getInstance`.
+   *
+   * @constructor
+   * @private
+   */
   private constructor({ readProvider, writeProvider }: IFantomSDKProviders) {
     FantomSDK.instance = this;
     const { gatewayConfig } = configFromEnv(
@@ -108,11 +117,25 @@ export class FantomSDK implements ISwitcher {
     this.apiGateWay = new ApiGateway(gatewayConfig);
   }
 
-  public static async getInstance(): Promise<FantomSDK> {
+  /**
+   * Initialization method for the SDK.
+   *
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
+   *
+   * @public
+   * @static
+   * @param {Partial<IFantomSDKProviders>} [args] - User defined providers.
+   * @returns {Promise<FantomSDK>}
+   */
+  public static async getInstance(
+    args?: Partial<IFantomSDKProviders>,
+  ): Promise<FantomSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
-      providerManager.getETHWriteProvider(),
-      providerManager.getETHReadProvider(FANTOM_PROVIDER_READ_ID),
+      args?.writeProvider ?? providerManager.getETHWriteProvider(),
+      args?.readProvider ??
+        providerManager.getETHReadProvider(FANTOM_PROVIDER_READ_ID),
     ]);
 
     const addrHasNotBeenUpdated =
@@ -135,6 +158,13 @@ export class FantomSDK implements ISwitcher {
     return instance;
   }
 
+  /**
+   * Internal function to choose the right provider for read or write purpose.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
+   */
   private async getProvider(
     isForceRead = false,
   ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
@@ -155,6 +185,12 @@ export class FantomSDK implements ISwitcher {
     return this.readProvider;
   }
 
+  /**
+   * Internal function to check the current network.
+   *
+   * @private
+   * @returns {Promise<boolean>}
+   */
   private async isFtmNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
@@ -165,10 +201,24 @@ export class FantomSDK implements ISwitcher {
     ].includes(chainId);
   }
 
+  /**
+   * Internal function to convert wei value to human readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 
+  /**
+   * Internal function to get FantomPool contract.
+   *
+   * @private
+   * @param {boolean} provider - read or write provider
+   * @returns {Promise<Contract>}
+   */
   private getFantomPoolContract(
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
@@ -177,23 +227,44 @@ export class FantomSDK implements ISwitcher {
     return provider.createContract(FANTOM_POOL_ABI, fantomConfig.fantomPool);
   }
 
-  private async getAftmbTokenContract() {
-    const provider = await this.getProvider();
+  /**
+   * Internal function to get aFTMb token contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
+  private async getAftmbTokenContract(isForceRead = false) {
+    const provider = await this.getProvider(isForceRead);
 
     const { fantomConfig } = configFromEnv();
 
     return provider.createContract(AFTMB_ABI, fantomConfig.aftmbToken);
   }
 
-  private async getAftmcTokenContract() {
-    const provider = await this.getProvider();
+  /**
+   * Internal function to get aFTMc token contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
+  private async getAftmcTokenContract(isForceRead = false) {
+    const provider = await this.getProvider(isForceRead);
 
     const { fantomConfig } = configFromEnv();
 
     return provider.createContract(AFTMC_ABI, fantomConfig.aftmcToken);
   }
 
-  public async getTxHistory(): Promise<ITxEventsHistoryData> {
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for the last 7 days.
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+  public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
@@ -212,17 +283,19 @@ export class FantomSDK implements ISwitcher {
           provider,
           contract: fantomPoolContract,
           startBlock,
+          latestBlockNumber,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
           filter: {
             staker: this.currentAccount,
           },
         }),
-        // To gen pending withdrawal requests, one can get all TokensBurned events for given staker
+        // Get pending withdrawal requests, one can get all TokensBurned events for given staker
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
           startBlock,
+          latestBlockNumber,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
           filter: {
@@ -233,6 +306,7 @@ export class FantomSDK implements ISwitcher {
           provider,
           contract: fantomPoolContract,
           startBlock,
+          latestBlockNumber,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
           filter: {
@@ -264,12 +338,12 @@ export class FantomSDK implements ISwitcher {
     } = getFilteredContractEvents(pendingRawEvents);
 
     const [
-      stakeEventsAFTMCB,
-      stakeEventsAFTMCC,
-      withdrawnEventsAFTMB,
-      withdrawnEventsAFTMC,
-      pendingEventsAFTMB,
-      pendingEventsAFTMC,
+      completedBond,
+      completedCertificate,
+      unstakeBond,
+      unstakeCertificate,
+      pendingBond,
+      pendingCertificate,
     ] = await Promise.all(
       [
         stakeRawEventsAFTMB,
@@ -281,22 +355,23 @@ export class FantomSDK implements ISwitcher {
       ].map(rawEvents => getTxEventsHistoryGroup({ rawEvents, web3 })),
     );
 
-    const totalPending = [...pendingEventsAFTMB, ...pendingEventsAFTMC].reduce(
-      (acc, { txAmount }) => acc.plus(txAmount),
-      ZERO,
-    );
-
     return {
-      stakeEventsAFTMB: stakeEventsAFTMCB,
-      stakeEventsAFTMC: stakeEventsAFTMCC,
-      pendingEventsAFTMB,
-      pendingEventsAFTMC,
-      withdrawnEventsAFTMB,
-      withdrawnEventsAFTMC,
-      totalPending,
+      completedBond,
+      completedCertificate,
+      pendingBond,
+      pendingCertificate,
+      unstakeBond,
+      unstakeCertificate,
     };
   }
 
+  /**
+   * Internal function to get past events, using the defined range.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
   private async getPastEvents({
     provider,
     contract,
@@ -324,7 +399,15 @@ export class FantomSDK implements ISwitcher {
     return flatten(pastEvents);
   }
 
-  public async fetchTxData(txHash: string): Promise<IGetTxData> {
+  /**
+   * Fetch transaction data.
+   *
+   * @public
+   * @note Parses first uint256 param from transaction input.
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
+  public async fetchTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
@@ -342,6 +425,13 @@ export class FantomSDK implements ISwitcher {
     };
   }
 
+  /**
+   * Fetch transaction receipt.
+   *
+   * @public
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<TransactionReceipt | null>}
+   */
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
@@ -353,15 +443,23 @@ export class FantomSDK implements ISwitcher {
     return receipt as TransactionReceipt | null;
   }
 
-  public async stake(
-    amount: BigNumber,
-    token: TFtmSyntToken,
-  ): Promise<IWeb3SendResult> {
+  /**
+   * Stake token.
+   *
+   * @public
+   * @note Initiates two transactions and connect if writeProvider isn't connected.
+   * @note Estimates gas and multiplies it by `GAS_FEE_MULTIPLIER` to prevent MetaMask issue with gas calculation.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive (aFTMb or aFTMc)
+   * @returns {Promise<IStakeData>}
+   */
+  public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    const gasFee = await this.getStakeGasFee(amount, token);
+    const gasFee = await this.getStakeGasFee(amount, token as TFtmSyntToken);
     const balance = await this.getFtmBalance();
 
     // multiplication needs to avoid problems with max amount
@@ -375,7 +473,7 @@ export class FantomSDK implements ISwitcher {
 
     const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
-    const stakeMethodName = this.getStakeMethodName(token);
+    const stakeMethodName = this.getStakeMethodName(token as TFtmSyntToken);
     const txn = fantomPoolContract.methods[stakeMethodName]();
 
     const gasLimit: number = await txn.estimateGas({
@@ -390,11 +488,25 @@ export class FantomSDK implements ISwitcher {
     });
   }
 
-  private getIncreasedGasLimit(gasLimit: number) {
+  /**
+   * Internal function to return increased gas limit.
+   *
+   * @param {number} gasLimit - initial gas limit
+   * @private
+   * @returns {number}
+   */
+  private getIncreasedGasLimit(gasLimit: number): number {
     return Math.round(gasLimit * FANTOM_ESTIMATE_GAS_MULTIPLIER);
   }
 
-  private getStakeMethodName(token: TFtmSyntToken) {
+  /**
+   * Internal function to return stake method by token symbol.
+   *
+   * @param {TFtmSyntToken} token - token symbol (aFTMb or aFTMc)
+   * @private
+   * @returns {string}
+   */
+  private getStakeMethodName(token: TFtmSyntToken): string {
     switch (token) {
       case 'aFTMc':
         return 'stakeAndClaimCerts';
@@ -404,6 +516,14 @@ export class FantomSDK implements ISwitcher {
     }
   }
 
+  /**
+   * Checks if allowance is greater or equal to amount.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @param {string} [spender] - spender address (by default it is aFTMb token address)
+   * @returns {Promise<BigNumber>} - allowance in wei
+   */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const aFTMcContract = await this.getAftmcTokenContract();
     const { fantomConfig } = configFromEnv();
@@ -415,6 +535,14 @@ export class FantomSDK implements ISwitcher {
     return new BigNumber(allowance);
   }
 
+  /**
+   * Checks if allowance is greater or equal to amount.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @param {string} [amount] - amount
+   * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
+   */
   public async checkAllowance(amount: BigNumber): Promise<boolean> {
     const allowance = await this.getACAllowance();
 
@@ -423,6 +551,16 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
+  /**
+   * Approve aFTMc for aFTMb, i.e. allow aFTMb smart contract to access and transfer aFTMc tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} [amount] - amount to approve (by default it's MAX_UINT256)
+   * @param {number} [scale = 1] - scale factor for amount
+   * @returns {Promise<IWeb3SendResult | undefined>}
+   */
   public async approveACForAB(
     amount = MAX_UINT256,
     scale = 1,
@@ -451,9 +589,19 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
+  /**
+   * Switch aFTMc to aFTMb.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {IShareArgs} args - object with amount to switch and scale
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async lockShares({
     amount,
-  }: ILockSharesArgs): Promise<IWeb3SendResult> {
+    scale = ETH_SCALE_FACTOR,
+  }: IShareArgs): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -462,7 +610,7 @@ export class FantomSDK implements ISwitcher {
     const { fantomConfig } = configFromEnv();
 
     const data = aFTMbContract.methods
-      .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .lockShares(convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -472,9 +620,19 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
+  /**
+   * Switch aFTMb to aFTMc.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {IShareArgs} args - object with amount to switch and scale
+   * @returns {Promise<IWeb3SendResult>}
+   */
   public async unlockShares({
     amount,
-  }: IUnlockSharesArgs): Promise<IWeb3SendResult> {
+    scale = ETH_SCALE_FACTOR,
+  }: IShareArgs): Promise<IWeb3SendResult> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -483,7 +641,7 @@ export class FantomSDK implements ISwitcher {
     const { fantomConfig } = configFromEnv();
 
     const data = aFTMbContract.methods
-      .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
+      .unlockShares(convertNumberToHex(amount, scale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -493,17 +651,24 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
-  public async unstake(
-    amount: BigNumber,
-    token: TFtmSyntToken,
-  ): Promise<IWeb3SendResult> {
+  /**
+   * Unstake token.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to unstake (aFTMb or aFTMc)
+   * @returns {Promise<void>}
+   */
+  public async unstake(amount: BigNumber, token: string): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
-    const unstakeMethodName = this.getUnstakeMethodName(token);
+    const unstakeMethodName = this.getUnstakeMethodName(token as TFtmSyntToken);
     const txn = fantomPoolContract.methods[unstakeMethodName](hexAmount);
 
     const gasLimit: number = await txn.estimateGas({
@@ -516,7 +681,15 @@ export class FantomSDK implements ISwitcher {
     });
   }
 
-  private getUnstakeMethodName(token: TFtmSyntToken) {
+  /**
+   * Internal function to return unstake method by token symbol.
+   *
+   * @private
+   * @param {TFtmSyntToken} token - token symbol (aFTMb or aFTMc)
+   * @private
+   * @returns {string}
+   */
+  private getUnstakeMethodName(token: TFtmSyntToken): string {
     switch (token) {
       case 'aFTMc':
         return 'burnCerts';
@@ -526,6 +699,15 @@ export class FantomSDK implements ISwitcher {
     }
   }
 
+  /**
+   * Get stake gas fee.
+   *
+   * @public
+   * @note Caches computed gas fee value for future computations.
+   * @param {BigNumber} amount - amount to stake
+   * @param {TFtmSyntToken} token - token symbol (aFTMb or aFTMc)
+   * @returns {Promise<BigNumber>}
+   */
   public async getStakeGasFee(
     amount: BigNumber,
     token: TFtmSyntToken,
@@ -546,6 +728,13 @@ export class FantomSDK implements ISwitcher {
     return provider.getContractMethodFee(increasedGasLimit);
   }
 
+  /**
+   * Get burn fee for amount
+   *
+   * @public
+   * @param {BigNumber} amount - amount to burn
+   * @returns {Promise<BigNumber>}
+   */
   public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
@@ -558,6 +747,12 @@ export class FantomSDK implements ISwitcher {
     return this.convertFromWei(burnFee);
   }
 
+  /**
+   * Get minimum stake amount.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getMinimumStake(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
@@ -567,6 +762,14 @@ export class FantomSDK implements ISwitcher {
     return this.convertFromWei(minStake);
   }
 
+  /**
+   * Add token to wallet.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {string} token - token symbol (aFTMb or aFTMc)
+   * @returns {Promise<boolean>}
+   */
   public async addTokenToWallet(token: TFtmSyntToken): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -600,6 +803,12 @@ export class FantomSDK implements ISwitcher {
     });
   }
 
+  /**
+   * Return FTM balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable balance
+   */
   public async getFtmBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -608,6 +817,12 @@ export class FantomSDK implements ISwitcher {
     return this.convertFromWei(ftmBalance);
   }
 
+  /**
+   * Return aFTMb token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getABBalance(): Promise<BigNumber> {
     const aFTMbContract = await this.getAftmbTokenContract();
 
@@ -618,6 +833,12 @@ export class FantomSDK implements ISwitcher {
     return this.convertFromWei(aFTMbBalance);
   }
 
+  /**
+   * Return aFTMc token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
   public async getACBalance(): Promise<BigNumber> {
     const aFTMcContract = await this.getAftmcTokenContract();
 
@@ -628,6 +849,13 @@ export class FantomSDK implements ISwitcher {
     return this.convertFromWei(aFTMcBalance);
   }
 
+  /**
+   * Return aFTMc/FTM ratio.
+   *
+   * @public
+   * @note [Read about aFTMc/FTM ratio](https://www.ankr.com/docs/staking/liquid-staking/ftm/staking-mechanics/#exchange-ratio).
+   * @returns {Promise<BigNumber>} - human readable ratio
+   */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aFTMcContract = await this.getAftmcTokenContract();
@@ -639,12 +867,38 @@ export class FantomSDK implements ISwitcher {
     return new BigNumber(ratio);
   }
 
-  public async getPendingUnstakes(
+  /**
+   * Get total pending unstake amount.
+   *
+   * @public
+   * @param {TUnstakingStatsType} - unstake type (by default it's all)
+   * @returns {Promise<BigNumber>}
+   */
+  public async getPendingClaim(
     type: TUnstakingStatsType = 'all',
   ): Promise<BigNumber> {
     return this.apiGateWay.api
       .get(`/v1alpha/fantom/unstakingStats/${this.currentAccount}/${type}`)
       .then(({ data }) => new BigNumber(data.unstakingAmount))
       .catch(() => ZERO);
+  }
+
+  /**
+   * Get pending data for aFTMb and aFTMc.
+   *
+   * @public
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @returns {Promise<IPendingData>}
+   */
+  public async getPendingData(): Promise<IPendingData> {
+    const [pendingBond, pendingCertificate] = await Promise.all([
+      this.getPendingClaim('bond'),
+      this.getPendingClaim('cert'),
+    ]);
+
+    return {
+      pendingBond,
+      pendingCertificate,
+    };
   }
 }

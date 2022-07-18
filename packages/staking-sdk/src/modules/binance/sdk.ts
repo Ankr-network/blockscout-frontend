@@ -883,6 +883,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
         ...x,
         txAmount: x.txAmount.multipliedBy(ratio),
       })),
+      unstakeBond: [],
+      unstakeCertificate: [],
     };
   }
 
@@ -1178,7 +1180,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({
@@ -1213,7 +1215,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({

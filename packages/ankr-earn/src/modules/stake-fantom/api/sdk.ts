@@ -504,10 +504,7 @@ export class FantomSDK implements ISwitcher {
     );
   }
 
-  public async unstake(
-    amount: BigNumber,
-    token: TFtmSyntToken,
-  ): Promise<IWeb3SendResult> {
+  public async unstake(amount: BigNumber, token: TFtmSyntToken): Promise<void> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
