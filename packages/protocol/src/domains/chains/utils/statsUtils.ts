@@ -6,6 +6,7 @@ const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
 
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
 const FIFTEEN_MINUTES_INTERVAL = 4;
+export const SEVEN_DAYS_IN_WEEK = 7;
 
 export const getUrlByChainId = (chainId: string) => {
   let url = '';
@@ -30,21 +31,16 @@ export const getMultiplier = (timeframe: Timeframe) => {
 };
 
 export const mappingTotalRequestsHistory = (
-  timeframe: Timeframe,
   totalRequests: Record<string, number>,
 ) => {
-  let mappingHistory: Record<string, number> = totalRequests;
-
-  if (timeframe === '24h') {
-    mappingHistory = {};
-    Object.keys(totalRequests).forEach((key: string) => {
-      const value = totalRequests[key] / FIFTEEN_MINUTES_INTERVAL;
-      for (let i = 0; i < 4; i++) {
-        const timestamp = Number(key) - FIFTEEN_MINUTES_IN_MS * i;
-        mappingHistory[timestamp] = value;
-      }
-    });
-  }
+  const mappingHistory: Record<string, number> = {};
+  Object.keys(totalRequests).forEach((key: string) => {
+    const value = totalRequests[key] / FIFTEEN_MINUTES_INTERVAL;
+    for (let i = 0; i < 4; i++) {
+      const timestamp = Number(key) - FIFTEEN_MINUTES_IN_MS * i;
+      mappingHistory[timestamp] = Math.ceil(value);
+    }
+  });
   return mappingHistory;
 };
 
@@ -56,4 +52,14 @@ export const calculateOnedayRequests = (
     onedayRequests += totalRequests[key];
   });
   return onedayRequests;
+};
+
+export const calculateTimestampAmount = (
+  totalRequests: Record<string, number>,
+) => {
+  let amount = 0;
+  Object.keys(totalRequests).forEach(() => {
+    amount += 1;
+  });
+  return amount;
 };

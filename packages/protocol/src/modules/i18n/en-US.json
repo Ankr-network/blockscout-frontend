@@ -429,7 +429,7 @@
       },
       "security": {
         "title": "Security",
-        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist.",
+        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer or origin header) and&nbsp;IP address allowlist.",
         "domain": {
           "address-title": "Add website address",
           "address-count": "{value} max",

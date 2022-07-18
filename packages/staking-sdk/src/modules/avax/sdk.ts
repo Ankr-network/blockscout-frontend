@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
@@ -50,6 +49,7 @@ import {
   IAvalancheSDKProviders,
   EAvalanchePoolEvents,
   EAvalanchePoolEventsMap,
+  EAvalancheErrorCodes,
 } from './types';
 
 /**
@@ -62,7 +62,7 @@ import {
 export class AvalancheSDK implements ISwitcher, IStakable {
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
-   * 
+   *
    * @type {Web3KeyReadProvider}
    * @readonly
    * @private
@@ -71,7 +71,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
-   * 
+   *
    * @type {Web3KeyWriteProvider}
    * @readonly
    * @private
@@ -80,7 +80,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
   /**
    * instance — SDK instance.
-   * 
+   *
    * @type {AvalancheSDK}
    * @static
    * @private
@@ -89,7 +89,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
   /**
    * currentAccount — connected account.
-   * 
+   *
    * @type {string}
    * @private
    */
@@ -97,7 +97,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
   /**
    * stakeGasFee — cached stake gas fee.
-   * 
+   *
    * @type {BigNumber}
    * @private
    */
@@ -205,31 +205,28 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents({
-    provider,
     contract,
     eventName,
+    latestBlockNumber,
+    startBlock,
     filter,
+    rangeStep,
   }: IGetPastEvents): Promise<EventData[]> {
-    const web3 = provider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
-
     if (latestBlockNumber <= AVAX_MAX_HISTORY_RANGE) {
       return [];
     }
 
-    const startBlockNumber = latestBlockNumber - AVAX_MAX_HISTORY_RANGE;
-
     const eventsPromises: Promise<EventData[]>[][] = [];
 
     for (
-      let i = startBlockNumber, idx = 0, parallelReqCounter = 1;
+      let i = startBlock, idx = 0, parallelReqCounter = 1;
       i < latestBlockNumber;
-      i += AVAX_MAX_BLOCK_RANGE, parallelReqCounter += 1
+      i += rangeStep, parallelReqCounter += 1
     ) {
       const fromBlock = i;
-      const toBlock = fromBlock + AVAX_MAX_BLOCK_RANGE;
+      const toBlock = fromBlock + rangeStep;
 
-      if (typeof eventsPromises[idx] === 'undefined') {
+      if (!eventsPromises[idx]) {
         eventsPromises[idx] = [];
       }
 
@@ -630,6 +627,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EAvalancheErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -658,6 +659,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EAvalancheErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -714,6 +719,9 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    */
   private async getPoolEventsBatch(): Promise<IEventsBatch> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
@@ -721,18 +729,18 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.StakePending,
         filter: { staker: this.currentAccount },
-        startBlock: 0,
-        latestBlockNumber: 0,
-        rangeStep: 0,
+        startBlock: latestBlockNumber - AVAX_MAX_HISTORY_RANGE,
+        latestBlockNumber,
+        rangeStep: AVAX_MAX_BLOCK_RANGE,
       }),
       this.getPastEvents({
         provider: this.readProvider,
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.AvaxClaimPending,
         filter: { claimer: this.currentAccount },
-        startBlock: 0,
-        latestBlockNumber: 0,
-        rangeStep: 0,
+        startBlock: latestBlockNumber - AVAX_MAX_HISTORY_RANGE,
+        latestBlockNumber,
+        rangeStep: AVAX_MAX_BLOCK_RANGE,
       }),
       this.getACRatio(),
     ]);
@@ -920,6 +928,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IStakeData>}
    */
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EAvalancheErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -1029,6 +1041,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<void>}
    */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EAvalancheErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
