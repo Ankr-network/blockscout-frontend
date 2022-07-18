@@ -1,6 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
@@ -72,10 +72,6 @@ export const useStakedBridgeAETHCData = (): IStakedBridgeAETHCData => {
       }),
     );
   };
-
-  useEffect(() => {
-    dispatchRequest(fetchAETHCBridged());
-  }, [dispatchRequest]);
 
   return {
     amount,
