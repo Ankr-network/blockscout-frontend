@@ -1,5 +1,6 @@
 import { notification } from 'antd';
-import { MultiService, web3KeyProvider } from 'api/MultiService';
+
+import { MultiService } from 'api/MultiService';
 import { LIFETIME } from './connectUtils';
 
 export const AUTH_STATE_KEY = '__authState';
@@ -23,10 +24,8 @@ const rememberUserLoginState = (authorizationToken: string) => {
   localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(authorizationToken));
 };
 
-const { service } = MultiService.getInstance();
-
 export const connect = async () => {
-  await web3KeyProvider.connectFromInjected();
+  const service = await MultiService.getInstance();
 
   const authorizationToken = tryGetTokenFromLoginState();
 

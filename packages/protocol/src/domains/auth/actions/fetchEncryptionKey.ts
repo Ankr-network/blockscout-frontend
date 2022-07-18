@@ -11,7 +11,7 @@ export const fetchEncryptionKey = createSmartAction<
 >('auth/fetchEncryptionKey', () => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
       const key = await service.requestUserEncryptionKey();
 
       return { key } as IFetchEncryptionKey;

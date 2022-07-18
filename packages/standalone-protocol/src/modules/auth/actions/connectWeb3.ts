@@ -2,26 +2,23 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
-import { injectWeb3Modal } from '../../api/Web3ModalKeyProvider';
-import { hasMetamask } from '../utils/hasMetamask';
+import { t } from 'modules/i18n/utils/intl';
 import { withStore } from './withStore';
+import { hasMetamask } from '../utils/hasMetamask';
 
 export const connectWeb3 = createSmartAction<RequestAction<void, void>>(
   'auth/injectWeb3Modal',
   () => ({
     request: {
       promise: async () => {
-        const { service } = MultiService.getInstance();
-
         if (!hasMetamask()) {
-          throw new Error('no metamask extension found');
+          throw new Error(t('error.no-metamask'));
         }
 
-        await service.getKeyProvider().connect(await injectWeb3Modal());
+        await MultiService.getInstance();
       },
     },
     meta: {
-      asMutation: false,
       onRequest: withStore,
     },
   }),

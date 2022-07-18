@@ -7,25 +7,20 @@ import { waitTransactionConfirming } from '../actions/withdraw/waitTransactionCo
 import { resetWithdraw } from '../actions/withdraw/resetWithdraw';
 
 import { useAppDispatch } from 'store/useAppDispatch';
-import {
-  setAmount,
-  selectTransaction,
-} from 'domains/account/store/accountWithdrawSlice';
-import { useAppSelector } from 'store/useAppSelector';
-import { MultiService } from 'modules/api/MultiService';
+import { setAmount } from 'domains/account/store/accountWithdrawSlice';
 import {
   checkWithdrawStatus,
   WIHDRAWAL_STATUS_INTERVAL,
 } from '../actions/withdraw/checkWithdrawStatus';
+import { useAddress } from './useAddress';
+import { useSelectWithdrawalTransaction } from './useSelectWithdrawalTransaction';
 
 export const useWithdraw = () => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { service } = MultiService.getInstance();
-  const address = service.getKeyProvider().currentAccount();
-
-  const transaction = useAppSelector(selectTransaction);
+  const address = useAddress();
+  const transaction = useSelectWithdrawalTransaction();
 
   const amount = useMemo(
     () => new BigNumber(transaction?.amount || 0),

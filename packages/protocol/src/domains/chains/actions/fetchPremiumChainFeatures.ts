@@ -22,7 +22,7 @@ export const fetchPremiumChainFeatures = createSmartAction<
 >('chains/fetchPremiumChainFeatures', (chainId: string) => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const { data: providerData } = getQuery(store.getState(), {
         type: fetchProvider.toString(),
@@ -39,7 +39,7 @@ export const fetchPremiumChainFeatures = createSmartAction<
       });
 
       if (!publicChains) {
-        const chains = await service.fetchPublicUrls();
+        const chains = await MultiService.getPublicInstance().getPublicUrls();
         publicChains = mapChains({ chains });
       }
 

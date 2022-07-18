@@ -1,7 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
 import {
@@ -35,10 +35,11 @@ export const withdraw = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const { service } = MultiService.getInstance();
-          const address = service.getKeyProvider().currentAccount();
+          const service = await MultiService.getInstance();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
-          const transaction = selectTransaction(store.getState());
+          const transaction = selectTransaction(store.getState(), address);
 
           const amount = transaction?.amount;
 

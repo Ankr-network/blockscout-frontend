@@ -1,7 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MultiService } from '../../../modules/api/MultiService';
+import { MultiService } from 'modules/api/MultiService';
 import { withStore } from '../utils/withStore';
 import {
   connectProvider,
@@ -15,9 +15,9 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   () => ({
     request: {
       promise: async (store: RequestsStore) => {
-        const { service } = MultiService.getInstance();
+        await connectProvider();
 
-        await connectProvider(service);
+        const service = await MultiService.getInstance();
 
         const cachedData = await getCachedData(service, store);
 

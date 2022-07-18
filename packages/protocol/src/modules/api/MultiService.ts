@@ -1,17 +1,45 @@
-import { MultiRpcSdk, configFromEnv } from 'multirpc-sdk';
-import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
+import { Mutex } from 'async-mutex';
+
+import { MultiRpcSdk, ProtocolPublicSdk, configFromEnv } from 'multirpc-sdk';
 import { API_ENV } from '../common/utils/environment';
+import { ProviderManagerSingleton } from './ProviderManagerSingleton';
+
+const mutex = new Mutex();
 
 export class MultiService {
-  private static instance: MultiRpcSdk;
+  private static instance?: MultiRpcSdk;
 
-  public static getInstance(): { service: MultiRpcSdk } {
-    if (!MultiService.instance) {
-      MultiService.instance = new MultiRpcSdk(
-        new Web3KeyProvider({}),
+  private static publicInstance?: ProtocolPublicSdk;
+
+  public static async getInstance(): Promise<MultiRpcSdk> {
+    await mutex.runExclusive(async () => {
+      if (!MultiService.instance) {
+        const providerManager = ProviderManagerSingleton.getInstance();
+
+        const provider = await providerManager.getETHWriteProvider();
+
+        MultiService.instance = new MultiRpcSdk(
+          provider,
+          configFromEnv(API_ENV),
+        );
+      }
+    });
+
+    return MultiService.instance as MultiRpcSdk;
+  }
+
+  public static removeInstance() {
+    MultiService.instance = undefined;
+    ProviderManagerSingleton.removeInstance();
+  }
+
+  public static getPublicInstance(): ProtocolPublicSdk {
+    if (!MultiService.publicInstance) {
+      MultiService.publicInstance = new ProtocolPublicSdk(
         configFromEnv(API_ENV),
       );
     }
-    return { service: MultiService.instance };
+
+    return MultiService.publicInstance;
   }
 }

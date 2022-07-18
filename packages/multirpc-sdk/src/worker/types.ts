@@ -1,11 +1,5 @@
 import { Tier, UUID, Web3Address } from '../common';
 
-export interface ICountry {
-  country: string;
-  bytes: number;
-  requests: number;
-}
-
 export interface IImportJWTTokenResult {
   address: Web3Address;
   id: UUID;
@@ -42,29 +36,6 @@ export interface IWorkerEndpoint {
   user: string;
 }
 
-export interface IWorkerGlobalStatus {
-  uniqueVisitors: number;
-  uniqueVisitorsHistory: Record<string, number>;
-  totalRequests: number;
-  totalRequestsHistory: Record<string, number>;
-  totalCached: number;
-  totalCachedHistory: Record<string, number>;
-  totalServed: number;
-  totalServedHistory: Record<string, number>;
-  dataCached: number;
-  dataCachedHistory: Record<string, number>;
-  countries: Record<string, ICountry>;
-}
-
-export interface IWorkerNodesWeight {
-  id: string;
-  weight: number;
-  latency: number;
-  timestamp: number;
-  height: number;
-  score: number;
-}
-
 export interface IWorkerTotalStats {
   count: number;
   sum: {
@@ -85,5 +56,3 @@ export interface IWorkerUserLocation {
 export type RestrictedDomains = string[];
 
 export type RestrictedIps = string[];
-
-export type Timeframe = '24h' | '7d' | '30d';

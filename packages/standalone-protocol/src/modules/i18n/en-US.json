@@ -12,7 +12,8 @@
     "unknown": "Unknown error",
     "contract-rejected": "Contract interaction rejected",
     "unexpected": "Unexpected error",
-    "insufficient-permissions": "Insufficient permissions"
+    "insufficient-permissions": "Insufficient permissions",
+    "no-metamask": "No metamask extension found"
   },
   "language": {
     "en-US": "English"

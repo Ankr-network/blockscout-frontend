@@ -3,11 +3,16 @@ import { useMemo } from 'react';
 
 import { connect } from 'auth/connect';
 import { clearAuthData } from 'auth/clearAuthData';
+import { MultiService } from 'api/MultiService';
+import { MultiRpcSdk } from 'multirpc-sdk';
 
 export class AuthStore {
   public isLoading = false;
 
   public isLoaded = false;
+
+  // @ts-ignore
+  public service: MultiRpcSdk;
 
   public constructor() {
     makeAutoObservable(this);
@@ -20,6 +25,8 @@ export class AuthStore {
     this.isLoading = true;
 
     await connect();
+
+    this.service = await MultiService.getInstance();
 
     this.isLoading = false;
     this.isLoaded = true;

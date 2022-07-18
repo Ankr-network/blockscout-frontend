@@ -1,9 +1,10 @@
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { RequestAction } from '@redux-requests/core';
-import { MultiService } from '../../../modules/api/MultiService';
+
+import { MultiService } from 'modules/api/MultiService';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
-import { injectWeb3Modal } from 'modules/api/Web3ModalKeyProvider';
+import { t } from 'modules/i18n/utils/intl';
 
 export interface IChainParams {
   chainId: string; // 0x + hex string
@@ -22,16 +23,12 @@ export const addNetwork = createSmartAction<
 >('auth/addNetwork', (chainParams: Chain) => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
-      const keyProvider = service.getKeyProvider();
-
       if (!hasMetamask()) {
-        throw new Error('no metamask extension found');
+        throw new Error(t('error.no-metamask'));
       }
 
-      if (!keyProvider.isConnected()) {
-        await keyProvider.connect(await injectWeb3Modal());
-      }
+      const service = await MultiService.getInstance();
+      const keyProvider = service.getKeyProvider();
 
       const { givenProvider } = keyProvider.getWeb3();
 
@@ -41,7 +38,5 @@ export const addNetwork = createSmartAction<
       });
     })(),
   },
-  meta: {
-    asMutation: false,
-  },
+  meta: {},
 }));

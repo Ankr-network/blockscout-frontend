@@ -29,7 +29,7 @@ export const fetchBalance = createAction<RequestAction<IBalance, Balance>>(
       getData: getBalance,
       onRequest: () => ({
         promise: (async (): Promise<IBalance> => {
-          const { service } = MultiService.getInstance();
+          const service = await MultiService.getInstance();
 
           const data = await service.getAnkrBalance();
 

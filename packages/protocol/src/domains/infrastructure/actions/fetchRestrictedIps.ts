@@ -10,7 +10,7 @@ export const fetchRestrictedIps = createSmartAction<
 >('infrastructure/fetchRestrictedIps', (chainId: string) => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const domains = await service.getChainRestrictedIps(jwtToken, chainId);
 

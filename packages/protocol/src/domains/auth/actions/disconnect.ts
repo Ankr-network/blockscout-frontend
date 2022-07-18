@@ -16,16 +16,22 @@ export const disconnect = createSmartAction<RequestAction>(
   () => ({
     request: {
       promise: (async () => {
-        const { service } = MultiService.getInstance();
-        await service.getWorkerGateway().removeJwtToken();
-        await service.getAccountGateway().removeToken();
+        const service = await MultiService.getInstance();
+        service.getWorkerGateway().removeJwtToken();
+        service.getAccountGateway().removeToken();
 
-        await service.getKeyProvider().disconnect();
+        service.getKeyProvider().disconnect();
+        MultiService.removeInstance();
 
         store.dispatch(resetAuthData());
         store.dispatch(withdrawReset());
         store.dispatch(topUpReset());
-        store.dispatch(resetRequests([fetchPremiumChainFeatures.toString()]));
+        store.dispatch(
+          resetRequests([
+            connect.toString(),
+            fetchPremiumChainFeatures.toString(),
+          ]),
+        );
       })(),
     },
     meta: {
