@@ -1,5 +1,15 @@
 import { RightOutlined } from '@ant-design/icons';
-import { Button, Col, InputNumber, Modal, Row, Space, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Divider,
+  InputNumber,
+  Modal,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
+import { ClientBalance } from 'components/ClientBalance';
 import ClientBlockchainActionTable from 'components/ClientBlockchainActionTable/ClientBlockchainActionTable';
 import ClientTransactionTable from 'components/ClientTransactionTable/ClientTransactionTable';
 import {
@@ -115,6 +125,15 @@ export const ClientDetailPage = observer(() => {
         }
         onBack={() => history.goBack()}
       />
+
+      <ClientBalance
+        amountAnkr={balance?.amountAnkr}
+        amountUsd={balance?.amountUsd}
+        amountCredits={balance?.amount}
+        voucherAmount={balance?.voucherAmount}
+      />
+
+      <Divider />
 
       <Space direction="vertical" style={{ display: 'flex' }} size={40}>
         <div>

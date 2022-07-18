@@ -6,11 +6,10 @@ import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
-  DOCS_LINK,
+  DOCS_OVERVIEW_LINK,
   featuresConfig,
   isMainnet,
-  LITEPAPER_CN,
-  LITEPAPER_EN,
+  LITEPAPER_LINK,
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -25,10 +24,10 @@ import { RoutesConfig as SwitcherRoutes } from 'modules/switcher/Routes';
 const getLitepaperLink = (locale: Locale): string => {
   switch (locale) {
     case Locale.zh:
-      return LITEPAPER_CN;
+      return LITEPAPER_LINK.stakingCN;
 
     default:
-      return LITEPAPER_EN;
+      return LITEPAPER_LINK.stakingEN;
   }
 };
 
@@ -83,7 +82,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       },
       docs: {
         label: t('main-navigation.docs'),
-        href: DOCS_LINK,
+        href: DOCS_OVERVIEW_LINK,
       },
       litepaper: {
         label: t('main-navigation.litepaper'),

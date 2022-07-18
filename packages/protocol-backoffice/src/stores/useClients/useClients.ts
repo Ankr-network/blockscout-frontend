@@ -5,7 +5,7 @@ import { makeClients } from './utils';
 
 export const useClients = (): LocalGridStore<TClientEntity> => {
   const backofficeApi = useMultiRpcSdk().getBackofficeGateway();
-  const workerApi = useMultiRpcSdk().getWorkerBackofficeGateway();
+  const workerApi = useMultiRpcSdk().getBackofficeGateway();
 
   const gridStore = useLocalGridStore<TClientEntity>(async (cursor, limit) => {
     const { balances, cursor: responseCursor } =

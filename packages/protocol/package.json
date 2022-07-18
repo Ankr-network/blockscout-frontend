@@ -181,7 +181,8 @@
       "/account/topup/",
       "/account/withdraw/",
       "/providers/",
-      "/explorer/"
+      "/explorer/",
+      "/public/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
