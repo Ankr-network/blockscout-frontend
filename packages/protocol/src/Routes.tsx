@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
   ChainsRoutes,
   ChainPrivateRoutes,
   ChainsRoutesConfig,
+  INDEX_PATH,
 } from './domains/chains/Routes';
 import {
   ProvidersRoutes,
@@ -40,6 +41,15 @@ export function Routes() {
 
   return (
     <Switch>
+      <Route
+        exact
+        path={['/public/']}
+        render={() => (
+          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
+            <Redirect to={INDEX_PATH} />
+          </DefaultLayout>
+        )}
+      />
       <Route
         exact
         path={[
