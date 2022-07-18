@@ -95,22 +95,22 @@ export const StakingAsset = ({
     }
   };
 
-  const withNativeAmount = !!(nativeAmount && token);
-  const withUsdAmount = !!usdAmount;
+  const isWithNativeAmount = !!(nativeAmount && token);
+  const isWithUSDAmount = !!usdAmount;
 
-  const renderAmountInfoSlot = (withNativeAmount || withUsdAmount) && (
+  const renderAmountInfoSlot = (isWithNativeAmount || isWithUSDAmount) && (
     <>
-      {withNativeAmount &&
+      {isWithNativeAmount &&
         t('unit.token-value', {
           value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
           token: nativeTokenMap[token],
         })}
 
-      {withNativeAmount && withUsdAmount && (
+      {isWithNativeAmount && isWithUSDAmount && (
         <span className={classes.amountInfoSplitter} />
       )}
 
-      {withUsdAmount &&
+      {isWithUSDAmount &&
         t('unit.usd-value', {
           value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
         })}
