@@ -4,7 +4,6 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
@@ -29,6 +28,7 @@ import { useUnstakeFormStyles } from './useUnstakeFormStyles';
 interface IAnkrUnstakeFormProps {
   balance?: BigNumber;
   maxAmount?: BigNumber;
+  minAmount: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
   isDisabled?: boolean;
@@ -47,6 +47,7 @@ interface IAnkrUnstakeFormProps {
 export const AnkrUnstakeForm = ({
   balance = ZERO,
   maxAmount = balance,
+  minAmount,
   loading = false,
   isBalanceLoading = false,
   isDisabled = false,
@@ -85,17 +86,17 @@ export const AnkrUnstakeForm = ({
 
       <AmountInput
         balance={balance}
-        balanceLinkSlot={<BuyAnkrLink />}
+        balanceLabel={t('stake-ankr.unstaking.available')}
         disabled={isDisabled}
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
+            {t('stake-ankr.unstaking.amount')}
           </StakeDescriptionName>
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
-        minAmount={ZERO.toNumber()} // todo: change it getMinimumStake() from sdk
+        minAmount={minAmount.toNumber()}
         name={EFieldsNames.amount}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}

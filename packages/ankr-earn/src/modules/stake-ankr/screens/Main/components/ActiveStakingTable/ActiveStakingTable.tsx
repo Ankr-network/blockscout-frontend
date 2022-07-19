@@ -142,13 +142,18 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 ? RoutesConfig.unstake.generatePath(row.provider)
                 : undefined;
 
-            const claimLink = row.isUnlocked
-              ? RoutesConfig.claim.generatePath(row.provider)
-              : undefined;
+            const claimLink =
+              row.isUnlocked ||
+              row.detailedData?.every(stake => stake.isUnlocked)
+                ? RoutesConfig.claim.generatePath(row.provider)
+                : undefined;
 
-            const restakeLink = row.isUnlocked
-              ? RoutesConfig.restake.generatePath(row.provider)
-              : undefined;
+            const restakeLink =
+              row.isUnlocked ||
+              row.detailedData?.every(stake => stake.isUnlocked)
+                ? RoutesConfig.restake.generatePath(row.provider)
+                : undefined;
+
             return (
               <TableRow
                 key={uid(i)}
@@ -176,79 +181,62 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                         </TableHead>
 
                         <TableBody>
-                          {row.detailedData.map((additionalInfoItem, j) => {
-                            const internalClaimLink =
-                              additionalInfoItem.isUnlocked
-                                ? RoutesConfig.claim.generatePath(row.provider)
-                                : undefined;
-                            const internalRestakeLink =
-                              additionalInfoItem.isUnlocked
-                                ? RoutesConfig.restake.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-                            return (
-                              <TableRow
-                                key={uid(j)}
-                                className={classes.expandedRow}
+                          {row.detailedData.map((additionalInfoItem, j) => (
+                            <TableRow
+                              key={uid(j)}
+                              className={classes.expandedRow}
+                            >
+                              <TableBodyCell
+                                className={classes.expandedCell}
+                                label={`${
+                                  expandCaptions[EExpandLabel.time].label
+                                }`}
                               >
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.time].label
-                                  }`}
-                                >
-                                  <DateTimeItem
-                                    dateTime={additionalInfoItem.date}
-                                  />
-                                </TableBodyCell>
+                                <DateTimeItem
+                                  dateTime={additionalInfoItem.date}
+                                />
+                              </TableBodyCell>
 
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.lockPeriod]
-                                      .label
-                                  }`}
-                                >
-                                  <LockingPeriodItem
-                                    daysLeft={additionalInfoItem.lockingPeriod}
-                                    isUnlocked={additionalInfoItem.isUnlocked}
-                                    percent={
-                                      additionalInfoItem.lockingPeriodPercent
-                                    }
-                                  />
-                                </TableBodyCell>
+                              <TableBodyCell
+                                className={classes.expandedCell}
+                                label={`${
+                                  expandCaptions[EExpandLabel.lockPeriod].label
+                                }`}
+                              >
+                                <LockingPeriodItem
+                                  daysLeft={additionalInfoItem.lockingPeriod}
+                                  isUnlocked={additionalInfoItem.isUnlocked}
+                                  percent={
+                                    additionalInfoItem.lockingPeriodPercent
+                                  }
+                                />
+                              </TableBodyCell>
 
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.yourStake].label
-                                  }`}
-                                >
-                                  <YourStakeItem
-                                    ankrAmount={additionalInfoItem.stakeAmount}
-                                    usdAmount={
-                                      additionalInfoItem.usdStakeAmount
-                                    }
-                                  />
-                                </TableBodyCell>
+                              <TableBodyCell
+                                className={classes.expandedCell}
+                                label={`${
+                                  expandCaptions[EExpandLabel.yourStake].label
+                                }`}
+                              >
+                                <YourStakeItem
+                                  ankrAmount={additionalInfoItem.stakeAmount}
+                                  usdAmount={additionalInfoItem.usdStakeAmount}
+                                />
+                              </TableBodyCell>
 
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.rewards].label
-                                  }`}
-                                >
-                                  <RewardsItem
-                                    ankrAmount={additionalInfoItem.rewards}
-                                    claimLink={internalClaimLink}
-                                    restakeLink={internalRestakeLink}
-                                    usdAmount={additionalInfoItem.usdRewards}
-                                  />
-                                </TableBodyCell>
-                              </TableRow>
-                            );
-                          })}
+                              <TableBodyCell
+                                className={classes.expandedCell}
+                                label={`${
+                                  expandCaptions[EExpandLabel.rewards].label
+                                }`}
+                              >
+                                <RewardsItem
+                                  ankrAmount={additionalInfoItem.rewards}
+                                  usdAmount={additionalInfoItem.usdRewards}
+                                />
+                              </TableBodyCell>
+                            </TableRow>
+                          ))}
                         </TableBody>
                       </Table>
                     </div>

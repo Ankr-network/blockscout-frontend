@@ -32,7 +32,7 @@ export const useTotalInfo = (): IUseTotalInfo => {
     return data.claimableRewards.reduce((acc, reward) => {
       if (reward.amount.isZero()) return acc;
 
-      acc.plus(reward.amount);
+      acc = acc.plus(reward.amount);
 
       return acc;
     }, ZERO);

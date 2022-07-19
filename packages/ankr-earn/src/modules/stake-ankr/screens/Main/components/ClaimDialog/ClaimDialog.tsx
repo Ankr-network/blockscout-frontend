@@ -9,6 +9,7 @@ import { ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
@@ -64,7 +65,7 @@ export const ClaimDialog = ({
           <>
             {isSingleClaim && (
               <div className={classes.singleWrapper}>
-                {availableClaims[0].validator.validator}
+                {getDemoProviderName(availableClaims[0].validator.validator)}
 
                 <div>
                   {t('unit.ankr-value', {
@@ -79,7 +80,10 @@ export const ClaimDialog = ({
                 {availableClaims.map(claim => (
                   <TableRow
                     key={uid(claim)}
-                    provider={claim.validator.validator}
+                    provider={
+                      getDemoProviderName(claim.validator.validator) ??
+                      claim.validator.validator
+                    }
                     value={claim.amount}
                   />
                 ))}

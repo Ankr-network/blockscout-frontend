@@ -6,14 +6,14 @@ import { ANKR_ACTIONS_PREFIX } from '../const';
 
 type TTxHash = string;
 
-export const claimAll = createAction<RequestAction<TTxHash, TTxHash>>(
-  `${ANKR_ACTIONS_PREFIX}claimAll`,
+export const claimAllRewards = createAction<RequestAction<TTxHash, TTxHash>>(
+  `${ANKR_ACTIONS_PREFIX}claimAllRewards`,
   () => ({
     request: {
       promise: (async (): Promise<TTxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimAll();
+        return sdk.claimAllRewards();
       })(),
     },
     meta: {
