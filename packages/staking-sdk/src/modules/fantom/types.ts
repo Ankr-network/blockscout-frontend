@@ -26,3 +26,10 @@ export enum EFantomPoolEvents {
   Withdrawn = 'Withdrawn',
   StakeReceived = 'StakeReceived2',
 }
+
+/**
+ * Error codes for FantomSDK
+ */
+ export enum EFantomErrorCodes {
+  ZERO_AMOUNT = 'zero-amount',
+}

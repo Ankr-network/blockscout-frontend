@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
@@ -46,6 +45,7 @@ import {
   TUnstakingStatsType,
   IFantomSDKProviders,
   EFantomPoolEvents,
+  EFantomErrorCodes,
 } from './types';
 
 /**
@@ -455,6 +455,10 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<IStakeData>}
    */
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -474,18 +478,20 @@ export class FantomSDK implements ISwitcher, IStakable {
     const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
     const fantomPoolContract = this.getFantomPoolContract(this.writeProvider);
     const stakeMethodName = this.getStakeMethodName(token as TFtmSyntToken);
-    const txn = fantomPoolContract.methods[stakeMethodName]();
+    const contractMethod = fantomPoolContract.methods[stakeMethodName]();
 
-    const gasLimit: number = await txn.estimateGas({
+    const gasLimit: number = await contractMethod.estimateGas({
       from: this.currentAccount,
       value: hexAmount,
     });
 
-    return txn.send({
+    const tx = await contractMethod.send({
       from: this.currentAccount,
       value: hexAmount,
       gas: this.getIncreasedGasLimit(gasLimit),
     });
+
+    return { txHash: tx.transactionHash };
   }
 
   /**
@@ -602,6 +608,10 @@ export class FantomSDK implements ISwitcher, IStakable {
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -633,6 +643,10 @@ export class FantomSDK implements ISwitcher, IStakable {
     amount,
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
@@ -662,6 +676,10 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<void>}
    */
   public async unstake(amount: BigNumber, token: string): Promise<void> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
