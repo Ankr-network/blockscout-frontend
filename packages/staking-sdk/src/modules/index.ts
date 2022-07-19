@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+export * from './avax';
 export * from './binance';
 export * from './ethereum';
 export * from './polygon';

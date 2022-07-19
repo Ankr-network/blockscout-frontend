@@ -1,10 +1,14 @@
 import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
-import { PolygonSDK, BinanceSDK, EthereumSDK } from '@ankr.com/staking-sdk';
+import {
+  PolygonSDK,
+  BinanceSDK,
+  EthereumSDK,
+  AvalancheSDK,
+} from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';
-import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
@@ -15,14 +19,11 @@ jest.mock('@ankr.com/staking-sdk', (): unknown => ({
   PolygonSDK: { getInstance: jest.fn() },
   EthereumSDK: { getInstance: jest.fn() },
   BinanceSDK: { getInstance: jest.fn() },
+  AvalancheSDK: { getInstance: jest.fn() },
 }));
 
 jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
-}));
-
-jest.mock('modules/stake-avax/api/AvalancheSDK', () => ({
-  AvalancheSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#lockShares', () => {

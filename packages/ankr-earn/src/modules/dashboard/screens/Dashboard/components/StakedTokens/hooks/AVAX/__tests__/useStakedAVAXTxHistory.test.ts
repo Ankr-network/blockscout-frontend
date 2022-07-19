@@ -1,13 +1,13 @@
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';
@@ -34,7 +34,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   const defaultData = {
     loading: false,
     data: {
-      completedAAVAXB: [
+      completedBond: [
         {
           txAmount: ONE,
           txDate: NOW,
@@ -48,7 +48,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EAvalanchePoolEventsMap.AvaxClaimPending,
         },
       ],
-      completedAAVAXC: [
+      completedCertificate: [
         {
           txAmount: ONE,
           txDate: NOW,
@@ -62,7 +62,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EAvalanchePoolEventsMap.AvaxClaimPending,
         },
       ],
-      pendingAAVAXB: [
+      pendingBond: [
         {
           txAmount: ONE.multipliedBy(3),
           txDate: NOW,
@@ -76,7 +76,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           txType: EAvalanchePoolEventsMap.StakePending,
         },
       ],
-      pendingAAVAXC: [
+      pendingCertificate: [
         {
           txAmount: ONE.multipliedBy(3),
           txDate: NOW,

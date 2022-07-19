@@ -10,6 +10,7 @@ import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
+import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
@@ -22,7 +23,6 @@ import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValue
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
-import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

@@ -42,7 +42,7 @@ import {
   AVAX_MAX_HISTORY_RANGE,
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
-  ESTIMATE_GAS_MULTIPLIER,
+  AVAX_ESTIMATE_GAS_MULTIPLIER,
   GAS_FEE_MULTIPLIER,
 } from './const';
 import {
@@ -1011,7 +1011,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {number}
    */
   private static getIncreasedGasLimit(gasLimit: number): number {
-    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
+    return Math.round(gasLimit * AVAX_ESTIMATE_GAS_MULTIPLIER);
   }
 
   /**

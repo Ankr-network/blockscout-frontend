@@ -2,9 +2,9 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
+import { withStore } from 'modules/common/utils/withStore';
 
 interface IFetchStatsResponseData {
   aAVAXbBalance: BigNumber;

@@ -1,6 +1,10 @@
-import { PolygonSDK, BinanceSDK, EthereumSDK } from '@ankr.com/staking-sdk';
+import {
+  PolygonSDK,
+  BinanceSDK,
+  EthereumSDK,
+  AvalancheSDK,
+} from '@ankr.com/staking-sdk';
 
-import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
 import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 interface IGetBalances {

@@ -35,7 +35,7 @@ export const AVAX_MAX_BLOCK_RANGE = 3_000;
 
 /**
  * Events block range for stake/unstake history
- * 
+ *
  * @note 750_000 blocks = ~26 days
  */
 export const AVAX_MAX_HISTORY_RANGE = AVAX_MAX_BLOCK_RANGE * 250;
@@ -51,7 +51,7 @@ export const AVAX_MAX_PARALLEL_REQ = 100;
  *
  * @note Magic number, 60%
  */
-export const ESTIMATE_GAS_MULTIPLIER = 1.6;
+export const AVAX_ESTIMATE_GAS_MULTIPLIER = 1.6;
 
 /**
  * Magic number to avoid problems with max amount and fee calculation in the wallet

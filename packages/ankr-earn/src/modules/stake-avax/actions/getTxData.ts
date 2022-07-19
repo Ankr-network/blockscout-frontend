@@ -3,12 +3,12 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
+
 import { withStore } from 'modules/common/utils/withStore';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
-
 export interface IGetTXData {
-  amount: BigNumber;
+  amount?: BigNumber;
   isPending: boolean;
   destinationAddress?: string;
 }
