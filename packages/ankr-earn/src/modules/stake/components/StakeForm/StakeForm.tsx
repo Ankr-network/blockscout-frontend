@@ -35,6 +35,8 @@ export interface IStakeSubmitPayload extends IStakeFormPayload {
 
 export interface IStakeFormComponentProps {
   balance?: BigNumber;
+  balanceLabel?: string;
+  balanceLinkSlot?: ReactNode;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
@@ -59,6 +61,8 @@ export interface IStakeFormComponentProps {
 export const StakeForm = ({
   className,
   balance = ZERO,
+  balanceLabel,
+  balanceLinkSlot,
   minAmount = ZERO,
   maxAmount = balance,
   loading = false,
@@ -135,6 +139,8 @@ export const StakeForm = ({
 
         <AmountInput
           balance={balance}
+          balanceLabel={balanceLabel}
+          balanceLinkSlot={balanceLinkSlot}
           disabled={isDisabled}
           isBalanceLoading={isBalanceLoading}
           isIntegerOnly={isIntegerOnly}

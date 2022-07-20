@@ -556,9 +556,21 @@ export class PolkadotStakeSDK {
     return new BigNumber(minStakeValue);
   }
 
+  async getPolkadotAccountFullBalance(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    const { free: amount } = await polkadotProvider.getAccountBalanceByNetwork(
+      currNetwork,
+      this.currentPolkadotAccount,
+    );
+
+    return amount;
+  }
+
   async getPolkadotAccountMaxSafeBalance(
     currNetwork: EPolkadotNetworks,
-    isExternalCall = false,
   ): Promise<BigNumber> {
     const polkadotProvider = await this.getPolkadotProvider();
 
@@ -566,12 +578,7 @@ export class PolkadotStakeSDK {
       this.apiPolkadotGateway.depositAddress({
         network: currNetwork,
       }),
-      isExternalCall
-        ? polkadotProvider.getAccountBalanceByNetwork(
-            currNetwork,
-            this.currentPolkadotAccount,
-          )
-        : polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
+      polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
     ]);
 
     return polkadotProvider.getMaxPossibleSendAmount(
@@ -579,6 +586,12 @@ export class PolkadotStakeSDK {
       depositAddress,
       amount,
     );
+  }
+
+  async getPolkadotNetworkMinSafeDepositVal(): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    return polkadotProvider.getMinSafeDepositVal();
   }
 
   async getPolkadotPendingHistoryAmountSum(

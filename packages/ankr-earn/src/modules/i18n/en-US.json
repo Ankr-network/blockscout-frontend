@@ -509,6 +509,10 @@
     "tooltips": {
       "you-will-get": "a{token}b represents your staked {token} and provides liquidity for your staked position.<br/><br/>a{token}b balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 a{token}b = 1 {token}. You can unstake it anytime and receive your stake and earned rewards after the ~{period} days unbonding period. While staking, you can also use a{token}b for trading and other DeFi opportunities."
     },
+    "stake": {
+      "balance-label": "Available balance",
+      "balance-tooltip": "At least {value} {token} should remain in your wallet to prevent dust accounts from bloating chain state. If an account drops below the ED, it will be reaped, i.e. completely removed from storage and the nonce reset. {network}'s ED is {value} {token}."
+    },
     "stake-claim-dialog": {
       "claimable-info": "You have unclaimed staked {polkadotToken} balance (<b>{value} {polkadotToken}</b>). It will be converted to {ethToken}",
       "first-title": "Stake {token} on {network} network",

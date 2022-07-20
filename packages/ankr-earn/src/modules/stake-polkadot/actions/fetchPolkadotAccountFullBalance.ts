@@ -6,15 +6,15 @@ import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
 import { getPolkadotRequestKey } from '../utils/getPolkadotRequestKey';
 
-export const fetchPolkadotAccountMaxSafeBalance = createAction<
+export const fetchPolkadotAccountFullBalance = createAction<
   RequestAction<BigNumber, BigNumber>,
   [EPolkadotNetworks]
->('polkadot/fetchPolkadotAccountMaxSafeBalance', network => ({
+>('polkadot/fetchPolkadotAccountFullBalance', network => ({
   request: {
     promise: (async (): Promise<BigNumber> => {
       const sdk = await PolkadotStakeSDK.getInstance();
 
-      return sdk.getPolkadotAccountMaxSafeBalance(network);
+      return sdk.getPolkadotAccountFullBalance(network);
     })(),
   },
   meta: {
