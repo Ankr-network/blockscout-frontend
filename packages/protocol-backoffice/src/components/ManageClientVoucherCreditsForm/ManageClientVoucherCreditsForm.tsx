@@ -6,7 +6,7 @@ import {
   IUpdateVoucherCreditsRequest,
 } from 'multirpc-sdk';
 import { useCallback } from 'react';
-import { TClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'stores/useClients/types';
 import { web3AddressValidator } from 'utils/formValidators';
 
 const { Option } = Select;
@@ -21,11 +21,11 @@ type TFormOutputData = Omit<
 
 export interface IManageClientVoucherCreditsFormProps {
   clientData: {
-    address: TClientEntity['address'];
-    amountCredit: TClientEntity['amount'];
-    amountUsd: TClientEntity['amountUsd'];
-    amountAnkr: TClientEntity['amountAnkr'];
-    voucherAmount: TClientEntity['voucherAmount'];
+    address: ClientEntity['address'];
+    amountCredit: ClientEntity['amount'];
+    amountUsd: ClientEntity['amountUsd'];
+    amountAnkr: ClientEntity['amountAnkr'];
+    voucherAmount: ClientEntity['voucherAmount'];
   };
   onOk: (formData: IAddVoucherCreditsRequest) => void;
   onCancel: () => void;

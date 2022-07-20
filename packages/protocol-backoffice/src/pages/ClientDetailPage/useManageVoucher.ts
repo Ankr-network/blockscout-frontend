@@ -6,10 +6,10 @@ import {
   IUpdateVoucherCreditsResponse,
 } from 'multirpc-sdk';
 import { useCallback, useState } from 'react';
-import { TClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'stores/useClients/types';
 
 interface IUseVoucherModalProps {
-  address: TClientEntity['address'];
+  address: ClientEntity['address'];
   onSuccess: () => void;
   voucherRequest: (
     data: IUpdateVoucherCreditsRequest | IAddVoucherCreditsRequest,

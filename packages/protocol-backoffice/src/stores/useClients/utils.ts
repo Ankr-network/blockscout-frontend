@@ -1,18 +1,34 @@
 import { IBalancesEntity, ICountersEntity, Web3Address } from 'multirpc-sdk';
-import {
-  EClientType,
-  TClientEntity,
-  TCountersEntityWithAddress,
-} from './types';
+import { ClientType, ClientEntity, TCountersEntityWithAddress } from './types';
 
 const isProtocolClient = (
   user: ICountersEntity,
 ): user is TCountersEntityWithAddress => 'address' in user;
 
+export const getClientType = (ttl?: number, hash?: string) => {
+  if (!ttl) {
+    return ClientType.ForcedExpirationPremium;
+  }
+
+  if (ttl <= 0) {
+    return ClientType.PAYG;
+  }
+
+  if (ttl > 0 && hash) {
+    return ClientType.Premium;
+  }
+
+  if (ttl > 0 && !hash) {
+    return ClientType.TestDrivePremium;
+  }
+
+  return ClientType.UNKNOWN;
+};
+
 export const makeClients = (
   balances: IBalancesEntity[],
   counters: ICountersEntity[],
-): TClientEntity[] => {
+): ClientEntity[] => {
   const clientMap: Partial<Record<Web3Address, TCountersEntityWithAddress>> =
     {};
 
@@ -20,27 +36,21 @@ export const makeClients = (
     if (isProtocolClient(user)) clientMap[user.address] = user;
   });
 
-  const clients: TClientEntity[] = balances.map(balance => {
+  const clients: ClientEntity[] = balances.map(balance => {
     const user = clientMap[balance.address];
 
     if (!user) {
-      return { ...balance, type: EClientType.UNKNOWN };
+      return { ...balance, type: ClientType.UNKNOWN };
     }
 
-    const { ttl } = user;
+    const { ttl, hash } = user;
 
-    if (!ttl)
-      return { ...balance, ttl, type: EClientType.ForcedExpirationPremium };
-
-    if (ttl <= 0) return { ...balance, ttl, type: EClientType.PAYG };
-
-    if (ttl > 0 && user.hash)
-      return { ...balance, ttl, type: EClientType.Premium };
-
-    if (ttl > 0 && !user.hash)
-      return { ...balance, ttl, type: EClientType.TestDrivePremium };
-
-    return { ...balance, ttl, type: EClientType.UNKNOWN };
+    return {
+      ...balance,
+      ttl,
+      hash,
+      type: getClientType(ttl, hash),
+    };
   });
 
   return clients;

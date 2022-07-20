@@ -1,21 +1,27 @@
+import { ICountersEntity } from 'multirpc-sdk';
 import { useMultiRpcSdk } from '../index';
 import { LocalGridStore, useLocalGridStore } from '../LocalGridStore';
-import { TClientEntity } from './types';
+import { ClientEntity } from './types';
 import { makeClients } from './utils';
 
-export const useClients = (): LocalGridStore<TClientEntity> => {
+let counters: ICountersEntity[] | null = null;
+
+export const useClients = (): LocalGridStore<ClientEntity> => {
   const backofficeApi = useMultiRpcSdk().getBackofficeGateway();
   const workerApi = useMultiRpcSdk().getBackofficeGateway();
 
-  const gridStore = useLocalGridStore<TClientEntity>(async (cursor, limit) => {
+  const gridStore = useLocalGridStore<ClientEntity>(async (cursor, limit) => {
     const { balances, cursor: responseCursor } =
       await backofficeApi.getBalances({
         cursor,
         limit,
       });
-    const counters = await workerApi.getCounters();
 
-    const clients: TClientEntity[] = makeClients(balances, counters);
+    if (!counters) {
+      counters = await workerApi.getCounters();
+    }
+
+    const clients: ClientEntity[] = makeClients(balances, counters);
 
     return [clients, responseCursor !== '-1'];
   }, []);
