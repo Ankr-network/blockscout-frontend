@@ -14,7 +14,7 @@ export const useSwitcher = <Data = string>({
   currentItem = 0,
   items,
   onSwitch = () => {},
-  resetDeps,
+  resetDeps = [],
 }: SwitcherParams<Data>): [Data, () => void, (item: Data) => void] => {
   const [currentIndex, setCurrentIndex] = useState(
     getCurrentIndex<Data>(currentItem, items),
