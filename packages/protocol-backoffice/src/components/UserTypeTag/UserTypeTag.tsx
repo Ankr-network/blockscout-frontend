@@ -1,13 +1,13 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Space, Tag, TagProps, Typography } from 'antd';
-import { TClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'stores/useClients/types';
 import { clientTypeNaming, colorMap, getClientTypeExpiration } from './const';
 
 const { Text } = Typography;
 
 type TUserTypeTagProps = Exclude<TagProps, 'color' | 'children'> & {
-  clientType: TClientEntity['type'];
-  clientTtl: TClientEntity['ttl'];
+  clientType: ClientEntity['type'];
+  clientTtl: ClientEntity['ttl'];
   isTextInline: boolean;
 };
 
