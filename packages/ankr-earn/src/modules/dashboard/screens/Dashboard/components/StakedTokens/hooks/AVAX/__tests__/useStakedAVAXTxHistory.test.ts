@@ -4,7 +4,6 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -14,10 +13,6 @@ import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
-}));
-
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -94,8 +89,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   };
 
   beforeEach(() => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 43114 });
-
     (useQuery as jest.Mock).mockReturnValue(defaultData);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
@@ -126,7 +119,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           amount: ONE,
           date: NOW,
           hash: 'txHash1',
-          link: 'https://snowtrace.io/tx/txHash1',
+          link: 'https://testnet.snowtrace.io/tx/txHash1',
         },
       ],
       stakedToken: Token.aAVAXb,
@@ -135,7 +128,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
           amount: ONE.multipliedBy(2),
           date: NOW,
           hash: 'txHash2',
-          link: 'https://snowtrace.io/tx/txHash2',
+          link: 'https://testnet.snowtrace.io/tx/txHash2',
         },
       ],
       unstakedToken: Token.aAVAXb,
@@ -156,7 +149,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   });
 
   test('should return empty data', () => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: undefined });
     (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());

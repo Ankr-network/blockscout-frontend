@@ -1,13 +1,11 @@
 import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { AVAX_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
@@ -18,13 +16,11 @@ import { ITxEventsHistoryGroupItem } from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
   type: EAvalanchePoolEventsMap;
-  network?: number;
   data?: ITxEventsHistoryGroupItem[];
 }
 
 const getCompletedTransactions = ({
   data,
-  network,
   type,
 }: IGetHistoryTransactionsArgs):
   | HistoryDialogData['staked']
@@ -36,7 +32,7 @@ const getCompletedTransactions = ({
     .map(({ txDate, txHash, txAmount }) => ({
       date: txDate,
       hash: txHash,
-      link: network ? getTxLinkByNetwork(txHash, network) : '',
+      link: getTxLinkByNetwork(txHash, AVAX_NETWORK_BY_ENV),
       amount: txAmount,
     }));
 };
@@ -55,42 +51,35 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
   const { data, loading: isHistoryDataLoading } = useQuery({
     type: fetchTxHistory,
   });
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
-
-  const network = isEVMCompatible(chainId) ? chainId : undefined;
 
   const stakedAAVAXB = useMemo(() => {
     return getCompletedTransactions({
       data: data?.completedBond,
       type: EAvalanchePoolEventsMap.StakePending,
-      network,
     });
-  }, [data?.completedBond, network]);
+  }, [data?.completedBond]);
 
   const stakedAAVAXC = useMemo(() => {
     return getCompletedTransactions({
       data: data?.completedCertificate,
       type: EAvalanchePoolEventsMap.StakePending,
-      network,
     });
-  }, [data?.completedCertificate, network]);
+  }, [data?.completedCertificate]);
 
   const unstakedAAVAXB = useMemo(() => {
     return getCompletedTransactions({
       data: data?.completedBond,
       type: EAvalanchePoolEventsMap.AvaxClaimPending,
-      network,
     });
-  }, [data?.completedBond, network]);
+  }, [data?.completedBond]);
 
   const unstakedAAVAXC = useMemo(() => {
     return getCompletedTransactions({
       data: data?.completedCertificate,
       type: EAvalanchePoolEventsMap.AvaxClaimPending,
-      network,
     });
-  }, [data?.completedCertificate, network]);
+  }, [data?.completedCertificate]);
 
   const pendingUnstakeAAVAXB = useMemo(
     () =>
