@@ -4,32 +4,39 @@ import { LocalGridStore } from 'stores/LocalGridStore';
 
 import { useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ClientEntity } from 'stores/useClients/types';
+import { PremiumPlanClientEntity } from 'stores/usePremiumPlanClients/types';
+import { ClientType } from 'stores/useClients/types';
 import { tableColumns } from './tableUtils';
 
-export type TClientTableHistoryPushState = Partial<{
-  clientTtl: ClientEntity['ttl'];
-  clientType: ClientEntity['type'];
+export type TPremiumClientTableHistoryPushState = Partial<{
+  clientTtl: PremiumPlanClientEntity['ttl'];
+  clientType: PremiumPlanClientEntity['type'];
 }>;
 
 export interface IClientTableProps {
-  store: LocalGridStore<ClientEntity>;
+  store: LocalGridStore<PremiumPlanClientEntity>;
 }
 
-const ClientTable = observer(({ store }: IClientTableProps) => {
+const PremiumClientTable = observer(({ store }: IClientTableProps) => {
   const { pathname } = useLocation();
   const history = useHistory();
   const grid = store;
 
-  const onRow = useCallback(
-    ({ address, ttl, type }: ClientEntity) => {
+  const onRowClick = useCallback(
+    ({ address, ttl, type }: PremiumPlanClientEntity) => {
+      if (type === ClientType.UNKNOWN) {
+        return {
+          onClick: () => null,
+        };
+      }
+
       const onClick = () =>
         history.push({
           pathname: `${pathname}/${address}`,
           state: {
             clientTtl: ttl,
             clientType: type,
-          } as TClientTableHistoryPushState,
+          } as TPremiumClientTableHistoryPushState,
         });
 
       const style = { cursor: 'pointer' };
@@ -46,12 +53,12 @@ const ClientTable = observer(({ store }: IClientTableProps) => {
       expandable={{
         expandRowByClick: true,
       }}
-      onRow={onRow}
+      onRow={onRowClick}
       dataSource={grid.items}
-      rowKey={client => client.address}
+      rowKey={client => client.user}
       columns={tableColumns}
     />
   );
 });
 
-export default ClientTable;
+export default PremiumClientTable;

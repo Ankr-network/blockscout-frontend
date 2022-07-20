@@ -1,45 +1,45 @@
 import { PresetColorType, PresetStatusColorType } from 'antd/lib/_util/colors';
-import { EClientType, TClientEntity } from 'stores/useClients/types';
+import { ClientType, ClientEntity } from 'stores/useClients/types';
 
 export const expirableClientTypes = new Set([
-  EClientType.Premium,
-  EClientType.TestDrivePremium,
-  EClientType.ForcedExpirationPremium,
+  ClientType.Premium,
+  ClientType.TestDrivePremium,
+  ClientType.ForcedExpirationPremium,
 ]);
 
-export const clientTypeNaming: Record<EClientType, string> = {
-  [EClientType.UNKNOWN]: 'Unknown',
-  [EClientType.PAYG]: 'PAYG',
-  [EClientType.ForcedExpirationPremium]: 'Premium',
-  [EClientType.Premium]: 'Premium',
-  [EClientType.TestDrivePremium]: 'Test Drive Premium',
+export const clientTypeNaming: Record<ClientType, string> = {
+  [ClientType.UNKNOWN]: 'Unknown',
+  [ClientType.PAYG]: 'PAYG',
+  [ClientType.ForcedExpirationPremium]: 'Premium',
+  [ClientType.Premium]: 'Premium',
+  [ClientType.TestDrivePremium]: 'Test Drive Premium',
 };
 
 const FORCED_EXPIRATION_DATE = new Date(2023, 1, 25).toLocaleDateString();
 
-const getLocaleDateString = (ttl: TClientEntity['ttl']) =>
+const getLocaleDateString = (ttl: ClientEntity['ttl']) =>
   ttl !== undefined ? new Date(ttl * 1000).toLocaleDateString() : undefined;
 
 export const getClientTypeExpiration: Partial<
-  Record<EClientType, (ttl: TClientEntity['ttl']) => string | undefined>
+  Record<ClientType, (ttl: ClientEntity['ttl']) => string | undefined>
 > = {
-  [EClientType.UNKNOWN]: () => undefined,
-  [EClientType.PAYG]: () => undefined,
+  [ClientType.UNKNOWN]: () => undefined,
+  [ClientType.PAYG]: () => undefined,
 
-  [EClientType.ForcedExpirationPremium]: () =>
+  [ClientType.ForcedExpirationPremium]: () =>
     `with forced expiration on ${FORCED_EXPIRATION_DATE}`,
 
-  [EClientType.Premium]: ttl => `till ${getLocaleDateString(ttl)}`,
-  [EClientType.TestDrivePremium]: ttl => `till ${getLocaleDateString(ttl)}`,
+  [ClientType.Premium]: ttl => `till ${getLocaleDateString(ttl)}`,
+  [ClientType.TestDrivePremium]: ttl => `till ${getLocaleDateString(ttl)}`,
 };
 
 export const colorMap: Record<
-  EClientType,
+  ClientType,
   PresetColorType | PresetStatusColorType
 > = {
-  [EClientType.UNKNOWN]: 'error',
-  [EClientType.PAYG]: 'gold',
-  [EClientType.TestDrivePremium]: 'cyan',
-  [EClientType.ForcedExpirationPremium]: 'geekblue',
-  [EClientType.Premium]: 'geekblue',
+  [ClientType.UNKNOWN]: 'error',
+  [ClientType.PAYG]: 'gold',
+  [ClientType.TestDrivePremium]: 'cyan',
+  [ClientType.ForcedExpirationPremium]: 'geekblue',
+  [ClientType.Premium]: 'geekblue',
 };
