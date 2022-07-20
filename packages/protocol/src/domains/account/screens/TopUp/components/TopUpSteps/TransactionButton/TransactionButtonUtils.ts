@@ -1,10 +1,10 @@
 import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
-import { ChainId } from '@ankr.com/stakefi-web3';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 export const getExplorerLink = (transactionId = '') => {
   const chainId = getExpectedChainId(API_ENV);
 
-  if (chainId === ChainId.Ethereum) {
+  if (chainId === EEthereumNetworkId.mainnet) {
     return `https://etherscan.io/tx/${transactionId}`;
   }
 

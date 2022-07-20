@@ -83,7 +83,8 @@
     "expired-session": "Your session has expired",
     "access-token-error": "Unable to obtain access token from multirpc-sdk",
     "credentials": "Credentials are not ready",
-    "failed": "The transaction failed"
+    "failed": "The transaction failed",
+    "no-metamask": "No metamask extension found"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -441,7 +442,7 @@
       },
       "security": {
         "title": "Security",
-        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer) and&nbsp;IP address allowlist.",
+        "tooltip-text": "Ensure the integrity of&nbsp;your requests by&nbsp;adding an&nbsp;extra layer of&nbsp;security with the domain (url referer or origin header) and&nbsp;IP address allowlist.",
         "domain": {
           "address-title": "Add website address",
           "address-count": "{value} max",

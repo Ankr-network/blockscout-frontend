@@ -1,28 +1,20 @@
-import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
+import { EventData } from 'web3-eth-contract';
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import { IApiGateway } from '../api';
 import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
 import { IContractManager, IDepositAnkrToWalletResult } from '../contract';
 import {
-  IBlockchainEntity,
   IPrivateEndpoint,
   IProvider,
-  IWorkerBackofficeGateway,
   IWorkerEndpoint,
   IWorkerGateway,
-  IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
-  Timeframe,
 } from '../worker';
-import {
-  IIsJwtTokenIssueAvailableResult,
-  FetchBlockchainUrlsResult,
-  LoginAsUserExResult,
-} from './types';
+import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import { RpcGateway } from '../rpc/RpcGateway';
 import {
   IBalance,
@@ -31,7 +23,9 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from '../account';
-import { EventData } from 'web3-eth-contract';
+import { IBackofficeGateway, IBlockchainEntity } from '../backoffice';
+import { IPAYGContractManager } from '../PAYGContract';
+import { IWorkerGlobalStatus, IWorkerNodesWeight, Timeframe } from '../public';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -68,18 +62,7 @@ export interface IMultiRpcSdk {
 
   fetchProvider(jwtToken: IJwtToken): Promise<IProvider>;
 
-  fetchPublicUrls(): Promise<FetchBlockchainUrlsResult>;
-
   getApiGateway(): IApiGateway;
-
-  getBlockchains(): Promise<IBlockchainEntity[]>;
-
-  getBlockchainStats(blockchain: string): Promise<IWorkerGlobalStatus>;
-
-  getBlockchainTimeFrameStats(
-    blockchain: string,
-    timeframe: Timeframe,
-  ): Promise<IWorkerGlobalStatus>;
 
   getChainRestrictedDomains(
     jwtToken: IJwtToken,
@@ -93,21 +76,19 @@ export interface IMultiRpcSdk {
 
   getContractManager(): IContractManager;
 
-  getKeyProvider(): IWeb3KeyProvider;
+  getPAYGContractManager(): IPAYGContractManager;
 
-  getNodesWeight(): Promise<IWorkerNodesWeight[]>;
+  getKeyProvider(): Web3KeyWriteProvider;
 
   getRpcGateway(): RpcGateway;
 
   getUserLocation(): Promise<IWorkerUserLocation>;
 
-  getWorkerBackofficeGateway(): IWorkerBackofficeGateway;
+  getBackofficeGateway(): IBackofficeGateway;
 
   getWorkerGateway(): IWorkerGateway;
 
-  isJwtTokenIssueAvailable(
-    transactionHash: PrefixedHex,
-  ): Promise<IIsJwtTokenIssueAvailableResult>;
+  canIssueJwtToken(transactionHash: PrefixedHex): Promise<IIssueJwtTokenResult>;
 
   issueJwtToken(
     transactionHash: PrefixedHex,
@@ -115,16 +96,12 @@ export interface IMultiRpcSdk {
     encryptionKey?: Base64,
   ): Promise<IJwtToken>;
 
-  isUserHasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
-
-  loginAsAdmin(user: Web3Address): Promise<IJwtToken | false>;
+  hasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
 
   loginAsUser(
     user: Web3Address,
     encryptionKey?: Base64,
   ): Promise<IJwtToken | false>;
-
-  loginAsUserEx(user: Web3Address): LoginAsUserExResult;
 
   requestUserEncryptionKey(): Promise<Base64>;
 
@@ -151,4 +128,17 @@ export interface IMultiRpcSdk {
   getLastProviderRequestEvent(
     user: Web3Address,
   ): Promise<EventData | undefined>;
+}
+
+export interface IProtocolPublicSdk {
+  getBlockchains(): Promise<IBlockchainEntity[]>;
+
+  getNodesWeight(): Promise<IWorkerNodesWeight[]>;
+
+  getPublicUrls(): Promise<FetchBlockchainUrlsResult>;
+
+  getTimeframeStats(
+    blockchain: string,
+    timeframe: Timeframe,
+  ): Promise<IWorkerGlobalStatus>;
 }

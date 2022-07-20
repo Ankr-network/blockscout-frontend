@@ -1,4 +1,3 @@
-export * from './BackofficeGateway';
-export * from './Gateway';
+export * from './WorkerGateway';
 export * from './interfaces';
 export * from './types';

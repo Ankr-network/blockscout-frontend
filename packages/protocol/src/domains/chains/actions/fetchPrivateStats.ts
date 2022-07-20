@@ -13,7 +13,13 @@ export const fetchPrivateStats = createAction<RequestAction<PrivateStats>>(
     meta: {
       asMutation: false,
       onRequest: () => ({
-        promise: MultiService.getInstance().service.getPrivateStats(interval),
+        promise: (async (): Promise<PrivateStats> => {
+          const service = await MultiService.getInstance();
+    
+          const result = await service.getPrivateStats(interval);
+    
+          return result;
+        })(),
       }),
       poll,
       requestKey,

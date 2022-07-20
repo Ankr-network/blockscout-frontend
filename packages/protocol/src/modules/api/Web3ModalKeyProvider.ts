@@ -1,6 +1,6 @@
-import Web3Modal, { ICoreOptions, IProviderOptions } from 'web3modal';
-import Web3 from 'web3';
+import { ThemeColors } from 'web3modal';
 import { fade, lighten } from '@material-ui/core';
+
 import { PALETTE } from 'ui';
 
 export const web3ModalTheme = {
@@ -10,14 +10,4 @@ export const web3ModalTheme = {
   border: PALETTE.background?.paper,
   hover:
     PALETTE.background?.default && lighten(PALETTE.background.default, 0.03),
-};
-
-export const providerDefaultOptions: IProviderOptions = {};
-
-export const injectWeb3Modal = async (): Promise<Web3> => {
-  const web3Modal = new Web3Modal({
-    providerOptions: providerDefaultOptions,
-    theme: web3ModalTheme,
-  } as ICoreOptions);
-  return new Web3(await web3Modal.connect());
-};
+} as ThemeColors;

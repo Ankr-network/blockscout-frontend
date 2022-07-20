@@ -1,5 +1,4 @@
 import { Contract } from 'web3-eth-contract';
-import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -10,6 +9,7 @@ import {
 } from '../common';
 import { IContractManager } from './interfaces';
 import { IContractManagerConfig, IDepositAnkrToWalletResult } from './types';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ABI_ANKR_PROTOCOL = require('../abi/AnkrProtocol.json');
@@ -25,7 +25,7 @@ export class ContractManager implements IContractManager {
   private readonly cachedEncryptionPublicKeys = new Map<Web3Address, Base64>();
 
   constructor(
-    private readonly keyProvider: IWeb3KeyProvider,
+    private readonly keyProvider: Web3KeyWriteProvider,
     private readonly config: IContractManagerConfig,
   ) {
     this.ankrWalletContract = keyProvider.createContract(
@@ -59,20 +59,20 @@ export class ContractManager implements IContractManager {
   async decryptMessageUsingPrivateKey(
     compatibleJsonData: string,
   ): Promise<string> {
-    const account = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     return this.keyProvider.getWeb3().givenProvider.request({
       method: 'eth_decrypt',
-      params: [compatibleJsonData, account],
+      params: [compatibleJsonData, currentAccount],
     });
   }
 
   async faucetAnkrTokensForTest(): Promise<void> {
-    const account = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     const receipt = await this.ankrTokenContract.methods
-      .mint(account, '1000000000000000000000000000')
-      .send({ from: account });
+      .mint(currentAccount, '1000000000000000000000000000')
+      .send({ from: currentAccount });
 
     // eslint-disable-next-line no-console
     console.log(receipt);
@@ -118,7 +118,8 @@ export class ContractManager implements IContractManager {
   }
 
   async checkUserHaveEnoughAllowance(amount: BigNumber): Promise<boolean> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
+
     const scaledAmount = amount.multipliedBy(10 ** 18);
     const scaledAllowance = new BigNumber(
       await this.ankrTokenContract.methods
@@ -132,7 +133,8 @@ export class ContractManager implements IContractManager {
   async allowTokensForAnkrDeposit(
     amount: BigNumber,
   ): Promise<IWeb3SendResult | false> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
+
     const scaledAmount = amount.multipliedBy(10 ** 18);
     const scaledBalance = new BigNumber(
       await this.ankrTokenContract.methods.balanceOf(currentAccount).call(),
@@ -170,7 +172,7 @@ export class ContractManager implements IContractManager {
     amount: BigNumber,
     expiresAfter = '31536000',
   ): Promise<IDepositAnkrToWalletResult> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     // calc scaled amount
     const scaledAmount = amount.multipliedBy(10 ** 18);
@@ -223,6 +225,7 @@ export class ContractManager implements IContractManager {
     const data = this.ankrWalletContract.methods
       .deposit(scaledAmount.toString(10), expiresAfter, hexEncryptionPublicKey)
       .encodeABI();
+
     const depositSendResult = await this.keyProvider.sendTransactionAsync(
       currentAccount,
       this.config.ankrWalletContractAddress,
@@ -239,7 +242,8 @@ export class ContractManager implements IContractManager {
   }
 
   async getCurrentAnkrBalance(): Promise<BigNumber> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
+
     return this.keyProvider.getTokenBalance(
       this.ankrTokenContract,
       currentAccount,

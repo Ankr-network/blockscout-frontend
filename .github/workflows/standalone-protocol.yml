@@ -43,7 +43,9 @@ jobs:
         uses: actions/setup-node@v2.5.0
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          rm -rf node_modules/.cache
+          yarn install
 
       - name: Build stage with stage api
         working-directory: ./packages/standalone-protocol

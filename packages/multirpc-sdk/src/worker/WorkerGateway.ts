@@ -2,19 +2,14 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
 import {
-  IBlockchainEntity,
   IImportJWTTokenResult,
-  INodeEntity,
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
-  IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   IWorkerTotalStats,
   IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
-  Timeframe,
 } from './types';
 import { IWorkerGateway } from './interfaces';
 
@@ -39,45 +34,8 @@ export class WorkerGateway implements IWorkerGateway {
     this.api = axios.create({ ...this.config, ...AXIOS_DEFAULT_CONFIG });
   }
 
-  async getBlockchains(): Promise<IBlockchainEntity[]> {
-    const { data } = await this.api.get<IBlockchainEntity[]>(
-      '/api/v1/blockchain',
-    );
-    return data;
-  }
-
-  async getNodes(blockchain?: string): Promise<INodeEntity[]> {
-    const { data } = await this.api.get<INodeEntity[]>('/api/v1/node', {
-      params: { blockchain },
-    });
-
-    return data;
-  }
-
   async importJwtToken(jwtToken?: string): Promise<IImportJWTTokenResult> {
     const { data } = await this.api.post('/api/v1/jwt', { jwtToken });
-
-    return data;
-  }
-
-  async getGlobalStats(blockchain?: string): Promise<IWorkerGlobalStatus> {
-    const { data } = await this.api.get<IWorkerGlobalStatus>(
-      '/api/v1/stats/global',
-      {
-        params: { blockchain },
-      },
-    );
-
-    return data;
-  }
-
-  async getTimeframeStats(
-    blockchain: string,
-    timeframe: Timeframe,
-  ): Promise<IWorkerGlobalStatus> {
-    const { data } = await this.api.get<IWorkerGlobalStatus>(
-      `/api/v1/stats/${blockchain}/${timeframe}`,
-    );
 
     return data;
   }
@@ -100,12 +58,6 @@ export class WorkerGateway implements IWorkerGateway {
         params: { blockchain },
       },
     );
-
-    return data;
-  }
-
-  async getNodesWeight(): Promise<IWorkerNodesWeight[]> {
-    const { data } = await this.api.get<IWorkerNodesWeight[]>('/api/v1/weight');
 
     return data;
   }

@@ -1,27 +1,18 @@
-import { IJwtToken } from 'multirpc-sdk';
+import { notification } from 'antd';
 
-import { MultiService, web3KeyProvider } from 'api/MultiService';
+import { MultiService } from 'api/MultiService';
 import { LIFETIME } from './connectUtils';
 
-export const LOGIN_STATE_KEY = '__loginState';
 export const AUTH_STATE_KEY = '__authState';
+export const ADDRESS_STATE_KEY = '__addressState';
 
-interface LoginState {
-  jwtToken: IJwtToken;
-  authorizationToken: string;
-}
-
-const tryGetTokenFromLoginState = (): LoginState | undefined => {
-  const data = localStorage.getItem(LOGIN_STATE_KEY);
+const getSavedToken = (): string | undefined => {
   const authorizationToken = localStorage.getItem(AUTH_STATE_KEY);
 
-  if (!data || !authorizationToken) return undefined;
+  if (!authorizationToken) return undefined;
 
   try {
-    return {
-      jwtToken: JSON.parse(data) as IJwtToken,
-      authorizationToken: JSON.parse(authorizationToken),
-    };
+    return JSON.parse(authorizationToken);
   } catch (e: any) {
     // eslint-disable-next-line no-console
     console.error(`Failed to parse JWT token from login state: ${e}`);
@@ -30,54 +21,56 @@ const tryGetTokenFromLoginState = (): LoginState | undefined => {
   return undefined;
 };
 
-const rememberUserLoginState = (
-  jwtToken: IJwtToken,
-  authorizationToken: string,
-) => {
-  localStorage.setItem(LOGIN_STATE_KEY, JSON.stringify(jwtToken));
-  localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(authorizationToken));
+const getSavedAddress = (): string | undefined => {
+  const address = localStorage.getItem(ADDRESS_STATE_KEY);
+
+  if (!address) return undefined;
+
+  try {
+    return JSON.parse(address);
+  } catch (e: any) {
+    // eslint-disable-next-line no-console
+    console.error(`Failed to parse address from address state: ${e}`);
+  }
+
+  return undefined;
 };
 
-const { service } = MultiService.getInstance();
+const rememberUserLoginState = (
+  authorizationToken: string,
+  address: string,
+) => {
+  localStorage.setItem(AUTH_STATE_KEY, JSON.stringify(authorizationToken));
+  localStorage.setItem(ADDRESS_STATE_KEY, JSON.stringify(address));
+};
 
 export const connect = async () => {
-  await web3KeyProvider.connectFromInjected();
+  const service = await MultiService.getInstance();
 
-  const currentAccount = web3KeyProvider.currentAccount();
-  const tokens = tryGetTokenFromLoginState();
+  const authorizationToken = getSavedToken();
+  const address = getSavedAddress();
+  const { currentAccount } = service.getKeyProvider();
 
-  if (
-    tokens?.jwtToken &&
-    tokens?.jwtToken.owner_address.toLowerCase() ===
-      currentAccount.toLowerCase() &&
-    tokens?.authorizationToken
-  ) {
-    const { jwtToken, authorizationToken } = tokens;
-
-    service.getWorkerBackofficeGateway().addJwtToken(jwtToken);
+  if (authorizationToken && currentAccount === address) {
     service.getBackofficeGateway().addToken(authorizationToken);
 
     return;
   }
 
   try {
-    const newJwtToken = await service.loginAsAdmin(currentAccount);
+    const newAuthorizationToken = await service.authorizeBackoffice(LIFETIME);
+    service.getBackofficeGateway().addToken(newAuthorizationToken);
 
-    const authorizationToken = await service.authorizeBackoffice(LIFETIME);
-    service.getBackofficeGateway().addToken(authorizationToken);
-
-    if (newJwtToken) {
-      service.getWorkerBackofficeGateway().addJwtToken(newJwtToken);
-    }
-
-    if (newJwtToken && authorizationToken) {
-      rememberUserLoginState(newJwtToken, authorizationToken);
+    if (newAuthorizationToken) {
+      rememberUserLoginState(newAuthorizationToken, currentAccount);
     } else {
-      // eslint-disable-next-line no-console
-      console.error(`Failed to login`);
+      notification.error({
+        message: 'Failed to login',
+      });
     }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e, 'Failed to login');
+  } catch (error) {
+    notification.error({
+      message: `Failed to login ${error}`,
+    });
   }
 };

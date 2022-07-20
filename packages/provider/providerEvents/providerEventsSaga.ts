@@ -86,6 +86,7 @@ function* listenProviderEvents(
     }
   } finally {
     const isCancelled: boolean = yield cancelled();
+
     if (isCancelled) {
       channel.close();
     }
@@ -113,8 +114,8 @@ function* onDisconnectSuccess({ provider }: ProviderEventsSagaParams) {
 }
 
 export function* providerEventsSaga(params: ProviderEventsSagaParams) {
-  const { connectAction, disconnectAction } = params;
+  const { disconnectAction } = params;
 
-  yield takeEvery(success(connectAction), onConnectSuccess, params);
+  yield fork(onConnectSuccess, params);
   yield takeEvery(success(disconnectAction), onDisconnectSuccess, params);
 }

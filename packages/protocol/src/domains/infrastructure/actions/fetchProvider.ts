@@ -10,7 +10,7 @@ export const fetchProvider = createSmartAction<
 >('infrastructure/fetchProvider', () => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const provider = await service.fetchProvider(jwtToken);
 

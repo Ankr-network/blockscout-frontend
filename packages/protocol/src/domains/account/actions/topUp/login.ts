@@ -29,8 +29,9 @@ export const login = createSmartAction<RequestAction<string, string>>(
       ) => {
         return {
           promise: (async (): Promise<any> => {
-            const { service } = MultiService.getInstance();
-            const address = service.getKeyProvider().currentAccount();
+            const service = await MultiService.getInstance();
+            const provider = service.getKeyProvider();
+            const { currentAccount: address } = provider;
 
             const { data: publicKey } = await store.dispatchRequest(
               fetchPublicKey(),

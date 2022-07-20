@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
   ChainsRoutes,
   ChainPrivateRoutes,
   ChainsRoutesConfig,
+  INDEX_PATH,
 } from './domains/chains/Routes';
 import {
   ProvidersRoutes,
@@ -25,6 +25,7 @@ import { useAuth } from './domains/auth/hooks/useAuth';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export function Routes() {
   const { handleConnect } = useAuth();
@@ -32,14 +33,23 @@ export function Routes() {
   const cachedAuthData = useAppSelector(selectAuthData);
   const { isWalletConnected } = useAuth();
 
-  useEffect(() => {
+  useOnMount(() => {
     if (cachedAuthData.authorizationToken) {
       handleConnect();
     }
-  }, [handleConnect, cachedAuthData]);
+  });
 
   return (
     <Switch>
+      <Route
+        exact
+        path={['/public/']}
+        render={() => (
+          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
+            <Redirect to={INDEX_PATH} />
+          </DefaultLayout>
+        )}
+      />
       <Route
         exact
         path={[
