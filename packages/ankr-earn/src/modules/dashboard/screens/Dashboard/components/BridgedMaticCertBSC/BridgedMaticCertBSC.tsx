@@ -13,6 +13,7 @@ export const BridgedMaticCertBSC = (): JSX.Element => {
     isBalancesLoading,
     nativeAmount,
     network,
+    usdAmount,
     onAddTokenClick,
   } = useBridgedMaticCertBSC();
 
@@ -25,6 +26,7 @@ export const BridgedMaticCertBSC = (): JSX.Element => {
       network={network}
       token={Token.aMATICc}
       tokenAddress={binanceConfig.aMATICcToken}
+      usdAmount={usdAmount}
       onAddTokenToWallet={onAddTokenClick}
     />
   );

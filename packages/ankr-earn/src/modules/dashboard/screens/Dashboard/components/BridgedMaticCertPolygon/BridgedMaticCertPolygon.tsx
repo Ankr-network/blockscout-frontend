@@ -13,6 +13,7 @@ export const BridgedMaticCertPolygon = (): JSX.Element => {
     isBalancesLoading,
     nativeAmount,
     network,
+    usdAmount,
     onAddTokenClick,
   } = useBridgedMaticCertPolygon();
 
@@ -25,6 +26,7 @@ export const BridgedMaticCertPolygon = (): JSX.Element => {
       network={network}
       token={Token.aMATICc}
       tokenAddress={polygonConfig.aMATICcToken}
+      usdAmount={usdAmount}
       onAddTokenToWallet={onAddTokenClick}
     />
   );

@@ -7,8 +7,14 @@ import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/ETH/useStakedBri
 export const BridgedEthBond = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
-  const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
-    useStakedBridgeAETHBData();
+  const {
+    amount,
+    chainId,
+    isBalancesLoading,
+    network,
+    usdAmount,
+    onAddTokenClick,
+  } = useStakedBridgeAETHBData();
 
   return (
     <BridgedAsset
@@ -18,6 +24,7 @@ export const BridgedEthBond = (): JSX.Element => {
       network={network}
       token={Token.aETHb}
       tokenAddress={binanceConfig.aETHbToken}
+      usdAmount={usdAmount}
       onAddTokenToWallet={onAddTokenClick}
     />
   );
