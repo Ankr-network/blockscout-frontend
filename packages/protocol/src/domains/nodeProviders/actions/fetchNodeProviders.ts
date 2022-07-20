@@ -22,9 +22,7 @@ export const fetchNodeProviders = createSmartAction<
 >('nodeProviders/fetchNodeProviders', () => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
-
-      return service.getWorkerGateway().getNodes();
+      return MultiService.getPublicInstance().getNodes();
     })(),
   },
   meta: {

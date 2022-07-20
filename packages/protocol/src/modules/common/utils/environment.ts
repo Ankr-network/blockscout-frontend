@@ -1,13 +1,13 @@
 import { Environment } from 'multirpc-sdk';
-import { ChainId } from '@ankr.com/stakefi-web3';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 export const API_ENV: Environment =
   (process.env.REACT_APP_API_ENV as Environment) ?? 'staging';
 
-export function getExpectedChainId(env: Environment) {
+export const getExpectedChainId = (env: Environment) => {
   if (env === 'prod') {
-    return ChainId.Ethereum;
+    return EEthereumNetworkId.mainnet;
   }
 
-  return ChainId.Goerli;
-}
+  return EEthereumNetworkId.goerli;
+};

@@ -14,8 +14,9 @@ export const checkAllowanceStep = async (
   rejectAllowanceTransactionHash?: string,
   allowanceTransactionHash?: string,
 ) => {
-  const { service } = MultiService.getInstance();
-  const address = service.getKeyProvider().currentAccount();
+  const service = await MultiService.getInstance();
+  const provider = service.getKeyProvider();
+  const { currentAccount: address } = provider;
 
   if (rejectAllowanceTransactionHash) {
     store

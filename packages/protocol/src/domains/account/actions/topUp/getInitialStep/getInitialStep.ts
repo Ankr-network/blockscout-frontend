@@ -23,8 +23,9 @@ export const getInitialStep = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const { service } = MultiService.getInstance();
-          const address = service.getKeyProvider().currentAccount();
+          const service = await MultiService.getInstance();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
           const stepForTheFirstTopUp = await checkFirstTopUpStep(
             address,

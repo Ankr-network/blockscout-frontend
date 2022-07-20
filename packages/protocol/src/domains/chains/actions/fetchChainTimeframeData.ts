@@ -59,11 +59,11 @@ export const fetchChainTimeframeData = createSmartAction<
       ) => {
         return {
           promise: (async () => {
-            const { service } = MultiService.getInstance();
-            const data = await service.getBlockchainTimeFrameStats(
-              chainId,
-              timeframe,
-            );
+            const data =
+              await MultiService.getPublicInstance().getTimeframeStats(
+                chainId,
+                timeframe,
+              );
 
             const url = getUrlByChainId(chainId);
 

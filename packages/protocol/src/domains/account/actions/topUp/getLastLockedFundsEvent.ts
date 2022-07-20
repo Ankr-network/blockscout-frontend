@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
 
@@ -14,8 +14,9 @@ export const getLastLockedFundsEvent = createSmartAction<
     onRequest: () => {
       return {
         promise: (async (): Promise<any | undefined> => {
-          const { service } = MultiService.getInstance();
-          const address = service.getKeyProvider().currentAccount();
+          const service = await MultiService.getInstance();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
           return service.getLastLockedFundsEvent(address);
         })(),

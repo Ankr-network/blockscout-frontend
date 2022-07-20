@@ -1,4 +1,4 @@
-import type { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { PrefixedHex } from '../common';
 

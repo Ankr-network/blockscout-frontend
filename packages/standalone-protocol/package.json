@@ -22,7 +22,7 @@
   },
   "homepage": "/",
   "dependencies": {
-    "@ankr.com/stakefi-web3": "^0.0.149",
+    "@ankr.com/provider": "^1.5.21",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -36,6 +36,7 @@
     "@types/numeral": "^2.0.2",
     "@walletconnect/web3-provider": "^1.6.5",
     "apexcharts": "^3.32.0",
+    "async-mutex": "0.3.2",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
     "bowser": "^2.11.0",
@@ -108,9 +109,11 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
     ],
     "development": [
       "last 1 chrome version",

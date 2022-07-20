@@ -1,5 +1,5 @@
 import { configFromEnv, PolkadotProvider } from 'polkadot';
-import { ThemeColors } from 'web3modal';
+import { IProviderOptions, ThemeColors } from 'web3modal';
 import {
   AvalancheHttpWeb3KeyProvider,
   BinanceHttpWeb3KeyProvider,
@@ -48,7 +48,10 @@ const POLKADOT_CONNECT_WAIT_MS = 250;
 export class ProviderManager {
   private providers: Partial<IProviders> = {};
 
-  constructor(private web3ModalTheme: ThemeColors) {}
+  constructor(
+    private web3ModalTheme: ThemeColors,
+    private providerOptions?: IProviderOptions,
+  ) {}
 
   async getProvider(providerId: AvailableWriteProviders, walletId?: string) {
     const provider = this.providers[providerId];
@@ -132,7 +135,7 @@ export class ProviderManager {
       web3ModalTheme: this.web3ModalTheme,
     });
 
-    await newProvider.inject(walletId);
+    await newProvider.inject(walletId, this.providerOptions);
     await newProvider.connect();
 
     this.providers[providerId] = newProvider;
