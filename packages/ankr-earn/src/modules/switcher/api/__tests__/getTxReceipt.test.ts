@@ -4,10 +4,10 @@ import {
   BinanceSDK,
   EthereumSDK,
   AvalancheSDK,
+  FantomSDK,
 } from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';
-import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';
 
 import { SwitcherSDK } from '../SwitcherSDK';
@@ -18,9 +18,6 @@ jest.mock('@ankr.com/staking-sdk', (): unknown => ({
   EthereumSDK: { getInstance: jest.fn() },
   BinanceSDK: { getInstance: jest.fn() },
   AvalancheSDK: { getInstance: jest.fn() },
-}));
-
-jest.mock('modules/stake-fantom/api/sdk', () => ({
   FantomSDK: { getInstance: jest.fn() },
 }));
 

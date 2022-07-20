@@ -788,7 +788,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @param {string} token - token symbol (aFTMb or aFTMc)
    * @returns {Promise<boolean>}
    */
-  public async addTokenToWallet(token: TFtmSyntToken): Promise<boolean> {
+  public async addTokenToWallet(token: string): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }

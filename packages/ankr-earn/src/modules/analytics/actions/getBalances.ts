@@ -3,9 +3,8 @@ import {
   BinanceSDK,
   EthereumSDK,
   AvalancheSDK,
+  FantomSDK,
 } from '@ankr.com/staking-sdk';
-
-import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 interface IGetBalances {
   ethAmount?: string;

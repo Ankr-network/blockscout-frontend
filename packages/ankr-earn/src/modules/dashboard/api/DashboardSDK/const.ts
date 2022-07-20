@@ -5,6 +5,8 @@ import {
   AETHB_ABI,
   AETH_BSC_ABI,
   AETHC_BSC_ABI,
+  AFTMB_ABI,
+  AFTMC_ABI,
 } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
@@ -15,8 +17,6 @@ import {
   POLYGON_PROVIDER_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import AFTMB_ABI from 'modules/stake-fantom/api/contracts/aFTMb.json';
-import AFTMC_ABI from 'modules/stake-fantom/api/contracts/aFTMc.json';
 
 import { IDashboardSDKCotractData } from './types';
 

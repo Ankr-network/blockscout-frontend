@@ -2,9 +2,10 @@ import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { FantomSDK } from '@ankr.com/staking-sdk';
+
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
-import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 

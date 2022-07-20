@@ -47,7 +47,7 @@ import {
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
   CERT_STAKING_LOG_HASH,
-  ESTIMATE_GAS_MULTIPLIER,
+  BNB_ESTIMATE_GAS_MULTIPLIER,
 } from './const';
 import {
   TBnbSyntToken,
@@ -782,7 +782,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
-    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
+    return Math.round(gasLimit * BNB_ESTIMATE_GAS_MULTIPLIER);
   }
 
   /**
