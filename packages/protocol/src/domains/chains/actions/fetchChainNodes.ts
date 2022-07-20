@@ -9,11 +9,7 @@ export const fetchChainNodes = createSmartAction<
 >('chains/fetchChainNodes', (blockchain: string) => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
-
-      const data = await service.getWorkerGateway().getNodes(blockchain);
-
-      return data;
+      return MultiService.getPublicInstance().getNodes(blockchain);
     })(),
   },
   meta: {

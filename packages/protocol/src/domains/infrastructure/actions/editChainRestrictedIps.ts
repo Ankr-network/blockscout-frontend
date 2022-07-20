@@ -14,7 +14,7 @@ export const editChainRestrictedIps = createSmartAction<
   (chainId: string, ips: string[]) => ({
     request: {
       promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-        const { service } = MultiService.getInstance();
+        const service = await MultiService.getInstance();
 
         const ipsResult = await service.editChainRestrictedIps(
           jwtToken,

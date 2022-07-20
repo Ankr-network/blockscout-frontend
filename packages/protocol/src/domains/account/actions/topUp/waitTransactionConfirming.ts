@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { throwIfError } from 'common';
 import { retry } from 'modules/api/utils/retry';
@@ -33,14 +33,12 @@ const waitForBlocks = async (
     async () => {
       await checkPendingTransaction();
 
-      const { service } = MultiService.getInstance();
-      const address = service.getKeyProvider().currentAccount();
+      const service = await MultiService.getInstance();
+      const provider = service.getKeyProvider();
+      const { currentAccount: address } = provider;
       const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
 
-      const currentBlockNumber = await service
-        .getKeyProvider()
-        .getWeb3()
-        .eth.getBlockNumber();
+      const currentBlockNumber = await provider.getWeb3().eth.getBlockNumber();
 
       // This is old topUp. New topUp failed
       if (
@@ -93,7 +91,13 @@ export const waitTransactionConfirming = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const transaction = selectTransaction(store.getState());
+          const service = await MultiService.getInstance();
+          const { currentAccount } = service.getKeyProvider();
+
+          const transaction = selectTransaction(
+            store.getState(),
+            currentAccount,
+          );
 
           if (transaction?.topUpTransactionHash) {
             await waitForBlocks(store, transaction.topUpTransactionHash);

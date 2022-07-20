@@ -13,7 +13,7 @@ export const fetchCredentialsStatus = createSmartAction<
 >('auth/fetchCredentialsStatus', (transactionHash: string) => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       return service.canIssueJwtToken(transactionHash);
     })(),

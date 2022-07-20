@@ -14,7 +14,7 @@ export const editChainRestrictedDomains = createSmartAction<
   (chainId: string, domains: string[]) => ({
     request: {
       promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-        const { service } = MultiService.getInstance();
+        const service = await MultiService.getInstance();
 
         const domainsResult = await service.editChainRestrictedDomains(
           jwtToken,

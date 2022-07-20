@@ -38,7 +38,7 @@
     "ts-node": "^7.0.1"
   },
   "dependencies": {
-    "@ankr.com/stakefi-web3": "^0.0.152",
+    "@ankr.com/provider": "^1.5.21",
     "@faker-js/faker": "6.1.2",
     "@types/lodash.orderby": "4.6.6",
     "@types/node": "^14.14.41",

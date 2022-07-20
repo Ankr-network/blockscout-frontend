@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
-import { MultiService } from 'modules/api/MultiService';
 
 import { RootState } from 'store';
 
@@ -55,11 +54,9 @@ export const selectAccount = (
 
 export const selectTransaction = (
   state: RootState,
+  currentAccount: string,
 ): ITransaction | undefined => {
-  const { service } = MultiService.getInstance();
-  const address = service.getKeyProvider().currentAccount();
-
-  return state.accountWithdraw[address];
+  return state.accountWithdraw[currentAccount];
 };
 
 export const { setWithdrawTransaction, setAmount, resetTransaction } =

@@ -1,5 +1,4 @@
 import { Contract, EventData } from 'web3-eth-contract';
-import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 
 import { base64ToPrefixedHex, PrefixedHex, Web3Address } from '../common';
@@ -10,6 +9,7 @@ import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 const GAS_LIMIT = '200000';
 
@@ -19,7 +19,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   private readonly payAsYouGoContract: Contract;
 
   constructor(
-    private readonly keyProvider: IWeb3KeyProvider,
+    private readonly keyProvider: Web3KeyWriteProvider,
     private readonly config: IPAYGContractManagerConfig,
   ) {
     this.ankrTokenContract = keyProvider.createContract(
@@ -34,7 +34,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     // make sure user have enough balance
     const balance = await (this.ankrTokenContract.methods as IAnkrToken)
@@ -47,7 +47,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   private async isAllowanceLessThanAmount(scaledAmount: BigNumber) {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     // make sure user have enough allowance
     const allowance = await (this.ankrTokenContract.methods as IAnkrToken)
@@ -60,7 +60,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   private async sendAllowance(scaledAmount: BigNumber) {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     const data = await (this.ankrTokenContract.methods as IAnkrToken)
       .approve(this.config.payAsYouGoContractAddress, scaledAmount.toString(10))
@@ -81,7 +81,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     publicKey: string,
     expiresAfter: string,
   ) {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
       .deposit(
@@ -120,9 +120,10 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   async getAllowance(amount: BigNumber) {
-    const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
-    );
+    const provider = this.keyProvider;
+    const web3 = provider.getWeb3();
+
+    const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
 
     await this.canAllowAndDeposit(scaledAmount);
 
@@ -135,9 +136,10 @@ export class PAYGContractManager implements IPAYGContractManager {
     // TODO expiresAfter
     expiresAfter = '31536000',
   ): Promise<IWeb3SendResult> {
-    const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
-    );
+    const provider = this.keyProvider;
+    const web3 = provider.getWeb3();
+
+    const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
 
     await this.canAllowAndDeposit(scaledAmount);
 
@@ -145,7 +147,7 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   async hasEnoughAllowance(amount: BigNumber): Promise<boolean> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
     const scaledAmount = new BigNumber(
       this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
     );
@@ -211,11 +213,11 @@ export class PAYGContractManager implements IPAYGContractManager {
   async decryptMessageUsingPrivateKey(
     compatibleJsonData: string,
   ): Promise<string> {
-    const account = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     return this.keyProvider.getWeb3().givenProvider.request({
       method: 'eth_decrypt',
-      params: [compatibleJsonData, account],
+      params: [compatibleJsonData, currentAccount],
     });
   }
 
@@ -224,17 +226,18 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   async withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult> {
-    const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
-    );
+    const provider = this.keyProvider;
+    const { currentAccount } = provider;
 
-    const currentAccount = this.keyProvider.currentAccount();
+    const scaledAmount = new BigNumber(
+      provider.getWeb3().utils.toWei(amount.toString(10)),
+    );
 
     const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
       .withdraw(scaledAmount.toString(10))
       .encodeABI();
 
-    return this.keyProvider.sendTransactionAsync(
+    return provider.sendTransactionAsync(
       currentAccount,
       this.config.payAsYouGoContractAddress,
       {

@@ -8,13 +8,7 @@ export const fetchNodesWeight = createSmartAction<
   RequestAction<IWorkerNodesWeight[], IWorkerNodesWeight[]>
 >('chains/fetchNodesWeight', () => ({
   request: {
-    promise: (async () => {
-      const { service } = MultiService.getInstance();
-
-      const nodesWeight = await service.getNodesWeight();
-
-      return nodesWeight;
-    })(),
+    promise: (async () => MultiService.getPublicInstance().getNodesWeight())(),
   },
   meta: {
     cache: true,

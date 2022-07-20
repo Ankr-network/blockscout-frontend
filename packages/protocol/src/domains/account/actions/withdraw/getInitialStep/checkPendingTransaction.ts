@@ -12,9 +12,10 @@ export const web3 = new Web3(
 );
 
 const hasPendingTransaction = async () => {
-  const { service } = MultiService.getInstance();
+  const service = await MultiService.getInstance();
 
-  const address = service.getKeyProvider().currentAccount();
+  const provider = service.getKeyProvider();
+  const { currentAccount: address } = provider;
 
   const latestTransactionCount = await web3.eth.getTransactionCount(
     address,

@@ -14,7 +14,7 @@ export const deletePrivateEndpoint = createAction<Action, Params>(
   endpointId => ({
     request: {
       promise: async (_store: RequestsStore, jwtToken: IJwtToken) => {
-        const { service } = MultiService.getInstance();
+        const service = await MultiService.getInstance();
 
         await service.deletePrivateEndpoint(jwtToken, endpointId);
       },
