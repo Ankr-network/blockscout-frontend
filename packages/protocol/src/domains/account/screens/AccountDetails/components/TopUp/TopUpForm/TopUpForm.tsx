@@ -4,14 +4,12 @@ import BigNumber from 'bignumber.js';
 
 import { useStyles } from './TopUpFormStyles';
 import { AmountInputField, TopUpFormProps } from './TopUpFormTypes';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
 import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 
 export const TopUpForm = ({ onSubmit, hasLoginStep }: TopUpFormProps) => {
   const classes = useStyles();
-
-  const transaction = useAppSelector(selectTransaction);
+  const transaction = useSelectTopUpTransaction();
 
   const isTopUpInProcess = Boolean(
     transaction?.allowanceTransactionHash ||

@@ -14,7 +14,7 @@ export const authorizeProvider = createSmartAction<
 >('infrastructure/authorizeProvider', () => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const accessToken = await service.authorizeProvider(LIFETIME);
 

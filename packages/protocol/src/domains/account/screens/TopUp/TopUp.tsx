@@ -1,6 +1,5 @@
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
-import { useAppSelector } from 'store/useAppSelector';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { TopUpSteps } from './components/TopUpSteps';
 import { useTopupSteps } from './TopUpUtils';
 
@@ -20,7 +19,7 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
     hasError,
   } = useTopupSteps(initialStep);
 
-  const transaction = useAppSelector(selectTransaction);
+  const transaction = useSelectTopUpTransaction();
 
   return (
     <TopUpSteps

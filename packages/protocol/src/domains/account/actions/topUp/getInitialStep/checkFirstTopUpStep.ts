@@ -9,7 +9,7 @@ export const checkFirstTopUpStep = async (
   address: string,
   store: RequestsStore,
 ) => {
-  const { service } = MultiService.getInstance();
+  const service = await MultiService.getInstance();
 
   const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
 

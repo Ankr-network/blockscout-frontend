@@ -15,7 +15,7 @@ export const fetchPrivateChains = createSmartAction<
 >('chains/fetchPrivateChains', () => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const chains = await service.fetchPrivateUrls(jwtToken);
 

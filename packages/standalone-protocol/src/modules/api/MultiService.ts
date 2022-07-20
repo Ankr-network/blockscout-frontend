@@ -1,33 +1,34 @@
-import { MultiRpcSdk, configFromEnv } from 'multirpc-sdk';
-import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
-import { API_ENV } from '../common/utils/environment';
+import { MultiRpcSdk, ProtocolPublicSdk } from 'multirpc-sdk';
+import { Mutex } from 'async-mutex';
 
-const { REACT_APP_CHAIN_ID, REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE } =
-  process.env;
+import { ProviderManagerSingleton } from './ProviderManagerSingleton';
+import { getConfig } from './utils/getConfig';
+
+const mutex = new Mutex();
 
 export class MultiService {
   private static instance: MultiRpcSdk;
 
-  public static getInstance(): { service: MultiRpcSdk } {
-    if (!MultiService.instance) {
-      const config = configFromEnv(API_ENV);
+  private static publicInstance?: ProtocolPublicSdk;
 
-      let workerUrl = '/';
+  public static async getInstance(): Promise<MultiRpcSdk> {
+    await mutex.runExclusive(async () => {
+      if (!MultiService.instance) {
+        const providerManager = ProviderManagerSingleton.getInstance();
+        const provider = await providerManager.getETHWriteProvider();
 
-      const isBuildForErigonWithHomepage =
-        REACT_APP_CHAIN_ID === 'erigonbsc' &&
-        REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE;
-
-      if (!REACT_APP_CHAIN_ID || isBuildForErigonWithHomepage) {
-        workerUrl = config.workerUrl;
+        MultiService.instance = new MultiRpcSdk(provider, getConfig());
       }
+    });
 
-      MultiService.instance = new MultiRpcSdk(new Web3KeyProvider({}), {
-        ...config,
-        workerUrl,
-      });
+    return MultiService.instance;
+  }
+
+  public static getPublicInstance(): ProtocolPublicSdk {
+    if (!MultiService.publicInstance) {
+      MultiService.publicInstance = new ProtocolPublicSdk(getConfig());
     }
 
-    return { service: MultiService.instance };
+    return MultiService.publicInstance;
   }
 }

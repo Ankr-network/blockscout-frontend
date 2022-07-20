@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios';
-import { IBlockchainEntity, INodeEntity } from '../backoffice';
 
 import { IJwtToken } from '../common';
 import {
@@ -7,13 +6,10 @@ import {
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
-  IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   IWorkerTotalStats,
   IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
-  Timeframe,
 } from './types';
 
 export interface IWorkerGateway {
@@ -35,28 +31,15 @@ export interface IWorkerGateway {
   ): Promise<RestrictedIps>;
   editPrivateEndpoint(endpoint: IPrivateEndpoint): Promise<IWorkerEndpoint>;
 
-  getBlockchains(): Promise<IBlockchainEntity[]>;
-
   getChainRestrictedDomains(chainId: string): Promise<RestrictedDomains>;
 
   getChainRestrictedIps(chainId: string): Promise<RestrictedIps>;
 
   getEndpoints(): Promise<IWorkerEndpoint>;
 
-  getGlobalStats(blockchain?: string): Promise<IWorkerGlobalStatus>;
-
   getLegacyStats(blockchain?: string): Promise<IWorkerTotalStats[]>;
 
-  getNodes(blockchain?: string): Promise<INodeEntity[]>;
-
-  getNodesWeight(): Promise<IWorkerNodesWeight[]>;
-
   getProvider(): Promise<IProvider>;
-
-  getTimeframeStats(
-    blockchain: string,
-    timeframe: Timeframe,
-  ): Promise<IWorkerGlobalStatus>;
 
   getTotalStats(blockchain?: string): Promise<IWorkerTotalStats[]>;
 

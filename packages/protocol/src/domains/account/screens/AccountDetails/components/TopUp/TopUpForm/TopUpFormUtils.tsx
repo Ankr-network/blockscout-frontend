@@ -16,8 +16,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { MessageEventData } from '@ankr.com/provider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectTransaction } from 'domains/account/store/accountTopUpSlice';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -101,16 +100,20 @@ export const useCheckLoginStep = () => {
   useEffect(() => {
     if (!hasLoginStep) return;
 
-    const { service } = MultiService.getInstance();
-    const keyProvider = service.getKeyProvider();
+    const checkAmount = async () => {
+      const service = await MultiService.getInstance();
+      const keyProvider = service.getKeyProvider();
 
-    const value = keyProvider
-      .getWeb3()
-      .utils.fromWei(lastLockedFundsEvent?.returnValues?.amount);
+      const value = keyProvider
+        .getWeb3()
+        .utils.fromWei(lastLockedFundsEvent?.returnValues?.amount);
 
-    if (!value) return;
+      if (!value) return;
 
-    handleSetAmount(new BigNumber(value));
+      handleSetAmount(new BigNumber(value));
+    };
+
+    checkAmount();
   }, [hasLoginStep, lastLockedFundsEvent, handleSetAmount]);
 
   return {
@@ -121,7 +124,8 @@ export const useCheckLoginStep = () => {
 };
 
 export const useCheckBrokenTransaction = () => {
-  const transaction = useAppSelector(selectTransaction);
+  const transaction = useSelectTopUpTransaction();
+
   const { handleResetTopUpTransaction } = useTopUp();
 
   const isAmountEmpty = !transaction?.amount || transaction?.amount?.isZero();

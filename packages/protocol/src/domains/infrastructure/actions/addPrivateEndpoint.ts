@@ -12,7 +12,7 @@ export const apiAddPrivateEndpoint = createSmartAction<
   (privateEndpoint: IPrivateEndpoint) => ({
     request: {
       promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-        const { service } = MultiService.getInstance();
+        const service = await MultiService.getInstance();
 
         const endpoint = await service.addPrivateEndpoint(
           jwtToken,

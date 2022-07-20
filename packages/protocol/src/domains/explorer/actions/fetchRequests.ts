@@ -14,7 +14,7 @@ export const fetchRequests = createSmartAction<
     onRequest: () => {
       return {
         promise: (async (): Promise<IRequestsResponse> => {
-          const { service } = MultiService.getInstance();
+          const service = await MultiService.getInstance();
 
           const data = await service.getAccountGateway().getRequests(params);
 
@@ -30,7 +30,7 @@ export const fetchRequestsMore = createSmartAction<
 >('explorer/fetchRequestsMore', (params: IRequestsRequest) => ({
   request: {
     promise: (async () => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const data = await service.getAccountGateway().getRequests(params);
 
