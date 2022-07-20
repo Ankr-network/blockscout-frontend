@@ -45,6 +45,21 @@
     web3 "^1.3.5"
     web3-eth-contract "^1.3.5"
 
+"@ankr.com/staking-sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ankr.com/staking-sdk/-/staking-sdk-0.4.0.tgz#29da0851f6e7efbb39d96a3eb593f297f60d5500"
+  integrity sha512-ve9hvfuCeljc9jz5wAmZTCV77gJmo47x01oRVKAgopNiSrWXCp34gmDrgKDN5ZXE0fXXIsL7JMDBNhLHbDc7yA==
+  dependencies:
+    "@ankr.com/provider" "^1.5.21"
+    axios "^0.24.0"
+    bignumber.js "^9.0.1"
+    lodash "^4.17.21"
+    web3 "^1.6.1"
+    web3-core "^1.7.0"
+    web3-eth "^1.7.0"
+    web3-eth-contract "^1.6.1"
+    web3-utils "^1.3.5"
+
 "@ant-design/colors@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@ant-design/colors/-/colors-6.0.0.tgz#9b9366257cffcc47db42b9d0203bb592c13c0298"
