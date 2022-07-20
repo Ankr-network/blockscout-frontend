@@ -50,7 +50,7 @@ export const fetchEndpoints = createSmartAction<
 >('infrastructure/fetchEndpoints', (silent = false) => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const { service } = MultiService.getInstance();
+      const service = await MultiService.getInstance();
 
       const endpoints = await service.fetchPrivateEndpoints(jwtToken);
 

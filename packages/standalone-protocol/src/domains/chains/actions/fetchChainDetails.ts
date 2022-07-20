@@ -43,16 +43,11 @@ export const fetchChainDetails = createSmartAction<
     poll: 30,
     onRequest: () => {
       return {
-        promise: (async () => {
-          const { service } = MultiService.getInstance();
-
-          const data = await service.getBlockchainTimeFrameStats(
+        promise: (async () =>
+          MultiService.getPublicInstance().getTimeframeStats(
             chainId,
             timeframe,
-          );
-
-          return data;
-        })(),
+          ))(),
       };
     },
 

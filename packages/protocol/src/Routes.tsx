@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
@@ -26,6 +25,7 @@ import { useAuth } from './domains/auth/hooks/useAuth';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export function Routes() {
   const { handleConnect } = useAuth();
@@ -33,11 +33,11 @@ export function Routes() {
   const cachedAuthData = useAppSelector(selectAuthData);
   const { isWalletConnected } = useAuth();
 
-  useEffect(() => {
+  useOnMount(() => {
     if (cachedAuthData.authorizationToken) {
       handleConnect();
     }
-  }, [handleConnect, cachedAuthData]);
+  });
 
   return (
     <Switch>

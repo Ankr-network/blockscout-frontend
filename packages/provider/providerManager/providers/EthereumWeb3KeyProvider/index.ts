@@ -15,11 +15,11 @@ export class EthereumWeb3KeyProvider extends Web3KeyWriteProvider {
     this.web3ModalTheme = web3ModalTheme;
   }
 
-  async inject(walletId?: string) {
+  async inject(walletId?: string, providerOptions = providerDefaultOptions) {
     // create Web3Modal instance
     const web3Modal = new Web3Modal({
       cacheProvider: false,
-      providerOptions: providerDefaultOptions,
+      providerOptions,
       theme: this.web3ModalTheme,
     });
 

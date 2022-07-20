@@ -5,9 +5,10 @@ import { MultiService } from 'modules/api/MultiService';
 import { debouncePromise } from 'modules/common/utils/debouncePromise';
 import { t } from 'modules/i18n/utils/intl';
 
-const validateNode = debouncePromise((value: string, chainId: string) => {
-  const { service } = MultiService.getInstance();
+const validateNode = debouncePromise(async (value: string, chainId: string) => {
+  const service = await MultiService.getInstance();
   const rpcGateway = service.getRpcGateway().getInstance(chainId as Network);
+
   return rpcGateway.validateNode(value);
 }, 400);
 

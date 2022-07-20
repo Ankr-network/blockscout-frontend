@@ -19,7 +19,7 @@ export const checkAllowanceTransaction = createSmartAction<
     onRequest: () => {
       return {
         promise: (async (): Promise<any> => {
-          const { service } = MultiService.getInstance();
+          const service = await MultiService.getInstance();
 
           const transactionReceipt = await service.getTransactionReceipt(
             transactionHash,
@@ -33,7 +33,11 @@ export const checkAllowanceTransaction = createSmartAction<
             async () => {
               const receipt = await (async () => {
                 try {
-                  return await service.getTransactionReceipt(transactionHash);
+                  const data = await service.getTransactionReceipt(
+                    transactionHash,
+                  );
+
+                  return data;
                 } catch (error) {
                   throw new Error(t('error.failed'));
                 }

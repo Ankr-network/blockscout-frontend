@@ -16,22 +16,20 @@ import { rejectAllowance } from '../actions/topUp/rejectAllowance';
 import { redirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
 import { checkAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useAppSelector } from 'store/useAppSelector';
 import {
   setAmount,
-  selectTransaction,
   resetTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { MultiService } from 'modules/api/MultiService';
+import { useAddress } from './useAddress';
+import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 
 export const useTopUp = () => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { service } = MultiService.getInstance();
-  const address = service.getKeyProvider().currentAccount();
+  const address = useAddress();
+  const transaction = useSelectTopUpTransaction();
 
-  const transaction = useAppSelector(selectTransaction);
   const amount = useMemo(
     () => new BigNumber(transaction?.amount || 0),
     [transaction],

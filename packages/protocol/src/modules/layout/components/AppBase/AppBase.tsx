@@ -6,7 +6,6 @@ import { ReactReduxContext } from 'react-redux';
 import { Spinner, mainTheme, RewiredStylesProvider } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useInitialaizeLocale } from './AppBaseUtils';
-import '../../../../assets/fonts/style.css';
 import { useMetatags } from 'uiKit/utils/useMetatags';
 
 interface IAppBaseProps {

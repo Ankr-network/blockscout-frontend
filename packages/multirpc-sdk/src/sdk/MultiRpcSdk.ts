@@ -1,20 +1,17 @@
-import { IWeb3KeyProvider, IWeb3SendResult } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 import {
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
   IWorkerGateway,
-  IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
-  Timeframe,
   WorkerGateway,
 } from '../worker';
 import { ApiGateway, IApiGateway } from '../api';
@@ -50,14 +47,10 @@ import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
 import {
   catchSignError,
   formatPrivateUrls,
-  formatPublicUrls,
   getFirstActiveToken,
 } from './utils';
-import {
-  BackofficeGateway,
-  IBackofficeGateway,
-  IBlockchainEntity,
-} from '../backoffice';
+import { BackofficeGateway, IBackofficeGateway } from '../backoffice';
+import { IPublicGateway, PublicGateway } from '../public';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private workerGateway?: IWorkerGateway;
@@ -74,13 +67,15 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   private backofficeGateway?: IBackofficeGateway;
 
+  private publicGateway?: IPublicGateway;
+
   public constructor(
-    private readonly keyProvider: IWeb3KeyProvider,
+    private readonly keyProvider: Web3KeyWriteProvider,
     private readonly config: IConfig,
   ) {}
 
-  async getBlockchains(): Promise<IBlockchainEntity[]> {
-    return this.getWorkerGateway().getBlockchains();
+  getKeyProvider() {
+    return this.keyProvider;
   }
 
   async hasDeposit(user: Web3Address): Promise<PrefixedHex | false> {
@@ -177,34 +172,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return updatedJwtToken;
   }
 
-  async fetchPublicUrls(): Promise<FetchBlockchainUrlsResult> {
-    const blockchainsApiResponse =
-      await this.getWorkerGateway().getBlockchains();
-
-    return formatPublicUrls(blockchainsApiResponse, this.config.publicRpcUrl);
-  }
-
   async fetchPrivateUrls(
     jwtToken: IJwtToken,
   ): Promise<FetchBlockchainUrlsResult> {
-    const blockchains = await this.getWorkerGateway().getBlockchains();
+    const blockchains = await this.getPublicGateway().getBlockchains();
 
     return formatPrivateUrls(blockchains, this.config, jwtToken.endpoint_token);
-  }
-
-  async getBlockchainStats(blockchain: string): Promise<IWorkerGlobalStatus> {
-    return this.getWorkerGateway().getGlobalStats(blockchain);
-  }
-
-  async getBlockchainTimeFrameStats(
-    blockchain: string,
-    timeframe: Timeframe,
-  ): Promise<IWorkerGlobalStatus> {
-    return this.getWorkerGateway().getTimeframeStats(blockchain, timeframe);
-  }
-
-  async getNodesWeight(): Promise<IWorkerNodesWeight[]> {
-    return this.getWorkerGateway().getNodesWeight();
   }
 
   async getUserLocation(): Promise<IWorkerUserLocation> {
@@ -316,7 +289,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   }
 
   async requestUserEncryptionKey(): Promise<Base64> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
 
     return this.getContractManager().getEncryptionPublicKey(currentAccount);
   }
@@ -326,7 +299,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     thresholdKey: UUID,
     encryptionKey?: Base64,
   ): Promise<IJwtToken> {
-    const currentAccount = this.keyProvider.currentAccount();
+    const { currentAccount } = this.keyProvider;
+
     // requests user's x25519 encryption key
     if (!encryptionKey) {
       encryptionKey = await this.getContractManager().getEncryptionPublicKey(
@@ -440,6 +414,16 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.workerGateway;
   }
 
+  getPublicGateway(): IPublicGateway {
+    this.publicGateway =
+      this.publicGateway ||
+      new PublicGateway({
+        baseURL: this.config.workerUrl,
+      });
+
+    return this.publicGateway;
+  }
+
   /**
    * @internal for internal usage, try to avoid
    */
@@ -464,10 +448,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       });
 
     return this.backofficeGateway;
-  }
-
-  getKeyProvider(): IWeb3KeyProvider {
-    return this.keyProvider;
   }
 
   async fetchProvider(jwtToken: IJwtToken): Promise<IProvider> {
@@ -580,7 +560,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const currentTime = Math.floor(new Date().getTime());
     const expiresAfter = currentTime + lifeTime;
     const data = `${message}\n${expiresAfter}`;
-    const address = this.getKeyProvider().currentAccount();
+    const { currentAccount: address } = this.keyProvider;
 
     const signature = await this.sign(data, address);
     const formData = `signature=${signature}&address=${address}&expires=${expiresAfter}`;

@@ -16,8 +16,7 @@ import { StepIcon } from '../../components/StepIcon';
 import { Themes } from './types';
 
 export const FONTS = {
-  primary: ['Gilroy', 'Arial', 'sans-serif'].join(','),
-  secondary: ['"TT Firs Neue"', 'Arial', 'sans-serif'].join(','),
+  primary: ['Inter', 'sans-serif'].join(','),
 };
 
 export const PALETTE: PaletteOptions = {

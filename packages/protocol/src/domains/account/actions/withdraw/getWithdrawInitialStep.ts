@@ -23,11 +23,12 @@ export const getWithdrawInitialStep = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const { service } = MultiService.getInstance();
+          const service = await MultiService.getInstance();
 
           await checkPendingTransaction();
 
-          const address = service.getKeyProvider().currentAccount();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
           const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
             address,

@@ -102,6 +102,7 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
+// @ts-ignore
 sagaMiddleware.run(rootSaga);
 
 export type Store = typeof store;

@@ -1,6 +1,7 @@
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+// eslint-disable-next-line import/no-cycle
 import { connect } from './connect';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { MultiService } from 'modules/api/MultiService';
@@ -16,16 +17,22 @@ export const disconnect = createSmartAction<RequestAction>(
   () => ({
     request: {
       promise: (async () => {
-        const { service } = MultiService.getInstance();
-        await service.getWorkerGateway().removeJwtToken();
-        await service.getAccountGateway().removeToken();
+        const service = await MultiService.getInstance();
+        service.getWorkerGateway().removeJwtToken();
+        service.getAccountGateway().removeToken();
 
-        await service.getKeyProvider().disconnect();
+        service.getKeyProvider().disconnect();
+        MultiService.removeInstance();
 
         store.dispatch(resetAuthData());
         store.dispatch(withdrawReset());
         store.dispatch(topUpReset());
-        store.dispatch(resetRequests([fetchPremiumChainFeatures.toString()]));
+        store.dispatch(
+          resetRequests([
+            connect.toString(),
+            fetchPremiumChainFeatures.toString(),
+          ]),
+        );
       })(),
     },
     meta: {

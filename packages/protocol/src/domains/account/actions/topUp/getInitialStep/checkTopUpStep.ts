@@ -8,7 +8,7 @@ export const checkTopUpStep = async (
   store: RequestsStore,
   topUpTransactionHash?: string,
 ) => {
-  const { service } = MultiService.getInstance();
+  const service = await MultiService.getInstance();
 
   if (!topUpTransactionHash) return TopUpStep.deposit;
 

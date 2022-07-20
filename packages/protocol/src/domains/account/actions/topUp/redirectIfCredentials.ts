@@ -1,6 +1,6 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/stakefi-web3';
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { push } from 'connected-react-router';
 
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
@@ -18,8 +18,9 @@ export const redirectIfCredentials = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const { service } = MultiService.getInstance();
-          const address = service.getKeyProvider().currentAccount();
+          const service = await MultiService.getInstance();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
           const { data: connectData } = getQuery(store.getState(), {
             type: connect.toString(),
