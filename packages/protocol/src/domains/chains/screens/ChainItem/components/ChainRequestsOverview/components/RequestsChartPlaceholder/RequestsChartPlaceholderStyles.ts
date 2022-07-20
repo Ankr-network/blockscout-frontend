@@ -9,6 +9,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     width: '100%',
     height: '100%',
+    paddingLeft: theme.spacing(3),
   },
   title: {
     marginBottom: theme.spacing(2.5),
