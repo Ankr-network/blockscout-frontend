@@ -10,7 +10,6 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,
   featuresConfig,
@@ -18,6 +17,7 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
@@ -67,7 +67,6 @@ interface IStakedPolkadotData {
 export const useStakedPolkadotData = ({
   ethToken,
   network,
-  polkadotToken,
 }: IUseStakedPolkadotDataProps): IStakedPolkadotData => {
   const dispatchRequest = useDispatchRequest();
 
@@ -139,7 +138,7 @@ export const useStakedPolkadotData = ({
       ? RoutesConfig.stake.generatePath(network)
       : STAKE_LEGACY_LINKS[network] ?? '',
     stakeType: ETxTypes.Staked,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
+    tradeLink: DefiRoutes.defi.generatePath(ethToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
     unstakeType: ETxTypes.Unstaked,
     unsupportedUnstakeHistoryTxt,

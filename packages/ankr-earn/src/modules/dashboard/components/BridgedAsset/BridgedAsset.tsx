@@ -110,7 +110,7 @@ export const BridgedAsset = ({
                 href={tradeLink}
                 variant="outlined"
               >
-                {t('dashboard.trade')}
+                {t('dashboard.defi')}
               </NavLink>
             ) : (
               <Tooltip arrow title={comingSoonTooltip}>
@@ -120,7 +120,7 @@ export const BridgedAsset = ({
                     className={classes.tradeButton}
                     variant="outlined"
                   >
-                    {t('dashboard.trade')}
+                    {t('dashboard.defi')}
                   </Button>
                 </Box>
               </Tooltip>

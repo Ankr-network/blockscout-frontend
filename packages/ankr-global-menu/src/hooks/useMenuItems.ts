@@ -62,7 +62,7 @@ export const useMenuItems = ({
               },
               {
                 label: AnkrIntl.t('global-menu.staking.item-3'),
-                link: '/staking/defi/trade/',
+                link: '/staking/defi/',
                 project: 'staking',
               },
               {

@@ -159,7 +159,7 @@ export const StakingAsset = ({
                     variant="outlined"
                     onClick={onTradeClick}
                   >
-                    {t('dashboard.trade')}
+                    {t('dashboard.defi')}
                   </NavLink>
                 ) : (
                   <Tooltip arrow title={comingSoonTooltip}>
@@ -169,7 +169,7 @@ export const StakingAsset = ({
                         className={classes.tradeButton}
                         variant="outlined"
                       >
-                        {t('dashboard.trade')}
+                        {t('dashboard.defi')}
                       </Button>
                     </Box>
                   </Tooltip>

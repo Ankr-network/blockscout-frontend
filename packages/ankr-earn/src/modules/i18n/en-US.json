@@ -739,6 +739,7 @@
     "pending": "Unstaking in progress {value} {token}",
     "pending-temp": "Unstaking in progress",
     "trade": "Trade",
+    "defi": "DeFI",
     "start-staking": "Start staking with Ankr Staking",
     "stake": "Stake",
     "copy": "Copy contract address",
@@ -811,6 +812,22 @@
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities."
     }
+  },
+  "defi": {
+    "defi-aggregator": "DeFi Aggregator",
+    "assets": "Assets",
+    "network": "Network",
+    "networks": "Networks",
+    "protocol": "Protocol",
+    "type": "Type",
+    "rewards": "Rewards",
+    "all": "All",
+    "liquidity-pool": "Liquidity pool",
+    "farming": "Farming",
+    "vault": "Vault",
+    "all-assets": "All assets",
+    "all-networks": "All networks",
+    "deposit": "Deposit"
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
