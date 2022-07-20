@@ -323,7 +323,8 @@
   "stake": {
     "title": "{token} Liquid Staking",
     "progressTitle": "Stake",
-    "amount": "{token} Amount",
+    "amount": "Amount",
+    "token-amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
@@ -1045,35 +1046,40 @@
       "locking-period-value": "{days} days",
       "new-total-stake": "New Total Stake",
       "apy": "APY",
+      "add-amount": "Add Amount",
       "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over."
     },
     "unstaking": {
       "title": "Unstake ANKR",
       "available": "Available",
+      "amount": "Amount",
       "undelegeting-info": "Undelegating process takes about 7 days before you can claim your ANKR.",
       "submit": "Unstake"
     },
+    "info-header": {
+      "all-rewards": "All Rewards",
+      "epoch-ends": "Epoch ends",
+      "epoch-ends-days": "{value} days",
+      "epoch-ends-day": "{value} day",
+      "epoch-ends-hours": "{value} hours",
+      "epoch-ends-hour": "{value} hour",
+      "epoch-ends-min": "{value} min"
+    },
     "restake": {
       "title": "Restake ANKR Rewards",
-      "your-rewards": "Your Rewards",
-      "restake-rewards": "Restake Rewards",
-      "restake-rewards-tooltip": "",
-      "available": "Available",
+      "restakable-amount": "Restakable amount",
+      "restakable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "node-provider": "Node Provider",
+      "new-total-stake": "New Total Stake",
       "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
-      "submit": "Restake",
-      "epoch-end": "Current epoch ends in: {value}",
-      "epoch-days": "{value} days",
-      "epoch-day": "{value} day",
-      "epoch-min": "{value} min"
+      "submit": "Restake"
     },
     "claim": {
       "title": "Claim Rewards",
-      "your-rewards": "Your Rewards",
-      "claim-rewards": "Claim Rewards",
-      "claim-rewards-tooltip": "",
-      "available": "Available",
+      "claimable-amount": "Claimable Amount",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "node-provider": "Node Provider",
       "submit": "Claim",
-      "epoch-end": "Current epoch ends in: {value}",
       "epoch-days": "{value} days",
       "epoch-day": "{value} day",
       "epoch-min": "{value} min"

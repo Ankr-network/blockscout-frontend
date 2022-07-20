@@ -107,7 +107,7 @@ export const AnkrStakeForm = ({
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
+            {t('stake.token-amount', { token: tokenIn })}
           </StakeDescriptionName>
         }
         maxAmount={maxAmount}

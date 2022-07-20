@@ -47,7 +47,7 @@ import {
   BNB_MAX_BLOCK_RANGE,
   BNB_SAFE_PRECISION,
   CERT_STAKING_LOG_HASH,
-  ESTIMATE_GAS_MULTIPLIER,
+  BNB_ESTIMATE_GAS_MULTIPLIER,
 } from './const';
 import {
   TBnbSyntToken,
@@ -782,7 +782,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
-    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
+    return Math.round(gasLimit * BNB_ESTIMATE_GAS_MULTIPLIER);
   }
 
   /**
@@ -883,6 +883,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
         ...x,
         txAmount: x.txAmount.multipliedBy(ratio),
       })),
+      unstakeBond: [],
+      unstakeCertificate: [],
     };
   }
 
@@ -1178,7 +1180,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({
@@ -1213,7 +1215,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({

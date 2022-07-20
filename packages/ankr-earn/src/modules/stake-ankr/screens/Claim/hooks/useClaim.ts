@@ -11,7 +11,7 @@ import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderNam
 
 interface IUseClaim {
   loading: boolean;
-  balance: BigNumber;
+  claimable: BigNumber;
   epochEnd: Date;
   rewards: BigNumber;
   tokenIn: string;
@@ -41,7 +41,7 @@ export const useClaim = (): IUseClaim => {
 
   return {
     loading: false,
-    balance: ZERO,
+    claimable: ZERO,
     epochEnd: new Date(),
     rewards: ZERO,
     tokenIn: t('unit.ankr'),

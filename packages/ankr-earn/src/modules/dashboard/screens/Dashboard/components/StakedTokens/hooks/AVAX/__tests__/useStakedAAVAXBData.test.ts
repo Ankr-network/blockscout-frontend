@@ -5,8 +5,9 @@ import {
 } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
+import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
+
 import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
-import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 
 import { useStakedAAVAXBData } from '../useStakedAAVAXBData';
 

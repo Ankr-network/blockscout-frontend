@@ -1069,7 +1069,7 @@ describe('modules/binance/sdk', () => {
     expect(result.pendingCertificate).toHaveLength(4);
   });
 
-  test('should return emptry events history', async () => {
+  test('should return empty events history', async () => {
     const contract = {
       ...defaultContract,
       getPastEvents: jest.fn().mockResolvedValue([]),

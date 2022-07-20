@@ -13,7 +13,7 @@ export const claimAll = createAction<RequestAction<TTxHash, TTxHash>>(
       promise: (async (): Promise<TTxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimAllRewards();
+        return sdk.claimAll();
       })(),
     },
     meta: {

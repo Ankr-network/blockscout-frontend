@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { ISwitcher } from 'modules/api/switcher';
+import { ISwitcher } from '@ankr.com/staking-sdk';
 
 import { AvailableSwitchNetwork, AvailableSwitcherToken } from '../const';
 

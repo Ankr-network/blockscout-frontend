@@ -24,8 +24,8 @@ export const ActionCell = ({
         color="primary"
         label={
           daysLeft === 1
-            ? t('stake-ankr.staking-table.left-days', { value: daysLeft })
-            : t('stake-ankr.staking-table.left-day', { value: daysLeft })
+            ? t('stake-ankr.staking-table.left-day', { value: daysLeft })
+            : t('stake-ankr.staking-table.left-days', { value: daysLeft })
         }
       />
     );

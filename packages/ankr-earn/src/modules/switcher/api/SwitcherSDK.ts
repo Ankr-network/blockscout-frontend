@@ -9,6 +9,8 @@ import {
   PolygonSDK,
   BinanceSDK,
   EthereumSDK,
+  AvalancheSDK,
+  FantomSDK,
   ProviderManagerSingleton,
   ISwitcher,
   IFetchTxData,
@@ -16,8 +18,6 @@ import {
 } from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';
-import { AvalancheSDK } from 'modules/stake-avax/api/AvalancheSDK';
-import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
 

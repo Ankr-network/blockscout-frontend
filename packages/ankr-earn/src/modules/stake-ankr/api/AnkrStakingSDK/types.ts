@@ -102,6 +102,7 @@ export enum EAnkrEvents {
   ValidatorRemoved = 'ValidatorRemoved',
   Delegated = 'Delegated',
   Undelegated = 'Undelegated',
+  Claimed = 'Claimed',
 }
 
 interface IAdditionalActiveStakingData {
@@ -134,4 +135,12 @@ export interface IUnstakingData {
   unstakeAmount: BigNumber;
   usdUnstakeAmount: BigNumber;
   daysLeft: number;
+}
+
+export interface IHistoryData {
+  date: Date;
+  hash: string;
+  link?: string;
+  event?: string;
+  amount: BigNumber;
 }

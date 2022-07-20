@@ -60,7 +60,7 @@ export const Tabs = ({
                     {title}
                   </Typography>
 
-                  {unstakingAmount && showAmount && (
+                  {!!unstakingAmount && showAmount && (
                     <Chip
                       classes={{ label: classes.chipLabel }}
                       className={classes.chip}

@@ -61,7 +61,7 @@ const CONFIG = configFromEnv();
 export class EthereumSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
-   * 
+   *
    * @type {EthereumSDK}
    * @static
    * @private
@@ -70,7 +70,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
-   * 
+   *
    * @type {Web3KeyWriteProvider}
    * @private
    * @readonly
@@ -79,7 +79,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
-   * 
+   *
    * @type {Web3KeyReadProvider}
    * @private
    * @readonly
@@ -88,7 +88,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
   /**
    * currentAccount — connected account.
-   * 
+   *
    * @type {string}
    * @private
    */
@@ -96,7 +96,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
   /**
    * stakeGasFee — cached stake gas fee.
-   * 
+   *
    * @type {BigNumber}
    * @private
    */
@@ -632,6 +632,8 @@ export class EthereumSDK implements ISwitcher, IStakable {
       completedBond,
       pendingBond: [],
       pendingCertificate: [],
+      unstakeBond: [],
+      unstakeCertificate: [],
     };
   }
 
@@ -703,7 +705,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
@@ -728,7 +730,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {

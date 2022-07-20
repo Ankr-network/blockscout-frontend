@@ -42,7 +42,7 @@ import {
   AVAX_MAX_HISTORY_RANGE,
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
-  ESTIMATE_GAS_MULTIPLIER,
+  AVAX_ESTIMATE_GAS_MULTIPLIER,
   GAS_FEE_MULTIPLIER,
 } from './const';
 import {
@@ -623,7 +623,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
@@ -655,7 +655,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {IShareArgs} args - amount to switch
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
@@ -896,6 +896,8 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         ...x,
         txAmount: x.txAmount.multipliedBy(ratio),
       })),
+      unstakeBond: [],
+      unstakeCertificate: [],
     };
   }
 
@@ -1009,7 +1011,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {number}
    */
   private static getIncreasedGasLimit(gasLimit: number): number {
-    return Math.round(gasLimit * ESTIMATE_GAS_MULTIPLIER);
+    return Math.round(gasLimit * AVAX_ESTIMATE_GAS_MULTIPLIER);
   }
 
   /**

@@ -17,6 +17,7 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
 import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useUnstakingData } from '../../hooks/useUnstakingData';
 
@@ -103,7 +104,7 @@ export const UnstakingTable = (): JSX.Element | null => {
               <TableRow key={uid(i)}>
                 <TableBodyCell label={`${captions[ELabel.provider].label}`}>
                   <Typography className={classes.providerName}>
-                    {row.provider}
+                    {getDemoProviderName(row.provider) ?? row.provider}
                   </Typography>
                 </TableBodyCell>
 
