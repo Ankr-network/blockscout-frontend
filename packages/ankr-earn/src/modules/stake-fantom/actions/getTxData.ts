@@ -1,35 +1,27 @@
 import { RequestAction } from '@redux-requests/core';
-import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
+import { FantomSDK, IFetchTxData } from '@ankr.com/staking-sdk';
+
 import { withStore } from 'modules/common/utils/withStore';
 
-import { FantomSDK } from '../api/sdk';
+export const getTxData = createAction<
+  RequestAction<IFetchTxData, IFetchTxData>
+>('fantom/getTxData', ({ txHash }: { txHash: string }) => ({
+  request: {
+    promise: async (): Promise<IFetchTxData> => {
+      const sdk = await FantomSDK.getInstance();
 
-export interface IGetTXData {
-  amount: BigNumber;
-  isPending: boolean;
-  destinationAddress?: string;
-}
-
-export const getTxData = createAction<RequestAction<IGetTXData, IGetTXData>>(
-  'fantom/getTxData',
-  ({ txHash }: { txHash: string }) => ({
-    request: {
-      promise: async (): Promise<IGetTXData> => {
-        const sdk = await FantomSDK.getInstance();
-
-        return sdk.fetchTxData(txHash);
-      },
+      return sdk.fetchTxData(txHash);
     },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-      onRequest: withStore,
-    },
-  }),
-);
+  },
+  meta: {
+    asMutation: false,
+    showNotificationOnError: true,
+    onRequest: withStore,
+  },
+}));
 
 const POLL_INTERVAL_SECONDS = 3;
 

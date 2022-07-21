@@ -54,6 +54,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/
       result.current.onAddTokenClick();
     });
 
-    expect(mockDispatch).toBeCalledTimes(2);
+    expect(mockDispatch).toBeCalledTimes(1);
   });
 });

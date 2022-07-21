@@ -40,7 +40,7 @@ export interface ISwitcher {
    * Get -c token allowance.
    *
    * @note A -c token is a reward-bearing Ankr Liquid Staking token, such as [aETHc](https://www.ankr.com/docs/staking/liquid-staking/eth/overview/#two-types-of-eth2-liquid-staking) or aMATICc. <br />[Read more about Ankr LS token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
    * @param {string} [spender] - If `undefined` uses bond token address as a spender.
    * @returns {Promise<BigNumber>} - returns value in wei
    */

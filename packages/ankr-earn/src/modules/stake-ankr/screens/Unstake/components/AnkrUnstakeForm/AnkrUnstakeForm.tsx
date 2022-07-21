@@ -4,16 +4,14 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
-} from 'modules/stake-ankr/common/types';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
   StakeFormBox,
@@ -29,8 +27,8 @@ import { useUnstakeFormStyles } from './useUnstakeFormStyles';
 
 interface IAnkrUnstakeFormProps {
   balance?: BigNumber;
-  minAmount?: BigNumber;
   maxAmount?: BigNumber;
+  minAmount: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
   isDisabled?: boolean;
@@ -48,8 +46,8 @@ interface IAnkrUnstakeFormProps {
 
 export const AnkrUnstakeForm = ({
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
   maxAmount = balance,
+  minAmount,
   loading = false,
   isBalanceLoading = false,
   isDisabled = false,
@@ -88,17 +86,17 @@ export const AnkrUnstakeForm = ({
 
       <AmountInput
         balance={balance}
-        balanceLinkSlot={<BuyAnkrLink />}
+        balanceLabel={t('stake-ankr.unstaking.available')}
         disabled={isDisabled}
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
+            {t('stake-ankr.unstaking.amount')}
           </StakeDescriptionName>
         }
         maxAmount={maxAmount}
         maxDecimals={maxAmountDecimals}
-        minAmount={minAmount?.toNumber()}
+        minAmount={minAmount.toNumber()}
         name={EFieldsNames.amount}
         tokenName={tokenIn}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}

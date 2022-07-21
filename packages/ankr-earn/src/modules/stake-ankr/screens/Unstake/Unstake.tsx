@@ -6,9 +6,10 @@ import { useAnkrUnstake } from './hooks/useAnkrUnstake';
 
 export const Unstake = (): JSX.Element => {
   const {
-    balance,
+    availableUnstake,
     closeHref,
-    isBalanceLoading,
+    minAmount,
+    isAvailableUnstakeLoading,
     isDisabled,
     isUnstakeLoading,
     providerName,
@@ -21,11 +22,12 @@ export const Unstake = (): JSX.Element => {
     <Section withContainer={false}>
       <StakeContainer>
         <AnkrUnstakeForm
-          balance={balance}
+          balance={availableUnstake}
           closeHref={closeHref}
-          isBalanceLoading={isBalanceLoading}
+          isBalanceLoading={isAvailableUnstakeLoading}
           isDisabled={isDisabled}
           loading={isUnstakeLoading}
+          minAmount={minAmount}
           providerId={providerId}
           providerName={providerName}
           tokenIn={tokenIn}

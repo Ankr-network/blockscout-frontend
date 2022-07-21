@@ -10,7 +10,11 @@ import {
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { GuardPolkadotRoute } from 'modules/auth/polkadot/components/GuardPolkadotRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import {
+  featuresConfig,
+  STAKING_PATH,
+  UNSTAKE_PATH,
+} from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -29,8 +33,13 @@ import {
 import { getPolkadotPath } from './utils/getPolkadotPath';
 import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
 
+const CLAIM_POLKADOT_PATH = `${STAKING_PATH}claim/:network/`;
 const STAKE_POLKADOT_PATH = `${StakeRoutes.main.path}:network/`;
 const UNSTAKE_POLKADOT_PATH = `${UNSTAKE_PATH}:network/`;
+
+const CLAIM_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
+  CLAIM_POLKADOT_PATH.replace(':network', network.toLowerCase()),
+);
 
 const STAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
   STAKE_POLKADOT_PATH.replace(':network', network.toLowerCase()),
@@ -42,6 +51,12 @@ const UNSTAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
 
 export const RoutesConfig = createRouteConfig(
   {
+    claim: {
+      generatePath: (network: EPolkadotNetworks) =>
+        generatePath(CLAIM_POLKADOT_PATH, {
+          network: network.toLowerCase(),
+        }),
+    },
     stake: {
       generatePath: (network: EPolkadotNetworks) =>
         generatePath(STAKE_POLKADOT_PATH, {
@@ -57,6 +72,10 @@ export const RoutesConfig = createRouteConfig(
   },
   // Note: Potential issue. Please don't use "RoutesConfig.root" from this constant and this is pointless in our cases
   STAKE_POLKADOT_PATH,
+);
+
+const Claim = loadComponent(() =>
+  import('./screens/ClaimPolkadot').then(module => module.ClaimPolkadot),
 );
 
 const Stake = loadComponent(() =>
@@ -113,8 +132,22 @@ const routeRender =
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={[...STAKE_POLKADOT_PATHS, ...UNSTAKE_POLKADOT_PATHS]}>
+    <Route
+      path={[
+        ...CLAIM_POLKADOT_PATHS,
+        ...STAKE_POLKADOT_PATHS,
+        ...UNSTAKE_POLKADOT_PATHS,
+      ]}
+    >
       <Switch>
+        {featuresConfig.isActivePolkadotStaking &&
+          featuresConfig.isActivePolkadotClaiming && (
+            <Route
+              path={CLAIM_POLKADOT_PATHS}
+              render={routeRender(CLAIM_POLKADOT_PATH, Claim)}
+            />
+          )}
+
         {featuresConfig.isActivePolkadotStaking && (
           <Route
             path={STAKE_POLKADOT_PATHS}

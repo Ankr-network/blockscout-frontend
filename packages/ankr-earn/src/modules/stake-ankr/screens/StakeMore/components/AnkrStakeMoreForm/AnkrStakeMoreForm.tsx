@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Form, FormRenderProps } from 'react-final-form';
 
@@ -6,13 +7,12 @@ import { t } from 'common';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
-} from 'modules/stake-ankr/common/types';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
@@ -25,6 +25,7 @@ import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 import { Quote } from 'uiKit/Quote';
+import { NumericStepper } from 'uiKit/Stepper';
 
 import { useStakeFormStyles } from './useStakeFormStyles';
 
@@ -34,7 +35,9 @@ interface IAnkrStakeMoreFormProps {
   maxAmount?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
+  isApproveLoading?: boolean;
   isDisabled?: boolean;
+  isApproved?: boolean;
   tokenIn?: string;
   providerId: string;
   providerName: string;
@@ -51,11 +54,13 @@ interface IAnkrStakeMoreFormProps {
 
 export const AnkrStakeMoreForm = ({
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
+  minAmount = ZERO,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
+  isApproveLoading = false,
   isDisabled = false,
+  isApproved = false,
   tokenIn = t('unit.ankr'),
   maxAmountDecimals,
   closeHref,
@@ -78,6 +83,8 @@ export const AnkrStakeMoreForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
 
+  const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
+
   const renderForm = ({
     form,
     handleSubmit,
@@ -91,11 +98,11 @@ export const AnkrStakeMoreForm = ({
 
       <AmountInput
         balance={balance}
-        disabled={isDisabled}
+        disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
+            {t('stake-ankr.staking.add-amount')}
           </StakeDescriptionName>
         }
         maxAmount={maxAmount}
@@ -138,17 +145,41 @@ export const AnkrStakeMoreForm = ({
       <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
 
       <StakeFormFooter>
-        <Button
-          fullWidth
-          className={classes.stakeBtn}
-          color="primary"
-          disabled={isDisabled || loading || isBalanceLoading}
-          isLoading={loading}
-          size="large"
-          type="submit"
-        >
-          {t('stake-ankr.staking.submit')}
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item xs>
+            <Button
+              fullWidth
+              className={classes.stakeBtn}
+              color="primary"
+              disabled={isApproved || isSubmitDisabled}
+              isLoading={isApproveLoading}
+              size="large"
+              type="submit"
+            >
+              {t('stake-ankr.staking.approve')}
+            </Button>
+          </Grid>
+
+          <Grid item xs>
+            <Button
+              fullWidth
+              className={classes.stakeBtn}
+              color="primary"
+              disabled={!isApproved || isSubmitDisabled}
+              isLoading={loading}
+              size="large"
+              type="submit"
+            >
+              {t('stake-ankr.staking.submit')}
+            </Button>
+          </Grid>
+        </Grid>
+
+        <NumericStepper
+          activeStep={isApproved ? 1 : 0}
+          className={classes.stepper}
+          stepsCount={2}
+        />
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>

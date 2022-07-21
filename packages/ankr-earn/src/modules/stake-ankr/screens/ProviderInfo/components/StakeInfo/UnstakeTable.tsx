@@ -7,8 +7,8 @@ import {
   TableBodyCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import { ActionCell } from 'modules/stake-ankr/common/components/ActionCell';
-import { BaseAnkrAmount } from 'modules/stake-ankr/common/components/BaseAnkrAmount';
+import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
+import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 
 import { useUnstakeData } from '../../hooks/useUnstakeData';
 

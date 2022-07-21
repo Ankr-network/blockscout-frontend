@@ -10,7 +10,6 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import {
   ETH_NETWORK_BY_ENV,
   featuresConfig,
@@ -18,6 +17,7 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
@@ -55,6 +55,7 @@ interface IStakedPolkadotData {
   tradeLink: string;
   unstakeLink: string;
   unstakeType: string;
+  unsupportedUnstakeHistoryTxt: string;
   usdAmount?: BigNumber;
   walletName?: string;
   handleAddTokenToWallet: () => void;
@@ -66,7 +67,6 @@ interface IStakedPolkadotData {
 export const useStakedPolkadotData = ({
   ethToken,
   network,
-  polkadotToken,
 }: IUseStakedPolkadotDataProps): IStakedPolkadotData => {
   const dispatchRequest = useDispatchRequest();
 
@@ -94,22 +94,25 @@ export const useStakedPolkadotData = ({
   });
 
   const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
+  const unsupportedUnstakeHistoryTxt = t(
+    'stake-polkadot.unsupported-unstake-history',
+    {
+      network,
+    },
+  );
 
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
 
-  // Note: This is unsafe type conversion. Please be carefully
-  const serviceName = network.toLowerCase() as EMetricsServiceName;
+  const usdAmount = useMemo(() => {
+    const serviceName = EMetricsServiceName[network];
 
-  const usdAmount = useMemo(
-    () =>
-      getUSDAmount({
-        amount,
-        totalStaked: metrics?.[serviceName]?.totalStaked,
-        totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
-      }),
-    [amount, metrics, serviceName],
-  );
+    return getUSDAmount({
+      amount,
+      totalStaked: metrics?.[serviceName]?.totalStaked,
+      totalStakedUsd: metrics?.[serviceName]?.totalStakedUsd,
+    });
+  }, [amount, metrics, network]);
 
   const isShowed =
     !amount.isZero() ||
@@ -135,9 +138,10 @@ export const useStakedPolkadotData = ({
       ? RoutesConfig.stake.generatePath(network)
       : STAKE_LEGACY_LINKS[network] ?? '',
     stakeType: ETxTypes.Staked,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(ethToken, polkadotToken),
+    tradeLink: DefiRoutes.defi.generatePath(ethToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
     unstakeType: ETxTypes.Unstaked,
+    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,

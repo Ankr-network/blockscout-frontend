@@ -36,6 +36,7 @@ import {
   IEventsBatch,
   ITxHistoryEventData,
   IStakeData,
+  getFilteredContractEvents,
 } from '../stake';
 import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -65,6 +66,7 @@ import {
 export class PolygonSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
+   * 
    * @type {PolygonSDK}
    * @static
    * @private
@@ -73,20 +75,25 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
+   * 
    * @type {Web3KeyWriteProvider}
    * @private
+   * @readonly
    */
   private readonly writeProvider: Web3KeyWriteProvider;
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
+   * 
    * @type {Web3KeyReadProvider}
    * @private
+   * @readonly
    */
   private readonly readProvider: Web3KeyReadProvider;
 
   /**
    * apiGateWay — gateway instance.
+   * 
    * @type {ApiGateway}
    * @private
    */
@@ -94,6 +101,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
   /**
    * currentAccount — connected account.
+   * 
    * @type {string}
    * @private
    */
@@ -122,6 +130,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Initializes readProvider to support multiple chains.
    *
    * @public
+   * @static
    * @param {Partial<IPolygonSDKProviders>} [args] - User defined providers.
    * @returns {Promise<PolygonSDK>}
    */
@@ -352,7 +361,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
-   * @param {EventData} [rawEvents] - events
+   * @param {EventData[]} [rawEvents] - events
    * @returns {Promise<ITxEventsHistoryGroupItem[]>}
    */
   private async getTxEventsHistoryGroup(
@@ -465,7 +474,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * Return aMATICc token allowance.
    *
    * @public
-   * @note Allowance is the amount which _spender is still allowed to withdraw from _owner.
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
    * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
@@ -524,8 +533,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async lockShares({
@@ -561,8 +569,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @public
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
-   * @param {BigNumber} amount - amount to switch
-   * @param {number} [scale = 10 ** 18] - scale factor for amount
+   * @param {IShareArgs} args - object with amount to switch and scale
    * @returns {Promise<IWeb3SendResult>}
    */
   public async unlockShares({
@@ -645,12 +652,10 @@ export class PolygonSDK implements ISwitcher, IStakable {
       }
     }
 
-    const pendingBondEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingCertificateEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: pendingBondEvents,
+      certEvents: pendingCertificateEvents,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     return {
       pendingBond: pendingBondEvents.reduce(
@@ -770,19 +775,15 @@ export class PolygonSDK implements ISwitcher, IStakable {
       completedRawEvents = [...stakeRawEvents, ...unstakeRawEvents];
     }
 
-    const completedBondEvents = completedRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const completedCertificateEvents = completedRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: completedBondEvents,
+      certEvents: completedCertificateEvents,
+    } = getFilteredContractEvents(completedRawEvents);
 
-    const pendingBondEvents = pendingRawEvents.filter(
-      x => x.returnValues.isRebasing,
-    );
-    const pendingCertificateEvents = pendingRawEvents.filter(
-      x => !x.returnValues.isRebasing,
-    );
+    const {
+      bondEvents: pendingBondEvents,
+      certEvents: pendingCertificateEvents,
+    } = getFilteredContractEvents(pendingRawEvents);
 
     const [
       completedBond,
@@ -807,6 +808,8 @@ export class PolygonSDK implements ISwitcher, IStakable {
         ...x,
         txAmount: x.txAmount.multipliedBy(ratio),
       })),
+      unstakeBond: [],
+      unstakeCertificate: [],
     };
   }
 

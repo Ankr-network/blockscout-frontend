@@ -240,7 +240,6 @@ export class PolkadotStakeSDK {
     currNetwork: EPolkadotNetworks,
   ): Promise<IPolkadotHistoryData> {
     const completedHistory = [];
-    const pendingHistory = [];
 
     const rawData = await this.apiPolkadotGateway.getHistory({
       address: this.currentPolkadotAccount,
@@ -262,7 +261,7 @@ export class PolkadotStakeSDK {
 
         case EActionStatuses.Unknown:
           // TODO Add "Unstake" type supporting here only (Polkadot History)
-          pendingHistory.push(historyItem);
+          // pendingHistory.push(historyItem);
           break;
 
         default:
@@ -272,7 +271,7 @@ export class PolkadotStakeSDK {
 
     return {
       completedHistory,
-      pendingHistory,
+      pendingHistory: [],
     };
   }
 
@@ -431,6 +430,9 @@ export class PolkadotStakeSDK {
     await this.claimCommon(claimItem);
   }
 
+  /**
+   *  @note Issues on Server side with "ACTIVE" status after sending the Polkadot transaction
+   */
   async claimLedgerWallet(
     currNetwork: EPolkadotNetworks,
     claimableAmount: BigNumber,
@@ -554,9 +556,21 @@ export class PolkadotStakeSDK {
     return new BigNumber(minStakeValue);
   }
 
+  async getPolkadotAccountFullBalance(
+    currNetwork: EPolkadotNetworks,
+  ): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    const { free: amount } = await polkadotProvider.getAccountBalanceByNetwork(
+      currNetwork,
+      this.currentPolkadotAccount,
+    );
+
+    return amount;
+  }
+
   async getPolkadotAccountMaxSafeBalance(
     currNetwork: EPolkadotNetworks,
-    isExternalCall = false,
   ): Promise<BigNumber> {
     const polkadotProvider = await this.getPolkadotProvider();
 
@@ -564,12 +578,7 @@ export class PolkadotStakeSDK {
       this.apiPolkadotGateway.depositAddress({
         network: currNetwork,
       }),
-      isExternalCall
-        ? polkadotProvider.getAccountBalanceByNetwork(
-            currNetwork,
-            this.currentPolkadotAccount,
-          )
-        : polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
+      polkadotProvider.getAccountBalance(this.currentPolkadotAccount),
     ]);
 
     return polkadotProvider.getMaxPossibleSendAmount(
@@ -577,6 +586,12 @@ export class PolkadotStakeSDK {
       depositAddress,
       amount,
     );
+  }
+
+  async getPolkadotNetworkMinSafeDepositVal(): Promise<BigNumber> {
+    const polkadotProvider = await this.getPolkadotProvider();
+
+    return polkadotProvider.getMinSafeDepositVal();
   }
 
   async getPolkadotPendingHistoryAmountSum(

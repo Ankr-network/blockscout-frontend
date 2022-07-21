@@ -323,7 +323,8 @@
   "stake": {
     "title": "{token} Liquid Staking",
     "progressTitle": "Stake",
-    "amount": "{token} Amount",
+    "amount": "Amount",
+    "token-amount": "{token} Amount",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
@@ -460,6 +461,12 @@
     }
   },
   "stake-polkadot": {
+    "claim": {
+      "claim-btn": "Claim",
+      "ledger-wallet-info": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
+      "success-title": "Claim successful",
+      "title": "Claim {token} to Ethereum Network"
+    },
     "errors": {
       "claim-invalid": "Claim is invalid",
       "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
@@ -502,21 +509,23 @@
     "tooltips": {
       "you-will-get": "a{token}b represents your staked {token} and provides liquidity for your staked position.<br/><br/>a{token}b balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 a{token}b = 1 {token}. You can unstake it anytime and receive your stake and earned rewards after the ~{period} days unbonding period. While staking, you can also use a{token}b for trading and other DeFi opportunities."
     },
+    "stake": {
+      "balance-label": "Available balance",
+      "balance-tooltip": "At least {value} {token} should remain in your wallet to prevent dust accounts from bloating chain state. If an account drops below the ED, it will be reaped, i.e. completely removed from storage and the nonce reset. {network}'s ED is {value} {token}."
+    },
     "stake-claim-dialog": {
-      "claim-btn": "Claim",
       "claimable-info": "You have unclaimed staked {polkadotToken} balance (<b>{value} {polkadotToken}</b>). It will be converted to {ethToken}",
       "first-title": "Stake {token} on {network} network",
-      "ledger-wallet-info": "My Polkadot.js wallet address {shortAccount} is connected with Ledger Nano X",
       "second-title": {
         "amount": "Claim {value} {token} to Ethereum Network",
         "default": "Claim {token} to Ethereum Network"
       },
       "second-top-btn": {
-        "claim": "Claim",
         "connect": "Connect Ethereum wallet",
         "switch-network": "Switch to {network}"
       }
     },
+    "unsupported-unstake-history": "{network} unstaking history not supported yet",
     "unstake": {
       "external-wallet": "External wallet address",
       "info": "You will get your {token} in ~{period} days",
@@ -734,6 +743,7 @@
     "pending": "Unstaking in progress {value} {token}",
     "pending-temp": "Unstaking in progress",
     "trade": "Trade",
+    "defi": "DeFI",
     "start-staking": "Start staking with Ankr Staking",
     "stake": "Stake",
     "copy": "Copy contract address",
@@ -769,6 +779,7 @@
     "history-tooltip": "Transactions history",
     "card": {
       "claiming-info": "Need to be claimed",
+      "claiming-tooltip": "Get liquid staking tokens to your Ethereum wallet.",
       "claim-token": "Claim {token}",
       "btn-claim": "Claim",
       "network-info": "{network} Network",
@@ -805,6 +816,22 @@
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities."
     }
+  },
+  "defi": {
+    "defi-aggregator": "DeFi Aggregator",
+    "assets": "Assets",
+    "network": "Network",
+    "networks": "Networks",
+    "protocol": "Protocol",
+    "type": "Type",
+    "rewards": "Rewards",
+    "all": "All",
+    "liquidity-pool": "Liquidity pool",
+    "farming": "Farming",
+    "vault": "Vault",
+    "all-assets": "All assets",
+    "all-networks": "All networks",
+    "deposit": "Deposit"
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
@@ -1006,10 +1033,13 @@
       "left-days": "{value} days left",
       "left-day": "{value} day left",
       "date": "Date",
+      "time": "Time",
       "hash": "Hash",
       "event": "Event",
       "amount": "Amount",
-      "date-cell": "{month} {day}, {year}"
+      "date-cell": "{month} {day}, {year}",
+      "stake-amount": "{value} stake",
+      "stakes-amount": "{value} stakes"
     },
     "tabs": {
       "active-staking": "Active Staking",
@@ -1037,35 +1067,40 @@
       "locking-period-value": "{days} days",
       "new-total-stake": "New Total Stake",
       "apy": "APY",
+      "add-amount": "Add Amount",
       "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over."
     },
     "unstaking": {
       "title": "Unstake ANKR",
       "available": "Available",
+      "amount": "Amount",
       "undelegeting-info": "Undelegating process takes about 7 days before you can claim your ANKR.",
       "submit": "Unstake"
     },
+    "info-header": {
+      "all-rewards": "All Rewards",
+      "epoch-ends": "Epoch ends",
+      "epoch-ends-days": "{value} days",
+      "epoch-ends-day": "{value} day",
+      "epoch-ends-hours": "{value} hours",
+      "epoch-ends-hour": "{value} hour",
+      "epoch-ends-min": "{value} min"
+    },
     "restake": {
       "title": "Restake ANKR Rewards",
-      "your-rewards": "Your Rewards",
-      "restake-rewards": "Restake Rewards",
-      "restake-rewards-tooltip": "",
-      "available": "Available",
+      "restakable-amount": "Restakable amount",
+      "restakable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "node-provider": "Node Provider",
+      "new-total-stake": "New Total Stake",
       "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
-      "submit": "Restake",
-      "epoch-end": "Current epoch ends in: {value}",
-      "epoch-days": "{value} days",
-      "epoch-day": "{value} day",
-      "epoch-min": "{value} min"
+      "submit": "Restake"
     },
     "claim": {
       "title": "Claim Rewards",
-      "your-rewards": "Your Rewards",
-      "claim-rewards": "Claim Rewards",
-      "claim-rewards-tooltip": "",
-      "available": "Available",
+      "claimable-amount": "Claimable Amount",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "node-provider": "Node Provider",
       "submit": "Claim",
-      "epoch-end": "Current epoch ends in: {value}",
       "epoch-days": "{value} days",
       "epoch-day": "{value} day",
       "epoch-min": "{value} min"

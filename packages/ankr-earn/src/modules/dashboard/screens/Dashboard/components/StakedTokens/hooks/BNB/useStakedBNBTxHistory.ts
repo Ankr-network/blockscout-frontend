@@ -2,13 +2,11 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
@@ -20,7 +18,6 @@ import { ITxEventsHistoryGroupItem } from '../../../../types';
 
 interface IGetHistoryTransactionsArgs {
   type: EBinancePoolEventsMap;
-  network?: number;
   data?: ITxEventsHistoryGroupItem[];
 }
 
@@ -33,7 +30,6 @@ interface IUnstakeHistory {
 
 const getCompletedTransactions = ({
   data,
-  network,
   type,
 }: IGetHistoryTransactionsArgs):
   | HistoryDialogData['staked']
@@ -45,7 +41,7 @@ const getCompletedTransactions = ({
     .map(({ txDate, txHash, txAmount }) => ({
       date: txDate,
       hash: txHash,
-      link: network ? getTxLinkByNetwork(txHash, network) : '',
+      link: getTxLinkByNetwork(txHash, BSC_NETWORK_BY_ENV),
       amount: txAmount,
     }));
 };
@@ -64,42 +60,35 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
   const { data: txHistory, loading: isHistoryDataLoading } = useQuery({
     type: fetchTxHistory,
   });
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const dispatch = useAppDispatch();
-
-  const network = isEVMCompatible(chainId) ? chainId : undefined;
 
   const stakedABNBB = useMemo(() => {
     return getCompletedTransactions({
       data: txHistory?.completedBond,
       type: EBinancePoolEventsMap.Staked,
-      network,
     });
-  }, [network, txHistory?.completedBond]);
+  }, [txHistory?.completedBond]);
 
   const stakedABNBC = useMemo(() => {
     return getCompletedTransactions({
       data: txHistory?.completedCertificate,
       type: EBinancePoolEventsMap.Staked,
-      network,
     });
-  }, [network, txHistory?.completedCertificate]);
+  }, [txHistory?.completedCertificate]);
 
   const unstakedABNBB = useMemo(() => {
     return getCompletedTransactions({
       data: txHistory?.completedBond,
       type: EBinancePoolEventsMap.UnstakePending,
-      network,
     });
-  }, [network, txHistory?.completedBond]);
+  }, [txHistory?.completedBond]);
 
   const unstakedABNBC = useMemo(() => {
     return getCompletedTransactions({
       data: txHistory?.completedCertificate,
       type: EBinancePoolEventsMap.UnstakePending,
-      network,
     });
-  }, [network, txHistory?.completedCertificate]);
+  }, [txHistory?.completedCertificate]);
 
   const preparePendingUnstakes = (
     pendingHistory: ITxEventsHistoryGroupItem[],

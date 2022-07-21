@@ -1,9 +1,9 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { AvalancheSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
-import { AvalancheSDK, ITxEventsHistoryData } from '../api/AvalancheSDK';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 export const fetchTxHistory = createSmartAction<
   RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>

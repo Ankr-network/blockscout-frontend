@@ -40,6 +40,7 @@ export const TotalInfo = (): JSX.Element => {
     isOpened: isOpenedClaim,
     onClose: onCloseClaim,
     onOpen: onOpenClaim,
+    onClaim,
   } = useClaim();
 
   const isPlusButton = !totalStaked.isZero();
@@ -146,9 +147,11 @@ export const TotalInfo = (): JSX.Element => {
 
       <ClaimDialog
         availableClaims={availableClaims}
-        isClaimLoading={isClaimLoading}
+        claimLoading={isClaimLoading}
+        isClaimsLoading={false}
         open={isOpenedClaim}
         usdTokenPrice={usdTokenPrice}
+        onClaim={onClaim}
         onClose={onCloseClaim}
       />
     </>

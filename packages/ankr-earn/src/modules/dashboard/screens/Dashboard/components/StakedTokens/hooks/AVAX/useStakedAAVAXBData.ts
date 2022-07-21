@@ -10,19 +10,19 @@ import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
+import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { stake as stakeAVAX } from 'modules/stake-avax/actions/stake';
 import { unstake as unstakeAVAX } from 'modules/stake-avax/actions/unstake';
-import { EAvalanchePoolEventsMap } from 'modules/stake-avax/api/AvalancheSDK';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -103,10 +103,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     pendingValue,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     stakeType: EAvalanchePoolEventsMap.StakePending,
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(
-      Token.aAVAXb,
-      Token.AVAX,
-    ),
+    tradeLink: DefiRoutes.defi.generatePath(Token.aAVAXb),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(),
     unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
     usdAmount,

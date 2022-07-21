@@ -2,7 +2,8 @@ import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { FantomSDK } from '../api/sdk';
+import { FantomSDK } from '@ankr.com/staking-sdk';
+
 import { ACTIONS_PREFIX } from '../const';
 
 interface IGetCommonData {
@@ -27,16 +28,17 @@ export const getCommonData = createAction<
         ftmBalance,
         minStake,
         aFTMbBalance,
-        bondPendingUnstakes,
-        certPendingUnstakes,
+        {
+          pendingBond: bondPendingUnstakes,
+          pendingCertificate: certPendingUnstakes,
+        },
         aFTMcBalance,
         aFTMcRatio,
       ] = await Promise.all([
         sdk.getFtmBalance(),
         sdk.getMinimumStake(),
         sdk.getABBalance(),
-        sdk.getPendingUnstakes('bond'),
-        sdk.getPendingUnstakes('cert'),
+        sdk.getPendingData(),
         sdk.getACBalance(),
         sdk.getACRatio(),
       ]);
