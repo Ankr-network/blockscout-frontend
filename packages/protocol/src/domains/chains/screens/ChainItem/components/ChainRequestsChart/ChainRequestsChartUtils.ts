@@ -1,7 +1,9 @@
+import BigNumber from 'bignumber.js';
+import { Timeframe } from 'multirpc-sdk';
+
 import { IChartData } from 'modules/common/components/Chart';
 import { RequestsLog } from './ChainRequestsChartTypes';
 import { t } from 'modules/i18n/utils/intl';
-import { Timeframe } from 'multirpc-sdk';
 
 /* timeFrame in formatDate is used for chart labels view */
 export const formatDate = (date: Date, timeFrame?: Timeframe): string => {
@@ -53,3 +55,6 @@ export const processData = (requestsLog: RequestsLog): IChartData[] => {
       };
     });
 };
+
+export const formatTooltipNumber = (number: string | number) =>
+  new BigNumber(number).toFormat(0);
