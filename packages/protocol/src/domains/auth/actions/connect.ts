@@ -9,6 +9,9 @@ import {
   IConnect,
   loginAndCacheAuthData,
 } from './connectUtils';
+// eslint-disable-next-line import/no-cycle
+import { disconnect } from './disconnect';
+import { hasMetamask } from '../utils/hasMetamask';
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
@@ -32,6 +35,13 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
       onRequest: withStore,
       asMutation: false,
       getData: data => data,
+      onError: (error: Error, _action: RequestAction, store: RequestsStore) => {
+        if (hasMetamask()) {
+          store.dispatch(disconnect());
+        }
+
+        throw error;
+      },
     },
   }),
 );

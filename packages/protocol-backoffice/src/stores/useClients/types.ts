@@ -4,7 +4,7 @@ export type TCountersEntityWithAddress = ICountersEntity & {
   address: Web3Address;
 };
 
-export enum EClientType {
+export enum ClientType {
   UNKNOWN,
   PAYG,
   ForcedExpirationPremium,
@@ -12,7 +12,7 @@ export enum EClientType {
   Premium,
 }
 
-export type TClientEntity = IBalancesEntity & {
-  type: EClientType;
+export type ClientEntity = IBalancesEntity & {
+  type: ClientType;
   ttl?: number;
 };

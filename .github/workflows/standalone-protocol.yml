@@ -35,7 +35,7 @@ jobs:
 
       - name: Get deployment information
         run: |
-          echo "Branch: ${BRANCH_NAME}"
+          echo "Branch: ${{github.ref}}"
           echo "Environment: ${{github.event.inputs.api}}"
           echo "Domain: ${{github.event.inputs.environment}}"
 

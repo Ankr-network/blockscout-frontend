@@ -1,9 +1,9 @@
 import { ColumnsType } from 'antd/lib/table';
 
 import { UserTypeTag } from 'components/UserTypeTag';
-import { TClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'stores/useClients/types';
 
-export const tableColumns: ColumnsType<TClientEntity> = [
+export const tableColumns: ColumnsType<ClientEntity> = [
   {
     title: 'Wallet',
     dataIndex: 'address',
@@ -13,7 +13,7 @@ export const tableColumns: ColumnsType<TClientEntity> = [
     title: 'Type of the User',
     dataIndex: 'type',
     key: 'type',
-    render: (_, { type, ttl }: TClientEntity) => (
+    render: (_, { type, ttl }: ClientEntity) => (
       <UserTypeTag clientType={type} clientTtl={ttl} isTextInline={false} />
     ),
   },

@@ -1,14 +1,14 @@
 import { useMemo, MouseEvent } from 'react';
+import { useDispatchRequest } from '@redux-requests/react';
 
 import { useAddNetwork } from 'modules/auth/hooks/useAddNetwork';
 import { connectWeb3 } from 'modules/auth/actions/connectWeb3';
 import { getMappedNetwork } from './AddNetworkUtils';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
   const { handleAddNetwork } = useAddNetwork();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatchRequest();
 
   const mappedNetwork = useMemo(() => getMappedNetwork(chain), [chain]);
 
@@ -18,7 +18,9 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
     /* stop propagation for click event to avoid parent element click */
     event.stopPropagation();
 
-    await dispatch(connectWeb3());
+    const { error } = await dispatch(connectWeb3());
+
+    if (error) return undefined;
 
     return handleAddNetwork(mappedNetwork);
   };

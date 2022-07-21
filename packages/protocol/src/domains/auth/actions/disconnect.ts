@@ -1,6 +1,7 @@
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+// eslint-disable-next-line import/no-cycle
 import { connect } from './connect';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { MultiService } from 'modules/api/MultiService';

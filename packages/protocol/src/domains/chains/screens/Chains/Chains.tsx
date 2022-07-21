@@ -20,6 +20,7 @@ export const Chains = () => {
   const {
     chains,
     credentials,
+    isConnecting,
     isWalletConnected,
     loading,
     setSortType,
@@ -40,7 +41,7 @@ export const Chains = () => {
 
   return (
     <>
-      {!credentials && <InfoBanner />}
+      {!credentials && !isConnecting && <InfoBanner />}
       {isWalletConnected && (
         <UsageSummary
           timeframe={statsTimeframe}
