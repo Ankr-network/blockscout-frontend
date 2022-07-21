@@ -7,8 +7,14 @@ import { useBridgedMaticBond } from '../StakedTokens/hooks/MATIC/useBridgedMatic
 export const BridgedMaticBond = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const { amount, network, isBalancesLoading, onAddTokenClick, chainId } =
-    useBridgedMaticBond();
+  const {
+    amount,
+    chainId,
+    isBalancesLoading,
+    network,
+    usdAmount,
+    onAddTokenClick,
+  } = useBridgedMaticBond();
 
   return (
     <BridgedAsset
@@ -18,6 +24,7 @@ export const BridgedMaticBond = (): JSX.Element => {
       network={network}
       token={Token.aMATICb}
       tokenAddress={contractConfig.polygonPool}
+      usdAmount={usdAmount}
       onAddTokenToWallet={onAddTokenClick}
     />
   );

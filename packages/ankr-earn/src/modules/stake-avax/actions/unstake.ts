@@ -3,10 +3,11 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
+
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
 import { TAvaxSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';

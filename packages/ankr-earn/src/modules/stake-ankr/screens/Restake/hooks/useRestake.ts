@@ -6,15 +6,16 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
+import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
+import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseRestake {
   loading: boolean;
-  balance: BigNumber;
-  epochEnd: Date;
   rewards: BigNumber;
-  apy?: BigNumber;
+  epochEnd: Date;
+  restakable: BigNumber;
   newTotalStake?: BigNumber;
   tokenIn: string;
   closeHref: string;
@@ -30,6 +31,14 @@ export const useRestake = (): IUseRestake => {
   const { data: providers } = useQuery({
     type: getProviders,
   });
+  const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
+    {
+      type: getValidatorDelegatedAmount,
+    },
+  );
+  const { data: restakableAmount } = useQuery({
+    type: getRestakableAmount,
+  });
   const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
@@ -39,15 +48,16 @@ export const useRestake = (): IUseRestake => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
+    dispatchRequest(getRestakableAmount({ validator: queryProvider }));
   }, [dispatchRequest]);
 
   return {
-    loading: false,
-    balance: ZERO,
+    loading: isDelegatedAmountLoading,
+    restakable: restakableAmount ?? ZERO,
     epochEnd: new Date(),
-    newTotalStake: ZERO,
+    newTotalStake: delegatedAmount?.plus(ZERO),
     rewards: ZERO,
-    apy: ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(), // TODO: change it
     providerId: initialProvider ?? '',

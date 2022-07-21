@@ -262,6 +262,20 @@ export class PolkadotProvider implements IProvider {
     });
   }
 
+  private getScaleDownValByNetwork(
+    networkType: TNetworkType,
+    value: BigNumber,
+  ): BigNumber {
+    const decimals: number | null =
+      POLKADOT_NETWORK_DECIMALS[networkType] ?? null;
+
+    if (decimals === null) {
+      throw new Error(`Unable to calc decimals for network: ${networkType}`);
+    }
+
+    return value.dividedBy(10 ** decimals);
+  }
+
   private async isAvailableAccount(
     addr: TPolkadotAddress | null,
   ): Promise<boolean> {
@@ -460,11 +474,23 @@ export class PolkadotProvider implements IProvider {
     } = await api.query.system.account(address);
 
     return {
-      feeFrozen: this.scaleDown(new BigNumber(feeFrozen.toString(10))),
-      free: this.scaleDown(new BigNumber(free.toString(10))),
-      miscFrozen: this.scaleDown(new BigNumber(miscFrozen.toString(10))),
+      feeFrozen: this.getScaleDownValByNetwork(
+        networkType,
+        new BigNumber(feeFrozen.toString(10)),
+      ),
+      free: this.getScaleDownValByNetwork(
+        networkType,
+        new BigNumber(free.toString(10)),
+      ),
+      miscFrozen: this.getScaleDownValByNetwork(
+        networkType,
+        new BigNumber(miscFrozen.toString(10)),
+      ),
       nonce: new BigNumber(nonce.toString()),
-      reserved: this.scaleDown(new BigNumber(reserved.toString(10))),
+      reserved: this.getScaleDownValByNetwork(
+        networkType,
+        new BigNumber(reserved.toString(10)),
+      ),
     };
   }
 

@@ -13,9 +13,9 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { LockingPeriodItem } from 'modules/stake-ankr/common/components/LockingPeriodItem';
-import { RewardsItem } from 'modules/stake-ankr/common/components/RewardsItem';
-import { YourStakeItem } from 'modules/stake-ankr/common/components/YourStakeItem';
+import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
+import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
+import { YourStakeItem } from 'modules/stake-ankr/components/YourStakeItem';
 
 import { useStakeData } from '../../hooks/useStakeData';
 

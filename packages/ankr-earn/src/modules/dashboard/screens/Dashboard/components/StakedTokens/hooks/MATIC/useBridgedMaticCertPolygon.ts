@@ -1,5 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
@@ -13,7 +14,10 @@ import {
 } from 'modules/common/const';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
+import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 export interface IStakedMaticData {
   amount: BigNumber;
@@ -22,10 +26,13 @@ export interface IStakedMaticData {
   isShowed: boolean;
   nativeAmount?: BigNumber;
   network: string;
+  usdAmount?: BigNumber;
   onAddTokenClick: () => void;
 }
 
 export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
+  const dispatchRequest = useDispatchRequest();
+
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAMATICCBridgedPolygon,
   });
@@ -34,12 +41,24 @@ export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
     type: fetchStats,
   });
 
-  const dispatchRequest = useDispatchRequest();
+  const { data: metrics } = useQuery({
+    type: getMetrics,
+  });
 
   const network = t(`chain.${POLYGON_NETWORK_BY_ENV}`);
-  const amount = statsData ?? ZERO;
-
   const chainId = POLYGON_NETWORK_BY_ENV;
+
+  const amount = statsData ?? ZERO;
+  const usdAmount = useMemo(
+    () =>
+      getUSDAmount({
+        amount,
+        totalStaked: metrics?.[EMetricsServiceName.MATIC]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.MATIC]?.totalStakedUsd,
+        ratio: commonData?.aMATICcRatio,
+      }),
+    [amount, commonData?.aMATICcRatio, metrics],
+  );
 
   const isShowed = !amount.isZero() || isBalancesLoading;
 
@@ -61,6 +80,7 @@ export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
     isShowed,
     nativeAmount,
     network,
+    usdAmount,
     onAddTokenClick,
   };
 };

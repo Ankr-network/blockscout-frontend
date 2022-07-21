@@ -7,11 +7,16 @@ import { useAnkrStakeMore } from './hooks/useAnkrStakeMore';
 export const StakeMore = (): JSX.Element => {
   const {
     balance,
-    loading,
+    isApproved,
+    isApproveLoading,
+    isBalanceLoading,
+    isDisabled,
+    isStakeLoading,
     tokenIn,
     closeHref,
     providerId,
     providerName,
+    minStake,
     newTotalStake,
     apy,
     onSubmit,
@@ -24,9 +29,12 @@ export const StakeMore = (): JSX.Element => {
           apy={apy}
           balance={balance}
           closeHref={closeHref}
-          isBalanceLoading={false}
-          isDisabled={loading}
-          loading={loading}
+          isApproved={isApproved}
+          isApproveLoading={isApproveLoading}
+          isBalanceLoading={isBalanceLoading}
+          isDisabled={isDisabled}
+          loading={isStakeLoading}
+          minAmount={minStake}
           newTotalStake={newTotalStake}
           providerId={providerId}
           providerName={providerName}

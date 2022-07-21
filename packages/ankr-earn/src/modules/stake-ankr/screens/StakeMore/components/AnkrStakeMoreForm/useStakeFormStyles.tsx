@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStakeFormStyles = makeStyles(() => ({
+export const useStakeFormStyles = makeStyles(theme => ({
   box: {
     position: 'relative',
   },
@@ -12,5 +12,10 @@ export const useStakeFormStyles = makeStyles(() => ({
 
   stakeBtn: {
     borderRadius: 16,
+  },
+
+  stepper: {
+    maxWidth: 380,
+    margin: theme.spacing(1, 'auto', 0),
   },
 }));

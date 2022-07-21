@@ -11,15 +11,17 @@ import { NavLink } from 'uiKit/NavLink';
 import { useStakeSuccessDialogStyles } from './useStakeSuccessDialogStyles';
 
 export interface IStakeSuccessful {
+  title?: string;
   tokenName: string;
-  onClose?: () => void;
   onAddTokenClick?: () => void;
+  onClose?: () => void;
 }
 
 export const StakeSuccessDialog = ({
+  title = t('stake.success.title'),
   tokenName,
-  onClose,
   onAddTokenClick,
+  onClose,
 }: IStakeSuccessful): JSX.Element => {
   const classes = useStakeSuccessDialogStyles();
 
@@ -27,7 +29,7 @@ export const StakeSuccessDialog = ({
     <Paper className={classes.root}>
       <Container className={classes.wrapper}>
         <Typography className={classes.title} variant="h1">
-          {t('stake.success.title')}
+          {title}
         </Typography>
 
         <Typography className={classes.text}>

@@ -6,6 +6,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
+import { t } from 'common';
+
 import { IFaqItem } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -15,6 +17,7 @@ import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actio
 import { fetchStakeStats } from 'modules/stake-polkadot/actions/fetchStakeStats';
 import { stake } from 'modules/stake-polkadot/actions/stake';
 import { useETHPolkadotProvidersEffect } from 'modules/stake-polkadot/hooks/useETHPolkadotProvidersEffect';
+import { useSuccessDialog } from 'modules/stake-polkadot/hooks/useSuccessDialog';
 import {
   EPolkadotETHReverseMap,
   EPolkadotNetworks,
@@ -30,10 +33,10 @@ import {
 } from 'modules/stake/components/StakeForm';
 
 import { useFaq } from './useFaq';
-import { useSuccessDialog } from './useSuccessDialog';
 
 interface IUseStakeFormData {
   amount: number;
+  balanceLabel: string;
   ethToken: TPolkadotETHToken;
   faqItems: IFaqItem[];
   fetchStatsData: ResponseData<typeof fetchStakeStats> | null;
@@ -86,9 +89,10 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   const isActiveStakeClaimForm = isStakeClaimOpened && !isSuccessOpened;
   const isActiveSuccessForm = !isStakeClaimOpened && isSuccessOpened;
 
+  const balanceLabel = t('stake-polkadot.stake.balance-label');
+
   const metricsServiceName = useMemo(
-    // Note: This is unsafe type conversion. Please be carefully
-    () => network.toLowerCase() as EMetricsServiceName,
+    () => EMetricsServiceName[network],
     [network],
   );
 
@@ -136,11 +140,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   };
 
   useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(
-      fetchPolkadotAccountMaxSafeBalance({
-        network,
-      }),
-    );
+    dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
     dispatchRequest(fetchStakeStats());
     dispatchRequest(getMetrics());
   }, [
@@ -153,6 +153,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
 
   return {
     amount,
+    balanceLabel,
     ethToken,
     faqItems,
     fetchStatsData,

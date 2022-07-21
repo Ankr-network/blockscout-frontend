@@ -1,6 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { getRoutes as getBoostRoutes } from 'modules/boost/Routes';
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig, STAKING_PATH } from 'modules/common/const';
@@ -8,6 +7,7 @@ import {
   getRoutes as getDashboardRoutes,
   RoutesConfig as DashboardRoutes,
 } from 'modules/dashboard/Routes';
+import { getRoutes as getDeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
 import { getRoutes as getStakeAnkrRoutes } from 'modules/stake-ankr/Routes';
@@ -31,7 +31,7 @@ export function Routes(): JSX.Element {
 
       {featuresConfig.testingUi && getTestUIRoutes()}
 
-      {getBoostRoutes()}
+      {getDeFiRoutes()}
 
       {getStakeRoutes()}
 

@@ -24,6 +24,7 @@ const UNSTAKE_PATH = `${ROOT}unstake/`;
 const UNSTAKE_WITH_PROVIDER_PATH = `${UNSTAKE_PATH}?provider=:provider?`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;
+const STEPS_STAKE_MORE_PATH = `${STAKE_MORE_PATH}steps/:txHash/`;
 const SELECT_PROVIDER_PATH = `${STAKE_PATH}select-provider/`;
 
 export const RoutesConfig = createRouteConfig(
@@ -70,6 +71,11 @@ export const RoutesConfig = createRouteConfig(
           provider: queryProvider ?? undefined,
         };
       },
+    },
+
+    stakeMoreSteps: {
+      path: STEPS_STAKE_MORE_PATH,
+      generatePath: () => generatePath(STEPS_STAKE_MORE_PATH),
     },
 
     restake: {
@@ -159,19 +165,27 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root]}>
       <Switch>
-        {/* todo: add guard route */}
-
-        <Route exact path={RoutesConfig.main.path}>
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.main.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
           <DefaultLayout>
             <Main />
           </DefaultLayout>
-        </Route>
+        </GuardETHRoute>
 
-        <Route exact path={RoutesConfig.providers.path}>
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.providers.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
           <DefaultLayout>
             <Providers />
           </DefaultLayout>
-        </Route>
+        </GuardETHRoute>
 
         <GuardETHRoute
           exact
@@ -220,7 +234,10 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
-          path={RoutesConfig.stakeSteps.path}
+          path={[
+            RoutesConfig.stakeSteps.path,
+            RoutesConfig.stakeMoreSteps.path,
+          ]}
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>

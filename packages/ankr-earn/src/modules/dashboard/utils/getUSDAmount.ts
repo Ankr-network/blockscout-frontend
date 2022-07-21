@@ -4,26 +4,37 @@ import { ONE } from 'modules/common/const';
 
 interface IGetUSDAmountProps {
   amount: BigNumber;
-  totalStaked?: BigNumber;
-  totalStakedUsd?: BigNumber;
   /**
-   * Note: Bonds = 1, Certificates = customRatioValue
+   *  Note: Greater than 0. Bonds = 1, Certificates = customRatioValue
    */
   ratio?: BigNumber;
+  totalStaked?: BigNumber;
+  totalStakedUsd?: BigNumber;
 }
 
 export const getUSDAmount = ({
   amount,
+  ratio = ONE,
   totalStaked,
   totalStakedUsd,
-  ratio = ONE,
 }: IGetUSDAmountProps): BigNumber | undefined => {
-  if (!totalStaked || !totalStakedUsd) {
+  if (
+    amount.isLessThanOrEqualTo(0) ||
+    !amount.isFinite() ||
+    ratio?.isLessThanOrEqualTo(0) ||
+    !ratio?.isFinite() ||
+    !totalStaked ||
+    totalStaked.isLessThanOrEqualTo(0) ||
+    !totalStaked.isFinite() ||
+    !totalStakedUsd ||
+    totalStakedUsd.isLessThanOrEqualTo(0) ||
+    !totalStakedUsd.isFinite()
+  ) {
     return undefined;
   }
 
-  const oneTokenUSD = totalStakedUsd.div(totalStaked).multipliedBy(ratio);
-  const usdAmount = oneTokenUSD.multipliedBy(amount);
+  const oneTokenUSD = totalStakedUsd.div(totalStaked);
 
-  return usdAmount.isZero() ? undefined : usdAmount;
+  // Note: (amount / ratio) * (totalStakedUsd / totalStaked)
+  return amount.div(ratio).multipliedBy(oneTokenUSD);
 };

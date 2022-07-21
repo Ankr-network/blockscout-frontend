@@ -1,18 +1,15 @@
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useFetchStats } from '../../../hooks/useFetchStats';
 import { useRedeemData } from '../../../hooks/useRedeemData';
 
-const aBNBbLink = BoostRoutes.tradingCockpit.generatePath(
-  Token.BNB,
-  Token.aBNBb,
-);
+const aBNBbLink = DefiRoutes.defi.generatePath(Token.BNB);
 
 export const useFaq = (): IFaqItem[] => {
   const { stats } = useFetchStats();

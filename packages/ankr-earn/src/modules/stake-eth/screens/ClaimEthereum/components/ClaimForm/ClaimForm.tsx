@@ -59,7 +59,7 @@ export const ClaimForm = ({
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
-            {t('stake.amount', {
+            {t('stake.token-amount', {
               token: tokenIn,
             })}
           </StakeDescriptionName>

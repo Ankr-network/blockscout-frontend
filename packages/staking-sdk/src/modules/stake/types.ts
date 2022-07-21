@@ -3,7 +3,6 @@ import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
-
 /**
  * Internal raw data for history events
  */
@@ -50,6 +49,8 @@ export interface ITxEventsHistoryData {
   completedCertificate: ITxEventsHistoryGroupItem[];
   pendingBond: ITxEventsHistoryGroupItem[];
   pendingCertificate: ITxEventsHistoryGroupItem[];
+  unstakeBond: ITxEventsHistoryGroupItem[];
+  unstakeCertificate: ITxEventsHistoryGroupItem[];
 }
 
 /**

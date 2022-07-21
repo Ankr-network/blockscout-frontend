@@ -2,6 +2,7 @@ import { resetRequests } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
+import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
@@ -35,6 +36,7 @@ export const useDashboard = (): void => {
         fetchAMATICBBridged.toString(),
         fetchAMATICBBridgedBSC.toString(),
         fetchAETHBBridged.toString(),
+        fetchAETHCBridged.toString(),
         fetchPolygonTxHistory.toString(),
         getEthCommonData.toString(),
         fetchAVAXStats.toString(),
@@ -58,6 +60,7 @@ export const useDashboard = (): void => {
     dispatch(fetchAMATICCBridgedBSC());
     dispatch(fetchAMATICCBridgedPolygon());
     dispatch(fetchAETHBBridged());
+    dispatch(fetchAETHCBridged());
     dispatch(getMetrics());
     dispatch(fetchAVAXStats());
     dispatch(fetchBNBStats());

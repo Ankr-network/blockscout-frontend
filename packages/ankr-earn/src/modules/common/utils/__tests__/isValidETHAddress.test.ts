@@ -15,13 +15,13 @@ const INVALID_ADDRESSES: string[] = [
 describe('modules/common/utils/isValidETHAddress', () => {
   it('Case 1: Is valid address', () => {
     VALID_ADDRESSES.forEach((address: string): void => {
-      expect(isValidETHAddress(address)).toBeTruthy();
+      expect(isValidETHAddress(address)).toBe(true);
     });
   });
 
   it('Case 2: Is invalid address', () => {
     INVALID_ADDRESSES.forEach((address: string): void => {
-      expect(isValidETHAddress(address)).toBeFalsy();
+      expect(isValidETHAddress(address)).toBe(false);
     });
   });
 });
