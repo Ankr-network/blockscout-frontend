@@ -1,34 +1,26 @@
 import { RequestAction } from '@redux-requests/core';
-import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { BinanceSDK, IGetTxReceipt } from '@ankr.com/staking-sdk';
+import { BinanceSDK, IGetTxReceipt, IFetchTxData } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-export interface IGetTXData {
-  amount?: BigNumber;
-  isPending: boolean;
-  destinationAddress?: string;
-}
+export const getTxData = createAction<
+  RequestAction<IFetchTxData, IFetchTxData>
+>('bnb/getTxData', ({ txHash }: { txHash: string }) => ({
+  request: {
+    promise: async (): Promise<IFetchTxData> => {
+      const sdk = await BinanceSDK.getInstance();
 
-export const getTxData = createAction<RequestAction<IGetTXData, IGetTXData>>(
-  'bnb/getTxData',
-  ({ txHash }: { txHash: string }) => ({
-    request: {
-      promise: async (): Promise<IGetTXData> => {
-        const sdk = await BinanceSDK.getInstance();
-
-        return sdk.fetchTxData(txHash);
-      },
+      return sdk.fetchTxData(txHash);
     },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-      onRequest: withStore,
-    },
-  }),
-);
+  },
+  meta: {
+    asMutation: false,
+    showNotificationOnError: true,
+    onRequest: withStore,
+  },
+}));
 
 const POLL_INTERVAL_SECONDS = 3;
 

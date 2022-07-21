@@ -95,22 +95,22 @@ export const StakingAsset = ({
     }
   };
 
-  const withNativeAmount = !!(nativeAmount && token);
-  const withUsdAmount = !!usdAmount;
+  const isWithNativeAmount = !!(nativeAmount && token);
+  const isWithUSDAmount = !!usdAmount;
 
-  const renderAmountInfoSlot = (withNativeAmount || withUsdAmount) && (
+  const renderAmountInfoSlot = (isWithNativeAmount || isWithUSDAmount) && (
     <>
-      {withNativeAmount &&
+      {isWithNativeAmount &&
         t('unit.token-value', {
           value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
           token: nativeTokenMap[token],
         })}
 
-      {withNativeAmount && withUsdAmount && (
+      {isWithNativeAmount && isWithUSDAmount && (
         <span className={classes.amountInfoSplitter} />
       )}
 
-      {withUsdAmount &&
+      {isWithUSDAmount &&
         t('unit.usd-value', {
           value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
         })}
@@ -159,7 +159,7 @@ export const StakingAsset = ({
                     variant="outlined"
                     onClick={onTradeClick}
                   >
-                    {t('dashboard.trade')}
+                    {t('dashboard.defi')}
                   </NavLink>
                 ) : (
                   <Tooltip arrow title={comingSoonTooltip}>
@@ -169,7 +169,7 @@ export const StakingAsset = ({
                         className={classes.tradeButton}
                         variant="outlined"
                       >
-                        {t('dashboard.trade')}
+                        {t('dashboard.defi')}
                       </Button>
                     </Box>
                   </Tooltip>

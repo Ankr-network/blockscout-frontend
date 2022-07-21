@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
+import { FantomSDK } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
@@ -17,7 +18,6 @@ import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { stake } from 'modules/stake-fantom/actions/stake';
-import { FantomSDK } from 'modules/stake-fantom/api/sdk';
 import { calcTotalAmount } from 'modules/stake-fantom/utils/calcTotalAmount';
 import {
   IStakeFormPayload,

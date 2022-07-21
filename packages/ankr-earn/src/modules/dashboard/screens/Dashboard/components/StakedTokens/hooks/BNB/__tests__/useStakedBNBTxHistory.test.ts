@@ -4,7 +4,6 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -14,10 +13,6 @@ import { useStakedBNBTxHistory } from '../useStakedBNBTxHistory';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
-}));
-
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -60,8 +55,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   };
 
   beforeEach(() => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
-
     (useQuery as jest.Mock).mockReturnValue(defaultData);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
@@ -91,7 +84,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           amount: ONE_ETH,
           date: NOW,
           hash: 'txHash1',
-          link: 'https://etherscan.io/tx/txHash1',
+          link: 'https://testnet.bscscan.com/tx/txHash1',
         },
       ],
       stakedToken: Token.aBNBb,
@@ -100,7 +93,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
           amount: ONE_ETH.multipliedBy(2),
           date: NOW,
           hash: 'txHash2',
-          link: 'https://etherscan.io/tx/txHash2',
+          link: 'https://testnet.bscscan.com/tx/txHash2',
         },
       ],
       unstakedToken: Token.aBNBb,
@@ -121,7 +114,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
   });
 
   test('should return empty data', () => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: undefined });
     (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
 
     const { result } = renderHook(() => useStakedBNBTxHistory());

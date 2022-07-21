@@ -3,9 +3,8 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
-import { IWeb3SendResult } from '@ankr.com/provider';
+import { FantomSDK, IStakeData } from '@ankr.com/staking-sdk';
 
-import { FantomSDK } from '../api/sdk';
 import { ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
@@ -18,11 +17,11 @@ interface IStakeArgs {
 }
 
 export const stake = createAction<
-  RequestAction<IWeb3SendResult, IWeb3SendResult>,
+  RequestAction<IStakeData, IStakeData>,
   [IStakeArgs]
 >(`${ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
   request: {
-    promise: (async (): Promise<IWeb3SendResult> => {
+    promise: (async (): Promise<IStakeData> => {
       const sdk = await FantomSDK.getInstance();
 
       return sdk.stake(amount, token);
@@ -34,11 +33,11 @@ export const stake = createAction<
     onSuccess: (response, _action, { dispatchRequest, dispatch }) => {
       dispatchRequest(getCommonData());
 
-      if (response.data.transactionHash) {
+      if (response.data.txHash) {
         dispatch(
           push(
             RoutesConfig.stakeStep.generatePath({
-              txHash: response.data.transactionHash,
+              txHash: response.data.txHash,
               tokenOut: token,
             }),
           ),

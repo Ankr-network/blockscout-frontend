@@ -37,7 +37,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
     chainId: EEthereumNetworkId.goerli,
     pendingValue: ZERO,
     network: 'Ethereum Mainnet',
-    tradeLink: '/trade',
+    tradeLink: '/defi',
     isShowed: true,
     isBalancesLoading: false,
     isStakeLoading: false,

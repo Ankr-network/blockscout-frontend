@@ -9,13 +9,12 @@ import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/common/components/NodeProviderField';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
+import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
   IAnkrStakeSubmitPayload,
   EFieldsNames,
-} from 'modules/stake-ankr/common/types';
-import { setMaxAmount } from 'modules/stake-ankr/common/utils/setMaxAmount';
+} from 'modules/stake-ankr/types';
+import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
@@ -56,7 +55,7 @@ interface IAnkrStakeFormProps {
 
 export const AnkrStakeForm = ({
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
+  minAmount = ZERO,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
@@ -108,7 +107,7 @@ export const AnkrStakeForm = ({
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
-            {t('stake.amount', { token: tokenIn })}
+            {t('stake.token-amount', { token: tokenIn })}
           </StakeDescriptionName>
         }
         maxAmount={maxAmount}

@@ -4,7 +4,7 @@ interface IUnstakeRow {
   unstakeAmount: BigNumber;
   usdUnstakeAmount: BigNumber;
   claimLink: string;
-  daysLeft?: number;
+  daysLeft: number;
 }
 
 interface IUnstakeData {
@@ -23,11 +23,13 @@ const DEMO_DATA = [
     unstakeAmount: new BigNumber(4),
     usdUnstakeAmount: new BigNumber(3),
     claimLink: 'claimLink',
+    daysLeft: 0,
   },
   {
     unstakeAmount: new BigNumber(4),
     usdUnstakeAmount: new BigNumber(3),
     claimLink: '',
+    daysLeft: 0,
   },
 ];
 

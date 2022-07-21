@@ -89,6 +89,7 @@ export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
+  isActivePolkadotLedgerNanoX: false,
   isActiveStakeTradeInfo: true,
   liquidityMining: false,
   localeSwitcher: false,
@@ -99,7 +100,8 @@ export const featuresConfig = {
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   avaxSwitcher: true,
-  isActivePolkadotStaking: currentEnv !== Env.Production,
+  isActivePolkadotClaiming: true,
+  isActivePolkadotStaking: true,
   ankrStaking: currentEnv !== Env.Production,
 };
 

@@ -60,3 +60,4 @@ export interface IStakable {
 
 export * from './types';
 export * from './getTxEventsHistoryGroup';
+export * from './getFilteredContractEvents';

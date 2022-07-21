@@ -37,10 +37,10 @@ function mapProviderDemo({
 }: IValidator): IProvidersTableRow {
   return {
     providerName: 'Mind Heart Sou0l',
-    apy: '24.5%',
-    stakedPool: '486K (24%)',
-    uptime: '99.9%',
-    rps: '12,546',
+    apy: '0%',
+    stakedPool: '0K (0%)',
+    uptime: '0%',
+    rps: '0',
     providerLink: RoutesConfig.stake.generatePath(validator),
     status: +status,
   };

@@ -9,7 +9,7 @@ import {
 } from 'modules/auth/polkadot/hooks/usePolkadotNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountMaxSafeBalance';
+import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { stake } from 'modules/stake-polkadot/actions/stake';
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
@@ -25,7 +25,7 @@ export const useStakableDOT = (): IUseStakableToken<IPolkadotNetwork> => {
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const { data: polkadotBalance, loading: loadingStats } = useQuery({
-    type: fetchPolkadotAccountMaxSafeBalance,
+    type: fetchPolkadotAccountFullBalance,
     requestKey: getPolkadotRequestKey(EPolkadotNetworks.DOT),
   });
 

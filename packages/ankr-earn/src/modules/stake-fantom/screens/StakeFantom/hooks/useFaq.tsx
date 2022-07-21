@@ -2,18 +2,15 @@ import { useQuery } from '@redux-requests/react';
 
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 
-const tradeLink: string = BoostRoutes.tradingCockpit.generatePath(
-  Token.FTM,
-  Token.aFTMb,
-);
+const tradeLink: string = DefiRoutes.defi.generatePath(Token.FTM);
 
 export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({

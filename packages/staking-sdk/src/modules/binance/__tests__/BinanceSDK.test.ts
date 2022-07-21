@@ -8,8 +8,7 @@ import {
 
 import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
-import { BLOCK_OFFSET } from '../../polygon/const';
-import { CERT_STAKING_LOG_HASH } from '../const';
+import { CERT_STAKING_LOG_HASH, BINANCE_HISTORY_BLOCK_OFFSET } from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -780,7 +779,9 @@ describe('modules/binance/sdk', () => {
 
     const sdk = await BinanceSDK.getInstance();
 
-    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
+    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(
+      EBinanceErrorCodes.UNSUPPORTED_TOKEN,
+    );
   });
 
   test('should add aETHc token to wallet', async () => {
@@ -812,7 +813,7 @@ describe('modules/binance/sdk', () => {
     });
   });
 
-  test('should add aETHc token to wallet', async () => {
+  test('should add old aETHc token to wallet', async () => {
     const contract = {
       ...defaultContract,
       methods: {
@@ -857,7 +858,9 @@ describe('modules/binance/sdk', () => {
 
     const sdk = await BinanceSDK.getInstance();
 
-    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(EBinanceErrorCodes.UNSUPPORTED_TOKEN);
+    await expect(sdk.addTokenToWallet('MATIC')).rejects.toThrowError(
+      EBinanceErrorCodes.UNSUPPORTED_TOKEN,
+    );
   });
 
   test('should get pending data properly', async () => {
@@ -899,7 +902,7 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -931,7 +934,7 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -1043,7 +1046,7 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -1066,7 +1069,7 @@ describe('modules/binance/sdk', () => {
     expect(result.pendingCertificate).toHaveLength(4);
   });
 
-  test('should return emptry events history', async () => {
+  test('should return empty events history', async () => {
     const contract = {
       ...defaultContract,
       getPastEvents: jest.fn().mockResolvedValue([]),

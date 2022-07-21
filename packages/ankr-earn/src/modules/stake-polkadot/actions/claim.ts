@@ -49,11 +49,7 @@ export const claim = createSmartAction<
       ): Error => {
         const err = new Error(getErrorMessage(error));
 
-        store.dispatchRequest(
-          fetchPolkadotAccountMaxSafeBalance({
-            network,
-          }),
-        );
+        store.dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
 
         store.dispatch(
           showNotification({
@@ -69,11 +65,7 @@ export const claim = createSmartAction<
         _action: RequestAction,
         store: TStore<IStoreState>,
       ): IRes => {
-        store.dispatchRequest(
-          fetchPolkadotAccountMaxSafeBalance({
-            network,
-          }),
-        );
+        store.dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
 
         store.dispatchRequest(fetchStakeStats());
 

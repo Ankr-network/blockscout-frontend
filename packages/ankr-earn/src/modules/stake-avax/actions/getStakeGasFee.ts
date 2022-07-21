@@ -2,7 +2,8 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
+
 import { TAvaxSyntToken } from '../types';
 
 interface IGetStakeGasFeeArgs {

@@ -4,8 +4,15 @@ import { WND_PROPS } from '../StakedTokens/const';
 import { useUnclaimedPolkadotData } from '../StakedTokens/hooks/Polkadot/useUnclaimedPolkadotData';
 
 export const UnclaimedWND = (): JSX.Element => {
-  const { amount, claimLink, ethToken, isLoading, networkTxt, polkadotToken } =
-    useUnclaimedPolkadotData(WND_PROPS);
+  const {
+    amount,
+    claimLink,
+    ethToken,
+    isLoading,
+    networkTxt,
+    polkadotToken,
+    usdAmount,
+  } = useUnclaimedPolkadotData(WND_PROPS);
 
   return (
     <UnclaimedAsset
@@ -15,6 +22,7 @@ export const UnclaimedWND = (): JSX.Element => {
       isLoading={isLoading}
       network={networkTxt}
       token={polkadotToken}
+      usdAmount={usdAmount}
     />
   );
 };
