@@ -6,6 +6,7 @@ import { StatsTimeframe } from 'domains/chains/types';
 
 export interface UsageDataParams {
   arePrivateStatsLoading: boolean;
+  isConnecting: boolean;
   isWalletConnected: boolean;
   privateStats: PrivateStat;
   publicStats: PublicStats;
@@ -15,6 +16,7 @@ export interface UsageDataParams {
 
 export const getUsageData = ({
   arePrivateStatsLoading,
+  isConnecting,
   isWalletConnected,
   privateStats = {} as PrivateStat,
   publicStats: {
@@ -32,8 +34,9 @@ export const getUsageData = ({
   const publicUsageData: UsageData = {
     countries,
     error: publicStatsError,
+    isConnecting,
     isWalletConnected,
-    loading: arePublicStatsLoading,
+    loading: arePublicStatsLoading || isConnecting,
     pristine,
     setTimeframe,
     timeframe,
@@ -50,8 +53,9 @@ export const getUsageData = ({
   const privateUsageData: UsageData = {
     countries: undefined,
     error: undefined,
+    isConnecting,
     isWalletConnected,
-    loading: arePrivateStatsLoading,
+    loading: arePrivateStatsLoading || isConnecting,
     pristine: false,
     setTimeframe,
     timeframe,

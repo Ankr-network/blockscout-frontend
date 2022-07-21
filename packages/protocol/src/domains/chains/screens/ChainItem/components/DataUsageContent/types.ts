@@ -16,6 +16,7 @@ export interface PublicStats {
 export interface UsageData {
   countries?: Country;
   error: any;
+  isConnecting: boolean;
   isWalletConnected: boolean;
   loading: boolean;
   pristine: boolean;

@@ -13,6 +13,7 @@ import { useStyles } from './useStyles';
 interface ChainRequestsOverviewProps {
   children: ReactNode;
   className?: string;
+  isConnecting: boolean;
   isWalletConnected: boolean;
   loading: boolean;
   onClick: (timeframe: StatsTimeframe) => void;
@@ -24,6 +25,7 @@ interface ChainRequestsOverviewProps {
 export const ChainRequestsOverview = ({
   children,
   className,
+  isConnecting,
   isWalletConnected,
   loading,
   onClick,
@@ -40,6 +42,9 @@ export const ChainRequestsOverview = ({
     [onClick],
   );
 
+  const placeholder =
+    isWalletConnected && !isConnecting ? <RequestsChartPlaceholder /> : null;
+
   return (
     <div className={classNames(classes.root, className)}>
       {children}
@@ -49,7 +54,8 @@ export const ChainRequestsOverview = ({
         </div>
       ) : (
         <div className={classes.chart}>
-          {isTotalRequestsHistoryNotEmpty(totalRequestsHistory) ? (
+          {!isConnecting &&
+          isTotalRequestsHistoryNotEmpty(totalRequestsHistory) ? (
             <ChainRequestsChart
               isWalletConnected={isWalletConnected}
               loading={loading}
@@ -57,7 +63,7 @@ export const ChainRequestsOverview = ({
               timeframe={timeframe}
             />
           ) : (
-            <RequestsChartPlaceholder />
+            placeholder
           )}
         </div>
       )}

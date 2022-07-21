@@ -18,6 +18,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
   const {
     countries,
     error,
+    isConnecting,
     isWalletConnected,
     loading,
     pristine,
@@ -41,6 +42,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           )}
           <ChainRequestsOverview
             className={classes.chainRequestsOverview}
+            isConnecting={isConnecting}
             isWalletConnected={isWalletConnected}
             loading={loading}
             onClick={setTimeframe}
