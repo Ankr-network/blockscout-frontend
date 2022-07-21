@@ -1,5 +1,10 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ZERO } from 'modules/common/const';
+import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface IUseTotalInfo {
@@ -16,13 +21,34 @@ interface IUseTotalInfo {
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
+  const dispatchRequest = useDispatchRequest();
+  const { data } = useQuery({
+    type: getTotalInfo,
+  });
+
+  const claimableRewards = useMemo(() => {
+    if (!data?.claimableRewards) return ZERO;
+
+    return data.claimableRewards.reduce((acc, reward) => {
+      if (reward.amount.isZero()) return acc;
+
+      acc = acc.plus(reward.amount);
+
+      return acc;
+    }, ZERO);
+  }, [data?.claimableRewards]);
+
+  useProviderEffect(() => {
+    dispatchRequest(getTotalInfo());
+  }, [dispatchRequest]);
+
   return {
-    totalStaked: new BigNumber(0),
-    totalStakedUsd: new BigNumber(0),
-    totalRewards: new BigNumber(0),
-    totalRewardsUsd: new BigNumber(0),
-    climableRewards: new BigNumber(0),
-    climableRewardsUsd: new BigNumber(0),
+    totalStaked: data?.totalDelegatedAmount ?? ZERO,
+    totalStakedUsd: ZERO,
+    totalRewards: data?.totalRewards ?? ZERO,
+    totalRewardsUsd: ZERO,
+    climableRewards: claimableRewards,
+    climableRewardsUsd: ZERO,
     isTotalStakedLoading: false,
     isTotalRewardsLoading: false,
     isClimableRewardsLoading: false,

@@ -13,11 +13,11 @@ import {
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
@@ -99,7 +99,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     pendingValue,
     ratio: statsData?.aETHcRatio ?? ZERO,
     stakeLink: RoutesConfig.stake.generatePath(Token.aETHc),
-    tradeLink: BoostRoutes.tradingCockpit.generatePath(Token.aETHc, Token.ETH),
+    tradeLink: DefiRoutes.defi.generatePath(Token.aETHc),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

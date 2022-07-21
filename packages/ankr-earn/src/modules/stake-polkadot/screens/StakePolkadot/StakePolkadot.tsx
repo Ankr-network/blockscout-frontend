@@ -1,6 +1,7 @@
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import React from 'react';
+import classNames from 'classnames';
+import React, { useMemo } from 'react';
 
 import { t, tHTML } from 'common';
 
@@ -15,10 +16,9 @@ import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeSuccessDialog } from 'modules/stake/components/StakeSuccessDialog';
 import { Container } from 'uiKit/Container';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { Tooltip } from 'uiKit/Tooltip';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { IPolkadotRouteLoadableComponentProps } from '../../types';
 import { getRedeemPeriod } from '../../utils/getRedeemPeriod';
@@ -34,6 +34,7 @@ export const StakePolkadot = ({
 
   const {
     amount,
+    balanceLabel,
     ethToken,
     faqItems,
     fetchStatsData,
@@ -53,6 +54,24 @@ export const StakePolkadot = ({
     onSuccessClose,
   } = useStakeForm(network);
 
+  const balanceLinkSlot = useMemo(
+    () => (
+      <QuestionWithTooltip className={classes.question}>
+        {t('stake-polkadot.stake.balance-tooltip', {
+          value: fetchStatsData?.polkadotNetworkMinSafeDepositVal ?? 1,
+          token: polkadotToken,
+          network: t(`stake-polkadot.networks.${network}`),
+        })}
+      </QuestionWithTooltip>
+    ),
+    [
+      classes,
+      fetchStatsData?.polkadotNetworkMinSafeDepositVal,
+      network,
+      polkadotToken,
+    ],
+  );
+
   const onStakeFormRenderStats = (rawAmount: BigNumber): JSX.Element => (
     <StakeDescriptionContainer>
       <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
@@ -63,16 +82,14 @@ export const StakePolkadot = ({
           value={rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
         />
 
-        <Tooltip
-          title={tHTML('stake-polkadot.tooltips.you-will-get', {
+        <QuestionWithTooltip
+          className={classNames(classes.question, classes.questionAmount)}
+        >
+          {tHTML('stake-polkadot.tooltips.you-will-get', {
             token: polkadotToken,
             period: getRedeemPeriod(network),
           })}
-        >
-          <ButtonBase className={classes.questionBtn}>
-            <QuestionIcon size="xs" />
-          </ButtonBase>
-        </Tooltip>
+        </QuestionWithTooltip>
       </StakeDescriptionValue>
     </StakeDescriptionContainer>
   );
@@ -99,6 +116,8 @@ export const StakePolkadot = ({
             <StakeContainer>
               <StakeForm
                 balance={polkadotBalance}
+                balanceLabel={balanceLabel}
+                balanceLinkSlot={balanceLinkSlot}
                 loading={isStakeLoading}
                 maxAmount={polkadotBalance}
                 maxAmountDecimals={fetchStatsData.maxPolkadotNetworkDecimals.toNumber()}

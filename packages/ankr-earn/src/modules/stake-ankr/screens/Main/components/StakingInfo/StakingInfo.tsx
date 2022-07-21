@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useEffect, useState } from 'react';
 
 import { t } from 'common';
+
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
 import { HistoryTable } from '../HistoryTable';
@@ -8,12 +12,26 @@ import { ITabItem, Tabs } from '../Tabs';
 import { UnstakingTable } from '../UnstakingTable';
 
 export const StakingInfo = (): JSX.Element => {
+  const dispatchRequest = useDispatchRequest();
+  const { data } = useQuery({
+    type: getUnstakingData,
+  });
+
   const activeStakingText = t('stake-ankr.tabs.active-staking');
   const unstakingText = t('stake-ankr.tabs.unstaking');
   const historyText = t('stake-ankr.tabs.history');
 
-  const [newUnstakingAmount] = useState(3);
+  const [newUnstakingAmount, setUnstakingAmount] = useState(data?.length ?? 0);
   const [currentTab, setCurrentTab] = useState<string>(activeStakingText);
+
+  useProviderEffect(() => {
+    dispatchRequest(getUnstakingData());
+    setUnstakingAmount(data?.length ?? 0);
+  }, [data, dispatchRequest]);
+
+  useEffect(() => {
+    setUnstakingAmount(data?.length ?? 0);
+  }, [data]);
 
   const tabs: ITabItem[] = [
     {

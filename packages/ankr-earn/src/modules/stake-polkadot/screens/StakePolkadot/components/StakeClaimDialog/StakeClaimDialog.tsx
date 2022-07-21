@@ -5,10 +5,11 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { t, tHTML } from 'common';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
-import { DEFAULT_FIXED } from 'modules/common/const';
+import { DEFAULT_FIXED, featuresConfig } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import {
   EPolkadotNetworks,
+  IPolkadotClaimFormPayload,
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
@@ -21,10 +22,7 @@ import { CheckboxField } from 'uiKit/CheckboxField';
 import { CompleteCircleIcon } from 'uiKit/Icons/CompleteCircleIcon';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
-import {
-  IFormPayload,
-  useStakeClaimDialogData,
-} from './hooks/useStakeClaimDialogData';
+import { useStakeClaimDialogData } from './hooks/useStakeClaimDialogData';
 import { useStakeClaimDialogStyles } from './useStakeClaimDialogStyles';
 
 interface IStakeClaimDialogProps {
@@ -67,7 +65,7 @@ export const StakeClaimDialog = ({
 
   const renderForm = ({
     handleSubmit,
-  }: FormRenderProps<IFormPayload>): JSX.Element => (
+  }: FormRenderProps<IPolkadotClaimFormPayload>): JSX.Element => (
     <>
       <Box className={classes.itemTop}>
         <Box className={classNames(classes.icon, classes.iconSecond)}>2</Box>
@@ -143,23 +141,25 @@ export const StakeClaimDialog = ({
               type="submit"
               onClick={handleSubmit}
             >
-              {t('stake-polkadot.stake-claim-dialog.claim-btn')}
+              {t('stake-polkadot.claim.claim-btn')}
             </Button>
           )}
 
-          {!isLoadingClaim && (
-            <Field
-              component={CheckboxField}
-              name="isLedgerWallet"
-              type="checkbox"
-            >
-              <Typography className={classes.checkboxTxt} variant="body2">
-                {t('stake-polkadot.stake-claim-dialog.ledger-wallet-info', {
-                  shortAccount: getShortTxHash(polkadotAddress),
-                })}
-              </Typography>
-            </Field>
-          )}
+          {featuresConfig.isActivePolkadotLedgerNanoX &&
+            !isLoadingClaim &&
+            !!polkadotAddress && (
+              <Field
+                component={CheckboxField}
+                name="isLedgerWallet"
+                type="checkbox"
+              >
+                <Typography className={classes.checkboxTxt} variant="body2">
+                  {t('stake-polkadot.claim.ledger-wallet-info', {
+                    shortAccount: getShortTxHash(polkadotAddress),
+                  })}
+                </Typography>
+              </Field>
+            )}
         </Box>
       )}
     </>

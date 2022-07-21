@@ -12,7 +12,6 @@ import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { DEFAULT_MIN_AMOUNT } from 'modules/stake-ankr/common/const';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -36,6 +35,8 @@ export interface IStakeSubmitPayload extends IStakeFormPayload {
 
 export interface IStakeFormComponentProps {
   balance?: BigNumber;
+  balanceLabel?: string;
+  balanceLinkSlot?: ReactNode;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
@@ -60,7 +61,9 @@ export interface IStakeFormComponentProps {
 export const StakeForm = ({
   className,
   balance = ZERO,
-  minAmount = DEFAULT_MIN_AMOUNT,
+  balanceLabel,
+  balanceLinkSlot,
+  minAmount = ZERO,
   maxAmount = balance,
   loading = false,
   isBalanceLoading = false,
@@ -136,12 +139,14 @@ export const StakeForm = ({
 
         <AmountInput
           balance={balance}
+          balanceLabel={balanceLabel}
+          balanceLinkSlot={balanceLinkSlot}
           disabled={isDisabled}
           isBalanceLoading={isBalanceLoading}
           isIntegerOnly={isIntegerOnly}
           label={
             <Box alignItems="center" component="span" display="flex">
-              {t('stake.amount', { token: tokenIn })}
+              {t('stake.token-amount', { token: tokenIn })}
 
               {labelTooltip && (
                 <QuestionWithTooltip>{labelTooltip}</QuestionWithTooltip>

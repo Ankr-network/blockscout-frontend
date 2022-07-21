@@ -27,3 +27,7 @@ export enum EPolkadotETHReverseMap {
 export interface IPolkadotRouteLoadableComponentProps {
   network: EPolkadotNetworks;
 }
+
+export interface IPolkadotClaimFormPayload {
+  isLedgerWallet?: boolean;
+}

@@ -1,41 +1,46 @@
-import BigNumber from 'bignumber.js';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
+import { useCallback } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-
-import { IAvailableClaimItem } from '../ClaimDialog';
-
-// todo: use actual data
-const demoClaims: IAvailableClaimItem[] = [
-  {
-    provider: 'Provider 1',
-    value: new BigNumber(11),
-  },
-  {
-    provider: 'Provider 2',
-    value: new BigNumber(313213),
-  },
-];
+import { claimAll } from 'modules/stake-ankr/actions/claimAll';
+import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
+import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 
 interface IUseTotalInfo {
-  availableClaims?: IAvailableClaimItem[];
+  availableClaims?: IStakingReward[];
   isClaimAllowed: boolean;
   isClaimLoading: boolean;
   isOpened: boolean;
   usdTokenPrice?: number;
   onClose: () => void;
   onOpen: () => void;
+  onClaim: () => void;
 }
 
 export const useClaim = (): IUseTotalInfo => {
+  const dispatchRequest = useDispatchRequest();
+  const { loading: isClaimLoading } = useMutation({ type: claimAll });
+  const { data } = useQuery({
+    type: getTotalInfo,
+  });
+
   const { isOpened, onClose, onOpen } = useDialog();
 
-  const availableClaims = demoClaims;
-
-  const isClaimLoading = false;
+  const availableClaims = data?.claimableRewards;
 
   const isClaimAllowed = !!availableClaims?.length;
 
   const usdTokenPrice = 0.1;
+
+  const onClaim = useCallback(() => {
+    dispatchRequest(claimAll()).then(({ error }) => {
+      if (!error) onClose();
+    });
+  }, [dispatchRequest, onClose]);
 
   return {
     isClaimAllowed,
@@ -45,5 +50,6 @@ export const useClaim = (): IUseTotalInfo => {
     usdTokenPrice,
     onClose,
     onOpen,
+    onClaim,
   };
 };

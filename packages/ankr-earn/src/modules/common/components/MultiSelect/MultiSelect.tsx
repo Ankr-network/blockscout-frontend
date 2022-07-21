@@ -91,10 +91,10 @@ export const MultiSelect = ({
             ))}
 
             {innerLabel && opts.length && opts.length < 5 && (
-              <Box ml={2}>
-                {opts.length}
-                &nbsp;
-                {opts.length === 1 ? opts[0]?.label : innerLabel}
+              <Box ml={1.2}>
+                {opts.length === 1
+                  ? opts[0]?.label
+                  : `${opts.length} ${innerLabel}`}
               </Box>
             )}
           </>

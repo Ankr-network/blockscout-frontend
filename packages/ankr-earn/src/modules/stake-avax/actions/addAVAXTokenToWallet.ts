@@ -1,7 +1,8 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
+
 import { TAvaxSyntToken } from '../types';
 
 export const addAVAXTokenToWallet = createAction<
