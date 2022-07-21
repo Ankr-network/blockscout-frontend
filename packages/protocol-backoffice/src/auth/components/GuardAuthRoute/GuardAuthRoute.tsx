@@ -6,9 +6,13 @@ import { Spinner } from 'ui';
 import { useAuthStore } from 'stores/AuthStore';
 
 export const GuardAuthRoute = observer((props: RouteProps) => {
-  const store = useAuthStore();
+  const { isLoading, isLoaded, address } = useAuthStore();
 
-  if (store.isLoading || !store.isLoaded) {
+  if (!address) {
+    return null;
+  }
+
+  if (isLoading || !isLoaded) {
     return <Spinner />;
   }
 

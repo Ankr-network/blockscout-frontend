@@ -21,30 +21,40 @@ export class AuthStore {
   // @ts-ignore
   public service: MultiRpcSdk;
 
+  public address?: string;
+
   public constructor() {
     makeAutoObservable(this);
   }
 
   @action
-  async connect(): Promise<void> {
+  connect = async (): Promise<void> => {
     if (this.isLoaded) return;
 
     this.isLoading = true;
 
-    await connect();
-
+    const isConnected = await connect();
     this.service = await MultiService.getInstance();
+
+    if (!isConnected) {
+      this.disconnect();
+
+      return;
+    }
+
+    this.address = this.service.getKeyProvider()?.currentAccount;
 
     this.isLoading = false;
     this.isLoaded = true;
 
     this.subscribeProviderEvents();
-  }
+  };
 
   @action
-  async reconnect(): Promise<void> {
+  disconnect = async (): Promise<void> => {
     this.isLoading = false;
     this.isLoaded = false;
+    this.address = '';
 
     clearAuthData();
 
@@ -53,9 +63,7 @@ export class AuthStore {
     this.service.getKeyProvider().disconnect();
     this.service.getBackofficeGateway().removeToken();
     MultiService.removeInstance();
-
-    await this.connect();
-  }
+  };
 
   getProvider() {
     const web3 = this.service.getKeyProvider().getWeb3();
@@ -70,7 +78,7 @@ export class AuthStore {
     if (!provider) return;
 
     PROVIDER_EVENTS.forEach(value =>
-      provider.on(value, () => this.reconnect()),
+      provider.on(value, () => this.disconnect()),
     );
   }
 

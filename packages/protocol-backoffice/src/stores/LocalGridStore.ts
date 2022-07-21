@@ -86,7 +86,7 @@ export class LocalGridStore<T> {
       this.items = newItems || [];
     } catch (error: any) {
       if (error?.response?.data === EXPIRED_TOKEN_ERROR) {
-        authStore.reconnect();
+        authStore.disconnect();
       }
     }
 

@@ -6,7 +6,7 @@ import { LIFETIME } from './connectUtils';
 export const AUTH_STATE_KEY = '__authState';
 export const ADDRESS_STATE_KEY = '__addressState';
 
-const getSavedToken = (): string | undefined => {
+export const getSavedToken = (): string | undefined => {
   const authorizationToken = localStorage.getItem(AUTH_STATE_KEY);
 
   if (!authorizationToken) return undefined;
@@ -54,7 +54,7 @@ export const connect = async () => {
   if (authorizationToken && currentAccount === address) {
     service.getBackofficeGateway().addToken(authorizationToken);
 
-    return;
+    return true;
   }
 
   try {
@@ -67,10 +67,16 @@ export const connect = async () => {
       notification.error({
         message: 'Failed to login',
       });
+
+      return false;
     }
-  } catch (error) {
+  } catch (error: any) {
     notification.error({
-      message: `Failed to login ${error}`,
+      message: `Failed to login ${error.message}`,
     });
+
+    return false;
   }
+
+  return true;
 };
