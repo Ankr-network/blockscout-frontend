@@ -77,6 +77,8 @@ export class LocalGridStore<T> {
 
   @action
   async fetchItems(): Promise<void> {
+    this.isLoading = true;
+
     try {
       const [newItems, hasMore] = await this.dataHandler(
         this.currentPage * this.pageSize,
@@ -89,6 +91,8 @@ export class LocalGridStore<T> {
         authStore.disconnect();
       }
     }
+
+    this.isLoading = false;
 
     // TODO: why exclude the last if hasMore?
     // if (hasMore) {

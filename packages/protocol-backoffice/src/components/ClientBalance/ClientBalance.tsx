@@ -1,6 +1,8 @@
 import { Statistic } from 'antd';
 import { IBalancesEntity } from 'multirpc-sdk';
 
+import { renderBalance } from 'utils/renderBalance';
+
 interface IClientBalanceProps {
   amountCredits?: IBalancesEntity['amount'];
   amountAnkr?: IBalancesEntity['amountAnkr'];
@@ -28,25 +30,25 @@ export const ClientBalance = ({
     >
       <Statistic
         title="Balance in ANKR"
-        value={amountAnkr}
+        value={renderBalance(amountAnkr)}
         loading={!amountAnkr}
       />
 
       <Statistic
         title="Balance in USD"
-        value={amountUsd}
+        value={renderBalance(amountUsd)}
         loading={!amountUsd}
       />
 
       <Statistic
         title="Balance in Credits"
-        value={amountCredits}
+        value={renderBalance(amountCredits)}
         loading={!amountCredits}
       />
 
       <Statistic
         title="Voucher Credits balance"
-        value={voucherAmount}
+        value={renderBalance(voucherAmount)}
         loading={!voucherAmount}
       />
     </section>
