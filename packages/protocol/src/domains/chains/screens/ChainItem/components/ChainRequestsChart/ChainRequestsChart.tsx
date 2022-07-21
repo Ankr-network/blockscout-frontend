@@ -14,8 +14,8 @@ export const ChainRequestsChart = ({
   timeframe,
 }: ChainRequestsChartProps) => {
   const data = useMemo(
-    () => processData(requestsLog, isWalletConnected),
-    [isWalletConnected, requestsLog],
+    () => processData(requestsLog, isWalletConnected, timeframe),
+    [isWalletConnected, requestsLog, timeframe],
   );
   const timeframeRef = useRef<StatsTimeframe>();
   timeframeRef.current = timeframe;

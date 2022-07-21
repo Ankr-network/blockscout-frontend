@@ -87,16 +87,22 @@ export interface IAggregatedPaymentHistoryReponse {
 export interface PrivateStat {
   blockchain: string;
   counts: PrivateStatCounts;
-  topRequests: PrivateStatTopRequests;
   totalRequests: number;
 }
 
 // in ms
 export type PrivateStatTimestamp = string;
-export type PrivateStatCounts = Record<PrivateStatTimestamp, number>;
+export type PrivateStatCounts = Record<PrivateStatTimestamp, PrivateStatCount>;
+export interface PrivateStatCount {
+  count: number;
+  topRequests: PrivateStatTopRequests[];
+}
 
 export type RPCRequestName = string;
-export type PrivateStatTopRequests = Record<RPCRequestName, number>;
+export interface PrivateStatTopRequests {
+  count: number;
+  method: RPCRequestName;
+}
 
 export interface PrivateStats {
   stats?: PrivateStatsInternal;

@@ -57,7 +57,11 @@ export const getUsageData = ({
     timeframe,
     totalCached: new BigNumber(0),
     totalRequests: new BigNumber(privateTotalRequests),
-    totalRequestsHistory: privateTotalRequestsHistory,
+    totalRequestsHistory: Object.fromEntries(
+      Object.entries(privateTotalRequestsHistory).map(
+        ([timestamp, { count }]) => [timestamp, count],
+      ),
+    ),
   };
 
   return isWalletConnected ? privateUsageData : publicUsageData;
