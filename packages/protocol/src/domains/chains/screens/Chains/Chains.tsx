@@ -29,7 +29,7 @@ const totalRequestsData = '';
 const loading = false;
 
 export const Chains = () => {
-  const { isWalletConnected, credentials } = useAuth();
+  const { isWalletConnected, credentials, loading: authLoading } = useAuth();
 
   const classes = useChainsStyles();
   usePublicChainsInfo();
@@ -46,7 +46,7 @@ export const Chains = () => {
 
   return (
     <>
-      {!credentials && <InfoBanner />}
+      {!credentials && !authLoading && <InfoBanner />}
       {SHOW_STATISTICS && (
         <>
           <Typography variant="h5" noWrap className={classes.title}>

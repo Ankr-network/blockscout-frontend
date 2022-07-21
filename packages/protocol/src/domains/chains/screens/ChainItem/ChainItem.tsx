@@ -37,7 +37,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         nodes={nodes}
         loading={authLoading}
       />
-      {!credentials && <ContentBanner />}
+      {!credentials && !authLoading && <ContentBanner />}
       <ChainItemTabs chainId={chainId} data={data} />
     </div>
   );
