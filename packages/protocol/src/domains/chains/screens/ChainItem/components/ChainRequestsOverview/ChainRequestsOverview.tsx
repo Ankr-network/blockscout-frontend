@@ -43,7 +43,7 @@ export const ChainRequestsOverview = ({
   );
 
   const placeholder =
-    isWalletConnected && !isConnecting ? <RequestsChartPlaceholder /> : null;
+    isWalletConnected && !loading ? <RequestsChartPlaceholder /> : null;
 
   return (
     <div className={classNames(classes.root, className)}>
