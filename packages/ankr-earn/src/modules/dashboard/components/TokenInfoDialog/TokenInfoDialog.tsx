@@ -69,13 +69,15 @@ export const TokenInfoDialog = ({
               text={tokenAddress}
               onCopy={handleCopyDestinationAddress}
             >
-              <CopyIcon />
+              <CopyIcon height={24} width={24} />
             </CopyToClipboard>
           ) : (
-            <CompleteIcon
-              data-testid="copy-destination-address-complete"
-              size="xs"
-            />
+            <div className={classes.complete}>
+              <CompleteIcon
+                className={classes.completeIcon}
+                data-testid="copy-destination-address-complete"
+              />
+            </div>
           )}
         </div>
 
