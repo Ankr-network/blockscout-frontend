@@ -22,8 +22,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     lineHeight: `${theme.spacing(4)}px`,
   },
   subtitle: {
-    letterSpacing: '0.01em',
+    maxWidth: theme.spacing(71.875),
+
     color: theme.palette.grey[600],
+    letterSpacing: '0.01em',
+    textAlign: 'center',
 
     fontWeight: 400,
     fontSize: theme.spacing(1.75),

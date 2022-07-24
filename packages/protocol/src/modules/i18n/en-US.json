@@ -225,8 +225,8 @@
       "time": "{value, time, short}",
       "calls-count": "{value, number, ::compact-short}",
       "placeholder": {
-        "title": "Send your first request",
-        "subtitle": "Once you start sending requests, your activity will be visible here."
+        "title": "Send your request",
+        "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
       }
     },
     "map": {
