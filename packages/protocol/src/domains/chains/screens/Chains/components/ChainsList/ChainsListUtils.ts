@@ -1,9 +1,9 @@
-import { SortType } from '../ChainsSortSelect/ChainsSortSelectUtils';
-import { ChainsListProps, Chain } from './ChainsListTypes';
+import { ChainsListProps, Chain, SortChainsParams } from './ChainsListTypes';
+import { SortType } from 'domains/chains/types';
 
 export const PERIOD = '24h';
 
-export const formatChains = (data: ChainsListProps['data']): Chain[] => {
+export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
 
   return data.map(item => {
@@ -56,16 +56,25 @@ export const getChainCoin = (chainName: TChainName) => {
   return chainNameCoinMap[chainName.toLowerCase() as TChainName] || chainName;
 };
 
-export const sortChains = (data: Chain[], sortType: SortType): Chain[] => {
-  if (!Array.isArray(data) || data.length === 0) return [];
+const publicChainsSorter = (a: Chain, b: Chain) =>
+  (b?.totalRequests?.toNumber() || 0) - (a?.totalRequests?.toNumber() || 0);
+
+export const sortChains = ({
+  chains = [],
+  isWalletConnected,
+  sortType,
+  stats,
+}: SortChainsParams): Chain[] => {
+  if (!Array.isArray(chains)) return [];
+
+  const privateChainsSorter = (a: Chain, b: Chain) =>
+    (stats[b.id]?.totalRequests || 0) - (stats[a.id]?.totalRequests || 0);
 
   if (sortType === SortType.Usage) {
-    return [...data].sort(
-      (a, b) =>
-        (b?.totalRequests?.toNumber() || 0) -
-        (a?.totalRequests?.toNumber() || 0),
+    return [...chains].sort(
+      isWalletConnected ? privateChainsSorter : publicChainsSorter,
     );
   }
 
-  return data;
+  return chains;
 };

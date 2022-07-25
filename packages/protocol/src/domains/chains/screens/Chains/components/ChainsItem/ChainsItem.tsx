@@ -14,13 +14,14 @@ import { ChainsRoutesConfig } from 'domains/chains/Routes';
 import { NavLink } from 'ui';
 
 export const ChainsItem = ({
-  totalRequests,
+  chain,
+  description,
   isLoading,
   logoSrc,
   name,
-  description,
   period,
-  chain,
+  statsTimeframe,
+  totalRequests,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -40,17 +41,18 @@ export const ChainsItem = ({
       className={classes.root}
     >
       <ChainMainInfo
-        isLoading={isLoading}
-        logoSrc={logoSrc}
-        name={name}
         className={classes.mainInfo}
-        totalRequests={totalRequests}
-        label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
         description={
           description && (
             <ChainRequestsLabel description={description} label={period} />
           )
         }
+        isLoading={isLoading}
+        label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
+        logoSrc={logoSrc}
+        name={name}
+        statsTimeframe={statsTimeframe}
+        totalRequests={totalRequests}
       />
       <div className={classes.bottom}>
         <div className={classes.links}>

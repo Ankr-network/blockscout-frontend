@@ -40,6 +40,8 @@ import {
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IWithdrawalStatusResponse,
+  PrivateStats,
+  PrivateStatsInterval,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { RpcGateway } from '../rpc/RpcGateway';
@@ -599,6 +601,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return time;
   }
 
+  async getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats> {
+    const stats = await this.getAccountGateway().getPrivateStats(interval);
+
+    return stats;
+  }
+  
   async getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse> {

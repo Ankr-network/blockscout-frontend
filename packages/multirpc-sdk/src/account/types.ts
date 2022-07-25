@@ -84,6 +84,40 @@ export interface IAggregatedPaymentHistoryReponse {
   transactions: IPaymentHistoryEntity[];
 }
 
+export interface PrivateStat {
+  blockchain: string;
+  counts: PrivateStatCounts;
+  totalRequests: number;
+}
+
+// in ms
+export type PrivateStatTimestamp = string;
+export type PrivateStatCounts = Record<PrivateStatTimestamp, PrivateStatCount>;
+export interface PrivateStatCount {
+  count: number;
+  topRequests: PrivateStatTopRequests[];
+}
+
+export type RPCRequestName = string;
+export interface PrivateStatTopRequests {
+  count: number;
+  method: RPCRequestName;
+}
+
+export interface PrivateStats {
+  stats?: PrivateStatsInternal;
+  totalRequests?: number;
+}
+
+export type BlockchainID = string;
+export type PrivateStatsInternal = Record<BlockchainID, PrivateStat>;
+
+export enum PrivateStatsInterval {
+  DAY = 'h24',
+  WEEK = 'd7',
+  MONTH = 'd30',
+}
+
 export enum WithdrawStatus {
   WITHDRAW_STATUS_UNKNOWN = 'WITHDRAW_STATUS_UNKNOWN',
   WITHDRAW_STATUS_PENDING = 'WITHDRAW_STATUS_PENDING',

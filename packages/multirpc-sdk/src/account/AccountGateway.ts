@@ -3,17 +3,19 @@ import { stringify } from 'qs';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
-  IBalance,
-  IBalanceEndTimeResult,
-  IPaymentHistoryReponse,
-  IPaymentHistoryRequest,
-  IRequestsResponse,
-  IRequestsRequest,
-  IDailyChargingParams,
-  IDailyChargingReponse,
   IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
+  IBalance,
+  IBalanceEndTimeResult,
+  IDailyChargingParams,
+  IDailyChargingReponse,
+  IPaymentHistoryReponse,
+  IPaymentHistoryRequest,
+  IRequestsRequest,
+  IRequestsResponse,
   IWithdrawalStatusResponse,
+  PrivateStats,
+  PrivateStatsInterval,
 } from './types';
 import { IAccountGateway } from './interfaces';
 import { getRequestsMock } from '../mock/getRequestsMock';
@@ -118,6 +120,19 @@ export class AccountGateway implements IAccountGateway {
     return NumberOfDaysEstimate;
   }
 
+  async getPrivateStats(
+    intervalType: PrivateStatsInterval,
+  ): Promise<PrivateStats> {
+    const { data } = await this.api.get<PrivateStats>(
+      `/api/v1/auth/stats`,
+      {
+        params: { intervalType },
+      }
+    );
+
+    return data;
+  }
+  
   async getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse> {

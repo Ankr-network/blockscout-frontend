@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Timeframe } from 'multirpc-sdk';
+import { StatsTimeframe } from 'domains/chains/types';
 
 export const getCachedRequestPercent = (
   totalRequests?: BigNumber,
@@ -14,22 +14,22 @@ export const getCachedRequestPercent = (
 
 const SECONDS_IN_A_DAY = 86_400;
 
-const getSeconds = (timeframe: Timeframe): number => {
+const getSeconds = (timeframe: StatsTimeframe): number => {
   switch (timeframe) {
-    case '30d':
+    case StatsTimeframe.DAY:
       return SECONDS_IN_A_DAY * 30;
 
-    case '7d':
+    case StatsTimeframe.WEEK:
       return SECONDS_IN_A_DAY * 7;
 
-    case '24h':
+    case StatsTimeframe.MONTH:
     default:
       return SECONDS_IN_A_DAY;
   }
 };
 
 export const getAvarageRequests = (
-  timeframe: Timeframe,
+  timeframe: StatsTimeframe,
   requests?: BigNumber,
 ) => {
   if (!requests) return 0;

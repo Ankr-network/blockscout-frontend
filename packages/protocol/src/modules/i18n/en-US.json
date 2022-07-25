@@ -125,13 +125,6 @@
     "title": "Premium Endpoints",
     "provider-title": "Dashboard"
   },
-  "30-days-statistics": {
-    "30days": "30d",
-    "title": "30 days statistics",
-    "total-requests-made": "Total Requests Made",
-    "unique-users-served": "Unique Users Served",
-    "total-asset-value-transferred": "Total Asset Value Transferred"
-  },
   "chains": {
     "connected-breadcrumbs": "Dashboard",
     "breadcrumbs": "Public RPCs",
@@ -140,7 +133,6 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
-    "30d": "30d",
     "archive": "Archive",
     "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
     "add-endpoint": {
@@ -149,6 +141,19 @@
     "sort": {
       "usage": "Sort by usage",
       "name": "Sort by name"
+    },
+    "stats-timeframes": {
+      "day": "24h",
+      "month": "30d",
+      "week": "7d"
+    },
+    "private-stats": {
+      "title": "Your stats",
+      "stats": {
+        "total": "Total Requests Made",
+        "failovers": "Total Requests Recovered",
+        "successPercent": "Successful Requests %"
+      }
     },
     "banner": {
       "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
@@ -218,7 +223,11 @@
     "chart": {
       "date": "{value, date, medium}",
       "time": "{value, time, short}",
-      "calls-count": "{value, number, ::compact-short}"
+      "calls-count": "{value, number, ::compact-short}",
+      "placeholder": {
+        "title": "Send your request",
+        "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
+      }
     },
     "map": {
       "header": "Top 10 countries by requests",
@@ -283,7 +292,10 @@
           "web3-js": "Web3.js"
         },
         "title": "Connection code snippet"
-      }
+      } 
+    },
+    "usage-summary": {
+      "total": "Total Requests Processed"
     }
   },
   "plan": {
