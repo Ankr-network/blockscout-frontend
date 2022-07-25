@@ -9,6 +9,7 @@ import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 interface IFetchStakeStatsData {
   maxPolkadotNetworkDecimals: BigNumber;
   minStake: BigNumber;
+  polkadotNetworkMinSafeDepositVal: BigNumber;
 }
 
 export const fetchStakeStats = createSmartAction<
@@ -18,14 +19,20 @@ export const fetchStakeStats = createSmartAction<
     promise: async (): Promise<IFetchStakeStatsData> => {
       const sdk = await PolkadotStakeSDK.getInstance();
 
-      const [maxPolkadotNetworkDecimals, minStake] = await Promise.all([
+      const [
+        maxPolkadotNetworkDecimals,
+        minStake,
+        polkadotNetworkMinSafeDepositVal,
+      ] = await Promise.all([
         sdk.getMaxPolkadotNetworkDecimals(),
         sdk.getMinStake(),
+        sdk.getPolkadotNetworkMinSafeDepositVal(),
       ]);
 
       return {
         maxPolkadotNetworkDecimals,
         minStake,
+        polkadotNetworkMinSafeDepositVal,
       };
     },
   },

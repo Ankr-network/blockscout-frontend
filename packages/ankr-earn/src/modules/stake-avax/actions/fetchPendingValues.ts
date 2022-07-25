@@ -2,9 +2,9 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
-import { AvalancheSDK } from '../api/AvalancheSDK';
+import { withStore } from 'modules/common/utils/withStore';
 
 interface IFetchPendingValuesResponseData {
   pendingAavaxbUnstakes: BigNumber;
@@ -23,11 +23,11 @@ export const fetchPendingValues = createSmartAction<
       promise: async (): Promise<IFetchPendingValuesResponseData> => {
         const sdk = await AvalancheSDK.getInstance();
 
-        const { pendingAAVAXB, pendingAAVAXC } = await sdk.getPendingUnstakes();
+        const { pendingBond, pendingCertificate } = await sdk.getPendingData();
 
         return {
-          pendingAavaxbUnstakes: pendingAAVAXB,
-          pendingAavaxcUnstakes: pendingAAVAXC,
+          pendingAavaxbUnstakes: pendingBond,
+          pendingAavaxcUnstakes: pendingCertificate,
         };
       },
     },

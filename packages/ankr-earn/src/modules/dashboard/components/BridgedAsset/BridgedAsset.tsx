@@ -6,7 +6,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
-import { DEFAULT_FIXED } from 'modules/common/const';
+import { DEFAULT_FIXED, DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { nativeTokenMap } from 'modules/dashboard/const';
@@ -24,28 +24,30 @@ import { NetworkIconText } from '../NetworkIconText';
 import { useStakingBridgeAssetStyles } from './useBridgedAssetStyles';
 
 interface IStakingAssetProps {
-  token?: Token;
-  tokenAddress?: string;
-  network?: string;
   amount?: BigNumber;
   chainId?: EEthereumNetworkId;
-  tradeLink?: string;
-  pendingSlot?: ReactNode;
   isLoading?: boolean;
   nativeAmount?: BigNumber;
+  network?: string;
+  pendingSlot?: ReactNode;
+  token?: Token;
+  tokenAddress?: string;
+  tradeLink?: string;
+  usdAmount?: BigNumber;
   onAddTokenToWallet: () => void;
 }
 
 export const BridgedAsset = ({
+  amount,
+  chainId,
+  isLoading = false,
+  nativeAmount,
   network,
+  pendingSlot,
   token,
   tokenAddress,
-  chainId,
-  amount,
   tradeLink,
-  pendingSlot,
-  nativeAmount,
-  isLoading = false,
+  usdAmount,
   onAddTokenToWallet,
 }: IStakingAssetProps): JSX.Element => {
   const classes = useStakingBridgeAssetStyles();
@@ -55,22 +57,35 @@ export const BridgedAsset = ({
   }
 
   const comingSoonTooltip = t('common.tooltips.comingSoon');
-  const amountInfoTooltip = getAmountInfoTooltip(nativeAmount);
+  const amountInfoTooltip = getAmountInfoTooltip(nativeAmount, usdAmount);
 
-  const isActiveAmountInfo = nativeAmount && token;
+  const isWithNativeAmount = !!(nativeAmount && token);
+  const isWithUSDAmount = !!usdAmount;
 
-  const nativeAmountText =
-    isActiveAmountInfo &&
-    t('unit.token-value', {
-      value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
-      token: nativeTokenMap[token],
-    });
+  const renderAmountInfoSlot = (isWithNativeAmount || isWithUSDAmount) && (
+    <>
+      {isWithNativeAmount &&
+        t('unit.token-value', {
+          value: nativeAmount.decimalPlaces(DEFAULT_FIXED).toFormat(),
+          token: nativeTokenMap[token],
+        })}
+
+      {isWithNativeAmount && isWithUSDAmount && (
+        <span className={classes.amountInfoSplitter} />
+      )}
+
+      {isWithUSDAmount &&
+        t('unit.usd-value', {
+          value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+        })}
+    </>
+  );
 
   return (
     <DashboardCard
       amountSlot={
         <Amount
-          infoSlot={nativeAmountText}
+          infoSlot={renderAmountInfoSlot}
           infoTooltip={amountInfoTooltip}
           value={amount}
         />
@@ -95,7 +110,7 @@ export const BridgedAsset = ({
                 href={tradeLink}
                 variant="outlined"
               >
-                {t('dashboard.trade')}
+                {t('dashboard.defi')}
               </NavLink>
             ) : (
               <Tooltip arrow title={comingSoonTooltip}>
@@ -105,7 +120,7 @@ export const BridgedAsset = ({
                     className={classes.tradeButton}
                     variant="outlined"
                   >
-                    {t('dashboard.trade')}
+                    {t('dashboard.defi')}
                   </Button>
                 </Box>
               </Tooltip>

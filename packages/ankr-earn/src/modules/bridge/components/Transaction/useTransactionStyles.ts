@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useTransactionStyles = makeStyles(() => ({
+export const useTransactionStyles = makeStyles(theme => ({
   root: {
     display: 'grid',
     flexDirection: 'row',
@@ -9,5 +9,7 @@ export const useTransactionStyles = makeStyles(() => ({
   },
   icon: {
     cursor: 'pointer',
+    color: theme.palette.primary.main,
+    fill: 'transparent',
   },
 }));

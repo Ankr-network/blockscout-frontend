@@ -94,9 +94,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     // AnkrTokenStakingProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
-    ankrTokenStaking: '0xc4a66dE9a08F690EDa17fba94d764be0F8c5817b',
+    ankrTokenStaking: '0x06C2b4dcB69155d1C7Da229AA578BD9b6477A507',
     // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
-    ankrStakingChainConfig: '0x304351967EF449c1c3Ea04c74C73A6e4F45b7d22',
+    ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',

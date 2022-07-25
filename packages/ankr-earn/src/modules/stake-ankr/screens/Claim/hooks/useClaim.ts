@@ -6,12 +6,12 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseClaim {
   loading: boolean;
-  balance: BigNumber;
+  claimable: BigNumber;
   epochEnd: Date;
   rewards: BigNumber;
   tokenIn: string;
@@ -41,7 +41,7 @@ export const useClaim = (): IUseClaim => {
 
   return {
     loading: false,
-    balance: ZERO,
+    claimable: ZERO,
     epochEnd: new Date(),
     rewards: ZERO,
     tokenIn: t('unit.ankr'),

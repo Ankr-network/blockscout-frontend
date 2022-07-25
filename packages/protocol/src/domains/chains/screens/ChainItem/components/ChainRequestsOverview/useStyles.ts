@@ -68,7 +68,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(0, 3),
   },
   toggleButtonGroup: {
-    maxWidth: 320,
+    width: 'auto',
 
     [theme.breakpoints.down('sm')]: {
       maxWidth: '100%',

@@ -9,7 +9,7 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getTxData } from 'modules/stake-ankr/actions/getTxData';
 import { getTxReceipt } from 'modules/stake-ankr/actions/getTxReceipt';
-import { getDemoProviderName } from 'modules/stake-ankr/common/utils/getDemoProviderName';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeStepsHook {

@@ -3,8 +3,10 @@ import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import {
   Table,
   TableBody,
@@ -13,11 +15,14 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { SupportedChainIDS } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
+import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useHistoryData } from '../../hooks/useHistoryData';
+import { DateTimeItem } from '../ActiveStakingTable/DateTimeItem';
 
 import { useHistoryTableStyles } from './useHistoryTableStyles';
 
@@ -37,6 +42,7 @@ enum ELabel {
 export const HistoryTable = (): JSX.Element | null => {
   const classes = useHistoryTableStyles();
 
+  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
   const { data, isLoading } = useHistoryData();
 
   const captions = useLocaleMemo(
@@ -100,14 +106,18 @@ export const HistoryTable = (): JSX.Element | null => {
           data?.map((row, i) => (
             <TableRow key={uid(i)}>
               <TableBodyCell label={`${captions[ELabel.date].label}`}>
-                <Typography className={classes.simpleText}>
-                  {t('format.long-date', { value: row.date })}
-                </Typography>
+                <DateTimeItem dateTime={row.date} />
               </TableBodyCell>
 
               <TableBodyCell label={`${captions[ELabel.hash].label}`}>
                 <Typography className={classes.simpleText}>
-                  <NavLink className={classes.txLink} href={row.link}>
+                  <NavLink
+                    className={classes.txLink}
+                    href={getTxLinkByNetwork(
+                      row.hash,
+                      (chainId || SupportedChainIDS.MAINNET) as number,
+                    )}
+                  >
                     {getShortTxHash(row.hash, 8)}
                   </NavLink>
                 </Typography>

@@ -1,4 +1,7 @@
-import { AvailableWriteProviders, AvailableReadProviders } from '@ankr.com/provider';
+import {
+  AvailableWriteProviders,
+  AvailableReadProviders,
+} from '@ankr.com/provider';
 
 import { isMainnet } from '../common';
 
@@ -46,7 +49,7 @@ export const CERT_STAKING_LOG_HASH =
 /**
  * Magic number to prevent metamask fee calculation issue
  */
-export const ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+export const BNB_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
 
 /**
  * List of supported tokens for BinanceSDK

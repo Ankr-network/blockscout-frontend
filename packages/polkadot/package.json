@@ -5,7 +5,7 @@
   "main": "./index.ts",
   "scripts": {
     "_copy-assets": "copyfiles src/assets/**/* out",
-    "_test-clean": "rimraf out ./index.js ./src/**/*.js",
+    "_test-clean": "rimraf out ./index.js ./index.js.map ./src/**/*.js ./src/**/*.js.map",
     "build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build",
     "clean": "rimraf build output",
     "format": "lint-staged",

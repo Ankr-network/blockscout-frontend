@@ -26,8 +26,8 @@ jest.mock('modules/stake-fantom/Routes', () => ({
   },
 }));
 
-jest.mock('modules/boost/Routes', () => ({
-  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
+jest.mock('modules/defi-aggregator/Routes', () => ({
+  RoutesConfig: { defi: { generatePath: () => '/defi' } },
 }));
 
 jest.mock('modules/stake-fantom/actions/addFTMTokenToWallet', () => ({
@@ -81,7 +81,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     expect(result.current.isShowed).toBe(true);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);
-    expect(result.current.tradeLink).toBe('/trade');
+    expect(result.current.tradeLink).toBe('/defi');
     expect(result.current.stakeLink).toBe('/stake');
   });
 

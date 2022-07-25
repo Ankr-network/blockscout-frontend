@@ -7,7 +7,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
-import { fetchPolkadotAccountMaxSafeBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountMaxSafeBalance';
+import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
 import { fetchTxHistory } from 'modules/stake-polkadot/actions/fetchTxHistory';
 import { POLKADOT_NETWORK_KEYS } from 'modules/stake-polkadot/const';
@@ -29,7 +29,7 @@ export const usePolkadot = (): void => {
         resetRequests(
           getPolkadotResetRequests([
             fetchETHTokenClaimableBalance.toString(),
-            fetchPolkadotAccountMaxSafeBalance.toString(),
+            fetchPolkadotAccountFullBalance.toString(),
           ]),
         ),
       );
@@ -47,12 +47,7 @@ export const usePolkadot = (): void => {
             }),
           );
 
-          dispatch(
-            fetchPolkadotAccountMaxSafeBalance({
-              isExternalCall: true,
-              network,
-            }),
-          );
+          dispatch(fetchPolkadotAccountFullBalance(network));
         },
       );
     },
@@ -60,7 +55,7 @@ export const usePolkadot = (): void => {
       address,
       dispatch,
       fetchETHTokenClaimableBalance,
-      fetchPolkadotAccountMaxSafeBalance,
+      fetchPolkadotAccountFullBalance,
     ],
     AvailableWriteProviders.polkadotCompatible,
   );

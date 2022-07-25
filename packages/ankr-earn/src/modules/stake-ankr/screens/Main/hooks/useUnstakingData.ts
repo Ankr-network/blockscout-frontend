@@ -1,39 +1,26 @@
-import BigNumber from 'bignumber.js';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-interface IUnstakingData {
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
+import { IUnstakingData } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
+
+interface IUnstaking {
   isLoading: boolean;
-  data: {
-    provider: string;
-    unstakeAmount: BigNumber;
-    usdUnstakeAmount: BigNumber;
-    claimLink: string;
-    daysLeft?: number;
-  }[];
+  data: IUnstakingData[] | null;
 }
 
-export const useUnstakingData = (): IUnstakingData => {
+export const useUnstakingData = (): IUnstaking => {
+  const dispatchRequest = useDispatchRequest();
+  const { data, loading } = useQuery({
+    type: getUnstakingData,
+  });
+
+  useProviderEffect(() => {
+    dispatchRequest(getUnstakingData());
+  }, [dispatchRequest]);
+
   return {
-    isLoading: false,
-    data: [
-      {
-        provider: 'Provider 1',
-        unstakeAmount: new BigNumber(12213123.13),
-        usdUnstakeAmount: new BigNumber(2132),
-        claimLink: '',
-        daysLeft: 7,
-      },
-      {
-        provider: 'Provider 2',
-        unstakeAmount: new BigNumber(4),
-        usdUnstakeAmount: new BigNumber(3),
-        claimLink: 'claimLink',
-      },
-      {
-        provider: 'Provider 3',
-        unstakeAmount: new BigNumber(4),
-        usdUnstakeAmount: new BigNumber(3),
-        claimLink: '',
-      },
-    ],
+    isLoading: loading,
+    data,
   };
 };

@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { IChartData } from 'modules/common/components/Chart';
 import { RequestsLog } from './ChainRequestsChartTypes';
 import { StatsTimeframe } from 'domains/chains/types';
@@ -92,3 +94,6 @@ export const processData = (
       };
     });
 };
+
+export const formatTooltipNumber = (number: string | number) =>
+  new BigNumber(number).toFormat(0);

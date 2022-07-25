@@ -42,7 +42,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     stakeLink: '/stake',
     isStakeLoading: false,
     isUnstakeLoading: false,
-    tradeLink: '/trade',
+    tradeLink: '/defi',
     handleAddTokenToWallet: jest.fn(),
   };
 

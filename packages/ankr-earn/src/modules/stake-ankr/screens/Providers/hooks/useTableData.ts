@@ -1,5 +1,10 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ZERO } from 'modules/common/const';
+import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { EProviderStatus } from 'modules/stake-ankr/const';
 
 interface ITableRow {
@@ -16,57 +21,40 @@ interface ITableRow {
   exitDays?: number;
   bondingDays?: number;
 }
+
 interface ITableData {
   isLoading: boolean;
   data: ITableRow[];
 }
 
 export const useTableData = (): ITableData => {
+  const { data: providers, loading: isProvidersLoading } = useQuery({
+    type: getProviders,
+  });
+  const data = providers?.map(mapProviderDemo) || [];
+  const dispatchRequest = useDispatchRequest();
+
+  useProviderEffect(() => {
+    dispatchRequest(getProviders());
+  }, [dispatchRequest]);
+
   return {
-    isLoading: false,
-    data: getDemoData(),
+    isLoading: isProvidersLoading,
+    data,
   };
 };
 
-function getDemoData() {
-  const data: ITableRow[] = [];
-
-  data.push({
-    provider: 'Node Provider 1',
-    nodeAmount: 6,
-    apy: 12,
-    stakedPool: 4544,
-    stakedPoolPercent: 23,
-    rps: new BigNumber(11920),
-    online: 37,
-    status: EProviderStatus.active,
-    exitDays: 1,
-  });
-
-  data.push({
-    provider: 'Node Provider 2',
-    nodeAmount: 2,
-    apy: 13,
-    stakedPool: 3244,
-    stakedPoolPercent: 14,
-    rps: new BigNumber(10202),
-    online: 31,
-    status: EProviderStatus.notFound,
+function mapProviderDemo({ status }: IValidator): ITableRow {
+  return {
+    provider: 'Mind Heart Sou0l',
+    nodeAmount: 0,
+    apy: 0,
+    stakedPool: 0,
+    stakedPoolPercent: 0,
+    rps: ZERO,
+    online: 0,
+    status: +status,
     stakeLink: 'stakeLink',
     detailsLink: 'detailsLink',
-  });
-
-  data.push({
-    provider: 'Node Provider 3',
-    nodeAmount: 1,
-    apy: 33,
-    stakedPool: 182,
-    stakedPoolPercent: 8,
-    rps: new BigNumber(289),
-    online: 1,
-    bondingDays: 13,
-    status: EProviderStatus.pending,
-  });
-
-  return data;
+  };
 }

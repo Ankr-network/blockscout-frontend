@@ -57,6 +57,7 @@ export const StakedADOTB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
+    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
@@ -131,6 +132,7 @@ export const StakedADOTB = (): JSX.Element => {
         history={transactionHistory}
         isHistoryLoading={isHistoryDataLoading}
         open={isOpenedHistory}
+        unsupportedUnstakeHistoryTxt={unsupportedUnstakeHistoryTxt}
         onClose={onCloseHistory}
       />
 

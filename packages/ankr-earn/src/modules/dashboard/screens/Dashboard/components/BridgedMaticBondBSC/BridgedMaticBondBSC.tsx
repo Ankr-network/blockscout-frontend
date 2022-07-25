@@ -7,8 +7,14 @@ import { useBridgedMaticBondBSC } from '../StakedTokens/hooks/MATIC/useBridgedMa
 export const BridgedMaticBondBSC = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
 
-  const { amount, chainId, isBalancesLoading, network, onAddTokenClick } =
-    useBridgedMaticBondBSC();
+  const {
+    amount,
+    chainId,
+    isBalancesLoading,
+    network,
+    usdAmount,
+    onAddTokenClick,
+  } = useBridgedMaticBondBSC();
 
   return (
     <BridgedAsset
@@ -18,6 +24,7 @@ export const BridgedMaticBondBSC = (): JSX.Element => {
       network={network}
       token={Token.aMATICb}
       tokenAddress={binanceConfig.aMATICbToken}
+      usdAmount={usdAmount}
       onAddTokenToWallet={onAddTokenClick}
     />
   );
