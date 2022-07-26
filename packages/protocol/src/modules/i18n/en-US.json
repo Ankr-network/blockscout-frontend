@@ -294,7 +294,7 @@
           "web3-js": "Web3.js"
         },
         "title": "Connection code snippet"
-      } 
+      }
     },
     "usage-summary": {
       "total": "Total Requests Processed"
@@ -509,7 +509,7 @@
     "email-banner": {
       "add-step": {
         "title": "Add your Email",
-        "description": "Get <b style='color: #356DF3'>$10 in Bonus API Credits</b> by adding your email.",
+        "description": "Get <b style='color: #356DF3'>100M Bonus API Credits</b> by adding your email.",
         "detailed-reports": "Detailed Reports",
         "balance-status": "Balance Status",
         "product-updates": "Product Updates",
