@@ -7,6 +7,7 @@
     "https-validation": "Should be a valid https URL",
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
+    "email-validation": "Should be a valid email",
     "url-chain-validation": "URL must contain {chainId}",
     "public-url-validation": "Should not be a public endpoint of Ankr",
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
@@ -96,6 +97,7 @@
   },
   "extra-navigation": {
     "docs": "Docs",
+    "settings": "Settings",
     "faq": "FAQ"
   },
   "mobile-navigation": {
@@ -410,7 +412,9 @@
   "common": {
     "copy-message": "Copied!",
     "empty": "Empty...",
-    "copy": "Copy"
+    "copy": "Copy",
+    "close": "Close",
+    "submit": "Submit"
   },
   "providers": {
     "breadcrumbs": "Node Providers",
@@ -496,6 +500,61 @@
         "text": "I&nbsp;understand",
         "button": "Finish"
       }
+    }
+  },
+  "user-settings": {
+    "common": {
+      "email-value-fallback": "the email provided"
+    },
+    "email-banner": {
+      "add-step": {
+        "title": "Add your Email",
+        "description": "Get <b style='color: #356DF3'>$10 in Bonus API Credits</b> by adding your email.",
+        "detailed-reports": "Detailed Reports",
+        "balance-status": "Balance Status",
+        "product-updates": "Product Updates",
+        "exclusive-offers": "Exclusive Offers",
+        "email-input-placeholder": "Your email",
+        "not-show-again": "Don't show this message again"
+      },
+      "success-step": {
+        "title": "Thank you!",
+        "verify-email-text": "Please verify email that we sent to <b>{email}</b>",
+        "resend-email-button": "Resend email",
+        "change-email-button": "Change email"
+      }
+    },
+    "settings-screen": {
+      "breadcrumbs": "Settings",
+      "change-email-button": "Change email"
+    },
+    "confirmation-screen": {
+      "breadcrumbs": "Confirm Email"
+    },
+    "connect-wallet-card": {
+      "title": "Connect Wallet",
+      "description": "Connect related wallet to see notification settings.",
+      "connect-wallet-button": "Connect Wallet"
+    },
+    "connect-related-wallet-card": {
+      "title": "Connect Wallet for Related Account",
+      "description": "Connect the wallet associated with your account to view notification settings.",
+      "change-wallet-button": "Change Wallet"
+    },
+    "link-expired-card": {
+      "title": "Link Expired",
+      "description": "Please re-send a confirmation email to <b>{email}</b>",
+      "resend-email-button": "Resend Email",
+      "change-email-button": "Change Email"
+    },
+    "errors": {
+      "plural": "s",
+      "change-with-same-email": "Please use an address that is different from your current one",
+      "change-inexistent": "Attempting to change the email that hasn't been registered yet",
+      "address-pending-other-email-binding": "There is an email address already associated with your wallet",
+      "too-many-change-email-requests": "You can change your email once in {minutes} minute{plural}",
+      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} minute{plural}",
+      "already-confirmed": "The email address {email} has already been registered"
     }
   },
   "explorer": {

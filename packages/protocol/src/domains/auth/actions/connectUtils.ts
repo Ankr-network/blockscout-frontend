@@ -82,3 +82,12 @@ export const loginAndCacheAuthData = async (
     credentials,
   };
 };
+
+export const disconnectService = async () => {
+  const service = await MultiService.getInstance();
+  service.getWorkerGateway().removeJwtToken();
+  service.getAccountGateway().removeToken();
+
+  service.getKeyProvider().disconnect();
+  MultiService.removeInstance();
+};

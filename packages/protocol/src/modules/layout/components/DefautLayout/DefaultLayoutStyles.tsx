@@ -1,9 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import { SIDEBAR_WIDTH } from '../SideBar';
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
+import { SIDEBAR_WIDTH } from '../SideBar';
 
 const MOBILE_LAYOUT_PADDING = 30;
 

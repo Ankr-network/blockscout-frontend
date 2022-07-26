@@ -1,18 +1,19 @@
-import React from 'react';
 import { Button } from '@material-ui/core';
-import { Spinner } from 'ui';
 
-import { ChainsList } from './components/ChainsList';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { ChainsSortSelect } from './components/ChainsSortSelect';
-import { H1Tag } from 'uiKit/H1Tag';
-import { InfoBanner } from './components/Banner';
+import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { PageHeader } from 'modules/common/components/PageHeader';
-import { UsageSummary } from './components/UsageSummary';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useChains } from './hooks/useChains';
+import { Spinner } from 'ui';
+import { H1Tag } from 'uiKit/H1Tag';
 import { useChainsStyles } from './ChainsStyles';
+import { InfoBanner } from './components/Banner';
+import { ChainsList } from './components/ChainsList';
+import { ChainsSortSelect } from './components/ChainsSortSelect';
+
+import { UsageSummary } from './components/UsageSummary';
+import { useChains } from './hooks/useChains';
 
 const ENABLE_HOW_TO_INTEGRATE = false;
 
@@ -42,6 +43,9 @@ export const Chains = () => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
+
+      <AddEmailBanner />
+
       {isWalletConnected && (
         <UsageSummary
           timeframe={statsTimeframe}

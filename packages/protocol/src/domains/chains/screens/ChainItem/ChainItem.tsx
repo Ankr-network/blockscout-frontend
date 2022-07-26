@@ -2,10 +2,11 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { H1Tag } from 'uiKit/H1Tag';
 import { getChainName } from 'uiKit/utils/useMetatags';
-import { ContentBanner } from '../Chains/components/Banner/ContentBanner';
 import { IChainItemDetails } from '../../actions/fetchChain';
+import { ContentBanner } from '../Chains/components/Banner/ContentBanner';
 import { useStyles } from './ChainItemStyles';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemTabs } from './components/ChainItemTabs';
@@ -28,17 +29,21 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const name = useMemo(() => getChainName(chainId), [chainId]);
 
   return (
-    <div className={classes.chainDetailsWrapper}>
-      <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
-      <ChainItemHeader
-        chain={chain}
-        hasCredentials={Boolean(credentials)}
-        icon={chain.icon}
-        nodes={nodes}
-        loading={authLoading}
-      />
-      {!credentials && !authLoading && <ContentBanner />}
-      <ChainItemTabs chainId={chainId} data={data} />
-    </div>
+    <>
+      <AddEmailBanner />
+
+      <div className={classes.chainDetailsWrapper}>
+        <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
+        <ChainItemHeader
+          chain={chain}
+          hasCredentials={Boolean(credentials)}
+          icon={chain.icon}
+          nodes={nodes}
+          loading={authLoading}
+        />
+        {!credentials && !authLoading && <ContentBanner />}
+        <ChainItemTabs chainId={chainId} data={data} />
+      </div>
+    </>
   );
 };

@@ -2,13 +2,19 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { getRequestsMock } from '../mock/getRequestsMock';
+import { IAccountGateway } from './interfaces';
 import {
+  EmailConfirmationStatus,
   IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
   IBalance,
   IBalanceEndTimeResult,
   IDailyChargingParams,
   IDailyChargingReponse,
+  IEmailResponse,
+  IGetActiveEmailBindingResponse,
+  IGetEmailBindingStatusesResponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
@@ -17,8 +23,6 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from './types';
-import { IAccountGateway } from './interfaces';
-import { getRequestsMock } from '../mock/getRequestsMock';
 
 export class AccountGateway implements IAccountGateway {
   public api: AxiosInstance;
@@ -123,22 +127,95 @@ export class AccountGateway implements IAccountGateway {
   async getPrivateStats(
     intervalType: PrivateStatsInterval,
   ): Promise<PrivateStats> {
-    const { data } = await this.api.get<PrivateStats>(
-      `/api/v1/auth/stats`,
-      {
-        params: { intervalType },
-      }
-    );
+    const { data } = await this.api.get<PrivateStats>(`/api/v1/auth/stats`, {
+      params: { intervalType },
+    });
 
     return data;
   }
-  
+
   async getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse> {
     const { data: response } = await this.api.get<IWithdrawalStatusResponse>(
       `/api/v1/auth/withdraw/status`,
       { params: { tx_hash: transactionHash } },
+    );
+
+    return response;
+  }
+
+  async getEmailBindingStatuses(
+    filters?: EmailConfirmationStatus,
+  ): Promise<IEmailResponse[]> {
+    const {
+      data: { bindings },
+    } = await this.api.get<IGetEmailBindingStatusesResponse>(
+      '/api/v1/auth/email',
+      {
+        params: {
+          filters,
+        },
+      },
+    );
+
+    return bindings;
+  }
+
+  async getActiveEmailBinding(): Promise<IGetActiveEmailBindingResponse> {
+    const { data: response } = await this.api.get<IEmailResponse>(
+      '/api/v1/auth/email/active',
+    );
+
+    return response;
+  }
+
+  async addNewEmailBinding(email: string): Promise<IEmailResponse> {
+    const { data: response } = await this.api.post<IEmailResponse>(
+      '/api/v1/auth/email/bind',
+      null,
+      {
+        params: { email },
+      },
+    );
+
+    return response;
+  }
+
+  async editEmailBinding(email: string): Promise<IEmailResponse> {
+    const { data: response } = await this.api.patch<IEmailResponse>(
+      '/api/v1/auth/email/bind',
+      null,
+      {
+        params: { email },
+      },
+    );
+
+    return response;
+  }
+
+  async confirmEmailBinding(
+    email: string,
+    code: string,
+  ): Promise<IEmailResponse> {
+    const { data: response } = await this.api.post<IEmailResponse>(
+      '/api/v1/auth/email/confirm',
+      null,
+      {
+        params: { email, code },
+      },
+    );
+
+    return response;
+  }
+
+  async resendConfirmationCode(email: string): Promise<string> {
+    const { data: response } = await this.api.post<string>(
+      '/api/v1/auth/email/resendConfirmation',
+      null,
+      {
+        params: { email },
+      },
     );
 
     return response;

@@ -1,14 +1,14 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MultiService } from 'modules/api/MultiService';
-import { tryToLogin } from 'domains/auth/utils/tryToLogin';
-import { setAuthData } from 'domains/auth/store/authSlice';
-import { connect } from 'domains/auth/actions/connect';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
-import { fetchPublicKey } from '../fetchPublicKey';
+import { connect } from 'domains/auth/actions/connect';
+import { setAuthData } from 'domains/auth/store/authSlice';
+import { tryToLogin } from 'domains/auth/utils/tryToLogin';
+import { MultiService } from 'modules/api/MultiService';
+import { ResponseData } from 'modules/api/utils/ResponseData';
 import { IJwtToken } from 'multirpc-sdk';
+import { fetchPublicKey } from '../fetchPublicKey';
 
 interface IDeposit {
   address: string;

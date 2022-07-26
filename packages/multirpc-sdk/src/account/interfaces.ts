@@ -1,9 +1,12 @@
 import {
+  EmailConfirmationStatus,
   IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
   IBalance,
   IDailyChargingParams,
   IDailyChargingReponse,
+  IEmailResponse,
+  IGetActiveEmailBindingResponse,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
@@ -41,4 +44,18 @@ export interface IAccountGateway {
   getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse>;
+
+  getEmailBindingStatuses(
+    filters?: EmailConfirmationStatus,
+  ): Promise<IEmailResponse[]>;
+
+  getActiveEmailBinding(): Promise<IGetActiveEmailBindingResponse>;
+
+  addNewEmailBinding(email: string): Promise<IEmailResponse>;
+
+  editEmailBinding(email: string): Promise<IEmailResponse>;
+
+  confirmEmailBinding(email: string, code: string): Promise<IEmailResponse>;
+
+  resendConfirmationCode(email: string): Promise<string>;
 }

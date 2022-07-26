@@ -15,9 +15,9 @@ export const fetchPrivateStats = createAction<RequestAction<PrivateStats>>(
       onRequest: () => ({
         promise: (async (): Promise<PrivateStats> => {
           const service = await MultiService.getInstance();
-    
+
           const result = await service.getPrivateStats(interval);
-    
+
           return result;
         })(),
       }),
