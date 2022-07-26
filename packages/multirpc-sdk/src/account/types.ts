@@ -181,3 +181,13 @@ export interface IEmailResponse {
   expiresAt: string;
   error?: IEmailResponseError;
 }
+
+export interface INotificationsSettings {
+  deposit?: boolean;
+  withdraw?: boolean;
+  voucher?: boolean;
+  low_balance?: boolean;
+  marketing?: boolean;
+  balance_7days?: boolean;
+  balance_3days?: boolean;
+}

@@ -555,6 +555,18 @@
       "too-many-change-email-requests": "You can change your email once in {minutes} minute{plural}",
       "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} minute{plural}",
       "already-confirmed": "The email address {email} has already been registered"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "form": {
+        "balance-status": "Balance Status",
+        "balance-updates": {
+          "title": "Balance updates",
+          "description": "Top ups, withdrawals, voucher credits added, and other updates."
+        },
+        "marketing": "Ankr Protocol updates and marketing materials"
+      },
+      "success": "Settings Saved"
     }
   },
   "explorer": {

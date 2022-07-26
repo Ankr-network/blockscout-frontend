@@ -15,6 +15,7 @@ import {
   IEmailResponse,
   IGetActiveEmailBindingResponse,
   IGetEmailBindingStatusesResponse,
+  INotificationsSettings,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
@@ -216,6 +217,25 @@ export class AccountGateway implements IAccountGateway {
       {
         params: { email },
       },
+    );
+
+    return response;
+  }
+
+  async editNotificationSettings(
+    data: INotificationsSettings,
+  ): Promise<INotificationsSettings> {
+    const { data: response } = await this.api.post<INotificationsSettings>(
+      '/api/v1/auth/notification/configuration',
+      data,
+    );
+
+    return response;
+  }
+
+  async getNotificationSettings(): Promise<INotificationsSettings> {
+    const { data: response } = await this.api.get(
+      '/api/v1/auth/notification/configuration',
     );
 
     return response;

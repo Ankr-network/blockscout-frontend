@@ -7,6 +7,7 @@ import {
   IDailyChargingReponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
+  INotificationsSettings,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
@@ -58,4 +59,10 @@ export interface IAccountGateway {
   confirmEmailBinding(email: string, code: string): Promise<IEmailResponse>;
 
   resendConfirmationCode(email: string): Promise<string>;
+
+  editNotificationSettings(
+    data: INotificationsSettings,
+  ): Promise<INotificationsSettings>;
+
+  getNotificationSettings(): Promise<INotificationsSettings>;
 }
