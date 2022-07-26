@@ -20,6 +20,8 @@ export const getInitialValues = (settings: INotificationsSettings) => {
   };
 };
 
+const SHOW_BALANCE_UPDATES = false;
+
 export const prepareValuesForRequest = (
   values: NotificationsFormData,
 ): INotificationsSettings => {
@@ -34,9 +36,12 @@ export const prepareValuesForRequest = (
   data.deposit = balance;
   data.withdraw = balance;
   data.voucher = balance;
-  data.low_balance = balance;
-  data.balance_7days = balance;
-  data.balance_3days = balance;
+
+  if (SHOW_BALANCE_UPDATES) {
+    data.low_balance = balance;
+    data.balance_7days = balance;
+    data.balance_3days = balance;
+  }
 
   return data;
 };
