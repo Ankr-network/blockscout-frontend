@@ -101,7 +101,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   );
 
   const totalAmount = useMemo(() => {
-    if (!stakeGasFee) {
+    if (!stakeGasFee || bnbBalance?.isLessThan(amount)) {
       return ZERO;
     }
 
