@@ -4,7 +4,6 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { connect } from 'domains/auth/actions/connect';
 import { setAuthData } from 'domains/auth/store/authSlice';
-import { tryToLogin } from 'domains/auth/utils/tryToLogin';
 import { MultiService } from 'modules/api/MultiService';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { IJwtToken } from 'multirpc-sdk';
@@ -37,8 +36,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
               fetchPublicKey(),
             );
 
-            const credentials = await tryToLogin(
-              service,
+            const credentials = await service.loginAsUser(
               address,
               publicKey as string,
             );

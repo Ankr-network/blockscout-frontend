@@ -5,7 +5,6 @@ import { fetchEncryptionKey } from './fetchEncryptionKey';
 import { throwIfError } from 'common';
 import { hasMetamask } from '../utils/hasMetamask';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
-import { tryToLogin } from '../utils/tryToLogin';
 import { switchEthereumChain } from 'domains/auth/utils/switchEthereumChain';
 import { authorizeProvider } from 'domains/infrastructure/actions/authorizeProvider';
 import { MultiService } from 'modules/api/MultiService';
@@ -62,7 +61,7 @@ export const loginAndCacheAuthData = async (
   } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
 
   const { currentAccount: address } = service.getKeyProvider();
-  const credentials = await tryToLogin(service, address, encryptionPublicKey);
+  const credentials = await service.loginAsUser(address, encryptionPublicKey);
 
   const { data: authorizationToken } = throwIfError(
     await store.dispatchRequest(authorizeProvider()),
