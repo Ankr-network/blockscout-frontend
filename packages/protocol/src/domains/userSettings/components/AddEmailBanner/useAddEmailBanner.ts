@@ -1,4 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useOnWalletConnect } from 'domains/auth/hooks/useOnWalletConnect';
 import { getEmailBindingStatuses } from 'domains/userSettings/actions/email/getEmailBindingStatuses';
@@ -8,8 +10,8 @@ import {
 } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
 import { UserSettingsBanners } from 'domains/userSettings/types';
 import { makeEmailStatus } from 'domains/userSettings/utils/makeEmailStatus';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { IEmailResponse } from 'multirpc-sdk';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 import {
@@ -44,8 +46,16 @@ export const useAddEmailBanner = ({
 
   const { isWalletConnected, address } = useAuth();
 
+  useOnMount(() => {
+    if (isWalletConnected && !asCard) {
+      dispatchRequest(getEmailBindingStatuses({ address }));
+    }
+  });
+
   useOnWalletConnect(() => {
-    dispatchRequest(getEmailBindingStatuses({ address }));
+    if (!asCard) {
+      dispatchRequest(getEmailBindingStatuses({ address }));
+    }
   });
 
   const { loading, data } = useQuery<IEmailResponse[] | null>({

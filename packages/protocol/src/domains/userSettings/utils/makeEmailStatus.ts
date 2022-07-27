@@ -28,7 +28,7 @@ export const makeEmailStatus = (
     !isEmailConfirmed && !isEmailPending && !!lastLinkExpiredEmail;
 
   const isEmailNotUsed =
-    !isEmailConfirmed && !isEmailPending && !isEmailLinkExpired;
+    !!bindings && !isEmailConfirmed && !isEmailPending && !isEmailLinkExpired;
 
   return {
     confirmedEmail,
