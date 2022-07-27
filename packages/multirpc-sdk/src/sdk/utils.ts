@@ -28,11 +28,17 @@ export const formatPublicUrls = (
     item => item.id !== 'avalanche-evm',
   );
 
+  const tronItem = blockchainsApiResponse.find(item => item.id === 'tron');
+
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
 
     if (blockchain.id === 'avalanche') {
       blockchain.paths = avalancheEvmItem?.paths ?? [];
+    }
+
+    if (blockchain.id === 'tron') {
+      blockchain.paths = tronItem?.paths ? [tronItem.paths[0]] : [];
     }
 
     const rpcURLs: string[] = hasRPC
@@ -48,6 +54,18 @@ export const formatPublicUrls = (
   }, {});
 };
 
+const getPaths = (blockchain: IBlockchainEntity) => {
+  const isTron = blockchain.id === 'tron';
+
+  let paths = blockchain?.paths ?? [];
+
+  if (isTron) {
+    paths = blockchain?.paths ? [blockchain.paths[1]] : [];
+  }
+
+  return paths;
+};
+
 export const formatPrivateUrls = (
   blockchains: IBlockchainEntity[],
   config: IConfig,
@@ -57,8 +75,10 @@ export const formatPrivateUrls = (
     const hasRPC = blockchain.features.includes('rpc');
     const hasWS = blockchain.features.includes('ws');
 
+    const paths = getPaths(blockchain);
+
     const rpcURLs: string[] = hasRPC
-      ? blockchain?.paths?.map(path =>
+      ? paths.map(path =>
           config.privateRpcUrl
             .replace('{blockchain}', path)
             .replace('{user}', tokenHash),
@@ -66,7 +86,7 @@ export const formatPrivateUrls = (
       : [];
 
     const wsURLs: string[] = hasWS
-      ? blockchain?.paths?.map(path =>
+      ? paths.map(path =>
           config.privateWsUrl
             .replace('{blockchain}', path)
             .replace('{user}', tokenHash),

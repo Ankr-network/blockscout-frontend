@@ -48,6 +48,7 @@ const chainNameCoinMap = {
   syscoin: 'sys',
   arbitrum: 'aeth',
   optimism: 'op',
+  tron: 'trx',
 };
 
 export type TChainName = keyof typeof chainNameCoinMap;
