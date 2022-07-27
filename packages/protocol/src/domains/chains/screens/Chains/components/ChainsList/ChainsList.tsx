@@ -1,33 +1,35 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { useChainListStyles } from './ChainsListStyles';
-import { formatChains, PERIOD, sortChains } from './ChainsListUtils';
-import { ChainsListProps } from './ChainsListTypes';
 import { ChainsItemQuery } from '../ChainsItem/ChainsItemQuery';
+import { ChainsListProps } from './ChainsListTypes';
+import { PERIOD } from './ChainsListUtils';
+import { useChainListStyles } from './ChainsListStyles';
+import { useChains } from './hooks/useChains';
 
-export const ChainsList = ({ data, sortType }: ChainsListProps) => {
+export const ChainsList = ({
+  chains,
+  sortType,
+  statsTimeframe,
+}: ChainsListProps) => {
   const classes = useChainListStyles();
 
-  const chains = useMemo(() => {
-    const formattedChains = formatChains(data);
-
-    return sortChains(formattedChains, sortType);
-  }, [data, sortType]);
+  const processedChains = useChains({ chains, sortType });
 
   return (
     <div className={classes.root}>
-      {chains.map(item => {
+      {processedChains.map(item => {
         const { id, name, urls } = item;
 
         return (
           <div className={classes.wrapper} key={id}>
             <ChainsItemQuery
+              chain={item}
               chainId={id}
+              links={urls}
               logoSrc={item.icon}
               name={name}
               period={PERIOD}
-              links={urls}
-              chain={item}
+              statsTimeframe={statsTimeframe}
             />
           </div>
         );

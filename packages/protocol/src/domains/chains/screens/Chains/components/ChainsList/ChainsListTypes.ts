@@ -1,10 +1,13 @@
 import BigNumber from 'bignumber.js';
+import { PrivateStatsInternal } from 'multirpc-sdk';
+
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { SortType } from '../ChainsSortSelect/ChainsSortSelectUtils';
+import { SortType, StatsTimeframe } from 'domains/chains/types';
 
 export interface ChainsListProps {
-  data: IApiChain[];
+  chains: IApiChain[];
   sortType: SortType;
+  statsTimeframe: StatsTimeframe;
 }
 
 export interface Chain {
@@ -16,4 +19,11 @@ export interface Chain {
   totalRequests?: BigNumber;
   isArchive?: boolean;
   urls: IApiChainURL[];
+}
+
+export interface SortChainsParams {
+  chains: Chain[];
+  isWalletConnected: boolean;
+  sortType: SortType;
+  stats: PrivateStatsInternal;
 }

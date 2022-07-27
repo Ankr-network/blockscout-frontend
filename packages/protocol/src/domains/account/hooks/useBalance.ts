@@ -1,11 +1,11 @@
 import { stopPolling } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { defaultBalance } from 'domains/account/actions/balance/const';
 import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 
 export interface Balance extends AccountBalance {
   isLoading: boolean;

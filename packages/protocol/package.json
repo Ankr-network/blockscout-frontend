@@ -143,6 +143,7 @@
     ],
     "include": [
       "/",
+      "/public/",
       "/public/avalanche/",
       "/public/eth/",
       "/public/fantom/",
@@ -158,7 +159,8 @@
       "/public/moonbeam/",
       "/public/nervos/",
       "/public/gnosis/",
-      "/public/optimism",
+      "/public/optimism/",
+      "/public/tron/",
       "/public/avalanche/add/",
       "/public/eth/add/",
       "/public/fantom/add/",
@@ -177,12 +179,14 @@
       "/public/nervos/add/",
       "/public/moonbeam/add/",
       "/public/optimism/add/",
+      "/public/tron/add/",
       "/account/",
       "/account/topup/",
       "/account/withdraw/",
       "/providers/",
       "/explorer/",
-      "/public/"
+      "/settings/",
+      "/settings/confirmation"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

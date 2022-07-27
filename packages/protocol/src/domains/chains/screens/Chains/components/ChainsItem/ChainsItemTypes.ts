@@ -1,14 +1,16 @@
-import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { Chain } from '../ChainsList/ChainsListTypes';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { StatsTimeframe } from 'domains/chains/types';
 
 export interface ChainsItemQueryProps {
-  logoSrc: string;
-  name: string;
-  description?: string;
-  period: string;
-  links: IApiChainURL[];
   chain: Chain;
   chainId: string;
+  description?: string;
+  links: IApiChainURL[];
+  logoSrc: string;
+  name: string;
+  period: string;
+  statsTimeframe: StatsTimeframe;
 }
 
 export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
