@@ -13,7 +13,7 @@ import {
 import { t } from 'modules/i18n/utils/intl';
 import { MultiService } from 'modules/api/MultiService';
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
-import { checkPendingTransaction } from '../withdraw/getInitialStep/checkPendingTransaction';
+import { waitPendingTransaction } from '../withdraw/getInitialStep/waitPendingTransaction';
 
 const MAX_ATTEMPTS = 50;
 
@@ -29,10 +29,10 @@ const waitForBlocks = async (
     return undefined;
   }
 
+  await waitPendingTransaction();
+
   return retry(
     async () => {
-      await checkPendingTransaction();
-
       const service = await MultiService.getInstance();
       const provider = service.getKeyProvider();
       const { currentAccount: address } = provider;

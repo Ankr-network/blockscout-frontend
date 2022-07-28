@@ -210,6 +210,22 @@ export class PAYGContractManager implements IPAYGContractManager {
     return providerRequestEvents;
   }
 
+  async getLatestAllowanceEvents(user: Web3Address): Promise<EventData[]> {
+    const events = await this.ankrTokenContract.getPastEvents('Approval', {
+      filter: {
+        owner: user,
+      },
+      fromBlock: 'earliest',
+      toBlock: 'latest',
+    });
+
+    const allowanceEvents = events
+      .filter(event => event.returnValues.owner === user)
+      .sort((a, b) => a.blockNumber - b.blockNumber);
+
+    return allowanceEvents;
+  }
+
   async decryptMessageUsingPrivateKey(
     compatibleJsonData: string,
   ): Promise<string> {
