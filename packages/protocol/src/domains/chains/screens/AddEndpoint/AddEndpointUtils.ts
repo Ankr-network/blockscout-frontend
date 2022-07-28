@@ -27,7 +27,7 @@ export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
 
       setBreadcrumbs([
         {
-          title: t(ChainsRoutesConfig.chains.breadcrumbs),
+          title: t(ChainsRoutesConfig.chains['connected-breadcrumbs']),
           link: ChainsRoutesConfig.chains.path,
         },
         {

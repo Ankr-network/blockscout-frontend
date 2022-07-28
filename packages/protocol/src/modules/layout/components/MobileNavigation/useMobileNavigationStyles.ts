@@ -51,13 +51,12 @@ export const useMobileNavigationStyles = makeStyles<Theme>(theme => ({
     },
 
     '&:hover': {
-      color: theme.palette.primary.main,
       background: theme.palette.background.paper,
     },
   },
 
   activeLink: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
     cursor: 'default',
     fontWeight: 'bold',
   },

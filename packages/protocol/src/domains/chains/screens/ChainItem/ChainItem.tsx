@@ -18,11 +18,11 @@ interface IChainItemUIProps {
 }
 
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
-  const { credentials, loading: authLoading } = useAuth();
+  const { credentials, loading: authLoading, isWalletConnected } = useAuth();
 
   const classes = useStyles();
 
-  useChainItemBreadcrumbs(data.chain.name);
+  useChainItemBreadcrumbs(data.chain.name, isWalletConnected);
 
   const { chain, nodes } = data;
 

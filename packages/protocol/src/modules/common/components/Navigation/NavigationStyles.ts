@@ -6,25 +6,25 @@ export const HEADER_HEIGHT_XL = 80;
 export const useStyles = makeStyles<Theme>(theme => ({
   link: {
     width: '100%',
-    height: 48,
     color: theme.palette.text.secondary,
     justifyContent: 'flex-start',
-    padding: theme.spacing(1.5),
-    fontWeight: 400,
-    cursor: 'pointer',
+    padding: theme.spacing(2),
+    fontWeight: 500,
 
     '&& svg': {
+      fontSize: 16,
+      marginRight: theme.spacing(1.5),
+
       [theme.breakpoints.down('sm')]: {
         marginRight: theme.spacing(1),
       },
     },
 
-    '&:hover': {
-      color: theme.palette.primary.main,
-      backgroundColor: theme.palette.background.default,
-      '& svg': {
-        color: theme.palette.primary.main,
-      },
+    '&:not($activeLink):hover': {
+      background: theme.palette.background.default,
+    },
+    '&:not(:last-child)': {
+      marginBottom: 3,
     },
 
     [theme.breakpoints.down('sm')]: {
@@ -44,10 +44,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   activeLink: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
     cursor: 'default',
-    fontWeight: 600,
+    fontWeight: 'bold',
     background: theme.palette.background.default,
+  },
+  icon: {
+    marginRight: theme.spacing(2),
   },
   endIcon: {
     color: theme.palette.primary.main,

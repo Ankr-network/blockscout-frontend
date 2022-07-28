@@ -23,7 +23,7 @@ export const Navigation = ({ items }: NavigationProps) => {
                 rel="noopener noreferrer"
                 variant="text"
                 className={classes.link}
-                startIcon={<StartIcon />}
+                startIcon={<StartIcon className={classes.icon} />}
                 endIcon={EndIcon && <EndIcon className={classes.endIcon} />}
                 disabled={!href || isDisabled}
               >
@@ -40,7 +40,7 @@ export const Navigation = ({ items }: NavigationProps) => {
               variant="text"
               activeClassName={classes.activeLink}
               className={classes.link}
-              startIcon={<StartIcon />}
+              startIcon={<StartIcon className={classes.icon} />}
               endIcon={EndIcon && <EndIcon className={classes.endIcon} />}
               disabled={!href || isDisabled}
               isActive={isActive}

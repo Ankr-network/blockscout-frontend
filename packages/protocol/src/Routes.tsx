@@ -1,8 +1,9 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
+import { Plan } from 'domains/account/screens/Plan';
 import {
-  RequestExplorerRoutes,
   ExplorerRoutesConfig,
+  RequestExplorerRoutes,
 } from 'domains/explorer/Routes';
 import { useAppSelector } from 'store/useAppSelector';
 import { AccountRoutesConfig } from './domains/account/Routes';
@@ -24,7 +25,6 @@ import {
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { Themes } from 'ui';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { useAuth } from './domains/auth/hooks/useAuth';
@@ -75,15 +75,6 @@ export function Routes() {
           </DefaultLayout>
         )}
       />
-      <Route
-        exact
-        path={[PricingRoutesConfig.pricing.path]}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <PricingRoutes />
-          </DefaultLayout>
-        )}
-      />
       <GuardAuthRoute
         exact
         path={[
@@ -95,8 +86,8 @@ export function Routes() {
           Boolean(cachedAuthData.authorizationToken) && isWalletConnected
         }
         render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <PricingRoutes />
+          <DefaultLayout disableGutters theme={Themes.light}>
+            <Plan />
           </DefaultLayout>
         )}
       />
