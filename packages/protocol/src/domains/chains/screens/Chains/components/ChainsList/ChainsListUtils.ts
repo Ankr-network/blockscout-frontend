@@ -49,12 +49,13 @@ const chainNameCoinMap = {
   arbitrum: 'aeth',
   optimism: 'op',
   tron: 'trx',
+  bttc: 'btt',
 };
 
 export type TChainName = keyof typeof chainNameCoinMap;
 
 export const getChainCoin = (chainName: TChainName) => {
-  return chainNameCoinMap[chainName.toLowerCase() as TChainName] || chainName;
+  return chainNameCoinMap[chainName] || chainName;
 };
 
 const publicChainsSorter = (a: Chain, b: Chain) =>
