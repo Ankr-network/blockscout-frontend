@@ -19,9 +19,6 @@ export const CheckboxField = ({
   return (
     <>
       <FormControlLabel
-        style={{
-          alignItems: 'flex-start',
-        }}
         label={
           typeof label === 'string' ? (
             <Typography variant="caption" color="textSecondary">

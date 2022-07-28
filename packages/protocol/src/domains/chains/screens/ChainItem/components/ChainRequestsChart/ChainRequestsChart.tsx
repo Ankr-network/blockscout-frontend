@@ -1,19 +1,23 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { Timeframe } from 'multirpc-sdk';
 
+import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
 import { Chart } from 'modules/common/components/Chart';
 import { ChartTooltip } from './ChartTooltip';
+import { StatsTimeframe } from 'domains/chains/types';
 import { formatDate, processData } from './ChainRequestsChartUtils';
-import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
 import { t } from 'modules/i18n/utils/intl';
 
 export const ChainRequestsChart = ({
-  timeframe,
-  requestsLog,
   loading,
+  isWalletConnected,
+  requestsLog,
+  timeframe,
 }: ChainRequestsChartProps) => {
-  const data = useMemo(() => processData(requestsLog), [requestsLog]);
-  const timeframeRef = useRef<Timeframe>();
+  const data = useMemo(
+    () => processData(requestsLog, isWalletConnected, timeframe),
+    [isWalletConnected, requestsLog, timeframe],
+  );
+  const timeframeRef = useRef<StatsTimeframe>();
   timeframeRef.current = timeframe;
 
   const callsFormatter = useCallback(
