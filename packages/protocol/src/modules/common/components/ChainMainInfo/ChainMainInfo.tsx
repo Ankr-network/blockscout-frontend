@@ -25,7 +25,13 @@ export const ChainMainInfo = ({
     <div className={classNames(classes.root, className)}>
       {logoSrc && <img className={classes.logo} src={logoSrc} alt="" />}
       <div className={classes.right}>
-        <Typography variant="h4" noWrap className={classes.title}>
+        <Typography
+          variant="h4"
+          noWrap
+          className={classNames(classes.title, {
+            [classes.hasLabel]: label,
+          })}
+        >
           {name}
         </Typography>
         {label}

@@ -33,7 +33,7 @@ export const ChainItemHeader = ({
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
-  const { name } = chain;
+  const { name, id } = chain;
 
   const exclusivePart = hasCredentials ? <ExclusiveRPCEndpoints /> : null;
 
@@ -41,7 +41,7 @@ export const ChainItemHeader = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
         <div className={classes.left}>
-          <MainInfo name={name} icon={icon} nodes={nodes} />
+          <MainInfo id={id} name={name} icon={icon} nodes={nodes} />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
         {hasCredentials || loading ? null : (
