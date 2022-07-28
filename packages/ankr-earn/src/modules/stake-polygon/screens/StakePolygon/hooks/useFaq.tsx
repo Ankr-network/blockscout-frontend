@@ -2,17 +2,14 @@ import { useQuery } from '@redux-requests/react';
 
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
-import { RoutesConfig } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
 
-const tradeLink = RoutesConfig.tradingCockpit.generatePath(
-  Token.aMATICb,
-  Token.MATIC,
-);
+const tradeLink = RoutesConfig.defi.generatePath(Token.aMATICb);
 
 export const useFaq = (): IFaqItem[] => {
   const { data: fetchStatsData } = useQuery({

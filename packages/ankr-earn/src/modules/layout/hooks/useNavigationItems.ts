@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 
-import { RoutesConfig as BoostRoutes } from 'modules/boost/Routes';
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';
 import {
@@ -13,6 +12,7 @@ import {
 } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { Locale } from 'modules/i18n/types/locale';
@@ -68,9 +68,9 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
             : EParachainPolkadotNetwork.WND.toLowerCase(),
         ),
       },
-      boost: {
-        label: t('main-navigation.boost'),
-        href: BoostRoutes.root,
+      defi: {
+        label: t('main-navigation.defi'),
+        href: DefiRoutes.root,
       },
       switcher: {
         label: t('main-navigation.switcher'),
@@ -97,7 +97,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.dashboard,
       ...(featuresConfig.ankrStaking ? [links.ankrStaking] : []),
       links.stake,
-      links.boost,
+      links.defi,
       links.bridge,
       links.switcher,
     ],
@@ -114,7 +114,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
       links.dashboard,
       ...(featuresConfig.ankrStaking ? [links.ankrStaking] : []),
       links.stake,
-      links.boost,
+      links.defi,
       links.bridge,
       links.switcher,
       links.parachain,
