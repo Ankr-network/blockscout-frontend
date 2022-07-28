@@ -11,12 +11,13 @@ import {
 } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
 
 interface MainInfoProps {
+  id: string;
   icon: string;
   nodes?: INodeEntity[];
   name: string;
 }
 
-export const MainInfo = ({ name, icon, nodes }: MainInfoProps) => {
+export const MainInfo = ({ id, name, icon, nodes }: MainInfoProps) => {
   const classes = useStyles();
 
   const hasArchiveNodes = useMemo(
@@ -24,7 +25,7 @@ export const MainInfo = ({ name, icon, nodes }: MainInfoProps) => {
     [nodes],
   );
 
-  const coinName = getChainCoin(name as TChainName);
+  const coinName = getChainCoin(id as TChainName);
 
   return (
     <ChainMainInfo

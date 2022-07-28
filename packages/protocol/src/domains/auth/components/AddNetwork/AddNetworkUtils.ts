@@ -161,6 +161,18 @@ const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://www.layerview.io/'],
 };
 
+// bttc
+const BTTC_NETWORK_PARAMS = {
+  chainId: 199,
+  chainName: 'BTTC Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'BTTC Mainnet',
+    symbol: 'BTT',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://bttcscan.com'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -203,6 +215,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, IOTEX_NETWORK_PARAMS);
     case 'nervos':
       return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
+    case 'bttc':
+      return mapParams(chain, BTTC_NETWORK_PARAMS);
     default:
       return undefined;
   }
