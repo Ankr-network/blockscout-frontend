@@ -8,7 +8,7 @@ import { API_ENV } from 'modules/common/utils/environment';
 export const web3 = new Web3(
   API_ENV === 'prod'
     ? 'https://rpc.ankr.com/eth/22e282df02e47a6dc906c48db9830304e93e9f12bb74a179152c747c01d4e7b7'
-    : 'https://staging.multi-rpc.com/eth_goerli',
+    : 'https://rpc.ankr.com/eth_goerli',
 );
 
 const hasPendingTransaction = async () => {

@@ -22,7 +22,7 @@ export const getWithdrawInitialStep = createSmartAction<
   meta: {
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
-        promise: (async (): Promise<any> => {
+        promise: (async (): Promise<WithdrawStep> => {
           const service = await MultiService.getInstance();
 
           await checkPendingTransaction();
