@@ -1,12 +1,12 @@
-import { fork, call, takeEvery, cancel } from 'redux-saga/effects';
-import { Task } from 'redux-saga';
 import { success } from '@redux-requests/core';
+import { Task } from 'redux-saga';
+import { call, cancel, fork, takeEvery } from 'redux-saga/effects';
 
-import { notificationSaga } from 'domains/notification/effects/notificationSaga';
+import { providerEventsSaga } from '@ankr.com/provider';
 import { connect } from 'domains/auth/actions/connect';
 import { disconnect } from 'domains/auth/actions/disconnect';
+import { notificationSaga } from 'domains/notification/effects/notificationSaga';
 import { MultiService } from 'modules/api/MultiService';
-import { providerEventsSaga } from '@ankr.com/provider';
 import { MultiRpcSdk } from 'multirpc-sdk';
 
 export function* rootSaga() {

@@ -20,6 +20,8 @@ import {
   IBalance,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  PrivateStats,
+  PrivateStatsInterval,
 } from '../account';
 import { IBackofficeGateway, IBlockchainEntity } from '../backoffice';
 import { IPAYGContractManager } from '../PAYGContract';
@@ -118,6 +120,8 @@ export interface IMultiRpcSdk {
   rejectAllowanceForPAYG(): Promise<IWeb3SendResult>;
 
   getBalanceEndTime(blockchain?: string[]): Promise<number>;
+
+  getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats>;
 
   getLastLockedFundsEvent(user: Web3Address): Promise<EventData | undefined>;
 

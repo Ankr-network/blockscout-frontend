@@ -658,11 +658,12 @@ export const mainTheme = createTheme({
         borderRadius: 0,
       },
       standardError: {
-        backgroundColor: '#FF362D',
+        backgroundColor: defaultTheme.palette.error.main,
         color: defaultTheme.palette.common.white,
       },
       standardSuccess: {
-        color: defaultTheme.palette.common.black,
+        backgroundColor: defaultTheme.palette.success.main,
+        color: defaultTheme.palette.common.white,
       },
       message: {
         fontSize: 14,

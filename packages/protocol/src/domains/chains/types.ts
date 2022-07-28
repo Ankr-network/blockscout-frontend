@@ -3,17 +3,13 @@ export enum ChainType {
   Testnet = 'testnet',
 }
 
-export enum Period {
-  Day = '24h',
-  Week = '7d',
-  Month = '30d',
+export enum SortType {
+  Name = 'name',
+  Usage = 'usage',
 }
 
-export interface MethodRequest {
-  method: string;
-  calls: number;
-}
-
-export interface PreparedRequest extends MethodRequest {
-  percent: number;
+export enum StatsTimeframe {
+  DAY,
+  WEEK,
+  MONTH,
 }

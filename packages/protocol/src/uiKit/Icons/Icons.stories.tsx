@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
@@ -9,8 +8,8 @@ import { AngleRightIcon } from './AngleRightIcon';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ReactComponent as BoxIcon } from './box.svg';
 import { ReactComponent as ChatIcon } from './chat.svg';
-import { ReactComponent as DiamondIcon } from './diamond.svg';
 import { CopyIcon } from './CopyIcon';
+import { ReactComponent as DiamondIcon } from './diamond.svg';
 import { ReactComponent as FileIcon } from './file.svg';
 import { ReactComponent as PaperIcon } from './paper.svg';
 import { ReactComponent as SuccessIcon } from './success.svg';

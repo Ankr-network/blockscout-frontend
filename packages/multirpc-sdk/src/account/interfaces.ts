@@ -1,14 +1,20 @@
 import {
+  EmailConfirmationStatus,
   IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
   IBalance,
   IDailyChargingParams,
   IDailyChargingReponse,
+  IEmailResponse,
+  IGetActiveEmailBindingResponse,
+  INotificationsSettings,
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IRequestsRequest,
   IRequestsResponse,
   IWithdrawalStatusResponse,
+  PrivateStats,
+  PrivateStatsInterval,
 } from './types';
 
 export interface IAccountGateway {
@@ -34,7 +40,29 @@ export interface IAccountGateway {
 
   getBalanceEndTime(blockchains?: string[]): Promise<number>;
 
+  getPrivateStats(intervalType: PrivateStatsInterval): Promise<PrivateStats>;
+  
   getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse>;
+
+  getEmailBindingStatuses(
+    filters?: EmailConfirmationStatus,
+  ): Promise<IEmailResponse[]>;
+
+  getActiveEmailBinding(): Promise<IGetActiveEmailBindingResponse>;
+
+  addNewEmailBinding(email: string): Promise<IEmailResponse>;
+
+  editEmailBinding(email: string): Promise<IEmailResponse>;
+
+  confirmEmailBinding(email: string, code: string): Promise<IEmailResponse>;
+
+  resendConfirmationCode(email: string): Promise<string>;
+
+  editNotificationSettings(
+    data: INotificationsSettings,
+  ): Promise<INotificationsSettings>;
+
+  getNotificationSettings(): Promise<INotificationsSettings>;
 }

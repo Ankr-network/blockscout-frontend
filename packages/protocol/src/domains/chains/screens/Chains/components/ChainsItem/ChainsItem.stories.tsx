@@ -7,6 +7,7 @@ import { mainTheme } from 'ui';
 import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { ChainsItem } from './ChainsItem';
 import BigNumber from 'bignumber.js';
+import { StatsTimeframe } from 'domains/chains/types';
 
 const chain = {
   isLoading: false,
@@ -30,6 +31,7 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           period="24h"
           links={chain.urls}
           chain={chain}
+          statsTimeframe={StatsTimeframe.MONTH}
         />
       </Box>
     </ThemeProvider>

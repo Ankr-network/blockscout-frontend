@@ -1,31 +1,33 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { Timeframe } from 'multirpc-sdk';
 
-import { t } from 'modules/i18n/utils/intl';
 import { DetailsBlock } from './DetailsBlock';
-import { useStyles } from './ChainItemDetailsStyles';
+import { StatsTimeframe } from 'domains/chains/types';
 import {
   formatNumber,
   getAvarageRequests,
   getCachedRequestPercent,
 } from './ChainItemDetailsUtils';
+import { t } from 'modules/i18n/utils/intl';
+import { useStyles } from './ChainItemDetailsStyles';
 
 interface ChainItemDetailsProps {
-  totalRequests?: BigNumber;
-  totalCached?: BigNumber;
   className?: string;
-  timeframe: Timeframe;
+  isWalletConnected: boolean;
   loading: boolean;
+  timeframe: StatsTimeframe;
+  totalCached?: BigNumber;
+  totalRequests?: BigNumber;
 }
 
 export const ChainItemDetails = ({
-  totalRequests,
-  totalCached,
-  timeframe,
   className,
+  isWalletConnected,
   loading,
+  timeframe,
+  totalCached,
+  totalRequests,
 }: ChainItemDetailsProps) => {
   const classes = useStyles();
 
@@ -38,12 +40,14 @@ export const ChainItemDetails = ({
         className={classes.block}
         loading={loading}
       />
-      <DetailsBlock
-        title={t('chain-item.details.cached-requests')}
-        value={getCachedRequestPercent(totalRequests, totalCached)}
-        className={classes.block}
-        loading={loading}
-      />
+      {!isWalletConnected && (
+        <DetailsBlock
+          title={t('chain-item.details.cached-requests')}
+          value={getCachedRequestPercent(totalRequests, totalCached)}
+          className={classes.block}
+          loading={loading}
+        />
+      )}
       <DetailsBlock
         title={t('chain-item.details.average-requests')}
         value={getAvarageRequests(timeframe, totalRequests)}
