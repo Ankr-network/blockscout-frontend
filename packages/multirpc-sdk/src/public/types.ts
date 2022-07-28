@@ -4,11 +4,16 @@ export interface ICountry {
   requests: number;
 }
 
+export type TotalRequestsHistoryTimestamp = string;
+
+export type TotalRequestsHistory =
+  Record<TotalRequestsHistoryTimestamp, number>;
+
 export interface IWorkerGlobalStatus {
   uniqueVisitors: number;
   uniqueVisitorsHistory: Record<string, number>;
   totalRequests: number;
-  totalRequestsHistory: Record<string, number>;
+  totalRequestsHistory: TotalRequestsHistory;
   totalCached: number;
   totalCachedHistory: Record<string, number>;
   totalServed: number;

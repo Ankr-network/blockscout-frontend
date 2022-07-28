@@ -7,20 +7,22 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
-import { i18nSlice } from 'modules/i18n/i18nSlice';
-import { extractMessage } from '../modules/common/utils/extractError';
-import { historyInstance } from '../modules/common/utils/historyInstance';
-import { NotificationActions } from '../domains/notification/store/NotificationActions';
-import { notificationSlice } from '../domains/notification/store/notificationSlice';
-import { rootSaga } from './rootSaga';
-import { authSlice } from 'domains/auth/store/authSlice';
+import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
+import { accountWithdrawPersistConfig } from 'domains/account/storage/accountWithdrawPersistConfig';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
 import { accountWithdrawSlice } from 'domains/account/store/accountWithdrawSlice';
 import { disconnect } from 'domains/auth/actions/disconnect';
-import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
-import { accountWithdrawPersistConfig } from 'domains/account/storage/accountWithdrawPersistConfig';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
+import { authSlice } from 'domains/auth/store/authSlice';
+import { userSettingsDisabledBannersPersistConfig } from 'domains/userSettings/storage/userSettingsDisabledBannersPersistConfig';
+import { userSettingsDisabledBannersSlice } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
+import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
+import { NotificationActions } from '../domains/notification/store/NotificationActions';
+import { notificationSlice } from '../domains/notification/store/notificationSlice';
+import { extractMessage } from '../modules/common/utils/extractError';
+import { historyInstance } from '../modules/common/utils/historyInstance';
+import { rootSaga } from './rootSaga';
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
@@ -86,6 +88,10 @@ const rootReducer = combineReducers({
     accountWithdrawPersistConfig,
     accountWithdrawSlice.reducer,
   ),
+  userSettingsDisabledBanners: persistReducer(
+    userSettingsDisabledBannersPersistConfig,
+    userSettingsDisabledBannersSlice.reducer,
+  ),
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
@@ -102,7 +108,6 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// @ts-ignore
 sagaMiddleware.run(rootSaga);
 
 export type Store = typeof store;

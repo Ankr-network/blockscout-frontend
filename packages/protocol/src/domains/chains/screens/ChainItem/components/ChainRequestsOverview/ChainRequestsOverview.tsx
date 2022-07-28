@@ -1,40 +1,49 @@
 import React, { ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
-import { Timeframe } from 'multirpc-sdk';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
-import { t } from 'modules/i18n/utils/intl';
 import { ChainRequestsChart } from '../ChainRequestsChart';
-import { useStyles } from './useStyles';
+import { RequestsChartPlaceholder } from './components/RequestsChartPlaceholder';
 import { Spinner } from 'ui';
+import { StatsTimeframe } from 'domains/chains/types';
+import { isTotalRequestsHistoryNotEmpty } from './utils/isTotalRequestsHistoryNotEmpty';
+import { t } from 'modules/i18n/utils/intl';
+import { useStyles } from './useStyles';
 
 interface ChainRequestsOverviewProps {
-  className?: string;
-  totalRequestsHistory?: Record<string, number>;
-  timeframe: Timeframe;
-  onClick: (timeframe: Timeframe) => void;
   children: ReactNode;
+  className?: string;
+  isConnecting: boolean;
+  isWalletConnected: boolean;
   loading: boolean;
+  onClick: (timeframe: StatsTimeframe) => void;
   pristine: boolean;
+  timeframe: StatsTimeframe;
+  totalRequestsHistory?: Record<string, number>;
 }
 
 export const ChainRequestsOverview = ({
-  className,
-  totalRequestsHistory,
-  onClick,
-  timeframe,
   children,
+  className,
+  isConnecting,
+  isWalletConnected,
   loading,
+  onClick,
   pristine,
+  timeframe,
+  totalRequestsHistory,
 }: ChainRequestsOverviewProps) => {
   const classes = useStyles();
 
   const handleTimeframe = useCallback(
-    (event: React.MouseEvent<HTMLElement>, value: Timeframe) => {
+    (_, value: StatsTimeframe) => {
       onClick(value);
     },
     [onClick],
   );
+
+  const placeholder =
+    isWalletConnected && !loading ? <RequestsChartPlaceholder /> : null;
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -45,14 +54,17 @@ export const ChainRequestsOverview = ({
         </div>
       ) : (
         <div className={classes.chart}>
-          {totalRequestsHistory &&
-            Object.keys(totalRequestsHistory).length !== 0 && (
-              <ChainRequestsChart
-                requestsLog={totalRequestsHistory}
-                timeframe={timeframe}
-                loading={loading}
-              />
-            )}
+          {!isConnecting &&
+          isTotalRequestsHistoryNotEmpty(totalRequestsHistory) ? (
+            <ChainRequestsChart
+              isWalletConnected={isWalletConnected}
+              loading={loading}
+              requestsLog={totalRequestsHistory}
+              timeframe={timeframe}
+            />
+          ) : (
+            placeholder
+          )}
         </div>
       )}
       <div className={classes.buttonGroup}>
@@ -62,13 +74,13 @@ export const ChainRequestsOverview = ({
           value={timeframe}
           className={classes.toggleButtonGroup}
         >
-          <ToggleButton value="24h" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.DAY} disabled={loading}>
             {t('chain-item.timeframe.24-hours')}
           </ToggleButton>
-          <ToggleButton value="7d" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.WEEK} disabled={loading}>
             {t('chain-item.timeframe.7-days')}
           </ToggleButton>
-          <ToggleButton value="30d" disabled={loading}>
+          <ToggleButton value={StatsTimeframe.MONTH} disabled={loading}>
             {t('chain-item.timeframe.30-days')}
           </ToggleButton>
         </ToggleButtonGroup>

@@ -1,14 +1,13 @@
-import React from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
-import { FieldMetaState, FieldRenderProps } from 'react-final-form';
 import { t } from 'modules/i18n/utils/intl';
+import { FieldMetaState, FieldRenderProps } from 'react-final-form';
 
 import { getErrorText } from '../../utils/getErrorText';
 import { hasError } from '../../utils/hasError';
 import { useInputFieldStyles } from './InputFieldStyles';
 
 interface IFieldProps extends FieldRenderProps<string> {
-  showLimitCounter: boolean;
+  showLimitCounter?: boolean;
   isHelperTextVisible?: boolean;
 }
 

@@ -1,34 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
+import React from 'react';
 
 import { ChainsItem } from './ChainsItem';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
-import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
-
-const TIMEFRAME = '30d';
+import { useChainsItem } from './hooks/useChainsItem';
 
 export const ChainsItemQuery = ({
-  chainId,
   chain,
-  ...otherProps
+  chainId,
+  statsTimeframe,
+  ...props
 }: ChainsItemQueryProps) => {
-  const dispatchRequest = useDispatchRequest();
-
-  useEffect(() => {
-    dispatchRequest(fetchChainDetails(chainId, TIMEFRAME));
-  }, [dispatchRequest, chainId]);
-
-  const { loading } = useMutation({
-    type: fetchChainDetails.toString(),
-    requestKey: chainId,
-  });
+  const [totalRequests, loading] = useChainsItem({ chain, statsTimeframe });
 
   return (
     <ChainsItem
-      totalRequests={chain?.totalRequests?.toString() ?? ''}
-      isLoading={loading}
+      {...props}
       chain={chain}
-      {...otherProps}
+      isLoading={loading}
+      statsTimeframe={statsTimeframe}
+      totalRequests={totalRequests.toString() ?? ''}
     />
   );
 };

@@ -1,17 +1,21 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import {
+  RequestAction,
+  RequestsStore,
+  resetRequests,
+} from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
 import { withStore } from '../utils/withStore';
 import {
   connectProvider,
+  disconnectService,
   getCachedData,
   IConnect,
   loginAndCacheAuthData,
 } from './connectUtils';
-// eslint-disable-next-line import/no-cycle
-import { disconnect } from './disconnect';
 import { hasMetamask } from '../utils/hasMetamask';
+import { resetAuthData } from '../store/authSlice';
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
@@ -35,9 +39,16 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
       onRequest: withStore,
       asMutation: false,
       getData: data => data,
-      onError: (error: Error, _action: RequestAction, store: RequestsStore) => {
+      onError: async (
+        error: Error,
+        _action: RequestAction,
+        store: RequestsStore,
+      ) => {
         if (hasMetamask()) {
-          store.dispatch(disconnect());
+          await disconnectService();
+
+          store.dispatch(resetAuthData());
+          store.dispatch(resetRequests([connect.toString()]));
         }
 
         throw error;

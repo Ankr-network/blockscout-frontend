@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useCallback } from 'react';
 
 import { Select } from 'uiKit/Select';
+import { SortType } from 'domains/chains/types';
+import { useOptions } from './ChainsSortSelectUtils';
 import { useStyles } from './ChainsSortSelectStyles';
-import { SortType, useOptions } from './ChainsSortSelectUtils';
 
 interface IChainsSortSelect {
   onSelect?: (type: SortType) => void;

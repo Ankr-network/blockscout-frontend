@@ -40,6 +40,8 @@ import {
   IPaymentHistoryReponse,
   IPaymentHistoryRequest,
   IWithdrawalStatusResponse,
+  PrivateStats,
+  PrivateStatsInterval,
 } from '../account';
 import { IMultiRpcSdk } from './interfaces';
 import { RpcGateway } from '../rpc/RpcGateway';
@@ -331,7 +333,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
         metaMaskJsonData,
       );
 
-    // try to import jwt token (backend do it also as well, so failure is not critical)
     try {
       const { token, tier } = await this.getWorkerGateway().importJwtToken(
         jwtToken.signed_token,
@@ -339,9 +340,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
       jwtToken.endpoint_token = token;
       jwtToken.tier = tier;
-    } catch (e: any) {
-      // eslint-disable-next-line no-console
-      console.error(`failed to import jwt token: ${e.message}`);
+    } catch (error: any) {
+      throw new Error('Failed to import jwt token');
     }
 
     return jwtToken;
@@ -597,6 +597,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const time = await this.getAccountGateway().getBalanceEndTime(blockchains);
 
     return time;
+  }
+
+  async getPrivateStats(interval: PrivateStatsInterval): Promise<PrivateStats> {
+    const stats = await this.getAccountGateway().getPrivateStats(interval);
+
+    return stats;
   }
 
   async getWithdrawalStatus(

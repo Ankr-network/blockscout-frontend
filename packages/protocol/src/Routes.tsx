@@ -1,9 +1,15 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { useAppSelector } from 'store/useAppSelector';
+import { Plan } from 'domains/account/screens/Plan';
 import {
-  ChainsRoutes,
+  ExplorerRoutesConfig,
+  RequestExplorerRoutes,
+} from 'domains/explorer/Routes';
+import { useAppSelector } from 'store/useAppSelector';
+import { AccountRoutesConfig } from './domains/account/Routes';
+import {
   ChainPrivateRoutes,
+  ChainsRoutes,
   ChainsRoutesConfig,
   INDEX_PATH,
 } from './domains/chains/Routes';
@@ -11,21 +17,19 @@ import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
 } from './domains/nodeProviders/Routes';
-import { AccountRoutesConfig } from './domains/account/Routes';
-import { Plan } from 'domains/account/screens/Plan';
-import {
-  RequestExplorerRoutes,
-  ExplorerRoutesConfig,
-} from 'domains/explorer/Routes';
 
-import { DefaultLayout } from './modules/layout/components/DefautLayout';
-import { PageNotFound } from './modules/router/components/PageNotFound';
-import { Themes } from 'ui';
-import { useAuth } from './domains/auth/hooks/useAuth';
-import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import {
+  UserSettingsRoutes,
+  UserSettingsRoutesConfig,
+} from 'domains/userSettings/Routes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { Themes } from 'ui';
+import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
+import { useAuth } from './domains/auth/hooks/useAuth';
+import { DefaultLayout } from './modules/layout/components/DefautLayout';
+import { PageNotFound } from './modules/router/components/PageNotFound';
 
 export function Routes() {
   const { handleConnect } = useAuth();
@@ -93,6 +97,18 @@ export function Routes() {
         render={() => (
           <DefaultLayout>
             <ChainPrivateRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[
+          UserSettingsRoutesConfig.settings.path,
+          UserSettingsRoutesConfig.confirmation.path,
+        ]}
+        render={() => (
+          <DefaultLayout>
+            <UserSettingsRoutes />
           </DefaultLayout>
         )}
       />
