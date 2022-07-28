@@ -32,9 +32,7 @@ export const Chains = () => {
 
   useSetBreadcrumbs([
     {
-      title: isWalletConnected
-        ? t(ChainsRoutesConfig.chains['connected-breadcrumbs'])
-        : t(ChainsRoutesConfig.chains.breadcrumbs),
+      title: t(ChainsRoutesConfig.chains.breadcrumbs),
     },
   ]);
 

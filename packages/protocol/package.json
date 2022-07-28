@@ -183,6 +183,7 @@
       "/public/tron/add/",
       "/public/bttc/add/",
       "/account/",
+      "/pricing/",
       "/account/topup/",
       "/account/withdraw/",
       "/providers/",
