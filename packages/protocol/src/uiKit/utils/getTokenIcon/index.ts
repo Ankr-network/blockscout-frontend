@@ -17,6 +17,7 @@ import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
 import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
+import bttcIcon from './bttc.svg';
 
 const chainIcons = {
   arbitrum: arbitrumIcon,
@@ -38,6 +39,7 @@ const chainIcons = {
   syscoin: syscoinIcon,
   xdai: stakeIcon,
   tron: tronIcon,
+  bttc: bttcIcon,
 };
 
 export function getChainIcon(name: string) {
