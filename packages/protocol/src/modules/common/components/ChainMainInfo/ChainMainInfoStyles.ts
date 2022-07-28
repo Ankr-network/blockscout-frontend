@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { BREAKPOINTS } from 'ui';
 
 const LOGO_WIDTH = 50;
 const LOGO_MARGIN = 15;
@@ -17,6 +18,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
   title: {
     marginBottom: 2,
     transition: 'color 0.2s',
+  },
+  hasLabel: {
+    maxWidth: 'calc(100% - 71px)',
+
+    [theme.breakpoints.between(BREAKPOINTS.values.md, 850)]: {
+      maxWidth: '100%',
+    },
   },
   right: {
     flex: 1,
