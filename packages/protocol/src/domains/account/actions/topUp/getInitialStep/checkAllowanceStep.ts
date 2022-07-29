@@ -1,13 +1,49 @@
 import { RequestsStore, resetRequests } from '@redux-requests/core';
 import { push } from 'connected-react-router';
 
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
+import {
+  resetTransaction,
+  setAllowanceTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
 // eslint-disable-next-line import/no-cycle
 import { reset } from '../reset';
 import { checkAllowanceTransaction } from '../checkAllowanceTransaction';
+
+const rejectAllowance = async (
+  store: RequestsStore,
+  address: string,
+  transactionHash: string,
+) => {
+  await store.dispatchRequest(checkAllowanceTransaction(transactionHash));
+
+  store.dispatch(resetTransaction({ address }));
+
+  await store.dispatchRequest(reset());
+
+  store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+};
+
+const getLastAllowanceTransaction = async (
+  store: RequestsStore,
+  address: string,
+  transactionHash: string,
+) => {
+  const { data: receipt } = await store.dispatchRequest(
+    checkAllowanceTransaction(transactionHash),
+  );
+
+  store.dispatch(
+    setAllowanceTransaction({
+      address,
+      allowanceTransactionHash: receipt?.transactionHash,
+    }),
+  );
+
+  store.dispatch(resetRequests([checkAllowanceTransaction.toString()]));
+};
 
 export const checkAllowanceStep = async (
   store: RequestsStore,
@@ -19,27 +55,14 @@ export const checkAllowanceStep = async (
   const { currentAccount: address } = provider;
 
   if (rejectAllowanceTransactionHash) {
-    store
-      .dispatchRequest(
-        checkAllowanceTransaction(rejectAllowanceTransactionHash),
-      )
-      .then(() => {
-        store.dispatch(resetTransaction({ address }));
-        store.dispatchRequest(reset());
-
-        store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-      });
+    rejectAllowance(store, address, rejectAllowanceTransactionHash);
 
     return TopUpStep.deposit;
   }
 
   if (!allowanceTransactionHash) return null;
 
-  store
-    .dispatchRequest(checkAllowanceTransaction(allowanceTransactionHash))
-    .then(() => {
-      store.dispatch(resetRequests([checkAllowanceTransaction.toString()]));
-    });
+  getLastAllowanceTransaction(store, address, allowanceTransactionHash);
 
   return TopUpStep.deposit;
 };

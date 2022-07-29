@@ -34,8 +34,15 @@ export const sendAllowance = createSmartAction<
             }),
           );
 
-          await store.dispatchRequest(
+          const { data: receipt } = await store.dispatchRequest(
             checkAllowanceTransaction(allowanceTransactionHash),
+          );
+
+          store.dispatch(
+            setAllowanceTransaction({
+              address,
+              allowanceTransactionHash: receipt?.transactionHash,
+            }),
           );
         })(),
       };

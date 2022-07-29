@@ -1,21 +1,20 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
-import { CONFIRMATION_BLOCKS, IWithdrawalStatusResponse } from 'multirpc-sdk';
+import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { t } from 'modules/i18n/utils/intl';
-import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { waitPendingTransaction } from '../withdraw/getInitialStep/waitPendingTransaction';
 
 export const checkAllowanceTransaction = createSmartAction<
-  RequestAction<IWithdrawalStatusResponse, IWithdrawalStatusResponse>
+  RequestAction<TransactionReceipt, TransactionReceipt>
 >('topUp/checkAllowanceTransaction', (initialTransactionHash: string) => ({
   request: {
     promise: (async () => null)(),
   },
   meta: {
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
+    onRequest: () => {
       return {
         promise: (async (): Promise<TransactionReceipt> => {
           // step 1: trying to take the receipt
@@ -62,13 +61,6 @@ export const checkAllowanceTransaction = createSmartAction<
             lastAllowanceEvent?.transactionHash !== initialTransactionHash
           ) {
             transactionHash = lastAllowanceEvent.transactionHash;
-
-            store.dispatch(
-              setAllowanceTransaction({
-                address,
-                allowanceTransactionHash: transactionHash,
-              }),
-            );
           }
 
           return service.getTransactionReceipt(transactionHash);
