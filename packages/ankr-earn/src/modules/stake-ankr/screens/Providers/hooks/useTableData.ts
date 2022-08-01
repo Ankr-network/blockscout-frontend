@@ -6,6 +6,7 @@ import { ZERO } from 'modules/common/const';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { EProviderStatus } from 'modules/stake-ankr/const';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface ITableRow {
   provider: string;
@@ -44,9 +45,9 @@ export const useTableData = (): ITableData => {
   };
 };
 
-function mapProviderDemo({ status }: IValidator): ITableRow {
+function mapProviderDemo({ status, validator }: IValidator): ITableRow {
   return {
-    provider: 'Mind Heart Sou0l',
+    provider: 'ANKR',
     nodeAmount: 0,
     apy: 0,
     stakedPool: 0,
@@ -54,7 +55,7 @@ function mapProviderDemo({ status }: IValidator): ITableRow {
     rps: ZERO,
     online: 0,
     status: +status,
-    stakeLink: 'stakeLink',
-    detailsLink: 'detailsLink',
+    stakeLink: RoutesConfig.stake.generatePath(validator),
+    detailsLink: '',
   };
 }

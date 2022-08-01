@@ -2,6 +2,7 @@ import { Section } from 'modules/stake-ankr/components/Section';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { AnkrStakeForm } from './components/AnkrStakeForm';
+import { Stats } from './components/Stats';
 import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
@@ -19,7 +20,9 @@ export const Stake = (): JSX.Element => {
     providerName,
     providerSelectHref,
     tokenIn,
+    amount,
     onSubmit,
+    onChange,
   } = useAnkrStake();
 
   return (
@@ -39,8 +42,11 @@ export const Stake = (): JSX.Element => {
           providerName={providerName}
           providerSelectHref={providerSelectHref}
           tokenIn={tokenIn}
+          onChange={onChange}
           onSubmit={onSubmit}
         />
+
+        <Stats amount={amount} />
       </StakeContainer>
     </Section>
   );

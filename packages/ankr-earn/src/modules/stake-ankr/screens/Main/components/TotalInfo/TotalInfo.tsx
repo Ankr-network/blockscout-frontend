@@ -8,7 +8,7 @@ import { Button } from 'uiKit/Button';
 import { NavLink } from 'uiKit/NavLink';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
-import { ClaimDialog } from '../ClaimDialog';
+import { ClaimAllRewardsDialog } from '../ClaimAllRewardsDialog';
 
 import { TotalIfnoContent } from './TotalIfnoContent';
 import { TotalInfoAmount } from './TotalInfoAmount';
@@ -22,13 +22,10 @@ export const TotalInfo = (): JSX.Element => {
   const {
     totalStaked,
     totalStakedUsd,
-    totalRewards,
-    totalRewardsUsd,
     climableRewards,
     climableRewardsUsd,
     isClimableRewardsLoading,
     isTotalStakedLoading,
-    isTotalRewardsLoading,
     stakeLink,
   } = useTotalInfo();
 
@@ -51,7 +48,7 @@ export const TotalInfo = (): JSX.Element => {
     <>
       <Box mb={3}>
         <Grid container spacing={3}>
-          <Grid item lg={5} xs={12}>
+          <Grid item lg={6} xs={12}>
             <Paper className={classes.paper}>
               <TotalIfnoContent
                 amountSlot={
@@ -89,63 +86,42 @@ export const TotalInfo = (): JSX.Element => {
             </Paper>
           </Grid>
 
-          <Grid item lg={7} xs={12}>
+          <Grid item lg={6} xs={12}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item md={5} xs={12}>
-                  <TotalIfnoContent
-                    amountSlot={
-                      <TotalInfoAmount
-                        isLoading={isTotalRewardsLoading}
-                        usdValue={totalRewardsUsd}
-                        value={totalRewards}
-                      />
-                    }
-                    titleSlot={
-                      <Typography className={classes.title}>
-                        {t('stake-ankr.total-info.rewards')}
-                      </Typography>
-                    }
+              <TotalIfnoContent
+                amountSlot={
+                  <TotalInfoAmount
+                    isLoading={isClimableRewardsLoading}
+                    usdValue={climableRewardsUsd}
+                    value={climableRewards}
                   />
-                </Grid>
+                }
+                buttonSlot={
+                  <Button
+                    className={classNames(classes.btn, classes.btnRegular)}
+                    disabled={!isClaimAllowed}
+                    variant="outlined"
+                    onClick={onOpenClaim}
+                  >
+                    {t('stake-ankr.total-info.claim-all')}
+                  </Button>
+                }
+                titleSlot={
+                  <Typography className={classes.title}>
+                    {t('stake-ankr.total-info.claimable-rewards')}
 
-                <Grid item className={classes.colWithDevider} md={7} xs={12}>
-                  <TotalIfnoContent
-                    amountSlot={
-                      <TotalInfoAmount
-                        isLoading={isClimableRewardsLoading}
-                        usdValue={climableRewardsUsd}
-                        value={climableRewards}
-                      />
-                    }
-                    buttonSlot={
-                      <Button
-                        className={classNames(classes.btn, classes.btnRegular)}
-                        disabled={!isClaimAllowed}
-                        variant="outlined"
-                        onClick={onOpenClaim}
-                      >
-                        {t('stake-ankr.total-info.claim-all')}
-                      </Button>
-                    }
-                    titleSlot={
-                      <Typography className={classes.title}>
-                        {t('stake-ankr.total-info.claimable-rewards')}
-
-                        <QuestionWithTooltip>
-                          {t('stake-ankr.total-info.claimable-tooltip')}
-                        </QuestionWithTooltip>
-                      </Typography>
-                    }
-                  />
-                </Grid>
-              </Grid>
+                    <QuestionWithTooltip>
+                      {t('stake-ankr.total-info.claimable-tooltip')}
+                    </QuestionWithTooltip>
+                  </Typography>
+                }
+              />
             </Paper>
           </Grid>
         </Grid>
       </Box>
 
-      <ClaimDialog
+      <ClaimAllRewardsDialog
         availableClaims={availableClaims}
         claimLoading={isClaimLoading}
         isClaimsLoading={false}

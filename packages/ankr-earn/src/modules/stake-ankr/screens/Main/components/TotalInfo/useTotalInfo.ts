@@ -10,12 +10,9 @@ import { RoutesConfig } from 'modules/stake-ankr/Routes';
 interface IUseTotalInfo {
   totalStaked: BigNumber;
   totalStakedUsd: BigNumber;
-  totalRewards: BigNumber;
-  totalRewardsUsd: BigNumber;
   climableRewards: BigNumber;
   climableRewardsUsd: BigNumber;
   isTotalStakedLoading: boolean;
-  isTotalRewardsLoading: boolean;
   isClimableRewardsLoading: boolean;
   stakeLink: string;
 }
@@ -45,12 +42,9 @@ export const useTotalInfo = (): IUseTotalInfo => {
   return {
     totalStaked: data?.totalDelegatedAmount ?? ZERO,
     totalStakedUsd: ZERO,
-    totalRewards: data?.totalRewards ?? ZERO,
-    totalRewardsUsd: ZERO,
     climableRewards: claimableRewards,
     climableRewardsUsd: ZERO,
     isTotalStakedLoading: false,
-    isTotalRewardsLoading: false,
     isClimableRewardsLoading: false,
     stakeLink: RoutesConfig.stake.generatePath(),
   };

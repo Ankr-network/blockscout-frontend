@@ -27,7 +27,7 @@ export const StakingInfo = (): JSX.Element => {
   useProviderEffect(() => {
     dispatchRequest(getUnstakingData());
     setUnstakingAmount(data?.length ?? 0);
-  }, [data, dispatchRequest]);
+  }, [dispatchRequest]);
 
   useEffect(() => {
     setUnstakingAmount(data?.length ?? 0);

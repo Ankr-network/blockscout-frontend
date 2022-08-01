@@ -5,7 +5,7 @@ import { t } from 'common';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 
-import { useClaimDialogStyles } from './useClaimDialogStyles';
+import { useTableRowStyles } from './useTableRowStyles';
 
 interface ITableRowProps {
   provider: string;
@@ -13,7 +13,7 @@ interface ITableRowProps {
 }
 
 export const TableRow = ({ provider, value }: ITableRowProps): JSX.Element => {
-  const classes = useClaimDialogStyles();
+  const classes = useTableRowStyles();
 
   return (
     <tr className={classes.tr}>

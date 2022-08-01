@@ -105,8 +105,7 @@ export enum EAnkrEvents {
   Claimed = 'Claimed',
 }
 
-interface IAdditionalActiveStakingData {
-  date: Date;
+export interface IAdditionalActiveStakingData {
   lockingPeriod: number;
   lockingPeriodPercent?: number;
   isUnlocked: boolean;
@@ -120,6 +119,7 @@ export interface IActiveStakingData {
   provider: string;
   apy: BigNumber;
   isUnlocked: boolean;
+  isPartiallyUnlocked: boolean;
   lockingPeriod?: number;
   lockingPeriodPercent?: number;
   stakeAmount: BigNumber;
@@ -142,5 +142,10 @@ export interface IHistoryData {
   hash: string;
   link?: string;
   event?: string;
+  amount: BigNumber;
+}
+
+export interface IClaimableUnstake {
+  validator: string;
   amount: BigNumber;
 }

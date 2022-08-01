@@ -1,25 +1,20 @@
 import { alpha, makeStyles } from '@material-ui/core';
 
-export const useClaimStyles = makeStyles(theme => ({
+export const useClaimRewardsStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 730,
-    padding: theme.spacing(6, 7),
+    padding: theme.spacing(5, 4, 5),
     margin: 'auto',
     position: 'relative',
-
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(5, 4),
-    },
+    maxWidth: 700,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'column',
   },
 
-  title: {
+  header: {
     fontSize: 30,
     textAlign: 'center',
-    margin: theme.spacing(0, 0, 4),
-
-    [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(0, 0, 3),
-    },
+    marginBottom: theme.spacing(7),
   },
 
   table: {
@@ -51,7 +46,7 @@ export const useClaimStyles = makeStyles(theme => ({
     lineHeight: '17px',
   },
 
-  stakeBtn: {
+  submit: {
     borderRadius: 16,
   },
 }));

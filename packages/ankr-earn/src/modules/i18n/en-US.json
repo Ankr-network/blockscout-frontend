@@ -357,7 +357,7 @@
       "add-to-wallet": "Add {token} to wallet"
     },
     "pending": {
-      "description": "This may take a moment; you can close this window. Once completed, you can check out your stakig exposure on the Dashboard."
+      "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     }
   },
   "claim": {
@@ -980,7 +980,7 @@
       "locking-period": "Locking Period",
       "24h-rewards": "24h Rewards",
       "30d-rewards": "30d Rewards",
-      "percent-value": "{value, number, ::.0#}%",
+      "percent-value": "{value}%",
       "days-value": "{value, number}d",
       "status": {
         "success-rate": "Success Rate",
@@ -1002,7 +1002,16 @@
       "view-docs": "View Docs"
     },
     "claim-dialog": {
-      "header": "Claim undelegated stake",
+      "stake-header": "Claim undelegated stake",
+      "reward-header": "Claim Rewards",
+      "all-reward-header": "Claim all rewards",
+      "claim-rewards": "Claim Rewards ({value} ANKR)",
+      "claim-undelegated-stake": "Claim undelegated stake ({value} ANKR)",
+      "claimable-amount": "Claimable Amount",
+      "amount": "Amount",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "node-provider": "Node Provider",
+      "claim": "Claim",
       "claim-all": "Claim all",
       "total": "Total"
     },
@@ -1028,8 +1037,10 @@
       "unstake-amount": "Unstake Amount",
       "apy": "APY: {value}%",
       "unlocked": "Unlocked",
+      "partially-unlocked": "Partially unlocked",
       "restake": "Restake",
       "claim": "Claim",
+      "unstake": "Unstake",
       "left-days": "{value} days left",
       "left-day": "{value} day left",
       "date": "Date",
@@ -1045,11 +1056,11 @@
       "active-staking": "Active Staking",
       "unstaking": "Unstaking",
       "history": "History",
-      "claim-all": "Claim all"
+      "claim-all": "Claim from all providers"
     },
     "empty-state": {
       "start": "Start staking ANKR",
-      "start-description": "Stake ANKR tokens directly to node providers on Ankr Protocol.",
+      "start-description": "Stake ANKR tokens directly to the Ankr Node Provider",
       "how-it-works": "How it works?",
       "description-1": "Earn ANKR for facilitating Web3 development",
       "description-2": "Stake to Full Nodes for the first time ever",
@@ -1060,7 +1071,7 @@
       "title": "ANKR Staking",
       "more-title": "Stake more ANKR",
       "approve": "Approve",
-      "submit": "Stake ANKR",
+      "submit": "Send",
       "provider-label": "Node Provider",
       "provider-placeholder": "Select node provider",
       "locking-period": "Locking period",
@@ -1068,13 +1079,21 @@
       "new-total-stake": "New Total Stake",
       "apy": "APY",
       "add-amount": "Add Amount",
-      "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over."
+      "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
+      "stats": {
+        "apy": "APY",
+        "yearly-earning": "Yearly earning",
+        "tvl": "Staked with pool",
+        "stakers": "Stakers"
+      }
     },
     "unstaking": {
       "title": "Unstake ANKR",
       "available": "Available",
       "amount": "Amount",
       "undelegeting-info": "Undelegating process takes about 7 days before you can claim your ANKR.",
+      "progress-title": "Unstake",
+      "description": "This may take a moment; you can close this window.",
       "submit": "Unstake"
     },
     "info-header": {
@@ -1089,7 +1108,7 @@
     "restake": {
       "title": "Restake ANKR Rewards",
       "restakable-amount": "Restakable amount",
-      "restakable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "restakable-tooltip": "You can restake your earned rewards for completed epochs only.<br/><br/>Next epoch ends in <b>{value}</b>",
       "node-provider": "Node Provider",
       "new-total-stake": "New Total Stake",
       "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
@@ -1098,9 +1117,11 @@
     "claim": {
       "title": "Claim Rewards",
       "claimable-amount": "Claimable Amount",
-      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only.",
+      "claimable-tooltip": "You can claim your earned rewards for completed epochs only.",
       "node-provider": "Node Provider",
       "submit": "Claim",
+      "progress-title": "Claim",
+      "description": "This may take a moment; you can close this window.",
       "epoch-days": "{value} days",
       "epoch-day": "{value} day",
       "epoch-min": "{value} min"

@@ -1,75 +1,66 @@
 import { Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
 import { t } from 'common';
 
-import { ZERO } from 'modules/common/const';
-import { BigNumberish } from 'modules/common/utils/numbers/converters';
-import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
+import { IClaimableUnstake } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
+import { TableRow } from 'modules/stake-ankr/components/TableRow';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { Dialog } from 'uiKit/Dialog';
 import { Spinner } from 'uiKit/Spinner';
 
-import { TableRow } from './TableRow';
-import { useClaimDialogStyles } from './useClaimDialogStyles';
+import { useClaimAllUnstakesDialogStyles } from './useClaimAllUnstakesDialogStyles';
 
-interface IClaimDialogProps {
-  availableClaims?: IStakingReward[];
-  isClaimsLoading?: boolean;
+interface IClaimAllUnstakesDialogProps {
+  isClaimsLoading: boolean;
+  loading: boolean;
+  isFewClaims: boolean;
+  isSingleClaim: boolean;
+  data: IClaimableUnstake[];
   open: boolean;
-  usdTokenPrice?: BigNumberish;
-  claimLoading?: boolean;
-  onClaim?: () => void;
+  total: BigNumber;
+  totalUSD: BigNumber;
   onClose?: () => void;
+  onClaim: () => void;
 }
 
-export const ClaimDialog = ({
-  availableClaims = [],
+export const ClaimAllUnstakesDialog = ({
   isClaimsLoading = false,
-  claimLoading = false,
-  usdTokenPrice = 0,
+  isFewClaims,
+  isSingleClaim,
+  data,
+  total,
+  loading,
+  totalUSD,
   open,
-  onClaim,
   onClose,
-}: IClaimDialogProps): JSX.Element => {
-  const classes = useClaimDialogStyles();
-
-  const isFewClaims = availableClaims.length > 1;
-  const isSingleClaim = availableClaims.length === 1;
-
-  const total = useMemo(
-    () =>
-      availableClaims.reduce((acc, claim) => {
-        return acc.plus(claim.amount);
-      }, ZERO),
-    [availableClaims],
-  );
-
-  const totalUSD = total.multipliedBy(usdTokenPrice);
+  onClaim,
+}: IClaimAllUnstakesDialogProps): JSX.Element => {
+  const classes = useClaimAllUnstakesDialogStyles();
 
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
-      <Container data-testid="claim-dialog" maxWidth="680px">
+      <Container data-testid="claim-all-unstakes-dialog" maxWidth="680px">
         <Typography className={classes.header} variant="h3">
-          {t('stake-ankr.claim-dialog.header')}
+          {t('stake-ankr.claim-dialog.stake-header')}
         </Typography>
 
-        {isClaimsLoading ? (
+        {isClaimsLoading || loading ? (
           <Spinner />
         ) : (
           <>
             {isSingleClaim && (
               <div className={classes.singleWrapper}>
-                {getDemoProviderName(availableClaims[0].validator.validator)}
+                {getDemoProviderName(data[0].validator)}
 
                 <div>
                   {t('unit.ankr-value', {
-                    value: availableClaims[0].amount.toFormat(),
+                    value: data[0].amount.toFormat(),
                   })}
                 </div>
               </div>
@@ -77,12 +68,11 @@ export const ClaimDialog = ({
 
             {isFewClaims && (
               <table className={classes.table}>
-                {availableClaims.map(claim => (
+                {data.map(claim => (
                   <TableRow
                     key={uid(claim)}
                     provider={
-                      getDemoProviderName(claim.validator.validator) ??
-                      claim.validator.validator
+                      getDemoProviderName(claim.validator) ?? claim.validator
                     }
                     value={claim.amount}
                   />
@@ -115,8 +105,8 @@ export const ClaimDialog = ({
             <Button
               fullWidth
               className={classes.submit}
-              disabled={isClaimsLoading || claimLoading}
-              isLoading={claimLoading}
+              disabled={isClaimsLoading || loading}
+              isLoading={loading}
               size="large"
               onClick={onClaim}
             >

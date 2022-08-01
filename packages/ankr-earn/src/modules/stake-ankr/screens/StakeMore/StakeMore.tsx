@@ -19,6 +19,7 @@ export const StakeMore = (): JSX.Element => {
     minStake,
     newTotalStake,
     apy,
+    onChange,
     onSubmit,
   } = useAnkrStakeMore();
 
@@ -39,6 +40,7 @@ export const StakeMore = (): JSX.Element => {
           providerId={providerId}
           providerName={providerName}
           tokenIn={tokenIn}
+          onChange={onChange}
           onSubmit={onSubmit}
         />
       </StakeContainer>

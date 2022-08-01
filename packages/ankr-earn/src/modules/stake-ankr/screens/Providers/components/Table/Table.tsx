@@ -18,6 +18,7 @@ import {
   ProviderStatusTooltip,
 } from 'modules/stake-ankr/components/ProviderStatus';
 
+import expandNodeProviders from '../../assets/expand-node-providers.png';
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
 import { ProviderItem } from '../ProviderItem';
@@ -165,6 +166,14 @@ export const Table = (): JSX.Element | null => {
               </TableBodyCell>
             </TableRow>
           ))}
+
+        {!!data.length && (
+          <img
+            alt=""
+            className={classes.expandLogo}
+            src={expandNodeProviders}
+          />
+        )}
       </TableBody>
     </BasicTable>
   );

@@ -74,57 +74,59 @@ export const UnstakingTable = (): JSX.Element | null => {
   }
 
   return (
-    <Table
-      columnsCount={captions.length}
-      customCell="1fr 1fr 1fr"
-      minWidth={800}
-    >
-      <TableHead>
-        {captions.map(({ label }, i) => (
-          <TableHeadCell
-            key={uid(i)}
-            classes={{
-              content: classes.thContent,
-            }}
-            label={<>{label}</>}
-          />
-        ))}
-      </TableHead>
+    <>
+      <Table
+        columnsCount={captions.length}
+        customCell="1fr 1fr 1fr"
+        minWidth={800}
+      >
+        <TableHead>
+          {captions.map(({ label }, i) => (
+            <TableHeadCell
+              key={uid(i)}
+              classes={{
+                content: classes.thContent,
+              }}
+              label={<>{label}</>}
+            />
+          ))}
+        </TableHead>
 
-      <TableBody>
-        {isLoading && renderedSkeletonRows}
+        <TableBody>
+          {isLoading && renderedSkeletonRows}
 
-        {!isLoading &&
-          data?.map((row, i) => {
-            const claimLink =
-              row.daysLeft <= 0
-                ? RoutesConfig.claim.generatePath(row.provider)
-                : '';
-            return (
-              <TableRow key={uid(i)}>
-                <TableBodyCell label={`${captions[ELabel.provider].label}`}>
-                  <Typography className={classes.providerName}>
-                    {getDemoProviderName(row.provider) ?? row.provider}
-                  </Typography>
-                </TableBodyCell>
+          {!isLoading &&
+            data?.map((row, i) => {
+              const claimLink =
+                row.daysLeft <= 0
+                  ? RoutesConfig.claimUnstakes.generatePath(row.provider)
+                  : '';
+              return (
+                <TableRow key={uid(i)}>
+                  <TableBodyCell label={`${captions[ELabel.provider].label}`}>
+                    <Typography className={classes.providerName}>
+                      {getDemoProviderName(row.provider) ?? row.provider}
+                    </Typography>
+                  </TableBodyCell>
 
-                <TableBodyCell label={`${captions[ELabel.amount].label}`}>
-                  <BaseAnkrAmount
-                    ankrAmount={row.unstakeAmount}
-                    usdAmount={row.usdUnstakeAmount}
-                  />
-                </TableBodyCell>
+                  <TableBodyCell label={`${captions[ELabel.amount].label}`}>
+                    <BaseAnkrAmount
+                      ankrAmount={row.unstakeAmount}
+                      usdAmount={row.usdUnstakeAmount}
+                    />
+                  </TableBodyCell>
 
-                <TableBodyCell
-                  align="right"
-                  label={`${captions[ELabel.action].label}`}
-                >
-                  <ActionCell claimLink={claimLink} daysLeft={row.daysLeft} />
-                </TableBodyCell>
-              </TableRow>
-            );
-          })}
-      </TableBody>
-    </Table>
+                  <TableBodyCell
+                    align="right"
+                    label={`${captions[ELabel.action].label}`}
+                  >
+                    <ActionCell claimLink={claimLink} daysLeft={row.daysLeft} />
+                  </TableBodyCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
+      </Table>
+    </>
   );
 };

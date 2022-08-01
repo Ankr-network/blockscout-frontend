@@ -4,6 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo, useState } from 'react';
 
 import { t } from 'common';
 
@@ -32,10 +33,17 @@ interface IUseAnkrStake {
   providerId: string;
   providerName: string;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onChange?: (
+    values: Partial<IAnkrStakeSubmitPayload>,
+    invalid: boolean,
+  ) => void;
 }
 
 export const useAnkrStakeMore = (): IUseAnkrStake => {
   const dispatchRequest = useDispatchRequest();
+
+  const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
 
   const { data: providers } = useQuery({
     type: getProviders,
@@ -58,14 +66,18 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
 
   const isApproved = !!approveData;
 
+  const balance = commonData?.ankrBalance ?? ZERO;
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
-    const readyAmount = new BigNumber(amount);
-
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IAnkrStakeSubmitPayload) => {
+    const readyAmount = new BigNumber(formAmount);
     if (isApproved) {
       dispatchRequest(
         stake({
@@ -78,20 +90,35 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     }
   };
 
+  const onChange = (
+    { amount: formAmount }: Partial<IAnkrStakeSubmitPayload>,
+    invalid: boolean,
+  ) => {
+    const readyAmount = new BigNumber(formAmount ?? 0);
+    setAmount(formAmount ? readyAmount : ZERO);
+    setIsError(invalid);
+  };
+
+  const newTotalStake = useMemo(() => {
+    if (isError) return balance;
+    return balance.plus(amount);
+  }, [amount, balance, isError]);
+
   return {
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
     isApproved,
-    balance: commonData?.ankrBalance ?? ZERO,
+    balance,
     isDisabled: isCommonDataLoading || isStakeLoading || isApproveLoading,
     apy: ZERO,
-    newTotalStake: ZERO,
+    newTotalStake,
     tokenIn: t('unit.ankr'),
-    closeHref: RoutesConfig.main.generatePath(), // TODO: change it
+    closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
     minStake: commonData?.minStake ?? ZERO,
+    onChange,
     onSubmit,
   };
 };

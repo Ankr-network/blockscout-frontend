@@ -31,8 +31,6 @@ export const useTotalInfoStyles = makeStyles(theme => ({
   colWithDevider: {
     marginTop: theme.spacing(3),
     paddingTop: theme.spacing(2.5),
-    border: `solid ${theme.palette.grey[200]}`,
-    borderWidth: '1px 0 0',
 
     [theme.breakpoints.up('md')]: {
       margin: 0,

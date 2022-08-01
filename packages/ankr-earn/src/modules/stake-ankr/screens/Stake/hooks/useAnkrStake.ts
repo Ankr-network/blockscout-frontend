@@ -5,6 +5,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { t } from 'common';
@@ -34,12 +35,19 @@ interface IUseAnkrStake {
   initialProvider?: string;
   providerName?: string;
   lockingPeriod?: Days;
+  amount: BigNumber;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onChange?: (
+    values: Partial<IAnkrStakeSubmitPayload>,
+    invalid: boolean,
+  ) => void;
 }
 
 export const useAnkrStake = (): IUseAnkrStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
+
+  const [amount, setAmount] = useState(ZERO);
 
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
@@ -73,8 +81,18 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const isApproved = !!approveData;
 
-  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
-    const readyAmount = new BigNumber(amount);
+  const onChange = ({
+    amount: formAmount,
+  }: Partial<IAnkrStakeSubmitPayload>) => {
+    const readyAmount = new BigNumber(formAmount ?? 0);
+    setAmount(formAmount ? readyAmount : ZERO);
+  };
+
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IAnkrStakeSubmitPayload) => {
+    const readyAmount = new BigNumber(formAmount);
 
     if (isApproved) {
       dispatchRequest(
@@ -106,6 +124,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
     initialProvider,
     providerName,
     lockingPeriod: commonData?.lockingPeriod ?? undefined,
+    amount,
+    onChange,
     onSubmit,
   };
 };

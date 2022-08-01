@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useClaimDialogStyles = makeStyles(theme => ({
+export const useClaimAllUnstakesDialogStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(7, 0, 5),
     maxWidth: 700,

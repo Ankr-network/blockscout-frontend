@@ -20,10 +20,8 @@ export const StakedANKR = (): JSX.Element => {
   const {
     stakedAmount,
     stakedUsdEquivalent,
-    stakedTooltip,
     rewardsAmount,
     rewardsUsdEquivalent,
-    rewardsTooltip,
     network,
     manageLink,
   } = useStakedANKRData();
@@ -46,7 +44,6 @@ export const StakedANKR = (): JSX.Element => {
 
                 <Amount
                   infoSlot={renderUsdAmount(stakedUsdEquivalent)}
-                  infoTooltip={stakedTooltip}
                   value={stakedAmount}
                 />
               </Grid>
@@ -60,7 +57,6 @@ export const StakedANKR = (): JSX.Element => {
 
                 <Amount
                   infoSlot={renderUsdAmount(rewardsUsdEquivalent)}
-                  infoTooltip={rewardsTooltip}
                   value={rewardsAmount}
                 />
               </Grid>
