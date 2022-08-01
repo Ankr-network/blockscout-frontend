@@ -4,12 +4,9 @@ import classNames from 'classnames';
 
 import { DetailsBlock } from './DetailsBlock';
 import { StatsTimeframe } from 'domains/chains/types';
-import {
-  formatNumber,
-  getAvarageRequests,
-  getCachedRequestPercent,
-} from './ChainItemDetailsUtils';
+import { formatNumber, getCachedRequestPercent } from './ChainItemDetailsUtils';
 import { t } from 'modules/i18n/utils/intl';
+import { useAverage } from './hooks/useAverage';
 import { useStyles } from './ChainItemDetailsStyles';
 
 interface ChainItemDetailsProps {
@@ -31,6 +28,8 @@ export const ChainItemDetails = ({
 }: ChainItemDetailsProps) => {
   const classes = useStyles();
 
+  const average = useAverage({ timeframe, totalRequests });
+
   return (
     <div className={classNames(classes.root, className)}>
       <DetailsBlock
@@ -50,7 +49,7 @@ export const ChainItemDetails = ({
       )}
       <DetailsBlock
         title={t('chain-item.details.average-requests')}
-        value={getAvarageRequests(timeframe, totalRequests)}
+        value={average}
         className={classes.block}
         loading={loading}
       />
