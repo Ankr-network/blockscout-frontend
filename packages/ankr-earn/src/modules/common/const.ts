@@ -103,6 +103,7 @@ export const featuresConfig = {
   isActivePolkadotClaiming: true,
   isActivePolkadotStaking: true,
   ankrStaking: currentEnv !== Env.Production,
+  mgnoStaking: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {
@@ -140,6 +141,9 @@ export const ANKR_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.mainnet
     : EEthereumNetworkId.goerli;
+
+// todo: use actual networks
+export const GNO_NETWORK_BY_ENV = currentEnv === Env.Production ? 0 : 0;
 
 export const AVAX_NETWORK_BY_ENV =
   currentEnv === Env.Production

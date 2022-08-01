@@ -18,6 +18,7 @@ import { useStakableEth } from './hooks/useStakableEth';
 import { useStakableFtm } from './hooks/useStakableFtm';
 import { useStakableKSM } from './hooks/useStakableKSM';
 import { useStakableMatic } from './hooks/useStakableMatic';
+import { useStakableMGNO } from './hooks/useStakableMGNO';
 import { useStakableWND } from './hooks/useStakableWND';
 import { IUseStakableToken } from './types';
 import { useStakableTokensStyles } from './useStakableTokensStyles';
@@ -37,6 +38,7 @@ const STAKABLE_TOKENS_LIST = [
   useStakableFtm,
   useStakableAvax,
   featuresConfig.ankrStaking ? useStakableAnkr : null,
+  featuresConfig.mgnoStaking ? useStakableMGNO : null,
   // Polkadot
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableKSM : null,

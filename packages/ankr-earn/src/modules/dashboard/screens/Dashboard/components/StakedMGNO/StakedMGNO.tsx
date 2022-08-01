@@ -10,12 +10,12 @@ import { DashboardCard } from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useStakedANKRData } from '../StakedTokens/hooks/ANKR/useStakedANKRData';
+import { useStakedMGNOData } from '../StakedTokens/hooks/MGNO/useStakedMGNOData';
 
-import { useStakedANKRStyles } from './useStakedANKRStyles';
+import { useStakedMGNOStyles } from './useStakedMGNOStyles';
 
-export const StakedANKR = (): JSX.Element => {
-  const classes = useStakedANKRStyles();
+export const StakedMGNO = (): JSX.Element => {
+  const classes = useStakedMGNOStyles();
 
   const {
     stakedAmount,
@@ -24,7 +24,7 @@ export const StakedANKR = (): JSX.Element => {
     rewardsUsdEquivalent,
     network,
     manageLink,
-  } = useStakedANKRData();
+  } = useStakedMGNOData();
 
   const renderUsdAmount = (value: BigNumber) =>
     t('unit.usd-value', {
@@ -76,7 +76,7 @@ export const StakedANKR = (): JSX.Element => {
         </Grid>
       }
       networkAndIconSlot={
-        <NetworkIconText network={network} token={Token.ANKR} />
+        <NetworkIconText network={network} token={Token.mGNO} />
       }
     />
   );

@@ -21,6 +21,7 @@ import { useBridgedMaticCertBSC } from './MATIC/useBridgedMaticCertBSC';
 import { useBridgedMaticCertPolygon } from './MATIC/useBridgedMaticCertPolygon';
 import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
 import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
+import { useStakedMGNOData } from './MGNO/useStakedMGNOData';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
 import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
@@ -51,6 +52,7 @@ interface IUseStakedTokensData {
   isWNDShowed: boolean;
   isUnclaimedEthShowed: boolean;
   isANKRShowed: boolean;
+  isMGNOShowed: boolean;
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
@@ -83,6 +85,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedAWNDBData = useStakedPolkadotData(WND_PROPS);
 
   const stakedANKRData = useStakedANKRData();
+
+  const stakedMGNOData = useStakedMGNOData();
 
   const isAETHBShowed = stakedAETHBData.isShowed;
 
@@ -126,6 +130,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isANKRShowed = featuresConfig.ankrStaking && stakedANKRData.isShowed;
 
+  const isMGNOShowed = featuresConfig.mgnoStaking && stakedMGNOData.isShowed;
+
   const atLeastOneShowed =
     isAETHBShowed ||
     isAETHCShowed ||
@@ -151,7 +157,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAWNDBShowed ||
     isWNDShowed ||
     isUnclaimedEthShowed ||
-    isANKRShowed;
+    isANKRShowed ||
+    isMGNOShowed;
 
   return {
     isAssetsShowed: atLeastOneShowed,
@@ -180,5 +187,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isWNDShowed,
     isUnclaimedEthShowed,
     isANKRShowed,
+    isMGNOShowed,
   };
 };
