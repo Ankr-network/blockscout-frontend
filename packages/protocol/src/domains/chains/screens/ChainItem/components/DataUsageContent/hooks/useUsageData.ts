@@ -8,8 +8,7 @@ import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
 
 export const useUsageData = (chainId: string): UsageData => {
   const { isWalletConnected, loading: isConnecting } = useAuth();
-  const [statsTimeframe, , setStatsTimeframe] =
-    useStatsTimeframe(isWalletConnected);
+  const [statsTimeframe, , setStatsTimeframe] = useStatsTimeframe(true);
 
   const publicStats = usePublicStats({
     chainId,
