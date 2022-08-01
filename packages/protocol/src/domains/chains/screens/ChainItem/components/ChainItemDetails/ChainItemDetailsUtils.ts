@@ -17,14 +17,14 @@ const SECONDS_IN_A_DAY = 86_400;
 const getSeconds = (timeframe: StatsTimeframe): number => {
   switch (timeframe) {
     case StatsTimeframe.DAY:
-      return SECONDS_IN_A_DAY * 30;
+      return SECONDS_IN_A_DAY;
 
     case StatsTimeframe.WEEK:
       return SECONDS_IN_A_DAY * 7;
 
     case StatsTimeframe.MONTH:
     default:
-      return SECONDS_IN_A_DAY;
+      return SECONDS_IN_A_DAY * 30;
   }
 };
 
