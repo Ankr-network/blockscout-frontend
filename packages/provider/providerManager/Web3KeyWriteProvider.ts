@@ -148,12 +148,8 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
   }
 
   private async getUnlockedAccounts(web3: Web3): Promise<string[]> {
-    let unlockedAccounts: string[] = [];
-    try {
-      unlockedAccounts = await web3.eth.getAccounts();
-    } catch (e) {
-      throw new Error('User denied access to account');
-    }
+    const unlockedAccounts: string[] = await web3.eth.getAccounts();
+
     const [currentAccount] = unlockedAccounts;
     if (!unlockedAccounts.length || !currentAccount) {
       throw new Error('Unable to detect unlocked MetaMask account');

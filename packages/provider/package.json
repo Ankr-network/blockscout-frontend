@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/provider",
-  "version": "1.5.22",
+  "version": "1.5.25",
   "main": "./index.ts",
   "files": [
     "build"
@@ -15,6 +15,7 @@
     "clean": "rimraf build output"
   },
   "dependencies": {
+    "@binance-chain/bsc-connector": "^1.0.0",
     "@ethereumjs/common": "^2.5.0",
     "@ethereumjs/tx": "^3.3.2",
     "@redux-requests/core": "1.6.1",
