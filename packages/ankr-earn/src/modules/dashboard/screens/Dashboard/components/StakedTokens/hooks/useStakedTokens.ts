@@ -1,3 +1,5 @@
+import { featuresConfig } from 'modules/common/const';
+
 import { DOT_PROPS, KSM_PROPS, WND_PROPS } from '../const';
 
 import { useStakedANKRData } from './ANKR/useStakedANKRData';
@@ -122,7 +124,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isUnclaimedEthShowed = unclaimedEthData.isShowed;
 
-  const isANKRShowed = stakedANKRData.isShowed;
+  const isANKRShowed = featuresConfig.ankrStaking && stakedANKRData.isShowed;
 
   const atLeastOneShowed =
     isAETHBShowed ||

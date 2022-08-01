@@ -25,7 +25,7 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
   // todo: use actual data
   const totalStaked = ZERO;
   const totalStakedUsd = ZERO;
-  const stakers = '12';
+  const stakers = '0';
 
   const usdRatio = totalStaked && totalStakedUsd?.div(totalStaked);
 

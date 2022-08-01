@@ -36,7 +36,7 @@ const STAKABLE_TOKENS_LIST = [
   useStakableBnb,
   useStakableFtm,
   useStakableAvax,
-  useStakableAnkr,
+  featuresConfig.ankrStaking ? useStakableAnkr : null,
   // Polkadot
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableKSM : null,

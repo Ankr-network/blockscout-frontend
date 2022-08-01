@@ -15,11 +15,11 @@ export const getUnlockedDelegatedByValidator = createAction<
   `${ANKR_ACTIONS_PREFIX}getUnlockedDelegatedByValidator`,
   ({ validator }: IGetUndelegatedAmountDataProps) => ({
     request: {
-      promise: async (): Promise<BigNumber> => {
+      promise: (async (): Promise<BigNumber> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         return sdk.getUnlockedDelegatedByValidator(validator);
-      },
+      })(),
     },
     meta: {
       showNotificationOnError: true,

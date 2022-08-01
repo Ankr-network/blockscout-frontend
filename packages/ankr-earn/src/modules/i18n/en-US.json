@@ -36,9 +36,7 @@
     "metamask-fill-password": "Please fill the password in the Metamask window"
   },
   "main-navigation": {
-    "stake": "Stake",
-    "liquid-staking": "Liquid Staking",
-    "ankr-staking": "Ankr Staking",
+    "staking": "Staking",
     "dashboard": "Dashboard",
     "parachain": "Liquid Crowdloan",
     "defi": "DeFi",
@@ -325,6 +323,7 @@
     "progressTitle": "Stake",
     "amount": "Amount",
     "token-amount": "{token} Amount",
+    "delegate-staking": "Delegate staking",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
@@ -835,6 +834,7 @@
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
+    "ankr": "ANKR",
     "binance": "Binance (BNB)",
     "polygon": "Polygon (MATIC)",
     "fantom": "Fantom (FTM)",
@@ -849,6 +849,7 @@
     "stake-old": "Stake at old version",
     "staked-tvl": "Staked (TVL)",
     "learn-more": "Learn more",
+    "manage": "Manage",
     "chips": {
       "coming-soon": "Coming Soon",
       "old-version": "Available on the old version"
