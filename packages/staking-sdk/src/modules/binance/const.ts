@@ -36,9 +36,9 @@ export const BINANCE_READ_PROVIDER_ID = isMainnet
 export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
 
 /**
- * Magic number to prevent issues with stake gas fee.
+ * Maximum decimals length for the BNB Staking
  */
-export const BNB_SAFE_PRECISION = 9;
+export const BNB_STAKING_MAX_DECIMALS_LEN = 8;
 
 /**
  * Staking topic hash. Used for fetching transaction amount from receipt.
@@ -50,6 +50,11 @@ export const CERT_STAKING_LOG_HASH =
  * Magic number to prevent metamask fee calculation issue
  */
 export const BNB_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+
+/**
+ * Magic number for preventing gas fee calculation issue in the MetaMask with a maximum amount
+ */
+export const BNB_GAS_FEE_SAFE_LIMIT = 0.008; // 0.008%
 
 /**
  * List of supported tokens for BinanceSDK

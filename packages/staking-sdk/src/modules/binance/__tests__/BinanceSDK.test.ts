@@ -16,6 +16,8 @@ jest.mock('@ankr.com/provider', (): unknown => ({
 }));
 
 describe('modules/binance/sdk', () => {
+  const DEFAULT_AMOUNT = new BigNumber(12);
+  
   const defaultContract = {
     methods: {},
   };
@@ -576,12 +578,12 @@ describe('modules/binance/sdk', () => {
 
     const sdk = await BinanceSDK.getInstance();
 
-    const { txHash: txHash1 } = await sdk.stake(new BigNumber(12), 'aBNBc');
+    const { txHash: txHash1 } = await sdk.stake(DEFAULT_AMOUNT, 'aBNBc');
 
     expect(txHash1).toBe('transactionHash1');
     expect(contract.methods.stakeAndClaimCerts).toBeCalledTimes(3);
 
-    const { txHash: txHash2 } = await sdk.stake(new BigNumber(12), 'aBNBb');
+    const { txHash: txHash2 } = await sdk.stake(DEFAULT_AMOUNT, 'aBNBb');
 
     expect(txHash2).toBe('transactionHash2');
     expect(contract.methods.stakeAndClaimBonds).toBeCalledTimes(2);
@@ -594,7 +596,27 @@ describe('modules/binance/sdk', () => {
       EBinanceErrorCodes.ZERO_AMOUNT,
     );
   });
-
+  
+  test('should throw error if BNB balance in stake is zero', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        decimals: () => ({
+          call: () => 18,
+        }),
+      },
+    };
+  
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getFormattedBalance.mockReturnValue(ZERO);
+    
+    const sdk = await BinanceSDK.getInstance();
+    
+    expect(sdk.stake(DEFAULT_AMOUNT, 'aBNBb')).rejects.toThrow(
+      EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE,
+    );
+  });
+  
   test('should return tx receipt properly', async () => {
     const sdk = await BinanceSDK.getInstance();
 
@@ -685,7 +707,7 @@ describe('modules/binance/sdk', () => {
     const contract = {
       ...defaultContract,
       methods: {
-        getMinimumStake: () => ({ call: () => new BigNumber(12) }),
+        getMinimumStake: () => ({ call: () => DEFAULT_AMOUNT }),
       },
     };
 
@@ -703,7 +725,7 @@ describe('modules/binance/sdk', () => {
 
     const result = await sdk.getMinimumStake();
 
-    expect(result).toStrictEqual(new BigNumber(12));
+    expect(result).toStrictEqual(DEFAULT_AMOUNT);
   });
 
   test('should add token to wallet with connect', async () => {
