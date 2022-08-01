@@ -1,58 +1,33 @@
 import { Button, Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { t } from 'common';
-import { getActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChangeEmailDialog } from './components/ChangeEmailDialog';
 import { useStyles } from './EmailBlockStyles';
-import { useEmailBlock } from './useEmailBlock';
 
-export const EmailBlock = () => {
+const CHANGE_EMAIL_ENABLED = false;
+
+interface IEmailBlockProps {
+  email?: string;
+  onChangeEmail?: () => void;
+}
+
+export const EmailBlock = ({ email = '', onChangeEmail }: IEmailBlockProps) => {
   const classes = useStyles();
 
-  const dispatchRequest = useDispatchRequest();
-
-  useOnMount(() => {
-    dispatchRequest(getActiveEmailBinding());
-  });
-
-  const {
-    isChangeEmailDialogOpen,
-    openChangeEmailDialog,
-    closeChangeEmailDialog,
-  } = useEmailBlock();
-
   return (
-    <Queries<ResponseData<typeof getActiveEmailBinding>>
-      requestActions={[getActiveEmailBinding]}
-    >
-      {({ data: { email } }) => {
-        return (
-          <>
-            <Paper className={classes.root}>
-              <Typography className={classes.email} variant="h4">
-                {email}
-              </Typography>
+    <Paper className={classes.root}>
+      <Typography className={classes.email} variant="h4">
+        {email}
+      </Typography>
 
-              <Button
-                className={classes.changeEmailButton}
-                variant="outlined"
-                onClick={openChangeEmailDialog}
-              >
-                {t('user-settings.settings-screen.change-email-button')}
-              </Button>
-            </Paper>
-
-            <ChangeEmailDialog
-              open={isChangeEmailDialogOpen}
-              onClose={closeChangeEmailDialog}
-            />
-          </>
-        );
-      }}
-    </Queries>
+      {CHANGE_EMAIL_ENABLED && (
+        <Button
+          className={classes.changeEmailButton}
+          variant="outlined"
+          onClick={onChangeEmail}
+        >
+          {t('user-settings.settings-screen.change-email-button')}
+        </Button>
+      )}
+    </Paper>
   );
 };

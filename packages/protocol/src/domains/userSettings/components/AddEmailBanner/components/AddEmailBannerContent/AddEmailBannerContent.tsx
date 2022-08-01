@@ -38,14 +38,15 @@ export const AddEmailBannerContent = ({
     case AddEmailFormContentState.ADD_EMAIL:
     case AddEmailFormContentState.CHANGE_EMAIL:
       return (
-        <FillStep handleDoNotShowAgain={handleDoNotShowAgain}>
-          {addEmailForm}
-        </FillStep>
+        <FillStep
+          handleDoNotShowAgain={handleDoNotShowAgain}
+          formSlot={addEmailForm}
+        />
       );
 
     case AddEmailFormContentState.SUCCESS:
       return (
-        <SuccessStep email={submittedData?.email}>{addEmailForm}</SuccessStep>
+        <SuccessStep email={submittedData?.email} formSlot={addEmailForm} />
       );
 
     default:

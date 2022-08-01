@@ -1,7 +1,6 @@
 import { Button, Typography } from '@material-ui/core';
-import { ReactNode } from 'react';
-
 import { t, tHTML } from 'common';
+import { ReactNode } from 'react';
 import { ReactComponent as BalanceIcon } from 'uiKit/Icons/balance.svg';
 import { ReactComponent as ChartIcon } from 'uiKit/Icons/chart.svg';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';
@@ -30,12 +29,12 @@ const features: IFeature[] = [
 
 interface IFillStepProps {
   handleDoNotShowAgain?: () => void;
-  children: ReactNode;
+  formSlot?: ReactNode;
 }
 
 export const FillStep = ({
   handleDoNotShowAgain,
-  children,
+  formSlot,
 }: IFillStepProps) => {
   const classes = useStyles();
 
@@ -55,7 +54,7 @@ export const FillStep = ({
         ))}
       </div>
 
-      {children}
+      {formSlot}
 
       {handleDoNotShowAgain && (
         <Button

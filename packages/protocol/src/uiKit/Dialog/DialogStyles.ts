@@ -7,18 +7,16 @@ const colorsMap: Record<DialogTitleColor, string> = {
   [DialogTitleColor.ERROR]: mainTheme.palette.error.main,
 };
 
-interface IUseStylesProps {
-  dialogTitleColor: DialogTitleColor;
-  maxPxWidth?: number;
-}
-
-export const useStyles = makeStyles<Theme, IUseStylesProps>(theme => ({
+export const useStyles = makeStyles<
+  Theme,
+  { dialogTitleColor: DialogTitleColor }
+>(theme => ({
   backdrop: {
     backgroundColor: fade(theme.palette.background.default, 0.8),
   },
 
   paper: {
-    maxWidth: ({ maxPxWidth }) => maxPxWidth || 'unset',
+    width: 'unset',
     background: theme.palette.background.paper,
     boxShadow:
       '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
