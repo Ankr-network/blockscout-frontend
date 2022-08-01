@@ -107,12 +107,9 @@ export const useAddEmailBanner = ({
     setIsOpen(false);
   }, [address, dispatch]);
 
-  const onFormSubmit = useCallback(
-    (formData: IAddEmailFormData | undefined) => {
-      setSubmittedData(formData);
-    },
-    [],
-  );
+  const onFormSubmit = useCallback((formData?: IAddEmailFormData) => {
+    setSubmittedData(formData);
+  }, []);
 
   const contentProps = useMemo<IAddEmailBannerContentProps>(
     () => ({

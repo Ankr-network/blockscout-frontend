@@ -3,16 +3,12 @@ import { createAction } from 'redux-smart-actions';
 
 import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
-import { IEmailResponse, Web3Address } from 'multirpc-sdk';
-
-interface IGetActiveEmailBindingParams {
-  address: Web3Address;
-}
+import { IEmailResponse } from 'multirpc-sdk';
 
 export const getActiveEmailBinding = createAction<
   RequestAction<IEmailResponse>,
-  [IGetActiveEmailBindingParams]
->('userSettings/getActiveEmailBinding', ({ address }) => ({
+  []
+>('userSettings/getActiveEmailBinding', () => ({
   request: {
     promise: (async () => {
       const service = await MultiService.getInstance();
@@ -25,7 +21,6 @@ export const getActiveEmailBinding = createAction<
     })(),
   },
   meta: {
-    requestKey: address,
     cache: false,
     asMutation: false,
     takeLatest: true,

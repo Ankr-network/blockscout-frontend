@@ -18,12 +18,9 @@ export const SuccessStep = ({
   return (
     <>
       <Typography className={classes.description}>
-        {tHTML(
-          'user-settings.change-email-dialog.success-step.verify-email-text',
-          {
-            email,
-          },
-        )}
+        {tHTML('user-settings.email-banner.success-step.verify-email-text', {
+          email,
+        })}
       </Typography>
 
       {children}
