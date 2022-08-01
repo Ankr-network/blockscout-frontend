@@ -520,13 +520,14 @@
       "success-step": {
         "title": "Thank you!",
         "verify-email-text": "Please verify email that we sent to <b>{email}</b>",
-        "resend-email-button": "Resend email",
-        "change-email-button": "Change email"
+        "resend-email-button": "Resend Email",
+        "resend-email-button-sent": "Sent!",
+        "change-email-button": "Change Email"
       }
     },
     "settings-screen": {
       "breadcrumbs": "Settings",
-      "change-email-button": "Change email"
+      "change-email-button": "Change Email"
     },
     "confirmation-screen": {
       "breadcrumbs": "Confirm Email"
@@ -545,6 +546,7 @@
       "title": "Link Expired",
       "description": "Please re-send a confirmation email to <b>{email}</b>",
       "resend-email-button": "Resend Email",
+      "resend-email-button-sent": "Sent!",
       "change-email-button": "Change Email"
     },
     "errors": {
