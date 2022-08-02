@@ -1,30 +1,10 @@
-import { RequestsStore, resetRequests } from '@redux-requests/core';
-import { push } from 'connected-react-router';
+import { RequestsStore } from '@redux-requests/core';
 
-import {
-  resetTransaction,
-  setAllowanceTransaction,
-} from 'domains/account/store/accountTopUpSlice';
-import { AccountRoutesConfig } from 'domains/account/Routes';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
-// eslint-disable-next-line import/no-cycle
-import { reset } from '../reset';
 import { checkAllowanceTransaction } from '../checkAllowanceTransaction';
-
-const rejectAllowance = async (
-  store: RequestsStore,
-  address: string,
-  transactionHash: string,
-) => {
-  await store.dispatchRequest(checkAllowanceTransaction(transactionHash));
-
-  store.dispatch(resetTransaction({ address }));
-
-  await store.dispatchRequest(reset());
-
-  store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-};
+import { resetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
 
 const getLastAllowanceTransaction = async (
   store: RequestsStore,
@@ -35,14 +15,16 @@ const getLastAllowanceTransaction = async (
     checkAllowanceTransaction(transactionHash),
   );
 
-  store.dispatch(
-    setAllowanceTransaction({
-      address,
-      allowanceTransactionHash: receipt?.transactionHash,
-    }),
-  );
-
-  store.dispatch(resetRequests([checkAllowanceTransaction.toString()]));
+  if (receipt) {
+    store.dispatch(
+      setAllowanceTransaction({
+        address,
+        allowanceTransactionHash: receipt?.transactionHash,
+      }),
+    );
+  } else {
+    resetTransactionSliceAndRedirect(store, address);
+  }
 };
 
 export const checkAllowanceStep = async (
@@ -55,7 +37,11 @@ export const checkAllowanceStep = async (
   const { currentAccount: address } = provider;
 
   if (rejectAllowanceTransactionHash) {
-    rejectAllowance(store, address, rejectAllowanceTransactionHash);
+    await store.dispatchRequest(
+      checkAllowanceTransaction(rejectAllowanceTransactionHash),
+    );
+
+    resetTransactionSliceAndRedirect(store, address);
 
     return TopUpStep.deposit;
   }

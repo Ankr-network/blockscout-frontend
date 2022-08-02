@@ -6,6 +6,7 @@ import { IWeb3SendResult } from '@ankr.com/provider';
 import { MultiService } from 'modules/api/MultiService';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { checkAllowanceTransaction } from './checkAllowanceTransaction';
+import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const sendAllowance = createSmartAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
@@ -38,12 +39,16 @@ export const sendAllowance = createSmartAction<
             checkAllowanceTransaction(allowanceTransactionHash),
           );
 
-          store.dispatch(
-            setAllowanceTransaction({
-              address,
-              allowanceTransactionHash: receipt?.transactionHash,
-            }),
-          );
+          if (receipt) {
+            store.dispatch(
+              setAllowanceTransaction({
+                address,
+                allowanceTransactionHash: receipt.transactionHash,
+              }),
+            );
+          } else {
+            resetTransactionSliceAndRedirect(store, address);
+          }
         })(),
       };
     },
