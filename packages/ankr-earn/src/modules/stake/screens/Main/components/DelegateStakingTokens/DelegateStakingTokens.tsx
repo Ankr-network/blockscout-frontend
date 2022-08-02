@@ -5,7 +5,9 @@ import { t } from 'common';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
+import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
+import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 
 import { FeatureItem } from '../FeatureItem';
 import { Features } from '../Features';
@@ -30,6 +32,16 @@ export const DelegateStakingTokens = (): JSX.Element => {
           stakedTvl={ZERO}
           title={t('features.ankr')}
           token={Token.ANKR}
+        />
+
+        <FeatureItem
+          apy={0}
+          iconSlot={<MGNOIcon />}
+          mainHref={MgnoRoutes.stake.generatePath()}
+          manageHref={MgnoRoutes.main.generatePath()}
+          stakedTvl={ZERO}
+          title={t('features.mgno')}
+          token={Token.mGNO}
         />
       </Features>
     </Box>

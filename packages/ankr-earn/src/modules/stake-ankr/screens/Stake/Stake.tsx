@@ -1,4 +1,4 @@
-import { Section } from 'modules/stake-ankr/components/Section';
+import { Section } from 'modules/delegate-stake/components/Section';
 import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 

@@ -5,7 +5,7 @@ import { t } from 'common';
 
 import { DEFAULT_FIXED, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 
-import { useTotalInfoStyles } from './useTotalInfoStyles';
+import { useTotalStakedStyles } from './useTotalStakedStyles';
 
 interface ITotalInfoAmountProps {
   value?: BigNumber;
@@ -18,7 +18,7 @@ export const TotalInfoAmount = ({
   usdValue = ZERO,
   isLoading = false,
 }: ITotalInfoAmountProps): JSX.Element => {
-  const classes = useTotalInfoStyles();
+  const classes = useTotalStakedStyles();
   const formattedValue = value.decimalPlaces(DEFAULT_FIXED).toFormat();
 
   return (

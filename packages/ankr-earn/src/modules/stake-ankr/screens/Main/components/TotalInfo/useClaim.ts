@@ -10,7 +10,7 @@ import { claimAllRewards } from 'modules/stake-ankr/actions/claimAllRewards';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 
-interface IUseTotalInfo {
+interface IUseClaim {
   availableClaims?: IStakingReward[];
   isClaimAllowed: boolean;
   isClaimLoading: boolean;
@@ -21,7 +21,7 @@ interface IUseTotalInfo {
   onClaim: () => void;
 }
 
-export const useClaim = (): IUseTotalInfo => {
+export const useClaim = (): IUseClaim => {
   const dispatchRequest = useDispatchRequest();
   const { loading: isClaimLoading } = useMutation({ type: claimAllRewards });
   const { data } = useQuery({

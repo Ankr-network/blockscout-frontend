@@ -5,29 +5,30 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
-import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useAnkrBalanceStyles } from './useAnkrBalanceStyles';
+import { useHeaderStyles } from './useHeaderStyles';
 
-interface IAnkrBalanceProps {
+interface IBalanceProps {
   link: string;
   isLoading: boolean;
   value?: BigNumber;
+  icon: JSX.Element;
 }
 
-export const AnkrBalance = ({
+export const Balance = ({
   value = ZERO,
   isLoading,
   link,
-}: IAnkrBalanceProps): JSX.Element => {
-  const classes = useAnkrBalanceStyles();
+  icon,
+}: IBalanceProps): JSX.Element => {
+  const classes = useHeaderStyles();
 
   return (
-    <Paper className={classes.root}>
-      <span className={classes.label}>{t('stake-ankr.balance.label')}</span>
+    <Paper className={classes.balanceRoot}>
+      <span className={classes.label}>{t('delegate-stake.balance.label')}</span>
 
-      <AnkrIcon size={22} />
+      {icon}
 
       {isLoading ? (
         <Skeleton width={50} />
@@ -41,7 +42,7 @@ export const AnkrBalance = ({
         size="small"
         variant="contained"
       >
-        {t('stake-ankr.balance.btn')}
+        {t('delegate-stake.balance.btn')}
       </NavLink>
     </Paper>
   );

@@ -2,7 +2,7 @@ import { Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { Section } from 'modules/stake-ankr/components/Section';
+import { Section } from 'modules/delegate-stake/components/Section';
 
 import { ProvidersTable } from './components/ProvidersTable';
 import { useProvidersTable } from './hooks/useProvidersTable';

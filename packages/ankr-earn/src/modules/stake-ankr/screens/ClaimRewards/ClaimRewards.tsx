@@ -6,9 +6,9 @@ import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Section } from 'modules/delegate-stake/components/Section';
 import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
 import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
-import { Section } from 'modules/stake-ankr/components/Section';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { CloseButton } from 'uiKit/CloseButton';

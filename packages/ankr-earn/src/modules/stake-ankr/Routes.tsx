@@ -6,8 +6,7 @@ import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
-
-import { createRouteConfig } from '../router/utils/createRouteConfig';
+import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 

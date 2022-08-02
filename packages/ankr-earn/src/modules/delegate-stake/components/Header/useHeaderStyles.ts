@@ -1,7 +1,25 @@
 import { darken, makeStyles } from '@material-ui/core';
 
-export const useAnkrBalanceStyles = makeStyles(theme => ({
+export const useHeaderStyles = makeStyles(theme => ({
   root: {
+    display: 'grid',
+    gap: theme.spacing(2.5, 3),
+
+    [theme.breakpoints.up('lg')]: {
+      gridTemplateColumns: '1fr auto',
+      alignItems: 'center',
+    },
+  },
+
+  icon: {
+    margin: theme.spacing(0, 1),
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 28,
+    },
+  },
+
+  balanceRoot: {
     display: 'grid',
     alignItems: 'center',
     gridAutoColumns: 'auto',

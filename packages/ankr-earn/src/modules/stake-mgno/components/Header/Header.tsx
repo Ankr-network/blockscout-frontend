@@ -1,7 +1,7 @@
 import { Token } from 'modules/common/types/token';
 import { Header as BaseHeader } from 'modules/delegate-stake/components/Header';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
+import { RoutesConfig } from 'modules/stake-mgno/Routes';
+import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 
 import { useHeader } from './useHeader';
 
@@ -12,11 +12,11 @@ export const Header = (): JSX.Element => {
     <BaseHeader
       balance={balance}
       getTokensLink={getTokensLink}
-      icon={<AnkrIcon />}
+      icon={<MGNOIcon />}
       isLoading={isLoading}
       myStakingLink={RoutesConfig.main.generatePath()}
-      nodeProvidersLink={RoutesConfig.providers.generatePath()}
-      token={Token.ANKR}
+      nodeProvidersLink={' '}
+      token={Token.mGNO}
     />
   );
 };

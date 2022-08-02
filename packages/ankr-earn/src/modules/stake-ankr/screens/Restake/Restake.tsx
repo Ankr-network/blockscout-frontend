@@ -2,7 +2,7 @@ import { Container, Paper, Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
-import { Section } from 'modules/stake-ankr/components/Section';
+import { Section } from 'modules/delegate-stake/components/Section';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';

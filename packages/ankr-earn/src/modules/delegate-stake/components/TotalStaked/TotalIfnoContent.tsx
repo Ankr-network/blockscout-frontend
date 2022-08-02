@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import { ReactNode } from 'react';
 
-import { useTotalInfoStyles } from './useTotalInfoStyles';
+import { useTotalStakedStyles } from './useTotalStakedStyles';
 
 interface ITotalIfnoContentProps {
   titleSlot?: ReactNode;
@@ -14,7 +14,7 @@ export const TotalIfnoContent = ({
   amountSlot,
   buttonSlot,
 }: ITotalIfnoContentProps): JSX.Element => {
-  const classes = useTotalInfoStyles();
+  const classes = useTotalStakedStyles();
 
   return (
     <div className={classes.content}>

@@ -1,16 +1,12 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import classNames from 'classnames';
 
 import { t } from 'common';
 
+import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
 import { TotalIfnoContent } from 'modules/delegate-stake/components/TotalStaked/TotalIfnoContent';
 import { TotalInfoAmount } from 'modules/delegate-stake/components/TotalStaked/TotalInfoAmount';
-import { Button } from 'uiKit/Button';
-import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
-
-import { ClaimAllRewardsDialog } from '../ClaimAllRewardsDialog';
 
 import { useClaim } from './useClaim';
 import { useTotalInfo } from './useTotalInfo';
@@ -29,16 +25,7 @@ export const TotalInfo = (): JSX.Element => {
     stakeLink,
   } = useTotalInfo();
 
-  const {
-    availableClaims,
-    isClaimAllowed,
-    usdTokenPrice,
-    isClaimLoading,
-    isOpened: isOpenedClaim,
-    onClose: onCloseClaim,
-    onOpen: onOpenClaim,
-    onClaim,
-  } = useClaim();
+  const { isClaimAllowed, onOpen: onOpenClaim } = useClaim();
 
   return (
     <>
@@ -47,7 +34,7 @@ export const TotalInfo = (): JSX.Element => {
           <TotalStaked
             isTotalStakedLoading={isTotalStakedLoading}
             stakeLink={stakeLink}
-            token={Token.ANKR}
+            token={Token.mGNO}
             totalStaked={totalStaked}
             totalStakedUsd={totalStakedUsd}
           />
@@ -63,22 +50,16 @@ export const TotalInfo = (): JSX.Element => {
                   />
                 }
                 buttonSlot={
-                  <Button
-                    className={classNames(classes.btn, classes.btnRegular)}
+                  <PlusMinusBtn
                     disabled={!isClaimAllowed}
+                    icon="minus"
                     variant="outlined"
                     onClick={onOpenClaim}
-                  >
-                    {t('stake-ankr.total-info.claim-all')}
-                  </Button>
+                  />
                 }
                 titleSlot={
                   <Typography className={classes.title}>
-                    {t('stake-ankr.total-info.claimable-rewards')}
-
-                    <QuestionWithTooltip>
-                      {t('stake-ankr.total-info.claimable-tooltip')}
-                    </QuestionWithTooltip>
+                    {t('stake-mgno.total-info.total-rewards')}
                   </Typography>
                 }
               />
@@ -86,16 +67,6 @@ export const TotalInfo = (): JSX.Element => {
           </Grid>
         </Grid>
       </Box>
-
-      <ClaimAllRewardsDialog
-        availableClaims={availableClaims}
-        claimLoading={isClaimLoading}
-        isClaimsLoading={false}
-        open={isOpenedClaim}
-        usdTokenPrice={usdTokenPrice}
-        onClaim={onClaim}
-        onClose={onCloseClaim}
-      />
     </>
   );
 };

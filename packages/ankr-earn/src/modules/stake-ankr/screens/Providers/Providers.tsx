@@ -1,5 +1,5 @@
+import { Section } from 'modules/delegate-stake/components/Section';
 import { Header } from 'modules/stake-ankr/components/Header';
-import { Section } from 'modules/stake-ankr/components/Section';
 
 import { Stats } from './components/Stats';
 import { Table } from './components/Table';
