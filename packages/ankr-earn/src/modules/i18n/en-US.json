@@ -1191,6 +1191,10 @@
       "staked": "Total Staked",
       "rewards": "Total Rewards",
       "total-rewards": "Total Rewards"
+    },
+    "tabs": {
+      "active-staking": "Active Staking",
+      "history": "History"
     }
   },
   "convert": {

@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ITabItem } from 'modules/delegate-stake/components/Tabs';
 import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
 import { HistoryTable } from '../HistoryTable';
-import { ITabItem, Tabs } from '../Tabs';
+import { Tabs } from '../Tabs';
 import { UnstakingTable } from '../UnstakingTable';
 
 export const StakingInfo = (): JSX.Element => {
@@ -36,15 +37,14 @@ export const StakingInfo = (): JSX.Element => {
   const tabs: ITabItem[] = [
     {
       title: activeStakingText,
-      showAmount: false,
     },
     {
       title: unstakingText,
       showAmount: true,
+      amount: newUnstakingAmount,
     },
     {
       title: historyText,
-      showAmount: false,
     },
   ];
 
@@ -57,7 +57,6 @@ export const StakingInfo = (): JSX.Element => {
         claimAllLink={currentTab === unstakingText ? 'claimLink' : ''}
         handleChangeTab={handleChangeTab}
         tabs={tabs}
-        unstakingAmount={newUnstakingAmount}
       />
 
       {currentTab === activeStakingText && <ActiveStakingTable />}
