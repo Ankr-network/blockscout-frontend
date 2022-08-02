@@ -1,14 +1,11 @@
+import { Button, ButtonProps, CircularProgress } from '@material-ui/core';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 
-import {
-  LoadingButton,
-  LoadingButtonProps,
-} from 'uiKit/LoadingButton/LoadingButton';
 import { useStyles } from './AnimatedButtonStyles';
 import { useAnimatedButton } from './useAnimatedButton';
 
-type AnimatedButtonProps = Omit<LoadingButtonProps, 'children'> & {
+type AnimatedButtonProps = Omit<ButtonProps, 'children'> & {
   children: (isSuccess: boolean) => ReactNode;
   width?: number;
 
@@ -34,13 +31,16 @@ export const AnimatedButton = ({
   const classes = useStyles({ isSuccess, width });
 
   return (
-    <LoadingButton
+    <Button
       {...props}
-      loading={loading}
       disabled={disabled || loading}
       className={classNames(classes.root, className)}
     >
-      {children(isSuccess)}
-    </LoadingButton>
+      {loading ? (
+        <CircularProgress size={18} color="inherit" />
+      ) : (
+        children(isSuccess)
+      )}
+    </Button>
   );
 };

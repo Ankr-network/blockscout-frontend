@@ -7,12 +7,14 @@ export type LoadingButtonProps = ButtonProps & {
 export const LoadingButton = ({
   loading,
 
-  children,
   ...props
 }: LoadingButtonProps) => {
   return (
-    <Button {...props}>
-      {loading ? <CircularProgress size={18} color="inherit" /> : children}
-    </Button>
+    <Button
+      {...props}
+      startIcon={
+        loading ? <CircularProgress size={18} color="inherit" /> : null
+      }
+    />
   );
 };
