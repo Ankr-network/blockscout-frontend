@@ -241,6 +241,16 @@
         "value": "{value, number, ::compact-short}"
       }
     },
+    "method-calls": {
+      "title": "Method Calls",
+      "download-button": "Report.csv",
+      "total": "Total",
+      "y-axis": "{value, number, ::compact-short}",
+      "no-data": {
+        "title": "Send your request",
+        "content": "Once you start sending requests, your activity will be visible here."
+      }
+    },
     "methods-rating": {
       "title": "Top 10 requests by volume",
       "periods": {

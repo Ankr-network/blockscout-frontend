@@ -262,8 +262,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   async getLatestAllowanceEvent(
     user: Web3Address,
   ): Promise<EventData | undefined> {
-    const events =
-      await this.getPAYGContractManager().getLatestAllowanceEvents(user);
+    const events = await this.getPAYGContractManager().getLatestAllowanceEvents(
+      user,
+    );
 
     if (!events?.length) return undefined;
 

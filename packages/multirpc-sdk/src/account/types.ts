@@ -85,6 +85,21 @@ export interface IAggregatedPaymentHistoryRequest {
 export interface IAggregatedPaymentHistoryReponse {
   transactions: IPaymentHistoryEntity[];
 }
+export interface ITopRequest {
+  count: number;
+  topRequests: {
+    method: string;
+    count: number | 'others';
+  }[];
+}
+export type Timestamp = string;
+export interface ITopRequestStats {
+  blockchain: string;
+  counts: Record<Timestamp, ITopRequest>;
+}
+
+type ChartDate = string;
+export type TopRequestsData = Record<string, number | ChartDate>;
 
 export interface PrivateStat {
   blockchain: string;
