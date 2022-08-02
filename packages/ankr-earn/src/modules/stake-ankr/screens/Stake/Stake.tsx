@@ -1,8 +1,8 @@
 import { Section } from 'modules/stake-ankr/components/Section';
+import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { AnkrStakeForm } from './components/AnkrStakeForm';
-import { Stats } from './components/Stats';
 import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {

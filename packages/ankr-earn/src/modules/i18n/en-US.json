@@ -1021,6 +1021,7 @@
       "apy": "Current APY",
       "staked-pool": "Staked Pool",
       "rps": "RPS",
+      "rps-tooltip": "Requests per second. Number of RPC calls served by Node provider per second.",
       "online": "Online",
       "percent-value": "{value, number, ::.0#}%",
       "stake": "Stake",
@@ -1080,7 +1081,8 @@
       "new-total-stake": "New Total Stake",
       "apy": "APY",
       "add-amount": "Add Amount",
-      "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
+      "locking-info": "Your new stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
+      "fee-info": "Friendly Reminder to make sure the amount you're staking is higher than the current network transaction fee",
       "stats": {
         "apy": "APY",
         "yearly-earning": "Yearly earning",
@@ -1112,7 +1114,7 @@
       "restakable-tooltip": "You can restake your earned rewards for completed epochs only.<br/><br/>Next epoch ends in <b>{value}</b>",
       "node-provider": "Node Provider",
       "new-total-stake": "New Total Stake",
-      "locking-info": "Your total stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
+      "locking-info": "Your new stake will be locked for 90 days. You will earn rewards during this period that will be claimable when the locking period is over.",
       "submit": "Restake"
     },
     "claim": {

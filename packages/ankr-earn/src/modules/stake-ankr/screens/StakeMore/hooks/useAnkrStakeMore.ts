@@ -13,6 +13,7 @@ import { ZERO } from 'modules/common/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
@@ -32,6 +33,7 @@ interface IUseAnkrStake {
   minStake: BigNumber;
   providerId: string;
   providerName: string;
+  amount: BigNumber;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -54,6 +56,11 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approve,
   });
+  const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
+    {
+      type: getValidatorDelegatedAmount,
+    },
+  );
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -66,10 +73,11 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
 
   const isApproved = !!approveData;
 
-  const balance = commonData?.ankrBalance ?? ZERO;
+  const stakedAmount = delegatedAmount ?? ZERO;
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getCommonData());
   }, [dispatchRequest]);
 
@@ -100,17 +108,21 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   };
 
   const newTotalStake = useMemo(() => {
-    if (isError) return balance;
-    return balance.plus(amount);
-  }, [amount, balance, isError]);
+    if (isError) return stakedAmount;
+    return stakedAmount.plus(amount);
+  }, [amount, stakedAmount, isError]);
 
   return {
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
     isApproved,
-    balance,
-    isDisabled: isCommonDataLoading || isStakeLoading || isApproveLoading,
+    balance: commonData?.ankrBalance ?? ZERO,
+    isDisabled:
+      isCommonDataLoading ||
+      isStakeLoading ||
+      isApproveLoading ||
+      isDelegatedAmountLoading,
     apy: ZERO,
     newTotalStake,
     tokenIn: t('unit.ankr'),
@@ -118,6 +130,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
     minStake: commonData?.minStake ?? ZERO,
+    amount,
     onChange,
     onSubmit,
   };
