@@ -5,6 +5,7 @@ import { Address, AvailableReadProviders } from '@ankr.com/provider';
 import packageJson from '../../../package.json';
 
 import { EEthereumNetworkId, Env } from './types';
+import { Token } from './types/token';
 
 export const STAKING_PATH = `${packageJson.homepage}/`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
@@ -192,3 +193,17 @@ export const POLYGON_PROVIDER_BY_ENV =
   currentEnv === Env.Production
     ? AvailableReadProviders.polygon
     : AvailableReadProviders.mumbai;
+
+export const nativeTokenMap: Partial<Record<Token, Token>> = {
+  [Token.aAVAXb]: Token.AVAX,
+  [Token.aAVAXc]: Token.AVAX,
+  [Token.aBNBb]: Token.BNB,
+  [Token.aBNBc]: Token.BNB,
+  [Token.aETH]: Token.ETH,
+  [Token.aETHb]: Token.ETH,
+  [Token.aETHc]: Token.ETH,
+  [Token.aFTMb]: Token.FTM,
+  [Token.aFTMc]: Token.FTM,
+  [Token.aMATICb]: Token.MATIC,
+  [Token.aMATICc]: Token.MATIC,
+};
