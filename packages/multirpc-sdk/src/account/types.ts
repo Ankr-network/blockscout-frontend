@@ -75,14 +75,16 @@ export type IDailyChargingReponse = string;
 
 export interface IAggregatedPaymentHistoryRequest {
   blockchains?: string[];
-  limit?: number;
-  types: IPaymentHistoryEntityType[];
+  cursor?: number;
   from?: number;
-  to?: number;
+  limit?: number;
   time_group: 'TOTAL' | 'DAY' | 'HOUR';
+  to?: number;
+  types: IPaymentHistoryEntityType[];
 }
 
 export interface IAggregatedPaymentHistoryReponse {
+  cursor: string;
   transactions: IPaymentHistoryEntity[];
 }
 export interface ITopRequest {

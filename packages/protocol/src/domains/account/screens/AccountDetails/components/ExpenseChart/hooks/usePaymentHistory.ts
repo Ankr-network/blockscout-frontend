@@ -6,12 +6,11 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
 import { ChartTimeframe } from '../types';
-import { fetchPaymentHistory } from 'domains/account/actions/fetchPaymentHistory';
 import { getTimeframeBorders } from '../utils/getTimeframeBorders';
+import { fetchExpenseChartData } from 'domains/account/actions/fetchExpenseChartData';
 
-const type = fetchPaymentHistory.toString();
-const requestKey = 'chart';
 const defaultData: IAggregatedPaymentHistoryReponse = {
+  cursor: '-1',
   transactions: [],
 };
 
@@ -29,11 +28,7 @@ export const usePaymentHistory = ({
   const {
     data: { transactions = [] },
     loading,
-  } = useQuery<IAggregatedPaymentHistoryReponse>({
-    defaultData,
-    requestKey,
-    type,
-  });
+  } = useQuery({ defaultData, type: fetchExpenseChartData });
 
   const dispatch = useDispatchRequest();
 
@@ -42,14 +37,11 @@ export const usePaymentHistory = ({
       const borders = getTimeframeBorders(timeframe);
 
       dispatch(
-        fetchPaymentHistory(
-          {
-            ...borders,
-            time_group: 'DAY',
-            types: ['TRANSACTION_TYPE_DEDUCTION'],
-          },
-          requestKey,
-        ),
+        fetchExpenseChartData({
+          ...borders,
+          time_group: 'DAY',
+          types: ['TRANSACTION_TYPE_DEDUCTION'],
+        }),
       );
     }
   }, [dispatch, isConnected, timeframe]);
