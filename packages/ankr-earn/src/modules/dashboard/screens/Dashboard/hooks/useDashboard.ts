@@ -7,6 +7,8 @@ import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridg
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
@@ -49,6 +51,8 @@ export const useDashboard = (): void => {
         getFTMHistory.toString(),
         getTxHistoryETH.toString(),
         getMetrics.toString(),
+        getAPY.toString(),
+        getANKRPrice.toString(),
         fetchAMATICCBridgedBSC.toString(),
         fetchAMATICCBridgedPolygon.toString(),
         getANKRCommonData.toString(),
@@ -66,6 +70,8 @@ export const useDashboard = (): void => {
     dispatch(fetchAETHBBridged());
     dispatch(fetchAETHCBridged());
     dispatch(getMetrics());
+    dispatch(getAPY());
+    dispatch(getANKRPrice());
     dispatch(fetchAVAXStats());
     dispatch(fetchBNBStats());
     dispatch(fetchBNBPendingValues());

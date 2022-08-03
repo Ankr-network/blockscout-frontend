@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { EProviderStatus } from 'modules/stake-ankr/const';
@@ -32,11 +33,20 @@ export const useTableData = (): ITableData => {
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
   });
+  const { data: apy } = useQuery({
+    type: getAPY,
+  });
+
   const data = providers?.map(mapProviderDemo) || [];
   const dispatchRequest = useDispatchRequest();
 
+  if (data.length === 1) {
+    data[0].apy = apy?.toNumber() ?? 0;
+  }
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   return {

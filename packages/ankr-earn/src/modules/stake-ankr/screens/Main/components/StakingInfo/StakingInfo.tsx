@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ZERO } from 'modules/common/const';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
@@ -16,6 +18,7 @@ export const StakingInfo = (): JSX.Element => {
   const { data } = useQuery({
     type: getUnstakingData,
   });
+  const { data: ankrPrice } = useQuery({ type: getANKRPrice });
 
   const activeStakingText = t('stake-ankr.tabs.active-staking');
   const unstakingText = t('stake-ankr.tabs.unstaking');
@@ -25,7 +28,11 @@ export const StakingInfo = (): JSX.Element => {
   const [currentTab, setCurrentTab] = useState<string>(activeStakingText);
 
   useProviderEffect(() => {
-    dispatchRequest(getUnstakingData());
+    dispatchRequest(
+      getUnstakingData({
+        usdPrice: ankrPrice ?? ZERO,
+      }),
+    );
     setUnstakingAmount(data?.length ?? 0);
   }, [dispatchRequest]);
 
