@@ -17,9 +17,11 @@ import {
 import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import { RpcGateway } from '../rpc/RpcGateway';
 import {
+  IAggregatedPaymentHistoryRequest,
+  IAggregatedPaymentHistoryResponse,
   IBalance,
-  IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IPaymentHistoryResponse,
   PrivateStats,
   PrivateStatsInterval,
 } from '../account';
@@ -109,7 +111,11 @@ export interface IMultiRpcSdk {
 
   getPaymentHistory(
     params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse>;
+  ): Promise<IPaymentHistoryResponse>;
+
+  getAggregatedPaymentHistory(
+    params: IAggregatedPaymentHistoryRequest,
+  ): Promise<IAggregatedPaymentHistoryResponse>;
 
   authorizeProvider(lifeTime: number): Promise<string>;
 

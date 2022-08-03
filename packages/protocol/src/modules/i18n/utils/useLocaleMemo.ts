@@ -2,12 +2,11 @@
 import { DependencyList, useMemo } from 'react';
 import { useLocale } from './useLocale';
 
-function useLocaleMemo<T = any>(
+export const useLocaleMemo = <T = any>(
   memoFn: () => T,
-  deps: DependencyList | undefined,
-) {
+  deps: DependencyList = [],
+) => {
   const { locale } = useLocale();
-  return useMemo(memoFn, [...(deps || []), locale]);
-}
 
-export { useLocaleMemo };
+  return useMemo(memoFn, [...deps, locale]);
+};

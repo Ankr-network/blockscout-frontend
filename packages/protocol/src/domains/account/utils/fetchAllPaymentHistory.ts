@@ -1,6 +1,6 @@
 import {
   IAggregatedPaymentHistoryRequest as Request,
-  IAggregatedPaymentHistoryReponse as Response,
+  IAggregatedPaymentHistoryResponse as Response,
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';

@@ -1,6 +1,6 @@
 import {
   IAggregatedPaymentHistoryRequest as Request,
-  IAggregatedPaymentHistoryReponse as Response,
+  IAggregatedPaymentHistoryResponse as Response,
 } from 'multirpc-sdk';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';

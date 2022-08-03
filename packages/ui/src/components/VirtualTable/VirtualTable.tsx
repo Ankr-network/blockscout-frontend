@@ -83,14 +83,15 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
 }
 
 export function VirtualTable<T>(props: VirtualTableProps<T>) {
-  const { onChangePage, onSort, rows, cols, renderExpand } = props;
+  const { onChangePage, onSort, rows, cols, renderExpand, loading } = props;
 
   const context = useTableContext({
+    cols,
+    loading,
     onChangePage,
     onSort,
-    rows,
-    cols,
     renderExpand,
+    rows,
   });
 
   useEffect(() => {

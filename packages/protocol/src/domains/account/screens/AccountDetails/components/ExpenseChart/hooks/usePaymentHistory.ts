@@ -1,5 +1,5 @@
 import {
-  IAggregatedPaymentHistoryReponse,
+  IAggregatedPaymentHistoryResponse,
   IPaymentHistoryEntity,
 } from 'multirpc-sdk';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
@@ -9,9 +9,9 @@ import { ChartTimeframe } from '../types';
 import { getTimeframeBorders } from '../utils/getTimeframeBorders';
 import { fetchExpenseChartData } from 'domains/account/actions/fetchExpenseChartData';
 
-const defaultData: IAggregatedPaymentHistoryReponse = {
-  cursor: '-1',
+const defaultData: IAggregatedPaymentHistoryResponse = {
   transactions: [],
+  cursor: '-1',
 };
 
 export interface PaymentHistoryParams {
