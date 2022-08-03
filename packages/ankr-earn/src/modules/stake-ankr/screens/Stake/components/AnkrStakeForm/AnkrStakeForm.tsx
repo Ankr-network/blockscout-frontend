@@ -85,8 +85,7 @@ export const AnkrStakeForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
 
-  // todo: add actual text
-  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period');
+  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period-tooltip');
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -102,6 +101,7 @@ export const AnkrStakeForm = ({
       <StakeFormTitle>{t('stake-ankr.staking.title')}</StakeFormTitle>
 
       <AmountInput
+        isLongBalance
         balance={balance}
         balanceLinkSlot={<BuyAnkrLink />}
         disabled={isDisabled || isApproved}

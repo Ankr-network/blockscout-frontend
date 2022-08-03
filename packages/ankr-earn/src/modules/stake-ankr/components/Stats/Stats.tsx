@@ -24,7 +24,11 @@ export const Stats = ({ amount }: IStatsProps): JSX.Element => {
 
   return (
     <StatsBox>
-      <StatsItem label={t('stake-ankr.staking.stats.apy')} value={apy} />
+      <StatsItem
+        label={t('stake-ankr.staking.stats.apy')}
+        tooltip={t('stake-ankr.staking.stats.apy-tooltip')}
+        value={apy}
+      />
 
       <StatsItem
         label={t('stake-ankr.staking.stats.yearly-earning')}

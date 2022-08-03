@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { darken, makeStyles } from '@material-ui/core';
 
 export const useEmptyStateStyles = makeStyles(theme => ({
   paper: {
@@ -7,10 +7,6 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     padding: theme.spacing(4),
-
-    // [theme.breakpoints.up('md')]: {
-    //   padding: theme.spacing(3, 4),
-    // },
   },
 
   button: {
@@ -70,5 +66,11 @@ export const useEmptyStateStyles = makeStyles(theme => ({
 
   bigLogo: {
     width: 159,
+  },
+
+  chip: {
+    background: darken(theme.palette.background.default, 0.04),
+    color: theme.palette.primary.main,
+    borderRadius: 8,
   },
 }));

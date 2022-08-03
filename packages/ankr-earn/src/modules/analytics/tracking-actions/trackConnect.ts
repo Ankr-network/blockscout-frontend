@@ -1,5 +1,5 @@
 import { getBalances } from '../actions/getBalances';
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface IConnectWalletEvent extends IBaseWaletData {
@@ -26,5 +26,5 @@ export const trackConnect = async (
     walletPublicAddress: address,
   };
 
-  trackAnalyticEvent({ event: 'connect_wallet', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.ConnectWallet, properties });
 };

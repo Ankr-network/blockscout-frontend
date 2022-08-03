@@ -4,6 +4,7 @@ export const useBuyAnkrLinkStyles = makeStyles(theme => {
   return {
     balanceLink: {
       height: 'auto',
+      fontSize: 12,
       padding: 0,
       marginLeft: theme.spacing(1),
       fontWeight: 400,

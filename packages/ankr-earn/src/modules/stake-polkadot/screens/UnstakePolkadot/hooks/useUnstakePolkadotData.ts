@@ -16,6 +16,8 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
+import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { fetchUnstakeStats } from 'modules/stake-polkadot/actions/fetchUnstakeStats';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';
 import { POLKADOT_WRITE_PROVIDER_ID } from 'modules/stake-polkadot/const';
@@ -29,6 +31,8 @@ import {
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { IFormPayload } from '../components/UnstakeFormFooter';
+
+import { useUnstakePolkadotAnalytics } from './useUnstakePolkadotAnalytics';
 
 interface IUseUnstakePolkadotData {
   ethToken: TPolkadotETHToken;
@@ -54,6 +58,7 @@ export const useUnstakePolkadotData = (
 ): IUseUnstakePolkadotData => {
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
+  const { sendAnalytics } = useUnstakePolkadotAnalytics();
 
   const ethToken = useMemo(
     () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
@@ -140,6 +145,7 @@ export const useUnstakePolkadotData = (
       ({ error }): void => {
         if (!error) {
           onSuccessOpen();
+          sendAnalytics(resultAmount, ethToken);
         }
       },
     );
@@ -147,6 +153,8 @@ export const useUnstakePolkadotData = (
 
   useETHPolkadotProvidersEffect(() => {
     dispatchRequest(fetchUnstakeStats());
+    dispatchRequest(fetchETHTokenBalance(network));
+    dispatchRequest(fetchPolkadotAccountFullBalance(network));
   }, [dispatchRequest, fetchUnstakeStats]);
 
   return {
