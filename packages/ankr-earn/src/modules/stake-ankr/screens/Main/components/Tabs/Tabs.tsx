@@ -1,75 +1,121 @@
+import { Typography, Tabs as BaseTabs, Tab, Chip } from '@material-ui/core';
+import classNames from 'classnames';
+
 import { t } from 'common';
 
-import {
-  ITabItem,
-  Tabs as BaseTabs,
-} from 'modules/delegate-stake/components/Tabs';
-import { Button } from 'uiKit/Button';
-
-import { ClaimAllUnstakesDialog } from '../ClaimAllUnstakesDialog';
-
-import { useClaim } from './useClaim';
 import { useTabsStyles } from './useTabsStyles';
 
 interface ITabProps {
-  tabs: ITabItem[];
   activeTab: string;
-  claimAllLink?: string;
-  handleChangeTab(newTab: string): void;
+  isExistsUnstakingData: boolean;
+  newUnstakingAmount: number;
+  onChangeTab(newTab: string): void;
 }
 
 export const Tabs = ({
-  tabs,
   activeTab,
-  claimAllLink,
-  handleChangeTab,
+  isExistsUnstakingData,
+  newUnstakingAmount,
+  onChangeTab,
 }: ITabProps): JSX.Element => {
   const classes = useTabsStyles();
 
-  const {
-    isFewClaims,
-    isSingleClaim,
-    data,
-    isClaimsLoading,
-    loading,
-    total,
-    totalUSD,
-    isOpened,
-    onClose,
-    onOpen,
-    onClaim,
-  } = useClaim();
-
-  const isShowingButton =
-    claimAllLink && !loading && !!data && data.length >= 1;
+  const activeStakingText = t('stake-ankr.tabs.active-staking');
+  const unstakingText = t('stake-ankr.tabs.unstaking');
+  const historyText = t('stake-ankr.tabs.history');
 
   return (
-    <>
+    <div className={classes.root}>
       <BaseTabs
-        activeTab={activeTab}
-        buttonSlot={
-          isShowingButton ? (
-            <Button className={classes.btn} variant="text" onClick={onOpen}>
-              {t('stake-ankr.tabs.claim-all')}
-            </Button>
-          ) : undefined
-        }
-        handleChangeTab={handleChangeTab}
-        tabs={tabs}
-      />
+        className={classes.tabs}
+        indicatorColor="secondary"
+        scrollButtons="auto"
+        value={activeTab}
+        variant="scrollable"
+        onChange={(_, value) => onChangeTab(value)}
+      >
+        <Tab
+          key={activeStakingText}
+          classes={{ root: classes.tabArea, selected: classes.tabSelected }}
+          className={classes.tabArea}
+          label={
+            <div className={classes.itemWrapper}>
+              <Typography
+                className={classNames(classes.tabText, {
+                  [classes.tabActive]: activeTab === activeStakingText,
+                })}
+                color={
+                  activeTab === activeStakingText
+                    ? 'textPrimary'
+                    : 'textSecondary'
+                }
+                variant="h3"
+              >
+                {activeStakingText}
+              </Typography>
+            </div>
+          }
+          value={activeStakingText}
+        />
 
-      <ClaimAllUnstakesDialog
-        data={data}
-        isClaimsLoading={isClaimsLoading}
-        isFewClaims={isFewClaims}
-        isSingleClaim={isSingleClaim}
-        loading={loading}
-        open={isOpened}
-        total={total}
-        totalUSD={totalUSD}
-        onClaim={onClaim}
-        onClose={onClose}
-      />
-    </>
+        {isExistsUnstakingData && (
+          <Tab
+            key={unstakingText}
+            classes={{ root: classes.tabArea, selected: classes.tabSelected }}
+            className={classes.tabArea}
+            label={
+              <div className={classes.itemWrapper}>
+                <Typography
+                  className={classNames(classes.tabText, {
+                    [classes.tabActive]: activeTab === unstakingText,
+                  })}
+                  color={
+                    activeTab === unstakingText
+                      ? 'textPrimary'
+                      : 'textSecondary'
+                  }
+                  variant="h3"
+                >
+                  {unstakingText}
+                </Typography>
+
+                {!!newUnstakingAmount && (
+                  <Chip
+                    classes={{ label: classes.chipLabel }}
+                    className={classes.chip}
+                    color="primary"
+                    label={newUnstakingAmount}
+                    size="small"
+                  />
+                )}
+              </div>
+            }
+            value={unstakingText}
+          />
+        )}
+
+        <Tab
+          key={historyText}
+          classes={{ root: classes.tabArea, selected: classes.tabSelected }}
+          className={classes.tabArea}
+          label={
+            <div className={classes.itemWrapper}>
+              <Typography
+                className={classNames(classes.tabText, {
+                  [classes.tabActive]: activeTab === historyText,
+                })}
+                color={
+                  activeTab === historyText ? 'textPrimary' : 'textSecondary'
+                }
+                variant="h3"
+              >
+                {historyText}
+              </Typography>
+            </div>
+          }
+          value={historyText}
+        />
+      </BaseTabs>
+    </div>
   );
 };

@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { t } from 'common';
 
-import { ITabItem } from 'modules/delegate-stake/components/Tabs';
-
 import { Tabs } from '../Tabs';
 
 export const StakingInfo = (): JSX.Element => {
@@ -12,24 +10,11 @@ export const StakingInfo = (): JSX.Element => {
 
   const [currentTab, setCurrentTab] = useState<string>(activeStakingText);
 
-  const tabs: ITabItem[] = [
-    {
-      title: activeStakingText,
-    },
-    {
-      title: historyText,
-    },
-  ];
-
   const handleChangeTab = (newTab: string) => setCurrentTab(newTab);
 
   return (
     <div>
-      <Tabs
-        activeTab={currentTab}
-        handleChangeTab={handleChangeTab}
-        tabs={tabs}
-      />
+      <Tabs activeTab={currentTab} onChangeTab={handleChangeTab} />
 
       {currentTab === activeStakingText && <>staking</>}
 
