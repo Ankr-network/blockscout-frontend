@@ -52,10 +52,7 @@ export const useTabsStyles = makeStyles(theme => ({
   tabText: {
     fontWeight: 700,
     cursor: 'pointer',
-
-    [theme.breakpoints.up('md')]: {
-      fontSize: 30,
-    },
+    fontSize: 24,
   },
 
   tabActive: {

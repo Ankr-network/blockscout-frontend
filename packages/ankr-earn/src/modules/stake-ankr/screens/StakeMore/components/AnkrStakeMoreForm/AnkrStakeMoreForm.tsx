@@ -97,6 +97,7 @@ export const AnkrStakeMoreForm = ({
       <StakeFormTitle>{t('stake-ankr.staking.more-title')}</StakeFormTitle>
 
       <AmountInput
+        isLongBalance
         balance={balance}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}

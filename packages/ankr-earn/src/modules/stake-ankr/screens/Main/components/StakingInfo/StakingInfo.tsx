@@ -38,15 +38,17 @@ export const StakingInfo = (): JSX.Element => {
       title: activeStakingText,
       showAmount: false,
     },
-    {
-      title: unstakingText,
-      showAmount: true,
-    },
+    newUnstakingAmount
+      ? {
+          title: unstakingText,
+          showAmount: true,
+        }
+      : null,
     {
       title: historyText,
       showAmount: false,
     },
-  ];
+  ].filter(tab => tab !== null) as ITabItem[];
 
   const handleChangeTab = (newTab: string) => setCurrentTab(newTab);
 

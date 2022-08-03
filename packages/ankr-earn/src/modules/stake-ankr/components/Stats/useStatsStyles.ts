@@ -94,7 +94,7 @@ export const useStatsStyles = makeStyles(theme => ({
     fontSize: 16,
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 20,
+      fontSize: 18,
     },
   },
 
@@ -104,7 +104,7 @@ export const useStatsStyles = makeStyles(theme => ({
     fontSize: 16,
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 20,
+      fontSize: 18,
     },
   },
 }));

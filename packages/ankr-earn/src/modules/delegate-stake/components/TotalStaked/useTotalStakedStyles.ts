@@ -22,9 +22,10 @@ export const useTotalStakedStyles = makeStyles(theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
+    height: 230,
 
     [theme.breakpoints.up('lg')]: {
-      minHeight: 170,
+      height: 170,
     },
   },
 

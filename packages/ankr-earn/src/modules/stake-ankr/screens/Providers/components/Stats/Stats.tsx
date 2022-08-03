@@ -19,8 +19,8 @@ export const Stats = (): JSX.Element => {
         primaryValue={t('stake-ankr.provider.percent-value', {
           value: highestAPY,
         })}
-        title={t('stake-ankr.provider.cur-highest-apr')}
-        tooltip={t('stake-ankr.provider.cur-highest-apr-tooltip')}
+        title={t('stake-ankr.provider.cur-highest-apy')}
+        tooltip={t('stake-ankr.provider.cur-highest-apy-tooltip')}
       />
 
       <StatsItem

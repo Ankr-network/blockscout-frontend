@@ -46,5 +46,6 @@ export const useHeaderStyles = makeStyles(theme => ({
     height: 26,
     minWidth: 56,
     borderRadius: 8,
+    fontSize: 13,
   },
 }));

@@ -9,7 +9,7 @@ import { useHistoryData } from './hooks/useHistoryData';
 export const Main = (): JSX.Element => {
   const { data } = useHistoryData();
 
-  const isEmpty = !data;
+  const isEmpty = !data || !data.length;
 
   return (
     <Section>

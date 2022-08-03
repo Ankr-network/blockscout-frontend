@@ -25,7 +25,7 @@ export const useBaseAnkrAmountStyles = makeStyles(theme => ({
   },
 
   usdAmount: {
-    fontSize: 14,
+    fontSize: 13,
     color: theme.palette.text.secondary,
   },
 }));

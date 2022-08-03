@@ -1,6 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
 
@@ -28,6 +29,7 @@ interface IAmountInputProps {
   maxAmount?: BigNumber;
   showBalance?: boolean;
   maxDecimals?: number;
+  isLongBalance?: boolean;
   balanceLinkSlot?: ReactNode;
   onMaxClick?: () => void;
 }
@@ -47,6 +49,7 @@ export const AmountInput = ({
   showBalance = true,
   maxDecimals,
   balanceLinkSlot,
+  isLongBalance = false,
   onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
@@ -67,7 +70,10 @@ export const AmountInput = ({
     <>
       {showBalance && (withBalance || isBalanceLoading) && (
         <Typography
-          className={classes.balance}
+          className={classNames(
+            classes.balance,
+            isLongBalance ? classes.longBalance : classes.shortBalance,
+          )}
           color="textSecondary"
           component="div"
           variant="body2"

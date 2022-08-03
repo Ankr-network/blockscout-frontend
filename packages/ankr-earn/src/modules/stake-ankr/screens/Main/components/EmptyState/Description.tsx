@@ -28,6 +28,7 @@ export const Description = (): JSX.Element => {
     {
       iconSlot: <DaoLogo />,
       description: t('stake-ankr.empty-state.description-4'),
+      isComingSoon: true,
     },
   ];
 
@@ -38,6 +39,7 @@ export const Description = (): JSX.Element => {
           key={x.description}
           description={x.description}
           iconSlot={x.iconSlot}
+          isComingSoon={x.isComingSoon}
         />
       ))}
     </div>

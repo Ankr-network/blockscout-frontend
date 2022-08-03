@@ -10,5 +10,6 @@ export const useStakingAssetStyles = makeStyles(theme => ({
 
   tradeButton: {
     width: 115,
+    fontSize: 16,
   },
 }));
