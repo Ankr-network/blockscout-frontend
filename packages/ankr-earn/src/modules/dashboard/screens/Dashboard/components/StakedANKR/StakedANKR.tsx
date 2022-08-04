@@ -6,7 +6,10 @@ import { t } from 'common';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Amount } from 'modules/dashboard/components/Amount';
-import { DashboardCard } from 'modules/dashboard/components/DashboardCard';
+import {
+  DashboardCard,
+  DashboardCardSkeleton,
+} from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -24,12 +27,17 @@ export const StakedANKR = (): JSX.Element => {
     rewardsUsdEquivalent,
     network,
     manageLink,
+    loading,
   } = useStakedANKRData();
 
   const renderUsdAmount = (value: BigNumber) =>
     t('unit.usd-value', {
       value: value.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     });
+
+  if (loading) {
+    return <DashboardCardSkeleton />;
+  }
 
   return (
     <DashboardCard

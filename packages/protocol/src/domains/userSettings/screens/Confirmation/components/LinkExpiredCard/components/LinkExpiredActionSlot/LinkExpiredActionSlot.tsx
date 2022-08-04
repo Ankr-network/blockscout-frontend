@@ -2,19 +2,23 @@ import { Button } from '@material-ui/core';
 
 import { t } from 'common';
 import { FieldError } from 'modules/form/components/FieldError';
+import { AnimatedButton } from 'uiKit/AnimatedButton';
 import { useStyles } from './LinkExpiredActionSlotStyles';
 
-interface ILinkExpiredActionSlotProps {
-  resendEmailErrorMessage?: string;
-  isResendEmailDisabled?: boolean;
+export interface ILinkExpiredActionSlotProps {
   onChangeEmail?: () => void;
+  resendEmailData: any;
+  resendEmailLoading: boolean;
+  resendEmailErrorMessage?: string;
+
   onResendEmail: () => void;
 }
 
 export const LinkExpiredActionSlot = ({
-  resendEmailErrorMessage,
-  isResendEmailDisabled = false,
   onChangeEmail,
+  resendEmailData,
+  resendEmailLoading,
+  resendEmailErrorMessage,
   onResendEmail,
 }: ILinkExpiredActionSlotProps) => {
   const classes = useStyles();
@@ -22,9 +26,18 @@ export const LinkExpiredActionSlot = ({
   return (
     <>
       <div className={classes.buttonContainer}>
-        <Button onClick={onResendEmail} disabled={isResendEmailDisabled}>
-          {t('user-settings.link-expired-card.resend-email-button')}
-        </Button>
+        <AnimatedButton
+          onClick={onResendEmail}
+          width={150}
+          data={resendEmailData}
+          loading={resendEmailLoading}
+        >
+          {isSuccess =>
+            isSuccess
+              ? t('user-settings.link-expired-card.resend-email-button-sent')
+              : t('user-settings.link-expired-card.resend-email-button')
+          }
+        </AnimatedButton>
 
         {onChangeEmail && (
           <Button variant="outlined" onClick={onChangeEmail}>

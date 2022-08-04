@@ -1,16 +1,15 @@
-import React from 'react';
 import { Box, Container, Paper, Typography } from '@material-ui/core';
 
-import { useStyles } from './WithdrawStepsStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { Stepper } from './Stepper';
-import { StepperTitle } from './StepperTitle';
-import { StepperNotice } from './StepperNotice';
 import { WithdrawStep } from 'domains/account/actions/withdraw/const';
-import { WithdrawForm } from './WithdrawForm';
 import { TransactionButton } from 'domains/account/screens/TopUp/components/TopUpSteps/TransactionButton';
+import { t } from 'modules/i18n/utils/intl';
+import { LoadingButton } from 'uiKit/LoadingButton';
+import { Stepper } from './Stepper';
+import { StepperNotice } from './StepperNotice';
+import { StepperTitle } from './StepperTitle';
+import { WithdrawForm } from './WithdrawForm';
+import { useStyles } from './WithdrawStepsStyles';
 import { IWithdrawStepsProps } from './WithdrawStepsTypes';
-import { LoadingButton } from 'domains/account/screens/TopUp/components/TopUpSteps/LoadingButton/LoadingButton';
 import { getButtonText } from './WithdrawUtils';
 
 export const WithdrawSteps = ({
@@ -67,7 +66,7 @@ export const WithdrawSteps = ({
         {step !== WithdrawStep.withdraw && (
           <LoadingButton
             className={classes.button}
-            isDisabled={loading}
+            disabled={loading}
             onClick={onConfirm}
             loading={loading}
           >
