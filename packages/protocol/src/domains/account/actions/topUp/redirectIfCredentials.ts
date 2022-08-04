@@ -1,12 +1,10 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { push } from 'connected-react-router';
 
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { connect } from 'domains/auth/actions/connect';
-import { AccountRoutesConfig } from 'domains/account/Routes';
 import { MultiService } from 'modules/api/MultiService';
+import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const redirectIfCredentials = createSmartAction<
   RequestAction<IWeb3SendResult, null>
@@ -28,10 +26,7 @@ export const redirectIfCredentials = createSmartAction<
           });
 
           if (connectData?.credentials) {
-            const link = AccountRoutesConfig.accountDetails.generatePath();
-
-            store.dispatch(resetTransaction({ address }));
-            store.dispatch(push(link));
+            resetTransactionSliceAndRedirect(store, address);
 
             return true;
           }

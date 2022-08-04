@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import { Form, FormRenderProps } from 'react-final-form';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+import { Form, FormRenderProps } from 'react-final-form';
 
-import { WithdrawFormValues, AmountInputField } from './WithdrawFormTypes';
-import { AmountField } from 'domains/account/screens/AccountDetails/components/TopUp/TopUpForm/AmountField';
-import { useStyles } from './WithdrawFormStyles';
-import { MAX_DECIMALS, validate } from './WithdrawFormUtils';
-import { LoadingButton } from 'domains/account/screens/TopUp/components/TopUpSteps/LoadingButton/LoadingButton';
-import { getButtonText } from '../WithdrawUtils';
 import { WithdrawStep } from 'domains/account/actions/withdraw/const';
+import { AmountField } from 'domains/account/screens/AccountDetails/components/TopUp/TopUpForm/AmountField';
+import { LoadingButton } from 'uiKit/LoadingButton';
+import { getButtonText } from '../WithdrawUtils';
+import { useStyles } from './WithdrawFormStyles';
+import { AmountInputField, WithdrawFormValues } from './WithdrawFormTypes';
+import { MAX_DECIMALS, validate } from './WithdrawFormUtils';
 
 interface WithdrawFormProps {
   onSubmit: (values: WithdrawFormValues) => void;
@@ -41,7 +41,7 @@ export const WithdrawForm = ({
           />
           <LoadingButton
             className={classes.button}
-            isDisabled={loading}
+            disabled={loading}
             onClick={handleSubmit}
             loading={loading}
           >

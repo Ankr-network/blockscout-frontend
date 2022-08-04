@@ -5,8 +5,8 @@ import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWallet
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { Spinner } from 'ui';
-import { EmailBlock } from './components/EmailBlock';
 import { NotificationsBlock } from '../components/NotificationsBlock';
+import { EmailBlock } from './components/EmailBlock';
 import { SettingsContentState } from './types';
 import { useSettings } from './useSettings';
 
@@ -17,12 +17,8 @@ export const Settings = () => {
     },
   ]);
 
-  const {
-    confirmedEmail,
-    contentState,
-    addEmailBannerContentState,
-    initialSubmittedData,
-  } = useSettings();
+  const { contentState, addEmailBannerContentState, initialSubmittedData } =
+    useSettings();
 
   switch (contentState) {
     case SettingsContentState.LOADING:
@@ -51,7 +47,7 @@ export const Settings = () => {
     case SettingsContentState.SETTINGS:
       return (
         <>
-          <EmailBlock email={confirmedEmail} />
+          <EmailBlock />
           <NotificationsBlock />
         </>
       );

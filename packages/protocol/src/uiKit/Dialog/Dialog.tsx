@@ -6,22 +6,26 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { useLayoutEffect, useMemo, useState } from 'react';
+
 import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { DialogContext } from './DialogContext';
 import { useStyles } from './DialogStyles';
 import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
 
 type IDialogProps = Omit<MuiDialogProps, 'BackdropProps' | 'PaperProps'> & {
+  onClose: () => void;
   initialTitle?: string;
   title?: string;
-  onClose: () => void;
+  maxPxWidth?: number;
 };
 
 export const Dialog = ({
+  children,
+
   onClose,
   initialTitle = '',
   title,
-  children,
+  maxPxWidth,
   ...props
 }: IDialogProps) => {
   const [dialogTitle, setDialogTitle] = useState<DialogTitle>({
@@ -40,6 +44,7 @@ export const Dialog = ({
 
   const classes = useStyles({
     dialogTitleColor: dialogTitle.color || DialogTitleColor.Regular,
+    maxPxWidth,
   });
 
   return (

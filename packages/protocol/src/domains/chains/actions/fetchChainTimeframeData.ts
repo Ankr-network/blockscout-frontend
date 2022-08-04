@@ -7,7 +7,6 @@ import { MultiService } from 'modules/api/MultiService';
 import { fetchTotalRequests } from './fetchTotalRequests';
 import {
   calculateOnedayRequests,
-  calculateTimestampAmount,
   getMultiplier,
   getUrlByChainId,
   mappingTotalRequestsHistory,
@@ -100,9 +99,7 @@ export const fetchChainTimeframeData = createSmartAction<
                   },
                 );
               } else if (timeframe === '7d') {
-                const amount = calculateTimestampAmount(
-                  data.totalRequestsHistory,
-                );
+                const amount = Object.keys(data.totalRequestsHistory).length;
                 const oneTimestampRequests = new BigNumber(SEVEN_DAYS_IN_WEEK)
                   .multipliedBy(calculateOnedayRequests(totalRequestsHistory))
                   .dividedToIntegerBy(amount)

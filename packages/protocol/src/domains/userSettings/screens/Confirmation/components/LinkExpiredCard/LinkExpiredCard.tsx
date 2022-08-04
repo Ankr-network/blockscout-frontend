@@ -4,12 +4,7 @@ import { LinkExpiredActionSlot } from './components/LinkExpiredActionSlot';
 import { useLinkExpiredCard } from './useLinkExpiredCard';
 
 export const LinkExpiredCard = () => {
-  const {
-    email,
-    isResendEmailDisabled,
-    resendEmailErrorMessage,
-    onResendEmail,
-  } = useLinkExpiredCard();
+  const { email, actionProps } = useLinkExpiredCard();
 
   return (
     <InfoCard
@@ -18,14 +13,7 @@ export const LinkExpiredCard = () => {
         email: email || t('user-settings.common.email-value-fallback'),
       })}
       align="center"
-      actionSlot={
-        <LinkExpiredActionSlot
-          isResendEmailDisabled={isResendEmailDisabled}
-          resendEmailErrorMessage={resendEmailErrorMessage}
-          onResendEmail={onResendEmail}
-          onChangeEmail={undefined}
-        />
-      }
+      actionSlot={<LinkExpiredActionSlot {...actionProps} />}
     />
   );
 };

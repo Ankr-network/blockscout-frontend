@@ -20,13 +20,16 @@ export interface IPaymentHistoryEntity {
 }
 
 export interface IPaymentHistoryRequest {
-  cursor: number;
+  cursor?: number;
+  from?: number;
   limit: number;
-  order_by: keyof IPaymentHistoryEntity;
-  order: 'asc' | 'desc';
+  order_by?: keyof IPaymentHistoryEntity;
+  order?: 'asc' | 'desc';
+  to?: number;
+  type?: IPaymentHistoryEntityType[];
 }
 
-export interface IPaymentHistoryReponse {
+export interface IPaymentHistoryResponse {
   transactions: IPaymentHistoryEntity[];
   cursor: string;
 }
@@ -71,20 +74,43 @@ export interface IDailyChargingParams {
   day_offset: number;
 }
 
-export type IDailyChargingReponse = string;
+export type IDailyChargingResponse = string;
 
 export interface IAggregatedPaymentHistoryRequest {
   blockchains?: string[];
-  limit?: number;
-  types: IPaymentHistoryEntityType[];
+  cursor?: number;
   from?: number;
+  limit?: number;
+  time_group: AggregatedPaymentHistoryTimeGroup;
   to?: number;
-  time_group: 'TOTAL' | 'DAY' | 'HOUR';
+  types?: IPaymentHistoryEntityType[];
 }
 
-export interface IAggregatedPaymentHistoryReponse {
-  transactions: IPaymentHistoryEntity[];
+export enum AggregatedPaymentHistoryTimeGroup {
+  DAY = 'DAY',
+  HOUR = 'HOUR',
+  TOTAL = 'TOTAL',
 }
+
+export interface IAggregatedPaymentHistoryResponse {
+  transactions: IPaymentHistoryEntity[];
+  cursor: string;
+}
+export interface ITopRequest {
+  count: number;
+  topRequests: {
+    method: string;
+    count: number | 'others';
+  }[];
+}
+export type Timestamp = string;
+export interface ITopRequestStats {
+  blockchain: string;
+  counts: Record<Timestamp, ITopRequest>;
+}
+
+type ChartDate = string;
+export type TopRequestsData = Record<string, number | ChartDate>;
 
 export interface PrivateStat {
   blockchain: string;
