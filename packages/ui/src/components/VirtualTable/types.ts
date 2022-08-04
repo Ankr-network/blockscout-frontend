@@ -8,19 +8,20 @@ export interface VirtualTableQuery {
   orderBy?: string;
 }
 export interface VirtualTableProps<T extends Record<string, any>> {
-  cols: VirtualTableColumn<T>[];
-  minWidth?: number | string;
-  minHeight?: number;
-  rows: T[];
-  pagination?: VirtualTablePaginationType;
-  onChangePage?: (params: VirtualTableQuery) => void;
-  isMoreRowsAvailable?: boolean;
-  onSort?: (params: VirtualTableQuery) => void;
-  renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
-  moreBtnText?: string;
   classes?: { root?: string; container?: string };
+  cols: VirtualTableColumn<T>[];
   emptyMessage?: string;
+  isMoreRowsAvailable?: boolean;
+  loading?: boolean;
+  minHeight?: number;
+  minWidth?: number | string;
+  moreBtnText?: string;
+  onChangePage?: (params: VirtualTableQuery) => void;
+  onSort?: (params: VirtualTableQuery) => void;
+  pagination?: VirtualTablePaginationType;
   preloader?: ReactNode;
+  renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
+  rows: T[];
 }
 
 export interface VirtualTableColumn<T> {
