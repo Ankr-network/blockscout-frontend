@@ -2,22 +2,23 @@ import { Button } from '@material-ui/core';
 
 import { t } from 'common';
 import { FieldError } from 'modules/form/components/FieldError';
+import { AnimatedButton } from 'uiKit/AnimatedButton';
 import { useStyles } from './SuccessStepStyles';
 
-interface ISuccessStepProps {
-  isResendEmailDisabled?: boolean;
+export interface ISuccessStepProps {
   onResendEmail: () => void;
+  resendEmailData: any;
+  resendEmailLoading: boolean;
   resendEmailErrorMessage?: string;
 
-  isChangeEmailDisabled?: boolean;
   onChangeEmail?: () => void;
 }
 
 export const SuccessStep = ({
-  isResendEmailDisabled = false,
   onResendEmail,
+  resendEmailData,
+  resendEmailLoading,
   resendEmailErrorMessage,
-  isChangeEmailDisabled = false,
   onChangeEmail,
 }: ISuccessStepProps) => {
   const classes = useStyles();
@@ -25,22 +26,29 @@ export const SuccessStep = ({
   return (
     <div>
       <div className={classes.buttonContainer}>
-        <Button
+        <AnimatedButton
           className={classes.button}
           size="large"
           variant="outlined"
-          disabled={isResendEmailDisabled}
           onClick={onResendEmail}
+          data={resendEmailData}
+          loading={resendEmailLoading}
+          width={150}
         >
-          {t('user-settings.email-banner.success-step.resend-email-button')}
-        </Button>
+          {isSuccess =>
+            isSuccess
+              ? t(
+                  'user-settings.email-banner.success-step.resend-email-button-sent',
+                )
+              : t('user-settings.email-banner.success-step.resend-email-button')
+          }
+        </AnimatedButton>
 
         {onChangeEmail && (
           <Button
             className={classes.button}
             size="large"
             variant="outlined"
-            disabled={isChangeEmailDisabled}
             onClick={onChangeEmail}
           >
             {t('user-settings.email-banner.success-step.change-email-button')}

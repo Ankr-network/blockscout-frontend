@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
+import { useCallback, useState } from 'react';
 
-import { DefaultTabID, TabID, TabsManagerProps } from './TabsManagerTypes';
 import { useStyles } from './TabsManagerStyles';
+import { DefaultTabID, TabID, TabsManagerProps } from './TabsManagerTypes';
 
 // A named function is used here to allow using generic types
 // and avoid jsx-parcer collisions
@@ -49,6 +49,7 @@ export function TabsManager<TI = DefaultTabID>({
                 role="tab"
                 onClick={getTabTitleClickHandler(id)}
                 tabIndex={index}
+                className={classes.tab}
               >
                 {typeof tab.title === 'function'
                   ? tab.title(id === selectedTabID, isDisabled, id)

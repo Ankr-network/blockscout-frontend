@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { Country } from 'domains/chains/actions/fetchChainTimeframeData';
 import { StatsTimeframe } from 'domains/chains/types';
+import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 
 export interface PublicStats {
   countries: Country;
@@ -25,4 +26,5 @@ export interface UsageData {
   totalCached: BigNumber;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
+  userTopRequests?: TopRequestsResultData;
 }

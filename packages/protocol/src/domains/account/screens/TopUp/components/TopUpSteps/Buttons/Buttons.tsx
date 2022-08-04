@@ -1,12 +1,11 @@
-import React from 'react';
 import { Box, Button, CircularProgress } from '@material-ui/core';
 
-import { useStyles } from './ButtonsStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { getButtonText } from './ButtonsUtils';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { t } from 'modules/i18n/utils/intl';
+import { LoadingButton } from 'uiKit/LoadingButton';
 import { ITopUpStepsProps } from '../TopUpStepsTypes';
-import { LoadingButton } from '../LoadingButton/LoadingButton';
+import { useStyles } from './ButtonsStyles';
+import { getButtonText } from './ButtonsUtils';
 
 interface IButtonProps extends Omit<ITopUpStepsProps, 'amount'> {}
 
@@ -25,7 +24,7 @@ export const Buttons = ({
     <Box className={classes.root}>
       <LoadingButton
         className={classes.button}
-        isDisabled={loading || isRejectAllowanceLoading}
+        disabled={loading || isRejectAllowanceLoading}
         onClick={onConfirm}
         loading={isRejectAllowanceLoading ? false : loading}
       >

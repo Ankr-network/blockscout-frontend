@@ -40,7 +40,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   const onConfirm = useMemo(() => {
     switch (step) {
       case TopUpStep.start:
-        return async () => {
+        return () => {
           // move to allowance
           setStep(oldStep => ++oldStep);
         };
@@ -109,24 +109,12 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     handleResetDeposit,
   ]);
 
-  const onRejectAllowance = useMemo(() => {
-    return async () => {
-      const { error } = await handleRejectAllowance();
-
-      if (!error) {
-        const link = AccountRoutesConfig.accountDetails.generatePath();
-
-        history.push(link);
-      }
-    };
-  }, [history, handleRejectAllowance]);
-
   return {
     step,
     loading,
     amount: amount?.toString(10),
     onConfirm,
-    onReject: onRejectAllowance,
+    onReject: handleRejectAllowance,
     isRejectAllowanceLoading,
     hasError,
   };

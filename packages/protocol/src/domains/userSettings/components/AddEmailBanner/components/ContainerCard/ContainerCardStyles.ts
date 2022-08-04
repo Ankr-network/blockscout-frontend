@@ -2,6 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
+    maxWidth: 618,
     padding: theme.spacing(4, 5, 5, 5),
     borderRadius: 30,
 
