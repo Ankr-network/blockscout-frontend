@@ -9,6 +9,8 @@ import { useStyles } from './DataUsageContentStyles';
 import { useUsageData } from './hooks/useUsageData';
 import { MethodCalls } from '../MethodCalls';
 
+const HAS_METHOD_CALLS = false;
+
 interface IDataUsageContentProps {
   chainId: string;
 }
@@ -61,7 +63,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
               totalRequests={totalRequests}
             />
           </ChainRequestsOverview>
-          {isWalletConnected && userTopRequests && (
+          {HAS_METHOD_CALLS && isWalletConnected && userTopRequests && (
             <MethodCalls data={userTopRequests} timeframe={timeframe} />
           )}
           {countries && Object.keys(countries).length !== 0 && (
