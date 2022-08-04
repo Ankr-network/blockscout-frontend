@@ -11,6 +11,7 @@ import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { claimAllUnstakes } from 'modules/stake-ankr/actions/claimAllUnstakes';
 import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getHistoryData } from 'modules/stake-ankr/actions/getHistoryData';
 import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 import { IClaimableUnstake } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
@@ -32,7 +33,9 @@ interface IUseTotalInfo {
 export const useClaim = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
   const { loading } = useMutation({ type: claimAllUnstakes });
-
+  const { data: ankrPrice } = useQuery({
+    type: getANKRPrice,
+  });
   const { data, loading: isClaimsLoading } = useQuery({
     type: getAllClaimableUnstakes,
   });
@@ -65,12 +68,16 @@ export const useClaim = (): IUseTotalInfo => {
   const onClaim = useCallback(() => {
     dispatchRequest(claimAllUnstakes()).then(({ error }) => {
       if (!error) {
-        dispatchRequest(getUnstakingData());
+        dispatchRequest(
+          getUnstakingData({
+            usdPrice: ankrPrice ?? ZERO,
+          }),
+        );
         dispatchRequest(getHistoryData());
         onClose();
       }
     });
-  }, [dispatchRequest, onClose]);
+  }, [ankrPrice, dispatchRequest, onClose]);
 
   return {
     isFewClaims,

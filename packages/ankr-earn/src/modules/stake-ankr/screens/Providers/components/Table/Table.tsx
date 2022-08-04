@@ -17,7 +17,6 @@ import {
   ProviderStatus,
   ProviderStatusTooltip,
 } from 'modules/stake-ankr/components/ProviderStatus';
-import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import expandNodeProviders from '../../assets/expand-node-providers.png';
 import { useTableData } from '../../hooks/useTableData';
@@ -27,7 +26,7 @@ import { ProviderItem } from '../ProviderItem';
 import { useTableStyles } from './useTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 150, 150, 150, 150];
+const SKELETON_COLUMN_WIDTHS = [200, 150, 150];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -47,13 +46,6 @@ export const Table = (): JSX.Element | null => {
       },
       {
         label: t('stake-ankr.table.staked-pool'),
-      },
-      {
-        label: t('stake-ankr.table.rps'),
-        tooltip: t('stake-ankr.table.rps-tooltip'),
-      },
-      {
-        label: t('stake-ankr.table.online'),
       },
       {
         label: ' ',
@@ -85,10 +77,6 @@ export const Table = (): JSX.Element | null => {
     [captions, classes],
   );
 
-  const renderOnlineDays = (value: number): string => {
-    return `${value} day${value === 1 ? '' : 's'}`;
-  };
-
   const renderStakedPool = (value: number, percent: number): string => {
     return `${value} (${Math.trunc(percent)}%)`;
   };
@@ -100,25 +88,17 @@ export const Table = (): JSX.Element | null => {
   return (
     <BasicTable
       columnsCount={captions.length}
-      customCell="1fr 160px 200px 160px 120px 250px"
+      customCell="1fr 250px 300px 200px"
       minWidth={1120}
     >
       <TableHead>
-        {captions.map(({ label, tooltip }, i) => (
+        {captions.map(({ label }, i) => (
           <TableHeadCell
             key={uid(i)}
             classes={{
               content: classes.thContent,
             }}
-            label={
-              <>
-                {label}
-
-                {tooltip && (
-                  <QuestionWithTooltip>{tooltip}</QuestionWithTooltip>
-                )}
-              </>
-            }
+            label={<>{label}</>}
           />
         ))}
       </TableHead>
@@ -158,15 +138,7 @@ export const Table = (): JSX.Element | null => {
                 {renderStakedPool(row.stakedPool, row.stakedPoolPercent)}
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[3].label}`}>
-                {row.rps.toFormat()}
-              </TableBodyCell>
-
-              <TableBodyCell label={`${captions[4].label}`}>
-                {renderOnlineDays(row.online)}
-              </TableBodyCell>
-
-              <TableBodyCell align="right" label={`${captions[5].label}`}>
+              <TableBodyCell align="right" label={`${captions[3].label}`}>
                 <ButtonsItem
                   bondingDays={row.bondingDays}
                   detailsLink={row.detailsLink}

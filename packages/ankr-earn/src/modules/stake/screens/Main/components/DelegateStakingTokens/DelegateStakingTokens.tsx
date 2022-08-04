@@ -1,9 +1,11 @@
 import { Box, Typography } from '@material-ui/core';
+import { useQuery } from '@redux-requests/react';
 
 import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
@@ -17,6 +19,10 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
 
+  const { data: ankrAPY } = useQuery({
+    type: getAPY,
+  });
+
   return (
     <Box mb={8}>
       <Typography className={classes.title} variant="h3">
@@ -25,7 +31,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
       <Features>
         <FeatureItem
-          apy={0}
+          apy={ankrAPY?.toNumber() ?? 0}
           iconSlot={<AnkrIcon />}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}

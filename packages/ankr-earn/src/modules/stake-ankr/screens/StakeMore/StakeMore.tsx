@@ -19,7 +19,6 @@ export const StakeMore = (): JSX.Element => {
     providerName,
     minStake,
     newTotalStake,
-    apy,
     amount,
     onChange,
     onSubmit,
@@ -29,7 +28,6 @@ export const StakeMore = (): JSX.Element => {
     <Section withContainer={false}>
       <StakeContainer>
         <AnkrStakeMoreForm
-          apy={apy}
           balance={balance}
           closeHref={closeHref}
           isApproved={isApproved}

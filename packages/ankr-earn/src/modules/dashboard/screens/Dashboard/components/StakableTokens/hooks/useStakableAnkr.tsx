@@ -7,6 +7,7 @@ import {
 } from 'modules/auth/eth/hooks/useETHNetworks';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { ANKR_STAKING_NETWORKS } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -22,9 +23,11 @@ export const useStakableAnkr = (): IUseStakableToken<IETHNetwork> => {
     type: getMetrics,
   });
 
-  const { data } = useQuery({ type: getCommonData });
+  const { data: apy } = useQuery({
+    type: getAPY,
+  });
 
-  const apy = 0;
+  const { data } = useQuery({ type: getCommonData });
 
   const networksData = useMemo(
     () =>
@@ -40,7 +43,7 @@ export const useStakableAnkr = (): IUseStakableToken<IETHNetwork> => {
     icon: <AnkrIcon />,
     token: Token.ANKR,
     href: RoutesConfig.stake.generatePath(),
-    apy,
+    apy: apy?.toNumber() ?? 0,
     balance,
     networks: networksData,
     isLoading: isLoadingAPY,

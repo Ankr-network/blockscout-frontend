@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
@@ -22,6 +23,8 @@ export const useTotalInfo = (): IUseTotalInfo => {
   const { data } = useQuery({
     type: getTotalInfo,
   });
+  const { data: ankrPrice } = useQuery({ type: getANKRPrice });
+  const usdPrice = ankrPrice ?? ZERO;
 
   const claimableRewards = useMemo(() => {
     if (!data?.claimableRewards) return ZERO;
@@ -39,11 +42,13 @@ export const useTotalInfo = (): IUseTotalInfo => {
     dispatchRequest(getTotalInfo());
   }, [dispatchRequest]);
 
+  const totalStaked = data?.totalDelegatedAmount ?? ZERO;
+
   return {
-    totalStaked: data?.totalDelegatedAmount ?? ZERO,
-    totalStakedUsd: ZERO,
+    totalStaked,
+    totalStakedUsd: totalStaked.multipliedBy(usdPrice) ?? ZERO,
     climableRewards: claimableRewards,
-    climableRewardsUsd: ZERO,
+    climableRewardsUsd: claimableRewards.multipliedBy(usdPrice) ?? ZERO,
     isTotalStakedLoading: false,
     isClimableRewardsLoading: false,
     stakeLink: RoutesConfig.stake.generatePath(),

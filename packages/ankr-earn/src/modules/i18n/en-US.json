@@ -751,6 +751,9 @@
   },
   "dashboard": {
     "title": "Stakable tokens",
+    "portfolio": "My portfolio",
+    "totalAssets": "Total assets",
+    "apr": "APR {value}%",
     "balance": "Estimated balance",
     "assets": "Staked tokens",
     "assets-crowdloans": "Liquid crowdloan assets",
