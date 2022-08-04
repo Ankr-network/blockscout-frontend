@@ -1,14 +1,13 @@
-import React from 'react';
 import classNames from 'classnames';
 import { INodeEntity } from 'multirpc-sdk';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { MainInfo } from './MainInfo';
-import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
-import { PublicRPCEndpoints } from './PublicRPCEndpoints';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
+import { MainInfo } from './MainInfo';
+import { PublicRPCEndpoints } from './PublicRPCEndpoints';
 
 import { useStyles } from './ChainItemHeaderStyles';
 import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpoints/ExclusiveRPCEndpointsSkeleton';
@@ -33,7 +32,7 @@ export const ChainItemHeader = ({
   const classes = useStyles();
 
   const [formattedChain] = formatChains([chain]);
-  const { name, id } = chain;
+  const { coinName, name } = chain;
 
   const exclusivePart = hasCredentials ? <ExclusiveRPCEndpoints /> : null;
 
@@ -41,7 +40,7 @@ export const ChainItemHeader = ({
     <div className={classNames(classes.root, className)}>
       <div className={classes.top}>
         <div className={classes.left}>
-          <MainInfo id={id} name={name} icon={icon} nodes={nodes} />
+          <MainInfo coinName={coinName} name={name} icon={icon} nodes={nodes} />
           <AddNetworkButton chain={formattedChain} hasPlusIcon />
         </div>
         {hasCredentials || loading ? null : (
