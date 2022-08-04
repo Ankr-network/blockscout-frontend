@@ -6,18 +6,18 @@ import { getRequestsMock } from '../mock/getRequestsMock';
 import { IAccountGateway } from './interfaces';
 import {
   EmailConfirmationStatus,
-  IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
+  IAggregatedPaymentHistoryResponse,
   IBalance,
   IBalanceEndTimeResult,
   IDailyChargingParams,
-  IDailyChargingReponse,
+  IDailyChargingResponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
   IGetEmailBindingStatusesResponse,
   INotificationsSettings,
-  IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IPaymentHistoryResponse,
   IRequestsRequest,
   IRequestsResponse,
   IWithdrawalStatusResponse,
@@ -56,11 +56,13 @@ export class AccountGateway implements IAccountGateway {
 
   public async getPaymentHistory(
     params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse> {
-    const { data: response } = await this.api.get<IPaymentHistoryReponse>(
+  ): Promise<IPaymentHistoryResponse> {
+    const { data: response } = await this.api.get<IPaymentHistoryResponse>(
       '/api/v1/auth/transactionHistory',
       {
         params,
+        paramsSerializer: (request: IPaymentHistoryRequest) =>
+          stringify(request, { indices: false }),
       },
     );
 
@@ -69,15 +71,16 @@ export class AccountGateway implements IAccountGateway {
 
   public async getAggregatedPaymentHistory(
     params: IAggregatedPaymentHistoryRequest,
-  ): Promise<IAggregatedPaymentHistoryReponse> {
-    const { data: response } = await this.api.get<IPaymentHistoryReponse>(
-      '/api/v1/auth/aggregatedTransactions',
-      {
-        params,
-        paramsSerializer: (request: IAggregatedPaymentHistoryRequest) =>
-          stringify(request, { indices: false }),
-      },
-    );
+  ): Promise<IAggregatedPaymentHistoryResponse> {
+    const { data: response } = 
+      await this.api.get<IAggregatedPaymentHistoryResponse>(
+        '/api/v1/auth/aggregatedTransactions',
+        {
+          params,
+          paramsSerializer: (request: IAggregatedPaymentHistoryRequest) =>
+            stringify(request, { indices: false }),
+        },
+      );
 
     return response;
   }
@@ -101,8 +104,8 @@ export class AccountGateway implements IAccountGateway {
 
   public async getDailyCharging(
     params: IDailyChargingParams,
-  ): Promise<IDailyChargingReponse> {
-    const { data: response } = await this.api.get<IDailyChargingReponse>(
+  ): Promise<IDailyChargingResponse> {
+    const { data: response } = await this.api.get<IDailyChargingResponse>(
       '/api/v1/auth/oneDayUsageReport',
       {
         params,

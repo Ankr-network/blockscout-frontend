@@ -18,10 +18,10 @@ export interface IStakedANKRData {
   network: string;
   manageLink: string;
   isShowed: boolean;
+  loading: boolean;
 }
 
 export const useStakedANKRData = (): IStakedANKRData => {
-  const { data } = useQuery({ type: getTotalInfo });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
 
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
@@ -36,7 +36,7 @@ export const useStakedANKRData = (): IStakedANKRData => {
   const stakedUsdEquivalent = stakedAmount.multipliedBy(usdPrice);
   const rewardsUsdEquivalent = rewardsAmount.multipliedBy(usdPrice);
 
-  const isShowed = !stakedAmount.isZero() || !rewardsAmount.isZero();
+  const isShowed = loading || !stakedAmount.isZero() || !rewardsAmount.isZero();
 
   return {
     stakedAmount,
@@ -48,5 +48,6 @@ export const useStakedANKRData = (): IStakedANKRData => {
     network,
     manageLink: RoutesConfig.main.generatePath(),
     isShowed,
+    loading,
   };
 };

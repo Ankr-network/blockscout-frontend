@@ -1,15 +1,15 @@
 import {
   EmailConfirmationStatus,
-  IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
+  IAggregatedPaymentHistoryResponse,
   IBalance,
   IDailyChargingParams,
-  IDailyChargingReponse,
+  IDailyChargingResponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
   INotificationsSettings,
-  IPaymentHistoryReponse,
   IPaymentHistoryRequest,
+  IPaymentHistoryResponse,
   IRequestsRequest,
   IRequestsResponse,
   IWithdrawalStatusResponse,
@@ -28,20 +28,20 @@ export interface IAccountGateway {
 
   getDailyCharging(
     params: IDailyChargingParams,
-  ): Promise<IDailyChargingReponse>;
+  ): Promise<IDailyChargingResponse>;
 
   getPaymentHistory(
     params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse>;
+  ): Promise<IPaymentHistoryResponse>;
 
   getAggregatedPaymentHistory(
     params: IAggregatedPaymentHistoryRequest,
-  ): Promise<IAggregatedPaymentHistoryReponse>;
+  ): Promise<IAggregatedPaymentHistoryResponse>;
 
   getBalanceEndTime(blockchains?: string[]): Promise<number>;
 
   getPrivateStats(intervalType: PrivateStatsInterval): Promise<PrivateStats>;
-  
+
   getWithdrawalStatus(
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse>;

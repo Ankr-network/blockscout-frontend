@@ -32,42 +32,42 @@ const DEFAULT_QUERY = {
 };
 
 interface ITableContext {
+  cache: CellMeasurerCache;
+  cols: VirtualTableProps<any>['cols'];
+  colsWidthCalculated: boolean;
+  colWidths: MutableRefObject<number[]>;
   expandedRow: number;
-  toggleExpand: (index: number) => void;
   handleLoadMore: () => void;
-  isLoadMoreLoading: boolean;
   handleSort: MouseEventHandler<HTMLElement>;
   isSortLoading: boolean;
-  cache: CellMeasurerCache;
-  rows: any[];
-  ref: MutableRefObject<List | undefined>;
-  cols: VirtualTableProps<any>['cols'];
-  colWidths: MutableRefObject<number[]>;
-  colsWidthCalculated: boolean;
-  setColsWidthCalculated: (value: boolean) => void;
-  renderExpand?: (row: any, recalculateRows: () => void) => React.ReactNode;
-  recalculateRows: () => void;
+  loading?: boolean;
   query: VirtualTableQuery;
+  recalculateRows: () => void;
+  ref: MutableRefObject<List | undefined>;
+  renderExpand?: (row: any, recalculateRows: () => void) => React.ReactNode;
+  rows: any[];
+  setColsWidthCalculated: (value: boolean) => void;
+  toggleExpand: (index: number) => void;
 }
 
 export const TableContext = createContext<ITableContext>(null as any);
 
 export function useTableContext({
+  cols,
+  loading,
   onChangePage,
   onSort,
-  rows,
-  cols,
   renderExpand,
+  rows,
 }: Pick<
   VirtualTableProps<any>,
-  'onChangePage' | 'onSort' | 'rows' | 'cols' | 'renderExpand'
+  'onChangePage' | 'onSort' | 'rows' | 'cols' | 'renderExpand' | 'loading'
 >) {
   const ref = useRef<List>();
 
   const [query, setQuery] = useState<VirtualTableQuery>(DEFAULT_QUERY);
 
   const [expandedRow, setExpandedRow] = useState(-1);
-  const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
   const [isSortLoading, setIsSortLoading] = useState(false);
   const [colsWidthCalculated, setColsWidthCalculated] = useState(false);
   const colWidths = useRef<number[]>([]);
@@ -97,15 +97,11 @@ export function useTableContext({
     setQuery(nextQuery);
 
     if (onChangePage) {
-      setIsLoadMoreLoading(true);
-
       try {
         await onChangePage(nextQuery);
       } catch {
         /** */
       }
-
-      setIsLoadMoreLoading(false);
     }
   }, [onChangePage, query]);
 
@@ -142,7 +138,6 @@ export function useTableContext({
     toggleExpand,
     renderExpand,
     handleLoadMore,
-    isLoadMoreLoading,
     handleSort,
     isSortLoading,
     cache,
@@ -153,6 +148,7 @@ export function useTableContext({
     colsWidthCalculated,
     setColsWidthCalculated,
     recalculateRows,
+    loading,
   };
 }
 
@@ -167,7 +163,7 @@ const getSortArrow = (order: VirtualTableQuery['order']) => {
 export const PaginationMore = ({ text = 'Show more' }: { text?: string }) => {
   const classes = useStyles();
 
-  const { isLoadMoreLoading, handleLoadMore } = useTable();
+  const { loading, handleLoadMore } = useTable();
 
   return (
     <div
@@ -176,8 +172,8 @@ export const PaginationMore = ({ text = 'Show more' }: { text?: string }) => {
     >
       <LoadableButton
         className={classes.moreBtn}
-        loading={isLoadMoreLoading}
-        disabled={isLoadMoreLoading}
+        loading={loading}
+        disabled={loading}
         onClick={handleLoadMore}
         variant="text"
       >
