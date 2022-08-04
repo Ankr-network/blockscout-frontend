@@ -43,7 +43,6 @@ interface IAnkrStakeMoreFormProps {
   providerName: string;
   maxAmountDecimals?: number;
   closeHref: string;
-  apy?: BigNumber;
   newTotalStake?: BigNumber;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
@@ -66,7 +65,6 @@ export const AnkrStakeMoreForm = ({
   closeHref,
   providerId,
   providerName,
-  apy,
   newTotalStake,
   onSubmit,
   onChange,
@@ -97,6 +95,7 @@ export const AnkrStakeMoreForm = ({
       <StakeFormTitle>{t('stake-ankr.staking.more-title')}</StakeFormTitle>
 
       <AmountInput
+        isLongBalance
         balance={balance}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
@@ -131,16 +130,6 @@ export const AnkrStakeMoreForm = ({
       </StakeDescriptionContainer>
 
       <StakeDescriptionSeparator />
-
-      <StakeDescriptionContainer>
-        <StakeDescriptionName className={classes.periodLabel}>
-          {t('stake-ankr.staking.apy')}
-        </StakeDescriptionName>
-
-        {t('unit.percentage-value', {
-          value: apy?.integerValue(),
-        })}
-      </StakeDescriptionContainer>
 
       <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
 

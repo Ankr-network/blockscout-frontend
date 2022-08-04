@@ -11,6 +11,7 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
@@ -26,7 +27,6 @@ interface IUseAnkrStake {
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
-  apy?: BigNumber;
   newTotalStake?: BigNumber;
   tokenIn: string;
   closeHref: string;
@@ -79,6 +79,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     dispatchRequest(getProviders());
     dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   const onSubmit = ({
@@ -123,7 +124,6 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
       isStakeLoading ||
       isApproveLoading ||
       isDelegatedAmountLoading,
-    apy: ZERO,
     newTotalStake,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),

@@ -19,7 +19,7 @@ export const getTotalInfo = createAction<
       const sdk = await AnkrStakingSDK.getInstance();
 
       const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-        sdk.getTotalDelegatedAmount(),
+        sdk.getMyTotalDelegatedAmount(),
         sdk.getMyClaimableStakingRewards(),
       ]);
 

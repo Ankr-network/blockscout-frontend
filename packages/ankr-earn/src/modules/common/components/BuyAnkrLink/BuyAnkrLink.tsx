@@ -14,7 +14,7 @@ export const BuyAnkrLink = (): JSX.Element => {
       href={ANKR_1INCH_BUY_LINK}
       variant="text"
     >
-      {t('unstake-dialog.buy-ankr')}
+      {t('unstake-dialog.get-ankr')}
     </NavLink>
   );
 };

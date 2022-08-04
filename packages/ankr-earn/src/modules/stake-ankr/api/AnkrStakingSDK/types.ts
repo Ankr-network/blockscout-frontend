@@ -103,6 +103,7 @@ export enum EAnkrEvents {
   Delegated = 'Delegated',
   Undelegated = 'Undelegated',
   Claimed = 'Claimed',
+  ValidatorDeposited = 'ValidatorDeposited',
 }
 
 export interface IAdditionalActiveStakingData {

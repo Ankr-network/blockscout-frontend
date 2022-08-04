@@ -14,6 +14,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { approve } from 'modules/stake-ankr/actions/approve';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
@@ -66,6 +67,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
 
     return () => {
       dispatch(resetRequests([approve.toString()]));

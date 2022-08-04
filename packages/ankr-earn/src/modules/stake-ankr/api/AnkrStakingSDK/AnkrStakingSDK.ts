@@ -569,7 +569,7 @@ export class AnkrStakingSDK {
     });
   }
 
-  public async getUnstaking(): Promise<IUnstakingData[]> {
+  public async getUnstaking(usdPrice: BigNumber): Promise<IUnstakingData[]> {
     const allClaimableUnstakes = await this.getAllClaimableUnstakes();
     let totalUnstakes = allClaimableUnstakes.reduce((acc, unstake) => {
       acc = acc.plus(unstake.amount);
@@ -599,7 +599,9 @@ export class AnkrStakingSDK {
           result.list.push({
             provider: undelegation.validator,
             unstakeAmount: this.convertFromWei(undelegation.amount),
-            usdUnstakeAmount: ZERO,
+            usdUnstakeAmount: this.convertFromWei(
+              undelegation.amount,
+            ).multipliedBy(usdPrice),
             daysLeft: isLockedByEpoch
               ? daysLeft + Math.ceil(nextEpochSeconds / 86_400)
               : daysLeft,
@@ -623,7 +625,7 @@ export class AnkrStakingSDK {
       ...Array.from(preparedData.unlockedMap, ([name, value]) => ({
         provider: name,
         unstakeAmount: value,
-        usdUnstakeAmount: ZERO,
+        usdUnstakeAmount: value.multipliedBy(usdPrice),
         daysLeft: 0,
       })),
       ...preparedData.list,
@@ -744,7 +746,9 @@ export class AnkrStakingSDK {
     return Promise.all(requests);
   }
 
-  public async getMyActiveStaking(): Promise<IActiveStakingData[]> {
+  public async getMyActiveStaking(
+    usdPrice: BigNumber,
+  ): Promise<IActiveStakingData[]> {
     const [
       stakingContract,
       lockPeriod,
@@ -858,7 +862,9 @@ export class AnkrStakingSDK {
               ),
               isUnlocked: detailDaysLeft <= 0,
               stakeAmount: this.convertFromWei(delegation.amount),
-              usdStakeAmount: ZERO,
+              usdStakeAmount: this.convertFromWei(
+                delegation.amount,
+              ).multipliedBy(usdPrice ?? ZERO),
               rewards: ZERO,
               usdRewards: ZERO,
             });
@@ -866,6 +872,9 @@ export class AnkrStakingSDK {
             const delegationAmount = this.convertFromWei(delegation.amount);
             unlockedRow.stakeAmount =
               unlockedRow.stakeAmount.plus(delegationAmount);
+            unlockedRow.usdStakeAmount = unlockedRow.usdStakeAmount.plus(
+              unlockedRow.stakeAmount.multipliedBy(usdPrice),
+            );
             totalUnlocked = totalUnlocked.minus(delegationAmount);
           }
         }
@@ -884,7 +893,7 @@ export class AnkrStakingSDK {
           apy: ZERO,
           isUnlocked: true,
           stakeAmount: totalDelegatedAmount,
-          usdStakeAmount: ZERO,
+          usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),
           rewards: ZERO,
           usdRewards: ZERO,
           status: EProviderStatus.active,
@@ -904,7 +913,7 @@ export class AnkrStakingSDK {
             ? Math.ceil(((lockPeriod - daysLeft) / lockPeriod) * 100)
             : undefined,
           stakeAmount: totalDelegatedAmount,
-          usdStakeAmount: ZERO,
+          usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),
           rewards: ZERO,
           usdRewards: ZERO,
           status: EProviderStatus.active,
@@ -1214,8 +1223,8 @@ export class AnkrStakingSDK {
    * @public
    * @returns {BigNumber}
    */
-  public async getTotalDelegatedAmount(): Promise<BigNumber> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+  public async getMyTotalDelegatedAmount(): Promise<BigNumber> {
+    const stakingContract = this.getAnkrTokenStakingContract();
     const validators = await this.getAllValidators();
     const delegationsSet = await Promise.all(
       validators.map(validator =>
@@ -1254,6 +1263,16 @@ export class AnkrStakingSDK {
     });
 
     return result.dividedBy(ETH_SCALE_FACTOR);
+  }
+
+  /**
+   * Get total delegated ANKR amount.
+   *
+   * @public
+   * @returns {BigNumber}
+   */
+  public async getRewards(hoursBefore: number): Promise<BigNumber> {
+    return ZERO.plus(hoursBefore);
   }
 
   /**
