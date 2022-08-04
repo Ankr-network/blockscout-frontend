@@ -1224,8 +1224,11 @@ export class AnkrStakingSDK {
    * @returns {BigNumber}
    */
   public async getMyTotalDelegatedAmount(): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators();
+    const [stakingContract, validators] = await Promise.all([
+      this.getAnkrTokenStakingContract(),
+      this.getAllValidators(),
+    ]);
+
     const delegationsSet = await Promise.all(
       validators.map(validator =>
         stakingContract.methods

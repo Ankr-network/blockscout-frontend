@@ -22,6 +22,7 @@ export interface IStakedANKRData {
 }
 
 export const useStakedANKRData = (): IStakedANKRData => {
+  const { data, loading } = useQuery({ type: getTotalInfo });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
 
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
