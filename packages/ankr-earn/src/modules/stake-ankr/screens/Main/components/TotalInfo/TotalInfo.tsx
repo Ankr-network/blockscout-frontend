@@ -3,15 +3,15 @@ import classNames from 'classnames';
 
 import { t } from 'common';
 
-import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { Token } from 'modules/common/types/token';
+import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
+import { TotalIfnoContent } from 'modules/delegate-stake/components/TotalStaked/TotalIfnoContent';
+import { TotalInfoAmount } from 'modules/delegate-stake/components/TotalStaked/TotalInfoAmount';
 import { Button } from 'uiKit/Button';
-import { NavLink } from 'uiKit/NavLink';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
-import { ClaimDialog } from '../ClaimDialog';
+import { ClaimAllRewardsDialog } from '../ClaimAllRewardsDialog';
 
-import { TotalIfnoContent } from './TotalIfnoContent';
-import { TotalInfoAmount } from './TotalInfoAmount';
 import { useClaim } from './useClaim';
 import { useTotalInfo } from './useTotalInfo';
 import { useTotalInfoStyles } from './useTotalInfoStyles';
@@ -22,13 +22,10 @@ export const TotalInfo = (): JSX.Element => {
   const {
     totalStaked,
     totalStakedUsd,
-    totalRewards,
-    totalRewardsUsd,
     climableRewards,
     climableRewardsUsd,
     isClimableRewardsLoading,
     isTotalStakedLoading,
-    isTotalRewardsLoading,
     stakeLink,
   } = useTotalInfo();
 
@@ -43,109 +40,54 @@ export const TotalInfo = (): JSX.Element => {
     onClaim,
   } = useClaim();
 
-  const isPlusButton = !totalStaked.isZero();
-
-  const stakeBtnText = t('stake-ankr.total-info.stake');
-
   return (
     <>
       <Box mb={3}>
         <Grid container spacing={3}>
-          <Grid item lg={5} xs={12}>
+          <TotalStaked
+            isTotalStakedLoading={isTotalStakedLoading}
+            stakeLink={stakeLink}
+            token={Token.ANKR}
+            totalStaked={totalStaked}
+            totalStakedUsd={totalStakedUsd}
+          />
+
+          <Grid item lg={6} xs={12}>
             <Paper className={classes.paper}>
               <TotalIfnoContent
                 amountSlot={
                   <TotalInfoAmount
-                    isLoading={isTotalStakedLoading}
-                    usdValue={totalStakedUsd}
-                    value={totalStaked}
+                    isLoading={isClimableRewardsLoading}
+                    usdValue={climableRewardsUsd}
+                    value={climableRewards}
                   />
                 }
                 buttonSlot={
-                  isPlusButton ? (
-                    <PlusMinusBtn
-                      className={classNames(classes.btn, classes.btnRound)}
-                      href={stakeLink}
-                      icon="plus"
-                      tooltip={stakeBtnText}
-                      variant="contained"
-                    />
-                  ) : (
-                    <NavLink
-                      className={classNames(classes.btn, classes.btnRegular)}
-                      href={stakeLink}
-                      variant="contained"
-                    >
-                      {stakeBtnText}
-                    </NavLink>
-                  )
+                  <Button
+                    className={classNames(classes.btn, classes.btnRegular)}
+                    disabled={!isClaimAllowed}
+                    variant="outlined"
+                    onClick={onOpenClaim}
+                  >
+                    {t('stake-ankr.total-info.claim-all')}
+                  </Button>
                 }
                 titleSlot={
                   <Typography className={classes.title}>
-                    {t('stake-ankr.total-info.staked')}
+                    {t('stake-ankr.total-info.claimable-rewards')}
+
+                    <QuestionWithTooltip>
+                      {t('stake-ankr.total-info.claimable-tooltip')}
+                    </QuestionWithTooltip>
                   </Typography>
                 }
               />
             </Paper>
           </Grid>
-
-          <Grid item lg={7} xs={12}>
-            <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item md={5} xs={12}>
-                  <TotalIfnoContent
-                    amountSlot={
-                      <TotalInfoAmount
-                        isLoading={isTotalRewardsLoading}
-                        usdValue={totalRewardsUsd}
-                        value={totalRewards}
-                      />
-                    }
-                    titleSlot={
-                      <Typography className={classes.title}>
-                        {t('stake-ankr.total-info.rewards')}
-                      </Typography>
-                    }
-                  />
-                </Grid>
-
-                <Grid item className={classes.colWithDevider} md={7} xs={12}>
-                  <TotalIfnoContent
-                    amountSlot={
-                      <TotalInfoAmount
-                        isLoading={isClimableRewardsLoading}
-                        usdValue={climableRewardsUsd}
-                        value={climableRewards}
-                      />
-                    }
-                    buttonSlot={
-                      <Button
-                        className={classNames(classes.btn, classes.btnRegular)}
-                        disabled={!isClaimAllowed}
-                        variant="outlined"
-                        onClick={onOpenClaim}
-                      >
-                        {t('stake-ankr.total-info.claim-all')}
-                      </Button>
-                    }
-                    titleSlot={
-                      <Typography className={classes.title}>
-                        {t('stake-ankr.total-info.claimable-rewards')}
-
-                        <QuestionWithTooltip>
-                          {t('stake-ankr.total-info.claimable-tooltip')}
-                        </QuestionWithTooltip>
-                      </Typography>
-                    }
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
         </Grid>
       </Box>
 
-      <ClaimDialog
+      <ClaimAllRewardsDialog
         availableClaims={availableClaims}
         claimLoading={isClaimLoading}
         isClaimsLoading={false}

@@ -45,9 +45,10 @@ import {
   BINANCE_HISTORY_BLOCK_OFFSET,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
-  BNB_SAFE_PRECISION,
   CERT_STAKING_LOG_HASH,
   BNB_ESTIMATE_GAS_MULTIPLIER,
+  BNB_STAKING_MAX_DECIMALS_LEN,
+  BNB_GAS_FEE_SAFE_LIMIT,
 } from './const';
 import {
   TBnbSyntToken,
@@ -432,6 +433,19 @@ export class BinanceSDK implements ISwitcher, IStakable {
       binanceConfig.aETHcToken,
     );
   }
+  
+  /**
+   * Internal method for getting a safe amount in HEX format.
+   *
+   * @private
+   * @param {BigNumber} amount - amount for stake
+   * @returns {string}
+   */
+  private getSafeBinanceHexAmount(amount: BigNumber): string {
+    const safeAmount = amount.decimalPlaces(BNB_STAKING_MAX_DECIMALS_LEN, BigNumber.ROUND_DOWN);
+  
+    return this.convertToHex(safeAmount);
+  }
 
   /**
    * Add token to wallet.
@@ -737,16 +751,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const provider = await this.getProvider();
     const binancePoolContract = await this.getBinancePoolContract();
 
-    const bnbSpecificAmount = new BigNumber(
-      amount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_DOWN),
-    );
-
     const contractStake =
       binancePoolContract.methods[this.getStakeMethodName(token)];
 
     const estimatedGas: number = await contractStake().estimateGas({
       from: this.currentAccount,
-      value: this.convertToHex(bnbSpecificAmount),
+      value: this.getSafeBinanceHexAmount(amount),
     });
 
     const increasedGasLimit = this.getIncreasedGasLimit(estimatedGas);
@@ -970,32 +980,37 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
 
     let gasFee = this.stakeGasFee;
+    
     if (!gasFee) {
       gasFee = await this.getStakeGasFee(amount, token as TBnbSyntToken);
     }
 
     const balance = await this.getBNBBalance();
-    const maxAmount = balance.minus(gasFee);
-    const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
+    const gasFeeSafeLimit = gasFee.multipliedBy(BNB_GAS_FEE_SAFE_LIMIT);
+    const maxSafeAmount = balance.minus(gasFee).minus(gasFeeSafeLimit);
+    const stakeAmount = amount.isGreaterThan(maxSafeAmount) ? maxSafeAmount : amount;
+    
+    if (stakeAmount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+    }
+    
     const binancePoolContract = await this.getBinancePoolContract();
-
-    const bnbSpecificAmount = new BigNumber(
-      stakeAmount.toPrecision(BNB_SAFE_PRECISION, BigNumber.ROUND_DOWN),
-    );
 
     const contractStake =
       binancePoolContract.methods[
         this.getStakeMethodName(token as TBnbSyntToken)
       ];
-
+    
+    const safeHexAmount = this.getSafeBinanceHexAmount(stakeAmount);
+    
     const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
-      value: this.convertToHex(bnbSpecificAmount),
+      value: safeHexAmount,
     });
 
     const tx = await contractStake().send({
       from: this.currentAccount,
-      value: this.convertToHex(bnbSpecificAmount),
+      value: safeHexAmount,
       gas: this.getIncreasedGasLimit(gasLimit),
     });
 
@@ -1143,7 +1158,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Allowance is the amount which spender is still allowed to withdraw from owner.
-   * @param {string} [amount] - amount
+   * @param {string} [hexAmount] - amount in HEX
    * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
    */
   public async checkAllowance(hexAmount: string): Promise<boolean> {

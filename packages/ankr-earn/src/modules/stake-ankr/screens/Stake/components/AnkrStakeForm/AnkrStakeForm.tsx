@@ -26,6 +26,7 @@ import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 
 import { useStakeFormStyles } from './useStakeFormStyles';
@@ -173,6 +174,8 @@ export const AnkrStakeForm = ({
           className={classes.stepper}
           stepsCount={2}
         />
+
+        {isApproved && <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>}
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>

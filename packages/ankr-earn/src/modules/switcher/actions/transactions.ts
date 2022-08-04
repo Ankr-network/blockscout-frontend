@@ -1,6 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
+import capitalize from 'lodash/capitalize';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
@@ -29,10 +30,15 @@ interface RequestError extends Error {
   code?: number;
 }
 
+const METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG = 'insufficient funds for transfer';
 const METAMASK_USER_REJECT_ERROR_CODE = 4001;
 
 const onError = (error: RequestError) => {
-  const [message] = error.message.split('\n');
+  const [message, , , codeMsg] = error.message.split('\n');
+
+  if (codeMsg?.includes(METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG)) {
+    throw new Error(capitalize(METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG));
+  }
 
   throw error.code !== METAMASK_USER_REJECT_ERROR_CODE
     ? new Error(message || error.message)

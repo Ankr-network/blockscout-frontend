@@ -24,6 +24,7 @@ import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
+import { isFirefox } from 'modules/common/utils/isFirefox';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -114,7 +115,7 @@ export const TxView = ({
   const showWithdrawlBtn =
     isConnected && !isReceived && !isWrongNetwork && isNotarizeCompleted;
   const showConnectBtn = !isConnected;
-  const showAddTokenBtn = isConnected && isReceived && isMetaMask;
+  const showAddTokenBtn = isConnected && isReceived && isMetaMask && !isFirefox;
   const showSwitchNetworkBtn = isConnected && isWrongNetwork && isMetaMask;
 
   useEffect(() => {

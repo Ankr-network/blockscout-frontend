@@ -7,7 +7,9 @@ import {
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 
+import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
@@ -19,7 +21,7 @@ import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { isMainnet, SupportedChainIDS } from 'modules/common/const';
+import { isMainnet, SupportedChainIDS, ZERO } from 'modules/common/const';
 import {
   TUseValidateAmount,
   useValidateAmount,
@@ -79,6 +81,10 @@ const defaultTo = isMainnet
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
   const { balance, isBalanceLoading } = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
@@ -136,6 +142,25 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     token: tokenValue,
   });
 
+  const sendAnalytics = async () => {
+    const from = networksOptionsFrom.find(
+      option => option.value === swapNetworkItem.from,
+    )?.label;
+    const to = networksOptionsTo.find(
+      option => option.value === swapNetworkItem.to,
+    )?.label;
+
+    trackBridge({
+      address,
+      walletType: walletName,
+      token: tokenValue,
+      amount: inputValue ? new BigNumber(inputValue) : ZERO,
+      balance,
+      from,
+      to,
+    });
+  };
+
   const onChangeToken = (token: string) => {
     setSwapNetworkItem({ from: defaultFrom, to: defaultTo });
     setTokenValue(token as AvailableBridgeTokens);
@@ -175,6 +200,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const onSubmit = () => {
     if (isApproved) {
       onSendClick();
+      sendAnalytics();
     } else {
       onApproveClick();
     }

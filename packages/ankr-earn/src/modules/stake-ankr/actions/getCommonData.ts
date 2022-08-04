@@ -20,7 +20,7 @@ export const getCommonData = createAction<
       const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
         sdk.getAnkrBalance(),
         sdk.getMinimumStake(),
-        sdk.getLockingPeriod(),
+        sdk.getLockingPeriodDays(),
       ]);
 
       return { ankrBalance, minStake, lockingPeriod };

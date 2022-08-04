@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { ZERO } from 'modules/common/const';
 
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface ITrackStakeArgs {
@@ -56,5 +56,5 @@ export const trackStake = async ({
     syntheticBalance: synthBalance.toFixed(),
   };
 
-  trackAnalyticEvent({ event: 'stake_tokens', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.StakeTokens, properties });
 };

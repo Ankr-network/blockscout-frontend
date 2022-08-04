@@ -6,10 +6,13 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
-import { DEFAULT_FIXED, DEFAULT_ROUNDING } from 'modules/common/const';
+import {
+  DEFAULT_FIXED,
+  DEFAULT_ROUNDING,
+  nativeTokenMap,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
-import { nativeTokenMap } from 'modules/dashboard/const';
 import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoTooltip';
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';

@@ -8,6 +8,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
+import { RoutesConfig } from '../Routes';
 
 import { getCommonData } from './getCommonData';
 
@@ -43,7 +44,13 @@ export const stake = createSmartAction<
         const txHash = response.data;
 
         if (txHash) {
-          store.dispatch(push(`steps/${txHash}/`));
+          store.dispatch(
+            push(
+              RoutesConfig.stakeSteps.generatePath({
+                txHash,
+              }),
+            ),
+          );
         }
 
         return response;

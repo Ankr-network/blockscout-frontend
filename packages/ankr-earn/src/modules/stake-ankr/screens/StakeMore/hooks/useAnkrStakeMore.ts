@@ -4,6 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo, useState } from 'react';
 
 import { t } from 'common';
 
@@ -12,6 +13,7 @@ import { ZERO } from 'modules/common/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
@@ -31,11 +33,19 @@ interface IUseAnkrStake {
   minStake: BigNumber;
   providerId: string;
   providerName: string;
+  amount: BigNumber;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onChange?: (
+    values: Partial<IAnkrStakeSubmitPayload>,
+    invalid: boolean,
+  ) => void;
 }
 
 export const useAnkrStakeMore = (): IUseAnkrStake => {
   const dispatchRequest = useDispatchRequest();
+
+  const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
 
   const { data: providers } = useQuery({
     type: getProviders,
@@ -46,6 +56,11 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approve,
   });
+  const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
+    {
+      type: getValidatorDelegatedAmount,
+    },
+  );
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -58,14 +73,19 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
 
   const isApproved = !!approveData;
 
+  const stakedAmount = delegatedAmount ?? ZERO;
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getCommonData());
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
-    const readyAmount = new BigNumber(amount);
-
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IAnkrStakeSubmitPayload) => {
+    const readyAmount = new BigNumber(formAmount);
     if (isApproved) {
       dispatchRequest(
         stake({
@@ -78,20 +98,40 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     }
   };
 
+  const onChange = (
+    { amount: formAmount }: Partial<IAnkrStakeSubmitPayload>,
+    invalid: boolean,
+  ) => {
+    const readyAmount = new BigNumber(formAmount ?? 0);
+    setAmount(formAmount ? readyAmount : ZERO);
+    setIsError(invalid);
+  };
+
+  const newTotalStake = useMemo(() => {
+    if (isError) return stakedAmount;
+    return stakedAmount.plus(amount);
+  }, [amount, stakedAmount, isError]);
+
   return {
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
     isApproved,
     balance: commonData?.ankrBalance ?? ZERO,
-    isDisabled: isCommonDataLoading || isStakeLoading || isApproveLoading,
+    isDisabled:
+      isCommonDataLoading ||
+      isStakeLoading ||
+      isApproveLoading ||
+      isDelegatedAmountLoading,
     apy: ZERO,
-    newTotalStake: ZERO,
+    newTotalStake,
     tokenIn: t('unit.ankr'),
-    closeHref: RoutesConfig.main.generatePath(), // TODO: change it
+    closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
     minStake: commonData?.minStake ?? ZERO,
+    amount,
+    onChange,
     onSubmit,
   };
 };

@@ -1,9 +1,8 @@
 import { Container, Paper, Typography } from '@material-ui/core';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
-import { InfoHeader } from 'modules/stake-ankr/components/InfoHeader';
-import { Section } from 'modules/stake-ankr/components/Section';
+import { Section } from 'modules/delegate-stake/components/Section';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -21,8 +20,7 @@ export const Restake = (): JSX.Element => {
     closeHref,
     providerName,
     newTotalStake,
-    rewards,
-    epochEnd,
+    epochEnds,
     onSubmit,
   } = useRestake();
 
@@ -36,15 +34,15 @@ export const Restake = (): JSX.Element => {
             {t('stake-ankr.restake.title')}
           </Typography>
 
-          <InfoHeader allRewards={rewards} epochEnd={epochEnd} />
-
           <div className={classes.table}>
             <div className={classes.row}>
               <Typography className={classes.rowName}>
                 {t('stake-ankr.restake.restakable-amount')}
 
                 <QuestionWithTooltip>
-                  {t('stake-ankr.restake.restakable-tooltip')}
+                  {tHTML('stake-ankr.restake.restakable-tooltip', {
+                    value: epochEnds,
+                  })}
                 </QuestionWithTooltip>
               </Typography>
 
