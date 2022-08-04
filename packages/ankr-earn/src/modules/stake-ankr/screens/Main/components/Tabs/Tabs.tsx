@@ -1,14 +1,18 @@
-import { Typography, Tabs as BaseTabs, Tab, Chip } from '@material-ui/core';
-import classNames from 'classnames';
+import { Tabs as BaseTabs, Tab } from '@material-ui/core';
 
 import { t } from 'common';
 
+import { TabContent } from 'modules/delegate-stake/components/TabContent';
+import { Button } from 'uiKit/Button';
+
 import { useTabsStyles } from './useTabsStyles';
 
-interface ITabProps {
+interface ITabsProps {
   activeTab: string;
   isExistsUnstakingData: boolean;
   newUnstakingAmount: number;
+  isShowingButton: boolean;
+  onOpen: () => void;
   onChangeTab(newTab: string): void;
 }
 
@@ -16,8 +20,10 @@ export const Tabs = ({
   activeTab,
   isExistsUnstakingData,
   newUnstakingAmount,
+  isShowingButton,
+  onOpen,
   onChangeTab,
-}: ITabProps): JSX.Element => {
+}: ITabsProps): JSX.Element => {
   const classes = useTabsStyles();
 
   const activeStakingText = t('stake-ankr.tabs.active-staking');
@@ -39,21 +45,11 @@ export const Tabs = ({
           classes={{ root: classes.tabArea, selected: classes.tabSelected }}
           className={classes.tabArea}
           label={
-            <div className={classes.itemWrapper}>
-              <Typography
-                className={classNames(classes.tabText, {
-                  [classes.tabActive]: activeTab === activeStakingText,
-                })}
-                color={
-                  activeTab === activeStakingText
-                    ? 'textPrimary'
-                    : 'textSecondary'
-                }
-                variant="h3"
-              >
-                {activeStakingText}
-              </Typography>
-            </div>
+            <TabContent
+              activeTab={activeTab}
+              title={activeStakingText}
+              value={activeStakingText}
+            />
           }
           value={activeStakingText}
         />
@@ -64,31 +60,12 @@ export const Tabs = ({
             classes={{ root: classes.tabArea, selected: classes.tabSelected }}
             className={classes.tabArea}
             label={
-              <div className={classes.itemWrapper}>
-                <Typography
-                  className={classNames(classes.tabText, {
-                    [classes.tabActive]: activeTab === unstakingText,
-                  })}
-                  color={
-                    activeTab === unstakingText
-                      ? 'textPrimary'
-                      : 'textSecondary'
-                  }
-                  variant="h3"
-                >
-                  {unstakingText}
-                </Typography>
-
-                {!!newUnstakingAmount && (
-                  <Chip
-                    classes={{ label: classes.chipLabel }}
-                    className={classes.chip}
-                    color="primary"
-                    label={newUnstakingAmount}
-                    size="small"
-                  />
-                )}
-              </div>
+              <TabContent
+                activeTab={activeTab}
+                amount={newUnstakingAmount}
+                title={unstakingText}
+                value={unstakingText}
+              />
             }
             value={unstakingText}
           />
@@ -99,23 +76,21 @@ export const Tabs = ({
           classes={{ root: classes.tabArea, selected: classes.tabSelected }}
           className={classes.tabArea}
           label={
-            <div className={classes.itemWrapper}>
-              <Typography
-                className={classNames(classes.tabText, {
-                  [classes.tabActive]: activeTab === historyText,
-                })}
-                color={
-                  activeTab === historyText ? 'textPrimary' : 'textSecondary'
-                }
-                variant="h3"
-              >
-                {historyText}
-              </Typography>
-            </div>
+            <TabContent
+              activeTab={activeTab}
+              title={historyText}
+              value={historyText}
+            />
           }
           value={historyText}
         />
       </BaseTabs>
+
+      {isShowingButton ? (
+        <Button className={classes.btn} variant="text" onClick={onOpen}>
+          {t('stake-ankr.tabs.claim-all')}
+        </Button>
+      ) : undefined}
     </div>
   );
 };

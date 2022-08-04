@@ -1,7 +1,8 @@
-import { Typography, Tabs as BaseTabs, Tab } from '@material-ui/core';
-import classNames from 'classnames';
+import { Tabs as BaseTabs, Tab } from '@material-ui/core';
 
 import { t } from 'common';
+
+import { TabContent } from 'modules/delegate-stake/components/TabContent';
 
 import { useTabsStyles } from './useTabsStyles';
 
@@ -31,21 +32,11 @@ export const Tabs = ({ activeTab, onChangeTab }: ITabProps): JSX.Element => {
           classes={{ root: classes.tabArea, selected: classes.tabSelected }}
           className={classes.tabArea}
           label={
-            <div className={classes.itemWrapper}>
-              <Typography
-                className={classNames(classes.tabText, {
-                  [classes.tabActive]: activeTab === activeStakingText,
-                })}
-                color={
-                  activeTab === activeStakingText
-                    ? 'textPrimary'
-                    : 'textSecondary'
-                }
-                variant="h3"
-              >
-                {activeStakingText}
-              </Typography>
-            </div>
+            <TabContent
+              activeTab={activeTab}
+              title={activeStakingText}
+              value={activeStakingText}
+            />
           }
           value={activeStakingText}
         />
@@ -55,19 +46,11 @@ export const Tabs = ({ activeTab, onChangeTab }: ITabProps): JSX.Element => {
           classes={{ root: classes.tabArea, selected: classes.tabSelected }}
           className={classes.tabArea}
           label={
-            <div className={classes.itemWrapper}>
-              <Typography
-                className={classNames(classes.tabText, {
-                  [classes.tabActive]: activeTab === historyText,
-                })}
-                color={
-                  activeTab === historyText ? 'textPrimary' : 'textSecondary'
-                }
-                variant="h3"
-              >
-                {historyText}
-              </Typography>
-            </div>
+            <TabContent
+              activeTab={activeTab}
+              title={historyText}
+              value={historyText}
+            />
           }
           value={historyText}
         />
