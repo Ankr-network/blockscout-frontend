@@ -10,8 +10,8 @@ interface IStatsData {
   tvl: string;
   tvlPercent: number;
   lockingPeriod: number;
-  rewards24h: string;
-  rewards30d: string;
+  rewards24h?: string;
+  rewards30d?: string;
 }
 
 export const useStatsData = (): IStatsData => {
@@ -39,7 +39,5 @@ export const useStatsData = (): IStatsData => {
           .decimalPlaces(0)
       : 0,
     lockingPeriod: data?.lockingPeriod ?? 0,
-    rewards24h: '0k',
-    rewards30d: '0m',
   };
 };

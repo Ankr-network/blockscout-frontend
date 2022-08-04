@@ -42,7 +42,6 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
   // todo: use actual data
   const totalStaked = totalInfo?.totalTVL ?? ZERO;
   const totalStakedUsd = totalStaked.multipliedBy(usdPrice);
-  const stakers = '0';
 
   useProviderEffect(() => {
     dispatchRequest(getAPY());
@@ -67,7 +66,6 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
     yearlyEarningUSD,
     totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
-    stakers,
   };
 };
 

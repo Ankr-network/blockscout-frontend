@@ -12,6 +12,8 @@ export const useTableStyles = makeStyles<Theme>(
     },
 
     expandLogo: {
+      maxWidth: '1160px',
+      width: '100%',
       marginTop: theme.spacing(1),
     },
   }),

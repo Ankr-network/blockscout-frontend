@@ -13,7 +13,7 @@ interface ITableRow {
   provider: string;
   nodeAmount: number;
   apy: number;
-  stakedPool: number;
+  stakedPool: string;
   stakedPoolPercent: number;
   rps: BigNumber;
   online: number;
@@ -55,13 +55,18 @@ export const useTableData = (): ITableData => {
   };
 };
 
-function mapProviderDemo({ status, validator }: IValidator): ITableRow {
+function mapProviderDemo({
+  status,
+  validator,
+  totalDelegated,
+  votingPower,
+}: IValidator): ITableRow {
   return {
     provider: 'ANKR',
     nodeAmount: 0,
     apy: 0,
-    stakedPool: 0,
-    stakedPoolPercent: 0,
+    stakedPool: totalDelegated.toFormat(),
+    stakedPoolPercent: votingPower,
     rps: ZERO,
     online: 0,
     status: +status,

@@ -26,7 +26,7 @@ import { ProviderCell } from '../ProviderCell';
 import { useProvidersTableStyles } from './useProvidersTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 100, 100, 100, 150];
+const SKELETON_COLUMN_WIDTHS = [200, 100, 150];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -35,8 +35,6 @@ enum ECellLabels {
   providerName,
   apy,
   stakedPool,
-  uptime,
-  rps,
   providerLink,
 }
 
@@ -45,8 +43,7 @@ export interface IProvidersTableRow {
   status: EProviderStatus;
   apy: string;
   stakedPool: string;
-  uptime: string;
-  rps: string;
+  stakedPoolPercent: number;
   providerLink: string;
   latency?: number;
   currentPeriod?: number;
@@ -75,12 +72,6 @@ export const ProvidersTable = ({
       },
       {
         label: t('stake-ankr.select-provider.table.staked-pool'),
-      },
-      {
-        label: t('stake-ankr.select-provider.table.uptime'),
-      },
-      {
-        label: t('stake-ankr.select-provider.table.rps'),
       },
       {
         label: ' ',
@@ -114,6 +105,10 @@ export const ProvidersTable = ({
     return null;
   }
 
+  const renderStakedPool = (value: string, percent: number): string => {
+    return `${value} (${Math.trunc(percent)}%)`;
+  };
+
   const commonTdProps = {
     className: classes.cell,
   };
@@ -121,7 +116,7 @@ export const ProvidersTable = ({
   return (
     <BasicTable
       columnsCount={captions.length}
-      customCell="1fr 160px 160px 160px 120px 1fr"
+      customCell="1fr 250px 250px 1fr"
       minWidth={1000}
     >
       <TableHead>
@@ -182,28 +177,14 @@ export const ProvidersTable = ({
                   {...commonTdProps}
                   label={`${captions[ECellLabels.apy].label}`}
                 >
-                  {row.apy}
+                  {t('stake-ankr.table.percent-value', { value: row.apy })}
                 </TableBodyCell>
 
                 <TableBodyCell
                   {...commonTdProps}
                   label={`${captions[ECellLabels.stakedPool].label}`}
                 >
-                  {row.stakedPool}
-                </TableBodyCell>
-
-                <TableBodyCell
-                  {...commonTdProps}
-                  label={`${captions[ECellLabels.uptime].label}`}
-                >
-                  {row.uptime}
-                </TableBodyCell>
-
-                <TableBodyCell
-                  {...commonTdProps}
-                  label={`${captions[ECellLabels.rps].label}`}
-                >
-                  {row.rps}
+                  {renderStakedPool(row.stakedPool, row.stakedPoolPercent)}
                 </TableBodyCell>
 
                 <TableBodyCell

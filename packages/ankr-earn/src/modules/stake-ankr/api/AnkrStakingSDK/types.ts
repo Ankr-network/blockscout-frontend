@@ -37,13 +37,13 @@ export interface IValidator {
   prettyStatus: TValidatorPrettyStatus;
   status: Web3Uint256;
   slashesCount: number;
-  totalDelegated: Web3Uint256;
+  totalDelegated: BigNumber;
   votingPower: number;
   changedAt: number;
   jailedBefore: number;
   claimedAt: number;
   commissionRate: Web3Uint256;
-  totalRewards: Web3Uint256;
+  totalRewards: BigNumber;
 }
 
 export type IEventData = EventData;

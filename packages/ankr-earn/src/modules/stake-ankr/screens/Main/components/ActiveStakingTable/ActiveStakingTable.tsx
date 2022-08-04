@@ -45,7 +45,6 @@ enum EExpandLabel {
   time,
   lockPeriod,
   yourStake,
-  rewards,
 }
 
 export const ActiveStakingTable = (): JSX.Element | null => {
@@ -82,9 +81,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       {
         label: t('stake-ankr.staking-table.your-stake'),
       },
-      {
-        label: t('stake-ankr.staking-table.rewards'),
-      },
     ],
     [],
   );
@@ -94,16 +90,13 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       SKELETON_ROWS.map((columnWidths, i) => (
         <TableRow key={uid(i)}>
           {columnWidths.map((width, j) => (
-            <TableBodyCell
-              key={uid(`${i}-${j}`)}
-              label={expandCaptions[j].label}
-            >
+            <TableBodyCell key={uid(`${i}-${j}`)} label={mainCaptions[j].label}>
               <Skeleton width={width} />
             </TableBodyCell>
           ))}
         </TableRow>
       )),
-    [expandCaptions],
+    [mainCaptions],
   );
 
   if (!data?.length && !isLoading) {
@@ -156,7 +149,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                         dense
                         className={classes.expandTable}
                         columnsCount={mainCaptions.length}
-                        customCell="160px 220px 300px 1fr"
+                        customCell="160px 220px 1fr"
                         minWidth={800}
                       >
                         <TableHead>
@@ -176,18 +169,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                             const internalUnstakeLink =
                               additionalInfoItem.isUnlocked
                                 ? RoutesConfig.unstake.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-                            const internalClaimLink =
-                              !additionalInfoItem.rewards.isZero()
-                                ? RoutesConfig.claimRewards.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-                            const internalRestakeLink =
-                              !additionalInfoItem.rewards.isZero()
-                                ? RoutesConfig.restake.generatePath(
                                     row.provider,
                                   )
                                 : undefined;
@@ -220,6 +201,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                                 </TableBodyCell>
 
                                 <TableBodyCell
+                                  align="left"
                                   className={classes.expandedCell}
                                   label={`${
                                     expandCaptions[EExpandLabel.yourStake].label
@@ -234,20 +216,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                                     }
                                   />
                                 </TableBodyCell>
-
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.rewards].label
-                                  }`}
-                                >
-                                  <RewardsItem
-                                    ankrAmount={additionalInfoItem.rewards}
-                                    claimLink={internalClaimLink}
-                                    restakeLink={internalRestakeLink}
-                                    usdAmount={additionalInfoItem.usdRewards}
-                                  />
-                                </TableBodyCell>
                               </TableRow>
                             );
                           })}
@@ -259,7 +227,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
               >
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.provider].label}`}
+                  label={`${mainCaptions[EMainLabel.provider].label}`}
                 >
                   <ProviderItem
                     name={getDemoProviderName(row.provider) ?? row.provider}
@@ -283,7 +251,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.lockPeriod].label}`}
+                  label={`${mainCaptions[EMainLabel.lockPeriod].label}`}
                 >
                   <LockingPeriodItem
                     daysLeft={row.lockingPeriod}
@@ -310,7 +278,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.rewards].label}`}
+                  label={`${mainCaptions[EMainLabel.rewards].label}`}
                 >
                   <RewardsItem
                     ankrAmount={row.rewards}
