@@ -32,13 +32,13 @@ import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import {
   AccountGateway,
   IAccountGateway,
-  IAggregatedPaymentHistoryReponse,
   IAggregatedPaymentHistoryRequest,
+  IAggregatedPaymentHistoryResponse,
   IBalance,
   IDailyChargingParams,
-  IDailyChargingReponse,
-  IPaymentHistoryReponse,
+  IDailyChargingResponse,
   IPaymentHistoryRequest,
+  IPaymentHistoryResponse,
   IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
@@ -253,6 +253,18 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   ): Promise<EventData | undefined> {
     const events =
       await this.getPAYGContractManager().getLatestProviderRequestEvents(user);
+
+    if (!events?.length) return undefined;
+
+    return events[events.length - 1];
+  }
+
+  async getLatestAllowanceEvent(
+    user: Web3Address,
+  ): Promise<EventData | undefined> {
+    const events = await this.getPAYGContractManager().getLatestAllowanceEvents(
+      user,
+    );
 
     if (!events?.length) return undefined;
 
@@ -517,19 +529,19 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   async getPaymentHistory(
     params: IPaymentHistoryRequest,
-  ): Promise<IPaymentHistoryReponse> {
+  ): Promise<IPaymentHistoryResponse> {
     return this.getAccountGateway().getPaymentHistory(params);
   }
 
   async getAggregatedPaymentHistory(
     params: IAggregatedPaymentHistoryRequest,
-  ): Promise<IAggregatedPaymentHistoryReponse> {
+  ): Promise<IAggregatedPaymentHistoryResponse> {
     return this.getAccountGateway().getAggregatedPaymentHistory(params);
   }
 
   async getDailyCharging(
     params: IDailyChargingParams,
-  ): Promise<IDailyChargingReponse> {
+  ): Promise<IDailyChargingResponse> {
     return this.getAccountGateway().getDailyCharging(params);
   }
 

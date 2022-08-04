@@ -26,6 +26,7 @@ import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedANKR } from '../StakedANKR';
 import { StakedAWNDB } from '../StakedAWNDB';
+import { StakedMGNO } from '../StakedMGNO';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
 import { UnclaimedKSM } from '../UnclaimedKSM';
@@ -64,6 +65,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isWNDShowed,
     isUnclaimedEthShowed,
     isANKRShowed,
+    isMGNOShowed,
   } = useStakedTokens();
 
   return (
@@ -76,6 +78,8 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
           <AssetsList>
             {isANKRShowed && <StakedANKR />}
+
+            {isMGNOShowed && <StakedMGNO />}
 
             {isUnclaimedEthShowed && <UnclaimedETH />}
 

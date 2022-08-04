@@ -15,6 +15,7 @@ export const useRestakeStyles = makeStyles(theme => ({
   title: {
     fontSize: 30,
     textAlign: 'center',
+    marginBottom: theme.spacing(5),
   },
 
   table: {

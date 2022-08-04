@@ -17,7 +17,9 @@ import {
   ProviderStatus,
   ProviderStatusTooltip,
 } from 'modules/stake-ankr/components/ProviderStatus';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
+import expandNodeProviders from '../../assets/expand-node-providers.png';
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
 import { ProviderItem } from '../ProviderItem';
@@ -48,6 +50,7 @@ export const Table = (): JSX.Element | null => {
       },
       {
         label: t('stake-ankr.table.rps'),
+        tooltip: t('stake-ankr.table.rps-tooltip'),
       },
       {
         label: t('stake-ankr.table.online'),
@@ -101,13 +104,21 @@ export const Table = (): JSX.Element | null => {
       minWidth={1120}
     >
       <TableHead>
-        {captions.map(({ label }, i) => (
+        {captions.map(({ label, tooltip }, i) => (
           <TableHeadCell
             key={uid(i)}
             classes={{
               content: classes.thContent,
             }}
-            label={<>{label}</>}
+            label={
+              <>
+                {label}
+
+                {tooltip && (
+                  <QuestionWithTooltip>{tooltip}</QuestionWithTooltip>
+                )}
+              </>
+            }
           />
         ))}
       </TableHead>
@@ -165,6 +176,14 @@ export const Table = (): JSX.Element | null => {
               </TableBodyCell>
             </TableRow>
           ))}
+
+        {!!data.length && (
+          <img
+            alt=""
+            className={classes.expandLogo}
+            src={expandNodeProviders}
+          />
+        )}
       </TableBody>
     </BasicTable>
   );

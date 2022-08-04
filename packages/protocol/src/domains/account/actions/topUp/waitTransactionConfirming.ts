@@ -13,16 +13,13 @@ import {
 import { t } from 'modules/i18n/utils/intl';
 import { MultiService } from 'modules/api/MultiService';
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
-import { checkPendingTransaction } from '../withdraw/getInitialStep/checkPendingTransaction';
+import { waitPendingTransaction } from '../withdraw/getInitialStep/waitPendingTransaction';
 
 const MAX_ATTEMPTS = 50;
 
-const waitForBlocks = async (
-  store: RequestsStore,
-  initialTransactionHash: string,
-) => {
+const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   const { data: credentialsData } = await store.dispatchRequest(
-    fetchCredentialsStatus(initialTransactionHash),
+    fetchCredentialsStatus(transactionHash),
   );
 
   if (credentialsData?.isReady) {
@@ -31,41 +28,8 @@ const waitForBlocks = async (
 
   return retry(
     async () => {
-      await checkPendingTransaction();
-
-      const service = await MultiService.getInstance();
-      const provider = service.getKeyProvider();
-      const { currentAccount: address } = provider;
-      const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
-
-      const currentBlockNumber = await provider.getWeb3().eth.getBlockNumber();
-
-      // This is old topUp. New topUp failed
-      if (
-        currentBlockNumber - (lastTopUpEvent?.blockNumber || 0) >
-        CONFIRMATION_BLOCKS * 3
-      ) {
-        throw new Error(t('error.failed'));
-      }
-
-      let newTransactionHash = initialTransactionHash;
-
-      if (
-        lastTopUpEvent?.transactionHash &&
-        lastTopUpEvent?.transactionHash !== initialTransactionHash
-      ) {
-        newTransactionHash = lastTopUpEvent?.transactionHash as string;
-
-        store.dispatch(
-          setTopUpTransaction({
-            address,
-            topUpTransactionHash: newTransactionHash,
-          }),
-        );
-      }
-
       const { data } = throwIfError(
-        await store.dispatchRequest(fetchCredentialsStatus(newTransactionHash)),
+        await store.dispatchRequest(fetchCredentialsStatus(transactionHash)),
       );
 
       const { isReady } = data;
@@ -81,6 +45,18 @@ const waitForBlocks = async (
   );
 };
 
+const getReceipt = async (transactionHash: string) => {
+  const service = await MultiService.getInstance();
+
+  const receipt = await service.getTransactionReceipt(transactionHash);
+
+  if (receipt && !receipt.status) {
+    throw new Error(t('error.failed'));
+  }
+
+  return receipt;
+};
+
 export const waitTransactionConfirming = createSmartAction<
   RequestAction<IWeb3SendResult, null>
 >('topUp/waitTransactionConfirming', () => ({
@@ -92,16 +68,68 @@ export const waitTransactionConfirming = createSmartAction<
       return {
         promise: (async () => {
           const service = await MultiService.getInstance();
-          const { currentAccount } = service.getKeyProvider();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = service.getKeyProvider();
 
-          const transaction = selectTransaction(
-            store.getState(),
-            currentAccount,
-          );
+          const transaction = selectTransaction(store.getState(), address);
 
-          if (transaction?.topUpTransactionHash) {
-            await waitForBlocks(store, transaction.topUpTransactionHash);
+          const initialTransactionHash = transaction?.topUpTransactionHash;
+
+          if (!initialTransactionHash) {
+            throw new Error(t('error.failed'));
           }
+
+          // step 1: trying to take a receipt
+          const receipt1 = await getReceipt(initialTransactionHash);
+
+          if (receipt1) {
+            return waitForBlocks(store, initialTransactionHash);
+          }
+
+          // step 2: wait
+          await waitPendingTransaction();
+
+          // step 3: trying to take a receipt again
+          let transactionHash = initialTransactionHash;
+
+          const receipt2 = await getReceipt(transactionHash);
+
+          if (receipt2) {
+            return waitForBlocks(store, transactionHash);
+          }
+
+          // step 4: we already haven't had pending transaction and a receipt too -> check the latest top up transaction
+          const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
+
+          const currentBlockNumber = await provider
+            .getWeb3()
+            .eth.getBlockNumber();
+
+          // step 5: check blocks difference. This is old top up transaction. New top up transaction is failed or cancelled
+          if (
+            currentBlockNumber - (lastTopUpEvent?.blockNumber || 0) >
+            CONFIRMATION_BLOCKS
+          ) {
+            throw new Error(t('error.failed'));
+          }
+
+          if (
+            lastTopUpEvent?.transactionHash &&
+            lastTopUpEvent?.transactionHash !== initialTransactionHash
+          ) {
+            transactionHash = lastTopUpEvent.transactionHash;
+
+            store.dispatch(
+              setTopUpTransaction({
+                address,
+                topUpTransactionHash: transactionHash,
+              }),
+            );
+
+            await getReceipt(transactionHash);
+          }
+
+          return waitForBlocks(store, transactionHash);
         })(),
       };
     },

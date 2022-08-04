@@ -1,6 +1,6 @@
 import { Token } from 'modules/common/types/token';
 
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface ISwitchTokenEvent extends IBaseWaletData {
@@ -14,5 +14,5 @@ interface ISwitchTokenEvent extends IBaseWaletData {
 }
 
 export const trackSwitchToken = (properties: ISwitchTokenEvent): void => {
-  trackAnalyticEvent({ event: 'switch_token', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.SwitchToken, properties });
 };

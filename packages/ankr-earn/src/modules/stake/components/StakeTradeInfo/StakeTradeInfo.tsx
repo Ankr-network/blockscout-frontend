@@ -6,11 +6,13 @@ import { uid } from 'react-uid';
 import { t, tHTML } from 'common';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { nativeOpenOceanTokenMap } from 'modules/stake/const';
 import { OpenOceanIcon } from 'uiKit/Icons/OpenOceanIcon';
 import { NavLink } from 'uiKit/NavLink';
 
 import { getStakeTradeInfoData } from '../../actions/getStakeTradeInfoData';
 
+import { useStakeTradeAnalytics } from './useStakeTradeAnalytics';
 import { useStakeTradeInfoStyles } from './useStakeTradeInfoStyles';
 
 const getFormattedVal = (value: BigNumber): string =>
@@ -18,6 +20,7 @@ const getFormattedVal = (value: BigNumber): string =>
 
 export const StakeTradeInfo = (): JSX.Element | null => {
   const classes = useStakeTradeInfoStyles();
+  const { onTrackGetSyntToken } = useStakeTradeAnalytics();
 
   const { data, loading: isLoadingData } = useQuery({
     type: getStakeTradeInfoData,
@@ -57,6 +60,14 @@ export const StakeTradeInfo = (): JSX.Element | null => {
               className={classes.link}
               href={item.link}
               variant="outlined"
+              onMouseDown={onTrackGetSyntToken(
+                nativeOpenOceanTokenMap[item.token],
+                item.token,
+              )}
+              onTouchStart={onTrackGetSyntToken(
+                nativeOpenOceanTokenMap[item.token],
+                item.token,
+              )}
             >
               {t('stake.stake', {
                 token: item.token,

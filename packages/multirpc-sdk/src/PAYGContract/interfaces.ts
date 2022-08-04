@@ -28,4 +28,6 @@ export interface IPAYGContractManager {
   rejectAllowance(): Promise<IWeb3SendResult>;
 
   withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult>;
+
+  getLatestAllowanceEvents(user: Web3Address): Promise<EventData[]>;
 }

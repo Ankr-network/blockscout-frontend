@@ -3,13 +3,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
-import {
-  resetTransaction,
-  setRejectAllowanceTransaction,
-} from 'domains/account/store/accountTopUpSlice';
+import { setRejectAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { fetchBalance } from '../balance/fetchBalance';
-// eslint-disable-next-line import/no-cycle
-import { reset } from './reset';
+import { checkAllowanceTransaction } from './checkAllowanceTransaction';
+import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const rejectAllowance = createSmartAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
@@ -31,19 +28,18 @@ export const rejectAllowance = createSmartAction<
           const rejectAllowanceTransactionHash =
             rejectAllowanceResponse?.transactionHash;
 
-          if (rejectAllowanceTransactionHash) {
-            store.dispatch(
-              setRejectAllowanceTransaction({
-                address,
-                rejectAllowanceTransactionHash,
-              }),
-            );
-          }
+          store.dispatch(
+            setRejectAllowanceTransaction({
+              address,
+              rejectAllowanceTransactionHash,
+            }),
+          );
 
-          await rejectAllowanceResponse.receiptPromise;
+          await store.dispatchRequest(
+            checkAllowanceTransaction(rejectAllowanceTransactionHash),
+          );
 
-          store.dispatch(resetTransaction({ address }));
-          store.dispatchRequest(reset());
+          resetTransactionSliceAndRedirect(store, address);
         })(),
       };
     },

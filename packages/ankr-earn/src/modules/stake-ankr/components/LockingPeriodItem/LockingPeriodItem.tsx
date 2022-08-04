@@ -8,6 +8,7 @@ import { useLockingPeriodItemStyles } from './useLockingPeriodItemStyles';
 
 interface ILockingPeriodItemProps {
   isUnlocked: boolean;
+  isPartiallyUnlocked?: boolean;
   daysLeft?: number;
   percent?: number;
   existingStakes?: number;
@@ -15,11 +16,20 @@ interface ILockingPeriodItemProps {
 
 export const LockingPeriodItem = ({
   isUnlocked,
+  isPartiallyUnlocked = false,
   daysLeft = 0,
   percent = 0,
   existingStakes,
 }: ILockingPeriodItemProps): JSX.Element => {
   const classes = useLockingPeriodItemStyles();
+
+  if (isPartiallyUnlocked) {
+    return (
+      <Typography className={classes.unlockedText}>
+        {t('stake-ankr.staking-table.partially-unlocked')}
+      </Typography>
+    );
+  }
 
   if (existingStakes) {
     return (

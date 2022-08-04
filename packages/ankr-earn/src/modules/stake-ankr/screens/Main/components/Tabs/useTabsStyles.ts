@@ -75,14 +75,14 @@ export const useTabsStyles = makeStyles(theme => ({
 
   btn: {
     height: 40,
-    width: 120,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    margin: theme.spacing(0.5, 0, 0.5, 0.5),
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
 
     [theme.breakpoints.up('md')]: {
       margin: theme.spacing(0, 0, 0, 1.5),
+    },
+
+    '&:hover': {
+      backgroundColor: 'transparent',
     },
   },
 }));

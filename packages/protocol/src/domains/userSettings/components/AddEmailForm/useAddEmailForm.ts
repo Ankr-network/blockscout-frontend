@@ -1,4 +1,4 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -10,6 +10,7 @@ import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErr
 import { disableBanner } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
 import { UserSettingsBanners } from 'domains/userSettings/types';
 import { getEmailErrorMessage } from 'domains/userSettings/utils/getEmailErrorMessage';
+import { ISuccessStepProps } from './components/SuccessStep';
 import {
   AddEmailFormContentState,
   AddEmailFormErrors,
@@ -121,12 +122,16 @@ export const useAddEmailForm = ({
   }, [address, dispatchRequest, submittedData]);
 
   const {
-    errorMessage: resendEmailErrorMessage,
-    isDisabled: isResendEmailDisabled,
-  } = useEmailErrorWithTimeout({
+    data: resendEmailData,
+    loading: resendEmailLoading,
+    error: resendEmailError,
+  } = useQuery({
     type: resendConfirmationCode.toString(),
     requestKey: address,
   });
+
+  const { errorMessage: resendEmailErrorMessage } =
+    useEmailErrorWithTimeout(resendEmailError);
 
   const onChangeEmail = useCallback(() => {
     onFormSubmit(undefined);
@@ -134,28 +139,21 @@ export const useAddEmailForm = ({
     onFormStateChange(AddEmailFormContentState.CHANGE_EMAIL);
   }, [onFormStateChange, onFormSubmit]);
 
-  const { isDisabled: isEditBindingEmailDisabled } = useEmailErrorWithTimeout({
-    type: editEmailBinding.toString(),
-    requestKey: address,
-  });
-
-  const successStepProps = useMemo(
+  const successStepProps = useMemo<ISuccessStepProps>(
     () => ({
-      isResendEmailDisabled,
       onResendEmail,
+      resendEmailData,
+      resendEmailLoading,
       resendEmailErrorMessage,
 
-      isChangeEmailDisabled: ENABLE_CHANGE_EMAIL
-        ? isEditBindingEmailDisabled
-        : undefined,
       onChangeEmail: ENABLE_CHANGE_EMAIL ? onChangeEmail : undefined,
     }),
     [
-      isEditBindingEmailDisabled,
-      isResendEmailDisabled,
       onChangeEmail,
       onResendEmail,
+      resendEmailData,
       resendEmailErrorMessage,
+      resendEmailLoading,
     ],
   );
 

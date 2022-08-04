@@ -15,6 +15,7 @@ interface IFeatureItemProps {
   title: string;
   mainHref: string;
   moreHref?: string;
+  manageHref?: string;
   iconSlot: JSX.Element;
   token: Token;
   apy?: number;
@@ -26,6 +27,7 @@ export const FeatureItem = ({
   title,
   mainHref,
   moreHref,
+  manageHref,
   iconSlot,
   token,
   apy = 0,
@@ -66,6 +68,19 @@ export const FeatureItem = ({
                 variant="outlined"
               >
                 {t('features.learn-more')}
+              </NavLink>
+            </Grid>
+          )}
+
+          {manageHref && (
+            <Grid item xs>
+              <NavLink
+                fullWidth
+                className={classes.button}
+                href={manageHref}
+                variant="outlined"
+              >
+                {t('features.manage')}
               </NavLink>
             </Grid>
           )}

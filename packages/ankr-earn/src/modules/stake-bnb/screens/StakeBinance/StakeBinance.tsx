@@ -2,6 +2,7 @@ import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
 
+import { BNB_STAKING_MAX_DECIMALS_LEN } from '@ankr.com/staking-sdk';
 import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -16,7 +17,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
-import { BNB_STAKING_MAX_DECIMALS_LEN } from 'modules/stake-bnb/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

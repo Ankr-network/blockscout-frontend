@@ -8,27 +8,23 @@ import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetTotalInfo {
   totalDelegatedAmount: BigNumber;
-  totalRewards: BigNumber;
   claimableRewards: IStakingReward[];
 }
 
 export const getTotalInfo = createAction<
   RequestAction<IGetTotalInfo, IGetTotalInfo>
->(`${ANKR_ACTIONS_PREFIX}getTotalDelegatedAmount`, () => ({
+>(`${ANKR_ACTIONS_PREFIX}getTotalInfo`, () => ({
   request: {
     promise: (async (): Promise<IGetTotalInfo> => {
       const sdk = await AnkrStakingSDK.getInstance();
 
-      const [totalDelegatedAmount, totalRewards, claimableRewards] =
-        await Promise.all([
-          sdk.getTotalDelegatedAmount(),
-          sdk.totalClaimableRewards(),
-          sdk.getMyClaimableStakingRewards(),
-        ]);
+      const [totalDelegatedAmount, claimableRewards] = await Promise.all([
+        sdk.getTotalDelegatedAmount(),
+        sdk.getMyClaimableStakingRewards(),
+      ]);
 
       return {
         totalDelegatedAmount,
-        totalRewards,
         claimableRewards,
       };
     })(),

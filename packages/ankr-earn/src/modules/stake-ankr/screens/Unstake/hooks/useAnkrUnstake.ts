@@ -11,7 +11,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
+import { getUnlockedDelegatedByValidator } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
 import { unstake } from 'modules/stake-ankr/actions/unstake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
@@ -41,7 +41,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
   });
   const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
     {
-      type: getValidatorDelegatedAmount,
+      type: getUnlockedDelegatedByValidator,
     },
   );
 
@@ -57,7 +57,9 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
-    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
+    dispatchRequest(
+      getUnlockedDelegatedByValidator({ validator: queryProvider }),
+    );
   }, [dispatchRequest]);
 
   const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {

@@ -5,26 +5,8 @@ import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
-import { fetchBalance } from '../balance/fetchBalance';
 import { checkAllowanceTransaction } from './checkAllowanceTransaction';
-
-const setTransaction = (
-  store: RequestsStore,
-  address: string,
-  allowanceTransactionHash: string,
-) => {
-  if (allowanceTransactionHash) {
-    store.dispatch(
-      setAllowanceTransaction({
-        address,
-        allowanceTransactionHash,
-      }),
-    );
-  }
-};
-
-const NOT_MINED_TRANSACTION_ERROR =
-  'Transaction was not mined within 50 blocks, please make sure your transaction was properly sent. Be aware that it might still be mined!';
+import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const sendAllowance = createSmartAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
@@ -40,35 +22,35 @@ export const sendAllowance = createSmartAction<
           const service = await MultiService.getInstance();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
+
           const allowanceResponse = await service.sendAllowanceForPAYG(amount);
 
-          const transactionHash = allowanceResponse?.transactionHash;
-          setTransaction(store, address, transactionHash);
+          const { transactionHash: allowanceTransactionHash } =
+            allowanceResponse;
 
-          try {
-            await allowanceResponse.receiptPromise;
-          } catch (error: any) {
-            if (error.message === NOT_MINED_TRANSACTION_ERROR) {
-              await store.dispatchRequest(
-                checkAllowanceTransaction(transactionHash),
-              );
+          store.dispatch(
+            setAllowanceTransaction({
+              address,
+              allowanceTransactionHash,
+            }),
+          );
 
-              return;
-            }
+          const { data: receipt } = await store.dispatchRequest(
+            checkAllowanceTransaction(allowanceTransactionHash),
+          );
 
-            throw error;
+          if (receipt) {
+            store.dispatch(
+              setAllowanceTransaction({
+                address,
+                allowanceTransactionHash: receipt.transactionHash,
+              }),
+            );
+          } else {
+            resetTransactionSliceAndRedirect(store, address);
           }
         })(),
       };
-    },
-    onSuccess: (
-      response: any,
-      _action: RequestAction,
-      store: RequestsStore,
-    ) => {
-      store.dispatchRequest(fetchBalance());
-
-      return response;
     },
   },
 }));
