@@ -1,5 +1,3 @@
-import { Box } from '@material-ui/core';
-import { useMemo } from 'react';
 import { Dialog } from 'uiKit/Dialog';
 import { AddEmailBannerContent } from './components/AddEmailBannerContent';
 import { ContainerCard } from './components/ContainerCard/ContainerCard';
@@ -19,20 +17,18 @@ export const AddEmailBanner = (props: IUseAddEmailBannerProps) => {
 
   const { asCard } = props;
 
-  const content = useMemo(
-    () => (
-      <Box maxWidth={538}>
-        <AddEmailBannerContent {...contentProps} />
-      </Box>
-    ),
-    [contentProps],
-  );
-
   return asCard ? (
-    <ContainerCard title={title}>{content}</ContainerCard>
+    <ContainerCard title={title}>
+      <AddEmailBannerContent {...contentProps} />
+    </ContainerCard>
   ) : (
-    <Dialog title={title} open={isDialogVisible} onClose={handleClose}>
-      {content}
+    <Dialog
+      title={title}
+      open={isDialogVisible}
+      onClose={handleClose}
+      maxPxWidth={618}
+    >
+      <AddEmailBannerContent {...contentProps} />
     </Dialog>
   );
 };

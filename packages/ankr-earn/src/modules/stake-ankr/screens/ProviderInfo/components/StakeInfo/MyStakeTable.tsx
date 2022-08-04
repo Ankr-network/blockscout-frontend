@@ -126,8 +126,6 @@ export const MyStakeTable = (): JSX.Element | null => {
               >
                 <RewardsItem
                   ankrAmount={row.rewards}
-                  claimLink={row.claimLink}
-                  restakeLink={row.restakeLink}
                   usdAmount={row.usdRewards}
                 />
               </TableBodyCell>

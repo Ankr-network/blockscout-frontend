@@ -4,6 +4,7 @@ export const useStakeFormStyles = makeStyles(theme => {
   return {
     box: {
       position: 'relative',
+      padding: theme.spacing(6, 7.5, 3),
     },
 
     periodLabel: {

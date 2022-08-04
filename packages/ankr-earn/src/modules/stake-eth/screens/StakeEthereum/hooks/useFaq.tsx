@@ -2,7 +2,6 @@ import { useQuery } from '@redux-requests/react';
 
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
-import { RoutesConfig } from 'modules/boost/Routes';
 import { IFaqItem } from 'modules/common/components/Faq';
 import {
   DOCS_DEFI_DEX_LINK,
@@ -10,14 +9,12 @@ import {
   DOCS_STAKE_ETH_LINK,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 
-const tradelink = RoutesConfig.tradingCockpit.generatePath(
-  Token.aETHb,
-  Token.ETH,
-);
+const tradelink = RoutesConfig.defi.generatePath(Token.aETHb);
 
 export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({ type: getCommonData });

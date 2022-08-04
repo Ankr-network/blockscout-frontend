@@ -1,6 +1,6 @@
 import { Token } from 'modules/common/types/token';
 
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface IClickTradeEvent extends IBaseWaletData {
@@ -9,5 +9,5 @@ interface IClickTradeEvent extends IBaseWaletData {
 }
 
 export const trackClickTrade = (properties: IClickTradeEvent): void => {
-  trackAnalyticEvent({ event: 'click_trade', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.ClickTrade, properties });
 };

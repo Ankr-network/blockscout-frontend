@@ -32,6 +32,7 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 
+import { useAnalytics } from './useAnalytics';
 import { useFaq } from './useFaq';
 
 interface IUseStakeFormData {
@@ -108,6 +109,13 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
 
   const polkadotToken = useMemo(() => Token[network], [network]);
 
+  const { sendAnalytics } = useAnalytics({
+    amount,
+    polkadotToken,
+    ethToken,
+    network,
+  });
+
   const faqItems = useFaq({
     ethToken,
     network,
@@ -135,6 +143,7 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
     dispatchRequest(stake(network, resultAmount)).then(({ error }) => {
       if (!error) {
         onStakeClaimOpen();
+        sendAnalytics();
       }
     });
   };

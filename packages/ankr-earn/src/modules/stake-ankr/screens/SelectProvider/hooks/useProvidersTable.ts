@@ -36,7 +36,7 @@ function mapProviderDemo({
   status,
 }: IValidator): IProvidersTableRow {
   return {
-    providerName: 'Mind Heart Sou0l',
+    providerName: 'ANKR',
     apy: '0%',
     stakedPool: '0K (0%)',
     uptime: '0%',

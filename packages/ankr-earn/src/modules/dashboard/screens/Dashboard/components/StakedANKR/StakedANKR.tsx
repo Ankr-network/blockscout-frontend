@@ -6,7 +6,10 @@ import { t } from 'common';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Amount } from 'modules/dashboard/components/Amount';
-import { DashboardCard } from 'modules/dashboard/components/DashboardCard';
+import {
+  DashboardCard,
+  DashboardCardSkeleton,
+} from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -20,12 +23,11 @@ export const StakedANKR = (): JSX.Element => {
   const {
     stakedAmount,
     stakedUsdEquivalent,
-    stakedTooltip,
     rewardsAmount,
     rewardsUsdEquivalent,
-    rewardsTooltip,
     network,
     manageLink,
+    loading,
   } = useStakedANKRData();
 
   const renderUsdAmount = (value: BigNumber) =>
@@ -33,57 +35,57 @@ export const StakedANKR = (): JSX.Element => {
       value: value.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     });
 
+  if (loading) {
+    return <DashboardCardSkeleton />;
+  }
+
   return (
-    <>
-      <DashboardCard
-        amountSlot={
-          <Grid container spacing={2}>
-            {stakedAmount && (
-              <Grid item xs>
-                <Typography color="textSecondary" variant="subtitle1">
-                  {t('dashboard.card.staked')}
-                </Typography>
+    <DashboardCard
+      amountSlot={
+        <Grid container spacing={2}>
+          {stakedAmount && (
+            <Grid item xs>
+              <Typography color="textSecondary" variant="subtitle1">
+                {t('dashboard.card.staked')}
+              </Typography>
 
-                <Amount
-                  infoSlot={renderUsdAmount(stakedUsdEquivalent)}
-                  infoTooltip={stakedTooltip}
-                  value={stakedAmount}
-                />
-              </Grid>
-            )}
-
-            {rewardsAmount && (
-              <Grid item xs>
-                <Typography color="textSecondary" variant="subtitle1">
-                  {t('dashboard.card.rewards')}
-                </Typography>
-
-                <Amount
-                  infoSlot={renderUsdAmount(rewardsUsdEquivalent)}
-                  infoTooltip={rewardsTooltip}
-                  value={rewardsAmount}
-                />
-              </Grid>
-            )}
-          </Grid>
-        }
-        buttonsSlot={
-          <Grid container alignItems="center" spacing={2}>
-            <Grid item>
-              <NavLink
-                className={classes.manageButton}
-                href={manageLink}
-                variant="outlined"
-              >
-                {t('dashboard.card.manage')}
-              </NavLink>
+              <Amount
+                infoSlot={renderUsdAmount(stakedUsdEquivalent)}
+                value={stakedAmount}
+              />
             </Grid>
+          )}
+
+          {rewardsAmount && (
+            <Grid item xs>
+              <Typography color="textSecondary" variant="subtitle1">
+                {t('dashboard.card.rewards')}
+              </Typography>
+
+              <Amount
+                infoSlot={renderUsdAmount(rewardsUsdEquivalent)}
+                value={rewardsAmount}
+              />
+            </Grid>
+          )}
+        </Grid>
+      }
+      buttonsSlot={
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item>
+            <NavLink
+              className={classes.manageButton}
+              href={manageLink}
+              variant="outlined"
+            >
+              {t('dashboard.card.manage')}
+            </NavLink>
           </Grid>
-        }
-        networkAndIconSlot={
-          <NetworkIconText network={network} token={Token.ANKR} />
-        }
-      />
-    </>
+        </Grid>
+      }
+      networkAndIconSlot={
+        <NetworkIconText network={network} token={Token.ANKR} />
+      }
+    />
   );
 };

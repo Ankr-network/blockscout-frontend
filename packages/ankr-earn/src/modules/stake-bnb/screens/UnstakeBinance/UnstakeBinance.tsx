@@ -55,7 +55,10 @@ export const UnstakeBinance = (): JSX.Element => {
 
   const onRenderFormFooter = (amount: BigNumber): JSX.Element => {
     const value = amount;
-    const isInvalidAmount = value.isNaN() || value.isLessThan(minAmount);
+    const isInvalidAmount =
+      value.isNaN() ||
+      value.isLessThan(minAmount) ||
+      syntTokenBalance?.isLessThan(value);
     const totalRecieve = isInvalidAmount ? '0' : calcTotalRecieve(amount);
 
     return (

@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js';
 
+import { t } from 'common';
+
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { NavLink } from 'uiKit/NavLink';
 
 import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
@@ -11,6 +14,7 @@ interface IYourStakeItemProps {
   usdAmount: BigNumber;
   stakeLink?: string;
   unstakeLink?: string;
+  withTextUnstake?: boolean;
 }
 
 export const YourStakeItem = ({
@@ -18,6 +22,7 @@ export const YourStakeItem = ({
   usdAmount,
   stakeLink,
   unstakeLink,
+  withTextUnstake = false,
 }: IYourStakeItemProps): JSX.Element => {
   const classes = useYourStakeItemStyles();
 
@@ -36,14 +41,23 @@ export const YourStakeItem = ({
               />
             )}
 
-            {unstakeLink && (
-              <PlusMinusBtn
-                className={classes.plusWalletButton}
-                href={unstakeLink}
-                icon="minus"
-                variant="outlined"
-              />
-            )}
+            {unstakeLink &&
+              (withTextUnstake ? (
+                <NavLink
+                  className={classes.btn}
+                  href={unstakeLink}
+                  variant="outlined"
+                >
+                  {t('stake-ankr.staking-table.unstake')}
+                </NavLink>
+              ) : (
+                <PlusMinusBtn
+                  className={classes.plusWalletButton}
+                  href={unstakeLink}
+                  icon="minus"
+                  variant="outlined"
+                />
+              ))}
           </div>
         }
         usdAmount={usdAmount}

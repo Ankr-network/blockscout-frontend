@@ -6,6 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { t } from 'common';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
+import { isFirefox } from 'modules/common/utils/isFirefox';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { Button } from 'uiKit/Button';
@@ -64,6 +65,10 @@ export const ProgressStep = ({
     ? t('progress.pendingTitle', { title })
     : t('progress.successTitle', { title });
   const isError = Boolean(error);
+  // Metamask has issue with adding tokens to wallet on Firefox.
+  // This solution is the same as dashboard cards have.
+  const canShowAddTokenButton =
+    typeof onAddTokenToWallet === 'function' && !!buttonTitle && !isFirefox;
 
   if (isLoading) {
     return (
@@ -216,7 +221,7 @@ export const ProgressStep = ({
             {t('switcher.buttons.dashboard')}
           </NavLink>
 
-          {typeof onAddTokenToWallet === 'function' && !!buttonTitle && (
+          {canShowAddTokenButton && (
             <Button
               className={classes.button}
               variant="outlined"

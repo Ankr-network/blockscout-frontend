@@ -4,8 +4,11 @@ import { ReactNode } from 'react';
 
 import { t } from 'common';
 
-import { NavLink } from 'uiKit/NavLink';
+import { Button } from 'uiKit/Button';
 
+import { ClaimAllUnstakesDialog } from '../ClaimAllUnstakesDialog';
+
+import { useClaim } from './useClaim';
 import { useTabsStyles } from './useTabsStyles';
 
 export interface ITabItem {
@@ -29,6 +32,20 @@ export const Tabs = ({
   handleChangeTab,
 }: ITabProps): JSX.Element => {
   const classes = useTabsStyles();
+
+  const {
+    isFewClaims,
+    isSingleClaim,
+    data,
+    isClaimsLoading,
+    loading,
+    total,
+    totalUSD,
+    isOpened,
+    onClose,
+    onOpen,
+    onClaim,
+  } = useClaim();
 
   return (
     <div className={classes.root}>
@@ -77,11 +94,24 @@ export const Tabs = ({
         })}
       </BaseTabs>
 
-      {claimAllLink && (
-        <NavLink className={classes.btn} href={claimAllLink} variant="outlined">
+      {claimAllLink && !loading && !!data && data.length >= 1 && (
+        <Button className={classes.btn} variant="text" onClick={onOpen}>
           {t('stake-ankr.tabs.claim-all')}
-        </NavLink>
+        </Button>
       )}
+
+      <ClaimAllUnstakesDialog
+        data={data}
+        isClaimsLoading={isClaimsLoading}
+        isFewClaims={isFewClaims}
+        isSingleClaim={isSingleClaim}
+        loading={loading}
+        open={isOpened}
+        total={total}
+        totalUSD={totalUSD}
+        onClaim={onClaim}
+        onClose={onClose}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { configFromEnv, isMainnet } from '../common';
+import { configFromEnv, ETH_NETWORK_BY_ENV, isMainnet } from '../common';
 
 import { TEthToken } from './types';
 
@@ -15,7 +15,7 @@ export const ETH_BLOCK_OFFSET = 50_400; // 7 days
 /**
  * Block step range for events
  */
-export const ETH_HISTORY_RANGE_STEP = 15_000;
+export const ETH_HISTORY_RANGE_STEP = isMainnet ? 3_000 : 15_000;
 
 /**
  * Methods by token symbol
@@ -43,17 +43,19 @@ const config = configFromEnv();
  */
 export const TOKENS_CONFIG_BY_SYMBOL: Record<
   TEthToken,
-  { address: string; symbol: string; decimals: number }
+  { address: string; symbol: string; decimals: number; chainId: number }
 > = {
   aETHc: {
     address: config.contractConfig.aethContract,
     symbol: 'aETHc',
     decimals: 18,
+    chainId: ETH_NETWORK_BY_ENV,
   },
 
   aETHb: {
     address: config.contractConfig.fethContract,
     symbol: 'aETHb',
     decimals: 18,
+    chainId: ETH_NETWORK_BY_ENV,
   },
 };

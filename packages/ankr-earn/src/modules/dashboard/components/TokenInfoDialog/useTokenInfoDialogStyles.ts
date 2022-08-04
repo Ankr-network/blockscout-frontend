@@ -49,4 +49,17 @@ export const useTokenInfoDialogStyles = makeStyles(theme => ({
 
     height: 40,
   },
+
+  complete: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    height: 24,
+    width: 24,
+  },
+
+  completeIcon: {
+    height: 18,
+    width: 18,
+  },
 }));

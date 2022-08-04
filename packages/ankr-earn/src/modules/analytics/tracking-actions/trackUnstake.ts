@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface ITrackUnstakeArgs {
@@ -55,5 +55,5 @@ export const trackUnstake = ({
     newStakedBalance: newStakedBalance.toFixed(),
   };
 
-  trackAnalyticEvent({ event: 'unstake_tokens', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.UnstakeTokens, properties });
 };

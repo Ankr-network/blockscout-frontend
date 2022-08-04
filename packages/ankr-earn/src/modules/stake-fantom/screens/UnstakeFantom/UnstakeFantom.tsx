@@ -74,9 +74,9 @@ export const UnstakeFantom = (): JSX.Element => {
         return result.isLessThan(0) ? ZERO : result;
       };
 
-      const totalAmount = maxAmount.isLessThan(amount)
-        ? calculateTotalAmount(maxAmount, burnFee)
-        : calculateTotalAmount(amount, burnFee);
+      const totalAmount = !maxAmount.isLessThan(amount)
+        ? calculateTotalAmount(amount, burnFee)
+        : ZERO;
 
       return (
         <div className={classes.formFooter}>

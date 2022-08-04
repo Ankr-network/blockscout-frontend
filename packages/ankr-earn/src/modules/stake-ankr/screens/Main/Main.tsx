@@ -1,14 +1,15 @@
-import { useState } from 'react';
-
+import { Section } from 'modules/delegate-stake/components/Section';
 import { Header } from 'modules/stake-ankr/components/Header';
-import { Section } from 'modules/stake-ankr/components/Section';
 
 import { EmptyState } from './components/EmptyState';
 import { StakingInfo } from './components/StakingInfo';
 import { TotalInfo } from './components/TotalInfo';
+import { useHistoryData } from './hooks/useHistoryData';
 
 export const Main = (): JSX.Element => {
-  const [isEmpty] = useState<boolean>(false);
+  const { data } = useHistoryData();
+
+  const isEmpty = !data;
 
   return (
     <Section>

@@ -1,3 +1,5 @@
+import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
+
 export enum BalanceStatus {
   GREEN,
   RED,
@@ -20,3 +22,33 @@ export enum Currency {
   ANKR,
   CREDIT,
 }
+
+export interface PaymentHistory {
+  deductionsCursor: number;
+  list: IPaymentHistoryEntity[];
+  transactionsCursor: number;
+}
+
+export interface PaymentHistoryParams {
+  deductionsCursor?: number;
+  from: number;
+  limit: number;
+  loadedDeductions?: IPaymentHistoryEntity[];
+  loadedTransactions?: IPaymentHistoryEntity[];
+  to: number;
+  transactionsCursor?: number;
+  types?: IPaymentHistoryEntityType[];
+}
+
+export enum PaymentHistoryTableTimeframe {
+  WEEK,
+  MONTH,
+  YEAR,
+}
+
+export interface PaymentHistoryTableTimeframeBorders {
+  from: number;
+  to: number;
+}
+
+export type PaymentType = IPaymentHistoryEntityType | 'ALL';

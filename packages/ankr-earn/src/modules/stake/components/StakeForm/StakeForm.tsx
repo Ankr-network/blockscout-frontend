@@ -19,6 +19,7 @@ import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { StakeFormBox } from './StakeFormBox';
 import { StakeFormFooter } from './StakeFormFooter';
 import { StakeFormTitle } from './StakeFormTitle';
+import { useStakeFormAnalytics } from './useStakeFormAnalytics';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 enum FieldsNames {
@@ -85,6 +86,8 @@ export const StakeForm = ({
   const classes = useStakeFormStyles();
   const withFee = !!feeSlot;
 
+  const { onMaxClick } = useStakeFormAnalytics(tokenIn, balance.toString());
+
   const balanceRoundedByStep = stakingAmountStep
     ? `${floor(balance.toNumber(), stakingAmountStep)}`
     : balance.toString();
@@ -133,6 +136,11 @@ export const StakeForm = ({
     const { amount } = values;
     const amountNumber = convertAmountToBN(amount);
 
+    const handleMaxClick = () => () => {
+      setMaxAmount(form, maxStakeAmount)();
+      onMaxClick();
+    };
+
     return (
       <StakeFormBox className={className} onSubmit={handleSubmit}>
         <StakeFormTitle>{t('stake.title', { token: tokenIn })}</StakeFormTitle>
@@ -158,9 +166,7 @@ export const StakeForm = ({
           minAmount={minAmount?.toNumber()}
           name={FieldsNames.amount}
           tokenName={tokenIn}
-          onMaxClick={
-            isMaxBtnShowed ? setMaxAmount(form, maxStakeAmount) : undefined
-          }
+          onMaxClick={isMaxBtnShowed ? handleMaxClick() : undefined}
         />
 
         {renderStats && renderStats(amountNumber)}

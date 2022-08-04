@@ -57,6 +57,7 @@ export const PALETTE: PaletteOptions = {
     500: '#808692',
     600: '#82899A',
     700: '#2E343C',
+    900: '#DFE3EB',
   },
 };
 

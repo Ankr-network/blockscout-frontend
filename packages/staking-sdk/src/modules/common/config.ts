@@ -5,7 +5,15 @@ import { currentEnv, Env } from './env';
 
 export interface IContractConfig {
   ETHContract: string;
+
+  /**
+   * aETHc (certificate) token
+   */
   aethContract: string;
+
+  /**
+   * aETHb (bond) token
+   */
   fethContract: string;
   maticToken: string;
   aMaticbToken: string;
@@ -30,6 +38,10 @@ export interface IBinanceConfig {
   aMATICbToken: string;
   aMATICcToken: string;
   aETHbToken: string;
+
+  /**
+   * deprecated aETHc (certificate) token
+   */
   aETHToken: string;
   aETHcToken: string;
   binancePool: string;
