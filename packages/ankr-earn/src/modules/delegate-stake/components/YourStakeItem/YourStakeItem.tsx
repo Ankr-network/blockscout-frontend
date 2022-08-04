@@ -3,33 +3,35 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
+import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { NavLink } from 'uiKit/NavLink';
-
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
 import { useYourStakeItemStyles } from './useYourStakeItemStyles';
 
 interface IYourStakeItemProps {
-  ankrAmount: BigNumber;
+  amount: BigNumber;
   usdAmount: BigNumber;
   stakeLink?: string;
   unstakeLink?: string;
+  token: Token;
   withTextUnstake?: boolean;
 }
 
 export const YourStakeItem = ({
-  ankrAmount,
+  amount,
   usdAmount,
   stakeLink,
   unstakeLink,
+  token,
   withTextUnstake = false,
 }: IYourStakeItemProps): JSX.Element => {
   const classes = useYourStakeItemStyles();
 
   return (
     <div className={classes.root}>
-      <BaseAnkrAmount
-        ankrAmount={ankrAmount}
+      <BaseTokenUsdAmount
+        amount={amount}
         buttonSlot={
           <div className={classes.btnWrapper}>
             {stakeLink && (
@@ -60,6 +62,7 @@ export const YourStakeItem = ({
               ))}
           </div>
         }
+        token={token}
         usdAmount={usdAmount}
       />
     </div>

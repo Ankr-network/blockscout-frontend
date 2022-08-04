@@ -13,11 +13,11 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import {
   ProviderStatus,
   ProviderStatusTooltip,
-} from 'modules/stake-ankr/components/ProviderStatus';
+} from 'modules/delegate-stake/components/ProviderStatus';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { EProviderStatus } from 'modules/stake-ankr/const';
 import { NavLink } from 'uiKit/NavLink';
 

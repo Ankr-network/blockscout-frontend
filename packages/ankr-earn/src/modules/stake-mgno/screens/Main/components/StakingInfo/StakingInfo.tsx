@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { t } from 'common';
 
+import { ActiveStakingTable } from '../ActiveStakingTable';
+import { HistoryTable } from '../HistoryTable';
 import { Tabs } from '../Tabs';
 
 export const StakingInfo = (): JSX.Element => {
@@ -16,9 +18,9 @@ export const StakingInfo = (): JSX.Element => {
     <div>
       <Tabs activeTab={currentTab} onChangeTab={handleChangeTab} />
 
-      {currentTab === activeStakingText && <>staking</>}
+      {currentTab === activeStakingText && <ActiveStakingTable />}
 
-      {currentTab === historyText && <>history</>}
+      {currentTab === historyText && <HistoryTable />}
     </div>
   );
 };

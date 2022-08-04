@@ -5,8 +5,9 @@ import { uid } from 'react-uid';
 
 import { t } from 'common';
 
+import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { IClaimableUnstake } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
-import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { TableRow } from 'modules/stake-ankr/components/TableRow';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { Button } from 'uiKit/Button';
@@ -96,7 +97,11 @@ export const ClaimAllUnstakesDialog = ({
                       classes.flexRight,
                     )}
                   >
-                    <BaseAnkrAmount ankrAmount={total} usdAmount={totalUSD} />
+                    <BaseTokenUsdAmount
+                      amount={total}
+                      token={Token.ANKR}
+                      usdAmount={totalUSD}
+                    />
                   </td>
                 </tr>
               </table>

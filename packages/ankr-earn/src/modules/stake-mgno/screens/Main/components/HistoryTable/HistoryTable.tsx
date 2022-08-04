@@ -27,7 +27,7 @@ import { useHistoryData } from '../../hooks/useHistoryData';
 import { useHistoryTableStyles } from './useHistoryTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200];
+const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -36,6 +36,7 @@ enum ELabel {
   date,
   hash,
   event,
+  provider,
   amount,
 }
 
@@ -48,16 +49,19 @@ export const HistoryTable = (): JSX.Element | null => {
   const captions = useLocaleMemo(
     () => [
       {
-        label: t('stake-ankr.staking-table.date'),
+        label: t('stake-mgno.staking-table.date'),
       },
       {
-        label: t('stake-ankr.staking-table.hash'),
+        label: t('stake-mgno.staking-table.hash'),
       },
       {
-        label: t('stake-ankr.staking-table.event'),
+        label: t('stake-mgno.staking-table.event'),
       },
       {
-        label: t('stake-ankr.staking-table.amount'),
+        label: t('stake-mgno.staking-table.provider'),
+      },
+      {
+        label: t('stake-mgno.staking-table.amount'),
       },
     ],
     [],
@@ -84,7 +88,7 @@ export const HistoryTable = (): JSX.Element | null => {
   return (
     <Table
       columnsCount={captions.length}
-      customCell="1fr 1fr 1fr 1fr"
+      customCell="1fr 1fr 1fr 1fr 1fr"
       minWidth={800}
     >
       <TableHead>
@@ -129,9 +133,15 @@ export const HistoryTable = (): JSX.Element | null => {
                 </Typography>
               </TableBodyCell>
 
+              <TableBodyCell label={`${captions[ELabel.provider].label}`}>
+                <Typography className={classes.simpleText}>
+                  {row.provider}
+                </Typography>
+              </TableBodyCell>
+
               <TableBodyCell label={`${captions[ELabel.amount].label}`}>
                 <Typography className={classes.simpleText}>
-                  {t('unit.ankr-value', { value: row.amount.toFormat() })}
+                  {t('unit.mgno-value', { value: row.amount.toFormat() })}
                 </Typography>
               </TableBodyCell>
             </TableRow>

@@ -12,20 +12,21 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
+import { Token } from 'modules/common/types/token';
+import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
 import {
   ProviderStatus,
   ProviderStatusTooltip,
-} from 'modules/stake-ankr/components/ProviderStatus';
+} from 'modules/delegate-stake/components/ProviderStatus';
+import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
 import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
-import { YourStakeItem } from 'modules/stake-ankr/components/YourStakeItem';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
-import { ProviderItem } from './ProviderItem';
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
@@ -227,7 +228,8 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                                 >
                                   <YourStakeItem
                                     withTextUnstake
-                                    ankrAmount={additionalInfoItem.stakeAmount}
+                                    amount={additionalInfoItem.stakeAmount}
+                                    token={Token.ANKR}
                                     unstakeLink={internalUnstakeLink}
                                     usdAmount={
                                       additionalInfoItem.usdStakeAmount
@@ -299,10 +301,11 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                   label={`${expandCaptions[EMainLabel.yourStake].label}`}
                 >
                   <YourStakeItem
-                    ankrAmount={row.stakeAmount}
+                    amount={row.stakeAmount}
                     stakeLink={RoutesConfig.stakeMore.generatePath(
                       row.provider,
                     )}
+                    token={Token.ANKR}
                     unstakeLink={unstakeLink}
                     usdAmount={row.usdStakeAmount}
                   />
