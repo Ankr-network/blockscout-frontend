@@ -136,11 +136,9 @@ export const StakeForm = ({
     const { amount } = values;
     const amountNumber = convertAmountToBN(amount);
 
-    const handleMaxClick = () => {
-      if (isMaxBtnShowed) {
-        setMaxAmount(form, maxStakeAmount);
-        onMaxClick();
-      }
+    const handleMaxClick = () => () => {
+      setMaxAmount(form, maxStakeAmount)();
+      onMaxClick();
     };
 
     return (
@@ -168,7 +166,7 @@ export const StakeForm = ({
           minAmount={minAmount?.toNumber()}
           name={FieldsNames.amount}
           tokenName={tokenIn}
-          onMaxClick={handleMaxClick}
+          onMaxClick={isMaxBtnShowed ? handleMaxClick() : undefined}
         />
 
         {renderStats && renderStats(amountNumber)}
