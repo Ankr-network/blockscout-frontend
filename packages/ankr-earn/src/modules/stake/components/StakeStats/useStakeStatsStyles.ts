@@ -65,9 +65,10 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     color: `${theme.palette.text.secondary}`,
     fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: 0,
+    marginBottom: 0,
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing(1),
     },
   },
 
@@ -77,33 +78,33 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
 
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'flex-end',
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'center',
     },
   },
 
   statisticValue: {
-    fontSize: 20,
     fontWeight: 'bold',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     maxWidth: 120,
+    fontSize: 16,
 
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 20,
     },
   },
 
   statisticToken: {
-    fontSize: 20,
     fontWeight: 'bold',
     marginLeft: theme.spacing(1),
+    fontSize: 16,
 
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 16,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 20,
     },
   },
 }));

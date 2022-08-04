@@ -1,12 +1,12 @@
 import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { ITokenSelectOption } from 'modules/trading-cockpit/components/TokenSelect';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 
+import { ITokenSelectOption } from '../components/TokenSelect';
 import { AvailableBridgeTokens } from '../types';
 
 export const useTokenSelectOptions = (): ITokenSelectOption[] => {

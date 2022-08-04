@@ -6,11 +6,11 @@ import {
 import { useCallback } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { claimAll } from 'modules/stake-ankr/actions/claimAll';
+import { claimAllRewards } from 'modules/stake-ankr/actions/claimAllRewards';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 
-interface IUseTotalInfo {
+interface IUseClaim {
   availableClaims?: IStakingReward[];
   isClaimAllowed: boolean;
   isClaimLoading: boolean;
@@ -21,9 +21,9 @@ interface IUseTotalInfo {
   onClaim: () => void;
 }
 
-export const useClaim = (): IUseTotalInfo => {
+export const useClaim = (): IUseClaim => {
   const dispatchRequest = useDispatchRequest();
-  const { loading: isClaimLoading } = useMutation({ type: claimAll });
+  const { loading: isClaimLoading } = useMutation({ type: claimAllRewards });
   const { data } = useQuery({
     type: getTotalInfo,
   });
@@ -34,10 +34,10 @@ export const useClaim = (): IUseTotalInfo => {
 
   const isClaimAllowed = !!availableClaims?.length;
 
-  const usdTokenPrice = 0.1;
+  const usdTokenPrice = 0;
 
   const onClaim = useCallback(() => {
-    dispatchRequest(claimAll()).then(({ error }) => {
+    dispatchRequest(claimAllRewards()).then(({ error }) => {
       if (!error) onClose();
     });
   }, [dispatchRequest, onClose]);

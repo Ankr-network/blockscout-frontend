@@ -1,4 +1,5 @@
 import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
@@ -88,12 +89,16 @@ export const UnstakePolygon = (): JSX.Element => {
             color="textPrimary"
             variant="body2"
           >
-            {t('unit.ankr-value', {
-              value: unstakeFee.toFixed(),
-            })}
+            {isFetchStatsLoading ? (
+              <Skeleton width={40} />
+            ) : (
+              t('unit.ankr-value', {
+                value: unstakeFee.toFixed(),
+              })
+            )}
           </Typography>
 
-          <BuyAnkrLink />
+          {isFetchStatsLoading ? <Skeleton width={50} /> : <BuyAnkrLink />}
         </Box>
 
         <Divider />

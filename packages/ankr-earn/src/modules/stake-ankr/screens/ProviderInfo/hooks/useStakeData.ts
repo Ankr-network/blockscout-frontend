@@ -31,7 +31,7 @@ const getDemoData = (provider: string): IStakeRow[] => [
     stakeLink: RoutesConfig.stakeMore.generatePath(provider),
     unstakeLink: RoutesConfig.unstake.generatePath(provider),
     restakeLink: RoutesConfig.restake.generatePath(provider),
-    claimLink: RoutesConfig.claim.generatePath(provider),
+    claimLink: RoutesConfig.claimRewards.generatePath(provider),
   },
   {
     isUnlocked: false,

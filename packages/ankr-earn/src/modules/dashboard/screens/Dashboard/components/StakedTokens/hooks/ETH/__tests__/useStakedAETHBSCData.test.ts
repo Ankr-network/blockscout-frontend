@@ -71,8 +71,8 @@ jest.mock('modules/stake-bnb/Routes', () => ({
   },
 }));
 
-jest.mock('modules/boost/Routes', () => ({
-  RoutesConfig: { tradingCockpit: { generatePath: () => '/trade' } },
+jest.mock('modules/defi-aggregator/Routes', () => ({
+  RoutesConfig: { defi: { generatePath: () => '/defi' } },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/ETH/useStakedAETHBSCData.ts', () => {

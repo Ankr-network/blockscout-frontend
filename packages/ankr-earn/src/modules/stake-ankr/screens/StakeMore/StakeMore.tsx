@@ -1,4 +1,5 @@
-import { Section } from 'modules/stake-ankr/components/Section';
+import { Section } from 'modules/delegate-stake/components/Section';
+import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { AnkrStakeMoreForm } from './components/AnkrStakeMoreForm';
@@ -19,6 +20,8 @@ export const StakeMore = (): JSX.Element => {
     minStake,
     newTotalStake,
     apy,
+    amount,
+    onChange,
     onSubmit,
   } = useAnkrStakeMore();
 
@@ -39,8 +42,11 @@ export const StakeMore = (): JSX.Element => {
           providerId={providerId}
           providerName={providerName}
           tokenIn={tokenIn}
+          onChange={onChange}
           onSubmit={onSubmit}
         />
+
+        <Stats amount={amount} />
       </StakeContainer>
     </Section>
   );

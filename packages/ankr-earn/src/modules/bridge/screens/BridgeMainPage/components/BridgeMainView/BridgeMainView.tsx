@@ -20,7 +20,6 @@ import {
 import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
-import { TokenSelect } from 'modules/trading-cockpit/components/TokenSelect';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
@@ -31,6 +30,8 @@ import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
 import { Tooltip } from 'uiKit/Tooltip';
+
+import { TokenSelect } from '../../../../components/TokenSelect';
 
 import { useBridgeMainView } from './useBridgeMainView';
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';

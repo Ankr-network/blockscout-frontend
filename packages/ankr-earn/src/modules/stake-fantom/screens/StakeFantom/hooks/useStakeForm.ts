@@ -7,14 +7,9 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { FantomSDK } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { stake } from 'modules/stake-fantom/actions/stake';
@@ -27,6 +22,7 @@ import { useAppDispatch } from 'store/useAppDispatch';
 
 import { TFtmSyntToken } from '../../../types/TFtmSyntToken';
 
+import { useAnalytics } from './useAnalytics';
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeForm {
@@ -64,12 +60,15 @@ export const useStakeForm = (): IUseStakeForm => {
     type: getStakeGasFee,
   });
 
-  const { address, walletName } = useAuth(
-    AvailableWriteProviders.ethCompatible,
-  );
-
-  const ftmBalance = data?.ftmBalance;
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
+  const balance = data?.ftmBalance ?? ZERO;
+  const minAmount = data?.minStake.toNumber() ?? 0;
+
+  const { sendAnalytics } = useAnalytics({
+    amount,
+    balance,
+    selectedToken,
+  });
 
   const tokenCertRatio = useMemo(
     () =>
@@ -78,21 +77,18 @@ export const useStakeForm = (): IUseStakeForm => {
   );
 
   const totalAmount = useMemo(() => {
-    if (isError || !ftmBalance || ftmBalance.isLessThan(amount)) {
+    if (isError || !balance || balance.isLessThan(amount)) {
       return ZERO;
     }
 
     return calcTotalAmount({
       selectedToken,
       amount,
-      balance: ftmBalance,
+      balance,
       stakeGasFee: ZERO ?? undefined,
       aFTMcRatio,
     });
-  }, [aFTMcRatio, amount, ftmBalance, selectedToken, isError]);
-
-  const balance = data?.ftmBalance;
-  const minAmount = data?.minStake.toNumber() ?? 0;
+  }, [aFTMcRatio, amount, balance, selectedToken, isError]);
 
   const onChange = (values: IStakeFormPayload, invalid: boolean) => {
     // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
@@ -105,23 +101,6 @@ export const useStakeForm = (): IUseStakeForm => {
       const readyAmount = new BigNumber(values.amount);
       dispatch(getStakeGasFee(readyAmount, selectedToken));
     }
-  };
-
-  const sendAnalytics = async () => {
-    const currentAmount = new BigNumber(amount);
-    const fantomSDK = await FantomSDK.getInstance();
-    const aftmbBalance = await fantomSDK.getABBalance();
-
-    trackStake({
-      address,
-      walletType: walletName,
-      amount: currentAmount,
-      willGetAmount: currentAmount,
-      tokenIn: Token.FTM,
-      tokenOut: selectedToken,
-      prevStakedAmount: balance,
-      synthBalance: aftmbBalance,
-    });
   };
 
   const onSubmit = () => {

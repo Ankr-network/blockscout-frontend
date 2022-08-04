@@ -1,38 +1,22 @@
-import { Box } from '@material-ui/core';
-
-import { t } from 'common';
-
-import { BigNav } from 'modules/common/components/BigNav';
-import { BigNavItem } from 'modules/common/components/BigNavItem';
+import { Token } from 'modules/common/types/token';
+import { Header as BaseHeader } from 'modules/delegate-stake/components/Header';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 
-import { AnkrBalance } from '../AnkrBalance';
-
 import { useHeader } from './useHeader';
-import { useHeaderStyles } from './useHeaderStyles';
 
 export const Header = (): JSX.Element => {
-  const classes = useHeaderStyles();
   const { balance, isLoading, getTokensLink } = useHeader();
 
   return (
-    <Box className={classes.root} mb={4}>
-      <BigNav minWidth={0}>
-        <BigNavItem href={RoutesConfig.main.generatePath()}>
-          {t('stake-ankr.header.my')}
-
-          <AnkrIcon className={classes.icon} />
-
-          {t('stake-ankr.header.staking')}
-        </BigNavItem>
-
-        <BigNavItem href={RoutesConfig.providers.generatePath()}>
-          {t('stake-ankr.header.node-providers')}
-        </BigNavItem>
-      </BigNav>
-
-      <AnkrBalance isLoading={isLoading} link={getTokensLink} value={balance} />
-    </Box>
+    <BaseHeader
+      balance={balance}
+      getTokensLink={getTokensLink}
+      icon={<AnkrIcon />}
+      isLoading={isLoading}
+      myStakingLink={RoutesConfig.main.generatePath()}
+      nodeProvidersLink={RoutesConfig.providers.generatePath()}
+      token={Token.ANKR}
+    />
   );
 };

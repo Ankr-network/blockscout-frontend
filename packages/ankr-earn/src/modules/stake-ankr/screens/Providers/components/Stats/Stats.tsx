@@ -19,8 +19,8 @@ export const Stats = (): JSX.Element => {
         primaryValue={t('stake-ankr.provider.percent-value', {
           value: highestAPY,
         })}
-        title={t('stake-ankr.provider.cur-highest-apy')}
-        tooltip="tooltip"
+        title={t('stake-ankr.provider.cur-highest-apr')}
+        tooltip={t('stake-ankr.provider.cur-highest-apr-tooltip')}
       />
 
       <StatsItem
@@ -29,7 +29,7 @@ export const Stats = (): JSX.Element => {
           value: tvlPercent,
         })}
         title={t('stake-ankr.provider.tvl')}
-        tooltip="tooltip"
+        tooltip={t('stake-ankr.provider.tvl-tooltip')}
       />
 
       <StatsItem
@@ -37,19 +37,19 @@ export const Stats = (): JSX.Element => {
           value: lockingPeriod,
         })}
         title={t('stake-ankr.provider.locking-period')}
-        tooltip="tooltip"
+        tooltip={t('stake-ankr.provider.locking-period-tooltip')}
       />
 
       <StatsItem
         primaryValue={rewards24h}
         title={t('stake-ankr.provider.24h-rewards')}
-        tooltip="tooltip"
+        tooltip={t('stake-ankr.provider.24h-rewards-tooltip')}
       />
 
       <StatsItem
         primaryValue={rewards30d}
         title={t('stake-ankr.provider.30d-rewards')}
-        tooltip="tooltip"
+        tooltip={t('stake-ankr.provider.30d-rewards-tooltip')}
       />
     </Paper>
   );

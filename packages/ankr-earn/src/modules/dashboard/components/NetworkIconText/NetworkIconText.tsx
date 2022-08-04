@@ -25,6 +25,7 @@ import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
@@ -48,7 +49,8 @@ type TIconMap = Record<
   | Token.KSM
   | Token.WND
   | Token.ETH
-  | Token.ANKR,
+  | Token.ANKR
+  | Token.mGNO,
   MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>>
 >;
 
@@ -77,6 +79,7 @@ const iconByTokenMap: TIconMap = {
   [Token.WND]: DotIcon,
   [Token.ETH]: EthIcon,
   [Token.ANKR]: AnkrIcon,
+  [Token.mGNO]: MGNOIcon,
 };
 
 const iconByNetworkMap: TNetworkIconMap = {

@@ -97,7 +97,10 @@ export const useStakeForm = (): IUseStakeFormData => {
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const polygonSDK = await PolygonSDK.getInstance();
-    const amaticbBalance = await polygonSDK.getABBalance();
+    const synthBalance =
+      selectedToken === Token.aMATICb
+        ? await polygonSDK.getABBalance()
+        : await polygonSDK.getACBalance();
 
     trackStake({
       address,
@@ -105,9 +108,9 @@ export const useStakeForm = (): IUseStakeFormData => {
       amount: currentAmount,
       willGetAmount: currentAmount,
       tokenIn: Token.MATIC,
-      tokenOut: Token.aMATICb,
+      tokenOut: selectedToken,
       prevStakedAmount: stakableMATICData.balance,
-      synthBalance: amaticbBalance,
+      synthBalance,
     });
   };
 

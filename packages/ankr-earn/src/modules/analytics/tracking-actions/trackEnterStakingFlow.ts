@@ -1,6 +1,6 @@
 import { Token } from 'modules/common/types/token';
 
-import { IBaseWaletData } from '../types';
+import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface IEnterStakingFlowEvent extends IBaseWaletData {
@@ -11,5 +11,5 @@ interface IEnterStakingFlowEvent extends IBaseWaletData {
 export const trackEnterStakingFlow = (
   properties: IEnterStakingFlowEvent,
 ): void => {
-  trackAnalyticEvent({ event: 'enter_staking_flow', properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.EnterStakingFlow, properties });
 };

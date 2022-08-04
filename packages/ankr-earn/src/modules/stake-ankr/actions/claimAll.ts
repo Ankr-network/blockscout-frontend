@@ -1,8 +1,15 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
+import { IStoreState } from 'store';
+
+import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
+
+import { getActiveStakingData } from './getActiveStakingData';
+import { getHistoryData } from './getHistoryData';
+import { getUnstakingData } from './getUnstakingData';
 
 type TTxHash = string;
 
@@ -19,6 +26,15 @@ export const claimAll = createAction<RequestAction<TTxHash, TTxHash>>(
     meta: {
       asMutation: true,
       showNotificationOnError: true,
+      onSuccess: (
+        response: { data: TTxHash },
+        _action: RequestAction,
+        store: TStore<IStoreState>,
+      ) => {
+        store.dispatchRequest(getUnstakingData());
+        store.dispatchRequest(getActiveStakingData());
+        store.dispatchRequest(getHistoryData());
+      },
     },
   }),
 );
