@@ -15,6 +15,8 @@ export const ANKR_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const BAD_STATUS_RANGE: Percentage = 30;
 
+export const ANKR_STAKE_FORM_ID = 'ankrStake';
+
 export enum EProviderStatus {
   /**
    * ℹ️ Red color

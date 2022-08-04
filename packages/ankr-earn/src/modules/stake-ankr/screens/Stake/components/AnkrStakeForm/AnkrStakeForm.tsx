@@ -11,8 +11,8 @@ import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
-  IAnkrStakeSubmitPayload,
   EFieldsNames,
+  IAnkrStakeSubmitPayload,
 } from 'modules/stake-ankr/types';
 import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -44,6 +44,7 @@ interface IAnkrStakeFormProps {
   providerSelectHref: string;
   maxAmountDecimals?: number;
   closeHref: string;
+  initialAmount?: string;
   initialProvider?: string;
   providerName?: string;
   lockingPeriod?: Days;
@@ -67,6 +68,7 @@ export const AnkrStakeForm = ({
   maxAmountDecimals,
   closeHref,
   providerSelectHref,
+  initialAmount,
   initialProvider,
   providerName,
   lockingPeriod = 0,
@@ -192,6 +194,7 @@ export const AnkrStakeForm = ({
     <Form
       initialValues={{
         provider: initialProvider,
+        amount: initialAmount,
       }}
       render={renderForm}
       onSubmit={onSubmitForm}

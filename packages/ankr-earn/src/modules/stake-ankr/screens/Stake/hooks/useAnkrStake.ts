@@ -5,7 +5,6 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { t } from 'common';
@@ -18,9 +17,15 @@ import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
+import { ANKR_STAKE_FORM_ID } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
+import {
+  IAnkrFormState,
+  IAnkrStakeSubmitPayload,
+} from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+
+import { useFormState } from '../../../../forms/hooks/useFormState';
 
 interface IUseAnkrStake {
   isStakeLoading: boolean;
@@ -34,6 +39,7 @@ interface IUseAnkrStake {
   closeHref: string;
   providerSelectHref: string;
   initialProvider?: string;
+  initialAmount?: string;
   providerName?: string;
   lockingPeriod?: Days;
   amount: BigNumber;
@@ -48,7 +54,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
 
-  const [amount, setAmount] = useState(ZERO);
+  const { setFormState, formState } =
+    useFormState<IAnkrFormState>(ANKR_STAKE_FORM_ID);
 
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
@@ -74,6 +81,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
     };
   }, []);
 
+  const amount = formState?.amount;
+
   const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
@@ -86,8 +95,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const onChange = ({
     amount: formAmount,
   }: Partial<IAnkrStakeSubmitPayload>) => {
-    const readyAmount = new BigNumber(formAmount ?? 0);
-    setAmount(formAmount ? readyAmount : ZERO);
+    const readyAmount = formAmount ? new BigNumber(formAmount) : undefined;
+    dispatch(setFormState({ amount: readyAmount }));
   };
 
   const onSubmit = ({
@@ -126,7 +135,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
     initialProvider,
     providerName,
     lockingPeriod: commonData?.lockingPeriod ?? undefined,
-    amount,
+    amount: amount ?? ZERO,
+    initialAmount: amount?.toString(),
     onChange,
     onSubmit,
   };

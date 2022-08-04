@@ -1,6 +1,7 @@
 import { resetRequests } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
@@ -77,7 +78,9 @@ export const useDashboard = (): void => {
     dispatch(fetchBNBPendingValues());
     dispatch(fetchAVAXPendingValues());
     dispatch(getFTMStats());
-    dispatch(getANKRCommonData());
-    dispatch(getANKRTotalInfo());
+    if (featuresConfig.ankrStaking) {
+      dispatch(getANKRCommonData());
+      dispatch(getANKRTotalInfo());
+    }
   }, [dispatch]);
 };

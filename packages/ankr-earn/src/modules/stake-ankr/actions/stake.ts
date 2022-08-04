@@ -5,9 +5,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { resetForm } from 'modules/forms/store/formsSlice';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
+import { ANKR_ACTIONS_PREFIX, ANKR_STAKE_FORM_ID } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { getCommonData } from './getCommonData';
@@ -44,6 +45,8 @@ export const stake = createSmartAction<
         const txHash = response.data;
 
         if (txHash) {
+          store.dispatch(resetForm(ANKR_STAKE_FORM_ID));
+
           store.dispatch(
             push(
               RoutesConfig.stakeSteps.generatePath({

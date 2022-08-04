@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export enum EFieldsNames {
   amount = 'amount',
   provider = 'provider',
@@ -11,4 +13,8 @@ export interface IAnkrStakeSubmitPayload {
   provider: string;
   yourRewards: string;
   restakeRewards: string;
+}
+
+export interface IAnkrFormState {
+  amount?: BigNumber;
 }
