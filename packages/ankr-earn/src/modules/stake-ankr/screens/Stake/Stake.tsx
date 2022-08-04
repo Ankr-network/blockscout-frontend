@@ -7,8 +7,10 @@ import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
   const {
+    amount,
     balance,
     closeHref,
+    initialAmount,
     initialProvider,
     isApproved,
     isApproveLoading,
@@ -17,12 +19,11 @@ export const Stake = (): JSX.Element => {
     isStakeLoading,
     lockingPeriod,
     minStake,
+    onChange,
+    onSubmit,
     providerName,
     providerSelectHref,
     tokenIn,
-    amount,
-    onSubmit,
-    onChange,
   } = useAnkrStake();
 
   return (
@@ -31,6 +32,7 @@ export const Stake = (): JSX.Element => {
         <AnkrStakeForm
           balance={balance}
           closeHref={closeHref}
+          initialAmount={initialAmount}
           initialProvider={initialProvider}
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
