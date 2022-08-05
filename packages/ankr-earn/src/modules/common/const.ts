@@ -16,6 +16,10 @@ export const DOCS_STAKE_ETH_LINK = `${DOCS_ROOT_LINK}staking/liquid-staking/eth/
 export const DOCS_DEFI_DEX_LINK = `${DOCS_ROOT_LINK}staking/defi/provide-liquidity-to-dex`;
 export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
 
+export const ANKR_ETH_LANDING = 'https://www.ankr.com/ethereum-liquid-staking/';
+export const ANKR_MATIC_LANDING =
+  'https://www.ankr.com/polygon-liquid-staking/';
+
 export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 
 export const DEFAULT_ROUNDING = 2;
@@ -105,6 +109,7 @@ export const featuresConfig = {
   isActivePolkadotStaking: true,
   ankrStaking: currentEnv !== Env.Production,
   mgnoStaking: currentEnv !== Env.Production,
+  maticLandingLink: currentEnv !== Env.Production,
 };
 
 export enum SupportedChainIDS {
