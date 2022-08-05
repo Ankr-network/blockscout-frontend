@@ -4,6 +4,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getActiveStakingData } from 'modules/stake-ankr/actions/getActiveStakingData';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { IActiveStakingData } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 
 interface IActiveStaking {
@@ -16,6 +17,9 @@ export const useActiveStakingData = (): IActiveStaking => {
   const { data: ankrPrice } = useQuery({
     type: getANKRPrice,
   });
+  const { data: apy } = useQuery({
+    type: getAPY,
+  });
   const { data, loading } = useQuery({
     type: getActiveStakingData,
   });
@@ -24,6 +28,7 @@ export const useActiveStakingData = (): IActiveStaking => {
     dispatchRequest(
       getActiveStakingData({
         usdPrice: ankrPrice ?? ZERO,
+        apy: apy ?? ZERO,
       }),
     );
   }, [dispatchRequest, ankrPrice]);

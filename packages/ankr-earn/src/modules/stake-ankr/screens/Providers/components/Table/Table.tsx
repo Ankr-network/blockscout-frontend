@@ -26,7 +26,7 @@ import { ProviderItem } from '../ProviderItem';
 import { useTableStyles } from './useTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 150, 150];
+const SKELETON_COLUMN_WIDTHS = [200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -89,7 +89,7 @@ export const Table = (): JSX.Element | null => {
     <>
       <BasicTable
         columnsCount={captions.length}
-        customCell="1fr 250px 300px 200px"
+        customCell="1fr 1fr 1fr 200px"
         minWidth={1120}
       >
         <TableHead>

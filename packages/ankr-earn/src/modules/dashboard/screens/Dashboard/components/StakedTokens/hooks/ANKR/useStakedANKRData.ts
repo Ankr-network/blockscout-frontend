@@ -1,5 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
 import { t } from 'common';
 
@@ -27,11 +28,18 @@ export const useStakedANKRData = (): IStakedANKRData => {
 
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
   const stakedAmount = data?.totalDelegatedAmount ?? ZERO;
-  const rewardsAmount =
-    data?.claimableRewards.reduce((acc, reward) => {
-      acc.plus(reward.amount);
+
+  const rewardsAmount = useMemo(() => {
+    if (!data?.claimableRewards) return ZERO;
+
+    return data.claimableRewards.reduce((acc, reward) => {
+      if (reward.amount.isZero()) return acc;
+
+      acc = acc.plus(reward.amount);
+
       return acc;
-    }, ZERO) ?? ZERO;
+    }, ZERO);
+  }, [data?.claimableRewards]);
 
   const usdPrice = ankrPrice ?? ZERO;
   const stakedUsdEquivalent = stakedAmount.multipliedBy(usdPrice);
@@ -43,7 +51,7 @@ export const useStakedANKRData = (): IStakedANKRData => {
     stakedAmount,
     stakedUsdEquivalent,
     stakedTooltip: '',
-    rewardsAmount,
+    rewardsAmount: rewardsAmount.integerValue(),
     rewardsUsdEquivalent,
     rewardsTooltip: '',
     network,

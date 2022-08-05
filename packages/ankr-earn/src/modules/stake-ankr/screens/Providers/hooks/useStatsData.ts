@@ -8,7 +8,6 @@ import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTo
 interface IStatsData {
   highestAPY: number;
   tvl: string;
-  tvlPercent: number;
   lockingPeriod: number;
   rewards24h?: string;
   rewards30d?: string;
@@ -31,13 +30,7 @@ export const useStatsData = (): IStatsData => {
 
   return {
     highestAPY: apy?.toNumber() ?? 0,
-    tvl: data?.totalDelegatedAmount.toFormat() ?? '0',
-    tvlPercent: data
-      ? +data.totalDelegatedAmount
-          .dividedBy(data.totalTVL)
-          .multipliedBy(100)
-          .decimalPlaces(0)
-      : 0,
+    tvl: data?.totalTVL.toFormat() ?? '0',
     lockingPeriod: data?.lockingPeriod ?? 0,
   };
 };

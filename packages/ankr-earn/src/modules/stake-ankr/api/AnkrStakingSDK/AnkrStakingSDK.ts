@@ -14,7 +14,12 @@ import {
 import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import {
+  DEFAULT_ROUNDING,
+  ETH_SCALE_FACTOR,
+  isMainnet,
+  ZERO,
+} from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { EProviderStatus } from 'modules/stake-ankr/const';
@@ -453,7 +458,7 @@ export class AnkrStakingSDK {
         if (!reward.amount.isZero()) {
           result[reward.validator] = {
             validator,
-            amount: reward.amount,
+            amount: reward.amount.decimalPlaces(DEFAULT_ROUNDING),
           };
         }
       }),
@@ -748,6 +753,7 @@ export class AnkrStakingSDK {
 
   public async getMyActiveStaking(
     usdPrice: BigNumber,
+    apy: BigNumber,
   ): Promise<IActiveStakingData[]> {
     const [
       stakingContract,
@@ -756,6 +762,7 @@ export class AnkrStakingSDK {
       prevEpochDate,
       activeValidators,
       delegationHistory,
+      stakingRewards,
     ] = await Promise.all([
       this.getAnkrTokenStakingContract(),
       this.getLockingPeriodDays(),
@@ -765,7 +772,14 @@ export class AnkrStakingSDK {
       this.getDelegationHistory({
         staker: this.currentAccount,
       }),
+      this.getMyClaimableStakingRewards(),
     ]);
+
+    const rewardMap = new Map<string, BigNumber>(
+      stakingRewards.map(reward => {
+        return [reward.validator.validator, reward.amount];
+      }),
+    );
 
     const delegatingValidators = new Set(
       delegationHistory.map(delegation => delegation.validator),
@@ -824,21 +838,21 @@ export class AnkrStakingSDK {
         ? delegatingDayLeft + Math.ceil(nextEpochSeconds / 86_400)
         : delegatingDayLeft;
 
+      const totalUnlocked =
+        unlockedDelegationsMap.get(validator.validator) ?? ZERO;
+
       const unlockedRow: IAdditionalActiveStakingData = {
         lockingPeriod: 0,
         lockingPeriodPercent: 100,
         isUnlocked: true,
-        stakeAmount: ZERO,
-        usdStakeAmount: ZERO,
+        stakeAmount: totalUnlocked,
+        usdStakeAmount: totalUnlocked.multipliedBy(usdPrice),
         rewards: ZERO,
         usdRewards: ZERO,
       };
       const detailedData: IAdditionalActiveStakingData[] = [];
 
       if (existingDelegations.length > 1) {
-        let totalUnlocked =
-          unlockedDelegationsMap.get(validator.validator) ?? ZERO;
-
         for (let i = 0; i < existingDelegations.length; i += 1) {
           const delegation = existingDelegations[i];
           const detailedDelegatingDayLeft = this.calcDayLeft(
@@ -868,14 +882,6 @@ export class AnkrStakingSDK {
               rewards: ZERO,
               usdRewards: ZERO,
             });
-          } else if (totalUnlocked.isGreaterThan(ZERO)) {
-            const delegationAmount = this.convertFromWei(delegation.amount);
-            unlockedRow.stakeAmount =
-              unlockedRow.stakeAmount.plus(delegationAmount);
-            unlockedRow.usdStakeAmount = unlockedRow.usdStakeAmount.plus(
-              unlockedRow.stakeAmount.multipliedBy(usdPrice),
-            );
-            totalUnlocked = totalUnlocked.minus(delegationAmount);
           }
         }
       }
@@ -887,15 +893,16 @@ export class AnkrStakingSDK {
         detailedData?.unshift(unlockedRow);
       }
 
+      const rewards = rewardMap.get(validator.validator) ?? ZERO;
       if (detailedData?.length === 1 && detailedData[0].isUnlocked) {
         const activeStaking = {
           provider: validator.validator,
-          apy: ZERO,
+          apy,
           isUnlocked: true,
           stakeAmount: totalDelegatedAmount,
           usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),
-          rewards: ZERO,
-          usdRewards: ZERO,
+          rewards,
+          usdRewards: rewards.multipliedBy(usdPrice),
           status: EProviderStatus.active,
         } as IActiveStakingData;
 
@@ -903,7 +910,7 @@ export class AnkrStakingSDK {
       } else {
         const activeStaking = {
           provider: validator.validator,
-          apy: ZERO,
+          apy,
           isUnlocked: daysLeft ? daysLeft <= 0 : false,
           isPartiallyUnlocked:
             detailedData?.length > 1 &&
@@ -914,8 +921,8 @@ export class AnkrStakingSDK {
             : undefined,
           stakeAmount: totalDelegatedAmount,
           usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),
-          rewards: ZERO,
-          usdRewards: ZERO,
+          rewards,
+          usdRewards: rewards.multipliedBy(usdPrice),
           status: EProviderStatus.active,
           detailedData,
         } as IActiveStakingData;
@@ -1014,7 +1021,7 @@ export class AnkrStakingSDK {
       if (reward.amount.isZero()) return acc;
 
       const data = stakingContract.methods
-        .claimStakingRewards(reward.validator)
+        .claimStakingRewards(reward.validator.validator)
         .encodeABI();
 
       acc.push(data);
@@ -1055,7 +1062,11 @@ export class AnkrStakingSDK {
       .calcAvailableForRedelegateAmount(validator, this.currentAccount)
       .call();
 
-    return this.convertFromWei(data?.amountToStake) ?? ZERO;
+    return (
+      this.convertFromWei(data?.amountToStake).decimalPlaces(
+        DEFAULT_ROUNDING,
+      ) ?? ZERO
+    );
   }
 
   public async getClaimableAmount(validator: Web3Address): Promise<BigNumber> {
@@ -1064,7 +1075,10 @@ export class AnkrStakingSDK {
       .getStakingRewards(validator, this.currentAccount)
       .call();
 
-    return this.convertFromWei(claimbleRewards) ?? ZERO;
+    return (
+      this.convertFromWei(claimbleRewards).decimalPlaces(DEFAULT_ROUNDING) ??
+      ZERO
+    );
   }
 
   public async getAllEventsHistory(): Promise<IHistoryData[]> {
@@ -1183,15 +1197,23 @@ export class AnkrStakingSDK {
 
     const tx = await web3.eth.getTransaction(txHash);
     const providerHash = tx.input.slice(10, 74);
-    const amountHash = tx.input.slice(74, 138);
 
-    const { 0: lockShares } = web3.eth.abi.decodeParameters(
-      ['uint256'],
-      amountHash,
-    );
+    const isStakeTx = tx.input.length > 100;
+    let amountHash;
+    let lockShares;
+    if (isStakeTx) {
+      amountHash = tx.input.slice(74, 138);
+      const { 0: initLockShares } = web3.eth.abi.decodeParameters(
+        ['uint256'],
+        amountHash,
+      );
+      lockShares = initLockShares;
+    }
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      amount: isStakeTx
+        ? new BigNumber(web3.utils.fromWei(lockShares))
+        : undefined,
       destinationAddress: tx.to as string | undefined,
       isPending: tx.transactionIndex === null,
       provider: `0x${providerHash.slice(24)}`,

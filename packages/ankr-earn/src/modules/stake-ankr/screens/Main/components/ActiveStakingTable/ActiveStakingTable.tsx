@@ -109,7 +109,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       expandable
       className={classes.table}
       columnsCount={mainCaptions.length}
-      customCell="200px 220px 300px 1fr"
+      customCell="150px 200px 300px 1fr"
       minWidth={800}
     >
       <TableHead>
