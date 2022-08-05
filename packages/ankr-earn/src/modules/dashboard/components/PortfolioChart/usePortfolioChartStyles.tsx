@@ -50,4 +50,10 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     padding: theme.spacing(0.5),
     border: `1px solid ${theme.palette.text.primary}`,
   },
+
+  chartWrapper: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
