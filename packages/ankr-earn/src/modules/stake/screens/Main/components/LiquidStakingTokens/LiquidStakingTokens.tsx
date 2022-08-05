@@ -3,7 +3,12 @@ import { Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { featuresConfig, STAKE_LEGACY_LINKS } from 'modules/common/const';
+import {
+  ANKR_ETH_LANDING,
+  ANKR_MATIC_LANDING,
+  featuresConfig,
+  STAKE_LEGACY_LINKS,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
@@ -42,7 +47,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           apy={metrics && +metrics.eth.apy}
           iconSlot={<EthIcon />}
           mainHref={EthereumRoutes.stake.generatePath()}
-          moreHref={getStakingOverviewUrl(Token.ETH)}
+          moreHref={ANKR_ETH_LANDING}
           stakedTvl={metrics?.eth.totalStaked}
           title={t('features.ethereum')}
           token={Token.ETH}
@@ -52,7 +57,11 @@ export const LiquidStakingTokens = (): JSX.Element => {
           apy={metrics && +metrics.matic.apy}
           iconSlot={<MaticIcon />}
           mainHref={PolygonRoutes.stake.generatePath()}
-          moreHref={getStakingOverviewUrl(Token.MATIC)}
+          moreHref={
+            featuresConfig.maticLandingLink
+              ? ANKR_MATIC_LANDING
+              : getStakingOverviewUrl(Token.MATIC)
+          }
           stakedTvl={metrics?.matic.totalStaked}
           title={t('features.polygon')}
           token={Token.MATIC}
