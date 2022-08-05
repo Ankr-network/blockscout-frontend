@@ -581,7 +581,6 @@
     },
     "change-email-dialog": {
       "title": "Changing Email",
-
       "success-step": {
         "verify-email-text": "Please verify email that we sent to <b>{email}</b>"
       }
@@ -621,6 +620,7 @@
       "usd": "USD"
     },
     "balance": "{balance, number, ::compact-short}",
+    "operation-loader": "Checking transactions",
     "account-details": {
       "breadcrumbs": "Account Details",
       "title": "Account Details",
