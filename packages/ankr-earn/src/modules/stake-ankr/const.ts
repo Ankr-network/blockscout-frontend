@@ -3,8 +3,6 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
 import { Percentage } from 'modules/common/types';
 
-export const ANKR_TOKEN_STAKING_APY = 'v1alpha/payg/apr';
-
 export const ANKR_TOKEN_PRICE = 'v1alpha/rate/ANKR';
 
 export const ANKR_ACTIONS_PREFIX = 'ankr/';
