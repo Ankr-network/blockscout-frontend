@@ -10,7 +10,7 @@ import { useStatsStyles } from './useStatsStyles';
 export const Stats = (): JSX.Element => {
   const classes = useStatsStyles();
 
-  const { highestAPY, tvl, tvlPercent, lockingPeriod, rewards24h, rewards30d } =
+  const { highestAPY, tvl, lockingPeriod, rewards24h, rewards30d } =
     useStatsData();
 
   return (
@@ -25,9 +25,6 @@ export const Stats = (): JSX.Element => {
 
       <StatsItem
         primaryValue={tvl}
-        secondaryValue={t('stake-ankr.provider.percent-value', {
-          value: tvlPercent,
-        })}
         title={t('stake-ankr.provider.tvl')}
         tooltip={t('stake-ankr.provider.tvl-tooltip')}
       />

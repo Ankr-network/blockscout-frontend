@@ -132,14 +132,12 @@ export const ActiveStakingTable = (): JSX.Element | null => {
             const unstakeLink = row.isUnlocked
               ? RoutesConfig.unstake.generatePath(row.provider)
               : undefined;
-            const claimLink =
-              !row.rewards.isZero() && row.isUnlocked
-                ? RoutesConfig.claimRewards.generatePath(row.provider)
-                : undefined;
-            const restakeLink =
-              !row.rewards.isZero() && row.isUnlocked
-                ? RoutesConfig.restake.generatePath(row.provider)
-                : undefined;
+            const claimLink = !row.rewards.isZero()
+              ? RoutesConfig.claimRewards.generatePath(row.provider)
+              : undefined;
+            const restakeLink = !row.rewards.isZero()
+              ? RoutesConfig.restake.generatePath(row.provider)
+              : undefined;
 
             return (
               <TableRow
