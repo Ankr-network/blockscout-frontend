@@ -396,6 +396,7 @@ describe('modules/ethereum/sdk', () => {
       expect(defaultProvider.addTokenToWallet).toBeCalledWith({
         address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
         symbol: 'aETHc',
+        chainId: 5,
         decimals: 18,
       });
     }
@@ -408,6 +409,7 @@ describe('modules/ethereum/sdk', () => {
       expect(defaultProvider.addTokenToWallet).toBeCalledWith({
         address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
         symbol: 'aETHb',
+        chainId: 5,
         decimals: 18,
       });
     }
