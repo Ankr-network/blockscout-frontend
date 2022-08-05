@@ -272,7 +272,7 @@ export class AnkrStakingSDK {
       validator,
       changedAt: status.changedAt,
       claimedAt: status.claimedAt,
-      totalDelegated: status.totalDelegated,
+      totalDelegated: this.convertFromWei(status.totalDelegated),
       votingPower: 0,
       jailedBefore: status.jailedBefore,
       owner: status.ownerAddress,
@@ -280,7 +280,7 @@ export class AnkrStakingSDK {
       status: status.status,
       prettyStatus: VALIDATOR_STATUS_MAPPING[status.status] || 'UNKNOWN',
       commissionRate: status.commissionRate,
-      totalRewards: status.totalRewards,
+      totalRewards: this.convertFromWei(status.totalRewards),
     };
   }
 

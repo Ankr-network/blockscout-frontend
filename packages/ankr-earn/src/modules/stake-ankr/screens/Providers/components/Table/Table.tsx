@@ -77,7 +77,7 @@ export const Table = (): JSX.Element | null => {
     [captions, classes],
   );
 
-  const renderStakedPool = (value: number, percent: number): string => {
+  const renderStakedPool = (value: string, percent: number): string => {
     return `${value} (${Math.trunc(percent)}%)`;
   };
 
@@ -86,77 +86,75 @@ export const Table = (): JSX.Element | null => {
   }
 
   return (
-    <BasicTable
-      columnsCount={captions.length}
-      customCell="1fr 250px 300px 200px"
-      minWidth={1120}
-    >
-      <TableHead>
-        {captions.map(({ label }, i) => (
-          <TableHeadCell
-            key={uid(i)}
-            classes={{
-              content: classes.thContent,
-            }}
-            label={<>{label}</>}
-          />
-        ))}
-      </TableHead>
-
-      <TableBody>
-        {isLoading && renderedSkeletonRows}
-
-        {!isLoading &&
-          data?.map((row, i) => (
-            <TableRow key={uid(i)}>
-              <TableBodyCell label={`${captions[0].label}`}>
-                <ProviderItem
-                  name={row.provider}
-                  nodeAmount={row.nodeAmount}
-                  statusSlot={
-                    <ProviderStatus
-                      tooltipSlot={
-                        <ProviderStatusTooltip
-                          currentPeriod={10}
-                          latency={40}
-                          status={row.status}
-                          successRate={20}
-                          totalPeriod={20}
-                        />
-                      }
-                      type={row.status}
-                    />
-                  }
-                />
-              </TableBodyCell>
-
-              <TableBodyCell label={`${captions[1].label}`}>
-                {t('stake-ankr.table.percent-value', { value: row.apy })}
-              </TableBodyCell>
-
-              <TableBodyCell label={`${captions[2].label}`}>
-                {renderStakedPool(row.stakedPool, row.stakedPoolPercent)}
-              </TableBodyCell>
-
-              <TableBodyCell align="right" label={`${captions[3].label}`}>
-                <ButtonsItem
-                  bondingDays={row.bondingDays}
-                  detailsLink={row.detailsLink}
-                  exitDays={row.exitDays}
-                  stakeLink={row.stakeLink}
-                />
-              </TableBodyCell>
-            </TableRow>
+    <>
+      <BasicTable
+        columnsCount={captions.length}
+        customCell="1fr 250px 300px 200px"
+        minWidth={1120}
+      >
+        <TableHead>
+          {captions.map(({ label }, i) => (
+            <TableHeadCell
+              key={uid(i)}
+              classes={{
+                content: classes.thContent,
+              }}
+              label={<>{label}</>}
+            />
           ))}
+        </TableHead>
 
-        {!!data.length && (
-          <img
-            alt=""
-            className={classes.expandLogo}
-            src={expandNodeProviders}
-          />
-        )}
-      </TableBody>
-    </BasicTable>
+        <TableBody>
+          {isLoading && renderedSkeletonRows}
+
+          {!isLoading &&
+            data?.map((row, i) => (
+              <TableRow key={uid(i)}>
+                <TableBodyCell label={`${captions[0].label}`}>
+                  <ProviderItem
+                    name={row.provider}
+                    nodeAmount={row.nodeAmount}
+                    statusSlot={
+                      <ProviderStatus
+                        tooltipSlot={
+                          <ProviderStatusTooltip
+                            currentPeriod={10}
+                            latency={40}
+                            status={row.status}
+                            successRate={20}
+                            totalPeriod={20}
+                          />
+                        }
+                        type={row.status}
+                      />
+                    }
+                  />
+                </TableBodyCell>
+
+                <TableBodyCell label={`${captions[1].label}`}>
+                  {t('stake-ankr.table.percent-value', { value: row.apy })}
+                </TableBodyCell>
+
+                <TableBodyCell label={`${captions[2].label}`}>
+                  {renderStakedPool(row.stakedPool, row.stakedPoolPercent)}
+                </TableBodyCell>
+
+                <TableBodyCell align="right" label={`${captions[3].label}`}>
+                  <ButtonsItem
+                    bondingDays={row.bondingDays}
+                    detailsLink={row.detailsLink}
+                    exitDays={row.exitDays}
+                    stakeLink={row.stakeLink}
+                  />
+                </TableBodyCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </BasicTable>
+
+      {!!data.length && (
+        <img alt="" className={classes.expandLogo} src={expandNodeProviders} />
+      )}
+    </>
   );
 };

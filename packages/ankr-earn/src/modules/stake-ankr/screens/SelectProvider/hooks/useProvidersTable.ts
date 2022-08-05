@@ -1,6 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -21,6 +22,7 @@ export const useProvidersTable = (): IUseProvidersTable => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   return {
@@ -34,13 +36,14 @@ function mapProviderDemo({
   // eslint-disable-next-line no-unused-vars
   validator,
   status,
+  totalDelegated,
+  votingPower,
 }: IValidator): IProvidersTableRow {
   return {
     providerName: 'ANKR',
     apy: '0%',
-    stakedPool: '0K (0%)',
-    uptime: '0%',
-    rps: '0',
+    stakedPool: totalDelegated.toFormat(),
+    stakedPoolPercent: votingPower,
     providerLink: RoutesConfig.stake.generatePath(validator),
     status: +status,
   };

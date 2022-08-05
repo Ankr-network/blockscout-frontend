@@ -40,17 +40,21 @@ export const Stats = (): JSX.Element => {
         tooltip={t('stake-ankr.provider.locking-period-tooltip')}
       />
 
-      <StatsItem
-        primaryValue={rewards24h}
-        title={t('stake-ankr.provider.24h-rewards')}
-        tooltip={t('stake-ankr.provider.24h-rewards-tooltip')}
-      />
+      {rewards24h && (
+        <StatsItem
+          primaryValue={rewards24h}
+          title={t('stake-ankr.provider.24h-rewards')}
+          tooltip={t('stake-ankr.provider.24h-rewards-tooltip')}
+        />
+      )}
 
-      <StatsItem
-        primaryValue={rewards30d}
-        title={t('stake-ankr.provider.30d-rewards')}
-        tooltip={t('stake-ankr.provider.30d-rewards-tooltip')}
-      />
+      {rewards30d && (
+        <StatsItem
+          primaryValue={rewards30d}
+          title={t('stake-ankr.provider.30d-rewards')}
+          tooltip={t('stake-ankr.provider.30d-rewards-tooltip')}
+        />
+      )}
     </Paper>
   );
 };
