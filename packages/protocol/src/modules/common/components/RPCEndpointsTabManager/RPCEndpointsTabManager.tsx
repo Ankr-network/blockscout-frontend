@@ -5,6 +5,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { Tab, TabsManager } from 'uiKit/TabsManager';
 
 import { useStyles } from './RPCEndpointsTabsManagerStyles';
+import { useTabs } from 'modules/common/hooks/useTabs';
 
 export enum RPCEndpointsTabID {
   MAINNET = 'mainnet',
@@ -68,13 +69,16 @@ export const RPCEndpointsTabsManager = ({
     },
   ].filter(({ content }) => !!content);
 
+  const [processedTabs, selectedTab] = useTabs({ tabs });
+
   const titleElement = <div className={classes.title}>{title}</div>;
 
   return (
     <TabsManager
       additionalContent={additionalContent}
+      selectedTab={selectedTab}
+      tabs={processedTabs}
       title={titleElement}
-      tabs={tabs}
     />
   );
 };

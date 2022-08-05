@@ -202,9 +202,9 @@
       }
     },
     "tabs": {
-      "data": "Usage Data",
+      "get-started": "Get Started",
       "infrastructure": "Infrastructure",
-      "integration": "Integration Assistant"
+      "usage-data": "Usage Data"
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",

@@ -6,32 +6,32 @@ import { useHistory } from 'react-router';
 import { DefaultTabID } from 'uiKit/TabsManager';
 
 export enum TabId {
-  data = 'data',
-  infrastructure = 'infrastructure',
-  integration = 'integration',
+  GetStarted = 'get-started',
+  Infrastructure = 'infrastructure',
+  UsageData = 'usage-data',
 }
 
 export const QUERY_NAME = 'tab';
 
-export const useInitialTabId = (withIntegrationTab: boolean) => {
+export const useInitialTabId = (withGetStartedTab: boolean) => {
   const params = useQueryParams();
 
   const tabId = params.get(QUERY_NAME);
   const isTabIdCorrected =
-    tabId === TabId.data ||
-    tabId === TabId.infrastructure ||
-    (tabId === TabId.integration && withIntegrationTab);
+    (tabId === TabId.GetStarted && withGetStartedTab) ||
+    tabId === TabId.UsageData ||
+    tabId === TabId.Infrastructure;
 
   if (isTabIdCorrected) return tabId;
 
-  return TabId.data;
+  return withGetStartedTab ? TabId.GetStarted : TabId.UsageData;
 };
 
 export const useRedirect = (chainId: string) => {
   const history = useHistory();
 
   return useCallback(
-    (tabId: DefaultTabID = TabId.infrastructure) => {
+    (tabId: DefaultTabID = TabId.Infrastructure) => {
       history.push(
         `${ChainsRoutesConfig.chainDetails.generatePath(
           chainId,
