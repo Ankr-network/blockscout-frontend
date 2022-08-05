@@ -1021,7 +1021,7 @@ export class AnkrStakingSDK {
       if (reward.amount.isZero()) return acc;
 
       const data = stakingContract.methods
-        .claimStakingRewards(reward.validator)
+        .claimStakingRewards(reward.validator.validator)
         .encodeABI();
 
       acc.push(data);
@@ -1197,15 +1197,23 @@ export class AnkrStakingSDK {
 
     const tx = await web3.eth.getTransaction(txHash);
     const providerHash = tx.input.slice(10, 74);
-    const amountHash = tx.input.slice(74, 138);
 
-    const { 0: lockShares } = web3.eth.abi.decodeParameters(
-      ['uint256'],
-      amountHash,
-    );
+    const isStakeTx = tx.input.length > 100;
+    let amountHash;
+    let lockShares;
+    if (isStakeTx) {
+      amountHash = tx.input.slice(74, 138);
+      const { 0: initLockShares } = web3.eth.abi.decodeParameters(
+        ['uint256'],
+        amountHash,
+      );
+      lockShares = initLockShares;
+    }
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(lockShares)),
+      amount: isStakeTx
+        ? new BigNumber(web3.utils.fromWei(lockShares))
+        : undefined,
       destinationAddress: tx.to as string | undefined,
       isPending: tx.transactionIndex === null,
       provider: `0x${providerHash.slice(24)}`,
