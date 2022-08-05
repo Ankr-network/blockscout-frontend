@@ -177,7 +177,7 @@ export const AnkrStakeForm = ({
           stepsCount={2}
         />
 
-        {isApproved && <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>}
+        <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>
