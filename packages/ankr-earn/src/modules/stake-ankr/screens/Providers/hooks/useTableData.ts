@@ -57,7 +57,7 @@ function mapProviderDemo({
   return {
     provider: 'ANKR',
     nodeAmount: 0,
-    apy: 0,
+    apy: 5.05,
     stakedPool: totalDelegated.toFormat(),
     stakedPoolPercent: votingPower,
     rps: ZERO,

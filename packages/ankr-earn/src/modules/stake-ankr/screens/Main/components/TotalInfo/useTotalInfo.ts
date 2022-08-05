@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -47,7 +47,7 @@ export const useTotalInfo = (): IUseTotalInfo => {
   return {
     totalStaked,
     totalStakedUsd: totalStaked.multipliedBy(usdPrice) ?? ZERO,
-    climableRewards: claimableRewards,
+    climableRewards: claimableRewards.decimalPlaces(DEFAULT_ROUNDING),
     climableRewardsUsd: claimableRewards.multipliedBy(usdPrice) ?? ZERO,
     isTotalStakedLoading: false,
     isClimableRewardsLoading: false,

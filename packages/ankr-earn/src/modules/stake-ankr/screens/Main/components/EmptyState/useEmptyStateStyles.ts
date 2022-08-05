@@ -28,11 +28,15 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   statistic: {
     minHeight: theme.spacing(8.5),
     display: 'flex',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
     alignItems: 'center',
-    flexFlow: 'row wrap',
-    padding: theme.spacing(1, 0),
-    borderBottom: `2px solid ${theme.palette.background.default}`,
+
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-start',
+      flexFlow: 'row wrap',
+      padding: theme.spacing(1, 0),
+      borderBottom: `2px solid ${theme.palette.background.default}`,
+    },
 
     [theme.breakpoints.up('lg')]: {
       maxWidth: '50%',
@@ -53,11 +57,19 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
 
+  desc: {
+    fontSize: 16,
+  },
+
   desciptionItem: {
     fontSize: 14,
     marginTop: 0,
     marginLeft: theme.spacing(1),
-    textAlign: 'start',
+    textAlign: 'center',
+
+    [theme.breakpoints.up('sm')]: {
+      textAlign: 'start',
+    },
 
     [theme.breakpoints.up('md')]: {
       textAlign: 'center',

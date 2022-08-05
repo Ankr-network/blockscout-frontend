@@ -83,10 +83,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const amount = formState?.amount;
 
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
-  const currentProvider = providers?.find(
-    provider => provider.validator === queryProvider,
-  );
+  const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 

@@ -72,13 +72,13 @@ export const useDashboard = (): void => {
     dispatch(fetchAETHCBridged());
     dispatch(getMetrics());
     dispatch(getAPY());
-    dispatch(getANKRPrice());
     dispatch(fetchAVAXStats());
     dispatch(fetchBNBStats());
     dispatch(fetchBNBPendingValues());
     dispatch(fetchAVAXPendingValues());
     dispatch(getFTMStats());
     if (featuresConfig.ankrStaking) {
+      dispatch(getANKRPrice());
       dispatch(getANKRCommonData());
       dispatch(getANKRTotalInfo());
     }
