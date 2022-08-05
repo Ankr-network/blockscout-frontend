@@ -1,6 +1,7 @@
 import { Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import React from 'react';
 
 import { t } from 'common';
 
@@ -28,22 +29,26 @@ export const Balance = ({
     <Paper className={classes.balanceRoot}>
       <span className={classes.label}>{t('delegate-stake.balance.label')}</span>
 
-      {icon}
+      <div className={classes.wrapper}>
+        {React.cloneElement(icon, {
+          className: classes.balanceIcon,
+        })}
 
-      {isLoading ? (
-        <Skeleton width={50} />
-      ) : (
-        value.decimalPlaces(DECIMAL_PLACES).toFormat()
-      )}
+        {isLoading ? (
+          <Skeleton width={50} />
+        ) : (
+          value.decimalPlaces(DECIMAL_PLACES).toFormat()
+        )}
 
-      <NavLink
-        className={classes.btn}
-        href={link}
-        size="small"
-        variant="contained"
-      >
-        {t('delegate-stake.balance.btn')}
-      </NavLink>
+        <NavLink
+          className={classes.btn}
+          href={link}
+          size="small"
+          variant="contained"
+        >
+          {t('delegate-stake.balance.btn')}
+        </NavLink>
+      </div>
     </Paper>
   );
 };

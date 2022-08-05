@@ -30,12 +30,14 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    margin: theme.spacing(2),
 
     [theme.breakpoints.up('sm')]: {
       justifyContent: 'flex-start',
       flexFlow: 'row wrap',
       padding: theme.spacing(1, 0),
       borderBottom: `2px solid ${theme.palette.background.default}`,
+      margin: 0,
     },
 
     [theme.breakpoints.up('lg')]: {
@@ -59,6 +61,9 @@ export const useEmptyStateStyles = makeStyles(theme => ({
 
   desc: {
     fontSize: 16,
+    textAlign: 'center',
+
+    [theme.breakpoints.up('sm')]: {},
   },
 
   desciptionItem: {
@@ -81,6 +86,7 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   },
 
   chip: {
+    marginTop: theme.spacing(0.5),
     background: darken(theme.palette.background.default, 0.04),
     color: theme.palette.primary.main,
     borderRadius: 8,

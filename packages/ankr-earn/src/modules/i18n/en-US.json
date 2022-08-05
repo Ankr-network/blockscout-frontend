@@ -362,8 +362,7 @@
   },
   "delegate-stake": {
     "header": {
-      "my": "My",
-      "staking": "{token} Staking",
+      "my-staking": "My {token} Staking",
       "node-providers": "Node providers"
     },
     "balance": {
@@ -1094,7 +1093,7 @@
       "start-description": "Stake ANKR tokens directly to the Ankr Node Provider",
       "how-it-works": "How it works?",
       "description-1": "Earn ANKR for facilitating Web3 development",
-      "description-2": "Stake to Full Nodes for the first time ever",
+      "description-2": "Support decentralized Web3 infrastructure",
       "description-3": "Boost Web3 integration and adoption",
       "description-4": "Earn participation in ANKR DAO governance"
     },
