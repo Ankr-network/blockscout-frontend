@@ -95,6 +95,7 @@
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
     "ankr-value": "{value} ANKR",
+    "mgno-value": "{value} mGNO",
     "usd-value": "${value}",
     "percentage-value": "{value}%",
     "milliseconds-value": "{value}ms"
@@ -1207,6 +1208,25 @@
       "staked": "Total Staked",
       "rewards": "Total Rewards",
       "total-rewards": "Total Rewards"
+    },
+    "tabs": {
+      "active-staking": "Active Staking",
+      "history": "History"
+    },
+    "staking-table": {
+      "node-provider": "Node Provider",
+      "slashing-protection": "Slashing protection",
+      "your-stake": "Your Stake",
+      "rewards": "Rewards",
+      "unstake-amount": "Unstake Amount",
+      "apr": "APR: {value}%",
+      "details": "Details",
+      "date": "Date",
+      "time": "Time",
+      "hash": "Hash",
+      "event": "Event",
+      "provider": "Provider",
+      "amount": "Amount"
     }
   },
   "convert": {

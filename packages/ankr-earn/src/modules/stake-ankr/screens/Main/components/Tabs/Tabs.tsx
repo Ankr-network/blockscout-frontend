@@ -1,117 +1,66 @@
-import { Chip, Typography, Tab, Tabs as BaseTabs } from '@material-ui/core';
-import classNames from 'classnames';
-import { ReactNode } from 'react';
-
 import { t } from 'common';
 
+import { Tab, Tabs as BaseTabs } from 'modules/delegate-stake/components/Tabs';
 import { Button } from 'uiKit/Button';
 
-import { ClaimAllUnstakesDialog } from '../ClaimAllUnstakesDialog';
-
-import { useClaim } from './useClaim';
 import { useTabsStyles } from './useTabsStyles';
 
-export interface ITabItem {
-  title: string;
-  showAmount: boolean;
-}
-
-interface ITabProps {
-  tabs: ITabItem[];
+interface ITabsProps {
   activeTab: string;
-  unstakingAmount?: number;
-  claimAllLink?: string;
-  handleChangeTab(newTab: string): void;
+  isExistsUnstakingData: boolean;
+  newUnstakingAmount: number;
+  isShowingButton: boolean;
+  onOpen: () => void;
+  onChangeTab(newTab: string): void;
 }
 
 export const Tabs = ({
-  tabs,
   activeTab,
-  unstakingAmount,
-  claimAllLink,
-  handleChangeTab,
-}: ITabProps): JSX.Element => {
+  isExistsUnstakingData,
+  newUnstakingAmount,
+  isShowingButton,
+  onOpen,
+  onChangeTab,
+}: ITabsProps): JSX.Element => {
   const classes = useTabsStyles();
 
-  const {
-    isFewClaims,
-    isSingleClaim,
-    data,
-    isClaimsLoading,
-    loading,
-    total,
-    totalUSD,
-    isOpened,
-    onClose,
-    onOpen,
-    onClaim,
-  } = useClaim();
+  const activeStakingText = t('stake-ankr.tabs.active-staking');
+  const unstakingText = t('stake-ankr.tabs.unstaking');
+  const historyText = t('stake-ankr.tabs.history');
 
   return (
     <div className={classes.root}>
-      <BaseTabs
-        className={classes.tabs}
-        indicatorColor="secondary"
-        scrollButtons="auto"
-        value={activeTab}
-        variant="scrollable"
-        onChange={(_, value) => handleChangeTab(value)}
-      >
-        {tabs.map(({ title, showAmount }: ITabItem): ReactNode => {
-          const isActiveTab = title === activeTab;
+      <BaseTabs value={activeTab} onTabChange={onChangeTab}>
+        <Tab
+          key={activeStakingText}
+          activeTab={activeTab}
+          title={activeStakingText}
+          value={activeStakingText}
+        />
 
-          return (
-            <Tab
-              key={title}
-              classes={{ root: classes.tabArea, selected: classes.tabSelected }}
-              className={classes.tabArea}
-              label={
-                <div className={classes.itemWrapper}>
-                  <Typography
-                    className={classNames(classes.tabText, {
-                      [classes.tabActive]: isActiveTab,
-                    })}
-                    color={isActiveTab ? 'initial' : 'textSecondary'}
-                    variant="h3"
-                  >
-                    {title}
-                  </Typography>
+        {isExistsUnstakingData && (
+          <Tab
+            key={unstakingText}
+            activeTab={activeTab}
+            amount={newUnstakingAmount}
+            title={unstakingText}
+            value={unstakingText}
+          />
+        )}
 
-                  {!!unstakingAmount && showAmount && (
-                    <Chip
-                      classes={{ label: classes.chipLabel }}
-                      className={classes.chip}
-                      color="primary"
-                      label={unstakingAmount}
-                      size="small"
-                    />
-                  )}
-                </div>
-              }
-              value={title}
-            />
-          );
-        })}
+        <Tab
+          key={historyText}
+          activeTab={activeTab}
+          title={historyText}
+          value={historyText}
+        />
       </BaseTabs>
 
-      {claimAllLink && !loading && !!data && data.length >= 1 && (
+      {isShowingButton ? (
         <Button className={classes.btn} variant="text" onClick={onOpen}>
           {t('stake-ankr.tabs.claim-all')}
         </Button>
-      )}
-
-      <ClaimAllUnstakesDialog
-        data={data}
-        isClaimsLoading={isClaimsLoading}
-        isFewClaims={isFewClaims}
-        isSingleClaim={isSingleClaim}
-        loading={loading}
-        open={isOpened}
-        total={total}
-        totalUSD={totalUSD}
-        onClaim={onClaim}
-        onClose={onClose}
-      />
+      ) : undefined}
     </div>
   );
 };

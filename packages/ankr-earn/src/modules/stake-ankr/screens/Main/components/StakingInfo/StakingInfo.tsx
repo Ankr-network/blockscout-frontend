@@ -9,22 +9,41 @@ import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
+import { ClaimAllUnstakesDialog } from '../ClaimAllUnstakesDialog';
 import { HistoryTable } from '../HistoryTable';
-import { ITabItem, Tabs } from '../Tabs';
+import { Tabs } from '../Tabs';
 import { UnstakingTable } from '../UnstakingTable';
+
+import { useClaim } from './useClaim';
 
 export const StakingInfo = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
-  const { data } = useQuery({
+  const { data: unstakingData } = useQuery({
     type: getUnstakingData,
   });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
+
+  const {
+    isFewClaims,
+    isSingleClaim,
+    data,
+    isClaimsLoading,
+    loading,
+    total,
+    totalUSD,
+    isOpened,
+    onClose,
+    onOpen,
+    onClaim,
+  } = useClaim();
 
   const activeStakingText = t('stake-ankr.tabs.active-staking');
   const unstakingText = t('stake-ankr.tabs.unstaking');
   const historyText = t('stake-ankr.tabs.history');
 
-  const [newUnstakingAmount, setUnstakingAmount] = useState(data?.length ?? 0);
+  const [newUnstakingAmount, setUnstakingAmount] = useState(
+    unstakingData?.length ?? 0,
+  );
   const [currentTab, setCurrentTab] = useState<string>(activeStakingText);
 
   useProviderEffect(() => {
@@ -37,36 +56,26 @@ export const StakingInfo = (): JSX.Element => {
   }, [dispatchRequest]);
 
   useEffect(() => {
-    setUnstakingAmount(data?.length ?? 0);
-  }, [data]);
-
-  const tabs: ITabItem[] = [
-    {
-      title: activeStakingText,
-      showAmount: false,
-    },
-    newUnstakingAmount
-      ? {
-          title: unstakingText,
-          showAmount: true,
-        }
-      : null,
-    {
-      title: historyText,
-      showAmount: false,
-    },
-  ].filter(tab => tab !== null) as ITabItem[];
+    setUnstakingAmount(unstakingData?.length ?? 0);
+  }, [unstakingData]);
 
   const handleChangeTab = (newTab: string) => setCurrentTab(newTab);
+  const isActiveUnstakingTab = currentTab === unstakingText;
+
+  const isShowingButton =
+    isActiveUnstakingTab && !loading && !!data && data.length >= 1;
+
+  const isExistsUnstakingData = !!unstakingData && unstakingData.length > 0;
 
   return (
     <div>
       <Tabs
         activeTab={currentTab}
-        claimAllLink={currentTab === unstakingText ? 'claimLink' : ''}
-        handleChangeTab={handleChangeTab}
-        tabs={tabs}
-        unstakingAmount={newUnstakingAmount}
+        isExistsUnstakingData={isExistsUnstakingData}
+        isShowingButton={isShowingButton}
+        newUnstakingAmount={newUnstakingAmount}
+        onChangeTab={handleChangeTab}
+        onOpen={onOpen}
       />
 
       {currentTab === activeStakingText && <ActiveStakingTable />}
@@ -74,6 +83,19 @@ export const StakingInfo = (): JSX.Element => {
       {currentTab === unstakingText && <UnstakingTable />}
 
       {currentTab === historyText && <HistoryTable />}
+
+      <ClaimAllUnstakesDialog
+        data={data}
+        isClaimsLoading={isClaimsLoading}
+        isFewClaims={isFewClaims}
+        isSingleClaim={isSingleClaim}
+        loading={loading}
+        open={isOpened}
+        total={total}
+        totalUSD={totalUSD}
+        onClaim={onClaim}
+        onClose={onClose}
+      />
     </div>
   );
 };

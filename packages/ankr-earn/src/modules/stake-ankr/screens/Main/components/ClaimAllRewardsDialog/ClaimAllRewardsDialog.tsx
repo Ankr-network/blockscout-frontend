@@ -6,9 +6,10 @@ import { uid } from 'react-uid';
 import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
-import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { TableRow } from 'modules/stake-ankr/components/TableRow';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { Button } from 'uiKit/Button';
@@ -106,7 +107,11 @@ export const ClaimAllRewardsDialog = ({
                       classes.flexRight,
                     )}
                   >
-                    <BaseAnkrAmount ankrAmount={total} usdAmount={totalUSD} />
+                    <BaseTokenUsdAmount
+                      amount={total}
+                      token={Token.ANKR}
+                      usdAmount={totalUSD}
+                    />
                   </td>
                 </tr>
               </table>

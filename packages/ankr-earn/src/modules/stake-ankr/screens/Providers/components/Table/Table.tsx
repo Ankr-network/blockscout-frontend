@@ -12,11 +12,11 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import {
   ProviderStatus,
   ProviderStatusTooltip,
-} from 'modules/stake-ankr/components/ProviderStatus';
+} from 'modules/delegate-stake/components/ProviderStatus';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import expandNodeProviders from '../../assets/expand-node-providers.png';
 import { useTableData } from '../../hooks/useTableData';

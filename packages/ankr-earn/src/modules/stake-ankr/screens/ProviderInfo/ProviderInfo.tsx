@@ -8,7 +8,7 @@ import { useCopyTokenAddressHook } from 'modules/common/hooks/useCopyTokenAddres
 import {
   ProviderStatus,
   ProviderStatusTooltip,
-} from 'modules/stake-ankr/components/ProviderStatus';
+} from 'modules/delegate-stake/components/ProviderStatus';
 import { EProviderStatus } from 'modules/stake-ankr/const';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';

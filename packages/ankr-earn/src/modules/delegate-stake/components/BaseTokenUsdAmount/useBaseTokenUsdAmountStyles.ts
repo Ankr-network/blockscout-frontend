@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useBaseAnkrAmountStyles = makeStyles(theme => ({
+export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
   root: {
     alignItems: 'inherit',
 
