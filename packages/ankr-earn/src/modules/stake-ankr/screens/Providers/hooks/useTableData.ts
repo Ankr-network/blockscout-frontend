@@ -33,16 +33,9 @@ export const useTableData = (): ITableData => {
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
   });
-  const { data: apy } = useQuery({
-    type: getAPY,
-  });
 
   const data = providers?.map(mapProviderDemo) || [];
   const dispatchRequest = useDispatchRequest();
-
-  if (data.length === 1) {
-    data[0].apy = apy?.toNumber() ?? 0;
-  }
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
