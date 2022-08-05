@@ -19,6 +19,7 @@ export interface RPCEndpointsTabsManagerProps {
   testnetEndpoints?: ReactNode;
   devnetEndpoints?: ReactNode;
   title: ReactNode;
+  initialTabID: RPCEndpointsTabID;
 }
 
 // to avoid unnecessary re-creations
@@ -48,6 +49,7 @@ export const RPCEndpointsTabsManager = ({
   testnetEndpoints,
   devnetEndpoints,
   title,
+  initialTabID,
 }: RPCEndpointsTabsManagerProps) => {
   const classes = useStyles();
 
@@ -69,7 +71,7 @@ export const RPCEndpointsTabsManager = ({
     },
   ].filter(({ content }) => !!content);
 
-  const [processedTabs, selectedTab] = useTabs({ tabs });
+  const [processedTabs, selectedTab] = useTabs({ initialTabID, tabs });
 
   const titleElement = <div className={classes.title}>{title}</div>;
 

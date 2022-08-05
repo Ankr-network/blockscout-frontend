@@ -11,6 +11,7 @@ import { PublicRPCEndpoints } from './PublicRPCEndpoints';
 
 import { useStyles } from './ChainItemHeaderStyles';
 import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpoints/ExclusiveRPCEndpointsSkeleton';
+import { useGetNetId } from './ChainItemHeaderUtils';
 
 interface ChainItemHeaderProps {
   chain: ResponseData<typeof fetchChain>['chain'];
@@ -34,7 +35,11 @@ export const ChainItemHeader = ({
   const [formattedChain] = formatChains([chain]);
   const { coinName, name } = chain;
 
-  const exclusivePart = hasCredentials ? <ExclusiveRPCEndpoints /> : null;
+  const netId = useGetNetId();
+
+  const exclusivePart = hasCredentials ? (
+    <ExclusiveRPCEndpoints netId={netId} />
+  ) : null;
 
   return (
     <div className={classNames(classes.root, className)}>
@@ -45,7 +50,7 @@ export const ChainItemHeader = ({
         </div>
         {hasCredentials || loading ? null : (
           <div className={classes.publicEndpoints}>
-            <PublicRPCEndpoints chain={chain} />
+            <PublicRPCEndpoints chain={chain} netId={netId} />
           </div>
         )}
       </div>

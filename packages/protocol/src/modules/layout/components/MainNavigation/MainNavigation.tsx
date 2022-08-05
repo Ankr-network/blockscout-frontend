@@ -8,7 +8,7 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 import { isDashboardActive } from './MainNavigationUtils';

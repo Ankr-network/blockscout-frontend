@@ -1,4 +1,4 @@
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
