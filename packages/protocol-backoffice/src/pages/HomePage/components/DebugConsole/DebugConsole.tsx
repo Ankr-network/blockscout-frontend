@@ -11,7 +11,7 @@ export const DebugConsole = observer(() => {
   const onFaucetTokens = useCallback(async () => {
     const skd = useMultiRpcSdk();
 
-    await skd.getContractManager().faucetAnkrTokensForTest();
+    await skd.getPremiumPlanContractManager().faucetAnkrTokensForTest();
   }, []);
 
   const onDeposit = useCallback(async () => {
@@ -19,7 +19,7 @@ export const DebugConsole = observer(() => {
 
     try {
       const { deposit } = await newSdk
-        .getContractManager()
+        .getPremiumPlanContractManager()
         .depositAnkrToWallet(new BigNumber('10000'));
       // eslint-disable-next-line no-console
       console.log(await deposit.receiptPromise);

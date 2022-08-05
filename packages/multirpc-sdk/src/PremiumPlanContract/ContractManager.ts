@@ -1,5 +1,6 @@
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 import {
   Base64,
@@ -7,17 +8,12 @@ import {
   Web3Address,
   base64ToPrefixedHex,
 } from '../common';
-import { IContractManager } from './interfaces';
+import { IPremiumPlanContractManager } from './interfaces';
 import { IContractManagerConfig, IDepositAnkrToWalletResult } from './types';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
+import ABI_ANKR_PROTOCOL from './abi/AnkrProtocol.json';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const ABI_ANKR_PROTOCOL = require('../abi/AnkrProtocol.json');
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const ABI_ANKR_TOKEN = require('../abi/AnkrToken.json');
-
-export class ContractManager implements IContractManager {
+export class PremiumPlanContractManager implements IPremiumPlanContractManager {
   private readonly ankrWalletContract: Contract;
 
   private readonly ankrTokenContract: Contract;
@@ -30,7 +26,7 @@ export class ContractManager implements IContractManager {
   ) {
     this.ankrWalletContract = keyProvider.createContract(
       ABI_ANKR_PROTOCOL,
-      config.ankrWalletContractAddress,
+      config.premiumPlanContractAddress,
     );
 
     this.ankrTokenContract = keyProvider.createContract(
@@ -123,7 +119,7 @@ export class ContractManager implements IContractManager {
     const scaledAmount = amount.multipliedBy(10 ** 18);
     const scaledAllowance = new BigNumber(
       await this.ankrTokenContract.methods
-        .allowance(currentAccount, this.config.ankrWalletContractAddress)
+        .allowance(currentAccount, this.config.premiumPlanContractAddress)
         .call(),
     );
 
@@ -146,7 +142,7 @@ export class ContractManager implements IContractManager {
 
     const scaledAllowance = new BigNumber(
       await this.ankrTokenContract.methods
-        .allowance(currentAccount, this.config.ankrWalletContractAddress)
+        .allowance(currentAccount, this.config.premiumPlanContractAddress)
         .call(),
     );
 
@@ -155,7 +151,10 @@ export class ContractManager implements IContractManager {
     }
 
     const data = this.ankrTokenContract.methods
-      .approve(this.config.ankrWalletContractAddress, scaledAmount.toString(10))
+      .approve(
+        this.config.premiumPlanContractAddress,
+        scaledAmount.toString(10),
+      )
       .encodeABI();
 
     return this.keyProvider.sendTransactionAsync(
@@ -189,7 +188,7 @@ export class ContractManager implements IContractManager {
     // make sure user have enough allowance
     const scaledAllowance = new BigNumber(
       await this.ankrTokenContract.methods
-        .allowance(currentAccount, this.config.ankrWalletContractAddress)
+        .allowance(currentAccount, this.config.premiumPlanContractAddress)
         .call(),
     );
 
@@ -198,7 +197,7 @@ export class ContractManager implements IContractManager {
       if (scaledAllowance.isLessThan(scaledAmount)) {
         const data = this.ankrTokenContract.methods
           .approve(
-            this.config.ankrWalletContractAddress,
+            this.config.premiumPlanContractAddress,
             scaledAmount.toString(10),
           )
           .encodeABI();
@@ -228,7 +227,7 @@ export class ContractManager implements IContractManager {
 
     const depositSendResult = await this.keyProvider.sendTransactionAsync(
       currentAccount,
-      this.config.ankrWalletContractAddress,
+      this.config.premiumPlanContractAddress,
       {
         data,
         gasLimit: '200000',

@@ -9,12 +9,11 @@ import {
   IProvider,
   IWorkerEndpoint,
   IWorkerGateway,
-  IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
   WorkerGateway,
 } from '../worker';
-import { ApiGateway, IApiGateway } from '../api';
+import { ConsensusGateway, IConsensusGateway } from '../consensus';
 import {
   Base64,
   IConfig,
@@ -24,10 +23,9 @@ import {
   Web3Address,
 } from '../common';
 import {
-  ContractManager,
-  IContractManager,
-  IDepositAnkrToWalletResult,
-} from '../contract';
+  PremiumPlanContractManager,
+  IPremiumPlanContractManager,
+} from '../PremiumPlanContract';
 import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import {
   AccountGateway,
@@ -55,15 +53,15 @@ import { BackofficeGateway, IBackofficeGateway } from '../backoffice';
 import { IPublicGateway, PublicGateway } from '../public';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
-  private workerGateway?: IWorkerGateway;
-
-  private apiGateway?: IApiGateway;
-
-  private rpcGateway?: RpcGateway;
-
-  private contractManager?: IContractManager;
+  private premiumPlanContractManager?: IPremiumPlanContractManager;
 
   private PAYGContractManager?: IPAYGContractManager;
+
+  private workerGateway?: IWorkerGateway;
+
+  private consensusGateway?: IConsensusGateway;
+
+  private rpcGateway?: RpcGateway;
 
   private accountGateway?: IAccountGateway;
 
@@ -80,12 +78,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.keyProvider;
   }
 
-  async hasDeposit(user: Web3Address): Promise<PrefixedHex | false> {
-    return this.getContractManager().getLatestUserEventLogHash(user);
-  }
-
   async loginWithIssuedToken(user: Web3Address) {
-    const jwtTokensResponse = await this.getApiGateway().getJwtTokens(user);
+    const jwtTokensResponse = await this.getConsensusGateway().getJwtTokens(
+      user,
+    );
 
     if (!jwtTokensResponse || jwtTokensResponse?.[0].length === 0) {
       return false;
@@ -127,9 +123,13 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return false;
     }
 
-    const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
-      name: 'MultiRPC',
-    });
+    const [thresholdKeys] = await this.getConsensusGateway().getThresholdKeys(
+      0,
+      1,
+      {
+        name: 'MultiRPC',
+      },
+    );
 
     if (!thresholdKeys.length) throw new Error(`There is no threshold keys`);
 
@@ -144,20 +144,26 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   async loginAsPremium(user: Web3Address, encryptionKey: Base64) {
     const transactionHash =
-      await this.getContractManager().getLatestUserEventLogHash(user);
+      await this.getPremiumPlanContractManager().getLatestUserEventLogHash(
+        user,
+      );
 
     if (transactionHash === false) {
       return false;
     }
 
-    const [thresholdKeys] = await this.getApiGateway().getThresholdKeys(0, 1, {
-      name: 'MultiRPC',
-    });
+    const [thresholdKeys] = await this.getConsensusGateway().getThresholdKeys(
+      0,
+      1,
+      {
+        name: 'MultiRPC',
+      },
+    );
 
     if (!thresholdKeys.length) return false;
 
     // send issue request to ankr protocol
-    const jwtToken = await this.getApiGateway().requestJwtToken({
+    const jwtToken = await this.getConsensusGateway().requestJwtToken({
       public_key: encryptionKey,
       threshold_key: thresholdKeys[0].id,
       transaction_hash: transactionHash,
@@ -180,16 +186,6 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const blockchains = await this.getPublicGateway().getBlockchains();
 
     return formatPrivateUrls(blockchains, this.config, jwtToken.endpoint_token);
-  }
-
-  async getUserLocation(): Promise<IWorkerUserLocation> {
-    return this.getWorkerGateway().getUserLocation();
-  }
-
-  async depositAnkr(
-    amount: BigNumber | BigNumber.Value,
-  ): Promise<IDepositAnkrToWalletResult> {
-    return this.getContractManager().depositAnkrToWallet(new BigNumber(amount));
   }
 
   async depositAnkrToPAYG(
@@ -305,7 +301,9 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   async requestUserEncryptionKey(): Promise<Base64> {
     const { currentAccount } = this.keyProvider;
 
-    return this.getContractManager().getEncryptionPublicKey(currentAccount);
+    return this.getPremiumPlanContractManager().getEncryptionPublicKey(
+      currentAccount,
+    );
   }
 
   async issueJwtToken(
@@ -317,13 +315,14 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     // requests user's x25519 encryption key
     if (!encryptionKey) {
-      encryptionKey = await this.getContractManager().getEncryptionPublicKey(
-        currentAccount,
-      );
+      encryptionKey =
+        await this.getPremiumPlanContractManager().getEncryptionPublicKey(
+          currentAccount,
+        );
     }
 
     // send issue request to ankr protocol
-    const jwtToken = await this.getApiGateway().requestJwtToken({
+    const jwtToken = await this.getConsensusGateway().requestJwtToken({
       public_key: encryptionKey,
       threshold_key: thresholdKey,
       transaction_hash: transactionHash,
@@ -362,19 +361,14 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   /**
    * @internal for internal usage, try to avoid
    */
-  getApiGateway(): IApiGateway {
-    this.apiGateway =
-      this.apiGateway ||
-      new ApiGateway(
-        {
-          baseURL: this.config.walletPublicUrl,
-        },
-        {
-          baseURL: this.config.walletPrivateUrl,
-        },
-      );
+  getConsensusGateway(): IConsensusGateway {
+    this.consensusGateway =
+      this.consensusGateway ||
+      new ConsensusGateway({
+        baseURL: this.config.consensusUrl,
+      });
 
-    return this.apiGateway;
+    return this.consensusGateway;
   }
 
   getRpcGateway(): RpcGateway {
@@ -390,12 +384,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
   /**
    * @internal for internal usage, try to avoid
    */
-  getContractManager(): IContractManager {
-    this.contractManager =
-      this.contractManager ||
-      new ContractManager(this.keyProvider, this.config);
+  getPremiumPlanContractManager(): IPremiumPlanContractManager {
+    this.premiumPlanContractManager =
+      this.premiumPlanContractManager ||
+      new PremiumPlanContractManager(this.keyProvider, this.config);
 
-    return this.contractManager;
+    return this.premiumPlanContractManager;
   }
 
   /**
