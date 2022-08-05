@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useTabContentStyles = makeStyles(theme => ({
+export const useTabsStyles = makeStyles(theme => ({
+  tabs: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+
   tabSelected: {
     '&.Mui-selected': {
       borderBottom: 'none',
