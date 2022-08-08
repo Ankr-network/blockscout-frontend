@@ -8,17 +8,24 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { useStyles } from './PublicRPCEndpointsStyles';
+import { useInitialRPCEndpointsTabID } from '../ChainItemHeaderUtils';
 
 export interface PublicRPCEndpointsProps {
   chain: IApiChain;
+  netId?: string;
 }
 
 const title = t('chain-item.header.endpoints-title');
 const tooltip = t('chain-item.header.public-endpoints-tooltip');
 
-export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
+export const PublicRPCEndpoints = ({
+  chain,
+  netId,
+}: PublicRPCEndpointsProps) => {
   const classes = useStyles();
   const { mainnet, testnet, devnet } = useGroupedEndpoints(chain);
+
+  const initialTabID = useInitialRPCEndpointsTabID(chain, netId);
 
   const tabsTitle = (
     <TooltipWrapper tooltipText={tooltip}>
@@ -40,6 +47,7 @@ export const PublicRPCEndpoints = ({ chain }: PublicRPCEndpointsProps) => {
       testnetEndpoints={testnetEndpoints}
       devnetEndpoints={devnetEndpoints}
       title={tabsTitle}
+      initialTabID={initialTabID}
     />
   );
 };

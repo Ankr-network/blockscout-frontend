@@ -13,7 +13,7 @@ export const useTabsFilter = (chain: IApiChain): TabsFilter => {
   const isChainEvmBased = hasEvmEndpoints(endpoints);
 
   const filter = useCallback(
-    ({ id }: Tab) => (id === TabId.integration ? isChainEvmBased : true),
+    ({ id }: Tab) => id !== TabId.GetStarted || isChainEvmBased,
     [isChainEvmBased],
   );
 

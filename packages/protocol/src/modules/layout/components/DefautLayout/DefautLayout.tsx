@@ -10,22 +10,22 @@ import { MobileHeader } from '../MobileHeader';
 import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export interface ILayoutProps {
   children?: ReactChild;
   theme?: Themes;
-  withNoReactSnap?: boolean;
   disableGutters?: boolean;
+  hasNoReactSnap?: boolean;
 }
 
 export const DefaultLayout = ({
   children,
   theme = Themes.light,
-  withNoReactSnap = true,
   disableGutters = false,
+  hasNoReactSnap = false,
 }: ILayoutProps) => {
   const classes = useStyles();
   const { isWalletConnected } = useAuth();
@@ -50,7 +50,7 @@ export const DefaultLayout = ({
             >
               <Breadcrumbs />
             </Container>
-            {withNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
+            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>
         <MobileNavigation isWalletConnected={isWalletConnected} />

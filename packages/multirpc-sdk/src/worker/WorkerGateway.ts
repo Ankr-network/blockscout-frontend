@@ -6,8 +6,6 @@ import {
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
-  IWorkerTotalStats,
-  IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
 } from './types';
@@ -36,36 +34,6 @@ export class WorkerGateway implements IWorkerGateway {
 
   async importJwtToken(jwtToken?: string): Promise<IImportJWTTokenResult> {
     const { data } = await this.api.post('/api/v1/jwt', { jwtToken });
-
-    return data;
-  }
-
-  async getTotalStats(blockchain?: string): Promise<IWorkerTotalStats[]> {
-    const { data } = await this.api.get<IWorkerTotalStats[]>(
-      '/api/v1/stats/total',
-      {
-        params: { blockchain },
-      },
-    );
-
-    return data;
-  }
-
-  async getLegacyStats(blockchain?: string): Promise<IWorkerTotalStats[]> {
-    const { data } = await this.api.get<IWorkerTotalStats[]>(
-      '/api/v1/stats/legacy',
-      {
-        params: { blockchain },
-      },
-    );
-
-    return data;
-  }
-
-  async getUserLocation(): Promise<IWorkerUserLocation> {
-    const { data } = await this.api.get<IWorkerUserLocation>(
-      '/api/v1/datacenter',
-    );
 
     return data;
   }
