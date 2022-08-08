@@ -3,7 +3,7 @@ import { IBalancesEntity } from 'multirpc-sdk';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useMultiRpcSdk } from 'stores';
-import { ClientEntity } from './useClients/types';
+import { ClientEntity } from '../types';
 import { makeClients } from './useClients/utils';
 
 export type TAddressClient = {

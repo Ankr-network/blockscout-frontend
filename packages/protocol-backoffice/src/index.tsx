@@ -6,13 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import IndexPage from './pages';
-import { useAuthStore } from 'stores/AuthStore';
+import { useAuth } from 'auth/useAuth';
 
 const App = () => {
-  const store = useAuthStore();
+  const { handleAutoConnect } = useAuth();
 
   useEffect(() => {
-    store.connect();
+    handleAutoConnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

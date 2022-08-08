@@ -1,15 +1,17 @@
-import { observer } from 'mobx-react';
 import { Menu } from 'antd';
-
+import { PageHeader } from 'components/PageHeader';
+import { observer } from 'mobx-react';
+import { useClientEmailsStore } from 'stores/ClientEmailsStore';
+import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 import PAYGClientTable from './components/PAYGClientTable';
 import PremiumClientTable from './components/PremiumPlanClientTable';
-import { PageHeader } from 'components/PageHeader';
-import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 
 export const ClientPage = observer(() => {
   const initialTab = useInitialTab();
 
   const onSelect = useOnTabSelect();
+
+  const emailStore = useClientEmailsStore();
 
   return (
     <>
@@ -23,8 +25,12 @@ export const ClientPage = observer(() => {
         </Menu>
       </div>
       <br />
-      {initialTab === Tab.PAYGClients && <PAYGClientTable />}
-      {initialTab === Tab.PremiumPlanClients && <PremiumClientTable />}
+      {initialTab === Tab.PAYGClients && (
+        <PAYGClientTable emailStore={emailStore} />
+      )}
+      {initialTab === Tab.PremiumPlanClients && (
+        <PremiumClientTable emailStore={emailStore} />
+      )}
     </>
   );
 });
