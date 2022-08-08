@@ -1,3 +1,4 @@
+import { abortRequests, resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -5,6 +6,7 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
+import { Dispatch } from 'redux';
 
 import { t } from 'common';
 
@@ -25,12 +27,14 @@ import {
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useAnalytics } from './useAnalytics';
 import { useFaq } from './useFaq';
@@ -57,7 +61,18 @@ interface IUseStakeFormData {
   onSuccessClose: () => void;
 }
 
+const dispatchResetRequests = (dispatch: Dispatch): void => {
+  dispatch(
+    resetRequests(
+      getPolkadotResetRequests([fetchPolkadotAccountMaxSafeBalance.toString()]),
+    ),
+  );
+
+  dispatch(resetRequests([fetchStakeStats.toString(), getMetrics.toString()]));
+};
+
 export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
+  const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
   const [amount, setAmount] = useState(0);
@@ -149,16 +164,17 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
   };
 
   useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
-    dispatchRequest(fetchStakeStats());
-    dispatchRequest(getMetrics());
-  }, [
-    dispatchRequest,
-    fetchPolkadotAccountMaxSafeBalance,
-    fetchStakeStats,
-    getMetrics,
-    network,
-  ]);
+    dispatchResetRequests(dispatch);
+
+    dispatch(fetchPolkadotAccountMaxSafeBalance(network));
+    dispatch(fetchStakeStats());
+    dispatch(getMetrics());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatchResetRequests(dispatch);
+    };
+  }, [dispatch, network]);
 
   return {
     amount,

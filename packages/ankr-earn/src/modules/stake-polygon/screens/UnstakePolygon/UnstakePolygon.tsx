@@ -1,6 +1,9 @@
 import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useDispatchRequest } from '@redux-requests/react';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -12,22 +15,34 @@ import { Token } from 'modules/common/types/token';
 import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
 import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { approveAMATICCUnstake } from '../../actions/approveAMATICCUnstake';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
 
+const resetRequests = () =>
+  resetReduxRequests([
+    approveAMATICCUnstake.toString(),
+    fetchStats.toString(),
+    fetchTxHistory.toString(),
+    getAnkrBalance.toString(),
+    getMetrics.toString(),
+    getUnstakeDate.toString(),
+  ]);
+
 export const UnstakePolygon = (): JSX.Element => {
   const classes = useStyles();
-
-  const dispatchRequest = useDispatchRequest();
+  const dispatch = useAppDispatch();
 
   const {
     isOpened: isSuccessOpened,
@@ -55,11 +70,19 @@ export const UnstakePolygon = (): JSX.Element => {
   });
 
   useProviderEffect(() => {
-    dispatchRequest(getMetrics());
-    dispatchRequest(fetchStats());
-    dispatchRequest(getAnkrBalance());
-    dispatchRequest(fetchTxHistory());
-  }, [dispatchRequest]);
+    dispatch(resetRequests());
+
+    dispatch(fetchStats());
+    dispatch(fetchTxHistory());
+    dispatch(getAnkrBalance());
+    dispatch(getMetrics());
+    dispatch(getUnstakeDate());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   const onRenderFormFooter = (amount: BigNumber, maxAmount: BigNumber) => {
     const isInvalidAmount = amount.isNaN() || amount.isGreaterThan(maxAmount);
