@@ -35,10 +35,11 @@ export interface IPaymentHistoryResponse {
 }
 
 export interface IBalance {
-  // credit balance
+  // credit balance === balance_ankr === balance_usd
   balance: string;
   balance_ankr: string;
   balance_usd: string;
+  balance_voucher: string;
 }
 
 export interface IBalanceEndTimeResult {

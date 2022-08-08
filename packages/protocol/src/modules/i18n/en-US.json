@@ -792,7 +792,10 @@
       "balance-error": "You cannot make a withdrawal as your balance is zero or negative",
       "min": "The minimum withdrawal amount is {value} ANKR",
       "max": "You cannot make a withdrawal, as your balance is less than {value} ANKR",
-      "excess": "The entered amount exceeds your balance"
+      "excess": "The entered amount exceeds your balance",
+      "balance": "You can withdraw <b>{value} ANKR</b>",
+      "credits": "<b>{value} voucher credits</b> can&rsquo;t be&nbsp;claimed",
+      "credits-info": "Voucher credits are also used for payment. They are equivalent to&nbsp;ordinary credits but cannot be&nbsp;withdrawn in&nbsp;ANKR tokens."
     }
   },
   "continents": {
