@@ -20,7 +20,6 @@ arbitrum - https://arbitrum.public-rpc.com/
 iotex - https://iotex.public-rpc.com/
 avalanche - https://avalanche.public-rpc.com/
 nervos - https://nervos.public-rpc.com/
-erigonbsc - https://erigonbsc.public-rpc.com/, https://bscrpc.com/erigonbsc
 
 ### Legacy multi-rpc (not in this repo)
 bsc - https://bscrpc.com/

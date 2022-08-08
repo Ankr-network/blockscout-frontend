@@ -124,14 +124,6 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.erigonbsc': {
-      '& $button': {
-        '&:hover': {
-          backgroundColor: theme.palette.common.white,
-        },
-      },
-    },
-
     '&.gnosis': {
       borderRadius: 9,
 
