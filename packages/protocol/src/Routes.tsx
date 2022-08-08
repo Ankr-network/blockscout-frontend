@@ -12,7 +12,7 @@ import {
   ChainsRoutes,
   ChainsRoutesConfig,
   INDEX_PATH,
-} from './domains/chains/Routes';
+} from './domains/chains/routes';
 import {
   ProvidersRoutes,
   ProvidersRoutesConfig,
@@ -49,8 +49,17 @@ export function Routes() {
         exact
         path={['/public/']}
         render={() => (
-          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
+          <DefaultLayout theme={Themes.light}>
             <Redirect to={INDEX_PATH} />
+          </DefaultLayout>
+        )}
+      />
+      <GuardAuthProviderRoute
+        exact
+        path={[ChainsRoutesConfig.addEndpoint.path]}
+        render={() => (
+          <DefaultLayout>
+            <ChainPrivateRoutes />
           </DefaultLayout>
         )}
       />
@@ -61,7 +70,7 @@ export function Routes() {
           ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (
-          <DefaultLayout theme={Themes.light} withNoReactSnap={false}>
+          <DefaultLayout theme={Themes.light}>
             <ChainsRoutes />
           </DefaultLayout>
         )}
@@ -86,17 +95,8 @@ export function Routes() {
           Boolean(cachedAuthData.authorizationToken) && isWalletConnected
         }
         render={() => (
-          <DefaultLayout disableGutters theme={Themes.light}>
+          <DefaultLayout theme={Themes.light} disableGutters hasNoReactSnap>
             <Plan />
-          </DefaultLayout>
-        )}
-      />
-      <GuardAuthProviderRoute
-        exact
-        path={[ChainsRoutesConfig.addEndpoint.path]}
-        render={() => (
-          <DefaultLayout>
-            <ChainPrivateRoutes />
           </DefaultLayout>
         )}
       />

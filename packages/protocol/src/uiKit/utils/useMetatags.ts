@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { t } from 'modules/i18n/utils/intl';
-import { PATH_CHAINS } from 'domains/chains/Routes';
+import { PATH_CHAINS } from 'domains/chains/routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
 const PROTOCOL_URL = 'https://www.ankr.com/protocol';

@@ -5,6 +5,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { Tab, TabsManager } from 'uiKit/TabsManager';
 
 import { useStyles } from './RPCEndpointsTabsManagerStyles';
+import { useTabs } from 'modules/common/hooks/useTabs';
 
 export enum RPCEndpointsTabID {
   MAINNET = 'mainnet',
@@ -18,6 +19,7 @@ export interface RPCEndpointsTabsManagerProps {
   testnetEndpoints?: ReactNode;
   devnetEndpoints?: ReactNode;
   title: ReactNode;
+  initialTabID: RPCEndpointsTabID;
 }
 
 // to avoid unnecessary re-creations
@@ -47,6 +49,7 @@ export const RPCEndpointsTabsManager = ({
   testnetEndpoints,
   devnetEndpoints,
   title,
+  initialTabID,
 }: RPCEndpointsTabsManagerProps) => {
   const classes = useStyles();
 
@@ -68,13 +71,16 @@ export const RPCEndpointsTabsManager = ({
     },
   ].filter(({ content }) => !!content);
 
+  const [processedTabs, selectedTab] = useTabs({ initialTabID, tabs });
+
   const titleElement = <div className={classes.title}>{title}</div>;
 
   return (
     <TabsManager
       additionalContent={additionalContent}
+      selectedTab={selectedTab}
+      tabs={processedTabs}
       title={titleElement}
-      tabs={tabs}
     />
   );
 };

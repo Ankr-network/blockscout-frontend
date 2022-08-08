@@ -5,10 +5,12 @@ import { EndpointsList } from 'modules/endpoints/components/EndpointsList';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { t } from 'modules/i18n/utils/intl';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { useInitialRPCEndpointsTabID } from '../ChainItemHeaderUtils';
 import { useStyles } from './ExclusiveRPCEndpointsStyles';
 
 interface ExclusiveRPCEndpointsProps {
   chain: IApiChain;
+  netId?: string;
 }
 
 const title = t('chain-item.header.endpoints-title');
@@ -16,10 +18,13 @@ const tooltip = t('chain-item.header.public-endpoints-tooltip');
 
 export const ExclusiveRPCEndpoints = ({
   chain,
+  netId,
 }: ExclusiveRPCEndpointsProps) => {
   const classes = useStyles();
 
   const { mainnet, testnet, devnet } = useGroupedEndpoints(chain);
+
+  const initialTabID = useInitialRPCEndpointsTabID(chain, netId);
 
   const tabsTitle = (
     <TooltipWrapper tooltipText={tooltip}>
@@ -41,6 +46,7 @@ export const ExclusiveRPCEndpoints = ({
       testnetEndpoints={testnetEndpoints}
       devnetEndpoints={devnetEndpoints}
       title={tabsTitle}
+      initialTabID={initialTabID}
     />
   );
 };

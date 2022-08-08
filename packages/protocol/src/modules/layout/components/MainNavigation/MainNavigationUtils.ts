@@ -1,5 +1,5 @@
 import { History } from 'history';
-import { PATH_CHAINS } from 'domains/chains/Routes';
+import { PATH_CHAINS } from 'domains/chains/routes';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 

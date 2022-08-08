@@ -1,7 +1,7 @@
 import { IConfig, IJwtToken } from '../common';
 import { IBlockchainEntity } from '../backoffice';
 import { FetchBlockchainUrlsResult } from './types';
-import { JwtTokens } from '../api';
+import { JwtTokens } from '../consensus';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,

@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { Base64, PrefixedHex, Web3Address } from '../common';
 import { IDepositAnkrToWalletResult } from './types';
 
-export interface IContractManager {
+export interface IPremiumPlanContractManager {
   allowTokensForAnkrDeposit(
     amount: BigNumber,
   ): Promise<IWeb3SendResult | false>;

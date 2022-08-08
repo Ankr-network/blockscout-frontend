@@ -8,7 +8,7 @@ import { UserEndpointsForm } from './UserEndpointsForm';
 import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { getRpcLinks } from './UserEndpointsUtils';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 interface UserEndpointsProps {
   data?: IUserEndpoint[];

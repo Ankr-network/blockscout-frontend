@@ -2,15 +2,14 @@ import BigNumber from 'bignumber.js';
 import { EventData } from 'web3-eth-contract';
 import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 
-import { IApiGateway } from '../api';
+import { IConsensusGateway } from '../consensus';
 import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
-import { IContractManager, IDepositAnkrToWalletResult } from '../contract';
+import { IPremiumPlanContractManager } from '../PremiumPlanContract';
 import {
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
   IWorkerGateway,
-  IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
 } from '../worker';
@@ -37,10 +36,6 @@ export interface IMultiRpcSdk {
 
   deletePrivateEndpoint(jwtToken: IJwtToken, endpointId: string): Promise<void>;
 
-  depositAnkr(
-    amount: BigNumber | BigNumber.Value,
-  ): Promise<IDepositAnkrToWalletResult>;
-
   editChainRestrictedDomains(
     jwtToken: IJwtToken,
     chainId: string,
@@ -64,7 +59,7 @@ export interface IMultiRpcSdk {
 
   fetchProvider(jwtToken: IJwtToken): Promise<IProvider>;
 
-  getApiGateway(): IApiGateway;
+  getConsensusGateway(): IConsensusGateway;
 
   getChainRestrictedDomains(
     jwtToken: IJwtToken,
@@ -76,15 +71,13 @@ export interface IMultiRpcSdk {
     chainId: string,
   ): Promise<RestrictedIps>;
 
-  getContractManager(): IContractManager;
+  getPremiumPlanContractManager(): IPremiumPlanContractManager;
 
   getPAYGContractManager(): IPAYGContractManager;
 
   getKeyProvider(): Web3KeyWriteProvider;
 
   getRpcGateway(): RpcGateway;
-
-  getUserLocation(): Promise<IWorkerUserLocation>;
 
   getBackofficeGateway(): IBackofficeGateway;
 
@@ -97,8 +90,6 @@ export interface IMultiRpcSdk {
     thresholdKey: UUID,
     encryptionKey?: Base64,
   ): Promise<IJwtToken>;
-
-  hasDeposit(user: Web3Address): Promise<PrefixedHex | false>;
 
   loginAsUser(
     user: Web3Address,

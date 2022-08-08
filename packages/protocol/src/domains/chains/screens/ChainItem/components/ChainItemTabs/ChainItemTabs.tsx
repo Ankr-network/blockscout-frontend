@@ -1,6 +1,6 @@
 import React from 'react';
-import { ToggleButton } from '@material-ui/lab';
 
+import { ChainItemTab } from './components/ChainItemTab';
 import { DataUsageContent } from '../DataUsageContent';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { InfrastructureContent } from '../InfrastructureContent';
@@ -10,6 +10,7 @@ import { TabId, useInitialTabId, useRedirect } from './ChainItemTabsUtils';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { useStyles } from './ChainItemTabsStyles';
+import { useTabs } from 'modules/common/hooks/useTabs';
 import { useTabsFilter } from './hooks/useTabsFilter';
 
 interface IChainItemTabsProps {
@@ -18,50 +19,41 @@ interface IChainItemTabsProps {
 }
 
 export const ChainItemTabs = ({ chainId, data }: IChainItemTabsProps) => {
-  const [withIntegrationTab, tabsFilter] = useTabsFilter(data.chain);
-  const initialTabId = useInitialTabId(withIntegrationTab);
+  const [withGetStartedTab, tabsFilter] = useTabsFilter(data.chain);
+  const initialTabID = useInitialTabId(withGetStartedTab);
   const classes = useStyles();
 
-  const tabs: Tab[] = useLocaleMemo(
+  const rawTabs: Tab[] = useLocaleMemo(
     () =>
       [
         {
-          id: TabId.data,
-          content: <DataUsageContent chainId={chainId} />,
-          title: (isSelected: boolean) => (
-            <ToggleButton
-              value="data"
-              className={classes.button}
-              selected={isSelected}
-            >
-              {t('chain-item.tabs.data')}
-            </ToggleButton>
-          ),
-        },
-        {
-          id: TabId.infrastructure,
-          content: <InfrastructureContent chainId={chainId} data={data} />,
-          title: (isSelected: boolean) => (
-            <ToggleButton
-              value="infrastructure"
-              className={classes.button}
-              selected={isSelected}
-            >
-              {t('chain-item.tabs.infrastructure')}
-            </ToggleButton>
-          ),
-        },
-        {
-          id: TabId.integration,
+          id: TabId.GetStarted,
           content: <IntegrationContent />,
           title: (isSelected: boolean) => (
-            <ToggleButton
-              value="integration"
-              className={classes.button}
-              selected={isSelected}
-            >
-              {t('chain-item.tabs.integration')}
-            </ToggleButton>
+            <ChainItemTab
+              isSelected={isSelected}
+              label={t('chain-item.tabs.get-started')}
+            />
+          ),
+        },
+        {
+          id: TabId.UsageData,
+          content: <DataUsageContent chainId={chainId} />,
+          title: (isSelected: boolean) => (
+            <ChainItemTab
+              isSelected={isSelected}
+              label={t('chain-item.tabs.usage-data')}
+            />
+          ),
+        },
+        {
+          id: TabId.Infrastructure,
+          content: <InfrastructureContent chainId={chainId} data={data} />,
+          title: (isSelected: boolean) => (
+            <ChainItemTab
+              isSelected={isSelected}
+              label={t('chain-item.tabs.infrastructure')}
+            />
           ),
         },
       ].filter(tabsFilter),
@@ -69,14 +61,18 @@ export const ChainItemTabs = ({ chainId, data }: IChainItemTabsProps) => {
   );
 
   const redirect = useRedirect(chainId);
+  const [tabs, selectedTab] = useTabs({
+    initialTabID,
+    onTabSelect: redirect,
+    tabs: rawTabs,
+  });
 
   return (
     <div className={classes.root}>
       <TabsManager
+        className={classes.tabs}
+        selectedTab={selectedTab}
         tabs={tabs}
-        className={classes.manager}
-        initialTabID={initialTabId}
-        onTabSelect={redirect}
       />
     </div>
   );

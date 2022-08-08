@@ -10,7 +10,7 @@ import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'ui';
 
 export const ChainsItem = ({

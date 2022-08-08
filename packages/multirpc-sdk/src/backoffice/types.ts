@@ -116,6 +116,7 @@ export enum BlockchainType {
 }
 
 export interface IBlockchainEntity {
+  coinName: string;
   extends?: string;
   id: string;
   features: BlockchainFeature[];

@@ -6,8 +6,6 @@ import {
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
-  IWorkerTotalStats,
-  IWorkerUserLocation,
   RestrictedDomains,
   RestrictedIps,
 } from './types';
@@ -25,10 +23,12 @@ export interface IWorkerGateway {
     chainId: string,
     domains: RestrictedDomains,
   ): Promise<RestrictedDomains>;
+
   editChainRestrictedIps(
     chainId: string,
     ips: RestrictedDomains,
   ): Promise<RestrictedIps>;
+
   editPrivateEndpoint(endpoint: IPrivateEndpoint): Promise<IWorkerEndpoint>;
 
   getChainRestrictedDomains(chainId: string): Promise<RestrictedDomains>;
@@ -37,13 +37,7 @@ export interface IWorkerGateway {
 
   getEndpoints(): Promise<IWorkerEndpoint>;
 
-  getLegacyStats(blockchain?: string): Promise<IWorkerTotalStats[]>;
-
   getProvider(): Promise<IProvider>;
-
-  getTotalStats(blockchain?: string): Promise<IWorkerTotalStats[]>;
-
-  getUserLocation(): Promise<IWorkerUserLocation>;
 
   importJwtToken(jwtToken?: string): Promise<IImportJWTTokenResult>;
 
