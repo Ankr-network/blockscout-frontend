@@ -15,4 +15,10 @@ export enum ClientType {
 export type ClientEntity = IBalancesEntity & {
   type: ClientType;
   ttl?: number;
+  email?: string;
+};
+
+export type PremiumPlanClientEntity = ICountersEntity & {
+  type: ClientType;
+  email?: string;
 };

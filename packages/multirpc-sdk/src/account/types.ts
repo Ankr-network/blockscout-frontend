@@ -1,4 +1,4 @@
-import { Web3Address } from '../common';
+import { EmailConfirmationStatus, Web3Address } from '../common';
 
 export type IPaymentHistoryEntityType =
   | 'TRANSACTION_TYPE_UNKNOWN'
@@ -184,12 +184,6 @@ export enum EmailErrorMessage {
   EMAIL_BINDING_NOT_FOUND = 'not found',
   CONFIRMATION_CODE_NOT_FOUND = 'confirmation code not found: not found',
   CODE_ALREADY_USED = 'confirmation code has already been used: wrong state',
-}
-
-export enum EmailConfirmationStatus {
-  PENDING = 'EMAIL_CONFIRMATION_STATUS_PENDING',
-  DELETED = 'EMAIL_CONFIRMATION_STATUS_DELETED',
-  CONFIRMED = 'EMAIL_CONFIRMATION_STATUS_CONFIRMED',
 }
 
 export interface IEmailResponseError {

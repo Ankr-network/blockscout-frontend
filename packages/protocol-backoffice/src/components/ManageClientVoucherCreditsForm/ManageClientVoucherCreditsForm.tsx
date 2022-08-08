@@ -6,7 +6,7 @@ import {
   IUpdateVoucherCreditsRequest,
 } from 'multirpc-sdk';
 import { useCallback } from 'react';
-import { ClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'types';
 import { web3AddressValidator } from 'utils/formValidators';
 
 const { Option } = Select;

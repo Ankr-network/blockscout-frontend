@@ -1,21 +1,25 @@
 import { Statistic } from 'antd';
-import { IBalancesEntity } from 'multirpc-sdk';
-
+import { IBalancesEntity, Web3Address } from 'multirpc-sdk';
 import { renderBalance } from 'utils/renderBalance';
+import { IUseClientInfoParams, useClientInfo } from './useClientInfo';
 
-interface IClientBalanceProps {
+interface IClientInfoProps extends IUseClientInfoParams {
   amountCredits?: IBalancesEntity['amount'];
   amountAnkr?: IBalancesEntity['amountAnkr'];
   amountUsd?: IBalancesEntity['amountUsd'];
   voucherAmount?: IBalancesEntity['voucherAmount'];
+  address: Web3Address;
 }
 
-export const ClientBalance = ({
+export const ClientInfo = ({
   amountAnkr,
   amountUsd,
   amountCredits,
   voucherAmount,
-}: IClientBalanceProps) => {
+  address,
+}: IClientInfoProps) => {
+  const { isEmailLoading, email } = useClientInfo({ address });
+
   return (
     <section
       style={{
@@ -51,6 +55,8 @@ export const ClientBalance = ({
         value={renderBalance(voucherAmount)}
         loading={!voucherAmount}
       />
+
+      <Statistic title="Email" value={email ?? '-'} loading={isEmailLoading} />
     </section>
   );
 };

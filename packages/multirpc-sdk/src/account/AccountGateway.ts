@@ -1,11 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
-
-import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
 import { getRequestsMock } from '../mock/getRequestsMock';
 import { IAccountGateway } from './interfaces';
 import {
-  EmailConfirmationStatus,
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
   IBalance,
@@ -72,7 +70,7 @@ export class AccountGateway implements IAccountGateway {
   public async getAggregatedPaymentHistory(
     params: IAggregatedPaymentHistoryRequest,
   ): Promise<IAggregatedPaymentHistoryResponse> {
-    const { data: response } = 
+    const { data: response } =
       await this.api.get<IAggregatedPaymentHistoryResponse>(
         '/api/v1/auth/aggregatedTransactions',
         {

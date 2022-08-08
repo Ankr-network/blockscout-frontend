@@ -9,8 +9,8 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { ClientBalance } from 'components/ClientBalance';
 import ClientBlockchainActionTable from 'components/ClientBlockchainActionTable/ClientBlockchainActionTable';
+import { ClientInfo } from 'components/ClientInfo';
 import ClientTransactionTable from 'components/ClientTransactionTable/ClientTransactionTable';
 import {
   IManageClientVoucherCreditsFormProps,
@@ -126,7 +126,8 @@ export const ClientDetailPage = observer(() => {
         onBack={() => history.goBack()}
       />
 
-      <ClientBalance
+      <ClientInfo
+        address={address}
         amountAnkr={balance?.amountAnkr}
         amountUsd={balance?.amountUsd}
         amountCredits={balance?.amount}

@@ -1,5 +1,5 @@
 import { PresetColorType, PresetStatusColorType } from 'antd/lib/_util/colors';
-import { ClientType, ClientEntity } from 'stores/useClients/types';
+import { ClientEntity, ClientType } from 'types';
 
 export const expirableClientTypes = new Set([
   ClientType.Premium,
