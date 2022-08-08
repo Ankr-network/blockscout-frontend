@@ -21,9 +21,8 @@ import {
   Web3Address,
 } from '../common';
 
-export interface IApiGateway {
-  privateApi: AxiosInstance;
-  publicApi: AxiosInstance;
+export interface IConsensusGateway {
+  api: AxiosInstance;
 
   generateThresholdKey(
     request: IGenerateThresholdKeyRequest,

@@ -1,9 +1,6 @@
-import React from 'react';
-
-import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
-// eslint-disable-next-line import/no-cycle
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { ChainItemQuery as ChainItemBase } from './ChainItemQuery';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export const ChainItem = () => {
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();

@@ -9,7 +9,7 @@ import { ReactComponent as MoreIcon } from 'uiKit/Icons/more.svg';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useIsSMDown } from 'ui';

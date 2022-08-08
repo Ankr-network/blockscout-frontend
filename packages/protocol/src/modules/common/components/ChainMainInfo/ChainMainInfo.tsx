@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
 import { StatsTimeframe } from 'domains/chains/types';
+import { Switcher } from 'modules/common/components/Switcher';
 import { t } from 'modules/i18n/utils/intl';
 import { timeframeLabelsMap } from './const';
 import { useStyles } from './ChainMainInfoStyles';
@@ -45,9 +46,7 @@ export const ChainMainInfo = ({
                   {t('chains.req', {
                     value: totalRequests,
                   })}
-                  <span className={classes.day}>
-                    {timeframeLabelsMap[statsTimeframe]}
-                  </span>
+                  <Switcher value={timeframeLabelsMap[statsTimeframe]} />
                 </>
               )}
             </>

@@ -202,9 +202,9 @@
       }
     },
     "tabs": {
-      "data": "Usage Data",
+      "get-started": "Get Started",
       "infrastructure": "Infrastructure",
-      "integration": "Integration Assistant"
+      "usage-data": "Usage Data"
     },
     "nervos": {
       "eth-based": "For Ethereum-based and Polyjuice methods",
@@ -581,7 +581,6 @@
     },
     "change-email-dialog": {
       "title": "Changing Email",
-
       "success-step": {
         "verify-email-text": "Please verify email that we sent to <b>{email}</b>"
       }
@@ -621,6 +620,7 @@
       "usd": "USD"
     },
     "balance": "{balance, number, ::compact-short}",
+    "operation-loader": "Checking transactions",
     "account-details": {
       "breadcrumbs": "Account Details",
       "title": "Account Details",

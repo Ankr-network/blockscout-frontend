@@ -149,14 +149,13 @@ export enum Token {
 
 export interface IConfig {
   ankrTokenContractAddress: PrefixedHex;
-  ankrWalletContractAddress: PrefixedHex;
+  premiumPlanContractAddress: PrefixedHex;
   confirmationBlocks: number;
   privateRpcUrl: string;
   privateWsUrl: string;
   publicRpcUrl: string;
   publicWsUrl: string;
-  walletPrivateUrl: string;
-  walletPublicUrl: string;
+  consensusUrl: string;
   workerUrl: string;
   accountUrl: string;
   backofficeUrl: string;
@@ -165,4 +164,4 @@ export interface IConfig {
   payAsYouGoContractAddress: string;
 }
 
-export type Environment = 'local' | 'staging' | 'prod';
+export type Environment = 'staging' | 'prod';

@@ -1,6 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import {
   IPremiumFeatures,

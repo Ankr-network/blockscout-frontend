@@ -10,7 +10,7 @@ import { getScheme } from './AddEndpointUtils';
 import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 
 export const AddEndpoint = () => {

@@ -4,7 +4,7 @@ import { PrefixedHex } from '../common';
 
 export interface IContractManagerConfig {
   ankrTokenContractAddress: PrefixedHex;
-  ankrWalletContractAddress: PrefixedHex;
+  premiumPlanContractAddress: PrefixedHex;
 }
 
 export interface IDepositAnkrToWalletResult {

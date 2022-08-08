@@ -5,31 +5,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(6),
     marginBottom: theme.spacing(3),
   },
-  manager: {
-    justifyContent: 'center',
+  tabs: {
+    overflowX: 'scroll',
 
-    '& > div': {
-      backgroundColor: theme.palette.grey['400'],
-      borderRadius: 16,
-      padding: 3,
-    },
-  },
+    '-ms-overflow-style': 'none',
+    'scrollbar-width': 'none',
 
-  button: {
-    backgroundColor: theme.palette.grey['400'],
-    padding: theme.spacing(1.5, 8),
-    textTransform: 'inherit',
-
-    '&&': {
-      borderRadius: 14,
-    },
-
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(1.5, 2),
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(1.5, 1),
+    '&::-webkit-scrollbar': {
+      display: 'none',
     },
   },
 }));

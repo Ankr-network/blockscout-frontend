@@ -5,16 +5,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
   switcherRoot: {
     height: 'auto',
     minWidth: 'auto',
-    padding: theme.spacing(0.5, 1),
+    padding: '3px 7px',
 
     borderRadius: 18,
     border: `1px solid ${theme.palette.action.disabledBackground}`,
 
     color: theme.palette.grey[600],
-    letterSpacing: '0.02em',
+    letterSpacing: '0.01em',
 
-    fontWeight: 400,
+    fontWeight: 500,
     fontSize: 11,
     lineHeight: '16px',
+
+    '&.Mui-disabled': {
+      border: `1px solid ${theme.palette.action.disabledBackground}`,
+      borderColor: theme.palette.action.disabledBackground,
+
+      color: theme.palette.grey[600],
+    },
   },
 }));
