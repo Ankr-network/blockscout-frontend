@@ -134,18 +134,6 @@ const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://www.layerview.io/'],
 };
 
-// erigonbsc
-const ERIGON_NETWORK_PARAMS = {
-  chainId: 56,
-  chainName: 'Binance Smart Chain (Erigon client)',
-  nativeCurrency: {
-    name: 'Smart Chain',
-    symbol: 'BNB',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://bscscan.com'],
-};
-
 const GNOSIS_NETWORK_PARAMS = {
   chainId: 100,
   chainName: 'Gnosis Chain by Ankr Protocol',
@@ -198,8 +186,6 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, IOTEX_NETWORK_PARAMS);
     case 'nervos':
       return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
-    case 'erigonbsc':
-      return mapParams(chain, ERIGON_NETWORK_PARAMS);
     case 'gnosis':
       return mapParams(chain, GNOSIS_NETWORK_PARAMS);
     default:

@@ -49,14 +49,6 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.erigonbsc': {
-      transition: 'background-color .3s',
-
-      '&:hover': {
-        backgroundColor: theme.palette.common.white,
-      },
-    },
-
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
 

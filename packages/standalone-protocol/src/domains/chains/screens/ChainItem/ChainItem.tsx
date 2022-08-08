@@ -10,7 +10,6 @@ import { CopyButtons } from './components/CopyButtons';
 import { ChainHeader } from './components/ChainHeader';
 import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
-import { Crosslink } from './components/Crosslink';
 import { ChainId } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
 
@@ -32,7 +31,6 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainItemDetailsQuery chainId={chainId} />
         <ChainNodesTableQuery chainId={chainId} />
       </Container>
-      {chainId === ChainId.Erigonbsc && <Crosslink />}
     </ThemeProvider>
   );
 };
