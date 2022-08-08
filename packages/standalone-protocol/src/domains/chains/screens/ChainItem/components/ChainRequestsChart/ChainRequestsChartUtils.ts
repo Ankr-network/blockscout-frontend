@@ -13,9 +13,6 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Arbitrum:
       return '#4EA0EA';
 
-    case ChainId.Erigonbsc:
-      return theme.palette.common.white;
-
     case ChainId.Ethereum:
       return theme.palette.primary.light;
 
@@ -32,7 +29,6 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Near:
       return '#9B68AC';
 
-    case ChainId.Erigonbsc:
     case ChainId.Arbitrum:
       return theme.palette.primary.main;
 

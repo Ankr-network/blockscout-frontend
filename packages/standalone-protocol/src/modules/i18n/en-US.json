@@ -32,27 +32,6 @@
       "polygon": "There is an unstable operation of the blockchain network itself. The endpoints work in standard mode. More information can be found on the official social media pagesclasses.",
       "moonbeam": "<b>rpc.moonbeam.tools</b> is joining forces with <b>ANKR</b>!🎉<br/>Read the announcement <a href=\"https://ankr.com\" target=\"_blank\" rel=\"noopener noreferrer\"><b>here</b></a>."
     },
-    "erigonbsc": {
-      "header": {
-        "title": "Erigon for BSC",
-        "description": "The <a href=\"https://github.com/ledgerwatch/erigon\" target=\"_blank\" rel=\"noopener noreferrer\">erigon node client</a> is&nbsp;now available for Binance Smart Chain. This is&nbsp;a&nbsp;community RPC endpoint operated by&nbsp;Ankr, and includes full archive history for the chain."
-      },
-      "crosslink": "Back to the standard endpoint for BSC",
-      "features": {
-        "issues": {
-          "title": "Report Issues",
-          "description": "0.1 BNB bounty for reporting errors with the service"
-        },
-        "launch-node": {
-          "title": "Launch a Node",
-          "description": "Step-by-step guide for launching BSC with Erigon"
-        },
-        "premium": {
-          "title": "Premium Endpoint",
-          "description": "Get a premium RPC API with Ankr Protocol"
-        }
-      }
-    },
     "copy-button": {
       "button-text": "Copy Endpoint Link",
       "mobile-button-text": "Copy Link"

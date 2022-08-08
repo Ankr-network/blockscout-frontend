@@ -1,6 +1,5 @@
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainId } from 'domains/chains/api/chain';
 
 export const formatChain = (data?: IApiChain): Chain | null => {
   if (!data) return null;
@@ -17,17 +16,8 @@ export const formatChain = (data?: IApiChain): Chain | null => {
   };
 };
 
-const { REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE } = process.env;
-
-export const getLink = (chainId: ChainId): string => {
+export const getLink = (): string => {
   const link = window?.location.origin || '';
-
-  if (
-    chainId === ChainId.Erigonbsc &&
-    REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE
-  ) {
-    return `${link}/${chainId}`;
-  }
 
   return link;
 };
