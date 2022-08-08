@@ -1,8 +1,6 @@
 import { ICountersEntity } from 'multirpc-sdk';
-
-import { ClientType } from 'stores/useClients/types';
 import { getClientType } from 'stores/useClients/utils';
-import { PremiumPlanClientEntity } from './types';
+import { ClientType, PremiumPlanClientEntity } from 'types';
 
 export const makeClients = (
   counters: ICountersEntity[],

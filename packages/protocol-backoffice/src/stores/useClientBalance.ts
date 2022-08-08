@@ -6,15 +6,13 @@ import { useMultiRpcSdk } from 'stores';
 export const useClientBalance = (
   address: Web3Address,
 ): { balance: IBalancesEntity | undefined; refetchBalance: () => void } => {
-  const [refetchDependancy, triggerRefetch] = useState(false);
+  const [refetchDependancy, triggerRefetch] = useState<boolean>(false);
   const refetchBalance = useCallback(
     () => triggerRefetch(!refetchDependancy),
     [refetchDependancy],
   );
 
-  const [balance, setBalance] = useState<IBalancesEntity | undefined>(
-    undefined,
-  );
+  const [balance, setBalance] = useState<IBalancesEntity | undefined>();
 
   const backoffice = useMultiRpcSdk().getBackofficeGateway();
 

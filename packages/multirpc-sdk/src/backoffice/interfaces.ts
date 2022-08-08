@@ -5,6 +5,8 @@ import {
   IBalancesResponse,
   IBlockchainEntity,
   ICountersEntity,
+  IEmailBindingsRequest,
+  IEmailBindingsResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -24,6 +26,10 @@ export interface IBackofficeGateway {
   getBalances(params: IBalancesRequest): Promise<IBalancesResponse>;
 
   getTransactions(params: ITransactionsRequest): Promise<ITransactionsResponse>;
+
+  getEmailBindings(
+    params: IEmailBindingsRequest,
+  ): Promise<IEmailBindingsResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

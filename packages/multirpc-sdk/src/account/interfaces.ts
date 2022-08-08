@@ -1,5 +1,5 @@
+import { EmailConfirmationStatus } from '../common';
 import {
-  EmailConfirmationStatus,
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
   IBalance,

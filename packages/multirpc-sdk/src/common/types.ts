@@ -103,6 +103,12 @@ export interface INotarizedTransaction {
   signature: Base64;
 }
 
+export enum EmailConfirmationStatus {
+  PENDING = 'EMAIL_CONFIRMATION_STATUS_PENDING',
+  DELETED = 'EMAIL_CONFIRMATION_STATUS_DELETED',
+  CONFIRMED = 'EMAIL_CONFIRMATION_STATUS_CONFIRMED',
+}
+
 export type TJwtTokenStatus =
   | 'JWT_TOKEN_STATUS_ACTIVE'
   | 'JWT_TOKEN_STATUS_EXPIRED'

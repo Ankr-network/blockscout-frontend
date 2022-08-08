@@ -1,7 +1,7 @@
 import { ICountersEntity } from 'multirpc-sdk';
+import { PremiumPlanClientEntity } from 'types';
 import { useMultiRpcSdk } from '../index';
 import { LocalGridStore, useLocalGridStore } from '../LocalGridStore';
-import { PremiumPlanClientEntity } from './types';
 import { makeClients } from './utils';
 
 let counters: ICountersEntity[] | null = null;

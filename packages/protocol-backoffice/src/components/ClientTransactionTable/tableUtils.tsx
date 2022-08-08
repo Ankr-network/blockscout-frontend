@@ -1,5 +1,8 @@
 import { ColumnsType } from 'antd/lib/table';
+import { renderUSD } from 'components/ClientTable/tableUtils';
 import { ITransactionsEntity } from 'multirpc-sdk';
+
+import { renderBalance } from 'utils/renderBalance';
 
 export const tableColumns: ColumnsType<ITransactionsEntity> = [
   {
@@ -12,13 +15,13 @@ export const tableColumns: ColumnsType<ITransactionsEntity> = [
     title: 'Amount of ANKR',
     dataIndex: 'amountAnkr',
     key: 'amountAnkr',
+    render: renderBalance,
   },
   {
     title: 'Equivalent in USD',
     dataIndex: 'amountUsd',
     key: 'amountUsd',
-    render: (value: string) =>
-      value[0] === '-' ? `-$${value.slice(1)}` : `$${value}`,
+    render: renderUSD,
   },
   {
     title: 'Blockchain',
