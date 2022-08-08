@@ -1,13 +1,24 @@
 import { ColumnsType } from 'antd/lib/table';
-
 import { UserTypeTag } from 'components/UserTypeTag';
-import { ClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'types';
+import { renderBalance } from 'utils/renderBalance';
+
+export const renderUSD = (value: string) => {
+  const number = renderBalance(value);
+
+  return number[0] === '-' ? `-$${number.slice(1)}` : `$${number}`;
+};
 
 export const tableColumns: ColumnsType<ClientEntity> = [
   {
     title: 'Wallet',
     dataIndex: 'address',
     key: 'address',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
     title: 'Type of the User',
@@ -21,22 +32,24 @@ export const tableColumns: ColumnsType<ClientEntity> = [
     title: 'Amount of credits',
     dataIndex: 'amount',
     key: 'amount',
+    render: renderBalance,
   },
   {
     title: 'Amount of voucher credits',
     dataIndex: 'voucherAmount',
     key: 'voucherAmount',
+    render: renderBalance,
   },
   {
     title: 'Amount of ANKR',
     dataIndex: 'amountAnkr',
     key: 'amountAnkr',
+    render: renderBalance,
   },
   {
     title: 'Equivalent in USD',
     dataIndex: 'amountUsd',
     key: 'amountUsd',
-    render: (value: string) =>
-      value[0] === '-' ? `-$${value.slice(1)}` : `$${value}`,
+    render: renderUSD,
   },
 ];

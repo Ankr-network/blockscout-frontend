@@ -6,7 +6,7 @@ import {
   IUpdateVoucherCreditsResponse,
 } from 'multirpc-sdk';
 import { useCallback, useState } from 'react';
-import { ClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'types';
 
 interface IUseVoucherModalProps {
   address: ClientEntity['address'];

@@ -1,5 +1,9 @@
 import { IBalancesEntity, ICountersEntity, Web3Address } from 'multirpc-sdk';
-import { ClientType, ClientEntity, TCountersEntityWithAddress } from './types';
+import {
+  ClientEntity,
+  ClientType,
+  TCountersEntityWithAddress,
+} from '../../types';
 
 const isProtocolClient = (
   user: ICountersEntity,
