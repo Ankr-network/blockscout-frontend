@@ -24,7 +24,7 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-polygon/actions/fetchTxHistory', () => ({
+jest.mock('modules/stake-matic/eth/actions/fetchTxHistory', () => ({
   fetchTxHistory: jest.fn(),
 }));
 

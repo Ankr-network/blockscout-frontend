@@ -546,7 +546,7 @@
       "send-external-wallet": "Send to external {network} wallet"
     }
   },
-  "stake-polygon-dashboard": {
+  "stake-matic-dashboard": {
     "column": {
       "amount": "Amount",
       "tx-date": "Transaction Date",
@@ -568,7 +568,14 @@
       "is-not-enough-fee": "{value} ANKR is not enough for unstaking fee. Please, <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">buy ANKR</a>"
     }
   },
-  "stake-polygon": {
+  "stake-matic-common": {
+    "network-chooser": {
+      "ethereum-network": "Ethereum Network",
+      "polygon-network": "Polygon Network",
+      "title": "In which network you want stake your MATIC"
+    }
+  },
+  "stake-matic-eth": {
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb grows daily just being in your wallet. It represents your staked MATIC plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aMATICb = 1 MATIC anytime after 3-4 days unbonding period.",
@@ -603,12 +610,7 @@
       "answer-12": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/reference/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
     "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
-    "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>",
-    "network-chooser": {
-      "ethereum-network": "Ethereum Network",
-      "polygon-network": "Polygon Network",
-      "title": "In which network you want stake your MATIC"
-    }
+    "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
@@ -748,11 +750,6 @@
       "return": "Go to dashboard"
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
-  },
-  "unstake-polygon": {
-    "success": {
-      "period": "about 3-4 days"
-    }
   },
   "dashboard": {
     "title": "Stakable tokens",

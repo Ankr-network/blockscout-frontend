@@ -26,8 +26,8 @@ import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/get
 import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
-import { fetchStats as fetchPolygonStats } from 'modules/stake-polygon/actions/fetchStats';
-import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';

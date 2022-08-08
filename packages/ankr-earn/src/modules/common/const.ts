@@ -90,7 +90,7 @@ export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
 export const OPENOCEAN_QUOTE_URL =
   'https://open-api.openocean.finance/v1/cross/quote';
 
-export const featuresConfig: Record<string, boolean> = {
+export const featuresConfig /* Record<string: boolean> */ = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,

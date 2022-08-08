@@ -14,7 +14,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
-import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 
