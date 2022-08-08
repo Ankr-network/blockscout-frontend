@@ -17,7 +17,7 @@ interface ICopyButtonsProps {
 export const CopyButtons = ({ data, chainId }: ICopyButtonsProps) => {
   const chain = data?.chain;
   const formattedChain = useMemo(() => formatChain(chain), [chain]);
-  const netLink = getLink(chainId);
+  const netLink = getLink();
   const isXSDown = useIsXSDown();
 
   const onCopy = useCallback(() => copyEndpointEvent(), []);

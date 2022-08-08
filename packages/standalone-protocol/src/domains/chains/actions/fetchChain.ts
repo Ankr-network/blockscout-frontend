@@ -10,14 +10,6 @@ export interface IChainItemDetails {
   chain?: IApiChain;
 }
 
-const ERIGON_CHAIN = {
-  icon: '',
-  id: 'erigonbsc',
-  name: 'Erigon bsc',
-  rpcUrls: ['https://erigonbsc.public-rpc.com'],
-  wsUrls: [],
-};
-
 export const fetchChain = createSmartAction<
   RequestAction<null, IChainItemDetails>
 >('chains/fetchChain', (chainId: ChainId) => ({
@@ -44,15 +36,6 @@ export const fetchChain = createSmartAction<
           const location = window?.location.origin;
           const rpcUrl =
             chainId === ChainId.Nervos ? `${location}/nervos` : location;
-
-          if (chainId === ChainId.Erigonbsc && !chain) {
-            return {
-              chain: {
-                ...ERIGON_CHAIN,
-                rpcUrls: [rpcUrl],
-              },
-            };
-          }
 
           if (!chain) {
             return { chain };

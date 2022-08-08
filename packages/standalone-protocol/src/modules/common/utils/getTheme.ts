@@ -7,7 +7,6 @@ import { arbitrumTheme } from '../../themes/arbitrumTheme';
 import { iotexTheme } from '../../themes/iotexTheme';
 import { avalancheTheme } from '../../themes/avalancheTheme';
 import { nervosTheme } from '../../themes/nervosTheme';
-import { erigonTheme } from '../../themes/erigonTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { harmonyTheme } from 'modules/themes/harmonyTheme';
 import { gnosisTheme } from 'modules/themes/gnosisTheme';
@@ -42,9 +41,6 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Nervos:
       return nervosTheme;
-
-    case ChainId.Erigonbsc:
-      return erigonTheme;
 
     case ChainId.Harmony:
       return harmonyTheme;

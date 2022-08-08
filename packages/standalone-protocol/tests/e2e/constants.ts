@@ -17,7 +17,6 @@ export const NON_LEGACY_STANDALONES = [
   { network: 'iotex', endPoint: 'https://iotex.public-rpc.com/' },
   { network: 'avalanche', endPoint: 'https://avalanche.public-rpc.com/' },
   { network: 'nervos', endPoint: 'https://nervos.public-rpc.com/' },
-  { network: 'erigonbsc', endPoint: 'https://erigonbsc.public-rpc.com/' },
 ];
 
 export const LEGACY_STANDALONES = [
@@ -76,5 +75,4 @@ export const NON_LEGACY_STANDALONES_THEMES = {
   iotex: { theme: THEME.dark },
   avalanche: { theme: THEME.light2 },
   nervos: { theme: THEME.dark2 },
-  erigonbsc: { theme: THEME.dark2 },
 };
