@@ -1,7 +1,6 @@
 import { ColumnsType } from 'antd/lib/table';
-
 import { UserTypeTag } from 'components/UserTypeTag';
-import { PremiumPlanClientEntity } from 'stores/usePremiumPlanClients/types';
+import { PremiumPlanClientEntity } from 'types';
 
 const EMPTY_MESSAGE = 'No information';
 
@@ -28,6 +27,11 @@ export const tableColumns: ColumnsType<PremiumPlanClientEntity> = [
     render: (_, { user }: PremiumPlanClientEntity) => (
       <div style={{ maxWidth: 200 }}>{user}</div>
     ),
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
     title: 'Type of the User',

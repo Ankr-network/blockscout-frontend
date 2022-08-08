@@ -4,7 +4,7 @@ import { Box, Button, Fade, Menu, MenuItem } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { useMenu } from '../../../../modules/common/hooks/useMenu';
+import { useMenu } from 'modules/common/hooks/useMenu';
 import { useStyles } from './useStyles';
 import { ReactComponent as MetamaskIcon } from '../../../../assets/img/metamask.svg';
 import { LoadableButton } from 'uiKit/LoadableButton';
@@ -13,7 +13,6 @@ interface ConnectButtonProps {
   isMobile?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
   const classes = useStyles(isMobile);
   const { handleConnect, handleDisconnect, address, loading } = useAuth();

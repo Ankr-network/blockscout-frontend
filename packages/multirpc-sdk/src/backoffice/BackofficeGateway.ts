@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { v4 } from 'uuid';
-
+import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { IBackofficeGateway } from './interfaces';
 import {
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
@@ -9,6 +10,8 @@ import {
   IBlockchainEntity,
   ICountersEntity,
   ICountersResponse,
+  IEmailBindingsRequest,
+  IEmailBindingsResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -17,8 +20,6 @@ import {
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
 } from './types';
-import { AXIOS_DEFAULT_CONFIG } from '../common';
-import { IBackofficeGateway } from './interfaces';
 
 export class BackofficeGateway implements IBackofficeGateway {
   public api: AxiosInstance;
@@ -57,6 +58,19 @@ export class BackofficeGateway implements IBackofficeGateway {
   ): Promise<ITransactionsResponse> {
     const { data: response } = await this.api.get<ITransactionsResponse>(
       '/transactions',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getEmailBindings(
+    params: IEmailBindingsRequest,
+  ): Promise<IEmailBindingsResponse> {
+    const { data: response } = await this.api.get<IEmailBindingsResponse>(
+      '/users/emails',
       {
         params,
       },

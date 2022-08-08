@@ -1,6 +1,6 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Space, Tag, TagProps, Typography } from 'antd';
-import { ClientEntity } from 'stores/useClients/types';
+import { ClientEntity } from 'types';
 import { clientTypeNaming, colorMap, getClientTypeExpiration } from './const';
 
 const { Text } = Typography;

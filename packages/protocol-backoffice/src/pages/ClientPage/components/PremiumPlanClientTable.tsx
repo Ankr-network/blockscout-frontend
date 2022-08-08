@@ -1,12 +1,18 @@
-import { observer } from 'mobx-react';
-
 import PremiumClientTable from 'components/PremiumClientTable/PremiumClientTable';
+import { observer } from 'mobx-react';
+import { ClientEmailsStore } from 'stores/ClientEmailsStore';
 import { usePremiumPlanClients } from 'stores/usePremiumPlanClients';
 
-const PremiumPlanClientTable = observer(() => {
-  const gridStore = usePremiumPlanClients();
+interface IPremiumPlanClientTableProps {
+  emailStore: ClientEmailsStore;
+}
 
-  return <PremiumClientTable store={gridStore} />;
-});
+const PremiumPlanClientTable = observer(
+  ({ emailStore }: IPremiumPlanClientTableProps) => {
+    const gridStore = usePremiumPlanClients();
+
+    return <PremiumClientTable store={gridStore} emailStore={emailStore} />;
+  },
+);
 
 export default PremiumPlanClientTable;

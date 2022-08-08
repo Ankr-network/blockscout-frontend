@@ -1,5 +1,5 @@
 import { IPaymentHistoryEntityType } from '../account';
-import { Network, Web3Address } from '../common';
+import { EmailConfirmationStatus, Network, Web3Address } from '../common';
 
 export interface ITransactionsEntity {
   amount?: string;
@@ -43,6 +43,24 @@ export interface IBalancesRequest {
 export interface IBalancesResponse {
   balances: IBalancesEntity[];
   cursor: string; // TODO: backend not sending yet
+}
+
+export interface IEmailBindingEntity {
+  address: Web3Address;
+  email: string;
+  status: EmailConfirmationStatus;
+}
+
+export interface IEmailBindingsRequest {
+  cursor?: string;
+  limit?: number;
+  filter_type?: 'email' | 'address';
+  filter?: string;
+}
+
+export interface IEmailBindingsResponse {
+  bindings?: IEmailBindingEntity[];
+  cursor: string;
 }
 
 export interface IUsageDetailEntity {

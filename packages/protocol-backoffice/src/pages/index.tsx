@@ -3,18 +3,19 @@ import {
   PropertySafetyOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons';
-import { Menu } from 'antd';
 import { observer } from 'mobx-react';
-import { Link, Redirect, Switch, useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Redirect, Switch, useLocation } from 'react-router-dom';
 
 import { GuardAuthRoute } from 'auth/components/GuardAuthRoute';
-import { useMemo } from 'react';
 import { ClientDetailPage } from './ClientDetailPage';
 import { ClientPage } from './ClientPage';
 import { HomePage } from './HomePage';
 import { WorkerPage } from './WorkerPage';
+import { Sidebar } from 'layout/components/Sidebar';
+import { Header } from 'layout/components/Header';
 
-type TRoute = {
+export type TRoute = {
   path: string;
   key: string;
   isMenuItem: boolean;
@@ -56,6 +57,8 @@ const Routes: Record<string, TRoute> = {
   },
 };
 
+const routes = Object.values(Routes);
+
 const findMatchingMenuItemKey = (pathname: string): string[] => {
   const getPath = (fullPath: string) => `/${fullPath.split('/')[1]}`;
   const target = getPath(pathname);
@@ -80,30 +83,11 @@ const IndexPage = observer(() => {
     <div
       style={{ display: 'flex', minHeight: 'inherit', alignItems: 'stretch' }}
     >
-      <div style={{ width: '256px' }}>
-        <Menu
-          selectedKeys={currentPage}
-          style={{
-            height: '100%',
-          }}
-          mode="inline"
-          inlineCollapsed={false}
-          theme="dark"
-        >
-          {Object.values(Routes).map(
-            ({ isMenuItem, menuText, path, key, menuIcon }) =>
-              isMenuItem ? (
-                <Menu.Item key={key} icon={menuIcon}>
-                  <Link to={path}>{menuText}</Link>
-                </Menu.Item>
-              ) : null,
-          )}
-        </Menu>
-      </div>
-
-      <div style={{ width: '100%', padding: '0 20px 0' }}>
+      <Sidebar currentPage={currentPage} routes={routes} />
+      <div style={{ width: '100%', padding: '0 20px 0', position: 'relative' }}>
+        <Header />
         <Switch>
-          {Object.values(Routes).map(({ path, component }) =>
+          {routes.map(({ path, component }) =>
             component ? (
               <GuardAuthRoute
                 exact
