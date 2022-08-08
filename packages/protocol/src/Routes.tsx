@@ -95,7 +95,7 @@ export function Routes() {
           Boolean(cachedAuthData.authorizationToken) && isWalletConnected
         }
         render={() => (
-          <DefaultLayout disableGutters theme={Themes.light}>
+          <DefaultLayout theme={Themes.light} disableGutters hasNoReactSnap>
             <Plan />
           </DefaultLayout>
         )}
