@@ -5,7 +5,7 @@ import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
+import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
@@ -19,9 +19,11 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
 
-  const { data: ankrAPY } = useQuery({
-    type: getAPY,
+  const { data: maxAnkrApy } = useQuery({
+    type: getMaxApy,
   });
+
+  const ankrApy = maxAnkrApy?.toNumber() ?? 0;
 
   return (
     <Box mb={8}>
@@ -31,7 +33,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
       <Features>
         <FeatureItem
-          apy={ankrAPY?.toNumber() ?? 0}
+          apy={ankrApy}
           iconSlot={<AnkrIcon />}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}

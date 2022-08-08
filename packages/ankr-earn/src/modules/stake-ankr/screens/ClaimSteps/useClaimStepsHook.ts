@@ -1,6 +1,5 @@
 import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
@@ -15,7 +14,6 @@ import { useAppDispatch } from 'store/useAppDispatch';
 export interface IClaimStepsHook {
   isLoading: boolean;
   isPending: boolean;
-  amount?: BigNumber;
   nodeProvider?: string;
   transactionId?: string;
   error?: Error;
@@ -65,7 +63,6 @@ export const useClaimStepsHook = (): IClaimStepsHook => {
   }, [dispatch, receipt]);
 
   return {
-    amount: data?.amount,
     isLoading,
     isPending,
     error: error || txFailError,

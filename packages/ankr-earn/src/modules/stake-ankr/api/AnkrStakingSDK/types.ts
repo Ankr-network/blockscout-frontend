@@ -150,3 +150,8 @@ export interface IClaimableUnstake {
   validator: string;
   amount: BigNumber;
 }
+
+export interface IApyData {
+  validator: string;
+  apy: BigNumber;
+}

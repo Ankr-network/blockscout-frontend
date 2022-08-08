@@ -13,8 +13,8 @@ import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBr
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
+import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -55,7 +55,7 @@ const resetRequests = () =>
     getANKRCommonData.toString(),
     getANKRPrice.toString(),
     getANKRTotalInfo.toString(),
-    getAPY.toString(),
+    getMaxApy.toString(),
     getEthCommonData.toString(),
     getFTMHistory.toString(),
     getFTMStats.toString(),
@@ -84,18 +84,17 @@ export const useDashboard = (): void => {
     dispatch(fetchBNBPendingValues());
     dispatch(fetchBNBStats());
     dispatch(fetchPolygonStats());
+    dispatch(getEthCommonData());
+    dispatch(getFTMStats());
+    dispatch(getMetrics());
+    dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
 
     if (featuresConfig.ankrStaking) {
       dispatch(getANKRCommonData());
       dispatch(getANKRPrice());
       dispatch(getANKRTotalInfo());
+      dispatch(getMaxApy());
     }
-
-    dispatch(getAPY());
-    dispatch(getEthCommonData());
-    dispatch(getFTMStats());
-    dispatch(getMetrics());
-    dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
 
     return () => {
       dispatch(abortRequests());

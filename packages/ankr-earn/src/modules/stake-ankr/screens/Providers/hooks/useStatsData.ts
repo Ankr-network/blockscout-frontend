@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
+import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
 
 interface IStatsData {
@@ -18,19 +18,19 @@ export const useStatsData = (): IStatsData => {
   const { data } = useQuery({
     type: getProvidersTotalInfo,
   });
-  const { data: apy } = useQuery({
-    type: getAPY,
+  const { data: maxApy } = useQuery({
+    type: getMaxApy,
   });
 
   useProviderEffect(() => {
     dispatchRequest(getProvidersTotalInfo());
-    dispatchRequest(getAPY());
+    dispatchRequest(getMaxApy());
     dispatchRequest(getANKRPrice());
   }, [dispatchRequest]);
 
   return {
-    highestAPY: apy?.toNumber() ?? 0,
-    tvl: data?.totalTVL.toFormat() ?? '0',
+    highestAPY: maxApy?.toNumber() ?? 0,
+    tvl: data?.totalDelegatedAmount.toFormat() ?? '0',
     lockingPeriod: data?.lockingPeriod ?? 0,
   };
 };

@@ -15,7 +15,9 @@ interface IUseTotalInfo {
   climableRewardsUsd: BigNumber;
   isTotalStakedLoading: boolean;
   isClimableRewardsLoading: boolean;
+  isClaimAllowed: boolean;
   stakeLink: string;
+  claimAllRewardsLink: string;
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
@@ -51,6 +53,8 @@ export const useTotalInfo = (): IUseTotalInfo => {
     climableRewardsUsd: claimableRewards.multipliedBy(usdPrice) ?? ZERO,
     isTotalStakedLoading: false,
     isClimableRewardsLoading: false,
+    isClaimAllowed: !claimableRewards.isZero(),
+    claimAllRewardsLink: RoutesConfig.claimAllRewards.generatePath(),
     stakeLink: RoutesConfig.stake.generatePath(),
   };
 };

@@ -1,12 +1,19 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useClaimAllRewardsDialogStyles = makeStyles(theme => ({
+export const useClaimAllUnstakesStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(7, 0, 5),
+    padding: theme.spacing(5, 4, 5),
+    margin: 'auto',
+    position: 'relative',
     maxWidth: 700,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'column',
   },
 
   header: {
+    fontSize: 30,
+    textAlign: 'center',
     marginBottom: theme.spacing(4),
 
     [theme.breakpoints.up('md')]: {

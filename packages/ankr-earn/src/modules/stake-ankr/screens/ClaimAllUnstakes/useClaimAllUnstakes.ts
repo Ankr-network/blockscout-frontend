@@ -8,13 +8,10 @@ import { useCallback, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { claimAllUnstakes } from 'modules/stake-ankr/actions/claimAllUnstakes';
 import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getHistoryData } from 'modules/stake-ankr/actions/getHistoryData';
-import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
 import { IClaimableUnstake } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 interface IUseTotalInfo {
   isFewClaims: boolean;
@@ -24,18 +21,13 @@ interface IUseTotalInfo {
   loading: boolean;
   total: BigNumber;
   totalUSD: BigNumber;
-  isOpened: boolean;
-  onClose: () => void;
-  onOpen: () => void;
+  closeHref: string;
   onClaim: () => void;
 }
 
-export const useClaim = (): IUseTotalInfo => {
+export const useClaimAllUnstakes = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
   const { loading } = useMutation({ type: claimAllUnstakes });
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
-  });
   const { data, loading: isClaimsLoading } = useQuery({
     type: getAllClaimableUnstakes,
   });
@@ -44,8 +36,6 @@ export const useClaim = (): IUseTotalInfo => {
     () => data?.filter(unstake => !unstake.amount.isZero()) ?? [],
     [data],
   );
-
-  const { isOpened, onClose, onOpen } = useDialog();
 
   const isFewClaims = preparedData.length > 1;
   const isSingleClaim = preparedData.length === 1;
@@ -66,18 +56,8 @@ export const useClaim = (): IUseTotalInfo => {
   }, [dispatchRequest]);
 
   const onClaim = useCallback(() => {
-    dispatchRequest(claimAllUnstakes()).then(({ error }) => {
-      if (!error) {
-        dispatchRequest(
-          getUnstakingData({
-            usdPrice: ankrPrice ?? ZERO,
-          }),
-        );
-        dispatchRequest(getHistoryData());
-        onClose();
-      }
-    });
-  }, [ankrPrice, dispatchRequest, onClose]);
+    dispatchRequest(claimAllUnstakes());
+  }, [dispatchRequest]);
 
   return {
     isFewClaims,
@@ -87,9 +67,7 @@ export const useClaim = (): IUseTotalInfo => {
     loading,
     total,
     totalUSD,
-    isOpened,
-    onClose,
-    onOpen,
+    closeHref: RoutesConfig.main.generatePath(),
     onClaim,
   };
 };

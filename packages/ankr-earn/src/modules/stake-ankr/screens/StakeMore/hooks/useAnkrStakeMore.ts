@@ -34,6 +34,7 @@ interface IUseAnkrStake {
   providerId: string;
   providerName: string;
   amount: BigNumber;
+  apy: BigNumber;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -61,6 +62,9 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
       type: getValidatorDelegatedAmount,
     },
   );
+  const { data: apyData } = useQuery({
+    type: getAPY,
+  });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -70,6 +74,8 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   );
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
+  const apyItem = apyData?.find(x => x.validator === initialProvider);
+  const apy = apyItem ? apyItem.apy : ZERO;
 
   const isApproved = !!approveData;
 
@@ -131,6 +137,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     providerName: providerName ?? '',
     minStake: commonData?.minStake ?? ZERO,
     amount,
+    apy,
     onChange,
     onSubmit,
   };

@@ -17,8 +17,10 @@ const STAKE_MORE_PATH = `${ROOT}stake-more/`;
 const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
 const RESTAKE_PATH = `${ROOT}restake/`;
 const RESTAKE_WITH_PROVIDER_PATH = `${RESTAKE_PATH}?provider=:provider?`;
+const CLAIM_ALL_UNSTAKES_PATH = `${ROOT}claim-all-unstakes/`;
 const CLAIM_UNSTAKES_PATH = `${ROOT}claim-unstakes/`;
 const CLAIM_UNSTAKES_WITH_PROVIDER_PATH = `${CLAIM_UNSTAKES_PATH}?provider=:provider?`;
+const CLAIM_ALL_REWARDS_PATH = `${ROOT}claim-all-rewards/`;
 const CLAIM_REWARDS_PATH = `${ROOT}claim-rewards/`;
 const CLAIM_REWARDS_WITH_PROVIDER_PATH = `${CLAIM_REWARDS_PATH}?provider=:provider?`;
 const UNSTAKE_PATH = `${ROOT}unstake/`;
@@ -110,6 +112,11 @@ export const RoutesConfig = createRouteConfig(
       },
     },
 
+    claimAllUnstakes: {
+      path: CLAIM_ALL_UNSTAKES_PATH,
+      generatePath: () => generatePath(CLAIM_ALL_UNSTAKES_PATH),
+    },
+
     claimRewards: {
       path: CLAIM_REWARDS_PATH,
       generatePath: (provider: string) =>
@@ -121,6 +128,11 @@ export const RoutesConfig = createRouteConfig(
           provider: queryProvider ?? undefined,
         };
       },
+    },
+
+    claimAllRewards: {
+      path: CLAIM_ALL_REWARDS_PATH,
+      generatePath: () => generatePath(CLAIM_ALL_REWARDS_PATH),
     },
 
     claimUnstakesSteps: {
@@ -178,12 +190,20 @@ const Restake = loadComponent(() =>
   import('./screens/Restake').then(module => module.Restake),
 );
 
-const ClaimUnstake = loadComponent(() =>
+const ClaimUnstakes = loadComponent(() =>
   import('./screens/ClaimUnstakes').then(module => module.ClaimUnstakes),
+);
+
+const ClaimAllUnstakes = loadComponent(() =>
+  import('./screens/ClaimAllUnstakes').then(module => module.ClaimAllUnstakes),
 );
 
 const ClaimRewards = loadComponent(() =>
   import('./screens/ClaimRewards').then(module => module.ClaimRewards),
+);
+
+const ClaimAllRewards = loadComponent(() =>
+  import('./screens/ClaimAllRewards').then(module => module.ClaimAllRewards),
 );
 
 const ClaimSteps = loadComponent(() =>
@@ -276,7 +296,18 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimUnstake />
+            <ClaimUnstakes />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.claimAllUnstakes.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <ClaimAllUnstakes />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -288,6 +319,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimRewards />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.claimAllRewards.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <ClaimAllRewards />
           </DefaultLayout>
         </GuardETHRoute>
 

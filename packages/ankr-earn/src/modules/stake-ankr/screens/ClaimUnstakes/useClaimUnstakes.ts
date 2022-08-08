@@ -8,6 +8,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { claimAllForValidator } from 'modules/stake-ankr/actions/claimAllForValidator';
 import { claimUnstakes } from 'modules/stake-ankr/actions/claimUnstakes';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getClaimableRewards } from 'modules/stake-ankr/actions/getClaimableRewards';
 import { getClaimableUnstakes } from 'modules/stake-ankr/actions/getClaimableUnstakes';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
@@ -42,6 +43,9 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     useQuery({ type: getClaimableUnstakes });
   const { data: claimableRewards, loading: isClaimableRewardsLoading } =
     useQuery({ type: getClaimableRewards });
+  const { data: ankrPrice } = useQuery({
+    type: getANKRPrice,
+  });
 
   const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
   const currentProvider = providers?.find(
@@ -52,6 +56,7 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getANKRPrice());
     dispatchRequest(getClaimableUnstakes({ validator: queryProvider }));
     dispatchRequest(getClaimableRewards({ validator: queryProvider }));
   }, [dispatchRequest]);
@@ -73,7 +78,7 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
     claimLoading: false,
-    usdTokenPrice: ZERO,
+    usdTokenPrice: ankrPrice ?? ZERO,
     isClaimRewards,
     onClaimRewardsClick,
     onSubmit,

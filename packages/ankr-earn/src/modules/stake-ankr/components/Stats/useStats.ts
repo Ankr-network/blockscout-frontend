@@ -12,10 +12,11 @@ import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTo
 
 interface IStatsProps {
   amount: BigNumberish;
+  apy: BigNumber;
 }
 
 interface IUseStats {
-  apy: string;
+  apyText: string;
   yearlyEarning: string;
   yearlyEarningUSD?: string;
   totalStaked?: string;
@@ -23,11 +24,8 @@ interface IUseStats {
   stakers?: string;
 }
 
-export const useStats = ({ amount }: IStatsProps): IUseStats => {
+export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
   const dispatchRequest = useDispatchRequest();
-  const { data: ankrAPY } = useQuery({
-    type: getAPY,
-  });
   const { data: ankrPrice } = useQuery({
     type: getANKRPrice,
   });
@@ -35,7 +33,6 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
     type: getProvidersTotalInfo,
   });
 
-  const apy = ankrAPY ?? ZERO;
   const usdPrice = ankrPrice ?? ZERO;
   const yearlyEarning = calculateYearlyEarning(amount, apy);
 
@@ -59,7 +56,7 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
     : undefined;
 
   return {
-    apy: t('stake.stats.apy-value', {
+    apyText: t('stake.stats.apy-value', {
       value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
     yearlyEarning: yearlyEarning.toFormat(),

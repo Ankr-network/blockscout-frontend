@@ -5,9 +5,9 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { EProviderStatus } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface ITableRow {
   provider: string;
@@ -33,8 +33,29 @@ export const useTableData = (): ITableData => {
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
   });
+  const { data: apyData } = useQuery({
+    type: getAPY,
+  });
 
-  const data = providers?.map(mapProviderDemo) || [];
+  const data: ITableRow[] =
+    providers?.map(({ status, validator, totalDelegated, votingPower }) => {
+      const apyItem = apyData?.find(x => x.validator === validator);
+
+      const apy = apyItem ? apyItem.apy.toNumber() : 0;
+
+      return {
+        provider: getDemoProviderName(validator) ?? validator,
+        nodeAmount: 0,
+        apy,
+        stakedPool: totalDelegated.toFormat(),
+        stakedPoolPercent: votingPower,
+        rps: ZERO,
+        online: 0,
+        status: +status,
+        stakeLink: RoutesConfig.stake.generatePath(validator),
+        detailsLink: '',
+      };
+    }) || [];
   const dispatchRequest = useDispatchRequest();
 
   useProviderEffect(() => {
@@ -47,23 +68,3 @@ export const useTableData = (): ITableData => {
     data,
   };
 };
-
-function mapProviderDemo({
-  status,
-  validator,
-  totalDelegated,
-  votingPower,
-}: IValidator): ITableRow {
-  return {
-    provider: 'ANKR',
-    nodeAmount: 0,
-    apy: 5.05,
-    stakedPool: totalDelegated.toFormat(),
-    stakedPoolPercent: votingPower,
-    rps: ZERO,
-    online: 0,
-    status: +status,
-    stakeLink: RoutesConfig.stake.generatePath(validator),
-    detailsLink: '',
-  };
-}

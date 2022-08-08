@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { t } from 'common';
 
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
@@ -8,11 +10,12 @@ import { useStats } from './useStats';
 
 interface IStatsProps {
   amount: BigNumberish;
+  apy: BigNumber;
 }
 
-export const Stats = ({ amount }: IStatsProps): JSX.Element => {
+export const Stats = ({ amount, apy }: IStatsProps): JSX.Element => {
   const {
-    apy,
+    apyText,
     yearlyEarning,
     yearlyEarningUSD,
     totalStaked,
@@ -20,6 +23,7 @@ export const Stats = ({ amount }: IStatsProps): JSX.Element => {
     stakers,
   } = useStats({
     amount,
+    apy,
   });
 
   return (
@@ -27,7 +31,7 @@ export const Stats = ({ amount }: IStatsProps): JSX.Element => {
       <StatsItem
         label={t('stake-ankr.staking.stats.apy')}
         tooltip={t('stake-ankr.staking.stats.apy-tooltip')}
-        value={apy}
+        value={apyText}
       />
 
       <StatsItem

@@ -27,11 +27,17 @@ import { EProviderStatus } from 'modules/stake-ankr/const';
 import ANKR_TOKEN_STAKING_ABI from '../contracts/AnkrTokenStaking.json';
 import STAKING_CONFIG_ABI from '../contracts/StakingConfig.json';
 
-import { ANKR_PROVIDER_READ_ID, VALIDATOR_STATUS_MAPPING } from './const';
+import {
+  ANKR_PROVIDER_READ_ID,
+  ANKR_STAKING_MAX_DECIMALS_LENGTH,
+  SECONDS_IN_A_DAY,
+  VALIDATOR_STATUS_MAPPING,
+} from './const';
 import {
   EAnkrEvents,
   IActiveStakingData,
   IAdditionalActiveStakingData,
+  IApyData,
   IChainConfig,
   IChainParams,
   IClaimableUnstake,
@@ -298,7 +304,10 @@ export class AnkrStakingSDK {
   ): Promise<string> {
     const stakingContract = await this.getAnkrTokenStakingContract();
 
-    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    const hexAmount = convertNumberToHex(
+      amount.decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH),
+      ETH_SCALE_FACTOR,
+    );
 
     const data = stakingContract.methods
       .delegate(validator, hexAmount)
@@ -490,7 +499,9 @@ export class AnkrStakingSDK {
       await this.getStakingRewards(validator, this.currentAccount),
     );
 
-    return delegatorFee.minus(stakingRewards);
+    return delegatorFee
+      .minus(stakingRewards)
+      .decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH);
   }
 
   public async claimAllUnstakes(): Promise<string> {
@@ -575,66 +586,95 @@ export class AnkrStakingSDK {
   }
 
   public async getUnstaking(usdPrice: BigNumber): Promise<IUnstakingData[]> {
-    const allClaimableUnstakes = await this.getAllClaimableUnstakes();
-    let totalUnstakes = allClaimableUnstakes.reduce((acc, unstake) => {
-      acc = acc.plus(unstake.amount);
-
-      return acc;
-    }, ZERO);
-
+    const activeValidators = await this.getActiveValidators();
     const fullUndelegationHistory = await this.getUndelegationHistory({
       staker: this.currentAccount,
     });
+    const undelegatingValidators = new Set(
+      fullUndelegationHistory.map(undelegation => undelegation.validator),
+    );
+    const usingValidators = activeValidators.filter(validator =>
+      undelegatingValidators.has(validator.validator),
+    );
+    const unlockedUndelegationsArr = await Promise.all(
+      activeValidators.map(validator =>
+        this.getClaimableUnstakes(validator.validator),
+      ),
+    );
+    const unlockedUndelegationsMap = new Map(
+      unlockedUndelegationsArr.map((delegation, index) => {
+        return [activeValidators[index].validator, delegation];
+      }),
+    );
 
     const unstakingPeriod = await this.getUnstakingPeriodDays();
     const prevEpochDate = await this.getEpochPrevDate();
     const nextEpochSeconds = await this.getEpochEndSeconds();
 
-    const preparedData = fullUndelegationHistory.reduce<{
-      list: IUnstakingData[];
-      unlockedMap: Map<string, BigNumber>;
-    }>(
-      (result, undelegation) => {
-        const daysLeft = this.calcDayLeft(undelegation.txDate, unstakingPeriod);
+    return usingValidators.reduce<IUnstakingData[]>((result, validator) => {
+      const existingUndelegations = fullUndelegationHistory
+        .filter(undelegation => undelegation.validator === validator.validator)
+        .sort((a, b) => b.txDate.getTime() - a.txDate.getTime());
 
-        const endDate = this.addDays(undelegation.txDate, unstakingPeriod);
+      const totalUnlocked =
+        unlockedUndelegationsMap.get(validator.validator) ?? ZERO;
 
-        const isLockedByEpoch = endDate.getTime() >= prevEpochDate.getTime();
-        if (daysLeft > 0 || isLockedByEpoch) {
-          result.list.push({
-            provider: undelegation.validator,
-            unstakeAmount: this.convertFromWei(undelegation.amount),
-            usdUnstakeAmount: this.convertFromWei(
-              undelegation.amount,
-            ).multipliedBy(usdPrice),
-            daysLeft: isLockedByEpoch
-              ? daysLeft + Math.ceil(nextEpochSeconds / 86_400)
-              : daysLeft,
-          });
-        } else if (totalUnstakes.isGreaterThan(ZERO)) {
-          const amount = result.unlockedMap.get(undelegation.validator) ?? ZERO;
-          result.unlockedMap.set(
-            undelegation.validator,
-            amount.plus(this.convertFromWei(undelegation.amount)),
-          );
-
-          totalUnstakes = totalUnstakes.minus(amount);
-        }
-
-        return result;
-      },
-      { list: [], unlockedMap: new Map<string, BigNumber>() },
-    );
-
-    return [
-      ...Array.from(preparedData.unlockedMap, ([name, value]) => ({
-        provider: name,
-        unstakeAmount: value,
-        usdUnstakeAmount: value.multipliedBy(usdPrice),
+      const unlockedRow: IUnstakingData = {
+        provider: validator.validator,
+        unstakeAmount: totalUnlocked,
+        usdUnstakeAmount: totalUnlocked.multipliedBy(usdPrice),
         daysLeft: 0,
-      })),
-      ...preparedData.list,
-    ];
+      };
+      const lockedArr: IUnstakingData[] = [];
+
+      if (existingUndelegations.length > 1) {
+        const lastUndelegation = existingUndelegations[0];
+
+        const minDaysLeft = this.calcDayLeft(
+          lastUndelegation.txDate,
+          unstakingPeriod,
+        );
+        const lastEndDate = this.addDays(
+          lastUndelegation.txDate,
+          unstakingPeriod,
+        );
+        const isLastLockedByEpoch =
+          lastEndDate.getTime() >= prevEpochDate.getTime();
+
+        if (minDaysLeft > 0 || isLastLockedByEpoch) {
+          for (let i = 0; i < existingUndelegations.length; i += 1) {
+            const undelegation = existingUndelegations[i];
+            const daysLeft = this.calcDayLeft(
+              undelegation.txDate,
+              unstakingPeriod,
+            );
+
+            const endDate = this.addDays(undelegation.txDate, unstakingPeriod);
+            const isLockedByEpoch =
+              endDate.getTime() >= prevEpochDate.getTime();
+
+            if (daysLeft > 0 || isLockedByEpoch) {
+              const amount = this.convertFromWei(undelegation.amount);
+
+              lockedArr.push({
+                provider: undelegation.validator,
+                unstakeAmount: amount,
+                usdUnstakeAmount: amount.multipliedBy(usdPrice),
+                daysLeft: isLockedByEpoch
+                  ? daysLeft + Math.ceil(nextEpochSeconds / SECONDS_IN_A_DAY)
+                  : daysLeft,
+              });
+            }
+          }
+        }
+      }
+
+      result.push(...lockedArr);
+      if (!unlockedRow.unstakeAmount.isZero()) {
+        result.unshift(unlockedRow);
+      }
+      return result;
+    }, []);
   }
 
   public async getUndelegationHistory(
@@ -753,7 +793,6 @@ export class AnkrStakingSDK {
 
   public async getMyActiveStaking(
     usdPrice: BigNumber,
-    apy: BigNumber,
   ): Promise<IActiveStakingData[]> {
     const [
       stakingContract,
@@ -762,6 +801,7 @@ export class AnkrStakingSDK {
       prevEpochDate,
       activeValidators,
       delegationHistory,
+      apyData,
       stakingRewards,
     ] = await Promise.all([
       this.getAnkrTokenStakingContract(),
@@ -772,8 +812,13 @@ export class AnkrStakingSDK {
       this.getDelegationHistory({
         staker: this.currentAccount,
       }),
+      this.getAPY(),
       this.getMyClaimableStakingRewards(),
     ]);
+
+    const apyMap = new Map(
+      apyData.map(apyItem => [apyItem.validator, apyItem.apy]),
+    );
 
     const rewardMap = new Map<string, BigNumber>(
       stakingRewards.map(reward => {
@@ -835,7 +880,7 @@ export class AnkrStakingSDK {
         : false;
 
       const daysLeft = isLockedByEpoch
-        ? delegatingDayLeft + Math.ceil(nextEpochSeconds / 86_400)
+        ? delegatingDayLeft + Math.ceil(nextEpochSeconds / SECONDS_IN_A_DAY)
         : delegatingDayLeft;
 
       const totalUnlocked =
@@ -866,7 +911,8 @@ export class AnkrStakingSDK {
 
           if (detailedDelegatingDayLeft > 0 || isDetailedLockedByEpoch) {
             const detailDaysLeft = isDetailedLockedByEpoch
-              ? detailedDelegatingDayLeft + Math.ceil(nextEpochSeconds / 86_400)
+              ? detailedDelegatingDayLeft +
+                Math.ceil(nextEpochSeconds / SECONDS_IN_A_DAY)
               : detailedDelegatingDayLeft;
 
             detailedData.push({
@@ -897,7 +943,7 @@ export class AnkrStakingSDK {
       if (detailedData?.length === 1 && detailedData[0].isUnlocked) {
         const activeStaking = {
           provider: validator.validator,
-          apy,
+          apy: apyMap.get(validator.validator) ?? ZERO,
           isUnlocked: true,
           stakeAmount: totalDelegatedAmount,
           usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),
@@ -910,7 +956,7 @@ export class AnkrStakingSDK {
       } else {
         const activeStaking = {
           provider: validator.validator,
-          apy,
+          apy: apyMap.get(validator.validator) ?? ZERO,
           isUnlocked: daysLeft ? daysLeft <= 0 : false,
           isPartiallyUnlocked:
             detailedData?.length > 1 &&
@@ -1017,7 +1063,7 @@ export class AnkrStakingSDK {
       this.getMyClaimableStakingRewards(),
     ]);
 
-    const input = rewards.reduce<string[]>((acc, reward) => {
+    const inputs = rewards.reduce<string[]>((acc, reward) => {
       if (reward.amount.isZero()) return acc;
 
       const data = stakingContract.methods
@@ -1026,10 +1072,10 @@ export class AnkrStakingSDK {
 
       acc.push(data);
 
-      return [];
+      return acc;
     }, []);
 
-    const data = stakingContract.methods.multicall(input).encodeABI();
+    const data = stakingContract.methods.multicall(inputs).encodeABI();
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1301,6 +1347,73 @@ export class AnkrStakingSDK {
   }
 
   /**
+   * Get apy for validators.
+   *
+   * @public
+   * @returns {IApyData[]}
+   */
+  public async getAPY(): Promise<IApyData[]> {
+    const [stakingContract, provider, { epoch }] = await Promise.all([
+      this.getAnkrTokenStakingContract(),
+      this.getProvider(),
+      this.getChainParams(),
+    ]);
+    const web3 = provider.getWeb3();
+    const prevEpoch = epoch - 1;
+
+    const validatorDepositedEvents = await stakingContract.getPastEvents(
+      EAnkrEvents.ValidatorDeposited,
+      {
+        fromBlock: 'earliest',
+        toBlock: 'latest',
+      },
+    );
+    const calls = validatorDepositedEvents.map(
+      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
+        web3.eth.getBlock.request(event.blockHash, false, callback),
+    );
+    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
+      calls,
+    );
+    const rewardEvents = blocks
+      .map((block, index) => ({
+        ...validatorDepositedEvents[index],
+        timestamp: block.timestamp as number,
+        txDate: new Date((block.timestamp as number) * 1_000),
+      }))
+      .filter(block => +block.returnValues.epoch === prevEpoch);
+
+    const validators = await this.getActiveValidators(prevEpoch);
+
+    const rewardsMap = rewardEvents.reduce((acc, reward) => {
+      const existedReward = acc.get(reward.returnValues.validator);
+      acc.set(
+        reward.returnValues.validator,
+        existedReward?.plus(this.convertFromWei(reward.returnValues.amount)) ??
+          ZERO,
+      );
+
+      return acc;
+    }, new Map<string, BigNumber>());
+
+    const epochDurationDays = await this.getEpochDurationDays();
+    const yearDays = new BigNumber(365);
+
+    return validators.map(x => {
+      const rewards = rewardsMap.get(x.validator) ?? ZERO;
+
+      return {
+        validator: x.validator,
+        apy: rewards
+          .dividedBy(x.totalDelegated)
+          .multipliedBy(yearDays.dividedBy(epochDurationDays)),
+      };
+    });
+  }
+
+  /**
    * Get delegated ANKR amount for validator.
    *
    * @public
@@ -1398,6 +1511,24 @@ export class AnkrStakingSDK {
 
     return new Date(
       now.getTime() - (blockNumber - prevEpochBlock) * blockTime * 1_000,
+    );
+  }
+
+  private async getEpochDurationDays(): Promise<number> {
+    const { epochBlockInterval } = await this.getChainConfig();
+    const { blockNumber, blockTime } = await this.getChainParams();
+
+    const prevEpochBlock =
+      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+        epochBlockInterval -
+      epochBlockInterval;
+    const nextEpochBlock =
+      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      epochBlockInterval;
+
+    return (
+      Math.ceil((nextEpochBlock - prevEpochBlock) * blockTime) /
+      SECONDS_IN_A_DAY
     );
   }
 }

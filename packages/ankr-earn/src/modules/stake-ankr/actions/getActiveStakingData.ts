@@ -8,18 +8,17 @@ import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetActiveStakingDataArgs {
   usdPrice: BigNumber;
-  apy: BigNumber;
 }
 
 export const getActiveStakingData = createAction<
   RequestAction<IActiveStakingData[], IActiveStakingData[]>,
   [IGetActiveStakingDataArgs]
->(`${ANKR_ACTIONS_PREFIX}getActiveStakingData`, ({ usdPrice, apy }) => ({
+>(`${ANKR_ACTIONS_PREFIX}getActiveStakingData`, ({ usdPrice }) => ({
   request: {
     promise: (async (): Promise<IActiveStakingData[]> => {
       const sdk = await AnkrStakingSDK.getInstance();
 
-      return sdk.getMyActiveStaking(usdPrice, apy);
+      return sdk.getMyActiveStaking(usdPrice);
     })(),
   },
   meta: {

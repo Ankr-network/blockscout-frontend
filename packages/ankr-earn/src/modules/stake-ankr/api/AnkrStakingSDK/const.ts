@@ -18,3 +18,7 @@ export const VALIDATOR_STATUS_MAPPING: Record<string, TValidatorPrettyStatus> =
 export const ANKR_PROVIDER_READ_ID = isMainnet
   ? AvailableReadProviders.ethMainnet
   : AvailableReadProviders.ethGoerli;
+
+export const SECONDS_IN_A_DAY = 86_400;
+
+export const ANKR_STAKING_MAX_DECIMALS_LENGTH = 8;

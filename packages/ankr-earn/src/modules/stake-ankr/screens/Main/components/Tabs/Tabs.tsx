@@ -1,7 +1,7 @@
 import { t } from 'common';
 
 import { Tab, Tabs as BaseTabs } from 'modules/delegate-stake/components/Tabs';
-import { Button } from 'uiKit/Button';
+import { NavLink } from 'uiKit/NavLink';
 
 import { useTabsStyles } from './useTabsStyles';
 
@@ -10,7 +10,7 @@ interface ITabsProps {
   isExistsUnstakingData: boolean;
   newUnstakingAmount: number;
   isShowingButton: boolean;
-  onOpen: () => void;
+  claimAllLink: string;
   onChangeTab(newTab: string): void;
 }
 
@@ -19,7 +19,7 @@ export const Tabs = ({
   isExistsUnstakingData,
   newUnstakingAmount,
   isShowingButton,
-  onOpen,
+  claimAllLink,
   onChangeTab,
 }: ITabsProps): JSX.Element => {
   const classes = useTabsStyles();
@@ -57,9 +57,9 @@ export const Tabs = ({
       </BaseTabs>
 
       {isShowingButton ? (
-        <Button className={classes.btn} variant="text" onClick={onOpen}>
+        <NavLink className={classes.btn} href={claimAllLink} variant="text">
           {t('stake-ankr.tabs.claim-all')}
-        </Button>
+        </NavLink>
       ) : undefined}
     </div>
   );
