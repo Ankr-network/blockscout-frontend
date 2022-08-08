@@ -1,6 +1,4 @@
-import { Button } from '@material-ui/core';
-
-import { ChainsRoutesConfig } from 'domains/chains/Routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { PageHeader } from 'modules/common/components/PageHeader';
 import { t } from 'modules/i18n/utils/intl';
@@ -11,11 +9,11 @@ import { useChainsStyles } from './ChainsStyles';
 import { InfoBanner } from './components/Banner';
 import { ChainsList } from './components/ChainsList';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 import { UsageSummary } from './components/UsageSummary';
+import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
 import { useChains } from './hooks/useChains';
-
-const ENABLE_HOW_TO_INTEGRATE = false;
 
 export const Chains = () => {
   const {
@@ -57,23 +55,18 @@ export const Chains = () => {
       <PageHeader
         title={t('chains.title')}
         select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
-        button={
-          ENABLE_HOW_TO_INTEGRATE && (
-            <Button variant="text" color="primary" disabled>
-              {t('chains.integrate-button')}
-            </Button>
-          )
-        }
       />
-      {loading ? (
-        <Spinner />
-      ) : (
-        <ChainsList
-          chains={chains}
-          sortType={sortType}
-          statsTimeframe={statsTimeframe}
-        />
-      )}
+      <NoReactSnap fallback={<ReactSnapChainsLinksGenerator chains={chains} />}>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <ChainsList
+            chains={chains}
+            sortType={sortType}
+            statsTimeframe={statsTimeframe}
+          />
+        )}
+      </NoReactSnap>
     </>
   );
 };

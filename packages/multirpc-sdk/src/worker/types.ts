@@ -16,8 +16,6 @@ export interface IPrivateEndpoint {
   scheme: string;
 }
 
-type ISO2CountryCode = string;
-
 export type IProvider =
   | {
       address: string;
@@ -34,23 +32,6 @@ export interface IWorkerEndpoint {
   id: string;
   owner: string;
   user: string;
-}
-
-export interface IWorkerTotalStats {
-  count: number;
-  sum: {
-    edgeResponseBytes: number;
-    visits: number;
-  };
-}
-
-export interface IWorkerUserLocation {
-  city: string;
-  continent: string;
-  country: ISO2CountryCode;
-  id: string;
-  name: string;
-  timezone: string;
 }
 
 export type RestrictedDomains = string[];

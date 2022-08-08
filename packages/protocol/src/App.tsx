@@ -13,6 +13,7 @@ import { persistor, store } from './store';
 import { ZendeskMounter } from 'modules/common/components/ZendeskMounter';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
-            <ZendeskMounter />
+            <NoReactSnap>
+              <ZendeskMounter />
+            </NoReactSnap>
             <ScrollToTop />
             <BreadcrumbsProvider>
               <Routes />

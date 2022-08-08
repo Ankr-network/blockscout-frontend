@@ -1,5 +1,5 @@
-import { ChainsListProps, Chain, SortChainsParams } from './ChainsListTypes';
 import { SortType } from 'domains/chains/types';
+import { Chain, ChainsListProps, SortChainsParams } from './ChainsListTypes';
 
 export const PERIOD = '24h';
 
@@ -8,6 +8,7 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
 
   return data.map(item => {
     const {
+      coinName,
       icon,
       id,
       isArchive,
@@ -19,6 +20,7 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
     } = item;
 
     return {
+      coinName,
       icon,
       id,
       isArchive,
@@ -29,33 +31,6 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       urls,
     };
   });
-};
-
-const chainNameCoinMap = {
-  avalanche: 'avax',
-  ethereum: 'eth',
-  bsc: 'bnb',
-  fantom: 'ftm',
-  gnosis: 'gno',
-  harmony: 'one',
-  iotex: 'IOTX',
-  metis: 'mts',
-  moonbeam: 'glmr',
-  near: 'near',
-  nervos: 'ckb',
-  polygon: 'matic',
-  solana: 'sol',
-  syscoin: 'sys',
-  arbitrum: 'aeth',
-  optimism: 'op',
-  tron: 'trx',
-  bttc: 'btt',
-};
-
-export type TChainName = keyof typeof chainNameCoinMap;
-
-export const getChainCoin = (chainName: TChainName) => {
-  return chainNameCoinMap[chainName] || chainName;
 };
 
 const publicChainsSorter = (a: Chain, b: Chain) =>

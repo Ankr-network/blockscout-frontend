@@ -8,7 +8,7 @@ import {
   UUID,
   Web3Address,
 } from '../common';
-import { IApiGateway } from './interfaces';
+import { IConsensusGateway } from './interfaces';
 import {
   IGenerateThresholdKeyData,
   IGenerateThresholdKeyRequest,
@@ -32,38 +32,26 @@ import {
   ThresholdKeys,
 } from './types';
 
-export class ApiGateway implements IApiGateway {
-  public publicApi: AxiosInstance;
+export class ConsensusGateway implements IConsensusGateway {
+  public api: AxiosInstance;
 
-  public privateApi: AxiosInstance;
-
-  constructor(
-    private readonly publicConfig: AxiosRequestConfig,
-    private readonly privateConfig: AxiosRequestConfig,
-  ) {
-    this.publicApi = axios.create({
-      ...publicConfig,
-      ...AXIOS_DEFAULT_CONFIG,
-    });
-    this.privateApi = axios.create({
-      ...privateConfig,
+  constructor(private readonly config: AxiosRequestConfig) {
+    this.api = axios.create({
+      ...config,
       ...AXIOS_DEFAULT_CONFIG,
     });
   }
 
   public async getPlayers(offset: number, limit: number): Promise<Players> {
-    const { data } = await this.publicApi.get<IGetPlayersData>(
-      '/v1alpha/player',
-      {
-        params: { offset, limit },
-      },
-    );
+    const { data } = await this.api.get<IGetPlayersData>('/v1alpha/player', {
+      params: { offset, limit },
+    });
 
     return [data.players || [], data.has_more || false];
   }
 
   public async getProposals(offset: number, limit: number): Promise<Proposals> {
-    const { data } = await this.publicApi.get<IGetProposalsData>(
+    const { data } = await this.api.get<IGetProposalsData>(
       '/v1alpha/proposal',
       {
         params: { offset, limit },
@@ -78,7 +66,7 @@ export class ApiGateway implements IApiGateway {
     limit: number,
     filter: IThresholdKeysFilter = {},
   ): Promise<ThresholdKeys> {
-    const { data } = await this.publicApi.get<IGetThresholdKeysData>(
+    const { data } = await this.api.get<IGetThresholdKeysData>(
       '/v1alpha/threshold_key',
       {
         params: { offset, limit, ...filter },
@@ -89,7 +77,7 @@ export class ApiGateway implements IApiGateway {
   }
 
   public async getThresholdKeyById(id: UUID): Promise<IGetThresholdKeyData> {
-    const { data } = await this.publicApi.get<IGetThresholdKeyData>(
+    const { data } = await this.api.get<IGetThresholdKeyData>(
       `/v1alpha/threshold_key/${id}`,
     );
 
@@ -101,7 +89,7 @@ export class ApiGateway implements IApiGateway {
     offset?: number,
     limit?: number,
   ): Promise<JwtTokens> {
-    const { data } = await this.publicApi.get<IGetJwtTokensData>(
+    const { data } = await this.api.get<IGetJwtTokensData>(
       '/v1alpha/jwt_token',
       {
         params: { owner_address: address, offset, limit },
@@ -112,15 +100,13 @@ export class ApiGateway implements IApiGateway {
   }
 
   public async getJwtTokenById(id: UUID): Promise<IJwtToken> {
-    const { data } = await this.publicApi.get<IJwtToken>(
-      `/v1alpha/jwt_token/${id}`,
-    );
+    const { data } = await this.api.get<IJwtToken>(`/v1alpha/jwt_token/${id}`);
 
     return data;
   }
 
   async requestJwtToken(request: IJwtTokenRequest): Promise<IJwtToken> {
-    const { data } = await this.publicApi.post<IRequestJwtTokenData>(
+    const { data } = await this.api.post<IRequestJwtTokenData>(
       '/v1alpha/jwt_token/request',
       request,
     );
@@ -132,7 +118,7 @@ export class ApiGateway implements IApiGateway {
     offset: number,
     limit: number,
   ): Promise<NotarizedTransactions> {
-    const { data } = await this.publicApi.get<IGetNotarizedTransactionsData>(
+    const { data } = await this.api.get<IGetNotarizedTransactionsData>(
       '/v1alpha/notarized_transaction',
       {
         params: { offset, limit },
@@ -145,7 +131,7 @@ export class ApiGateway implements IApiGateway {
   public async generateThresholdKey(
     request: IGenerateThresholdKeyRequest,
   ): Promise<IThresholdKey> {
-    const { data } = await this.privateApi.post<IGenerateThresholdKeyData>(
+    const { data } = await this.api.post<IGenerateThresholdKeyData>(
       '/private/generate_threshold_key',
       request,
     );
@@ -156,7 +142,7 @@ export class ApiGateway implements IApiGateway {
   public async issueJwtToken(
     request: IIssueJwtTokenRequest,
   ): Promise<IJwtToken> {
-    const { data } = await this.privateApi.post<IIssueJwtTokenData>(
+    const { data } = await this.api.post<IIssueJwtTokenData>(
       '/private/issue_jwt_token',
       request,
     );
@@ -167,7 +153,7 @@ export class ApiGateway implements IApiGateway {
   public async notarizeTransaction(
     request: INotarizeTransactionRequest,
   ): Promise<INotarizedTransaction> {
-    const { data } = await this.privateApi.post<INotarizeTransactionData>(
+    const { data } = await this.api.post<INotarizeTransactionData>(
       '/private/notarize_transaction',
       request,
     );

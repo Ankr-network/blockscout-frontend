@@ -34,15 +34,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   req: {
     display: 'flex',
     alignItems: 'center',
-  },
-  day: {
-    marginLeft: 6,
-    padding: '4px 8px',
-    color: theme.palette.text.primary,
-    opacity: 0.5,
-    fontSize: 12,
-    border: `1px solid rgba(31, 34, 38, 0.1)`,
-    borderRadius: 18,
+    gap: theme.spacing(1),
   },
   skeleton: {
     width: '100%',
