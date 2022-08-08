@@ -2,7 +2,7 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { UNSTAKE_PATH } from 'modules/common/const';
+import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
@@ -19,8 +19,16 @@ const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/`;
 const UNSTAKE_MATIC_BY_TOKEN_PATH = `${UNSTAKE_MATIC_PATH}?token=:token?`;
 const STEP_STAKE_MATIC_PATH = `${ROOT}:tokenOut/:txHash/`;
 
+/**
+ *  TODO For development only. Remove it (MATIC on Polygon)
+ */
+const TMP_PATH = `${ROOT}network-chooser/`;
+
 export const RoutesConfig = createRouteConfig(
   {
+    networkChooser: {
+      path: TMP_PATH,
+    },
     stake: {
       path: ROOT,
       generatePath: (token?: TMaticSyntToken) => {
@@ -52,6 +60,10 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
+const NetworkChooser = loadComponent(() =>
+  import('./screens/NetworkChooser').then(module => module.NetworkChooser),
+);
+
 const Stake = loadComponent(() =>
   import('./screens/StakePolygon').then(module => module.StakePolygon),
 );
@@ -70,6 +82,12 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
+        {featuresConfig.maticPolygonStaking && (
+          <Route exact path={RoutesConfig.networkChooser.path}>
+            <NetworkChooser />
+          </Route>
+        )}
+
         <GuardETHRoute
           exact
           availableNetworks={MATIC_STAKING_NETWORKS}
