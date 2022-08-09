@@ -14,6 +14,7 @@ export enum ChainGroupID {
   KOVAN = 'kovan',
   NERVOS_EVM = 'nervos-evm',
   NERVOS_GW = 'nervos-gw',
+  NERVOS_CKB = 'nervos-ckb',
   P_CHAIN = 'p-chain',
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',

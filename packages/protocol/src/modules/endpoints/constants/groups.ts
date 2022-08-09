@@ -110,6 +110,12 @@ export const chainGroups: ChainGroup[] = [
     chains: ['nervos_gw'],
   },
   {
+    id: ChainGroupID.NERVOS_CKB,
+    name: getName('nervos-ckb'),
+    pluralName: getName('nervos-ckb', true),
+    chains: ['nervos_ckb'],
+  },
+  {
     id: ChainGroupID.SOLANA,
     name: getName('solana-api'),
     pluralName: getName('solana-api', true),
