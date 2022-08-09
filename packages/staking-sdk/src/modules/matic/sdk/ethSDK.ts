@@ -14,7 +14,7 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { ApiGateway } from '../api';
+import { ApiGateway } from '../../api';
 import {
   configFromEnv,
   ETH_NETWORK_BY_ENV,
@@ -22,11 +22,11 @@ import {
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
-} from '../common';
-import ABI_AMATICB from '../contracts/aMATICb.json';
-import ABI_AMATICC from '../contracts/aMATICc.json';
-import ABI_ERC20 from '../contracts/IERC20.json';
-import ABI_POLYGON_POOL from '../contracts/PolygonPoolV3.json';
+} from '../../common';
+import ABI_AMATICB from '../../contracts/aMATICb.json';
+import ABI_AMATICC from '../../contracts/aMATICc.json';
+import ABI_ERC20 from '../../contracts/IERC20.json';
+import ABI_POLYGON_POOL from '../../contracts/PolygonPoolV3.json';
 import {
   IPendingData,
   ITxEventsHistoryGroupItem,
@@ -37,41 +37,40 @@ import {
   ITxHistoryEventData,
   IStakeData,
   getFilteredContractEvents,
-} from '../stake';
-import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
-import { convertNumberToHex } from '../utils';
-
+} from '../../stake';
+import { ISwitcher, IFetchTxData, IShareArgs } from '../../switcher';
+import { convertNumberToHex } from '../../utils';
 import {
   ALLOWANCE_RATE,
   BLOCK_OFFSET,
   MAX_BLOCK_RANGE,
   POLYGON_PROVIDER_READ_ID,
-} from './const';
+} from '../const';
 import {
   TMaticSyntToken,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
-  IPolygonSDKProviders,
-  EPolygonErrorCodes,
+  IMaticSDKProviders,
+  EMaticSDKErrorCodes,
   IUnstakeFeeData,
-} from './types';
+} from '../types';
 
 /**
- * PolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool.
+ * MaticEthSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool.
  *
  * For more information on Polygon Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics).
  *
  * @class
  */
-export class PolygonSDK implements ISwitcher, IStakable {
+export class MaticEthSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
    * 
-   * @type {PolygonSDK}
+   * @type {MaticEthSDK}
    * @static
    * @private
    */
-  private static instance?: PolygonSDK;
+  private static instance?: MaticEthSDK;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -108,13 +107,13 @@ export class PolygonSDK implements ISwitcher, IStakable {
   private currentAccount: string;
 
   /**
-   * Private constructor. Instead, use `PolygonSDK.getInstance`.
+   * Private constructor. Instead, use `MaticEthSDK.getInstance`.
    *
    * @constructor
    * @private
    */
-  private constructor({ writeProvider, readProvider }: IPolygonSDKProviders) {
-    PolygonSDK.instance = this;
+  private constructor({ writeProvider, readProvider }: IMaticSDKProviders) {
+    MaticEthSDK.instance = this;
 
     const config = configFromEnv();
     this.readProvider = readProvider;
@@ -131,12 +130,12 @@ export class PolygonSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IPolygonSDKProviders>} [args] - User defined providers.
-   * @returns {Promise<PolygonSDK>}
+   * @param {Partial<IMaticSDKProviders>} [args] - User defined providers.
+   * @returns {Promise<MaticEthSDK>}
    */
   public static async getInstance(
-    args?: Partial<IPolygonSDKProviders>,
-  ): Promise<PolygonSDK> {
+    args?: Partial<IMaticSDKProviders>,
+  ): Promise<MaticEthSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
       args?.writeProvider ?? providerManager.getETHWriteProvider(),
@@ -145,16 +144,16 @@ export class PolygonSDK implements ISwitcher, IStakable {
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
     const addressHasNotBeenUpdated =
-      PolygonSDK.instance?.currentAccount === writeProvider.currentAccount;
+      MaticEthSDK.instance?.currentAccount === writeProvider.currentAccount;
     const hasNewProvider =
-      PolygonSDK.instance?.writeProvider === writeProvider &&
-      PolygonSDK.instance?.readProvider === readProvider;
+      MaticEthSDK.instance?.writeProvider === writeProvider &&
+      MaticEthSDK.instance?.readProvider === readProvider;
 
-    if (PolygonSDK.instance && addressHasNotBeenUpdated && hasNewProvider) {
-      return PolygonSDK.instance;
+    if (MaticEthSDK.instance && addressHasNotBeenUpdated && hasNewProvider) {
+      return MaticEthSDK.instance;
     }
 
-    const instance = new PolygonSDK({ writeProvider, readProvider });
+    const instance = new MaticEthSDK({ writeProvider, readProvider });
     const isEthChain = await instance.isEthNetwork(writeProvider);
 
     if (isEthChain && !writeProvider.isConnected()) {
@@ -427,7 +426,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
 
     const balance = await aMaticbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -445,7 +444,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
 
     const balance = await aMaticCTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -463,7 +462,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
 
     const ratio = await aMaticCTokenContract.methods.ratio().call();
 
@@ -481,7 +480,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
     const { contractConfig } = configFromEnv();
 
     const allowance = await aMaticCTokenContract.methods
@@ -514,7 +513,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticCTokenContract = PolygonSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
 
     const data = aMaticCTokenContract.methods
       .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
@@ -541,7 +540,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -550,7 +549,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
       .lockShares(convertNumberToHex(amount, scale))
@@ -577,7 +576,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   }: IShareArgs): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
     }
 
     if (!this.writeProvider.isConnected()) {
@@ -586,7 +585,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticbTokenContract = PolygonSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
       .unlockShares(convertNumberToHex(amount, scale))
@@ -881,6 +880,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aMATICb or aMATICc)
+   * @param {number} [scale = ETH_SCALE_FACTOR] - scale factor for amount
    * @returns {Promise<IStakeData>}
    */
   public async stake(
@@ -972,7 +972,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
-   * @param {number} [scale] - scale factor for amount
+   * @param {number} [scale = ETH_SCALE_FACTOR] - scale factor for amount
    * @returns {Promise<void>}
    */
   public async unstake(
@@ -981,7 +981,7 @@ export class PolygonSDK implements ISwitcher, IStakable {
     scale = ETH_SCALE_FACTOR,
   ): Promise<void> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
-      throw new Error(EPolygonErrorCodes.ZERO_AMOUNT);
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
     }
 
     const { contractConfig } = configFromEnv();

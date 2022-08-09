@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { PolygonSDK } from '@ankr.com/staking-sdk';
+import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -24,7 +24,7 @@ export const unstake = createSmartAction<
 >('polygon/unstake', ({ amount, token }) => ({
   request: {
     promise: (async () => {
-      const sdk = await PolygonSDK.getInstance();
+      const sdk = await MaticEthSDK.getInstance();
       return sdk.unstake(amount, token);
     })(),
   },

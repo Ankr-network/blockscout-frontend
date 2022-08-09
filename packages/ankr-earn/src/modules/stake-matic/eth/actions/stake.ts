@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { PolygonSDK } from '@ankr.com/staking-sdk';
+import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -25,7 +25,7 @@ export const stake = createSmartAction<
 >('polygon/stake', ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<{ txHash: string }> => {
-      const sdk = await PolygonSDK.getInstance();
+      const sdk = await MaticEthSDK.getInstance();
       return sdk.stake(amount, token);
     })(),
   },

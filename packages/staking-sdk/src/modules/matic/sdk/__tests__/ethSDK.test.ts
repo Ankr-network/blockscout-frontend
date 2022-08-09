@@ -7,21 +7,21 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { PolygonSDK } from '..';
-import { ETH_SCALE_FACTOR, ZERO } from '../../common';
-import { BLOCK_OFFSET } from '../const';
+import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
+import { BLOCK_OFFSET } from '../../const';
 import {
-  EPolygonErrorCodes,
+  EMaticSDKErrorCodes,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
-} from '../types';
+} from '../../types';
+import { MaticEthSDK } from '../ethSDK';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 
-describe('modules/polygon/sdk', () => {
+describe('modules/matic/sdk/ethSDK', () => {
   const defaultContract = {
     methods: {},
   };
@@ -69,13 +69,13 @@ describe('modules/polygon/sdk', () => {
   });
 
   test('should initialize sdk', async () => {
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     expect(sdk).toBeDefined();
   });
 
   test('should initialize sdk with user providers', async () => {
-    const sdk = await PolygonSDK.getInstance({
+    const sdk = await MaticEthSDK.getInstance({
       readProvider: defaultReadProvider as unknown as Web3KeyReadProvider,
       writeProvider: defaultWriteProvider as unknown as Web3KeyWriteProvider,
     });
@@ -87,7 +87,7 @@ describe('modules/polygon/sdk', () => {
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.addTokenToWallet('aMATICb');
 
@@ -105,7 +105,7 @@ describe('modules/polygon/sdk', () => {
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.addTokenToWallet('aMATICc');
 
@@ -140,7 +140,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     await sdk.unstake(new BigNumber(1), 'aMATICc');
 
@@ -154,10 +154,10 @@ describe('modules/polygon/sdk', () => {
   });
 
   test('should throw error if unstake amount is less than or equals to zero', async () => {
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     expect(sdk.unstake(new BigNumber(0), 'aMATICb')).rejects.toThrow(
-      EPolygonErrorCodes.ZERO_AMOUNT,
+      EMaticSDKErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -173,7 +173,7 @@ describe('modules/polygon/sdk', () => {
       .query({ address: 'address' })
       .reply(200, expectedData);
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const data = await sdk.getUnstakeFee();
 
@@ -205,7 +205,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const { txHash: txHash1 } = await sdk.stake(new BigNumber(12), 'aMATICc');
 
@@ -221,7 +221,7 @@ describe('modules/polygon/sdk', () => {
   });
 
   test('should return tx receipt properly', async () => {
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const receipt = await sdk.fetchTxReceipt('hash');
 
@@ -245,7 +245,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const data = await sdk.fetchTxData('hash');
 
@@ -273,7 +273,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.getMinimumStake();
 
@@ -297,7 +297,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.getPendingClaim();
 
@@ -323,7 +323,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const [balance, ratio, allowance] = await Promise.all([
       sdk.getACBalance(),
@@ -353,7 +353,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const balance = await sdk.getABBalance();
 
@@ -378,7 +378,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const balance = await sdk.getMaticBalance();
 
@@ -402,7 +402,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     await sdk.approveACForAB(new BigNumber(1), ETH_SCALE_FACTOR);
 
@@ -436,7 +436,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     await sdk.lockShares({ amount: new BigNumber(10_000) });
 
@@ -467,7 +467,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     await sdk.unlockShares({ amount: new BigNumber(10_000) });
 
@@ -500,10 +500,10 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     expect(sdk.lockShares({ amount: ZERO })).rejects.toThrowError(
-      EPolygonErrorCodes.ZERO_AMOUNT,
+      EMaticSDKErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -524,10 +524,10 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     expect(sdk.unlockShares({ amount: ZERO })).rejects.toThrowError(
-      EPolygonErrorCodes.ZERO_AMOUNT,
+      EMaticSDKErrorCodes.ZERO_AMOUNT,
     );
   });
 
@@ -575,7 +575,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const data = await sdk.getPendingData();
 
@@ -653,7 +653,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.getTxEventsHistory();
 
@@ -738,7 +738,7 @@ describe('modules/polygon/sdk', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    const sdk = await PolygonSDK.getInstance();
+    const sdk = await MaticEthSDK.getInstance();
 
     const result = await sdk.getTxEventsHistory();
 

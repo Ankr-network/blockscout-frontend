@@ -1,7 +1,7 @@
 import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
- * Available tokens for PolygonSDK
+ * Available tokens for MaticSDK
  */
 export type TMaticSyntToken = 'aMATICc' | 'aMATICb';
 
@@ -26,17 +26,17 @@ export enum EPolygonPoolEventsMap {
 }
 
 /**
- * Internal providers for PolygonSDK initializator
+ * Internal providers for MaticSDK initializator
  */
-export interface IPolygonSDKProviders {
+export interface IMaticSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
 }
 
 /**
- * Error codes for PolygonSDK
+ * Error codes for MaticSDK
  */
-export enum EPolygonErrorCodes {
+export enum EMaticSDKErrorCodes {
   ZERO_AMOUNT = 'zero-amount',
 }
 

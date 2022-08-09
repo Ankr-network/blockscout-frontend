@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 
-import { PolygonSDK } from '@ankr.com/staking-sdk';
+import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -23,7 +23,7 @@ export const fetchStats = createSmartAction<
 >('polygon/fetchStats', () => ({
   request: {
     promise: async (): Promise<IFetchStatsResponseData> => {
-      const sdk = await PolygonSDK.getInstance();
+      const sdk = await MaticEthSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 
       const [
