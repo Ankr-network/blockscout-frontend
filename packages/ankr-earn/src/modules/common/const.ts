@@ -47,7 +47,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
-export const isLocal = !!process.env.REACT_APP_IS_LOCAL;
+export const isLocal = process.env.REACT_APP_IS_LOCAL === 'true';
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
@@ -106,7 +106,7 @@ export const featuresConfig /* Record<string: boolean> */ = {
   stakeETHWithoutClaim: currentEnv !== Env.Production,
   isActivePolkadotClaiming: true,
   isActivePolkadotStaking: true,
-  newDashboard: currentEnv !== Env.Production,
+  newDashboard: isLocal,
   ankrStaking: currentEnv !== Env.Production,
   mgnoStaking: currentEnv !== Env.Production,
   maticLandingLink: currentEnv !== Env.Production,
