@@ -29,8 +29,6 @@ export const ChainNodesTable = ({
     setPage(params.page || 1);
   }, []);
 
-  if (rows.length === 0) return null;
-
   return (
     <TableContainer component={Paper} className={classes.root} elevation={0}>
       <TooltipWrapper
@@ -51,6 +49,7 @@ export const ChainNodesTable = ({
         isMoreRowsAvailable={slicedRows.length < rows.length}
         classes={{ container: classes.tableContainer }}
         minWidth={550}
+        emptyMessage={t('chain-item.nodes-table.empty')}
       />
     </TableContainer>
   );
