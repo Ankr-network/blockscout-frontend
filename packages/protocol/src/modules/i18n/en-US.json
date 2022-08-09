@@ -196,6 +196,7 @@
         "etherium-endpoint": "Ethereum Endpoint{plural}",
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
+        "nervos-ckb": "Nervos CKB Endpoint{plural}",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
@@ -267,6 +268,7 @@
     "nodes-table": {
       "header": "Nodes",
       "more": "Show 10 more",
+      "empty": "There are no nodes to display",
       "tooltip-text": "Height, weight and availability of&nbsp;nodes depends on&nbsp;location.",
       "head": {
         "node": "Node",
