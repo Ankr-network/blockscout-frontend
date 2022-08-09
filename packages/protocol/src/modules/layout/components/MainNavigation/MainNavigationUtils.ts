@@ -1,6 +1,10 @@
 import { History } from 'history';
 
-import { ChainsRoutesConfig, PATH_CHAINS } from 'domains/chains/routes';
+import {
+  ChainsRoutesConfig,
+  PATH_CHAIN_DETAILS,
+  PATH_ADD_ENDPOINT,
+} from 'domains/chains/routes';
 import { ReactComponent as BoxIcon } from 'uiKit/Icons/box.svg';
 import { ReactComponent as BillingIcon } from 'uiKit/Icons/billing.svg';
 import { ReactComponent as PricingIcon } from 'uiKit/Icons/pricing.svg';
@@ -12,6 +16,7 @@ import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { isMatchedPath } from 'modules/common/utils/isMatchedPath';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
@@ -23,7 +28,13 @@ const isDashboardActive: IsActive = (
   match: any,
   location: History['location'],
 ) => {
-  return match?.isExact || location.pathname.includes(PATH_CHAINS);
+  if (match?.isExact) return match?.isExact;
+
+  const hasMatchedPath = [PATH_CHAIN_DETAILS, PATH_ADD_ENDPOINT]
+    .map(path => isMatchedPath(location.pathname, path))
+    .some(item => item?.isExact);
+
+  return hasMatchedPath;
 };
 
 export const getNavigationList = (

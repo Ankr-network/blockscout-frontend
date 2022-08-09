@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { t } from 'modules/i18n/utils/intl';
-import { PATH_CHAINS } from 'domains/chains/routes';
+import { INDEX_PATH, PATH_CHAIN_DETAILS } from 'domains/chains/routes';
 import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
+import { isMatchedPath } from 'modules/common/utils/isMatchedPath';
 
 const PROTOCOL_URL = 'https://www.ankr.com/protocol';
 
@@ -17,17 +18,23 @@ export const getChainName = (chainId: string) => {
 
 const getLocation = (pathname: string): string => {
   let location = '';
-  if (new RegExp(`${PATH_CHAINS}[a-z]+/`).test(pathname)) {
-    if (pathname === `${PATH_CHAINS}eth/`) {
+
+  const isChainDetailsPath = isMatchedPath(
+    pathname,
+    PATH_CHAIN_DETAILS,
+  )?.isExact;
+
+  if (isChainDetailsPath) {
+    if (pathname === `${INDEX_PATH}eth/`) {
       location = 'chain-item-eth.';
-    } else if (pathname === `${PATH_CHAINS}bsc/`) {
+    } else if (pathname === `${INDEX_PATH}bsc/`) {
       location = 'chain-item-bsc.';
-    } else if (pathname === `${PATH_CHAINS}fantom/`) {
+    } else if (pathname === `${INDEX_PATH}fantom/`) {
       location = 'chain-item-fantom.';
     } else {
       location = 'chain-item.';
     }
-  } else if (pathname === PATH_CHAINS) {
+  } else if (pathname === INDEX_PATH) {
     location = 'public.';
   } else if (pathname === PATH_PROVIDERS) {
     location = 'providers.';
@@ -63,7 +70,7 @@ export const useMetatags = (pathname: string) => {
     let name = '';
     if (location.indexOf('chain-item') > -1) {
       name = getChainName(
-        pathname.substring(PATH_CHAINS.length, pathname.length - 1),
+        pathname.substring(INDEX_PATH.length, pathname.length),
       );
     }
 

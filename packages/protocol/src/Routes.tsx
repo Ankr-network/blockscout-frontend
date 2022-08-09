@@ -1,5 +1,5 @@
+import { Route, Switch } from 'react-router-dom';
 import { useMemo } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
   RequestExplorerRoutes,
@@ -11,7 +11,6 @@ import {
   ChainPrivateRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
-  INDEX_PATH,
 } from './domains/chains/routes';
 import {
   ProvidersRoutes,
@@ -47,36 +46,6 @@ export function Routes() {
 
   return (
     <Switch>
-      <Route
-        exact
-        path={['/public/']}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <Redirect to={INDEX_PATH} />
-          </DefaultLayout>
-        )}
-      />
-      <GuardAuthProviderRoute
-        exact
-        path={[ChainsRoutesConfig.addEndpoint.path]}
-        render={() => (
-          <DefaultLayout>
-            <ChainPrivateRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <Route
-        exact
-        path={[
-          ChainsRoutesConfig.chains.path,
-          ChainsRoutesConfig.chainDetails.path,
-        ]}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <ChainsRoutes />
-          </DefaultLayout>
-        )}
-      />
       <Route
         exact
         path={[ProvidersRoutesConfig.providers.path]}
@@ -130,6 +99,28 @@ export function Routes() {
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <RequestExplorerRoutes />
+          </DefaultLayout>
+        )}
+      />
+      {/* We should keep routes with dynamic `:chainId` after static routes */}
+      <GuardAuthProviderRoute
+        exact
+        path={[ChainsRoutesConfig.addEndpoint.path]}
+        render={() => (
+          <DefaultLayout>
+            <ChainPrivateRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[
+          ChainsRoutesConfig.chains.path,
+          ChainsRoutesConfig.chainDetails.path,
+        ]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <ChainsRoutes />
           </DefaultLayout>
         )}
       />
