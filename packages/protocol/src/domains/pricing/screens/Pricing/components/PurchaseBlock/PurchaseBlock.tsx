@@ -6,7 +6,11 @@ import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useIsXSDown } from 'ui';
 import { ConnectButton } from '../ConnectButton';
 
-export const PurchaseBlock = () => {
+interface IPurchaseBlockProps {
+  isWalletConnected: boolean;
+}
+
+export const PurchaseBlock = ({ isWalletConnected }: IPurchaseBlockProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
 
@@ -45,7 +49,7 @@ export const PurchaseBlock = () => {
         </Box>
 
         <Box className={classes.unlockContainer}>
-          <ConnectButton />
+          {!isWalletConnected && <ConnectButton />}
         </Box>
       </Box>
       {isMobile && <div className={classes.mobileFooterImg} />}

@@ -3,28 +3,28 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const HEADER_HEIGHT_XS = 66;
 export const HEADER_HEIGHT_XL = 80;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useNavigationStyles = makeStyles<Theme>(theme => ({
   link: {
     width: '100%',
+    height: 48,
     color: theme.palette.text.secondary,
     justifyContent: 'flex-start',
-    padding: theme.spacing(2),
-    fontWeight: 500,
+    padding: theme.spacing(1.5),
+    fontWeight: 400,
+    cursor: 'pointer',
 
     '&& svg': {
-      fontSize: 16,
-      marginRight: theme.spacing(1.5),
-
       [theme.breakpoints.down('sm')]: {
         marginRight: theme.spacing(1),
       },
     },
 
-    '&:not($activeLink):hover': {
-      background: theme.palette.background.default,
-    },
-    '&:not(:last-child)': {
-      marginBottom: 3,
+    '&:hover': {
+      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.background.default,
+      '& svg': {
+        color: theme.palette.primary.main,
+      },
     },
 
     [theme.breakpoints.down('sm')]: {
@@ -44,15 +44,22 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   activeLink: {
-    color: theme.palette.text.primary,
+    color: theme.palette.primary.main,
     cursor: 'default',
-    fontWeight: 'bold',
+    fontWeight: 600,
     background: theme.palette.background.default,
-  },
-  icon: {
-    marginRight: theme.spacing(2),
   },
   endIcon: {
     color: theme.palette.primary.main,
+  },
+  item: {
+    width: '100%',
+    height: 48,
+    padding: theme.spacing(1.5),
+  },
+  skeleton: {
+    height: theme.spacing(3),
+    borderRadius: theme.spacing(0.75),
+    backgroundColor: theme.palette.background.default,
   },
 }));

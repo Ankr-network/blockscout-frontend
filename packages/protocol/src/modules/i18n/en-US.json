@@ -1,5 +1,5 @@
 {
-  "title": "Protocol",
+  "title": "RPC",
   "validation": {
     "required": "This field is required",
     "domain-validation": "Use the following URL format: example.com",
@@ -93,7 +93,11 @@
     "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "request-explorer": "Request Explorer"
+    "request-explorer": "Request Explorer",
+    "endpoints": "Endpoints",
+    "billing": "Billing",
+    "pricing": "Pricing",
+    "docs": "Docs"
   },
   "extra-navigation": {
     "docs": "Docs",
@@ -128,8 +132,7 @@
     "provider-title": "Dashboard"
   },
   "chains": {
-    "connected-breadcrumbs": "Dashboard",
-    "breadcrumbs": "Public RPCs",
+    "breadcrumbs": "Endpoints",
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
@@ -313,7 +316,7 @@
     }
   },
   "plan": {
-    "breadcrumbs": "Premium Plan",
+    "breadcrumbs": "Pricing",
     "unlock-btn": "Connect Wallet",
     "learn-more": "Learn More",
     "more-questions": "Have more questions? Let's hear them!",
@@ -624,7 +627,7 @@
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "account-details": {
-      "breadcrumbs": "Account Details",
+      "breadcrumbs": "Billing",
       "title": "Account Details",
       "top-up": {
         "title": "Top Up Balance",

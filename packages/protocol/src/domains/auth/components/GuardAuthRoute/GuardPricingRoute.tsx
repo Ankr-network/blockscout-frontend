@@ -6,41 +6,41 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { PricingRoutes, PRICING_PATH } from 'domains/pricing/Routes';
+import { AccountRoutes, PATH_ACCOUNT } from 'domains/account/Routes';
+import { Themes } from 'ui';
 
 export interface IGuardRoute extends RouteProps {
-  hasAuthData: boolean;
-  isManualDisconnected: boolean;
+  hasCredentials: boolean;
+  isManualConnected: boolean;
 }
 
-export const GuardAuthRoute = ({
-  hasAuthData,
-  isManualDisconnected,
+export const GuardPricingRoute = ({
+  hasCredentials,
+  isManualConnected,
   ...routeProps
 }: IGuardRoute) => {
-  const { credentials, address } = useAuth();
+  const { address } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
-
   const shouldReplace = useMemo(
-    () => !hasAuthData || isManualDisconnected,
-    [hasAuthData, isManualDisconnected],
+    () => hasCredentials && isManualConnected,
+    [hasCredentials, isManualConnected],
   );
 
   useEffect(() => {
     if (shouldReplace) {
-      history.replace(PRICING_PATH);
+      history.replace(PATH_ACCOUNT);
     }
   }, [history, shouldReplace]);
 
   useOnMount(() => {
-    if (!address || !credentials) setBreadcrumbs([]);
+    if (!address || !hasCredentials) setBreadcrumbs([]);
   });
 
   if (shouldReplace) {
     return (
-      <DefaultLayout>
-        <PricingRoutes />
+      <DefaultLayout theme={Themes.light}>
+        <AccountRoutes />
       </DefaultLayout>
     );
   }

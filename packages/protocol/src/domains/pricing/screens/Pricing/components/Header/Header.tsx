@@ -8,7 +8,11 @@ import DeskFoldHeaderRight from 'assets/img/premium/desk-fold-header-right.png';
 import { useStyles } from './usePlanHeaderStyles';
 import { ConnectButton } from '../ConnectButton';
 
-export const Header = () => {
+interface IHeaderProps {
+  isWalletConnected: boolean;
+}
+
+export const Header = ({ isWalletConnected }: IHeaderProps) => {
   const classes = useStyles();
   const isMobile = useIsXSDown();
   const isTablet = useIsMDDown();
@@ -47,7 +51,7 @@ export const Header = () => {
           <Typography className={classes.headerSubTitle} variant="body1">
             {tHTML('plan.header.sub-title')}
           </Typography>
-          <ConnectButton />
+          {!isWalletConnected && <ConnectButton />}
         </Container>
       </Box>
       {!isMobile && !isTablet && (

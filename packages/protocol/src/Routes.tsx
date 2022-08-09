@@ -1,12 +1,12 @@
+import { useMemo } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Plan } from 'domains/account/screens/Plan';
 import {
-  ExplorerRoutesConfig,
   RequestExplorerRoutes,
+  ExplorerRoutesConfig,
 } from 'domains/explorer/Routes';
 import { useAppSelector } from 'store/useAppSelector';
-import { AccountRoutesConfig } from './domains/account/Routes';
+import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
   ChainPrivateRoutes,
   ChainsRoutes,
@@ -25,21 +25,23 @@ import {
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { Themes } from 'ui';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { useAuth } from './domains/auth/hooks/useAuth';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
+import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 
 export function Routes() {
-  const { handleConnect } = useAuth();
+  const { handleConnect, credentials } = useAuth();
 
   const cachedAuthData = useAppSelector(selectAuthData);
-  const { isWalletConnected } = useAuth();
+  const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
   useOnMount(() => {
     if (cachedAuthData.authorizationToken) {
-      handleConnect();
+      handleConnect(true);
     }
   });
 
@@ -84,6 +86,17 @@ export function Routes() {
           </DefaultLayout>
         )}
       />
+      <GuardPricingRoute
+        exact
+        path={[PricingRoutesConfig.pricing.path]}
+        hasCredentials={hasCredentials}
+        isManualConnected={Boolean(cachedAuthData.isManualConnected)}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <PricingRoutes />
+          </DefaultLayout>
+        )}
+      />
       <GuardAuthRoute
         exact
         path={[
@@ -91,12 +104,11 @@ export function Routes() {
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.withdraw.path,
         ]}
-        isAuthorized={
-          Boolean(cachedAuthData.authorizationToken) && isWalletConnected
-        }
+        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
+        isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}
         render={() => (
-          <DefaultLayout theme={Themes.light} disableGutters hasNoReactSnap>
-            <Plan />
+          <DefaultLayout theme={Themes.light}>
+            <AccountRoutes />
           </DefaultLayout>
         )}
       />

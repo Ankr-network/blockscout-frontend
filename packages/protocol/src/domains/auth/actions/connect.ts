@@ -15,13 +15,19 @@ import {
   loginAndCacheAuthData,
 } from './connectUtils';
 import { hasMetamask } from '../utils/hasMetamask';
-import { resetAuthData } from '../store/authSlice';
+import { resetAuthData, setAuthData } from '../store/authSlice';
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
-  () => ({
+  isManualConnected => ({
     request: {
       promise: async (store: RequestsStore) => {
+        store.dispatch(
+          setAuthData({
+            isManualConnected,
+          }),
+        );
+
         await connectProvider();
 
         const service = await MultiService.getInstance();

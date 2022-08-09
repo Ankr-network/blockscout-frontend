@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider, Box } from '@material-ui/core';
 
-import { mainTheme } from 'ui';
+import { mainTheme, Spinner } from 'ui';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -16,6 +16,7 @@ export const AccountDetails = () => {
   const classes = useStyles();
   const { isNew, premiumUntil } = useAuth();
   const isPremium = !!premiumUntil;
+  const { isConnecting } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -25,24 +26,28 @@ export const AccountDetails = () => {
 
   return (
     <ThemeProvider theme={mainTheme}>
-      <Box className={classes.root}>
-        <Box className={classes.top}>
-          <Balance />
-          <TopUp className={classes.topUp} />
-        </Box>
-        {!isNew && (
-          <>
-            <Box className={classes.payments}>
-              <PaymentsHistoryTable />
-            </Box>
-            {!isPremium && (
-              <Box className={classes.expenseChart}>
-                <ExpenseChart />
+      {isConnecting ? (
+        <Spinner />
+      ) : (
+        <Box className={classes.root}>
+          <Box className={classes.top}>
+            <Balance />
+            <TopUp className={classes.topUp} />
+          </Box>
+          {!isNew && (
+            <>
+              <Box className={classes.payments}>
+                <PaymentsHistoryTable />
               </Box>
-            )}
-          </>
-        )}
-      </Box>
+              {!isPremium && (
+                <Box className={classes.expenseChart}>
+                  <ExpenseChart />
+                </Box>
+              )}
+            </>
+          )}
+        </Box>
+      )}
     </ThemeProvider>
   );
 };

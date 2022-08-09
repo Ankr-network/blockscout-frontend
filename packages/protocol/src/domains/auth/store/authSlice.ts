@@ -7,17 +7,28 @@ export interface IAuthSlice {
   address?: string;
   authorizationToken?: string;
   encryptionPublicKey?: string;
+  isManualConnected?: boolean;
+  isManualDisconnected?: boolean;
 }
 
-const initialState: IAuthSlice = {};
+const initialState: IAuthSlice = {
+  isManualConnected: false,
+  isManualDisconnected: false,
+};
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
-      const { credentials, address, authorizationToken, encryptionPublicKey } =
-        action.payload;
+      const {
+        credentials,
+        address,
+        authorizationToken,
+        encryptionPublicKey,
+        isManualDisconnected,
+        isManualConnected,
+      } = action.payload;
 
       if (credentials) {
         state.credentials = credentials;
@@ -34,6 +45,9 @@ export const authSlice = createSlice({
       if (encryptionPublicKey) {
         state.encryptionPublicKey = encryptionPublicKey;
       }
+
+      state.isManualDisconnected = Boolean(isManualDisconnected);
+      state.isManualConnected = Boolean(isManualConnected);
     },
 
     resetAuthData: state => {
@@ -41,6 +55,7 @@ export const authSlice = createSlice({
       state.address = undefined;
       state.authorizationToken = undefined;
       state.encryptionPublicKey = undefined;
+      state.isManualConnected = false;
     },
   },
 });

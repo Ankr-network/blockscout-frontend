@@ -18,7 +18,6 @@ export const ChainsRoutesConfig = createRouteConfig(
       path: INDEX_PATH,
       generatePath: () => INDEX_PATH,
       breadcrumbs: 'chains.breadcrumbs',
-      'connected-breadcrumbs': 'chains.connected-breadcrumbs',
     },
     chainDetails: {
       path: PATH_CHAIN_DETAILS,

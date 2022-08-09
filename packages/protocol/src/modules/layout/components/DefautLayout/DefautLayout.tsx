@@ -28,7 +28,9 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
 }: ILayoutProps) => {
   const classes = useStyles();
-  const { isWalletConnected } = useAuth();
+  const { isWalletConnected, credentials, loading } = useAuth();
+
+  const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -38,7 +40,9 @@ export const DefaultLayout = ({
       <ThemeProvider theme={currentTheme}>
         <SideBar
           className={classes.sidebar}
+          loading={loading}
           isWalletConnected={isWalletConnected}
+          hasCredentials={hasCredentials}
         />
         <div className={classes.body}>
           <Header className={classes.header} />
@@ -53,7 +57,11 @@ export const DefaultLayout = ({
             {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>
-        <MobileNavigation isWalletConnected={isWalletConnected} />
+        <MobileNavigation
+          loading={loading}
+          isWalletConnected={isWalletConnected}
+          hasCredentials={hasCredentials}
+        />
       </ThemeProvider>
     </div>
   );
