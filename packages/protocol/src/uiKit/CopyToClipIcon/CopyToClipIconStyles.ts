@@ -15,6 +15,10 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
   },
 
   message: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
     color: theme.palette.text.primary,
     background: theme.palette.background.default,
     fontSize: ({ size }) => (size === 'm' ? 12 : 14),

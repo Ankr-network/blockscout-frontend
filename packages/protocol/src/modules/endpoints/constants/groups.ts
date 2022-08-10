@@ -16,6 +16,7 @@ export const getFallbackEndpointGroup = (
   });
 
   return {
+    chainName: endpointName,
     id: ChainGroupID.FALLBACK,
     name,
     pluralName: name,
@@ -35,6 +36,7 @@ export const chainGroups: ChainGroup[] = [
       'avalanche_fuji-evm',
       'avalanche-evm',
       'bsc',
+      'bsc_testnet_chapel',
       'celo',
       'fantom',
       'gnosis',
@@ -46,6 +48,7 @@ export const chainGroups: ChainGroup[] = [
       'syscoin',
       'fantom_testnet',
       'optimism',
+      'optimism_testnet',
       'polygon_mumbai',
     ],
   },
@@ -126,5 +129,11 @@ export const chainGroups: ChainGroup[] = [
     name: getName('solana-api'),
     pluralName: getName('solana-api', true),
     chains: ['solana_devnet'],
+  },
+  {
+    id: ChainGroupID.SEPOLIA,
+    name: 'Sepolia',
+    pluralName: 'Sepolia',
+    chains: ['eth_sepolia'],
   },
 ];

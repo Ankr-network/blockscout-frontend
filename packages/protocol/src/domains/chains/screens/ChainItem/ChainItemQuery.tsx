@@ -66,7 +66,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
               return <ChainItemSkeleton />;
             }
 
-            return <ChainItem data={data} chainId={chainId} />;
+            return <ChainItem data={data} />;
           }}
         </Queries>
       </div>

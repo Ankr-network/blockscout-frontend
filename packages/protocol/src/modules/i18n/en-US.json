@@ -161,14 +161,15 @@
       }
     },
     "banner": {
-      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
-      "chain-item": {
-        "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
-        "button": "Unlock Premium"
-      }
+      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>"
     }
   },
   "chain-item": {
+    "chain-types": {
+      "mainnet": "Mainnets",
+      "testnet": "Testnets",
+      "devnet": "Devnets"
+    },
     "banner": {
       "plan": "Premium Plan.",
       "more": "Learn more",
@@ -183,6 +184,7 @@
       "requests-count": "20 mln"
     },
     "header": {
+      "docs": "Docs",
       "mainnet-tab-title": "Mainnet",
       "testnet-tab-title": "Testnet",
       "devnet-tab-title": "Devnet",
@@ -289,7 +291,17 @@
         "success": "Success"
       }
     },
-    "integration-assistant": {
+    "get-started": {
+      "endpoints": {
+        "add-network-label": "Add network",
+        "premium-label": "Premium",
+        "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
+        "websocket-title": "WebSocket"
+      },
+      "upgrade-banner": {
+        "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
+        "button": "Upgrade"
+      },
       "connection-snippet": {
         "connection-types": {
           "http": "HTTP",
