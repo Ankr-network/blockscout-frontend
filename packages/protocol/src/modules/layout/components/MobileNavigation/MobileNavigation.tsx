@@ -15,6 +15,7 @@ interface MobileHeaderProps {
   loading: boolean;
   isWalletConnected: boolean;
   hasCredentials: boolean;
+  chainsRoutes: string[];
 }
 
 export const MobileNavigation = ({
@@ -22,6 +23,7 @@ export const MobileNavigation = ({
   loading,
   isWalletConnected,
   hasCredentials,
+  chainsRoutes,
 }: MobileHeaderProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -43,6 +45,7 @@ export const MobileNavigation = ({
 
   const items: NavigationItem[] = getNavigationList(
     isWalletConnected,
+    chainsRoutes,
     hasCredentials,
     true,
   );

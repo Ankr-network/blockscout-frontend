@@ -12,6 +12,7 @@ interface SidebarProps {
   loading: boolean;
   isWalletConnected: boolean;
   hasCredentials: boolean;
+  chainsRoutes: string[];
 }
 
 export const SideBar = ({
@@ -19,6 +20,7 @@ export const SideBar = ({
   loading,
   isWalletConnected,
   hasCredentials,
+  chainsRoutes,
 }: SidebarProps) => {
   const classes = useStyles();
 
@@ -32,6 +34,7 @@ export const SideBar = ({
               loading={loading}
               isWalletConnected={isWalletConnected}
               hasCredentials={hasCredentials}
+              chainsRoutes={chainsRoutes}
             />
             <div>
               <ExtraNavigation />

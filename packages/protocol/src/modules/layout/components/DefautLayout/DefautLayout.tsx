@@ -3,16 +3,17 @@ import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
 import { Container } from '@material-ui/core';
 
-import { getTheme } from '../../../common/utils/getTheme';
+import { getTheme } from 'modules/common/utils/getTheme';
 import { Themes } from 'ui';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
 import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export interface ILayoutProps {
   children?: ReactChild;
@@ -29,6 +30,7 @@ export const DefaultLayout = ({
 }: ILayoutProps) => {
   const classes = useStyles();
   const { isWalletConnected, credentials, loading } = useAuth();
+  const chainsRoutes = usePublicChainsRoutes();
 
   const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
@@ -43,6 +45,7 @@ export const DefaultLayout = ({
           loading={loading}
           isWalletConnected={isWalletConnected}
           hasCredentials={hasCredentials}
+          chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
           <Header className={classes.header} />
@@ -61,6 +64,7 @@ export const DefaultLayout = ({
           loading={loading}
           isWalletConnected={isWalletConnected}
           hasCredentials={hasCredentials}
+          chainsRoutes={chainsRoutes}
         />
       </ThemeProvider>
     </div>

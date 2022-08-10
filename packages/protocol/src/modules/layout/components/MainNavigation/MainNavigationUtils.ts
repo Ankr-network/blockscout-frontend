@@ -1,10 +1,6 @@
 import { History } from 'history';
 
-import {
-  ChainsRoutesConfig,
-  PATH_CHAIN_DETAILS,
-  PATH_ADD_ENDPOINT,
-} from 'domains/chains/routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { ReactComponent as BoxIcon } from 'uiKit/Icons/box.svg';
 import { ReactComponent as BillingIcon } from 'uiKit/Icons/billing.svg';
 import { ReactComponent as PricingIcon } from 'uiKit/Icons/pricing.svg';
@@ -16,7 +12,6 @@ import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { isMatchedPath } from 'modules/common/utils/isMatchedPath';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
@@ -24,21 +19,19 @@ export const HAS_REQUEST_EXPLORER = false;
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
 export const FAQ_URL = 'https://docs.ankr.com/ankr-protocol/faqs';
 
-const isDashboardActive: IsActive = (
+const isDashboardActive = (
   match: any,
   location: History['location'],
+  chainsRoutes: string[],
 ) => {
   if (match?.isExact) return match?.isExact;
 
-  const hasMatchedPath = [PATH_CHAIN_DETAILS, PATH_ADD_ENDPOINT]
-    .map(path => isMatchedPath(location.pathname, path))
-    .some(item => item?.isExact);
-
-  return hasMatchedPath;
+  return chainsRoutes.some(route => location.pathname.includes(route));
 };
 
 export const getNavigationList = (
   isWalletConnected: boolean,
+  chainsRoutes: string[],
   hasCredentials: boolean,
   isMobile?: boolean,
 ): NavigationItem[] => {
@@ -47,7 +40,8 @@ export const getNavigationList = (
       label: t('main-navigation.endpoints'),
       StartIcon: BoxIcon,
       href: ChainsRoutesConfig.chains.generatePath(),
-      isActive: isDashboardActive,
+      isActive: (match: any, location: History['location']) =>
+        isDashboardActive(match, location, chainsRoutes),
     },
     (isWalletConnected || hasCredentials) && {
       label: t('main-navigation.billing'),

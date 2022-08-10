@@ -22,7 +22,6 @@ export const fetchPublicChains = createSmartAction<
   },
   meta: {
     cache: true,
-    asMutation: false,
     getData: mapChains,
   },
 }));
