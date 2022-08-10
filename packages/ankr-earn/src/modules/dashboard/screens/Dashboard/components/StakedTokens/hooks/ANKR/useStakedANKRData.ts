@@ -1,6 +1,5 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
 
 import { t } from 'common';
 
@@ -13,9 +12,6 @@ export interface IStakedANKRData {
   stakedAmount: BigNumber;
   stakedUsdEquivalent: BigNumber;
   stakedTooltip: string;
-  rewardsAmount: BigNumber;
-  rewardsUsdEquivalent: BigNumber;
-  rewardsTooltip: string;
   network: string;
   manageLink: string;
   isShowed: boolean;
@@ -29,31 +25,15 @@ export const useStakedANKRData = (): IStakedANKRData => {
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
   const stakedAmount = data?.totalDelegatedAmount ?? ZERO;
 
-  const rewardsAmount = useMemo(() => {
-    if (!data?.claimableRewards) return ZERO;
-
-    return data.claimableRewards.reduce((acc, reward) => {
-      if (reward.amount.isZero()) return acc;
-
-      acc = acc.plus(reward.amount);
-
-      return acc;
-    }, ZERO);
-  }, [data?.claimableRewards]);
-
   const usdPrice = ankrPrice ?? ZERO;
   const stakedUsdEquivalent = stakedAmount.multipliedBy(usdPrice);
-  const rewardsUsdEquivalent = rewardsAmount.multipliedBy(usdPrice);
 
-  const isShowed = loading || !stakedAmount.isZero() || !rewardsAmount.isZero();
+  const isShowed = loading || !stakedAmount.isZero();
 
   return {
     stakedAmount,
     stakedUsdEquivalent,
     stakedTooltip: '',
-    rewardsAmount: rewardsAmount.integerValue(),
-    rewardsUsdEquivalent,
-    rewardsTooltip: '',
     network,
     manageLink: RoutesConfig.main.generatePath(),
     isShowed,

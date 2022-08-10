@@ -10,6 +10,7 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
@@ -35,6 +36,7 @@ interface IUseAnkrStake {
   providerName: string;
   amount: BigNumber;
   apy: BigNumber;
+  lockingPeriod?: Days;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -138,6 +140,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     minStake: commonData?.minStake ?? ZERO,
     amount,
     apy,
+    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     onChange,
     onSubmit,
   };

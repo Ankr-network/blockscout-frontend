@@ -15,7 +15,7 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import { SupportedChainIDS } from 'modules/common/const';
+import { DEFAULT_ROUNDING, SupportedChainIDS } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { DateTimeItem } from 'modules/delegate-stake/components/DateTimeItem';
@@ -131,7 +131,11 @@ export const HistoryTable = (): JSX.Element | null => {
 
               <TableBodyCell label={`${captions[ELabel.amount].label}`}>
                 <Typography className={classes.simpleText}>
-                  {t('unit.ankr-value', { value: row.amount.toFormat() })}
+                  {t('unit.ankr-value', {
+                    value: row.amount
+                      .decimalPlaces(DEFAULT_ROUNDING)
+                      .toFormat(),
+                  })}
                 </Typography>
               </TableBodyCell>
             </TableRow>

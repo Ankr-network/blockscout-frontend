@@ -288,7 +288,7 @@ export const mainTheme = createTheme({
     MuiInputLabel: {
       shrink: {
         position: 'static',
-        marginBottom: 20,
+        marginBottom: 10,
         fontSize: 16,
         fontWeight: 700,
         color: '#000',
@@ -748,7 +748,7 @@ export const mainTheme = createTheme({
         background: defaultTheme.palette.background.default,
       },
       active: {
-        background: defaultTheme.palette.primary.main,
+        background: defaultTheme.palette.background.default,
       },
       completed: {
         background: defaultTheme.palette.primary.main,

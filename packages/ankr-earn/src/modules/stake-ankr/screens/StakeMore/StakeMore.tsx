@@ -22,6 +22,7 @@ export const StakeMore = (): JSX.Element => {
     newTotalStake,
     amount,
     apy,
+    lockingPeriod,
     onChange,
     onSubmit,
   } = useAnkrStakeMore();
@@ -37,6 +38,7 @@ export const StakeMore = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
+          lockingPeriod={lockingPeriod}
           maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           newTotalStake={newTotalStake}

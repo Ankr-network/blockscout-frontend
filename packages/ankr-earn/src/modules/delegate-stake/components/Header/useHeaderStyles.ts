@@ -46,6 +46,7 @@ export const useHeaderStyles = makeStyles(theme => ({
   },
 
   label: {
+    fontWeight: 500,
     color: theme.palette.text.secondary,
   },
 

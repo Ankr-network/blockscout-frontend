@@ -37,7 +37,7 @@ export const useStakableAnkr = (): IUseStakableToken<IETHNetwork> => {
     [networks],
   );
 
-  const balance = data?.ankrBalance ?? ZERO;
+  const balance = data?.ankrBalance.integerValue() ?? ZERO;
 
   return {
     icon: <AnkrIcon />,

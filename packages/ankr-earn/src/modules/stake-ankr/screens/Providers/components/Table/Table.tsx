@@ -12,10 +12,6 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
-import {
-  ProviderStatus,
-  ProviderStatusTooltip,
-} from 'modules/delegate-stake/components/ProviderStatus';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import expandNodeProviders from '../../assets/expand-node-providers.png';
@@ -114,20 +110,6 @@ export const Table = (): JSX.Element | null => {
                   <ProviderItem
                     name={row.provider}
                     nodeAmount={row.nodeAmount}
-                    statusSlot={
-                      <ProviderStatus
-                        tooltipSlot={
-                          <ProviderStatusTooltip
-                            currentPeriod={10}
-                            latency={40}
-                            status={row.status}
-                            successRate={20}
-                            totalPeriod={20}
-                          />
-                        }
-                        type={row.status}
-                      />
-                    }
                   />
                 </TableBodyCell>
 

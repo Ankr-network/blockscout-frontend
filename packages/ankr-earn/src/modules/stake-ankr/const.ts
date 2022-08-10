@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
@@ -14,6 +16,8 @@ export const ANKR_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 export const BAD_STATUS_RANGE: Percentage = 30;
 
 export const ANKR_STAKE_FORM_ID = 'ankrStake';
+
+export const TEMPORARY_APY = new BigNumber(9);
 
 export enum EProviderStatus {
   /**

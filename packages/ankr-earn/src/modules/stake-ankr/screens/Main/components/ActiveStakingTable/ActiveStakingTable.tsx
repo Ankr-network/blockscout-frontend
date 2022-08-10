@@ -14,10 +14,6 @@ import {
 } from 'modules/common/components/TableComponents';
 import { Token } from 'modules/common/types/token';
 import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
-import {
-  ProviderStatus,
-  ProviderStatusTooltip,
-} from 'modules/delegate-stake/components/ProviderStatus';
 import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
@@ -150,7 +146,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                         dense
                         className={classes.expandTable}
                         columnsCount={mainCaptions.length}
-                        customCell="160px 220px 1fr"
+                        customCell="110px 200px 300px 1fr"
                         minWidth={800}
                       >
                         <TableHead>
@@ -234,20 +230,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                   <ProviderItem
                     name={getDemoProviderName(row.provider) ?? row.provider}
                     nodeAPY={row.apy}
-                    statusSlot={
-                      <ProviderStatus
-                        tooltipSlot={
-                          <ProviderStatusTooltip
-                            currentPeriod={10}
-                            latency={40}
-                            status={row.status}
-                            successRate={20}
-                            totalPeriod={10}
-                          />
-                        }
-                        type={row.status}
-                      />
-                    }
                   />
                 </TableBodyCell>
 

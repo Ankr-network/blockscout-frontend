@@ -16,7 +16,6 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'inherit',
     justifyContent: 'center',
-    marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
 
     [theme.breakpoints.up('sm')]: {

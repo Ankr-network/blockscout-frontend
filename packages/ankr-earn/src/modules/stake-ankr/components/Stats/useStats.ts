@@ -6,6 +6,7 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
+import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
@@ -61,7 +62,7 @@ export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
     }),
     yearlyEarning: yearlyEarning.toFormat(),
     yearlyEarningUSD,
-    totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
   };
 };

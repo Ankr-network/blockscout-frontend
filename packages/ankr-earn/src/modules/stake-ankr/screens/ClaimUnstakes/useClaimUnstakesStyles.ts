@@ -34,6 +34,10 @@ export const useClaimUnstakesStyles = makeStyles(theme => ({
     },
   },
 
+  baseAmountAlign: {
+    alignItems: 'flex-end',
+  },
+
   rowName: {
     fontSize: 14,
     lineHeight: '24px',

@@ -47,7 +47,7 @@ export const NodeProviderField = ({
           <Box mt={mt}>
             <input {...input} hidden />
 
-            <Box mb={2}>
+            <Box mb={1}>
               <StakeDescriptionName
                 className={classNames(
                   isError && classes.selectProviderErrorColor,

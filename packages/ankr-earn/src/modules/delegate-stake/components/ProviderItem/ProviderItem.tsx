@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 
 import { t } from 'common';
 
+import { DEFAULT_ROUNDING } from 'modules/common/const';
+
 import { useProviderItemStyles } from './useProviderItemStyles';
 
 interface IProviderItemProps {
@@ -27,7 +29,7 @@ export const ProviderItem = ({
 
         <div className={classes.nodeAmount}>
           {t('stake-ankr.staking-table.apy', {
-            value: nodeAPY.integerValue().toFixed(),
+            value: nodeAPY.decimalPlaces(DEFAULT_ROUNDING).toFixed(),
           })}
         </div>
       </div>

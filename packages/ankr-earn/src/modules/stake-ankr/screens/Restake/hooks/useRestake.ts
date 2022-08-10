@@ -5,6 +5,8 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
@@ -22,6 +24,7 @@ interface IUseRestake {
   providerId: string;
   providerName: string;
   epochEnds: string;
+  lockingPeriod?: Days;
   onSubmit: () => void;
 }
 
@@ -36,6 +39,9 @@ export const useRestake = (): IUseRestake => {
       type: getValidatorDelegatedAmount,
     },
   );
+  const { data: commonData } = useQuery({
+    type: getCommonData,
+  });
   const { data: restakableAmount } = useQuery({
     type: getRestakableAmount,
   });
@@ -56,6 +62,7 @@ export const useRestake = (): IUseRestake => {
     dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getRestakableAmount({ validator: queryProvider }));
     dispatchRequest(getEpochEndSeconds());
+    dispatchRequest(getCommonData());
   }, [dispatchRequest]);
 
   let seconds = epochEndsSeconds ?? 0;
@@ -115,6 +122,7 @@ export const useRestake = (): IUseRestake => {
       ${hoursText || ''}${hoursText ? ',' : ''} 
       ${minText}
     `,
+    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     onSubmit,
   };
 };

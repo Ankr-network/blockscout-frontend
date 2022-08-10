@@ -107,7 +107,7 @@ export const featuresConfig /* Record<string: boolean> */ = {
   isActivePolkadotClaiming: true,
   isActivePolkadotStaking: true,
   newDashboard: isLocal,
-  ankrStaking: currentEnv !== Env.Production,
+  ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
   maticLandingLink: currentEnv !== Env.Production,
   maticPolygonStaking: isLocal,

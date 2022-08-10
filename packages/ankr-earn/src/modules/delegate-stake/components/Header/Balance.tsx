@@ -5,7 +5,7 @@ import React from 'react';
 
 import { t } from 'common';
 
-import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useHeaderStyles } from './useHeaderStyles';
@@ -37,7 +37,7 @@ export const Balance = ({
         {isLoading ? (
           <Skeleton width={50} />
         ) : (
-          value.decimalPlaces(DECIMAL_PLACES).toFormat()
+          value.decimalPlaces(DEFAULT_ROUNDING).toFormat()
         )}
 
         <NavLink

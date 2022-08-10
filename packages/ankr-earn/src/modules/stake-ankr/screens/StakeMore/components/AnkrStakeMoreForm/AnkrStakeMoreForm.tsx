@@ -6,6 +6,7 @@ import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
@@ -44,6 +45,7 @@ interface IAnkrStakeMoreFormProps {
   maxAmountDecimals?: number;
   closeHref: string;
   newTotalStake?: BigNumber;
+  lockingPeriod?: Days;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -66,6 +68,7 @@ export const AnkrStakeMoreForm = ({
   providerId,
   providerName,
   newTotalStake,
+  lockingPeriod,
   onSubmit,
   onChange,
 }: IAnkrStakeMoreFormProps): JSX.Element => {
@@ -126,7 +129,11 @@ export const AnkrStakeMoreForm = ({
 
       <StakeDescriptionSeparator />
 
-      <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
+      <Quote pt={1}>
+        {t('stake-ankr.staking.locking-info', {
+          value: lockingPeriod,
+        })}
+      </Quote>
 
       <StakeFormFooter>
         <Grid container spacing={2}>

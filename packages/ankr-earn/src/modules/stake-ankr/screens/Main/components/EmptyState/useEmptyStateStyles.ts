@@ -61,6 +61,7 @@ export const useEmptyStateStyles = makeStyles(theme => ({
 
   desc: {
     fontSize: 16,
+    fontWeight: 400,
     textAlign: 'center',
 
     [theme.breakpoints.up('sm')]: {},

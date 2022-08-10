@@ -91,11 +91,13 @@ export const ClaimUnstakes = (): JSX.Element => {
                     {t('stake-ankr.claim-dialog.total')}
                   </Typography>
 
-                  <BaseTokenUsdAmount
-                    amount={total}
-                    token={Token.ANKR}
-                    usdAmount={totalUSD}
-                  />
+                  <div className={classes.baseAmountAlign}>
+                    <BaseTokenUsdAmount
+                      amount={total}
+                      token={Token.ANKR}
+                      usdAmount={totalUSD}
+                    />
+                  </div>
                 </div>
               </div>
 

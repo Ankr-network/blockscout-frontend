@@ -123,7 +123,7 @@ export const AnkrStakeForm = ({
 
       <NodeProviderField
         isDisabled
-        mt={5}
+        mt={4}
         providerName={providerName}
         providerSelectHref={providerSelectHref}
       />

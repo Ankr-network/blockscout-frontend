@@ -100,7 +100,7 @@ export const useStatsStyles = makeStyles(theme => ({
 
   statisticToken: {
     fontWeight: 'bold',
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(0.5),
     fontSize: 16,
 
     [theme.breakpoints.up('sm')]: {

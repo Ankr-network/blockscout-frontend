@@ -5,7 +5,7 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     padding: theme.spacing(2.5),
 
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(3, 4),
+      padding: theme.spacing(3, 3),
     },
   },
 
@@ -89,6 +89,7 @@ export const useTotalStakedStyles = makeStyles(theme => ({
   },
 
   btnRegular: {
+    fontWeight: 600,
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
   },

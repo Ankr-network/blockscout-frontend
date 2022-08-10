@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { useBaseTokenUsdAmountStyles } from './useBaseTokenUsdAmountStyles';
@@ -24,10 +25,12 @@ export const BaseTokenUsdAmount = ({
   return (
     <div className={classes.root}>
       <div className={classes.infoWrapper}>
-        {`${ankrAmount.toFormat()} ${token}`}
+        {`${ankrAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat()} ${token}`}
 
         <div className={classes.usdAmount}>
-          {t('unit.usd-value', { value: usdAmount.integerValue().toFormat() })}
+          {t('unit.usd-value', {
+            value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+          })}
         </div>
       </div>
 
