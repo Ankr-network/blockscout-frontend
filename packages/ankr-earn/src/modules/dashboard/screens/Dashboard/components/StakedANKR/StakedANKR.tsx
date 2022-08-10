@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -38,13 +38,9 @@ export const StakedANKR = (): JSX.Element => {
         <Grid container spacing={2}>
           {stakedAmount && (
             <Grid item xs>
-              <Typography color="textSecondary" variant="subtitle1">
-                {t('dashboard.card.staked')}
-              </Typography>
-
               <Amount
                 infoSlot={renderUsdAmount(stakedUsdEquivalent)}
-                value={stakedAmount}
+                value={stakedAmount.integerValue()}
               />
             </Grid>
           )}
