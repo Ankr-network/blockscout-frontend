@@ -74,7 +74,7 @@ export interface IAggregatedPaymentHistoryResponse {
 }
 export interface ITopRequest {
   count: number;
-  topRequests: {
+  top_requests: {
     method: string;
     count: number | 'others';
   }[];
@@ -99,7 +99,7 @@ export type PrivateStatTimestamp = string;
 export type PrivateStatCounts = Record<PrivateStatTimestamp, PrivateStatCount>;
 export interface PrivateStatCount {
   count: number;
-  topRequests: PrivateStatTopRequests[];
+  top_requests: PrivateStatTopRequests[];
 }
 
 export type RPCRequestName = string;
