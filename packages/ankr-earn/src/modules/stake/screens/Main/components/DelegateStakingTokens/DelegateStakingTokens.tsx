@@ -3,7 +3,7 @@ import { useQuery } from '@redux-requests/react';
 
 import { t } from 'common';
 
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
@@ -42,15 +42,17 @@ export const DelegateStakingTokens = (): JSX.Element => {
           token={Token.ANKR}
         />
 
-        <FeatureItem
-          apy={0}
-          iconSlot={<MGNOIcon />}
-          mainHref={MgnoRoutes.stake.generatePath()}
-          manageHref={MgnoRoutes.main.generatePath()}
-          stakedTvl={ZERO}
-          title={t('features.mgno')}
-          token={Token.mGNO}
-        />
+        {featuresConfig.mgnoStaking && (
+          <FeatureItem
+            apy={0}
+            iconSlot={<MGNOIcon />}
+            mainHref={MgnoRoutes.stake.generatePath()}
+            manageHref={MgnoRoutes.main.generatePath()}
+            stakedTvl={ZERO}
+            title={t('features.mgno')}
+            token={Token.mGNO}
+          />
+        )}
       </Features>
     </Box>
   );
