@@ -17,6 +17,7 @@ import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { stake } from 'modules/stake-ankr/actions/stake';
+import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
@@ -77,7 +78,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
   const apyItem = apyData?.find(x => x.validator === initialProvider);
-  const apy = apyItem ? apyItem.apy : ZERO;
+  const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
   const isApproved = !!approveData;
 

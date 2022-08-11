@@ -17,7 +17,7 @@ import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
-import { ANKR_STAKE_FORM_ID } from 'modules/stake-ankr/const';
+import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import {
   IAnkrFormState,
@@ -88,8 +88,11 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
+  console.log('timofei providers', providers);
+  console.log('timofei apyData', apyData);
   const apyItem = apyData?.find(x => x.validator === initialProvider);
-  const apy = apyItem ? apyItem.apy : ZERO;
+  const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
+  console.log('timofei apy', apy);
 
   const isApproved = !!approveData;
 
