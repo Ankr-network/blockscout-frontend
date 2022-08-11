@@ -46,31 +46,6 @@ export interface IBalanceEndTimeResult {
   NumberOfDaysEstimate: number;
 }
 
-export interface IRequestsEntity {
-  chainId: string;
-  number: number;
-  method: string;
-  errorCode: number;
-  httpCode: number;
-  responseTime: number;
-  dateTime: string;
-  costUsd: string;
-  rawParams: string;
-  rawResult: string;
-}
-
-export interface IRequestsRequest {
-  cursor: number;
-  limit: number;
-  orderBy: keyof IPaymentHistoryEntity;
-  order: 'asc' | 'desc';
-}
-
-export interface IRequestsResponse {
-  requests: IRequestsEntity[];
-  cursor: number;
-}
-
 export interface IDailyChargingParams {
   day_offset: number;
 }

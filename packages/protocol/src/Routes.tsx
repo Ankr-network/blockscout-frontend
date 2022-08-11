@@ -1,10 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import { useMemo } from 'react';
 
-import {
-  RequestExplorerRoutes,
-  ExplorerRoutesConfig,
-} from 'domains/explorer/Routes';
 import { useAppSelector } from 'store/useAppSelector';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
@@ -12,10 +8,6 @@ import {
   ChainsRoutes,
   ChainsRoutesConfig,
 } from './domains/chains/routes';
-import {
-  ProvidersRoutes,
-  ProvidersRoutesConfig,
-} from './domains/nodeProviders/Routes';
 
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
@@ -46,15 +38,6 @@ export function Routes() {
 
   return (
     <Switch>
-      <Route
-        exact
-        path={[ProvidersRoutesConfig.providers.path]}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <ProvidersRoutes />
-          </DefaultLayout>
-        )}
-      />
       <GuardPricingRoute
         exact
         path={[PricingRoutesConfig.pricing.path]}
@@ -90,15 +73,6 @@ export function Routes() {
         render={() => (
           <DefaultLayout>
             <UserSettingsRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <Route
-        exact
-        path={[ExplorerRoutesConfig.requestExplorer.path]}
-        render={() => (
-          <DefaultLayout theme={Themes.light}>
-            <RequestExplorerRoutes />
           </DefaultLayout>
         )}
       />

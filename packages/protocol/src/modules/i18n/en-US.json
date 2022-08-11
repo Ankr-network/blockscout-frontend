@@ -444,22 +444,6 @@
     "submit": "Submit"
   },
   "providers": {
-    "breadcrumbs": "Node Providers",
-    "title": "RPC node providers",
-    "integrate-button": "Become a node provider",
-    "table": {
-      "head": {
-        "chain": "chain",
-        "type": "type",
-        "location": "location",
-        "organization": "organization",
-        "total": "Nodes"
-      },
-      "pagination": {
-        "previous-button": "Previous",
-        "next-button": "Next"
-      }
-    },
     "endpoint": {
       "more-btn": "More",
       "title": "My endpoints",
@@ -600,33 +584,6 @@
       "title": "Changing Email",
       "success-step": {
         "verify-email-text": "Please verify email that we sent to <b>{email}</b>"
-      }
-    }
-  },
-  "explorer": {
-    "request-explorer": {
-      "breadcrumbs": "Request Explorer",
-      "title": "Request Explorer",
-      "more": "Show 10 more",
-      "date-time": "{value, date, medium} {value, time, short}",
-      "expand": {
-        "tab-request": {
-          "tab-1": "Params",
-          "tab-2": "RAW REQUEST"
-        },
-        "tab-response": {
-          "tab-1": "Result",
-          "tab-2": "RAW RESPONSE"
-        }
-      },
-      "table": {
-        "col-1": "#",
-        "col-2": "Method",
-        "col-3": "Error Code",
-        "col-4": "HTTP",
-        "col-5": "Response Time",
-        "col-6": "Date & Time",
-        "col-7": "Cost USD"
       }
     }
   },
