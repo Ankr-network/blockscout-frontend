@@ -207,6 +207,10 @@
         "empty": "Endpoints will be available soon"
       }
     },
+    "about-tron": {
+      "about": "The new TronGrid REST API provides user-friendly read APIs with significantly reduced latency, improved consistency, improved availability, and added partition tolerance.",
+      "learn-more": "Learn More"
+    },
     "tabs": {
       "get-started": "Get Started",
       "infrastructure": "Infrastructure",
