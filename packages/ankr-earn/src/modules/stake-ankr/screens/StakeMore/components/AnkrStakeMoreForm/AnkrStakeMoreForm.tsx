@@ -99,7 +99,8 @@ export const AnkrStakeMoreForm = ({
 
       <AmountInput
         isLongBalance
-        balance={balance.decimalPlaces(DEFAULT_ROUNDING)}
+        balance={balance}
+        balanceDecimals={DEFAULT_ROUNDING}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
         label={
