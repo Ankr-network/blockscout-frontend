@@ -80,7 +80,6 @@ export const AnkrStakeForm = ({
   const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
     : maxAmount.toString();
-  console.log('timofei maxStakeAmount', maxStakeAmount);
 
   const onSubmitForm = (payload: Partial<IAnkrStakeSubmitPayload>): void =>
     onSubmit({
