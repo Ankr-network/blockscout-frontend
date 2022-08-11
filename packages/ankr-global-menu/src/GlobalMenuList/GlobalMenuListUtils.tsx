@@ -62,7 +62,7 @@ export const withGlobalMenuLink = <
 
     let toUrl = to;
 
-    if (project === 'protocol' && linkItem?.project) {
+    if (project === 'rpc' && linkItem?.project) {
       toUrl = to.replace(`/${linkItem.project}`, '');
     }
 

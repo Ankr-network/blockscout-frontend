@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { getInitialStep } from 'domains/account/actions/topUp/getInitialStep/getInitialStep';
 import { reset } from 'domains/account/actions/topUp/reset';
@@ -13,11 +12,14 @@ import { TopUp } from './TopUp';
 import { useTopUpBreadcrumbs } from './TopUpUtils';
 
 export const TopUpQuery = () => {
+  const { loading } = useAuth();
   const dispatchRequest = useDispatchRequest();
 
-  useOnMount(() => {
-    dispatchRequest(getInitialStep());
-  });
+  useEffect(() => {
+    if (!loading) {
+      dispatchRequest(getInitialStep());
+    }
+  }, [loading, dispatchRequest]);
 
   useOnUnmount(() => {
     dispatchRequest(reset());

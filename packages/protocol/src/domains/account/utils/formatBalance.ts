@@ -19,6 +19,7 @@ export const formatBalance = (balance: BigNumber) => {
 
 export const renderBalance = (balance: BigNumber) => {
   const absBalance = balance.absoluteValue();
+
   return absBalance.isLessThan(MIN_DISPLAY_BALANCE)
     ? balance.precision(1).toFormat()
     : formatBalance(balance);

@@ -3,7 +3,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { connect } from './connect';
 import { store } from 'store';
-import { resetAuthData } from 'domains/auth/store/authSlice';
+import { resetAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { reset as topUpReset } from 'domains/account/actions/topUp/reset';
 import { reset as withdrawReset } from 'domains/account/actions/withdraw/reset';
@@ -15,6 +15,8 @@ export const disconnect = createSmartAction<RequestAction>(
   () => ({
     request: {
       promise: (async () => {
+        store.dispatch(setAuthData({ isManualDisconnected: true }));
+
         await disconnectService();
 
         store.dispatch(resetAuthData());

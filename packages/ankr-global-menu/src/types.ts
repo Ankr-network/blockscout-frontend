@@ -1,7 +1,7 @@
 import { HTMLAttributeAnchorTarget } from 'react';
 
 export type IGlobalMenuProject =
-  | 'protocol'
+  | 'rpc'
   | 'landing'
   | 'staking'
   | 'docs'

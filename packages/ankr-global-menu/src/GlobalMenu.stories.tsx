@@ -10,8 +10,8 @@ export default {
 
 export const Default = (): JSX.Element => {
   const [locale] = useState<string>(Locale.en);
-  return <GlobalMenu project="protocol" Link={Link} locale={locale} />;
+  return <GlobalMenu project="rpc" Link={Link} locale={locale} />;
 };
 export const Mobile = (): JSX.Element => (
-  <GlobalMenu project="protocol" Link={Link} isMobile locale={Locale.en} />
+  <GlobalMenu project="rpc" Link={Link} isMobile locale={Locale.en} />
 );

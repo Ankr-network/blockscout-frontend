@@ -17,7 +17,7 @@ export const Logo = () => {
 
   return (
     <div className={classes.root}>
-      <GlobalMenu project="protocol" isMobile={isMobile} locale={locale} />
+      <GlobalMenu project="rpc" isMobile={isMobile} locale={locale} />
       <Link className={classes.root} to="/">
         <AnkrLogoIcon className={classes.logo} />
         <Typography variant="body2" color="primary" className={classes.title}>
