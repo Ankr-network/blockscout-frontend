@@ -839,7 +839,6 @@ export class AnkrStakingSDK {
     ]);
 
     const lockPeriodDays = lockPeriod * epochDuration;
-    console.log('timofei lockPeriodDays', lockPeriodDays);
 
     const apyMap = new Map(
       apyData.map(apyItem => [apyItem.validator, apyItem.apy]),
