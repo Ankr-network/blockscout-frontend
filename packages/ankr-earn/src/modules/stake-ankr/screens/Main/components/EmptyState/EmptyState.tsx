@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import { t } from 'common';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
+import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.png';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { Button } from 'uiKit/Button';
 
 import { HowItWorksDialog } from '../HowItWorksDialog';
 
-import ankrBigLogo from './assets/ankr-logo-big.png';
 import { Description } from './Description';
 import { useEmptyStateStyles } from './useEmptyStateStyles';
 

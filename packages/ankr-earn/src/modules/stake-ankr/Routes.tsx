@@ -8,6 +8,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
+import { SupportGuard } from './components/SupportGuard';
 import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 
 const ROOT = `${STAKING_PATH}ankr-stake/`;
@@ -241,7 +242,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Main />
+            <SupportGuard>
+              <Main />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -252,7 +255,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Providers />
+            <SupportGuard>
+              <Providers />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -263,7 +268,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Stake />
+            <SupportGuard>
+              <Stake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -274,7 +281,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <StakeMore />
+            <SupportGuard>
+              <StakeMore />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -285,7 +294,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Restake />
+            <SupportGuard>
+              <Restake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -296,7 +307,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimUnstakes />
+            <SupportGuard>
+              <ClaimUnstakes />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -307,7 +320,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimAllUnstakes />
+            <SupportGuard>
+              <ClaimAllUnstakes />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -318,7 +333,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimRewards />
+            <SupportGuard>
+              <ClaimRewards />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -329,7 +346,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimAllRewards />
+            <SupportGuard>
+              <ClaimAllRewards />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -343,7 +362,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <StakeSteps />
+            <SupportGuard>
+              <StakeSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -354,7 +375,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <UnstakeSteps />
+            <SupportGuard>
+              <UnstakeSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -368,7 +391,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimSteps />
+            <SupportGuard>
+              <ClaimSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -379,7 +404,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Unstake />
+            <SupportGuard>
+              <Unstake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -390,7 +417,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <SelectProvider />
+            <SupportGuard>
+              <SelectProvider />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 

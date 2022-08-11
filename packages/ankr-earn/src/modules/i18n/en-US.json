@@ -1101,6 +1101,11 @@
       "description-3": "Boost Web3 integration and adoption",
       "description-4": "Earn participation in ANKR DAO governance"
     },
+    "usnupported": {
+      "title": "Start staking ANKR",
+      "description": "To be able to use this service, please connect to the <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>.",
+      "btn": "Connect"
+    },
     "staking": {
       "title": "ANKR Staking",
       "more-title": "Stake more ANKR",
