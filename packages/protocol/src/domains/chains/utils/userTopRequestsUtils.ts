@@ -18,7 +18,7 @@ export const formatChartData = (
   Object.keys(counts).forEach(timeStamp => {
     const chart: Record<string, number> = {};
 
-    counts[timeStamp].topRequests.map(item => {
+    counts[timeStamp]?.top_requests?.map(item => {
       if (typeof item.count === 'number') {
         chart[item.method] = item.count;
       }
