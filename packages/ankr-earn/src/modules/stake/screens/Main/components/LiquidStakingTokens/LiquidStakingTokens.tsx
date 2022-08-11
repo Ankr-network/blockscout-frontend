@@ -57,11 +57,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           apy={metrics && +metrics.matic.apy}
           iconSlot={<MaticIcon />}
           mainHref={PolygonRoutes.stake.generatePath()}
-          moreHref={
-            featuresConfig.maticLandingLink
-              ? ANKR_MATIC_LANDING
-              : getStakingOverviewUrl(Token.MATIC)
-          }
+          moreHref={ANKR_MATIC_LANDING}
           stakedTvl={metrics?.matic.totalStaked}
           title={t('features.polygon')}
           token={Token.MATIC}
