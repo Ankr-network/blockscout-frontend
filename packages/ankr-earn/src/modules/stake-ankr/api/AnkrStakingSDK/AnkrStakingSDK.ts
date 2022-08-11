@@ -221,10 +221,6 @@ export class AnkrStakingSDK {
     validators: Web3Address[],
     epoch?: number,
   ): Promise<IValidator[]> {
-    if (!epoch) {
-      epoch = (await this.getChainParams()).epoch;
-    }
-
     const validatorsWithInfo = await Promise.all(
       validators.map(validator => this.loadValidatorInfo(validator, epoch)),
     );
