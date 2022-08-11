@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 export type DefaultTabID = string | number;
 export type TabID<TI> = TI extends DefaultTabID ? TI : DefaultTabID;
@@ -17,14 +17,32 @@ export interface TabsParams<TI = DefaultTabID> {
   tabs: Tab<TI>[];
 }
 
+const getSelectedTabID = <TI>(tabs: Tab<TI>[], initialTabID?: TabID<TI>) =>
+  initialTabID ?? tabs[0]?.id;
+
+export type Tabs<TI = DefaultTabID> = [
+  Tab<TI>[],
+  Tab<TI> | undefined,
+  (id: TabID<TI>) => void,
+];
+
 export const useTabs = <TI = DefaultTabID>({
   initialTabID,
   onTabSelect,
   tabs,
-}: TabsParams<TI>): [Tab<TI>[], Tab<TI> | undefined] => {
+}: TabsParams<TI>): Tabs<TI> => {
   const [selectedTabID, setSelectedTabID] = useState(
-    initialTabID ?? tabs[0]?.id,
+    getSelectedTabID(tabs, initialTabID),
   );
+
+  useEffect(() => {
+    setSelectedTabID(getSelectedTabID(tabs, initialTabID));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabs]);
+
+  const selectTab = useCallback((id: TabID<TI>) => {
+    setSelectedTabID(id);
+  }, []);
 
   const getTabSelectHandler = useCallback(
     ({ id, isDisabled, onSelect }: Tab<TI>) =>
@@ -53,5 +71,5 @@ export const useTabs = <TI = DefaultTabID>({
 
   const selectedTab = processedTabs.find(({ id }) => id === selectedTabID);
 
-  return [processedTabs, selectedTab];
+  return [processedTabs, selectedTab, selectTab];
 };

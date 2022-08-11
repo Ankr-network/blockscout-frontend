@@ -12,9 +12,14 @@ import { addNetwork } from '../actions/addNetwork';
 export function useAuth() {
   const dispatchRequest = useDispatchRequest();
 
-  const handleConnect = useCallback(() => {
-    dispatchRequest(connect());
-  }, [dispatchRequest]);
+  const handleConnect = useCallback(
+    (_, isAutoConnect?: boolean) => {
+      const isManualConnected = !isAutoConnect;
+
+      dispatchRequest(connect(isManualConnected));
+    },
+    [dispatchRequest],
+  );
 
   const handleDisconnect = useCallback(() => {
     dispatchRequest(disconnect());

@@ -3,16 +3,17 @@ import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
 import { Container } from '@material-ui/core';
 
-import { getTheme } from '../../../common/utils/getTheme';
+import { getTheme } from 'modules/common/utils/getTheme';
 import { Themes } from 'ui';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
 import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 export interface ILayoutProps {
   children?: ReactChild;
@@ -28,7 +29,10 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
 }: ILayoutProps) => {
   const classes = useStyles();
-  const { isWalletConnected } = useAuth();
+  const { isWalletConnected, credentials, loading } = useAuth();
+  const chainsRoutes = usePublicChainsRoutes();
+
+  const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -38,7 +42,10 @@ export const DefaultLayout = ({
       <ThemeProvider theme={currentTheme}>
         <SideBar
           className={classes.sidebar}
+          loading={loading}
           isWalletConnected={isWalletConnected}
+          hasCredentials={hasCredentials}
+          chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
           <Header className={classes.header} />
@@ -53,7 +60,12 @@ export const DefaultLayout = ({
             {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
         </div>
-        <MobileNavigation isWalletConnected={isWalletConnected} />
+        <MobileNavigation
+          loading={loading}
+          isWalletConnected={isWalletConnected}
+          hasCredentials={hasCredentials}
+          chainsRoutes={chainsRoutes}
+        />
       </ThemeProvider>
     </div>
   );

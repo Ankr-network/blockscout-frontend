@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { WithdrawForm } from './WithdrawForm';
 import { useBalance } from 'domains/account/hooks/useBalance';
-import { WithdrawFormValues } from './WithdrawFormTypes';
 import { useWithdraw } from 'domains/account/hooks/useWithdraw';
 import { WithdrawStep } from 'domains/account/actions/withdraw/const';
+import { WithdrawForm } from './WithdrawForm';
+import { WithdrawFormValues } from './WithdrawFormTypes';
 
 interface WithdrawFormProps {
   onClick: () => void;
@@ -13,7 +13,7 @@ interface WithdrawFormProps {
 }
 
 export const WithdrawFormContainer = ({ onClick, step }: WithdrawFormProps) => {
-  const { ankrBalance } = useBalance();
+  const { ankrBalanceWithoutVouchers, voucherBalance } = useBalance();
 
   const { handleSetAmount, loading } = useWithdraw();
 
@@ -29,7 +29,8 @@ export const WithdrawFormContainer = ({ onClick, step }: WithdrawFormProps) => {
   return (
     <WithdrawForm
       onSubmit={onSubmit}
-      ankrBalance={ankrBalance}
+      ankrBalanceWithoutVouchers={ankrBalanceWithoutVouchers}
+      voucherBalance={voucherBalance}
       loading={loading}
       step={step}
     />

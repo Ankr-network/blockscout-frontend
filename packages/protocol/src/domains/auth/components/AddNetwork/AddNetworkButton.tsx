@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
+
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 
 interface IAddNetworkProps {
   chain: Chain;
-  size?: 'large' | 'medium';
   className?: string;
   hasPlusIcon?: boolean;
+  label?: ReactNode;
+  size?: 'large' | 'medium';
 }
 
 export const AddNetworkButton = ({
   chain,
-  size,
   className,
   hasPlusIcon,
+  label,
+  size,
 }: IAddNetworkProps) => {
   const { mappedNetwork, handleButtonClick, loading } = useAddNetworkButton({
     chain,
@@ -33,11 +36,12 @@ export const AddNetworkButton = ({
 
   return (
     <ButtonMetamask
-      isDisabled={loading}
-      size={size}
       className={className}
-      onClick={handleButtonClick}
       hasPlusIcon={hasPlusIcon}
+      isDisabled={loading}
+      label={label}
+      onClick={handleButtonClick}
+      size={size}
     />
   );
 };

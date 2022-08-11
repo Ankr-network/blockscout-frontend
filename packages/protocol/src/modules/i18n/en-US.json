@@ -1,5 +1,5 @@
 {
-  "title": "Protocol",
+  "title": "RPC",
   "validation": {
     "required": "This field is required",
     "domain-validation": "Use the following URL format: example.com",
@@ -93,7 +93,11 @@
     "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "request-explorer": "Request Explorer"
+    "request-explorer": "Request Explorer",
+    "endpoints": "Endpoints",
+    "billing": "Billing",
+    "pricing": "Pricing",
+    "docs": "Docs"
   },
   "extra-navigation": {
     "docs": "Docs",
@@ -128,8 +132,7 @@
     "provider-title": "Dashboard"
   },
   "chains": {
-    "connected-breadcrumbs": "Dashboard",
-    "breadcrumbs": "Public RPCs",
+    "breadcrumbs": "Endpoints",
     "title": "Choose Your Network",
     "more-details": "More",
     "integrate-button": "How to integrate",
@@ -158,14 +161,15 @@
       }
     },
     "banner": {
-      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
-      "chain-item": {
-        "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
-        "button": "Unlock Premium"
-      }
+      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>"
     }
   },
   "chain-item": {
+    "chain-types": {
+      "mainnet": "Mainnets",
+      "testnet": "Testnets",
+      "devnet": "Devnets"
+    },
     "banner": {
       "plan": "Premium Plan.",
       "more": "Learn more",
@@ -180,6 +184,7 @@
       "requests-count": "20 mln"
     },
     "header": {
+      "docs": "Docs",
       "mainnet-tab-title": "Mainnet",
       "testnet-tab-title": "Testnet",
       "devnet-tab-title": "Devnet",
@@ -286,7 +291,17 @@
         "success": "Success"
       }
     },
-    "integration-assistant": {
+    "get-started": {
+      "endpoints": {
+        "add-network-label": "Add network",
+        "premium-label": "Premium",
+        "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
+        "websocket-title": "WebSocket"
+      },
+      "upgrade-banner": {
+        "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
+        "button": "Upgrade"
+      },
       "connection-snippet": {
         "connection-types": {
           "http": "HTTP",
@@ -313,7 +328,7 @@
     }
   },
   "plan": {
-    "breadcrumbs": "Premium Plan",
+    "breadcrumbs": "Pricing",
     "unlock-btn": "Connect Wallet",
     "learn-more": "Learn More",
     "more-questions": "Have more questions? Let's hear them!",
@@ -624,7 +639,7 @@
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "account-details": {
-      "breadcrumbs": "Account Details",
+      "breadcrumbs": "Billing",
       "title": "Account Details",
       "top-up": {
         "title": "Top Up Balance",
@@ -794,7 +809,10 @@
       "balance-error": "You cannot make a withdrawal as your balance is zero or negative",
       "min": "The minimum withdrawal amount is {value} ANKR",
       "max": "You cannot make a withdrawal, as your balance is less than {value} ANKR",
-      "excess": "The entered amount exceeds your balance"
+      "excess": "The entered amount exceeds your balance",
+      "balance": "You can withdraw <b>{value} ANKR</b>",
+      "credits": "<b>{value} voucher credits</b> can&rsquo;t be&nbsp;claimed",
+      "credits-info": "Voucher credits are also used for payment. They are equivalent to&nbsp;ordinary credits but cannot be&nbsp;withdrawn in&nbsp;ANKR tokens."
     }
   },
   "continents": {

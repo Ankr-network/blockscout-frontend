@@ -10,7 +10,10 @@ export interface BalanceEndTime {
 
 const actionType = fetchBalanceEndTime.toString();
 
-export const useBalanceEndTime = (isConnected: boolean): BalanceEndTime => {
+export const useBalanceEndTime = (
+  isConnected: boolean,
+  needRequery?: boolean,
+): BalanceEndTime => {
   const {
     data: endTime,
     loading,
@@ -23,10 +26,10 @@ export const useBalanceEndTime = (isConnected: boolean): BalanceEndTime => {
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected || needRequery) {
       dispatch(fetchBalanceEndTime());
     }
-  }, [dispatch, isConnected]);
+  }, [dispatch, isConnected, needRequery]);
 
   return { endTime, isLoading: pristine && loading };
 };

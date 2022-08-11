@@ -1,69 +1,87 @@
 import { useEffect } from 'react';
-import { t } from 'modules/i18n/utils/intl';
-import { PATH_CHAINS } from 'domains/chains/routes';
-import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 
-const PROTOCOL_URL = 'https://www.ankr.com/protocol';
+import { t } from 'modules/i18n/utils/intl';
+import { INDEX_PATH } from 'domains/chains/routes';
+import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
+import packageJson from '../../../package.json';
+
+const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 
 export const getChainName = (chainId: string) => {
   let name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
+
   if (chainId === 'eth') {
     name = 'Ethereum';
   } else if (chainId === 'bsc') {
     name = 'BSC';
   }
+
   return name;
 };
 
-const getLocation = (pathname: string): string => {
+const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   let location = '';
-  if (new RegExp(`${PATH_CHAINS}[a-z]+/`).test(pathname)) {
-    if (pathname === `${PATH_CHAINS}eth/`) {
+
+  if (pathname === INDEX_PATH) {
+    location = 'public.';
+  }
+
+  if (chainsRoutes.some(route => pathname.includes(route))) {
+    if (pathname === `${INDEX_PATH}eth`) {
       location = 'chain-item-eth.';
-    } else if (pathname === `${PATH_CHAINS}bsc/`) {
+    } else if (pathname === `${INDEX_PATH}bsc`) {
       location = 'chain-item-bsc.';
-    } else if (pathname === `${PATH_CHAINS}fantom/`) {
+    } else if (pathname === `${INDEX_PATH}fantom`) {
       location = 'chain-item-fantom.';
     } else {
       location = 'chain-item.';
     }
-  } else if (pathname === PATH_CHAINS) {
-    location = 'public.';
-  } else if (pathname === PATH_PROVIDERS) {
+  }
+
+  if (pathname === PATH_PROVIDERS) {
     location = 'providers.';
   }
 
   return location;
 };
 
-export const useMetatags = (pathname: string) => {
+export const useMetatags = (rawPathname: string, chainsRoutes: string[]) => {
   useEffect(() => {
+    const pathname =
+      rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
+
     const descriptionTag = document.getElementById(
       'meta-description',
     ) as HTMLMetaElement;
+
     const ogTitle = document.getElementById('meta-og-title') as HTMLMetaElement;
     const ogDescription = document.getElementById(
       'meta-og-description',
     ) as HTMLMetaElement;
+
     const twitterTitle = document.getElementById(
       'meta-twitter-title',
     ) as HTMLMetaElement;
+
     const twitterDescription = document.getElementById(
       'meta-twitter-description',
     ) as HTMLMetaElement;
+
     const ogURL = document.getElementById('meta-og-url') as HTMLMetaElement;
     const twitterURL = document.getElementById(
       'meta-twitter-url',
     ) as HTMLMetaElement;
+
     ogURL.content = PROTOCOL_URL + pathname;
     twitterURL.content = PROTOCOL_URL + pathname;
 
-    const location = getLocation(pathname);
+    const location = getLocation(pathname, chainsRoutes);
 
     let name = '';
+
     if (location.indexOf('chain-item') > -1) {
       name = getChainName(
-        pathname.substring(PATH_CHAINS.length, pathname.length - 1),
+        pathname.substring(INDEX_PATH.length, pathname.length),
       );
     }
 
@@ -96,5 +114,5 @@ export const useMetatags = (pathname: string) => {
     }
 
     return () => {};
-  }, [pathname]);
+  }, [rawPathname, chainsRoutes]);
 };

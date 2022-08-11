@@ -1,60 +1,64 @@
-import classNames from 'classnames';
-import { INodeEntity } from 'multirpc-sdk';
+import { ChainGroupID } from 'modules/endpoints/types';
+import { ChainOverview } from './components/ChainOverview';
+import { ChainType } from 'domains/chains/types';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { MobileGroupSelector } from './components/MobileGroupSelector';
+import { SecondaryTabs } from '../SecondaryTabs';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
 
-import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { fetchChain } from 'domains/chains/actions/fetchChain';
-import { formatChains } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListUtils';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { ExclusiveRPCEndpoints } from './ExclusiveRPCEndpoints';
-import { MainInfo } from './MainInfo';
-import { PublicRPCEndpoints } from './PublicRPCEndpoints';
-
-import { useStyles } from './ChainItemHeaderStyles';
-import { ExclusiveRPCEndpointsSkeleton } from './ExclusiveRPCEndpoints/ExclusiveRPCEndpointsSkeleton';
-import { useGetNetId } from './ChainItemHeaderUtils';
-
-interface ChainItemHeaderProps {
-  chain: ResponseData<typeof fetchChain>['chain'];
-  hasCredentials: boolean;
-  icon: string;
-  className?: string;
-  nodes?: INodeEntity[];
-  loading: boolean;
+export interface ChainItemHeaderProps {
+  chain: IApiChain;
+  chainTypeTab?: Tab<ChainType>;
+  chainTypeTabs: Tab<ChainType>[];
+  groupID: ChainGroupID;
+  groupTab?: Tab<ChainGroupID>;
+  groupTabs: Tab<ChainGroupID>[];
+  isChainArchived: boolean;
+  selectGroup: (id: ChainGroupID) => void;
 }
 
 export const ChainItemHeader = ({
   chain,
-  hasCredentials,
-  icon,
-  className,
-  nodes,
-  loading,
+  chainTypeTab,
+  chainTypeTabs,
+  groupID,
+  groupTab,
+  groupTabs,
+  isChainArchived,
+  selectGroup,
 }: ChainItemHeaderProps) => {
-  const classes = useStyles();
+  const withChainTypeSelector = chainTypeTabs.length > 1;
+  const withGroupSelector = groupTabs.length > 1;
 
-  const [formattedChain] = formatChains([chain]);
-  const { coinName, name } = chain;
-
-  const netId = useGetNetId();
-
-  const exclusivePart = hasCredentials ? (
-    <ExclusiveRPCEndpoints netId={netId} />
-  ) : null;
+  const classes = useChainItemHeaderStyles();
 
   return (
-    <div className={classNames(classes.root, className)}>
-      <div className={classes.top}>
-        <div className={classes.left}>
-          <MainInfo coinName={coinName} name={name} icon={icon} nodes={nodes} />
-          <AddNetworkButton chain={formattedChain} hasPlusIcon />
+    <div className={classes.chainItemHeader}>
+      <ChainOverview chain={chain} isChainArchived={isChainArchived} />
+      {(withChainTypeSelector || withGroupSelector) && (
+        <div className={classes.controls}>
+          <SecondaryTabs
+            selectedTab={chainTypeTab}
+            tabs={chainTypeTabs}
+            visible={withChainTypeSelector}
+          />
+          <SecondaryTabs
+            className={classes.desktopGroupSelector}
+            selectedTab={groupTab}
+            tabs={groupTabs}
+            visible={withGroupSelector}
+          />
+          <MobileGroupSelector
+            chain={chain}
+            className={classes.mobileGroupSelector}
+            groupID={groupID}
+            groupTabs={groupTabs}
+            onGroupSelect={selectGroup}
+            visible={withGroupSelector}
+          />
         </div>
-        {hasCredentials || loading ? null : (
-          <div className={classes.publicEndpoints}>
-            <PublicRPCEndpoints chain={chain} netId={netId} />
-          </div>
-        )}
-      </div>
-      {loading ? <ExclusiveRPCEndpointsSkeleton /> : exclusivePart}
+      )}
     </div>
   );
 };

@@ -3,18 +3,24 @@ import classNames from 'classnames';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { MainNavigation } from '../MainNavigation';
-import { ExtraNavigation } from '../ExtraNavigation';
 import { Logo } from '../Logo';
 import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
+import { ExtraNavigation } from '../ExtraNavigation';
 
 interface SidebarProps {
   className?: string;
+  loading: boolean;
   isWalletConnected: boolean;
+  hasCredentials: boolean;
+  chainsRoutes: string[];
 }
 
 export const SideBar = ({
-  isWalletConnected,
   className = '',
+  loading,
+  isWalletConnected,
+  hasCredentials,
+  chainsRoutes,
 }: SidebarProps) => {
   const classes = useStyles();
 
@@ -24,7 +30,12 @@ export const SideBar = ({
         <div className={classes.container}>
           <Logo />
           <div className={classes.bottom}>
-            <MainNavigation isWalletConnected={isWalletConnected} />
+            <MainNavigation
+              loading={loading}
+              isWalletConnected={isWalletConnected}
+              hasCredentials={hasCredentials}
+              chainsRoutes={chainsRoutes}
+            />
             <div>
               <ExtraNavigation />
             </div>
