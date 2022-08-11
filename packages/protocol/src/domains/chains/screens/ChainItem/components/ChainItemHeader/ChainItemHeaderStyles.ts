@@ -1,38 +1,37 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
-  root: {
-    background: theme.palette.background.paper,
-    borderRadius: 18,
-    padding: theme.spacing(2.5, 3.5),
-    marginBottom: theme.spacing(3.75),
-  },
-  top: {
+export const useChainItemHeaderStyles = makeStyles<Theme>(theme => ({
+  chainItemHeader: {
     display: 'flex',
-    justifyContent: 'space-between',
     flexDirection: 'column',
-    alignItems: 'stretch',
+    gap: theme.spacing(3.75),
+
+    marginBottom: theme.spacing(7.5),
+    padding: theme.spacing(3.75),
+
+    borderRadius: theme.spacing(3.75),
+
+    background: theme.palette.background.paper,
   },
-  left: {
+  controls: {
     display: 'flex',
-    justifyContent: 'space-between',
-    paddingBottom: theme.spacing(2.5),
-  },
-  tooltip: {
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: theme.spacing(2),
+    gap: theme.spacing(1.5),
+
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
     },
   },
-  text: {
-    fontWeight: 600,
+  desktopGroupSelector: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
-  preloaderWrapper: {
-    minHeight: 85,
-    position: 'relative',
-  },
-  publicEndpoints: {
-    paddingTop: theme.spacing(2),
-    borderTop: `2px solid ${theme.palette.background.default}`,
+  mobileGroupSelector: {
+    display: 'none',
+
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+    },
   },
 }));

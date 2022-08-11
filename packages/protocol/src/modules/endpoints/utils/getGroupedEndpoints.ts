@@ -32,6 +32,7 @@ const getChainToEndpointGroupMap = (
 
   groups.forEach(group => {
     const endpointGroup: EndpointGroup = {
+      chainName: '',
       id: group.id,
       name: group.name,
       pluralName: group.pluralName,
@@ -65,6 +66,7 @@ const getEndpointGroups = (
     if (chainID in chainToEndpointGroupMap) {
       chainToEndpointGroupMap[chainID].urls.push(...urls);
       chainToEndpointGroupMap[chainID].urlsCount += urlsCount;
+      chainToEndpointGroupMap[chainID].chainName = chain.name;
     } else if (fallbackEndpointGroup) {
       fallbackEndpointGroup.urls.push(...urls);
       fallbackEndpointGroup.urlsCount += urlsCount;

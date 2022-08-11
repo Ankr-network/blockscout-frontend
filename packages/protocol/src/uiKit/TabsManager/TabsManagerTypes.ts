@@ -13,6 +13,7 @@ export interface Tab<TI = DefaultTabID> {
 
 export interface TabsManagerProps<TI = DefaultTabID> {
   additionalContent?: ReactNode;
+  allowSingleTab?: boolean;
   className?: string;
   selectedTab?: Tab<TI>;
   tabs: Tab<TI>[];

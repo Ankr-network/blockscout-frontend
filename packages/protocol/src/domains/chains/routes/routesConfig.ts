@@ -3,9 +3,8 @@ import { generatePath, useParams } from 'react-router-dom';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const INDEX_PATH = '/';
-export const PATH_CHAINS = `${INDEX_PATH}public/`;
-export const PATH_CHAIN_DETAILS = `${PATH_CHAINS}:chainId/:netId?`;
-export const PATH_ADD_ENDPOINT = `${PATH_CHAINS}:chainId/add`;
+export const PATH_CHAIN_DETAILS = `${INDEX_PATH}:chainId/:netId?`;
+export const PATH_ADD_ENDPOINT = `${INDEX_PATH}:chainId/add`;
 
 interface ChainDetailsPageParams {
   chainId: string;
@@ -18,7 +17,6 @@ export const ChainsRoutesConfig = createRouteConfig(
       path: INDEX_PATH,
       generatePath: () => INDEX_PATH,
       breadcrumbs: 'chains.breadcrumbs',
-      'connected-breadcrumbs': 'chains.connected-breadcrumbs',
     },
     chainDetails: {
       path: PATH_CHAIN_DETAILS,

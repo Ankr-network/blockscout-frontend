@@ -18,6 +18,7 @@ export enum ChainGroupID {
   P_CHAIN = 'p-chain',
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',
+  SEPOLIA = 'eth_sepolia',
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
   STANDARD_EVM = 'standard-evm',
@@ -27,6 +28,7 @@ export enum ChainGroupID {
 }
 
 export interface EndpointGroup {
+  chainName: string;
   id: ChainGroupID;
   name: ChainGroup['name'];
   pluralName: ChainGroup['pluralName'];

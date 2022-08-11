@@ -1,4 +1,5 @@
 export enum ChainType {
+  Devnet = 'devnet',
   Mainnet = 'mainnet',
   Testnet = 'testnet',
 }

@@ -9,17 +9,20 @@ import { getButtonText } from '../WithdrawUtils';
 import { useStyles } from './WithdrawFormStyles';
 import { AmountInputField, WithdrawFormValues } from './WithdrawFormTypes';
 import { MAX_DECIMALS, validate } from './WithdrawFormUtils';
+import { WithdrawBalanceInfo } from './WithdrawBalanceInfo';
 
 interface WithdrawFormProps {
   onSubmit: (values: WithdrawFormValues) => void;
-  ankrBalance: BigNumber;
+  ankrBalanceWithoutVouchers: BigNumber;
+  voucherBalance: BigNumber;
   loading: boolean;
   step: WithdrawStep;
 }
 
 export const WithdrawForm = ({
   onSubmit,
-  ankrBalance,
+  ankrBalanceWithoutVouchers,
+  voucherBalance,
   loading,
   step,
 }: WithdrawFormProps) => {
@@ -36,8 +39,12 @@ export const WithdrawForm = ({
           <AmountField
             name={AmountInputField.amount}
             size="l"
-            validate={value => validate(value, ankrBalance)}
+            validate={value => validate(value, ankrBalanceWithoutVouchers)}
             maxDecimals={MAX_DECIMALS}
+          />
+          <WithdrawBalanceInfo
+            ankrBalanceWithoutVouchers={ankrBalanceWithoutVouchers}
+            voucherBalance={voucherBalance}
           />
           <LoadingButton
             className={classes.button}
@@ -50,7 +57,14 @@ export const WithdrawForm = ({
         </form>
       );
     },
-    [classes.root, classes.button, ankrBalance, loading, step],
+    [
+      classes.root,
+      classes.button,
+      ankrBalanceWithoutVouchers,
+      loading,
+      step,
+      voucherBalance,
+    ],
   );
 
   return <Form onSubmit={onSubmit} render={renderForm} />;
