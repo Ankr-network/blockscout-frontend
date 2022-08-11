@@ -31,6 +31,7 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     margin: theme.spacing(2),
+    position: 'relative',
 
     [theme.breakpoints.up('sm')]: {
       justifyContent: 'flex-start',
@@ -78,7 +79,10 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   },
 
   chip: {
-    marginTop: theme.spacing(0.5),
+    position: 'absolute',
+    zIndex: 1,
+    top: '75px',
+
     background: darken(theme.palette.background.default, 0.04),
     color: theme.palette.primary.main,
     borderRadius: 8,
