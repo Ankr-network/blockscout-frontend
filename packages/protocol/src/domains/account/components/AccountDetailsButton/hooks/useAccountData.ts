@@ -6,6 +6,9 @@ import { getAccountType } from 'domains/account/utils/getAccountType';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { useMemo } from 'react';
 
 export interface AccountData {
   accountType: AccountType;
@@ -16,7 +19,18 @@ export interface AccountData {
 }
 
 export const useAccountData = (): AccountData => {
-  const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
+  const {
+    isConnected: isWallectConnected,
+    isConnecting,
+    isNew,
+    premiumUntil,
+  } = useAuth();
+  const cachedAuthData = useAppSelector(selectAuthData);
+
+  const isConnected = useMemo(
+    () => isWallectConnected && !cachedAuthData.isManualDisconnected,
+    [isWallectConnected, cachedAuthData.isManualDisconnected],
+  );
 
   const { ankrBalance: balance, isLoadingInitially: isBalanceLoading } =
     useBalance(isConnected);

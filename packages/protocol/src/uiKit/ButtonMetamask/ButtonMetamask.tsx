@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button } from '@material-ui/core';
 import cn from 'classnames';
+
 import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
 interface IButtonSpecialProps {
-  onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  isDisabled?: boolean;
-  size?: 'large' | 'medium';
   className?: string;
   hasPlusIcon?: boolean;
+  isDisabled?: boolean;
+  label?: ReactNode;
+  onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  size?: 'large' | 'medium';
 }
 
 export const ButtonMetamask = ({
-  onClick,
-  isDisabled,
-  size = 'large',
   className,
   hasPlusIcon = false,
+  isDisabled,
+  label,
+  onClick,
+  size = 'large',
 }: IButtonSpecialProps) => {
   const classes = useButtonMetamaskStyles();
 
@@ -36,6 +39,7 @@ export const ButtonMetamask = ({
         onClick={onClick}
       >
         <MetamaskIcon />
+        {label}
         {hasPlusIcon && (
           <span className={classes.plusIconWrapper}>
             <svg

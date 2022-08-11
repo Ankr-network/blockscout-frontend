@@ -5,12 +5,17 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './ArchiveLabelStyles';
+import classNames from 'classnames';
 
-interface ArchiveLabelProps {
+export interface ArchiveLabelProps {
   className?: string;
+  labelClassName?: string;
 }
 
-export const ArchiveLabel = ({ className = '' }: ArchiveLabelProps) => {
+export const ArchiveLabel = ({
+  className = '',
+  labelClassName,
+}: ArchiveLabelProps) => {
   const classes = useStyles();
 
   return (
@@ -19,7 +24,11 @@ export const ArchiveLabel = ({ className = '' }: ArchiveLabelProps) => {
         hasIcon={false}
         tooltipText={tHTML('chains.archive-tooltip-text')}
       >
-        <Typography variant="body2" className={classes.label} component="div">
+        <Typography
+          className={classNames(labelClassName, classes.label)}
+          component="div"
+          variant="body2"
+        >
           <StatusCircle mr={0.4} status="success" /> {t('chains.archive')}
         </Typography>
       </TooltipWrapper>

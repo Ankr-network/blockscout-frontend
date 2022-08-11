@@ -1,49 +1,48 @@
-import { useMemo } from 'react';
-
-import { t } from 'common';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { H1Tag } from 'uiKit/H1Tag';
-import { getChainName } from 'uiKit/utils/useMetatags';
-import { IChainItemDetails } from '../../actions/fetchChain';
-import { ContentBanner } from '../Chains/components/Banner/ContentBanner';
-import { useStyles } from './ChainItemStyles';
+
+import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemTabs } from './components/ChainItemTabs';
-import { useChainItemBreadcrumbs } from './useChainItem';
+import { IChainItemDetails } from '../../actions/fetchChain';
+import { t } from 'common';
+import { useChainItem } from './hooks/useChainItem';
+import { useChainItemBreadcrumbs } from './hooks/useChainItemBreadcrumbs';
 
-interface IChainItemUIProps {
+export interface ChainItemProps {
   data: IChainItemDetails;
-  chainId: string;
 }
 
-export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
-  const { credentials, loading: authLoading, isWalletConnected } = useAuth();
+export const ChainItem = ({ data }: ChainItemProps) => {
+  const {
+    chain,
+    chainTypeTab,
+    chainTypeTabs,
+    group,
+    groupID,
+    groupTab,
+    groupTabs,
+    isChainArchived,
+    name,
+    selectGroup,
+  } = useChainItem(data);
 
-  const classes = useStyles();
-
-  useChainItemBreadcrumbs(data.chain.name, isWalletConnected);
-
-  const { chain, nodes } = data;
-
-  const name = useMemo(() => getChainName(chainId), [chainId]);
+  useChainItemBreadcrumbs(chain.name);
 
   return (
     <>
       <AddEmailBanner />
-
-      <div className={classes.chainDetailsWrapper}>
-        <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
-        <ChainItemHeader
-          chain={chain}
-          hasCredentials={Boolean(credentials)}
-          icon={chain.icon}
-          nodes={nodes}
-          loading={authLoading}
-        />
-        {!credentials && !authLoading && <ContentBanner />}
-        <ChainItemTabs chainId={chainId} data={data} />
-      </div>
+      <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
+      <ChainItemHeader
+        chain={chain}
+        chainTypeTabs={chainTypeTabs}
+        chainTypeTab={chainTypeTab}
+        groupID={groupID}
+        groupTabs={groupTabs}
+        groupTab={groupTab}
+        isChainArchived={isChainArchived}
+        selectGroup={selectGroup}
+      />
+      <ChainItemTabs data={data} group={group} />
     </>
   );
 };

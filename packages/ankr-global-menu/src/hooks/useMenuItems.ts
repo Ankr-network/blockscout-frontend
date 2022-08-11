@@ -16,18 +16,18 @@ export const useMenuItems = ({
       (
         [
           {
-            id: 'protocol',
+            id: 'rpc',
             title: AnkrIntl.t('global-menu.build.title'),
             items: [
               {
                 label: AnkrIntl.t('global-menu.build.item-1'),
-                link: '/protocol/',
-                project: 'protocol',
+                link: '/rpc/',
+                project: 'rpc',
               },
               {
                 label: AnkrIntl.t('global-menu.build.item-2'),
-                link: '/protocol/account/',
-                project: 'protocol',
+                link: '/rpc/account/',
+                project: 'rpc',
               },
               {
                 label: AnkrIntl.t('global-menu.build.item-3'),

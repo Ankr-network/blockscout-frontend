@@ -11,6 +11,7 @@ export function TabsManager<TI = DefaultTabID>({
   selectedTab,
   tabs,
   title,
+  allowSingleTab,
 }: TabsManagerProps<TI>) {
   const classes = useStyles();
 
@@ -20,7 +21,7 @@ export function TabsManager<TI = DefaultTabID>({
         <div className={classes.right}>
           {title}
           {/* doesn't show tabs if there is only one of them */}
-          {tabs.length > 1 &&
+          {(allowSingleTab || tabs.length > 1) &&
             tabs.map(({ id, isDisabled, onSelect, ...tab }, index) => (
               <div
                 className={classes.tab}

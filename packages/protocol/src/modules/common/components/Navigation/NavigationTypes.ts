@@ -14,4 +14,5 @@ export interface NavigationItem {
 
 export interface NavigationProps {
   items: NavigationItem[];
+  loading?: boolean;
 }

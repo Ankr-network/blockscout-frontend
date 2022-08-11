@@ -1,12 +1,12 @@
 import { Balance } from 'domains/account/actions/balance/types';
 import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
-import { getAccountType } from 'domains/account/utils/getAccountType';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 import { useCurrency } from './useCurrency';
+import { useAccountType } from './useAccountType';
 
 type BalanceMap = Record<
   Currency,
@@ -32,12 +32,11 @@ export const useBalanceData = (): BalanceData => {
 
   const [currency, switchCurrency] = useCurrency();
 
-  const accountType = getAccountType({
-    balance: balance.ankrBalance,
-    balanceEndTime,
+  const { accountType } = useAccountType(
+    balance.ankrBalance,
     isNew,
     premiumUntil,
-  });
+  );
 
   return {
     accountType,
