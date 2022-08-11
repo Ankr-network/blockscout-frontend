@@ -1,6 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
 
@@ -17,6 +18,7 @@ const MIN_AMOUNT = 0;
 interface IAmountInputProps {
   balance?: BigNumber;
   balanceLabel?: string;
+  balanceDecimals?: number;
   isBalanceLoading?: boolean;
   isIntegerOnly?: boolean;
   disabled?: boolean;
@@ -28,6 +30,7 @@ interface IAmountInputProps {
   maxAmount?: BigNumber;
   showBalance?: boolean;
   maxDecimals?: number;
+  isLongBalance?: boolean;
   balanceLinkSlot?: ReactNode;
   onMaxClick?: () => void;
 }
@@ -36,6 +39,7 @@ export const AmountInput = ({
   balance,
   balanceLabel,
   maxAmount = balance,
+  balanceDecimals = DEFAULT_FIXED,
   isBalanceLoading = false,
   isIntegerOnly = false,
   disabled = false,
@@ -47,12 +51,13 @@ export const AmountInput = ({
   showBalance = true,
   maxDecimals,
   balanceLinkSlot,
+  isLongBalance = false,
   onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
   const withBalance = !!balance;
   const roundedBalance = balance
-    ? balance.decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN).toFormat()
+    ? balance.decimalPlaces(balanceDecimals, BigNumber.ROUND_DOWN).toFormat()
     : '0';
   const isDisabledAmountField = disabled || isBalanceLoading;
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
@@ -67,7 +72,10 @@ export const AmountInput = ({
     <>
       {showBalance && (withBalance || isBalanceLoading) && (
         <Typography
-          className={classes.balance}
+          className={classNames(
+            classes.balance,
+            isLongBalance ? classes.longBalance : classes.shortBalance,
+          )}
           color="textSecondary"
           component="div"
           variant="body2"

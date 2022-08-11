@@ -10,11 +10,14 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { approve } from 'modules/stake-ankr/actions/approve';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { stake } from 'modules/stake-ankr/actions/stake';
+import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
@@ -26,7 +29,6 @@ interface IUseAnkrStake {
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
-  apy?: BigNumber;
   newTotalStake?: BigNumber;
   tokenIn: string;
   closeHref: string;
@@ -34,6 +36,8 @@ interface IUseAnkrStake {
   providerId: string;
   providerName: string;
   amount: BigNumber;
+  apy: BigNumber;
+  lockingPeriod?: Days;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -61,6 +65,9 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
       type: getValidatorDelegatedAmount,
     },
   );
+  const { data: apyData } = useQuery({
+    type: getAPY,
+  });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -70,6 +77,8 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   );
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
+  const apyItem = apyData?.find(x => x.validator === initialProvider);
+  const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
   const isApproved = !!approveData;
 
@@ -79,6 +88,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     dispatchRequest(getProviders());
     dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
   const onSubmit = ({
@@ -123,7 +133,6 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
       isStakeLoading ||
       isApproveLoading ||
       isDelegatedAmountLoading,
-    apy: ZERO,
     newTotalStake,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
@@ -131,6 +140,8 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     providerName: providerName ?? '',
     minStake: commonData?.minStake ?? ZERO,
     amount,
+    apy,
+    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     onChange,
     onSubmit,
   };

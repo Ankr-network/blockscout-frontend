@@ -1,15 +1,19 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
+import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 
 interface IStatsData {
-  highestAPY: number;
+  highestAPY: string;
   tvl: string;
-  tvlPercent: number;
   lockingPeriod: number;
-  rewards24h: string;
-  rewards30d: string;
+  rewards24h?: string;
+  rewards30d?: string;
 }
 
 export const useStatsData = (): IStatsData => {
@@ -17,22 +21,22 @@ export const useStatsData = (): IStatsData => {
   const { data } = useQuery({
     type: getProvidersTotalInfo,
   });
+  const { data: maxApy } = useQuery({
+    type: getMaxApy,
+  });
+  const tvl = data?.totalTVL ?? ZERO;
 
   useProviderEffect(() => {
     dispatchRequest(getProvidersTotalInfo());
+    dispatchRequest(getMaxApy());
+    dispatchRequest(getANKRPrice());
   }, [dispatchRequest]);
 
   return {
-    highestAPY: data?.currentHighestAPY ?? 0,
-    tvl: data?.totalDelegatedAmount.toFormat() ?? '0',
-    tvlPercent: data
-      ? +data.totalDelegatedAmount
-          .dividedBy(data.totalTVL)
-          .multipliedBy(100)
-          .decimalPlaces(0)
-      : 0,
+    highestAPY:
+      maxApy?.decimalPlaces(DEFAULT_ROUNDING).toFormat() ??
+      TEMPORARY_APY.toFormat(),
+    tvl: getShortNumber(tvl),
     lockingPeriod: data?.lockingPeriod ?? 0,
-    rewards24h: '0k',
-    rewards30d: '0m',
   };
 };

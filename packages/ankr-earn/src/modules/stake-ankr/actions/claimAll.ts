@@ -7,9 +7,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
 
-import { getActiveStakingData } from './getActiveStakingData';
 import { getHistoryData } from './getHistoryData';
-import { getUnstakingData } from './getUnstakingData';
 
 type TTxHash = string;
 
@@ -31,8 +29,6 @@ export const claimAll = createAction<RequestAction<TTxHash, TTxHash>>(
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {
-        store.dispatchRequest(getUnstakingData());
-        store.dispatchRequest(getActiveStakingData());
         store.dispatchRequest(getHistoryData());
       },
     },

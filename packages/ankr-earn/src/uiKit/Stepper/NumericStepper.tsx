@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { CompleteCircleIcon } from 'uiKit/Icons/CompleteCircleIcon';
+import { DisablesCircleIcon } from 'uiKit/Icons/DisablesCircleIcon';
 
 import { useNumericStepperStyles } from './useNumericStepperStyles';
 
@@ -46,7 +46,7 @@ export const NumericStepper = ({
                 ? stepProps =>
                     stepProps.completed ? (
                       <Box className={classes.completeIcon}>
-                        <CompleteCircleIcon />
+                        <DisablesCircleIcon />
                       </Box>
                     ) : null
                 : undefined

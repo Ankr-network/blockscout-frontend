@@ -13,9 +13,10 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
-import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
@@ -110,8 +111,9 @@ export const UnstakingTable = (): JSX.Element | null => {
                   </TableBodyCell>
 
                   <TableBodyCell label={`${captions[ELabel.amount].label}`}>
-                    <BaseAnkrAmount
-                      ankrAmount={row.unstakeAmount}
+                    <BaseTokenUsdAmount
+                      amount={row.unstakeAmount}
+                      token={Token.ANKR}
                       usdAmount={row.usdUnstakeAmount}
                     />
                   </TableBodyCell>

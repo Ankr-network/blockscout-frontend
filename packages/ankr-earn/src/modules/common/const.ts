@@ -47,7 +47,7 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
-export const isLocal = !!process.env.REACT_APP_IS_LOCAL;
+export const isLocal = process.env.REACT_APP_IS_LOCAL === 'true';
 
 export const ETH_RPC_URL = process.env.REACT_APP_ETH_RPC;
 export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN as string;
@@ -90,7 +90,7 @@ export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
 export const OPENOCEAN_QUOTE_URL =
   'https://open-api.openocean.finance/v1/cross/quote';
 
-export const featuresConfig = {
+export const featuresConfig /* Record<string: boolean> */ = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
@@ -104,12 +104,12 @@ export const featuresConfig = {
   dashboardNativeAmount: false,
   // ! only for testing purpose
   stakeETHWithoutClaim: currentEnv !== Env.Production,
-  avaxSwitcher: true,
   isActivePolkadotClaiming: true,
   isActivePolkadotStaking: true,
-  ankrStaking: currentEnv !== Env.Production,
+  newDashboard: isLocal,
+  ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
-  maticLandingLink: currentEnv !== Env.Production,
+  maticPolygonStaking: isLocal,
 };
 
 export enum SupportedChainIDS {

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { configFromEnv } from 'modules/api/config';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getAnkrBalance } from 'modules/stake-polygon/actions/getAnkrBalance';
+import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getTestAnkrTokens } from 'modules/testing-ui/actions/getTestAnkrTokens';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
 import { Button } from 'uiKit/Button';

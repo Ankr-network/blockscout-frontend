@@ -15,9 +15,10 @@ import { getRoutes as getStakeAvalancheRoutes } from 'modules/stake-avax/Routes'
 import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { getRoutes as getStakeEthereumRoutes } from 'modules/stake-eth/Routes';
 import { getRoutes as getStakeFantomRoutes } from 'modules/stake-fantom/Routes';
+import { getRoutes as getStakeMaticCommonRoutes } from 'modules/stake-matic/common/Routes';
+import { getRoutes as getStakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { getRoutes as getStakeGnosisRoutes } from 'modules/stake-mgno/Routes';
 import { getRoutes as getStakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
-import { getRoutes as getStakePolygonRoutes } from 'modules/stake-polygon/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
 import { getRoutes as getSwapRoutes } from 'modules/swap/Routes';
 import { getRoutes as getSwitcherRoutes } from 'modules/switcher/Routes';
@@ -36,7 +37,9 @@ export function Routes(): JSX.Element {
 
       {getStakeRoutes()}
 
-      {getStakePolygonRoutes()}
+      {featuresConfig.maticPolygonStaking && getStakeMaticCommonRoutes()}
+
+      {getStakeMaticEthRoutes()}
 
       {getStakeAvalancheRoutes()}
 

@@ -1,16 +1,23 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
+import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
+import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
 
 interface IStatsProps {
   amount: BigNumberish;
+  apy: BigNumber;
 }
 
 interface IUseStats {
-  apy: string;
+  apyText: string;
   yearlyEarning: string;
   yearlyEarningUSD?: string;
   totalStaked?: string;
@@ -18,16 +25,29 @@ interface IUseStats {
   stakers?: string;
 }
 
-export const useStats = ({ amount }: IStatsProps): IUseStats => {
-  const apy = ZERO;
+export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
+  const dispatchRequest = useDispatchRequest();
+  const { data: ankrPrice } = useQuery({
+    type: getANKRPrice,
+  });
+  const { data: totalInfo } = useQuery({
+    type: getProvidersTotalInfo,
+  });
+
+  const usdPrice = ankrPrice ?? ZERO;
   const yearlyEarning = calculateYearlyEarning(amount, apy);
 
   // todo: use actual data
-  const totalStaked = ZERO;
-  const totalStakedUsd = ZERO;
-  const stakers = '0';
+  const totalStaked = totalInfo?.totalTVL ?? ZERO;
+  const totalStakedUsd = totalStaked.multipliedBy(usdPrice);
 
-  const usdRatio = totalStaked && totalStakedUsd?.div(totalStaked);
+  useProviderEffect(() => {
+    dispatchRequest(getAPY());
+    dispatchRequest(getANKRPrice());
+    dispatchRequest(getProvidersTotalInfo());
+  }, [dispatchRequest]);
+
+  const usdRatio = totalStaked && usdPrice;
 
   const yearlyEarningUSD = usdRatio
     ? usdRatio
@@ -37,14 +57,13 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
     : undefined;
 
   return {
-    apy: t('stake.stats.apy-value', {
+    apyText: t('stake.stats.apy-value', {
       value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
-    yearlyEarning: yearlyEarning.toFormat(),
+    yearlyEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     yearlyEarningUSD,
-    totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
-    stakers,
   };
 };
 

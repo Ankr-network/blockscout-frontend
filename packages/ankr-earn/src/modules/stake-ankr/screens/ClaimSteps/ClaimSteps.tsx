@@ -5,12 +5,11 @@ import { ProgressStep } from 'modules/common/components/ProgressStep';
 import { useClaimStepsHook } from './useClaimStepsHook';
 
 export const ClaimSteps = (): JSX.Element => {
-  const { isLoading, isPending, amount, error, nodeProvider, transactionId } =
+  const { isLoading, isPending, error, nodeProvider, transactionId } =
     useClaimStepsHook();
 
   return (
     <ProgressStep
-      amount={amount}
       error={error}
       hint={t('stake-ankr.claim.description')}
       isLoading={isLoading}

@@ -5,7 +5,7 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     padding: theme.spacing(2.5),
 
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(3, 4),
+      padding: theme.spacing(3, 3),
     },
   },
 
@@ -22,9 +22,10 @@ export const useTotalStakedStyles = makeStyles(theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
+    height: 230,
 
     [theme.breakpoints.up('lg')]: {
-      minHeight: 170,
+      height: 170,
     },
   },
 
@@ -52,22 +53,13 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     maxWidth: 170,
 
     fontWeight: 700,
-    fontSize: 28,
+    fontSize: 32,
     lineHeight: 1,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
 
     [theme.breakpoints.up('md')]: {
-      fontSize: 32,
-      maxWidth: 200,
-    },
-
-    [theme.breakpoints.up('lg')]: {
-      maxWidth: 110,
-    },
-
-    [theme.breakpoints.up('xl')]: {
-      maxWidth: 200,
+      maxWidth: 350,
     },
   },
 
@@ -88,6 +80,7 @@ export const useTotalStakedStyles = makeStyles(theme => ({
   },
 
   btnRegular: {
+    fontWeight: 600,
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
   },

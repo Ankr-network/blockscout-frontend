@@ -1,7 +1,13 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { Seconds } from 'modules/common/types';
+
 type TData = Record<string, Date> | null;
+
+interface IProps {
+  poll?: Seconds;
+}
 
 interface IResData {
   [key: string]: {
@@ -11,15 +17,16 @@ interface IResData {
 }
 
 export const getUnstakeDate = createSmartAction<RequestAction<TData, TData>>(
-  'stake/fetchUnstakeDate',
-  (): RequestAction => ({
+  'stake/getUnstakeDate',
+  ({ poll }: IProps = {}): RequestAction => ({
     request: {
       method: 'get',
       url: '/v1alpha/validation/end',
     },
     meta: {
-      showNotificationOnError: false,
       driver: 'axios',
+      poll,
+      showNotificationOnError: false,
       getData: (data: IResData): TData => {
         if (!data) return null;
 

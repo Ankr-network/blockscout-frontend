@@ -1,4 +1,5 @@
 import { Section } from 'modules/delegate-stake/components/Section';
+import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
 import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
@@ -7,8 +8,10 @@ import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
   const {
+    amount,
     balance,
     closeHref,
+    initialAmount,
     initialProvider,
     isApproved,
     isApproveLoading,
@@ -20,9 +23,9 @@ export const Stake = (): JSX.Element => {
     providerName,
     providerSelectHref,
     tokenIn,
-    amount,
-    onSubmit,
+    apy,
     onChange,
+    onSubmit,
   } = useAnkrStake();
 
   return (
@@ -31,6 +34,7 @@ export const Stake = (): JSX.Element => {
         <AnkrStakeForm
           balance={balance}
           closeHref={closeHref}
+          initialAmount={initialAmount}
           initialProvider={initialProvider}
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
@@ -38,6 +42,7 @@ export const Stake = (): JSX.Element => {
           isDisabled={isDisabled}
           loading={isStakeLoading}
           lockingPeriod={lockingPeriod}
+          maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           providerName={providerName}
           providerSelectHref={providerSelectHref}
@@ -46,7 +51,7 @@ export const Stake = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <Stats amount={amount} />
+        <Stats amount={amount} apy={apy} />
       </StakeContainer>
     </Section>
   );

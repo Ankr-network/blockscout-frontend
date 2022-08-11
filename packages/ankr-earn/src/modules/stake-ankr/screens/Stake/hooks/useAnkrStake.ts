@@ -5,7 +5,6 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { t } from 'common';
@@ -14,12 +13,19 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { approve } from 'modules/stake-ankr/actions/approve';
+import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
+import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
+import {
+  IAnkrFormState,
+  IAnkrStakeSubmitPayload,
+} from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+
+import { useFormState } from '../../../../forms/hooks/useFormState';
 
 interface IUseAnkrStake {
   isStakeLoading: boolean;
@@ -33,9 +39,11 @@ interface IUseAnkrStake {
   closeHref: string;
   providerSelectHref: string;
   initialProvider?: string;
+  initialAmount?: string;
   providerName?: string;
   lockingPeriod?: Days;
   amount: BigNumber;
+  apy: BigNumber;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -47,18 +55,20 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
 
-  const [amount, setAmount] = useState(ZERO);
+  const { setFormState, formState } =
+    useFormState<IAnkrFormState>(ANKR_STAKE_FORM_ID);
 
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
   });
-
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approve,
+  });
+  const { data: apyData } = useQuery({
+    type: getAPY,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
@@ -66,26 +76,28 @@ export const useAnkrStake = (): IUseAnkrStake => {
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
+    dispatchRequest(getAPY());
 
     return () => {
       dispatch(resetRequests([approve.toString()]));
     };
   }, []);
 
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
-  const currentProvider = providers?.find(
-    provider => provider.validator === queryProvider,
-  );
+  const amount = formState?.amount;
+
+  const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
+  const apyItem = apyData?.find(x => x.validator === initialProvider);
+  const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
   const isApproved = !!approveData;
 
   const onChange = ({
     amount: formAmount,
   }: Partial<IAnkrStakeSubmitPayload>) => {
-    const readyAmount = new BigNumber(formAmount ?? 0);
-    setAmount(formAmount ? readyAmount : ZERO);
+    const readyAmount = formAmount ? new BigNumber(formAmount) : undefined;
+    dispatch(setFormState({ amount: readyAmount }));
   };
 
   const onSubmit = ({
@@ -124,7 +136,9 @@ export const useAnkrStake = (): IUseAnkrStake => {
     initialProvider,
     providerName,
     lockingPeriod: commonData?.lockingPeriod ?? undefined,
-    amount,
+    amount: amount ?? ZERO,
+    initialAmount: amount?.toString(),
+    apy,
     onChange,
     onSubmit,
   };

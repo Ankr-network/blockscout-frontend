@@ -21,6 +21,7 @@ export const Restake = (): JSX.Element => {
     providerName,
     newTotalStake,
     epochEnds,
+    lockingPeriod,
     onSubmit,
   } = useRestake();
 
@@ -76,14 +77,16 @@ export const Restake = (): JSX.Element => {
           </div>
 
           <Quote mb={5} pt={1}>
-            {t('stake-ankr.restake.locking-info')}
+            {t('stake-ankr.restake.locking-info', {
+              value: lockingPeriod,
+            })}
           </Quote>
 
           <Button
             fullWidth
             className={classes.stakeBtn}
             color="primary"
-            disabled={loading}
+            disabled={loading || restakable.isZero()}
             isLoading={loading}
             size="large"
             type="submit"

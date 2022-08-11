@@ -12,20 +12,17 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { Token } from 'modules/common/types/token';
+import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
+import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
-import {
-  ProviderStatus,
-  ProviderStatusTooltip,
-} from 'modules/stake-ankr/components/ProviderStatus';
 import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
-import { YourStakeItem } from 'modules/stake-ankr/components/YourStakeItem';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
-import { ProviderItem } from './ProviderItem';
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
@@ -45,7 +42,6 @@ enum EExpandLabel {
   time,
   lockPeriod,
   yourStake,
-  rewards,
 }
 
 export const ActiveStakingTable = (): JSX.Element | null => {
@@ -82,9 +78,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       {
         label: t('stake-ankr.staking-table.your-stake'),
       },
-      {
-        label: t('stake-ankr.staking-table.rewards'),
-      },
     ],
     [],
   );
@@ -94,16 +87,13 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       SKELETON_ROWS.map((columnWidths, i) => (
         <TableRow key={uid(i)}>
           {columnWidths.map((width, j) => (
-            <TableBodyCell
-              key={uid(`${i}-${j}`)}
-              label={expandCaptions[j].label}
-            >
+            <TableBodyCell key={uid(`${i}-${j}`)} label={mainCaptions[j].label}>
               <Skeleton width={width} />
             </TableBodyCell>
           ))}
         </TableRow>
       )),
-    [expandCaptions],
+    [mainCaptions],
   );
 
   if (!data?.length && !isLoading) {
@@ -115,7 +105,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       expandable
       className={classes.table}
       columnsCount={mainCaptions.length}
-      customCell="200px 220px 300px 1fr"
+      customCell="150px 200px 300px 1fr"
       minWidth={800}
     >
       <TableHead>
@@ -156,7 +146,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                         dense
                         className={classes.expandTable}
                         columnsCount={mainCaptions.length}
-                        customCell="160px 220px 300px 1fr"
+                        customCell="110px 200px 300px 1fr"
                         minWidth={800}
                       >
                         <TableHead>
@@ -176,18 +166,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                             const internalUnstakeLink =
                               additionalInfoItem.isUnlocked
                                 ? RoutesConfig.unstake.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-                            const internalClaimLink =
-                              !additionalInfoItem.rewards.isZero()
-                                ? RoutesConfig.claimRewards.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-                            const internalRestakeLink =
-                              !additionalInfoItem.rewards.isZero()
-                                ? RoutesConfig.restake.generatePath(
                                     row.provider,
                                   )
                                 : undefined;
@@ -220,6 +198,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                                 </TableBodyCell>
 
                                 <TableBodyCell
+                                  align="left"
                                   className={classes.expandedCell}
                                   label={`${
                                     expandCaptions[EExpandLabel.yourStake].label
@@ -227,25 +206,12 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                                 >
                                   <YourStakeItem
                                     withTextUnstake
-                                    ankrAmount={additionalInfoItem.stakeAmount}
+                                    amount={additionalInfoItem.stakeAmount}
+                                    token={Token.ANKR}
                                     unstakeLink={internalUnstakeLink}
                                     usdAmount={
                                       additionalInfoItem.usdStakeAmount
                                     }
-                                  />
-                                </TableBodyCell>
-
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.rewards].label
-                                  }`}
-                                >
-                                  <RewardsItem
-                                    ankrAmount={additionalInfoItem.rewards}
-                                    claimLink={internalClaimLink}
-                                    restakeLink={internalRestakeLink}
-                                    usdAmount={additionalInfoItem.usdRewards}
                                   />
                                 </TableBodyCell>
                               </TableRow>
@@ -259,31 +225,17 @@ export const ActiveStakingTable = (): JSX.Element | null => {
               >
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.provider].label}`}
+                  label={`${mainCaptions[EMainLabel.provider].label}`}
                 >
                   <ProviderItem
                     name={getDemoProviderName(row.provider) ?? row.provider}
                     nodeAPY={row.apy}
-                    statusSlot={
-                      <ProviderStatus
-                        tooltipSlot={
-                          <ProviderStatusTooltip
-                            currentPeriod={10}
-                            latency={40}
-                            status={row.status}
-                            successRate={20}
-                            totalPeriod={10}
-                          />
-                        }
-                        type={row.status}
-                      />
-                    }
                   />
                 </TableBodyCell>
 
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.lockPeriod].label}`}
+                  label={`${mainCaptions[EMainLabel.lockPeriod].label}`}
                 >
                   <LockingPeriodItem
                     daysLeft={row.lockingPeriod}
@@ -299,10 +251,11 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                   label={`${expandCaptions[EMainLabel.yourStake].label}`}
                 >
                   <YourStakeItem
-                    ankrAmount={row.stakeAmount}
+                    amount={row.stakeAmount}
                     stakeLink={RoutesConfig.stakeMore.generatePath(
                       row.provider,
                     )}
+                    token={Token.ANKR}
                     unstakeLink={unstakeLink}
                     usdAmount={row.usdStakeAmount}
                   />
@@ -310,7 +263,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.rewards].label}`}
+                  label={`${mainCaptions[EMainLabel.rewards].label}`}
                 >
                   <RewardsItem
                     ankrAmount={row.rewards}
