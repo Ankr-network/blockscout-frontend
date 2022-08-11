@@ -1,7 +1,7 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
@@ -26,6 +26,7 @@ export const TotalInfo = (): JSX.Element => {
     isClaimAllowed,
     claimAllRewardsLink,
     stakeLink,
+    epochEnds,
   } = useTotalInfo();
 
   return (
@@ -65,7 +66,9 @@ export const TotalInfo = (): JSX.Element => {
                     {t('stake-ankr.total-info.claimable-rewards')}
 
                     <QuestionWithTooltip>
-                      {t('stake-ankr.total-info.claimable-tooltip')}
+                      {tHTML('stake-ankr.total-info.claimable-tooltip', {
+                        value: epochEnds,
+                      })}
                     </QuestionWithTooltip>
                   </Typography>
                 }

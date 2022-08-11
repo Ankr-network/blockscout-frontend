@@ -5,8 +5,10 @@ import { useMemo } from 'react';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
 
 interface IUseTotalInfo {
   totalStaked: BigNumber;
@@ -18,6 +20,7 @@ interface IUseTotalInfo {
   isClaimAllowed: boolean;
   stakeLink: string;
   claimAllRewardsLink: string;
+  epochEnds: string;
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
@@ -26,6 +29,9 @@ export const useTotalInfo = (): IUseTotalInfo => {
     type: getTotalInfo,
   });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
+  const { data: epochEndsSeconds } = useQuery({
+    type: getEpochEndSeconds,
+  });
   const usdPrice = ankrPrice ?? ZERO;
 
   const claimableRewards = useMemo(() => {
@@ -42,7 +48,10 @@ export const useTotalInfo = (): IUseTotalInfo => {
 
   useProviderEffect(() => {
     dispatchRequest(getTotalInfo());
+    dispatchRequest(getEpochEndSeconds());
   }, [dispatchRequest]);
+
+  const epochEnds = getEndEpochText(epochEndsSeconds ?? 0);
 
   const totalStaked = data?.totalDelegatedAmount ?? ZERO;
 
@@ -56,5 +65,6 @@ export const useTotalInfo = (): IUseTotalInfo => {
     isClaimAllowed: !claimableRewards.isZero(),
     claimAllRewardsLink: RoutesConfig.claimAllRewards.generatePath(),
     stakeLink: RoutesConfig.stake.generatePath(),
+    epochEnds,
   };
 };

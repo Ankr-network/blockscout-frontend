@@ -17,6 +17,7 @@ import { Themes } from './types';
 
 export const FONTS = {
   primary: ['Inter', 'sans-serif'].join(','),
+  ttFirsNeueSemiBold: ['TT Firs Neue', 'sans-serif'].join(','),
 };
 
 export const PALETTE: PaletteOptions = {

@@ -53,22 +53,13 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     maxWidth: 170,
 
     fontWeight: 700,
-    fontSize: 28,
+    fontSize: 32,
     lineHeight: 1,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
 
     [theme.breakpoints.up('md')]: {
-      fontSize: 32,
-      maxWidth: 200,
-    },
-
-    [theme.breakpoints.up('lg')]: {
-      maxWidth: 110,
-    },
-
-    [theme.breakpoints.up('xl')]: {
-      maxWidth: 200,
+      maxWidth: 350,
     },
   },
 

@@ -56,7 +56,7 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   },
 
   wrapper: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
 
   desc: {
@@ -69,17 +69,8 @@ export const useEmptyStateStyles = makeStyles(theme => ({
 
   desciptionItem: {
     fontSize: 14,
-    marginTop: 0,
     marginLeft: theme.spacing(1),
     textAlign: 'center',
-
-    [theme.breakpoints.up('sm')]: {
-      textAlign: 'start',
-    },
-
-    [theme.breakpoints.up('md')]: {
-      textAlign: 'center',
-    },
   },
 
   bigLogo: {

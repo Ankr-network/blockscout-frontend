@@ -22,3 +22,7 @@ export const ANKR_PROVIDER_READ_ID = isMainnet
 export const SECONDS_IN_A_DAY = 86_400;
 
 export const ANKR_STAKING_MAX_DECIMALS_LENGTH = 8;
+
+export const ANKR_HISTORY_START_BLOCK = isMainnet ? 15_275_019 : 7_220_323;
+
+export const ANKR_HISTORY_BLOCK_RANGE = isMainnet ? 3_000 : 15_000;

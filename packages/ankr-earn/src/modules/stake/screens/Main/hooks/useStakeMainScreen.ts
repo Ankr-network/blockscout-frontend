@@ -4,7 +4,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getMetrics, TMetrics } from 'modules/stake/actions/getMetrics';
 
@@ -21,7 +20,6 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
-    dispatchRequest(getAPY());
     if (featuresConfig.ankrStaking) {
       dispatchRequest(getMaxApy());
       dispatchRequest(getANKRPrice());

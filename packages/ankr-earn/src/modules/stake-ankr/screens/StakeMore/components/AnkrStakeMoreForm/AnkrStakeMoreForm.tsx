@@ -5,7 +5,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
@@ -99,7 +99,7 @@ export const AnkrStakeMoreForm = ({
 
       <AmountInput
         isLongBalance
-        balance={balance}
+        balance={balance.decimalPlaces(DEFAULT_ROUNDING)}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
         label={

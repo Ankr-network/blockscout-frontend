@@ -1,8 +1,9 @@
+import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import {
   Table as BasicTable,
@@ -14,11 +15,10 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
-import expandNodeProviders from '../../assets/expand-node-providers.png';
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
-import { ProviderItem } from '../ProviderItem';
 
+import chainImage from './assets/chains.png';
 import { useTableStyles } from './useTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
@@ -107,10 +107,7 @@ export const Table = (): JSX.Element | null => {
             data?.map((row, i) => (
               <TableRow key={uid(i)}>
                 <TableBodyCell label={`${captions[0].label}`}>
-                  <ProviderItem
-                    name={row.provider}
-                    nodeAmount={row.nodeAmount}
-                  />
+                  {row.provider}
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[1].label}`}>
@@ -134,9 +131,15 @@ export const Table = (): JSX.Element | null => {
         </TableBody>
       </BasicTable>
 
-      {!!data.length && (
-        <img alt="" className={classes.expandLogo} src={expandNodeProviders} />
-      )}
+      <div className={classes.bannerWrapper}>
+        {!!data.length && (
+          <img alt="" className={classes.expandLogo} src={chainImage} />
+        )}
+
+        <Typography className={classes.expandDescription} variant="h2">
+          {tHTML('stake-ankr.table.expand-description')}
+        </Typography>
+      </div>
     </>
   );
 };

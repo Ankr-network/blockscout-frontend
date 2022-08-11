@@ -60,7 +60,7 @@ export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
     apyText: t('stake.stats.apy-value', {
       value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
-    yearlyEarning: yearlyEarning.toFormat(),
+    yearlyEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     yearlyEarningUSD,
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
