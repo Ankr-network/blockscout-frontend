@@ -30,7 +30,6 @@ export const getTotalInfo = createAction<
     })(),
   },
   meta: {
-    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1899
-    showNotificationOnError: false,
+    showNotificationOnError: true,
   },
 }));

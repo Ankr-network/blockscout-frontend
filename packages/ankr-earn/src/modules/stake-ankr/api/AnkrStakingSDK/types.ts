@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { EventData } from 'web3-eth-contract';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 import { Seconds, Web3Address, Web3Uint256 } from 'modules/common/types';
 import { EProviderStatus } from 'modules/stake-ankr/const';
@@ -154,4 +154,16 @@ export interface IClaimableUnstake {
 export interface IApyData {
   validator: string;
   apy: BigNumber;
+}
+
+/**
+ * Internal params for getting past events
+ */
+export interface IGetPastEvents {
+  contract: Contract;
+  eventName: string;
+  startBlock: number;
+  latestBlockNumber: number;
+  rangeStep: number;
+  filter?: Filter;
 }
