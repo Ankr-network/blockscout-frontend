@@ -10,6 +10,7 @@ import { PortfolioChartLegend, IPortfolioChartLegendProps } from '..';
 describe('modules/dashboard/components/PortfolioChartLegend', () => {
   const defaultProps: IPortfolioChartLegendProps = {
     apr: new BigNumber(7.1),
+    isLoading: false,
     totalAmount: new BigNumber(50_600),
     yearlYield: new BigNumber(10_200),
     totalPercent: new BigNumber(50),
@@ -19,7 +20,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
         percent: 30,
         usdAmount: new BigNumber(3_000),
         amount: new BigNumber(1),
-        icon: <AETHBIcon />,
+        icon: AETHBIcon,
         color: '#000',
       },
     ],
@@ -33,6 +34,14 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
     const title = await screen.findByText(/Staked assets/);
 
     expect(title).toBeInTheDocument();
+  });
+
+  test('should render with loading state', async () => {
+    render(<PortfolioChartLegend {...defaultProps} isLoading />);
+
+    const section = await screen.findByTestId('loading-state');
+
+    expect(section).toBeInTheDocument();
   });
 
   test('should render properly with synthetic mode', async () => {

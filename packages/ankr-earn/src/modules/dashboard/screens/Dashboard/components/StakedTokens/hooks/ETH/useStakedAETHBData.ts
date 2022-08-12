@@ -17,12 +17,12 @@ import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
+import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
-import { addSwitcherTokenToWallet } from 'modules/switcher/actions/wallet';
 
 export interface IStakedAETHBData {
   address?: string;
@@ -76,10 +76,8 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
     !amount.isZero() || !pendingValue.isZero() || isBalancesLoading;
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(
-      addSwitcherTokenToWallet({ chainId, swapOption: Token.aETHb }),
-    );
-  }, [chainId, dispatchRequest]);
+    dispatchRequest(addTokenToWallet(Token.aETHb));
+  }, [dispatchRequest]);
 
   return {
     address,

@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
+import { EventData } from 'web3-eth-contract';
 
 import {
   Address,
@@ -28,6 +30,7 @@ import ANKR_TOKEN_STAKING_ABI from '../contracts/AnkrTokenStaking.json';
 import STAKING_CONFIG_ABI from '../contracts/StakingConfig.json';
 
 import {
+  ANKR_HISTORY_BLOCK_RANGE,
   ANKR_HISTORY_START_BLOCK,
   ANKR_PROVIDER_READ_ID,
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
@@ -44,6 +47,7 @@ import {
   IClaimableUnstake,
   IDelegatorDelegation,
   IDelegatorEventData,
+  IGetPastEvents,
   IHistoryData,
   ILockPeriod,
   IStakingReward,
@@ -157,7 +161,7 @@ export class AnkrStakingSDK {
 
     return (
       await provider.getErc20Balance(ankrContract, this.currentAccount)
-    ).decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH);
+    ).decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH, BigNumber.ROUND_DOWN);
   }
 
   private async getAnkrTokenContract() {
@@ -172,22 +176,28 @@ export class AnkrStakingSDK {
   }
 
   public async getAllValidatorsAddresses(): Promise<Web3Address[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const provider = await this.getProvider();
 
-    const validatorAddedEvents = await stakingContract.getPastEvents(
+    const [latestBlockNumber, stakingContract] = await Promise.all([
+      provider.getWeb3().eth.getBlockNumber(),
+      this.getAnkrTokenStakingContract(),
+    ]);
+
+    const validatorEvents = [
       EAnkrEvents.ValidatorAdded,
-      {
-        fromBlock: ANKR_HISTORY_START_BLOCK,
-        toBlock: 'latest',
-      },
-    );
-
-    const validatorRemovedEvents = await stakingContract.getPastEvents(
       EAnkrEvents.ValidatorRemoved,
-      {
-        fromBlock: ANKR_HISTORY_START_BLOCK,
-        toBlock: 'latest',
-      },
+    ];
+
+    const [validatorAddedEvents, validatorRemovedEvents] = await Promise.all(
+      validatorEvents.map(eventName =>
+        this.getPastEvents({
+          eventName,
+          latestBlockNumber,
+          contract: stakingContract,
+          startBlock: ANKR_HISTORY_START_BLOCK,
+          rangeStep: ANKR_HISTORY_BLOCK_RANGE,
+        }),
+      ),
     );
 
     const validators = new Set<Web3Address>();
@@ -207,6 +217,37 @@ export class AnkrStakingSDK {
     });
 
     return Array.from(validators);
+  }
+
+  /**
+   * Internal function to get past events, using the defined range.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents({
+    contract,
+    eventName,
+    startBlock,
+    rangeStep,
+    filter,
+    latestBlockNumber,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const eventsPromises: Promise<EventData[]>[] = [];
+
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
+
+      eventsPromises.push(
+        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+      );
+    }
+
+    const pastEvents = await Promise.all(eventsPromises);
+
+    return flatten(pastEvents);
   }
 
   private async getAnkrTokenStakingContract() {
@@ -419,7 +460,7 @@ export class AnkrStakingSDK {
       .call();
 
     const epoch = epochBlockInterval
-      ? Math.round(blockNumber / +epochBlockInterval)
+      ? Math.ceil(blockNumber / +epochBlockInterval)
       : 0;
 
     const endBlock = blockNumber + +epochBlockInterval;
@@ -548,10 +589,14 @@ export class AnkrStakingSDK {
       this.getProvider(),
     ]);
     const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const events = await stakingContract.getPastEvents(EAnkrEvents.Delegated, {
-      fromBlock: ANKR_HISTORY_START_BLOCK,
-      toBlock: 'latest',
+    const events = await this.getPastEvents({
+      eventName: EAnkrEvents.Delegated,
+      latestBlockNumber,
+      contract: stakingContract,
+      startBlock: ANKR_HISTORY_START_BLOCK,
+      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
       filter,
     });
 
@@ -701,15 +746,16 @@ export class AnkrStakingSDK {
       this.getProvider(),
     ]);
     const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const events = await stakingContract.getPastEvents(
-      EAnkrEvents.Undelegated,
-      {
-        fromBlock: ANKR_HISTORY_START_BLOCK,
-        toBlock: 'latest',
-        filter,
-      },
-    );
+    const events = await this.getPastEvents({
+      eventName: EAnkrEvents.Undelegated,
+      latestBlockNumber,
+      contract: stakingContract,
+      startBlock: ANKR_HISTORY_START_BLOCK,
+      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
+      filter,
+    });
 
     const calls = events.map(
       event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
@@ -749,10 +795,14 @@ export class AnkrStakingSDK {
       this.getProvider(),
     ]);
     const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const events = await stakingContract.getPastEvents(EAnkrEvents.Claimed, {
-      fromBlock: ANKR_HISTORY_START_BLOCK,
-      toBlock: 'latest',
+    const events = await this.getPastEvents({
+      eventName: EAnkrEvents.Claimed,
+      latestBlockNumber,
+      contract: stakingContract,
+      startBlock: ANKR_HISTORY_START_BLOCK,
+      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
       filter,
     });
 
@@ -1381,15 +1431,69 @@ export class AnkrStakingSDK {
    * @returns {IApyData[]}
    */
   public async getAPY(): Promise<IApyData[]> {
-    const { epoch } = await this.getChainParams();
+    const [stakingContract, { epoch }] = await Promise.all([
+      this.getAnkrTokenStakingContract(),
+      this.getChainParams(),
+    ]);
+    const provider = this.readProvider;
+    const web3 = provider.getWeb3();
+    const latestBlockNumber =
+      (await web3.eth.getBlockNumber()) - ANKR_HISTORY_BLOCK_RANGE;
     const prevEpoch = epoch - 1;
+
+    const validatorDepositedEvents = await this.getPastEvents({
+      contract: stakingContract,
+      startBlock: ANKR_HISTORY_START_BLOCK,
+      latestBlockNumber,
+      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
+      eventName: EAnkrEvents.ValidatorDeposited,
+    });
+
+    const calls = validatorDepositedEvents.map(
+      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
+        web3.eth.getBlock.request(event.blockHash, false, callback),
+    );
+    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
+      calls,
+    );
+    const rewardEvents = blocks
+      .map((block, index) => ({
+        ...validatorDepositedEvents[index],
+        timestamp: block.timestamp as number,
+        txDate: new Date((block.timestamp as number) * 1_000),
+      }))
+      .filter(block => +block.returnValues.epoch === prevEpoch);
 
     const validators = await this.getActiveValidators(prevEpoch);
 
+    const rewardsMap = rewardEvents.reduce((acc, reward) => {
+      const existedReward = acc.get(reward.returnValues.validator);
+      acc.set(
+        reward.returnValues.validator,
+        (existedReward ?? ZERO).plus(
+          this.convertFromWei(reward.returnValues.amount),
+        ),
+      );
+
+      return acc;
+    }, new Map<string, BigNumber>());
+
+    const epochDurationDays = await this.getEpochDurationDays();
+    const yearDays = new BigNumber(365);
+
     return validators.map(x => {
+      const rewards = rewardsMap.get(x.validator) ?? ZERO;
+
       return {
         validator: x.validator,
-        apy: TEMPORARY_APY,
+        apy: !rewards.isZero()
+          ? rewards
+              .dividedBy(x.totalDelegated)
+              .multipliedBy(yearDays.dividedBy(epochDurationDays))
+              .multipliedBy(100)
+          : TEMPORARY_APY,
       };
     });
   }

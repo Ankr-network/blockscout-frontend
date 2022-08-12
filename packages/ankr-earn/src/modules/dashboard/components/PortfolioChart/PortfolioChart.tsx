@@ -1,12 +1,12 @@
 import { Card, Typography, Grid } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import cn from 'classnames';
 import * as d3 from 'd3';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t } from 'common';
 
+import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 
@@ -20,6 +20,8 @@ import { usePortfolioChartStyles } from './usePortfolioChartStyles';
 
 export interface IPortfolioChartProps {
   data: IChartSlice[];
+  totalNativeAmountUsd: BigNumber;
+  totalStakedAmountUsd: BigNumber;
   isLoading: boolean;
   height: number;
   width: number;
@@ -30,7 +32,7 @@ export interface IChartSlice {
   percent: number;
   amount: BigNumber;
   usdAmount: BigNumber;
-  icon: JSX.Element;
+  icon: TIcon;
 }
 
 const TRANSITION_DURATION_MS: Milliseconds = 200;
@@ -52,6 +54,8 @@ const COLORS = [
 
 export const PortfolioChart = ({
   data,
+  totalNativeAmountUsd,
+  totalStakedAmountUsd,
   isLoading,
   height,
   width,
@@ -60,6 +64,8 @@ export const PortfolioChart = ({
   const [activeItem, setActiveItem] = useState<
     IPortfolioChartLegendProps['legendItems'][0] | null
   >(null);
+
+  const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
 
   const items = useMemo(
     () =>
@@ -97,7 +103,7 @@ export const PortfolioChart = ({
       const svgHeight = height;
       const radius = Math.min(svgWidth, svgHeight) / 2;
 
-      d3.selectAll('g').remove();
+      svg.selectAll('g').remove();
 
       const g = svg
         .append('g')
@@ -116,11 +122,6 @@ export const PortfolioChart = ({
         )
         .innerRadius(radius);
 
-      const tooltip = d3
-        .select('body')
-        .append('div')
-        .attr('class', classes.tooltip);
-
       const arc = g
         .selectAll('.arc')
         .data(pie(data))
@@ -129,33 +130,17 @@ export const PortfolioChart = ({
         .attr('class', 'arc')
         .attr('opacity', 1)
         .attr('data-testid', d => d.data.name)
-        .on('mouseover', function mouseover(event: MouseEvent, d) {
-          const percents = t('unit.percentage-value', {
-            value: d.data.percent,
-          });
-
+        .on('mouseover', function mouseover() {
           d3.select(this)
             .transition()
             .duration(TRANSITION_DURATION_MS)
             .attr('opacity', 0.85);
-
-          tooltip
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .text(`${d.data.name} (${percents})`)
-            .attr('class', cn(classes.tooltip, classes.activeTooltip))
-            .style('left', `${event.pageX + 10}px`)
-            .style('top', `${event.pageY - 15}px`);
         })
         .on('mouseout', function mouseout() {
           d3.select(this)
             .transition()
             .duration(TRANSITION_DURATION_MS)
             .attr('opacity', 1);
-          tooltip
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .attr('class', classes.tooltip);
         });
 
       arc
@@ -183,7 +168,11 @@ export const PortfolioChart = ({
         .attr('x', 0)
         .attr('y', 40)
         .attr('class', classes.total)
-        .text('$ 91,200');
+        .text(
+          t('dashboard.portfolioUSD', {
+            value: totalAmountUsd.toFormat(),
+          }),
+        );
 
       generalInfo
         .append('text')
@@ -192,7 +181,7 @@ export const PortfolioChart = ({
         .attr('class', classes.apr)
         .text(t('dashboard.apr', { value: 7.1 }).replace(/<\/?b>/g, ''));
     },
-    [data, activeItem?.name, classes, width, height],
+    [data, activeItem?.name, classes, totalAmountUsd, width, height],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, data]);
@@ -226,8 +215,9 @@ export const PortfolioChart = ({
           <Grid item lg={4} md={12} xs={12}>
             <PortfolioChartLegend
               apr={new BigNumber(7.1)}
+              isLoading={isLoading}
               legendItems={syntheticTokens}
-              totalAmount={new BigNumber(50_600)}
+              totalAmount={totalStakedAmountUsd}
               totalPercent={new BigNumber(50)}
               yearlYield={new BigNumber(10_100)}
               onMouseLeave={handleMouseLeave}
@@ -239,8 +229,9 @@ export const PortfolioChart = ({
             <PortfolioChartLegend
               isSynthetic
               apr={new BigNumber(7.1)}
+              isLoading={isLoading}
               legendItems={nativeTokens}
-              totalAmount={new BigNumber(40_200)}
+              totalAmount={totalNativeAmountUsd}
               totalPercent={new BigNumber(50)}
               yearlYield={new BigNumber(10_100)}
               onMouseLeave={handleMouseLeave}

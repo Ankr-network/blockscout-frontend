@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { t } from 'common';
 
+import { DOCS_ANKR_TOKEN_STAKING_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.png';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -49,6 +50,7 @@ export const EmptyState = (): JSX.Element => {
       </Paper>
 
       <HowItWorksDialog
+        docsLink={DOCS_ANKR_TOKEN_STAKING_LINK}
         nodeProviderLink={RoutesConfig.providers.generatePath()}
         open={isOpenedHowItWorks}
         onClose={onCloseHowItWorks}
