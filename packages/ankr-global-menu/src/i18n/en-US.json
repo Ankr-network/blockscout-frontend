@@ -3,7 +3,7 @@
     "mobile-title": "Products",
     "main-page": "Ankr Main Page",
     "build": {
-      "title": "BUILD",
+      "title": "Build",
       "item-1": "Public RPC Endpoints",
       "item-2": "Premium API’s",
       "item-3": "Ankr Scan",
@@ -11,7 +11,7 @@
       "item-5": "Enterprise"
     },
     "staking": {
-      "title": "STAKING",
+      "title": "Staking",
       "item-1": "Dashboard",
       "item-2": "Liquid Staking",
       "item-3": "DeFi",
@@ -20,17 +20,17 @@
       "item-6": "Liquid Crowdloan"
     },
     "gaming": {
-      "title": "GAMING",
+      "title": "Gaming",
       "item-1": "Ankr Gaming"
     },
     "company": {
-      "title": "COMPANY",
+      "title": "Company",
       "item-1": "About Ankr",
       "item-2": "Careers",
       "item-3": "Design Assets"
     },
     "community": {
-      "title": "COMMUNITY",
+      "title": "Community",
       "item-1": "Medium",
       "item-2": "Reddit",
       "item-3": "Discord",
@@ -38,7 +38,7 @@
       "item-5": "Twitter"
     },
     "docs": {
-      "title": "DOCS",
+      "title": "Docs",
       "item-1": "Ankr Docs"
     }
   }
