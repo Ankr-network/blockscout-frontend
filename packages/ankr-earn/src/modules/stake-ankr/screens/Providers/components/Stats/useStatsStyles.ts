@@ -44,6 +44,7 @@ export const useStatsStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     color: `${theme.palette.text.secondary}`,
     fontSize: 14,
+    lineHeight: '14px',
     fontWeight: 'bold',
 
     [theme.breakpoints.up('lg')]: {

@@ -19,7 +19,7 @@ export const getTotalInfo = createAction<
       const sdk = await AnkrStakingSDK.getInstance();
 
       const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-        sdk.getTotalDelegatedAmount(),
+        sdk.getMyTotalDelegatedAmount(),
         sdk.getMyClaimableStakingRewards(),
       ]);
 
@@ -30,6 +30,7 @@ export const getTotalInfo = createAction<
     })(),
   },
   meta: {
-    showNotificationOnError: true,
+    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1899
+    showNotificationOnError: false,
   },
 }));

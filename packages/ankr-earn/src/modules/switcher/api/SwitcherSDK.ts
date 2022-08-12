@@ -6,15 +6,15 @@ import {
   IWeb3SendResult,
 } from '@ankr.com/provider';
 import {
-  PolygonSDK,
+  AvalancheSDK,
   BinanceSDK,
   EthereumSDK,
-  AvalancheSDK,
   FantomSDK,
-  ProviderManagerSingleton,
-  ISwitcher,
   IFetchTxData,
   IFetchTxReceiptData,
+  ISwitcher,
+  MaticEthSDK,
+  ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';
@@ -79,7 +79,7 @@ export class SwitcherSDK {
         await Promise.all([
           BinanceSDK.getInstance(),
           EthereumSDK.getInstance(),
-          PolygonSDK.getInstance(),
+          MaticEthSDK.getInstance(),
           FantomSDK.getInstance(),
           AvalancheSDK.getInstance(),
         ]);

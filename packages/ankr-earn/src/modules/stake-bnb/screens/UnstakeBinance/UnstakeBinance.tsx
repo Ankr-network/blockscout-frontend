@@ -1,5 +1,8 @@
 import { Box, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -8,18 +11,30 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 
+import { approveABNBCUnstake } from '../../actions/approveABNBCUnstake';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useUnstakeBnb } from './hooks/useUnstakeBnb';
 import { useUnstakeBinanceStyles } from './useUnstakeBinanceStyles';
 
+const resetRequests = () =>
+  resetReduxRequests([
+    approveABNBCUnstake.toString(),
+    fetchPendingValues.toString(),
+    fetchStats.toString(),
+    getUnstakeDate.toString(),
+  ]);
+
 export const UnstakeBinance = (): JSX.Element => {
   const classes = useUnstakeBinanceStyles();
+  const dispatch = useAppDispatch();
 
   const {
     isOpened: isSuccessOpened,
@@ -42,16 +57,22 @@ export const UnstakeBinance = (): JSX.Element => {
     onUnstakeSubmit,
   } = useUnstakeBnb(onSuccessOpen);
 
-  const dispatchRequest = useDispatchRequest();
-
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.BNB,
   });
 
   useProviderEffect(() => {
-    dispatchRequest(fetchStats());
-    dispatchRequest(fetchPendingValues());
-  }, [dispatchRequest]);
+    dispatch(resetRequests());
+
+    dispatch(fetchPendingValues());
+    dispatch(fetchStats());
+    dispatch(getUnstakeDate());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   const onRenderFormFooter = (amount: BigNumber): JSX.Element => {
     const value = amount;

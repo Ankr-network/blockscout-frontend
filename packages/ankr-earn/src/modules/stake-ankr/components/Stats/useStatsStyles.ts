@@ -94,17 +94,17 @@ export const useStatsStyles = makeStyles(theme => ({
     fontSize: 16,
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 20,
+      fontSize: 18,
     },
   },
 
   statisticToken: {
     fontWeight: 'bold',
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(0.5),
     fontSize: 16,
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 20,
+      fontSize: 18,
     },
   },
 }));

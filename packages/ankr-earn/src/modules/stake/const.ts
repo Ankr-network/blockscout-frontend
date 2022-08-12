@@ -1,4 +1,4 @@
-import { Milliseconds } from 'modules/common/types';
+import { Milliseconds, Seconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 
 import { EOpenOceanTokens } from './types';
@@ -27,6 +27,8 @@ export const UNSTAKE_DAY_INTERVALS_BY_TOKEN: Record<UnstakableToken, string> = {
 export const INPUT_DEBOUNCE_TIME: Milliseconds = 1_000;
 
 export const MIN_STAKE_TRADE_INFO_DISCOUNT_VAL = 0.5;
+
+export const UNSTAKE_UPDATE_INTERVAL: Seconds = 60;
 
 export const nativeOpenOceanTokenMap: Record<
   EOpenOceanTokens,

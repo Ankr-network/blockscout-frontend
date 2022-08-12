@@ -1,18 +1,15 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
 import { TotalIfnoContent } from 'modules/delegate-stake/components/TotalStaked/TotalIfnoContent';
 import { TotalInfoAmount } from 'modules/delegate-stake/components/TotalStaked/TotalInfoAmount';
-import { Button } from 'uiKit/Button';
+import { NavLink } from 'uiKit/NavLink';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
-import { ClaimAllRewardsDialog } from '../ClaimAllRewardsDialog';
-
-import { useClaim } from './useClaim';
 import { useTotalInfo } from './useTotalInfo';
 import { useTotalInfoStyles } from './useTotalInfoStyles';
 
@@ -26,19 +23,11 @@ export const TotalInfo = (): JSX.Element => {
     climableRewardsUsd,
     isClimableRewardsLoading,
     isTotalStakedLoading,
-    stakeLink,
-  } = useTotalInfo();
-
-  const {
-    availableClaims,
     isClaimAllowed,
-    usdTokenPrice,
-    isClaimLoading,
-    isOpened: isOpenedClaim,
-    onClose: onCloseClaim,
-    onOpen: onOpenClaim,
-    onClaim,
-  } = useClaim();
+    claimAllRewardsLink,
+    stakeLink,
+    epochEnds,
+  } = useTotalInfo();
 
   return (
     <>
@@ -63,21 +52,23 @@ export const TotalInfo = (): JSX.Element => {
                   />
                 }
                 buttonSlot={
-                  <Button
+                  <NavLink
                     className={classNames(classes.btn, classes.btnRegular)}
                     disabled={!isClaimAllowed}
+                    href={claimAllRewardsLink}
                     variant="outlined"
-                    onClick={onOpenClaim}
                   >
                     {t('stake-ankr.total-info.claim-all')}
-                  </Button>
+                  </NavLink>
                 }
                 titleSlot={
                   <Typography className={classes.title}>
                     {t('stake-ankr.total-info.claimable-rewards')}
 
                     <QuestionWithTooltip>
-                      {t('stake-ankr.total-info.claimable-tooltip')}
+                      {tHTML('stake-ankr.total-info.claimable-tooltip', {
+                        value: epochEnds,
+                      })}
                     </QuestionWithTooltip>
                   </Typography>
                 }
@@ -86,16 +77,6 @@ export const TotalInfo = (): JSX.Element => {
           </Grid>
         </Grid>
       </Box>
-
-      <ClaimAllRewardsDialog
-        availableClaims={availableClaims}
-        claimLoading={isClaimLoading}
-        isClaimsLoading={false}
-        open={isOpenedClaim}
-        usdTokenPrice={usdTokenPrice}
-        onClaim={onClaim}
-        onClose={onCloseClaim}
-      />
     </>
   );
 };

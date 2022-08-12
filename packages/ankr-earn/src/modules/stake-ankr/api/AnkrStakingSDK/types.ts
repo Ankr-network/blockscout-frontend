@@ -37,13 +37,13 @@ export interface IValidator {
   prettyStatus: TValidatorPrettyStatus;
   status: Web3Uint256;
   slashesCount: number;
-  totalDelegated: Web3Uint256;
+  totalDelegated: BigNumber;
   votingPower: number;
   changedAt: number;
   jailedBefore: number;
   claimedAt: number;
   commissionRate: Web3Uint256;
-  totalRewards: Web3Uint256;
+  totalRewards: BigNumber;
 }
 
 export type IEventData = EventData;
@@ -103,6 +103,7 @@ export enum EAnkrEvents {
   Delegated = 'Delegated',
   Undelegated = 'Undelegated',
   Claimed = 'Claimed',
+  ValidatorDeposited = 'ValidatorDeposited',
 }
 
 export interface IAdditionalActiveStakingData {
@@ -148,4 +149,9 @@ export interface IHistoryData {
 export interface IClaimableUnstake {
   validator: string;
   amount: BigNumber;
+}
+
+export interface IApyData {
+  validator: string;
+  apy: BigNumber;
 }

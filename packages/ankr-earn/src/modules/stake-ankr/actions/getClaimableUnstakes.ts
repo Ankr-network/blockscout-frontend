@@ -15,11 +15,11 @@ export const getClaimableUnstakes = createAction<
   `${ANKR_ACTIONS_PREFIX}getClaimableUnstakes`,
   ({ validator }: IGetClaimableUnstakesProps) => ({
     request: {
-      promise: async (): Promise<BigNumber> => {
+      promise: (async (): Promise<BigNumber> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         return sdk.getClaimableUnstakes(validator);
-      },
+      })(),
     },
     meta: {
       showNotificationOnError: true,

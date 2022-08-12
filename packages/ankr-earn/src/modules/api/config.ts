@@ -167,10 +167,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
     aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
-    // todo: add actual production address
-    ankrTokenStaking: ZERO_ADDR,
-    // todo: add actual production address
-    ankrStakingChainConfig: ZERO_ADDR,
+    ankrTokenStaking: '0xaB15B0bdDc012092cb23f53953149a7F8C1f9E7f',
+    ankrStakingChainConfig: '0x2d3F893c7c45C2BE3Ec63cf5385DeAfD7Ece6AAE',
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',

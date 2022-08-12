@@ -10,7 +10,6 @@ import { ANKR_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { getHistoryData } from './getHistoryData';
-import { getUnstakingData } from './getUnstakingData';
 
 type TTxHash = string;
 
@@ -39,7 +38,6 @@ export const claimUnstakes = createAction<
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {
-        store.dispatchRequest(getUnstakingData());
         store.dispatchRequest(getHistoryData());
         const txHash = response.data;
 

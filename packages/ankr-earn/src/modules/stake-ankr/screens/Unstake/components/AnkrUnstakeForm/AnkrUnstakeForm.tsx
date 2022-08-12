@@ -8,8 +8,8 @@ import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
-  IAnkrStakeSubmitPayload,
   EFieldsNames,
+  IAnkrStakeSubmitPayload,
 } from 'modules/stake-ankr/types';
 import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -102,12 +102,7 @@ export const AnkrUnstakeForm = ({
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
       />
 
-      <NodeProviderField
-        isDisabled
-        mt={5}
-        providerName={providerName}
-        providerSelectHref=""
-      />
+      <NodeProviderField isDisabled mt={5} providerName={providerName} />
 
       <Quote mt={6}>{t('stake-ankr.unstaking.undelegeting-info')}</Quote>
 

@@ -12,10 +12,11 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { Token } from 'modules/common/types/token';
+import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
 import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
-import { YourStakeItem } from 'modules/stake-ankr/components/YourStakeItem';
 
 import { useStakeData } from '../../hooks/useStakeData';
 
@@ -113,8 +114,9 @@ export const MyStakeTable = (): JSX.Element | null => {
                 label={`${captions[ELabel.yourStake].label}`}
               >
                 <YourStakeItem
-                  ankrAmount={row.stakeAmount}
+                  amount={row.stakeAmount}
                   stakeLink={row.stakeLink}
+                  token={Token.ANKR}
                   unstakeLink={row.unstakeLink}
                   usdAmount={row.usdStakeAmount}
                 />

@@ -26,7 +26,11 @@ export const ProviderItem = ({
       <div className={classes.infoWrapper}>
         {name}
 
-        <div className={classes.nodeAmount}>{renderNodeAmount(nodeAmount)}</div>
+        {nodeAmount > 0 && (
+          <div className={classes.nodeAmount}>
+            {renderNodeAmount(nodeAmount)}
+          </div>
+        )}
       </div>
     </div>
   );

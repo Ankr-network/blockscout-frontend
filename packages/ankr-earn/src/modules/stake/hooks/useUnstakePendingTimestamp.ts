@@ -1,10 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { useEffect } from 'react';
+import { useQuery } from '@redux-requests/react';
 
 import { t } from 'common';
 
 import { getTimeRemaining } from 'modules/common/utils/getTimeRemaining';
-import { useInterval } from 'modules/common/utils/useInterval';
 
 import { getUnstakeDate } from '../actions/getUnstakeDate';
 import { UnstakableToken, UNSTAKE_DAY_INTERVALS_BY_TOKEN } from '../const';
@@ -19,24 +17,12 @@ export interface IUseUnstakePendingTimestampData {
   isTimeOver: boolean;
 }
 
-const UNSTAKE_UPDATE_INTERVAL_MS = 60_000;
-
 export const useUnstakePendingTimestamp = ({
   token,
 }: IUseUnstakePendingTimestampArgs): IUseUnstakePendingTimestampData => {
-  const dispatchRequest = useDispatchRequest();
-
   const { data: unstakeDate } = useQuery({
     type: getUnstakeDate,
   });
-
-  useEffect(() => {
-    dispatchRequest(getUnstakeDate());
-  }, [dispatchRequest]);
-
-  useInterval(() => {
-    dispatchRequest(getUnstakeDate());
-  }, UNSTAKE_UPDATE_INTERVAL_MS);
 
   const date = unstakeDate?.[token.toLowerCase()];
   const timeRemaining = date ? getTimeRemaining(date) : { total: 0 };

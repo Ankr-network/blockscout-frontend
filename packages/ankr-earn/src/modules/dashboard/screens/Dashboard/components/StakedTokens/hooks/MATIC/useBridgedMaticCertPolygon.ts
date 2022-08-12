@@ -15,7 +15,7 @@ import {
 import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { fetchStats } from 'modules/stake-polygon/actions/fetchStats';
+import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
