@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { darken, makeStyles } from '@material-ui/core';
 
 export const useEmptyStateStyles = makeStyles(theme => ({
   paper: {
@@ -7,10 +7,6 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     padding: theme.spacing(4),
-
-    // [theme.breakpoints.up('md')]: {
-    //   padding: theme.spacing(3, 4),
-    // },
   },
 
   button: {
@@ -32,11 +28,18 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   statistic: {
     minHeight: theme.spacing(8.5),
     display: 'flex',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
     alignItems: 'center',
-    flexFlow: 'row wrap',
-    padding: theme.spacing(1, 0),
-    borderBottom: `2px solid ${theme.palette.background.default}`,
+    margin: theme.spacing(2),
+    position: 'relative',
+
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-start',
+      flexFlow: 'row wrap',
+      padding: theme.spacing(1, 0),
+      borderBottom: `2px solid ${theme.palette.background.default}`,
+      margin: 0,
+    },
 
     [theme.breakpoints.up('lg')]: {
       maxWidth: '50%',
@@ -54,21 +57,34 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   },
 
   wrapper: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
+  },
+
+  desc: {
+    fontSize: 16,
+    fontWeight: 400,
+    textAlign: 'center',
+
+    [theme.breakpoints.up('sm')]: {},
   },
 
   desciptionItem: {
     fontSize: 14,
-    marginTop: 0,
     marginLeft: theme.spacing(1),
-    textAlign: 'start',
-
-    [theme.breakpoints.up('md')]: {
-      textAlign: 'center',
-    },
+    textAlign: 'center',
   },
 
   bigLogo: {
     width: 159,
+  },
+
+  chip: {
+    position: 'absolute',
+    zIndex: 1,
+    top: '75px',
+
+    background: darken(theme.palette.background.default, 0.04),
+    color: theme.palette.primary.main,
+    borderRadius: 8,
   },
 }));

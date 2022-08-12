@@ -12,7 +12,7 @@ import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTxHistory } from 'modules/stake-polygon/actions/fetchTxHistory';
+import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IGetHistoryTransactionsArgs {

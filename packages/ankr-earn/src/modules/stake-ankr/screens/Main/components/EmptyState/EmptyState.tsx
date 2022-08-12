@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import { t } from 'common';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
+import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.png';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { Button } from 'uiKit/Button';
 
 import { HowItWorksDialog } from '../HowItWorksDialog';
 
-import ankrBigLogo from './assets/ankr-logo-big.png';
 import { Description } from './Description';
 import { useEmptyStateStyles } from './useEmptyStateStyles';
 
@@ -32,7 +33,7 @@ export const EmptyState = (): JSX.Element => {
           {t('stake-ankr.empty-state.start')}
         </Typography>
 
-        <Typography className={classes.wrapper}>
+        <Typography className={classNames(classes.wrapper, classes.desc)}>
           {t('stake-ankr.empty-state.start-description')}
         </Typography>
 
@@ -48,8 +49,7 @@ export const EmptyState = (): JSX.Element => {
       </Paper>
 
       <HowItWorksDialog
-        docsLink="docsLink"
-        nodeProviderLink="nodeProviderLink"
+        nodeProviderLink={RoutesConfig.providers.generatePath()}
         open={isOpenedHowItWorks}
         onClose={onCloseHowItWorks}
       />

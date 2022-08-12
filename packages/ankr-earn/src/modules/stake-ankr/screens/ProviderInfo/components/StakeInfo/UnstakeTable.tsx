@@ -7,8 +7,9 @@ import {
   TableBodyCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
-import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 
 import { useUnstakeData } from '../../hooks/useUnstakeData';
 
@@ -54,8 +55,9 @@ export const UnstakeTable = (): JSX.Element | null => {
           data?.map((row, i) => (
             <TableRow key={uid(i)}>
               <TableBodyCell className={classes.cell}>
-                <BaseAnkrAmount
-                  ankrAmount={row.unstakeAmount}
+                <BaseTokenUsdAmount
+                  amount={row.unstakeAmount}
+                  token={Token.ANKR}
                   usdAmount={row.usdUnstakeAmount}
                 />
               </TableBodyCell>

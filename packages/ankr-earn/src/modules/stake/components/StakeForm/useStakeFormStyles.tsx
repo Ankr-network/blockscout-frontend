@@ -16,7 +16,7 @@ export const useStakeFormStyles = makeStyles(theme => {
 
     title: {
       textAlign: 'center',
-      margin: theme.spacing(0, 0, 6),
+      margin: theme.spacing(0, 0, 4),
       fontSize: 30,
 
       [theme.breakpoints.up('sm')]: {

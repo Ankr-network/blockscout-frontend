@@ -1,6 +1,9 @@
 import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { resetRequests } from '@redux-requests/core';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
@@ -12,8 +15,10 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
+import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
@@ -25,6 +30,13 @@ import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 
 // todo: remove when actual translation will be added
 const isFeeTooltipActual = false;
+
+const resetRequests = () =>
+  resetReduxRequests([
+    getBurnFee.toString(),
+    getCommonData.toString(),
+    getUnstakeDate.toString(),
+  ]);
 
 export const UnstakeFantom = (): JSX.Element => {
   const classes = useUnstakeFantomStyles();
@@ -55,10 +67,14 @@ export const UnstakeFantom = (): JSX.Element => {
   });
 
   useProviderEffect(() => {
-    dispatch(getCommonData());
+    dispatch(resetRequests());
 
-    return function reset() {
-      dispatch(resetRequests([getBurnFee.toString()]));
+    dispatch(getCommonData());
+    dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
     };
   }, [dispatch]);
 

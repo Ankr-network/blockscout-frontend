@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
+import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { NavLink } from 'uiKit/NavLink';
-
-import { BaseAnkrAmount } from '../BaseAnkrAmount';
 
 import { useRewardsItemStyles } from './useRewardsItemStyles';
 
@@ -25,8 +25,8 @@ export const RewardsItem = ({
 
   return (
     <div className={classes.root}>
-      <BaseAnkrAmount
-        ankrAmount={ankrAmount}
+      <BaseTokenUsdAmount
+        amount={ankrAmount}
         buttonSlot={
           <div className={classes.btnWrapper}>
             {restakeLink && (
@@ -50,6 +50,7 @@ export const RewardsItem = ({
             )}
           </div>
         }
+        token={Token.ANKR}
         usdAmount={usdAmount}
       />
     </div>

@@ -8,6 +8,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
+import { SupportGuard } from './components/SupportGuard';
 import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 
 const ROOT = `${STAKING_PATH}ankr-stake/`;
@@ -17,8 +18,10 @@ const STAKE_MORE_PATH = `${ROOT}stake-more/`;
 const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
 const RESTAKE_PATH = `${ROOT}restake/`;
 const RESTAKE_WITH_PROVIDER_PATH = `${RESTAKE_PATH}?provider=:provider?`;
+const CLAIM_ALL_UNSTAKES_PATH = `${ROOT}claim-all-unstakes/`;
 const CLAIM_UNSTAKES_PATH = `${ROOT}claim-unstakes/`;
 const CLAIM_UNSTAKES_WITH_PROVIDER_PATH = `${CLAIM_UNSTAKES_PATH}?provider=:provider?`;
+const CLAIM_ALL_REWARDS_PATH = `${ROOT}claim-all-rewards/`;
 const CLAIM_REWARDS_PATH = `${ROOT}claim-rewards/`;
 const CLAIM_REWARDS_WITH_PROVIDER_PATH = `${CLAIM_REWARDS_PATH}?provider=:provider?`;
 const UNSTAKE_PATH = `${ROOT}unstake/`;
@@ -110,6 +113,11 @@ export const RoutesConfig = createRouteConfig(
       },
     },
 
+    claimAllUnstakes: {
+      path: CLAIM_ALL_UNSTAKES_PATH,
+      generatePath: () => generatePath(CLAIM_ALL_UNSTAKES_PATH),
+    },
+
     claimRewards: {
       path: CLAIM_REWARDS_PATH,
       generatePath: (provider: string) =>
@@ -121,6 +129,11 @@ export const RoutesConfig = createRouteConfig(
           provider: queryProvider ?? undefined,
         };
       },
+    },
+
+    claimAllRewards: {
+      path: CLAIM_ALL_REWARDS_PATH,
+      generatePath: () => generatePath(CLAIM_ALL_REWARDS_PATH),
     },
 
     claimUnstakesSteps: {
@@ -178,12 +191,20 @@ const Restake = loadComponent(() =>
   import('./screens/Restake').then(module => module.Restake),
 );
 
-const ClaimUnstake = loadComponent(() =>
+const ClaimUnstakes = loadComponent(() =>
   import('./screens/ClaimUnstakes').then(module => module.ClaimUnstakes),
+);
+
+const ClaimAllUnstakes = loadComponent(() =>
+  import('./screens/ClaimAllUnstakes').then(module => module.ClaimAllUnstakes),
 );
 
 const ClaimRewards = loadComponent(() =>
   import('./screens/ClaimRewards').then(module => module.ClaimRewards),
+);
+
+const ClaimAllRewards = loadComponent(() =>
+  import('./screens/ClaimAllRewards').then(module => module.ClaimAllRewards),
 );
 
 const ClaimSteps = loadComponent(() =>
@@ -221,7 +242,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Main />
+            <SupportGuard>
+              <Main />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -232,7 +255,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Providers />
+            <SupportGuard>
+              <Providers />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -243,7 +268,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Stake />
+            <SupportGuard>
+              <Stake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -254,7 +281,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <StakeMore />
+            <SupportGuard>
+              <StakeMore />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -265,7 +294,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Restake />
+            <SupportGuard>
+              <Restake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -276,7 +307,22 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimUnstake />
+            <SupportGuard>
+              <ClaimUnstakes />
+            </SupportGuard>
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.claimAllUnstakes.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <SupportGuard>
+              <ClaimAllUnstakes />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -287,7 +333,22 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimRewards />
+            <SupportGuard>
+              <ClaimRewards />
+            </SupportGuard>
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={ANKR_STAKING_NETWORKS}
+          path={RoutesConfig.claimAllRewards.path}
+          providerId={ANKR_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <SupportGuard>
+              <ClaimAllRewards />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -301,7 +362,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <StakeSteps />
+            <SupportGuard>
+              <StakeSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -312,7 +375,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <UnstakeSteps />
+            <SupportGuard>
+              <UnstakeSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -326,7 +391,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <ClaimSteps />
+            <SupportGuard>
+              <ClaimSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -337,7 +404,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Unstake />
+            <SupportGuard>
+              <Unstake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -348,7 +417,9 @@ export function getRoutes(): JSX.Element {
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
-            <SelectProvider />
+            <SupportGuard>
+              <SelectProvider />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 

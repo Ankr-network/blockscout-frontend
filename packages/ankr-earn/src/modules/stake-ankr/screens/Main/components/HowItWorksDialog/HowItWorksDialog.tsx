@@ -15,7 +15,7 @@ import { useHowItWorksDialogStyles } from './useHowItWorksDialogStyles';
 interface IHowItWorksDialogProps {
   open: boolean;
   nodeProviderLink: string;
-  docsLink: string;
+  docsLink?: string;
   onClose?: () => void;
 }
 
@@ -99,18 +99,20 @@ export const HowItWorksDialog = ({
             {t('stake-ankr.how-it-works.choose-provider')}
           </NavLink>
 
-          <NavLink
-            className={classNames(classes.button, classes.docsButton)}
-            href={docsLink}
-            size="large"
-            variant="outlined"
-          >
-            {t('stake-ankr.how-it-works.view-docs')}
+          {docsLink && (
+            <NavLink
+              className={classNames(classes.button, classes.docsButton)}
+              href={docsLink}
+              size="large"
+              variant="outlined"
+            >
+              {t('stake-ankr.how-it-works.view-docs')}
 
-            <Box marginLeft={0.5}>
-              <ExternalLinkIcon htmlColor="inherit" />
-            </Box>
-          </NavLink>
+              <Box marginLeft={0.5}>
+                <ExternalLinkIcon htmlColor="inherit" />
+              </Box>
+            </NavLink>
+          )}
         </Box>
       </Container>
     </Dialog>

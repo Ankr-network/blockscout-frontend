@@ -1,4 +1,5 @@
 import { Section } from 'modules/delegate-stake/components/Section';
+import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
 import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
@@ -19,8 +20,9 @@ export const StakeMore = (): JSX.Element => {
     providerName,
     minStake,
     newTotalStake,
-    apy,
     amount,
+    apy,
+    lockingPeriod,
     onChange,
     onSubmit,
   } = useAnkrStakeMore();
@@ -29,7 +31,6 @@ export const StakeMore = (): JSX.Element => {
     <Section withContainer={false}>
       <StakeContainer>
         <AnkrStakeMoreForm
-          apy={apy}
           balance={balance}
           closeHref={closeHref}
           isApproved={isApproved}
@@ -37,6 +38,8 @@ export const StakeMore = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
+          lockingPeriod={lockingPeriod}
+          maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           newTotalStake={newTotalStake}
           providerId={providerId}
@@ -46,7 +49,7 @@ export const StakeMore = (): JSX.Element => {
           onSubmit={onSubmit}
         />
 
-        <Stats amount={amount} />
+        <Stats amount={amount} apy={apy} />
       </StakeContainer>
     </Section>
   );

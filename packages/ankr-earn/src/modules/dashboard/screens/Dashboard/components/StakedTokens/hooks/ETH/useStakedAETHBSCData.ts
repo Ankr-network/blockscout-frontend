@@ -4,7 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   AvailableWriteProviders,
@@ -94,10 +94,6 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
 
   const handleAddTokenToWallet = useCallback(() => {
     dispatchRequest(addBNBTokenToWallet(Token.aETH));
-  }, [dispatchRequest]);
-
-  useEffect(() => {
-    dispatchRequest(fetchAETHCBridgeBalanceBSC());
   }, [dispatchRequest]);
 
   return {

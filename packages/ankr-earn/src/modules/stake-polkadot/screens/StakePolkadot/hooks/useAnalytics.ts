@@ -1,3 +1,7 @@
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
@@ -9,28 +13,42 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
-import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
+import {
+  EPolkadotNetworks,
+  TPolkadotETHToken,
+  TPolkadotToken,
+} from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-interface IUseAnalyticsArgs {
+interface IUseAnalyticsProps {
   amount: number;
-  polkadotToken: string;
-  ethToken: string;
+  ethToken: TPolkadotETHToken;
   network: EPolkadotNetworks;
+  polkadotToken: TPolkadotToken;
 }
 
-interface IUseAnalytics {
+interface IUseAnalyticsData {
   sendAnalytics: () => Promise<void>;
 }
 
+const resetRequests = () =>
+  resetReduxRequests(
+    getPolkadotResetRequests([
+      fetchETHTokenBalance.toString(),
+      fetchPolkadotAccountFullBalance.toString(),
+    ]),
+  );
+
 export const useAnalytics = ({
   amount,
-  polkadotToken,
   ethToken,
   network,
-}: IUseAnalyticsArgs): IUseAnalytics => {
+  polkadotToken,
+}: IUseAnalyticsProps): IUseAnalyticsData => {
   const dispatch = useAppDispatch();
+
   const { address, walletName } = useAuth(
     AvailableWriteProviders.polkadotCompatible,
   );
@@ -39,15 +57,11 @@ export const useAnalytics = ({
     type: fetchPolkadotAccountFullBalance,
     requestKey: getPolkadotRequestKey(network),
   });
+
   const { data: ethTokenBalance } = useQuery({
     type: fetchETHTokenBalance,
     requestKey: getPolkadotRequestKey(network),
   });
-
-  useProviderEffect(() => {
-    dispatch(fetchPolkadotAccountFullBalance(network));
-    dispatch(fetchETHTokenBalance(network));
-  }, [dispatch, fetchPolkadotAccountFullBalance, fetchETHTokenBalance]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
@@ -63,6 +77,18 @@ export const useAnalytics = ({
       synthBalance: ethTokenBalance ?? ZERO,
     });
   };
+
+  useProviderEffect(() => {
+    dispatch(resetRequests());
+
+    dispatch(fetchETHTokenBalance(network));
+    dispatch(fetchPolkadotAccountFullBalance(network));
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   return { sendAnalytics };
 };

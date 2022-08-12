@@ -42,6 +42,7 @@ export const providerDefaultOptions: IProviderOptions = {
         1: 'https://rpc.ankr.com/eth',
         5: 'https://eth-goerli-01.dccn.ankr.com',
         56: 'https://rpc.ankr.com/bsc',
+        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -62,6 +63,7 @@ export const providerDefaultOptions: IProviderOptions = {
         1: 'https://rpc.ankr.com/eth',
         5: 'https://eth-goerli-01.dccn.ankr.com',
         56: 'https://rpc.ankr.com/bsc',
+        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -82,6 +84,7 @@ export const providerDefaultOptions: IProviderOptions = {
         1: 'https://rpc.ankr.com/eth',
         5: 'https://eth-goerli-01.dccn.ankr.com',
         56: 'https://rpc.ankr.com/bsc',
+        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -102,6 +105,7 @@ export const providerDefaultOptions: IProviderOptions = {
         1: 'https://rpc.ankr.com/eth',
         5: 'https://eth-goerli-01.dccn.ankr.com',
         56: 'https://rpc.ankr.com/bsc',
+        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
     },
     connector: async (ProviderPackage: any, options: any) => {
@@ -117,6 +121,7 @@ export const providerDefaultOptions: IProviderOptions = {
         1: 'https://rpc.ankr.com/eth',
         5: 'https://eth-goerli-01.dccn.ankr.com',
         56: 'https://rpc.ankr.com/bsc',
+        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
     },
   },

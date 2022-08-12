@@ -1,63 +1,41 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { useEffect, useState } from 'react';
-
-import { t } from 'common';
-
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
+import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
 import { HistoryTable } from '../HistoryTable';
-import { ITabItem, Tabs } from '../Tabs';
+import { Tabs } from '../Tabs';
 import { UnstakingTable } from '../UnstakingTable';
 
+import { useStakingInfo } from './useStakingInfo';
+
 export const StakingInfo = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
-  const { data } = useQuery({
-    type: getUnstakingData,
-  });
+  const {
+    data,
+    loading,
+    unstakingData,
+    currentTab,
+    newUnstakingAmount,
+    activeStakingText,
+    unstakingText,
+    historyText,
+    handleChangeTab,
+  } = useStakingInfo();
 
-  const activeStakingText = t('stake-ankr.tabs.active-staking');
-  const unstakingText = t('stake-ankr.tabs.unstaking');
-  const historyText = t('stake-ankr.tabs.history');
+  const isActiveUnstakingTab = currentTab === unstakingText;
 
-  const [newUnstakingAmount, setUnstakingAmount] = useState(data?.length ?? 0);
-  const [currentTab, setCurrentTab] = useState<string>(activeStakingText);
+  const isShowingButton =
+    isActiveUnstakingTab && !loading && !!data && data.length >= 1;
 
-  useProviderEffect(() => {
-    dispatchRequest(getUnstakingData());
-    setUnstakingAmount(data?.length ?? 0);
-  }, [dispatchRequest]);
-
-  useEffect(() => {
-    setUnstakingAmount(data?.length ?? 0);
-  }, [data]);
-
-  const tabs: ITabItem[] = [
-    {
-      title: activeStakingText,
-      showAmount: false,
-    },
-    {
-      title: unstakingText,
-      showAmount: true,
-    },
-    {
-      title: historyText,
-      showAmount: false,
-    },
-  ];
-
-  const handleChangeTab = (newTab: string) => setCurrentTab(newTab);
+  const isExistsUnstakingData = !!unstakingData && unstakingData.length > 0;
 
   return (
     <div>
       <Tabs
         activeTab={currentTab}
-        claimAllLink={currentTab === unstakingText ? 'claimLink' : ''}
-        handleChangeTab={handleChangeTab}
-        tabs={tabs}
-        unstakingAmount={newUnstakingAmount}
+        claimAllLink={RoutesConfig.claimAllUnstakes.generatePath()}
+        isExistsUnstakingData={isExistsUnstakingData}
+        isShowingButton={isShowingButton}
+        newUnstakingAmount={newUnstakingAmount}
+        onChangeTab={handleChangeTab}
       />
 
       {currentTab === activeStakingText && <ActiveStakingTable />}

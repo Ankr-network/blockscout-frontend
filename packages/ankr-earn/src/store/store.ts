@@ -19,14 +19,15 @@ import {
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { dialog, IDialogState } from 'modules/dialogs';
+import { formsReducer, IFormsState } from 'modules/forms/store/formsSlice';
 import {
   i18nPersistReducer,
   Ti18nState,
 } from 'modules/i18n/store/i18nPersistReducer';
 import {
-  TNotificationsState,
   notificationsReducer,
   showNotification,
+  TNotificationsState,
 } from 'modules/notifications';
 
 import { rootSagas } from './sagas';
@@ -39,6 +40,7 @@ export interface IStoreState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   requests: any;
   router: RouterState<unknown>;
+  forms: IFormsState;
   // user: IUserState; // @TODO Add a logic for this
 }
 
@@ -90,6 +92,7 @@ const rootReducer = combineReducers<IStoreState>({
   notifications: notificationsReducer,
   requests: requestsReducer,
   router: connectRouter(historyInstance),
+  forms: formsReducer,
 });
 
 export const store = configureStore({
