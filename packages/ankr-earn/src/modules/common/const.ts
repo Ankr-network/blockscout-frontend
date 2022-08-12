@@ -19,6 +19,7 @@ export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
 export const ANKR_ETH_LANDING = 'https://www.ankr.com/ethereum-liquid-staking/';
 export const ANKR_MATIC_LANDING =
   'https://www.ankr.com/polygon-liquid-staking/';
+export const ANKR_BNB_LANDING = 'https://www.ankr.com/bnb-liquid-staking/';
 
 export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 
