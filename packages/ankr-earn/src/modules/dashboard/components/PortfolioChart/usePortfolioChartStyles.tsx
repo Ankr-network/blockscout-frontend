@@ -22,7 +22,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
 
   total: {
     fill: theme.palette.text.primary,
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: 'bold',
   },
 
@@ -52,7 +52,6 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
   },
 
   chartWrapper: {
-    alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
   },
