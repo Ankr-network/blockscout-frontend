@@ -221,10 +221,6 @@ export class AnkrStakingSDK {
     validators: Web3Address[],
     epoch?: number,
   ): Promise<IValidator[]> {
-    if (!epoch) {
-      epoch = (await this.getChainParams()).epoch;
-    }
-
     const validatorsWithInfo = await Promise.all(
       validators.map(validator => this.loadValidatorInfo(validator, epoch)),
     );
@@ -819,6 +815,7 @@ export class AnkrStakingSDK {
       { lockPeriod },
       epochDuration,
       prevEpochDate,
+      nextEpochDate,
       activeValidators,
       delegationHistory,
       apyData,
@@ -828,6 +825,7 @@ export class AnkrStakingSDK {
       this.getChainConfig(),
       this.getEpochDurationDays(),
       this.getEpochPrevDate(),
+      this.getEpochNextDate(),
       this.getActiveValidators(),
       this.getDelegationHistory({
         staker: this.currentAccount,
@@ -905,13 +903,12 @@ export class AnkrStakingSDK {
         for (let i = 0; i < existingDelegations.length; i += 1) {
           const delegation = existingDelegations[i];
 
-          const diff = Math.abs(
-            prevEpochDate.getTime() - delegation.txDate.getTime(),
+          const daysToFirst = Math.ceil(
+            ((nextEpochDate.getTime() - delegation.txDate.getTime()) /
+              (1000 * 60 * 60 * 24)) %
+              7,
           );
-          const daysToStartFirstEpoch = Math.ceil(
-            (diff / (1000 * 60 * 60 * 24)) % epochDuration,
-          );
-          const totalLockingDays = daysToStartFirstEpoch + lockPeriodDays;
+          const totalLockingDays = lockPeriodDays + daysToFirst;
           const detailedDaysLeft = this.calcLeftDays(
             delegation.txDate,
             totalLockingDays,
@@ -1486,6 +1483,21 @@ export class AnkrStakingSDK {
 
     return new Date(
       now.getTime() - (blockNumber - prevEpochBlock) * blockTime * 1_000,
+    );
+  }
+
+  private async getEpochNextDate(): Promise<Date> {
+    const { epochBlockInterval } = await this.getChainConfig();
+    const { blockNumber, blockTime } = await this.getChainParams();
+
+    const nextEpochBlock =
+      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      epochBlockInterval;
+
+    const now = new Date();
+
+    return new Date(
+      now.getTime() + (nextEpochBlock - blockNumber) * blockTime * 1_000,
     );
   }
 

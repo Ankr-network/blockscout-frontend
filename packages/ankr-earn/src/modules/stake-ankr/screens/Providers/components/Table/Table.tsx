@@ -86,7 +86,7 @@ export const Table = (): JSX.Element | null => {
       <BasicTable
         columnsCount={captions.length}
         customCell="1fr 1fr 1fr 200px"
-        minWidth={1120}
+        minWidth={600}
       >
         <TableHead>
           {captions.map(({ label }, i) => (

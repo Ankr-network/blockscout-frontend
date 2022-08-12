@@ -104,7 +104,8 @@ export const AnkrStakeForm = ({
 
       <AmountInput
         isLongBalance
-        balance={balance.decimalPlaces(DEFAULT_ROUNDING)}
+        balance={balance}
+        balanceDecimals={DEFAULT_ROUNDING}
         balanceLinkSlot={<BuyAnkrLink />}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}

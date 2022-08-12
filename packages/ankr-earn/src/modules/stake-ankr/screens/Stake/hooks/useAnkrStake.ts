@@ -88,11 +88,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
-  console.log('timofei providers', providers);
-  console.log('timofei apyData', apyData);
   const apyItem = apyData?.find(x => x.validator === initialProvider);
   const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
-  console.log('timofei apy', apy);
 
   const isApproved = !!approveData;
 
