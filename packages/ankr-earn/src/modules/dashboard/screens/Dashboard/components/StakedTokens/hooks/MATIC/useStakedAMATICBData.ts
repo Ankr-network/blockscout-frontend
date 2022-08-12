@@ -17,11 +17,11 @@ import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
-import { addMATICTokenToWallet } from 'modules/stake-polygon/actions/addMATICTokenToWallet';
-import { fetchStats as fetchStakePolygonStats } from 'modules/stake-polygon/actions/fetchStats';
-import { stake as stakePolygon } from 'modules/stake-polygon/actions/stake';
-import { unstake as unstakePolygon } from 'modules/stake-polygon/actions/unstake';
-import { RoutesConfig as StakePolygonRoutes } from 'modules/stake-polygon/Routes';
+import { addMATICTokenToWallet } from 'modules/stake-matic/eth/actions/addMATICTokenToWallet';
+import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { stake as stakePolygon } from 'modules/stake-matic/eth/actions/stake';
+import { unstake as unstakePolygon } from 'modules/stake-matic/eth/actions/unstake';
+import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -91,9 +91,9 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
     isUnstakeLoading,
     network,
     pendingValue,
-    stakeLink: StakePolygonRoutes.stake.generatePath(),
+    stakeLink: StakeMaticEthRoutes.stake.generatePath(),
     tradeLink: DefiRoutes.defi.generatePath(Token.aMATICb),
-    unstakeLink: StakePolygonRoutes.unstake.generatePath(),
+    unstakeLink: StakeMaticEthRoutes.unstake.generatePath(),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

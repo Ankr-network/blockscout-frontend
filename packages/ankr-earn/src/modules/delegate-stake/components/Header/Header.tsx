@@ -36,13 +36,7 @@ export const Header = ({
     <Box className={classes.root} mb={4}>
       <BigNav minWidth={0}>
         <BigNavItem href={myStakingLink}>
-          {t('delegate-stake.header.my')}
-
-          {React.cloneElement(icon, {
-            className: classes.icon,
-          })}
-
-          {t('delegate-stake.header.staking', { token })}
+          {t('delegate-stake.header.my-staking', { token })}
         </BigNavItem>
 
         <BigNavItem href={nodeProvidersLink}>

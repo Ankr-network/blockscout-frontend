@@ -19,7 +19,7 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 1 }),
 }));
 
-jest.mock('modules/stake-polygon/Routes', () => ({
+jest.mock('modules/stake-matic/eth/Routes', () => ({
   RoutesConfig: {
     stake: { generatePath: () => '/stake' },
     unstake: { generatePath: () => '/unstake' },
@@ -30,19 +30,19 @@ jest.mock('modules/defi-aggregator/Routes', () => ({
   RoutesConfig: { defi: { generatePath: () => '/defi' } },
 }));
 
-jest.mock('modules/stake-polygon/actions/addMATICTokenToWallet', () => ({
+jest.mock('modules/stake-matic/eth/actions/addMATICTokenToWallet', () => ({
   addMATICTokenToWallet: jest.fn(),
 }));
 
-jest.mock('modules/stake-polygon/actions/fetchStats', () => ({
+jest.mock('modules/stake-matic/eth/actions/fetchStats', () => ({
   fetchStats: jest.fn(),
 }));
 
-jest.mock('modules/stake-polygon/actions/stake', () => ({
+jest.mock('modules/stake-matic/eth/actions/stake', () => ({
   stake: jest.fn(),
 }));
 
-jest.mock('modules/stake-polygon/actions/unstake', () => ({
+jest.mock('modules/stake-matic/eth/actions/unstake', () => ({
   unstake: jest.fn(),
 }));
 

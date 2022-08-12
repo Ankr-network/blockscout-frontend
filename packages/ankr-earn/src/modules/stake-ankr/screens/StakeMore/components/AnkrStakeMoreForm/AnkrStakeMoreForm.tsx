@@ -5,12 +5,13 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
-  IAnkrStakeSubmitPayload,
   EFieldsNames,
+  IAnkrStakeSubmitPayload,
 } from 'modules/stake-ankr/types';
 import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -43,8 +44,8 @@ interface IAnkrStakeMoreFormProps {
   providerName: string;
   maxAmountDecimals?: number;
   closeHref: string;
-  apy?: BigNumber;
   newTotalStake?: BigNumber;
+  lockingPeriod?: Days;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
   onChange?: (
     values: Partial<IAnkrStakeSubmitPayload>,
@@ -66,8 +67,8 @@ export const AnkrStakeMoreForm = ({
   closeHref,
   providerId,
   providerName,
-  apy,
   newTotalStake,
+  lockingPeriod,
   onSubmit,
   onChange,
 }: IAnkrStakeMoreFormProps): JSX.Element => {
@@ -97,7 +98,9 @@ export const AnkrStakeMoreForm = ({
       <StakeFormTitle>{t('stake-ankr.staking.more-title')}</StakeFormTitle>
 
       <AmountInput
+        isLongBalance
         balance={balance}
+        balanceDecimals={DEFAULT_ROUNDING}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
         label={
@@ -113,12 +116,7 @@ export const AnkrStakeMoreForm = ({
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
       />
 
-      <NodeProviderField
-        isDisabled
-        mt={5}
-        providerName={providerName}
-        providerSelectHref=""
-      />
+      <NodeProviderField isDisabled mt={5} providerName={providerName} />
 
       <StakeDescriptionContainer>
         <StakeDescriptionName className={classes.periodLabel}>
@@ -132,17 +130,11 @@ export const AnkrStakeMoreForm = ({
 
       <StakeDescriptionSeparator />
 
-      <StakeDescriptionContainer>
-        <StakeDescriptionName className={classes.periodLabel}>
-          {t('stake-ankr.staking.apy')}
-        </StakeDescriptionName>
-
-        {t('unit.percentage-value', {
-          value: apy?.integerValue(),
+      <Quote pt={1}>
+        {t('stake-ankr.staking.locking-info', {
+          value: lockingPeriod,
         })}
-      </StakeDescriptionContainer>
-
-      <Quote pt={1}>{t('stake-ankr.staking.locking-info')}</Quote>
+      </Quote>
 
       <StakeFormFooter>
         <Grid container spacing={2}>

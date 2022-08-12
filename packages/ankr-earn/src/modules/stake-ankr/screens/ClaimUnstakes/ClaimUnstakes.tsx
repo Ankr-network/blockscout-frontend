@@ -7,9 +7,9 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
-import { BaseAnkrAmount } from 'modules/stake-ankr/components/BaseAnkrAmount';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { CloseButton } from 'uiKit/CloseButton';
@@ -91,7 +91,13 @@ export const ClaimUnstakes = (): JSX.Element => {
                     {t('stake-ankr.claim-dialog.total')}
                   </Typography>
 
-                  <BaseAnkrAmount ankrAmount={total} usdAmount={totalUSD} />
+                  <div className={classes.baseAmountAlign}>
+                    <BaseTokenUsdAmount
+                      amount={total}
+                      token={Token.ANKR}
+                      usdAmount={totalUSD}
+                    />
+                  </div>
                 </div>
               </div>
 

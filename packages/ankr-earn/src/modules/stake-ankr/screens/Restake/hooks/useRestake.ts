@@ -5,6 +5,8 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Days } from 'modules/common/types';
+import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
@@ -12,6 +14,7 @@ import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValid
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
 
 interface IUseRestake {
   loading: boolean;
@@ -22,6 +25,7 @@ interface IUseRestake {
   providerId: string;
   providerName: string;
   epochEnds: string;
+  lockingPeriod?: Days;
   onSubmit: () => void;
 }
 
@@ -36,6 +40,9 @@ export const useRestake = (): IUseRestake => {
       type: getValidatorDelegatedAmount,
     },
   );
+  const { data: commonData } = useQuery({
+    type: getCommonData,
+  });
   const { data: restakableAmount } = useQuery({
     type: getRestakableAmount,
   });
@@ -56,42 +63,10 @@ export const useRestake = (): IUseRestake => {
     dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getRestakableAmount({ validator: queryProvider }));
     dispatchRequest(getEpochEndSeconds());
+    dispatchRequest(getCommonData());
   }, [dispatchRequest]);
 
-  let seconds = epochEndsSeconds ?? 0;
-  const epochEndDays = Math.trunc((seconds ?? 0) / (60 * 60 * 24));
-  seconds -= epochEndDays * 60 * 60 * 24;
-  const epochEndHours = Math.trunc((seconds ?? 0) / (60 * 60));
-  seconds -= epochEndHours * 60 * 60;
-  const epochEndMin = Math.trunc((seconds ?? 0) / 60);
-
-  let daysText;
-  if (epochEndDays > 0) {
-    daysText =
-      epochEndDays === 1
-        ? `${t('stake-ankr.info-header.epoch-ends-day', {
-            value: epochEndDays,
-          })}`
-        : `${t('stake-ankr.info-header.epoch-ends-days', {
-            value: epochEndDays,
-          })}`;
-  }
-
-  let hoursText;
-  if (epochEndHours > 0) {
-    hoursText =
-      epochEndHours === 1
-        ? `${t('stake-ankr.info-header.epoch-ends-hour', {
-            value: epochEndHours,
-          })}`
-        : `${t('stake-ankr.info-header.epoch-ends-hours', {
-            value: epochEndHours,
-          })}`;
-  }
-
-  const minText = `${t('stake-ankr.info-header.epoch-ends-min', {
-    value: epochEndMin,
-  })}`;
+  const epochEnds = getEndEpochText(epochEndsSeconds ?? 0);
 
   const onSubmit = () => {
     dispatchRequest(
@@ -110,11 +85,8 @@ export const useRestake = (): IUseRestake => {
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
-    epochEnds: `
-      ${daysText || ''}${daysText ? ',' : ''} 
-      ${hoursText || ''}${hoursText ? ',' : ''} 
-      ${minText}
-    `,
+    epochEnds,
+    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     onSubmit,
   };
 };

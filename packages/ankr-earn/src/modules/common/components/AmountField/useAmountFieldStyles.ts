@@ -5,10 +5,21 @@ export const useAmountFieldStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     float: 'right',
-    marginBottom: -20,
-    fontSize: 14,
+    fontSize: 12,
     position: 'relative',
     zIndex: 1,
+  },
+
+  longBalance: {
+    marginBottom: 20,
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: -20,
+    },
+  },
+
+  shortBalance: {
+    marginBottom: -20,
   },
 
   balanceLoadingBox: {

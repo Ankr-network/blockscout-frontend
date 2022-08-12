@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -20,15 +20,8 @@ import { useStakedANKRStyles } from './useStakedANKRStyles';
 export const StakedANKR = (): JSX.Element => {
   const classes = useStakedANKRStyles();
 
-  const {
-    stakedAmount,
-    stakedUsdEquivalent,
-    rewardsAmount,
-    rewardsUsdEquivalent,
-    network,
-    manageLink,
-    loading,
-  } = useStakedANKRData();
+  const { stakedAmount, stakedUsdEquivalent, network, manageLink, loading } =
+    useStakedANKRData();
 
   const renderUsdAmount = (value: BigNumber) =>
     t('unit.usd-value', {
@@ -45,26 +38,9 @@ export const StakedANKR = (): JSX.Element => {
         <Grid container spacing={2}>
           {stakedAmount && (
             <Grid item xs>
-              <Typography color="textSecondary" variant="subtitle1">
-                {t('dashboard.card.staked')}
-              </Typography>
-
               <Amount
                 infoSlot={renderUsdAmount(stakedUsdEquivalent)}
-                value={stakedAmount}
-              />
-            </Grid>
-          )}
-
-          {rewardsAmount && (
-            <Grid item xs>
-              <Typography color="textSecondary" variant="subtitle1">
-                {t('dashboard.card.rewards')}
-              </Typography>
-
-              <Amount
-                infoSlot={renderUsdAmount(rewardsUsdEquivalent)}
-                value={rewardsAmount}
+                value={stakedAmount.integerValue()}
               />
             </Grid>
           )}

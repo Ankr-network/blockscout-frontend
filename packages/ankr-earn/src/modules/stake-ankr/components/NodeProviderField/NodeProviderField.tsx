@@ -16,14 +16,14 @@ import { useNodeProviderFieldStyles } from './useNodeProviderFieldStyles';
 interface INodeProviderFieldProps {
   isDisabled?: boolean;
   providerName?: string;
-  providerSelectHref: string;
+  providerSelectHref?: string;
   mt?: number;
 }
 
 export const NodeProviderField = ({
   isDisabled,
   providerName,
-  providerSelectHref,
+  providerSelectHref = '',
   mt = 0,
 }: INodeProviderFieldProps): JSX.Element => {
   const classes = useNodeProviderFieldStyles();
@@ -47,7 +47,7 @@ export const NodeProviderField = ({
           <Box mt={mt}>
             <input {...input} hidden />
 
-            <Box mb={2}>
+            <Box mb={1}>
               <StakeDescriptionName
                 className={classNames(
                   isError && classes.selectProviderErrorColor,
@@ -62,8 +62,8 @@ export const NodeProviderField = ({
                 classes.selectProviderBtn,
                 providerName && classes.selectProviderBtnActive,
               )}
-              disabled={isDisabled}
-              href={providerSelectHref ?? ''}
+              disabled={isDisabled || !providerSelectHref}
+              href={providerSelectHref}
               variant="outlined"
             >
               {isProviderExists

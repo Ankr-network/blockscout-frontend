@@ -24,9 +24,9 @@ export const useHeaderStyles = makeStyles(theme => ({
     alignItems: 'center',
     gridAutoColumns: 'auto',
     gridAutoFlow: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     gap: theme.spacing(0, 1),
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
 
     background: theme.palette.background.paper,
 
@@ -36,7 +36,17 @@ export const useHeaderStyles = makeStyles(theme => ({
     },
   },
 
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  balanceIcon: {
+    marginRight: theme.spacing(1),
+  },
+
   label: {
+    fontWeight: 500,
     color: theme.palette.text.secondary,
   },
 
@@ -46,5 +56,7 @@ export const useHeaderStyles = makeStyles(theme => ({
     height: 26,
     minWidth: 56,
     borderRadius: 8,
+    fontSize: 13,
+    marginLeft: theme.spacing(1),
   },
 }));

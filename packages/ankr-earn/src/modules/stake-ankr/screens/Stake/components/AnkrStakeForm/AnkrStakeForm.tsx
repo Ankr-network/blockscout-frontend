@@ -6,13 +6,13 @@ import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
-import { ZERO } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
 import {
-  IAnkrStakeSubmitPayload,
   EFieldsNames,
+  IAnkrStakeSubmitPayload,
 } from 'modules/stake-ankr/types';
 import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -44,6 +44,7 @@ interface IAnkrStakeFormProps {
   providerSelectHref: string;
   maxAmountDecimals?: number;
   closeHref: string;
+  initialAmount?: string;
   initialProvider?: string;
   providerName?: string;
   lockingPeriod?: Days;
@@ -67,6 +68,7 @@ export const AnkrStakeForm = ({
   maxAmountDecimals,
   closeHref,
   providerSelectHref,
+  initialAmount,
   initialProvider,
   providerName,
   lockingPeriod = 0,
@@ -85,8 +87,7 @@ export const AnkrStakeForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IAnkrStakeSubmitPayload);
 
-  // todo: add actual text
-  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period');
+  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period-tooltip');
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -102,7 +103,9 @@ export const AnkrStakeForm = ({
       <StakeFormTitle>{t('stake-ankr.staking.title')}</StakeFormTitle>
 
       <AmountInput
+        isLongBalance
         balance={balance}
+        balanceDecimals={DEFAULT_ROUNDING}
         balanceLinkSlot={<BuyAnkrLink />}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
@@ -120,8 +123,8 @@ export const AnkrStakeForm = ({
       />
 
       <NodeProviderField
-        isDisabled={isDisabled || isApproved}
-        mt={5}
+        isDisabled
+        mt={4}
         providerName={providerName}
         providerSelectHref={providerSelectHref}
       />
@@ -175,7 +178,7 @@ export const AnkrStakeForm = ({
           stepsCount={2}
         />
 
-        {isApproved && <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>}
+        <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>
@@ -192,6 +195,7 @@ export const AnkrStakeForm = ({
     <Form
       initialValues={{
         provider: initialProvider,
+        amount: initialAmount,
       }}
       render={renderForm}
       onSubmit={onSubmitForm}

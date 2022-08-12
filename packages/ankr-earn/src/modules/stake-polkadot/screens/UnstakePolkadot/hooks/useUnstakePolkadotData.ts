@@ -1,4 +1,8 @@
 import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
+import {
   useDispatchRequest,
   useMutation,
   useQuery,
@@ -16,8 +20,6 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
-import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { fetchUnstakeStats } from 'modules/stake-polkadot/actions/fetchUnstakeStats';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';
 import { POLKADOT_WRITE_PROVIDER_ID } from 'modules/stake-polkadot/const';
@@ -28,7 +30,9 @@ import {
   TPolkadotETHToken,
   TPolkadotToken,
 } from 'modules/stake-polkadot/types';
+import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { IFormPayload } from '../components/UnstakeFormFooter';
 
@@ -53,12 +57,16 @@ interface IUseUnstakePolkadotData {
   onUnstakeSubmit: (data: IFormPayload) => void;
 }
 
+const resetRequests = () =>
+  resetReduxRequests([fetchUnstakeStats.toString(), getUnstakeDate.toString()]);
+
 export const useUnstakePolkadotData = (
   network: EPolkadotNetworks,
 ): IUseUnstakePolkadotData => {
+  const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
-  const { sendAnalytics } = useUnstakePolkadotAnalytics();
+  const { sendAnalytics } = useUnstakePolkadotAnalytics({ network });
 
   const ethToken = useMemo(
     () => EPolkadotETHReverseMap[network] as unknown as TPolkadotETHToken,
@@ -152,10 +160,16 @@ export const useUnstakePolkadotData = (
   };
 
   useETHPolkadotProvidersEffect(() => {
-    dispatchRequest(fetchUnstakeStats());
-    dispatchRequest(fetchETHTokenBalance(network));
-    dispatchRequest(fetchPolkadotAccountFullBalance(network));
-  }, [dispatchRequest, fetchUnstakeStats]);
+    dispatch(resetRequests());
+
+    dispatch(fetchUnstakeStats());
+    dispatch(getUnstakeDate());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   return {
     ethToken,

@@ -8,6 +8,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { claimAllForValidator } from 'modules/stake-ankr/actions/claimAllForValidator';
 import { claimRewards } from 'modules/stake-ankr/actions/claimRewards';
+import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getClaimableRewards } from 'modules/stake-ankr/actions/getClaimableRewards';
 import { getClaimableUnstakes } from 'modules/stake-ankr/actions/getClaimableUnstakes';
 import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
@@ -41,11 +42,15 @@ export const useClaimRewards = (): IUseClaimRewards => {
     useQuery({ type: getClaimableUnstakes });
   const { data: claimableRewards, loading: isClaimableRewardsLoading } =
     useQuery({ type: getClaimableRewards });
+  const { data: ankrPrice } = useQuery({
+    type: getANKRPrice,
+  });
 
   const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
+    dispatchRequest(getANKRPrice());
     dispatchRequest(getClaimableUnstakes({ validator: queryProvider }));
     dispatchRequest(getClaimableRewards({ validator: queryProvider }));
     dispatchRequest(getEpochEndSeconds());
@@ -101,7 +106,7 @@ export const useClaimRewards = (): IUseClaimRewards => {
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     claimLoading: false,
-    usdTokenPrice: ZERO,
+    usdTokenPrice: ankrPrice ?? ZERO,
     isClaimUnstakes,
     epochEnds: `
       ${daysText || ''}${daysText ? ',' : ''} 
