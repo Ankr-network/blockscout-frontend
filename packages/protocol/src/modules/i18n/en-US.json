@@ -740,7 +740,8 @@
     },
     "copy-button": "Copy TxID",
     "confirm": "Сonfirm",
-    "wait": "Please wait"
+    "wait": "Please wait",
+    "transaction-confirmation-button": "Block {block} of {totalBlocks}"
   },
   "withdraw-steps": {
     "title": "Withdraw",

@@ -11,7 +11,7 @@ import {
   WIHDRAWAL_STATUS_INTERVAL,
 } from './checkWithdrawStatus';
 import { WithdrawStatus } from 'multirpc-sdk';
-import { waitPendingTransaction } from './getInitialStep/waitPendingTransaction';
+import { waitForPendingTransaction } from './waitForPendingTransaction';
 
 export const getWithdrawInitialStep = createSmartAction<
   RequestAction<null, WithdrawStep>
@@ -25,7 +25,7 @@ export const getWithdrawInitialStep = createSmartAction<
         promise: (async (): Promise<WithdrawStep> => {
           const service = await MultiService.getInstance();
 
-          await waitPendingTransaction();
+          await waitForPendingTransaction();
 
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;

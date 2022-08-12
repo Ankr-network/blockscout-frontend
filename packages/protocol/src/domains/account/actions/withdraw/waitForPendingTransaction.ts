@@ -2,8 +2,8 @@ import Web3 from 'web3';
 
 import { MultiService } from 'modules/api/MultiService';
 import { API_ENV } from 'modules/common/utils/environment';
-
-const ETH_BLOCK_TIME = 10_000;
+import { timeout } from 'modules/common/utils/timeout';
+import { ETH_BLOCK_TIME } from './const';
 
 export const web3 = new Web3(
   API_ENV === 'prod'
@@ -29,12 +29,7 @@ const hasPendingTransaction = async () => {
   return latestTransactionCount !== pendingTransactionCount;
 };
 
-const TIMEOUT_FOR_TRANSACTION = 3000;
-
-const timeout = (ms = TIMEOUT_FOR_TRANSACTION) =>
-  new Promise(res => setTimeout(res, ms));
-
-export const waitPendingTransaction = async () => {
+export const waitForPendingTransaction = async () => {
   await timeout();
 
   let inProcess = true;
@@ -43,8 +38,10 @@ export const waitPendingTransaction = async () => {
     // eslint-disable-next-line
     inProcess = await hasPendingTransaction();
 
-    // eslint-disable-next-line
-    await timeout(ETH_BLOCK_TIME);
+    if (inProcess) {
+      // eslint-disable-next-line
+      await timeout(ETH_BLOCK_TIME);
+    }
   }
 
   // because we need to wait other nodes
