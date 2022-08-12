@@ -2,11 +2,9 @@ import { Box, IconButton, Typography } from '@material-ui/core';
 import { useStyles } from './GlobalMenuListStyles';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { ReactComponent as ArrowRightIcon } from '../assets/arrowRightLong.svg';
-import { ReactComponent as ArrowLinkIcon } from '../assets/arrowLink.svg';
+import { ReactComponent as ArrowRightIcon } from '../assets/arrow-right.svg';
 import { ReactComponent as CloseIcon } from '../assets/close.svg';
 
-import { GlobalMenuListDivider } from './components/GlobalMenuListDivider';
 import { Fragment, MouseEventHandler } from 'react';
 import {
   withGlobalMenuLink,
@@ -55,8 +53,9 @@ export const GlobalMenuList = ({
         target="_self"
       >
         {AnkrIntl.t('global-menu.main-page')}
-        <ArrowRightIcon />
+        <ArrowRightIcon className={classes.linkArrow} />
       </WrappedLink>
+
       <div className={classes.menuList}>
         <Scrollbars>
           {menuItems.map(({ title, items, id }) => (
@@ -85,18 +84,11 @@ export const GlobalMenuList = ({
                           className={classes.menuItemLabel}
                         >
                           {item.label}
-                          {item.isExternal && (
-                            <Box fontSize={12} component="sup" ml={1}>
-                              <ArrowLinkIcon />
-                            </Box>
-                          )}
+                          <ArrowRightIcon className={classes.linkArrow} />
                         </Typography>
                       </div>
                     </div>
                   </WrappedLink>
-                  {items[index + 1] && (
-                    <GlobalMenuListDivider isMobile={isMobile} />
-                  )}
                 </Fragment>
               ))}
             </div>
