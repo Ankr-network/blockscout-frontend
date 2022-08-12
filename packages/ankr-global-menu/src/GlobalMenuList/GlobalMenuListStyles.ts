@@ -7,9 +7,9 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
     flexDirection: 'column',
     boxSizing: 'border-box',
 
-    width: ({ isMobile }) => (isMobile ? 345 : 360),
+    width: ({ isMobile }) => (isMobile ? 350 : 250),
     height: '100%',
-    padding: ({ isMobile }) => theme.spacing(isMobile ? 2.2 : 3.8, 0, 0),
+    padding: theme.spacing(3.5, 0, 0),
 
     '& a': {
       textDecoration: 'none',
@@ -21,11 +21,15 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
 
       '&:hover': {
         color: theme.palette.primary.main,
+
+        '& $linkArrow': {
+          color: theme.palette.primary.main,
+        },
       },
     },
   },
   menuList: {
-    marginTop: ({ isMobile }) => theme.spacing(isMobile ? 5 : 6.1),
+    marginTop: theme.spacing(3),
     height: '100%',
   },
   activeMenuItem: {
@@ -48,14 +52,6 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
       border: 'none',
     },
   },
-  icon: {
-    fontSize: 0,
-    marginRight: theme.spacing(2),
-
-    '& > svg': {
-      fontSize: 30,
-    },
-  },
   menuTitleLink: {
     '&&': {
       display: 'flex',
@@ -63,24 +59,15 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
       lineHeight: 1,
       justifyContent: 'flex-start',
       color: theme.palette.text.primary,
-      fontSize: ({ isMobile }) => (isMobile ? 20 : 24),
-      fontWeight: 500,
+      fontSize: 16,
+      fontWeight: 700,
       background: 'none',
       padding: theme.spacing(0, 3),
-      '& svg': {
-        fontSize: 16,
-        marginLeft: theme.spacing(1),
-      },
     },
   },
   menuItem: {
     display: 'flex',
-
-    padding: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3, 3),
-
-    '&:not(:last-child)': {
-      marginBottom: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3),
-    },
+    padding: theme.spacing(1, 3),
   },
   menuItemLeftBlock: {
     marginRight: theme.spacing(2),
@@ -93,20 +80,26 @@ export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     fontWeight: 500,
-    fontSize: ({ isMobile }) => (isMobile ? 16 : 18),
+    fontSize: 16,
+  },
+  linkArrow: {
+    verticalAlign: 'middle',
+    marginTop: -1,
+    marginLeft: theme.spacing(1),
+    transition: 'transform 0.15s',
+    color: '#BFC6D0',
   },
   menuItemGroup: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginBottom: ({ isMobile }) => theme.spacing(isMobile ? 2 : 3.8),
+    marginBottom: theme.spacing(3),
   },
   menuItemTitle: {
     display: 'block',
-    color: theme.palette.action.disabledBackground,
+    color: theme.palette.grey[600],
     fontSize: 14,
     fontWeight: 400,
-    marginBottom: ({ isMobile }) => theme.spacing(isMobile ? 1 : 0.8),
     padding: theme.spacing(0, 3),
   },
 }));
