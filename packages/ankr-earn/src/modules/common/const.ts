@@ -15,6 +15,7 @@ export const DOCS_OVERVIEW_LINK = `${DOCS_ROOT_LINK}staking/overview/`;
 export const DOCS_STAKE_ETH_LINK = `${DOCS_ROOT_LINK}staking/liquid-staking/eth/stake-eth`;
 export const DOCS_DEFI_DEX_LINK = `${DOCS_ROOT_LINK}staking/defi/provide-liquidity-to-dex`;
 export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
+export const DOCS_ANKR_TOKEN_STAKING_LINK = `${DOCS_ROOT_LINK}staking/delegated-staking/ankr/overview`;
 
 export const ANKR_ETH_LANDING = 'https://www.ankr.com/ethereum-liquid-staking/';
 export const ANKR_MATIC_LANDING =
