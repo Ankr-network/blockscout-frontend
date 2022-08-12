@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 import { useStyles } from './GlobalMenuListStyles';
 import { Scrollbars } from 'react-custom-scrollbars';
 
