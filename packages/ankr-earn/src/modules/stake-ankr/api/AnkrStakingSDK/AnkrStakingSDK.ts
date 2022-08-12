@@ -157,7 +157,7 @@ export class AnkrStakingSDK {
 
     return (
       await provider.getErc20Balance(ankrContract, this.currentAccount)
-    ).decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH);
+    ).decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH, BigNumber.ROUND_DOWN);
   }
 
   private async getAnkrTokenContract() {
