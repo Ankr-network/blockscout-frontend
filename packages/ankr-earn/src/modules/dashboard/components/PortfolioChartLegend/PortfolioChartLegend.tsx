@@ -1,9 +1,10 @@
 import { Grid, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { cloneElement } from 'react';
 
 import { t, tHTML } from 'common';
 
+import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 
 import { usePortfolioChartLegendStyles } from './usePortfolioChartLegendStyles';
@@ -14,6 +15,7 @@ export interface IPortfolioChartLegendProps {
   yearlYield: BigNumber;
   totalPercent: BigNumber;
   legendItems: ILegendItem[];
+  isLoading: boolean;
   isSynthetic?: boolean;
   onMouseOver: (item: ILegendItem) => void;
   onMouseLeave: (item: ILegendItem) => void;
@@ -25,13 +27,13 @@ interface ILegendItem {
   percent: number;
   amount: BigNumber;
   usdAmount: BigNumber;
-  icon: JSX.Element;
+  icon: TIcon;
 }
 
-// TODO: add skeleton loader
 export const PortfolioChartLegend = ({
   apr,
   isSynthetic = false,
+  isLoading,
   totalAmount,
   yearlYield,
   totalPercent,
@@ -40,6 +42,40 @@ export const PortfolioChartLegend = ({
   onMouseLeave,
 }: IPortfolioChartLegendProps): JSX.Element => {
   const classes = usePortfolioChartLegendStyles();
+
+  if (isLoading) {
+    return (
+      <div data-testid="loading-state">
+        <Typography className={classes.title}>
+          <Skeleton width="100%" />
+        </Typography>
+
+        <Typography className={classes.amount}>
+          <Skeleton width="100%" />
+        </Typography>
+
+        <div className={classes.wrapper}>
+          <Skeleton width={50} />
+
+          <Skeleton width={150} />
+        </div>
+
+        <Grid container className={classes.items}>
+          <Grid item xs={12}>
+            <Skeleton height={61} width="100%" />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Skeleton height={61} width="100%" />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Skeleton height={61} width="100%" />
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -50,7 +86,9 @@ export const PortfolioChartLegend = ({
       </Typography>
 
       <Typography className={classes.amount}>
-        {t('dashboard.portfolioUSD', { value: totalAmount.toFormat() })}
+        {t('dashboard.portfolioUSD', {
+          value: totalAmount.toFormat(),
+        })}
       </Typography>
 
       <div className={classes.wrapper}>
@@ -82,7 +120,7 @@ export const PortfolioChartLegend = ({
                 style={{ backgroundColor: item.color }}
               />
 
-              {cloneElement(item.icon, { className: classes.icon })}
+              <item.icon className={classes.icon} />
 
               <div>
                 <Typography className={classes.legendItemTitle}>
