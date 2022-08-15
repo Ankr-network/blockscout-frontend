@@ -16,7 +16,8 @@ import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
-import { RoutesConfig as PolygonRoutes } from 'modules/stake-matic/eth/Routes';
+import { RoutesConfig as StakeMaticCommonRoutes } from 'modules/stake-matic/common/Routes';
+import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
@@ -57,7 +58,11 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.matic.apy}
           iconSlot={<MaticIcon />}
-          mainHref={PolygonRoutes.stake.generatePath()}
+          mainHref={
+            featuresConfig.maticPolygonStaking
+              ? StakeMaticCommonRoutes.stake.path
+              : StakeMaticEthRoutes.stake.generatePath()
+          }
           moreHref={ANKR_MATIC_LANDING}
           stakedTvl={metrics?.matic.totalStaked}
           title={t('features.polygon')}

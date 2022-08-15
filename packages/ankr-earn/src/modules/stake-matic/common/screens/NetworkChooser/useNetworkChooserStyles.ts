@@ -24,12 +24,10 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
     margin: theme.spacing(8, 0, 5, 0),
   },
   chooseItemArea: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     width: 176,
+    height: 180,
     padding: theme.spacing(2.5, 2.5, 2.5, 2.5),
+    color: theme.palette.text.primary,
     border: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
     borderRadius: 18,
     cursor: 'pointer',
@@ -37,11 +35,19 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: alpha(theme.palette.text.secondary, 0.2),
     },
-  },
-  chooseItemAreaDisabled: {
-    backgroundColor: alpha(theme.palette.text.secondary, 0.2),
-    opacity: 0.5,
-    cursor: 'not-allowed',
+    '&[aria-disabled="true"]': {
+      backgroundColor: alpha(theme.palette.text.secondary, 0.2),
+      color: theme.palette.text.primary,
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
+
+    '& > span': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   },
   chooseItemAreaSecond: {
     margin: theme.spacing(0, 0, 0, 5),
@@ -77,5 +83,6 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
   },
   chooseItemBalance: {
     margin: theme.spacing(1, 0, 0, 0),
+    fontWeight: 400,
   },
 }));
