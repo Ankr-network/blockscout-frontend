@@ -1,0 +1,499 @@
+[
+  {
+    "Condition": {
+      "KeyPrefixEquals": "earn/"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "staking/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "protocol/plan/"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "protocol/account/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "rpc/index.html"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "ReplaceKeyWith": "rpc/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "protocol/"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "ReplaceKeyPrefixWith": "rpc/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "rpc/public/"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "ReplaceKeyPrefixWith": "rpc/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/bnb/dev-details"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/bnb/api"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/matic/dev-details"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/matic/api"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/liquid-crowdloan-market-makers"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/liquid-crowdloan-market-makers"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/staking-glossary"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/reference/glossary"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/staking-principles"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/reference/principles"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/staking-compatible-wallets"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/reference/compatible-wallets"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/glossary"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/glossary"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/principles"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/principles"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/audit-reports"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/audit-reports"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/ankr-validators"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/ankr-validators"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/liquid-staking-fees"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/liquid-staking-fees"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/ls-smart-contract-addresses-mn"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/ls-smart-contract-addresses-mn"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/ls-smart-contract-addresses-tn"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/ls-smart-contract-addresses-tn"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/compatible-wallets"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/compatible-wallets"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/micropools"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/micropools"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/liquid-crowdloan-market-makers"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/liquid-crowdloan-market-makers"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/brand-assets"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/brand-assets"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/switch-aethc-binance"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/switch-aethc-binance"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/game/reference/game-reference"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/game/extra/game-reference"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/learn/reference/ankr-vision"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/learn/extra/ankr-vision"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/learn/reference/51-attacks"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/learn/extra/51-attacks"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/integrations"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/integrations"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/reference/liquidity-tokens"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/extra/liquidity-tokens"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/overview"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/overview"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/overview"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/overview"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/circ-model-native-bridge"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/circ-model-native-bridge"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/native-bridge"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/native-bridge"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/fast-finality-bls-crypto"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/fast-finality-bls-crypto"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/sys-smart-contracts"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/sys-smart-contracts"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/governance"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/governance"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/architecture/runtime-upgrades"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/architecture/runtime-upgrades"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/security/blockchain-evm"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/security/blockchain-evm"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/security/smart-contracts"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/security/smart-contracts"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/security/on-chain"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/security/on-chain"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/security/on-chain"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/security/on-chain"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/security/off-chain"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/security/off-chain"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/how-to-launch/launch-bas"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/how-to-launch/launch-bas"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/how-to-launch/deploy-erc20-token"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/how-to-launch/deploy-erc20-token"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/how-to-launch/deploy-erc721-token"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/how-to-launch/deploy-erc721-token"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/how-to-launch/deploy-erc721-token"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/how-to-launch/deploy-erc721-token"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/staking"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/staking"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/demo"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/demo"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/faq"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/faq"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/build-blockchain/bas/glossary"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/build-blockchain/app-chain/bnb-sidechain/glossary"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/defi/provide-liquidity-to-dex"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/defi/liquidity-pools"
+    }
+  }
+]
