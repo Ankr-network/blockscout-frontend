@@ -1431,69 +1431,15 @@ export class AnkrStakingSDK {
    * @returns {IApyData[]}
    */
   public async getAPY(): Promise<IApyData[]> {
-    const [stakingContract, { epoch }] = await Promise.all([
-      this.getAnkrTokenStakingContract(),
-      this.getChainParams(),
-    ]);
-    const provider = this.readProvider;
-    const web3 = provider.getWeb3();
-    const latestBlockNumber =
-      (await web3.eth.getBlockNumber()) - ANKR_HISTORY_BLOCK_RANGE;
+    const { epoch } = await this.getChainParams();
     const prevEpoch = epoch - 1;
-
-    const validatorDepositedEvents = await this.getPastEvents({
-      contract: stakingContract,
-      startBlock: ANKR_HISTORY_START_BLOCK,
-      latestBlockNumber,
-      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
-      eventName: EAnkrEvents.ValidatorDeposited,
-    });
-
-    const calls = validatorDepositedEvents.map(
-      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(event.blockHash, false, callback),
-    );
-    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-      calls,
-    );
-    const rewardEvents = blocks
-      .map((block, index) => ({
-        ...validatorDepositedEvents[index],
-        timestamp: block.timestamp as number,
-        txDate: new Date((block.timestamp as number) * 1_000),
-      }))
-      .filter(block => +block.returnValues.epoch === prevEpoch);
 
     const validators = await this.getActiveValidators(prevEpoch);
 
-    const rewardsMap = rewardEvents.reduce((acc, reward) => {
-      const existedReward = acc.get(reward.returnValues.validator);
-      acc.set(
-        reward.returnValues.validator,
-        (existedReward ?? ZERO).plus(
-          this.convertFromWei(reward.returnValues.amount),
-        ),
-      );
-
-      return acc;
-    }, new Map<string, BigNumber>());
-
-    const epochDurationDays = await this.getEpochDurationDays();
-    const yearDays = new BigNumber(365);
-
     return validators.map(x => {
-      const rewards = rewardsMap.get(x.validator) ?? ZERO;
-
       return {
         validator: x.validator,
-        apy: !rewards.isZero()
-          ? rewards
-              .dividedBy(x.totalDelegated)
-              .multipliedBy(yearDays.dividedBy(epochDurationDays))
-              .multipliedBy(100)
-          : TEMPORARY_APY,
+        apy: TEMPORARY_APY,
       };
     });
   }
