@@ -18,12 +18,16 @@ export const Dashboard = (): JSX.Element => {
   const {
     isLoading: isNativeDataLoading,
     totalAmountUsd: totalNativeAmountUsd,
+    totalYieldAmountUsd: totalNativeYieldAmountUsd,
+    apr: nativeApr,
     data: nativeData,
   } = usePortfolioNativeData();
 
   const {
     isLoading: isStakedDataLoading,
     totalAmountUsd: totalStakedAmountUsd,
+    totalYieldAmountUsd: totalStakedYieldAmountUsd,
+    apr: stakedApr,
     data: stakedData,
   } = usePortfolioStakedData();
 
@@ -35,8 +39,12 @@ export const Dashboard = (): JSX.Element => {
             data={nativeData.concat(stakedData)}
             height={300}
             isLoading={isNativeDataLoading || isStakedDataLoading}
+            nativeApr={nativeApr}
+            stakedApr={stakedApr}
             totalNativeAmountUsd={totalNativeAmountUsd}
+            totalNativeYieldAmountUsd={totalNativeYieldAmountUsd}
             totalStakedAmountUsd={totalStakedAmountUsd}
+            totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
             width={300}
           />
         )}

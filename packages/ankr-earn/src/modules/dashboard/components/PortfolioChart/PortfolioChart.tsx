@@ -6,6 +6,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { t } from 'common';
 
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
@@ -22,6 +23,10 @@ export interface IPortfolioChartProps {
   data: IChartSlice[];
   totalNativeAmountUsd: BigNumber;
   totalStakedAmountUsd: BigNumber;
+  stakedApr: BigNumber;
+  totalStakedYieldAmountUsd: BigNumber;
+  totalNativeYieldAmountUsd: BigNumber;
+  nativeApr: BigNumber;
   isLoading: boolean;
   height: number;
   width: number;
@@ -56,10 +61,14 @@ export const PortfolioChart = ({
   data,
   totalNativeAmountUsd,
   totalStakedAmountUsd,
+  stakedApr,
+  totalStakedYieldAmountUsd,
+  totalNativeYieldAmountUsd,
+  nativeApr,
   isLoading,
   height,
   width,
-}: IPortfolioChartProps): JSX.Element => {
+}: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles();
   const [activeItem, setActiveItem] = useState<
     IPortfolioChartLegendProps['legendItems'][0] | null
@@ -179,12 +188,16 @@ export const PortfolioChart = ({
         .attr('x', 0)
         .attr('y', 80)
         .attr('class', classes.apr)
-        .text(t('dashboard.apr', { value: 7.1 }).replace(/<\/?b>/g, ''));
+        .text(t('dashboard.apr', { value: stakedApr }).replace(/<\/?b>/g, ''));
     },
-    [data, activeItem?.name, classes, totalAmountUsd, width, height],
+    [data, stakedApr, activeItem?.name, classes, totalAmountUsd, width, height],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, data]);
+
+  if (!isLoading && data.length === 0) {
+    return null;
+  }
 
   return (
     <div>
@@ -214,12 +227,19 @@ export const PortfolioChart = ({
 
           <Grid item lg={4} md={12} xs={12}>
             <PortfolioChartLegend
-              apr={new BigNumber(7.1)}
+              apr={stakedApr}
               isLoading={isLoading}
               legendItems={syntheticTokens}
               totalAmount={totalStakedAmountUsd}
-              totalPercent={new BigNumber(50)}
-              yearlYield={new BigNumber(10_100)}
+              totalPercent={
+                !totalAmountUsd.isZero()
+                  ? totalStakedAmountUsd
+                      .multipliedBy(100)
+                      .dividedBy(totalAmountUsd)
+                      .decimalPlaces(DEFAULT_ROUNDING)
+                  : ZERO
+              }
+              yearlYield={totalStakedYieldAmountUsd}
               onMouseLeave={handleMouseLeave}
               onMouseOver={handleMouseOver}
             />
@@ -228,12 +248,19 @@ export const PortfolioChart = ({
           <Grid item lg={4} md={12} xs={12}>
             <PortfolioChartLegend
               isSynthetic
-              apr={new BigNumber(7.1)}
+              apr={nativeApr}
               isLoading={isLoading}
               legendItems={nativeTokens}
               totalAmount={totalNativeAmountUsd}
-              totalPercent={new BigNumber(50)}
-              yearlYield={new BigNumber(10_100)}
+              totalPercent={
+                !totalAmountUsd.isZero()
+                  ? totalNativeAmountUsd
+                      .multipliedBy(100)
+                      .dividedBy(totalAmountUsd)
+                      .decimalPlaces(DEFAULT_ROUNDING)
+                  : ZERO
+              }
+              yearlYield={totalNativeYieldAmountUsd}
               onMouseLeave={handleMouseLeave}
               onMouseOver={handleMouseOver}
             />
