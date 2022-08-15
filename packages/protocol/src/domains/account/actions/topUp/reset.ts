@@ -14,6 +14,7 @@ import { login } from './login';
 import { getInitialStep } from './getInitialStep/getInitialStep';
 import { getLastLockedFundsEvent } from './getLastLockedFundsEvent';
 import { checkAllowanceTransaction } from './checkAllowanceTransaction';
+import { fetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 
 export const reset = createSmartAction<RequestAction<string, string>>(
   'topUp/reset',
@@ -36,6 +37,7 @@ export const reset = createSmartAction<RequestAction<string, string>>(
                 fetchPublicKey.toString(),
                 deposit.toString(),
                 waitTransactionConfirming.toString(),
+                fetchTransactionConfirmationStatus.toString(),
                 login.toString(),
                 getLastLockedFundsEvent.toString(),
                 checkAllowanceTransaction.toString(),

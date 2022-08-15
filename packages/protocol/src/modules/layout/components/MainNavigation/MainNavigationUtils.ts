@@ -8,14 +8,12 @@ import { ReactComponent as DocsIcon } from 'uiKit/Icons/docs.svg';
 import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
 import { t } from 'common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { ExplorerRoutesConfig } from 'domains/explorer/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
-export const HAS_REQUEST_EXPLORER = false;
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
 export const FAQ_URL = 'https://docs.ankr.com/ankr-protocol/faqs';
 
@@ -62,11 +60,6 @@ export const getNavigationList = (
       label: t('extra-navigation.settings'),
       StartIcon: SettingsIcon,
       href: UserSettingsRoutesConfig.settings.generatePath(),
-    },
-    HAS_REQUEST_EXPLORER && {
-      label: t('main-navigation.request-explorer'),
-      StartIcon: BoxIcon,
-      href: ExplorerRoutesConfig.requestExplorer.generatePath(),
     },
   ].filter(Boolean) as NavigationItem[];
 
