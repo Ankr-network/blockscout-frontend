@@ -1106,7 +1106,7 @@
     },
     "usnupported": {
       "title": "Start staking ANKR",
-      "description": "To be able to use this service, please connect to the <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>.",
+      "description": "Please connect your <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>. Support for additional connections like TrustWallet will be available soon.",
       "btn": "Connect"
     },
     "staking": {
