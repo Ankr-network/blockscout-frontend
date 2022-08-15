@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { t } from 'modules/i18n/utils/intl';
 import { INDEX_PATH } from 'domains/chains/routes';
-import { PATH_PROVIDERS } from 'domains/nodeProviders/Routes';
 import packageJson from '../../../package.json';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
@@ -36,10 +35,6 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
     } else {
       location = 'chain-item.';
     }
-  }
-
-  if (pathname === PATH_PROVIDERS) {
-    location = 'providers.';
   }
 
   return location;

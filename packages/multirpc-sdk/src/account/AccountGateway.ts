@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
 import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
-import { getRequestsMock } from '../mock/getRequestsMock';
 import { IAccountGateway } from './interfaces';
 import {
   IAggregatedPaymentHistoryRequest,
@@ -16,8 +15,6 @@ import {
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
-  IRequestsRequest,
-  IRequestsResponse,
   IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
@@ -79,23 +76,6 @@ export class AccountGateway implements IAccountGateway {
             stringify(request, { indices: false }),
         },
       );
-
-    return response;
-  }
-
-  public async getRequests(
-    params: IRequestsRequest,
-  ): Promise<IRequestsResponse> {
-    const { data: response } = await this.api
-      .get<IRequestsResponse>('/api/v1/auth/requests', {
-        params,
-      })
-      .catch(() => ({
-        data: {
-          requests: getRequestsMock(params),
-          cursor: params.cursor > 50 ? -1 : params.cursor,
-        },
-      }));
 
     return response;
   }

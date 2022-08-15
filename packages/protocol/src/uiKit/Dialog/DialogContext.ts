@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+
 import { DialogTitleColor, IDialogContext } from './types';
 
 const contextFallback: IDialogContext = {

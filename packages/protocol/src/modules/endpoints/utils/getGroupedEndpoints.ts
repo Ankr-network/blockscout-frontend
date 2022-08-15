@@ -38,6 +38,7 @@ const getChainToEndpointGroupMap = (
       pluralName: group.pluralName,
       urls: [],
       urlsCount: 0,
+      chainIDs: [],
     };
 
     group.chains.forEach(chainID => {
@@ -64,10 +65,12 @@ const getEndpointGroups = (
     const urlsCount = getUrlsCount(urls);
 
     if (chainID in chainToEndpointGroupMap) {
+      chainToEndpointGroupMap[chainID].chainIDs.push(chainID);
       chainToEndpointGroupMap[chainID].urls.push(...urls);
       chainToEndpointGroupMap[chainID].urlsCount += urlsCount;
       chainToEndpointGroupMap[chainID].chainName = chain.name;
     } else if (fallbackEndpointGroup) {
+      fallbackEndpointGroup.chainIDs.push(chainID);
       fallbackEndpointGroup.urls.push(...urls);
       fallbackEndpointGroup.urlsCount += urlsCount;
     }

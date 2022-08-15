@@ -12,6 +12,7 @@ import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 import { checkAllowanceStep } from './checkAllowanceStep';
 import { checkTopUpStep } from './checkTopUpStep';
 import { areHashesEmpty, isAmountEmpty } from './initialStepChecksUtils';
+import { waitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const getInitialStep = createSmartAction<
   RequestAction<TopUpStep, TopUpStep>
@@ -65,6 +66,8 @@ export const getInitialStep = createSmartAction<
           });
 
           if (connectData?.credentials) {
+            store.dispatchRequest(waitTransactionConfirming());
+
             return TopUpStep.waitTransactionConfirming;
           }
 

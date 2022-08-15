@@ -1,12 +1,11 @@
 import BigNumber from 'bignumber.js';
 
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchChainNodes } from 'domains/chains/actions/fetchChainNodes';
-import { fetchNodesWeight } from 'domains/chains/actions/fetchNodesWeight';
+import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 
 export interface ChainNodesTableProps {
-  data?: ResponseData<typeof fetchChainNodes>;
-  nodesWeight?: ResponseData<typeof fetchNodesWeight>;
+  loading: boolean;
+  nodes: INodeEntity[];
+  nodesWeight: IWorkerNodesWeight[];
 }
 
 export interface GroupedNode {

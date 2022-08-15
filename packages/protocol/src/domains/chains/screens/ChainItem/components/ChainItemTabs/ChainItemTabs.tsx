@@ -1,8 +1,8 @@
-import { EndpointGroup } from 'modules/endpoints/types';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { TabsManager } from 'uiKit/TabsManager';
-import { useChainItemTabs } from './hooks/useChainItemTabs';
 import { useStyles } from './ChainItemTabsStyles';
+import { useChainItemTabs } from './hooks/useChainItemTabs';
 
 export interface IChainItemTabsProps {
   data: IChainItemDetails;

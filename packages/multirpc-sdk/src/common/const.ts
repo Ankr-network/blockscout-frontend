@@ -9,13 +9,12 @@ export const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
   responseType: 'json',
 };
 
-export const STAGING_CONFIRMATION_BLOCKS = 1;
 export const CONFIRMATION_BLOCKS = 12;
 
 export const STAGING_CONFIG: IConfig = {
   ankrTokenContractAddress: '0x65BF0bD516aD41622e45bFD22dAD57ffF828333a',
   premiumPlanContractAddress: '0xD099e6Be8B30ACc74E3b4e6E80D5e0dB58291e93',
-  confirmationBlocks: STAGING_CONFIRMATION_BLOCKS,
+  confirmationBlocks: CONFIRMATION_BLOCKS,
   privateRpcUrl: 'https://staging.multi-rpc.com/{blockchain}/{user}',
   privateWsUrl: 'wss://staging.multi-rpc.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://staging.multi-rpc.com/{blockchain}',

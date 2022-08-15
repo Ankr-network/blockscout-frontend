@@ -2,104 +2,43 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider';
 
-import { throwIfError } from 'common';
-import { retry } from 'modules/api/utils/retry';
-import { fetchCredentialsStatus } from 'domains/auth/actions/fetchCredentialsStatus';
 import { fetchBalance } from '../balance/fetchBalance';
 import {
   selectTransaction,
   setWithdrawTransaction,
 } from 'domains/account/store/accountWithdrawSlice';
 import { t } from 'modules/i18n/utils/intl';
-import { getTransactionReceipt } from './getTransactionReceipt';
 import { MultiService } from 'modules/api/MultiService';
-import { waitPendingTransaction } from './getInitialStep/waitPendingTransaction';
+import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+import { timeout } from 'modules/common/utils/timeout';
+import { ETH_BLOCK_TIME } from './const';
+import { getReceipt } from '../topUp/waitTransactionConfirming';
 
-const MAX_ATTEMPTS = 50;
+const fetchCredentialsData = async (transactionHash: string) => {
+  const service = await MultiService.getInstance();
 
-const checkTransactionStatus = async (transactionHash: string) => {
-  const transactionReceipt = await getTransactionReceipt(transactionHash);
+  return service.canIssueJwtToken(transactionHash);
+};
 
-  if (transactionReceipt && !transactionReceipt?.status) {
-    throw new Error(t('error.failed'));
+const waitForBlocks = async (transactionHash: string) => {
+  let inProcess = true;
+
+  while (inProcess) {
+    try {
+      // eslint-disable-next-line
+      const data = await fetchCredentialsData(transactionHash);
+
+      inProcess = !data?.isReady;
+    } catch (_error) {
+      // ignore if error
+    }
+
+    if (inProcess) {
+      // eslint-disable-next-line
+      await timeout(ETH_BLOCK_TIME);
+    }
   }
-};
-
-const fetchCredentialsData = async (
-  transactionHash: string,
-  store: RequestsStore,
-) => {
-  const { data: credentialsData } = throwIfError(
-    await store.dispatchRequest(fetchCredentialsStatus(transactionHash)),
-  );
-
-  return credentialsData;
-};
-
-const waitForBlocks = async (
-  store: RequestsStore,
-  initialTransactionHash: string,
-) => {
-  await checkTransactionStatus(initialTransactionHash);
-
-  const credentialsStatus = await fetchCredentialsData(
-    initialTransactionHash,
-    store,
-  );
-
-  if (credentialsStatus?.isReady) return undefined;
-
-  return retry(
-    async () => {
-      await waitPendingTransaction();
-
-      const service = await MultiService.getInstance();
-      const provider = service.getKeyProvider();
-      const { currentAccount: address } = provider;
-      const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
-        address,
-      );
-
-      const currentBlockNumber = await provider.getWeb3().eth.getBlockNumber();
-
-      // This is old withdrawal. New withdrawal failed
-      if (
-        currentBlockNumber - (lastWithdrawalEvent?.blockNumber || 0) >
-        CONFIRMATION_BLOCKS
-      ) {
-        throw new Error(t('error.failed'));
-      }
-
-      let newTransactionHash = initialTransactionHash;
-
-      if (
-        lastWithdrawalEvent?.transactionHash &&
-        lastWithdrawalEvent?.transactionHash !== initialTransactionHash
-      ) {
-        newTransactionHash = lastWithdrawalEvent?.transactionHash as string;
-
-        store.dispatch(
-          setWithdrawTransaction({
-            address,
-            withdrawTransactionHash: newTransactionHash,
-          }),
-        );
-      }
-
-      await checkTransactionStatus(newTransactionHash);
-
-      const data = await fetchCredentialsData(newTransactionHash, store);
-
-      if (!data?.isReady) {
-        throw new Error();
-      }
-
-      return data;
-    },
-    () => false,
-    MAX_ATTEMPTS,
-  );
 };
 
 export const waitTransactionConfirming = createSmartAction<
@@ -113,16 +52,70 @@ export const waitTransactionConfirming = createSmartAction<
       return {
         promise: (async () => {
           const service = await MultiService.getInstance();
-          const { currentAccount } = service.getKeyProvider();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = service.getKeyProvider();
 
-          const transaction = selectTransaction(
-            store.getState(),
-            currentAccount,
+          const transaction = selectTransaction(store.getState(), address);
+
+          const initialTransactionHash = transaction?.withdrawTransactionHash;
+
+          if (!initialTransactionHash) {
+            throw new Error(t('error.failed'));
+          }
+
+          // step 1: trying to take a receipt
+          const receipt1 = await getReceipt(initialTransactionHash);
+
+          if (receipt1) {
+            return waitForBlocks(initialTransactionHash);
+          }
+
+          // step 2: there're no receipt. we should wait
+          await waitForPendingTransaction();
+
+          // step 3: trying to take a receipt again
+          let transactionHash = initialTransactionHash;
+
+          const receipt2 = await getReceipt(transactionHash);
+
+          if (receipt2) {
+            return waitForBlocks(transactionHash);
+          }
+
+          // step 4: we already haven't had pending transaction and a receipt too -> check the latest withdrawal transaction
+          const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
+            address,
           );
 
-          if (transaction?.withdrawTransactionHash) {
-            await waitForBlocks(store, transaction.withdrawTransactionHash);
+          const currentBlockNumber = await provider
+            .getWeb3()
+            .eth.getBlockNumber();
+
+          // step 5: check blocks difference. This is old top up transaction. New top up transaction is failed or cancelled
+          if (
+            currentBlockNumber - (lastWithdrawalEvent?.blockNumber || 0) >
+            CONFIRMATION_BLOCKS
+          ) {
+            throw new Error(t('error.failed'));
           }
+
+          if (
+            lastWithdrawalEvent?.transactionHash &&
+            lastWithdrawalEvent?.transactionHash !== initialTransactionHash
+          ) {
+            transactionHash = lastWithdrawalEvent.transactionHash;
+
+            store.dispatch(
+              setWithdrawTransaction({
+                address,
+                withdrawTransactionHash: transactionHash,
+              }),
+            );
+
+            await getReceipt(transactionHash);
+          }
+
+          return waitForBlocks(transactionHash);
         })(),
       };
     },
