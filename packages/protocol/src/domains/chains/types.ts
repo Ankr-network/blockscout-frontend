@@ -1,7 +1,7 @@
 export enum ChainType {
-  Devnet = 'devnet',
   Mainnet = 'mainnet',
   Testnet = 'testnet',
+  Devnet = 'devnet',
 }
 
 export enum SortType {

@@ -1,4 +1,4 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -21,5 +21,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   flag: {
     marginBottom: '3px',
+  },
+  preloader: {
+    height: theme.spacing(8.25),
   },
 }));

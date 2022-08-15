@@ -137,21 +137,8 @@ const IOTEX_NETWORK_PARAMS = {
 };
 
 // nervos https://docs.godwoken.io/#godwoken-public-networks
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const NERVOS_ETH_NETWORK_PARAMS = {
-  chainId: 71394,
-  chainName: 'Nervos Mainnet by Ankr Protocol',
-  nativeCurrency: {
-    name: 'Nervos Mainnet',
-    symbol: 'CKB',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://explorer.nervos.org/'],
-};
-
-// nervos https://docs.godwoken.io/#godwoken-public-networks
 const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
-  chainId: 71394,
+  chainId: 71402,
   chainName: 'Godwoken Polyjuice Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'Godwoken Mainnet',

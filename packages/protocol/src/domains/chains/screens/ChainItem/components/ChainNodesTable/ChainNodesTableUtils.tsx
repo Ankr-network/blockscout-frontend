@@ -1,26 +1,22 @@
-import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
 import { Box, capitalize, Typography, useTheme } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { INodeEntity } from 'multirpc-sdk';
+import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
+import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
 import { useStyles } from './useStyles';
 
-import {
-  ChainNodesTableProps,
-  GroupedNode,
-  ProviderRow,
-} from './ChainNodesTableProps';
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { t } from 'common';
-import { VirtualTableColumn } from 'ui';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
-import { getStatusColor } from 'uiKit/utils/styleUtils';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import ReactCountryFlag from 'react-country-flag';
+import { VirtualTableColumn } from 'ui';
+import { getStatusColor } from 'uiKit/utils/styleUtils';
+import { GroupedNode, ProviderRow } from './ChainNodesTableProps';
 
 export const CHAIN_NODES_TABLE_PAGE_SIZE = 10;
 
 export const getRows = (
-  data: ChainNodesTableProps['data'],
-  nodesWeight: ChainNodesTableProps['nodesWeight'],
+  data: INodeEntity[],
+  nodesWeight: IWorkerNodesWeight[],
 ): ProviderRow[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
 

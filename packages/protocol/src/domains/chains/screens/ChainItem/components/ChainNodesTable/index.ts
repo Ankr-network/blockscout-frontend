@@ -1,1 +1,1 @@
-export * from './ChainNodesTable';
+export * from './ChainNodesTableQuery';
