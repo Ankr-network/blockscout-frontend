@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core';
 import { t } from 'common';
 
 import {
+  ANKR_BNB_LANDING,
   ANKR_ETH_LANDING,
   ANKR_MATIC_LANDING,
   featuresConfig,
@@ -68,7 +69,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           apy={metrics && +metrics.bnb.apy}
           iconSlot={<BNBIcon />}
           mainHref={BinanceRoutes.stake.generatePath()}
-          moreHref={getStakingOverviewUrl(Token.BNB)}
+          moreHref={ANKR_BNB_LANDING}
           stakedTvl={metrics?.bnb.totalStaked}
           title={t('features.binance')}
           token={Token.BNB}

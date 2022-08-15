@@ -1,9 +1,6 @@
-import { Grid } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
-
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_ROUNDING, ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Amount } from 'modules/dashboard/components/Amount';
 import {
@@ -23,44 +20,34 @@ export const StakedANKR = (): JSX.Element => {
   const { stakedAmount, stakedUsdEquivalent, network, manageLink, loading } =
     useStakedANKRData();
 
-  const renderUsdAmount = (value: BigNumber) =>
-    t('unit.usd-value', {
-      value: value.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    });
-
   if (loading) {
     return <DashboardCardSkeleton />;
   }
 
+  const usdValue = t('unit.usd-value', {
+    value: stakedUsdEquivalent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+  });
+
   return (
     <DashboardCard
       amountSlot={
-        <Grid container spacing={2}>
-          {stakedAmount && (
-            <Grid item xs>
-              <Amount
-                infoSlot={renderUsdAmount(stakedUsdEquivalent)}
-                value={stakedAmount.integerValue()}
-              />
-            </Grid>
-          )}
-        </Grid>
+        <Amount infoSlot={usdValue} value={stakedAmount.integerValue()} />
       }
       buttonsSlot={
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
-            <NavLink
-              className={classes.manageButton}
-              href={manageLink}
-              variant="outlined"
-            >
-              {t('dashboard.card.manage')}
-            </NavLink>
-          </Grid>
-        </Grid>
+        <NavLink
+          className={classes.manageButton}
+          href={manageLink}
+          variant="outlined"
+        >
+          {t('dashboard.card.manage')}
+        </NavLink>
       }
       networkAndIconSlot={
-        <NetworkIconText network={network} token={Token.ANKR} />
+        <NetworkIconText
+          chainId={ETH_NETWORK_BY_ENV}
+          network={network}
+          token={Token.ANKR}
+        />
       }
     />
   );

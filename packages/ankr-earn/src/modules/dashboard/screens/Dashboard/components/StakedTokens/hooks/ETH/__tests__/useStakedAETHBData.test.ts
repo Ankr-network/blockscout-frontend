@@ -30,6 +30,10 @@ jest.mock('modules/defi-aggregator/Routes', () => ({
   RoutesConfig: { defi: { generatePath: () => '/defi' } },
 }));
 
+jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
+  addTokenToWallet: () => jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
   const defaultStatsData = {
     data: { aETHbBalance: new BigNumber(1) },

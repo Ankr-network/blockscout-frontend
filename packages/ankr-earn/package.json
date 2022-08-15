@@ -159,7 +159,8 @@
       "/unstake/dot/",
       "/unstake/fantom/",
       "/unstake/ksm/",
-      "/unstake/matic/"
+      "/unstake/matic/",
+      "/ankr-stake/providers/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

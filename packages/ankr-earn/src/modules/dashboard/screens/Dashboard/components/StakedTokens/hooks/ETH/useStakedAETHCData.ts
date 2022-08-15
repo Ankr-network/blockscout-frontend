@@ -18,12 +18,12 @@ import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
+import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
-import { addSwitcherTokenToWallet } from 'modules/switcher/actions/wallet';
 
 export interface IStakedAETHCData {
   address?: string;
@@ -82,10 +82,8 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const nativeAmount = getTokenNativeAmount(amount, statsData?.aETHcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(
-      addSwitcherTokenToWallet({ chainId, swapOption: Token.aETHc }),
-    );
-  }, [chainId, dispatchRequest]);
+    dispatchRequest(addTokenToWallet(Token.aETHc));
+  }, [dispatchRequest]);
 
   return {
     address,
