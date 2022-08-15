@@ -1,11 +1,11 @@
-import { ChainGroupID } from 'modules/endpoints/types';
-import { ChainOverview } from './components/ChainOverview';
-import { ChainType } from 'domains/chains/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { MobileGroupSelector } from './components/MobileGroupSelector';
-import { SecondaryTabs } from '../SecondaryTabs';
+import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { ChainGroupID } from 'modules/endpoints/types';
+import { SecondaryTabs } from '../SecondaryTabs';
 import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
+import { ChainOverview } from './components/ChainOverview';
+import { MobileGroupSelector } from './components/MobileGroupSelector';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;

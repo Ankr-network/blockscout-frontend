@@ -2,9 +2,7 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider';
 
-import { throwIfError } from 'common';
-import { retry } from 'modules/api/utils/retry';
-import { fetchCredentialsStatus } from 'domains/auth/actions/fetchCredentialsStatus';
+import { fetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { fetchBalance } from '../balance/fetchBalance';
 import {
   selectTransaction,
@@ -13,39 +11,29 @@ import {
 import { t } from 'modules/i18n/utils/intl';
 import { MultiService } from 'modules/api/MultiService';
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
-import { waitPendingTransaction } from '../withdraw/getInitialStep/waitPendingTransaction';
-
-const MAX_ATTEMPTS = 50;
+import { waitForPendingTransaction } from '../withdraw/waitForPendingTransaction';
+import { timeout } from 'modules/common/utils/timeout';
+import { ETH_BLOCK_TIME } from '../withdraw/const';
 
 const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
-  const { data: credentialsData } = await store.dispatchRequest(
-    fetchCredentialsStatus(transactionHash),
-  );
+  let inProcess = true;
 
-  if (credentialsData?.isReady) {
-    return undefined;
+  while (inProcess) {
+    // eslint-disable-next-line
+    const { data } = await store.dispatchRequest(
+      fetchTransactionConfirmationStatus(transactionHash),
+    );
+
+    inProcess = !data?.isReady;
+
+    if (inProcess) {
+      // eslint-disable-next-line
+      await timeout(ETH_BLOCK_TIME);
+    }
   }
-
-  return retry(
-    async () => {
-      const { data } = throwIfError(
-        await store.dispatchRequest(fetchCredentialsStatus(transactionHash)),
-      );
-
-      const { isReady } = data;
-
-      if (!isReady) {
-        throw new Error(t('error.credentials'));
-      }
-
-      return data;
-    },
-    () => false,
-    MAX_ATTEMPTS,
-  );
 };
 
-const getReceipt = async (transactionHash: string) => {
+export const getReceipt = async (transactionHash: string) => {
   const service = await MultiService.getInstance();
 
   const receipt = await service.getTransactionReceipt(transactionHash);
@@ -86,8 +74,8 @@ export const waitTransactionConfirming = createSmartAction<
             return waitForBlocks(store, initialTransactionHash);
           }
 
-          // step 2: wait
-          await waitPendingTransaction();
+          // step 2: there're no receipt. we should wait
+          await waitForPendingTransaction();
 
           // step 3: trying to take a receipt again
           let transactionHash = initialTransactionHash;

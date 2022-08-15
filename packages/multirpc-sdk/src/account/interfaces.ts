@@ -10,8 +10,6 @@ import {
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
-  IRequestsRequest,
-  IRequestsResponse,
   IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
@@ -23,8 +21,6 @@ export interface IAccountGateway {
   removeToken(): void;
 
   getAnkrBalance(): Promise<IBalance>;
-
-  getRequests(params: IRequestsRequest): Promise<IRequestsResponse>;
 
   getDailyCharging(
     params: IDailyChargingParams,

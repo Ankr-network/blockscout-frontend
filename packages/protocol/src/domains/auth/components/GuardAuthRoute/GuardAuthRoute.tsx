@@ -39,7 +39,7 @@ export const GuardAuthRoute = ({
 
   if (shouldReplace) {
     return (
-      <DefaultLayout>
+      <DefaultLayout disableGutters>
         <PricingRoutes />
       </DefaultLayout>
     );

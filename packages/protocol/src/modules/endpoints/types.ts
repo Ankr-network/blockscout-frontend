@@ -34,6 +34,7 @@ export interface EndpointGroup {
   pluralName: ChainGroup['pluralName'];
   urls: IApiChainURL[];
   urlsCount: number;
+  chainIDs: IApiChain['id'][];
 }
 
 export interface GroupedEndpoints {

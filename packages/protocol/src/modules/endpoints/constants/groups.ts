@@ -22,9 +22,11 @@ export const getFallbackEndpointGroup = (
     pluralName: name,
     urls: [],
     urlsCount: 0,
+    chainIDs: [],
   };
 };
 
+// TODO: use ChainID enum
 export const chainGroups: ChainGroup[] = [
   {
     id: ChainGroupID.STANDARD_EVM,
@@ -33,8 +35,9 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       'arbitrum',
       'avalanche',
-      'avalanche_fuji-evm',
       'avalanche-evm',
+      'avalanche_fuji',
+      'avalanche_fuji-evm',
       'bsc',
       'bsc_testnet_chapel',
       'celo',

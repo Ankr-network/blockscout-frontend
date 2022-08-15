@@ -4,6 +4,7 @@ import { ChainSubtitle } from '../ChainSubtitle';
 import { ChainTitle } from '../ChainTitle';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
+import { TronAbout } from '../TronAbout';
 
 export interface ChainOverviewProps {
   chain: IApiChain;
@@ -15,17 +16,21 @@ export const ChainOverview = ({
   isChainArchived,
 }: ChainOverviewProps) => {
   const classes = useChainOverviewStyles();
+  const { id } = chain;
 
   return (
-    <div className={classes.chainOverview}>
-      <div className={classes.right}>
-        <ChainLogo chain={chain} />
-        <div className={classes.description}>
-          <ChainTitle chain={chain} />
-          <ChainSubtitle chain={chain} isChainArchived={isChainArchived} />
+    <div>
+      <div className={classes.chainOverview}>
+        <div className={classes.right}>
+          <ChainLogo chain={chain} />
+          <div className={classes.description}>
+            <ChainTitle chain={chain} />
+            <ChainSubtitle chain={chain} isChainArchived={isChainArchived} />
+          </div>
         </div>
+        <ChainDocsLink chain={chain} className={classes.chainDocsLink} />
       </div>
-      <ChainDocsLink chain={chain} className={classes.chainDocsLink} />
+      {id === 'tron' && <TronAbout />}
     </div>
   );
 };
