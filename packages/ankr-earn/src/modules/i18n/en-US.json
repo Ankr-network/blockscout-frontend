@@ -54,7 +54,10 @@
   "logo": {
     "staking": "Staking"
   },
-  "rights": "© 2022 Ankr All rights reserved | info@ankr.com",
+  "rights": {
+    "text": "© 2022 Ankr All rights reserved | ",
+    "subject": "Staking app"
+  },
   "language": {
     "language": "Language",
     "en-US": "EN",

@@ -1,7 +1,6 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback } from 'react';
+import { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
@@ -88,13 +87,21 @@ export const StakeForm = ({
 
   const { onMaxClick } = useStakeFormAnalytics(tokenIn, balance.toString());
 
-  const balanceRoundedByStep = stakingAmountStep
-    ? `${floor(balance.toNumber(), stakingAmountStep)}`
-    : balance.toString();
+  const maxStakeAmount = useMemo(() => {
+    const balanceRoundedByStep = stakingAmountStep
+      ? `${floor(balance.toNumber(), stakingAmountStep)}`
+      : balance.toString();
 
-  const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
-    ? balanceRoundedByStep
-    : maxAmount.toString();
+    const maxRoundedAmount = balance.isLessThanOrEqualTo(maxAmount)
+      ? balanceRoundedByStep
+      : maxAmount.toString();
+
+    return maxAmountDecimals
+      ? new BigNumber(maxRoundedAmount)
+          .decimalPlaces(maxAmountDecimals, BigNumber.ROUND_DOWN)
+          .toString()
+      : maxRoundedAmount;
+  }, [balance, maxAmount, maxAmountDecimals, stakingAmountStep]);
 
   const validateStakeForm = useCallback(
     ({ amount }: IStakeFormPayload) => {
@@ -136,8 +143,8 @@ export const StakeForm = ({
     const { amount } = values;
     const amountNumber = convertAmountToBN(amount);
 
-    const handleMaxClick = () => () => {
-      setMaxAmount(form, maxStakeAmount)();
+    const handleMaxClick = () => {
+      form.change(FieldsNames.amount, maxStakeAmount);
       onMaxClick();
     };
 
@@ -166,7 +173,7 @@ export const StakeForm = ({
           minAmount={minAmount?.toNumber()}
           name={FieldsNames.amount}
           tokenName={tokenIn}
-          onMaxClick={isMaxBtnShowed ? handleMaxClick() : undefined}
+          onMaxClick={isMaxBtnShowed ? handleMaxClick : undefined}
         />
 
         {renderStats && renderStats(amountNumber)}
@@ -214,7 +221,3 @@ export const StakeForm = ({
     />
   );
 };
-
-function setMaxAmount(form: FormApi<IStakeFormPayload>, maxValue: string) {
-  return () => form.change(FieldsNames.amount, maxValue);
-}
