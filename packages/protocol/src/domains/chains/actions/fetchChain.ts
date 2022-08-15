@@ -1,18 +1,16 @@
 import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
+import { INodeEntity } from 'multirpc-sdk';
 
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
-import { fetchPublicChains } from './fetchPublicChains';
 import { fetchChainNodes } from './fetchChainNodes';
-import { fetchNodesWeight } from './fetchNodesWeight';
+import { fetchPublicChains } from './fetchPublicChains';
 
 export interface IChainItemDetails {
   chain: IApiChain;
   nodes?: INodeEntity[];
-  nodesWeight?: IWorkerNodesWeight[];
 }
 
 export const fetchChain = createSmartAction<
@@ -32,12 +30,10 @@ export const fetchChain = createSmartAction<
     ) => {
       return {
         promise: (async (): Promise<IChainItemDetails> => {
-          const [{ data: chains }, { data: nodes }, { data: nodesWeight }] =
-            await Promise.all([
-              store.dispatchRequest(fetchPublicChains()),
-              store.dispatchRequest(fetchChainNodes(chainId)),
-              store.dispatchRequest(fetchNodesWeight()),
-            ]);
+          const [{ data: chains }, { data: nodes }] = await Promise.all([
+            store.dispatchRequest(fetchPublicChains()),
+            store.dispatchRequest(fetchChainNodes(chainId)),
+          ]);
 
           const chain = chains?.find(item => item.id === chainId);
 
@@ -48,7 +44,6 @@ export const fetchChain = createSmartAction<
           return {
             chain,
             nodes,
-            nodesWeight,
           };
         })(),
       };

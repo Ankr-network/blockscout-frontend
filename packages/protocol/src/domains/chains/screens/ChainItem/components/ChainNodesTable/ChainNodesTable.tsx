@@ -1,7 +1,7 @@
 import { Paper, TableContainer, Typography } from '@material-ui/core';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useCallback, useMemo, useState } from 'react';
-import { VirtualTable, VirtualTableQuery } from 'ui';
+import { Preloader, VirtualTable, VirtualTableQuery } from 'ui';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainNodesTableProps } from './ChainNodesTableProps';
 import {
@@ -12,13 +12,15 @@ import {
 import { useStyles } from './useStyles';
 
 export const ChainNodesTable = ({
-  data,
+  loading,
+  nodes,
   nodesWeight,
 }: ChainNodesTableProps) => {
   const classes = useStyles();
   const columns = useChainNodesTableTableColumns();
   const [page, setPage] = useState(1);
-  const rows = useMemo(() => getRows(data, nodesWeight), [data, nodesWeight]);
+
+  const rows = useMemo(() => getRows(nodes, nodesWeight), [nodes, nodesWeight]);
 
   const slicedRows = useMemo(
     () => rows.slice(0, page * CHAIN_NODES_TABLE_PAGE_SIZE),
@@ -41,6 +43,7 @@ export const ChainNodesTable = ({
       </TooltipWrapper>
 
       <VirtualTable
+        loading={loading}
         cols={columns}
         pagination="more"
         onChangePage={handleChangePage}
@@ -50,6 +53,7 @@ export const ChainNodesTable = ({
         classes={{ container: classes.tableContainer }}
         minWidth={550}
         emptyMessage={t('chain-item.nodes-table.empty')}
+        preloader={<Preloader className={classes.preloader} />}
       />
     </TableContainer>
   );

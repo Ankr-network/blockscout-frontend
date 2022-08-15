@@ -1,48 +1,45 @@
-import React from 'react';
-
-import { ChainNodesTable } from '../ChainNodesTable';
-import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { EndpointQuery } from '../Endpoint/EndpointQuery';
-import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
-import { useStyles } from './InfrastructureContentStyles';
+import { EndpointQuery } from '../Endpoint/EndpointQuery';
 import { canAddEndpoint } from '../Endpoint/EndpointUtils';
+import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
+import { useStyles } from './InfrastructureContentStyles';
 
 interface IInfrastructureContentProps {
-  chainId: string;
-  data: IChainItemDetails;
+  chain: IApiChain;
+  group: EndpointGroup;
 }
 
 export const InfrastructureContent = ({
-  chainId,
-  data,
+  chain,
+  group,
 }: IInfrastructureContentProps) => {
   const classes = useStyles();
 
   const { credentials, loading: authLoading } = useAuth();
   const { providerData, loading: providerLoading } = useProvider();
-  const { nodes, nodesWeight } = data;
 
   return (
     <div className={classes.root}>
-      {canAddEndpoint(providerData, chainId) && <TrafficFlow />}
+      {canAddEndpoint(providerData, chain.id) && <TrafficFlow />}
 
       {!authLoading && !providerLoading && (
         <>
           {credentials && Boolean(providerData) && (
-            <EndpointQuery chainId={chainId} />
+            <EndpointQuery chainId={chain.id} />
           )}
 
-          {credentials && <SecuritySettingsQuery chainId={chainId} />}
+          {credentials && <SecuritySettingsQuery chainId={chain.id} />}
         </>
       )}
-      {nodes && (
-        <div className={classes.table}>
-          <ChainNodesTable data={nodes} nodesWeight={nodesWeight} />
-        </div>
-      )}
+
+      <div className={classes.table}>
+        <ChainNodesTableQuery chain={chain} group={group} />
+      </div>
     </div>
   );
 };
