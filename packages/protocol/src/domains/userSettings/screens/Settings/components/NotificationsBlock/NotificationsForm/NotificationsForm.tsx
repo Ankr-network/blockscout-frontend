@@ -1,4 +1,4 @@
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography, Divider } from '@material-ui/core';
 import { Field } from 'react-final-form';
 
 import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
@@ -11,6 +11,36 @@ export const NotificationsForm = () => {
 
   return (
     <FormGroup>
+      <Field
+        component={CheckboxField}
+        name={NotificationsFormFields.lowBalance}
+        type="checkbox"
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t('user-settings.notifications.form.low-balance')}
+          </Typography>
+        }
+      />
+      <Field
+        component={CheckboxField}
+        name={NotificationsFormFields.lowBalance3days}
+        type="checkbox"
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t('user-settings.notifications.form.low-balance-3-days')}
+          </Typography>
+        }
+      />
+      <Field
+        component={CheckboxField}
+        name={NotificationsFormFields.lowBalance7days}
+        type="checkbox"
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t('user-settings.notifications.form.low-balance-7-days')}
+          </Typography>
+        }
+      />
       <Field
         component={CheckboxField}
         name={NotificationsFormFields.balance}
@@ -28,6 +58,7 @@ export const NotificationsForm = () => {
       >
         {t('user-settings.notifications.form.balance-updates.description')}
       </Typography>
+      <Divider className={classes.divider} />
       <Field
         component={CheckboxField}
         name={NotificationsFormFields.marketing}

@@ -3,16 +3,12 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
-import { IEmailResponse } from 'multirpc-sdk';
+import { EmailConfirmationStatus, IEmailResponse } from 'multirpc-sdk';
 
-interface IResendConfirmationCodeParams {
-  email: string;
-}
-
-export const resendConfirmationCode = createSmartAction<
-  RequestAction<IEmailResponse, IEmailResponse>,
-  [IResendConfirmationCodeParams]
->('userSettings/resendConfirmationCode', ({ email }) => ({
+export const getEmailBindings = createSmartAction<
+  RequestAction<IEmailResponse[], IEmailResponse[]>,
+  [EmailConfirmationStatus?]
+>('userSettings/getEmailBindings', filters => ({
   request: {
     promise: (async () => null)(),
   },
@@ -23,12 +19,12 @@ export const resendConfirmationCode = createSmartAction<
     ...getEmailErrorConfig(),
 
     onRequest: () => ({
-      promise: (async (): Promise<string> => {
+      promise: (async (): Promise<IEmailResponse[]> => {
         const service = await MultiService.getInstance();
 
         const accountGateway = service.getAccountGateway();
 
-        const response = await accountGateway.resendConfirmationCode(email);
+        const response = await accountGateway.getEmailBindings(filters);
 
         return response;
       })(),

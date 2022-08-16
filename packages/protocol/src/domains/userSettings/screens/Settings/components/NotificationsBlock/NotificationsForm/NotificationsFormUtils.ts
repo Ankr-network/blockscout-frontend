@@ -12,22 +12,26 @@ export const initialValues = {
 export const getInitialValues = (settings: INotificationsSettings) => {
   if (!settings) return initialValues;
 
-  const { deposit, marketing } = settings;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { deposit, marketing, low_balance, balance_7days, balance_3days } =
+    settings;
 
   return {
     [NotificationsFormFields.balance]: deposit,
     [NotificationsFormFields.marketing]: marketing,
+    [NotificationsFormFields.lowBalance]: low_balance,
+    [NotificationsFormFields.lowBalance3days]: balance_3days,
+    [NotificationsFormFields.lowBalance7days]: balance_7days,
   };
 };
-
-const SHOW_BALANCE_UPDATES = false;
 
 export const prepareValuesForRequest = (
   values: NotificationsFormData,
 ): INotificationsSettings => {
   const data: INotificationsSettings = {};
 
-  const { balance, marketing } = values;
+  const { balance, marketing, lowBalance, lowBalance3days, lowBalance7days } =
+    values;
 
   // marketing
   data.marketing = marketing;
@@ -37,11 +41,10 @@ export const prepareValuesForRequest = (
   data.withdraw = balance;
   data.voucher = balance;
 
-  if (SHOW_BALANCE_UPDATES) {
-    data.low_balance = balance;
-    data.balance_7days = balance;
-    data.balance_3days = balance;
-  }
+  // low balance
+  data.low_balance = lowBalance;
+  data.balance_3days = lowBalance3days;
+  data.balance_7days = lowBalance7days;
 
   return data;
 };

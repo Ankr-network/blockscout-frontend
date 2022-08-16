@@ -1,6 +1,5 @@
-import React, { ReactElement, ReactNode } from 'react';
 import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
-
+import { ReactElement, ReactNode } from 'react';
 import { useAppSelector } from 'store/useAppSelector';
 import { Spinner } from 'ui';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
@@ -23,6 +22,8 @@ interface ILoadingProps<T1, T2, T3, T4, T5> {
   spinner?: ReactElement;
   isPreloadDisabled?: boolean;
   showLoaderDuringRefetch?: boolean;
+  disableErrorRender?: boolean;
+  disableEmptyRender?: boolean;
 }
 
 function isLoading(queries: QueryState<any>[]) {
@@ -54,6 +55,8 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   spinner = <Spinner />,
   isPreloadDisabled = false,
   showLoaderDuringRefetch = true,
+  disableErrorRender = false,
+  disableEmptyRender = false,
 }: ILoadingProps<T1, T2, T3, T4, T5>) {
   const queries = useAppSelector(state =>
     requestActions.map((item, index) =>
@@ -76,11 +79,19 @@ export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
   const error = hasError(queries);
 
   if (error) {
-    return <QueryError error={error} />;
+    if (!disableErrorRender) {
+      return <QueryError error={error} />;
+    }
+
+    return <>{(children as any)(...queries)}</>;
   }
 
   if (isEmpty(queries) && !isPreloadDisabled) {
-    return empty || <QueryEmpty />;
+    if (!disableEmptyRender) {
+      return empty || <QueryEmpty />;
+    }
+
+    return <>{(children as any)(...queries)}</>;
   }
 
   return <>{(children as any)(...queries)}</>;

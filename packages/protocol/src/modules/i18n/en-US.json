@@ -28,20 +28,6 @@
       "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains",
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
-    "plan": {
-      "title": "Get More With Ankr's Premium Plan",
-      "description": "Ankr Protocol",
-      "og-title": "Access Ankr's Premium Developer Plan",
-      "og-description": "Get dedicated endpoints, WebSockets, unlimited requests, analytics, and more",
-      "h1-tag": "Get premium RPCs, APIs, dedicated endpoints, WebSockets, and more"
-    },
-    "plan-deposit": {
-      "title": "Become a Premium User of Ankr Protocol",
-      "description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
-      "og-title": "Become a Premium User of Ankr Protocol",
-      "og-description": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more.",
-      "h1-tag": "Deposit ANKR for dedicated RPC endpoints, WebSockets, unlimited requests, and more"
-    },
     "chain-item": {
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
@@ -66,13 +52,6 @@
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
       "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
-    },
-    "providers": {
-      "title": "Ankr's Decentralized Node Providers",
-      "description": "See the node providers that create Ankr's decentralized infrastructure",
-      "og-title": "See Ankr's Node Providers",
-      "og-description": "View the node providers that make Ankr decentralized",
-      "h1-tag": "View all of Ankr's blockchain node providers "
     }
   },
   "error": {
@@ -112,11 +91,6 @@
     "protocol": "Node Providers",
     "request-explorer": "Request Explorer",
     "more": "More"
-  },
-  "staking-info": {
-    "description": "<b>Deposit 50,000&nbsp;ANKR</b> to&nbsp;become a&nbsp;node provider",
-    "link": "Join the waitlist",
-    "alt": "Cube as a blockchain layer"
   },
   "language": {
     "en-US": "English"
@@ -583,7 +557,10 @@
           "title": "Balance updates",
           "description": "Top ups, withdrawals, voucher credits added, and other updates."
         },
-        "marketing": "Ankr Protocol updates and marketing materials"
+        "marketing": "Ankr RPC updates and marketing materials",
+        "low-balance": "Running out of funds",
+        "low-balance-3-days": "Less than 3 days balance left",
+        "low-balance-7-days": "Less than 7 days balance left"
       },
       "success": "Settings Saved"
     },
@@ -802,5 +779,17 @@
   },
   "zendesk": {
     "get-help": "Help"
+  },
+  "error-boundary": {
+    "common": {
+      "title": "Oops!",
+      "description": "Something goes wrong.",
+      "button": "Reload Page"
+    },
+    "chunk-load-error": {
+      "title": "Service is updating",
+      "description": "Try reloading the page",
+      "button": "Reload Page"
+    }
   }
 }
