@@ -3,17 +3,14 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useStakeBarChartStyles = makeStyles<Theme>(theme => ({
   root: {
-    marginTop: 120,
+    marginTop: theme.spacing(20),
     '& .recharts-legend-wrapper': {
-      top: '-90px !important',
+      top: `-${theme.spacing(18)}px !important`,
     },
-    '& .recharts-default-legend': {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    '& .recharts-legend-item .recharts-surface': {
-      display: 'none !important',
-    },
+  },
+  legendRoot: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   legend: {
     backgroundColor: theme.palette.background.default,

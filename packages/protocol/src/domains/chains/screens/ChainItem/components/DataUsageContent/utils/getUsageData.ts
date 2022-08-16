@@ -50,7 +50,7 @@ export const getUsageData = ({
   };
 
   const {
-    totalRequests: privateTotalRequests = 0,
+    total_requests: privateTotalRequests = 0,
     counts: privateTotalRequestsHistory = {},
   } = privateStats;
 
