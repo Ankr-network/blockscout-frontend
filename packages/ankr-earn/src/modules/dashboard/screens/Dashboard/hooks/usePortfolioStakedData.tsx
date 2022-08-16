@@ -2,7 +2,12 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { DECIMAL_PLACES, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_ROUNDING,
+  featuresConfig,
+  ZERO,
+} from 'modules/common/const';
 import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
@@ -225,8 +230,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       },
       {
         name: Token.WND,
-        amount: aWNDbBalance ?? ZERO,
-        apy: metrics?.wnd.apy ?? ZERO,
+        amount: featuresConfig.testingUi ? aWNDbBalance ?? ZERO : ZERO,
+        apy: featuresConfig.testingUi ? metrics?.wnd?.apy ?? ZERO : ZERO,
         service: EMetricsServiceName.WND,
       },
       {

@@ -2,7 +2,12 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { DECIMAL_PLACES, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import {
+  DECIMAL_PLACES,
+  DEFAULT_ROUNDING,
+  ZERO,
+  featuresConfig,
+} from 'modules/common/const';
 import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
@@ -164,9 +169,10 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
       {
         name: Token.WND,
-        amount:
-          wndBalance?.plus(wndClaimableBalance?.claimable ?? ZERO) ?? ZERO,
-        apy: metrics?.wnd.apy ?? ZERO,
+        amount: featuresConfig.testingUi
+          ? wndBalance?.plus(wndClaimableBalance?.claimable ?? ZERO) ?? ZERO
+          : ZERO,
+        apy: featuresConfig.testingUi ? metrics?.wnd?.apy ?? ZERO : ZERO,
         service: EMetricsServiceName.WND,
       },
     ],
