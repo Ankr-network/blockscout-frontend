@@ -148,7 +148,7 @@ export const StakeBarChart = ({
         />
         {result.list.map((name: string, index: number) => (
           <Bar
-            key={name}
+            key={name || index}
             dataKey={name}
             stackId="method-calls"
             fill={COLOR_LIST[index]}
