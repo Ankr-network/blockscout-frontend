@@ -1,9 +1,12 @@
 import { FormApi } from 'final-form';
 
-import { IAnkrStakeSubmitPayload, EFieldsNames } from '../types';
+import {
+  EFieldsNames,
+  IStakeSubmitPayload,
+} from '../components/StakeForm/const';
 
 export function setMaxAmount(
-  form: FormApi<Partial<IAnkrStakeSubmitPayload>>,
+  form: FormApi<Partial<IStakeSubmitPayload>>,
   maxValue: string,
 ) {
   return (): void => form.change(EFieldsNames.amount, maxValue);

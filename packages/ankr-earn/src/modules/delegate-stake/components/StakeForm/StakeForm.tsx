@@ -1,20 +1,15 @@
 import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
-import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
-import {
-  EFieldsNames,
-  IAnkrStakeSubmitPayload,
-} from 'modules/stake-ankr/types';
-import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
+import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
+import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
@@ -29,9 +24,10 @@ import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 
+import { EFieldsNames, IStakeSubmitPayload } from './const';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
-interface IAnkrStakeFormProps {
+interface IStakeFormProps {
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
@@ -47,15 +43,16 @@ interface IAnkrStakeFormProps {
   initialAmount?: string;
   initialProvider?: string;
   providerName?: string;
-  lockingPeriod?: Days;
-  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IAnkrStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  quoteText?: string;
+  additionalText?: string;
+  additionalTooltip?: string;
+  additionalValue?: string;
+  balanceLinkSlot?: ReactNode;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
 }
 
-export const AnkrStakeForm = ({
+export const StakeForm = ({
   balance = ZERO,
   minAmount = ZERO,
   maxAmount = balance,
@@ -71,23 +68,25 @@ export const AnkrStakeForm = ({
   initialAmount,
   initialProvider,
   providerName,
-  lockingPeriod = 0,
+  quoteText,
+  additionalText,
+  additionalTooltip,
+  additionalValue,
+  balanceLinkSlot,
   onSubmit,
   onChange,
-}: IAnkrStakeFormProps): JSX.Element => {
+}: IStakeFormProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
   const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: Partial<IAnkrStakeSubmitPayload>): void =>
+  const onSubmitForm = (payload: Partial<IStakeSubmitPayload>): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IAnkrStakeSubmitPayload);
-
-  const lockingPeriodTooltip = t('stake-ankr.staking.locking-period-tooltip');
+    } as IStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -96,17 +95,21 @@ export const AnkrStakeForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IAnkrStakeSubmitPayload>>) => (
+  }: FormRenderProps<Partial<IStakeSubmitPayload>>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 
-      <StakeFormTitle>{t('stake-ankr.staking.title')}</StakeFormTitle>
+      <StakeFormTitle>
+        {t('delegated-stake.staking.title', {
+          token: tokenIn,
+        })}
+      </StakeFormTitle>
 
       <AmountInput
         isLongBalance
         balance={balance}
         balanceDecimals={DEFAULT_ROUNDING}
-        balanceLinkSlot={<BuyAnkrLink />}
+        balanceLinkSlot={balanceLinkSlot}
         disabled={isDisabled || isApproved}
         isBalanceLoading={isBalanceLoading}
         label={
@@ -129,19 +132,19 @@ export const AnkrStakeForm = ({
         providerSelectHref={providerSelectHref}
       />
 
-      <StakeDescriptionContainer>
-        <StakeDescriptionName className={classes.periodLabel}>
-          {t('stake-ankr.staking.locking-period')}
+      {(additionalText || additionalValue) && (
+        <StakeDescriptionContainer>
+          <StakeDescriptionName className={classes.periodLabel}>
+            {additionalText}
 
-          {lockingPeriodTooltip && (
-            <QuestionWithTooltip>{lockingPeriodTooltip}</QuestionWithTooltip>
-          )}
-        </StakeDescriptionName>
+            {additionalTooltip && (
+              <QuestionWithTooltip>{additionalTooltip}</QuestionWithTooltip>
+            )}
+          </StakeDescriptionName>
 
-        {t('stake-ankr.staking.locking-period-value', {
-          days: lockingPeriod,
-        })}
-      </StakeDescriptionContainer>
+          {additionalValue}
+        </StakeDescriptionContainer>
+      )}
 
       <StakeFormFooter>
         <Grid container spacing={2}>
@@ -154,7 +157,7 @@ export const AnkrStakeForm = ({
               size="large"
               type="submit"
             >
-              {t('stake-ankr.staking.approve')}
+              {t('delegated-stake.staking.approve')}
             </Button>
           </Grid>
 
@@ -167,7 +170,7 @@ export const AnkrStakeForm = ({
               size="large"
               type="submit"
             >
-              {t('stake-ankr.staking.submit')}
+              {t('delegated-stake.staking.submit')}
             </Button>
           </Grid>
         </Grid>
@@ -178,7 +181,7 @@ export const AnkrStakeForm = ({
           stepsCount={2}
         />
 
-        <Quote pt={1}>{t('stake-ankr.staking.fee-info')}</Quote>
+        {quoteText && <Quote pt={1}>{quoteText}</Quote>}
       </StakeFormFooter>
 
       <OnChange name={EFieldsNames.amount}>

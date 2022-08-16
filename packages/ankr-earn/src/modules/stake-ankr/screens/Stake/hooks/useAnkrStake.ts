@@ -11,7 +11,10 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { Days } from 'modules/common/types';
+import {
+  IFormState,
+  IStakeSubmitPayload,
+} from 'modules/delegate-stake/components/StakeForm/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
@@ -19,10 +22,6 @@ import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import {
-  IAnkrFormState,
-  IAnkrStakeSubmitPayload,
-} from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useFormState } from '../../../../forms/hooks/useFormState';
@@ -41,14 +40,14 @@ interface IUseAnkrStake {
   initialProvider?: string;
   initialAmount?: string;
   providerName?: string;
-  lockingPeriod?: Days;
   amount: BigNumber;
   apy: BigNumber;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IAnkrStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  quoteText: string;
+  additionalText?: string;
+  additionalTooltip?: string;
+  additionalValue?: string;
+  onSubmit: (values: IStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
 }
 
 export const useAnkrStake = (): IUseAnkrStake => {
@@ -56,7 +55,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const dispatch = useDispatch();
 
   const { setFormState, formState } =
-    useFormState<IAnkrFormState>(ANKR_STAKE_FORM_ID);
+    useFormState<IFormState>(ANKR_STAKE_FORM_ID);
 
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
@@ -93,17 +92,14 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const isApproved = !!approveData;
 
-  const onChange = ({
-    amount: formAmount,
-  }: Partial<IAnkrStakeSubmitPayload>) => {
+  const lockingPeriod = commonData?.lockingPeriod ?? undefined;
+
+  const onChange = ({ amount: formAmount }: Partial<IStakeSubmitPayload>) => {
     const readyAmount = formAmount ? new BigNumber(formAmount) : undefined;
     dispatch(setFormState({ amount: readyAmount }));
   };
 
-  const onSubmit = ({
-    provider,
-    amount: formAmount,
-  }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
 
     if (isApproved) {
@@ -135,10 +131,15 @@ export const useAnkrStake = (): IUseAnkrStake => {
     providerSelectHref: RoutesConfig.selectProvider.generatePath(),
     initialProvider,
     providerName,
-    lockingPeriod: commonData?.lockingPeriod ?? undefined,
     amount: amount ?? ZERO,
     initialAmount: amount?.toString(),
     apy,
+    quoteText: t('stake-ankr.staking.fee-info'),
+    additionalText: t('stake-ankr.staking.locking-period'),
+    additionalTooltip: t('stake-ankr.staking.locking-period-tooltip'),
+    additionalValue: t('stake-ankr.staking.locking-period-value', {
+      days: lockingPeriod,
+    }),
     onChange,
     onSubmit,
   };

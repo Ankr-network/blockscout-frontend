@@ -92,6 +92,7 @@
     "dot": "DOT",
     "ksm": "KSM",
     "wnd": "WND",
+    "mgno": "mGNO",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
@@ -369,7 +370,7 @@
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     }
   },
-  "delegate-stake": {
+  "delegated-stake": {
     "header": {
       "my-staking": "My {token} Staking",
       "node-providers": "Node providers"
@@ -381,6 +382,19 @@
     "total-info": {
       "stake": "Stake {token}",
       "staked": "Total Staked"
+    },
+    "staking": {
+      "title": "{token} Staking",
+      "approve": "Approve",
+      "submit": "Stake",
+      "get-mgno": "Get mGNO",
+      "stats": {
+        "apy": "APY",
+        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
+        "yearly-earning": "Yearly earning",
+        "tvl": "Staked with pool",
+        "stakers": "Stakers"
+      }
     }
   },
   "claim": {
@@ -1114,7 +1128,6 @@
       "btn": "Connect"
     },
     "staking": {
-      "title": "ANKR Staking",
       "more-title": "Stake more ANKR",
       "approve": "Approve",
       "submit": "Send",
@@ -1127,14 +1140,7 @@
       "apy": "APY",
       "add-amount": "Add Amount",
       "locking-info": "Your new stake will be locked for {value} days. You will earn rewards during this period that will be claimable when the locking period is over.",
-      "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee",
-      "stats": {
-        "apy": "APY",
-        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-        "yearly-earning": "Yearly earning",
-        "tvl": "Staked with pool",
-        "stakers": "Stakers"
-      }
+      "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee"
     },
     "unstaking": {
       "title": "Unstake ANKR",
@@ -1227,6 +1233,11 @@
     "tabs": {
       "active-staking": "Active Staking",
       "history": "History"
+    },
+    "staking": {
+      "lock-info": "ETH will remain locked and illiquid until ~Q4 2023 max. This is due to Ethereum plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "slashing-protection": "New slashing protection",
+      "slashing-protection-tooltip": "tooltip"
     },
     "staking-table": {
       "node-provider": "Node Provider",

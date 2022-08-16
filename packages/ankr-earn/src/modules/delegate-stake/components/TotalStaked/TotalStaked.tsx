@@ -31,7 +31,7 @@ export const TotalStaked = ({
 
   const isPlusButton = !totalStaked.isZero();
 
-  const stakeBtnText = t('delegate-stake.total-info.stake', { token });
+  const stakeBtnText = t('delegated-stake.total-info.stake', { token });
 
   return (
     <Grid item lg={6} xs={12}>
@@ -65,7 +65,7 @@ export const TotalStaked = ({
           }
           titleSlot={
             <Typography className={classes.title}>
-              {t('delegate-stake.total-info.staked')}
+              {t('delegated-stake.total-info.staked')}
             </Typography>
           }
         />

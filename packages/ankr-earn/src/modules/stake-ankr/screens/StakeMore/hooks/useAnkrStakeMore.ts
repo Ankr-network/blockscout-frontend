@@ -11,6 +11,7 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
+import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
@@ -19,7 +20,6 @@ import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValid
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseAnkrStake {
@@ -38,11 +38,8 @@ interface IUseAnkrStake {
   amount: BigNumber;
   apy: BigNumber;
   lockingPeriod?: Days;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IAnkrStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  onSubmit: (values: IStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
 }
 
 export const useAnkrStakeMore = (): IUseAnkrStake => {
@@ -91,10 +88,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
-  const onSubmit = ({
-    provider,
-    amount: formAmount,
-  }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
     if (isApproved) {
       dispatchRequest(
@@ -109,7 +103,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   };
 
   const onChange = (
-    { amount: formAmount }: Partial<IAnkrStakeSubmitPayload>,
+    { amount: formAmount }: Partial<IStakeSubmitPayload>,
     invalid: boolean,
   ) => {
     const readyAmount = new BigNumber(formAmount ?? 0);

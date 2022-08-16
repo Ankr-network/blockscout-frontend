@@ -2,12 +2,12 @@ import { generatePath, Route, Switch } from 'react-router';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { STAKING_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/polkadot-slot-auction/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { MGNO_PROVIDER_ID, MGNO_STAKING_NETWORKS } from './const';
-import { Main } from './screens/Main';
 
 const ROOT = `${STAKING_PATH}mgno-stake/`;
 const STAKE_PATH = `${ROOT}stake/`;
@@ -46,6 +46,14 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
+const Main = loadComponent(() =>
+  import('./screens/Main').then(module => module.Main),
+);
+
+const Stake = loadComponent(() =>
+  import('./screens/Stake').then(module => module.Stake),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root]}>
@@ -67,7 +75,9 @@ export function getRoutes(): JSX.Element {
           path={RoutesConfig.stake.path}
           providerId={MGNO_PROVIDER_ID}
         >
-          <DefaultLayout>{/* <Stake /> */}</DefaultLayout>
+          <DefaultLayout>
+            <Stake />
+          </DefaultLayout>
         </GuardETHRoute>
       </Switch>
     </Route>

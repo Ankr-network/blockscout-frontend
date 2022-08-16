@@ -1,34 +1,46 @@
 import { Section } from 'modules/delegate-stake/components/Section';
+import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
 import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
-import { useStats } from 'modules/stake-ankr/hooks/useStats';
+import { BuyMgnoLink } from 'modules/stake-mgno/components/BuyMgnoLink';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
-import { AnkrStakeMoreForm } from './components/AnkrStakeMoreForm';
-import { useAnkrStakeMore } from './hooks/useAnkrStakeMore';
+import { useMgnoStake } from './hooks/useMgnoStake';
+import { useStats } from './hooks/useStats';
 
-export const StakeMore = (): JSX.Element => {
+export const Stake = (): JSX.Element => {
   const {
+    amount,
     balance,
+    closeHref,
+    initialAmount,
+    initialProvider,
     isApproved,
     isApproveLoading,
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
-    tokenIn,
-    closeHref,
-    providerId,
-    providerName,
     minStake,
-    newTotalStake,
-    amount,
+    providerName,
+    providerSelectHref,
+    tokenIn,
     apy,
-    lockingPeriod,
+    quoteText,
+    additionalText,
+    additionalTooltip,
+    additionalValue,
     onChange,
     onSubmit,
-  } = useAnkrStakeMore();
+  } = useMgnoStake();
 
-  const { apyText, yearlyEarning, yearlyEarningUSD } = useStats({
+  const {
+    apyText,
+    yearlyEarning,
+    yearlyEarningUSD,
+    totalStaked,
+    totalStakedUSD,
+    stakers,
+  } = useStats({
     amount,
     apy,
   });
@@ -36,20 +48,25 @@ export const StakeMore = (): JSX.Element => {
   return (
     <Section withContainer={false}>
       <StakeContainer>
-        <AnkrStakeMoreForm
+        <StakeForm
+          additionalText={additionalText}
+          additionalTooltip={additionalTooltip}
+          additionalValue={additionalValue}
           balance={balance}
+          balanceLinkSlot={<BuyMgnoLink />}
           closeHref={closeHref}
+          initialAmount={initialAmount}
+          initialProvider={initialProvider}
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
-          lockingPeriod={lockingPeriod}
           maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
-          newTotalStake={newTotalStake}
-          providerId={providerId}
           providerName={providerName}
+          providerSelectHref={providerSelectHref}
+          quoteText={quoteText}
           tokenIn={tokenIn}
           onChange={onChange}
           onSubmit={onSubmit}
@@ -57,7 +74,10 @@ export const StakeMore = (): JSX.Element => {
 
         <Stats
           apyText={apyText}
+          stakers={stakers}
           token={tokenIn}
+          totalStaked={totalStaked}
+          totalStakedUSD={totalStakedUSD}
           yearlyEarning={yearlyEarning}
           yearlyEarningUSD={yearlyEarningUSD}
         />

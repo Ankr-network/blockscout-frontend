@@ -9,12 +9,12 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getUnlockedDelegatedByValidator } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
 import { unstake } from 'modules/stake-ankr/actions/unstake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseAnkrUnstake {
@@ -27,7 +27,7 @@ interface IUseAnkrUnstake {
   isDisabled: boolean;
   providerId: string;
   providerName?: string;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onSubmit: (values: IStakeSubmitPayload) => void;
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
@@ -62,7 +62,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     );
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(amount);
     dispatchRequest(
       unstake({

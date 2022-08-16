@@ -8,12 +8,12 @@ import { AmountInput } from 'modules/common/components/AmountField';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
+import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
 import {
   EFieldsNames,
-  IAnkrStakeSubmitPayload,
-} from 'modules/stake-ankr/types';
-import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
+  IStakeSubmitPayload,
+} from 'modules/delegate-stake/components/StakeForm/const';
+import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
@@ -46,11 +46,8 @@ interface IAnkrStakeMoreFormProps {
   closeHref: string;
   newTotalStake?: BigNumber;
   lockingPeriod?: Days;
-  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IAnkrStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
 }
 
 export const AnkrStakeMoreForm = ({
@@ -78,11 +75,11 @@ export const AnkrStakeMoreForm = ({
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: Partial<IAnkrStakeSubmitPayload>): void =>
+  const onSubmitForm = (payload: Partial<IStakeSubmitPayload>): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IAnkrStakeSubmitPayload);
+    } as IStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -91,7 +88,7 @@ export const AnkrStakeMoreForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IAnkrStakeSubmitPayload>>) => (
+  }: FormRenderProps<Partial<IStakeSubmitPayload>>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 

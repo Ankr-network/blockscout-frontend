@@ -1,9 +1,12 @@
+import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Section } from 'modules/delegate-stake/components/Section';
+import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
+import { Stats } from 'modules/delegate-stake/components/Stats';
 import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
-import { Stats } from 'modules/stake-ankr/components/Stats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
-import { AnkrStakeForm } from './components/AnkrStakeForm';
+import { useStats } from '../../hooks/useStats';
+
 import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
@@ -18,21 +21,33 @@ export const Stake = (): JSX.Element => {
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
-    lockingPeriod,
     minStake,
     providerName,
     providerSelectHref,
     tokenIn,
     apy,
+    quoteText,
+    additionalText,
+    additionalTooltip,
+    additionalValue,
     onChange,
     onSubmit,
   } = useAnkrStake();
 
+  const { apyText, yearlyEarning, yearlyEarningUSD } = useStats({
+    amount,
+    apy,
+  });
+
   return (
     <Section withContainer={false}>
       <StakeContainer>
-        <AnkrStakeForm
+        <StakeForm
+          additionalText={additionalText}
+          additionalTooltip={additionalTooltip}
+          additionalValue={additionalValue}
           balance={balance}
+          balanceLinkSlot={<BuyAnkrLink />}
           closeHref={closeHref}
           initialAmount={initialAmount}
           initialProvider={initialProvider}
@@ -41,17 +56,22 @@ export const Stake = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
-          lockingPeriod={lockingPeriod}
           maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           providerName={providerName}
           providerSelectHref={providerSelectHref}
+          quoteText={quoteText}
           tokenIn={tokenIn}
           onChange={onChange}
           onSubmit={onSubmit}
         />
 
-        <Stats amount={amount} apy={apy} />
+        <Stats
+          apyText={apyText}
+          token={tokenIn}
+          yearlyEarning={yearlyEarning}
+          yearlyEarningUSD={yearlyEarningUSD}
+        />
       </StakeContainer>
     </Section>
   );
