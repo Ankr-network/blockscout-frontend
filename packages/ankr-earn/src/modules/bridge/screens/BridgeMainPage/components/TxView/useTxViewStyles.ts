@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useTxViewStyles = makeStyles<Theme>(theme => ({
   root: {
-    padding: theme.spacing(0, 6, 3, 6),
+    padding: theme.spacing(0, 6, 4, 6),
     display: 'grid',
     flexDirection: 'column',
     alignItems: 'center',

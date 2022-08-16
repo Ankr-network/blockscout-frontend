@@ -3,14 +3,15 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/common/components/ResponseData';
 import {
+  AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
-  MATIC_AUDIT_LINK,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -125,7 +126,11 @@ export const StakePolygon = (): JSX.Element => {
             {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 
             <StakeForm
-              auditLink={MATIC_AUDIT_LINK}
+              auditSlot={
+                <AuditInfo>
+                  <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
+                </AuditInfo>
+              }
               balance={data.maticBalance}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}

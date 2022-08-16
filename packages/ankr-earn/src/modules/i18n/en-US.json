@@ -135,6 +135,11 @@
     "4002": "Fantom Testnet",
     "80001": "Mumbai"
   },
+  "audit-info": {
+    "label": "Audited by",
+    "beosin": "Beosin",
+    "peckshield": "PeckShield"
+  },
   "not-found": {
     "title": "Page not found",
     "btn-back": "Previous page",
@@ -919,7 +924,6 @@
   },
   "bridge": {
     "main": {
-      "audited": "Audited by Beosin",
       "finish-bridge": "Finish Bridge",
       "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
