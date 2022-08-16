@@ -11,6 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { Payload, Props } from 'recharts/types/component/DefaultLegendContent';
 import { useStakeBarChartStyles } from './useStakBarChartStyles';
 import { Tooltip as StakeBarTooltip } from './Tooltip';
 import { COLOR_LIST } from './StakeBarChartUtils';
@@ -18,6 +19,7 @@ import classNames from 'classnames';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { t } from 'modules/i18n/utils/intl';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
+import { useTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
 import { useStakeBarChart } from 'modules/common/hooks/useStakeBarChart';
 import { StatsTimeframe } from 'domains/chains/types';
 
@@ -26,33 +28,84 @@ interface IStakebarProps {
   timeframe: StatsTimeframe;
 }
 
-export const StakeBarChart = ({ result, timeframe }: IStakebarProps) => {
+const NUMBER_OF_SHOW_X_TICK = 4;
+
+export const StakeBarChart = ({
+  result,
+  timeframe: timeframe_,
+}: IStakebarProps) => {
   const theme = useTheme();
   const classes = useStakeBarChartStyles();
+
+  const { timeframe } = useTimeframe(timeframe_, [result.data]);
+
   const { data, selectedKey, handleClickLegend } = useStakeBarChart(
     result,
     timeframe,
   );
 
-  const renderLegendText = useCallback(
-    (value: string, entry: any) => {
-      const { dataKey, color } = entry;
+  const renderLegendContent = useCallback(
+    ({ payload }: Props) => {
+      if (payload) {
+        return (
+          <div className={classes.legendRoot}>
+            {payload.reverse().map((item: Payload) => {
+              const { value, color } = item;
 
-      return (
-        <Typography
-          component="div"
-          variant="body2"
-          className={classNames(
-            classes.legend,
-            dataKey in selectedKey && classes.selected,
-          )}
-        >
-          <StatusCircle color={color} mr={0.75} />
-          {value}
-        </Typography>
-      );
+              return (
+                <Typography
+                  component="div"
+                  variant="body2"
+                  key={value}
+                  className={classNames(
+                    classes.legend,
+                    value in selectedKey && classes.selected,
+                  )}
+                  onClick={() => handleClickLegend(item)}
+                >
+                  <StatusCircle color={color} mr={0.75} />
+                  {value}
+                </Typography>
+              );
+            })}
+          </div>
+        );
+      }
+
+      return null;
     },
-    [selectedKey, classes.legend, classes.selected],
+    [
+      selectedKey,
+      classes.legendRoot,
+      classes.legend,
+      classes.selected,
+      handleClickLegend,
+    ],
+  );
+
+  const xTickFormatter = useCallback(
+    (value: string, index: number) => {
+      const totalNum = data.length;
+
+      if (totalNum < NUMBER_OF_SHOW_X_TICK) {
+        return value;
+      }
+
+      if (timeframe !== StatsTimeframe.WEEK) {
+        // in 24 hours' and 30 days' diagram, we need to show 4 date label on the x-axis, and we should keep the same space between each date label.
+        const hideNum = Math.floor(
+          (totalNum - 1) / (NUMBER_OF_SHOW_X_TICK - 1),
+        );
+        const hasOverflow = index > (NUMBER_OF_SHOW_X_TICK - 2) * hideNum;
+
+        return (index % hideNum === 0 && !hasOverflow) || index === totalNum - 1
+          ? value
+          : '';
+      }
+
+      return value;
+    },
+    [timeframe, data],
   );
 
   const yTickFormatter = (value: number) => {
@@ -67,8 +120,9 @@ export const StakeBarChart = ({ result, timeframe }: IStakebarProps) => {
         data={data}
         barSize={40}
         margin={{ left: 0 }}
+        reverseStackOrder
       >
-        <XAxis dataKey="name" tickLine={false} />
+        <XAxis dataKey="name" tickLine={false} tickFormatter={xTickFormatter} />
         <YAxis
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary }}
@@ -90,8 +144,7 @@ export const StakeBarChart = ({ result, timeframe }: IStakebarProps) => {
           verticalAlign="top"
           iconType="circle"
           iconSize={6}
-          formatter={renderLegendText}
-          onClick={handleClickLegend}
+          content={renderLegendContent}
         />
         {result.list.map((name: string, index: number) => (
           <Bar

@@ -1,22 +1,24 @@
 import { StatsTimeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
-import { TopRequestsData } from 'multirpc-sdk';
+import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
+import { Payload } from 'recharts/types/component/DefaultLegendContent';
+import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 
 export const useStakeBarChart = (
   result: TopRequestsResultData,
   timeframe: StatsTimeframe,
 ) => {
-  const [data, setData] = useState<TopRequestsData[]>(result.data);
+  const [data, setData] = useState<PrivateStatTopRequestsData[]>(result.data);
   const [selectedKey, setSelectedKey] = useState<Record<string, string>>({});
   const [currentTimeframe, setCurrentTimeframe] = useState(timeframe);
 
   const updateListData = useCallback(() => {
     if (Object.keys(selectedKey).length > 0) {
-      const { data: resultData } = result;
+      const resultData = result.data;
 
-      const listData: TopRequestsData[] = resultData.map(item => {
-        const list: TopRequestsData = {};
+      const listData: PrivateStatTopRequestsData[] = resultData.map(item => {
+        const list: PrivateStatTopRequestsData = {};
         Object.keys(selectedKey).forEach((listKey: string) => {
           list[listKey] = item[listKey];
         });
@@ -30,30 +32,26 @@ export const useStakeBarChart = (
     } else {
       setData(result.data);
     }
-  }, [result, selectedKey]);
+  }, [result.data, selectedKey]);
 
   useEffect(() => {
     const isSameTimeframe = timeframe === currentTimeframe;
 
-    if (result.data) {
+    if (!isSameTimeframe) {
+      setCurrentTimeframe(timeframe);
+      setData(result.data);
+      setSelectedKey({});
+    } else {
       updateListData();
-
-      if (!isSameTimeframe) {
-        setCurrentTimeframe(timeframe);
-        setData(result.data);
-        setSelectedKey({});
-      }
     }
   }, [result.data, timeframe, currentTimeframe, updateListData]);
 
   const handleClickLegend = useCallback(
-    legendData => {
-      const key = legendData.dataKey;
-
-      if (key in selectedKey) {
-        delete selectedKey[key];
+    ({ value, color }: Payload) => {
+      if (value in selectedKey) {
+        delete selectedKey[value];
       } else {
-        selectedKey[key] = legendData.color;
+        selectedKey[value] = color ?? COLOR_LIST[0];
       }
       setSelectedKey(selectedKey);
       updateListData();
