@@ -145,7 +145,7 @@ export interface IGetActiveEmailBindingResponse {
   email: string;
 }
 
-export interface IGetEmailBindingStatusesResponse {
+export interface IGetEmailBindingsResponse {
   bindings: IEmailResponse[];
 }
 

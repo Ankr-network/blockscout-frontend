@@ -1,28 +1,29 @@
-import { Route, Switch } from 'react-router-dom';
-import { useMemo } from 'react';
-
-import { useAppSelector } from 'store/useAppSelector';
-import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
-import {
-  ChainPrivateRoutes,
-  ChainsRoutes,
-  ChainsRoutesConfig,
-} from './domains/chains/routes';
-
+import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
+import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
+import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
+import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
 import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
+import { useMemo } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { useAppSelector } from 'store/useAppSelector';
 import { Themes } from 'ui';
+import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { useAuth } from './domains/auth/hooks/useAuth';
+import {
+  ChainPrivateRoutes,
+  ChainsRoutes,
+  ChainsRoutesConfig,
+} from './domains/chains/routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
-import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 
 export const Routes = () => {
   const { handleConnect, credentials } = useAuth();
@@ -64,17 +65,25 @@ export const Routes = () => {
           </DefaultLayout>
         )}
       />
-      <Route
+      <GuardAuthUserSettingsRoute
         exact
         path={[
           UserSettingsRoutesConfig.settings.path,
           UserSettingsRoutesConfig.confirmation.path,
         ]}
         render={() => (
+          <DefaultLayout disableGutters theme={Themes.light}>
+            <CenterContainer>
+              <ConnectWalletCard />
+            </CenterContainer>
+          </DefaultLayout>
+        )}
+        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
+        authorizedRender={
           <DefaultLayout>
             <UserSettingsRoutes />
           </DefaultLayout>
-        )}
+        }
       />
       {/* We should keep routes with dynamic `:chainId` after static routes */}
       <GuardAuthProviderRoute

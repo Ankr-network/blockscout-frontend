@@ -1,1 +1,1 @@
-export * from './Settings';
+export { SettingsQuery as Settings } from './SettingsQuery';
