@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/staking",
   "dependencies": {
-    "@ankr.com/provider": "^1.5.21",
+    "@ankr.com/provider": "^1.5.27",
     "@ankr.com/staking-sdk": "^1.0.0",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.12.3",
