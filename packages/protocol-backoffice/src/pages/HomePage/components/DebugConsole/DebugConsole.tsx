@@ -34,9 +34,11 @@ export const DebugConsole = observer(() => {
     const transactionHash = prompt('Input transaction hash of your deposit: ');
     if (!transactionHash) return;
 
-    const [thresholdKeys] = await sdk.getApiGateway().getThresholdKeys(0, 1, {
-      name: 'MultiRPC',
-    });
+    const [thresholdKeys] = await sdk
+      .getConsensusGateway()
+      .getThresholdKeys(0, 1, {
+        name: 'MultiRPC',
+      });
     // eslint-disable-next-line no-console
     console.log(thresholdKeys);
 
