@@ -131,7 +131,7 @@ export const formatChartData = (
   counts: Record<string, PrivateStatCount>,
   timeframe: StatsTimeframe,
 ) => {
-  const listData = total.top_requests.map(
+  const listData = total?.top_requests?.map(
     (item: PrivateStatTopRequests) => item.method,
   );
   const otherMethods = total.others_info?.type_count ?? 0;
@@ -169,7 +169,7 @@ export const formatChartData = (
   Object.keys(counts).forEach(timestamp => {
     const chart: Record<string, number> = {};
 
-    counts[timestamp].top_requests.forEach(item => {
+    counts[timestamp]?.top_requests?.forEach(item => {
       chart[item.method] = item.count;
     });
 
