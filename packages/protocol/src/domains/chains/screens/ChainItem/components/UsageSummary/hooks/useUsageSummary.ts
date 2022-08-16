@@ -29,6 +29,6 @@ export const useUsageSummary = (chainId: string): UsageSummary => {
     loading,
     statsTimeframe,
     switchStatsTimeframe,
-    totalRequests: new BigNumber(stats?.[chainId]?.totalRequests || 0),
+    totalRequests: new BigNumber(stats?.[chainId]?.total_requests || 0),
   };
 };
