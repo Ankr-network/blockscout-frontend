@@ -1,19 +1,33 @@
-import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
+import {
+  IApiPrivateStats,
+  PrivateStats,
+  PrivateStatsInterval,
+} from 'multirpc-sdk';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
 
-export const fetchPrivateStats = createAction<RequestAction<PrivateStats>>(
+const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
+  return {
+    ...data,
+    totalRequests: data?.total_requests ?? 0,
+  };
+};
+
+export const fetchPrivateStats = createAction<
+  RequestAction<IApiPrivateStats, PrivateStats>
+>(
   'chains/fetchPrivateStats',
-  (interval: PrivateStatsInterval, poll?: number, requestKey?: string) => ({
+  (interval: PrivateStatsInterval, requestKey?: string) => ({
     request: {
       promise: (async () => {})(),
     },
     meta: {
       asMutation: false,
+      getData: getPrivateStats,
       onRequest: () => ({
-        promise: (async (): Promise<PrivateStats> => {
+        promise: (async (): Promise<IApiPrivateStats> => {
           const service = await MultiService.getInstance();
 
           const result = await service.getPrivateStats(interval);
@@ -21,7 +35,6 @@ export const fetchPrivateStats = createAction<RequestAction<PrivateStats>>(
           return result;
         })(),
       }),
-      poll,
       requestKey,
       takeLatest: true,
     },

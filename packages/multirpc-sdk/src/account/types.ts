@@ -72,26 +72,30 @@ export interface IAggregatedPaymentHistoryResponse {
   transactions: IPaymentHistoryEntity[];
   cursor: string;
 }
-export interface ITopRequest {
+export interface IMethod {
+  method: string;
   count: number;
-  top_requests: {
-    method: string;
-    count: number | 'others';
-  }[];
-}
-export type Timestamp = string;
-export interface ITopRequestStats {
-  blockchain: string;
-  counts: Record<Timestamp, ITopRequest>;
 }
 
 type ChartDate = string;
-export type TopRequestsData = Record<string, number | ChartDate>;
+export type PrivateStatTopRequestsData = Record<string, number | ChartDate>;
+
+export type PrivateStatOthersInfo = {
+  request_count?: number;
+  type_count?: number;
+};
+
+export interface PrivateTotalRequestsInfo {
+  count: number;
+  others_info: PrivateStatOthersInfo;
+  top_requests: PrivateStatTopRequests[];
+}
 
 export interface PrivateStat {
   blockchain: string;
   counts: PrivateStatCounts;
-  totalRequests: number;
+  total_requests: number;
+  total: PrivateTotalRequestsInfo;
 }
 
 // in ms
@@ -100,12 +104,18 @@ export type PrivateStatCounts = Record<PrivateStatTimestamp, PrivateStatCount>;
 export interface PrivateStatCount {
   count: number;
   top_requests: PrivateStatTopRequests[];
+  others_info: PrivateStatOthersInfo;
 }
 
 export type RPCRequestName = string;
 export interface PrivateStatTopRequests {
-  count: number;
   method: RPCRequestName;
+  count: number;
+}
+
+export interface IApiPrivateStats {
+  stats?: PrivateStatsInternal;
+  total_requests?: number;
 }
 
 export interface PrivateStats {
