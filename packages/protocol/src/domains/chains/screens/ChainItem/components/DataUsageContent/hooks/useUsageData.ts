@@ -1,4 +1,3 @@
-import { POLL_INTERVAL } from '../const';
 import { UsageData } from '../types';
 import { getUsageData } from '../utils/getUsageData';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -18,13 +17,13 @@ export const useUsageData = (chainId: string): UsageData => {
   });
 
   const [{ stats: privateStats = {} }, arePrivateStatsLoading] =
-    usePrivateStats({ isWalletConnected, poll: POLL_INTERVAL, statsTimeframe });
+    usePrivateStats({ isWalletConnected, statsTimeframe });
 
-  const userTopRequests = useUserTopRequests(
+  const userTopRequests = useUserTopRequests({
     privateStats,
     chainId,
     statsTimeframe,
-  );
+  });
 
   return getUsageData({
     arePrivateStatsLoading,

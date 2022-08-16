@@ -45,7 +45,7 @@ export const sortChains = ({
   if (!Array.isArray(chains)) return [];
 
   const privateChainsSorter = (a: Chain, b: Chain) =>
-    (stats[b.id]?.totalRequests || 0) - (stats[a.id]?.totalRequests || 0);
+    (stats[b.id]?.total_requests || 0) - (stats[a.id]?.total_requests || 0);
 
   if (sortType === SortType.Usage) {
     return [...chains].sort(

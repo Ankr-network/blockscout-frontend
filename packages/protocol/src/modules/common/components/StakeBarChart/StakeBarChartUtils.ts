@@ -1,17 +1,17 @@
 import BigNumber from 'bignumber.js';
 
 export const COLOR_LIST = [
-  '#F36335',
-  '#F3B235',
-  '#B6F335',
-  '#2FE979',
-  '#B6F335',
   '#356DF3',
-  '#356DF3',
-  '#5B35F3',
-  '#CD35F3',
-  '#F335A7',
-  '#F335A7',
+  '#46E8FE',
+  '#5AE07F',
+  '#21C2A9',
+  '#FEE046',
+  '#FFAA6C',
+  '#F33535',
+  '#D134EA',
+  '#7942E3',
+  '#2C17A9',
+  '#1D1647',
 ];
 
 export const formatNumber = (number: number) => {

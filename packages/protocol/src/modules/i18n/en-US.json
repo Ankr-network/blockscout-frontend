@@ -230,6 +230,9 @@
       "download-button": "Report.csv",
       "total": "Total",
       "y-axis": "{value, number, ::compact-short}",
+      "num-of-other-methods": "{num} other methods",
+      "other-methods-text": "other methods",
+      "other-methods": "Other methods",
       "no-data": {
         "title": "Send your request",
         "content": "Once you start sending requests, your activity will be visible here."

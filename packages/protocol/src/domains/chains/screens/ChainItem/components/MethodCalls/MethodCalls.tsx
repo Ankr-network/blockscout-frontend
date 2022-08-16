@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box } from '@material-ui/core';
 import { Header } from './components/Header';
-import { StakeBarChart } from 'modules/common/components/StakeBarChat';
+import { StakeBarChart } from 'modules/common/components/StakeBarChart';
 import { useMethodCallStyles } from './useMethodCallStyles';
 import { NoData } from './components/NoData';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
