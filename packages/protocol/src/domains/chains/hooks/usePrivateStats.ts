@@ -15,15 +15,10 @@ export interface PrivateStatsParams {
 
 export const usePrivateStats = ({
   isWalletConnected,
-  poll,
   requestKey,
   statsTimeframe: timeframe,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
-  const {
-    data: stats,
-    loading,
-    stopPolling,
-  } = useQuery({
+  const { data: stats, loading } = useQuery({
     defaultData: {},
     type: fetchPrivateStats,
     requestKey,
@@ -34,12 +29,10 @@ export const usePrivateStats = ({
   useEffect(() => {
     if (isWalletConnected) {
       dispatch(
-        fetchPrivateStats(timeframeToIntervalMap[timeframe], poll, requestKey),
+        fetchPrivateStats(timeframeToIntervalMap[timeframe], requestKey),
       );
     }
-
-    return stopPolling;
-  }, [dispatch, isWalletConnected, timeframe, poll, requestKey, stopPolling]);
+  }, [dispatch, isWalletConnected, timeframe, requestKey]);
 
   return [stats, loading];
 };

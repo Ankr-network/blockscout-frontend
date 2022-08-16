@@ -12,5 +12,5 @@ export const usePrivateStats = (chainId: string): [number, boolean] => {
     type: fetchPrivateStats,
   });
 
-  return [stats[chainId]?.totalRequests, loading];
+  return [stats[chainId]?.total_requests, loading];
 };
