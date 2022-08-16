@@ -24,7 +24,7 @@ import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 
-export function Routes() {
+export const Routes = () => {
   const { handleConnect, credentials } = useAuth();
 
   const cachedAuthData = useAppSelector(selectAuthData);
@@ -107,4 +107,4 @@ export function Routes() {
       />
     </Switch>
   );
-}
+};

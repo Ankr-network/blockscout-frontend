@@ -776,5 +776,17 @@
   },
   "zendesk": {
     "get-help": "Help"
+  },
+  "error-boundary": {
+    "common": {
+      "title": "Oops!",
+      "description": "Something goes wrong.",
+      "button": "Reload Page"
+    },
+    "chunk-load-error": {
+      "title": "Service is updating",
+      "description": "Try reloading the page",
+      "button": "Reload Page"
+    }
   }
 }
