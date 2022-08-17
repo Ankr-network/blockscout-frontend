@@ -238,6 +238,15 @@
         "content": "Once you start sending requests, your activity will be visible here."
       }
     },
+    "requests-by-ip": {
+      "title": "Requests by IP",
+      "ip": "IP",
+      "http": "HTTP",
+      "no-data": {
+        "title": "Send your request",
+        "content": "Once you start sending requests, your activity will be visible here."
+      }
+    },
     "methods-rating": {
       "title": "Top 10 requests by volume",
       "periods": {
