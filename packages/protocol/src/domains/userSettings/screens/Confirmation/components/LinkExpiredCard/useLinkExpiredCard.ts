@@ -1,26 +1,21 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
-import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
 import { ILinkExpiredActionSlotProps } from './components/LinkExpiredActionSlot';
 
-const QUERY_EMAIL = 'email';
-
 export const useLinkExpiredCard = () => {
-  const { address } = useAuth();
-  const params = useQueryParams();
-  const email = params.get(QUERY_EMAIL);
+  const { email } = useLinkParams();
 
   const dispatchRequest = useDispatchRequest();
 
   const onResendEmail = useCallback((): void => {
     if (!email) return;
 
-    dispatchRequest(resendConfirmationCode({ address, email }));
-  }, [address, dispatchRequest, email]);
+    dispatchRequest(resendConfirmationCode({ email }));
+  }, [dispatchRequest, email]);
 
   const {
     data: resendEmailData,
@@ -28,21 +23,22 @@ export const useLinkExpiredCard = () => {
     error: resendEmailError,
   } = useQuery({
     type: resendConfirmationCode.toString(),
-    requestKey: address,
   });
 
-  const { errorMessage: resendEmailErrorMessage } =
-    useEmailErrorWithTimeout(resendEmailError);
+  const {
+    errorMessage: resendEmailErrorMessage,
+    eventHandler: handleResendEmail,
+  } = useEmailErrorWithTimeout(resendEmailError, onResendEmail);
 
   const actionProps = useMemo<ILinkExpiredActionSlotProps>(
     () => ({
       resendEmailErrorMessage,
       resendEmailData,
       resendEmailLoading,
-      onResendEmail,
+      onResendEmail: handleResendEmail,
     }),
     [
-      onResendEmail,
+      handleResendEmail,
       resendEmailData,
       resendEmailErrorMessage,
       resendEmailLoading,

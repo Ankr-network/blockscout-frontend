@@ -36,7 +36,6 @@ export const StakeBarChart = ({
 }: IStakebarProps) => {
   const theme = useTheme();
   const classes = useStakeBarChartStyles();
-
   const { timeframe } = useTimeframe(timeframe_, [
     result.data && result.data.length,
   ]);

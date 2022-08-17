@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
 
 import { Country } from 'domains/chains/actions/fetchChainTimeframeData';
-import { StatsTimeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
+import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
+import { StatsTimeframe } from 'domains/chains/types';
 
 export interface PublicStats {
   countries: Country;
@@ -27,4 +28,5 @@ export interface UsageData {
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
   userTopRequests?: TopRequestsResultData;
+  userTopRequestsIp?: UserRequestsByIpData[];
 }

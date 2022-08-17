@@ -11,4 +11,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   label: {
     marginTop: 2,
   },
+  divider: {
+    marginTop: theme.spacing(1.25),
+    marginBottom: theme.spacing(2.5),
+    height: 1,
+    backgroundColor: theme.palette.grey['400'],
+  },
 }));

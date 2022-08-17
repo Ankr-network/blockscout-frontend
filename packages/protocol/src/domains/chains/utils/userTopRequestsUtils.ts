@@ -91,7 +91,7 @@ const calculateBarCounts = (
   let topRequestsList: IMethod[] = [];
 
   countList.forEach((count: ICount, index: number) => {
-    const { timestamp, topRequests = [] } = count;
+  const { timestamp, topRequests = [] } = count;
     const isAfterTimestamp = isAfter(
       new Date(Number(timestamp)),
       new Date(nextTimestamp),
@@ -165,6 +165,7 @@ export const formatChartData = (
 
     Object.keys(counts).forEach(timestamp => {
       const item = counts[timestamp];
+      
       const topRequests = item?.top_requests || [];
 
       const otherMethodItem = topRequests?.find(

@@ -94,6 +94,14 @@ export interface PrivateTotalRequestsInfo {
 export interface PrivateStat {
   blockchain: string;
   counts: PrivateStatCounts;
+  ips_count: {
+    others_info?: {
+      request_count?: number;
+      total_cost?: number;
+      type_count?: number;
+    };
+    top_ips?: IpDetails[];
+  };
   total_requests: number;
   total: PrivateTotalRequestsInfo;
 }
@@ -105,6 +113,11 @@ export interface PrivateStatCount {
   count: number;
   top_requests: PrivateStatTopRequests[];
   others_info: PrivateStatOthersInfo;
+}
+
+export interface IpDetails {
+  ip: string;
+  count: string;
 }
 
 export type RPCRequestName = string;
@@ -155,7 +168,7 @@ export interface IGetActiveEmailBindingResponse {
   email: string;
 }
 
-export interface IGetEmailBindingStatusesResponse {
+export interface IGetEmailBindingsResponse {
   bindings: IEmailResponse[];
 }
 
