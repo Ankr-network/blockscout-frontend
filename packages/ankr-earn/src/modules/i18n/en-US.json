@@ -1220,6 +1220,30 @@
         "rps": "RPS",
         "btn": "Select provider"
       }
+    },
+    "faq": {
+      "question-1": "Is staking ANKR compatible for all ANKR token types: ERC20,  BEP2, and BEP20?",
+      "answer-1": "As of now, staking ANKR is only available on ERC20.",
+      "question-2": "What is the minimum and maximum amount of ANKR I can stake?​​",
+      "answer-2": " Min: 1000 ANKR, Max: unlimited.",
+      "question-3": "When can I unstake?",
+      "answer-3": "After the locking period of 84-91 days, which begins after you stake, you’ll be able to unstake your tokens and claim your rewards.",
+      "question-4": "What if I want to stake more after already staking some ANKR?",
+      "answer-4": "For each staking transaction, a new lockup period will apply.",
+      "question-5": "How long does it take to unstake my ANKR?​",
+      "answer-5": "1) Undelegation (Unstake button) lasts one complete epoch. The process can take 7-14 days.<br/>2) Once your ANKR is undelegated, you can claim it.",
+      "question-6": "How soon after staking will I begin to receive rewards?​",
+      "answer-6": "Rewards accruals occur at the end of each epoch (7 days) and are immediately available for claiming.",
+      "question-7": "Can I stake with Ledger if I connect it with Metamask?",
+      "answer-7": "Yes!",
+      "question-8": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-8": " ANKR token staking does not involve any slashing or other penalties.",
+      "question-9": "If I re-invest (Restake button) my rewards, will these have a locking period as well? And of how many days?",
+      "answer-9": "Staking your rewards without claiming them is considered as a regular staking transaction and will have the normal locking period.",
+      "question-10": "If I don’t unstake after the locking period is over, will I continue to earn staking rewards?",
+      "answer-10": "Yes! You will continue to collect rewards until you unstake.",
+      "question-11": "Must rewards be claimed from the site, or will they be automatically sent to the “supplying” wallet?",
+      "answer-11": "Rewards must be claimed from the website."
     }
   },
   "stake-mgno": {

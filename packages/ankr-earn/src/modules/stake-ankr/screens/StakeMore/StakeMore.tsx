@@ -1,6 +1,8 @@
+import { Faq } from 'modules/common/components/Faq';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { Stats } from 'modules/delegate-stake/components/Stats';
 import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
+import { useFaq } from 'modules/stake-ankr/hooks/useFaq';
 import { useStats } from 'modules/stake-ankr/hooks/useStats';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
@@ -28,10 +30,19 @@ export const StakeMore = (): JSX.Element => {
     onSubmit,
   } = useAnkrStakeMore();
 
-  const { apyText, yearlyEarning, yearlyEarningUSD } = useStats({
+  const {
+    apyText,
+    yearlyEarning,
+    yearlyEarningUSD,
+    totalStaked,
+    totalStakedUSD,
+    stakers,
+  } = useStats({
     amount,
     apy,
   });
+
+  const faqItems = useFaq();
 
   return (
     <Section withContainer={false}>
@@ -57,10 +68,15 @@ export const StakeMore = (): JSX.Element => {
 
         <Stats
           apyText={apyText}
+          stakers={stakers}
           token={tokenIn}
+          totalStaked={totalStaked}
+          totalStakedUSD={totalStakedUSD}
           yearlyEarning={yearlyEarning}
           yearlyEarningUSD={yearlyEarningUSD}
         />
+
+        <Faq data={faqItems} />
       </StakeContainer>
     </Section>
   );
