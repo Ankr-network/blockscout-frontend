@@ -166,9 +166,9 @@
   },
   "chain-item": {
     "chain-types": {
-      "mainnet": "Mainnets",
-      "testnet": "Testnets",
-      "devnet": "Devnets"
+      "mainnet": "Mainnet",
+      "testnet": "Testnet",
+      "devnet": "Devnet"
     },
     "banner": {
       "plan": "Premium Plan.",

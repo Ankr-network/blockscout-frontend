@@ -37,7 +37,9 @@ export const StakeBarChart = ({
   const theme = useTheme();
   const classes = useStakeBarChartStyles();
 
-  const { timeframe } = useTimeframe(timeframe_, [result.data]);
+  const { timeframe } = useTimeframe(timeframe_, [
+    result.data && result.data.length,
+  ]);
 
   const { data, selectedKey, handleClickLegend } = useStakeBarChart(
     result,
