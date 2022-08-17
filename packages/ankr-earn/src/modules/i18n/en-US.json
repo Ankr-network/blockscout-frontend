@@ -395,7 +395,9 @@
         "tvl": "Staked with pool",
         "stakers": "Stakers"
       }
-    }
+    },
+    "node-banner": "We are working on expanding the <br/>",
+    "node-banner-color": "list of node providers"
   },
   "claim": {
     "title": "Claim liquid staking token",
@@ -1082,8 +1084,7 @@
       "exit-days": "Exit in {value} days",
       "exit-day": "Exit in {value} day",
       "bonding-days": "Bonding, {value} days left",
-      "bonding-day": "Bonding, {value} day left",
-      "expand-description": "We are working on expanding the<br/> <span>list of node providers</span>"
+      "bonding-day": "Bonding, {value} day left"
     },
     "staking-table": {
       "node-provider": "Node Provider",
@@ -1260,7 +1261,7 @@
       "history": "History"
     },
     "staking": {
-      "lock-info": "ETH will remain locked and illiquid until ~Q4 2023 max. This is due to Ethereum plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max. This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
       "slashing-protection-tooltip": "tooltip"
     },
@@ -1278,6 +1279,17 @@
       "event": "Event",
       "provider": "Provider",
       "amount": "Amount"
+    },
+    "provider": {
+      "node-provider": "Node Provider",
+      "slashing-protection": "Slashing protection",
+      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool.",
+      "insurance-pool": "Insurance pool",
+      "insurance-pool-tooltip": "The insurance pool is a reserve of staked amounts from both node providers and stakers that can be used to cover possible slashing.",
+      "staked-available": "Staked/Available",
+      "staked-available-tooltip": "Amount already delegated to this Validator and free validation capacity.",
+      "net-apr": "Net APR",
+      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties."
     }
   },
   "convert": {

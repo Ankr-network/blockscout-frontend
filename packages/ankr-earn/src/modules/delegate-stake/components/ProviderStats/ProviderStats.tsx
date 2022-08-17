@@ -2,16 +2,25 @@ import { Paper } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { useStatsData } from '../../hooks/useStatsData';
-
 import { StatsItem } from './StatsItem';
 import { useStatsStyles } from './useStatsStyles';
 
-export const Stats = (): JSX.Element => {
-  const classes = useStatsStyles();
+interface IProviderStatsData {
+  highestAPY: string;
+  tvl: string;
+  lockingPeriod: number;
+  rewards24h?: string;
+  rewards30d?: string;
+}
 
-  const { highestAPY, tvl, lockingPeriod, rewards24h, rewards30d } =
-    useStatsData();
+export const ProviderStats = ({
+  highestAPY,
+  tvl,
+  lockingPeriod,
+  rewards24h,
+  rewards30d,
+}: IProviderStatsData): JSX.Element => {
+  const classes = useStatsStyles();
 
   return (
     <Paper className={classes.statisticWrapper} variant="elevation">

@@ -1,6 +1,6 @@
 import { ProviderStats } from 'modules/delegate-stake/components/ProviderStats';
 import { Section } from 'modules/delegate-stake/components/Section';
-import { Header } from 'modules/stake-ankr/components/Header';
+import { Header } from 'modules/stake-mgno/components/Header';
 
 import { Table } from './components/Table';
 import { useStatsData } from './hooks/useStatsData';

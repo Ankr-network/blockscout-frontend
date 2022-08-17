@@ -13,12 +13,18 @@ const ROOT = `${STAKING_PATH}mgno-stake/`;
 const STAKE_PATH = `${ROOT}stake/`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;
+const PROVIDERS_PATH = `${ROOT}providers/`;
 
 export const RoutesConfig = createRouteConfig(
   {
     main: {
       path: ROOT,
       generatePath: () => generatePath(ROOT),
+    },
+
+    providers: {
+      path: PROVIDERS_PATH,
+      generatePath: () => generatePath(PROVIDERS_PATH),
     },
 
     stake: {
@@ -54,6 +60,14 @@ const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
 );
 
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakeSteps').then(module => module.StakeSteps),
+);
+
+const Providers = loadComponent(() =>
+  import('./screens/Providers').then(module => module.Providers),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root]}>
@@ -72,11 +86,33 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={MGNO_STAKING_NETWORKS}
+          path={RoutesConfig.providers.path}
+          providerId={MGNO_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Providers />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MGNO_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
           providerId={MGNO_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MGNO_STAKING_NETWORKS}
+          path={RoutesConfig.stakeSteps.path}
+          providerId={MGNO_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
           </DefaultLayout>
         </GuardETHRoute>
       </Switch>

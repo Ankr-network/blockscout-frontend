@@ -14,6 +14,7 @@ import {
 } from 'modules/common/components/TableComponents';
 import { NodeExpandBanner } from 'modules/delegate-stake/components/NodeExpandBanner';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
@@ -21,7 +22,7 @@ import { ButtonsItem } from '../ButtonsItem';
 import { useTableStyles } from './useTableStyles';
 
 const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 200, 200];
+const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -34,13 +35,24 @@ export const Table = (): JSX.Element | null => {
   const captions = useLocaleMemo(
     () => [
       {
-        label: t('stake-ankr.table.node-provider'),
+        label: t('stake-mgno.provider.node-provider'),
+        tooltip: t('stake-mgno.provider.node-provider-tooltip'),
       },
       {
-        label: t('stake-ankr.table.apy'),
+        label: t('stake-mgno.provider.slashing-protection'),
+        tooltip: t('stake-mgno.provider.slashing-protection-tooltip'),
       },
       {
-        label: t('stake-ankr.table.staked-pool'),
+        label: t('stake-mgno.provider.insurance-pool'),
+        tooltip: t('stake-mgno.provider.insurance-pool-tooltip'),
+      },
+      {
+        label: t('stake-mgno.provider.staked-available'),
+        tooltip: t('stake-mgno.provider.staked-available-tooltip'),
+      },
+      {
+        label: t('stake-mgno.provider.net-apr'),
+        tooltip: t('stake-mgno.provider.net-apr-tooltip'),
       },
       {
         label: ' ',
@@ -72,10 +84,6 @@ export const Table = (): JSX.Element | null => {
     [captions, classes],
   );
 
-  const renderStakedPool = (value: string, percent: number): string => {
-    return `${value} (${Math.trunc(percent)}%)`;
-  };
-
   if (!data?.length && !isLoading) {
     return null;
   }
@@ -84,17 +92,25 @@ export const Table = (): JSX.Element | null => {
     <>
       <BasicTable
         columnsCount={captions.length}
-        customCell="1fr 1fr 1fr 200px"
-        minWidth={600}
+        customCell="1fr 1fr 1fr 1fr 1fr 200px"
+        minWidth={800}
       >
         <TableHead>
-          {captions.map(({ label }, i) => (
+          {captions.map(({ label, tooltip }, i) => (
             <TableHeadCell
               key={uid(i)}
               classes={{
                 content: classes.thContent,
               }}
-              label={<>{label}</>}
+              label={
+                <>
+                  {label}
+
+                  {tooltip && (
+                    <QuestionWithTooltip>{tooltip}</QuestionWithTooltip>
+                  )}
+                </>
+              }
             />
           ))}
         </TableHead>
@@ -110,18 +126,28 @@ export const Table = (): JSX.Element | null => {
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[1].label}`}>
-                  {t('stake-ankr.table.percent-value', { value: row.apy })}
+                  {t('unit.percentage-value', {
+                    value: row.slashingProtection,
+                  })}
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[2].label}`}>
-                  {renderStakedPool(row.stakedPool, row.stakedPoolPercent)}
+                  {t('unit.mgno-value', { value: row.insurancePool })}
                 </TableBodyCell>
 
-                <TableBodyCell align="right" label={`${captions[3].label}`}>
+                <TableBodyCell label={`${captions[3].label}`}>
+                  {t('unit.mgno-value', {
+                    value: `${row.staked}/${row.available}`,
+                  })}
+                </TableBodyCell>
+
+                <TableBodyCell label={`${captions[4].label}`}>
+                  {t('unit.percentage-value', { value: row.apr })}
+                </TableBodyCell>
+
+                <TableBodyCell align="right" label={`${captions[5].label}`}>
                   <ButtonsItem
-                    bondingDays={row.bondingDays}
                     detailsLink={row.detailsLink}
-                    exitDays={row.exitDays}
                     stakeLink={row.stakeLink}
                   />
                 </TableBodyCell>

@@ -160,7 +160,8 @@
       "/unstake/fantom/",
       "/unstake/ksm/",
       "/unstake/matic/",
-      "/ankr-stake/providers/"
+      "/ankr-stake/providers/",
+      "/mgno-stake/providers/"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

@@ -15,7 +15,7 @@ export const Header = (): JSX.Element => {
       icon={<MGNOIcon />}
       isLoading={isLoading}
       myStakingLink={RoutesConfig.main.generatePath()}
-      nodeProvidersLink={' '}
+      nodeProvidersLink={RoutesConfig.providers.generatePath()}
       token={Token.mGNO}
     />
   );

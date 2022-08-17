@@ -129,6 +129,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 label={`${captions[ELabel.yourStake].label}`}
               >
                 <YourStakeItem
+                  unstakeDisabled
                   amount={row.stakeAmount}
                   stakeLink={' '}
                   token={Token.mGNO}
