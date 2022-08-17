@@ -222,7 +222,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     [usdAmounts],
   );
 
-  const apr = !totalYieldAmountUsd.isZero()
+  const apr = !totalAmountUsd.isZero()
     ? totalYieldAmountUsd.multipliedBy(100).dividedBy(totalAmountUsd).minus(100)
     : ZERO;
 

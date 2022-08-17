@@ -95,6 +95,25 @@ export const PortfolioChart = ({
     [items],
   );
 
+  const totalApr = useMemo(
+    () =>
+      !totalAmountUsd.isZero()
+        ? totalStakedYieldAmountUsd
+            .plus(totalStakedAmountUsd)
+            .plus(totalNativeAmountUsd)
+            .multipliedBy(100)
+            .dividedBy(totalAmountUsd)
+            .minus(100)
+            .decimalPlaces(DEFAULT_ROUNDING)
+        : ZERO,
+    [
+      totalStakedAmountUsd,
+      totalStakedYieldAmountUsd,
+      totalNativeAmountUsd,
+      totalAmountUsd,
+    ],
+  );
+
   const handleMouseLeave = useCallback(() => {
     setActiveItem(null);
   }, [setActiveItem]);
@@ -188,9 +207,9 @@ export const PortfolioChart = ({
         .attr('x', 0)
         .attr('y', 80)
         .attr('class', classes.apr)
-        .text(t('dashboard.apr', { value: stakedApr }).replace(/<\/?b>/g, ''));
+        .text(t('dashboard.apr', { value: totalApr }).replace(/<\/?b>/g, ''));
     },
-    [data, stakedApr, activeItem?.name, classes, totalAmountUsd, width, height],
+    [data, totalApr, activeItem?.name, classes, totalAmountUsd, width, height],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, data]);
