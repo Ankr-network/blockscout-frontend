@@ -4,9 +4,15 @@ import { useMultiRpcSdk } from '../index';
 import { LocalGridStore, useLocalGridStore } from '../LocalGridStore';
 import { makeClients } from './utils';
 
-let counters: ICountersEntity[] | null = null;
+type Counters = ICountersEntity[] | null;
+interface IUseClients {
+  gridStore: LocalGridStore<ClientEntity>;
+  counters: Counters;
+}
 
-export const useClients = (): LocalGridStore<ClientEntity> => {
+let counters: Counters = null;
+
+export const useClients = (): IUseClients => {
   const backofficeApi = useMultiRpcSdk().getBackofficeGateway();
   const workerApi = useMultiRpcSdk().getBackofficeGateway();
 
@@ -26,5 +32,5 @@ export const useClients = (): LocalGridStore<ClientEntity> => {
     return [clients, responseCursor !== '-1'];
   }, []);
 
-  return gridStore;
+  return { gridStore, counters };
 };

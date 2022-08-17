@@ -5,6 +5,7 @@ import { useClientEmailsStore } from 'stores/ClientEmailsStore';
 import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 import PAYGClientTable from './components/PAYGClientTable';
 import PremiumClientTable from './components/PremiumPlanClientTable';
+import { SearchClientsInput } from './components/SearchClientsInput';
 
 export const ClientPage = observer(() => {
   const initialTab = useInitialTab();
@@ -16,6 +17,7 @@ export const ClientPage = observer(() => {
   return (
     <>
       <PageHeader title="Client Page" />
+      <SearchClientsInput emailStore={emailStore} />
       <div>
         <Menu selectedKeys={[initialTab]} onSelect={onSelect} mode="horizontal">
           <Menu.Item key={Tab.PAYGClients}>PAYG Clients</Menu.Item>

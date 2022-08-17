@@ -8,7 +8,7 @@ interface IPAYGClientTableProps {
 }
 
 const PAYGClientTable = observer(({ emailStore }: IPAYGClientTableProps) => {
-  const gridStore = useClients();
+  const { gridStore } = useClients();
 
   return <ClientTable store={gridStore} emailStore={emailStore} />;
 });

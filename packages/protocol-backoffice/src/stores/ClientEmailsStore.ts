@@ -16,6 +16,8 @@ type MinimumFieldClient = { email?: string; address?: string };
 export class ClientEmailsStore {
   public isLoading = false;
 
+  public clientsEmails: IEmailBindingEntity[] = [];
+
   private addressToEmailMap: Partial<Record<Web3Address, string>> = {};
 
   public constructor(
@@ -57,6 +59,8 @@ export class ClientEmailsStore {
 
       this.isLoading = false;
     });
+
+    this.clientsEmails = res;
   }
 
   public enrichClientsWithEmails<T extends MinimumFieldClient>(clients: T[]) {
