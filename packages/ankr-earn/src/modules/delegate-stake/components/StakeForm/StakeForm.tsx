@@ -24,7 +24,11 @@ import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 
-import { EFieldsNames, IStakeSubmitPayload } from './const';
+import {
+  EFieldsNames,
+  IAnkrStakeFormPayload,
+  IAnkrStakeSubmitPayload,
+} from './const';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 interface IStakeFormProps {
@@ -48,8 +52,8 @@ interface IStakeFormProps {
   additionalTooltip?: string;
   additionalValue?: string;
   balanceLinkSlot?: ReactNode;
-  onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
+  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
+  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
 }
 
 export const StakeForm = ({
@@ -82,11 +86,11 @@ export const StakeForm = ({
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: Partial<IStakeSubmitPayload>): void =>
+  const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IStakeSubmitPayload);
+    } as IAnkrStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -95,7 +99,7 @@ export const StakeForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IStakeSubmitPayload>>) => (
+  }: FormRenderProps<IAnkrStakeSubmitPayload>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 

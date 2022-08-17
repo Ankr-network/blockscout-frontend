@@ -9,7 +9,7 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
+import { IAnkrStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getUnlockedDelegatedByValidator } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
@@ -27,7 +27,7 @@ interface IUseAnkrUnstake {
   isDisabled: boolean;
   providerId: string;
   providerName?: string;
-  onSubmit: (values: IStakeSubmitPayload) => void;
+  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
@@ -62,7 +62,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     );
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount }: IStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
     const readyAmount = new BigNumber(amount);
     dispatchRequest(
       unstake({

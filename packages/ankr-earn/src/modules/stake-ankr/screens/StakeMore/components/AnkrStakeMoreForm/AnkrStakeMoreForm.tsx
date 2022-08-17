@@ -11,7 +11,8 @@ import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN'
 import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
 import {
   EFieldsNames,
-  IStakeSubmitPayload,
+  IAnkrStakeFormPayload,
+  IAnkrStakeSubmitPayload,
 } from 'modules/delegate-stake/components/StakeForm/const';
 import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -46,8 +47,8 @@ interface IAnkrStakeMoreFormProps {
   closeHref: string;
   newTotalStake?: BigNumber;
   lockingPeriod?: Days;
-  onSubmit: (payload: IStakeSubmitPayload) => void;
-  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
+  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
+  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
 }
 
 export const AnkrStakeMoreForm = ({
@@ -75,11 +76,11 @@ export const AnkrStakeMoreForm = ({
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: Partial<IStakeSubmitPayload>): void =>
+  const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IStakeSubmitPayload);
+    } as IAnkrStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -88,7 +89,7 @@ export const AnkrStakeMoreForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IStakeSubmitPayload>>) => (
+  }: FormRenderProps<IAnkrStakeSubmitPayload>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 

@@ -11,7 +11,10 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
-import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
+import {
+  IAnkrStakeFormPayload,
+  IAnkrStakeSubmitPayload,
+} from 'modules/delegate-stake/components/StakeForm/const';
 import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
@@ -38,8 +41,8 @@ interface IUseAnkrStake {
   amount: BigNumber;
   apy: BigNumber;
   lockingPeriod?: Days;
-  onSubmit: (values: IStakeSubmitPayload) => void;
-  onChange?: (values: Partial<IStakeSubmitPayload>, invalid: boolean) => void;
+  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
+  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
 }
 
 export const useAnkrStakeMore = (): IUseAnkrStake => {
@@ -88,7 +91,10 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
     dispatchRequest(getAPY());
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IAnkrStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
     if (isApproved) {
       dispatchRequest(
@@ -103,7 +109,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   };
 
   const onChange = (
-    { amount: formAmount }: Partial<IStakeSubmitPayload>,
+    { amount: formAmount }: IAnkrStakeFormPayload,
     invalid: boolean,
   ) => {
     const readyAmount = new BigNumber(formAmount ?? 0);

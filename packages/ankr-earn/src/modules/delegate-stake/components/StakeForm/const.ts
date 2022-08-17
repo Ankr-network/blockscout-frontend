@@ -7,6 +7,13 @@ export interface IStakeSubmitPayload {
   restakeRewards: string;
 }
 
+export interface IAnkrStakeSubmitPayload {
+  amount: string;
+  provider: string;
+}
+
+export interface IAnkrStakeFormPayload extends Partial<IAnkrStakeSubmitPayload> {}
+
 export interface IFormState {
   amount?: BigNumber;
 }
