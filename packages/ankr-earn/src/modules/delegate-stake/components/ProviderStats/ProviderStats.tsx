@@ -1,6 +1,6 @@
 import { Paper } from '@material-ui/core';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { StatsItem } from './StatsItem';
 import { useStatsStyles } from './useStatsStyles';
@@ -43,7 +43,7 @@ export const ProviderStats = ({
           value: lockingPeriod,
         })}
         title={t('stake-ankr.provider.locking-period')}
-        tooltip={t('stake-ankr.provider.locking-period-tooltip')}
+        tooltip={tHTML('stake-ankr.provider.locking-period-tooltip')}
       />
 
       {rewards24h && (

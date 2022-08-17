@@ -7,7 +7,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
@@ -140,7 +140,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
     apy,
     quoteText: t('stake-ankr.staking.fee-info'),
     additionalText: t('stake-ankr.staking.locking-period'),
-    additionalTooltip: t('stake-ankr.staking.locking-period-tooltip'),
+    additionalTooltip: tHTML('stake-ankr.staking.locking-period-tooltip'),
     additionalValue: t('stake-ankr.staking.locking-period-value', {
       days: lockingPeriod,
     }),
