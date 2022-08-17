@@ -27,6 +27,8 @@ export type TopRequestsResultData = {
 const ONE_HOUR = 60 * 60 * 1000;
 const ONE_DAY = 24 * ONE_HOUR;
 
+const UNKNOWN_NAME = 'unknown';
+
 const getNextStatsTimestamp = (
   timeStamp: number,
   timeframe: StatsTimeframe,
@@ -131,7 +133,25 @@ export const formatChartData = (
   counts: Record<string, PrivateStatCount>,
   timeframe: StatsTimeframe,
 ) => {
-  const listData = total.top_requests.map(
+  Object.keys(counts).forEach(timestamp => {
+    counts[timestamp]?.top_requests?.map(item => {
+      if (!item.method) {
+        item.method = UNKNOWN_NAME;
+      }
+
+      return item;
+    });
+  });
+
+  total?.top_requests?.map(item => {
+    if (!item.method) {
+      item.method = UNKNOWN_NAME;
+    }
+
+    return item;
+  });
+
+  const listData = total?.top_requests?.map(
     (item: PrivateStatTopRequests) => item.method,
   );
   const otherMethods = total.others_info?.type_count ?? 0;
@@ -169,7 +189,7 @@ export const formatChartData = (
   Object.keys(counts).forEach(timestamp => {
     const chart: Record<string, number> = {};
 
-    counts[timestamp].top_requests.forEach(item => {
+    counts[timestamp]?.top_requests?.forEach(item => {
       chart[item.method] = item.count;
     });
 
