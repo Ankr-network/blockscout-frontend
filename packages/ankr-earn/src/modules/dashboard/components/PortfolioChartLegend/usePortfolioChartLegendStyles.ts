@@ -20,10 +20,12 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
   },
 
   wrapper: {
+    borderBottom: `1px solid ${lighten(theme.palette.text.secondary, 0.5)}`,
+
     display: 'flex',
     marginBottom: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    borderBottom: `1px solid ${lighten(theme.palette.text.secondary, 0.5)}`,
+    whiteSpace: 'nowrap',
   },
 
   apr: {
@@ -46,6 +48,18 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
 
     '& b': {
       color: theme.palette.primary.main,
+    },
+  },
+
+  legends: {
+    marginLeft: 'auto',
+    marginTop: 0,
+    maxWidth: 350,
+
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: 0,
+      marginTop: theme.spacing(3),
+      maxWidth: '100%',
     },
   },
 

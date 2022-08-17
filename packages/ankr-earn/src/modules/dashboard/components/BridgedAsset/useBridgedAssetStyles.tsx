@@ -8,8 +8,19 @@ export const useStakingBridgeAssetStyles = makeStyles(theme => ({
     borderLeft: `1px solid ${theme.palette.text.secondary}`,
   },
 
+  wrapper: {
+    [theme.breakpoints.down('md')]: {
+      width: '50%',
+    },
+  },
+
   tradeButton: {
-    width: 115,
     fontSize: 16,
+    height: 44,
+    width: 104,
+
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
 }));

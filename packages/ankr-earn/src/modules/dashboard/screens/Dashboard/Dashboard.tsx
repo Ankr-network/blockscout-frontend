@@ -33,11 +33,11 @@ export const Dashboard = (): JSX.Element => {
 
   return (
     <Box component="section" py={{ xs: 6, md: 8 }}>
-      <Container>
+      <Container maxWidth="100%">
         {featuresConfig.newDashboard && (
           <PortfolioChart
             data={nativeData.concat(stakedData)}
-            height={300}
+            height={350}
             isLoading={isNativeDataLoading || isStakedDataLoading}
             nativeApr={nativeApr}
             stakedApr={stakedApr}
@@ -45,7 +45,7 @@ export const Dashboard = (): JSX.Element => {
             totalNativeYieldAmountUsd={totalNativeYieldAmountUsd}
             totalStakedAmountUsd={totalStakedAmountUsd}
             totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
-            width={300}
+            width={350}
           />
         )}
 

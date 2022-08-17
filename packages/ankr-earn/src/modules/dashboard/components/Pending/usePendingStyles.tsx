@@ -7,7 +7,7 @@ export const usePendingStyles = makeStyles<Theme>(theme => ({
     borderRadius: 30,
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 1,
     transition: 'background 0.2s',
   },

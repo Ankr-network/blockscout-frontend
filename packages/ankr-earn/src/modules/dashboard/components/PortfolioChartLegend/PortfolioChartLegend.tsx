@@ -78,7 +78,7 @@ export const PortfolioChartLegend = ({
   }
 
   return (
-    <div>
+    <div className={classes.legends}>
       <Typography className={classes.title}>
         {t(`dashboard.${!isSynthetic ? 'stakedAssets' : 'availableAssets'}`, {
           percent: totalPercent.toFormat(),

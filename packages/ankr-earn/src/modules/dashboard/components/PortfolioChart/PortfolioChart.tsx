@@ -69,7 +69,7 @@ export const PortfolioChart = ({
   height,
   width,
 }: IPortfolioChartProps): JSX.Element | null => {
-  const classes = usePortfolioChartStyles();
+  const classes = usePortfolioChartStyles({ width });
   const [activeItem, setActiveItem] = useState<
     IPortfolioChartLegendProps['legendItems'][0] | null
   >(null);
@@ -207,7 +207,14 @@ export const PortfolioChart = ({
 
       <Card className={classes.root}>
         <Grid container spacing={2}>
-          <Grid item className={classes.chartWrapper} lg={4} md={12} xs={12}>
+          <Grid
+            item
+            className={classes.chartWrapper}
+            lg={12}
+            md={12}
+            xl={5}
+            xs={12}
+          >
             {isLoading ? (
               <Skeleton
                 data-testid="portfolio-chart-loading-state"
@@ -225,7 +232,7 @@ export const PortfolioChart = ({
             )}
           </Grid>
 
-          <Grid item lg={4} md={12} xs={12}>
+          <Grid item lg={6} md={12} xl={3} xs={12}>
             <PortfolioChartLegend
               apr={stakedApr}
               isLoading={isLoading}
@@ -245,7 +252,7 @@ export const PortfolioChart = ({
             />
           </Grid>
 
-          <Grid item lg={4} md={12} xs={12}>
+          <Grid item lg={6} md={12} xl={3} xs={12}>
             <PortfolioChartLegend
               isSynthetic
               apr={nativeApr}

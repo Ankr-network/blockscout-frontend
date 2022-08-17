@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
@@ -34,22 +34,53 @@ export const StakedANKR = (): JSX.Element => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const { stakedAmount, stakedUsdEquivalent, network, manageLink, loading } =
-    useStakedANKRData();
+  const {
+    stakedAmount,
+    rewardsAmount,
+    stakedUsdEquivalent,
+    rewardsUsdEquivalent,
+    network,
+    manageLink,
+    loading,
+  } = useStakedANKRData();
+
+  const stakedUsdValue = t('unit.usd-value', {
+    value: stakedUsdEquivalent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+  });
+
+  const rewardsUsdValue = t('unit.usd-value', {
+    value: rewardsUsdEquivalent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+  });
 
   if (loading) {
     return <DashboardCardSkeleton />;
   }
 
-  const usdValue = t('unit.usd-value', {
-    value: stakedUsdEquivalent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-  });
-
   return (
     <>
       <DashboardCard
         amountSlot={
-          <Amount infoSlot={usdValue} value={stakedAmount.integerValue()} />
+          <Grid container spacing={2}>
+            {stakedAmount && (
+              <Grid item xs>
+                <Typography color="textSecondary" variant="subtitle1">
+                  {t('dashboard.card.staked')}
+                </Typography>
+
+                <Amount infoSlot={stakedUsdValue} value={stakedAmount} />
+              </Grid>
+            )}
+
+            {rewardsAmount && (
+              <Grid item xs>
+                <Typography color="textSecondary" variant="subtitle1">
+                  {t('dashboard.card.rewards')}
+                </Typography>
+
+                <Amount infoSlot={rewardsUsdValue} value={rewardsAmount} />
+              </Grid>
+            )}
+          </Grid>
         }
         buttonsSlot={
           <NavLink
