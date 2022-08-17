@@ -940,7 +940,7 @@ export class AnkrStakingSDK {
 
       const unlockedRow: IAdditionalActiveStakingData = {
         lockingPeriod: 0,
-        lockingPeriodPercent: 100,
+        lockingPeriodPercent: 0,
         isUnlocked: true,
         stakeAmount: totalUnlocked,
         usdStakeAmount: totalUnlocked.multipliedBy(usdPrice),
@@ -968,8 +968,7 @@ export class AnkrStakingSDK {
             detailedData.push({
               lockingPeriod: detailedDaysLeft,
               lockingPeriodPercent: Math.ceil(
-                ((totalLockingDays - detailedDaysLeft) / totalLockingDays) *
-                  100,
+                (detailedDaysLeft / totalLockingDays) * 100,
               ),
               isUnlocked: detailedDaysLeft <= 0,
               stakeAmount: this.convertFromWei(delegation.amount),
@@ -1031,9 +1030,7 @@ export class AnkrStakingSDK {
             unlockedRow.stakeAmount.isGreaterThan(ZERO),
           lockingPeriod: daysLeft,
           lockingPeriodPercent: daysLeft
-            ? Math.ceil(
-                ((totalLockingDays - daysLeft) / totalLockingDays) * 100,
-              )
+            ? Math.ceil((daysLeft / totalLockingDays) * 100)
             : undefined,
           stakeAmount: totalDelegatedAmount,
           usdStakeAmount: totalDelegatedAmount.multipliedBy(usdPrice ?? ZERO),

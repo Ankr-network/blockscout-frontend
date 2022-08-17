@@ -12,7 +12,8 @@ export interface IAnkrStakeSubmitPayload {
   provider: string;
 }
 
-export interface IAnkrStakeFormPayload extends Partial<IAnkrStakeSubmitPayload> {}
+export interface IAnkrStakeFormPayload
+  extends Partial<IAnkrStakeSubmitPayload> {}
 
 export interface IFormState {
   amount?: BigNumber;

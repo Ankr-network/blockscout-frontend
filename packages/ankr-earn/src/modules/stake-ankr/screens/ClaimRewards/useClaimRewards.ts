@@ -46,7 +46,7 @@ export const useClaimRewards = (): IUseClaimRewards => {
     type: getANKRPrice,
   });
 
-  const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
+  const { provider: queryProvider } = RoutesConfig.stake.useParams();
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());

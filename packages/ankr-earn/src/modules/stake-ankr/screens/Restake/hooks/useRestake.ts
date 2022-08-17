@@ -51,7 +51,7 @@ export const useRestake = (): IUseRestake => {
   });
 
   const readyRestakableAmount = restakableAmount ?? ZERO;
-  const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
+  const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );
