@@ -56,5 +56,11 @@ export const useTransactions = ({
     };
   }, [dispatch, dispatchRequest, paymentType, timeframe]);
 
-  return { hasMore, loadMore, loading, transactions };
+  return {
+    hasMore,
+    initializing: loading && transactions.length === 0,
+    loading,
+    loadMore,
+    transactions,
+  };
 };
