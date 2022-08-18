@@ -40,6 +40,7 @@ interface IPortfolioItem {
   usdAmount: BigNumber;
   amount: BigNumber;
   icon: TIcon;
+  isNative: boolean;
 }
 
 export const usePortfolioNativeData = (): IUsePortfolioData => {
@@ -231,6 +232,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       nativeData
         .map((item, index) => ({
           ...item,
+          isNative: true,
           amount: item.amount.decimalPlaces(DECIMAL_PLACES),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
           percent: !totalAmountUsd.isZero()

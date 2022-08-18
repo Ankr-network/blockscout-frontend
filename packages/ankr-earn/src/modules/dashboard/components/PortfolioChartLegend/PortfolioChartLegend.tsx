@@ -1,6 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
 
 import { t, tHTML } from 'common';
 
@@ -16,12 +17,13 @@ export interface IPortfolioChartLegendProps {
   totalPercent: BigNumber;
   legendItems: ILegendItem[];
   isLoading: boolean;
-  isSynthetic?: boolean;
+  isNative?: boolean;
+  activeLegendItem?: ILegendItem | null;
   onMouseOver: (item: ILegendItem) => void;
   onMouseLeave: (item: ILegendItem) => void;
 }
 
-interface ILegendItem {
+export interface ILegendItem {
   name: Token;
   color: string;
   percent: number;
@@ -32,12 +34,13 @@ interface ILegendItem {
 
 export const PortfolioChartLegend = ({
   apr,
-  isSynthetic = false,
+  isNative = false,
   isLoading,
   totalAmount,
   yearlYield,
   totalPercent,
   legendItems,
+  activeLegendItem,
   onMouseOver,
   onMouseLeave,
 }: IPortfolioChartLegendProps): JSX.Element => {
@@ -80,7 +83,7 @@ export const PortfolioChartLegend = ({
   return (
     <div className={classes.legends}>
       <Typography className={classes.title}>
-        {t(`dashboard.${!isSynthetic ? 'stakedAssets' : 'availableAssets'}`, {
+        {t(`dashboard.${!isNative ? 'stakedAssets' : 'availableAssets'}`, {
           percent: totalPercent.toFormat(),
         })}
       </Typography>
@@ -97,10 +100,9 @@ export const PortfolioChartLegend = ({
         </Typography>
 
         <Typography className={classes.yield}>
-          {tHTML(
-            `dashboard.${!isSynthetic ? 'yearlyYield' : 'potentialYield'}`,
-            { value: yearlYield.toFormat() },
-          )}
+          {tHTML(`dashboard.${!isNative ? 'yearlyYield' : 'potentialYield'}`, {
+            value: yearlYield.toFormat(),
+          })}
         </Typography>
       </div>
 
@@ -114,7 +116,12 @@ export const PortfolioChartLegend = ({
             onMouseLeave={() => onMouseLeave(item)}
             onMouseOver={() => onMouseOver(item)}
           >
-            <div className={classes.legendItem}>
+            <div
+              className={classNames(
+                activeLegendItem?.name === item.name && classes.legendItemHover,
+                classes.legendItem,
+              )}
+            >
               <div
                 className={classes.color}
                 style={{ backgroundColor: item.color }}

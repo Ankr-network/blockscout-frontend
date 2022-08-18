@@ -1,7 +1,7 @@
 import { Box, Paper, Typography, Chip } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { FormApi } from 'final-form';
 import noop from 'lodash/noop';
 import { useCallback } from 'react';
@@ -218,7 +218,7 @@ export const Main = (): JSX.Element => {
             {t('switcher.willGet')}
           </Typography>
 
-          <Typography className={cn(classes.result, classes.sum)}>
+          <Typography className={classNames(classes.result, classes.sum)}>
             {!isDataLoading ? (
               t('unit.token-value', {
                 value: calculateValueWithRatio(total).toFixed(),

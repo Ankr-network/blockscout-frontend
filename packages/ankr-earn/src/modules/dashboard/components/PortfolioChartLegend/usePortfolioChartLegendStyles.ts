@@ -77,10 +77,10 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     borderRadius: theme.spacing(1),
     cursor: 'pointer',
     transition: 'all 200ms',
+  },
 
-    '&:hover': {
-      backgroundColor: theme.palette.background.default,
-    },
+  legendItemHover: {
+    backgroundColor: theme.palette.background.default,
   },
 
   legendItemTitle: {

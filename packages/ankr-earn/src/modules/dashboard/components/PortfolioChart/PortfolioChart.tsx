@@ -11,10 +11,7 @@ import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 
-import {
-  PortfolioChartLegend,
-  IPortfolioChartLegendProps,
-} from '../PortfolioChartLegend';
+import { PortfolioChartLegend, ILegendItem } from '../PortfolioChartLegend';
 
 import { usePortfolioChart, TSelectSvg } from './usePortfolioChart';
 import { usePortfolioChartStyles } from './usePortfolioChartStyles';
@@ -37,6 +34,7 @@ export interface IChartSlice {
   percent: number;
   amount: BigNumber;
   usdAmount: BigNumber;
+  isNative: boolean;
   icon: TIcon;
 }
 
@@ -70,9 +68,7 @@ export const PortfolioChart = ({
   width,
 }: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles({ width });
-  const [activeItem, setActiveItem] = useState<
-    IPortfolioChartLegendProps['legendItems'][0] | null
-  >(null);
+  const [activeItem, setActiveItem] = useState<ILegendItem | null>(null);
 
   const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
 
@@ -80,19 +76,24 @@ export const PortfolioChart = ({
     () =>
       data.map((item, index) => ({
         ...item,
-        color: COLORS[index],
+        color: item.isNative ? COLORS[COLORS.length - 1] : COLORS[index],
       })),
     [data],
   );
 
   const nativeTokens = useMemo(
-    () => items.filter(({ name }) => !name.match(/a*.(b|c)/)),
+    () => items.filter(({ isNative }) => isNative),
     [items],
   );
 
   const syntheticTokens = useMemo(
-    () => items.filter(({ name }) => name.match(/a*.(b|c)/)),
+    () => items.filter(({ isNative }) => !isNative),
     [items],
+  );
+
+  const chartData = useMemo(
+    () => nativeTokens.concat(syntheticTokens),
+    [syntheticTokens, nativeTokens],
   );
 
   const totalApr = useMemo(
@@ -119,7 +120,7 @@ export const PortfolioChart = ({
   }, [setActiveItem]);
 
   const handleMouseOver = useCallback(
-    (item: IPortfolioChartLegendProps['legendItems'][0]) => {
+    (item: ILegendItem) => {
       setActiveItem(item);
     },
     [setActiveItem],
@@ -139,32 +140,37 @@ export const PortfolioChart = ({
         .attr('width', svgWidth)
         .attr('transform', `translate(${svgWidth / 2}, ${svgHeight / 2})`);
 
-      const color = d3.scaleOrdinal(data, COLORS);
-
-      const pie = d3.pie<void, IChartSlice>().value(({ percent }) => percent);
+      const pie = d3
+        .pie<void, ILegendItem>()
+        .value(({ percent }) => percent)
+        .sort(null);
 
       const path = d3
-        .arc<d3.PieArcDatum<IChartSlice>>()
-        .outerRadius(d =>
-          d.data.name !== activeItem?.name ? radius / 1.15 : radius / 1.2,
-        )
+        .arc<d3.PieArcDatum<ILegendItem>>()
+        .outerRadius(d => {
+          return d.data.name !== activeItem?.name
+            ? radius / 1.15
+            : radius / 1.2;
+        })
         .innerRadius(radius);
 
       const arc = g
         .selectAll('.arc')
-        .data(pie(data))
+        .data(pie(chartData))
         .enter()
         .append('g')
         .attr('class', 'arc')
         .attr('opacity', 1)
         .attr('data-testid', d => d.data.name)
-        .on('mouseover', function mouseover() {
+        .on('mouseover', function mouseover(_, d) {
+          setActiveItem(d.data);
           d3.select(this)
             .transition()
             .duration(TRANSITION_DURATION_MS)
             .attr('opacity', 0.85);
         })
         .on('mouseout', function mouseout() {
+          setActiveItem(null);
           d3.select(this)
             .transition()
             .duration(TRANSITION_DURATION_MS)
@@ -174,7 +180,7 @@ export const PortfolioChart = ({
       arc
         .append('path')
         .attr('d', path)
-        .attr('fill', d => color(d.data));
+        .attr('fill', d => d.data.color);
 
       const generalInfo = g
         .append('g')
@@ -209,10 +215,18 @@ export const PortfolioChart = ({
         .attr('class', classes.apr)
         .text(t('dashboard.apr', { value: totalApr }).replace(/<\/?b>/g, ''));
     },
-    [data, totalApr, activeItem?.name, classes, totalAmountUsd, width, height],
+    [
+      chartData,
+      totalApr,
+      activeItem?.name,
+      classes,
+      totalAmountUsd,
+      width,
+      height,
+    ],
   );
 
-  const { ref } = usePortfolioChart(renderChart, [width, height, data]);
+  const { ref } = usePortfolioChart(renderChart, [width, height, chartData]);
 
   if (!isLoading && data.length === 0) {
     return null;
@@ -253,6 +267,7 @@ export const PortfolioChart = ({
 
           <Grid item lg={6} md={12} xl={3} xs={12}>
             <PortfolioChartLegend
+              activeLegendItem={activeItem}
               apr={stakedApr}
               isLoading={isLoading}
               legendItems={syntheticTokens}
@@ -273,7 +288,8 @@ export const PortfolioChart = ({
 
           <Grid item lg={6} md={12} xl={3} xs={12}>
             <PortfolioChartLegend
-              isSynthetic
+              isNative
+              activeLegendItem={activeItem}
               apr={nativeApr}
               isLoading={isLoading}
               legendItems={nativeTokens}

@@ -20,6 +20,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(5_000),
         amount: new BigNumber(1),
         icon: AETHBIcon,
+        isNative: false,
       },
       {
         name: Token.aETHc,
@@ -27,6 +28,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(2_000),
         amount: new BigNumber(1),
         icon: AETHCIcon,
+        isNative: false,
       },
       {
         name: Token.ETH,
@@ -34,6 +36,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(3_000),
         amount: new BigNumber(1),
         icon: EthIcon,
+        isNative: true,
       },
     ],
     isLoading: false,
