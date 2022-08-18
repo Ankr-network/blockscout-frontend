@@ -14,6 +14,7 @@ export interface ChainsItemQueryProps {
 }
 
 export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
-  totalRequests: string;
   isLoading: boolean;
+  isPremium: boolean;
+  totalRequests: string;
 }

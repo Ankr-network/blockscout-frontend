@@ -11,7 +11,7 @@ import {
   IDailyChargingResponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
-  IGetEmailBindingStatusesResponse,
+  IGetEmailBindingsResponse,
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
@@ -127,19 +127,16 @@ export class AccountGateway implements IAccountGateway {
     return response;
   }
 
-  async getEmailBindingStatuses(
+  async getEmailBindings(
     filters?: EmailConfirmationStatus,
   ): Promise<IEmailResponse[]> {
     const {
       data: { bindings },
-    } = await this.api.get<IGetEmailBindingStatusesResponse>(
-      '/api/v1/auth/email',
-      {
-        params: {
-          filters,
-        },
+    } = await this.api.get<IGetEmailBindingsResponse>('/api/v1/auth/email', {
+      params: {
+        filters,
       },
-    );
+    });
 
     return bindings;
   }

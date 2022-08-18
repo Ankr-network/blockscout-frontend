@@ -7,6 +7,7 @@ import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChangeEmailDialog } from './components/ChangeEmailDialog';
+import { EmailSkeleton } from './components/Skeleton';
 import { useStyles } from './EmailBlockStyles';
 import { useEmailBlock } from './useEmailBlock';
 
@@ -26,33 +27,30 @@ export const EmailBlock = () => {
   } = useEmailBlock();
 
   return (
-    <Queries<ResponseData<typeof getActiveEmailBinding>>
-      requestActions={[getActiveEmailBinding]}
-    >
-      {({ data: { email } }) => {
-        return (
-          <>
-            <Paper className={classes.root}>
-              <Typography className={classes.email} variant="h4">
-                {email}
-              </Typography>
+    <>
+      <Paper className={classes.root}>
+        <Typography className={classes.email} variant="h4">
+          <Queries<ResponseData<typeof getActiveEmailBinding>>
+            requestActions={[getActiveEmailBinding]}
+            spinner={<EmailSkeleton />}
+          >
+            {({ data: { email } }) => email}
+          </Queries>
+        </Typography>
 
-              <Button
-                className={classes.changeEmailButton}
-                variant="outlined"
-                onClick={openChangeEmailDialog}
-              >
-                {t('user-settings.settings-screen.change-email-button')}
-              </Button>
-            </Paper>
+        <Button
+          className={classes.changeEmailButton}
+          variant="outlined"
+          onClick={openChangeEmailDialog}
+        >
+          {t('user-settings.settings-screen.change-email-button')}
+        </Button>
+      </Paper>
 
-            <ChangeEmailDialog
-              open={isChangeEmailDialogOpen}
-              onClose={closeChangeEmailDialog}
-            />
-          </>
-        );
-      }}
-    </Queries>
+      <ChangeEmailDialog
+        open={isChangeEmailDialogOpen}
+        onClose={closeChangeEmailDialog}
+      />
+    </>
   );
 };

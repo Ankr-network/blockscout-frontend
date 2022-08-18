@@ -42,7 +42,7 @@ export interface IAccountGateway {
     transactionHash: string,
   ): Promise<IWithdrawalStatusResponse>;
 
-  getEmailBindingStatuses(
+  getEmailBindings(
     filters?: EmailConfirmationStatus,
   ): Promise<IEmailResponse[]>;
 

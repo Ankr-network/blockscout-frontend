@@ -64,9 +64,11 @@ interface ICount {
 }
 
 const calculateBarCounts = (
-  counts: Record<string, PrivateStatCount>,
   timeframe: StatsTimeframe,
+  counts?: Record<string, PrivateStatCount>,
 ) => {
+  if (!counts) return {};
+
   const oneStakeCounts: Record<string, PrivateStatCount> = {};
   const countList: ICount[] = [];
   const nextTime = timeframe === StatsTimeframe.DAY ? ONE_HOUR : ONE_DAY;
@@ -130,11 +132,18 @@ const calculateBarCounts = (
 
 export const formatChartData = (
   total: PrivateTotalRequestsInfo,
-  counts: Record<string, PrivateStatCount>,
   timeframe: StatsTimeframe,
+  counts?: Record<string, PrivateStatCount>,
 ) => {
+  if (typeof counts === 'undefined') {
+    return {
+      listData: [],
+      chartData: [],
+    };
+  }
+
   Object.keys(counts).forEach(timestamp => {
-    counts[timestamp]?.top_requests?.map(item => {
+    counts?.[timestamp]?.top_requests?.map(item => {
       if (!item.method) {
         item.method = UNKNOWN_NAME;
       }
@@ -164,7 +173,8 @@ export const formatChartData = (
     listData.push(otherMethodName);
 
     Object.keys(counts).forEach(timestamp => {
-      const item = counts[timestamp];
+      const item = counts?.[timestamp];
+
       const topRequests = item?.top_requests || [];
 
       const otherMethodItem = topRequests?.find(
@@ -173,14 +183,14 @@ export const formatChartData = (
       if (!otherMethodItem) {
         topRequests.push({
           method: otherMethodName,
-          count: item.others_info?.request_count ?? 0,
+          count: item?.others_info?.request_count ?? 0,
         });
       }
     });
   }
 
   if (timeframe !== StatsTimeframe.MONTH) {
-    counts = calculateBarCounts(counts, timeframe);
+    counts = calculateBarCounts(timeframe, counts);
   }
 
   const chartFormat = timeframe === StatsTimeframe.DAY ? 'h:mmaaa' : 'LLL dd';
@@ -189,7 +199,7 @@ export const formatChartData = (
   Object.keys(counts).forEach(timestamp => {
     const chart: Record<string, number> = {};
 
-    counts[timestamp]?.top_requests?.forEach(item => {
+    counts?.[timestamp]?.top_requests?.forEach(item => {
       chart[item.method] = item.count;
     });
 

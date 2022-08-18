@@ -1,1 +1,1 @@
-export * from './Confirmation';
+export { ConfirmationQuery as Confirmation } from './ConfirmationQuery';

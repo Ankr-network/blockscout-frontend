@@ -5,6 +5,7 @@ import { ReactReduxContext } from 'react-redux';
 
 import { Spinner, mainTheme, RewiredStylesProvider } from 'ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
+import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import { useMetatags } from 'uiKit/utils/useMetatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
@@ -23,16 +24,18 @@ export const AppBase = ({ children }: IAppBaseProps) => {
     <RewiredStylesProvider>
       <MuiThemeProvider theme={mainTheme}>
         <CssBaseline />
-        {isInitialized ? (
-          <ConnectedRouter
-            history={historyInstance}
-            context={ReactReduxContext}
-          >
-            {children}
-          </ConnectedRouter>
-        ) : (
-          <Spinner />
-        )}
+        <SentryErrorBoundary>
+          {isInitialized ? (
+            <ConnectedRouter
+              history={historyInstance}
+              context={ReactReduxContext}
+            >
+              {children}
+            </ConnectedRouter>
+          ) : (
+            <Spinner />
+          )}
+        </SentryErrorBoundary>
       </MuiThemeProvider>
     </RewiredStylesProvider>
   );
