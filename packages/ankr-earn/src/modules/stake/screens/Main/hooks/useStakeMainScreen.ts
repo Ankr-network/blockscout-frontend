@@ -12,6 +12,7 @@ import { useStakeAnalytics } from './useStakeAnalytics';
 interface IUseStakeMainScreen {
   onTrackEnterStakingFlow: (tokenName: Token) => () => void;
   metrics?: TMetrics;
+  loading: boolean;
 }
 
 export const useStakeMainScreen = (): IUseStakeMainScreen => {
@@ -26,7 +27,7 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
     }
   }, [dispatchRequest]);
 
-  const { data: metrics } = useQuery({ type: getMetrics });
+  const { data: metrics, loading } = useQuery({ type: getMetrics });
 
-  return { onTrackEnterStakingFlow, metrics: metrics ?? undefined };
+  return { onTrackEnterStakingFlow, metrics: metrics ?? undefined, loading };
 };

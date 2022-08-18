@@ -1,4 +1,5 @@
 import { Grid, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
@@ -18,7 +19,9 @@ interface IFeatureItemProps {
   manageHref?: string;
   iconSlot: JSX.Element;
   token: Token;
+  isApyLoading?: boolean;
   apy?: number;
+  isTvlLoading?: boolean;
   stakedTvl?: BigNumber;
   onStakeClick?: () => void;
 }
@@ -30,6 +33,8 @@ export const FeatureItem = ({
   manageHref,
   iconSlot,
   token,
+  isApyLoading = false,
+  isTvlLoading = false,
   apy = 0,
   stakedTvl,
   onStakeClick,
@@ -89,32 +94,54 @@ export const FeatureItem = ({
       iconSlot={iconSlot}
       statsSlot={
         <Grid container spacing={3}>
-          {shouldRenderAPY && (
-            <Grid item>
-              <Typography className={classNames(classes.statLabel)}>
-                {t('features.apy')}
-              </Typography>
+          <Grid item>
+            {isApyLoading && (
+              <Skeleton
+                className={classes.skeleton}
+                height={48}
+                variant="rect"
+                width={50}
+              />
+            )}
 
-              <Typography className={classNames(classes.statValue)}>
-                {t('features.apy-value', { value: apy })}
-              </Typography>
-            </Grid>
-          )}
+            {!isApyLoading && shouldRenderAPY && (
+              <>
+                <Typography className={classNames(classes.statLabel)}>
+                  {t('features.apy')}
+                </Typography>
 
-          {shouldRenderTvl && (
-            <Grid item>
-              <Typography className={classNames(classes.statLabel)}>
-                {t('features.staked-tvl')}
-              </Typography>
+                <Typography className={classNames(classes.statValue)}>
+                  {t('features.apy-value', { value: apy })}
+                </Typography>
+              </>
+            )}
+          </Grid>
 
-              <Typography className={classNames(classes.statValue)}>
-                {t('features.staked-amount', {
-                  value: stakedTvl.toFormat(DEFAULT_FIXED),
-                  token,
-                })}
-              </Typography>
-            </Grid>
-          )}
+          <Grid item>
+            {isTvlLoading && (
+              <Skeleton
+                className={classes.skeleton}
+                height={48}
+                variant="rect"
+                width={200}
+              />
+            )}
+
+            {!isTvlLoading && shouldRenderTvl && (
+              <>
+                <Typography className={classNames(classes.statLabel)}>
+                  {t('features.staked-tvl')}
+                </Typography>
+
+                <Typography className={classNames(classes.statValue)}>
+                  {t('features.staked-amount', {
+                    value: stakedTvl.toFormat(DEFAULT_FIXED),
+                    token,
+                  })}
+                </Typography>
+              </>
+            )}
+          </Grid>
         </Grid>
       }
       title={title}

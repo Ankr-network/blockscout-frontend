@@ -19,7 +19,7 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
 
-  const { data: maxAnkrApy } = useQuery({
+  const { data: maxAnkrApy, loading } = useQuery({
     type: getMaxApy,
   });
 
@@ -35,6 +35,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={ankrApy}
           iconSlot={<AnkrIcon />}
+          isApyLoading={loading}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}
           stakedTvl={ZERO}
