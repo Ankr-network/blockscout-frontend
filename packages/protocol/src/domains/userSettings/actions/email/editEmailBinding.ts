@@ -1,35 +1,37 @@
 import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
-import { IEmailResponse, Web3Address } from 'multirpc-sdk';
+import { IEmailResponse } from 'multirpc-sdk';
 
 interface IEditEmailBindingParams {
-  address: Web3Address;
   email: string;
 }
 
-export const editEmailBinding = createAction<
+export const editEmailBinding = createSmartAction<
   RequestAction<IEmailResponse>,
   [IEditEmailBindingParams]
->('userSettings/editEmailBinding', ({ address, email }) => ({
+>('userSettings/editEmailBinding', ({ email }) => ({
   request: {
-    promise: (async () => {
-      const service = await MultiService.getInstance();
-
-      const accountGateway = service.getAccountGateway();
-
-      const response = await accountGateway.editEmailBinding(email);
-
-      return response;
-    })(),
+    promise: (async () => null)(),
   },
   meta: {
-    requestKey: address,
     cache: false,
     asMutation: false,
     takeLatest: true,
     ...getEmailErrorConfig(),
+
+    onRequest: () => ({
+      promise: (async (): Promise<IEmailResponse> => {
+        const service = await MultiService.getInstance();
+
+        const accountGateway = service.getAccountGateway();
+
+        const response = await accountGateway.editEmailBinding(email);
+
+        return response;
+      })(),
+    }),
   },
 }));

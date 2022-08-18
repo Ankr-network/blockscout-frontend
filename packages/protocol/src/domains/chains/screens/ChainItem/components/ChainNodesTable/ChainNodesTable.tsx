@@ -43,7 +43,7 @@ export const ChainNodesTable = ({
       </TooltipWrapper>
 
       <VirtualTable
-        loading={loading}
+        initializing={loading}
         cols={columns}
         pagination="more"
         onChangePage={handleChangePage}

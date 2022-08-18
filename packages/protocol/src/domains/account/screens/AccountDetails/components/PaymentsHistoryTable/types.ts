@@ -8,6 +8,7 @@ import {
 
 export interface PaymentHistory {
   hasMore: boolean;
+  initializing: boolean;
   loading: boolean;
   loadMore: () => void;
   transactions: IPaymentHistoryEntity[];

@@ -8,6 +8,7 @@ import { UsageSummary } from '../UsageSummary';
 import { useStyles } from './DataUsageContentStyles';
 import { useUsageData } from './hooks/useUsageData';
 import { MethodCalls } from '../MethodCalls';
+import { RequestsByIP } from '../RequestsByIP';
 
 interface IDataUsageContentProps {
   chainId: string;
@@ -29,6 +30,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
     totalRequests,
     totalRequestsHistory,
     userTopRequests,
+    userTopRequestsIp,
   } = useUsageData(chainId);
 
   return (
@@ -63,6 +65,9 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           </ChainRequestsOverview>
           {isWalletConnected && userTopRequests && (
             <MethodCalls data={userTopRequests} timeframe={timeframe} />
+          )}
+          {isWalletConnected && userTopRequestsIp && (
+            <RequestsByIP data={userTopRequestsIp} />
           )}
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />

@@ -7,6 +7,7 @@ import { useMethodCallStyles } from './useMethodCallStyles';
 import { NoData } from './components/NoData';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 import { StatsTimeframe } from 'domains/chains/types';
+import { t } from 'common';
 
 interface IMethodCallsProps {
   data: TopRequestsResultData;
@@ -22,7 +23,10 @@ export const MethodCalls = ({ data, timeframe }: IMethodCallsProps) => {
       {data.list.length > 0 ? (
         <StakeBarChart result={data} timeframe={timeframe} />
       ) : (
-        <NoData />
+        <NoData
+          title={t('chain-item.method-calls.no-data.title')}
+          content={t('chain-item.method-calls.no-data.content')}
+        />
       )}
     </Box>
   );

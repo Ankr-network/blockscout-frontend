@@ -15,14 +15,14 @@ import {
 
 function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
   const {
-    minWidth,
-    minHeight,
-    moreBtnText,
-    isMoreRowsAvailable,
-    emptyMessage,
     classes: tableClasses,
+    emptyMessage,
+    initializing,
+    isMoreRowsAvailable,
+    minHeight,
+    minWidth,
+    moreBtnText,
     preloader,
-    loading,
   } = props;
   const classes = useStyles();
   const { cache, ref, rows } = useTable();
@@ -30,7 +30,7 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
   const isEmpty = rows.length === 0;
 
   const content = useMemo(() => {
-    if (loading) {
+    if (initializing) {
       return preloader;
     }
 
@@ -75,7 +75,7 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
     classes.empty,
     emptyMessage,
     isEmpty,
-    loading,
+    initializing,
     preloader,
     ref,
     rowRenderer,

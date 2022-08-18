@@ -23,15 +23,16 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
     <ThemeProvider theme={mainTheme}>
       <Box padding={4} bgcolor="background.paper">
         <ChainsItem
-          totalRequests={chain.totalRequests.toString()}
+          chain={chain}
+          description="requestInforequestInforequestInforequestInfo"
           isLoading={chain.isLoading}
+          isPremium={false}
+          links={chain.urls}
           logoSrc={chain.icon}
           name={chain.name}
-          description="requestInforequestInforequestInforequestInfo"
           period="24h"
-          links={chain.urls}
-          chain={chain}
           statsTimeframe={StatsTimeframe.MONTH}
+          totalRequests={chain.totalRequests.toString()}
         />
       </Box>
     </ThemeProvider>

@@ -7,7 +7,7 @@ import { fetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
 
 export const useStats = (): [Stats, boolean] => {
   const {
-    data: { totalRequests = 0 },
+    data: {  totalRequests = 0 },
     loading,
   } = useQuery<PrivateStats>({
     defaultData: {},
