@@ -1,87 +1,49 @@
-import { Grid, Paper } from '@material-ui/core';
+import { Box, Hidden, Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
-import { useIsMDDown } from 'ui';
-
-import { NetworkIconText } from '../NetworkIconText';
+import { AmountSkeleton } from '../Amount';
+import { NetworkIconTextSkeleton } from '../NetworkIconText/NetworkIconTextSkeleton';
 
 import { useDashboardCardStyles } from './useDashboardCardStyles';
 
 export const DashboardCardSkeleton = (): JSX.Element => {
   const classes = useDashboardCardStyles();
-  const isMDDown = useIsMDDown();
+
+  const renderedMenuSkeleton = (
+    <Skeleton
+      className={classes.buttonSkeleton}
+      height={44}
+      variant="rect"
+      width={44}
+    />
+  );
 
   return (
     <Paper className={classes.root}>
-      <Grid container>
-        <Grid container item alignItems="center" lg={4} md={12} xs={12}>
-          <Grid container item alignItems="center" lg="auto" md={12} xs={12}>
-            <Grid item lg="auto" md={12} xs={12}>
-              <div className={classes.wrapper}>
-                <NetworkIconText isLoading />
+      <div className={classes.tokenInfoSlot}>
+        <NetworkIconTextSkeleton />
+      </div>
 
-                {isMDDown && (
-                  <Skeleton
-                    className={classes.menuSkeleton}
-                    height={40}
-                    variant="rect"
-                    width={40}
-                  />
-                )}
-              </div>
-            </Grid>
-          </Grid>
+      <Hidden lgUp>
+        <div className={classes.menuSlot}>{renderedMenuSkeleton}</div>
+      </Hidden>
 
-          {isMDDown && (
-            <Grid item lg="auto" md={12} xs={12}>
-              <div>
-                <Skeleton width={80} />
+      <div className={classes.amountSlot}>
+        <AmountSkeleton />
+      </div>
 
-                <Skeleton width={80} />
-              </div>
-            </Grid>
-          )}
+      <div className={classes.buttonsSlot}>
+        <Box width={{ lg: 105 }}>
+          <Skeleton
+            className={classes.buttonSkeleton}
+            height={44}
+            variant="rect"
+            width="100%"
+          />
+        </Box>
 
-          {isMDDown && (
-            <Grid item className={classes.badgeSlot} lg="auto" md={12} xs={12}>
-              <Skeleton width={240} />
-            </Grid>
-          )}
-        </Grid>
-
-        <Grid container item alignItems="center" lg={8} md={12} xs={12}>
-          <Grid container item alignItems="center" lg={5} md={6} xs={12}>
-            {!isMDDown && (
-              <Grid item lg={12} xs={12}>
-                <Skeleton width={80} />
-
-                <Skeleton width={80} />
-              </Grid>
-            )}
-
-            {!isMDDown && (
-              <Grid item className={classes.badgeSlot} lg={12} md={12} xs={12}>
-                <Skeleton width={240} />
-              </Grid>
-            )}
-          </Grid>
-
-          <Grid
-            container
-            item
-            alignItems="center"
-            className={classes.buttons}
-            justifyContent="flex-end"
-            lg={7}
-            md={12}
-            xs={12}
-          >
-            <Grid item className={classes.controls} lg={10} md={12} xs={12}>
-              <Skeleton className={classes.btnSkeleton} variant="rect" />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+        <Hidden mdDown>{renderedMenuSkeleton}</Hidden>
+      </div>
     </Paper>
   );
 };

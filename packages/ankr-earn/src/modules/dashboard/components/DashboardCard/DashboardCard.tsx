@@ -1,7 +1,7 @@
-import { Grid, Paper } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import { ReactNode } from 'react';
 
-import { useIsMDDown } from 'ui';
+import { useIsLGUp } from 'ui';
 
 import { useDashboardCardStyles } from './useDashboardCardStyles';
 
@@ -21,86 +21,25 @@ export const DashboardCard = ({
   menuSlot,
 }: IDashboardCardProps): JSX.Element => {
   const classes = useDashboardCardStyles();
-  const isMDDown = useIsMDDown();
+  const isLgUp = useIsLGUp();
 
   return (
     <Paper className={classes.root}>
-      <Grid container>
-        <Grid
-          container
-          item
-          alignItems="center"
-          lg={4}
-          md={12}
-          spacing={2}
-          xs={12}
-        >
-          <Grid container item alignItems="center" lg="auto" md={12} xs={12}>
-            <Grid item lg="auto" md={12} xs={12}>
-              <div className={classes.wrapper}>
-                {networkAndIconSlot}
+      <div className={classes.tokenInfoSlot}>{networkAndIconSlot}</div>
 
-                {isMDDown && menuSlot}
-              </div>
-            </Grid>
-          </Grid>
+      {!isLgUp && <div className={classes.menuSlot}>{menuSlot}</div>}
 
-          {isMDDown && (
-            <Grid item lg="auto" md={12} xs={12}>
-              {amountSlot}
-            </Grid>
-          )}
+      <div className={classes.amountSlot}>
+        {amountSlot}
 
-          {isMDDown && badgeSlot && (
-            <Grid item className={classes.badgeSlot} lg="auto" md={12} xs={12}>
-              {badgeSlot}
-            </Grid>
-          )}
-        </Grid>
+        {badgeSlot && <Box mt={{ xs: 2, lg: 1 }}>{badgeSlot}</Box>}
+      </div>
 
-        <Grid container item alignItems="center" lg={8} md={12} xs={12}>
-          <Grid
-            container
-            item
-            alignItems="center"
-            lg={4}
-            md={6}
-            spacing={2}
-            xs={12}
-          >
-            {!isMDDown && (
-              <Grid item lg={12} xs={12}>
-                {amountSlot}
-              </Grid>
-            )}
+      <div className={classes.buttonsSlot}>
+        {buttonsSlot}
 
-            {!isMDDown && badgeSlot && (
-              <Grid item className={classes.badgeSlot} lg={12} md={12} xs={12}>
-                {badgeSlot}
-              </Grid>
-            )}
-          </Grid>
-
-          <Grid
-            container
-            item
-            alignItems="center"
-            className={classes.buttons}
-            justifyContent="flex-end"
-            lg={8}
-            md={12}
-            xs={12}
-          >
-            {buttonsSlot && (
-              <Grid item className={classes.controls} lg={10} md={12} xs={12}>
-                {buttonsSlot}
-              </Grid>
-            )}
-
-            {!isMDDown && menuSlot && <Grid item>{menuSlot}</Grid>}
-          </Grid>
-        </Grid>
-      </Grid>
+        {isLgUp && menuSlot}
+      </div>
     </Paper>
   );
 };

@@ -63,7 +63,10 @@ export const StakedANKR = (): JSX.Element => {
           <Grid container spacing={2}>
             {stakedAmount && (
               <Grid item xs>
-                <Typography color="textSecondary" variant="subtitle1">
+                <Typography
+                  className={classes.amountTitle}
+                  color="textSecondary"
+                >
                   {t('dashboard.card.staked')}
                 </Typography>
 
@@ -73,7 +76,10 @@ export const StakedANKR = (): JSX.Element => {
 
             {rewardsAmount && (
               <Grid item xs>
-                <Typography color="textSecondary" variant="subtitle1">
+                <Typography
+                  className={classes.amountTitle}
+                  color="textSecondary"
+                >
                   {t('dashboard.card.rewards')}
                 </Typography>
 
@@ -94,11 +100,9 @@ export const StakedANKR = (): JSX.Element => {
         menuSlot={
           <Box component="span" display="flex">
             <Menu>
-              {[
-                <Menu.Item disabled={!onOpenInfo} onClick={onOpenInfo}>
-                  {t('dashboard.card.tokenInfo')}
-                </Menu.Item>,
-              ]}
+              <Menu.Item disabled={!onOpenInfo} onClick={onOpenInfo}>
+                {t('dashboard.card.tokenInfo')}
+              </Menu.Item>
             </Menu>
           </Box>
         }

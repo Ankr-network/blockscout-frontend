@@ -3,12 +3,15 @@ import { darken, makeStyles, Theme } from '@material-ui/core';
 export const usePendingStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'inline-block',
-    padding: theme.spacing(0.75, 1.25),
-    borderRadius: 30,
+    padding: theme.spacing(0.625, 1.25),
+
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
     fontSize: 12,
-    lineHeight: 1,
+    lineHeight: 1.48,
+    fontWeight: 400,
+    borderRadius: 8,
+
     transition: 'background 0.2s',
   },
 
@@ -18,14 +21,7 @@ export const usePendingStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  pendingValue: {
-    display: 'inline-block',
-    padding: theme.spacing(0.75, 1.25),
-    borderRadius: 30,
-    background: theme.palette.background.default,
-    color: theme.palette.primary.main,
-    fontSize: 13,
-    lineHeight: 1,
-    transition: 'background 0.2s',
+  pendingSkeleton: {
+    borderRadius: 8,
   },
 }));

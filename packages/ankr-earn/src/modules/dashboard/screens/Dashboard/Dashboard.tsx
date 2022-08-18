@@ -33,7 +33,7 @@ export const Dashboard = (): JSX.Element => {
 
   return (
     <Box component="section" py={{ xs: 6, md: 8 }}>
-      <Container maxWidth="100%">
+      <Container maxWidth="1420px">
         {featuresConfig.newDashboard && (
           <PortfolioChart
             data={nativeData.concat(stakedData)}
