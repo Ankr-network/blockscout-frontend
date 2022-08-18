@@ -1,4 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -49,6 +53,7 @@ export const useRestake = (): IUseRestake => {
   const { data: epochEndsSeconds } = useQuery({
     type: getEpochEndSeconds,
   });
+  const { loading: isRestakeLoading } = useMutation({ type: restake });
 
   const readyRestakableAmount = restakableAmount ?? ZERO;
   const { provider: queryProvider } = RoutesConfig.stake.useParams();
@@ -77,7 +82,7 @@ export const useRestake = (): IUseRestake => {
   };
 
   return {
-    loading: isDelegatedAmountLoading,
+    loading: isRestakeLoading || isDelegatedAmountLoading,
     restakable: readyRestakableAmount,
     newTotalStake: delegatedAmount?.plus(readyRestakableAmount),
     tokenIn: t('unit.ankr'),
