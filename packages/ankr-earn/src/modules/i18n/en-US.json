@@ -637,6 +637,18 @@
     "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
     "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
+  "stake-matic-polygon": {
+    "fee": "Fee",
+    "stake": {
+      "liquidity-pool": "Current crosschain staking pool capacity: <b>{value} MATIC</b>"
+    },
+    "tooltips": {
+      "liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances."
+    },
+    "validation": {
+      "low-pool": "Your stake exceeds current pool capacity"
+    }
+  },
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
     "fee-tooltip": "Unstake fee",

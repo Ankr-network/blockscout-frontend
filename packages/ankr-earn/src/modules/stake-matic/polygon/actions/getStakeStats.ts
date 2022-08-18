@@ -6,41 +6,33 @@ import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-export interface IGetStatsData {
+export interface IGetStakeStatsData {
   acPoolLiquidityInMATIC: BigNumber;
   acRatio: BigNumber;
   maticBalance: BigNumber;
-  stakeFee: BigNumber;
-  unstakeFee: BigNumber;
+  stakeFeePct: BigNumber;
 }
 
-export const getStats = createSmartAction<
-  RequestAction<IGetStatsData, IGetStatsData>
->('matic/polygon/getStats', () => ({
+export const getStakeStats = createSmartAction<
+  RequestAction<IGetStakeStatsData, IGetStakeStatsData>
+>('matic/polygon/getStakeStats', () => ({
   request: {
-    promise: async (): Promise<IGetStatsData> => {
+    promise: async (): Promise<IGetStakeStatsData> => {
       const sdk = await MaticPolygonSDK.getInstance();
 
-      const [
-        acPoolLiquidityInMATIC,
-        acRatio,
-        maticBalance,
-        stakeFee,
-        unstakeFee,
-      ] = await Promise.all([
-        sdk.getACPoolLiquidityInMATIC(),
-        sdk.getACRatio(),
-        sdk.getMaticBalance(),
-        sdk.getStakeFee(),
-        sdk.getUnstakeFee(),
-      ]);
+      const [acPoolLiquidityInMATIC, acRatio, maticBalance, stakeFeePct] =
+        await Promise.all([
+          sdk.getACPoolLiquidityInMATIC(),
+          sdk.getACRatio(),
+          sdk.getMaticBalance(),
+          sdk.getStakeFeePct(),
+        ]);
 
       return {
         acPoolLiquidityInMATIC,
         acRatio,
         maticBalance,
-        stakeFee,
-        unstakeFee,
+        stakeFeePct,
       };
     },
   },
