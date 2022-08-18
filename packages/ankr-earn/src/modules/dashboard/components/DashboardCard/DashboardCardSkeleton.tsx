@@ -1,50 +1,49 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Hidden, Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
-import { NetworkIconText } from '../NetworkIconText';
+import { AmountSkeleton } from '../Amount';
+import { NetworkIconTextSkeleton } from '../NetworkIconText/NetworkIconTextSkeleton';
 
 import { useDashboardCardStyles } from './useDashboardCardStyles';
 
 export const DashboardCardSkeleton = (): JSX.Element => {
   const classes = useDashboardCardStyles();
 
+  const renderedMenuSkeleton = (
+    <Skeleton
+      className={classes.buttonSkeleton}
+      height={44}
+      variant="rect"
+      width={44}
+    />
+  );
+
   return (
     <Paper className={classes.root}>
-      <Box mb={{ xs: 3, sm: 'auto' }}>
-        <Grid container spacing={2}>
-          <Grid item xs>
-            <NetworkIconText isLoading />
-          </Grid>
+      <div className={classes.tokenInfoSlot}>
+        <NetworkIconTextSkeleton />
+      </div>
 
-          <Grid item className={classes.menuCol} xs="auto">
-            <Skeleton
-              className={classes.menuSkeleton}
-              height={32}
-              variant="rect"
-              width={32}
-            />
-          </Grid>
-        </Grid>
-      </Box>
+      <Hidden lgUp>
+        <div className={classes.menuSlot}>{renderedMenuSkeleton}</div>
+      </Hidden>
 
-      <Grid container alignItems="flex-end" spacing={2}>
-        <Grid item sm xs={12}>
-          <Typography variant="h3">
-            <Skeleton width={80} />
-          </Typography>
-        </Grid>
+      <div className={classes.amountSlot}>
+        <AmountSkeleton />
+      </div>
 
-        <Grid item sm="auto" xs={12}>
-          <Typography>
-            <Skeleton
-              className={classes.btnSkeleton}
-              height={40}
-              variant="rect"
-              width={115}
-            />
-          </Typography>
-        </Grid>
-      </Grid>
+      <div className={classes.buttonsSlot}>
+        <Box width={{ lg: 105 }}>
+          <Skeleton
+            className={classes.buttonSkeleton}
+            height={44}
+            variant="rect"
+            width="100%"
+          />
+        </Box>
+
+        <Hidden mdDown>{renderedMenuSkeleton}</Hidden>
+      </div>
     </Paper>
   );
 };

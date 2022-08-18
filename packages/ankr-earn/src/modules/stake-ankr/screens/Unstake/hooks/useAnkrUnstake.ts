@@ -9,12 +9,12 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { IAnkrStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getUnlockedDelegatedByValidator } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
 import { unstake } from 'modules/stake-ankr/actions/unstake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
-import { IAnkrStakeSubmitPayload } from 'modules/stake-ankr/types';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 interface IUseAnkrUnstake {

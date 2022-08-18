@@ -47,7 +47,7 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     type: getANKRPrice,
   });
 
-  const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
+  const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );

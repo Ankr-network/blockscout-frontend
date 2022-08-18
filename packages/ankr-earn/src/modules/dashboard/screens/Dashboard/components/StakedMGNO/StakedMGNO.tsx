@@ -63,8 +63,13 @@ export const StakedMGNO = (): JSX.Element => {
         </Grid>
       }
       buttonsSlot={
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={2}
+        >
+          <Grid item xs={12}>
             <NavLink
               className={classes.manageButton}
               href={manageLink}

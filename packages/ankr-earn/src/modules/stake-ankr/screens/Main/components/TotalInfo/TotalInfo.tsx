@@ -1,7 +1,8 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
 
-import { t, tHTML } from 'common';
+import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
@@ -27,6 +28,7 @@ export const TotalInfo = (): JSX.Element => {
     claimAllRewardsLink,
     stakeLink,
     epochEnds,
+    epochLoading,
   } = useTotalInfo();
 
   return (
@@ -62,15 +64,36 @@ export const TotalInfo = (): JSX.Element => {
                   </NavLink>
                 }
                 titleSlot={
-                  <Typography className={classes.title}>
-                    {t('stake-ankr.total-info.claimable-rewards')}
+                  <Grid
+                    container
+                    alignItems="flex-start"
+                    justifyContent="space-between"
+                    spacing={1}
+                  >
+                    <Grid item sm xs={12}>
+                      <Typography className={classes.title}>
+                        {t('stake-ankr.total-info.claimable-rewards')}
 
-                    <QuestionWithTooltip>
-                      {tHTML('stake-ankr.total-info.claimable-tooltip', {
-                        value: epochEnds,
-                      })}
-                    </QuestionWithTooltip>
-                  </Typography>
+                        <QuestionWithTooltip>
+                          {t('stake-ankr.total-info.claimable-tooltip')}
+                        </QuestionWithTooltip>
+                      </Typography>
+                    </Grid>
+
+                    <Grid item sm="auto" xs={12}>
+                      {epochLoading && <Skeleton width={180} />}
+
+                      {!epochLoading && epochEnds && (
+                        <Typography className={classes.epochText}>
+                          {t('stake-ankr.total-info.epoch-ends')}
+
+                          <span className={classes.epochValue}>
+                            {epochEnds}
+                          </span>
+                        </Typography>
+                      )}
+                    </Grid>
+                  </Grid>
                 }
               />
             </Paper>

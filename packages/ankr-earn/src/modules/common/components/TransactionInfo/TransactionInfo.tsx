@@ -1,5 +1,5 @@
 import { Paper, Typography } from '@material-ui/core';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { t } from 'common';
 
@@ -36,10 +36,10 @@ export const TransactionInfo = ({
   }
 
   return (
-    <Paper className={cn(classes.root, className)}>
+    <Paper className={classNames(classes.root, className)}>
       <div className={classes.wrapper}>
         <div
-          className={cn(
+          className={classNames(
             classes.status,
             type === 'success' && classes.success,
             type === 'failed' && classes.error,

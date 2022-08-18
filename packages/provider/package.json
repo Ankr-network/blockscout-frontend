@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/provider",
-  "version": "1.5.26",
+  "version": "1.5.27",
   "main": "./index.ts",
   "files": [
     "build"

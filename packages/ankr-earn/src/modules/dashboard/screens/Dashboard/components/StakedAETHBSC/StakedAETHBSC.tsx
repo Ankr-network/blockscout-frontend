@@ -1,4 +1,4 @@
-import { Chip } from '@material-ui/core';
+import { Chip, Grid } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
@@ -42,15 +42,25 @@ export const StakedAETHBSC = (): JSX.Element => {
       <StakingAsset
         amount={amount}
         buttonsSlot={
-          <Button
-            disabled={swapDisabled || isSwapLoading}
-            isLoading={isSwapLoading}
-            type="button"
-            variant="outlined"
-            onClick={onSwapToken}
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-end"
+            spacing={2}
           >
-            {t('dashboard.switch')}
-          </Button>
+            <Grid item className={classes.wrapper}>
+              <Button
+                className={classes.switch}
+                disabled={swapDisabled || isSwapLoading}
+                isLoading={isSwapLoading}
+                type="button"
+                variant="outlined"
+                onClick={onSwapToken}
+              >
+                {t('dashboard.switch')}
+              </Button>
+            </Grid>
+          </Grid>
         }
         chainId={chainId}
         isLoading={isBalancesLoading}

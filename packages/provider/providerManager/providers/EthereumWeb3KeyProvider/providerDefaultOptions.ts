@@ -40,7 +40,7 @@ export const providerDefaultOptions: IProviderOptions = {
     options: {
       rpc: {
         1: 'https://rpc.ankr.com/eth',
-        5: 'https://eth-goerli-01.dccn.ankr.com',
+        5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
@@ -61,7 +61,7 @@ export const providerDefaultOptions: IProviderOptions = {
     options: {
       rpc: {
         1: 'https://rpc.ankr.com/eth',
-        5: 'https://eth-goerli-01.dccn.ankr.com',
+        5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
@@ -82,7 +82,7 @@ export const providerDefaultOptions: IProviderOptions = {
     options: {
       rpc: {
         1: 'https://rpc.ankr.com/eth',
-        5: 'https://eth-goerli-01.dccn.ankr.com',
+        5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
@@ -103,7 +103,7 @@ export const providerDefaultOptions: IProviderOptions = {
     options: {
       rpc: {
         1: 'https://rpc.ankr.com/eth',
-        5: 'https://eth-goerli-01.dccn.ankr.com',
+        5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },
@@ -119,7 +119,7 @@ export const providerDefaultOptions: IProviderOptions = {
     options: {
       rpc: {
         1: 'https://rpc.ankr.com/eth',
-        5: 'https://eth-goerli-01.dccn.ankr.com',
+        5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
       },

@@ -45,7 +45,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should render properly with synthetic mode', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isSynthetic />);
+    render(<PortfolioChartLegend {...defaultProps} isNative />);
 
     const title = await screen.findByText(/Available to stake/);
 
@@ -53,7 +53,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should hover legend item', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isSynthetic />);
+    render(<PortfolioChartLegend {...defaultProps} isNative />);
 
     const item = await screen.findByTestId('legend-aETHb');
 

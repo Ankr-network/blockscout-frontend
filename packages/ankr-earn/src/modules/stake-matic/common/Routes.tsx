@@ -1,22 +1,31 @@
 import { Route, Switch } from 'react-router-dom';
 
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import { getRoutes as getStakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
+import { getRoutes as getStakeMaticPolygonRoutes } from 'modules/stake-matic/polygon/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
-const ROOT = `${StakeRoutes.main.path}matic/`;
+import {
+  MATIC_ON_ETH_STAKING_NETWORKS,
+  MATIC_ON_POLYGON_STAKING_NETWORKS,
+  MATIC_PROVIDER_ID,
+} from './const';
 
-/**
- *  TODO For development only. Remove it (MATIC on Polygon)
- */
-const TMP_PATH = `${ROOT}network-chooser/`;
+const ROOT = `${StakeRoutes.main.path}matic/`;
+const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/`;
 
 export const RoutesConfig = createRouteConfig(
   {
-    networkChooser: {
-      path: TMP_PATH,
+    stake: {
+      path: ROOT,
+    },
+    unstake: {
+      path: UNSTAKE_MATIC_PATH,
     },
   },
   ROOT,
@@ -28,11 +37,23 @@ const NetworkChooser = loadComponent(() =>
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={[RoutesConfig.networkChooser.path]}>
+    <Route path={[RoutesConfig.stake.path, RoutesConfig.unstake.path]}>
       <Switch>
-        <Route exact path={RoutesConfig.networkChooser.path}>
+        <GuardETHRoute
+          exact
+          availableNetworks={[
+            ...MATIC_ON_ETH_STAKING_NETWORKS,
+            ...MATIC_ON_POLYGON_STAKING_NETWORKS,
+          ]}
+          path={RoutesConfig.stake.path}
+          providerId={MATIC_PROVIDER_ID}
+        >
           <NetworkChooser />
-        </Route>
+        </GuardETHRoute>
+
+        {getStakeMaticEthRoutes()}
+
+        {getStakeMaticPolygonRoutes()}
 
         <Route>
           <DefaultLayout>

@@ -375,7 +375,7 @@ export const mainTheme = createTheme({
         padding: defaultTheme.spacing(0, 3),
         textTransform: 'none',
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: 600,
         lineHeight: 1,
 
         '&$disabled': {

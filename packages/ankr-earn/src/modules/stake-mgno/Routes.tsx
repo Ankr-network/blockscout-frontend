@@ -2,23 +2,29 @@ import { generatePath, Route, Switch } from 'react-router';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { STAKING_PATH } from 'modules/common/const';
+import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/polkadot-slot-auction/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { MGNO_PROVIDER_ID, MGNO_STAKING_NETWORKS } from './const';
-import { Main } from './screens/Main';
 
 const ROOT = `${STAKING_PATH}mgno-stake/`;
 const STAKE_PATH = `${ROOT}stake/`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;
+const PROVIDERS_PATH = `${ROOT}providers/`;
 
 export const RoutesConfig = createRouteConfig(
   {
     main: {
       path: ROOT,
       generatePath: () => generatePath(ROOT),
+    },
+
+    providers: {
+      path: PROVIDERS_PATH,
+      generatePath: () => generatePath(PROVIDERS_PATH),
     },
 
     stake: {
@@ -46,6 +52,22 @@ export const RoutesConfig = createRouteConfig(
   ROOT,
 );
 
+const Main = loadComponent(() =>
+  import('./screens/Main').then(module => module.Main),
+);
+
+const Stake = loadComponent(() =>
+  import('./screens/Stake').then(module => module.Stake),
+);
+
+const StakeSteps = loadComponent(() =>
+  import('./screens/StakeSteps').then(module => module.StakeSteps),
+);
+
+const Providers = loadComponent(() =>
+  import('./screens/Providers').then(module => module.Providers),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root]}>
@@ -64,10 +86,34 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={MGNO_STAKING_NETWORKS}
+          path={RoutesConfig.providers.path}
+          providerId={MGNO_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <Providers />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MGNO_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
           providerId={MGNO_PROVIDER_ID}
         >
-          <DefaultLayout>{/* <Stake /> */}</DefaultLayout>
+          <DefaultLayout>
+            <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MGNO_STAKING_NETWORKS}
+          path={RoutesConfig.stakeSteps.path}
+          providerId={MGNO_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeSteps />
+          </DefaultLayout>
         </GuardETHRoute>
       </Switch>
     </Route>

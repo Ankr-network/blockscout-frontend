@@ -17,8 +17,8 @@ import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { AuditedLabel } from 'modules/common/components/AuditedLabel';
-import { BRIDGE_AUDIT_LINK, featuresConfig } from 'modules/common/const';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
+import { AUDIT_LINKS, featuresConfig } from 'modules/common/const';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
@@ -284,7 +284,9 @@ export const BridgeMainView = (): JSX.Element => {
           </Button>
         )}
 
-        <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
+        <AuditInfo>
+          <AuditInfoItem link={AUDIT_LINKS.bridge} variant="beosin" />
+        </AuditInfo>
 
         <OnChange name={EFieldName.token}>
           {value => {

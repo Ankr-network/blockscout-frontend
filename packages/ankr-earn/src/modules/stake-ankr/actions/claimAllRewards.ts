@@ -3,6 +3,7 @@ import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { TTxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -10,8 +11,6 @@ import { ANKR_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { getHistoryData } from './getHistoryData';
-
-type TTxHash = string;
 
 export const claimAllRewards = createAction<RequestAction<TTxHash, TTxHash>>(
   `${ANKR_ACTIONS_PREFIX}claimAllRewards`,

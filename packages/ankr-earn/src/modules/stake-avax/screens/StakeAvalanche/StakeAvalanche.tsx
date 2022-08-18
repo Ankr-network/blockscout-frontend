@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux';
 import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
 import {
+  AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
@@ -152,6 +154,11 @@ export const StakeAvalanche = (): JSX.Element => {
 
           <StakeForm
             isIntegerOnly
+            auditSlot={
+              <AuditInfo>
+                <AuditInfoItem link={AUDIT_LINKS.avax} variant="beosin" />
+              </AuditInfo>
+            }
             balance={fetchStatsData.avaxBalance}
             feeSlot={
               <StakeFeeInfo
