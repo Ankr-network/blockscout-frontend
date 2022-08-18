@@ -93,7 +93,7 @@ export interface PrivateTotalRequestsInfo {
 
 export interface PrivateStat {
   blockchain: string;
-  counts: PrivateStatCounts;
+  counts?: PrivateStatCounts;
   ips_count: {
     others_info?: {
       request_count?: number;
