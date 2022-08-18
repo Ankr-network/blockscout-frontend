@@ -11,7 +11,7 @@ import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSecond
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
 import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
-import { stake } from 'modules/stake-ankr/actions/stake';
+import { restake } from 'modules/stake-ankr/actions/restake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
@@ -70,9 +70,8 @@ export const useRestake = (): IUseRestake => {
 
   const onSubmit = () => {
     dispatchRequest(
-      stake({
+      restake({
         provider: queryProvider ?? '',
-        amount: readyRestakableAmount,
       }),
     );
   };

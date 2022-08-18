@@ -29,7 +29,9 @@ import {
   IActiveStakingData,
   IAdditionalActiveStakingData,
   IClaimableUnstake,
+  IDelegatorDelegation,
   IHistoryData,
+  ILockPeriod,
   IStakingReward,
   IUnstakingData,
 } from './types';
@@ -176,6 +178,46 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     );
 
     return transactionHash;
+  }
+
+  /**
+   * Also known as restake
+   */
+  public async redelegate(validator: Web3Address): Promise<string> {
+    const stakingContract = await this.getAnkrTokenStakingContract();
+
+    const data = stakingContract.methods
+      .redelegateDelegatorFee(validator)
+      .encodeABI();
+
+    const { transactionHash } = await this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.ankrTokenStaking,
+      { data },
+    );
+
+    return transactionHash;
+  }
+
+  public async calcLockPeriodForDelegations(
+    delegations: IDelegatorDelegation[],
+  ): Promise<ILockPeriod[]> {
+    const { epochBlockInterval, lockPeriod } = await this.getChainConfig();
+
+    const { blockNumber, blockTime } = await this.getChainParams();
+
+    return delegations.reduce<ILockPeriod[]>((acc, delegation) => {
+      const availableAfterBlock =
+        delegation.epoch * epochBlockInterval + lockPeriod * epochBlockInterval;
+
+      acc.push({
+        isAvailable: availableAfterBlock > blockNumber,
+        availableAfterBlock,
+        estimationTime: (availableAfterBlock - blockNumber) * blockTime,
+      });
+
+      return acc;
+    }, []);
   }
 
   public async getMyClaimableStakingRewards(): Promise<IStakingReward[]> {

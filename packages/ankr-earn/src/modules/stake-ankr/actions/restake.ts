@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { TTxHash } from 'modules/common/types';
@@ -10,23 +10,23 @@ import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
-import { getHistoryData } from './getHistoryData';
+import { getCommonData } from './getCommonData';
 
-interface IClaimArgs {
+interface IRestakeArgs {
   provider: string;
 }
 
-export const claimAllForValidator = createAction<
+export const restake = createSmartAction<
   RequestAction<TTxHash, TTxHash>,
-  [IClaimArgs]
+  [IRestakeArgs]
 >(
-  `${ANKR_ACTIONS_PREFIX}claimAllForValidator`,
+  `${ANKR_ACTIONS_PREFIX}/restake`,
   ({ provider }): RequestAction => ({
     request: {
       promise: (async (): Promise<TTxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimAllForValidator(provider);
+        return sdk.redelegate(provider);
       })(),
     },
     meta: {
@@ -37,13 +37,13 @@ export const claimAllForValidator = createAction<
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {
-        store.dispatchRequest(getHistoryData());
+        store.dispatchRequest(getCommonData());
         const txHash = response.data;
 
         if (txHash) {
           store.dispatch(
             push(
-              RoutesConfig.claimRewardsSteps.generatePath({
+              RoutesConfig.stakeSteps.generatePath({
                 txHash,
               }),
             ),
