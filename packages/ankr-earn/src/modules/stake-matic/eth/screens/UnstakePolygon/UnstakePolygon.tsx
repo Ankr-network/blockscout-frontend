@@ -26,6 +26,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { approveAMATICCUnstake } from '../../actions/approveAMATICCUnstake';
 import { fetchStats } from '../../actions/fetchStats';
+import { getAllowance } from '../../actions/getAllowance';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
@@ -38,6 +39,7 @@ const resetRequests = () =>
     getAnkrBalance.toString(),
     getMetrics.toString(),
     getUnstakeDate.toString(),
+    getAllowance.toString(),
   ]);
 
 export const UnstakePolygon = (): JSX.Element => {
@@ -77,6 +79,10 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatch(getAnkrBalance());
     dispatch(getMetrics());
     dispatch(getUnstakeDate());
+
+    if (isWithApprove) {
+      dispatch(getAllowance());
+    }
 
     return () => {
       dispatch(abortRequests());

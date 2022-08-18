@@ -1,6 +1,6 @@
 import {
-  AvailableWriteProviders,
   AvailableReadProviders,
+  AvailableWriteProviders,
 } from '@ankr.com/provider';
 
 import { isMainnet } from '../common';
@@ -8,7 +8,7 @@ import { isMainnet } from '../common';
 /**
  * Events block range for stake/unstake history
  */
-export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
+export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 3_000;
 
 /**
  * Start block to check events for PolygonPool
@@ -36,8 +36,8 @@ export const MATIC_ON_ETH_PROVIDER_READ_ID = isMainnet
  * Internal read provider id for MATIC on Polygon network
  */
 export const MATIC_ON_POLYGON_PROVIDER_READ_ID = isMainnet
-    ? AvailableReadProviders.polygon
-    : AvailableReadProviders.mumbai;
+  ? AvailableReadProviders.polygon
+  : AvailableReadProviders.mumbai;
 
 /**
  * Internal scale factor for MATIC on Polygon network
