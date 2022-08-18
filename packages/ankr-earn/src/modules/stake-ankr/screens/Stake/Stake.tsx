@@ -21,6 +21,7 @@ export const Stake = (): JSX.Element => {
     isApproved,
     isApproveLoading,
     isBalanceLoading,
+    isApyLoading,
     isDisabled,
     isStakeLoading,
     minStake,
@@ -45,9 +46,11 @@ export const Stake = (): JSX.Element => {
     totalStaked,
     totalStakedUSD,
     stakers,
+    isLoading,
   } = useStats({
     amount,
     apy,
+    isApyLoading,
   });
 
   return (
@@ -79,6 +82,7 @@ export const Stake = (): JSX.Element => {
 
         <Stats
           apyText={apyText}
+          isLoading={isLoading}
           stakers={stakers}
           token={tokenIn}
           totalStaked={totalStaked}

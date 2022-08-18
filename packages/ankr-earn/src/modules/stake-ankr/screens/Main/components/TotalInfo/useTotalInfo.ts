@@ -30,7 +30,7 @@ export const useTotalInfo = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
-  const { data } = useQuery({
+  const { data, loading } = useQuery({
     type: getTotalInfo,
   });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
@@ -77,8 +77,8 @@ export const useTotalInfo = (): IUseTotalInfo => {
     totalStakedUsd: totalStaked.multipliedBy(usdPrice) ?? ZERO,
     climableRewards: claimableRewards.decimalPlaces(DEFAULT_ROUNDING),
     climableRewardsUsd: claimableRewards.multipliedBy(usdPrice) ?? ZERO,
-    isTotalStakedLoading: false,
-    isClimableRewardsLoading: false,
+    isTotalStakedLoading: loading,
+    isClimableRewardsLoading: loading,
     isClaimAllowed: !claimableRewards.isZero(),
     claimAllRewardsLink: RoutesConfig.claimAllRewards.generatePath(),
     stakeLink: RoutesConfig.stake.generatePath(),

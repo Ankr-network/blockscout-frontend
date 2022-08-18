@@ -1,4 +1,5 @@
 import { ButtonBase } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { ReactText } from 'react';
 
 import { t } from 'common';
@@ -14,6 +15,7 @@ const ENTER_DELAY: Milliseconds = 1_000;
 interface IStatsItemProps {
   label: string;
   value: string;
+  isLoading?: boolean;
   tooltip?: string;
   token?: string;
   usdEquivalent?: ReactText;
@@ -22,6 +24,7 @@ interface IStatsItemProps {
 export const StatsItem = ({
   label,
   value,
+  isLoading,
   tooltip,
   token,
   usdEquivalent,
@@ -46,19 +49,25 @@ export const StatsItem = ({
         ) : null}
       </div>
 
-      <div className={classes.statisticValueWrapper}>
-        <Tooltip
-          arrow
-          enterDelay={ENTER_DELAY}
-          title={t('unit.token-value', { token, value })}
-        >
-          <div className={classes.statisticValue}>{value}</div>
-        </Tooltip>
+      {isLoading ? (
+        <Skeleton height={32} width={60} />
+      ) : (
+        <div className={classes.statisticValueWrapper}>
+          <Tooltip
+            arrow
+            enterDelay={ENTER_DELAY}
+            title={t('unit.token-value', { token, value })}
+          >
+            <div className={classes.statisticValue}>{value}</div>
+          </Tooltip>
 
-        {token && <div className={classes.statisticToken}>{token}</div>}
-      </div>
+          {token && <div className={classes.statisticToken}>{token}</div>}
+        </div>
+      )}
 
-      {usdEquivalent && (
+      {usdEquivalent && isLoading && <Skeleton width={40} />}
+
+      {usdEquivalent && !isLoading && (
         <div className={classes.usd} title={usdEquivalentText}>
           {usdEquivalentText}
         </div>

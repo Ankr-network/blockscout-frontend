@@ -20,7 +20,7 @@ import { ButtonsItem } from '../ButtonsItem';
 
 import { useTableStyles } from './useTableStyles';
 
-const SKELETON_ROWS_COUNT = 3;
+const SKELETON_ROWS_COUNT = 1;
 const SKELETON_COLUMN_WIDTHS = [200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,

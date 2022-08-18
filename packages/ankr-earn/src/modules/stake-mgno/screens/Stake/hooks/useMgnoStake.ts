@@ -16,6 +16,7 @@ interface IUseMgnoStake {
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
+  isApyLoading: boolean;
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
@@ -66,6 +67,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
     isStakeLoading: false,
     isBalanceLoading: false,
     isApproveLoading: false,
+    isApyLoading: false,
     isApproved,
     isDisabled: false,
     balance: ZERO,

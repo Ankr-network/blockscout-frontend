@@ -9,6 +9,7 @@ import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
 interface IStatsProps {
   amount: BigNumberish;
   apy: BigNumber;
+  isApyLoading: boolean;
 }
 
 interface IUseStats {
@@ -18,6 +19,7 @@ interface IUseStats {
   totalStaked?: string;
   totalStakedUSD?: string;
   stakers?: string;
+  isLoading: boolean;
 }
 
 export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
@@ -46,6 +48,7 @@ export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
     stakers: '10',
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
+    isLoading: false,
   };
 };
 

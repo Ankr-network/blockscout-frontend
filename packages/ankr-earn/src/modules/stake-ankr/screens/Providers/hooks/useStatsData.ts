@@ -10,18 +10,20 @@ import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 
 interface IStatsData {
   highestAPY: string;
+  apyLoading: boolean;
   tvl: string;
   lockingPeriod: number;
   rewards24h?: string;
   rewards30d?: string;
+  statsLoading: boolean;
 }
 
 export const useStatsData = (): IStatsData => {
   const dispatchRequest = useDispatchRequest();
-  const { data } = useQuery({
+  const { data, loading: statsLoading } = useQuery({
     type: getProvidersTotalInfo,
   });
-  const { data: maxApy } = useQuery({
+  const { data: maxApy, loading: apyLoading } = useQuery({
     type: getMaxApy,
   });
   const tvl = data?.totalTVL ?? ZERO;
@@ -36,7 +38,9 @@ export const useStatsData = (): IStatsData => {
     highestAPY:
       maxApy?.decimalPlaces(DEFAULT_ROUNDING).toFormat() ??
       TEMPORARY_APY.toFormat(),
+    apyLoading,
     tvl: getShortNumber(tvl),
     lockingPeriod: data?.lockingPeriod ?? 0,
+    statsLoading,
   };
 };

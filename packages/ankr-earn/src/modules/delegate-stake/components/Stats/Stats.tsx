@@ -11,6 +11,7 @@ interface IStatsProps {
   totalStakedUSD?: string;
   stakers?: string;
   token: string;
+  isLoading: boolean;
 }
 
 export const Stats = ({
@@ -21,16 +22,19 @@ export const Stats = ({
   totalStakedUSD,
   stakers,
   token,
+  isLoading,
 }: IStatsProps): JSX.Element => {
   return (
     <StatsBox>
       <StatsItem
+        isLoading={isLoading}
         label={t('delegated-stake.staking.stats.apy')}
         tooltip={t('delegated-stake.staking.stats.apy-tooltip')}
         value={apyText}
       />
 
       <StatsItem
+        isLoading={isLoading}
         label={t('delegated-stake.staking.stats.yearly-earning')}
         token={token}
         usdEquivalent={yearlyEarningUSD}
@@ -39,6 +43,7 @@ export const Stats = ({
 
       {totalStaked && (
         <StatsItem
+          isLoading={isLoading}
           label={t('delegated-stake.staking.stats.tvl')}
           token={token}
           usdEquivalent={totalStakedUSD}
@@ -48,6 +53,7 @@ export const Stats = ({
 
       {stakers && (
         <StatsItem
+          isLoading={isLoading}
           label={t('delegated-stake.staking.stats.stakers')}
           value={stakers}
         />

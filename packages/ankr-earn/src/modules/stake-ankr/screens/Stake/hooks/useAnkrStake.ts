@@ -31,6 +31,7 @@ interface IUseAnkrStake {
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
+  isApyLoading: boolean;
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
@@ -67,7 +68,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approve,
   });
-  const { data: apyData } = useQuery({
+  const { data: apyData, loading: isApyLoading } = useQuery({
     type: getAPY,
   });
 
@@ -122,6 +123,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
+    isApyLoading,
     isApproved,
     isDisabled:
       isProvidersLoading ||

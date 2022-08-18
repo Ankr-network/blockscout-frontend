@@ -14,6 +14,7 @@ import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTo
 interface IStatsProps {
   amount: BigNumberish;
   apy: BigNumber;
+  isApyLoading: boolean;
 }
 
 interface IUseStats {
@@ -23,14 +24,19 @@ interface IUseStats {
   totalStaked?: string;
   totalStakedUSD?: string;
   stakers?: string;
+  isLoading: boolean;
 }
 
-export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
+export const useStats = ({
+  amount,
+  apy,
+  isApyLoading,
+}: IStatsProps): IUseStats => {
   const dispatchRequest = useDispatchRequest();
-  const { data: ankrPrice } = useQuery({
+  const { data: ankrPrice, loading: isPriceLoading } = useQuery({
     type: getANKRPrice,
   });
-  const { data: totalInfo } = useQuery({
+  const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
     type: getProvidersTotalInfo,
   });
 
@@ -64,6 +70,7 @@ export const useStats = ({ amount, apy }: IStatsProps): IUseStats => {
     yearlyEarningUSD,
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
+    isLoading: isPriceLoading || isTotalInfoLoading || isApyLoading,
   };
 };
 
