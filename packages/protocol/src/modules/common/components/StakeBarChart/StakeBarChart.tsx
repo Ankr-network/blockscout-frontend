@@ -120,10 +120,15 @@ export const StakeBarChart = ({
         height={300}
         data={data}
         barSize={40}
-        margin={{ left: 0 }}
+        margin={{ left: 0, right: 12 }}
         reverseStackOrder
       >
-        <XAxis dataKey="name" tickLine={false} tickFormatter={xTickFormatter} />
+        <XAxis
+          interval={0}
+          dataKey="name"
+          tickLine={false}
+          tickFormatter={xTickFormatter}
+        />
         <YAxis
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary }}
