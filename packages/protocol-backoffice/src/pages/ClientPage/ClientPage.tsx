@@ -6,6 +6,7 @@ import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 import PAYGClientTable from './components/PAYGClientTable';
 import PremiumClientTable from './components/PremiumPlanClientTable';
 import { SearchClientsInput } from './components/SearchClientsInput';
+import { CreateClientButton } from './components/CreateClientButton';
 
 export const ClientPage = observer(() => {
   const initialTab = useInitialTab();
@@ -17,6 +18,7 @@ export const ClientPage = observer(() => {
   return (
     <>
       <PageHeader title="Client Page" />
+      <CreateClientButton />
       <SearchClientsInput emailStore={emailStore} />
       <div>
         <Menu selectedKeys={[initialTab]} onSelect={onSelect} mode="horizontal">

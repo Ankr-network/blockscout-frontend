@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import { IBackofficeGateway } from './interfaces';
 import {
+  ICreateTestClientRequest, ICreateTestClientResponse,
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
   IBalancesRequest,
@@ -74,6 +75,17 @@ export class BackofficeGateway implements IBackofficeGateway {
       {
         params,
       },
+    );
+
+    return response;
+  }
+
+  async createTestPremiumUser(
+    body: ICreateTestClientRequest,
+  ): Promise<ICreateTestClientResponse> {
+    const { data: response } = await this.api.post<ICreateTestClientResponse>(
+      '/newTestPremiumUrl',
+      body
     );
 
     return response;

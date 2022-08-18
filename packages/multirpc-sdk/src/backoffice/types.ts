@@ -63,6 +63,19 @@ export interface IEmailBindingsResponse {
   cursor: string;
 }
 
+export interface ICreateTestClientRequest {
+  address: Web3Address;
+  duration: number;
+}
+
+export interface ICreateTestClientResponse {
+  token: string,
+  id: string,
+  address: Web3Address,
+  tier: number,
+  roles: string,
+}
+
 export interface IUsageDetailEntity {
   count: string;
   method: string;

@@ -17,12 +17,17 @@ export const SearchClientsInput = observer(
       <div
         style={{
           position: 'absolute',
-          right: '150px',
+          right: '260px',
           width: '250px',
           top: '20px',
         }}
       >
-        <Input placeholder="Search by email" allowClear onChange={onChange} />
+        <Input
+          placeholder="Search by email or address"
+          allowClear
+          onChange={onChange}
+          disabled={emailStore.isLoading}
+        />
         {foundClients?.length > 0 && (
           <ul
             style={{
