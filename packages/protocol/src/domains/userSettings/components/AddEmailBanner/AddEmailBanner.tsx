@@ -1,10 +1,8 @@
 import { Dialog } from 'uiKit/Dialog';
 import { AddEmailBannerContent } from './components/AddEmailBannerContent';
 import { ContainerCard } from './components/ContainerCard/ContainerCard';
-import {
-  IUseAddEmailBannerProps,
-  useAddEmailBanner,
-} from './useAddEmailBanner';
+import { IUseAddEmailBannerProps } from './types';
+import { useAddEmailBanner } from './useAddEmailBanner';
 
 export const AddEmailBanner = (props: IUseAddEmailBannerProps) => {
   const {

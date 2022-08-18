@@ -20,8 +20,8 @@ const getUserTopRequests = ({
 
     const { chartData, listData } = formatChartData(
       total,
-      counts,
       statsTimeframe,
+      counts,
     );
 
     const result = {

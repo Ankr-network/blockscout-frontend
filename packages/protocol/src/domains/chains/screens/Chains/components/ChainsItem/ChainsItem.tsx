@@ -13,6 +13,9 @@ import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'ui';
 
+const publicKey = 'chains.links.public';
+const privateKey = 'chains.links.private';
+
 export const ChainsItem = ({
   chain,
   description,
@@ -22,6 +25,7 @@ export const ChainsItem = ({
   period,
   statsTimeframe,
   totalRequests,
+  isPremium,
 }: ChainsItemProps) => {
   const classes = useStyles();
 
@@ -32,6 +36,10 @@ export const ChainsItem = ({
     ),
     ...(chain.extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
   ];
+
+  const dummyMessage = t(isPremium ? privateKey : publicKey, {
+    number: urls.length,
+  });
 
   return (
     <NavLink
@@ -72,7 +80,7 @@ export const ChainsItem = ({
               noWrap
               color="textSecondary"
             >
-              {`${urls.length} public links`}
+              {dummyMessage}
             </Typography>
           )}
         </div>

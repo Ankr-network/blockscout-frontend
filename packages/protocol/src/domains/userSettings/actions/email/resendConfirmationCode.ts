@@ -1,35 +1,37 @@
 import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
-import { IEmailResponse, Web3Address } from 'multirpc-sdk';
+import { IEmailResponse } from 'multirpc-sdk';
 
 interface IResendConfirmationCodeParams {
-  address: Web3Address;
   email: string;
 }
 
-export const resendConfirmationCode = createAction<
-  RequestAction<IEmailResponse>,
+export const resendConfirmationCode = createSmartAction<
+  RequestAction<IEmailResponse, IEmailResponse>,
   [IResendConfirmationCodeParams]
->('userSettings/resendConfirmationCode', ({ address, email }) => ({
+>('userSettings/resendConfirmationCode', ({ email }) => ({
   request: {
-    promise: (async () => {
-      const service = await MultiService.getInstance();
-
-      const accountGateway = service.getAccountGateway();
-
-      const response = await accountGateway.resendConfirmationCode(email);
-
-      return response;
-    })(),
+    promise: (async () => null)(),
   },
   meta: {
-    requestKey: address,
     cache: false,
     asMutation: false,
     takeLatest: true,
     ...getEmailErrorConfig(),
+
+    onRequest: () => ({
+      promise: (async (): Promise<string> => {
+        const service = await MultiService.getInstance();
+
+        const accountGateway = service.getAccountGateway();
+
+        const response = await accountGateway.resendConfirmationCode(email);
+
+        return response;
+      })(),
+    }),
   },
 }));

@@ -12,6 +12,7 @@ export const PaymentsHistoryTable = () => {
   const {
     columns,
     hasMore,
+    initializing,
     loading,
     loadMore,
     paymentType,
@@ -20,10 +21,6 @@ export const PaymentsHistoryTable = () => {
     setTimeframe,
     timeframe,
   } = usePaymentHistoryTable();
-
-  const preloader = loading ? (
-    <Preloader className={classes.preloader} />
-  ) : null;
 
   return (
     <Box display="flex" flexDirection="column">
@@ -41,11 +38,12 @@ export const PaymentsHistoryTable = () => {
       <VirtualTable
         cols={columns}
         emptyMessage={t('account.payment-table.empty')}
+        initializing={initializing}
         isMoreRowsAvailable={hasMore}
         loading={loading}
         minWidth={650}
         onChangePage={loadMore}
-        preloader={preloader}
+        preloader={<Preloader className={classes.preloader} />}
         rows={rows}
       />
     </Box>

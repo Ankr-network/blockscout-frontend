@@ -13,8 +13,9 @@ import { useTransactions } from './useTransactions';
 export interface PaymentHistoryTable {
   columns: VirtualTableColumn<IPaymentHistoryEntity>[];
   hasMore: boolean;
-  loadMore: () => void;
+  initializing: boolean;
   loading: boolean;
+  loadMore: () => void;
   paymentType: PaymentType;
   rows: IPaymentHistoryEntity[];
   setPaymentType: (type: PaymentType) => void;
@@ -28,8 +29,9 @@ export const usePaymentHistoryTable = (): PaymentHistoryTable => {
 
   const {
     hasMore,
-    loadMore,
+    initializing,
     loading,
+    loadMore,
     transactions: rows,
   } = useTransactions({ timeframe, paymentType });
 
@@ -38,8 +40,9 @@ export const usePaymentHistoryTable = (): PaymentHistoryTable => {
   return {
     columns,
     hasMore,
-    loadMore,
+    initializing,
     loading,
+    loadMore,
     paymentType,
     rows,
     setPaymentType,
