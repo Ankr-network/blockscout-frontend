@@ -44,7 +44,7 @@ export const FeatureItem = ({
   const shouldRenderTvl =
     stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
 
-  const shouldRenderAPY = typeof apy === 'number';
+  const shouldRenderAPY = typeof apy === 'number' && apy !== 0;
 
   return (
     <FeatureItemBase
@@ -95,7 +95,7 @@ export const FeatureItem = ({
       statsSlot={
         <Grid container spacing={3}>
           <Grid item>
-            {isApyLoading && (
+            {isApyLoading && !apy && (
               <Skeleton
                 className={classes.skeleton}
                 height={48}
@@ -104,7 +104,7 @@ export const FeatureItem = ({
               />
             )}
 
-            {!isApyLoading && shouldRenderAPY && (
+            {shouldRenderAPY && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
                   {t('features.apy')}
