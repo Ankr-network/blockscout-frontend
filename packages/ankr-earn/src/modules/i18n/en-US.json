@@ -1021,7 +1021,7 @@
     },
     "total-info": {
       "stake": "Stake ANKR",
-      "claim-all": "Claim all",
+      "claim-all": "Claim",
       "claimable-rewards": "Claimable rewards",
       "epoch-ends": "Epoch ends in: ",
       "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
