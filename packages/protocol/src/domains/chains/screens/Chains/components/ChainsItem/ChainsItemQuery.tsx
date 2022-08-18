@@ -10,13 +10,17 @@ export const ChainsItemQuery = ({
   statsTimeframe,
   ...props
 }: ChainsItemQueryProps) => {
-  const [totalRequests, loading] = useChainsItem({ chain, statsTimeframe });
+  const [totalRequests, loading, isPremium] = useChainsItem({
+    chain,
+    statsTimeframe,
+  });
 
   return (
     <ChainsItem
       {...props}
       chain={chain}
       isLoading={loading}
+      isPremium={isPremium}
       statsTimeframe={statsTimeframe}
       totalRequests={totalRequests.toString() ?? ''}
     />

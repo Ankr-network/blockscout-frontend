@@ -109,6 +109,10 @@
     "breadcrumbs": "Endpoints",
     "title": "Choose Your Network",
     "more-details": "More",
+    "links": {
+      "public": "{number} public links",
+      "private": "{number} private links"
+    },
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
