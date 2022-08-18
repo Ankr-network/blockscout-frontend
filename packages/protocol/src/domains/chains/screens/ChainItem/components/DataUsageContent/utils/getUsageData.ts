@@ -4,6 +4,7 @@ import { PrivateStat } from 'multirpc-sdk';
 import { PublicStats, UsageData } from '../types';
 import { StatsTimeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
+import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 
 export interface UsageDataParams {
   arePrivateStatsLoading: boolean;
@@ -12,6 +13,7 @@ export interface UsageDataParams {
   privateStats: PrivateStat;
   publicStats: PublicStats;
   userTopRequests: TopRequestsResultData;
+  userTopRequestsIp: UserRequestsByIpData[];
   setStatsTimeframe: (timeframe: StatsTimeframe) => void;
   statsTimeframe: StatsTimeframe;
 }
@@ -31,6 +33,7 @@ export const getUsageData = ({
     totalRequestsHistory: publicTotalRequestsHistory,
   },
   userTopRequests,
+  userTopRequestsIp,
   setStatsTimeframe: setTimeframe,
   statsTimeframe: timeframe,
 }: UsageDataParams): UsageData => {
@@ -47,6 +50,7 @@ export const getUsageData = ({
     totalRequests: publicTotalRequests,
     totalRequestsHistory: publicTotalRequestsHistory,
     userTopRequests: undefined,
+    userTopRequestsIp: undefined,
   };
 
   const {
@@ -71,6 +75,7 @@ export const getUsageData = ({
       ),
     ),
     userTopRequests,
+    userTopRequestsIp,
   };
 
   return isWalletConnected ? privateUsageData : publicUsageData;

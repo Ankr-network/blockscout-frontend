@@ -41,7 +41,7 @@ export const useAddEmailForm = ({
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
       const { data, error } = await dispatchRequest(
-        addNewEmailBinding({ email, address }),
+        addNewEmailBinding({ email }),
       );
 
       const emailErrorMessage = getEmailErrorMessage({ email, error });
@@ -70,7 +70,7 @@ export const useAddEmailForm = ({
   const handleChangeEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
       const { data, error } = await dispatchRequest(
-        editEmailBinding({ address, email }),
+        editEmailBinding({ email }),
       );
 
       const emailErrorMessage = getEmailErrorMessage({ email, error });
@@ -115,11 +115,9 @@ export const useAddEmailForm = ({
 
   const onResendEmail = useCallback(() => {
     if (submittedData) {
-      dispatchRequest(
-        resendConfirmationCode({ address, email: submittedData.email }),
-      );
+      dispatchRequest(resendConfirmationCode({ email: submittedData.email }));
     }
-  }, [address, dispatchRequest, submittedData]);
+  }, [dispatchRequest, submittedData]);
 
   const {
     data: resendEmailData,
@@ -127,11 +125,12 @@ export const useAddEmailForm = ({
     error: resendEmailError,
   } = useQuery({
     type: resendConfirmationCode.toString(),
-    requestKey: address,
   });
 
-  const { errorMessage: resendEmailErrorMessage } =
-    useEmailErrorWithTimeout(resendEmailError);
+  const {
+    errorMessage: resendEmailErrorMessage,
+    eventHandler: handleResendEmail,
+  } = useEmailErrorWithTimeout(resendEmailError, onResendEmail);
 
   const onChangeEmail = useCallback(() => {
     onFormSubmit(undefined);
@@ -141,7 +140,7 @@ export const useAddEmailForm = ({
 
   const successStepProps = useMemo<ISuccessStepProps>(
     () => ({
-      onResendEmail,
+      onResendEmail: handleResendEmail,
       resendEmailData,
       resendEmailLoading,
       resendEmailErrorMessage,
@@ -149,8 +148,8 @@ export const useAddEmailForm = ({
       onChangeEmail: ENABLE_CHANGE_EMAIL ? onChangeEmail : undefined,
     }),
     [
+      handleResendEmail,
       onChangeEmail,
-      onResendEmail,
       resendEmailData,
       resendEmailErrorMessage,
       resendEmailLoading,

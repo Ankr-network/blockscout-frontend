@@ -20,6 +20,7 @@ export interface ILayoutProps {
   theme?: Themes;
   disableGutters?: boolean;
   hasNoReactSnap?: boolean;
+  hasError?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -27,8 +28,9 @@ export const DefaultLayout = ({
   theme = Themes.light,
   disableGutters = false,
   hasNoReactSnap = false,
+  hasError = false,
 }: ILayoutProps) => {
-  const classes = useStyles();
+  const classes = useStyles({ hasGradient: hasError });
   const { isWalletConnected, credentials, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
 
@@ -38,7 +40,11 @@ export const DefaultLayout = ({
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
-    <div className={classNames(classes.root, isDarkTheme && classes.darkTheme)}>
+    <div
+      className={classNames(classes.root, {
+        [classes.darkTheme]: isDarkTheme,
+      })}
+    >
       <ThemeProvider theme={currentTheme}>
         <SideBar
           className={classes.sidebar}
@@ -48,7 +54,7 @@ export const DefaultLayout = ({
           chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
-          <Header className={classes.header} />
+          {!hasError && <Header className={classes.header} />}
           <MobileHeader className={classes.mobileHeader} />
           <Container disableGutters={disableGutters} className={classes.main}>
             <Container

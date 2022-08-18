@@ -16,8 +16,9 @@ export interface ChainsItemParams {
 export const useChainsItem = ({
   chain: { id: chainId, totalRequests: publicTotalRequests = defaultRequests },
   statsTimeframe,
-}: ChainsItemParams): [BigNumber, boolean] => {
-  const { isWalletConnected } = useAuth();
+}: ChainsItemParams): [BigNumber, boolean, boolean] => {
+  const { isWalletConnected, credentials } = useAuth();
+  const isPremium = !!credentials;
 
   const arePublicStatsLoading = usePublicStats({
     chainId,
@@ -28,6 +29,6 @@ export const useChainsItem = ({
     usePrivateStats(chainId);
 
   return isWalletConnected
-    ? [new BigNumber(privateTotalRequests), arePrivateStatsLoading]
-    : [publicTotalRequests, arePublicStatsLoading];
+    ? [new BigNumber(privateTotalRequests), arePrivateStatsLoading, isPremium]
+    : [publicTotalRequests, arePublicStatsLoading, isPremium];
 };

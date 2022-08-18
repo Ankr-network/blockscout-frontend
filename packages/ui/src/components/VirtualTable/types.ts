@@ -11,6 +11,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   classes?: { root?: string; container?: string };
   cols: VirtualTableColumn<T>[];
   emptyMessage?: string;
+  initializing?: boolean;
   isMoreRowsAvailable?: boolean;
   loading?: boolean;
   minHeight?: number;
