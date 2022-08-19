@@ -60,6 +60,9 @@ export const useRequestsByIPStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
     fontSize: 16,
     lineHeight: '24px',
+    maxWidth: 200,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   line: {
     margin: theme.spacing(1, 0),

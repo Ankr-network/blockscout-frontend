@@ -18,15 +18,16 @@ interface IFetchTotalRequestsResponseData {
   totals: IRequestResult;
 }
 
-interface IFetchTotalRequestData {
+// stats for 1 day
+export interface ILegacyStandaloneStats {
   cachedRequests: number;
   requests: number;
   totalRequestsHistory: Record<string, number>;
 }
 
-export const fetchTotalRequests = createSmartAction<
-  RequestAction<IFetchTotalRequestsResponseData, IFetchTotalRequestData>
->('chains/fetchTotalRequests', (url: string) => ({
+export const fetchLegacyStandaloneRequests = createSmartAction<
+  RequestAction<IFetchTotalRequestsResponseData, ILegacyStandaloneStats>
+>('chains/fetchLegacyStandaloneRequests', (url: string) => ({
   request: {
     url,
     method: 'get',
