@@ -31,14 +31,18 @@ export const Pending = ({
   const classes = useStyles();
   const hasTooltip = !!tooltip;
 
-  const renderedPending = isUnstakeValueLoading ? (
-    <Skeleton
-      className={classes.pendingValue}
-      height={30}
-      variant="rect"
-      width={80}
-    />
-  ) : (
+  if (isUnstakeValueLoading) {
+    return (
+      <Skeleton
+        className={classes.pendingSkeleton}
+        height={28}
+        variant="rect"
+        width={200}
+      />
+    );
+  }
+
+  const renderedPending = (
     <Typography
       className={classNames(classes.root, hasTooltip && classes.hoverable)}
       onMouseEnter={onLoadHistory}

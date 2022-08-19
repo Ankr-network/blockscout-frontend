@@ -6,6 +6,8 @@ export const MGNO_STAKING_NETWORKS = [GNO_NETWORK_BY_ENV];
 
 export const MGNO_ACTIONS_PREFIX = 'mgno/';
 
+export const MGNO_STAKE_FORM_ID = 'mgnoStake';
+
 export const MGNO_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export enum EProviderStatus {

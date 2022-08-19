@@ -26,7 +26,6 @@ export const ButtonsItem = ({
       {stakeLink && (
         <NavLink
           className={classes.button}
-          color="primary"
           href={stakeLink}
           variant="contained"
         >
@@ -37,7 +36,6 @@ export const ButtonsItem = ({
       {detailsLink && (
         <NavLink
           className={classes.button}
-          color="primary"
           href={detailsLink}
           variant="outlined"
         >

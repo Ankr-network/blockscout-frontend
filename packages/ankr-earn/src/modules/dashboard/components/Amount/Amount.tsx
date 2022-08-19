@@ -1,10 +1,9 @@
-import { ButtonBase, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
-import { Tooltip } from 'uiKit/Tooltip';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useAmountStyles } from './useAmountStyles';
 
@@ -20,7 +19,6 @@ export const Amount = ({
   infoTooltip,
 }: IAmountProps): JSX.Element => {
   const classes = useAmountStyles();
-  const isActiveAmountInfo = !!infoSlot;
 
   return (
     <>
@@ -30,25 +28,11 @@ export const Amount = ({
         </Typography>
       )}
 
-      {isActiveAmountInfo && (
-        <Typography
-          className={classes.amountInfo}
-          color="textSecondary"
-          variant="subtitle1"
-        >
+      {infoSlot && (
+        <Typography className={classes.amountInfo} color="textSecondary">
           {infoSlot}
 
-          {infoTooltip && (
-            <Tooltip arrow title={infoTooltip}>
-              <ButtonBase className={classes.tooltipBtn}>
-                <QuestionIcon
-                  className={classes.amountInfoIcon}
-                  htmlColor="inherit"
-                  size="xs"
-                />
-              </ButtonBase>
-            </Tooltip>
-          )}
+          <QuestionWithTooltip>{infoTooltip}</QuestionWithTooltip>
         </Typography>
       )}
     </>

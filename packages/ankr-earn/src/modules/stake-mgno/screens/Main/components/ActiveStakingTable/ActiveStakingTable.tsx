@@ -15,10 +15,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
-import {
-  ProviderStatus,
-  ProviderStatusTooltip,
-} from 'modules/delegate-stake/components/ProviderStatus';
 import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getDemoProviderName } from 'modules/stake-mgno/utils/getDemoProviderName';
@@ -118,20 +114,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 <ProviderItem
                   name={getDemoProviderName(row.provider) ?? row.provider}
                   nodeAPY={row.apr}
-                  statusSlot={
-                    <ProviderStatus
-                      tooltipSlot={
-                        <ProviderStatusTooltip
-                          currentPeriod={10}
-                          latency={40}
-                          status={row.status}
-                          successRate={20}
-                          totalPeriod={10}
-                        />
-                      }
-                      type={row.status}
-                    />
-                  }
                 />
               </TableBodyCell>
 
@@ -147,6 +129,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 label={`${captions[ELabel.yourStake].label}`}
               >
                 <YourStakeItem
+                  unstakeDisabled
                   amount={row.stakeAmount}
                   stakeLink={' '}
                   token={Token.mGNO}

@@ -30,6 +30,8 @@ describe('modules/dashboard/screens/Dashboard/hooks/usePortfolioStakedData', () 
       data: [],
       isLoading: false,
       totalAmountUsd: ZERO,
+      totalYieldAmountUsd: ZERO,
+      apr: ZERO,
     });
   });
 });

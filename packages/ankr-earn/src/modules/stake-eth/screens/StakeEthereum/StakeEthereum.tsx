@@ -5,9 +5,10 @@ import { useDispatch } from 'react-redux';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { featuresConfig } from 'modules/common/const';
+import { AUDIT_LINKS, featuresConfig } from 'modules/common/const';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
@@ -99,6 +100,11 @@ export const StakeEthereum = (): JSX.Element => {
         {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 
         <StakeForm
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.eth} variant="beosin" />
+            </AuditInfo>
+          }
           balance={balance}
           feeSlot={
             <StakeFeeInfo

@@ -17,7 +17,7 @@ export interface IHistoryDialogProps {
   tokenAddress: string;
   moreHref?: string;
   description: string;
-  addTokenToWallet: () => void;
+  addTokenToWallet?: () => void;
   onClose?: () => void;
 }
 
@@ -87,11 +87,13 @@ export const TokenInfoDialog = ({
 
         <div className={classes.buttons}>
           <Grid container spacing={3}>
-            <Grid item xs>
-              <Button fullWidth variant="outlined" onClick={addTokenToWallet}>
-                {t('dashboard.token-info.addToken', { token: tokenName })}
-              </Button>
-            </Grid>
+            {typeof addTokenToWallet === 'function' && (
+              <Grid item xs>
+                <Button fullWidth variant="outlined" onClick={addTokenToWallet}>
+                  {t('dashboard.token-info.addToken', { token: tokenName })}
+                </Button>
+              </Grid>
+            )}
 
             {moreHref && (
               <Grid item xs>

@@ -10,7 +10,9 @@ import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
 export interface IStakedANKRData {
   stakedAmount: BigNumber;
+  rewardsAmount: BigNumber;
   stakedUsdEquivalent: BigNumber;
+  rewardsUsdEquivalent: BigNumber;
   stakedTooltip: string;
   network: string;
   manageLink: string;
@@ -24,15 +26,23 @@ export const useStakedANKRData = (): IStakedANKRData => {
 
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
   const stakedAmount = data?.totalDelegatedAmount ?? ZERO;
+  const rewardsAmount =
+    data?.claimableRewards.reduce(
+      (acc, { amount }) => acc.plus(amount),
+      ZERO,
+    ) ?? ZERO;
 
   const usdPrice = ankrPrice ?? ZERO;
   const stakedUsdEquivalent = stakedAmount.multipliedBy(usdPrice);
+  const rewardsUsdEquivalent = rewardsAmount.multipliedBy(usdPrice);
 
   const isShowed = loading || !stakedAmount.isZero();
 
   return {
     stakedAmount,
+    rewardsAmount,
     stakedUsdEquivalent,
+    rewardsUsdEquivalent,
     stakedTooltip: '',
     network,
     manageLink: RoutesConfig.main.generatePath(),

@@ -3,6 +3,7 @@ import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import BigNumber from 'bignumber.js';
 
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
@@ -19,6 +20,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(5_000),
         amount: new BigNumber(1),
         icon: AETHBIcon,
+        isNative: false,
       },
       {
         name: Token.aETHc,
@@ -26,6 +28,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(2_000),
         amount: new BigNumber(1),
         icon: AETHCIcon,
+        isNative: false,
       },
       {
         name: Token.ETH,
@@ -33,11 +36,16 @@ describe('modules/dashboard/components/PortfolioChart', () => {
         usdAmount: new BigNumber(3_000),
         amount: new BigNumber(1),
         icon: EthIcon,
+        isNative: true,
       },
     ],
     isLoading: false,
     totalNativeAmountUsd: new BigNumber(1),
     totalStakedAmountUsd: new BigNumber(1),
+    stakedApr: new BigNumber(100),
+    nativeApr: new BigNumber(100),
+    totalStakedYieldAmountUsd: new BigNumber(1),
+    totalNativeYieldAmountUsd: new BigNumber(1),
     height: 350,
     width: 350,
   };
@@ -101,5 +109,35 @@ describe('modules/dashboard/components/PortfolioChart', () => {
     });
 
     expect(item).toBeInTheDocument();
+  });
+
+  test('should render with zero values', async () => {
+    render(
+      <PortfolioChart
+        {...defaultProps}
+        nativeApr={ZERO}
+        stakedApr={ZERO}
+        totalNativeAmountUsd={ZERO}
+        totalNativeYieldAmountUsd={ZERO}
+        totalStakedAmountUsd={ZERO}
+        totalStakedYieldAmountUsd={ZERO}
+      />,
+    );
+
+    const title = await screen.findByText('My portfolio');
+    const chart = await screen.findByTestId('portfolio-chart');
+
+    expect(title).toBeInTheDocument();
+    expect(chart).toBeInTheDocument();
+  });
+
+  test('should not render if there is no data', () => {
+    render(<PortfolioChart {...defaultProps} data={[]} />);
+
+    const title = screen.queryByText('My portfolio');
+    const chart = screen.queryByTestId('portfolio-chart');
+
+    expect(title).not.toBeInTheDocument();
+    expect(chart).not.toBeInTheDocument();
   });
 });

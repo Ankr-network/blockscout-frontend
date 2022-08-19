@@ -3,7 +3,11 @@ import { makeStyles } from '@material-ui/core';
 export const usePortfolioChartStyles = makeStyles(theme => ({
   root: {
     marginBottom: theme.spacing(7),
-    padding: theme.spacing(7),
+    padding: theme.spacing(7, 5),
+
+    [theme.breakpoints.down('lg')]: {
+      padding: theme.spacing(3.5),
+    },
 
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(4),
@@ -30,19 +34,6 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     fill: theme.palette.text.secondary,
     fontSize: 14,
     fontWeight: 'bold',
-  },
-
-  tooltip: {
-    opacity: 0,
-    position: 'absolute',
-    textAlign: 'center',
-    padding: 0,
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.text.primary,
-    border: 'none',
-    borderRadius: theme.spacing(1),
-    pointerEvents: 'none',
-    fontSize: '1rem',
   },
 
   activeTooltip: {

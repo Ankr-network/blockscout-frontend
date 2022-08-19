@@ -13,7 +13,7 @@ export const AssetsList = ({ children }: IAssetsListProps): JSX.Element => {
         children,
         (child, index) =>
           !!child && (
-            <Grid key={uid(index)} item lg={6} xs={12}>
+            <Grid key={uid(index)} item lg={12} xs={12}>
               {child}
             </Grid>
           ),

@@ -16,7 +16,8 @@ import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
 import { RoutesConfig as FantomRoutes } from 'modules/stake-fantom/Routes';
-import { RoutesConfig as PolygonRoutes } from 'modules/stake-matic/eth/Routes';
+import { RoutesConfig as StakeMaticCommonRoutes } from 'modules/stake-matic/common/Routes';
+import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
@@ -35,7 +36,7 @@ import { useLiquidStakingTokensStyles } from './useLiquidStakingTokensStyles';
 
 export const LiquidStakingTokens = (): JSX.Element => {
   const classes = useLiquidStakingTokensStyles();
-  const { onTrackEnterStakingFlow, metrics } = useStakeMainScreen();
+  const { onTrackEnterStakingFlow, metrics, loading } = useStakeMainScreen();
 
   return (
     <>
@@ -47,6 +48,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.eth.apy}
           iconSlot={<EthIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
           mainHref={EthereumRoutes.stake.generatePath()}
           moreHref={ANKR_ETH_LANDING}
           stakedTvl={metrics?.eth.totalStaked}
@@ -57,7 +60,13 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.matic.apy}
           iconSlot={<MaticIcon />}
-          mainHref={PolygonRoutes.stake.generatePath()}
+          isApyLoading={loading}
+          isTvlLoading={loading}
+          mainHref={
+            featuresConfig.maticPolygonStaking
+              ? StakeMaticCommonRoutes.stake.path
+              : StakeMaticEthRoutes.stake.generatePath()
+          }
           moreHref={ANKR_MATIC_LANDING}
           stakedTvl={metrics?.matic.totalStaked}
           title={t('features.polygon')}
@@ -68,6 +77,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.bnb.apy}
           iconSlot={<BNBIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
           mainHref={BinanceRoutes.stake.generatePath()}
           moreHref={ANKR_BNB_LANDING}
           stakedTvl={metrics?.bnb.totalStaked}
@@ -79,6 +90,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.ftm.apy}
           iconSlot={<FantomIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
           mainHref={FantomRoutes.stake.generatePath()}
           moreHref={getStakingOverviewUrl(Token.FTM)}
           stakedTvl={metrics?.ftm.totalStaked}
@@ -90,6 +103,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
         <FeatureItem
           apy={metrics && +metrics.avax.apy}
           iconSlot={<AvaxIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
           mainHref={AvalancheRoutes.stake.generatePath()}
           moreHref={getStakingOverviewUrl(Token.AVAX)}
           stakedTvl={metrics?.avax.totalStaked}
@@ -102,6 +117,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           <FeatureItem
             apy={metrics && +metrics.dot.apy}
             iconSlot={<DotIcon />}
+            isApyLoading={loading}
+            isTvlLoading={loading}
             mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT)}
             moreHref={getStakingOverviewUrl(Token.DOT)}
             stakedTvl={metrics?.dot.totalStaked}
@@ -121,6 +138,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           <FeatureItem
             apy={metrics && +metrics.ksm.apy}
             iconSlot={<KsmIcon />}
+            isApyLoading={loading}
+            isTvlLoading={loading}
             mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM)}
             moreHref={getStakingOverviewUrl(Token.KSM)}
             stakedTvl={metrics?.ksm.totalStaked}
@@ -140,6 +159,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           <FeatureItem
             apy={metrics && +metrics.wnd.apy}
             iconSlot={<DotIcon />}
+            isApyLoading={loading}
+            isTvlLoading={loading}
             mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND)}
             moreHref={getStakingOverviewUrl(Token.WND)}
             stakedTvl={metrics?.wnd.totalStaked}

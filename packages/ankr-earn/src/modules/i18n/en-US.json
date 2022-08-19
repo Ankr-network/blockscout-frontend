@@ -92,6 +92,7 @@
     "dot": "DOT",
     "ksm": "KSM",
     "wnd": "WND",
+    "mgno": "mGNO",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
@@ -134,6 +135,11 @@
     "250": "Fantom Opera",
     "4002": "Fantom Testnet",
     "80001": "Mumbai"
+  },
+  "audit-info": {
+    "label": "Audited by",
+    "beosin": "Beosin",
+    "peckshield": "PeckShield"
   },
   "not-found": {
     "title": "Page not found",
@@ -364,7 +370,7 @@
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     }
   },
-  "delegate-stake": {
+  "delegated-stake": {
     "header": {
       "my-staking": "My {token} Staking",
       "node-providers": "Node providers"
@@ -376,7 +382,22 @@
     "total-info": {
       "stake": "Stake {token}",
       "staked": "Total Staked"
-    }
+    },
+    "staking": {
+      "title": "{token} Staking",
+      "approve": "Approve",
+      "submit": "Stake",
+      "get-mgno": "Get mGNO",
+      "stats": {
+        "apy": "APY",
+        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
+        "yearly-earning": "Yearly earning",
+        "tvl": "Staked with pool",
+        "stakers": "Stakers"
+      }
+    },
+    "node-banner": "We are working on expanding the <br/>",
+    "node-banner-color": "list of node providers"
   },
   "claim": {
     "title": "Claim liquid staking token",
@@ -843,7 +864,8 @@
       "aKSMb": "aKSMb represents your staked KSM and provides liquidity for your staked position.<br/><br/>aKSMb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aKSMb = 1 KSM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aKSMb for trading and other DeFi opportunities.",
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
-      "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities."
+      "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
+      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APY."
     }
   },
   "defi": {
@@ -919,7 +941,6 @@
   },
   "bridge": {
     "main": {
-      "audited": "Audited by Beosin",
       "finish-bridge": "Finish Bridge",
       "title": "Ankr Bridge",
       "connectBtn": "Connect your wallet",
@@ -1000,9 +1021,10 @@
     },
     "total-info": {
       "stake": "Stake ANKR",
-      "claim-all": "Claim all",
+      "claim-all": "Claim",
       "claimable-rewards": "Claimable rewards",
-      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only.<br/><br/>Next epoch ends in <b>{value}</b>"
+      "epoch-ends": "Epoch ends in: ",
+      "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
     },
     "provider": {
       "cur-highest-apy": "Current Highest APY",
@@ -1010,7 +1032,7 @@
       "tvl": "TVL",
       "tvl-tooltip": "Total value  locked by all stakers to all Node providers",
       "locking-period": "Locking Period",
-      "locking-period-tooltip": "The period for which the delegated amount as well as the accumulated rewards are not available for withdrawal. Usually it's 84-91 days.",
+      "locking-period-tooltip": "The period of 84–91 days when you cannot withdraw your stake.<br/>When it’s over, your stake keeps generating rewards until you manually unstake it.",
       "24h-rewards": "24h Rewards",
       "24h-rewards-tooltip": "The total rewards generated by all validators in the last 24 hours. ",
       "30d-rewards": "30d Rewards",
@@ -1063,8 +1085,7 @@
       "exit-days": "Exit in {value} days",
       "exit-day": "Exit in {value} day",
       "bonding-days": "Bonding, {value} days left",
-      "bonding-day": "Bonding, {value} day left",
-      "expand-description": "We are working on expanding the<br/> <span>list of node providers</span>"
+      "bonding-day": "Bonding, {value} day left"
     },
     "staking-table": {
       "node-provider": "Node Provider",
@@ -1106,31 +1127,23 @@
     },
     "usnupported": {
       "title": "Start staking ANKR",
-      "description": "To be able to use this service, please connect to the <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>.",
+      "description": "Please connect your <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>. Support for additional connections like TrustWallet will be available soon.",
       "btn": "Connect"
     },
     "staking": {
-      "title": "ANKR Staking",
       "more-title": "Stake more ANKR",
       "approve": "Approve",
       "submit": "Send",
       "provider-label": "Node Provider",
       "provider-placeholder": "Select node provider",
       "locking-period": "Locking period",
-      "locking-period-tooltip": "The period for which the delegated amount as well as the accumulated rewards are not available for withdrawal. Usually it's 84-91 days.",
+      "locking-period-tooltip": "The period of 84–91 days when you cannot withdraw your stake.<br/>When it’s over, your stake keeps generating rewards until you manually unstake it.",
       "locking-period-value": "{days} days",
       "new-total-stake": "New Total Stake",
       "apy": "APY",
       "add-amount": "Add Amount",
       "locking-info": "Your new stake will be locked for {value} days. You will earn rewards during this period that will be claimable when the locking period is over.",
-      "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee",
-      "stats": {
-        "apy": "APY",
-        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-        "yearly-earning": "Yearly earning",
-        "tvl": "Staked with pool",
-        "stakers": "Stakers"
-      }
+      "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee"
     },
     "unstaking": {
       "title": "Unstake ANKR",
@@ -1144,11 +1157,9 @@
     "info-header": {
       "all-rewards": "All Rewards",
       "epoch-ends": "Epoch ends",
-      "epoch-ends-days": "{value} days",
-      "epoch-ends-day": "{value} day",
-      "epoch-ends-hours": "{value} hours",
-      "epoch-ends-hour": "{value} hour",
-      "epoch-ends-min": "{value} min"
+      "epoch-ends-day": "{value}d",
+      "epoch-ends-hour": "{value}h",
+      "epoch-ends-min": "{value}m"
     },
     "restake": {
       "title": "Restake ANKR Rewards",
@@ -1210,6 +1221,30 @@
         "rps": "RPS",
         "btn": "Select provider"
       }
+    },
+    "faq": {
+      "question-1": "Is staking ANKR compatible for all ANKR token types: ERC20,  BEP2, and BEP20?",
+      "answer-1": "As of now, staking ANKR is only available on ERC20.",
+      "question-2": "What is the minimum and maximum amount of ANKR I can stake?​​",
+      "answer-2": " Min: 1000 ANKR, Max: unlimited.",
+      "question-3": "When can I unstake?",
+      "answer-3": "After the locking period of 84-91 days, which begins after you stake, you’ll be able to unstake your tokens and claim your rewards.",
+      "question-4": "What if I want to stake more after already staking some ANKR?",
+      "answer-4": "For each staking transaction, a new lockup period will apply.",
+      "question-5": "How long does it take to unstake my ANKR?​",
+      "answer-5": "1) Undelegation (Unstake button) lasts one complete epoch. The process can take 7-14 days.<br/>2) Once your ANKR is undelegated, you can claim it.",
+      "question-6": "How soon after staking will I begin to receive rewards?​",
+      "answer-6": "Rewards accruals occur at the end of each epoch (7 days) and are immediately available for claiming.",
+      "question-7": "Can I stake with Ledger if I connect it with Metamask?",
+      "answer-7": "Yes!",
+      "question-8": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-8": " ANKR token staking does not involve any slashing or other penalties.",
+      "question-9": "If I re-invest (Restake button) my rewards, will these have a locking period as well? And of how many days?",
+      "answer-9": "Staking your rewards without claiming them is considered as a regular staking transaction and will have the normal locking period.",
+      "question-10": "If I don’t unstake after the locking period is over, will I continue to earn staking rewards?",
+      "answer-10": "Yes! You will continue to collect rewards until you unstake.",
+      "question-11": "Must rewards be claimed from the site, or will they be automatically sent to the “supplying” wallet?",
+      "answer-11": "Rewards must be claimed from the website."
     }
   },
   "stake-mgno": {
@@ -1223,6 +1258,11 @@
     "tabs": {
       "active-staking": "Active Staking",
       "history": "History"
+    },
+    "staking": {
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max. This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "slashing-protection": "New slashing protection",
+      "slashing-protection-tooltip": "tooltip"
     },
     "staking-table": {
       "node-provider": "Node Provider",
@@ -1238,6 +1278,17 @@
       "event": "Event",
       "provider": "Provider",
       "amount": "Amount"
+    },
+    "provider": {
+      "node-provider": "Node Provider",
+      "slashing-protection": "Slashing protection",
+      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool.",
+      "insurance-pool": "Insurance pool",
+      "insurance-pool-tooltip": "The insurance pool is a reserve of staked amounts from both node providers and stakers that can be used to cover possible slashing.",
+      "staked-available": "Staked/Available",
+      "staked-available-tooltip": "Amount already delegated to this Validator and free validation capacity.",
+      "net-apr": "Net APR",
+      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties."
     }
   },
   "convert": {

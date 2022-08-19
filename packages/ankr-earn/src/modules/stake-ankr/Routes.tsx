@@ -14,8 +14,6 @@ import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 const ROOT = `${STAKING_PATH}ankr-stake/`;
 const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
-const STAKE_MORE_PATH = `${ROOT}stake-more/`;
-const STAKE_MORE_WITH_PROVIDER_PATH = `${STAKE_MORE_PATH}?provider=:provider?`;
 const RESTAKE_PATH = `${ROOT}restake/`;
 const RESTAKE_WITH_PROVIDER_PATH = `${RESTAKE_PATH}?provider=:provider?`;
 const CLAIM_ALL_UNSTAKES_PATH = `${ROOT}claim-all-unstakes/`;
@@ -28,7 +26,6 @@ const UNSTAKE_PATH = `${ROOT}unstake/`;
 const UNSTAKE_WITH_PROVIDER_PATH = `${UNSTAKE_PATH}?provider=:provider?`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;
-const STEPS_STAKE_MORE_PATH = `${STAKE_MORE_PATH}steps/:txHash/`;
 const STEPS_UNSTAKE_PATH = `${UNSTAKE_PATH}steps/:txHash/`;
 const STEPS_CLAIM_UNSTAKES_PATH = `${CLAIM_UNSTAKES_PATH}steps/:txHash/`;
 const STEPS_CLAIM_REWARDS_PATH = `${CLAIM_REWARDS_PATH}steps/:txHash/`;
@@ -66,25 +63,6 @@ export const RoutesConfig = createRouteConfig(
       path: STEPS_STAKE_PATH,
       generatePath: (options: { txHash: string }) =>
         generatePath(STEPS_STAKE_PATH, options),
-    },
-
-    stakeMore: {
-      path: STAKE_MORE_PATH,
-      generatePath: (provider: string) =>
-        generatePath(STAKE_MORE_WITH_PROVIDER_PATH, { provider }),
-      useParams: () => {
-        const queryProvider = useQueryParams().get('provider');
-
-        return {
-          provider: queryProvider ?? undefined,
-        };
-      },
-    },
-
-    stakeMoreSteps: {
-      path: STEPS_STAKE_MORE_PATH,
-      generatePath: (options: { txHash: string }) =>
-        generatePath(STEPS_STAKE_MORE_PATH, options),
     },
 
     restake: {
@@ -219,10 +197,6 @@ const UnstakeSteps = loadComponent(() =>
   import('./screens/UnstakeSteps').then(module => module.UnstakeSteps),
 );
 
-const StakeMore = loadComponent(() =>
-  import('./screens/StakeMore').then(module => module.StakeMore),
-);
-
 const Unstake = loadComponent(() =>
   import('./screens/Unstake').then(module => module.Unstake),
 );
@@ -270,19 +244,6 @@ export function getRoutes(): JSX.Element {
           <DefaultLayout>
             <SupportGuard>
               <Stake />
-            </SupportGuard>
-          </DefaultLayout>
-        </GuardETHRoute>
-
-        <GuardETHRoute
-          exact
-          availableNetworks={ANKR_STAKING_NETWORKS}
-          path={RoutesConfig.stakeMore.path}
-          providerId={ANKR_PROVIDER_ID}
-        >
-          <DefaultLayout>
-            <SupportGuard>
-              <StakeMore />
             </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
@@ -355,10 +316,7 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
-          path={[
-            RoutesConfig.stakeSteps.path,
-            RoutesConfig.stakeMoreSteps.path,
-          ]}
+          path={RoutesConfig.stakeSteps.path}
           providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
