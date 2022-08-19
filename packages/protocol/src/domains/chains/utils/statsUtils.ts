@@ -6,7 +6,7 @@ const BSC_STATS_RPC = 'https://bscrpc.com/api/data/stats';
 const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
 
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
-const FIFTEEN_MINUTES_INTERVAL = 4;
+export const FIFTEEN_MINUTES_INTERVAL = 4;
 export const SEVEN_DAYS_IN_WEEK = 7;
 
 export const timeframeToIntervalMap: Record<
@@ -18,7 +18,7 @@ export const timeframeToIntervalMap: Record<
   [StatsTimeframe.MONTH]: PrivateStatsInterval.MONTH,
 };
 
-export const getUrlByChainId = (chainId: string) => {
+export const getLegacyStandaloneUrl = (chainId: string) => {
   let url = '';
 
   if (chainId === 'polygon') {
@@ -44,20 +44,21 @@ export const getMultiplier = (timeframe: Timeframe) => {
   return multiplier;
 };
 
-export const mappingTotalRequestsHistory = (
-  totalRequests: Record<string, number>,
+export const formatLegacyRequestsHistoryTo15MinutesInterval = (
+  legacyRequests: Record<string, number>,
 ) => {
-  const mappingHistory: Record<string, number> = {};
+  const data: Record<string, number> = {};
 
-  Object.keys(totalRequests).forEach((key: string) => {
-    const value = totalRequests[key] / FIFTEEN_MINUTES_INTERVAL;
+  Object.keys(legacyRequests).forEach((key: string) => {
+    const value = legacyRequests[key] / FIFTEEN_MINUTES_INTERVAL;
+
     for (let i = 0; i < 4; i++) {
       const timestamp = Number(key) - FIFTEEN_MINUTES_IN_MS * i;
-      mappingHistory[timestamp] = Math.ceil(value);
+      data[timestamp] = Math.ceil(value);
     }
   });
 
-  return mappingHistory;
+  return data;
 };
 
 export const calculateOnedayRequests = (
