@@ -40,6 +40,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
   const {
     isAssetsShowed,
+    isDelegateAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
     isAETHCBridgedShowed,
@@ -72,15 +73,25 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     <Box {...props}>
       {isAssetsShowed ? (
         <>
+          {isDelegateAssetsShowed && (
+            <Box mb={7}>
+              <Typography className={classes.title} variant="h3">
+                {t('dashboard.delegateAssets')}
+              </Typography>
+
+              <AssetsList>
+                {isANKRShowed && <StakedANKR />}
+
+                {isMGNOShowed && <StakedMGNO />}
+              </AssetsList>
+            </Box>
+          )}
+
           <Typography className={classes.title} variant="h3">
-            {t('dashboard.assets')}
+            {t('dashboard.liquidAssets')}
           </Typography>
 
           <AssetsList>
-            {isANKRShowed && <StakedANKR />}
-
-            {isMGNOShowed && <StakedMGNO />}
-
             {isUnclaimedEthShowed && <UnclaimedETH />}
 
             {isDOTShowed && <UnclaimedDOT />}

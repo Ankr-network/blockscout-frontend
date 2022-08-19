@@ -72,23 +72,20 @@ export const PortfolioChart = ({
 
   const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
 
-  const items = useMemo(
+  const nativeTokens = useMemo(
     () =>
-      data.map((item, index) => ({
-        ...item,
-        color: item.isNative ? COLORS[COLORS.length - 1] : COLORS[index],
-      })),
+      data
+        .filter(({ isNative }) => isNative)
+        .map(item => ({ ...item, color: COLORS[COLORS.length - 1] })),
     [data],
   );
 
-  const nativeTokens = useMemo(
-    () => items.filter(({ isNative }) => isNative),
-    [items],
-  );
-
   const syntheticTokens = useMemo(
-    () => items.filter(({ isNative }) => !isNative),
-    [items],
+    () =>
+      data
+        .filter(({ isNative }) => !isNative)
+        .map((item, index) => ({ ...item, color: COLORS[index] })),
+    [data],
   );
 
   const chartData = useMemo(

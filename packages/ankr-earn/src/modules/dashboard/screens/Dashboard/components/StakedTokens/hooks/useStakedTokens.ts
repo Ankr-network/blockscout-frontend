@@ -27,6 +27,7 @@ import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
+  isDelegateAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
   isAETHBSCShowed: boolean;
@@ -160,8 +161,11 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isANKRShowed ||
     isMGNOShowed;
 
+  const isDelegateAssetsShowed = isANKRShowed || isMGNOShowed;
+
   return {
     isAssetsShowed: atLeastOneShowed,
+    isDelegateAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
     isAETHBSCShowed,
