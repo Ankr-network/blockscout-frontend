@@ -9,14 +9,14 @@ export const NetworkIconTextSkeleton = (): JSX.Element => {
 
   return (
     <Grid container alignItems="center" spacing={2}>
-      <Grid item>
+      <Grid item xs="auto">
         <Skeleton
           className={classNames(classes.icon, classes.iconSkeleton)}
           variant="rect"
         />
       </Grid>
 
-      <Grid item>
+      <Grid item xs>
         <Typography className={classes.token}>
           <Skeleton width={80} />
         </Typography>

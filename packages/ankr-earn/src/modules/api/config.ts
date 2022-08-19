@@ -61,6 +61,8 @@ interface IPolygonConfig {
   bridge: string;
   aMATICbToken: string;
   aMATICcToken: string;
+  maticToken: string;
+  swapPool: string;
 }
 
 export interface IGatewayConfig {
@@ -131,6 +133,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     bridge: '0x39809FeE5E787e7c60c0c531e85Af90ce0f777FC',
     aMATICbToken: '0x219316af7edd3870a2ca71dea38c7ebcfb3b3dc0',
     aMATICcToken: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
+    maticToken: '0x0000000000000000000000000000000000001010',
+    swapPool: '0x149372728fC852E6A724C59CDfB41dF0799fe042',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -203,6 +207,11 @@ const MAINNET_CONFIG: IStkrConfig = {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
+    maticToken: '0x0000000000000000000000000000000000001010',
+    /**
+     * TODO Add valid token address for Mainnet (MATIC on Polygon)
+     */
+    swapPool: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

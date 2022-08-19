@@ -22,7 +22,9 @@ export const useLiquidCrowdloanAssetStyles = makeStyles<Theme>(theme => ({
   },
 
   claimButton: {
-    width: 115,
+    fontSize: 16,
+    height: 44,
+    width: 104,
   },
 
   btnSkeleton: {

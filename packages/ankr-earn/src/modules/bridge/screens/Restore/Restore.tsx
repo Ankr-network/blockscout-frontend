@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { goBack, push } from 'connected-react-router';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
@@ -12,8 +12,8 @@ import { Notice } from 'ui';
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
-import { AuditedLabel } from 'modules/common/components/AuditedLabel';
-import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
+import { AUDIT_LINKS } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { isValidETHTransaction } from 'modules/common/utils/isValidETHTransaction';
@@ -141,7 +141,7 @@ export const Restore = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 8 }}>
       <BridgeContainer>
-        <Box component={Paper} pb={2} pl={7} position="relative" pr={7} pt={6}>
+        <Box component={Paper} pb={4} pl={7} position="relative" pr={7} pt={6}>
           <CloseButton onClose={handleClose} />
 
           <Form
@@ -151,7 +151,9 @@ export const Restore = (): JSX.Element => {
             onSubmit={onSubmit}
           />
 
-          <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
+          <AuditInfo>
+            <AuditInfoItem link={AUDIT_LINKS.bridge} variant="beosin" />
+          </AuditInfo>
         </Box>
       </BridgeContainer>
 

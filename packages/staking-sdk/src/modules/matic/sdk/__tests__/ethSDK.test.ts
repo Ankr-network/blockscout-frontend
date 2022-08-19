@@ -580,8 +580,8 @@ describe('modules/matic/sdk/ethSDK', () => {
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(48800),
-      pendingCertificate: new BigNumber(11956),
+      pendingBond: new BigNumber(80800),
+      pendingCertificate: new BigNumber(19796),
     });
   });
 

@@ -25,7 +25,7 @@ import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
-const SKELETON_ROWS_COUNT = 3;
+const SKELETON_ROWS_COUNT = 1;
 const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 300];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
@@ -252,9 +252,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 >
                   <YourStakeItem
                     amount={row.stakeAmount}
-                    stakeLink={RoutesConfig.stakeMore.generatePath(
-                      row.provider,
-                    )}
+                    stakeLink={RoutesConfig.stake.generatePath(row.provider)}
                     token={Token.ANKR}
                     unstakeLink={unstakeLink}
                     usdAmount={row.usdStakeAmount}

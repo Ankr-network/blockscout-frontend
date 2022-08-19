@@ -37,9 +37,9 @@ export function Routes(): JSX.Element {
 
       {getStakeRoutes()}
 
-      {featuresConfig.maticPolygonStaking && getStakeMaticCommonRoutes()}
-
-      {getStakeMaticEthRoutes()}
+      {featuresConfig.maticPolygonStaking
+        ? getStakeMaticCommonRoutes()
+        : getStakeMaticEthRoutes()}
 
       {getStakeAvalancheRoutes()}
 

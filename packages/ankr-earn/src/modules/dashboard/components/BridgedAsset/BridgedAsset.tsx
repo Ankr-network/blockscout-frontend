@@ -84,6 +84,18 @@ export const BridgedAsset = ({
     </>
   );
 
+  const menuSlot = (
+    <Menu>
+      <CopyTokenAddress address={tokenAddress ?? ''} />
+
+      {!isFirefox ? (
+        <Menu.Item onClick={onAddTokenToWallet}>
+          {t('dashboard.card.addToMetamask')}
+        </Menu.Item>
+      ) : null}
+    </Menu>
+  );
+
   return (
     <DashboardCard
       amountSlot={
@@ -95,8 +107,13 @@ export const BridgedAsset = ({
       }
       badgeSlot={pendingSlot}
       buttonsSlot={
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={2}
+        >
+          <Grid item className={classes.wrapper}>
             <NavLink
               className={classes.tradeButton}
               href={BridgeRoutes.main.generatePath()}
@@ -106,7 +123,7 @@ export const BridgedAsset = ({
             </NavLink>
           </Grid>
 
-          <Grid item>
+          <Grid item className={classes.wrapper}>
             {tradeLink ? (
               <NavLink
                 className={classes.tradeButton}
@@ -131,19 +148,7 @@ export const BridgedAsset = ({
           </Grid>
         </Grid>
       }
-      menuSlot={
-        <Box component="span" display="flex">
-          <Menu>
-            <CopyTokenAddress address={tokenAddress ?? ''} />
-
-            {!isFirefox ? (
-              <Menu.Item onClick={onAddTokenToWallet}>
-                {t('dashboard.card.addToMetamask')}
-              </Menu.Item>
-            ) : null}
-          </Menu>
-        </Box>
-      }
+      menuSlot={menuSlot}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

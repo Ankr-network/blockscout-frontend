@@ -27,7 +27,9 @@ export const Balance = ({
 
   return (
     <Paper className={classes.balanceRoot}>
-      <span className={classes.label}>{t('delegate-stake.balance.label')}</span>
+      <span className={classes.label}>
+        {t('delegated-stake.balance.label')}
+      </span>
 
       <div className={classes.wrapper}>
         {React.cloneElement(icon, {
@@ -46,7 +48,7 @@ export const Balance = ({
           size="small"
           variant="contained"
         >
-          {t('delegate-stake.balance.btn')}
+          {t('delegated-stake.balance.btn')}
         </NavLink>
       </div>
     </Paper>

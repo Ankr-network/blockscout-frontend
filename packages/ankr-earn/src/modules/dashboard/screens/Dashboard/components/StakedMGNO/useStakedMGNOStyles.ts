@@ -1,7 +1,15 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStakedMGNOStyles = makeStyles(() => ({
+export const useStakedMGNOStyles = makeStyles(theme => ({
   manageButton: {
-    width: 115,
+    display: 'flex',
+    fontSize: 16,
+    height: 44,
+    width: 104,
+    marginLeft: 'auto',
+
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
 }));

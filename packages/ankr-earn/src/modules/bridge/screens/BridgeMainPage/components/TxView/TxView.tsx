@@ -22,8 +22,8 @@ import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { Notification } from 'modules/bridge/components/Notification';
 import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
-import { AuditedLabel } from 'modules/common/components/AuditedLabel';
-import { BRIDGE_AUDIT_LINK } from 'modules/common/const';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
+import { AUDIT_LINKS } from 'modules/common/const';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
@@ -272,7 +272,9 @@ export const TxView = ({
           </Button>
         )}
 
-        <AuditedLabel auditLink={BRIDGE_AUDIT_LINK} />
+        <AuditInfo>
+          <AuditInfoItem link={AUDIT_LINKS.bridge} variant="beosin" />
+        </AuditInfo>
       </Paper>
 
       {currentStep !== EStep.Finish && (

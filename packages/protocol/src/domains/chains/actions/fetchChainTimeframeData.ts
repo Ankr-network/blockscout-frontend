@@ -4,14 +4,9 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
-import { fetchTotalRequests } from './fetchTotalRequests';
-import {
-  calculateOnedayRequests,
-  getMultiplier,
-  getUrlByChainId,
-  mappingTotalRequestsHistory,
-  SEVEN_DAYS_IN_WEEK,
-} from '../utils/statsUtils';
+import { fetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
+import { getLegacyStandaloneUrl } from '../utils/statsUtils';
+import { calculateRPCAndLegacyStandaloneStats } from '../utils/calculateRPCAndLegacyStandaloneStats';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -58,69 +53,25 @@ export const fetchChainTimeframeData = createSmartAction<
       ) => {
         return {
           promise: (async () => {
-            const data =
+            const rpcStats =
               await MultiService.getPublicInstance().getTimeframeStats(
                 chainId,
                 timeframe,
               );
 
-            const url = getUrlByChainId(chainId);
+            const url = getLegacyStandaloneUrl(chainId);
 
-            if (url) {
-              const { data: result } = await store.dispatchRequest(
-                fetchTotalRequests(url),
-              );
+            if (!url) return rpcStats;
 
-              const multiplier = getMultiplier(timeframe);
-              data.totalRequests = new BigNumber(result?.requests ?? 0)
-                .multipliedBy(multiplier)
-                .plus(data.totalRequests)
-                .toNumber();
+            const { data: legacyStats } = await store.dispatchRequest(
+              fetchLegacyStandaloneRequests(url),
+            );
 
-              data.totalCached = new BigNumber(result?.cachedRequests ?? 0)
-                .multipliedBy(multiplier)
-                .plus(data.totalCached)
-                .toNumber();
-
-              const totalRequestsHistory = result?.totalRequestsHistory ?? {};
-              if (timeframe === '24h') {
-                const mappingHistory =
-                  mappingTotalRequestsHistory(totalRequestsHistory);
-                Object.keys(mappingHistory).forEach((key: string) => {
-                  if (key in data.totalRequestsHistory) {
-                    data.totalRequestsHistory[key] += mappingHistory[key];
-                  }
-                });
-                Object.keys(data.totalRequestsHistory).forEach(
-                  (key: string) => {
-                    if (!(key in mappingHistory)) {
-                      delete data.totalRequestsHistory[key];
-                    }
-                  },
-                );
-              } else if (timeframe === '7d') {
-                const amount = Object.keys(data.totalRequestsHistory).length;
-                const oneTimestampRequests = new BigNumber(SEVEN_DAYS_IN_WEEK)
-                  .multipliedBy(calculateOnedayRequests(totalRequestsHistory))
-                  .dividedToIntegerBy(amount)
-                  .toNumber();
-                Object.keys(data.totalRequestsHistory).forEach(
-                  (key: string) => {
-                    data.totalRequestsHistory[key] += oneTimestampRequests;
-                  },
-                );
-              } else {
-                const onedayRequests =
-                  calculateOnedayRequests(totalRequestsHistory);
-
-                Object.keys(data.totalRequestsHistory).forEach(
-                  (key: string) => {
-                    data.totalRequestsHistory[key] += onedayRequests;
-                  },
-                );
-              }
-            }
-            return data;
+            return calculateRPCAndLegacyStandaloneStats(
+              timeframe,
+              rpcStats,
+              legacyStats,
+            );
           })(),
         };
       },

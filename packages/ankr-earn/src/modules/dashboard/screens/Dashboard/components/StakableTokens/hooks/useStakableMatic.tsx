@@ -5,9 +5,10 @@ import {
   IETHNetwork,
   useETHNetworks,
 } from 'modules/auth/eth/hooks/useETHNetworks';
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { MATIC_STAKING_NETWORKS } from 'modules/stake-matic/common/const';
+import { MATIC_ON_ETH_STAKING_NETWORKS } from 'modules/stake-matic/common/const';
+import { RoutesConfig as StakeMaticCommonRoutes } from 'modules/stake-matic/common/Routes';
 import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { stake } from 'modules/stake-matic/eth/actions/stake';
 import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
@@ -28,7 +29,7 @@ export const useStakableMatic = (): IUseStakableToken<IETHNetwork> => {
   const networksData = useMemo(
     () =>
       networks.filter(network =>
-        MATIC_STAKING_NETWORKS.includes(network.chainId),
+        MATIC_ON_ETH_STAKING_NETWORKS.includes(network.chainId),
       ),
     [networks],
   );
@@ -39,7 +40,9 @@ export const useStakableMatic = (): IUseStakableToken<IETHNetwork> => {
   return {
     icon: <MaticIcon />,
     token: Token.MATIC,
-    href: StakeMaticEthRoutes.stake.generatePath(),
+    href: featuresConfig.maticPolygonStaking
+      ? StakeMaticCommonRoutes.stake.path
+      : StakeMaticEthRoutes.stake.generatePath(),
     apy,
     balance,
     networks: networksData,

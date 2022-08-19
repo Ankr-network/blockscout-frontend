@@ -88,4 +88,8 @@ export const useFeatureItemStyles = makeStyles(theme => ({
     height: 40,
     borderRadius: 16,
   },
+
+  skeleton: {
+    borderRadius: 8,
+  },
 }));

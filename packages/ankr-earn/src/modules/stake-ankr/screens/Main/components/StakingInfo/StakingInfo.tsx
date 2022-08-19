@@ -9,8 +9,6 @@ import { useStakingInfo } from './useStakingInfo';
 
 export const StakingInfo = (): JSX.Element => {
   const {
-    data,
-    loading,
     unstakingData,
     currentTab,
     newUnstakingAmount,
@@ -20,11 +18,6 @@ export const StakingInfo = (): JSX.Element => {
     handleChangeTab,
   } = useStakingInfo();
 
-  const isActiveUnstakingTab = currentTab === unstakingText;
-
-  const isShowingButton =
-    isActiveUnstakingTab && !loading && !!data && data.length >= 1;
-
   const isExistsUnstakingData = !!unstakingData && unstakingData.length > 0;
 
   return (
@@ -33,7 +26,7 @@ export const StakingInfo = (): JSX.Element => {
         activeTab={currentTab}
         claimAllLink={RoutesConfig.claimAllUnstakes.generatePath()}
         isExistsUnstakingData={isExistsUnstakingData}
-        isShowingButton={isShowingButton}
+        isShowingButton={false}
         newUnstakingAmount={newUnstakingAmount}
         onChangeTab={handleChangeTab}
       />

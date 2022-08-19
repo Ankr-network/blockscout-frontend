@@ -1,9 +1,8 @@
-import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
-import { t, tHTML } from 'common';
+import { t } from 'common';
 
 import {
   Table as BasicTable,
@@ -13,15 +12,15 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { NodeExpandBanner } from 'modules/delegate-stake/components/NodeExpandBanner';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
 
-import chainImage from './assets/chains.png';
 import { useTableStyles } from './useTableStyles';
 
-const SKELETON_ROWS_COUNT = 3;
+const SKELETON_ROWS_COUNT = 1;
 const SKELETON_COLUMN_WIDTHS = [200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
@@ -131,15 +130,7 @@ export const Table = (): JSX.Element | null => {
         </TableBody>
       </BasicTable>
 
-      <div className={classes.bannerWrapper}>
-        {!!data.length && (
-          <img alt="" className={classes.expandLogo} src={chainImage} />
-        )}
-
-        <Typography className={classes.expandDescription} variant="h2">
-          {tHTML('stake-ankr.table.expand-description')}
-        </Typography>
-      </div>
+      {!!data.length && <NodeExpandBanner />}
     </>
   );
 };

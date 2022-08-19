@@ -36,11 +36,11 @@ export const Header = ({
     <Box className={classes.root} mb={4}>
       <BigNav minWidth={0}>
         <BigNavItem href={myStakingLink}>
-          {t('delegate-stake.header.my-staking', { token })}
+          {t('delegated-stake.header.my-staking', { token })}
         </BigNavItem>
 
         <BigNavItem href={nodeProvidersLink}>
-          {t('delegate-stake.header.node-providers')}
+          {t('delegated-stake.header.node-providers')}
         </BigNavItem>
       </BigNav>
 

@@ -1,4 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -11,7 +15,7 @@ import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSecond
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
 import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
-import { stake } from 'modules/stake-ankr/actions/stake';
+import { restake } from 'modules/stake-ankr/actions/restake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
@@ -49,9 +53,10 @@ export const useRestake = (): IUseRestake => {
   const { data: epochEndsSeconds } = useQuery({
     type: getEpochEndSeconds,
   });
+  const { loading: isRestakeLoading } = useMutation({ type: restake });
 
   const readyRestakableAmount = restakableAmount ?? ZERO;
-  const { provider: queryProvider } = RoutesConfig.stakeMore.useParams();
+  const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );
@@ -70,15 +75,14 @@ export const useRestake = (): IUseRestake => {
 
   const onSubmit = () => {
     dispatchRequest(
-      stake({
+      restake({
         provider: queryProvider ?? '',
-        amount: readyRestakableAmount,
       }),
     );
   };
 
   return {
-    loading: isDelegatedAmountLoading,
+    loading: isRestakeLoading || isDelegatedAmountLoading,
     restakable: readyRestakableAmount,
     newTotalStake: delegatedAmount?.plus(readyRestakableAmount),
     tokenIn: t('unit.ankr'),

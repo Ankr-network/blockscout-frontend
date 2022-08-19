@@ -1,6 +1,6 @@
 import {
-  AvailableWriteProviders,
   AvailableReadProviders,
+  AvailableWriteProviders,
 } from '@ankr.com/provider';
 
 import { isMainnet } from '../common';
@@ -8,7 +8,7 @@ import { isMainnet } from '../common';
 /**
  * Events block range for stake/unstake history
  */
-export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
+export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 3_000;
 
 /**
  * Start block to check events for PolygonPool
@@ -26,11 +26,23 @@ export const BLOCK_OFFSET = 302_400; // 7 days
 export const POLYGON_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 /**
- * Internal read provider id
+ * Internal read provider id for MATIC on Ethereum network
  */
-export const POLYGON_PROVIDER_READ_ID = isMainnet
+export const MATIC_ON_ETH_PROVIDER_READ_ID = isMainnet
   ? AvailableReadProviders.ethMainnet
   : AvailableReadProviders.ethGoerli;
+
+/**
+ * Internal read provider id for MATIC on Polygon network
+ */
+export const MATIC_ON_POLYGON_PROVIDER_READ_ID = isMainnet
+  ? AvailableReadProviders.polygon
+  : AvailableReadProviders.mumbai;
+
+/**
+ * Internal scale factor for MATIC on Polygon network
+ */
+export const MATIC_SCALE_FACTOR = 10 ** 18;
 
 /**
  * Multiplication factor for fee when approving funds

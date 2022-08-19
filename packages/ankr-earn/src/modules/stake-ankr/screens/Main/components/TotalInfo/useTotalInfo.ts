@@ -1,6 +1,7 @@
+import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
@@ -9,6 +10,7 @@ import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSecond
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseTotalInfo {
   totalStaked: BigNumber;
@@ -20,16 +22,19 @@ interface IUseTotalInfo {
   isClaimAllowed: boolean;
   stakeLink: string;
   claimAllRewardsLink: string;
-  epochEnds: string;
+  epochEnds?: string;
+  epochLoading: boolean;
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
-  const { data } = useQuery({
+  const dispatch = useAppDispatch();
+
+  const { data, loading } = useQuery({
     type: getTotalInfo,
   });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
-  const { data: epochEndsSeconds } = useQuery({
+  const { data: epochEndsSeconds, loading: epochLoading } = useQuery({
     type: getEpochEndSeconds,
   });
   const usdPrice = ankrPrice ?? ZERO;
@@ -49,9 +54,21 @@ export const useTotalInfo = (): IUseTotalInfo => {
   useProviderEffect(() => {
     dispatchRequest(getTotalInfo());
     dispatchRequest(getEpochEndSeconds());
+
+    return () => {
+      dispatch(resetRequests([getEpochEndSeconds.toString()]));
+    };
   }, [dispatchRequest]);
 
-  const epochEnds = getEndEpochText(epochEndsSeconds ?? 0);
+  useEffect(() => {
+    return () => {
+      dispatch(stopPolling([getEpochEndSeconds.toString()]));
+    };
+  }, [dispatch]);
+
+  const epochEnds = epochEndsSeconds
+    ? getEndEpochText(epochEndsSeconds)
+    : undefined;
 
   const totalStaked = data?.totalDelegatedAmount ?? ZERO;
 
@@ -60,11 +77,12 @@ export const useTotalInfo = (): IUseTotalInfo => {
     totalStakedUsd: totalStaked.multipliedBy(usdPrice) ?? ZERO,
     climableRewards: claimableRewards.decimalPlaces(DEFAULT_ROUNDING),
     climableRewardsUsd: claimableRewards.multipliedBy(usdPrice) ?? ZERO,
-    isTotalStakedLoading: false,
-    isClimableRewardsLoading: false,
+    isTotalStakedLoading: loading,
+    isClimableRewardsLoading: loading,
     isClaimAllowed: !claimableRewards.isZero(),
     claimAllRewardsLink: RoutesConfig.claimAllRewards.generatePath(),
     stakeLink: RoutesConfig.stake.generatePath(),
     epochEnds,
+    epochLoading,
   };
 };

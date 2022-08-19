@@ -14,6 +14,7 @@ interface IYourStakeItemProps {
   usdAmount: BigNumber;
   stakeLink?: string;
   unstakeLink?: string;
+  unstakeDisabled?: boolean;
   token: Token;
   withTextUnstake?: boolean;
 }
@@ -23,6 +24,7 @@ export const YourStakeItem = ({
   usdAmount,
   stakeLink,
   unstakeLink,
+  unstakeDisabled = false,
   token,
   withTextUnstake = false,
 }: IYourStakeItemProps): JSX.Element => {
@@ -55,6 +57,7 @@ export const YourStakeItem = ({
               ) : (
                 <PlusMinusBtn
                   className={classes.plusWalletButton}
+                  disabled={unstakeDisabled}
                   href={unstakeLink}
                   icon="minus"
                   variant="outlined"
