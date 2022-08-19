@@ -6,10 +6,11 @@ import { BNB_STAKING_MAX_DECIMALS_LEN } from '@ankr.com/staking-sdk';
 import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
 import {
-  BNB_AUDIT_LINK,
+  AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
@@ -167,7 +168,16 @@ export const StakeBinance = (): JSX.Element => {
         {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 
         <StakeForm
-          auditLink={BNB_AUDIT_LINK}
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.bnbBeosin} variant="beosin" />
+
+              <AuditInfoItem
+                link={AUDIT_LINKS.bnbPeckShield}
+                variant="peckshield"
+              />
+            </AuditInfo>
+          }
           balance={bnbBalance}
           feeSlot={
             <StakeFeeInfo

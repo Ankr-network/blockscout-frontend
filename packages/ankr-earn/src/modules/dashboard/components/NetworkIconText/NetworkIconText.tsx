@@ -41,13 +41,13 @@ export const NetworkIconText = ({
 
   return (
     <Grid container alignItems="center" spacing={2}>
-      <Grid item className={classes.iconContainer}>
+      <Grid item className={classes.iconContainer} xs="auto">
         <Icon className={classes.icon} />
 
         {NetworkIcon ? <NetworkIcon className={classes.networkIcon} /> : null}
       </Grid>
 
-      <Grid item>
+      <Grid item xs>
         <Typography className={classes.token}>{token}</Typography>
 
         {(network || chainId) && (

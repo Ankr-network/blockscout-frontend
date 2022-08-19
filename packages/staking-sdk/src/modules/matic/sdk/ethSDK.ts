@@ -43,8 +43,8 @@ import { convertNumberToHex } from '../../utils';
 import {
   ALLOWANCE_RATE,
   BLOCK_OFFSET,
+  MATIC_ON_ETH_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
-  POLYGON_PROVIDER_READ_ID,
 } from '../const';
 import {
   TMaticSyntToken,
@@ -140,7 +140,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
     const [writeProvider, readProvider] = (await Promise.all([
       args?.writeProvider ?? providerManager.getETHWriteProvider(),
       args?.readProvider ??
-        providerManager.getETHReadProvider(POLYGON_PROVIDER_READ_ID),
+        providerManager.getETHReadProvider(MATIC_ON_ETH_PROVIDER_READ_ID),
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
     const addressHasNotBeenUpdated =

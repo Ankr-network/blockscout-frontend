@@ -19,6 +19,18 @@ export const useTotalInfoStyles = makeStyles(theme => ({
     fontWeight: 700,
   },
 
+  epochText: {
+    color: theme.palette.text.secondary,
+    fontSize: 'inherit',
+    fontWeight: 500,
+  },
+
+  epochValue: {
+    color: theme.palette.text.primary,
+    fontSize: 'inherit',
+    fontWeight: 400,
+  },
+
   btn: {
     height: 50,
   },

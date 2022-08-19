@@ -57,5 +57,6 @@ export const fetchStats = createSmartAction<
   meta: {
     asMutation: false,
     onRequest: withStore,
+    showNotificationOnError: true,
   },
 }));

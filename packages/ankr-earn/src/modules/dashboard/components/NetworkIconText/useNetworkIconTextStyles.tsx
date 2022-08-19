@@ -34,20 +34,10 @@ export const useNetworkIconTextStyles = makeStyles<Theme>(theme => ({
     fontSize: 13,
     color: theme.palette.text.secondary,
     lineHeight: 1,
+    fontWeight: 400,
   },
 
   btnSkeleton: {
     borderRadius: 12,
-  },
-
-  copied: {
-    width: 168,
-    padding: 0,
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    color: theme.palette.text.secondary,
   },
 }));

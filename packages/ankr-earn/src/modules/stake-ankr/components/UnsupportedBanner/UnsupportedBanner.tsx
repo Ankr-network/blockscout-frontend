@@ -5,7 +5,7 @@ import { t, tHTML } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
-import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.png';
+import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.jpg';
 import { Button } from 'uiKit/Button';
 
 import { useUnsupportedBannerStyles } from './useUnsupportedBannerStyles';

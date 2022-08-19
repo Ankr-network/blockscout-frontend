@@ -1,4 +1,4 @@
-import { Box, SvgIcon } from '@material-ui/core';
+import { Box, SvgIcon, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
@@ -23,7 +23,6 @@ interface IUnclaimedAssetProps {
   amount?: BigNumber;
   chainId?: EEthereumNetworkId;
   claimLink: string;
-  claimToken?: string;
   isLoading: boolean;
   network?: string;
   token: Token;
@@ -34,7 +33,6 @@ export const UnclaimedAsset = ({
   amount,
   chainId,
   claimLink,
-  claimToken,
   isLoading,
   network,
   token,
@@ -74,15 +72,22 @@ export const UnclaimedAsset = ({
         </div>
       }
       buttonsSlot={
-        <Tooltip arrow title={t('dashboard.card.claiming-tooltip')}>
-          <Box width={115}>
-            <NavLink fullWidth href={claimLink} variant="outlined">
-              {claimToken
-                ? t('dashboard.card.claim-token', { token: claimToken })
-                : t('dashboard.card.btn-claim')}
-            </NavLink>
-          </Box>
-        </Tooltip>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={2}
+        >
+          <Grid item xs={12}>
+            <Tooltip arrow title={t('dashboard.card.claiming-tooltip')}>
+              <Box className={classes.claim}>
+                <NavLink fullWidth href={claimLink} variant="outlined">
+                  {t('dashboard.card.btn-claim')}
+                </NavLink>
+              </Box>
+            </Tooltip>
+          </Grid>
+        </Grid>
       }
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />

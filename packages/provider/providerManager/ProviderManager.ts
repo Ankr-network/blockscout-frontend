@@ -15,7 +15,7 @@ import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
-  [AvailableReadProviders.ethGoerli]: 'https://eth-goerli-01.dccn.ankr.com',
+  [AvailableReadProviders.ethGoerli]: 'https://rpc.ankr.com/eth_goerli',
   [AvailableReadProviders.avalancheChain]: 'https://rpc.ankr.com/avalanche',
   [AvailableReadProviders.avalancheChainTest]:
     'https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc',

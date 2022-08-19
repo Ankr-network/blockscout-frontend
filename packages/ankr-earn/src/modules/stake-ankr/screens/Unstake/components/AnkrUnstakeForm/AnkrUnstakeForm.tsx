@@ -6,12 +6,14 @@ import { t } from 'common';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
-import { NodeProviderField } from 'modules/stake-ankr/components/NodeProviderField';
+import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
 import {
   EFieldsNames,
+  IAnkrStakeFormPayload,
   IAnkrStakeSubmitPayload,
-} from 'modules/stake-ankr/types';
-import { setMaxAmount } from 'modules/stake-ankr/utils/setMaxAmount';
+  IStakeSubmitPayload,
+} from 'modules/delegate-stake/components/StakeForm/const';
+import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import {
   StakeFormBox,
@@ -38,10 +40,7 @@ interface IAnkrUnstakeFormProps {
   providerId: string;
   providerName?: string;
   onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IAnkrStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
 }
 
 export const AnkrUnstakeForm = ({
@@ -65,11 +64,11 @@ export const AnkrUnstakeForm = ({
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: Partial<IAnkrStakeSubmitPayload>): void =>
+  const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IAnkrStakeSubmitPayload);
+    } as IStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -78,7 +77,7 @@ export const AnkrUnstakeForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<Partial<IAnkrStakeSubmitPayload>>) => (
+  }: FormRenderProps<IAnkrStakeSubmitPayload>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 

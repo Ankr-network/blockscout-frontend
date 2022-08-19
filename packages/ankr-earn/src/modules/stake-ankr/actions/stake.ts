@@ -4,6 +4,7 @@ import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { TTxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { resetForm } from 'modules/forms/store/formsSlice';
 
@@ -12,8 +13,6 @@ import { ANKR_ACTIONS_PREFIX, ANKR_STAKE_FORM_ID } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { getCommonData } from './getCommonData';
-
-type TTxHash = string;
 
 interface IStakeArgs {
   amount: BigNumber;

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
@@ -20,14 +20,17 @@ export const Stepper = ({ allowance }: IStepperProps): JSX.Element => {
 
   return (
     <div className={classes.root}>
-      <div className={cn(classes.step, classes.approved)} data-testid="step">
+      <div
+        className={classNames(classes.step, classes.approved)}
+        data-testid="step"
+      >
         {isApproved ? <CompleteIcon size="xxs" /> : '1'}
       </div>
 
       <div className={classes.line} />
 
       <div
-        className={cn(classes.step, isApproved && classes.approved)}
+        className={classNames(classes.step, isApproved && classes.approved)}
         data-testid="step"
       >
         2

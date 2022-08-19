@@ -2,14 +2,13 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { TTxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { ANKR_ACTIONS_PREFIX } from '../const';
 
 import { getHistoryData } from './getHistoryData';
-
-type TTxHash = string;
 
 export const claimAll = createAction<RequestAction<TTxHash, TTxHash>>(
   `${ANKR_ACTIONS_PREFIX}claimAll`,

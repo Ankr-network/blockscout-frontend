@@ -2,21 +2,26 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { UNSTAKE_PATH } from 'modules/common/const';
+import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import {
-  MATIC_STAKING_NETWORKS,
-  POLYGON_PROVIDER_ID,
+  MATIC_ON_ETH_STAKING_NETWORKS,
+  MATIC_PROVIDER_ID,
 } from 'modules/stake-matic/common/const';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
-const ROOT = `${StakeRoutes.main.path}matic/`;
+/**
+ * TODO Use a common route path here (MATIC on Polygon)
+ */
+const ETH_NETWORK_PATH = featuresConfig.maticPolygonStaking ? 'eth/' : '';
+
+const ROOT = `${StakeRoutes.main.path}matic/${ETH_NETWORK_PATH}`;
 const STAKE_MATIC_PATH = `${ROOT}?token=:token?`;
-const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/`;
+const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/${ETH_NETWORK_PATH}`;
 const UNSTAKE_MATIC_BY_TOKEN_PATH = `${UNSTAKE_MATIC_PATH}?token=:token?`;
 const STEP_STAKE_MATIC_PATH = `${ROOT}:tokenOut/:txHash/`;
 
@@ -73,9 +78,9 @@ export function getRoutes(): JSX.Element {
       <Switch>
         <GuardETHRoute
           exact
-          availableNetworks={MATIC_STAKING_NETWORKS}
+          availableNetworks={MATIC_ON_ETH_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={POLYGON_PROVIDER_ID}
+          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -84,9 +89,9 @@ export function getRoutes(): JSX.Element {
 
         <GuardETHRoute
           exact
-          availableNetworks={MATIC_STAKING_NETWORKS}
+          availableNetworks={MATIC_ON_ETH_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={POLYGON_PROVIDER_ID}
+          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />
@@ -95,9 +100,9 @@ export function getRoutes(): JSX.Element {
 
         <GuardETHRoute
           exact
-          availableNetworks={MATIC_STAKING_NETWORKS}
+          availableNetworks={MATIC_ON_ETH_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
-          providerId={POLYGON_PROVIDER_ID}
+          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />

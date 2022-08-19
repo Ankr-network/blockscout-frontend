@@ -11,11 +11,22 @@ export const useUnclaimedAssetStyles = makeStyles(theme => ({
     borderRadius: 30,
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 1,
   },
 
   badgeIcon: {
     fontSize: 18,
+  },
+
+  claim: {
+    fontSize: 16,
+    height: 44,
+    width: 104,
+    marginLeft: 'auto',
+
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
 }));

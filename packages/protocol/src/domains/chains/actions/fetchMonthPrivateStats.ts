@@ -17,7 +17,7 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
 
 export const fetchMonthPrivateStats = createAction<
   RequestAction<IApiPrivateStats, PrivateStats>
->('chains/fetchMonthPrivateStats', (requestKey?: string) => ({
+>('chains/fetchMonthPrivateStats', () => ({
   request: {
     promise: (async () => {})(),
   },
@@ -35,6 +35,6 @@ export const fetchMonthPrivateStats = createAction<
         return result;
       })(),
     }),
-    requestKey,
+    takeLatest: true,
   },
 }));

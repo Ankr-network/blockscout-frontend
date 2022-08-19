@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, STAKING_PATH } from 'modules/common/const';
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -67,18 +67,16 @@ export function getRoutes(): JSX.Element {
           </DefaultLayout>
         </Route>
 
-        {featuresConfig.stakeETHWithoutClaim && (
-          <GuardETHRoute
-            exact
-            availableNetworks={ETH_STAKING_NETWORKS}
-            path={RoutesConfig.stakeWithoutClaim.path}
-            providerId={ETH_PROVIDER_ID}
-          >
-            <DefaultLayout>
-              <TestingStake />
-            </DefaultLayout>
-          </GuardETHRoute>
-        )}
+        <GuardETHRoute
+          exact
+          availableNetworks={ETH_STAKING_NETWORKS}
+          path={RoutesConfig.stakeWithoutClaim.path}
+          providerId={ETH_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <TestingStake />
+          </DefaultLayout>
+        </GuardETHRoute>
 
         <Route exact path={RoutesConfig.notifications.path}>
           <DefaultLayout>

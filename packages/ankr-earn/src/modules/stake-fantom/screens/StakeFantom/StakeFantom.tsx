@@ -7,13 +7,14 @@ import { useDispatch } from 'react-redux';
 import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import {
+  AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
-  FTM_AUDIT_LINK,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -154,7 +155,11 @@ export const StakeFantom = (): JSX.Element => {
 
         <StakeForm
           isMaxBtnShowed
-          auditLink={FTM_AUDIT_LINK}
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.ftm} variant="beosin" />
+            </AuditInfo>
+          }
           balance={balance}
           feeSlot={
             <StakeFeeInfo

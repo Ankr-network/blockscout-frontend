@@ -10,33 +10,26 @@ export const getEndEpochText = (epochEndsSeconds: number): string => {
 
   let daysText;
   if (epochEndDays > 0) {
-    daysText =
-      epochEndDays === 1
-        ? `${t('stake-ankr.info-header.epoch-ends-day', {
-            value: epochEndDays,
-          })}`
-        : `${t('stake-ankr.info-header.epoch-ends-days', {
-            value: epochEndDays,
-          })}`;
+    daysText = `${t('stake-ankr.info-header.epoch-ends-day', {
+      value: epochEndDays,
+    })}`;
   }
 
   let hoursText;
   if (epochEndHours > 0) {
-    hoursText =
-      epochEndHours === 1
-        ? `${t('stake-ankr.info-header.epoch-ends-hour', {
-            value: epochEndHours,
-          })}`
-        : `${t('stake-ankr.info-header.epoch-ends-hours', {
-            value: epochEndHours,
-          })}`;
+    hoursText = `${t('stake-ankr.info-header.epoch-ends-hour', {
+      value: epochEndHours,
+    })}`;
   }
 
-  const minText = `${t('stake-ankr.info-header.epoch-ends-min', {
-    value: epochEndMin,
-  })}`;
+  let minText;
+  if (epochEndMin > 0) {
+    minText = `${t('stake-ankr.info-header.epoch-ends-min', {
+      value: epochEndMin,
+    })}`;
+  }
 
-  return `${daysText || ''}${daysText ? ', ' : ''}${hoursText || ''}${
-    hoursText ? ', ' : ''
-  }${minText}`;
+  return `${daysText || ''}${daysText && hoursText ? ', ' : ''}${
+    hoursText || ''
+  }${minText && (daysText || hoursText) ? ', ' : ''}${minText || ''}`;
 };

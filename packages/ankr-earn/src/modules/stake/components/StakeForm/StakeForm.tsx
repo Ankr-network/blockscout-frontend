@@ -6,7 +6,6 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
-import { AuditedLabel } from 'modules/common/components/AuditedLabel';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { floor } from 'modules/common/utils/floor';
@@ -34,6 +33,7 @@ export interface IStakeSubmitPayload extends IStakeFormPayload {
 }
 
 export interface IStakeFormComponentProps {
+  auditSlot?: ReactNode;
   balance?: BigNumber;
   balanceLabel?: string;
   balanceLinkSlot?: ReactNode;
@@ -51,7 +51,6 @@ export interface IStakeFormComponentProps {
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
-  auditLink?: string;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
@@ -59,6 +58,7 @@ export interface IStakeFormComponentProps {
 }
 
 export const StakeForm = ({
+  auditSlot,
   className,
   balance = ZERO,
   balanceLabel,
@@ -76,7 +76,6 @@ export const StakeForm = ({
   feeSlot,
   stakingAmountStep,
   labelTooltip,
-  auditLink,
   renderStats,
   renderFooter,
   onSubmit,
@@ -199,7 +198,7 @@ export const StakeForm = ({
             </Button>
           )}
 
-          {auditLink && <AuditedLabel auditLink={auditLink} />}
+          {auditSlot}
         </StakeFormFooter>
 
         <OnChange name={FieldsNames.amount}>

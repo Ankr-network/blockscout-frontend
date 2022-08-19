@@ -4,7 +4,7 @@ export const useMenuStyles = makeStyles(theme => ({
   menuIcon: {
     backgroundColor: theme.palette.common.white,
     border: `2px solid ${theme.palette.background.default}`,
-    borderRadius: 6,
+    borderRadius: 16,
     color: theme.palette.text.secondary,
     cursor: 'pointer',
     transition: '0.2s all',
@@ -12,8 +12,8 @@ export const useMenuStyles = makeStyles(theme => ({
     marginTop: -3,
     padding: 0,
     position: 'relative',
-    height: 32,
-    width: 32,
+    height: 44,
+    width: 44,
 
     '&:hover': {
       backgroundColor: theme.palette.background.default,

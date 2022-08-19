@@ -120,6 +120,22 @@ export const StakingAsset = ({
     </>
   );
 
+  const menuSlot = (
+    <Box component="span" display="flex" sx={{ mt: 0.5 }}>
+      <Menu>
+        <Menu.Item disabled={!onHistoryBtnClick} onClick={handleHistoryClick}>
+          {onHistoryBtnClick
+            ? t('dashboard.card.stakingHistory')
+            : t('dashboard.card.stakingHistoryComingSoon')}
+        </Menu.Item>
+
+        <Menu.Item disabled={!onTokenInfoClick} onClick={onTokenInfoClick}>
+          {t('dashboard.card.tokenInfo')}
+        </Menu.Item>
+      </Menu>
+    </Box>
+  );
+
   return (
     <DashboardCard
       amountSlot={
@@ -132,7 +148,12 @@ export const StakingAsset = ({
       badgeSlot={pendingSlot}
       buttonsSlot={
         buttonsSlot || (
-          <Grid container alignItems="center" spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-end"
+            spacing={2}
+          >
             <Grid item>
               <PlusMinusBtn
                 disabled={!stakeLink}
@@ -154,7 +175,7 @@ export const StakingAsset = ({
             </Grid>
 
             {isShowedTradeLink && (
-              <Grid item>
+              <Grid item className={classes.link}>
                 {tradeLink ? (
                   <NavLink
                     className={classes.tradeButton}
@@ -182,24 +203,7 @@ export const StakingAsset = ({
           </Grid>
         )
       }
-      menuSlot={
-        <Box component="span" display="flex">
-          <Menu>
-            <Menu.Item
-              disabled={!onHistoryBtnClick}
-              onClick={handleHistoryClick}
-            >
-              {onHistoryBtnClick
-                ? t('dashboard.card.stakingHistory')
-                : t('dashboard.card.stakingHistoryComingSoon')}
-            </Menu.Item>
-
-            <Menu.Item disabled={!onTokenInfoClick} onClick={onTokenInfoClick}>
-              {t('dashboard.card.tokenInfo')}
-            </Menu.Item>
-          </Menu>
-        </Box>
-      }
+      menuSlot={menuSlot}
       networkAndIconSlot={
         <NetworkIconText chainId={chainId} network={network} token={token} />
       }

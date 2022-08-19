@@ -1,5 +1,7 @@
-import { Box, Grid, Paper } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import { ReactNode } from 'react';
+
+import { useIsLGUp } from 'ui';
 
 import { useDashboardCardStyles } from './useDashboardCardStyles';
 
@@ -7,52 +9,37 @@ interface IDashboardCardProps {
   amountSlot?: ReactNode;
   badgeSlot?: ReactNode;
   buttonsSlot?: ReactNode;
-  menuSlot?: ReactNode;
   networkAndIconSlot?: ReactNode;
+  menuSlot?: ReactNode;
 }
 
 export const DashboardCard = ({
   amountSlot,
   badgeSlot,
   buttonsSlot,
-  menuSlot,
   networkAndIconSlot,
+  menuSlot,
 }: IDashboardCardProps): JSX.Element => {
   const classes = useDashboardCardStyles();
+  const isLgUp = useIsLGUp();
 
   return (
     <Paper className={classes.root}>
-      <Box mb={{ xs: 3, sm: 'auto' }}>
-        <Grid container spacing={2}>
-          <Grid item xs>
-            {networkAndIconSlot}
-          </Grid>
+      <div className={classes.tokenInfoSlot}>{networkAndIconSlot}</div>
 
-          {menuSlot && (
-            <Grid item className={classes.menuCol} xs="auto">
-              {menuSlot}
-            </Grid>
-          )}
+      {!isLgUp && <div className={classes.menuSlot}>{menuSlot}</div>}
 
-          {badgeSlot && (
-            <Grid item sm="auto" xs={12}>
-              {badgeSlot}
-            </Grid>
-          )}
-        </Grid>
-      </Box>
+      <div className={classes.amountSlot}>
+        {amountSlot}
 
-      <Grid container alignItems="flex-end" spacing={2}>
-        <Grid item sm xs={12}>
-          {amountSlot}
-        </Grid>
+        {badgeSlot && <Box mt={{ xs: 2, lg: 1 }}>{badgeSlot}</Box>}
+      </div>
 
-        {buttonsSlot && (
-          <Grid item sm="auto" xs={12}>
-            {buttonsSlot}
-          </Grid>
-        )}
-      </Grid>
+      <div className={classes.buttonsSlot}>
+        {buttonsSlot}
+
+        {isLgUp && menuSlot}
+      </div>
     </Paper>
   );
 };

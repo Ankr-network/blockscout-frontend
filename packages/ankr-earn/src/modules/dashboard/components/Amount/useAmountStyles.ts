@@ -2,13 +2,10 @@ import { makeStyles } from '@material-ui/core';
 
 export const useAmountStyles = makeStyles(theme => ({
   amount: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: 600,
     lineHeight: 1,
-
-    [theme.breakpoints.up('sm')]: {
-      fontSize: 40,
-    },
+    letterSpacing: '-0.02em',
   },
 
   amountInfo: {
@@ -18,14 +15,8 @@ export const useAmountStyles = makeStyles(theme => ({
     alignItems: 'center',
     marginTop: theme.spacing(1),
     lineHeight: 1,
-  },
 
-  tooltipBtn: {
-    margin: theme.spacing(0, 0, 0, 0.5),
-    cursor: 'help',
-  },
-
-  amountInfoIcon: {
-    display: 'block',
+    fontSize: 14,
+    fontWeight: 500,
   },
 }));
