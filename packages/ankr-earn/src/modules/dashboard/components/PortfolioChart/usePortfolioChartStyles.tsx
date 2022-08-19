@@ -26,8 +26,12 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
 
   total: {
     fill: theme.palette.text.primary,
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 32,
+    },
   },
 
   apr: {

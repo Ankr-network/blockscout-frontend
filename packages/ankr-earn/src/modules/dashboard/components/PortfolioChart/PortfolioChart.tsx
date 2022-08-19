@@ -36,6 +36,7 @@ export interface IChartSlice {
   usdAmount: BigNumber;
   isNative: boolean;
   icon: TIcon;
+  link?: string;
 }
 
 const TRANSITION_DURATION_MS: Milliseconds = 200;
@@ -133,7 +134,8 @@ export const PortfolioChart = ({
 
       const g = svg
         .append('g')
-        .attr('height', svgWidth)
+        .attr('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
+        .attr('height', svgHeight)
         .attr('width', svgWidth)
         .attr('transform', `translate(${svgWidth / 2}, ${svgHeight / 2})`);
 
@@ -283,7 +285,7 @@ export const PortfolioChart = ({
             />
           </Grid>
 
-          <Grid item lg={6} md={12} xl={3} xs={12}>
+          <Grid item lg={6} md={12} xl={4} xs={12}>
             <PortfolioChartLegend
               isNative
               activeLegendItem={activeItem}

@@ -14,13 +14,20 @@ import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as fetchAnkrData } from 'modules/stake-ankr/actions/getCommonData';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/Routes';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
+import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
+import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
+import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/eth/Routes';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
+import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -41,6 +48,7 @@ interface IPortfolioItem {
   amount: BigNumber;
   icon: TIcon;
   isNative: boolean;
+  link?: string;
 }
 
 export const usePortfolioNativeData = (): IUsePortfolioData => {
@@ -120,24 +128,28 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         amount: polygonData?.maticBalance ?? ZERO,
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
+        link: StakeMaticRoutes.stake.generatePath(),
       },
       {
         name: Token.AVAX,
         amount: avaxData?.avaxBalance ?? ZERO,
         apy: metrics?.avax.apy ?? ZERO,
         service: EMetricsServiceName.AVAX,
+        link: StakeAvalancheRoutes.stake.generatePath(),
       },
       {
         name: Token.FTM,
         amount: ftmData?.ftmBalance ?? ZERO,
         apy: metrics?.ftm.apy ?? ZERO,
         service: EMetricsServiceName.FTM,
+        link: StakeFantomRoutes.stake.generatePath(),
       },
       {
         name: Token.BNB,
         amount: bnbData?.bnbBalance ?? ZERO,
         apy: metrics?.bnb.apy ?? ZERO,
         service: EMetricsServiceName.BNB,
+        link: StakeBnbRoutes.stake.generatePath(),
       },
       {
         name: Token.ETH,
@@ -147,12 +159,14 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
             .plus(ethData.claimableAETHC ?? ZERO) ?? ZERO,
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
+        link: StakeEthRoutes.stake.generatePath(),
       },
       {
         name: Token.ANKR,
         amount:
           ankrBalanceData?.ankrBalance.multipliedBy(ankrPrice ?? ZERO) ?? ZERO,
         apy: maxAnkrApy ?? ZERO,
+        link: StakeAnkrRoutes.stake.generatePath(),
       },
       {
         name: Token.DOT,
@@ -160,6 +174,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           dotBalance?.plus(dotClaimableBalance?.claimable ?? ZERO) ?? ZERO,
         apy: metrics?.dot.apy ?? ZERO,
         service: EMetricsServiceName.DOT,
+        link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT),
       },
       {
         name: Token.KSM,
@@ -167,6 +182,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           ksmBalance?.plus(ksmClaimableBalance?.claimable ?? ZERO) ?? ZERO,
         apy: metrics?.ksm.apy ?? ZERO,
         service: EMetricsServiceName.KSM,
+        link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM),
       },
       {
         name: Token.WND,
@@ -175,6 +191,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           : ZERO,
         apy: featuresConfig.testingUi ? metrics?.wnd?.apy ?? ZERO : ZERO,
         service: EMetricsServiceName.WND,
+        link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND),
       },
     ],
     [
