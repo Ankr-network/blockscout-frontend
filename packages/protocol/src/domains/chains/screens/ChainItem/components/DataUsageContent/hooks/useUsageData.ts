@@ -10,7 +10,8 @@ import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats'
 
 export const useUsageData = (chainId: string): UsageData => {
   const { isWalletConnected, loading: isConnecting } = useAuth();
-  const [statsTimeframe, , setStatsTimeframe] = useStatsTimeframe(true);
+  const [statsTimeframe, , setStatsTimeframe] =
+    useStatsTimeframe(isWalletConnected);
 
   const publicStats = usePublicStats({
     chainId,

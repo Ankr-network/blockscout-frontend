@@ -12,12 +12,10 @@ export const MaintenanceBanner = () => {
         </div>
         <div className={classes.message}>
           Dear users, you might have experienced the incorrect statistics shown
-          starting from August&nbsp;1. We&rsquo;ve already identified the source
-          of&nbsp;the issue and brought all effort into fixing&nbsp;it. Until
-          then, the 7d/30d timeframe feature will be&nbsp;disabled. On&nbsp;the
-          bright side&nbsp;&mdash; the issue hasn&rsquo;t affected the
-          correctness of&nbsp;PAYG charging. We&nbsp;apologize for the
-          inconvenience and are doing our best to&nbsp;fix it&nbsp;ASAP!
+          starting from August&nbsp;1. We&rsquo;ve already identified the issue,
+          and it&nbsp;will be&nbsp;fixed soon. On&nbsp;the bright
+          side&nbsp;&mdash; the issue hasn&rsquo;t affected the correctness
+          of&nbsp;PAYG charging. We&nbsp;apologize for the inconvenience.
         </div>
       </div>
     </div>
