@@ -16,7 +16,7 @@ interface IStatsItemProps {
 
 export const StatsItem = ({
   title,
-  isLoading: loading = false,
+  isLoading = false,
   tooltip,
   primaryValue,
   secondaryValue,
@@ -41,7 +41,7 @@ export const StatsItem = ({
           justifyContent="center"
         >
           <Box mr={1}>
-            {loading ? (
+            {isLoading && !primaryValue ? (
               <Skeleton height={22} width={40} />
             ) : (
               <Typography className={classes.value} variant="h3">
@@ -50,7 +50,7 @@ export const StatsItem = ({
             )}
           </Box>
 
-          {loading ? (
+          {isLoading && !secondaryValue ? (
             <Skeleton height={22} width={40} />
           ) : (
             <Typography
@@ -64,7 +64,7 @@ export const StatsItem = ({
         </Box>
       ) : (
         <>
-          {loading ? (
+          {isLoading && !primaryValue ? (
             <Skeleton height={22} width={40} />
           ) : (
             <Typography className={classes.value} variant="h3">

@@ -8,8 +8,8 @@ import { useStatsStyles } from './useStatsStyles';
 interface IProviderStatsData {
   highestAPY: string;
   apyLoading: boolean;
-  tvl: string;
-  lockingPeriod: number;
+  tvl?: string;
+  lockingPeriod?: number;
   statsLoading: boolean;
   rewards24h?: string;
   rewards30d?: string;
@@ -46,9 +46,13 @@ export const ProviderStats = ({
 
       <StatsItem
         isLoading={statsLoading}
-        primaryValue={t('stake-ankr.provider.days-value', {
-          value: lockingPeriod,
-        })}
+        primaryValue={
+          lockingPeriod
+            ? t('stake-ankr.provider.days-value', {
+                value: lockingPeriod,
+              })
+            : undefined
+        }
         title={t('stake-ankr.provider.locking-period')}
         tooltip={tHTML('stake-ankr.provider.locking-period-tooltip')}
       />

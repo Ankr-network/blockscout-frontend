@@ -371,7 +371,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       };
       const lockedArr: IUnstakingData[] = [];
 
-      if (existingUndelegations.length > 1) {
+      if (existingUndelegations.length > 0) {
         const lastUndelegation = existingUndelegations[0];
 
         const diff = Math.abs(
