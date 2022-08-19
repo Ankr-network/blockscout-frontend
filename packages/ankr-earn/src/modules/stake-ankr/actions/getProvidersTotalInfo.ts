@@ -34,7 +34,6 @@ export const getProvidersTotalInfo = createAction<
         sdk.getRewards(24 * 30),
       ]);
 
-      // todo: use actual data
       return {
         totalTVL,
         totalDelegatedAmount,

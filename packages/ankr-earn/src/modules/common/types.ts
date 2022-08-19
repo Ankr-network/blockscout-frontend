@@ -13,7 +13,7 @@ export type Percentage = number;
 export type ETH = number;
 export declare type Web3Address = string;
 export type Web3Uint256 = string;
-export type TTxHash = string;
+export type TxHash = string;
 
 export enum Env {
   Develop = 'develop',

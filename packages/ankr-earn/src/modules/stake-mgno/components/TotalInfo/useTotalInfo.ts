@@ -1,6 +1,10 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
-import { ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { getTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 
 interface IUseTotalInfo {
@@ -14,13 +18,35 @@ interface IUseTotalInfo {
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
+  const dispatchRequest = useDispatchRequest();
+
+  const { data, loading } = useQuery({
+    type: getTotalInfo,
+  });
+
+  const claimableRewards = useMemo(() => {
+    if (!data?.claimableRewards) return ZERO;
+
+    return data.claimableRewards.reduce((acc, reward) => {
+      if (reward.amount.isZero()) return acc;
+
+      acc = acc.plus(reward.amount);
+
+      return acc;
+    }, ZERO);
+  }, [data?.claimableRewards]);
+
+  useProviderEffect(() => {
+    dispatchRequest(getTotalInfo());
+  }, [dispatchRequest]);
+
   return {
-    totalStaked: ZERO,
+    totalStaked: data?.totalDelegatedAmount ?? ZERO,
     totalStakedUsd: ZERO,
-    climableRewards: ZERO,
+    climableRewards: claimableRewards.decimalPlaces(DEFAULT_ROUNDING),
     climableRewardsUsd: ZERO,
-    isTotalStakedLoading: false,
-    isClimableRewardsLoading: false,
+    isTotalStakedLoading: loading,
+    isClimableRewardsLoading: loading,
     stakeLink: RoutesConfig.stake.generatePath(),
   };
 };
