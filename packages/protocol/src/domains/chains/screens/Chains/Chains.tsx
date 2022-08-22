@@ -14,6 +14,7 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { UsageSummary } from './components/UsageSummary';
 import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
 import { useChains } from './hooks/useChains';
+import { MaintenanceBanner } from '../ChainItem/components/MaintenanceBanner';
 
 export const Chains = () => {
   const {
@@ -39,6 +40,7 @@ export const Chains = () => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
+      {credentials && <MaintenanceBanner />}
 
       <AddEmailBanner />
 
