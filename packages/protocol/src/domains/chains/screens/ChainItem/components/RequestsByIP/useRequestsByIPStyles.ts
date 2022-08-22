@@ -12,6 +12,9 @@ export const useRequestsByIPStyles = makeStyles<Theme>(theme => ({
       padding: theme.spacing(2.5),
     },
   },
+  loading: {
+    height: theme.spacing(40),
+  },
   titleRow: {
     display: 'flex',
     alignItems: 'center',
