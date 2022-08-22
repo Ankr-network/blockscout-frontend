@@ -6,6 +6,8 @@ import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
+import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
+
 export interface IGetStakeStatsData {
   acPoolLiquidityInMATIC: BigNumber;
   acRatio: BigNumber;
@@ -15,7 +17,7 @@ export interface IGetStakeStatsData {
 
 export const getStakeStats = createSmartAction<
   RequestAction<IGetStakeStatsData, IGetStakeStatsData>
->('matic/polygon/getStakeStats', () => ({
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}getStakeStats`, () => ({
   request: {
     promise: async (): Promise<IGetStakeStatsData> => {
       const sdk = await MaticPolygonSDK.getInstance();

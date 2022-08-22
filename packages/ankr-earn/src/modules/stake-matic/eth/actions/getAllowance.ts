@@ -6,8 +6,10 @@ import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 export const getAllowance = createAction<RequestAction<BigNumber, BigNumber>>(
-  'polygon/getAllowance',
+  `${MATIC_ETH_ACTIONS_PREFIX}getAllowance`,
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {

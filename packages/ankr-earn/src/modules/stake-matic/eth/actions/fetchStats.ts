@@ -7,6 +7,8 @@ import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 export interface IFetchStatsResponseData {
   maticBalance: BigNumber;
   aMATICbBalance: BigNumber;
@@ -20,7 +22,7 @@ export interface IFetchStatsResponseData {
 
 export const fetchStats = createSmartAction<
   RequestAction<IFetchStatsResponseData, IFetchStatsResponseData>
->('polygon/fetchStats', () => ({
+>(`${MATIC_ETH_ACTIONS_PREFIX}fetchStats`, () => ({
   request: {
     promise: async (): Promise<IFetchStatsResponseData> => {
       const sdk = await MaticEthSDK.getInstance();

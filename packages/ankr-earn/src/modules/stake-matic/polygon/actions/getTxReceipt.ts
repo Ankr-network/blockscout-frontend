@@ -6,6 +6,8 @@ import { IStakeData, MaticPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { Seconds } from 'modules/common/types';
 
+import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
+
 type TData = TransactionReceipt | null;
 
 const POLL_INTERVAL: Seconds = 3;
@@ -13,7 +15,7 @@ const POLL_INTERVAL: Seconds = 3;
 export const getTxReceipt = createSmartAction<
   RequestAction<TData, TData>,
   [IStakeData]
->('matic/polygon/getTxReceipt', ({ txHash }) => ({
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}/getTxReceipt`, ({ txHash }) => ({
   request: {
     promise: (async () => null)(),
   },

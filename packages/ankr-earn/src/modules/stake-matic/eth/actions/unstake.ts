@@ -7,6 +7,8 @@ import { MaticEthSDK } from '@ankr.com/staking-sdk';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
 import { getAnkrBalance } from './getAnkrBalance';
@@ -21,7 +23,7 @@ interface IUnstakeResponseData {}
 export const unstake = createSmartAction<
   RequestAction<IUnstakeResponseData, IUnstakeResponseData>,
   [IUnstakePayload]
->('polygon/unstake', ({ amount, token }) => ({
+>(`${MATIC_ETH_ACTIONS_PREFIX}unstake`, ({ amount, token }) => ({
   request: {
     promise: (async () => {
       const sdk = await MaticEthSDK.getInstance();
