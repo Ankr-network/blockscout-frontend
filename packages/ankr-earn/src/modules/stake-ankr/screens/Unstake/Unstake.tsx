@@ -15,6 +15,7 @@ export const Unstake = (): JSX.Element => {
     providerName,
     providerId,
     tokenIn,
+    onChange,
     onSubmit,
   } = useAnkrUnstake();
 
@@ -31,6 +32,7 @@ export const Unstake = (): JSX.Element => {
           providerId={providerId}
           providerName={providerName}
           tokenIn={tokenIn}
+          onChange={onChange}
           onSubmit={onSubmit}
         />
       </StakeContainer>
