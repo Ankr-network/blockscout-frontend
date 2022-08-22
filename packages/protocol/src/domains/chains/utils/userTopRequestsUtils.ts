@@ -13,7 +13,7 @@ import {
   getMonth,
   getTime,
   getYear,
-  isAfter,
+  isBefore,
 } from 'date-fns';
 import { StatsTimeframe } from '../types';
 import { t } from 'common';
@@ -94,7 +94,7 @@ const calculateBarCounts = (
 
   countList.forEach((count: ICount, index: number) => {
     const { timestamp, topRequests = [] } = count;
-    const isAfterTimestamp = isAfter(
+    const isAfterTimestamp = !isBefore(
       new Date(Number(timestamp)),
       new Date(nextTimestamp),
     );
@@ -119,10 +119,7 @@ const calculateBarCounts = (
       }
     });
 
-    if (
-      (isAfterTimestamp && index === countList.length - 1) ||
-      (!isAfterTimestamp && index === 0)
-    ) {
+    if (index === countList.length - 1) {
       fillBarCounts(oneStakeCounts, nextTimestamp - nextTime, topRequestsList);
     }
   });
