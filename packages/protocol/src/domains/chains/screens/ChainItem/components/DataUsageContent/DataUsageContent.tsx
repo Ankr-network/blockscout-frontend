@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { ChainItemDetails } from '../ChainItemDetails';
-import { ChainRequestsOverview } from '../ChainRequestsOverview';
+import {
+  ChainRequestsOverview,
+  IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED,
+} from '../ChainRequestsOverview';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { RequestsMap } from '../RequestsMap';
 import { UsageSummary } from '../UsageSummary';
@@ -66,9 +69,11 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           {isWalletConnected && userTopRequests && (
             <MethodCalls data={userTopRequests} timeframe={timeframe} />
           )}
-          {isWalletConnected && userTopRequestsIp && (
-            <RequestsByIP data={userTopRequestsIp} />
-          )}
+          {isWalletConnected &&
+            userTopRequestsIp &&
+            !IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED && (
+              <RequestsByIP data={userTopRequestsIp} />
+            )}
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
           )}
