@@ -177,10 +177,11 @@ export const formatChartData = (
       const otherMethodItem = topRequests?.find(
         otherMethod => otherMethod?.method === otherMethodName,
       );
-      if (!otherMethodItem) {
+
+      if (!otherMethodItem && item?.others_info?.request_count) {
         topRequests.push({
           method: otherMethodName,
-          count: item?.others_info?.request_count ?? 0,
+          count: item?.others_info?.request_count,
         });
       }
     });
