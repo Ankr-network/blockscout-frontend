@@ -81,6 +81,10 @@ export class AnkrStakingReadSDK {
     return new AnkrStakingReadSDK({ readProvider });
   }
 
+  public async getProvider(): Promise<Web3KeyReadProvider> {
+    return this.readProvider;
+  }
+
   public async isEthNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
