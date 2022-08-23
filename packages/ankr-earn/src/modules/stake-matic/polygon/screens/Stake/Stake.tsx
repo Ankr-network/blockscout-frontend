@@ -3,6 +3,7 @@ import { Box, ButtonBase } from '@material-ui/core';
 import { t, tHTML } from 'common';
 
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
+import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
@@ -10,6 +11,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -48,6 +50,8 @@ export const Stake = (): JSX.Element => {
     onFormSubmit,
     onTokenSelect,
   } = useStakeForm();
+
+  const faqItems = useMaticFaq();
 
   const renderStats = () => (
     <>
@@ -156,6 +160,8 @@ export const Stake = (): JSX.Element => {
             onChange={onFormChange}
             onSubmit={onFormSubmit}
           />
+
+          <Faq data={faqItems} />
         </StakeContainer>
       )}
     </section>
