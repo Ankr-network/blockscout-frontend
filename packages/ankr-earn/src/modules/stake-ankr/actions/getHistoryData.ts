@@ -1,3 +1,4 @@
+import { isWriteProvider } from '@ankr.com/provider/providerManager/utils/isWriteProvider';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -11,8 +12,16 @@ export const getHistoryData = createAction<
   request: {
     promise: (async (): Promise<IHistoryData[]> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
 
-      return sdk.getAllEventsHistory();
+      if (isWriteProvider(provider)) {
+        return sdk.getAllEventsHistory(
+          provider.currentAccount,
+          await provider.getBlockNumber(),
+        );
+      }
+
+      throw new Error('Current account is not defined');
     })(),
   },
   meta: {

@@ -18,8 +18,9 @@ export const claimAllUnstakes = createAction<RequestAction<TxHash, TxHash>>(
     request: {
       promise: (async (): Promise<TxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
 
-        return sdk.claimAllUnstakes();
+        return sdk.claimAllUnstakes(await provider.getBlockNumber());
       })(),
     },
     meta: {

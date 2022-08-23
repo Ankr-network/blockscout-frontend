@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/staking",
   "dependencies": {
+    "typescript-memoize": "1.1.0",
     "@ankr.com/provider": "^1.5.27",
     "@ankr.com/staking-sdk": "^1.0.0",
     "@loadable/component": "^5.15.2",

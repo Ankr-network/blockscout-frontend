@@ -19,6 +19,9 @@ export const getProvidersTotalInfo = createAction<
   request: {
     promise: (async (): Promise<IGetProvidersTotalInfo> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
+
+      const latestBlockNumber = await provider.getBlockNumber();
 
       const [
         totalTVL,
@@ -27,9 +30,9 @@ export const getProvidersTotalInfo = createAction<
         rewards24h,
         rewards30d,
       ] = await Promise.all([
-        sdk.getTotalTVL(),
-        sdk.getMyTotalDelegatedAmount(),
-        sdk.getLockingPeriodDays(),
+        sdk.getTotalTVL(latestBlockNumber),
+        sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+        sdk.getLockingPeriodDays(latestBlockNumber),
         sdk.getRewards(24),
         sdk.getRewards(24 * 30),
       ]);
