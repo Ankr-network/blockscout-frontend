@@ -1,35 +1,38 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 import { t } from 'common';
 
-import { watchAsset } from 'modules/bridge/actions/watchAsset';
-import { AvailableBridgeTokens } from 'modules/bridge/types';
-import {
-  POLYGON_NETWORK_BY_ENV,
-  SupportedChainIDS,
-  ZERO,
-} from 'modules/common/const';
+import { POLYGON_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { RoutesConfig as MaticStakingRoutes } from 'modules/stake-matic/polygon/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
-export interface IStakedMaticData {
+const token = Token.aMATICc;
+
+export interface IUseStakedMaticCertPolygon {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
-  isBalancesLoading: boolean;
+  isLoading: boolean;
   isShowed: boolean;
+  isStakeLoading: boolean;
+  nativeAmount?: BigNumber;
   network: string;
+  stakeLink: string;
+  token: Token;
+  unstakeLink?: string;
+  tradeLink: string;
   usdAmount?: BigNumber;
-  onAddTokenClick: () => void;
 }
 
-export const useBridgedMaticBond = (): IStakedMaticData => {
-  const dispatchRequest = useDispatchRequest();
-
+export const useStakedMaticCertPolygon = (): IUseStakedMaticCertPolygon => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
@@ -38,38 +41,39 @@ export const useBridgedMaticBond = (): IStakedMaticData => {
     type: getMetrics,
   });
 
+  const ratio = commonData?.ratio ?? ZERO;
+
   const network = t(`chain.${POLYGON_NETWORK_BY_ENV}`);
   const chainId = POLYGON_NETWORK_BY_ENV;
 
-  const amount = commonData?.maticBondBalance ?? ZERO;
+  const amount = commonData?.maticCertBalance ?? ZERO;
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
         amount,
         totalStaked: metrics?.[EMetricsServiceName.MATIC]?.totalStaked,
         totalStakedUsd: metrics?.[EMetricsServiceName.MATIC]?.totalStakedUsd,
+        ratio,
       }),
-    [amount, metrics],
+    [amount, ratio, metrics],
   );
 
   const isShowed = !amount.isZero() || isCommonDataLoading;
 
-  const onAddTokenClick = () => {
-    dispatchRequest(
-      watchAsset({
-        token: AvailableBridgeTokens.aMATICb,
-        chainId: POLYGON_NETWORK_BY_ENV as unknown as SupportedChainIDS,
-      }),
-    );
-  };
+  const nativeAmount = getTokenNativeAmount(amount, ratio);
 
   return {
     amount,
     chainId,
-    isBalancesLoading: isCommonDataLoading,
+    isLoading: isCommonDataLoading,
     isShowed,
+    isStakeLoading: false,
+    nativeAmount,
     network,
+    stakeLink: MaticStakingRoutes.stake.generatePath(token),
+    token,
+    unstakeLink: undefined,
+    tradeLink: DefiRoutes.defi.generatePath(token),
     usdAmount,
-    onAddTokenClick,
   };
 };

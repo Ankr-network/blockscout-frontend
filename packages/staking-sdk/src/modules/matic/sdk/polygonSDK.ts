@@ -17,7 +17,8 @@ import {
   ProviderManagerSingleton,
   ZERO,
 } from '../../common';
-import ABI_AMATICC from '../../contracts/aMATICc.json';
+import ABI_MATIC_BOND from '../../contracts/aMATICb.json';
+import ABI_MATIC_CERT from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
 import SWAP_POOL_ABI from '../../contracts/SwapPool.json';
 import {
@@ -56,7 +57,7 @@ export class MaticPolygonSDK implements IStakable {
 
   private static getACTokenContract(web3: Web3): Contract {
     return new web3.eth.Contract(
-      ABI_AMATICC as AbiItem[],
+      ABI_MATIC_CERT as AbiItem[],
       polygonConfig.aMATICcToken,
     );
   }
@@ -152,6 +153,14 @@ export class MaticPolygonSDK implements IStakable {
     return instance;
   }
 
+  /**
+   * Add token to wallet.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {string} token - token symbol (aMATICc or aMATICb)
+   * @returns {Promise<boolean>}
+   */
   public async addTokenToWallet(token: string): Promise<boolean> {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -208,6 +217,49 @@ export class MaticPolygonSDK implements IStakable {
     const maticTokenContract = await this.getMaticTokenContract();
 
     const balance = await maticTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return aMATICb token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getABBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const maticBondTokenContract = MaticPolygonSDK.getABTokenContract(web3);
+
+    const balance = await maticBondTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  private static getABTokenContract(web3: Web3): Contract {
+    return new web3.eth.Contract(
+      ABI_MATIC_BOND as AbiItem[],
+      polygonConfig.aMATICbToken,
+    );
+  }
+
+  /**
+   * Return aMATICc token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getACBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const maticCertTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+
+    const balance = await maticCertTokenContract.methods
       .balanceOf(this.currentAccount)
       .call();
 

@@ -7,6 +7,7 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_ROUNDING,
+  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -34,8 +35,7 @@ export const Stake = (): JSX.Element => {
   const {
     acPoolLiquidityInMATIC,
     acRatio,
-    extraValidation,
-    getStatsData,
+    balance,
     getStatsError,
     isGetStatsLoading,
     isStakeLoading,
@@ -43,6 +43,7 @@ export const Stake = (): JSX.Element => {
     tokenIn,
     tokenOut,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,
@@ -80,7 +81,7 @@ export const Stake = (): JSX.Element => {
           description={tHTML('stake-matic-eth.amaticc-descr', {
             rate: isGetStatsLoading
               ? '...'
-              : acRatio.decimalPlaces(DECIMAL_PLACES).toFormat(),
+              : ONE.dividedBy(acRatio).decimalPlaces(DECIMAL_PLACES).toFormat(),
           })}
           iconSlot={<AMATICCIcon />}
           isActive={tokenOut === Token.aMATICc}
@@ -137,7 +138,7 @@ export const Stake = (): JSX.Element => {
         </StakeContainer>
       )}
 
-      {getStatsError === null && getStatsData !== null && (
+      {getStatsError === null && !!balance && (
         <StakeContainer>
           <StakeForm
             auditSlot={
@@ -145,10 +146,10 @@ export const Stake = (): JSX.Element => {
                 <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
               </AuditInfo>
             }
-            balance={getStatsData.maticBalance}
+            balance={balance}
             extraValidation={extraValidation}
             loading={isStakeLoading}
-            maxAmount={getStatsData.maticBalance}
+            maxAmount={balance}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}

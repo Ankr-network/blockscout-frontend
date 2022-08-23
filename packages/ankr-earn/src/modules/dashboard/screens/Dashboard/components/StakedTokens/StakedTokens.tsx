@@ -26,6 +26,7 @@ import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedANKR } from '../StakedANKR';
 import { StakedAWNDB } from '../StakedAWNDB';
+import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import { StakedMGNO } from '../StakedMGNO';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
@@ -67,6 +68,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isUnclaimedEthShowed,
     isANKRShowed,
     isMGNOShowed,
+    isStakedMaticCertPolygonShowed,
   } = useStakedTokens();
 
   return (
@@ -102,19 +104,9 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
 
             {isMATICShowed && <StakedAMATICB />}
 
-            {isAMATICBPolygonShowed && <BridgedMaticBond />}
-
-            {isAMATICBBSCShowed && <BridgedMaticBondBSC />}
-
-            {isAMATICCBSCShowed && <BridgedMaticCertBSC />}
-
-            {isAMATICCPolygonShowed && <BridgedMaticCertPolygon />}
-
             {isAMATICCShowed && <StakedAMATICC />}
 
-            {isAETHBBridgedShowed && <BridgedEthBond />}
-
-            {isAETHCBridgedShowed && <BridgedAETHCBSC />}
+            {isStakedMaticCertPolygonShowed && <StakedMaticCertPolygon />}
 
             {isAETHBShowed && <StakedAETHB />}
 
@@ -139,6 +131,18 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             {isAKSMBShowed && <StakedAKSMB />}
 
             {isAWNDBShowed && <StakedAWNDB />}
+
+            {isAMATICBPolygonShowed && <BridgedMaticBond />}
+
+            {isAMATICBBSCShowed && <BridgedMaticBondBSC />}
+
+            {isAMATICCBSCShowed && <BridgedMaticCertBSC />}
+
+            {isAMATICCPolygonShowed && <BridgedMaticCertPolygon />}
+
+            {isAETHBBridgedShowed && <BridgedEthBond />}
+
+            {isAETHCBridgedShowed && <BridgedAETHCBSC />}
           </AssetsList>
         </>
       ) : (

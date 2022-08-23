@@ -11,6 +11,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { addMATICTokenToWallet } from 'modules/stake-matic/polygon/actions/addMATICTokenToWallet';
+import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
 import { getTxData } from 'modules/stake-matic/polygon/actions/getTxData';
 import { getTxReceipt } from 'modules/stake-matic/polygon/actions/getTxReceipt';
@@ -38,14 +39,19 @@ export const useStakeStep = (): IUseStakeStepData => {
   const { txHash, tokenOut } = useParams<IStakeStepRouteData>();
 
   const { data: stats } = useQuery({ type: getStakeStats });
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
+  const { data: commonData } = useQuery({ type: getCommonData });
+  const {
+    loading: isLoading,
+    data: txData,
+    error,
+  } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
 
-  const isPending = !receipt && !!data?.isPending;
+  const isPending = !receipt && !!txData?.isPending;
 
   const txAmount = useMemo(() => {
-    const amount = data?.amount;
-    const ratio = stats?.acRatio;
+    const amount = txData?.amount;
+    const ratio = commonData?.ratio;
     const feePct = stats?.stakeFeePct ?? ZERO;
 
     if (!amount) {
@@ -60,7 +66,7 @@ export const useStakeStep = (): IUseStakeStepData => {
           .multipliedBy(ratio)
           .decimalPlaces(MATIC_DECIMALS, BigNumber.ROUND_DOWN)
       : amount;
-  }, [data?.amount, stats?.acRatio, stats?.stakeFeePct, tokenOut]);
+  }, [txData?.amount, commonData, stats?.stakeFeePct, tokenOut]);
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
@@ -80,6 +86,7 @@ export const useStakeStep = (): IUseStakeStepData => {
       dispatch(getStakeStats());
     }
 
+    dispatch(getCommonData());
     dispatch(getTxData({ txHash }));
     dispatch(getTxReceipt({ txHash }));
 
@@ -89,14 +96,15 @@ export const useStakeStep = (): IUseStakeStepData => {
           getStakeStats.toString(),
           getTxData.toString(),
           getTxReceipt.toString(),
+          getCommonData.toString(),
         ]),
       );
     };
-  }, [dispatch, txHash]);
+  }, [dispatch, stats, txHash]);
 
   return {
     amount: txAmount,
-    destinationAddress: data?.destinationAddress,
+    destinationAddress: txData?.destinationAddress,
     error: error || txFailError,
     isLoading,
     isPending,

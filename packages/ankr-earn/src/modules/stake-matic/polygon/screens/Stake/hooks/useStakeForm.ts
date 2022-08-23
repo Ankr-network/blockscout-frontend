@@ -11,10 +11,8 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import {
-  getStakeStats,
-  IGetStakeStatsData,
-} from 'modules/stake-matic/polygon/actions/getStakeStats';
+import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
 import { stake } from 'modules/stake-matic/polygon/actions/stake';
 import {
   IStakeFormPayload,
@@ -27,11 +25,7 @@ import { useSelectedToken } from './useSelectedToken';
 interface IUseStakeFormData {
   acPoolLiquidityInMATIC: BigNumber;
   acRatio: BigNumber;
-  extraValidation: (
-    data: Partial<IStakeFormPayload>,
-    errors: FormErrors<IStakeFormPayload>,
-  ) => FormErrors<IStakeFormPayload>;
-  getStatsData: IGetStakeStatsData | null;
+  balance?: BigNumber;
   getStatsError?: Error;
   isGetStatsLoading: boolean;
   isStakeLoading: boolean;
@@ -39,6 +33,10 @@ interface IUseStakeFormData {
   tokenIn: string;
   tokenOut: TMaticSyntToken;
   totalAmount: BigNumber;
+  extraValidation: (
+    data: Partial<IStakeFormPayload>,
+    errors: FormErrors<IStakeFormPayload>,
+  ) => FormErrors<IStakeFormPayload>;
   onFormChange: (data: IStakeFormPayload, isInvalid: boolean) => void;
   onFormSubmit: (data: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -53,27 +51,33 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const {
     data: getStatsData,
-    error: getStatsError,
-    loading: isGetStatsLoading,
+    error: stakeStatsError,
+    loading: isStakeStatsLoading,
   } = useQuery({
     type: getStakeStats,
+  });
+
+  const {
+    data: commonData,
+    error: commonDataError,
+    loading: isCommonDataLoading,
+  } = useQuery({
+    type: getCommonData,
   });
 
   const [amount, setAmount] = useState(ZERO);
   const [isError, setIsError] = useState(false);
 
   const acPoolLiquidityInMATIC = getStatsData?.acPoolLiquidityInMATIC ?? ZERO;
-  const acRatio = getStatsData?.acRatio ?? ZERO;
+  const acRatio = commonData ? commonData.ratio : ZERO;
   const stakeFeePct = getStatsData?.stakeFeePct.isGreaterThan(0)
     ? getStatsData?.stakeFeePct
     : null;
 
+  const { maticBalance } = commonData || {};
+
   const totalAmount = useMemo(() => {
-    if (
-      isError ||
-      !getStatsData?.maticBalance ||
-      getStatsData.maticBalance.isLessThan(amount)
-    ) {
+    if (isError || !maticBalance || maticBalance.isLessThan(amount)) {
       return ZERO;
     }
 
@@ -88,17 +92,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     return calcTotalAmount({
       aMATICcRatio: acRatio,
       amount: amountVal,
-      balance: getStatsData.maticBalance,
+      balance: maticBalance,
       selectedToken,
     });
-  }, [
-    acRatio,
-    amount,
-    getStatsData?.maticBalance,
-    isError,
-    selectedToken,
-    stakeFeePct,
-  ]);
+  }, [acRatio, amount, maticBalance, isError, selectedToken, stakeFeePct]);
 
   const extraValidation = (
     { amount: userAmount }: Partial<IStakeFormPayload>,
@@ -140,24 +137,27 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   useProviderEffect(() => {
     dispatch(getStakeStats());
+    dispatch(getCommonData());
 
     return () => {
-      dispatch(resetRequests([getStakeStats.toString()]));
+      dispatch(
+        resetRequests([getStakeStats.toString(), getCommonData.toString()]),
+      );
     };
   }, [dispatch]);
 
   return {
     acPoolLiquidityInMATIC,
     acRatio,
-    extraValidation,
-    getStatsData,
-    getStatsError,
-    isGetStatsLoading,
+    balance: maticBalance,
+    getStatsError: stakeStatsError || commonDataError,
+    isGetStatsLoading: isStakeStatsLoading || isCommonDataLoading,
     isStakeLoading,
     stakeFeePct,
     tokenIn: Token.MATIC,
     tokenOut: selectedToken,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,
