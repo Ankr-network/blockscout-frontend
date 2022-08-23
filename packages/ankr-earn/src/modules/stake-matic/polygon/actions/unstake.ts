@@ -1,38 +1,36 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { IStakeData, MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
 
 import { getCommonData } from './getCommonData';
-import { getStakeStats } from './getStakeStats';
+import { getUnstakeStats } from './getUnstakeStats';
 
 interface IRes {
-  data: IStakeData;
+  data: void;
 }
 
-interface IStakeProps {
+interface IUnstakeProps {
   amount: BigNumber;
   token: TMaticSyntToken;
 }
 
-export const stake = createSmartAction<
-  RequestAction<IStakeData, IStakeData>,
-  [IStakeProps]
->(`${MATIC_POLYGON_ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
+export const unstake = createSmartAction<
+  RequestAction<void, void>,
+  [IUnstakeProps]
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}unstake`, ({ amount, token }) => ({
   request: {
-    promise: (async (): Promise<IStakeData> => {
+    promise: (async (): Promise<void> => {
       const sdk = await MaticPolygonSDK.getInstance();
 
-      return sdk.stake(amount, token);
+      return sdk.unstake(amount, token);
     })(),
   },
   meta: {
@@ -44,7 +42,7 @@ export const stake = createSmartAction<
       store: TStore<IStoreState>,
     ): Error => {
       store.dispatchRequest(getCommonData());
-      store.dispatchRequest(getStakeStats());
+      store.dispatchRequest(getUnstakeStats());
 
       throw error;
     },
@@ -54,16 +52,7 @@ export const stake = createSmartAction<
       store: TStore<IStoreState>,
     ): IRes => {
       store.dispatchRequest(getCommonData());
-      store.dispatchRequest(getStakeStats());
-
-      if (response.data.txHash) {
-        const path = RoutesConfig.stakeStep.generatePath(
-          token,
-          response.data.txHash,
-        );
-
-        store.dispatch(push(path));
-      }
+      store.dispatchRequest(getUnstakeStats());
 
       return response;
     },

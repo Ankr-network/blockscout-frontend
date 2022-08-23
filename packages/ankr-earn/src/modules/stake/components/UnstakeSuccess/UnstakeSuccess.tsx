@@ -12,6 +12,7 @@ import { useUnstakeSuccessStyles } from './useUnstakeSuccessStyles';
 interface IUnstakeSuccessProps {
   infoText?: string;
   period?: string;
+  title?: string;
   tokenName?: string;
   onClose?: () => void;
 }
@@ -19,6 +20,7 @@ interface IUnstakeSuccessProps {
 export const UnstakeSuccess = ({
   infoText,
   period,
+  title,
   tokenName,
   onClose,
 }: IUnstakeSuccessProps): JSX.Element => {
@@ -27,7 +29,7 @@ export const UnstakeSuccess = ({
   return (
     <Paper className={classes.root}>
       <Typography className={classes.title} component="h2" variant="h1">
-        {t('unstake-dialog.success.title')}
+        {typeof title === 'string' ? title : t('unstake-dialog.success.title')}
       </Typography>
 
       <Typography className={classes.text}>

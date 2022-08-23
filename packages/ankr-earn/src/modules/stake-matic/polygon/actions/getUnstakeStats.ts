@@ -9,26 +9,30 @@ import { withStore } from 'modules/common/utils/withStore';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 
-export interface IGetStakeStatsData {
+export interface IGetUnstakeStatsData {
+  acPoolLiquidity: BigNumber;
   acPoolLiquidityInMATIC: BigNumber;
-  stakeFeePct: TBNPercent;
+  unstakeFeePct: TBNPercent;
 }
 
-export const getStakeStats = createSmartAction<
-  RequestAction<IGetStakeStatsData, IGetStakeStatsData>
->(`${MATIC_POLYGON_ACTIONS_PREFIX}getStakeStats`, () => ({
+export const getUnstakeStats = createSmartAction<
+  RequestAction<IGetUnstakeStatsData, IGetUnstakeStatsData>
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}getUnstakeStats`, () => ({
   request: {
-    promise: async (): Promise<IGetStakeStatsData> => {
+    promise: async (): Promise<IGetUnstakeStatsData> => {
       const sdk = await MaticPolygonSDK.getInstance();
 
-      const [acPoolLiquidityInMATIC, stakeFeePct] = await Promise.all([
-        sdk.getACPoolLiquidityInMATIC(),
-        sdk.getStakeFeePct(),
-      ]);
+      const [acPoolLiquidity, acPoolLiquidityInMATIC, unstakeFeePct] =
+        await Promise.all([
+          sdk.getACPoolLiquidity(),
+          sdk.getACPoolLiquidityInMATIC(),
+          sdk.getUnstakeFeePct(),
+        ]);
 
       return {
+        acPoolLiquidity,
         acPoolLiquidityInMATIC,
-        stakeFeePct,
+        unstakeFeePct,
       };
     },
   },

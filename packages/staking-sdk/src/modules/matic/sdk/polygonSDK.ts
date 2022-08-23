@@ -13,6 +13,7 @@ import {
 
 import {
   configFromEnv,
+  MAX_UINT256,
   POLYGON_NETWORK_BY_ENV,
   ProviderManagerSingleton,
   ZERO,
@@ -20,7 +21,7 @@ import {
 import ABI_MATIC_BOND from '../../contracts/aMATICb.json';
 import ABI_MATIC_CERT from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
-import SWAP_POOL_ABI from '../../contracts/SwapPool.json';
+import ABI_SWAP_POOL from '../../contracts/SwapPool.json';
 import {
   IPendingData,
   IStakable,
@@ -34,7 +35,7 @@ import {
   MATIC_ON_POLYGON_PROVIDER_READ_ID,
   MATIC_SCALE_FACTOR,
 } from '../const';
-import { IMaticSDKProviders } from '../types';
+import { EMaticSDKErrorCodes, IMaticSDKProviders } from '../types';
 
 const { polygonConfig } = configFromEnv();
 
@@ -53,6 +54,13 @@ export class MaticPolygonSDK implements IStakable {
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
     this.currentAccount = this.writeProvider.currentAccount;
+  }
+
+  private static getABTokenContract(web3: Web3): Contract {
+    return new web3.eth.Contract(
+      ABI_MATIC_BOND as AbiItem[],
+      polygonConfig.aMATICbToken,
+    );
   }
 
   private static getACTokenContract(web3: Web3): Contract {
@@ -101,7 +109,7 @@ export class MaticPolygonSDK implements IStakable {
     const web3 = provider.getWeb3();
 
     return new web3.eth.Contract(
-      SWAP_POOL_ABI as AbiItem[],
+      ABI_SWAP_POOL as AbiItem[],
       polygonConfig.swapPool,
     );
   }
@@ -177,6 +185,86 @@ export class MaticPolygonSDK implements IStakable {
     });
   }
 
+  public async approveACToken(
+    amount: BigNumber = MAX_UINT256,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<boolean> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const allowance = new BigNumber(
+      await acTokenContract.methods
+        .allowance(this.currentAccount, polygonConfig.swapPool)
+        .call(),
+    );
+
+    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
+      return true;
+    }
+
+    const approve: TransactionReceipt | undefined =
+      await acTokenContract.methods
+        .approve(polygonConfig.swapPool, amountHex)
+        .send({
+          from: this.currentAccount,
+        });
+
+    return !!approve;
+  }
+
+  /**
+   * Return aMATICb token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable balance
+   */
+  public async getABBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const abTokenContract = MaticPolygonSDK.getABTokenContract(web3);
+
+    const balance = await abTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return aMATICc token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable balance
+   */
+  public async getACBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+
+    const balance = await acTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  public async getACPoolLiquidity(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract();
+
+    const acTokensPool: string = await swapPoolContract.methods
+      .cerosTokenAmount()
+      .call();
+
+    if (acTokensPool === '0') {
+      return ZERO;
+    }
+
+    return this.convertFromWei(acTokensPool);
+  }
+
   public async getACPoolLiquidityInMATIC(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -217,49 +305,6 @@ export class MaticPolygonSDK implements IStakable {
     const maticTokenContract = await this.getMaticTokenContract();
 
     const balance = await maticTokenContract.methods
-      .balanceOf(this.currentAccount)
-      .call();
-
-    return this.convertFromWei(balance);
-  }
-
-  /**
-   * Return aMATICb token balance.
-   *
-   * @public
-   * @returns {Promise<BigNumber>} - human readable balance
-   */
-  public async getABBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-    const maticBondTokenContract = MaticPolygonSDK.getABTokenContract(web3);
-
-    const balance = await maticBondTokenContract.methods
-      .balanceOf(this.currentAccount)
-      .call();
-
-    return this.convertFromWei(balance);
-  }
-
-  private static getABTokenContract(web3: Web3): Contract {
-    return new web3.eth.Contract(
-      ABI_MATIC_BOND as AbiItem[],
-      polygonConfig.aMATICbToken,
-    );
-  }
-
-  /**
-   * Return aMATICc token balance.
-   *
-   * @public
-   * @returns {Promise<BigNumber>} - human readable balance
-   */
-  public async getACBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-    const maticCertTokenContract = MaticPolygonSDK.getACTokenContract(web3);
-
-    const balance = await maticCertTokenContract.methods
       .balanceOf(this.currentAccount)
       .call();
 
@@ -360,20 +405,23 @@ export class MaticPolygonSDK implements IStakable {
     token: string,
     scale = MATIC_SCALE_FACTOR,
   ): Promise<IStakeData> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
+    }
+
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
 
-    const rawAmount = amount.multipliedBy(scale);
-    const amountStr = convertNumberToHex(rawAmount);
+    const amountHex = convertNumberToHex(amount, scale);
 
     const swapPoolContract = await this.getSwapPoolContract();
 
-    const tx = await swapPoolContract.methods
-      .swapEth(true, amountStr, this.currentAccount)
+    const tx: TransactionReceipt = await swapPoolContract.methods
+      .swapEth(true, amountHex, this.currentAccount)
       .send({
         from: this.currentAccount,
-        value: amountStr,
+        value: amountHex,
       });
 
     return {
@@ -382,9 +430,29 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * TODO Add implementation for this (MATIC on Polygon)
+   * @note For aMATICc tokens only. You will need "approveACToken" before that
    */
-  public async unstake(): Promise<void> {
-    throw new Error('Add implementation for Unstake logic');
+  public async unstake(
+    amount: BigNumber,
+    token: string,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<void> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
+    }
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const swapPoolContract = await this.getSwapPoolContract();
+
+    await swapPoolContract.methods
+      .swapEth(false, amountHex, this.currentAccount)
+      .send({
+        from: this.currentAccount,
+      });
   }
 }

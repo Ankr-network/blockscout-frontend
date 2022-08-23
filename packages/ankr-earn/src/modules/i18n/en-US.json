@@ -693,14 +693,16 @@
   },
   "stake-matic-polygon": {
     "fee": "Fee",
-    "stake": {
-      "liquidity-pool": "Current crosschain staking pool capacity: <b>{value} MATIC</b>"
-    },
+    "liquidity-pool-label": "Current crosschain staking pool capacity: <b>{value} MATIC</b>",
     "tooltips": {
-      "liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances."
+      "stake-liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances.",
+      "unstake-liquidity-pool": "If your unstake exceeds current capacity of cross chain staking pool, you can split your amount to parts and unstake more once pool is top up."
     },
     "validation": {
       "low-pool": "Your stake exceeds current pool capacity"
+    },
+    "unstake": {
+      "success-title": "Unstake successful!"
     }
   },
   "stake-fantom": {

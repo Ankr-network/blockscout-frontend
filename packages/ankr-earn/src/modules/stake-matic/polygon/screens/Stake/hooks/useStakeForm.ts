@@ -1,4 +1,7 @@
-import { resetRequests } from '@redux-requests/core';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
 import { useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
@@ -42,6 +45,9 @@ interface IUseStakeFormData {
   onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
+const resetRequests = () =>
+  resetReduxRequests([getCommonData.toString(), getStakeStats.toString()]);
+
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
 
@@ -50,19 +56,19 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const {
-    data: getStatsData,
-    error: stakeStatsError,
-    loading: isStakeStatsLoading,
-  } = useQuery({
-    type: getStakeStats,
-  });
-
-  const {
     data: commonData,
     error: commonDataError,
     loading: isCommonDataLoading,
   } = useQuery({
     type: getCommonData,
+  });
+
+  const {
+    data: getStatsData,
+    error: stakeStatsError,
+    loading: isStakeStatsLoading,
+  } = useQuery({
+    type: getStakeStats,
   });
 
   const [amount, setAmount] = useState(ZERO);
@@ -136,13 +142,14 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   useProviderEffect(() => {
-    dispatch(getStakeStats());
+    dispatch(resetRequests());
+
     dispatch(getCommonData());
+    dispatch(getStakeStats());
 
     return () => {
-      dispatch(
-        resetRequests([getStakeStats.toString(), getCommonData.toString()]),
-      );
+      dispatch(abortRequests());
+      dispatch(resetRequests());
     };
   }, [dispatch]);
 

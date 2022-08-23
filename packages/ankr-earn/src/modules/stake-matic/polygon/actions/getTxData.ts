@@ -14,7 +14,7 @@ import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 export const getTxData = createSmartAction<
   RequestAction<IFetchTxData, IFetchTxData>,
   [IStakeData]
->(`${MATIC_POLYGON_ACTIONS_PREFIX}/getTxData`, ({ txHash }) => ({
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}getTxData`, ({ txHash }) => ({
   request: {
     promise: async (): Promise<IFetchTxData> => {
       const sdk = await MaticPolygonSDK.getInstance();
@@ -23,7 +23,6 @@ export const getTxData = createSmartAction<
     },
   },
   meta: {
-    asMutation: false,
     showNotificationOnError: true,
     onRequest: withStore,
   },
