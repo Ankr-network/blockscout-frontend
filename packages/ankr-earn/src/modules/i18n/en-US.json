@@ -134,7 +134,9 @@
     "2018": "Dev",
     "250": "Fantom Opera",
     "4002": "Fantom Testnet",
-    "80001": "Mumbai"
+    "80001": "Mumbai",
+    "100": "Gnosis Chain",
+    "77": "POA Network Sokol"
   },
   "audit-info": {
     "label": "Audited by",
@@ -183,7 +185,9 @@
       "kusama": "Kusama",
       "polkadot": "Polkadot",
       "rococo": "Rococo",
-      "westend": "Westend"
+      "westend": "Westend",
+      "gnosis": "Gnosis Chain",
+      "sokol": "POA Network Sokol"
     }
   },
   "polkadot-slot-auction": {
@@ -1331,7 +1335,7 @@
       "history": "History"
     },
     "staking": {
-      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max. This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max.<br/>This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
       "slashing-protection-tooltip": "tooltip"
     },

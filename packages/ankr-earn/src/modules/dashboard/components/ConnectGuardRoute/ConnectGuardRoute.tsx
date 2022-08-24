@@ -12,6 +12,7 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  GNO_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -28,6 +29,7 @@ const AVAILABLE_NETWORKS = [
   BSC_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
+  GNO_NETWORK_BY_ENV,
 ];
 
 export const ConnectGuardRoute = ({

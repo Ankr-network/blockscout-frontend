@@ -4,7 +4,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { ZERO } from 'modules/common/const';
 
-import { IStakingReward } from '../api/types';
+import { IStakingReward } from '../api/GnosisStakingSDK/types';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
 interface IGetTotalInfo {

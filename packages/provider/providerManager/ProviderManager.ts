@@ -26,6 +26,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
   [AvailableReadProviders.mumbai]: 'https://matic-mumbai.chainstacklabs.com',
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
+  [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',
+  [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
 };
 
 interface IProviders {
@@ -41,6 +43,8 @@ interface IProviders {
   [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
   [AvailableReadProviders.mumbai]: Web3KeyReadProvider;
   [AvailableReadProviders.polygon]: Web3KeyReadProvider;
+  [AvailableReadProviders.gnosis]: Web3KeyReadProvider;
+  [AvailableReadProviders.sokol]: Web3KeyReadProvider;
 }
 
 const POLKADOT_CONNECT_WAIT_MS = 250;

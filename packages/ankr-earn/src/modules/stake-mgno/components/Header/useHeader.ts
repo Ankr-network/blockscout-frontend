@@ -12,6 +12,7 @@ export const useHeader = (): IUseHeader => {
   return {
     balance: ZERO,
     isLoading: false,
-    getTokensLink: '',
+    getTokensLink:
+      'https://docs.gnosischain.com/validator-info/validator-deposits/convert-gno-to-mgno',
   };
 };
