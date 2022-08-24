@@ -123,7 +123,7 @@ export const FeatureItem = ({
           </Grid>
 
           <Grid item>
-            {isTvlLoading && (
+            {isTvlLoading && !stakedTvl && (
               <Skeleton
                 className={classes.skeleton}
                 height={48}
@@ -132,7 +132,7 @@ export const FeatureItem = ({
               />
             )}
 
-            {!isTvlLoading && shouldRenderTvl && (
+            {shouldRenderTvl && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
                   {t('features.staked-tvl')}

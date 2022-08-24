@@ -364,6 +364,10 @@ export class AnkrStakingReadSDK {
     };
   }
 
+  public async getLatestBlockNumber(): Promise<number> {
+    return this.readProvider.getWeb3().eth.getBlockNumber();
+  }
+
   @Memoize({
     expiring: CACHE_TIME,
     hashFunction: (

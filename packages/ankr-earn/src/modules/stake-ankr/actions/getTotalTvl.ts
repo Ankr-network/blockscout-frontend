@@ -11,11 +11,9 @@ export const getTotalTvl = createAction<RequestAction<BigNumber, BigNumber>>(
     request: {
       promise: (async (): Promise<BigNumber> => {
         const sdk = await AnkrStakingReadSDK.getInstance();
-        const provider = await sdk.getProvider();
+        const blockNumber = await sdk.getLatestBlockNumber();
 
-        const latestBlockNumber = await provider.getBlockNumber();
-
-        return sdk.getTotalTVL(latestBlockNumber);
+        return sdk.getTotalTVL(blockNumber);
       })(),
     },
     meta: {
