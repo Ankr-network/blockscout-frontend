@@ -28,6 +28,7 @@ import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
+  isLiquidAssetsShowed: boolean;
   isDelegateAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
@@ -140,7 +141,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isStakedMaticCertPolygonShowed =
     featuresConfig.maticPolygonStaking && stakedMaticCertPolygon.isShowed;
 
-  const atLeastOneShowed =
+  const isLiquidAssetsShowed =
     isAETHBShowed ||
     isAETHCShowed ||
     isAETHBSCShowed ||
@@ -165,14 +166,13 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAWNDBShowed ||
     isWNDShowed ||
     isUnclaimedEthShowed ||
-    isANKRShowed ||
-    isMGNOShowed ||
     isStakedMaticCertPolygonShowed;
 
   const isDelegateAssetsShowed = isANKRShowed || isMGNOShowed;
 
   return {
-    isAssetsShowed: atLeastOneShowed,
+    isAssetsShowed: isLiquidAssetsShowed || isDelegateAssetsShowed,
+    isLiquidAssetsShowed,
     isDelegateAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,

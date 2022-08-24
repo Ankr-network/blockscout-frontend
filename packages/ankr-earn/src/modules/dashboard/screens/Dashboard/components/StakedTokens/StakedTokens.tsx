@@ -64,6 +64,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isAWNDBShowed,
     isDOTShowed,
     isKSMShowed,
+    isLiquidAssetsShowed,
     isWNDShowed,
     isUnclaimedEthShowed,
     isANKRShowed,
@@ -89,61 +90,65 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
             </Box>
           )}
 
-          <Typography className={classes.title} variant="h3">
-            {t('dashboard.liquidAssets')}
-          </Typography>
+          {isLiquidAssetsShowed && (
+            <>
+              <Typography className={classes.title} variant="h3">
+                {t('dashboard.liquidAssets')}
+              </Typography>
 
-          <AssetsList>
-            {isUnclaimedEthShowed && <UnclaimedETH />}
+              <AssetsList>
+                {isUnclaimedEthShowed && <UnclaimedETH />}
 
-            {isDOTShowed && <UnclaimedDOT />}
+                {isDOTShowed && <UnclaimedDOT />}
 
-            {isKSMShowed && <UnclaimedKSM />}
+                {isKSMShowed && <UnclaimedKSM />}
 
-            {isWNDShowed && <UnclaimedWND />}
+                {isWNDShowed && <UnclaimedWND />}
 
-            {isMATICShowed && <StakedAMATICB />}
+                {isMATICShowed && <StakedAMATICB />}
 
-            {isAMATICCShowed && <StakedAMATICC />}
+                {isAMATICCShowed && <StakedAMATICC />}
 
-            {isStakedMaticCertPolygonShowed && <StakedMaticCertPolygon />}
+                {isStakedMaticCertPolygonShowed && <StakedMaticCertPolygon />}
 
-            {isAETHBShowed && <StakedAETHB />}
+                {isAETHBShowed && <StakedAETHB />}
 
-            {isAETHCShowed && <StakedAETHC />}
+                {isAETHCShowed && <StakedAETHC />}
 
-            {isAETHBSCShowed && <StakedAETHBSC />}
+                {isAETHBSCShowed && <StakedAETHBSC />}
 
-            {isABNBBShowed && <StakedABNBB />}
+                {isABNBBShowed && <StakedABNBB />}
 
-            {isABNBCShowed && <StakedABNBC />}
+                {isABNBCShowed && <StakedABNBC />}
 
-            {isAFTMBShowed && <StakedAFTMB />}
+                {isAFTMBShowed && <StakedAFTMB />}
 
-            {isAFTMCShowed && <StakedAFTMC />}
+                {isAFTMCShowed && <StakedAFTMC />}
 
-            {isAAVAXBShowed && <StakedAAVAXB />}
+                {isAAVAXBShowed && <StakedAAVAXB />}
 
-            {isAAVAXCShowed && <StakedAAVAXC />}
+                {isAAVAXCShowed && <StakedAAVAXC />}
 
-            {isADOTBShowed && <StakedADOTB />}
+                {isADOTBShowed && <StakedADOTB />}
 
-            {isAKSMBShowed && <StakedAKSMB />}
+                {isAKSMBShowed && <StakedAKSMB />}
 
-            {isAWNDBShowed && <StakedAWNDB />}
+                {isAWNDBShowed && <StakedAWNDB />}
 
-            {isAMATICBPolygonShowed && <BridgedMaticBond />}
+                {isAMATICBPolygonShowed && <BridgedMaticBond />}
 
-            {isAMATICBBSCShowed && <BridgedMaticBondBSC />}
+                {isAMATICBBSCShowed && <BridgedMaticBondBSC />}
 
-            {isAMATICCBSCShowed && <BridgedMaticCertBSC />}
+                {isAMATICCBSCShowed && <BridgedMaticCertBSC />}
 
-            {isAMATICCPolygonShowed && <BridgedMaticCertPolygon />}
+                {isAMATICCPolygonShowed && <BridgedMaticCertPolygon />}
 
-            {isAETHBBridgedShowed && <BridgedEthBond />}
+                {isAETHBBridgedShowed && <BridgedEthBond />}
 
-            {isAETHCBridgedShowed && <BridgedAETHCBSC />}
-          </AssetsList>
+                {isAETHCBridgedShowed && <BridgedAETHCBSC />}
+              </AssetsList>
+            </>
+          )}
         </>
       ) : (
         <NoAssets />
