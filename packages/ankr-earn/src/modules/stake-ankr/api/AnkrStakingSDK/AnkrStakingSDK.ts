@@ -29,6 +29,7 @@ import {
 import {
   IActiveStakingData,
   IAdditionalActiveStakingData,
+  IApproveResponse,
   IClaimableUnstake,
   IDelegatorDelegation,
   IHistoryData,
@@ -873,11 +874,13 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     ].sort((a, b) => b.date.getTime() - a.date.getTime());
   }
 
-  public async approve(amount: BigNumber): Promise<boolean> {
+  public async approve(amount: BigNumber): Promise<IApproveResponse> {
     const isAllowed = await this.checkAllowance(amount);
 
     if (isAllowed) {
-      return true;
+      return {
+        isApproved: true,
+      };
     }
 
     const ankrTokenContract = await this.getAnkrTokenContract();
@@ -889,15 +892,16 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       )
       .encodeABI();
 
-    const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
+    const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       ankrToken,
       { data },
     );
 
-    const { status } = await receiptPromise;
-
-    return status;
+    return {
+      isApproved: false,
+      txHash: transactionHash,
+    };
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {

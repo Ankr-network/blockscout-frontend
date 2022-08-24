@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { notarize } from 'modules/bridge/actions/notarize';
 import { withdrawal } from 'modules/bridge/actions/withdrawal';
-import { useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
+import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 interface IUseWithdraw {
   isLoading: boolean;

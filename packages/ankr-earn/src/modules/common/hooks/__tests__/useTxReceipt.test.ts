@@ -7,7 +7,7 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-describe('modules/bridge/hooks/useTxReceipt', () => {
+describe('modules/common/hooks/useTxReceipt', () => {
   const defaultData = {
     loading: false,
     pristine: true,

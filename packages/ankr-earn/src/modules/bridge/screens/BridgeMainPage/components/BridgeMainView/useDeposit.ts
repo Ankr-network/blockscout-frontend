@@ -6,10 +6,10 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import { deposit, IDepositArgs } from 'modules/bridge/actions/deposit';
-import { useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { getWithdrawalQuery } from 'modules/bridge/utils/getWithdrawalQuery';
 import { SupportedChainIDS } from 'modules/common/const';
+import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 export interface IUseDepositArgs {
   fromChainId: SupportedChainIDS;

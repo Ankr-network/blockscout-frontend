@@ -4,28 +4,16 @@ import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { approve } from 'modules/bridge/actions/approve';
-import { AvailableBridgeTokens } from 'modules/bridge/types';
-import { SupportedChainIDS } from 'modules/common/const';
 import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
-
-export interface IUseApproveArgs {
-  token: AvailableBridgeTokens;
-  chainId: SupportedChainIDS;
-  amount?: BigNumber;
-}
+import { approve } from 'modules/stake-ankr/actions/approve';
 
 interface IUseApprove {
   isLoading: boolean;
   isApproved: boolean;
-  onClick: () => void;
+  handleApprove: (amount: BigNumber) => void;
 }
 
-export const useApprove = ({
-  token,
-  chainId,
-  amount,
-}: IUseApproveArgs): IUseApprove => {
+export const useApprove = (): IUseApprove => {
   const dispatch = useDispatch();
   const approveActionName = approve.toString();
 
@@ -42,12 +30,8 @@ export const useApprove = ({
   const isApproved = approveData?.isApproved || isSuccessful;
   const isLoading = isApproveLoading || isTxReceiptLoading;
 
-  const onClick = () => {
-    if (!amount || amount.isZero()) {
-      return;
-    }
-
-    dispatch(approve(amount, token, chainId));
+  const handleApprove = (amount: BigNumber) => {
+    dispatch(approve(amount));
   };
 
   useProviderEffect(() => {
@@ -59,6 +43,6 @@ export const useApprove = ({
   return {
     isLoading,
     isApproved,
-    onClick,
+    handleApprove,
   };
 };

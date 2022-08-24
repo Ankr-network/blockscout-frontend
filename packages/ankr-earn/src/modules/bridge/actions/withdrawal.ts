@@ -1,9 +1,12 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { BridgeSDK } from '../api/BridgeSDK';
+import {
+  getTxReceipt,
+  getTxReceiptRequestKey,
+} from 'modules/common/actions/getTxReceipt';
 
-import { getTxReceipt, getTxReceiptRequestKey } from './getTxReceipt';
+import { BridgeSDK } from '../api/BridgeSDK';
 
 export const withdrawal = createAction<RequestAction<string, string>>(
   'bridge/withdrawal',
