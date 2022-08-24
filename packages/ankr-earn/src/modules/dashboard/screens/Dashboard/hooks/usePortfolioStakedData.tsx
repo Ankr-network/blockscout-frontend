@@ -12,10 +12,8 @@ import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
-import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
-import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
@@ -24,7 +22,8 @@ import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fe
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
-import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { fetchStats as fetchStakeMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
@@ -53,8 +52,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: polygonData, loading: isPolygonDataLoading } = useQuery({
-    type: fetchStakePolygonStats,
+  const { data: maticEthData, loading: isMaticEthDataLoading } = useQuery({
+    type: fetchStakeMaticEthStats,
   });
 
   const { data: avaxData, loading: isAvaxDataLoading } = useQuery({
@@ -87,19 +86,10 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: fetchAMATICCBridgedBSC,
   });
 
-  const {
-    data: aMATICbBridgePolygonBalance,
-    loading: isMATICbBridgePolygonBalanceLoading,
-  } = useQuery({
-    type: fetchAMATICBBridged,
-  });
-
-  const {
-    data: aMATICcBridgePolygonBalance,
-    loading: isMATICcBridgePolygonBalanceLoading,
-  } = useQuery({
-    type: fetchAMATICCBridgedPolygon,
-  });
+  const { data: maticPolygonBalances, loading: isMaticPolygonBalancesLoading } =
+    useQuery({
+      type: getMaticPolygonCommonData,
+    });
 
   const { data: aDOTbBalance, loading: isDotBalanceLoading } = useQuery({
     type: fetchETHTokenBalance,
@@ -143,21 +133,21 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.aMATICb,
         amount:
-          polygonData?.aMATICbBalance
+          maticEthData?.aMATICbBalance
             .plus(aMATICbBridgeBscBalance ?? ZERO)
-            .plus(aMATICbBridgePolygonBalance ?? ZERO) ?? ZERO,
+            .plus(maticPolygonBalances?.maticBondBalance ?? ZERO) ?? ZERO,
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
       },
       {
         name: Token.aMATICc,
         amount:
-          polygonData?.aMATICcBalance
-            .plus(aMATICcBridgePolygonBalance ?? ZERO)
+          maticEthData?.aMATICcBalance
+            .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
             .plus(aMATICcBridgeBscBalance ?? ZERO) ?? ZERO,
         service: EMetricsServiceName.MATIC,
         apy: metrics?.matic.apy ?? ZERO,
-        ratio: polygonData?.aMATICcRatio,
+        ratio: maticEthData?.aMATICcRatio,
       },
       {
         name: Token.aAVAXb,
@@ -254,14 +244,13 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       aDOTbBalance,
       aKSMbBalance,
       aWNDbBalance,
-      aMATICcBridgePolygonBalance,
-      polygonData,
+      maticEthData,
       aETHbBridgeBalance,
       aETHcBridgeBalance,
       bnbData,
       ethData,
       ankrData,
-      aMATICbBridgePolygonBalance,
+      maticPolygonBalances,
     ],
   );
 
@@ -320,21 +309,20 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
 
   return {
     isLoading:
-      isPolygonDataLoading ||
+      isMaticEthDataLoading ||
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||
       isFtmDataLoading ||
       isMATICbBridgeBscBalanceLoading ||
       isMATICcBridgeBscBalanceLoading ||
-      isMATICcBridgePolygonBalanceLoading ||
       isDotBalanceLoading ||
       isKsmBalanceLoading ||
       isWndBalanceLoading ||
       isETHbBridgeBalanceLoading ||
       isETHcBridgeBalanceLoading ||
       isLoadingAnkrData ||
-      isMATICbBridgePolygonBalanceLoading ||
+      isMaticPolygonBalancesLoading ||
       isAnkrPriceLoading,
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),

@@ -8,14 +8,13 @@ import { t } from 'common';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
-  ZERO,
-  SupportedChainIDS,
   POLYGON_NETWORK_BY_ENV,
+  SupportedChainIDS,
+  ZERO,
 } from 'modules/common/const';
-import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -33,12 +32,8 @@ export interface IStakedMaticData {
 export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
   const dispatchRequest = useDispatchRequest();
 
-  const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchAMATICCBridgedPolygon,
-  });
-
-  const { data: commonData } = useQuery({
-    type: fetchStats,
+  const { data: commonData, loading: isCommonDataLoading } = useQuery({
+    type: getCommonData,
   });
 
   const { data: metrics } = useQuery({
@@ -48,21 +43,21 @@ export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
   const network = t(`chain.${POLYGON_NETWORK_BY_ENV}`);
   const chainId = POLYGON_NETWORK_BY_ENV;
 
-  const amount = statsData ?? ZERO;
+  const amount = commonData?.maticCertBalance ?? ZERO;
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
         amount,
         totalStaked: metrics?.[EMetricsServiceName.MATIC]?.totalStaked,
         totalStakedUsd: metrics?.[EMetricsServiceName.MATIC]?.totalStakedUsd,
-        ratio: commonData?.aMATICcRatio,
+        ratio: commonData?.ratio,
       }),
-    [amount, commonData?.aMATICcRatio, metrics],
+    [amount, commonData?.ratio, metrics],
   );
 
-  const isShowed = !amount.isZero() || isBalancesLoading;
+  const isShowed = !amount.isZero() || isCommonDataLoading;
 
-  const nativeAmount = getTokenNativeAmount(amount, commonData?.aMATICcRatio);
+  const nativeAmount = getTokenNativeAmount(amount, commonData?.ratio);
 
   const onAddTokenClick = () => {
     dispatchRequest(
@@ -76,7 +71,7 @@ export const useBridgedMaticCertPolygon = (): IStakedMaticData => {
   return {
     amount,
     chainId,
-    isBalancesLoading,
+    isBalancesLoading: isCommonDataLoading,
     isShowed,
     nativeAmount,
     network,

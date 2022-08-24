@@ -9,7 +9,7 @@ import {
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
-import { sleep } from './utils';
+import { sleep } from './utils/sleep';
 import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 

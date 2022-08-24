@@ -16,9 +16,12 @@ export const getEpochEndSeconds = createAction<RequestAction<number, number>>(
       showNotificationOnError: true,
       poll: POLL_INTERVAL_SECONDS,
       onRequest: request => {
-        request.promise = AnkrStakingSDK.getInstance().then(sdk =>
-          sdk.getEpochEndSeconds(),
-        );
+        request.promise = (async () => {
+          const sdk = await AnkrStakingSDK.getInstance();
+          const provider = await sdk.getProvider();
+
+          return sdk.getEpochEndSeconds(await provider.getBlockNumber());
+        })();
 
         return request;
       },

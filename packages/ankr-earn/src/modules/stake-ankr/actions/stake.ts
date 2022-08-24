@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { TTxHash } from 'modules/common/types';
+import { TxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { resetForm } from 'modules/forms/store/formsSlice';
 
@@ -20,13 +20,13 @@ interface IStakeArgs {
 }
 
 export const stake = createSmartAction<
-  RequestAction<TTxHash, TTxHash>,
+  RequestAction<TxHash, TxHash>,
   [IStakeArgs]
 >(
-  `${ANKR_ACTIONS_PREFIX}/stake`,
+  `${ANKR_ACTIONS_PREFIX}stake`,
   ({ amount, provider }): RequestAction => ({
     request: {
-      promise: (async (): Promise<TTxHash> => {
+      promise: (async (): Promise<TxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         return sdk.delegate(provider, amount);
@@ -36,7 +36,7 @@ export const stake = createSmartAction<
       asMutation: true,
       showNotificationOnError: true,
       onSuccess: (
-        response: { data: TTxHash },
+        response: { data: TxHash },
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {

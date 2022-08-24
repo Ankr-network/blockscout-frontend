@@ -598,6 +598,60 @@
       "ethereum-network": "Ethereum Network",
       "polygon-network": "Polygon Network",
       "title": "In which network you want stake your MATIC"
+    },
+    "faq": {
+      "title": "FAQ",
+      "question-1": "How can I set up my wallet and stake MATIC?",
+      "answer-1": "Check the <a href=\"https://www.ankr.com/docs/staking/liquid-staking/matic/stake-matic\" target=\"_blank\" rel=\"noopener noreferrer\">Stake MATIC</a> user guide.",
+
+      "question-2": "What is the minimum amount of MATIC I can stake?",
+      "answer-2": "{value} MATIC.",
+
+      "question-3": "Is there a maximum amount I can stake?",
+      "answer-3": "No, you can stake at your discretion, unlimited.",
+
+      "question-4": "What is the difference between MATIC staking on Ethereum and Polygon?",
+      "answer-4": "MATIC staking happens on Ethereum. You can stake/unstake any MATIC amount at once. Ethereum gas fee applies. Also, when unstaking, you receive your MATIC and rewards after the {period} days unbonding period. </br></br>MATIC crosschain staking happens on Polygon. You may have to stake/unstake your MATIC in portions, as you’re doing it via a crosschain staking pool, which may not have the amount you need at the moment. <br/>Also, an additional fee applies. However, there is no unbonding period, so when unstaking you receive your MATIC and rewards instantly.",
+
+      "question-5": "How long does it take to unstake my MATIC?",
+      "answer-5": "If you staked on Ethereum, you’ll receive your MATIC and rewards after the unbonding period of 80+ epochs; typically, it takes {period} days. </br>If you staked on Polygon via the crosschain staking pool, you’ll receive your MATIC and rewards instantly.",
+
+      "question-6": "How do I receive rewards?",
+      "answer-6": "aMATICb is a rebasing token. When holding aMATICb, your balance will increase in proportion to your MATIC staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aMATICb increase by a small amount. <br/><br/>aMATICc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
+
+      "question-7": "How soon after staking will I begin to receive rewards?",
+      "answer-7": "aMATICb rewards arrive in your wallet with every rebase. Rebasing occurs daily. <br/><br/>aMATICc rewards are built into the token. Effectively, your rewards accumulate daily as aMATICc grows in value to MATIC.",
+
+      "question-8": "Does Ankr charge for the service?",
+      "answer-8": "When unstaking, the user pays a fee in ANKR that starts from 100 ANKR. Typical fee range is 500–3500 ANKR.",
+
+      "question-9": "What determines the amount of reward I receive each rebase of aMATICb?",
+      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much MATIC is validated on the network. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
+
+      "question-10": "If I click Unstake, does my stake immediately stop accumulating rewards?",
+      "answer-10": "Your stake <b>continues</b> to accumulate rewards until the moment you receive them.",
+
+      "question-11": "Is there any risk from staking, like slashing or any penalties?",
+      "answer-11": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked MATIC is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
+
+      "question-12": "Is there any liquidity for my Liquid Staking tokens anywhere?",
+      "answer-12": {
+        "title-trade": "You can trade them in the listed liquidity pools on ANKR DeFi:",
+        "list-trade": {
+          "bond": "<a href=\"{link}\">aMATICb</a>",
+          "cert": "<a href=\"{link}\">aMATICc</a>"
+        },
+
+        "title-use": "You can also use your Liquid Staking tokens to:",
+        "list-use": {
+          "pools": "<a href=\"{link}\" target=\"_blank\" rel=\"noreferrer\">Add liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.",
+          "farm": "<a href=\"{link}\" target=\"_blank\" rel=\"noreferrer\">Yield farm</a> and earn additional rewards in the form of liquidity pool tokens and further farm them.",
+          "vaults": "<a href=\"{link}\" target=\"_blank\" rel=\"noreferrer\">Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair."
+        }
+      },
+
+      "question-13": "Can I get staking metrics for my integration?",
+      "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/reference/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     }
   },
   "stake-matic-eth": {
@@ -636,6 +690,18 @@
     },
     "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
     "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
+  },
+  "stake-matic-polygon": {
+    "fee": "Fee",
+    "stake": {
+      "liquidity-pool": "Current crosschain staking pool capacity: <b>{value} MATIC</b>"
+    },
+    "tooltips": {
+      "liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances."
+    },
+    "validation": {
+      "low-pool": "Your stake exceeds current pool capacity"
+    }
   },
   "stake-fantom": {
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
@@ -788,7 +854,8 @@
     "portfolioToken": "{amount} {token} <small>({percent}%)</small>",
     "apr": "APR <b>{value}%</b>",
     "balance": "Estimated balance",
-    "assets": "Staked tokens",
+    "liquidAssets": "Liquid staking",
+    "delegateAssets": "Delegate staking",
     "assets-crowdloans": "Liquid crowdloan assets",
     "pending": "Unstaking in progress {value} {token}",
     "pending-temp": "Unstaking in progress",
@@ -864,7 +931,7 @@
       "aKSMb": "aKSMb represents your staked KSM and provides liquidity for your staked position.<br/><br/>aKSMb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aKSMb = 1 KSM.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aKSMb for trading and other DeFi opportunities.",
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
-      "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position.<br/><br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
+      "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position. <br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number. <br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC. <br/><br/>You can unstake it anytime and receive your stake and earned rewards. For MATIC staked on Ethereum, you’ll receive them after the ~{period} days unbonding period, while for MATIC staked on Polygon, you’ll receive them instantly. <br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
       "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APY."
     }
   },

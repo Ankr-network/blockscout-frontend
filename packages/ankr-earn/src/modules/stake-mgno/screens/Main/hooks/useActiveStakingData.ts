@@ -1,53 +1,27 @@
-import BigNumber from 'bignumber.js';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { ZERO } from 'modules/common/const';
-import { EProviderStatus } from 'modules/stake-mgno/const';
-
-interface IActiveStakingData {
-  provider: string;
-  apr: BigNumber;
-  isUnlocked: boolean;
-  slashingProtection: number;
-  stakeAmount: BigNumber;
-  usdStakeAmount: BigNumber;
-  rewards: BigNumber;
-  usdRewards: BigNumber;
-  status: EProviderStatus;
-}
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { getActiveStakingData } from 'modules/stake-mgno/actions/getActiveStakingData';
+import { IActiveStakingData } from 'modules/stake-mgno/api/types';
 
 interface IActiveStaking {
   isLoading: boolean;
   data: IActiveStakingData[] | null;
 }
 
-const DEMO_DATA: IActiveStakingData[] = [
-  {
-    provider: 'Node Provider 1',
-    apr: ZERO,
-    isUnlocked: false,
-    slashingProtection: 98,
-    stakeAmount: ZERO.plus(12),
-    usdStakeAmount: ZERO.plus(1),
-    rewards: ZERO,
-    usdRewards: ZERO,
-    status: 1,
-  },
-  {
-    provider: 'Node Provider 2',
-    apr: ZERO,
-    isUnlocked: true,
-    slashingProtection: 78,
-    stakeAmount: ZERO.plus(1323),
-    usdStakeAmount: ZERO.plus(41),
-    rewards: ZERO,
-    usdRewards: ZERO,
-    status: 2,
-  },
-];
-
 export const useActiveStakingData = (): IActiveStaking => {
+  const dispatchRequest = useDispatchRequest();
+
+  const { data, loading } = useQuery({
+    type: getActiveStakingData,
+  });
+
+  useProviderEffect(() => {
+    dispatchRequest(getActiveStakingData());
+  }, [dispatchRequest]);
+
   return {
-    isLoading: false,
-    data: DEMO_DATA,
+    isLoading: loading,
+    data,
   };
 };

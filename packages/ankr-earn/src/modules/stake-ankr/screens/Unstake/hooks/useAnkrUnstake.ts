@@ -4,6 +4,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useState } from 'react';
 
 import { t } from 'common';
 
@@ -17,6 +18,8 @@ import { unstake } from 'modules/stake-ankr/actions/unstake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
+import { useAnalytics } from './useAnalytics';
+
 interface IUseAnkrUnstake {
   isUnstakeLoading: boolean;
   isAvailableUnstakeLoading: boolean;
@@ -27,11 +30,14 @@ interface IUseAnkrUnstake {
   isDisabled: boolean;
   providerId: string;
   providerName?: string;
+  onChange?: (values: Partial<IAnkrStakeSubmitPayload>) => void;
   onSubmit: (values: IAnkrStakeSubmitPayload) => void;
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
   const dispatchRequest = useDispatchRequest();
+
+  const [amount, setAmount] = useState(ZERO);
 
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
@@ -45,6 +51,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     },
   );
 
+  const availableUnstake = delegatedAmount ?? ZERO;
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
   const { provider: queryProvider } = RoutesConfig.stake.useParams();
@@ -54,6 +61,13 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 
+  const { sendAnalytics } = useAnalytics({
+    amount,
+    available: availableUnstake,
+    balance: data?.ankrBalance ?? ZERO,
+    nodeProvider: initialProvider ?? '',
+  });
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
@@ -62,14 +76,28 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     );
   }, [dispatchRequest]);
 
-  const onSubmit = ({ provider, amount }: IAnkrStakeSubmitPayload) => {
-    const readyAmount = new BigNumber(amount);
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IAnkrStakeSubmitPayload) => {
+    const readyAmount = new BigNumber(formAmount);
     dispatchRequest(
       unstake({
         provider,
         amount: readyAmount,
       }),
-    );
+    ).then(({ error }) => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
+  };
+
+  const onChange = ({
+    amount: formAmount,
+  }: Partial<IAnkrStakeSubmitPayload>) => {
+    const readyAmount = new BigNumber(formAmount ?? 0);
+    setAmount(formAmount ? readyAmount : ZERO);
   };
 
   return {
@@ -77,12 +105,13 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     isAvailableUnstakeLoading: isDelegatedAmountLoading,
     isDisabled:
       isProvidersLoading || isBalanceLoading || isDelegatedAmountLoading,
-    availableUnstake: delegatedAmount ?? ZERO,
+    availableUnstake,
     minAmount: data?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
+    onChange,
     onSubmit,
   };
 };

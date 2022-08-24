@@ -29,6 +29,7 @@ export const getTxReceipt = createAction<
     asMutation: false,
     showNotificationOnError: true,
     poll: POLL_INTERVAL_SECONDS,
+    takeLatest: true,
     onRequest: request => {
       request.promise = AnkrStakingSDK.getInstance().then(sdk =>
         sdk.fetchTxReceipt(txHash),

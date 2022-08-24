@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
+import { trackEnterAnkrTokenManage } from 'modules/analytics/tracking-actions/trackEnterAnkrTokenManage';
 import { configFromEnv } from 'modules/api/config';
 import {
   DEFAULT_ROUNDING,
@@ -56,6 +57,10 @@ export const StakedANKR = (): JSX.Element => {
     return <DashboardCardSkeleton />;
   }
 
+  const onClick = () => {
+    trackEnterAnkrTokenManage();
+  };
+
   return (
     <>
       <DashboardCard
@@ -93,6 +98,8 @@ export const StakedANKR = (): JSX.Element => {
             className={classes.manageButton}
             href={manageLink}
             variant="outlined"
+            onMouseDown={onClick}
+            onTouchStart={onClick}
           >
             {t('dashboard.card.manage')}
           </NavLink>

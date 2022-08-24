@@ -8,10 +8,8 @@ import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
-import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
-import { fetchAMATICCBridgedPolygon } from 'modules/dashboard/actions/fetchAMATICCBridgedPolygon';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
@@ -28,6 +26,7 @@ import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCo
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -40,10 +39,8 @@ const resetRequests = () =>
     fetchAETHBBridged.toString(),
     fetchAETHCBridgeBalanceBSC.toString(),
     fetchAETHCBridged.toString(),
-    fetchAMATICBBridged.toString(),
     fetchAMATICBBridgedBSC.toString(),
     fetchAMATICCBridgedBSC.toString(),
-    fetchAMATICCBridgedPolygon.toString(),
     fetchAVAXPendingValues.toString(),
     fetchAVAXStats.toString(),
     fetchAVAXTxHistory.toString(),
@@ -62,6 +59,7 @@ const resetRequests = () =>
     getMetrics.toString(),
     getTxHistoryETH.toString(),
     getUnstakeDate.toString(),
+    getMaticPolygonCommonData.toString(),
   ]);
 
 export const useDashboard = (): void => {
@@ -75,10 +73,8 @@ export const useDashboard = (): void => {
     dispatch(fetchAETHBBridged());
     dispatch(fetchAETHCBridgeBalanceBSC());
     dispatch(fetchAETHCBridged());
-    dispatch(fetchAMATICBBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(fetchAMATICCBridgedPolygon());
     dispatch(fetchAVAXPendingValues());
     dispatch(fetchAVAXStats());
     dispatch(fetchBNBPendingValues());
@@ -88,6 +84,7 @@ export const useDashboard = (): void => {
     dispatch(getFTMStats());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
+    dispatch(getMaticPolygonCommonData());
 
     if (featuresConfig.ankrStaking) {
       dispatch(getANKRCommonData());

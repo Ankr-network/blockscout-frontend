@@ -19,8 +19,12 @@ export const getValidatorDelegatedAmount = createAction<
     request: {
       promise: async (): Promise<BigNumber> => {
         const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
 
-        return sdk.getDelegatedAmountByValidator(validator);
+        return sdk.getDelegatedAmountByValidator(
+          validator,
+          await provider.getBlockNumber(),
+        );
       },
     },
     meta: {

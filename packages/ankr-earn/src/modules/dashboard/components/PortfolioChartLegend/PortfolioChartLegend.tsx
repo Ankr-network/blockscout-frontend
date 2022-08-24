@@ -7,6 +7,7 @@ import { t, tHTML } from 'common';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
+import { Button } from 'uiKit/Button';
 
 import { usePortfolioChartLegendStyles } from './usePortfolioChartLegendStyles';
 
@@ -30,6 +31,7 @@ export interface ILegendItem {
   amount: BigNumber;
   usdAmount: BigNumber;
   icon: TIcon;
+  link?: string;
 }
 
 export const PortfolioChartLegend = ({
@@ -144,6 +146,12 @@ export const PortfolioChartLegend = ({
                   })}
                 </Typography>
               </div>
+
+              {isNative && item.link && (
+                <Button className={classes.stake} href={item.link}>
+                  {t('dashboard.stake')}
+                </Button>
+              )}
             </div>
           </Grid>
         ))}

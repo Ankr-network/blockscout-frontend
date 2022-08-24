@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
+import { Memoize } from 'typescript-memoize';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 
@@ -14,14 +15,9 @@ import {
 import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import {
-  DEFAULT_ROUNDING,
-  ETH_SCALE_FACTOR,
-  isMainnet,
-  ZERO,
-} from 'modules/common/const';
+import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
-import { TEMPORARY_APY } from 'modules/stake-ankr/const';
+import { CACHE_TIME, TEMPORARY_APY } from 'modules/stake-ankr/const';
 
 import ANKR_TOKEN_STAKING_ABI from '../contracts/AnkrTokenStaking.json';
 import STAKING_CONFIG_ABI from '../contracts/StakingConfig.json';
@@ -42,7 +38,6 @@ import {
   IDelegatorEventData,
   IGetPastEvents,
   ILockPeriod,
-  IStakingReward,
   IValidator,
 } from './types';
 import { sortEventData } from './utils';
@@ -55,10 +50,6 @@ const ankrToken: Address = isMainnet
 
 interface IAnkrStakingReadSDKProviders {
   readProvider: Web3KeyReadProvider;
-}
-interface IReward {
-  validator: string;
-  amount: BigNumber;
 }
 
 interface IDelegationHistoryFilter {
@@ -90,6 +81,10 @@ export class AnkrStakingReadSDK {
     return new AnkrStakingReadSDK({ readProvider });
   }
 
+  public async getProvider(): Promise<Web3KeyReadProvider> {
+    return this.readProvider;
+  }
+
   public async isEthNetwork(provider: Web3KeyWriteProvider): Promise<boolean> {
     const web3 = provider.getWeb3();
     const chainId = await web3.eth.getChainId();
@@ -103,17 +98,30 @@ export class AnkrStakingReadSDK {
     return this.readProvider.createContract(ANKR_ABI, ankrToken);
   }
 
-  public async getAllValidators(epoch?: number): Promise<IValidator[]> {
-    const validators = await this.getAllValidatorsAddresses();
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getAllValidators(
+    latestBlockNumber: number,
+  ): Promise<IValidator[]> {
+    const validators = await this.getAllValidatorsAddresses(latestBlockNumber);
 
-    return this.loadValidatorsInfo(validators, epoch);
+    return this.loadValidatorsInfo(validators);
   }
 
-  public async getAllValidatorsAddresses(): Promise<Web3Address[]> {
-    const [latestBlockNumber, stakingContract] = await Promise.all([
-      this.readProvider.getWeb3().eth.getBlockNumber(),
-      this.getAnkrTokenStakingContract(),
-    ]);
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getAllValidatorsAddresses(
+    latestBlockNumber: number,
+  ): Promise<Web3Address[]> {
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const validatorEvents = [
       EAnkrEvents.ValidatorAdded,
@@ -356,46 +364,21 @@ export class AnkrStakingReadSDK {
     };
   }
 
-  public async getAllClaimableStakingRewards(
-    delegator: Web3Address,
-  ): Promise<IStakingReward[]> {
-    const delegationHistory = await this.getDelegationHistory({
-      staker: delegator,
-    });
-    const result: Record<Web3Address, IStakingReward> = {};
-
-    const rewards: IReward[] = await Promise.all(
-      delegationHistory.map(async delegation => ({
-        validator: delegation.validator,
-        amount: new BigNumber(
-          await this.getStakingRewards(delegation.validator, delegator),
-        ).dividedBy(ETH_SCALE_FACTOR),
-      })),
-    );
-
-    if (!rewards.length) return Object.values(result);
-
-    await Promise.all(
-      rewards.map(async reward => {
-        const validator = await this.loadValidatorInfo(reward.validator ?? '');
-        if (!reward.amount.isZero()) {
-          result[reward.validator] = {
-            validator,
-            amount: reward.amount.decimalPlaces(DEFAULT_ROUNDING),
-          };
-        }
-      }),
-    );
-
-    return Object.values(result);
-  }
-
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (
+      filter: Partial<IDelegationHistoryFilter>,
+      latestBlockNumber: number,
+    ) => {
+      return `${filter.staker}${filter.validator}${latestBlockNumber}`;
+    },
+  })
   public async getDelegationHistory(
     filter: Partial<IDelegationHistoryFilter> = {},
+    latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
     const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const events = await this.getPastEvents({
       eventName: EAnkrEvents.Delegated,
@@ -434,12 +417,21 @@ export class AnkrStakingReadSDK {
     });
   }
 
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (
+      filter: Partial<IDelegationHistoryFilter>,
+      latestBlockNumber: number,
+    ) => {
+      return `${filter.staker}${latestBlockNumber}`;
+    },
+  })
   public async getUndelegationHistory(
     filter: Partial<IDelegationHistoryFilter> = {},
+    latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
     const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const events = await this.getPastEvents({
       eventName: EAnkrEvents.Undelegated,
@@ -555,9 +547,15 @@ export class AnkrStakingReadSDK {
    * @public
    * @returns {BigNumber}
    */
-  public async getTotalTVL(): Promise<BigNumber> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getTotalTVL(latestBlockNumber: number): Promise<BigNumber> {
     const stakingContract = await this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators();
+    const validators = await this.getAllValidators(latestBlockNumber);
     const delegationsSet = await Promise.all(
       validators.map(validator =>
         stakingContract.methods.getValidatorStatus(validator.validator).call(),
@@ -667,19 +665,27 @@ export class AnkrStakingReadSDK {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 
-  public async getLockingPeriodDays(): Promise<number> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getLockingPeriodDays(
+    latestBlockNumber: number,
+  ): Promise<number> {
     const { lockPeriod } = await this.getChainConfig();
     const epochDuration = await this.getEpochDurationDays();
-    const nextEpochSeconds = await this.getEpochEndSeconds();
+    const nextEpochSeconds = await this.getEpochEndSeconds(latestBlockNumber);
 
     return (
       lockPeriod * epochDuration + Math.ceil(nextEpochSeconds / (3600 * 24))
     );
   }
 
-  public async getEpochEndSeconds(): Promise<number> {
+  public async getEpochEndSeconds(blockNumber: number): Promise<number> {
     const { epochBlockInterval } = await this.getChainConfig();
-    const { blockNumber, blockTime } = await this.getChainParams();
+    const { blockTime } = await this.getChainParams();
 
     const nextEpochBlock =
       (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
