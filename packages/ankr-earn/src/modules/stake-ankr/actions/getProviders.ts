@@ -15,8 +15,9 @@ export const getProviders = createAction<
   request: {
     promise: (async (): Promise<IValidator[]> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
 
-      return sdk.getAllValidators();
+      return sdk.getAllValidators(await provider.getBlockNumber());
     })(),
   },
   meta: {

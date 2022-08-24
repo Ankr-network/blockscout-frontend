@@ -36,6 +36,7 @@ export interface IChartSlice {
   usdAmount: BigNumber;
   isNative: boolean;
   icon: TIcon;
+  link?: string;
 }
 
 const TRANSITION_DURATION_MS: Milliseconds = 200;
@@ -72,23 +73,20 @@ export const PortfolioChart = ({
 
   const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
 
-  const items = useMemo(
+  const nativeTokens = useMemo(
     () =>
-      data.map((item, index) => ({
-        ...item,
-        color: item.isNative ? COLORS[COLORS.length - 1] : COLORS[index],
-      })),
+      data
+        .filter(({ isNative }) => isNative)
+        .map(item => ({ ...item, color: COLORS[COLORS.length - 1] })),
     [data],
   );
 
-  const nativeTokens = useMemo(
-    () => items.filter(({ isNative }) => isNative),
-    [items],
-  );
-
   const syntheticTokens = useMemo(
-    () => items.filter(({ isNative }) => !isNative),
-    [items],
+    () =>
+      data
+        .filter(({ isNative }) => !isNative)
+        .map((item, index) => ({ ...item, color: COLORS[index] })),
+    [data],
   );
 
   const chartData = useMemo(
@@ -136,7 +134,8 @@ export const PortfolioChart = ({
 
       const g = svg
         .append('g')
-        .attr('height', svgWidth)
+        .attr('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
+        .attr('height', svgHeight)
         .attr('width', svgWidth)
         .attr('transform', `translate(${svgWidth / 2}, ${svgHeight / 2})`);
 
@@ -286,7 +285,7 @@ export const PortfolioChart = ({
             />
           </Grid>
 
-          <Grid item lg={6} md={12} xl={3} xs={12}>
+          <Grid item lg={6} md={12} xl={4} xs={12}>
             <PortfolioChartLegend
               isNative
               activeLegendItem={activeItem}

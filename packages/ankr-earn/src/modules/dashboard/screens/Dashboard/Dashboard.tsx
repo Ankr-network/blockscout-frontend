@@ -1,5 +1,7 @@
 import { Box } from '@material-ui/core';
 
+import { useIsMDUp } from 'ui';
+
 import { featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
 
@@ -12,8 +14,13 @@ import { useDashboard } from './hooks/useDashboard';
 import { usePortfolioNativeData } from './hooks/usePortfolioNativeData';
 import { usePortfolioStakedData } from './hooks/usePortfolioStakedData';
 
+const CHART_SIZE = 350;
+const CHART_SIZE_MOBILE = 280;
+
 export const Dashboard = (): JSX.Element => {
   useDashboard();
+
+  const isMDUp = useIsMDUp();
 
   const {
     isLoading: isNativeDataLoading,
@@ -37,7 +44,7 @@ export const Dashboard = (): JSX.Element => {
         {featuresConfig.newDashboard && (
           <PortfolioChart
             data={nativeData.concat(stakedData)}
-            height={350}
+            height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
             isLoading={isNativeDataLoading || isStakedDataLoading}
             nativeApr={nativeApr}
             stakedApr={stakedApr}
@@ -45,7 +52,7 @@ export const Dashboard = (): JSX.Element => {
             totalNativeYieldAmountUsd={totalNativeYieldAmountUsd}
             totalStakedAmountUsd={totalStakedAmountUsd}
             totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
-            width={350}
+            width={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
           />
         )}
 

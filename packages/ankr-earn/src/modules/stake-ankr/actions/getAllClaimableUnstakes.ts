@@ -11,8 +11,9 @@ export const getAllClaimableUnstakes = createAction<
   request: {
     promise: (async (): Promise<IClaimableUnstake[]> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
 
-      return sdk.getAllClaimableUnstakes();
+      return sdk.getAllClaimableUnstakes(await provider.getBlockNumber());
     })(),
   },
   meta: {

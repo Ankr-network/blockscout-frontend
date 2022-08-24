@@ -17,9 +17,11 @@ export const getTotalInfo = createAction<
   request: {
     promise: (async (): Promise<IGetTotalInfo> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
+      const latestBlockNumber = await provider.getBlockNumber();
 
       const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-        sdk.getMyTotalDelegatedAmount(),
+        sdk.getMyTotalDelegatedAmount(latestBlockNumber),
         sdk.getMyClaimableStakingRewards(),
       ]);
 

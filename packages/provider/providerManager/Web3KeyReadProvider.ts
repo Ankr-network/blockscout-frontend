@@ -192,4 +192,13 @@ export abstract class Web3KeyReadProvider implements IProvider {
 
     return new BigNumber(pureGasPriceWei).plus(ADDITIONAL_SAFE_GAS_PRICE_WEI);
   }
+
+  // TODO Cache
+  public async getBlockNumber() {
+    if (!this.web3) {
+      throw new Error("web3 isn't defined");
+    }
+
+    return this.web3.eth.getBlockNumber();
+  }
 }
