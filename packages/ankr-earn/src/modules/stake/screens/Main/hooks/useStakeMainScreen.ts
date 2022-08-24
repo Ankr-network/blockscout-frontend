@@ -1,10 +1,10 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { getTotalTvl } from 'modules/stake-ankr/actions/getTotalTvl';
 import { getMetrics, TMetrics } from 'modules/stake/actions/getMetrics';
 
 import { useStakeAnalytics } from './useStakeAnalytics';
@@ -21,10 +21,9 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
-    if (featuresConfig.ankrStaking) {
-      dispatchRequest(getMaxApy());
-      dispatchRequest(getANKRPrice());
-    }
+    dispatchRequest(getMaxApy());
+    dispatchRequest(getTotalTvl());
+    dispatchRequest(getANKRPrice());
   }, [dispatchRequest]);
 
   const { data: metrics, loading } = useQuery({ type: getMetrics });

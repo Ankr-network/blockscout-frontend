@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-
 import { isMainnet } from './env';
 
 export const ETH_SCALE_FACTOR = 10 ** 18;
@@ -25,3 +24,7 @@ export const ETH_NETWORK_BY_ENV = isMainnet
 export const BSC_NETWORK_BY_ENV = isMainnet
   ? EEthereumNetworkId.smartchain
   : EEthereumNetworkId.smartchainTestnet;
+
+export const POLYGON_NETWORK_BY_ENV = isMainnet
+  ? EEthereumNetworkId.polygon
+  : EEthereumNetworkId.mumbai;

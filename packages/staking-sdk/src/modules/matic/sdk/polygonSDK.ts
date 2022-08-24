@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
@@ -10,16 +11,32 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { configFromEnv, ProviderManagerSingleton, ZERO } from '../../common';
-import ABI_AMATICC from '../../contracts/aMATICc.json';
+import {
+  configFromEnv,
+  POLYGON_NETWORK_BY_ENV,
+  ProviderManagerSingleton,
+  ZERO,
+} from '../../common';
+import ABI_MATIC_BOND from '../../contracts/aMATICb.json';
+import ABI_MATIC_CERT from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
 import SWAP_POOL_ABI from '../../contracts/SwapPool.json';
-import { IPendingData, IStakable, IStakeData, ITxEventsHistoryData } from '../../stake';
 import {
+  IPendingData,
+  IStakable,
+  IStakeData,
+  ITxEventsHistoryData,
+} from '../../stake';
+import { IFetchTxData } from '../../switcher';
+import { convertNumberToHex } from '../../utils';
+import {
+  MATIC_DECIMALS,
   MATIC_ON_POLYGON_PROVIDER_READ_ID,
   MATIC_SCALE_FACTOR,
 } from '../const';
 import { IMaticSDKProviders } from '../types';
+
+const { polygonConfig } = configFromEnv();
 
 export class MaticPolygonSDK implements IStakable {
   private static instance?: MaticPolygonSDK;
@@ -39,10 +56,8 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   private static getACTokenContract(web3: Web3): Contract {
-    const { polygonConfig } = configFromEnv();
-
     return new web3.eth.Contract(
-      ABI_AMATICC as AbiItem[],
+      ABI_MATIC_CERT as AbiItem[],
       polygonConfig.aMATICcToken,
     );
   }
@@ -52,7 +67,6 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   private async getMaticTokenContract(isForceRead = false): Promise<Contract> {
-    const { polygonConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
 
@@ -83,7 +97,6 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   private async getSwapPoolContract(isForceRead = false): Promise<Contract> {
-    const { polygonConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
 
@@ -122,11 +135,7 @@ export class MaticPolygonSDK implements IStakable {
       MaticPolygonSDK.instance?.readProvider === readProvider &&
       MaticPolygonSDK.instance?.writeProvider === writeProvider;
 
-    if (
-      MaticPolygonSDK.instance &&
-      isOldAccount &&
-      isOldProvider
-    ) {
+    if (MaticPolygonSDK.instance && isOldAccount && isOldProvider) {
       return MaticPolygonSDK.instance;
     }
 
@@ -142,6 +151,30 @@ export class MaticPolygonSDK implements IStakable {
     }
 
     return instance;
+  }
+
+  /**
+   * Add token to wallet.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @param {string} token - token symbol (aMATICc or aMATICb)
+   * @returns {Promise<boolean>}
+   */
+  public async addTokenToWallet(token: string): Promise<boolean> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    return this.writeProvider.addTokenToWallet({
+      address:
+        token === 'aMATICc'
+          ? polygonConfig.aMATICcToken
+          : polygonConfig.aMATICbToken,
+      chainId: POLYGON_NETWORK_BY_ENV,
+      decimals: MATIC_DECIMALS,
+      symbol: token,
+    });
   }
 
   public async getACPoolLiquidityInMATIC(): Promise<BigNumber> {
@@ -162,11 +195,12 @@ export class MaticPolygonSDK implements IStakable {
     // Note: (acTokensPool * MATIC_SCALE_FACTOR) / ratio
     const poolLiquidityAmount = new BigNumber(acTokensPool)
       .multipliedBy(MATIC_SCALE_FACTOR)
-      .dividedBy(ratio);
+      .dividedBy(ratio)
+      .decimalPlaces(0, BigNumber.ROUND_DOWN);
 
     return poolLiquidityAmount.isZero() || poolLiquidityAmount.isNaN()
       ? ZERO
-      : poolLiquidityAmount;
+      : this.convertFromWei(poolLiquidityAmount.toString(10));
   }
 
   public async getACRatio(): Promise<BigNumber> {
@@ -188,21 +222,64 @@ export class MaticPolygonSDK implements IStakable {
 
     return this.convertFromWei(balance);
   }
-  
+
+  /**
+   * Return aMATICb token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getABBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const maticBondTokenContract = MaticPolygonSDK.getABTokenContract(web3);
+
+    const balance = await maticBondTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  private static getABTokenContract(web3: Web3): Contract {
+    return new web3.eth.Contract(
+      ABI_MATIC_BOND as AbiItem[],
+      polygonConfig.aMATICbToken,
+    );
+  }
+
+  /**
+   * Return aMATICc token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getACBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const maticCertTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+
+    const balance = await maticCertTokenContract.methods
+      .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
   /**
    * @note Method for interface covering only. Not applicable here
    */
   public async getMinimumStake(): Promise<BigNumber> {
     return ZERO;
   }
-  
+
   /**
    * @note Method for interface covering only. Not applicable here
    */
   public async getPendingClaim(): Promise<BigNumber> {
     return ZERO;
   }
-  
+
   /**
    * @note Method for interface covering only. Not applicable here
    */
@@ -213,7 +290,7 @@ export class MaticPolygonSDK implements IStakable {
     };
   }
 
-  public async getStakeFee(): Promise<BigNumber> {
+  public async getStakeFeePct(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract();
 
     const [feeMax, stakeFee]: [string, string] = await Promise.all([
@@ -222,6 +299,19 @@ export class MaticPolygonSDK implements IStakable {
     ]);
 
     return stakeFee === '0' ? ZERO : new BigNumber(stakeFee).dividedBy(feeMax);
+  }
+
+  public async getTxData(txHash: string): Promise<IFetchTxData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    return {
+      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      destinationAddress: tx.from as string | undefined,
+      isPending: tx.transactionIndex === null,
+    };
   }
 
   /**
@@ -238,7 +328,18 @@ export class MaticPolygonSDK implements IStakable {
     };
   }
 
-  public async getUnstakeFee(): Promise<BigNumber> {
+  public async getTxReceipt(
+    txHash: string,
+  ): Promise<TransactionReceipt | null> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const receipt = await web3.eth.getTransactionReceipt(txHash);
+
+    return receipt as TransactionReceipt | null;
+  }
+
+  public async getUnstakeFeePct(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract();
 
     const [feeMax, unstakeFee]: [string, string] = await Promise.all([
@@ -246,14 +347,38 @@ export class MaticPolygonSDK implements IStakable {
       swapPoolContract.methods.unstakeFee().call(),
     ]);
 
-    return unstakeFee === '0' ? ZERO : new BigNumber(unstakeFee).dividedBy(feeMax);
+    return unstakeFee === '0'
+      ? ZERO
+      : new BigNumber(unstakeFee).dividedBy(feeMax);
   }
 
   /**
-   * TODO Add implementation for this (MATIC on Polygon)
+   * @note For aMATICc tokens only
    */
-  public async stake(): Promise<IStakeData> {
-    throw new Error('Add implementation for Stake logic');
+  public async stake(
+    amount: BigNumber,
+    token: string,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<IStakeData> {
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const rawAmount = amount.multipliedBy(scale);
+    const amountStr = convertNumberToHex(rawAmount);
+
+    const swapPoolContract = await this.getSwapPoolContract();
+
+    const tx = await swapPoolContract.methods
+      .swapEth(true, amountStr, this.currentAccount)
+      .send({
+        from: this.currentAccount,
+        value: amountStr,
+      });
+
+    return {
+      txHash: tx.transactionHash,
+    };
   }
 
   /**

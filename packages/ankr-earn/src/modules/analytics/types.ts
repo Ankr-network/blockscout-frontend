@@ -21,4 +21,7 @@ export enum AnalyticsEvents {
   StakeTokens = 'stake_tokens',
   SwitchToken = 'switch_token',
   UnstakeTokens = 'unstake_tokens',
+  EnterAnkrTokenManage = 'enter_ankr_token_staking_manage',
+  AnkrTokenStaking = 'enter_ankr_token_staking',
+  AnkrTokenUnstaking = 'enter_ankr_token_unstaking',
 }

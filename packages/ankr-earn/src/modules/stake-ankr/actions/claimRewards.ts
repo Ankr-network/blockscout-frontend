@@ -3,7 +3,7 @@ import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { TTxHash } from 'modules/common/types';
+import { TxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -17,13 +17,13 @@ interface IClaimArgs {
 }
 
 export const claimRewards = createAction<
-  RequestAction<TTxHash, TTxHash>,
+  RequestAction<TxHash, TxHash>,
   [IClaimArgs]
 >(
   `${ANKR_ACTIONS_PREFIX}claimRewards`,
   ({ provider }): RequestAction => ({
     request: {
-      promise: (async (): Promise<TTxHash> => {
+      promise: (async (): Promise<TxHash> => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         return sdk.claimRewards(provider);
@@ -33,7 +33,7 @@ export const claimRewards = createAction<
       asMutation: true,
       showNotificationOnError: true,
       onSuccess: (
-        response: { data: TTxHash },
+        response: { data: TxHash },
         _action: RequestAction,
         store: TStore<IStoreState>,
       ) => {

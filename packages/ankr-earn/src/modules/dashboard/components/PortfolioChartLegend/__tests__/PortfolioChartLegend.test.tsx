@@ -22,6 +22,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
         amount: new BigNumber(1),
         icon: AETHBIcon,
         color: '#000',
+        link: 'link',
       },
     ],
     onMouseOver: jest.fn(),
@@ -52,6 +53,35 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
     expect(title).toBeInTheDocument();
   });
 
+  test('should not render stake button', async () => {
+    render(
+      <PortfolioChartLegend
+        {...defaultProps}
+        isNative
+        legendItems={[
+          {
+            name: Token.aETHb,
+            percent: 30,
+            usdAmount: new BigNumber(3_000),
+            amount: new BigNumber(1),
+            icon: AETHBIcon,
+            color: '#000',
+          },
+        ]}
+      />,
+    );
+
+    const item = await screen.findByTestId('legend-aETHb');
+
+    act(() => {
+      userEvent.hover(item);
+    });
+
+    const stakeButton = screen.queryByText('Stake');
+
+    expect(stakeButton).not.toBeInTheDocument();
+  });
+
   test('should hover legend item', async () => {
     render(<PortfolioChartLegend {...defaultProps} isNative />);
 
@@ -60,6 +90,10 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
     act(() => {
       userEvent.hover(item);
     });
+
+    const stakeButton = await screen.findByText('Stake');
+
+    expect(stakeButton).toBeInTheDocument();
 
     act(() => {
       userEvent.unhover(item);

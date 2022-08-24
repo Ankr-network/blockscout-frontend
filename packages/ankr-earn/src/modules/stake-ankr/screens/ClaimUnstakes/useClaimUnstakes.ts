@@ -1,4 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
@@ -47,6 +51,13 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     type: getANKRPrice,
   });
 
+  const { loading: isClaimLoading } = useMutation({
+    type: claimUnstakes,
+  });
+  const { loading: isClaimAllLoading } = useMutation({
+    type: claimAllForValidator,
+  });
+
   const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
@@ -77,7 +88,7 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',
     providerName: providerName ?? '',
-    claimLoading: false,
+    claimLoading: isClaimLoading || isClaimAllLoading,
     usdTokenPrice: ankrPrice ?? ZERO,
     isClaimRewards,
     onClaimRewardsClick,

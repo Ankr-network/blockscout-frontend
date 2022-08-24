@@ -2,13 +2,15 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
-import { MaticEthSDK, IFetchTxData } from '@ankr.com/staking-sdk';
+import { IFetchTxData, MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 export const getTxData = createAction<
   RequestAction<IFetchTxData, IFetchTxData>
->('polygon/getTxData', ({ txHash }: { txHash: string }) => ({
+>(`${MATIC_ETH_ACTIONS_PREFIX}getTxData`, ({ txHash }: { txHash: string }) => ({
   request: {
     promise: async (): Promise<IFetchTxData> => {
       const sdk = await MaticEthSDK.getInstance();
@@ -27,20 +29,23 @@ const POLL_INTERVAL_SECONDS = 3;
 
 export const getTxReceipt = createAction<
   RequestAction<TransactionReceipt, TransactionReceipt>
->('polygon/getTxReceipt', ({ txHash }: { txHash: string }) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    poll: POLL_INTERVAL_SECONDS,
-    onRequest: request => {
-      request.promise = MaticEthSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt(txHash),
-      );
-
-      return request;
+>(
+  `${MATIC_ETH_ACTIONS_PREFIX}getTxReceipt`,
+  ({ txHash }: { txHash: string }) => ({
+    request: {
+      promise: (async () => null)(),
     },
-  },
-}));
+    meta: {
+      asMutation: false,
+      showNotificationOnError: true,
+      poll: POLL_INTERVAL_SECONDS,
+      onRequest: request => {
+        request.promise = MaticEthSDK.getInstance().then(sdk =>
+          sdk.fetchTxReceipt(txHash),
+        );
+
+        return request;
+      },
+    },
+  }),
+);

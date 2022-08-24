@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { Memoize } from 'typescript-memoize';
 import { TransactionReceipt } from 'web3-core';
 
 import {
@@ -18,7 +19,7 @@ import {
 } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { EProviderStatus } from 'modules/stake-ankr/const';
+import { CACHE_TIME, EProviderStatus } from 'modules/stake-ankr/const';
 
 import { AnkrStakingReadSDK } from './AnkrStakingReadSDK';
 import {
@@ -52,6 +53,7 @@ interface IFetchTxData {
   isPending: boolean;
   provider: string;
   destinationAddress?: string;
+  latestBlockNumber: number;
 }
 
 interface IReward {
@@ -104,7 +106,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     return instance;
   }
 
-  private async getProvider(): Promise<
+  public async getProvider(): Promise<
     Web3KeyWriteProvider | Web3KeyReadProvider
   > {
     const isEthChain = await this.isEthNetwork(this.writeProvider);
@@ -227,9 +229,14 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   public async getAllClaimableStakingRewards(
     delegator: Web3Address,
   ): Promise<IStakingReward[]> {
-    const delegationHistory = await this.getDelegationHistory({
-      staker: delegator,
-    });
+    const provider = await this.getProvider();
+
+    const delegationHistory = await this.getDelegationHistory(
+      {
+        staker: delegator,
+      },
+      await provider.getBlockNumber(),
+    );
     const result: Record<Web3Address, IStakingReward> = {};
 
     const rewards: IReward[] = await Promise.all(
@@ -258,8 +265,18 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     return Object.values(result);
   }
 
-  public async getAllClaimableUnstakes(): Promise<IClaimableUnstake[]> {
-    const allValidatorsAddresses = await this.getAllValidatorsAddresses();
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getAllClaimableUnstakes(
+    latestBlockNumber: number,
+  ): Promise<IClaimableUnstake[]> {
+    const allValidatorsAddresses = await this.getAllValidatorsAddresses(
+      latestBlockNumber,
+    );
 
     const claimableUnstakes = await Promise.all(
       allValidatorsAddresses.map(async validator => ({
@@ -286,10 +303,16 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH);
   }
 
-  public async claimAllUnstakes(): Promise<string> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async claimAllUnstakes(latestBlockNumber: number): Promise<string> {
     const [stakingContract, unstakes] = await Promise.all([
       this.getAnkrTokenStakingContract(),
-      this.getAllClaimableUnstakes(),
+      this.getAllClaimableUnstakes(latestBlockNumber),
     ]);
 
     const inputs = unstakes.reduce<string[]>((acc, unstake) => {
@@ -324,6 +347,8 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async getUnstaking(usdPrice: BigNumber): Promise<IUnstakingData[]> {
+    const provider = await this.getProvider();
+
     const [{ undelegatePeriod }, epochDuration, activeValidators] =
       await Promise.all([
         this.getChainConfig(),
@@ -333,9 +358,12 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     const lockPeriodDays = undelegatePeriod * epochDuration;
 
-    const fullUndelegationHistory = await this.getUndelegationHistory({
-      staker: this.currentAccount,
-    });
+    const fullUndelegationHistory = await this.getUndelegationHistory(
+      {
+        staker: this.currentAccount,
+      },
+      await provider.getBlockNumber(),
+    );
     const undelegatingValidators = new Set(
       fullUndelegationHistory.map(undelegation => undelegation.validator),
     );
@@ -458,6 +486,9 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   public async getMyActiveStaking(
     usdPrice: BigNumber,
   ): Promise<IActiveStakingData[]> {
+    const provider = await this.getProvider();
+    const latestBlockNumber = await provider.getBlockNumber();
+
     const [
       stakingContract,
       { lockPeriod },
@@ -475,9 +506,12 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       this.getEpochPrevDate(),
       this.getEpochNextDate(),
       this.getActiveValidators(),
-      this.getDelegationHistory({
-        staker: this.currentAccount,
-      }),
+      this.getDelegationHistory(
+        {
+          staker: this.currentAccount,
+        },
+        latestBlockNumber,
+      ),
       this.getAPY(),
       this.getMyClaimableStakingRewards(),
     ]);
@@ -519,7 +553,10 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     const unlockedDelegationsArr = await Promise.all(
       activeValidators.map(validator =>
-        this.getUnlockedDelegatedByValidator(validator.validator),
+        this.getUnlockedDelegatedByValidator(
+          validator.validator,
+          latestBlockNumber,
+        ),
       ),
     );
     const unlockedDelegationsMap = new Map(
@@ -661,7 +698,11 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async claimAll(): Promise<string> {
-    const allValidatorsAddresses = await this.getAllValidatorsAddresses();
+    const provider = await this.getProvider();
+
+    const allValidatorsAddresses = await this.getAllValidatorsAddresses(
+      await provider.getBlockNumber(),
+    );
     const [stakingContract, delegatorsFee] = await Promise.all([
       this.getAnkrTokenStakingContract(),
       this.getDelegatorsFee(allValidatorsAddresses),
@@ -794,10 +835,19 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     );
   }
 
-  public async getAllEventsHistory(): Promise<IHistoryData[]> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (account: Web3Address, latestBlockNumber: number) => {
+      return `${account}${latestBlockNumber}`;
+    },
+  })
+  public async getAllEventsHistory(
+    account: Web3Address,
+    latestBlockNumber: number,
+  ): Promise<IHistoryData[]> {
     const [delegation, undelegation, claim] = await Promise.all([
-      this.getDelegationHistory({ staker: this.currentAccount }),
-      this.getUndelegationHistory({ staker: this.currentAccount }),
+      this.getDelegationHistory({ staker: account }, latestBlockNumber),
+      this.getUndelegationHistory({ staker: account }, latestBlockNumber),
       this.getClaimHistory({ staker: this.currentAccount }),
     ]);
 
@@ -887,9 +937,19 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * @public
    * @note Parses first uint256 param from transaction input.
    * @param {string} txHash - transaction hash
+   * @param latestBlockNumber - For cache purposes only
    * @returns {Promise<IFetchTxData>}
    */
-  public async fetchTxData(txHash: string): Promise<IFetchTxData> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (txHash: string, latestBlockNumber: number) => {
+      return `${txHash}${latestBlockNumber}`;
+    },
+  })
+  public async fetchTxData(
+    txHash: string,
+    latestBlockNumber: number,
+  ): Promise<IFetchTxData> {
     const { writeProvider } = this;
 
     const web3 = writeProvider.getWeb3();
@@ -916,6 +976,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       destinationAddress: tx.to as string | undefined,
       isPending: tx.transactionIndex === null,
       provider: `0x${providerHash.slice(24)}`,
+      latestBlockNumber,
     };
   }
 
@@ -944,10 +1005,18 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * @public
    * @returns {BigNumber}
    */
-  public async getMyTotalDelegatedAmount(): Promise<BigNumber> {
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (latestBlockNumber: number) => {
+      return `${latestBlockNumber}`;
+    },
+  })
+  public async getMyTotalDelegatedAmount(
+    latestBlockNumber: number,
+  ): Promise<BigNumber> {
     const [stakingContract, validators] = await Promise.all([
       this.getAnkrTokenStakingContract(),
-      this.getAllValidators(),
+      this.getAllValidators(latestBlockNumber),
     ]);
 
     const delegationsSet = await Promise.all(
@@ -973,11 +1042,18 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * @param {string} validator - validator address
    * @returns {BigNumber}
    */
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (validator: string, latestBlockNumber: number) => {
+      return `${validator}${latestBlockNumber}`;
+    },
+  })
   public async getDelegatedAmountByValidator(
     validator: string,
+    latestBlockNumber: number,
   ): Promise<BigNumber> {
     const stakingContract = await this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators();
+    const validators = await this.getAllValidators(latestBlockNumber);
 
     if (!validators.some(val => val.validator === validator)) return ZERO;
 
@@ -995,11 +1071,18 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * @param {string} validator - validator address
    * @returns {BigNumber}
    */
+  @Memoize({
+    expiring: CACHE_TIME,
+    hashFunction: (validator: string, latestBlockNumber: number) => {
+      return `${validator}${latestBlockNumber}`;
+    },
+  })
   public async getUnlockedDelegatedByValidator(
     validator: string,
+    latestBlockNumber: number,
   ): Promise<BigNumber> {
     const stakingContract = await this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators();
+    const validators = await this.getAllValidators(latestBlockNumber);
 
     if (!validators.some(val => val.validator === validator)) return ZERO;
 

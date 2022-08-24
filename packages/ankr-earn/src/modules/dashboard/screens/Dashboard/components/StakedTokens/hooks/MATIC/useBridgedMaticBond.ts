@@ -9,11 +9,11 @@ import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
   POLYGON_NETWORK_BY_ENV,
-  ZERO,
   SupportedChainIDS,
+  ZERO,
 } from 'modules/common/const';
-import { fetchAMATICBBridged } from 'modules/dashboard/actions/fetchAMATICBBridged';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -30,8 +30,8 @@ export interface IStakedMaticData {
 export const useBridgedMaticBond = (): IStakedMaticData => {
   const dispatchRequest = useDispatchRequest();
 
-  const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: fetchAMATICBBridged,
+  const { data: commonData, loading: isCommonDataLoading } = useQuery({
+    type: getCommonData,
   });
 
   const { data: metrics } = useQuery({
@@ -41,7 +41,7 @@ export const useBridgedMaticBond = (): IStakedMaticData => {
   const network = t(`chain.${POLYGON_NETWORK_BY_ENV}`);
   const chainId = POLYGON_NETWORK_BY_ENV;
 
-  const amount = statsData ?? ZERO;
+  const amount = commonData?.maticBondBalance ?? ZERO;
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
@@ -52,7 +52,7 @@ export const useBridgedMaticBond = (): IStakedMaticData => {
     [amount, metrics],
   );
 
-  const isShowed = !amount.isZero() || isBalancesLoading;
+  const isShowed = !amount.isZero() || isCommonDataLoading;
 
   const onAddTokenClick = () => {
     dispatchRequest(
@@ -66,7 +66,7 @@ export const useBridgedMaticBond = (): IStakedMaticData => {
   return {
     amount,
     chainId,
-    isBalancesLoading,
+    isBalancesLoading: isCommonDataLoading,
     isShowed,
     network,
     usdAmount,

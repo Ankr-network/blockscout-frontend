@@ -22,6 +22,7 @@ interface IFeatureItemProps {
   isApyLoading?: boolean;
   apy?: number;
   isTvlLoading?: boolean;
+  isIntegerTvl?: boolean;
   stakedTvl?: BigNumber;
   onStakeClick?: () => void;
 }
@@ -35,6 +36,7 @@ export const FeatureItem = ({
   token,
   isApyLoading = false,
   isTvlLoading = false,
+  isIntegerTvl = false,
   apy = 0,
   stakedTvl,
   onStakeClick,
@@ -43,6 +45,9 @@ export const FeatureItem = ({
 
   const shouldRenderTvl =
     stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
+  const tvlValue = isIntegerTvl
+    ? stakedTvl?.integerValue().toFormat()
+    : stakedTvl?.toFormat(DEFAULT_FIXED);
 
   const shouldRenderAPY = typeof apy === 'number' && apy !== 0;
 
@@ -135,7 +140,7 @@ export const FeatureItem = ({
 
                 <Typography className={classNames(classes.statValue)}>
                   {t('features.staked-amount', {
-                    value: stakedTvl.toFormat(DEFAULT_FIXED),
+                    value: tvlValue,
                     token,
                   })}
                 </Typography>

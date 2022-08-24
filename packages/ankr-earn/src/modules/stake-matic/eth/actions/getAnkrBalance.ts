@@ -2,12 +2,14 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { ProviderManagerSingleton, ANKR_ABI } from '@ankr.com/staking-sdk';
+import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 export const getAnkrBalance = createAction<RequestAction<BigNumber, BigNumber>>(
-  'polygon/getAnkrBalance',
+  `${MATIC_ETH_ACTIONS_PREFIX}getAnkrBalance`,
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {

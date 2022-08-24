@@ -27,6 +27,8 @@ import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderNam
 
 import { useFormState } from '../../../../forms/hooks/useFormState';
 
+import { useAnalytics } from './useAnalytics';
+
 interface IUseAnkrStake {
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
@@ -72,6 +74,9 @@ export const useAnkrStake = (): IUseAnkrStake => {
     type: getAPY,
   });
 
+  const amount = formState?.amount ?? ZERO;
+  const balance = commonData?.ankrBalance ?? ZERO;
+
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   useProviderEffect(() => {
@@ -84,8 +89,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
     };
   }, []);
 
-  const amount = formState?.amount;
-
   const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
@@ -93,6 +96,12 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
   const isApproved = !!approveData;
+
+  const { sendAnalytics } = useAnalytics({
+    amount,
+    balance,
+    nodeProvider: initialProvider ?? '',
+  });
 
   const lockingPeriod = commonData?.lockingPeriod ?? undefined;
 
@@ -113,7 +122,11 @@ export const useAnkrStake = (): IUseAnkrStake => {
           provider,
           amount: readyAmount,
         }),
-      );
+      ).then(({ error }) => {
+        if (!error) {
+          sendAnalytics();
+        }
+      });
     } else {
       dispatchRequest(approve(readyAmount));
     }
@@ -130,15 +143,15 @@ export const useAnkrStake = (): IUseAnkrStake => {
       isCommonDataLoading ||
       isStakeLoading ||
       isApproveLoading,
-    balance: commonData?.ankrBalance ?? ZERO,
+    balance,
     minStake: commonData?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerSelectHref: RoutesConfig.selectProvider.generatePath(),
     initialProvider,
     providerName,
-    amount: amount ?? ZERO,
-    initialAmount: amount?.toFixed(),
+    amount,
+    initialAmount: amount.toFixed(),
     apy,
     quoteText: t('stake-ankr.staking.fee-info'),
     additionalText: t('stake-ankr.staking.locking-period'),

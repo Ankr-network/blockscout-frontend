@@ -52,12 +52,10 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
   },
 
   legends: {
-    marginLeft: 'auto',
     marginTop: 0,
     maxWidth: 350,
 
     [theme.breakpoints.down('lg')]: {
-      marginLeft: 0,
       marginTop: theme.spacing(3),
       maxWidth: '100%',
     },
@@ -81,6 +79,20 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
 
   legendItemHover: {
     backgroundColor: theme.palette.background.default,
+
+    '& $stake': {
+      opacity: 1,
+    },
+  },
+
+  stake: {
+    borderRadius: theme.spacing(2),
+    height: 30,
+    width: 75,
+    marginLeft: 'auto',
+
+    transition: 'opacity 200ms',
+    opacity: 0,
   },
 
   legendItemTitle: {

@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getTxData } from 'modules/stake-ankr/actions/getTxData';
 import { getTxReceipt } from 'modules/stake-ankr/actions/getTxReceipt';
@@ -41,15 +40,14 @@ export const useClaimStepsHook = (): IClaimStepsHook => {
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 
-  const txFailError =
-    receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
-
-  const isPending = !receipt && !!data?.isPending;
+  const isSuccessfulReceipt = receipt && receipt.status;
+  const isPending = !!data?.isPending && !isSuccessfulReceipt;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-    dispatchRequest(getProviders());
+    dispatchRequest(getTxData({ txHash })).then(() => {
+      dispatchRequest(getTxReceipt({ txHash }));
+      dispatchRequest(getProviders());
+    });
 
     return () => {
       dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
@@ -57,15 +55,15 @@ export const useClaimStepsHook = (): IClaimStepsHook => {
   }, [dispatch, txHash]);
 
   useEffect(() => {
-    if (receipt) {
+    if (isSuccessfulReceipt) {
       dispatch(stopPolling([getTxReceipt.toString()]));
     }
-  }, [dispatch, receipt]);
+  }, [dispatch, isSuccessfulReceipt]);
 
   return {
     isLoading,
     isPending,
-    error: error || txFailError,
+    error,
     nodeProvider: providerName,
     transactionId: txHash,
   };
