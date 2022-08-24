@@ -13,6 +13,7 @@ export const useRewardsItemStyles = makeStyles(theme => ({
   btn: {
     height: 40,
     lineHeight: 40,
+    width: 100,
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     margin: theme.spacing(0.5, 0, 0.5, 0.5),
