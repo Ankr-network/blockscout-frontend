@@ -10,8 +10,8 @@ import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { sleep } from './utils/sleep';
-import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
+import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
@@ -21,7 +21,7 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
     'https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc',
   [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
   [AvailableReadProviders.binanceChainTest]:
-    'https://data-seed-prebsc-2-s2.binance.org:8545',
+    'https://rpc.ankr.com/bsc_testnet_chapel',
   [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
   [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
   [AvailableReadProviders.mumbai]: 'https://matic-mumbai.chainstacklabs.com',

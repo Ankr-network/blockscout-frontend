@@ -63,7 +63,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'BNB',
       decimals: 18,
     },
-    rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+    rpcUrls: ['https://rpc.ankr.com/bsc_testnet_chapel'],
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
 
