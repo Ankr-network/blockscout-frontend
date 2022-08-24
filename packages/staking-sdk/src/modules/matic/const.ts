@@ -40,9 +40,14 @@ export const MATIC_ON_POLYGON_PROVIDER_READ_ID = isMainnet
   : AvailableReadProviders.mumbai;
 
 /**
+ * Decimals length for MATIC
+ */
+export const MATIC_DECIMALS = 18;
+
+/**
  * Internal scale factor for MATIC on Polygon network
  */
-export const MATIC_SCALE_FACTOR = 10 ** 18;
+export const MATIC_SCALE_FACTOR = 10 ** MATIC_DECIMALS;
 
 /**
  * Multiplication factor for fee when approving funds

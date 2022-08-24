@@ -6,6 +6,7 @@ import { t } from 'common';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { getTotalTvl } from 'modules/stake-ankr/actions/getTotalTvl';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
@@ -19,8 +20,11 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
 
-  const { data: maxAnkrApy, loading } = useQuery({
+  const { data: maxAnkrApy, loading: apyLoading } = useQuery({
     type: getMaxApy,
+  });
+  const { data: totalTvl, loading: tvlLoading } = useQuery({
+    type: getTotalTvl,
   });
 
   const ankrApy = maxAnkrApy?.toNumber() ?? 0;
@@ -33,12 +37,14 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
       <Features>
         <FeatureItem
+          isIntegerTvl
           apy={ankrApy}
           iconSlot={<AnkrIcon />}
-          isApyLoading={loading}
+          isApyLoading={apyLoading}
+          isTvlLoading={tvlLoading}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}
-          stakedTvl={ZERO}
+          stakedTvl={totalTvl ?? undefined}
           title={t('features.ankr')}
           token={Token.ANKR}
         />

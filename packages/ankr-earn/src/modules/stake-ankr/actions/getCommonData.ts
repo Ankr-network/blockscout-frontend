@@ -17,10 +17,12 @@ export const getCommonData = createAction<
   request: {
     promise: (async (): Promise<IGetCommonData> => {
       const sdk = await AnkrStakingSDK.getInstance();
+      const provider = await sdk.getProvider();
+
       const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
         sdk.getAnkrBalance(),
         sdk.getMinimumStake(),
-        sdk.getLockingPeriodDays(),
+        sdk.getLockingPeriodDays(await provider.getBlockNumber()),
       ]);
 
       return { ankrBalance, minStake, lockingPeriod };

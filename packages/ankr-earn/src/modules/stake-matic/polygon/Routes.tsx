@@ -18,16 +18,25 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
  */
 const ROOT = `${StakeRoutes.main.path}matic/polygon/`;
 const STAKE_MATIC_PATH = `${ROOT}?token=:token?`;
+const STAKE_STEP_MATIC_PATH = `${ROOT}:tokenOut/:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TMaticSyntToken) =>
+      generatePath: (token?: TMaticSyntToken): string =>
         token ? generatePath(STAKE_MATIC_PATH, { token }) : generatePath(ROOT),
       useParams: () => ({
         token: useQueryParams().get('token') ?? undefined,
       }),
+    },
+    stakeStep: {
+      path: STAKE_STEP_MATIC_PATH,
+      generatePath: (tokenOut: TMaticSyntToken, txHash: string): string =>
+        generatePath(STAKE_STEP_MATIC_PATH, {
+          tokenOut,
+          txHash,
+        }),
     },
   },
   ROOT,
@@ -35,6 +44,10 @@ export const RoutesConfig = createRouteConfig(
 
 const Stake = loadComponent(() =>
   import('./screens/Stake').then(module => module.Stake),
+);
+
+const StakeStep = loadComponent(() =>
+  import('./screens/StakeStep').then(module => module.StakeStep),
 );
 
 export function getRoutes(): JSX.Element {
@@ -49,6 +62,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Stake />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
+          path={RoutesConfig.stakeStep.path}
+          providerId={MATIC_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <StakeStep />
           </DefaultLayout>
         </GuardETHRoute>
 

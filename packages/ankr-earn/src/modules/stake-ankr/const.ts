@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
-import { Percentage } from 'modules/common/types';
+import { Milliseconds, Percentage } from 'modules/common/types';
 
 export const ANKR_TOKEN_PRICE = 'v1alpha/rate/ANKR';
 
@@ -33,3 +33,5 @@ export enum EProviderStatus {
    */
   pending,
 }
+
+export const CACHE_TIME: Milliseconds = 1_000 * 30;

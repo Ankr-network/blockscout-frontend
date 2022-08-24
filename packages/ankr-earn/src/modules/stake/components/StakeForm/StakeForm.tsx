@@ -37,6 +37,10 @@ export interface IStakeFormComponentProps {
   balance?: BigNumber;
   balanceLabel?: string;
   balanceLinkSlot?: ReactNode;
+  extraValidation?: (
+    data: Partial<IStakeFormPayload>,
+    errors: FormErrors<IStakeFormPayload>,
+  ) => FormErrors<IStakeFormPayload>;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   loading?: boolean;
@@ -63,6 +67,7 @@ export const StakeForm = ({
   balance = ZERO,
   balanceLabel,
   balanceLinkSlot,
+  extraValidation,
   minAmount = ZERO,
   maxAmount = balance,
   loading = false,
@@ -103,10 +108,13 @@ export const StakeForm = ({
   }, [balance, maxAmount, maxAmountDecimals, stakingAmountStep]);
 
   const validateStakeForm = useCallback(
-    ({ amount }: IStakeFormPayload) => {
+    (data: IStakeFormPayload) => {
+      const { amount } = data;
+
       const errors: FormErrors<IStakeFormPayload> = {};
 
       const withAmountStep = !!stakingAmountStep;
+
       const isMultipleOf =
         amount && stakingAmountStep ? +amount % stakingAmountStep === 0 : false;
 
@@ -118,13 +126,14 @@ export const StakeForm = ({
 
       const balanceIsEqualToStep =
         !!stakingAmountStep && balance.isEqualTo(stakingAmountStep);
+
       if (withFee && balanceIsEqualToStep) {
         errors.amount = t('validation.fee-plus-amount-wrong');
       }
 
-      return errors;
+      return extraValidation ? extraValidation(data, errors) : errors;
     },
-    [balance, stakingAmountStep, withFee],
+    [balance, extraValidation, stakingAmountStep, withFee],
   );
 
   const onSubmitForm = (payload: IStakeFormPayload): void =>

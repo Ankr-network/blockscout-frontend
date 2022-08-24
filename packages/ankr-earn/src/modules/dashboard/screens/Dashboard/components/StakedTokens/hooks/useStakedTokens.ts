@@ -21,12 +21,15 @@ import { useBridgedMaticCertBSC } from './MATIC/useBridgedMaticCertBSC';
 import { useBridgedMaticCertPolygon } from './MATIC/useBridgedMaticCertPolygon';
 import { useStakedAMATICBData } from './MATIC/useStakedAMATICBData';
 import { useStakedAMATICCData } from './MATIC/useStakedAMATICCData';
+import { useStakedMaticCertPolygon } from './MATIC/useStakedMaticCertPolygon';
 import { useStakedMGNOData } from './MGNO/useStakedMGNOData';
 import { useStakedPolkadotData } from './Polkadot/useStakedPolkadotData';
 import { useUnclaimedPolkadotData } from './Polkadot/useUnclaimedPolkadotData';
 
 interface IUseStakedTokensData {
   isAssetsShowed: boolean;
+  isLiquidAssetsShowed: boolean;
+  isDelegateAssetsShowed: boolean;
   isAETHBShowed: boolean;
   isAETHCShowed: boolean;
   isAETHBSCShowed: boolean;
@@ -53,6 +56,7 @@ interface IUseStakedTokensData {
   isUnclaimedEthShowed: boolean;
   isANKRShowed: boolean;
   isMGNOShowed: boolean;
+  isStakedMaticCertPolygonShowed: boolean;
 }
 
 export const useStakedTokens = (): IUseStakedTokensData => {
@@ -87,6 +91,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const stakedANKRData = useStakedANKRData();
 
   const stakedMGNOData = useStakedMGNOData();
+  const stakedMaticCertPolygon = useStakedMaticCertPolygon();
 
   const isAETHBShowed = stakedAETHBData.isShowed;
 
@@ -109,7 +114,8 @@ export const useStakedTokens = (): IUseStakedTokensData => {
   const isAMATICBBSCShowed = amaticbBSCData.isShowed;
   const isAMATICCShowed = stakedAMATICCData.isShowed;
   const isAMATICCBSCShowed = amaticcBSCData.isShowed;
-  const isAMATICCPolygonShowed = amaticcPolygonData.isShowed;
+  const isAMATICCPolygonShowed =
+    !featuresConfig.maticPolygonStaking && amaticcPolygonData.isShowed;
 
   const isAETHBBridgedShowed = aethbBridgedData.isShowed;
   const isAETHCBridgedShowed = aethcBridgedData.isShowed;
@@ -132,7 +138,10 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isMGNOShowed = featuresConfig.mgnoStaking && stakedMGNOData.isShowed;
 
-  const atLeastOneShowed =
+  const isStakedMaticCertPolygonShowed =
+    featuresConfig.maticPolygonStaking && stakedMaticCertPolygon.isShowed;
+
+  const isLiquidAssetsShowed =
     isAETHBShowed ||
     isAETHCShowed ||
     isAETHBSCShowed ||
@@ -157,11 +166,14 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isAWNDBShowed ||
     isWNDShowed ||
     isUnclaimedEthShowed ||
-    isANKRShowed ||
-    isMGNOShowed;
+    isStakedMaticCertPolygonShowed;
+
+  const isDelegateAssetsShowed = isANKRShowed || isMGNOShowed;
 
   return {
-    isAssetsShowed: atLeastOneShowed,
+    isAssetsShowed: isLiquidAssetsShowed || isDelegateAssetsShowed,
+    isLiquidAssetsShowed,
+    isDelegateAssetsShowed,
     isAETHBShowed,
     isAETHCShowed,
     isAETHBSCShowed,
@@ -188,5 +200,6 @@ export const useStakedTokens = (): IUseStakedTokensData => {
     isUnclaimedEthShowed,
     isANKRShowed,
     isMGNOShowed,
+    isStakedMaticCertPolygonShowed,
   };
 };

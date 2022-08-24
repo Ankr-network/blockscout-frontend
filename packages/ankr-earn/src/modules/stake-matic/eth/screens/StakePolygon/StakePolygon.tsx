@@ -14,6 +14,7 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -56,6 +57,7 @@ export const StakePolygon = (): JSX.Element => {
   } = useStakeForm();
 
   const faqItems = useFaq();
+  const commonFaqItems = useMaticFaq();
 
   const renderStats = () => {
     return (
@@ -147,7 +149,11 @@ export const StakePolygon = (): JSX.Element => {
               metricsServiceName={EMetricsServiceName.MATIC}
             />
 
-            <Faq data={faqItems} />
+            <Faq
+              data={
+                featuresConfig.maticPolygonStaking ? commonFaqItems : faqItems
+              }
+            />
           </StakeContainer>
         </section>
       )}

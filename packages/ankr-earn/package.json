@@ -1,9 +1,10 @@
 {
   "name": "ankr-earn",
-  "version": "3.7.1",
+  "version": "4.0.1",
   "private": true,
   "homepage": "/staking",
   "dependencies": {
+    "typescript-memoize": "1.1.0",
     "@ankr.com/provider": "^1.5.27",
     "@ankr.com/staking-sdk": "^1.0.0",
     "@loadable/component": "^5.15.2",

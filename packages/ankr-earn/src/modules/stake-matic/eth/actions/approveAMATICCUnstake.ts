@@ -7,12 +7,14 @@ import { MaticEthSDK } from '@ankr.com/staking-sdk';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
+
 import { getAllowance } from './getAllowance';
 
 export const approveAMATICCUnstake = createAction<
   RequestAction<boolean, boolean>,
   [BigNumber]
->('polygon/approveAMATICCUnstake', amount => ({
+>(`${MATIC_ETH_ACTIONS_PREFIX}approveAMATICCUnstake`, amount => ({
   request: {
     promise: async (store: RequestsStore): Promise<boolean> => {
       const { data: allowance } = getQuery<BigNumber | null>(store.getState(), {
