@@ -14,6 +14,7 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -137,6 +138,7 @@ export const StakePolygon = (): JSX.Element => {
               loading={isStakeLoading}
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
+              networkTitleSlot={<NetworkTitle />}
               renderStats={renderStats}
               tokenIn={tokenIn}
               tokenOut={tokenOut}

@@ -46,6 +46,9 @@ interface IPortfolioItem {
   percent: number;
   usdAmount: BigNumber;
   amount: BigNumber;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
   isNative: boolean;
   link?: string;
@@ -223,7 +226,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       : item.amount,
   );
 
-  const yieldAmouts = nativeData.map((item, index) =>
+  const yieldAmoutsUsd = nativeData.map((item, index) =>
     usdAmounts[index]
       .multipliedBy(item.apy)
       .dividedBy(100)
@@ -231,8 +234,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
   );
 
   const totalYieldAmountUsd = useMemo(
-    () => yieldAmouts.reduce((acc, item) => acc.plus(item), ZERO),
-    [yieldAmouts],
+    () => yieldAmoutsUsd.reduce((acc, item) => acc.plus(item), ZERO),
+    [yieldAmoutsUsd],
   );
 
   const totalAmountUsd = useMemo(
@@ -252,6 +255,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           isNative: true,
           amount: item.amount.decimalPlaces(DECIMAL_PLACES),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmount: item.amount
+            .multipliedBy(item.apy)
+            .dividedBy(100)
+            .decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmountUsd: yieldAmoutsUsd[index].decimalPlaces(DEFAULT_ROUNDING),
           percent: !totalAmountUsd.isZero()
             ? usdAmounts[index]
                 .multipliedBy(100)
@@ -259,10 +267,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
                 .decimalPlaces(DEFAULT_ROUNDING)
                 .toNumber()
             : 0,
+          apy: item.apy.decimalPlaces(DEFAULT_ROUNDING),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),
-    [totalAmountUsd, usdAmounts, nativeData],
+    [totalAmountUsd, usdAmounts, nativeData, yieldAmoutsUsd],
   );
 
   return {

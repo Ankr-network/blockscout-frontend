@@ -3,7 +3,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { ZERO } from 'modules/common/const';
 
-import { IHistoryData } from '../api/types';
+import { IHistoryData } from '../api/GnosisStakingSDK/types';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
 const DEMO_DATA: IHistoryData[] = [

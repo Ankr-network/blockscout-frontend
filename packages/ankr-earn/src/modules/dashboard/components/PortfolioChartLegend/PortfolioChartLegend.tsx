@@ -30,6 +30,9 @@ export interface ILegendItem {
   percent: number;
   amount: BigNumber;
   usdAmount: BigNumber;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
   link?: string;
 }
@@ -102,9 +105,10 @@ export const PortfolioChartLegend = ({
         </Typography>
 
         <Typography className={classes.yield}>
-          {tHTML(`dashboard.${!isNative ? 'yearlyYield' : 'potentialYield'}`, {
-            value: yearlYield.toFormat(),
-          })}
+          {tHTML(
+            `dashboard.${!isNative ? 'yearlyYieldUsd' : 'potentialYieldUsd'}`,
+            { value: yearlYield.toFormat() },
+          )}
         </Typography>
       </div>
 

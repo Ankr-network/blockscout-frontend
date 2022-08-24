@@ -135,4 +135,26 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://matic-mumbai.chainstacklabs.com/'],
     blockExplorerUrls: ['https://mumbai.polygonscan.com'],
   },
+  [EEthereumNetworkId.gnosis]: {
+    chainId: numberToHex(EEthereumNetworkId.gnosis),
+    chainName: 'Gnosis',
+    nativeCurrency: {
+      name: 'xDai',
+      symbol: 'xDai',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.gnosischain.com/'],
+    blockExplorerUrls: ['https://blockscout.com/xdai/mainnet/'],
+  },
+  [EEthereumNetworkId.sokol]: {
+    chainId: numberToHex(EEthereumNetworkId.sokol),
+    chainName: 'Sokol',
+    nativeCurrency: {
+      name: 'SPOA',
+      symbol: 'SPOA',
+      decimals: 18,
+    },
+    rpcUrls: ['https://sokol.poa.network/'],
+    blockExplorerUrls: ['https://blockscout.com/poa/sokol/'],
+  },
 };

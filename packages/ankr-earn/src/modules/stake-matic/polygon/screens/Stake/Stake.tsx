@@ -1,4 +1,4 @@
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
@@ -11,6 +11,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -23,10 +24,9 @@ import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { Tooltip } from 'uiKit/Tooltip';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
@@ -53,22 +53,20 @@ export const Stake = (): JSX.Element => {
 
   const faqItems = useMaticFaq();
 
-  const renderStats = () => (
+  const renderStats = (): JSX.Element => (
     <>
       <div className={classes.liquidityPoolArea}>
         <div>
-          {tHTML('stake-matic-polygon.stake.liquidity-pool', {
+          {tHTML('stake-matic-polygon.liquidity-pool-label', {
             value: acPoolLiquidityInMATIC
               .decimalPlaces(DEFAULT_ROUNDING)
               .toFormat(),
           })}
         </div>
 
-        <Tooltip title={t('stake-matic-polygon.tooltips.liquidity-pool')}>
-          <ButtonBase className={classes.questionBtn}>
-            <QuestionIcon size="xs" />
-          </ButtonBase>
-        </Tooltip>
+        <QuestionWithTooltip className={classes.questionBtn}>
+          {t('stake-matic-polygon.tooltips.stake-liquidity-pool')}
+        </QuestionWithTooltip>
       </div>
 
       <TokenVariantList my={5}>
@@ -154,6 +152,7 @@ export const Stake = (): JSX.Element => {
             extraValidation={extraValidation}
             loading={isStakeLoading}
             maxAmount={balance}
+            networkTitleSlot={<NetworkTitle />}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
