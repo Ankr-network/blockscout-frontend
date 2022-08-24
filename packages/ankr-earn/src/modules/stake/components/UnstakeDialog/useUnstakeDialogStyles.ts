@@ -32,6 +32,10 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
 
+  networkTitle: {
+    margin: theme.spacing(-2, 'auto', 4, 'auto'),
+  },
+
   closeBtn: {
     position: 'absolute',
     top: theme.spacing(2.5),

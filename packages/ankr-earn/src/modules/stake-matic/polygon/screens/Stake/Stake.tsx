@@ -11,6 +11,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -151,6 +152,7 @@ export const Stake = (): JSX.Element => {
             extraValidation={extraValidation}
             loading={isStakeLoading}
             maxAmount={balance}
+            networkTitleSlot={<NetworkTitle />}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}

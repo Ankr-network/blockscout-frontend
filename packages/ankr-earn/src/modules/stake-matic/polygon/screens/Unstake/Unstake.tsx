@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { t, tHTML } from 'common';
 
 import { DECIMAL_PLACES, DEFAULT_ROUNDING } from 'modules/common/const';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -105,6 +106,7 @@ export const Unstake = (): JSX.Element => {
             isBalanceLoading={isGetStatsLoading}
             isLoading={isUnstakeLoading}
             isWithApprove={isWithApprove}
+            networkTitleSlot={<NetworkTitle />}
             renderFormFooter={renderFormFooter}
             submitDisabled={isUnstakeLoading}
             token={selectedToken}
