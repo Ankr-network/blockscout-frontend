@@ -1,15 +1,19 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useClients } from 'stores/useClients';
 import { ClientEmailsStore } from 'stores/ClientEmailsStore';
+import { LocalGridStore } from 'stores/LocalGridStore';
+import { PremiumPlanClientEntity } from 'types';
 
-export const useSearchInput = (emailStore: ClientEmailsStore) => {
-  const { counters } = useClients();
+export const useSearchInput = (
+  emailStore: ClientEmailsStore,
+  gridStore: LocalGridStore<PremiumPlanClientEntity>,
+) => {
   const { pathname } = useLocation();
   const history = useHistory();
   const [searchValue, setSearchValue] = useState('');
 
-  const clientsWithAddress = counters?.filter(c => Boolean(c.address)) || [];
+  const clientsWithAddress =
+    gridStore.items?.filter(c => Boolean(c.address)) || [];
   const foundClientsWithEmails = emailStore.clientsEmails
     .filter(c => c.email.includes(searchValue))
     .map(c => ({ user: undefined, ...c }));

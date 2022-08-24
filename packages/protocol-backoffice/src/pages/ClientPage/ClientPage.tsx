@@ -4,9 +4,10 @@ import { observer } from 'mobx-react';
 import { useClientEmailsStore } from 'stores/ClientEmailsStore';
 import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 import PAYGClientTable from './components/PAYGClientTable';
-import PremiumClientTable from './components/PremiumPlanClientTable';
+import PremiumClientTable from 'components/PremiumClientTable/PremiumClientTable';
 import { SearchClientsInput } from './components/SearchClientsInput';
 import { CreateClientButton } from './components/CreateClientButton';
+import { usePremiumPlanClients } from '../../stores/usePremiumPlanClients';
 
 export const ClientPage = observer(() => {
   const initialTab = useInitialTab();
@@ -15,11 +16,16 @@ export const ClientPage = observer(() => {
 
   const emailStore = useClientEmailsStore();
 
+  const gridStorePremiumPlanClients = usePremiumPlanClients();
+
   return (
     <>
       <PageHeader title="Client Page" />
       <CreateClientButton />
-      <SearchClientsInput emailStore={emailStore} />
+      <SearchClientsInput
+        emailStore={emailStore}
+        gridStore={gridStorePremiumPlanClients}
+      />
       <div>
         <Menu selectedKeys={[initialTab]} onSelect={onSelect} mode="horizontal">
           <Menu.Item key={Tab.PAYGClients}>PAYG Clients</Menu.Item>
@@ -33,7 +39,10 @@ export const ClientPage = observer(() => {
         <PAYGClientTable emailStore={emailStore} />
       )}
       {initialTab === Tab.PremiumPlanClients && (
-        <PremiumClientTable emailStore={emailStore} />
+        <PremiumClientTable
+          store={gridStorePremiumPlanClients}
+          emailStore={emailStore}
+        />
       )}
     </>
   );

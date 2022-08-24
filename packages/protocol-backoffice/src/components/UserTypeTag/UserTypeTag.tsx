@@ -7,7 +7,7 @@ const { Text } = Typography;
 
 type TUserTypeTagProps = Exclude<TagProps, 'color' | 'children'> & {
   clientType: ClientEntity['type'];
-  clientTtl: ClientEntity['ttl'];
+  clientTtl?: ClientEntity['ttl'];
   isTextInline: boolean;
 };
 
@@ -18,7 +18,8 @@ export const UserTypeTag = ({
   ...otherProps
 }: TUserTypeTagProps) => {
   const label = clientTypeNaming[clientType];
-  const expiration = getClientTypeExpiration[clientType]?.(clientTtl);
+  const expiration =
+    clientTtl && getClientTypeExpiration[clientType]?.(clientTtl);
 
   return (
     <Space direction={isTextInline ? 'horizontal' : 'vertical'}>

@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import { UserTypeTag } from 'components/UserTypeTag';
 import { PremiumPlanClientEntity } from 'types';
+import { compareString } from 'utils/sortingCompare';
 
 const EMPTY_MESSAGE = 'No information';
 
@@ -40,5 +41,6 @@ export const tableColumns: ColumnsType<PremiumPlanClientEntity> = [
     render: (_, { type, ttl }: PremiumPlanClientEntity) => (
       <UserTypeTag clientType={type} clientTtl={ttl} isTextInline={false} />
     ),
+    sorter: compareString('type'),
   },
 ];

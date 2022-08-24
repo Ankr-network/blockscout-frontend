@@ -1,22 +1,16 @@
 import { Button, Modal } from 'antd';
 import { observer } from 'mobx-react';
-import { useMultiRpcSdk } from 'stores';
 import { useCreateClientModal } from './useCreateClientModal';
 import { CreateClientForm } from './СreateClientForm';
 
 export const CreateClientButton = observer(() => {
-  const backoffice = useMultiRpcSdk().getBackofficeGateway();
-
   const {
     createClientModalVisible,
     setCreateClientModalVisible,
     createClientModalLoading,
     onOk,
     onCancel,
-  } = useCreateClientModal({
-    createTestClientRequest: formData =>
-      backoffice.createTestPremiumUser(formData),
-  });
+  } = useCreateClientModal();
 
   return (
     <>

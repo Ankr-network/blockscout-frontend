@@ -1,21 +1,11 @@
 import { useCallback, useState } from 'react';
 import { notification } from 'antd';
-import {
-  ICreateTestClientRequest,
-  ICreateTestClientResponse,
-} from 'multirpc-sdk';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ClientType } from 'types';
+import { useMultiRpcSdk } from 'stores';
 
-interface ICreateClientModalProps {
-  createTestClientRequest: (
-    data: ICreateTestClientRequest,
-  ) => Promise<ICreateTestClientResponse>;
-}
-
-export const useCreateClientModal = ({
-  createTestClientRequest,
-}: ICreateClientModalProps) => {
+export const useCreateClientModal = () => {
+  const backoffice = useMultiRpcSdk().getBackofficeGateway();
   const history = useHistory();
   const { pathname } = useLocation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,7 +15,8 @@ export const useCreateClientModal = ({
     formData => {
       setModalLoading(true);
 
-      createTestClientRequest(formData)
+      backoffice
+        .createTestPremiumUser(formData)
         .then(data => {
           if (data.token) {
             notification.success({
@@ -45,12 +36,13 @@ export const useCreateClientModal = ({
               pathname: `${pathname}/${formData.address}`,
               state: {
                 clientType: ClientType.TestDrivePremium,
+                token: formData.token,
               },
             });
           }
         });
     },
-    [createTestClientRequest, history, pathname],
+    [history, pathname, backoffice],
   );
 
   const onCancel = useCallback(

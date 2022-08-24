@@ -2,16 +2,19 @@ import React from 'react';
 import { Button, Input, Tooltip } from 'antd';
 import { observer } from 'mobx-react';
 import { ClientEmailsStore } from 'stores/ClientEmailsStore';
+import { LocalGridStore } from 'stores/LocalGridStore';
+import { PremiumPlanClientEntity } from 'types';
 import { useSearchInput } from './useSearchInput';
 
 interface ISearchClientsInputProps {
   emailStore: ClientEmailsStore;
+  gridStore: LocalGridStore<PremiumPlanClientEntity>;
 }
 
 export const SearchClientsInput = observer(
-  ({ emailStore }: ISearchClientsInputProps) => {
+  ({ emailStore, gridStore }: ISearchClientsInputProps) => {
     const { foundClients, onChange, searchValue, onClientClick } =
-      useSearchInput(emailStore);
+      useSearchInput(emailStore, gridStore);
 
     return (
       <div
@@ -26,7 +29,7 @@ export const SearchClientsInput = observer(
           placeholder="Search by email or address"
           allowClear
           onChange={onChange}
-          disabled={emailStore.isLoading}
+          disabled={emailStore.isLoading || gridStore.isLoading}
         />
         {foundClients?.length > 0 && (
           <ul
@@ -34,7 +37,7 @@ export const SearchClientsInput = observer(
               width: '100%',
               padding: 0,
               position: 'relative',
-              zIndex: 1,
+              zIndex: 99,
               maxHeight: 200,
               overflow: 'auto',
               backgroundColor: 'white',
