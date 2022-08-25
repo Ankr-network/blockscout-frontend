@@ -20,7 +20,7 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 
 import { TokenVariants } from './components/TokenVariants';
 import { TotalAmount } from './components/TotalAmount';
@@ -73,6 +73,7 @@ export const StakeEthereum = (): JSX.Element => {
         bondToken: EOpenOceanTokens.aETHb,
         certificateRatio,
         certificateToken: EOpenOceanTokens.aETHc,
+        network: EOpenOceanNetworks.ETH,
       }),
     );
   }, [certificateRatio, dispatch]);

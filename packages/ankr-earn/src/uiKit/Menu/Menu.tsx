@@ -37,7 +37,7 @@ export const Menu = ({ children }: IMenuProps): JSX.Element => {
   }, [setAnchorEl]);
 
   return (
-    <div>
+    <>
       <IconButton
         className={classes.menuIcon}
         data-testid="menu-button"
@@ -78,7 +78,7 @@ export const Menu = ({ children }: IMenuProps): JSX.Element => {
             ),
         )}
       </MenuUI>
-    </div>
+    </>
   );
 };
 

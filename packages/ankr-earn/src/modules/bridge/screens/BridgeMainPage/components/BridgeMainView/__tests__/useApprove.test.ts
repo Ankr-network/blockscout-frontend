@@ -3,9 +3,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
-import { IUseTxReceipt, useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS, ZERO } from 'modules/common/const';
+import { IUseTxReceipt, useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 import { IUseApproveArgs, useApprove } from '../useApprove';
 
@@ -17,7 +17,7 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/bridge/hooks/useTxReceipt', () => ({
+jest.mock('modules/common/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { useFormState } from 'modules/forms/hooks/useFormState';
@@ -80,7 +80,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
     amount: amount ?? ZERO,
     initialAmount: amount?.toString(),
     apy,
-    quoteText: t('stake-mgno.staking.lock-info'),
+    quoteText: tHTML('stake-mgno.staking.lock-info'),
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),
     additionalValue: t('unit.percentage-value', {

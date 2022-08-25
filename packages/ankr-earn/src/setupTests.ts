@@ -81,6 +81,8 @@ jest.mock('@ankr.com/provider', () => {
       binanceChainTest: 'binanceChainTestHttpProvider',
       ftmOpera: 'ftmOperaHttpProvider',
       ftmTestnet: 'ftmTestnetHttpProvider',
+      gnosis: 'gnosisHttpProvider',
+      sokol: 'sokolHttpProvider',
     },
     EEthereumNetworkId: {
       mainnet: 1,

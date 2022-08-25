@@ -134,7 +134,9 @@
     "2018": "Dev",
     "250": "Fantom Opera",
     "4002": "Fantom Testnet",
-    "80001": "Mumbai"
+    "80001": "Mumbai",
+    "100": "Gnosis Chain",
+    "77": "POA Network Sokol"
   },
   "audit-info": {
     "label": "Audited by",
@@ -183,7 +185,9 @@
       "kusama": "Kusama",
       "polkadot": "Polkadot",
       "rococo": "Rococo",
-      "westend": "Westend"
+      "westend": "Westend",
+      "gnosis": "Gnosis Chain",
+      "sokol": "POA Network Sokol"
     }
   },
   "polkadot-slot-auction": {
@@ -693,14 +697,16 @@
   },
   "stake-matic-polygon": {
     "fee": "Fee",
-    "stake": {
-      "liquidity-pool": "Current crosschain staking pool capacity: <b>{value} MATIC</b>"
-    },
+    "liquidity-pool-label": "Current crosschain staking pool capacity: <b>{value} MATIC</b>",
     "tooltips": {
-      "liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances."
+      "stake-liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances.",
+      "unstake-liquidity-pool": "If your unstake exceeds current capacity of cross chain staking pool, you can split your amount to parts and unstake more once pool is top up."
     },
     "validation": {
       "low-pool": "Your stake exceeds current pool capacity"
+    },
+    "unstake": {
+      "success-title": "Unstake successful!"
     }
   },
   "stake-fantom": {
@@ -847,8 +853,10 @@
     "portfolio": "My portfolio",
     "stakedAssets": "Staked assets ({percent}%)",
     "availableAssets": "Available to stake ({percent}%)",
-    "yearlyYield": "Yearly Yield <b>${value}</b>",
-    "potentialYield": "Potential Yield <b>${value}</b>",
+    "yearlyYieldUsd": "Yearly Yield <b>${value}</b>",
+    "potentialYieldUsd": "Potential Yield <b>${value}</b>",
+    "yearlyYield": "Yearly Yield",
+    "potentialYield": "Potential Yield",
     "totalAssets": "Total assets",
     "portfolioUSD": "$ {value}",
     "portfolioToken": "{amount} {token} <small>({percent}%)</small>",
@@ -1327,7 +1335,7 @@
       "history": "History"
     },
     "staking": {
-      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max. This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max.<br/>This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
       "slashing-protection-tooltip": "tooltip"
     },

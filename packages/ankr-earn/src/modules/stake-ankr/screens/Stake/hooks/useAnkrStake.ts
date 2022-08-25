@@ -1,4 +1,3 @@
-import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -12,11 +11,10 @@ import { t, tHTML } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import {
-  IFormState,
   IAnkrStakeFormPayload,
   IAnkrStakeSubmitPayload,
+  IFormState,
 } from 'modules/delegate-stake/components/StakeForm/const';
-import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
@@ -28,6 +26,7 @@ import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderNam
 import { useFormState } from '../../../../forms/hooks/useFormState';
 
 import { useAnalytics } from './useAnalytics';
+import { useApprove } from './useApprove';
 
 interface IUseAnkrStake {
   isStakeLoading: boolean;
@@ -67,9 +66,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approve,
-  });
+
   const { data: apyData, loading: isApyLoading } = useQuery({
     type: getAPY,
   });
@@ -79,14 +76,16 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
+  const {
+    isApproved,
+    isLoading: isApproveLoading,
+    handleApprove,
+  } = useApprove();
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
-
-    return () => {
-      dispatch(resetRequests([approve.toString()]));
-    };
   }, []);
 
   const currentProvider = providers ? providers[0] : null;
@@ -94,8 +93,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const providerName = getDemoProviderName(initialProvider);
   const apyItem = apyData?.find(x => x.validator === initialProvider);
   const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
-
-  const isApproved = !!approveData;
 
   const { sendAnalytics } = useAnalytics({
     amount,
@@ -128,7 +125,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
         }
       });
     } else {
-      dispatchRequest(approve(readyAmount));
+      handleApprove(readyAmount);
     }
   };
 

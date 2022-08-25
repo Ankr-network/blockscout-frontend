@@ -35,6 +35,9 @@ export interface IChartSlice {
   amount: BigNumber;
   usdAmount: BigNumber;
   isNative: boolean;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
   link?: string;
 }
@@ -142,7 +145,7 @@ export const PortfolioChart = ({
       const pie = d3
         .pie<void, ILegendItem>()
         .value(({ percent }) => percent)
-        .sort(null);
+        .sort((a, b) => -a.name.localeCompare(b.name));
 
       const path = d3
         .arc<d3.PieArcDatum<ILegendItem>>()
@@ -180,52 +183,38 @@ export const PortfolioChart = ({
         .append('path')
         .attr('d', path)
         .attr('fill', d => d.data.color);
-
-      const generalInfo = g
-        .append('g')
-        .attr('transform', 'translate(0, -30)')
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('x', '50%')
-        .attr('y', '50%');
-
-      generalInfo
-        .append('text')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('class', classes.chartText)
-        .text(t('dashboard.totalAssets'));
-
-      generalInfo
-        .append('text')
-        .attr('x', 0)
-        .attr('y', 40)
-        .attr('class', classes.total)
-        .text(
-          t('dashboard.portfolioUSD', {
-            value: totalAmountUsd.toFormat(),
-          }),
-        );
-
-      generalInfo
-        .append('text')
-        .attr('x', 0)
-        .attr('y', 80)
-        .attr('class', classes.apr)
-        .text(t('dashboard.apr', { value: totalApr }).replace(/<\/?b>/g, ''));
     },
-    [
-      chartData,
-      totalApr,
-      activeItem?.name,
-      classes,
-      totalAmountUsd,
-      width,
-      height,
-    ],
+    [chartData, activeItem, width, height],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, chartData]);
+
+  const yieldTitle = activeItem?.link
+    ? t('dashboard.potentialYield')
+    : t('dashboard.yearlyYield');
+
+  const amountTitle = activeItem
+    ? activeItem.yieldAmount.toFormat()
+    : t('dashboard.portfolioUSD', {
+        value: totalAmountUsd.toFormat(),
+      });
+
+  const aprTitle = t('dashboard.apr', { value: totalApr }).replace(
+    /<\/?b>/g,
+    '',
+  );
+
+  const dollarTitle = activeItem
+    ? t('dashboard.portfolioUSD', {
+        value: activeItem.yieldAmountUsd.toFormat(),
+      })
+    : '';
+
+  const apyTitle = activeItem
+    ? t('dashboard.apr', {
+        value: activeItem.apy.toFormat(),
+      }).replace(/<\/?b>/g, '')
+    : '';
 
   if (!isLoading && data.length === 0) {
     return null;
@@ -255,12 +244,44 @@ export const PortfolioChart = ({
                 width={width}
               />
             ) : (
-              <svg
-                ref={ref}
-                data-testid="portfolio-chart"
-                height={height}
-                width={width}
-              />
+              <div className={classes.chartContainer}>
+                <svg
+                  ref={ref}
+                  data-testid="portfolio-chart"
+                  height={height}
+                  width={width}
+                />
+
+                <div className={classes.info}>
+                  <Typography className={classes.chartText}>
+                    {activeItem ? yieldTitle : t('dashboard.totalAssets')}
+                  </Typography>
+
+                  <div className={classes.amountWrapper}>
+                    {activeItem && <activeItem.icon className={classes.icon} />}
+
+                    <Typography className={classes.total}>
+                      {amountTitle}
+                    </Typography>
+                  </div>
+
+                  {activeItem ? (
+                    <div className={classes.hoverInfo}>
+                      <div className={classes.hoverInfoBlock}>
+                        <Typography className={classes.apr}>
+                          {dollarTitle}
+                        </Typography>
+
+                        <Typography className={classes.apr}>
+                          {apyTitle}
+                        </Typography>
+                      </div>
+                    </div>
+                  ) : (
+                    <Typography className={classes.apr}>{aprTitle}</Typography>
+                  )}
+                </div>
+              </div>
             )}
           </Grid>
 

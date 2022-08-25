@@ -6,7 +6,7 @@ export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActivePolkadotLedgerNanoX: false,
+  isActivePolkadotLedgerNanoX: true,
   /**
    * Please remove extra feature flag
    * @deprecated

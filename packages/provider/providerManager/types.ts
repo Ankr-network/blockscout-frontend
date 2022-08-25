@@ -13,6 +13,9 @@ export enum AvailableReadProviders {
 
   ftmOpera = 'ftmOperaHttpProvider',
   ftmTestnet = 'ftmTestnetHttpProvider',
+
+  gnosis = 'gnosisHttpProvider',
+  sokol = 'sokolHttpProvider',
 }
 
 export enum AvailableWriteProviders {
@@ -37,6 +40,8 @@ export enum EEthereumNetworkId {
   fantom = 250,
   fantomTestnet = 4002,
   mumbai = 80001,
+  gnosis = 100,
+  sokol = 77,
 }
 
 export enum EPolkadotNetworkId {

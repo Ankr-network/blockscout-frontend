@@ -1,9 +1,9 @@
 import { useQuery } from '@redux-requests/react';
 
 import {
-  getTxReceiptRequestKey,
   getTxReceipt,
-} from 'modules/bridge/actions/getTxReceipt';
+  getTxReceiptRequestKey,
+} from 'modules/common/actions/getTxReceipt';
 
 export interface IUseTxReceipt {
   isSuccessful: boolean;

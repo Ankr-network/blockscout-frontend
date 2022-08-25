@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Token } from 'modules/common/types/token';
@@ -53,6 +53,7 @@ export const TotalInfo = (): JSX.Element => {
                   <PlusMinusBtn
                     disabled={!isClaimAllowed}
                     icon="minus"
+                    tooltip={tHTML('stake-mgno.staking.lock-info')}
                     variant="outlined"
                     onClick={onOpenClaim}
                   />

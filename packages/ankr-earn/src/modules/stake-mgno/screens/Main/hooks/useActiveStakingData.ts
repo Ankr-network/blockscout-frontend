@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getActiveStakingData } from 'modules/stake-mgno/actions/getActiveStakingData';
-import { IActiveStakingData } from 'modules/stake-mgno/api/types';
+import { IActiveStakingData } from 'modules/stake-mgno/api/GnosisStakingSDK/types';
 
 interface IActiveStaking {
   isLoading: boolean;

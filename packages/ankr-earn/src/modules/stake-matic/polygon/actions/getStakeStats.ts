@@ -4,13 +4,14 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
 
+import { TBNPercent } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 
 export interface IGetStakeStatsData {
   acPoolLiquidityInMATIC: BigNumber;
-  stakeFeePct: BigNumber;
+  stakeFeePct: TBNPercent;
 }
 
 export const getStakeStats = createSmartAction<
@@ -32,7 +33,6 @@ export const getStakeStats = createSmartAction<
     },
   },
   meta: {
-    asMutation: false,
     onRequest: withStore,
   },
 }));

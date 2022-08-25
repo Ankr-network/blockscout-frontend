@@ -24,6 +24,14 @@ export const useStakeFormStyles = makeStyles(theme => {
       },
     },
 
+    networkTitle: {
+      margin: theme.spacing(-1, 'auto', 4, 'auto'),
+
+      [theme.breakpoints.up('sm')]: {
+        marginTop: theme.spacing(-4.5),
+      },
+    },
+
     submit: {
       height: 54,
     },

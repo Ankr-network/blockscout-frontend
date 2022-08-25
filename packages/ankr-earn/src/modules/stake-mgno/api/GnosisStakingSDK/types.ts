@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { Web3Address, Web3Uint256 } from 'modules/common/types';
 
-import { EProviderStatus } from '../const';
+import { EProviderStatus } from '../../const';
 
 export interface IActiveStakingData {
   provider: string;

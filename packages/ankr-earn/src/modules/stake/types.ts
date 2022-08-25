@@ -4,6 +4,14 @@ export enum EOpenOceanExChanges {
   OpenOceanV2 = 'openoceanv2',
 }
 
+export enum EOpenOceanNetworks {
+  AVAX = 'AVAX',
+  BSC = 'BSC',
+  ETH = 'ETH',
+  FANTOM = 'FANTOM',
+  POLYGON = 'POLYGON',
+}
+
 export enum EOpenOceanTokens {
   AVAX = Token.AVAX,
   BNB = Token.BNB,
