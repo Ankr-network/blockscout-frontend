@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -17,10 +17,13 @@ import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmoun
 import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
 import { stake } from 'modules/stake-matic/polygon/actions/stake';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
+import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useSelectedToken } from './useSelectedToken';
@@ -28,6 +31,7 @@ import { useSelectedToken } from './useSelectedToken';
 interface IUseStakeFormData {
   acPoolLiquidityInMATIC: BigNumber;
   acRatio: BigNumber;
+  amount: BigNumber;
   balance?: BigNumber;
   getStatsError?: Error;
   isGetStatsLoading: boolean;
@@ -45,8 +49,15 @@ interface IUseStakeFormData {
   onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
-const resetRequests = () =>
-  resetReduxRequests([getCommonData.toString(), getStakeStats.toString()]);
+const resetMainRequests = () =>
+  resetReduxRequests([
+    getCommonData.toString(),
+    getMetrics.toString(),
+    getStakeStats.toString(),
+  ]);
+
+const resetStakeTradeInfoRequests = () =>
+  resetReduxRequests([getStakeTradeInfoData.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
@@ -142,20 +153,44 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   useProviderEffect(() => {
-    dispatch(resetRequests());
+    dispatch(resetMainRequests());
 
     dispatch(getCommonData());
+    dispatch(getMetrics());
     dispatch(getStakeStats());
 
     return () => {
       dispatch(abortRequests());
-      dispatch(resetRequests());
+      dispatch(resetMainRequests());
     };
   }, [dispatch]);
+
+  useProviderEffect(() => {
+    if (!featuresConfig.isActiveStakeTradeInfo) {
+      return () => {};
+    }
+
+    dispatch(resetStakeTradeInfoRequests());
+
+    dispatch(
+      getStakeTradeInfoData({
+        baseToken: EOpenOceanTokens.MATIC,
+        bondToken: EOpenOceanTokens.aMATICb,
+        certificateRatio: acRatio,
+        certificateToken: EOpenOceanTokens.aMATICc,
+        network: EOpenOceanNetworks.POLYGON,
+      }),
+    );
+
+    return () => {
+      dispatch(resetStakeTradeInfoRequests());
+    };
+  }, [acRatio, dispatch]);
 
   return {
     acPoolLiquidityInMATIC,
     acRatio,
+    amount,
     balance: maticBalance,
     getStatsError: stakeStatsError || commonDataError,
     isGetStatsLoading: isStakeStatsLoading || isCommonDataLoading,

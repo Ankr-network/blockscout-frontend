@@ -12,13 +12,18 @@ import {
 } from 'modules/common/const';
 import { Env, TNumberAsString } from 'modules/common/types';
 
-import { EOpenOceanExChanges, EOpenOceanTokens } from '../types';
+import {
+  EOpenOceanExChanges,
+  EOpenOceanNetworks,
+  EOpenOceanTokens,
+} from '../types';
 
 type TGetStakeTradeInfoTokenPriceData =
   IGetStakeTradeInfoTokenPriceResData | null;
 
 interface IGetStakeTradeInfoTokenPriceProps {
   baseToken: EOpenOceanTokens;
+  network: EOpenOceanNetworks;
   targetToken: EOpenOceanTokens;
 }
 
@@ -29,6 +34,8 @@ interface IGetStakeTradeInfoTokenPriceParams {
   gasPrice: number;
   inTokenAddress: Address;
   inTokenSymbol: EOpenOceanTokens;
+  // eslint-disable-next-line camelcase
+  in_token_decimals: number;
   outTokenAddress: Address;
   outTokenSymbol: EOpenOceanTokens;
   // eslint-disable-next-line camelcase
@@ -65,21 +72,29 @@ const {
   binanceConfig: { aBNBbToken: aBNBbContract, aBNBcToken: aBNBcContract },
   contractConfig: {
     ETHContract,
-    aMaticCToken: aMATICcContract,
-    aMaticbToken: aMATICbContract,
+    aMaticCToken: aMATICcInETHContract,
+    aMaticbToken: aMATICbInETHContract,
     aethContract: aETHcContract,
     fethContract: aETHbContract,
-    maticToken: MATICContract,
+    maticToken: MATICInETHContract,
   },
   fantomConfig: {
     aftmbToken: aFTMbContract,
     aftmcToken: aFTMcContract,
     ftmToken: FTMContract,
   },
+  polygonConfig: {
+    aMATICbToken: aMATICbInPolygonContract,
+    aMATICcToken: aMATICcInPolygonContract,
+    maticToken: MATICInPolygonContract,
+  },
 } = configFromEnv(Env.Production);
 
-const getChainId = (token: EOpenOceanTokens): EEthereumNetworkId => {
-  switch (token) {
+const getChainId = (
+  network: EOpenOceanNetworks,
+  baseToken: EOpenOceanTokens,
+): EEthereumNetworkId => {
+  switch (baseToken) {
     case EOpenOceanTokens.AVAX:
       return EEthereumNetworkId.avalanche;
 
@@ -89,14 +104,21 @@ const getChainId = (token: EOpenOceanTokens): EEthereumNetworkId => {
     case EOpenOceanTokens.FTM:
       return EEthereumNetworkId.fantom;
 
-    case EOpenOceanTokens.ETH:
     case EOpenOceanTokens.MATIC:
+      return network === EOpenOceanNetworks.POLYGON
+        ? EEthereumNetworkId.polygon
+        : EEthereumNetworkId.mainnet;
+
+    case EOpenOceanTokens.ETH:
     default:
       return EEthereumNetworkId.mainnet;
   }
 };
 
-const getTokenAddress = (token: EOpenOceanTokens): Address => {
+const getTokenAddress = (
+  network: EOpenOceanNetworks,
+  token: EOpenOceanTokens,
+): Address => {
   switch (token) {
     case EOpenOceanTokens.AVAX:
       return ZERO_ADDR;
@@ -105,7 +127,9 @@ const getTokenAddress = (token: EOpenOceanTokens): Address => {
       return FTMContract;
 
     case EOpenOceanTokens.MATIC:
-      return MATICContract;
+      return network === EOpenOceanNetworks.POLYGON
+        ? MATICInPolygonContract
+        : MATICInETHContract;
 
     case EOpenOceanTokens.aAVAXb:
       return aAVAXbContract;
@@ -132,10 +156,14 @@ const getTokenAddress = (token: EOpenOceanTokens): Address => {
       return aFTMcContract;
 
     case EOpenOceanTokens.aMATICb:
-      return aMATICbContract;
+      return network === EOpenOceanNetworks.POLYGON
+        ? aMATICbInPolygonContract
+        : aMATICbInETHContract;
 
     case EOpenOceanTokens.aMATICc:
-      return aMATICcContract;
+      return network === EOpenOceanNetworks.POLYGON
+        ? aMATICcInPolygonContract
+        : aMATICcInETHContract;
 
     case EOpenOceanTokens.BNB:
     case EOpenOceanTokens.ETH:
@@ -145,7 +173,7 @@ const getTokenAddress = (token: EOpenOceanTokens): Address => {
 };
 
 /**
- *  @note https://docs.openocean.finance/api/openocean-dex-api-2.0#1.-quote-price
+ *  @note https://docs.openocean.finance/dev/legacy/openocean-api-2.0#1.-quote-price
  */
 export const getStakeTradeInfoTokenPrice = createAction<
   RequestAction<
@@ -155,17 +183,18 @@ export const getStakeTradeInfoTokenPrice = createAction<
   [IGetStakeTradeInfoTokenPriceProps]
 >(
   'stake/getStakeTradeInfoTokenPrice',
-  ({ baseToken, targetToken }): RequestAction => ({
+  ({ baseToken, network, targetToken }): RequestAction => ({
     request: {
       method: 'get',
       params: {
         amount: 1,
-        chainId: getChainId(baseToken),
+        chainId: getChainId(network, baseToken),
         exChange: EOpenOceanExChanges.OpenOceanV2,
         gasPrice: OPENOCEAN_MAX_SAFE_GAS_VALUE,
-        inTokenAddress: getTokenAddress(baseToken),
+        inTokenAddress: getTokenAddress(network, baseToken),
         inTokenSymbol: baseToken,
-        outTokenAddress: getTokenAddress(targetToken),
+        in_token_decimals: ETH_DECIMALS,
+        outTokenAddress: getTokenAddress(network, targetToken),
         outTokenSymbol: targetToken,
         out_token_decimals: ETH_DECIMALS,
         slippage: 1,

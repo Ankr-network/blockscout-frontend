@@ -8,11 +8,13 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_ROUNDING,
+  featuresConfig,
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -20,6 +22,8 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeForm } from 'modules/stake/components/StakeForm';
+import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
@@ -37,6 +41,7 @@ export const Stake = (): JSX.Element => {
   const {
     acPoolLiquidityInMATIC,
     acRatio,
+    amount,
     balance,
     getStatsError,
     isGetStatsLoading,
@@ -142,6 +147,8 @@ export const Stake = (): JSX.Element => {
 
       {getStatsError === null && !!balance && (
         <StakeContainer>
+          {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+
           <StakeForm
             auditSlot={
               <AuditInfo>
@@ -158,6 +165,11 @@ export const Stake = (): JSX.Element => {
             tokenOut={tokenOut}
             onChange={onFormChange}
             onSubmit={onFormSubmit}
+          />
+
+          <StakeStats
+            amount={amount}
+            metricsServiceName={EMetricsServiceName.MATIC}
           />
 
           <Faq data={faqItems} />

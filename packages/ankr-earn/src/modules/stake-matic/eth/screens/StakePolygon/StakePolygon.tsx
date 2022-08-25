@@ -29,7 +29,7 @@ import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 
@@ -117,6 +117,7 @@ export const StakePolygon = (): JSX.Element => {
         bondToken: EOpenOceanTokens.aMATICb,
         certificateRatio,
         certificateToken: EOpenOceanTokens.aMATICc,
+        network: EOpenOceanNetworks.ETH,
       }),
     );
   }, [certificateRatio, dispatchRequest]);

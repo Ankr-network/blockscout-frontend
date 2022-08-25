@@ -6,7 +6,7 @@ export const NetworkTitle = (): JSX.Element | null => {
 
   const { Icon, text } = useNetworkTitle();
 
-  if (Icon === null || text === null) {
+  if (!Icon || !text) {
     return null;
   }
 
