@@ -52,4 +52,11 @@ export const tableColumns: ColumnsType<ClientEntity> = [
     key: 'amountUsd',
     render: renderUSD,
   },
+  {
+    title: 'Date Created',
+    dataIndex: 'timestamp',
+    key: 'timestamp',
+    render: (_, { createdAt }: ClientEntity) =>
+      createdAt && createdAt.toLocaleDateString(),
+  },
 ];

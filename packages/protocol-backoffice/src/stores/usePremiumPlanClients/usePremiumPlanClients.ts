@@ -1,10 +1,11 @@
-import { ICountersEntity } from 'multirpc-sdk';
+import { ICountersEntityMapped } from 'multirpc-sdk';
 import { PremiumPlanClientEntity } from 'types';
 import { useMultiRpcSdk } from '../index';
 import { LocalGridStore, useLocalGridStore } from '../LocalGridStore';
 import { makeClients } from './utils';
+import { mapCounters } from 'utils/mapCounters';
 
-let counters: ICountersEntity[] | null = null;
+let counters: ICountersEntityMapped[] | null = null;
 
 export const usePremiumPlanClients =
   (): LocalGridStore<PremiumPlanClientEntity> => {
@@ -12,7 +13,8 @@ export const usePremiumPlanClients =
 
     const gridStore = useLocalGridStore<PremiumPlanClientEntity>(async () => {
       if (!counters) {
-        counters = await workerApi.getCounters();
+        const countersResponse = await workerApi.getCounters();
+        counters = mapCounters(countersResponse);
       }
 
       const clients: PremiumPlanClientEntity[] = makeClients(counters);

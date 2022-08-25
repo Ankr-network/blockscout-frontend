@@ -30,6 +30,8 @@ export const usePremiumClientFilters = (
       filtered = filtered.filter(i => Boolean(i[filterKey]));
     }
     setFilteredData(filtered);
+    /* adding datasource to dependencies causes unnecessary rerender */
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [filterClientType, filterKey, isLoading]);
 
   const handleFilterClientType = (clientType: ClientType) => {

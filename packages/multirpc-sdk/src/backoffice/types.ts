@@ -153,6 +153,10 @@ export interface ICountersEntity {
   hash?: string;
 }
 
+export interface ICountersEntityMapped extends ICountersEntity {
+  createdAt: Date;
+}
+
 export interface ICountersResponse {
   result?: ICountersEntity[];
 }

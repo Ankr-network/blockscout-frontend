@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { IBalancesEntity, Web3Address } from 'multirpc-sdk';
 import { renderBalance } from 'utils/renderBalance';
 import { IUseClientInfoParams, useClientInfo } from './useClientInfo';
-import { usePremiumPlanClients } from '../../stores/usePremiumPlanClients';
+import { usePremiumPlanClients } from 'stores/usePremiumPlanClients';
 
 interface IClientInfoProps extends IUseClientInfoParams {
   amountCredits?: IBalancesEntity['amount'];
@@ -29,10 +29,15 @@ export const ClientInfo = observer(
       client => client.address === address,
     );
     const userToken = state?.token || currentClient?.user || 'Not found';
-
+    const createdDate =
+      currentClient?.timestamp && currentClient.createdAt.toLocaleDateString();
     return (
       <>
         <>user token: {userToken}</>
+        <br />
+        <br />
+
+        {createdDate && <>Created: {createdDate}</>}
         <br />
         <br />
 

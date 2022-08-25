@@ -2,12 +2,12 @@ import { Menu } from 'antd';
 import { PageHeader } from 'components/PageHeader';
 import { observer } from 'mobx-react';
 import { useClientEmailsStore } from 'stores/ClientEmailsStore';
+import { usePremiumPlanClients } from 'stores/usePremiumPlanClients';
 import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
 import PAYGClientTable from './components/PAYGClientTable';
 import PremiumClientTable from 'components/PremiumClientTable/PremiumClientTable';
 import { SearchClientsInput } from './components/SearchClientsInput';
 import { CreateClientButton } from './components/CreateClientButton';
-import { usePremiumPlanClients } from '../../stores/usePremiumPlanClients';
 
 export const ClientPage = observer(() => {
   const initialTab = useInitialTab();

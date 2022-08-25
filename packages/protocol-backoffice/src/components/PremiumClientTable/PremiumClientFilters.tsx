@@ -1,7 +1,6 @@
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
 import { UserTypeTag } from '../UserTypeTag';
 import { ClientType, PremiumPlanClientEntity } from '../../types';
-import { observer } from 'mobx-react';
 
 interface IPremiumClientFilters {
   filterKey?: keyof PremiumPlanClientEntity;
@@ -11,33 +10,35 @@ interface IPremiumClientFilters {
   clientTypeFilters: ClientType[];
 }
 
-export const PremiumClientFilters: React.FC<IPremiumClientFilters> = observer(
-  ({
-    filterKey,
-    filterClientType,
-    handleFilterClientType,
-    handleFilterKey,
-    clientTypeFilters,
-  }) => {
-    return (
-      <Space style={{ marginBottom: 20 }}>
-        Filters:
-        {clientTypeFilters.map(i => (
-          <Button
-            key={i}
-            onClick={() => handleFilterClientType(i)}
-            type={filterClientType === i ? 'primary' : 'default'}
-          >
-            <UserTypeTag clientType={i} isTextInline={false} />
-          </Button>
-        ))}
+export const PremiumClientFilters: React.FC<IPremiumClientFilters> = ({
+  filterKey,
+  filterClientType,
+  handleFilterClientType,
+  handleFilterKey,
+  clientTypeFilters,
+}) => {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <span>Filters:</span>
+      {clientTypeFilters.map(i => (
         <Button
-          onClick={() => handleFilterKey('email')}
-          type={filterKey === 'email' ? 'primary' : 'default'}
+          key={i}
+          onClick={() => handleFilterClientType(i)}
+          type={filterClientType === i ? 'primary' : 'default'}
+          style={{ margin: '0 5px' }}
         >
-          hasEmail
+          <UserTypeTag clientType={i} isTextInline={false} />
         </Button>
-      </Space>
-    );
-  },
-);
+      ))}
+
+      <Button
+        key="email"
+        onClick={() => handleFilterKey('email')}
+        type={filterKey === 'email' ? 'primary' : 'default'}
+        style={{ margin: '0 5px' }}
+      >
+        hasEmail
+      </Button>
+    </div>
+  );
+};
