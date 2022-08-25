@@ -11,5 +11,11 @@ export const useMethodCallStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2.5),
     },
+    '& .recharts-tooltip-wrapper': {
+      zIndex: 100,
+    },
+  },
+  content: {
+    height: theme.spacing(50),
   },
 }));
