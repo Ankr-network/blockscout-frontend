@@ -24,4 +24,5 @@ export enum AnalyticsEvents {
   EnterAnkrTokenManage = 'enter_ankr_token_staking_manage',
   AnkrTokenStaking = 'enter_ankr_token_staking',
   AnkrTokenUnstaking = 'enter_ankr_token_unstaking',
+  ClickDefiAggregator = 'click_defi_aggregator',
 }

@@ -4,8 +4,11 @@ import _capitalize from 'lodash/capitalize';
 import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackClickDefiAggregator } from 'modules/analytics/tracking-actions/trackClickDefiAggregator';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ScrollableTable } from 'modules/common/components/ScrollableTable';
 import { Button } from 'uiKit/Button';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
@@ -27,7 +30,9 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
   const [sortKey, setSortKey] = useState<keyof DeFiItem | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
   const styles = useTableStyles();
-
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
   const sortedData = useMemo(() => {
     if (!sortKey || !sortOrder) {
       return data;
@@ -63,6 +68,18 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
         {_capitalize(title)}
       </ScrollableTable.HeadCell>
     );
+  };
+
+  const onDepositClick = (item: DeFiItem) => {
+    trackClickDefiAggregator({
+      assets: item.assets,
+      network: item.network,
+      protocol: item.protocol,
+      type: item.type,
+      rewards: item.rewardedToken,
+      walletType: walletName,
+      walletPublicAddress: address,
+    });
   };
 
   return (
@@ -145,6 +162,8 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                       href={item.protocolLink}
                       rel="noreferrer"
                       target="_blank"
+                      onMouseDown={() => onDepositClick(item)}
+                      onTouchStart={() => onDepositClick(item)}
                     >
                       <Button
                         className={styles.protocolButton}
