@@ -6,9 +6,9 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { BinanceSDK, EBinancePoolEvents, EBinanceErrorCodes } from '..';
+import { BinanceSDK, EBinanceErrorCodes, EBinancePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
-import { CERT_STAKING_LOG_HASH, BINANCE_HISTORY_BLOCK_OFFSET } from '../const';
+import { BINANCE_HISTORY_BLOCK_OFFSET, CERT_STAKING_LOG_HASH } from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -17,7 +17,7 @@ jest.mock('@ankr.com/provider', (): unknown => ({
 
 describe('modules/binance/sdk', () => {
   const DEFAULT_AMOUNT = new BigNumber(12);
-  
+
   const defaultContract = {
     methods: {},
   };
@@ -596,7 +596,7 @@ describe('modules/binance/sdk', () => {
       EBinanceErrorCodes.ZERO_AMOUNT,
     );
   });
-  
+
   test('should throw error if BNB balance in stake is zero', async () => {
     const contract = {
       ...defaultContract,
@@ -606,17 +606,17 @@ describe('modules/binance/sdk', () => {
         }),
       },
     };
-  
+
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.getFormattedBalance.mockReturnValue(ZERO);
-    
+
     const sdk = await BinanceSDK.getInstance();
-    
+
     expect(sdk.stake(DEFAULT_AMOUNT, 'aBNBb')).rejects.toThrow(
       EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE,
     );
   });
-  
+
   test('should return tx receipt properly', async () => {
     const sdk = await BinanceSDK.getInstance();
 
@@ -916,15 +916,17 @@ describe('modules/binance/sdk', () => {
       ]),
       methods: {
         ratio: jest.fn(() => ({
-          call: () => new BigNumber(0.98),
+          call: () => new BigNumber(0.9),
         })),
         pendingUnstakesOf: jest.fn(() => ({
-          call: () => new BigNumber(60756),
+          call: () => new BigNumber(1000),
         })),
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+    );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -941,8 +943,8 @@ describe('modules/binance/sdk', () => {
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(64800),
-      pendingCertificate: new BigNumber(15876),
+      pendingBond: new BigNumber(800),
+      pendingCertificate: new BigNumber(180),
     });
   });
 
@@ -956,7 +958,9 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+    );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.createContract.mockReturnValue(contract);
@@ -1068,7 +1072,9 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BINANCE_HISTORY_BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(
+      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+    );
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);

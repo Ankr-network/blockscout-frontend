@@ -30,9 +30,11 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
   const [sortKey, setSortKey] = useState<keyof DeFiItem | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
   const styles = useTableStyles();
+
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
+
   const sortedData = useMemo(() => {
     if (!sortKey || !sortOrder) {
       return data;

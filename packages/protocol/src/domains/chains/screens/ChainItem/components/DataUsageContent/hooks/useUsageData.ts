@@ -37,7 +37,7 @@ export const useUsageData = (chainId: string): UsageData => {
 
   return getUsageData({
     arePrivateStatsLoading:
-      arePrivateStatsLoading && areDay30PrivateStatsLoading,
+      arePrivateStatsLoading || areDay30PrivateStatsLoading,
     isConnecting,
     isWalletConnected,
     privateStats: privateStats[chainId],

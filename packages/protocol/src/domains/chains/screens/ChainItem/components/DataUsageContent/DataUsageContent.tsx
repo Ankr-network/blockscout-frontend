@@ -67,12 +67,16 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
             />
           </ChainRequestsOverview>
           {isWalletConnected && userTopRequests && (
-            <MethodCalls data={userTopRequests} timeframe={timeframe} />
+            <MethodCalls
+              loading={loading}
+              data={userTopRequests}
+              timeframe={timeframe}
+            />
           )}
           {isWalletConnected &&
             userTopRequestsIp &&
             !IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED && (
-              <RequestsByIP data={userTopRequestsIp} />
+              <RequestsByIP loading={loading} data={userTopRequestsIp} />
             )}
           {countries && Object.keys(countries).length !== 0 && (
             <RequestsMap countries={countries} />
