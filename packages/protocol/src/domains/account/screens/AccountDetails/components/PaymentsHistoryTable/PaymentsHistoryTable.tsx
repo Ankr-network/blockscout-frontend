@@ -1,12 +1,20 @@
 import { Box, Typography } from '@material-ui/core';
 import { Preloader, VirtualTable } from 'ui';
 
+import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { Filters } from './components/Filters';
 import { t } from 'common';
 import { usePaymentHistoryTable } from './hooks/usePaymentHistoryTable';
 import { useStyles } from './PaymentHistoryTableStyles';
+import { useUpdatePaymentHistory } from 'domains/account/hooks/useUpdatePaymentHistory';
 
-export const PaymentsHistoryTable = () => {
+interface IPaymentHistoryTableProps {
+  balances: AccountBalance;
+}
+
+export const PaymentsHistoryTable = ({
+  balances,
+}: IPaymentHistoryTableProps) => {
   const classes = useStyles();
 
   const {
@@ -21,6 +29,8 @@ export const PaymentsHistoryTable = () => {
     setTimeframe,
     timeframe,
   } = usePaymentHistoryTable();
+
+  useUpdatePaymentHistory(balances, timeframe, paymentType);
 
   return (
     <Box display="flex" flexDirection="column">
