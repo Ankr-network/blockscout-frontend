@@ -721,7 +721,6 @@ export class FantomSDK implements ISwitcher, IStakable {
    * Get stake gas fee.
    *
    * @public
-   * @note Caches computed gas fee value for future computations.
    * @param {BigNumber} amount - amount to stake
    * @param {TFtmSyntToken} token - token symbol (aFTMb or aFTMc)
    * @returns {Promise<BigNumber>}

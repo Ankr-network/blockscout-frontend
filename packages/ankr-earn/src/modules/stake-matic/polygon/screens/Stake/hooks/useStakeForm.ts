@@ -2,12 +2,19 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
-import { useMutation, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -15,6 +22,7 @@ import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { getStakeGasFee } from 'modules/stake-matic/polygon/actions/getStakeGasFee';
 import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
 import { stake } from 'modules/stake-matic/polygon/actions/stake';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -33,26 +41,31 @@ interface IUseStakeFormData {
   acRatio: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
+  extraValidation: (
+    data: Partial<IStakeFormPayload>,
+    errors: FormErrors<IStakeFormPayload>,
+  ) => FormErrors<IStakeFormPayload>;
+  gasFee: BigNumber;
   getStatsError?: Error;
+  isGasFeeLoading: boolean;
   isGetStatsLoading: boolean;
   isStakeLoading: boolean;
   stakeFeePct: BigNumber | null;
   tokenIn: string;
   tokenOut: TMaticSyntToken;
   totalAmount: BigNumber;
-  extraValidation: (
-    data: Partial<IStakeFormPayload>,
-    errors: FormErrors<IStakeFormPayload>,
-  ) => FormErrors<IStakeFormPayload>;
   onFormChange: (data: IStakeFormPayload, isInvalid: boolean) => void;
   onFormSubmit: (data: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
+const MAIN_TOKEN = Token.MATIC;
+
 const resetMainRequests = () =>
   resetReduxRequests([
     getCommonData.toString(),
     getMetrics.toString(),
+    getStakeGasFee.toString(),
     getStakeStats.toString(),
   ]);
 
@@ -61,6 +74,11 @@ const resetStakeTradeInfoRequests = () =>
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
+  const dispatchRequest = useDispatchRequest();
+
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -72,6 +90,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     loading: isCommonDataLoading,
   } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
+    type: getStakeGasFee,
   });
 
   const {
@@ -129,6 +151,24 @@ export const useStakeForm = (): IUseStakeFormData => {
     return errors;
   };
 
+  const sendAnalytics = (): void => {
+    const synthBalance =
+      selectedToken === Token.aMATICb
+        ? commonData?.maticBondBalance ?? ZERO
+        : commonData?.maticCertBalance ?? ZERO;
+
+    trackStake({
+      address,
+      amount,
+      prevStakedAmount: maticBalance,
+      synthBalance,
+      tokenIn: MAIN_TOKEN,
+      tokenOut: selectedToken,
+      walletType: walletName,
+      willGetAmount: amount,
+    });
+  };
+
   const onFormChange = (
     { amount: formAmount }: IStakeFormPayload,
     // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
@@ -137,19 +177,47 @@ export const useStakeForm = (): IUseStakeFormData => {
     setIsError(isInvalid);
 
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
+
+    if (isInvalid) {
+      dispatch(resetReduxRequests([getStakeGasFee.toString()]));
+    } else if (formAmount) {
+      const readyAmount = new BigNumber(formAmount);
+
+      dispatch(
+        getStakeGasFee({
+          amount: readyAmount,
+          token: selectedToken,
+        }),
+      );
+    }
   };
 
   const onFormSubmit = (data: IStakeSubmitPayload): void => {
-    dispatch(
+    dispatchRequest(
       stake({
         amount: new BigNumber(data.amount),
         token: selectedToken,
       }),
-    );
+    ).then(({ error }): void => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
   };
 
   const onTokenSelect = (token: TMaticSyntToken) => (): void => {
     handleTokenSelect(token);
+
+    const isUpdateGasFee = !totalAmount.isZero() && !isError;
+
+    if (isUpdateGasFee) {
+      dispatch(
+        getStakeGasFee({
+          amount,
+          token,
+        }),
+      );
+    }
   };
 
   useProviderEffect(() => {
@@ -192,14 +260,16 @@ export const useStakeForm = (): IUseStakeFormData => {
     acRatio,
     amount,
     balance: maticBalance,
-    getStatsError: stakeStatsError || commonDataError,
-    isGetStatsLoading: isStakeStatsLoading || isCommonDataLoading,
+    extraValidation,
+    gasFee: gasFee ?? ZERO,
+    getStatsError: commonDataError || stakeStatsError,
+    isGasFeeLoading,
+    isGetStatsLoading: isCommonDataLoading || isStakeStatsLoading,
     isStakeLoading,
     stakeFeePct,
-    tokenIn: Token.MATIC,
+    tokenIn: MAIN_TOKEN,
     tokenOut: selectedToken,
     totalAmount,
-    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,

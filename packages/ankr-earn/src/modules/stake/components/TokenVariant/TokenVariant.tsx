@@ -2,26 +2,30 @@ import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import { cloneElement, ReactElement, ReactNode } from 'react';
 
+import { t } from 'common';
+
 import { Button } from 'uiKit/Button';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
 import { useTokenVariantStyles } from './useTokenVariantStyles';
 
 interface ITokenVariantProps {
-  title: string;
+  description?: ReactNode;
   iconSlot: ReactElement;
   isActive?: boolean;
   isDisabled?: boolean;
-  description?: ReactNode;
+  isUnsupported?: boolean;
+  title: string;
   onClick?: () => void;
 }
 
 export const TokenVariant = ({
-  title,
-  isActive,
-  iconSlot,
   description,
+  iconSlot,
+  isActive,
   isDisabled,
+  isUnsupported,
+  title,
   onClick,
 }: ITokenVariantProps): JSX.Element => {
   const classes = useTokenVariantStyles();
@@ -32,18 +36,36 @@ export const TokenVariant = ({
       classes={{
         label: classes.label,
       }}
-      className={classNames(classes.root, isActive && classes.active)}
-      disabled={isDisabled}
+      className={classNames(
+        classes.root,
+        isActive && classes.active,
+        isUnsupported && classes.unsupported,
+      )}
+      disabled={isUnsupported || isDisabled}
       variant="outlined"
-      onClick={isActive ? undefined : onClick}
+      onClick={isUnsupported || isActive ? undefined : onClick}
     >
-      <Box alignItems="center" component="span" display="flex" mb={1}>
-        {cloneElement<ISvgIconProps>(iconSlot, {
-          className: classes.icon,
-          size: 'sm',
-        })}
+      <Box
+        alignItems="center"
+        component="span"
+        display="flex"
+        justifyContent="space-between"
+        mb={1}
+      >
+        <Box alignItems="center" component="span" display="flex">
+          {cloneElement<ISvgIconProps>(iconSlot, {
+            className: classes.icon,
+            size: 'sm',
+          })}
 
-        <b>{title}</b>
+          <b>{title}</b>
+        </Box>
+
+        {isUnsupported && (
+          <Box className={classes.comingSoonLabel} component="span">
+            {t('stake.token-variant.coming-soon-label')}
+          </Box>
+        )}
       </Box>
 
       <Box component="span" display="block" lineHeight={1.4}>

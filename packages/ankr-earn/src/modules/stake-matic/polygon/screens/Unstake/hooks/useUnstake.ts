@@ -10,8 +10,11 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -50,6 +53,7 @@ interface IUseUnstakeData {
 }
 
 const CLOSE_HREF = DashboardRoutes.dashboard.generatePath();
+const MAIN_TOKEN = Token.MATIC;
 
 const resetRequests = () =>
   resetReduxRequests([
@@ -64,6 +68,10 @@ const resetRequests = () =>
 export const useUnstake = (): IUseUnstakeData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
+
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const {
     isOpened: isSuccessOpened,
@@ -148,6 +156,23 @@ export const useUnstake = (): IUseUnstakeData => {
     [acRatio, isBondToken, unstakeFeePct],
   );
 
+  const sendAnalytics = (amount: BigNumber): void => {
+    const synthBalance = isBondToken
+      ? commonData?.maticBondBalance ?? ZERO
+      : commonData?.maticCertBalance ?? ZERO;
+
+    trackUnstake({
+      address,
+      amount,
+      name: walletName,
+      newStakedBalance: synthBalance,
+      newSynthTokens: synthBalance,
+      newTokenBalance: commonData?.maticBalance ?? ZERO,
+      stakeToken: MAIN_TOKEN,
+      syntheticToken: selectedToken,
+    });
+  };
+
   const onSuccessClose = useCallback((): void => {
     dispatch(resetReduxRequests([approveACUnstake.toString()]));
 
@@ -176,6 +201,8 @@ export const useUnstake = (): IUseUnstakeData => {
       ).then(({ error }) => {
         if (!error) {
           onSuccessOpen();
+
+          sendAnalytics(amount);
         }
       });
     },
@@ -207,7 +234,7 @@ export const useUnstake = (): IUseUnstakeData => {
     isWithApprove,
     selectedToken,
     syntTokenBalance,
-    tokenOut: Token.MATIC,
+    tokenOut: MAIN_TOKEN,
     unstakeFeePct,
     onSuccessClose,
     onUnstakeSubmit,

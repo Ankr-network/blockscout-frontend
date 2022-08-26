@@ -370,6 +370,9 @@
       "description": "You will be able to see your {token} exposure on Ankr Staking Dashboard.",
       "add-to-wallet": "Add {token} to wallet"
     },
+    "token-variant": {
+      "coming-soon-label": "Coming Soon"
+    },
     "pending": {
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     }

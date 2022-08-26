@@ -33,5 +33,5 @@ export const featuresConfig = {
    */
   ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
-  maticPolygonStaking: isLocal,
+  maticPolygonStaking: currentEnv !== Env.Production,
 };

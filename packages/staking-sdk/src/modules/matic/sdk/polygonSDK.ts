@@ -346,6 +346,28 @@ export class MaticPolygonSDK implements IStakable {
     return stakeFee === '0' ? ZERO : new BigNumber(stakeFee).dividedBy(feeMax);
   }
 
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: string,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<BigNumber> {
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const [provider, swapPoolContract] = await Promise.all([
+      this.getProvider(),
+      this.getSwapPoolContract(),
+    ]);
+
+    const estimatedGas: number = await swapPoolContract.methods
+      .swapEth(true, amountHex, this.currentAccount)
+      .estimateGas({
+        from: this.currentAccount,
+        value: amountHex,
+      });
+
+    return provider.getContractMethodFee(estimatedGas);
+  }
+
   public async getTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();

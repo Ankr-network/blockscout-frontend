@@ -21,6 +21,7 @@ import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescrip
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
@@ -43,14 +44,16 @@ export const Stake = (): JSX.Element => {
     acRatio,
     amount,
     balance,
+    extraValidation,
+    gasFee,
     getStatsError,
+    isGasFeeLoading,
     isGetStatsLoading,
     isStakeLoading,
     stakeFeePct,
     tokenIn,
     tokenOut,
     totalAmount,
-    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,
@@ -76,7 +79,7 @@ export const Stake = (): JSX.Element => {
 
       <TokenVariantList my={5}>
         <TokenVariant
-          isDisabled
+          isUnsupported
           description={tHTML('stake-matic-eth.amaticb-descr')}
           iconSlot={<AMATICBIcon />}
           isActive={tokenOut === Token.aMATICb}
@@ -157,6 +160,14 @@ export const Stake = (): JSX.Element => {
             }
             balance={balance}
             extraValidation={extraValidation}
+            feeSlot={
+              <StakeFeeInfo
+                isLoading={isGasFeeLoading}
+                mt={-1.5}
+                token={Token.MATIC}
+                value={gasFee}
+              />
+            }
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}
