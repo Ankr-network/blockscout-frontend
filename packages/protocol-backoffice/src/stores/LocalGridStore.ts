@@ -13,7 +13,7 @@ const EXPIRED_TOKEN_ERROR = 'this token has already expired';
 export class LocalGridStore<T> {
   public currentPage = 0;
 
-  public pageSize = 10;
+  public pageSize = 500;
 
   public items: T[] = [];
 

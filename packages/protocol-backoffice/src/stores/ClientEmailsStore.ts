@@ -7,7 +7,7 @@ import {
 import { useMemo } from 'react';
 import { useMultiRpcSdk } from 'stores';
 
-const LIMIT_MAX = 100;
+const LIMIT_MAX = 500;
 
 const END_CURSOR = '-1';
 
