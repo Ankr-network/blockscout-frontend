@@ -13,7 +13,7 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableMatic } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMatic';
+import { useStakableMaticInEth } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMaticInEth';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import {
@@ -63,7 +63,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const stakableMATICData = useStakableMatic();
+  const stakableMATICData = useStakableMaticInEth();
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
 

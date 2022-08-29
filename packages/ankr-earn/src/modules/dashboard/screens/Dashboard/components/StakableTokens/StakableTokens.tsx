@@ -17,7 +17,8 @@ import { useStakableDOT } from './hooks/useStakableDOT';
 import { useStakableEth } from './hooks/useStakableEth';
 import { useStakableFtm } from './hooks/useStakableFtm';
 import { useStakableKSM } from './hooks/useStakableKSM';
-import { useStakableMatic } from './hooks/useStakableMatic';
+import { useStakableMaticInEth } from './hooks/useStakableMaticInEth';
+import { useStakableMaticInPolygon } from './hooks/useStakableMaticInPolygon';
 import { useStakableMGNO } from './hooks/useStakableMGNO';
 import { useStakableWND } from './hooks/useStakableWND';
 import { IUseStakableToken } from './types';
@@ -31,15 +32,16 @@ type TStakableTokens = (
 const SKELETON_COUNT = 2;
 
 const STAKABLE_TOKENS_LIST = [
-  // ETH
+  // EVM Compatible
   useStakableEth,
-  useStakableMatic,
+  useStakableMaticInEth,
+  featuresConfig.maticPolygonStaking ? useStakableMaticInPolygon : null,
   useStakableBnb,
   useStakableFtm,
   useStakableAvax,
   featuresConfig.ankrStaking ? useStakableAnkr : null,
   featuresConfig.mgnoStaking ? useStakableMGNO : null,
-  // Polkadot
+  // Polkadot Compatible
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableKSM : null,
   featuresConfig.isActivePolkadotStaking && !isMainnet ? useStakableWND : null,
