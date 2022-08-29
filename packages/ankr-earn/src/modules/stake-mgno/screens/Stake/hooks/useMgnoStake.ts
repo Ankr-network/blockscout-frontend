@@ -1,90 +1,166 @@
+import { resetRequests } from '@redux-requests/core';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { useFormState } from 'modules/forms/hooks/useFormState';
-import { MGNO_STAKE_FORM_ID } from 'modules/stake-mgno/const';
+import { getBalance } from 'modules/stake-mgno/actions/getBalance';
+import { getMaxStakeAmount } from 'modules/stake-mgno/actions/getMaxStakeAmount';
+import { getMinStakeAmount } from 'modules/stake-mgno/actions/getMinStakeAmount';
+import { getProviderContributed } from 'modules/stake-mgno/actions/getProviderContributed';
+import { getProviderStats } from 'modules/stake-mgno/actions/getProviderStats';
+import { stake } from 'modules/stake-mgno/actions/stake';
+import { TEST_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
+import {
+  MGNO_STAKE_FORM_ID,
+  SLASHING_PROTECTION_VAR,
+} from 'modules/stake-mgno/const';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 import {
   IMgnoFormState,
+  IMgnoStakeFormPayload,
   IMgnoStakeSubmitPayload,
 } from 'modules/stake-mgno/types';
+
+import { useApprove } from './useApprove';
 
 interface IUseMgnoStake {
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
-  isApyLoading: boolean;
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
   minStake: BigNumber;
+  maxAmount: BigNumber;
   tokenIn: string;
   closeHref: string;
   providerSelectHref: string;
-  initialProvider?: string;
+  initialProvider: string;
   initialAmount?: string;
   providerName?: string;
   amount: BigNumber;
-  apy: BigNumber;
   quoteText: string;
   additionalText?: string;
   additionalTooltip?: string;
   additionalValue?: string;
   onSubmit: (values: IMgnoStakeSubmitPayload) => void;
-  onChange?: (
-    values: Partial<IMgnoStakeSubmitPayload>,
-    invalid: boolean,
-  ) => void;
+  onChange?: (values: IMgnoStakeFormPayload, invalid: boolean) => void;
 }
 
 export const useMgnoStake = (): IUseMgnoStake => {
+  const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
+
+  const { data: balance, loading: isBalanceLoading } = useQuery({
+    type: getBalance,
+  });
+  const { data: minStakeAmount, loading: isMinStakeLoading } = useQuery({
+    type: getMinStakeAmount,
+  });
+  const { data: maxStakeAmount, loading: isMaxStakeLoading } = useQuery({
+    type: getMaxStakeAmount,
+  });
+  const { data: contributed } = useQuery({
+    type: getProviderContributed,
+  });
+  const { data: providerStats } = useQuery({
+    type: getProviderStats,
+  });
+
+  const slashingProtection = providerStats?.provider.totalKeys
+    ? (contributed ?? ZERO).dividedBy(
+        SLASHING_PROTECTION_VAR * providerStats.provider.totalKeys,
+      )
+    : ZERO;
+
+  const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const { setFormState, formState } =
     useFormState<IMgnoFormState>(MGNO_STAKE_FORM_ID);
 
   const amount = formState?.amount;
 
-  const initialProvider = 'test';
-  const providerName = 'test';
-  const apy = ZERO;
+  const initialProvider = TEST_PROVIDER_ID;
+  const providerName = providerStats?.provider.name;
 
-  const isApproved = false;
+  const {
+    isApproved,
+    isLoading: isApproveLoading,
+    handleApprove,
+  } = useApprove();
 
-  const onChange = ({
-    amount: formAmount,
-  }: Partial<IMgnoStakeSubmitPayload>) => {
+  useProviderEffect(() => {
+    dispatchRequest(getBalance());
+    dispatchRequest(getMinStakeAmount());
+    dispatchRequest(getProviderContributed({ provider: initialProvider }));
+    dispatchRequest(getProviderStats({ provider: initialProvider }));
+    dispatchRequest(getMaxStakeAmount({ provider: initialProvider }));
+
+    return () => {
+      dispatch(
+        resetRequests([
+          getBalance.toString(),
+          getMinStakeAmount.toString(),
+          getMaxStakeAmount.toString(),
+        ]),
+      );
+    };
+  }, [dispatchRequest]);
+
+  const onChange = ({ amount: formAmount }: IMgnoStakeFormPayload) => {
     const readyAmount = formAmount ? new BigNumber(formAmount) : undefined;
     dispatch(setFormState({ amount: readyAmount }));
   };
 
-  const onSubmit = () => {};
+  const onSubmit = ({
+    provider,
+    amount: formAmount,
+  }: IMgnoStakeSubmitPayload) => {
+    const readyAmount = new BigNumber(formAmount);
+
+    if (isApproved) {
+      dispatchRequest(
+        stake({
+          provider,
+          amount: readyAmount,
+        }),
+      );
+    } else {
+      handleApprove(readyAmount);
+    }
+  };
 
   return {
-    isStakeLoading: false,
-    isBalanceLoading: false,
-    isApproveLoading: false,
-    isApyLoading: false,
+    isStakeLoading,
+    isBalanceLoading:
+      isBalanceLoading || isMinStakeLoading || isMaxStakeLoading,
+    isApproveLoading,
     isApproved,
     isDisabled: false,
-    balance: ZERO,
-    minStake: ZERO,
+    balance: balance ?? ZERO,
+    minStake: minStakeAmount ?? ZERO,
+    maxAmount: maxStakeAmount ?? ZERO,
     tokenIn: t('unit.mgno'),
     closeHref: RoutesConfig.main.generatePath(),
-    providerSelectHref: 'test', // RoutesConfig.selectProvider.generatePath(),
+    providerSelectHref: '', // RoutesConfig.selectProvider.generatePath(),
     initialProvider,
     providerName,
     amount: amount ?? ZERO,
-    initialAmount: amount?.toString(),
-    apy,
+    initialAmount: amount?.toFixed(),
     quoteText: tHTML('stake-mgno.staking.lock-info'),
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),
     additionalValue: t('unit.percentage-value', {
-      value: 100,
+      value: slashingProtection.integerValue(),
     }),
     onChange,
     onSubmit,

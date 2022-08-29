@@ -117,6 +117,11 @@ export class ProviderManager {
         return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
+      case AvailableReadProviders.gnosis:
+      case AvailableReadProviders.sokol: {
+        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
+
       default: {
         throw new Error(`The provider isn't supported: ${providerId}`);
       }

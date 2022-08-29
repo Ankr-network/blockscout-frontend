@@ -4,27 +4,23 @@ import { createAction } from 'redux-smart-actions';
 
 import { withStore } from 'modules/common/utils/withStore';
 
-import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
+import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
+import { MGNO_ACTIONS_PREFIX } from '../const';
 
 interface IGetDelegatedAmountDataProps {
-  validator: string;
+  provider: string;
 }
 
 export const getProviderDelegatedAmount = createAction<
   RequestAction<BigNumber, BigNumber>
 >(
-  `${ANKR_ACTIONS_PREFIX}getProviderDelegatedAmount`,
-  ({ validator }: IGetDelegatedAmountDataProps) => ({
+  `${MGNO_ACTIONS_PREFIX}getProviderDelegatedAmount`,
+  ({ provider: validator }: IGetDelegatedAmountDataProps) => ({
     request: {
       promise: async (): Promise<BigNumber> => {
-        const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
+        const sdk = await GnosisStakingSDK.getInstance();
 
-        return sdk.getDelegatedAmountByProvider(
-          validator,
-          await provider.getBlockNumber(),
-        );
+        return sdk.getDelegatedAmountByProvider(validator);
       },
     },
     meta: {

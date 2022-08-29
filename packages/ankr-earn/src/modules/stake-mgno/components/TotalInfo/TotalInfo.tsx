@@ -18,9 +18,9 @@ export const TotalInfo = (): JSX.Element => {
   const {
     totalStaked,
     totalStakedUsd,
-    climableRewards,
-    climableRewardsUsd,
-    isClimableRewardsLoading,
+    validationRewards,
+    validationRewardsUsd,
+    isRewardsLoading,
     isTotalStakedLoading,
     stakeLink,
   } = useTotalInfo();
@@ -31,22 +31,24 @@ export const TotalInfo = (): JSX.Element => {
     <>
       <Box mb={3}>
         <Grid container spacing={3}>
-          <TotalStaked
-            isTotalStakedLoading={isTotalStakedLoading}
-            stakeLink={stakeLink}
-            token={Token.mGNO}
-            totalStaked={totalStaked}
-            totalStakedUsd={totalStakedUsd}
-          />
+          <Grid item lg={6} xs={12}>
+            <TotalStaked
+              isTotalStakedLoading={isTotalStakedLoading}
+              stakeLink={stakeLink}
+              token={Token.mGNO}
+              totalStaked={totalStaked}
+              totalStakedUsd={totalStakedUsd}
+            />
+          </Grid>
 
           <Grid item lg={6} xs={12}>
             <Paper className={classes.paper}>
               <TotalIfnoContent
                 amountSlot={
                   <TotalInfoAmount
-                    isLoading={isClimableRewardsLoading}
-                    usdValue={climableRewardsUsd}
-                    value={climableRewards}
+                    isLoading={isRewardsLoading}
+                    usdValue={validationRewardsUsd}
+                    value={validationRewards}
                   />
                 }
                 buttonSlot={
@@ -60,7 +62,7 @@ export const TotalInfo = (): JSX.Element => {
                 }
                 titleSlot={
                   <Typography className={classes.title}>
-                    {t('stake-mgno.total-info.total-rewards')}
+                    {t('stake-mgno.total-info.validation-rewards')}
                   </Typography>
                 }
               />

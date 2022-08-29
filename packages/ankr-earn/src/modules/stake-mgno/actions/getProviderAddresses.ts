@@ -2,16 +2,16 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
-import { IHistoryData } from '../api/GnosisStakingSDK/types';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
-export const getHistoryData = createAction<
-  RequestAction<IHistoryData[], IHistoryData[]>
->(`${MGNO_ACTIONS_PREFIX}getHistoryData`, () => ({
+export const getProviderAddresses = createAction<
+  RequestAction<string[], string[]>
+>(`${MGNO_ACTIONS_PREFIX}getProviderAddresses`, () => ({
   request: {
-    promise: (async (): Promise<IHistoryData[]> => {
+    promise: (async (): Promise<string[]> => {
       const sdk = await GnosisStakingSDK.getInstance();
-      return sdk.getHistoryData();
+
+      return sdk.getAllProviderAddresses();
     })(),
   },
   meta: {

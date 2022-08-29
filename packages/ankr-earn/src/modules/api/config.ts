@@ -27,6 +27,7 @@ export interface IContractConfig {
   gnosisInsuranceContract: string;
   gnosisRewardContract: string;
   gnosisProviderContract: string;
+  gnosisValidatorManagerContract: string;
 }
 
 export interface IAvalancheConfig {
@@ -105,10 +106,13 @@ const LOCAL_CONFIG: IStkrConfig = {
     // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
     ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
     mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
-    gnosisStakingContract: '0xD76C134998e1Fa642157A1B8952E2195857aA249',
-    gnosisInsuranceContract: '0x6eFF5DB4359F3956b0125eAc12e21760951f7736',
+    gnosisStakingContract: '0xBC1940567dd0c593a4f354Be24D04c7d3f6f6c86',
+    gnosisInsuranceContract: '0xD0bbb26828C21Cae18CBFd4136D69f83Bf1b475e',
+    // todo: change it a bit later
     gnosisRewardContract: '0x6f1b0A814358a9f8E83B7Bb65F0056e99e7162c2',
-    gnosisProviderContract: '0xBD0201ed9366ec108dEc43a79120Dd5c0B31a261',
+    gnosisProviderContract: '0xf9E8E92131EaEAF2c9aAee95A039471Ac693C129',
+    gnosisValidatorManagerContract:
+      '0x4c98cC2D841ba5D801aa9Ba84cae44d786a29C36',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -188,6 +192,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     gnosisInsuranceContract: ZERO_ADDR,
     gnosisRewardContract: ZERO_ADDR,
     gnosisProviderContract: ZERO_ADDR,
+    gnosisValidatorManagerContract: ZERO_ADDR,
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',

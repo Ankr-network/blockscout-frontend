@@ -14,7 +14,7 @@ const ENTER_DELAY: Milliseconds = 1_000;
 
 interface IStatsItemProps {
   label: string;
-  value: string;
+  value: ReactText;
   isLoading?: boolean;
   tooltip?: string;
   token?: string;

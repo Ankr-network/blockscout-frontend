@@ -74,4 +74,6 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
   [SupportedChainIDS.POLYGON_MUMBAI_TESTNET]: 'https://mumbai.polygonscan.com',
+  [SupportedChainIDS.GNOSIS]: 'https://gnosisscan.io',
+  [SupportedChainIDS.GNOSIS_SOKOL]: 'https://blockscout.com/poa/sokol',
 };

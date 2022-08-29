@@ -1334,8 +1334,10 @@
       "stake": "Stake mGNO",
       "claim-all": "Claim all",
       "staked": "Total Staked",
-      "rewards": "Total Rewards",
-      "total-rewards": "Total Rewards"
+      "priority-tips": "Priority tips",
+      "priority-tips-tooltip": "Paid by the sender in addition to the base gas fee. Decreases transaction processing time. Node Providers share a portion of them with stakers who stake with said providers.",
+      "validation-rewards": "Validation rewards",
+      "validation-rewards-tooltip": "Rewards from transaction fees Node Providers receive for validating transaction blocks. Providers share a portion of them with stakers who stake with said providers."
     },
     "tabs": {
       "active-staking": "Active Staking",
@@ -1344,13 +1346,14 @@
     "staking": {
       "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max.<br/>This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
-      "slashing-protection-tooltip": "tooltip"
+      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool."
     },
     "staking-table": {
       "node-provider": "Node Provider",
       "slashing-protection": "Slashing protection",
       "your-stake": "Your Stake",
-      "rewards": "Rewards",
+      "priority-tips": "Priority tips",
+      "validation-rewards": "Validation rewards",
       "unstake-amount": "Unstake Amount",
       "apr": "APR: {value}%",
       "details": "Details",

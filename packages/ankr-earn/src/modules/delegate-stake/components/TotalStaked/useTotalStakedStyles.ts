@@ -48,6 +48,11 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     marginTop: 'auto',
   },
 
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
   amount: {
     marginBottom: theme.spacing(1),
     maxWidth: 170,
@@ -68,6 +73,12 @@ export const useTotalStakedStyles = makeStyles(theme => ({
     fontWeight: 500,
     lineHeight: 1,
     fontSize: 'inherit',
+  },
+
+  token: {
+    marginLeft: theme.spacing(1),
+    fontWeight: 600,
+    fontSize: 14,
   },
 
   footer: {

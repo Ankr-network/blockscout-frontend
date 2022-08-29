@@ -8,6 +8,14 @@ export const MGNO_ACTIONS_PREFIX = 'mgno/';
 
 export const MGNO_STAKE_FORM_ID = 'mgnoStake';
 
+export const PROVIDER_STATS = 'v1alpha/beacon/gnosis/providers/';
+
+export const MGNO_TOKEN_PRICE = 'v1alpha/rate/gno';
+
+export const SLASHING_PROTECTION_VAR = 0.5;
+
+export const GNO_TO_MGNO_DIVIDER = 32;
+
 export const MGNO_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export enum EProviderStatus {

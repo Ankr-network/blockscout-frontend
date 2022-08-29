@@ -8,3 +8,6 @@ export interface IMgnoStakeSubmitPayload {
   amount: string;
   provider: string;
 }
+
+export interface IMgnoStakeFormPayload
+  extends Partial<IMgnoStakeSubmitPayload> {}

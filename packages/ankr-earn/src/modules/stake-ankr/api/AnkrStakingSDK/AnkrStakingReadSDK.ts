@@ -661,7 +661,7 @@ export class AnkrStakingReadSDK {
   /**
    * Internal function to convert wei value to human readable format.
    *
-   * @private
+   * @protected
    * @param {string} amount - value in wei
    * @returns {BigNumber}
    */

@@ -19,7 +19,7 @@ import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
+import { getProviderDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -64,7 +64,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
   });
   const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
     {
-      type: getValidatorDelegatedAmount,
+      type: getProviderDelegatedAmount,
     },
   );
   const { data: apyData } = useQuery({
@@ -97,7 +97,7 @@ export const useAnkrStakeMore = (): IUseAnkrStake => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
-    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
+    dispatchRequest(getProviderDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
   }, [dispatchRequest]);

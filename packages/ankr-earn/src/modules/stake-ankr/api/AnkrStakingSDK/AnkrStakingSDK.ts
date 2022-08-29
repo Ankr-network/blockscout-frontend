@@ -1052,7 +1052,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       return `${validator}${latestBlockNumber}`;
     },
   })
-  public async getDelegatedAmountByValidator(
+  public async getDelegatedAmountByProvider(
     validator: string,
     latestBlockNumber: number,
   ): Promise<BigNumber> {

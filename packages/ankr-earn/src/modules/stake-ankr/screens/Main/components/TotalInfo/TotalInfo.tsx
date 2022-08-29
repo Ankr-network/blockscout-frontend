@@ -35,13 +35,15 @@ export const TotalInfo = (): JSX.Element => {
     <>
       <Box mb={3}>
         <Grid container spacing={3}>
-          <TotalStaked
-            isTotalStakedLoading={isTotalStakedLoading}
-            stakeLink={stakeLink}
-            token={Token.ANKR}
-            totalStaked={totalStaked}
-            totalStakedUsd={totalStakedUsd}
-          />
+          <Grid item lg={6} xs={12}>
+            <TotalStaked
+              isTotalStakedLoading={isTotalStakedLoading}
+              stakeLink={stakeLink}
+              token={Token.ANKR}
+              totalStaked={totalStaked}
+              totalStakedUsd={totalStakedUsd}
+            />
+          </Grid>
 
           <Grid item lg={6} xs={12}>
             <Paper className={classes.paper}>

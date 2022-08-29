@@ -14,7 +14,7 @@ import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
-import { getValidatorDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
+import { getProviderDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { restake } from 'modules/stake-ankr/actions/restake';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
@@ -41,7 +41,7 @@ export const useRestake = (): IUseRestake => {
   });
   const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
     {
-      type: getValidatorDelegatedAmount,
+      type: getProviderDelegatedAmount,
     },
   );
   const { data: commonData } = useQuery({
@@ -65,7 +65,7 @@ export const useRestake = (): IUseRestake => {
 
   useProviderEffect(() => {
     dispatchRequest(getProviders());
-    dispatchRequest(getValidatorDelegatedAmount({ validator: queryProvider }));
+    dispatchRequest(getProviderDelegatedAmount({ validator: queryProvider }));
     dispatchRequest(getRestakableAmount({ validator: queryProvider }));
     dispatchRequest(getEpochEndSeconds());
     dispatchRequest(getCommonData());
