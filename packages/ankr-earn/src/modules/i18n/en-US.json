@@ -924,6 +924,10 @@
       "connect-btn": "Connect wallet",
       "title": "Please connect your wallet to continue"
     },
+    "empty": {
+      "title": "Stake and earn with your favorite blockchains",
+      "btn": "Go to staking"
+    },
     "token-info": {
       "title": "What is {token}?",
       "addToken": "Add {token} to wallet",

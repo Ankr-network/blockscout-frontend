@@ -34,4 +34,8 @@ export const featuresConfig = {
   ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
   maticPolygonStaking: currentEnv !== Env.Production,
+  /**
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
+   */
+  newEmptyStateForDashboard: isLocal,
 };
