@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useEmptyStateStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2, 2, 6),
+    padding: theme.spacing(6, 2, 4.5),
     textAlign: 'center',
 
     [theme.breakpoints.up('md')]: {
@@ -13,27 +13,31 @@ export const useEmptyStateStyles = makeStyles(theme => ({
   },
 
   title: {
-    fontSize: 32,
-    marginBottom: theme.spacing(3),
+    fontSize: 30,
+    marginBottom: theme.spacing(3.5),
 
     [theme.breakpoints.up('md')]: {
       maxWidth: 560,
       margin: theme.spacing(0, 'auto', 4),
       fontSize: 45,
+      marginBottom: theme.spacing(3),
     },
   },
 
   button: {
-    width: 220,
     borderRadius: 16,
+
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 220,
+    },
   },
 
   imgWrap: {
     display: 'block',
     position: 'relative',
 
-    maxWidth: 210,
-    margin: theme.spacing(0, 'auto', 3),
+    maxWidth: 310,
+    margin: theme.spacing(0, 'auto', 6),
 
     [theme.breakpoints.up('md')]: {
       position: 'absolute',
@@ -52,7 +56,7 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     '&:before': {
       content: `''`,
       display: 'block',
-      paddingTop: getImgRatioPct(210, 145),
+      paddingTop: getImgRatioPct(314, 156),
 
       [theme.breakpoints.up('md')]: {
         paddingTop: getImgRatioPct(1062, 286),

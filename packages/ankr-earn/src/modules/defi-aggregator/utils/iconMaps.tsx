@@ -41,10 +41,6 @@ export const TOKEN_PROTOCOL_ICON_MAP: Record<string, ReactNode> = {
   'Convex Finance': <ProtocolConvexFinance />,
   'Ellipsis Finance': <ProtocolEllipsisFinance />,
   'OnX Finance': <ProtocolOnxFinance />,
-
-  // ⚠️ ProtocolSushiswap icon is a base64 img inside svg.
-  // Its size too large to be imported as svg.
-  // todo: refactor ProtocolSushiswap icon
   SushiSwap: <ProtocolSushiswap />,
   'Uniswap v3': <ProtocolUniswap />,
   'Uniswap v2': <ProtocolUniswap />,
