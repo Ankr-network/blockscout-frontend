@@ -1,6 +1,6 @@
 import {
-  AvailableWriteProviders,
   AvailableReadProviders,
+  AvailableWriteProviders,
 } from '@ankr.com/provider';
 
 import { isMainnet } from '../common';
@@ -15,7 +15,7 @@ export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
 /**
  * Block offset to get latest history events
  */
-export const BINANCE_HISTORY_BLOCK_OFFSET = 28_800 * 14;
+export const BINANCE_HISTORY_BLOCK_OFFSET = 28_800 * 19;
 
 /**
  * Internal write provider id

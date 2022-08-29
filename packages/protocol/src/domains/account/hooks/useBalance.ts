@@ -18,6 +18,7 @@ export const useBalance = (isConnected = true): Balance => {
   const { data: balances, loading: isLoading } = useQuery<AccountBalance>({
     type: actionType,
   });
+
   const isLoadingInitially = !balances && isLoading;
 
   const dispatch = useDispatch();

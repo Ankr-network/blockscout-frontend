@@ -76,7 +76,7 @@ export const processData = (
           return {
             time,
             value: callsCount,
-            extraValue: callsCount,
+            extraValue: undefined,
           };
         }
 

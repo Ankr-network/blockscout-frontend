@@ -14,6 +14,9 @@ import { ZendeskMounter } from 'modules/common/components/ZendeskMounter';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { initGoogleGtm } from 'common';
+
+initGoogleGtm();
 
 function App() {
   return (

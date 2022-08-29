@@ -6,12 +6,14 @@ import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarCh
 import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { NoData } from '../MethodCalls/components/NoData';
+import { Spinner } from 'ui';
 
 interface IUserRequestsByIpProps {
+  loading: boolean;
   data: UserRequestsByIpData[];
 }
 
-export const RequestsByIP = ({ data }: IUserRequestsByIpProps) => {
+export const RequestsByIP = ({ loading, data }: IUserRequestsByIpProps) => {
   const classes = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
@@ -37,45 +39,53 @@ export const RequestsByIP = ({ data }: IUserRequestsByIpProps) => {
         {/* Since request by ip only support 30d by backend, so hard code it first. When backend suuport all the timeframe should be remove it  */}
         <div className={classes.timeframe}>30d</div>
       </div>
-      {data.length > 0 ? (
-        <>
-          <div className={classes.legend}>
-            <Typography variant="body2" className={classes.legendText}>
-              {t('chain-item.requests-by-ip.ip')}
-            </Typography>
-            <Typography variant="body2" className={classes.legendText}>
-              {t('chain-item.requests-by-ip.http')}
-            </Typography>
-          </div>
-          <div className={classes.content}>
-            <div className={classes.info}>
-              {data.map(item => (
-                <div className={classes.line} key={item.ip}>
-                  <Typography variant="body1" className={classes.infoText}>
-                    {item.ip}
-                  </Typography>
-                  <Typography variant="body1" className={classes.infoText}>
-                    {formatNumber(item.count)}
-                  </Typography>
-                </div>
-              ))}
-            </div>
-            <div className={classes.graphic}>
-              {data.map(item => (
-                <div
-                  className={classes.graphicLine}
-                  key={item.ip}
-                  style={{ width: renderLine(item.count) }}
-                />
-              ))}
-            </div>
-          </div>
-        </>
+      {loading ? (
+        <div className={classes.loading}>
+          <Spinner />
+        </div>
       ) : (
-        <NoData
-          title={t('chain-item.requests-by-ip.no-data.title')}
-          content={t('chain-item.requests-by-ip.no-data.content')}
-        />
+        <>
+          {data.length > 0 ? (
+            <>
+              <div className={classes.legend}>
+                <Typography variant="body2" className={classes.legendText}>
+                  {t('chain-item.requests-by-ip.ip')}
+                </Typography>
+                <Typography variant="body2" className={classes.legendText}>
+                  {t('chain-item.requests-by-ip.http')}
+                </Typography>
+              </div>
+              <div className={classes.content}>
+                <div className={classes.info}>
+                  {data.map(item => (
+                    <div className={classes.line} key={item.ip}>
+                      <Typography variant="body1" className={classes.infoText}>
+                        {item.ip}
+                      </Typography>
+                      <Typography variant="body1" className={classes.infoText}>
+                        {formatNumber(item.count)}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+                <div className={classes.graphic}>
+                  {data.map(item => (
+                    <div
+                      className={classes.graphicLine}
+                      key={item.ip}
+                      style={{ width: renderLine(item.count) }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <NoData
+              title={t('chain-item.requests-by-ip.no-data.title')}
+              content={t('chain-item.requests-by-ip.no-data.content')}
+            />
+          )}
+        </>
       )}
     </div>
   );
