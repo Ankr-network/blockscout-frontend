@@ -7,14 +7,12 @@ import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemTabs } from './components/ChainItemTabs';
 import { useChainItem } from './hooks/useChainItem';
 import { useChainItemBreadcrumbs } from './hooks/useChainItemBreadcrumbs';
-import { MaintenanceBanner } from './components/MaintenanceBanner';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
-  hasCredentials: boolean;
 }
 
-export const ChainItem = ({ data, hasCredentials }: ChainItemProps) => {
+export const ChainItem = ({ data }: ChainItemProps) => {
   const {
     chain,
     chainTypeTab,
@@ -33,7 +31,6 @@ export const ChainItem = ({ data, hasCredentials }: ChainItemProps) => {
   return (
     <>
       <AddEmailBanner />
-      {hasCredentials && <MaintenanceBanner />}
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         chain={chain}

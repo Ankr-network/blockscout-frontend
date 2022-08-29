@@ -1,12 +1,13 @@
 import { StatsTimeframe } from 'domains/chains/types';
 import { useSwitcher } from 'modules/common/hooks/useSwitcher';
 import { useEffect, useState } from 'react';
-import { IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED } from '../screens/ChainItem/components/ChainRequestsOverview';
+import { IS_30D_PRIVATE_STATISTICS_DISABLED } from '../screens/ChainItem/components/ChainRequestsOverview';
 
 const { DAY, WEEK, MONTH } = StatsTimeframe;
 
-const connectedItems: StatsTimeframe[] =
-  IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED ? [DAY] : [DAY, WEEK, MONTH];
+const connectedItems: StatsTimeframe[] = IS_30D_PRIVATE_STATISTICS_DISABLED
+  ? [DAY, WEEK]
+  : [DAY, WEEK, MONTH];
 
 const defaultItems: StatsTimeframe[] = [MONTH, DAY, WEEK];
 

@@ -22,7 +22,7 @@ interface ChainRequestsOverviewProps {
   totalRequestsHistory?: Record<string, number>;
 }
 
-export const IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED = true;
+export const IS_30D_PRIVATE_STATISTICS_DISABLED = true;
 
 export const ChainRequestsOverview = ({
   children,
@@ -79,21 +79,13 @@ export const ChainRequestsOverview = ({
           <ToggleButton value={StatsTimeframe.DAY} disabled={loading}>
             {t('chain-item.timeframe.24-hours')}
           </ToggleButton>
-          <ToggleButton
-            value={StatsTimeframe.WEEK}
-            disabled={
-              (isWalletConnected &&
-                IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED) ||
-              loading
-            }
-          >
+          <ToggleButton value={StatsTimeframe.WEEK} disabled={loading}>
             {t('chain-item.timeframe.7-days')}
           </ToggleButton>
           <ToggleButton
             value={StatsTimeframe.MONTH}
             disabled={
-              (isWalletConnected &&
-                IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED) ||
+              (isWalletConnected && IS_30D_PRIVATE_STATISTICS_DISABLED) ||
               loading
             }
           >

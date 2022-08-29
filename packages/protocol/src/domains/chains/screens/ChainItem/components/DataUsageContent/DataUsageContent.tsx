@@ -3,7 +3,7 @@ import React from 'react';
 import { ChainItemDetails } from '../ChainItemDetails';
 import {
   ChainRequestsOverview,
-  IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED,
+  IS_30D_PRIVATE_STATISTICS_DISABLED,
 } from '../ChainRequestsOverview';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { RequestsMap } from '../RequestsMap';
@@ -75,7 +75,7 @@ export const DataUsageContent = ({ chainId }: IDataUsageContentProps) => {
           )}
           {isWalletConnected &&
             userTopRequestsIp &&
-            !IS_7D_AND_30D_PRIVATE_STATISTICS_DISABLED && (
+            !IS_30D_PRIVATE_STATISTICS_DISABLED && (
               <RequestsByIP loading={loading} data={userTopRequestsIp} />
             )}
           {countries && Object.keys(countries).length !== 0 && (
