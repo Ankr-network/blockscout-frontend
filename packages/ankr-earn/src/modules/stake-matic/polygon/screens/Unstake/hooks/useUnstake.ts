@@ -156,22 +156,33 @@ export const useUnstake = (): IUseUnstakeData => {
     [acRatio, isBondToken, unstakeFeePct],
   );
 
-  const sendAnalytics = (amount: BigNumber): void => {
-    const synthBalance = isBondToken
-      ? commonData?.maticBondBalance ?? ZERO
-      : commonData?.maticCertBalance ?? ZERO;
+  const sendAnalytics = useCallback(
+    (amount: BigNumber): void => {
+      const synthBalance = isBondToken
+        ? commonData?.maticBondBalance ?? ZERO
+        : commonData?.maticCertBalance ?? ZERO;
 
-    trackUnstake({
+      trackUnstake({
+        address,
+        amount,
+        name: walletName,
+        newStakedBalance: synthBalance,
+        newSynthTokens: synthBalance,
+        newTokenBalance: commonData?.maticBalance ?? ZERO,
+        stakeToken: MAIN_TOKEN,
+        syntheticToken: selectedToken,
+      });
+    },
+    [
       address,
-      amount,
-      name: walletName,
-      newStakedBalance: synthBalance,
-      newSynthTokens: synthBalance,
-      newTokenBalance: commonData?.maticBalance ?? ZERO,
-      stakeToken: MAIN_TOKEN,
-      syntheticToken: selectedToken,
-    });
-  };
+      commonData?.maticBalance,
+      commonData?.maticBondBalance,
+      commonData?.maticCertBalance,
+      isBondToken,
+      selectedToken,
+      walletName,
+    ],
+  );
 
   const onSuccessClose = useCallback((): void => {
     dispatch(resetReduxRequests([approveACUnstake.toString()]));
@@ -206,7 +217,13 @@ export const useUnstake = (): IUseUnstakeData => {
         }
       });
     },
-    [dispatchRequest, isShouldBeApproved, onSuccessOpen, selectedToken],
+    [
+      dispatchRequest,
+      isShouldBeApproved,
+      onSuccessOpen,
+      selectedToken,
+      sendAnalytics,
+    ],
   );
 
   useProviderEffect(() => {
