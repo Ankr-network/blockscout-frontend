@@ -1,17 +1,16 @@
-import React from 'react';
 import { Button, Typography } from '@material-ui/core';
 
+import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
-import { t } from 'modules/i18n/utils/intl';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ArchiveLabel } from 'modules/common/components/ChainMainInfo/ArchiveLabel';
-import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
+import { t } from 'modules/i18n/utils/intl';
+import { NavLink } from 'ui';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './ChainsItemStyles';
 import { ChainsItemProps } from './ChainsItemTypes';
-import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { NavLink } from 'ui';
 
 const publicKey = 'chains.links.public';
 const privateKey = 'chains.links.private';
@@ -23,7 +22,7 @@ export const ChainsItem = ({
   logoSrc,
   name,
   period,
-  statsTimeframe,
+  timeframe,
   totalRequests,
   isPremium,
 }: ChainsItemProps) => {
@@ -59,7 +58,7 @@ export const ChainsItem = ({
         label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
         logoSrc={logoSrc}
         name={name}
-        statsTimeframe={statsTimeframe}
+        timeframe={timeframe}
         totalRequests={totalRequests}
       />
       <div className={classes.bottom}>

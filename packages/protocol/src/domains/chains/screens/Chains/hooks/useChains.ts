@@ -1,12 +1,14 @@
+import { IJwtToken } from 'multirpc-sdk';
+
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { SortType, StatsTimeframe } from 'domains/chains/types';
+import { SortType, Timeframe } from 'domains/chains/types';
+import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usePrivateChains } from './usePrivateChains';
+import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { usePublicChains } from './usePublicChains';
 import { useSortType } from './useSortType';
-import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { IJwtToken } from 'multirpc-sdk';
-import { usePrivateChains } from './usePrivateChains';
+import { useTimeframe } from './useTimeframe';
 
 export interface Chains {
   chains: IApiChain[];
@@ -16,8 +18,8 @@ export interface Chains {
   loading: boolean;
   setSortType: (type: SortType) => void;
   sortType: SortType;
-  statsTimeframe: StatsTimeframe;
   switchStatsTimeframe: () => void;
+  timeframe: Timeframe;
 }
 
 export const useChains = (): Chains => {
@@ -26,10 +28,12 @@ export const useChains = (): Chains => {
   const [publicChains, publicChainsLoading] = usePublicChains(credentials);
   const [privateChains, privateChainsLoading] = usePrivateChains(credentials);
 
-  const [statsTimeframe, switchStatsTimeframe] =
-    useStatsTimeframe(isWalletConnected);
+  const [timeframe, switchStatsTimeframe] = useTimeframe(isWalletConnected);
 
-  usePrivateStats({ isWalletConnected, statsTimeframe });
+  usePrivateStats({
+    interval: timeframeToIntervalMap[timeframe],
+    isWalletConnected,
+  });
 
   const [sortType, setSortType] = useSortType(isWalletConnected);
 
@@ -41,7 +45,7 @@ export const useChains = (): Chains => {
     loading: isConnecting || publicChainsLoading || privateChainsLoading,
     setSortType,
     sortType,
-    statsTimeframe,
     switchStatsTimeframe,
+    timeframe,
   };
 };

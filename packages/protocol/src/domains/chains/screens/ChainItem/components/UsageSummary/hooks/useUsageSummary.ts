@@ -1,34 +1,34 @@
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
-import { StatsTimeframe } from 'domains/chains/types';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { useStatsTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
+import { Timeframe } from 'domains/chains/types';
+import { formatTotalRequests } from '../utils/formatTotalRequests';
+import { getCachedRequestsPercent } from '../utils/getCachedRequestsPercent';
+import { getRequestsAverage } from '../utils/getRequestsAverage';
+import { getTotalCost } from '../utils/getTotalCost';
 
-export interface UsageSummary {
-  loading: boolean;
-  statsTimeframe: StatsTimeframe;
-  switchStatsTimeframe: () => void;
+export interface UsageSummaryParams {
+  cachedRequests: BigNumber;
+  timeframe: Timeframe;
+  totalCost?: number;
   totalRequests: BigNumber;
 }
 
-const requestKey = 'chain-usage-summary';
+export type UsageSummary = [string, string, string, string];
 
-export const useUsageSummary = (chainId: string): UsageSummary => {
-  const { isWalletConnected } = useAuth();
-  const [statsTimeframe, switchStatsTimeframe] =
-    useStatsTimeframe(isWalletConnected);
-
-  const [{ stats } = { stats: {} }, loading] = usePrivateStats({
-    isWalletConnected,
-    requestKey,
-    statsTimeframe,
-  });
-
-  return {
-    loading,
-    statsTimeframe,
-    switchStatsTimeframe,
-    totalRequests: new BigNumber(stats?.[chainId]?.total_requests || 0),
-  };
-};
+export const useUsageSummary = ({
+  cachedRequests,
+  timeframe,
+  totalCost,
+  totalRequests,
+}: UsageSummaryParams) =>
+  useMemo<UsageSummary>(
+    () => [
+      formatTotalRequests(totalRequests),
+      getRequestsAverage(totalRequests, timeframe),
+      getCachedRequestsPercent(totalRequests, cachedRequests),
+      getTotalCost(totalCost),
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cachedRequests, totalRequests, totalCost],
+  );

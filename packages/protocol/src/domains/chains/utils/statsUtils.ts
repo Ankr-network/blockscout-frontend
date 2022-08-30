@@ -1,5 +1,4 @@
-import { PrivateStatsInterval, Timeframe } from 'multirpc-sdk';
-import { StatsTimeframe } from '../types';
+import { Timeframe } from 'multirpc-sdk';
 
 const POLYGON_STATS_RPC = 'https://polygon-rpc.com/api/data/stats';
 const BSC_STATS_RPC = 'https://bscrpc.com/api/data/stats';
@@ -8,15 +7,6 @@ const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
 export const FIFTEEN_MINUTES_INTERVAL = 4;
 export const SEVEN_DAYS_IN_WEEK = 7;
-
-export const timeframeToIntervalMap: Record<
-  StatsTimeframe,
-  PrivateStatsInterval
-> = {
-  [StatsTimeframe.DAY]: PrivateStatsInterval.DAY,
-  [StatsTimeframe.WEEK]: PrivateStatsInterval.WEEK,
-  [StatsTimeframe.MONTH]: PrivateStatsInterval.MONTH,
-};
 
 export const getLegacyStandaloneUrl = (chainId: string) => {
   let url = '';

@@ -3,10 +3,16 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useChainBlockStyles = makeStyles<Theme>(theme => ({
   block: {
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
     borderRadius: 18,
     padding: 20,
     backgroundColor: theme.palette.common.white,
+  },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   subtitle: {
     color: theme.palette.text.primary,

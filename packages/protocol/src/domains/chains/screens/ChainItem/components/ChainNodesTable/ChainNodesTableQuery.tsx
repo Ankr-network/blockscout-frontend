@@ -24,7 +24,7 @@ export const ChainNodesTableQuery = ({
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
-    const chainIDs = getLinkedChainIDs(group.chainIDs);
+    const chainIDs = getLinkedChainIDs(group.chains.map(({ id }) => id));
 
     dispatchRequest(fetchChainNodesData(chainIDs));
 
@@ -33,7 +33,7 @@ export const ChainNodesTableQuery = ({
 
       dispatch(stopPolling([fetchChainNodesData.toString()]));
     };
-  }, [chain, dispatch, dispatchRequest, group.chainIDs]);
+  }, [chain, dispatch, dispatchRequest, group.chains]);
 
   return (
     <Queries<ResponseData<typeof fetchChainNodesData> | null>

@@ -3,11 +3,36 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(3.75),
+
+    padding: theme.spacing(3.75),
+
+    borderRadius: theme.spacing(3),
+
     background: theme.palette.background.paper,
-    borderRadius: 18,
-    padding: theme.spacing(3, 3, 2),
-    marginBottom: theme.spacing(3.5),
+
+    [theme.breakpoints.down('md')]: {
+      gap: theme.spacing(2),
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      gap: theme.spacing(2),
+
+      padding: theme.spacing(2.5),
+
+      borderRadius: theme.spacing(2.5),
+    },
   },
+  title: {
+    color: theme.palette.text.primary,
+
+    fontWeight: 700,
+    fontSize: theme.spacing(2.5),
+    lineHeight: `${theme.spacing(3.5)}px`,
+  },
+
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -15,7 +40,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column-reverse',
-      marginTop: theme.spacing(2),
     },
   },
 

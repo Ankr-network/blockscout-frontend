@@ -1,6 +1,6 @@
 import { Chain } from '../ChainsList/ChainsListTypes';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { StatsTimeframe } from 'domains/chains/types';
+import { Timeframe } from 'domains/chains/types';
 
 export interface ChainsItemQueryProps {
   chain: Chain;
@@ -10,7 +10,7 @@ export interface ChainsItemQueryProps {
   logoSrc: string;
   name: string;
   period: string;
-  statsTimeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {

@@ -1,12 +1,13 @@
-import { StatsTimeframe } from 'domains/chains/types';
+import { Timeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
 
-const { DAY, WEEK, MONTH } = StatsTimeframe;
+const { Hour, Day, Week, Month } = Timeframe;
 
-const timeframes = 'chains.stats-timeframes';
+const timeframes = 'chains.timeframes';
 
-export const valuesMap: Record<StatsTimeframe, string> = {
-  [DAY]: t(`${timeframes}.day`),
-  [WEEK]: t(`${timeframes}.week`),
-  [MONTH]: t(`${timeframes}.month`),
+export const valuesMap: Record<Timeframe, string> = {
+  [Hour]: t(`${timeframes}.hour`),
+  [Day]: t(`${timeframes}.day`),
+  [Week]: t(`${timeframes}.week`),
+  [Month]: t(`${timeframes}.month`),
 };

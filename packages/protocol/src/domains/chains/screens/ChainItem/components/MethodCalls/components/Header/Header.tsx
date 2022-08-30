@@ -1,19 +1,27 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+
+import { ItemHeader } from '../../../ItemHeader';
+import { ReactComponent as DownloadIcon } from '../../assets/download.svg';
+import { Timeframe } from 'domains/chains/types';
 import { t } from 'common';
 import { useHeaderStyles } from './useHeaderStyles';
-import { ReactComponent as DownloadIcon } from '../../assets/download.svg';
 
 const SHOW_DOWNLOAD_BUTTON = false;
 
-export const Header = () => {
+export interface HeaderProps {
+  timeframe: Timeframe;
+}
+
+export const Header = ({ timeframe }: HeaderProps) => {
   const classes = useHeaderStyles();
 
   return (
     <div className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        {t('chain-item.method-calls.title')}
-      </Typography>
+      <ItemHeader
+        timeframe={timeframe}
+        title={t('chain-item.method-calls.title')}
+      />
       {SHOW_DOWNLOAD_BUTTON && (
         <Button
           variant="text"
