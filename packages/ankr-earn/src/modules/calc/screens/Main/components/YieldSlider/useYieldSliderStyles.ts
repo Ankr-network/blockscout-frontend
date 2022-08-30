@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useCalcSliderStyles = makeStyles(theme => ({
+export const useYieldSliderStyles = makeStyles(theme => ({
   tooltip: {
     position: 'absolute',
     bottom: '100%',

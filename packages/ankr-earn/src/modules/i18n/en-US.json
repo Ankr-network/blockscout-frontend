@@ -852,6 +852,9 @@
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
+  "calc": {
+    "title": "Staking calculator"
+  },
   "dashboard": {
     "title": "Stakable tokens",
     "portfolio": "My portfolio",

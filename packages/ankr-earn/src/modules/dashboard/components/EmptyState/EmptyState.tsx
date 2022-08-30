@@ -1,12 +1,11 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { ReactNode } from 'react';
 
 import { t } from 'common';
 
-import { RoutesConfig } from 'modules/stake/Routes';
+import { RoutesConfig as CalcRoutes } from 'modules/calc/Routes';
+import { featuresConfig } from 'modules/common/const';
+import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
-
-import { CalcSpoiler } from '../CalcSpoiler';
 
 import coinsMobileImg from './assets/coins-mobile.png';
 import coinsMobileImg2x from './assets/coins-mobile@2x.png';
@@ -14,7 +13,8 @@ import coinsImg from './assets/coins.png';
 import coinsImg2x from './assets/coins@2x.png';
 import { useEmptyStateStyles } from './useEmptyStateStyles';
 
-const STAKE_PATH = RoutesConfig.main.generatePath();
+const STAKE_PATH = StakeRoutes.main.generatePath();
+const CALC_PATH = CalcRoutes.main.generatePath();
 
 const imgSources = {
   tablet: coinsImg,
@@ -23,11 +23,7 @@ const imgSources = {
   mobile2x: coinsMobileImg2x,
 };
 
-interface IEmptyStateProps {
-  calcSlot?: ReactNode;
-}
-
-export const EmptyState = ({ calcSlot }: IEmptyStateProps): JSX.Element => {
+export const EmptyState = (): JSX.Element => {
   const classes = useEmptyStateStyles();
 
   return (
@@ -62,9 +58,20 @@ export const EmptyState = ({ calcSlot }: IEmptyStateProps): JSX.Element => {
         {t('dashboard.empty.btn')}
       </NavLink>
 
-      {calcSlot && (
+      {featuresConfig.isCalcActive && (
         <Box mt={3}>
-          <CalcSpoiler>{calcSlot}</CalcSpoiler>
+          <div className={classes.header}>
+            <div className={classes.buttonWrapper}>
+              <NavLink
+                fullWidth
+                href={CALC_PATH}
+                size="large"
+                variant="outlined"
+              >
+                {t('dashboard.empty.calc-btn')}
+              </NavLink>
+            </div>
+          </div>
         </Box>
       )}
     </Paper>

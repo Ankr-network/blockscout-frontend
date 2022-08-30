@@ -42,4 +42,5 @@ export const featuresConfig = {
    * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
    */
   newEmptyStateForDashboard: isLocal,
+  isCalcActive: isLocal,
 };

@@ -3,7 +3,7 @@ import { cloneElement, ReactElement } from 'react';
 
 import { t } from 'common';
 
-import { useCalcSliderStyles } from './useCalcSliderStyles';
+import { useYieldSliderStyles } from './useYieldSliderStyles';
 
 interface IValueLabelProps {
   children: ReactElement;
@@ -16,7 +16,7 @@ export const ValueLabel = ({
   open,
   value,
 }: IValueLabelProps): JSX.Element => {
-  const classes = useCalcSliderStyles();
+  const classes = useYieldSliderStyles();
 
   const renderedTooltip = (
     <span

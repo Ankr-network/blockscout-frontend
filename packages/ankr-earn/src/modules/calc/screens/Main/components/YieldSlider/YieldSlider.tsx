@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 
 import { ValueLabel } from './ValueLabel';
 
-export interface ICalcSliderProps
+export interface IYieldSliderProps
   extends Omit<
     SliderProps,
     'ValueLabelComponent' | 'valueLabelDisplay' | 'onChange'
@@ -14,7 +14,9 @@ export interface ICalcSliderProps
   ) => void;
 }
 
-export const CalcSlider = ({ ...restProps }: ICalcSliderProps): JSX.Element => {
+export const YieldSlider = ({
+  ...restProps
+}: IYieldSliderProps): JSX.Element => {
   return (
     <Slider
       {...restProps}
