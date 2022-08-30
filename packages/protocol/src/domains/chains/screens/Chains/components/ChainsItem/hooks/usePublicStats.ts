@@ -1,36 +1,35 @@
-import { Timeframe } from 'multirpc-sdk';
+import { Timeframe as DetailsTimeframe } from 'multirpc-sdk';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useEffect } from 'react';
 
+import { Timeframe } from 'domains/chains/types';
 import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
-import { StatsTimeframe } from 'domains/chains/types';
 
 export interface PublicStatsParams {
   chainId: string;
   isWalletConnected: boolean;
-  statsTimeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
-const timeframesMap: Record<StatsTimeframe, Timeframe> = {
-  [StatsTimeframe.DAY]: '24h',
-  [StatsTimeframe.WEEK]: '7d',
-  [StatsTimeframe.MONTH]: '30d',
+const timeframesMap: Record<Timeframe, DetailsTimeframe> = {
+  [Timeframe.Hour]: '1h',
+  [Timeframe.Day]: '24h',
+  [Timeframe.Week]: '7d',
+  [Timeframe.Month]: '30d',
 };
 
 export const usePublicStats = ({
   chainId,
   isWalletConnected,
-  statsTimeframe,
+  timeframe,
 }: PublicStatsParams): boolean => {
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
     if (!isWalletConnected) {
-      dispatchRequest(
-        fetchChainDetails(chainId, timeframesMap[statsTimeframe]),
-      );
+      dispatchRequest(fetchChainDetails(chainId, timeframesMap[timeframe]));
     }
-  }, [isWalletConnected, dispatchRequest, chainId, statsTimeframe]);
+  }, [isWalletConnected, dispatchRequest, chainId, timeframe]);
 
   const { loading } = useMutation({
     type: fetchChainDetails,

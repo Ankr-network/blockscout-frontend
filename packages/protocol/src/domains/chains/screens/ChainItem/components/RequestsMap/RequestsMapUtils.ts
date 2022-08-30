@@ -1,7 +1,7 @@
-import IsoToLatLong from 'country-iso-to-coordinates';
 import { lighten } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
+import IsoToLatLong from 'country-iso-to-coordinates';
 
+import { t } from 'modules/i18n/utils/intl';
 import { RequestsCountry, RequestsMapProps } from './RequestsMapTypes';
 
 const COLORS = Array(10)
@@ -11,7 +11,7 @@ const COLORS = Array(10)
 export const getMarkerPointsAndStats = (
   countries: RequestsMapProps['countries'],
 ): RequestsCountry[] => {
-  const countriesArray = Object.values(countries)
+  const countriesArray = Object.values(countries || {})
     .sort((a, b) => b.requests - a.requests)
     .slice(0, 10)
     .map((item, index) => {

@@ -83,27 +83,45 @@ export type PrivateStatTopRequestsData = Record<string, number | ChartDate>;
 export type PrivateStatOthersInfo = {
   request_count?: number;
   type_count?: number;
+  total_cost?: number;
 };
 
 export interface PrivateTotalRequestsInfo {
   count: number;
   others_info: PrivateStatOthersInfo;
   top_requests: PrivateStatTopRequests[];
+  total_cost?: number;
+}
+
+export interface PrivatStatTopCountry {
+  country: string;
+  count: number;
+  total_cost: number;
+}
+
+export interface PrivateStatCountriesCount {
+  others_info: PrivateStatOthersInfo;
+  top_countries: PrivatStatTopCountry[];
+}
+
+export interface IpDetails {
+  ip: string;
+  count: number;
+  total_cost: number;
+}
+
+export interface PrivateStatIPsCount {
+  others_info?: PrivateStatOthersInfo;
+  top_ips?: IpDetails[];
 }
 
 export interface PrivateStat {
   blockchain: string;
+  countries_count: PrivateStatCountriesCount;
   counts?: PrivateStatCounts;
-  ips_count: {
-    others_info?: {
-      request_count?: number;
-      total_cost?: number;
-      type_count?: number;
-    };
-    top_ips?: IpDetails[];
-  };
-  total_requests: number;
+  ips_count: PrivateStatIPsCount;
   total: PrivateTotalRequestsInfo;
+  total_requests: number;
 }
 
 // in ms
@@ -113,11 +131,6 @@ export interface PrivateStatCount {
   count: number;
   top_requests: PrivateStatTopRequests[];
   others_info: PrivateStatOthersInfo;
-}
-
-export interface IpDetails {
-  ip: string;
-  count: string;
 }
 
 export type RPCRequestName = string;
@@ -137,9 +150,10 @@ export interface PrivateStats {
 }
 
 export type BlockchainID = string;
-export type PrivateStatsInternal = Record<BlockchainID, PrivateStat>;
+export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
 
 export enum PrivateStatsInterval {
+  HOUR = 'h1',
   DAY = 'h24',
   WEEK = 'd7',
   MONTH = 'd30',

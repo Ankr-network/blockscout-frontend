@@ -1,15 +1,19 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useUsageSummaryStyles = makeStyles<Theme>(theme => ({
   usageSummary: {
     display: 'flex',
     gap: theme.spacing(3.75),
+
+    [theme.breakpoints.down('lg')]: {
+      gap: theme.spacing(2),
+    },
 
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
     },
   },
   stat: {
-    flex: '0 0 50%',
+    flex: 1,
   },
 }));

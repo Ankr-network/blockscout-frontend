@@ -1,8 +1,5 @@
-import React from 'react';
-import { Skeleton } from '@material-ui/lab';
-
 import { ChainItemHeaderSkeleton } from './components/ChainItemHeader/components/ChainItemHeaderSkeleton';
-import { ChainRequestsOverviewSkeleton } from './components/ChainRequestsOverview/ChainRequestsOverviewSkeleton';
+import { RequestsChartSkeleton } from './components/RequestsChart/RequestsChartSkeleton';
 import { useStyles } from './ChainItemStyles';
 
 export const ChainItemSkeleton = () => {
@@ -11,11 +8,7 @@ export const ChainItemSkeleton = () => {
   return (
     <div className={classes.chainDetailsWrapper}>
       <ChainItemHeaderSkeleton />
-      <ChainRequestsOverviewSkeleton className={classes.chainRequestsOverview}>
-        <div className={classes.details}>
-          <Skeleton width="33%" height={42} variant="rect" />
-        </div>
-      </ChainRequestsOverviewSkeleton>
+      <RequestsChartSkeleton />
     </div>
   );
 };

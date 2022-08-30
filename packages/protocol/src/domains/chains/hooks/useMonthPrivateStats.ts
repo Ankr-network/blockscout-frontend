@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { PrivateStats } from 'multirpc-sdk';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { PrivateStats } from 'multirpc-sdk';
+import { useEffect } from 'react';
 
 import { fetchMonthPrivateStats } from '../actions/fetchMonthPrivateStats';
 

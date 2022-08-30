@@ -22,7 +22,7 @@ export const getFallbackEndpointGroup = (
     pluralName: name,
     urls: [],
     urlsCount: 0,
-    chainIDs: [],
+    chains: [],
   };
 };
 

@@ -125,7 +125,8 @@
       "usage": "Sort by usage",
       "name": "Sort by name"
     },
-    "stats-timeframes": {
+    "timeframes": {
+      "hour": "1h",
       "day": "24h",
       "month": "30d",
       "week": "7d"
@@ -205,20 +206,6 @@
       "all-time": "All Time",
       "total-requests": "Total Requests"
     },
-    "timeframe": {
-      "24-hours": "24 Hours",
-      "7-days": "7 Days",
-      "30-days": "30 Days"
-    },
-    "chart": {
-      "date": "{value, date, medium}",
-      "time": "{value, time, short}",
-      "calls-count": "{value, number, ::compact-short}",
-      "placeholder": {
-        "title": "Send your request",
-        "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
-      }
-    },
     "map": {
       "header": "Top 10 countries by requests",
       "stats-table": {
@@ -227,6 +214,10 @@
           "requests": "Requests"
         },
         "value": "{value, number, ::compact-short}"
+      },
+      "no-data": {
+        "title": "Send your request",
+        "content": "Once you start sending requests, your activity will be visible here."
       }
     },
     "method-calls": {
@@ -249,19 +240,6 @@
       "no-data": {
         "title": "Send your request",
         "content": "Once you start sending requests, your activity will be visible here."
-      }
-    },
-    "methods-rating": {
-      "title": "Top 10 requests by volume",
-      "periods": {
-        "day": "24h",
-        "week": "7d",
-        "month": "30d"
-      },
-      "table": {
-        "methods-title": "Method",
-        "requests-title": "Requests",
-        "calls": "{calls, number, ::compact-short}"
       }
     },
     "nodes-table": {
@@ -290,7 +268,8 @@
         "add-network-label": "Add network",
         "premium-label": "Premium",
         "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
-        "websocket-title": "WebSocket"
+        "websocket-title": "WebSocket",
+        "network-postfix": "{name} by ANKR Protocol"
       },
       "upgrade-banner": {
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
@@ -317,8 +296,29 @@
         "title": "Connection code snippet"
       }
     },
-    "usage-summary": {
-      "total": "Total Requests Processed"
+    "usage-data": {
+      "usage-summary": {
+        "total": "Total Requests",
+        "average": "Average Req/Sec",
+        "cached": {
+          "title": "Cached Requests",
+          "value": "{cached}%"
+        },
+        "cost": {
+          "title": "Credit Usage",
+          "value": "{cost, number, ::compact-short}"
+        }
+      },
+      "chart": {
+        "title": "Requests",
+        "date": "{value, date, medium}",
+        "time": "{value, time, short}",
+        "calls-count": "{value, number, ::compact-short}",
+        "placeholder": {
+          "title": "Send your request",
+          "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
+        }
+      }
     }
   },
   "plan": {

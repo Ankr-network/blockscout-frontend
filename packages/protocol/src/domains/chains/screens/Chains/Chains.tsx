@@ -14,7 +14,6 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { UsageSummary } from './components/UsageSummary';
 import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
 import { useChains } from './hooks/useChains';
-import { MaintenanceBanner } from '../ChainItem/components/MaintenanceBanner';
 
 export const Chains = () => {
   const {
@@ -25,8 +24,8 @@ export const Chains = () => {
     loading,
     setSortType,
     sortType,
-    statsTimeframe,
     switchStatsTimeframe,
+    timeframe,
   } = useChains();
 
   useSetBreadcrumbs([
@@ -40,13 +39,12 @@ export const Chains = () => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
-      {credentials && <MaintenanceBanner />}
 
       <AddEmailBanner />
 
       {isWalletConnected && (
         <UsageSummary
-          timeframe={statsTimeframe}
+          timeframe={timeframe}
           switchTimeframe={switchStatsTimeframe}
           className={classes.userStats}
         />
@@ -63,7 +61,7 @@ export const Chains = () => {
           <ChainsList
             chains={chains}
             sortType={sortType}
-            statsTimeframe={statsTimeframe}
+            timeframe={timeframe}
           />
         )}
       </NoReactSnap>
