@@ -18,7 +18,7 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethGoerli]: 'https://rpc.ankr.com/eth_goerli',
   [AvailableReadProviders.avalancheChain]: 'https://rpc.ankr.com/avalanche',
   [AvailableReadProviders.avalancheChainTest]:
-    'https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc',
+    'https://rpc.ankr.com/avalanche_fuji',
   [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
   [AvailableReadProviders.binanceChainTest]:
     'https://rpc.ankr.com/bsc_testnet_chapel',

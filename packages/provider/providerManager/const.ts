@@ -87,7 +87,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'AVAX',
       decimals: 18,
     },
-    rpcUrls: ['https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc'],
+    rpcUrls: ['https://rpc.ankr.com/avalanche_fuji'],
     blockExplorerUrls: ['https://testnet.snowtrace.io/'],
   },
 
