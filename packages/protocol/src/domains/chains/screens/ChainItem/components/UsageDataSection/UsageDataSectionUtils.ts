@@ -1,15 +1,17 @@
+import { useMemo } from 'react';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { CountryMap } from 'domains/chains/actions/fetchChainTimeframeData';
-import { useMemo } from 'react';
+import { IS_30D_PRIVATE_STATISTICS_DISABLED } from 'domains/chains/constants/timeframes';
 
 export const useIsRequestsMapVisible = (countries?: CountryMap) => {
   const { isWalletConnected } = useAuth();
 
-  return useMemo(
-    () =>
-      Boolean(
-        isWalletConnected || (countries && Object.keys(countries).length),
-      ),
-    [countries, isWalletConnected],
-  );
+  return useMemo(() => {
+    if (isWalletConnected) {
+      return !IS_30D_PRIVATE_STATISTICS_DISABLED;
+    }
+
+    return !!Object.keys(countries || {}).length;
+  }, [countries, isWalletConnected]);
 };
