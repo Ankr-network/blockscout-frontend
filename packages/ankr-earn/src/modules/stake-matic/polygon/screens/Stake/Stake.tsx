@@ -168,6 +168,7 @@ export const Stake = (): JSX.Element => {
                 value={gasFee}
               />
             }
+            isMaxBtnShowed={false}
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}

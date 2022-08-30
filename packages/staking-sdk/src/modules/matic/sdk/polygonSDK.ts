@@ -346,6 +346,9 @@ export class MaticPolygonSDK implements IStakable {
     return stakeFee === '0' ? ZERO : new BigNumber(stakeFee).dividedBy(feeMax);
   }
 
+  /**
+   * @note For aMATICc token only
+   */
   public async getStakeGasFee(
     amount: BigNumber,
     token: string,
@@ -420,7 +423,7 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note For aMATICc tokens only
+   * @note For aMATICc token only
    */
   public async stake(
     amount: BigNumber,
@@ -452,7 +455,7 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note For aMATICc tokens only. You will need "approveACToken" before that
+   * @note For aMATICc token only. You will need "approveACToken" before that
    */
   public async unstake(
     amount: BigNumber,

@@ -155,12 +155,15 @@
     "include": [
       "/bridge/",
       "/liquid-crowdloan/",
+      "/stake/matic/eth/",
+      "/stake/matic/polygon/",
       "/unstake/avax/",
       "/unstake/bnb/",
       "/unstake/dot/",
       "/unstake/fantom/",
       "/unstake/ksm/",
-      "/unstake/matic/",
+      "/unstake/matic/eth/",
+      "/unstake/matic/polygon/",
       "/ankr-stake/providers/",
       "/mgno-stake/providers/"
     ],

@@ -33,7 +33,11 @@ export const featuresConfig = {
    */
   ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
-  maticPolygonStaking: currentEnv !== Env.Production,
+  /**
+   * Please remove extra feature flag
+   * @deprecated
+   */
+  maticPolygonStaking: true,
   /**
    * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
    */
