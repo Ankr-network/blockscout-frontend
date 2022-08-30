@@ -44,11 +44,12 @@ export const useCalcSpoilerStyles = makeStyles(theme => ({
   },
 
   bodyWrapperActive: {
+    overflow: 'visible',
     height: 'auto',
   },
 
   body: {
-    transition: 'opacity 0.2s',
+    transition: 'opacity 0.2s 0.1s',
     opacity: 0,
     padding: theme.spacing(5, 0, 0),
   },

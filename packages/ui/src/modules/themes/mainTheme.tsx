@@ -15,6 +15,13 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '../../components/Checkbox';
 import { StepIcon } from '../../components/StepIcon';
 import { Themes } from './types';
 
+const SLIDER_THUMB_SHADOW =
+  '0px -1px 2px rgba(204, 211, 225, 0.55), 0px 4px 4px rgba(35, 56, 94, 0.23)';
+
+// todo: integrate as custom color into MUI PaletteOptions
+// https://ankrnetwork.atlassian.net/browse/STAKAN-2027
+const BORDER_COLOR = '#E2E8F3';
+
 export const FONTS = {
   primary: ['Inter', 'sans-serif'].join(','),
   ttFirsNeueSemiBold: ['TT Firs Neue', 'sans-serif'].join(','),
@@ -344,6 +351,37 @@ export const mainTheme = createTheme({
         right: 16,
         top: 'calc(50% - 6px)',
         color: 'inherit',
+      },
+    },
+
+    MuiSlider: {
+      root: {
+        height: 8,
+      },
+
+      rail: {
+        height: 8,
+        borderRadius: 4,
+        opacity: 1,
+        backgroundColor: BORDER_COLOR,
+      },
+
+      track: {
+        height: 8,
+        borderRadius: 4,
+      },
+
+      thumb: {
+        width: 24,
+        height: 24,
+        marginTop: -8,
+        marginLeft: -12,
+        backgroundColor: defaultTheme.palette.background.paper,
+        boxShadow: SLIDER_THUMB_SHADOW,
+
+        '&$focusVisible, &$active, &:hover': {
+          boxShadow: SLIDER_THUMB_SHADOW,
+        },
       },
     },
 
@@ -794,7 +832,7 @@ export const mainTheme = createTheme({
     },
     MuiSkeleton: {
       root: {
-        backgroundColor: '#E2E8F3',
+        backgroundColor: BORDER_COLOR,
       },
     },
     MuiAccordion: {

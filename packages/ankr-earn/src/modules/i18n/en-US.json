@@ -103,7 +103,8 @@
     "mgno-value": "{value} mGNO",
     "usd-value": "${value}",
     "percentage-value": "{value}%",
-    "milliseconds-value": "{value}ms"
+    "milliseconds-value": "{value}ms",
+    "days-value": "{value} days"
   },
   "common": {
     "successTx": "Transaction successful.",
