@@ -14,10 +14,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   chainDetailsWrapper: {
-    flexGrow: 1,
-    maxWidth: '100%',
-  },
-  chainRequestsOverview: {
-    marginTop: theme.spacing(7.5),
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: theme.spacing(3.75),
+
+    [theme.breakpoints.down('lg')]: {
+      gap: theme.spacing(2),
+    },
   },
 }));

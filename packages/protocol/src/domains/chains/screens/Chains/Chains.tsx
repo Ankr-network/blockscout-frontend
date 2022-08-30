@@ -24,8 +24,8 @@ export const Chains = () => {
     loading,
     setSortType,
     sortType,
-    statsTimeframe,
     switchStatsTimeframe,
+    timeframe,
   } = useChains();
 
   useSetBreadcrumbs([
@@ -44,7 +44,7 @@ export const Chains = () => {
 
       {isWalletConnected && (
         <UsageSummary
-          timeframe={statsTimeframe}
+          timeframe={timeframe}
           switchTimeframe={switchStatsTimeframe}
           className={classes.userStats}
         />
@@ -61,7 +61,7 @@ export const Chains = () => {
           <ChainsList
             chains={chains}
             sortType={sortType}
-            statsTimeframe={statsTimeframe}
+            timeframe={timeframe}
           />
         )}
       </NoReactSnap>

@@ -1,12 +1,4 @@
 import {
-  IMethod,
-  PrivateStatCount,
-  PrivateStatTopRequests,
-  PrivateTotalRequestsInfo,
-  PrivateStatTopRequestsData,
-  PrivateStatOthersInfo,
-} from 'multirpc-sdk';
-import {
   format,
   getDate,
   getHours,
@@ -15,9 +7,18 @@ import {
   getYear,
   isBefore,
 } from 'date-fns';
-import { StatsTimeframe } from '../types';
+
 import { t } from 'common';
 import { calculateTotalRequests } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
+import {
+  IMethod,
+  PrivateStatCount,
+  PrivateStatOthersInfo,
+  PrivateStatTopRequests,
+  PrivateStatTopRequestsData,
+  PrivateTotalRequestsInfo,
+} from 'multirpc-sdk';
+import { Timeframe } from '../types';
 
 export type TopRequestsResultData = {
   list: string[];
@@ -29,16 +30,13 @@ const ONE_DAY = 24 * ONE_HOUR;
 
 const UNKNOWN_NAME = 'unknown';
 
-const getNextStatsTimestamp = (
-  timeStamp: number,
-  timeframe: StatsTimeframe,
-) => {
+const getNextStatsTimestamp = (timeStamp: number, timeframe: Timeframe) => {
   const year = getYear(timeStamp);
   const month = getMonth(timeStamp);
   const day = getDate(timeStamp);
   const hour = getHours(timeStamp);
 
-  return timeframe === StatsTimeframe.WEEK
+  return timeframe === Timeframe.Week
     ? getTime(new Date(year, month, day)) + ONE_DAY
     : getTime(new Date(year, month, day, hour)) + ONE_HOUR;
 };
@@ -64,14 +62,14 @@ interface ICount {
 }
 
 const calculateBarCounts = (
-  timeframe: StatsTimeframe,
+  timeframe: Timeframe,
   counts?: Record<string, PrivateStatCount>,
 ) => {
   if (!counts) return {};
 
   const oneStakeCounts: Record<string, PrivateStatCount> = {};
   const countList: ICount[] = [];
-  const nextTime = timeframe === StatsTimeframe.DAY ? ONE_HOUR : ONE_DAY;
+  const nextTime = timeframe === Timeframe.Day ? ONE_HOUR : ONE_DAY;
 
   Object.keys(counts).forEach(timestamp => {
     const item = counts[timestamp];
@@ -128,8 +126,8 @@ const calculateBarCounts = (
 };
 
 export const formatChartData = (
-  total: PrivateTotalRequestsInfo,
-  timeframe: StatsTimeframe,
+  timeframe: Timeframe,
+  total?: PrivateTotalRequestsInfo,
   counts?: Record<string, PrivateStatCount>,
 ) => {
   if (typeof counts === 'undefined') {
@@ -157,10 +155,10 @@ export const formatChartData = (
     return item;
   });
 
-  const listData = total?.top_requests?.map(
+  const listData = (total?.top_requests || [])?.map(
     (item: PrivateStatTopRequests) => item.method,
   );
-  const otherMethods = total.others_info?.type_count ?? 0;
+  const otherMethods = total?.others_info?.type_count ?? 0;
   let otherMethodName = '';
 
   if (otherMethods > 0) {
@@ -187,11 +185,11 @@ export const formatChartData = (
     });
   }
 
-  if (timeframe !== StatsTimeframe.MONTH) {
+  if (timeframe !== Timeframe.Month) {
     counts = calculateBarCounts(timeframe, counts);
   }
 
-  const chartFormat = timeframe === StatsTimeframe.DAY ? 'h:mmaaa' : 'LLL dd';
+  const chartFormat = timeframe === Timeframe.Day ? 'h:mmaaa' : 'LLL dd';
   const chartData: PrivateStatTopRequestsData[] = [];
 
   Object.keys(counts).forEach(timestamp => {

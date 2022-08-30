@@ -11,7 +11,7 @@ import { apiAddPrivateEndpoint } from 'domains/infrastructure/actions/addPrivate
 import { useEndpointBreadcrumbs } from '../../AddEndpointUtils';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
-import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemTabs/hooks/useRedirect';
+import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
 
 export interface AddEndpointFormProps {
   chainId: string;

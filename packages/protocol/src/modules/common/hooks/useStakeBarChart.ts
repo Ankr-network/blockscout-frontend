@@ -1,13 +1,14 @@
-import { StatsTimeframe } from 'domains/chains/types';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
+
 import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
+import { Timeframe } from 'domains/chains/types';
+import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 
 export const useStakeBarChart = (
   result: TopRequestsResultData,
-  timeframe: StatsTimeframe,
+  timeframe: Timeframe,
 ) => {
   const [data, setData] = useState<PrivateStatTopRequestsData[]>(result.data);
   const [selectedKey, setSelectedKey] = useState<Record<string, string>>({});

@@ -1,10 +1,10 @@
 import { H1Tag } from 'uiKit/H1Tag';
 
-import { t } from 'common';
 import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
-import { IChainItemDetails } from '../../actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
-import { ChainItemTabs } from './components/ChainItemTabs';
+import { ChainItemSections } from './components/ChainItemSections';
+import { IChainItemDetails } from '../../actions/fetchChain';
+import { t } from 'common';
 import { useChainItem } from './hooks/useChainItem';
 import { useChainItemBreadcrumbs } from './hooks/useChainItemBreadcrumbs';
 
@@ -15,6 +15,7 @@ export interface ChainItemProps {
 export const ChainItem = ({ data }: ChainItemProps) => {
   const {
     chain,
+    chainType,
     chainTypeTab,
     chainTypeTabs,
     group,
@@ -42,7 +43,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         isChainArchived={isChainArchived}
         selectGroup={selectGroup}
       />
-      <ChainItemTabs data={data} group={group} />
+      <ChainItemSections chainType={chainType} data={data} group={group} />
     </>
   );
 };

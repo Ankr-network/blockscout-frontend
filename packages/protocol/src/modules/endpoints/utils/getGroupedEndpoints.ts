@@ -1,16 +1,7 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { getFallbackEndpointGroup } from '../constants/groups';
-import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
-
-const flatChains = ({
-  extenders = [],
-  extensions = [],
-  ...chain
-}: IApiChain): IApiChain[] => [
-  chain,
-  ...extenders.flatMap(flatChains),
-  ...extensions.flatMap(flatChains),
-];
+import { ChainGroup, ChainID, EndpointGroup, GroupedEndpoints } from '../types';
+import { flatChains } from './flatChains';
 
 const flatChainUrls = ({
   extenders = [],
@@ -27,8 +18,8 @@ const getUrlsCount = (urls: IApiChainURL[]) =>
 
 const getChainToEndpointGroupMap = (
   groups: ChainGroup[],
-): Record<IApiChain['id'], EndpointGroup> => {
-  const map: Record<IApiChain['id'], EndpointGroup> = {};
+): Record<ChainID, EndpointGroup> => {
+  const map: Record<ChainID, EndpointGroup> = {};
 
   groups.forEach(group => {
     const endpointGroup: EndpointGroup = {
@@ -38,7 +29,7 @@ const getChainToEndpointGroupMap = (
       pluralName: group.pluralName,
       urls: [],
       urlsCount: 0,
-      chainIDs: [],
+      chains: [],
     };
 
     group.chains.forEach(chainID => {
@@ -64,13 +55,15 @@ const getEndpointGroups = (
     const urls = flatChainUrls(chain_);
     const urlsCount = getUrlsCount(urls);
 
-    if (chainID in chainToEndpointGroupMap) {
-      chainToEndpointGroupMap[chainID].chainIDs.push(chainID);
-      chainToEndpointGroupMap[chainID].urls.push(...urls);
-      chainToEndpointGroupMap[chainID].urlsCount += urlsCount;
-      chainToEndpointGroupMap[chainID].chainName = chain.name;
+    const targetEndpointGroup = chainToEndpointGroupMap[chainID];
+
+    if (targetEndpointGroup) {
+      targetEndpointGroup.chains.push(chain_);
+      targetEndpointGroup.urls.push(...urls);
+      targetEndpointGroup.urlsCount += urlsCount;
+      targetEndpointGroup.chainName = chain.name;
     } else if (fallbackEndpointGroup) {
-      fallbackEndpointGroup.chainIDs.push(chainID);
+      fallbackEndpointGroup.chains.push(chain_);
       fallbackEndpointGroup.urls.push(...urls);
       fallbackEndpointGroup.urlsCount += urlsCount;
     }

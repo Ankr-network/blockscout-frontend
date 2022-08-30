@@ -7,12 +7,12 @@ import { useChainsItem } from './hooks/useChainsItem';
 export const ChainsItemQuery = ({
   chain,
   chainId,
-  statsTimeframe,
+  timeframe,
   ...props
 }: ChainsItemQueryProps) => {
   const [totalRequests, loading, isPremium] = useChainsItem({
     chain,
-    statsTimeframe,
+    timeframe,
   });
 
   return (
@@ -21,7 +21,7 @@ export const ChainsItemQuery = ({
       chain={chain}
       isLoading={loading}
       isPremium={isPremium}
-      statsTimeframe={statsTimeframe}
+      timeframe={timeframe}
       totalRequests={totalRequests.toString() ?? ''}
     />
   );

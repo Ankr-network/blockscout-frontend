@@ -1,27 +1,34 @@
+import { resetRequests } from '@redux-requests/core';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { resetRequests } from '@redux-requests/core';
-import { PrivateStats } from 'multirpc-sdk';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { StatsTimeframe } from 'domains/chains/types';
 import { fetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
-import { timeframeToIntervalMap } from '../utils/statsUtils';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 export interface PrivateStatsParams {
+  interval: PrivateStatsInterval;
   isWalletConnected: boolean;
-  poll?: number;
   requestKey?: string;
-  statsTimeframe: StatsTimeframe;
+}
+
+export interface PrivateStatsReturn {
+  data: PrivateStats;
+  arePrivateStatsLoading: boolean;
+  privateStatsError: any;
 }
 
 export const usePrivateStats = ({
+  interval,
   isWalletConnected,
   requestKey,
-  statsTimeframe: timeframe,
-}: PrivateStatsParams): [PrivateStats, boolean] => {
-  const { data: stats, loading } = useQuery({
+}: PrivateStatsParams): PrivateStatsReturn => {
+  const {
+    data,
+    loading: arePrivateStatsLoading,
+    error: privateStatsError,
+  } = useQuery({
     defaultData: {},
     type: fetchPrivateStats,
     requestKey,
@@ -36,11 +43,13 @@ export const usePrivateStats = ({
 
   useEffect(() => {
     if (isWalletConnected) {
-      dispatchRequest(
-        fetchPrivateStats(timeframeToIntervalMap[timeframe], requestKey),
-      );
+      dispatchRequest(fetchPrivateStats(interval, requestKey));
     }
-  }, [dispatchRequest, isWalletConnected, timeframe, requestKey]);
+  }, [dispatch, dispatchRequest, isWalletConnected, interval, requestKey]);
 
-  return [stats, loading];
+  return {
+    data,
+    arePrivateStatsLoading,
+    privateStatsError,
+  };
 };

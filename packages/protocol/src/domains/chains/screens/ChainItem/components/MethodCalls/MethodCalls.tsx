@@ -1,19 +1,18 @@
-import React from 'react';
-
 import { Box } from '@material-ui/core';
-import { Header } from './components/Header';
-import { StakeBarChart } from 'modules/common/components/StakeBarChart';
-import { useMethodCallStyles } from './useMethodCallStyles';
-import { NoData } from './components/NoData';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
-import { StatsTimeframe } from 'domains/chains/types';
-import { t } from 'common';
 import { Spinner } from 'ui';
+
+import { Header } from './components/Header';
+import { NoData } from './components/NoData';
+import { StakeBarChart } from 'modules/common/components/StakeBarChart';
+import { Timeframe } from 'domains/chains/types';
+import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
+import { t } from 'common';
+import { useMethodCallStyles } from './useMethodCallStyles';
 
 interface IMethodCallsProps {
   loading: boolean;
   data: TopRequestsResultData;
-  timeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 export const MethodCalls = ({
@@ -25,7 +24,7 @@ export const MethodCalls = ({
 
   return (
     <Box className={classes.root}>
-      <Header />
+      <Header timeframe={timeframe} />
       {loading ? (
         <div className={classes.content}>
           <Spinner />

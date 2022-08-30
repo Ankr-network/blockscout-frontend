@@ -1,22 +1,22 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
-import { fetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
-import { getLegacyStandaloneUrl } from '../utils/statsUtils';
+import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { calculateRPCAndLegacyStandaloneStats } from '../utils/calculateRPCAndLegacyStandaloneStats';
+import { getLegacyStandaloneUrl } from '../utils/statsUtils';
+import { fetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
 interface RequestsCountry {
   country: string;
-  bytes: number;
+  bytes?: number;
   requests: number;
 }
 
-export type Country = Record<string, RequestsCountry>;
+export type CountryMap = Record<string, RequestsCountry>;
 
 export interface IApiChainDetails {
   dataCached: BigNumber;
@@ -30,7 +30,7 @@ export interface IApiChainDetails {
   totalCachedHistory: Record<string, number>;
   totalServedHistory: Record<string, number>;
   dataCachedHistory: Record<string, number>;
-  countries: Country;
+  countries: CountryMap;
 }
 
 export const fetchChainTimeframeData = createSmartAction<

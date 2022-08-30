@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 import { Chain } from '../../ChainsList/ChainsListTypes';
-import { StatsTimeframe } from 'domains/chains/types';
+import { Timeframe } from 'domains/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
 import { usePublicStats } from './usePublicStats';
@@ -10,12 +10,12 @@ const defaultRequests = new BigNumber(0);
 
 export interface ChainsItemParams {
   chain: Chain;
-  statsTimeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 export const useChainsItem = ({
   chain: { id: chainId, totalRequests: publicTotalRequests = defaultRequests },
-  statsTimeframe,
+  timeframe,
 }: ChainsItemParams): [BigNumber, boolean, boolean] => {
   const { isWalletConnected, credentials } = useAuth();
   const isPremium = !!credentials;
@@ -23,7 +23,7 @@ export const useChainsItem = ({
   const arePublicStatsLoading = usePublicStats({
     chainId,
     isWalletConnected,
-    statsTimeframe,
+    timeframe,
   });
   const [privateTotalRequests = 0, arePrivateStatsLoading] =
     usePrivateStats(chainId);

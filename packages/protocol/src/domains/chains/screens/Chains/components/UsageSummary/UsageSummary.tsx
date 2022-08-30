@@ -1,16 +1,15 @@
-import React from 'react';
 import classNames from 'classnames';
 
 import { Header } from './components/Header';
 import { Stats } from './components/Stats';
-import { StatsTimeframe } from 'domains/chains/types';
+import { Timeframe } from 'domains/chains/types';
 import { useStats } from './hooks/useStats';
 import { useStyles } from './UsageSummaryStyles';
 
 export interface UsageSummaryProps {
   className?: string;
   switchTimeframe: () => void;
-  timeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 export const UsageSummary = ({
