@@ -4,10 +4,10 @@ import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
-import { StatsTimeframe } from 'domains/chains/types';
 import { Switcher } from 'modules/common/components/Switcher';
+import { Timeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
-import { timeframeLabelsMap } from './const';
+import { timeframeToLabelMap } from 'domains/chains/constants/timeframeToLabelMap';
 import { useStyles } from './ChainMainInfoStyles';
 
 export const ChainMainInfo = ({
@@ -17,7 +17,7 @@ export const ChainMainInfo = ({
   label,
   logoSrc,
   name,
-  statsTimeframe = StatsTimeframe.MONTH,
+  timeframe = Timeframe.Month,
   totalRequests = '',
 }: ChainMainInfoProps) => {
   const classes = useStyles();
@@ -46,7 +46,7 @@ export const ChainMainInfo = ({
                   {t('chains.req', {
                     value: totalRequests,
                   })}
-                  <Switcher value={timeframeLabelsMap[statsTimeframe]} />
+                  <Switcher value={timeframeToLabelMap[timeframe]} />
                 </>
               )}
             </>

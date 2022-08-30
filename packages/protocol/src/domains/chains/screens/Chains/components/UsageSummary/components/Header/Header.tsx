@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { StatsTimeframe } from 'domains/chains/types';
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
+import { Timeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {
   switchTimeframe: () => void;
-  timeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 const title = t('chains.private-stats.title');

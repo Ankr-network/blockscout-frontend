@@ -9,8 +9,9 @@ export enum SortType {
   Usage = 'usage',
 }
 
-export enum StatsTimeframe {
-  DAY,
-  WEEK,
-  MONTH,
+export enum Timeframe {
+  Hour,
+  Day,
+  Week,
+  Month,
 }

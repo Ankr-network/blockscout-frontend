@@ -1,28 +1,25 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
-import { StatsTimeframe } from '../types';
+import { Timeframe } from '../types';
+
 import { formatChartData } from '../utils/userTopRequestsUtils';
-import { useTimeframe } from './useStatsTimeframe';
+import { useTimeframe } from './useTimeframe';
 
 interface IUserTopRequestsParam {
   privateStats: PrivateStatsInternal;
   chainId: string;
-  statsTimeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 const getUserTopRequests = ({
   privateStats,
   chainId,
-  statsTimeframe,
+  timeframe,
 }: IUserTopRequestsParam) => {
   if (privateStats && chainId in privateStats) {
     const chainData = privateStats[chainId];
-    const { counts, total } = chainData;
+    const { counts, total } = chainData || {};
 
-    const { chartData, listData } = formatChartData(
-      total,
-      statsTimeframe,
-      counts,
-    );
+    const { chartData, listData } = formatChartData(timeframe, total, counts);
 
     const result = {
       list: listData,
@@ -41,13 +38,13 @@ const getUserTopRequests = ({
 export const useUserTopRequests = ({
   privateStats,
   chainId,
-  statsTimeframe: statsTimeframe_,
+  timeframe: timeframe_,
 }: IUserTopRequestsParam) => {
-  const { timeframe } = useTimeframe(statsTimeframe_, [privateStats[chainId]]);
+  const { timeframe } = useTimeframe(timeframe_, [privateStats[chainId]]);
 
   return getUserTopRequests({
     privateStats,
     chainId,
-    statsTimeframe: timeframe,
+    timeframe,
   });
 };

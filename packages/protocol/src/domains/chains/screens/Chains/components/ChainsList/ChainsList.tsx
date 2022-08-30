@@ -9,7 +9,7 @@ import { useChains } from './hooks/useChains';
 export const ChainsList = ({
   chains,
   sortType,
-  statsTimeframe,
+  timeframe,
 }: ChainsListProps) => {
   const classes = useChainListStyles();
 
@@ -29,7 +29,7 @@ export const ChainsList = ({
               logoSrc={item.icon}
               name={name}
               period={PERIOD}
-              statsTimeframe={statsTimeframe}
+              timeframe={timeframe}
             />
           </div>
         );

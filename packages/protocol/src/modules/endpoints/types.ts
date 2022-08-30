@@ -1,10 +1,12 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 
+export type ChainID = IApiChain['id'];
+
 export interface ChainGroup {
   id: ChainGroupID;
   name: string;
   pluralName: string;
-  chains: IApiChain['id'][];
+  chains: ChainID[];
 }
 
 export enum ChainGroupID {
@@ -34,7 +36,7 @@ export interface EndpointGroup {
   pluralName: ChainGroup['pluralName'];
   urls: IApiChainURL[];
   urlsCount: number;
-  chainIDs: IApiChain['id'][];
+  chains: IApiChain[];
 }
 
 export interface GroupedEndpoints {

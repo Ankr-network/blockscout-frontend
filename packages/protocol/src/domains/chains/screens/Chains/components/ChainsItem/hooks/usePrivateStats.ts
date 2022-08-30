@@ -1,7 +1,7 @@
-import { PrivateStats } from 'multirpc-sdk';
 import { useQuery } from '@redux-requests/react';
 
 import { fetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { PrivateStats } from 'multirpc-sdk';
 
 export const usePrivateStats = (chainId: string): [number, boolean] => {
   const {
@@ -12,5 +12,5 @@ export const usePrivateStats = (chainId: string): [number, boolean] => {
     type: fetchPrivateStats,
   });
 
-  return [stats[chainId]?.total_requests, loading];
+  return [stats[chainId]?.total_requests || 0, loading];
 };

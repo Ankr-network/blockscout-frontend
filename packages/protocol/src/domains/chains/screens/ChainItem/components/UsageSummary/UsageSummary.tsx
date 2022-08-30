@@ -1,39 +1,66 @@
-import React from 'react';
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
-import { ChainBlock } from 'domains/chains/components/ChainBlock';
-import { UsageStatTitle } from '../UsageStatTitle';
+import { CostButton } from './components/CostButton';
+import { Stat } from './components/Stat';
+import { Timeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './UsageSummaryStyles';
 import { useUsageSummary } from './hooks/useUsageSummary';
+import { useUsageSummaryStyles } from './UsageSummaryStyles';
 
 export interface UsageSummaryProps {
+  cachedRequests: BigNumber;
   className?: string;
-  chainId: string;
+  isWalletConnected: boolean;
+  loading: boolean;
+  timeframe: Timeframe;
+  totalCost?: number;
+  totalRequests: BigNumber;
 }
 
-const totalTitle = t('chain-item.usage-summary.total');
+const root = 'chain-item.usage-data.usage-summary';
 
-export const UsageSummary = ({ chainId, className }: UsageSummaryProps) => {
-  const classes = useStyles();
+const totalTitle = t(`${root}.total`);
+const averageTitle = t(`${root}.average`);
+const cachedTitle = t(`${root}.cached.title`);
+const costTitle = t(`${root}.cost.title`);
 
-  const { loading, statsTimeframe, switchStatsTimeframe, totalRequests } =
-    useUsageSummary(chainId);
+export const UsageSummary = ({
+  cachedRequests,
+  className,
+  isWalletConnected,
+  loading,
+  timeframe,
+  totalCost,
+  totalRequests,
+}: UsageSummaryProps) => {
+  const [total, average, cached, cost] = useUsageSummary({
+    cachedRequests,
+    timeframe,
+    totalCost,
+    totalRequests,
+  });
+
+  const classes = useUsageSummaryStyles();
+
+  const cachedStat = (
+    <Stat loading={loading} title={cachedTitle} value={cached} />
+  );
+
+  const costStat = (
+    <Stat
+      extra={<CostButton />}
+      loading={loading}
+      title={costTitle}
+      value={cost}
+    />
+  );
 
   return (
     <div className={classNames(className, classes.usageSummary)}>
-      <ChainBlock
-        className={classes.stat}
-        isLoading={loading}
-        subtitle={
-          <UsageStatTitle
-            statsTimeframe={statsTimeframe}
-            switchStatsTimeframe={switchStatsTimeframe}
-            title={totalTitle}
-          />
-        }
-        value={totalRequests.toFormat()}
-      />
+      <Stat loading={loading} title={totalTitle} value={total} />
+      <Stat loading={loading} title={averageTitle} value={average} />
+      {isWalletConnected ? costStat : cachedStat}
     </div>
   );
 };

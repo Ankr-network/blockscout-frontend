@@ -1,12 +1,45 @@
-import { useAuth } from '../../hooks/useAuth';
-import React, { useMemo } from 'react';
-import { getMappedNetwork } from './AddNetworkUtils';
-import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { useMemo } from 'react';
 
-export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { getChainById } from 'domains/chains/screens/ChainItem/components/Endpoint/EndpointUtils';
+import { getChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/utils/getChainId';
+import { ChainType } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { useAuth } from '../../hooks/useAuth';
+import { flattenAllChainTypes, getMappedNetwork } from './AddNetworkUtils';
+
+interface IUseAddNetworkButtonParams {
+  chain: IApiChain;
+  chainType?: ChainType;
+  group?: EndpointGroup;
+}
+
+export const useAddNetworkButton = ({
+  chain,
+  chainType,
+  group,
+}: IUseAddNetworkButtonParams) => {
   const { handleAddNetwork, isWalletConnected, loading } = useAuth();
 
-  const mappedNetwork = useMemo(() => getMappedNetwork(chain), [chain]);
+  const mappedNetwork = useMemo(() => {
+    if (chainType && group) {
+      const flatChainId = getChainId({
+        chain,
+        chainType,
+        group,
+        isWalletConnected,
+      }) as ChainID;
+
+      const flatChains = flattenAllChainTypes(chain);
+
+      const flatChain = getChainById(flatChains, flatChainId);
+
+      return getMappedNetwork(flatChain, flatChainId);
+    }
+
+    return getMappedNetwork(chain, chain.id as ChainID);
+  }, [chain, chainType, group, isWalletConnected]);
 
   const handleButtonClick = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
