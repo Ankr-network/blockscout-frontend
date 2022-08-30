@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { StatsTimeframe } from 'domains/chains/types';
+import { Timeframe } from 'domains/chains/types';
 
 export interface ChainMainInfoProps {
   className?: string;
@@ -9,6 +9,6 @@ export interface ChainMainInfoProps {
   label?: ReactNode;
   logoSrc: string;
   name: string;
-  statsTimeframe?: StatsTimeframe;
+  timeframe?: Timeframe;
   totalRequests?: string;
 }

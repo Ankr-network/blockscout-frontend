@@ -19,13 +19,13 @@ import classNames from 'classnames';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { t } from 'modules/i18n/utils/intl';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
-import { useTimeframe } from 'domains/chains/hooks/useStatsTimeframe';
+import { Timeframe } from 'domains/chains/types';
+import { useTimeframe } from 'domains/chains/hooks/useTimeframe';
 import { useStakeBarChart } from 'modules/common/hooks/useStakeBarChart';
-import { StatsTimeframe } from 'domains/chains/types';
 
 interface IStakebarProps {
   result: TopRequestsResultData;
-  timeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 const NUMBER_OF_SHOW_X_TICK = 4;
@@ -92,7 +92,7 @@ export const StakeBarChart = ({
         return value;
       }
 
-      if (timeframe !== StatsTimeframe.WEEK) {
+      if (timeframe !== Timeframe.Week) {
         // in 24 hours' and 30 days' diagram, we need to show 4 date label on the x-axis, and we should keep the same space between each date label.
         const hideNum = Math.floor(
           (totalNum - 1) / (NUMBER_OF_SHOW_X_TICK - 1),

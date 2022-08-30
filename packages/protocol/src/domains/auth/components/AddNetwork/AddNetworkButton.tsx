@@ -1,12 +1,16 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { ChainType } from 'domains/chains/types';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
-import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 
 interface IAddNetworkProps {
   chain: Chain;
+  chainType?: ChainType;
+  group?: EndpointGroup;
   className?: string;
   hasPlusIcon?: boolean;
   label?: ReactNode;
@@ -15,21 +19,20 @@ interface IAddNetworkProps {
 
 export const AddNetworkButton = ({
   chain,
+  chainType,
+  group,
   className,
   hasPlusIcon,
   label,
   size,
 }: IAddNetworkProps) => {
   const { mappedNetwork, handleButtonClick, loading } = useAddNetworkButton({
-    chain,
+    chain: chain as IApiChain,
+    chainType,
+    group,
   });
 
-  /* hiding the addNetwork button for some browsers which have problems with add network method */
-  if (!isAddNetworkSupported()) {
-    return null;
-  }
-
-  /* hiding the addNetwork button for some networks */
+  /* hiding the addNetwork button for networks not supported in MetaMask */
   if (!mappedNetwork) {
     return null;
   }

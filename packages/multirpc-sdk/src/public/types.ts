@@ -32,4 +32,4 @@ export interface IWorkerNodesWeight {
   score: number;
 }
 
-export type Timeframe = '24h' | '7d' | '30d';
+export type Timeframe = '1h' | '24h' | '7d' | '30d';

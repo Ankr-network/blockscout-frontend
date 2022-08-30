@@ -8,7 +8,7 @@ export interface Tab<TI = DefaultTabID> {
   id: TabID<TI>;
   isDisabled?: boolean;
   onSelect?: () => void;
-  title: ReactNode;
+  title?: ReactNode;
 }
 
 export interface TabsParams<TI = DefaultTabID> {

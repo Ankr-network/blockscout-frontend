@@ -10,10 +10,6 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     borderBottom: `1px solid ${theme.palette.grey[400]}`,
     marginBottom: theme.spacing(4),
   },
-  title: {
-    fontSize: 20,
-    lineHeight: '30px',
-  },
   button: {
     width: 112,
     height: 32,

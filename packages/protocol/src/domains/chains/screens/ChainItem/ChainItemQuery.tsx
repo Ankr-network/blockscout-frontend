@@ -66,9 +66,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
               return <ChainItemSkeleton />;
             }
 
-            return (
-              <ChainItem data={data} hasCredentials={Boolean(credentials)} />
-            );
+            return <ChainItem data={data} />;
           }}
         </Queries>
       </div>

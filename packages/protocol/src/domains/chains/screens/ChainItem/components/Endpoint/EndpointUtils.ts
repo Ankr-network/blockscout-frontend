@@ -5,10 +5,10 @@ import { IProvider } from 'multirpc-sdk';
 export const getChainById = (
   chains: IApiChain[],
   chainId: string,
-): IApiChain => {
+): IApiChain | undefined => {
   const chain = chains?.find(item => item.id === chainId);
 
-  return chain as IApiChain;
+  return chain;
 };
 
 export const hasLimit = (

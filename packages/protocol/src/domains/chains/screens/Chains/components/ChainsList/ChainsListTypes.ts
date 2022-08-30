@@ -2,12 +2,12 @@ import BigNumber from 'bignumber.js';
 import { PrivateStatsInternal } from 'multirpc-sdk';
 
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { SortType, StatsTimeframe } from 'domains/chains/types';
+import { SortType, Timeframe } from 'domains/chains/types';
 
 export interface ChainsListProps {
   chains: IApiChain[];
   sortType: SortType;
-  statsTimeframe: StatsTimeframe;
+  timeframe: Timeframe;
 }
 
 export interface Chain {

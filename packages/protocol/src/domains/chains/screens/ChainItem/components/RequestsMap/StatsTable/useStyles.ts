@@ -3,11 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    marginTop: theme.spacing(5),
     paddingRight: theme.spacing(0.5),
 
     [theme.breakpoints.down('md')]: {
-      marginTop: 0,
       paddingRight: 0,
     },
   },

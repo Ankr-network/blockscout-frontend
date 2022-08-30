@@ -7,7 +7,7 @@ export const useRequestsByIPStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(4, 3.75, 3.125, 3.125),
     borderRadius: theme.spacing(3),
     background: theme.palette.background.paper,
-    marginBottom: theme.spacing(3.75),
+
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2.5),
     },
@@ -20,6 +20,7 @@ export const useRequestsByIPStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginBottom: theme.spacing(3.75),
+    gridGap: theme.spacing(1),
   },
   title: {
     fontSize: 20,

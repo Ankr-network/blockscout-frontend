@@ -1,19 +1,23 @@
-import React, { useCallback, useMemo } from 'react';
 import { Typography } from '@material-ui/core';
-
 import { t } from 'common';
-import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
-import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { NoData } from '../MethodCalls/components/NoData';
+import { Timeframe } from 'domains/chains/types';
+import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
+import { useCallback, useMemo } from 'react';
 import { Spinner } from 'ui';
+import { ItemHeader } from '../ItemHeader';
+import { NoData } from '../MethodCalls/components/NoData';
+import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 
 interface IUserRequestsByIpProps {
   loading: boolean;
-  data: UserRequestsByIpData[];
+  data?: UserRequestsByIpData[];
 }
 
-export const RequestsByIP = ({ loading, data }: IUserRequestsByIpProps) => {
+export const RequestsByIP = ({
+  loading,
+  data = [],
+}: IUserRequestsByIpProps) => {
   const classes = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
@@ -33,12 +37,13 @@ export const RequestsByIP = ({ loading, data }: IUserRequestsByIpProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.titleRow}>
-        <Typography variant="h5" className={classes.title}>
-          {t('chain-item.requests-by-ip.title')}
-        </Typography>
-        {/* Since request by ip only support 30d by backend, so hard code it first. When backend suuport all the timeframe should be remove it  */}
-        <div className={classes.timeframe}>30d</div>
+        {/* Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it  */}
+        <ItemHeader
+          timeframe={Timeframe.Month}
+          title={t('chain-item.requests-by-ip.title')}
+        />
       </div>
+
       {loading ? (
         <div className={classes.loading}>
           <Spinner />

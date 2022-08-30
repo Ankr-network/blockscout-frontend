@@ -14,6 +14,7 @@ import classNames from 'classnames';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
+import { useYAxisWidth } from './hooks/useYAxisWidth';
 
 export interface IChartData {
   time: Date;
@@ -21,7 +22,7 @@ export interface IChartData {
   extraValue?: string | number;
 }
 
-interface IChartProps {
+export interface IChartProps {
   data: IChartData[];
   tooltipContent?: ReactNode;
   xAxisTickFormatter?: BaseAxisProps['tickFormatter'];
@@ -35,14 +36,21 @@ export const Chart = ({
   data,
   tooltipContent,
   xAxisTickFormatter,
-  yAxisTickFormatter,
+  yAxisTickFormatter = () => '',
   loading,
 }: IChartProps) => {
+  const [ref, yAxisWidth] = useYAxisWidth();
+
   const theme = useTheme();
   const classes = useStyles();
 
   return (
-    <ResponsiveContainer className={classes.root} width="99%" height={270}>
+    <ResponsiveContainer
+      className={classes.root}
+      width="99%"
+      height={270}
+      ref={ref}
+    >
       <AreaChart
         width={0}
         className={classNames(classes.chart, loading ? classes.loading : null)}
@@ -75,7 +83,7 @@ export const Chart = ({
           tickFormatter={xAxisTickFormatter}
         />
         <YAxis
-          width={80}
+          width={yAxisWidth}
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary, dx: -5 }}
           stroke=""

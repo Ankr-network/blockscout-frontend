@@ -1,19 +1,21 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 
 import { useChainBlockStyles } from './useChainBlockStyles';
 
-interface IChainBlockProps {
+export interface IChainBlockProps {
   className?: string;
+  extra?: ReactNode;
   isLoading: boolean;
-  subtitle: ReactNode;
+  subtitle?: ReactNode;
   value: string;
 }
 
 export const ChainBlock = ({
   className,
+  extra,
   isLoading,
   subtitle,
   value,
@@ -22,12 +24,15 @@ export const ChainBlock = ({
 
   return (
     <div className={classNames(className, classes.block)}>
-      <Typography variant="subtitle1" className={classes.subtitle}>
-        {subtitle}
-      </Typography>
-      <Typography variant="h4" className={classes.text}>
-        {isLoading ? <Skeleton className={classes.skeleton} /> : value}
-      </Typography>
+      <div className={classes.main}>
+        <Typography variant="subtitle1" className={classes.subtitle}>
+          {subtitle}
+        </Typography>
+        <Typography variant="h4" className={classes.text}>
+          {isLoading ? <Skeleton className={classes.skeleton} /> : value}
+        </Typography>
+      </div>
+      {extra}
     </div>
   );
 };
