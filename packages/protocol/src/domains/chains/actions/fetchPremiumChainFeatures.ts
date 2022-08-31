@@ -1,14 +1,13 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
 import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { MultiService } from 'modules/api/MultiService';
 import { IJwtToken } from 'multirpc-sdk';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 import {
-  filterMapChains,
   IApiChain,
   IFetchChainsResponseData,
+  mapChains,
 } from '../api/queryChains';
 import { fetchPublicChains } from './fetchPublicChains';
 
@@ -41,14 +40,11 @@ export const fetchPremiumChainFeatures = createSmartAction<
 
       if (!publicChains) {
         const chains = await MultiService.getPublicInstance().getPublicUrls();
-        publicChains = filterMapChains(
-          { chains },
-          ({ blockchain }) => !blockchain.premiumOnly,
-        );
+        publicChains = mapChains({ chains });
       }
 
       const chains = await service.fetchPrivateUrls(jwtToken);
-      const privateChains = filterMapChains({ chains });
+      const privateChains = mapChains({ chains });
 
       const privateChainDetails = privateChains.find(
         item => item.id === chainId,

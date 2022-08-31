@@ -122,7 +122,6 @@ export interface IBlockchainEntity {
   features: BlockchainFeature[];
   name: string;
   paths?: string[];
-  premiumOnly?: boolean;
   stats?: {
     reqs: number;
   };
