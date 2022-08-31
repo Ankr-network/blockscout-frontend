@@ -50,6 +50,7 @@ describe('modules/fantom/sdk', () => {
   const defaultWriteProvider = {
     ...defaultReadProvider,
     currentAccount: 'address',
+    getSafeGasPriceWei: jest.fn(),
     isConnected: jest.fn(),
     connect: jest.fn(),
     addTokenToWallet: jest.fn(),
@@ -61,6 +62,7 @@ describe('modules/fantom/sdk', () => {
     defaultWeb3.eth.getChainId.mockReturnValue(4002);
 
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+    defaultWriteProvider.getSafeGasPriceWei.mockResolvedValue(ZERO);
 
     (ProviderManager as jest.Mock).mockReturnValue({
       getETHWriteProvider: () => Promise.resolve(defaultWriteProvider),
