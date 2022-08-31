@@ -1,0 +1,81 @@
+{
+  "name": "admin-mrpc",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:stage": "env-cmd -f .env.stage react-app-rewired start",
+    "start:prod": "env-cmd -f .env.prod react-app-rewired start",
+    "build:stage": "env-cmd -f .env.stage react-app-rewired build",
+    "build:prod": "env-cmd -f .env.prod react-app-rewired build",
+    "postbuild": "react-snap",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "types": "tsc --noEmit -p tsconfig.json",
+    "format": "lint-staged",
+    "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
+    "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
+    "lint:js:fix": "yarn lint:js --fix"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
+    "classnames": "^2.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-intl-universal": "^2.6.6",
+    "react-redux": "^8.0.2",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-toastify": "^8.1.0",
+    "redux-persist": "^6.0.0",
+    "typescript": "^4.1.2",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.56",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "@types/redux-actions": "^2.6.2",
+    "eslint-webpack-plugin": "^3.2.0",
+    "lint-staged": "^13.0.3",
+    "react-app-rewired": "^2.2.1",
+    "react-snap": "^1.23.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "cross-env NODE_ENV=production eslint --ext=ts,tsx,js,jsx --fix"
+    ]
+  },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "include": [
+      "/clients/"
+    ],
+    "skipThirdPartyRequests": true,
+    "inlineCss": true
+  }
+}
