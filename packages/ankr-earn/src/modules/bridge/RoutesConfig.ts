@@ -1,9 +1,8 @@
 import { generatePath } from 'react-router';
 
-import { STAKING_PATH } from '../common/const';
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-const ROOT = `${STAKING_PATH}bridge/`;
+const ROOT = `/bridge/`;
 const RESTORE = `${ROOT}restore/`;
 
 export const RoutesConfig = createRouteConfig(

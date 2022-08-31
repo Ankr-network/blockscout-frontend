@@ -1,13 +1,12 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-const ROOT = `${STAKING_PATH}calc/`;
+const ROOT = '/calc/';
 
 const Main = loadComponent(() =>
   import('./screens/Main').then(module => module.Main),

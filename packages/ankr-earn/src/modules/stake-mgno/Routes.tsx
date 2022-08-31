@@ -1,7 +1,6 @@
 import { generatePath, Route, Switch } from 'react-router';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
-import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
@@ -9,7 +8,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { MGNO_PROVIDER_ID, MGNO_STAKING_NETWORKS } from './const';
 
-const ROOT = `${STAKING_PATH}mgno-stake/`;
+const ROOT = `/mgno-stake/`;
 const STAKE_PATH = `${ROOT}stake/`;
 const STAKE_WITH_PROVIDER_PATH = `${STAKE_PATH}?provider=:provider?`;
 const STEPS_STAKE_PATH = `${STAKE_PATH}steps/:txHash/`;

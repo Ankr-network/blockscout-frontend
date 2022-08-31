@@ -38,7 +38,7 @@ export const ClaimSuccess = ({
   };
 
   const onGoToDashboard = (): void =>
-    history.push(DashboardRoutes.dashboard.path);
+    history.push(DashboardRoutes.dashboard.generatePath());
 
   return (
     <div className={classes.root}>

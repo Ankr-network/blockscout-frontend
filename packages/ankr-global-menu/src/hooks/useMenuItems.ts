@@ -52,7 +52,7 @@ export const useMenuItems = ({
             items: [
               {
                 label: AnkrIntl.t('global-menu.staking.item-1'),
-                link: '/staking/dashboard/',
+                link: '/staking/',
                 project: 'staking',
               },
               {

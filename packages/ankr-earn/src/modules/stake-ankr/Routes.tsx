@@ -2,7 +2,6 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
@@ -10,7 +9,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 
-const ROOT = `${STAKING_PATH}ankr-stake/`;
+const ROOT = `/ankr-stake/`;
 const ANKR_PROVIDERS_PATH = `${ROOT}providers/`;
 const STAKE_PATH = `${ROOT}stake/`;
 const RESTAKE_PATH = `${ROOT}restake/`;

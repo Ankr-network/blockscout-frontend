@@ -4,13 +4,13 @@ import { Route, Switch } from 'react-router-dom';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
-import { BSC_NETWORK_BY_ENV, STAKING_PATH } from 'modules/common/const';
+import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `${STAKING_PATH}swap/:token/:txHash`;
+const ROOT = `/swap/:token/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
   {

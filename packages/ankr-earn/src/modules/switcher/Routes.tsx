@@ -6,17 +6,16 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
-  STAKING_PATH,
+  AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
-  AVAX_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `${STAKING_PATH}switch/`;
+const ROOT = `/switch/`;
 const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(

@@ -19,7 +19,7 @@ jest.mock('@redux-requests/react', () => ({
 
 jest.mock('modules/dashboard/Routes', () => ({
   RoutesConfig: {
-    dashboard: { generatePath: () => '/dashboard' },
+    dashboard: { generatePath: () => '/' },
   },
 }));
 
@@ -69,7 +69,7 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
     expect(result.current.selectedToken).toBe(Token.aETHb);
     expect(result.current.balance).toStrictEqual(claimableAETHB);
     expect(result.current.totalAmount).toStrictEqual(claimableAETHB);
-    expect(result.current.closeHref).toBe('/dashboard');
+    expect(result.current.closeHref).toBe('/');
     expect(result.current.isLoading).toBe(defaultMutationData.loading);
     expect(result.current.isBalanceLoading).toBe(defaultCommonData.loading);
     expect(result.current.isDisabled).toBe(false);
