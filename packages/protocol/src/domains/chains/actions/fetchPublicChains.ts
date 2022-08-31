@@ -3,9 +3,9 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
 import {
-  IFetchChainsResponseData,
+  filterMapChains,
   IApiChain,
-  mapChains,
+  IFetchChainsResponseData,
 } from '../api/queryChains';
 
 export const fetchPublicChains = createSmartAction<
@@ -22,6 +22,7 @@ export const fetchPublicChains = createSmartAction<
   },
   meta: {
     cache: true,
-    getData: mapChains,
+    getData: data =>
+      filterMapChains(data, ({ blockchain }) => !blockchain.premiumOnly), // TODO: rm test
   },
 }));

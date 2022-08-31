@@ -1,14 +1,14 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IJwtToken } from 'multirpc-sdk';
 
+import { IJwtToken } from 'multirpc-sdk';
 import { MultiService } from '../../../modules/api/MultiService';
+import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 import {
+  filterMapChains,
   IApiChain,
   IFetchChainsResponseData,
-  mapChains,
 } from '../api/queryChains';
-import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 
 export const fetchPrivateChains = createSmartAction<
   RequestAction<IFetchChainsResponseData, IApiChain[]>
@@ -26,7 +26,7 @@ export const fetchPrivateChains = createSmartAction<
   },
   meta: {
     asMutation: false,
-    getData: mapChains,
+    getData: data => filterMapChains(data),
     onRequest: credentialsGuard,
   },
 }));
