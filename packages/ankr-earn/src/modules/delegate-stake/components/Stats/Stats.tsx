@@ -28,8 +28,8 @@ export const Stats = ({
     <StatsBox>
       <StatsItem
         isLoading={isLoading}
-        label={t('delegated-stake.staking.stats.apy')}
-        tooltip={t('delegated-stake.staking.stats.apy-tooltip')}
+        label={t('delegated-stake.staking.stats.apr')}
+        tooltip={t('delegated-stake.staking.stats.apr-tooltip')}
         value={apyText}
       />
 

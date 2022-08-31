@@ -27,6 +27,7 @@ interface IStakableAssetProps {
   href: string;
   apy: number;
   isStakeLoading?: boolean;
+  isDelegatedStaking?: boolean;
 }
 
 export const StakableAsset = ({
@@ -37,6 +38,7 @@ export const StakableAsset = ({
   href,
   apy,
   isStakeLoading = false,
+  isDelegatedStaking = false,
 }: IStakableAssetProps): JSX.Element => {
   const classes = useStyles();
   const { address, walletName } = useAuth(
@@ -102,7 +104,9 @@ export const StakableAsset = ({
         onClick={onStakeClick}
       >
         <Typography className={classes.apy}>
-          {t('dashboard.stakable-asset-apy', { value: apy })}
+          {isDelegatedStaking
+            ? t('dashboard.stakable-asset-apr', { value: apy })
+            : t('dashboard.stakable-asset-apy', { value: apy })}
         </Typography>
 
         <Typography className={classes.stake}>

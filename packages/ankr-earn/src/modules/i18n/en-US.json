@@ -397,8 +397,8 @@
       "submit": "Stake",
       "get-mgno": "Get mGNO",
       "stats": {
-        "apy": "APY",
-        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
+        "apr": "APR",
+        "apr-tooltip": "Annual percentage rate (or APR) shows the rate of return you earn over a year including the effect of compounding.",
         "yearly-earning": "Yearly earning",
         "tvl": "Staked with pool",
         "stakers": "Stakers"
@@ -900,6 +900,7 @@
     "usd-tooltip": "USD equivalent of staked token and accumulated reward.",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
+    "stakable-asset-apr": "APR: {value, number, ::.0#}%",
     "stakable-asset-apy": "APY: {value, number, ::.0#}%",
     "stakable-asset-stake": "Stake {token}",
     "networks": "in {value} networks",
@@ -958,7 +959,7 @@
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position. <br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number. <br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC. <br/><br/>You can unstake it anytime and receive your stake and earned rewards. For MATIC staked on Ethereum, you’ll receive them after the ~{period} days unbonding period, while for MATIC staked on Polygon, you’ll receive them instantly. <br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
-      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APY."
+      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR."
     }
   },
   "defi": {
@@ -988,6 +989,7 @@
     "ethereum": "Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
+    "apr": "APR",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
     "staked-amount": "{value} {token}",
@@ -1120,8 +1122,8 @@
       "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
     },
     "provider": {
-      "cur-highest-apy": "Current Highest APY",
-      "cur-highest-apy-tooltip": "The highest current Annual Percentage Yield offered by one of the Node provider.",
+      "cur-highest-apr": "Current Highest APR",
+      "cur-highest-apr-tooltip": "The highest current Annual Percentage Rate offered by one of the Node provider.",
       "tvl": "TVL",
       "tvl-tooltip": "Total value  locked by all stakers to all Node providers",
       "locking-period": "Locking Period",
@@ -1167,7 +1169,7 @@
     },
     "table": {
       "node-provider": "Node Provider",
-      "apy": "Current APY",
+      "apr": "Current APR",
       "staked-pool": "Staked Pool",
       "rps": "RPS",
       "rps-tooltip": "Requests per second. Number of RPC calls served by Node provider per second.",
@@ -1186,7 +1188,7 @@
       "your-stake": "Your Stake",
       "rewards": "Rewards",
       "unstake-amount": "Unstake Amount",
-      "apy": "APY: {value}%",
+      "apr": "APR: {value}%",
       "unlocked": "Unlocked",
       "partially-unlocked": "Partially unlocked",
       "restake": "Restake",
@@ -1233,8 +1235,6 @@
       "locking-period-tooltip": "The period of 84–91 days when you cannot withdraw your stake.<br/>When it’s over, your stake keeps generating rewards until you manually unstake it.",
       "locking-period-value": "{days} days",
       "new-total-stake": "New Total Stake",
-      "apy": "APY",
-      "add-amount": "Add Amount",
       "locking-info": "Your new stake will be locked for {value} days. You will earn rewards during this period that will be claimable when the locking period is over.",
       "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee"
     },
@@ -1280,7 +1280,7 @@
         "success-rate": "Success Rate:",
         "latency": "Latency:",
         "uptime": "Uptime:",
-        "current-apy": "Current APY",
+        "current-apr": "Current APR",
         "staked-pool": "Staked Pool",
         "nodes": "Nodes",
         "shared-revenue": "Shared Revenue",
@@ -1308,7 +1308,7 @@
       "table": {
         "node-provider": "Node Provider",
         "nodes-count": "{value} nodes",
-        "apy": "Current APY",
+        "apr": "Current APR",
         "staked-pool": "Staked Pool",
         "uptime": "30d Uptime",
         "rps": "RPS",

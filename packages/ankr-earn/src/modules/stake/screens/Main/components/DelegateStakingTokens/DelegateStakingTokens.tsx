@@ -37,6 +37,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
       <Features>
         <FeatureItem
+          isAprText
           isIntegerTvl
           apy={ankrApy}
           iconSlot={<AnkrIcon />}
@@ -51,6 +52,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
         {featuresConfig.mgnoStaking && (
           <FeatureItem
+            isAprText
             apy={0}
             iconSlot={<MGNOIcon />}
             mainHref={MgnoRoutes.stake.generatePath()}

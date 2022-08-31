@@ -40,6 +40,7 @@ export const useStakableAnkr = (): IUseStakableToken<IETHNetwork> => {
   const balance = data?.ankrBalance.integerValue() ?? ZERO;
 
   return {
+    isDelegatedStaking: true,
     icon: <AnkrIcon />,
     token: Token.ANKR,
     href: RoutesConfig.stake.generatePath(),

@@ -24,6 +24,7 @@ interface IFeatureItemProps {
   isTvlLoading?: boolean;
   isIntegerTvl?: boolean;
   stakedTvl?: BigNumber;
+  isAprText?: boolean;
   onStakeClick?: () => void;
 }
 
@@ -37,6 +38,7 @@ export const FeatureItem = ({
   isApyLoading = false,
   isTvlLoading = false,
   isIntegerTvl = false,
+  isAprText = false,
   apy = 0,
   stakedTvl,
   onStakeClick,
@@ -112,7 +114,7 @@ export const FeatureItem = ({
             {shouldRenderAPY && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
-                  {t('features.apy')}
+                  {isAprText ? t('features.apr') : t('features.apy')}
                 </Typography>
 
                 <Typography className={classNames(classes.statValue)}>

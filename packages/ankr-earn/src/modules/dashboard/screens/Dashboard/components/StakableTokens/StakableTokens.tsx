@@ -39,7 +39,7 @@ const STAKABLE_TOKENS_LIST = [
   useStakableBnb,
   useStakableFtm,
   useStakableAvax,
-  featuresConfig.ankrStaking ? useStakableAnkr : null,
+  useStakableAnkr,
   featuresConfig.mgnoStaking ? useStakableMGNO : null,
   // Polkadot Compatible
   featuresConfig.isActivePolkadotStaking && isMainnet ? useStakableDOT : null,
@@ -96,6 +96,7 @@ export const StakableTokens = (props: BoxProps): JSX.Element | null => {
                   balance={asset.balance}
                   href={asset.href}
                   icon={asset.icon}
+                  isDelegatedStaking={asset.isDelegatedStaking}
                   isStakeLoading={asset.isStakeLoading}
                   networks={asset.networks}
                   token={asset.token}

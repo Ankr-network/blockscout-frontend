@@ -58,7 +58,7 @@ export function Routes(): JSX.Element {
 
       {getStakeEthereumRoutes()}
 
-      {featuresConfig.ankrStaking && getStakeAnkrRoutes()}
+      {getStakeAnkrRoutes()}
 
       {featuresConfig.mgnoStaking && getStakeGnosisRoutes()}
 
