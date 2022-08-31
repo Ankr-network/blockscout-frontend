@@ -220,6 +220,7 @@
         "content": "Once you start sending requests, your activity will be visible here."
       }
     },
+    "no-data": "No data available",
     "method-calls": {
       "title": "Method Calls",
       "download-button": "Report.csv",
@@ -227,20 +228,12 @@
       "y-axis": "{value, number, ::compact-short}",
       "num-of-other-methods": "{num} other methods",
       "other-methods-text": "other methods",
-      "other-methods": "Other methods",
-      "no-data": {
-        "title": "Send your request",
-        "content": "Once you start sending requests, your activity will be visible here."
-      }
+      "other-methods": "Other methods"
     },
     "requests-by-ip": {
       "title": "Requests by IP",
       "ip": "IP",
-      "http": "HTTP",
-      "no-data": {
-        "title": "Send your request",
-        "content": "Once you start sending requests, your activity will be visible here."
-      }
+      "http": "HTTP"
     },
     "nodes-table": {
       "header": "Nodes",

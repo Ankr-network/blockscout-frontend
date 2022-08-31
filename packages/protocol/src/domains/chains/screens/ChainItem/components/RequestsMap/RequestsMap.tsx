@@ -10,10 +10,15 @@ import { StatsTable } from './StatsTable';
 
 import { Timeframe } from 'domains/chains/types';
 import { ItemHeader } from '../ItemHeader';
-import { useStyles } from './useStyles';
+import { useRequestsMapStyles } from './useRequestsMapStyles';
+import { Spinner } from 'ui';
 
-export const RequestsMap = ({ countries, timeframe }: RequestsMapProps) => {
-  const classes = useStyles();
+export const RequestsMap = ({
+  loading,
+  countries,
+  timeframe,
+}: RequestsMapProps) => {
+  const classes = useRequestsMapStyles();
   const [country, setCountry] = useState<string>('');
 
   // TODO: remove when BE releases add all timeframe support for Premium
@@ -28,21 +33,26 @@ export const RequestsMap = ({ countries, timeframe }: RequestsMapProps) => {
         timeframe={isWalletConnected ? Timeframe.Month : timeframe}
         title={t('chain-item.map.header')}
       />
-      <div className={classes.container}>
-        {data.length ? (
-          <>
-            <StatsTable data={data} selectedCountry={country} />
-            <div className={classes.mapContainer}>
-              <StatsMap data={data} setCountry={setCountry} />
+      {loading ? (
+        <div className={classes.loading}>
+          <Spinner />
+        </div>
+      ) : (
+        <div className={classes.container}>
+          {data.length ? (
+            <>
+              <StatsTable data={data} selectedCountry={country} />
+              <div className={classes.mapContainer}>
+                <StatsMap data={data} setCountry={setCountry} />
+              </div>
+            </>
+          ) : (
+            <div className={classes.noData}>
+              <NoData />
             </div>
-          </>
-        ) : (
-          <NoData
-            title={t('chain-item.map.no-data.title')}
-            content={t('chain-item.map.no-data.content')}
-          />
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
