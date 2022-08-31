@@ -38,6 +38,7 @@ export const featuresConfig = {
    * @deprecated
    */
   maticPolygonStaking: true,
+  maticPolygonStakingFAQ: false,
   /**
    * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
    */
