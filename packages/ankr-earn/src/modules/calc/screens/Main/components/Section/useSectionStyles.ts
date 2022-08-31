@@ -12,7 +12,13 @@ export const useSectionStyles = makeStyles(theme => ({
   },
 
   title: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(6),
+    marginBottom: theme.spacing(3),
+    fontSize: 24,
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 30,
+      textAlign: 'center',
+      marginBottom: theme.spacing(6),
+    },
   },
 }));

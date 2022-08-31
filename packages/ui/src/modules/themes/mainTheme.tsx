@@ -382,6 +382,19 @@ export const mainTheme = createTheme({
         '&$focusVisible, &$active, &:hover': {
           boxShadow: SLIDER_THUMB_SHADOW,
         },
+
+        '&&$focusVisible, &&:hover': {
+          '@media (hover: none)': {
+            boxShadow: SLIDER_THUMB_SHADOW,
+          },
+        },
+
+        '&$disabled': {
+          width: 24,
+          height: 24,
+          marginTop: -8,
+          marginLeft: -12,
+        },
       },
     },
 
@@ -641,7 +654,7 @@ export const mainTheme = createTheme({
       },
 
       outlined: {
-        border: `1px solid ${alpha('#000', 0.1)}`,
+        border: `1px solid ${BORDER_COLOR}`,
       },
     },
 
