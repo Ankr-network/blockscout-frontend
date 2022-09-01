@@ -137,19 +137,17 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     () => [
       {
         name: Token.aMATICb,
-        amount:
-          maticEthData?.aMATICbBalance
-            .plus(aMATICbBridgeBscBalance ?? ZERO)
-            .plus(maticPolygonBalances?.maticBondBalance ?? ZERO) ?? ZERO,
+        amount: (maticEthData?.aMATICbBalance ?? ZERO)
+          .plus(aMATICbBridgeBscBalance ?? ZERO)
+          .plus(maticPolygonBalances?.maticBondBalance ?? ZERO),
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
       },
       {
         name: Token.aMATICc,
-        amount:
-          maticEthData?.aMATICcBalance
-            .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
-            .plus(aMATICcBridgeBscBalance ?? ZERO) ?? ZERO,
+        amount: (maticEthData?.aMATICcBalance ?? ZERO)
+          .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
+          .plus(aMATICcBridgeBscBalance ?? ZERO),
         service: EMetricsServiceName.MATIC,
         apy: metrics?.matic.apy ?? ZERO,
         ratio: maticEthData?.aMATICcRatio,
@@ -182,19 +180,17 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       },
       {
         name: Token.aETHb,
-        amount:
-          ethData?.aETHbBalance
-            .plus(ethData?.claimableAETHB ?? ZERO)
-            .plus(aETHbBridgeBalance ?? ZERO) ?? ZERO,
+        amount: (ethData?.aETHbBalance ?? ZERO)
+          .plus(ethData?.claimableAETHB ?? ZERO)
+          .plus(aETHbBridgeBalance ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
       },
       {
         name: Token.aETHc,
-        amount:
-          ethData?.aETHcBalance
-            .plus(ethData?.claimableAETHC ?? ZERO)
-            .plus(aETHcBridgeBalance ?? ZERO) ?? ZERO,
+        amount: (ethData?.aETHcBalance ?? ZERO)
+          .plus(ethData?.claimableAETHC ?? ZERO)
+          .plus(aETHcBridgeBalance ?? ZERO),
         service: EMetricsServiceName.ETH,
         apy: metrics?.eth.apy ?? ZERO,
         ratio: ethData?.aETHcRatio,
