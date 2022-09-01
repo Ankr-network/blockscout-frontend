@@ -2,7 +2,7 @@ import packageJson from '../../../../package.json';
 
 import { SupportedChainIDS } from './supportedChainIDS';
 
-export const STAKING_PATH = `${packageJson.homepage}/`;
+export const STAKING_PATH = `${packageJson.homepage}`;
 export const UNSTAKE_PATH = `${STAKING_PATH}unstake/`;
 
 const DOCS_ROOT_LINK = 'https://www.ankr.com/docs/';
