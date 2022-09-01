@@ -7,7 +7,7 @@ import { t, tHTML } from 'common';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
-import { Button } from 'uiKit/Button';
+import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { usePortfolioChartLegendStyles } from './usePortfolioChartLegendStyles';
@@ -168,9 +168,13 @@ export const PortfolioChartLegend = ({
               </div>
 
               {isNative && item.link && (
-                <Button className={classes.stake} href={item.link}>
+                <NavLink
+                  className={classes.stake}
+                  href={item.link}
+                  variant="contained"
+                >
                   {t('dashboard.stake')}
-                </Button>
+                </NavLink>
               )}
             </div>
           </Grid>
