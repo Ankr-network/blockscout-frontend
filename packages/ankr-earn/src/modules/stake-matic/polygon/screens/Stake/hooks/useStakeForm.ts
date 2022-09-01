@@ -108,12 +108,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const [isError, setIsError] = useState(false);
 
   const acPoolLiquidityInMATIC = getStatsData?.acPoolLiquidityInMATIC ?? ZERO;
-  const acRatio = commonData ? commonData.ratio : ZERO;
+  const acRatio = commonData?.ratio ?? ZERO;
+  const maticBalance = commonData?.maticBalance ?? ZERO;
   const stakeFeePct = getStatsData?.stakeFeePct.isGreaterThan(0)
     ? getStatsData?.stakeFeePct
     : null;
-
-  const { maticBalance } = commonData || {};
 
   const totalAmount = useMemo(() => {
     if (isError || !maticBalance || maticBalance.isLessThan(amount)) {

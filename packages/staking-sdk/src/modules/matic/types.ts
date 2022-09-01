@@ -37,6 +37,7 @@ export interface IMaticSDKProviders {
  * Error codes for MaticSDK
  */
 export enum EMaticSDKErrorCodes {
+  INSUFFICIENT_BALANCE = 'insufficient-balance',
   ZERO_AMOUNT = 'zero-amount',
 }
 
