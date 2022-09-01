@@ -228,10 +228,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
     maticToken: '0x0000000000000000000000000000000000001010',
-    /**
-     * TODO Add valid token address for Mainnet (MATIC on Polygon)
-     */
-    swapPool: ZERO_ADDR,
+    swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
