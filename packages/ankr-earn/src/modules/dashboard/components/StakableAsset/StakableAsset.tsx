@@ -6,6 +6,7 @@ import React from 'react';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import {
   INetworkItem,
@@ -46,12 +47,21 @@ export const StakableAsset = ({
   );
 
   const onStakeClick = () => {
-    trackEnterStakingFlow({
-      walletType: walletName,
-      walletPublicAddress: address,
-      accessPoint: 'portfolio',
-      tokenName: token,
-    });
+    if (isDelegatedStaking) {
+      trackDelegatedStakingFlow({
+        walletType: walletName,
+        walletPublicAddress: address,
+        accessPoint: 'dashboard',
+        tokenName: token,
+      });
+    } else {
+      trackEnterStakingFlow({
+        walletType: walletName,
+        walletPublicAddress: address,
+        accessPoint: 'portfolio',
+        tokenName: token,
+      });
+    }
   };
 
   const networksDisplay =

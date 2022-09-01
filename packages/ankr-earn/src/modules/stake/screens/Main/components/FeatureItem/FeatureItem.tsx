@@ -24,8 +24,9 @@ interface IFeatureItemProps {
   isTvlLoading?: boolean;
   isIntegerTvl?: boolean;
   stakedTvl?: BigNumber;
-  isAprText?: boolean;
+  isDelegatedStaking?: boolean;
   onStakeClick?: () => void;
+  onManageClick?: () => void;
 }
 
 export const FeatureItem = ({
@@ -38,10 +39,11 @@ export const FeatureItem = ({
   isApyLoading = false,
   isTvlLoading = false,
   isIntegerTvl = false,
-  isAprText = false,
+  isDelegatedStaking = false,
   apy = 0,
   stakedTvl,
   onStakeClick,
+  onManageClick,
 }: IFeatureItemProps): JSX.Element => {
   const classes = useFeatureItemStyles();
 
@@ -91,6 +93,8 @@ export const FeatureItem = ({
                 className={classes.button}
                 href={manageHref}
                 variant="outlined"
+                onMouseDown={onManageClick}
+                onTouchStart={onManageClick}
               >
                 {t('features.manage')}
               </NavLink>
@@ -114,7 +118,7 @@ export const FeatureItem = ({
             {shouldRenderAPY && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
-                  {isAprText ? t('features.apr') : t('features.apy')}
+                  {isDelegatedStaking ? t('features.apr') : t('features.apy')}
                 </Typography>
 
                 <Typography className={classNames(classes.statValue)}>

@@ -12,6 +12,7 @@ import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 
+import { useStakeMainScreen } from '../../hooks/useStakeMainScreen';
 import { FeatureItem } from '../FeatureItem';
 import { Features } from '../Features';
 
@@ -19,6 +20,7 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
+  const { onTrackEnterDelegatedStakingFlow } = useStakeMainScreen();
 
   const { data: maxAnkrApy, loading: apyLoading } = useQuery({
     type: getMaxApy,
@@ -37,7 +39,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
 
       <Features>
         <FeatureItem
-          isAprText
+          isDelegatedStaking
           isIntegerTvl
           apy={ankrApy}
           iconSlot={<AnkrIcon />}
@@ -48,11 +50,19 @@ export const DelegateStakingTokens = (): JSX.Element => {
           stakedTvl={totalTvl ?? undefined}
           title={t('features.ankr')}
           token={Token.ANKR}
+          onManageClick={onTrackEnterDelegatedStakingFlow(
+            Token.ANKR,
+            'delegated_staking_manage',
+          )}
+          onStakeClick={onTrackEnterDelegatedStakingFlow(
+            Token.ANKR,
+            'delegated_staking_stake',
+          )}
         />
 
         {featuresConfig.mgnoStaking && (
           <FeatureItem
-            isAprText
+            isDelegatedStaking
             apy={0}
             iconSlot={<MGNOIcon />}
             mainHref={MgnoRoutes.stake.generatePath()}
@@ -60,6 +70,14 @@ export const DelegateStakingTokens = (): JSX.Element => {
             stakedTvl={ZERO}
             title={t('features.mgno')}
             token={Token.mGNO}
+            onManageClick={onTrackEnterDelegatedStakingFlow(
+              Token.mGNO,
+              'delegated_staking_manage',
+            )}
+            onStakeClick={onTrackEnterDelegatedStakingFlow(
+              Token.mGNO,
+              'delegated_staking_stake',
+            )}
           />
         )}
       </Features>

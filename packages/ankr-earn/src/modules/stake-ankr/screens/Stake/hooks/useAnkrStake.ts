@@ -18,6 +18,7 @@ import {
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -66,9 +67,11 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-
   const { data: apyData, loading: isApyLoading } = useQuery({
     type: getAPY,
+  });
+  const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
+    type: getTotalInfo,
   });
 
   const amount = formState?.amount ?? ZERO;
@@ -86,6 +89,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
+    dispatchRequest(getTotalInfo());
   }, []);
 
   const currentProvider = providers ? providers[0] : null;
@@ -96,7 +100,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const { sendAnalytics } = useAnalytics({
     amount,
-    balance,
+    stakedAmount: totalInfo?.totalDelegatedAmount ?? ZERO,
     nodeProvider: initialProvider ?? '',
   });
 
@@ -139,7 +143,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
       isProvidersLoading ||
       isCommonDataLoading ||
       isStakeLoading ||
-      isApproveLoading,
+      isApproveLoading ||
+      isTotalInfoLoading,
     balance,
     minStake: commonData?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),
