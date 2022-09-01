@@ -1033,11 +1033,6 @@
     "empty": "There are no transactions",
     "hash": "Hash"
   },
-  "switch-banner": {
-    "img-alt": "Two arrows",
-    "text": "Switch to old version",
-    "btn": "Switch"
-  },
   "bridge": {
     "main": {
       "finish-bridge": "Finish Bridge",
@@ -1395,5 +1390,15 @@
     "title": "Switch",
     "description": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",
     "add-to-wallet": "Add {token} to wallet"
+  },
+  "provider-info": {
+    "title": "ETH provider service will no longer be supported.",
+    "details": "Details",
+    "text": {
+      "p1": "Validating keys will be gradually revoked from September 1st to September 6th.",
+      "p2": "<b>Your insurance amount can be claimed on the dashboard in aETHc or aETHb.</b> It can also be claimed in ETH, same as the earned rewards, after withdrawals in Ethereum 2 are enabled, which is planned for the Ethereum Shanghai update in 6–12 months after The Merge."
+    },
+    "rewards": "Your Rewards",
+    "rewards-info": "Earned rewards can be claimed after ETH2 withdrawals are enabled."
   }
 }

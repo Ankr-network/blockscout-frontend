@@ -1,11 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { ReactText } from 'react';
 
-export const useContainerStyles = makeStyles<Theme, { maxWidth?: string }>(
+const DESKOP_SPACING_X = 5;
+
+export const useContainerStyles = makeStyles<Theme, { maxWidth?: ReactText }>(
   theme => ({
     root: {
       width: '100%',
-      maxWidth: ({ maxWidth }) => maxWidth || 1160 + theme.spacing(5 * 2),
-
       marginLeft: 'auto',
       marginRight: 'auto',
       paddingLeft: theme.spacing(2),
@@ -13,9 +14,21 @@ export const useContainerStyles = makeStyles<Theme, { maxWidth?: string }>(
       boxSizing: 'border-box',
 
       [theme.breakpoints.up('sm')]: {
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
+        paddingLeft: theme.spacing(DESKOP_SPACING_X),
+        paddingRight: theme.spacing(DESKOP_SPACING_X),
       },
+    },
+
+    sizeLg: {
+      maxWidth: 1160 + theme.spacing(DESKOP_SPACING_X * 2),
+    },
+
+    sizeXl: {
+      maxWidth: 1340 + theme.spacing(DESKOP_SPACING_X * 2),
+    },
+
+    sizeCustom: {
+      maxWidth: ({ maxWidth }) => maxWidth,
     },
   }),
 );
