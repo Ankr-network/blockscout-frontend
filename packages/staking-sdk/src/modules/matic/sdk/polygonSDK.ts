@@ -343,7 +343,9 @@ export class MaticPolygonSDK implements IStakable {
       swapPoolContract.methods.stakeFee().call(),
     ]);
 
-    return stakeFee === '0' ? ZERO : new BigNumber(stakeFee).dividedBy(feeMax);
+    return stakeFee === '0'
+      ? ZERO
+      : new BigNumber(stakeFee).multipliedBy(100).dividedBy(feeMax);
   }
 
   /**
@@ -419,7 +421,7 @@ export class MaticPolygonSDK implements IStakable {
 
     return unstakeFee === '0'
       ? ZERO
-      : new BigNumber(unstakeFee).dividedBy(feeMax);
+      : new BigNumber(unstakeFee).multipliedBy(100).dividedBy(feeMax);
   }
 
   /**
