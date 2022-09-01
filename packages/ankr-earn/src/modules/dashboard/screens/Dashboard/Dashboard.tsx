@@ -41,20 +41,18 @@ export const Dashboard = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, md: 8 }}>
       <Container maxWidth="1420px">
-        {featuresConfig.newDashboard && (
-          <PortfolioChart
-            data={nativeData.concat(stakedData)}
-            height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
-            isLoading={isNativeDataLoading || isStakedDataLoading}
-            nativeApr={nativeApr}
-            stakedApr={stakedApr}
-            totalNativeAmountUsd={totalNativeAmountUsd}
-            totalNativeYieldAmountUsd={totalNativeYieldAmountUsd}
-            totalStakedAmountUsd={totalStakedAmountUsd}
-            totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
-            width={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
-          />
-        )}
+        <PortfolioChart
+          data={nativeData.concat(stakedData)}
+          height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
+          isLoading={isNativeDataLoading || isStakedDataLoading}
+          nativeApr={nativeApr}
+          stakedApr={stakedApr}
+          totalNativeAmountUsd={totalNativeAmountUsd}
+          totalNativeYieldAmountUsd={totalNativeYieldAmountUsd}
+          totalStakedAmountUsd={totalStakedAmountUsd}
+          totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
+          width={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
+        />
 
         <StakableTokens mb={7} />
 

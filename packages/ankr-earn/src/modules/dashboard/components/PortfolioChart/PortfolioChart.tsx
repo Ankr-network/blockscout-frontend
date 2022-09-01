@@ -4,12 +4,13 @@ import BigNumber from 'bignumber.js';
 import * as d3 from 'd3';
 import { useCallback, useMemo, useState } from 'react';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { PortfolioChartLegend, ILegendItem } from '../PortfolioChartLegend';
 
@@ -59,6 +60,10 @@ const COLORS = [
   '#BFC6D0',
 ];
 
+const NATIVE_HOVER_COLOR = '#9AA1B0';
+
+const TOKENS_WITH_APR = [Token.ANKR, Token.mGNO];
+
 export const PortfolioChart = ({
   data,
   totalNativeAmountUsd,
@@ -76,20 +81,25 @@ export const PortfolioChart = ({
 
   const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
 
+  const items = useMemo(
+    () => data.slice().sort((a, b) => b.percent - a.percent),
+    [data],
+  );
+
   const nativeTokens = useMemo(
     () =>
-      data
+      items
         .filter(({ isNative }) => isNative)
         .map(item => ({ ...item, color: COLORS[COLORS.length - 1] })),
-    [data],
+    [items],
   );
 
   const syntheticTokens = useMemo(
     () =>
-      data
+      items
         .filter(({ isNative }) => !isNative)
         .map((item, index) => ({ ...item, color: COLORS[index] })),
-    [data],
+    [items],
   );
 
   const chartData = useMemo(
@@ -145,14 +155,16 @@ export const PortfolioChart = ({
       const pie = d3
         .pie<void, ILegendItem>()
         .value(({ percent }) => percent)
-        .sort((a, b) => -a.name.localeCompare(b.name));
+        .sort((a, b) => (a.isNative || b.isNative ? -1 : 1));
 
       const path = d3
         .arc<d3.PieArcDatum<ILegendItem>>()
         .outerRadius(d => {
-          return d.data.name !== activeItem?.name
-            ? radius / 1.15
-            : radius / 1.2;
+          return activeItem &&
+            d.data.name === activeItem.name &&
+            d.data.isNative === activeItem.isNative
+            ? radius / 1.2
+            : radius / 1.15;
         })
         .innerRadius(radius);
 
@@ -182,7 +194,11 @@ export const PortfolioChart = ({
       arc
         .append('path')
         .attr('d', path)
-        .attr('fill', d => d.data.color);
+        .attr('fill', d =>
+          activeItem && d.data.name === activeItem.name && activeItem.isNative
+            ? NATIVE_HOVER_COLOR
+            : d.data.color,
+        );
     },
     [chartData, activeItem, width, height],
   );
@@ -199,10 +215,7 @@ export const PortfolioChart = ({
         value: totalAmountUsd.toFormat(),
       });
 
-  const aprTitle = t('dashboard.apr', { value: totalApr }).replace(
-    /<\/?b>/g,
-    '',
-  );
+  const aprTitle = tHTML('dashboard.apr', { value: totalApr });
 
   const dollarTitle = activeItem
     ? t('dashboard.portfolioUSD', {
@@ -210,10 +223,14 @@ export const PortfolioChart = ({
       })
     : '';
 
+  const aprKey =
+    activeItem && TOKENS_WITH_APR.includes(activeItem.name) ? 'apr' : 'apy';
+
   const apyTitle = activeItem
-    ? t('dashboard.apr', {
-        value: activeItem.apy.toFormat(),
-      }).replace(/<\/?b>/g, '')
+    ? t(`dashboard.${aprKey}`, { value: activeItem.apy.toFormat() }).replace(
+        /<\/?b>/g,
+        '',
+      )
     : '';
 
   if (!isLoading && data.length === 0) {
@@ -278,7 +295,15 @@ export const PortfolioChart = ({
                       </div>
                     </div>
                   ) : (
-                    <Typography className={classes.apr}>{aprTitle}</Typography>
+                    <Tooltip
+                      title={t('dashboard.averageAprTooltip', {
+                        potentialYield: totalNativeYieldAmountUsd.toFormat(),
+                      })}
+                    >
+                      <Typography className={classes.apr}>
+                        {aprTitle}
+                      </Typography>
+                    </Tooltip>
                   )}
                 </div>
               </div>

@@ -1,7 +1,8 @@
-import { makeStyles } from '@material-ui/core';
+import { lighten, makeStyles } from '@material-ui/core';
 
 export const usePortfolioChartStyles = makeStyles(theme => ({
   root: {
+    boxShadow: 'none',
     marginBottom: theme.spacing(7),
     padding: theme.spacing(7, 5),
 
@@ -27,7 +28,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
   total: {
     fill: theme.palette.text.primary,
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 600,
 
     [theme.breakpoints.up('md')]: {
       fontSize: 32,
@@ -37,7 +38,11 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
   apr: {
     color: theme.palette.text.secondary,
     fontSize: 13,
-    fontWeight: 'bold',
+    fontWeight: 600,
+
+    '& b': {
+      color: theme.palette.primary.main,
+    },
 
     [theme.breakpoints.up('md')]: {
       fontSize: 14,
@@ -62,19 +67,24 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     top: 100,
+    bottom: 100,
     left: 0,
     right: 0,
     textAlign: 'center',
+    maxWidth: 200,
+    maxHeight: 95,
 
     [theme.breakpoints.up('md')]: {
-      top: 140,
+      top: 130,
+      bottom: 130,
+      maxWidth: 260,
     },
   },
 
   hoverInfo: {
     alignItems: 'center',
     display: 'flex',
-    borderTop: `1px solid ${theme.palette.text.secondary}`,
+    borderTop: `1px solid ${lighten(theme.palette.text.secondary, 0.8)}`,
     padding: theme.spacing(1.5, 0),
     marginTop: theme.spacing(1),
     width: 230,
@@ -95,7 +105,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     '& $apr:last-child': {
       textAlign: 'left',
       paddingLeft: theme.spacing(1.25),
-      borderLeft: `1px solid ${theme.palette.text.secondary}`,
+      borderLeft: `1px solid ${lighten(theme.palette.text.secondary, 0.8)}`,
       width: '100%',
     },
   },

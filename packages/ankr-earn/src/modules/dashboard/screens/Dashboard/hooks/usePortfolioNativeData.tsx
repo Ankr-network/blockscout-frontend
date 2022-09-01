@@ -33,6 +33,8 @@ import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotR
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
+import { SMALL_PRICE_TOKENS } from '../const';
+
 export interface IUsePortfolioData {
   isLoading: boolean;
   totalAmountUsd: BigNumber;
@@ -166,8 +168,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
       {
         name: Token.ANKR,
-        amount:
-          ankrBalanceData?.ankrBalance.multipliedBy(ankrPrice ?? ZERO) ?? ZERO,
+        amount: ankrBalanceData?.ankrBalance ?? ZERO,
         apy: maxAnkrApy ?? ZERO,
         link: StakeAnkrRoutes.stake.generatePath(),
       },
@@ -209,7 +210,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       polygonData,
       bnbData,
       ethData,
-      ankrPrice,
       dotClaimableBalance,
       ksmClaimableBalance,
       wndClaimableBalance,
@@ -223,19 +223,20 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
-      : item.amount,
+      : item.amount.multipliedBy(ankrPrice ?? ZERO),
   );
 
   const yieldAmoutsUsd = nativeData.map((item, index) =>
-    usdAmounts[index]
-      .multipliedBy(item.apy)
-      .dividedBy(100)
-      .plus(usdAmounts[index]),
+    usdAmounts[index].multipliedBy(item.apy).dividedBy(100),
   );
 
   const totalYieldAmountUsd = useMemo(
-    () => yieldAmoutsUsd.reduce((acc, item) => acc.plus(item), ZERO),
-    [yieldAmoutsUsd],
+    () =>
+      yieldAmoutsUsd.reduce(
+        (acc, item, index) => acc.plus(item).plus(usdAmounts[index]),
+        ZERO,
+      ),
+    [yieldAmoutsUsd, usdAmounts],
   );
 
   const totalAmountUsd = useMemo(
@@ -253,7 +254,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         .map((item, index) => ({
           ...item,
           isNative: true,
-          amount: item.amount.decimalPlaces(DECIMAL_PLACES),
+          amount: item.amount.decimalPlaces(
+            !SMALL_PRICE_TOKENS.includes(item.name) ? DECIMAL_PLACES : 0,
+          ),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
           yieldAmount: item.amount
             .multipliedBy(item.apy)
@@ -264,10 +267,10 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
             ? usdAmounts[index]
                 .multipliedBy(100)
                 .dividedBy(totalAmountUsd)
-                .decimalPlaces(DEFAULT_ROUNDING)
+                .decimalPlaces(1)
                 .toNumber()
             : 0,
-          apy: item.apy.decimalPlaces(DEFAULT_ROUNDING),
+          apy: item.apy.decimalPlaces(1),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),

@@ -26,7 +26,6 @@ export const featuresConfig = {
    * @deprecated
    */
   isActivePolkadotStaking: true,
-  newDashboard: isLocal,
   /**
    * Please remove extra feature flag
    * @deprecated

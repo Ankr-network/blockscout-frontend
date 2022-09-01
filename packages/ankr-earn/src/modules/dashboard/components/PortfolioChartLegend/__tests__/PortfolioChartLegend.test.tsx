@@ -26,6 +26,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
         yieldAmount: new BigNumber(1),
         yieldAmountUsd: new BigNumber(1),
         apy: new BigNumber(0.3),
+        isNative: false,
       },
     ],
     onMouseOver: jest.fn(),
@@ -72,6 +73,7 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
             apy: new BigNumber(0.3),
             icon: AETHBIcon,
             color: '#000',
+            isNative: false,
           },
         ]}
       />,
