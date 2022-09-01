@@ -1396,7 +1396,7 @@
     "details": "Details",
     "text": {
       "p1": "Validating keys will be gradually revoked from September 1st to September 6th.",
-      "p2": "<b>Your insurance amount can be claimed on the dashboard in aETHc or aETHb.</b> It can also be claimed in ETH, same as the earned rewards, after withdrawals in Ethereum 2 are enabled, which is planned for the Ethereum Shanghai update in 6–12 months after The Merge."
+      "p2": "After Sept 6, 2022, your ANKR insurance deposit will be sent back to you automatically. If your insurance deposit was in ETH, you can claim it on the dashboard after Sept. 6th in aETHc or aETHb. You can also choose to claim your deposit and rewards in ETH after the Shanghai update (following The Merge in 6–12 months), appr. Q2/Q3 2023."
     },
     "rewards": "Your Rewards",
     "rewards-info": "Earned rewards can be claimed after ETH2 withdrawals are enabled."

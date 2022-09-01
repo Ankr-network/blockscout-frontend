@@ -230,12 +230,22 @@ export class MaticPolygonSDK implements IStakable {
       return true;
     }
 
-    const approve: TransactionReceipt | undefined =
-      await acTokenContract.methods
-        .approve(polygonConfig.swapPool, amountHex)
-        .send({
-          from: this.currentAccount,
-        });
+    const txn = acTokenContract.methods.approve(
+      polygonConfig.swapPool,
+      amountHex,
+    );
+
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
+
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
+    const approve: TransactionReceipt | undefined = await txn.send({
+      from: this.currentAccount,
+      gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
+    });
 
     return !!approve;
   }
@@ -539,11 +549,22 @@ export class MaticPolygonSDK implements IStakable {
     const amountHex = convertNumberToHex(amount, scale);
 
     const swapPoolContract = await this.getSwapPoolContract();
+    const txn = swapPoolContract.methods.swapEth(
+      false,
+      amountHex,
+      this.currentAccount,
+    );
 
-    await swapPoolContract.methods
-      .swapEth(false, amountHex, this.currentAccount)
-      .send({
-        from: this.currentAccount,
-      });
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
+
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
+    await txn.send({
+      from: this.currentAccount,
+      gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
+    });
   }
 }

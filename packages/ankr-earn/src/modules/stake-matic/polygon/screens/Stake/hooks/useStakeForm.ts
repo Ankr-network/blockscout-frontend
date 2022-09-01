@@ -120,7 +120,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     }
 
     const amountVal = stakeFeePct
-      ? amount.minus(amount.multipliedBy(stakeFeePct))
+      ? amount.minus(amount.dividedBy(100).multipliedBy(stakeFeePct))
       : amount;
 
     if (amountVal.isLessThanOrEqualTo(0)) {
