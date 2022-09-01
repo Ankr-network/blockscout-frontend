@@ -3,10 +3,13 @@ import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
   IBalance,
+  ICanPayByCardResponse,
   IDailyChargingParams,
   IDailyChargingResponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
+  IGetLinkForCardPaymentRequest,
+  IGetLinkForCardPaymentResponse,
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
@@ -61,4 +64,10 @@ export interface IAccountGateway {
   ): Promise<INotificationsSettings>;
 
   getNotificationSettings(): Promise<INotificationsSettings>;
+
+  canPayByCard(): Promise<ICanPayByCardResponse>;
+
+  getLinkForCardPayment(
+    params: IGetLinkForCardPaymentRequest,
+  ): Promise<IGetLinkForCardPaymentResponse>;
 }

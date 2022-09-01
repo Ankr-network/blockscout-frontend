@@ -23,10 +23,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   topUp: {
-    minWidth: 300,
+    width: 300,
 
     [theme.breakpoints.down('md')]: {
       minWidth: 'auto',
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '100%',
     },
   },
   payments: {

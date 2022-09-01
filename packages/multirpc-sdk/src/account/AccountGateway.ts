@@ -7,11 +7,14 @@ import {
   IAggregatedPaymentHistoryResponse,
   IBalance,
   IBalanceEndTimeResult,
+  ICanPayByCardResponse,
   IDailyChargingParams,
   IDailyChargingResponse,
   IEmailResponse,
   IGetActiveEmailBindingResponse,
   IGetEmailBindingsResponse,
+  IGetLinkForCardPaymentRequest,
+  IGetLinkForCardPaymentResponse,
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
@@ -215,6 +218,26 @@ export class AccountGateway implements IAccountGateway {
     const { data: response } = await this.api.get(
       '/api/v1/auth/notification/configuration',
     );
+
+    return response;
+  }
+
+  public async canPayByCard(): Promise<ICanPayByCardResponse> {
+    const { data: response } = await this.api.get<ICanPayByCardResponse>(
+      '/api/v1/auth/payment/isEligibleForCardPayment',
+    );
+
+    return response;
+  }
+
+  public async getLinkForCardPayment(
+    params: IGetLinkForCardPaymentRequest,
+  ): Promise<IGetLinkForCardPaymentResponse> {
+    const { data: response } =
+      await this.api.post<IGetLinkForCardPaymentResponse>(
+        '/api/v1/auth/payment/depositWithCard',
+        params,
+      );
 
     return response;
   }

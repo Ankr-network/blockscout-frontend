@@ -554,7 +554,8 @@
       "address-pending-other-email-binding": "There is an email address already associated with your wallet",
       "too-many-change-email-requests": "You can change your email once in {minutes} minute{plural}",
       "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} minute{plural}",
-      "already-confirmed": "The email address {email} has already been registered"
+      "already-confirmed": "The email address {email} has already been registered",
+      "invalid-email": "The email address `{email}` is invalid"
     },
     "notifications": {
       "title": "Notifications",
@@ -687,6 +688,18 @@
     "withdraw": {
       "breadcrumbs": "Withdraw",
       "title": "Withdraw"
+    },
+    "card-payment-success": {
+      "breadcrumbs": "Billing",
+      "title": "Everything looks good!",
+      "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
+      "button": "Go to Billing"
+    },
+    "card-payment-failure": {
+      "breadcrumbs": "Billing",
+      "title": "Something going wrong!",
+      "description": "Please try again later or contact our support team.",
+      "button": "Try Again"
     }
   },
   "pro-block": {

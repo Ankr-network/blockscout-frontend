@@ -9,14 +9,18 @@ import { useStyles } from './FillStepStyles';
 
 interface IFillStep {
   handleSubmit: FormRenderProps<IAddEmailFormData>['handleSubmit'];
-  validating: FormRenderProps<IAddEmailFormData>['validating'];
   hasValidationErrors: FormRenderProps<IAddEmailFormData>['hasValidationErrors'];
+  validating: FormRenderProps<IAddEmailFormData>['validating'];
+  formDisabled?: boolean;
+  submittedData: IAddEmailFormData | undefined;
 }
 
 export const FillStep = ({
   handleSubmit,
   hasValidationErrors,
   validating,
+  formDisabled,
+  submittedData,
 }: IFillStep) => {
   const classes = useStyles();
 
@@ -27,6 +31,8 @@ export const FillStep = ({
           name={AddEmailFormFields.email}
           type="email"
           validate={emailValidator}
+          disabled={!!formDisabled}
+          initialValue={submittedData?.[AddEmailFormFields.email]}
           component={InputField}
           className={classes.emailTextfield}
           InputProps={{ classes: { root: classes.emailInputRoot } }}

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button, Typography, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './TopUpStyles';
-import { TopUpForm } from './TopUpForm';
-import { PRICING_LINK } from '../const';
+import { TopUpBlockHeader } from './TopUpBlockHeader';
+import { TopUpTabs } from './TopUpTabs';
+import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { TopUpSkeleton } from './TopUpSkeleton';
 
 export interface TopUpProps {
   className?: string;
@@ -14,23 +16,21 @@ export interface TopUpProps {
 export const TopUp = ({ className }: TopUpProps) => {
   const classes = useStyles();
 
+  const { handleCanPayByCard, isCardPaymentEligible, isCanPayByCardLoading } =
+    useCardPayment();
+
+  useOnMount(() => {
+    handleCanPayByCard();
+  });
+
   return (
     <Box className={classNames(classes.root, className)}>
-      <Box className={classes.top}>
-        <Typography variant="subtitle1" className={classes.title}>
-          {t('account.account-details.top-up.title')}
-        </Typography>
-        <Button
-          className={classes.link}
-          href={PRICING_LINK}
-          color="primary"
-          target="_blank"
-          variant="text"
-        >
-          {t('account.account-details.top-up.pricing-link')}
-        </Button>
-      </Box>
-      <TopUpForm />
+      <TopUpBlockHeader />
+      {isCanPayByCardLoading ? (
+        <TopUpSkeleton />
+      ) : (
+        <TopUpTabs canPayByCard={isCardPaymentEligible} />
+      )}
     </Box>
   );
 };

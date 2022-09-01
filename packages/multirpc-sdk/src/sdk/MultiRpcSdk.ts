@@ -237,9 +237,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     user: Web3Address,
   ): Promise<EventData | undefined> {
     const events =
-      await this.getPAYGContractManager().getLatestUserLockedFundsEventLogHash(
-        user,
-      );
+      await this.getPAYGContractManager().getLatestLockedFundsEvents(user);
 
     return events?.[events.length - 1];
   }

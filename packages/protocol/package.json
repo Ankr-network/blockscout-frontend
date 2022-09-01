@@ -146,6 +146,8 @@
       "/account/",
       "/account/topup/",
       "/account/withdraw/",
+      "/account/success/",
+      "/account/failure/",
       "/settings/confirmation"
     ],
     "inlineCss": true
