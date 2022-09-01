@@ -32,10 +32,16 @@ import { IFetchTxData } from '../../switcher';
 import { convertNumberToHex } from '../../utils';
 import {
   MATIC_DECIMALS,
+  MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER,
+  MATIC_ON_POLYGON_GAS_FEE_MULTIPLIER,
   MATIC_ON_POLYGON_PROVIDER_READ_ID,
   MATIC_SCALE_FACTOR,
 } from '../const';
-import { EMaticSDKErrorCodes, IMaticSDKProviders } from '../types';
+import {
+  EMaticSDKErrorCodes,
+  IMaticSDKProviders,
+  TMaticSyntToken,
+} from '../types';
 
 const { polygonConfig } = configFromEnv();
 
@@ -47,6 +53,14 @@ export class MaticPolygonSDK implements IStakable {
   private readonly writeProvider: Web3KeyWriteProvider;
 
   private currentAccount: Address;
+
+  /**
+   * stakeGasFee — cached stake gas fee.
+   *
+   * @type {BigNumber | undefined}
+   * @private
+   */
+  private stakeGasFee?: BigNumber;
 
   private constructor({ readProvider, writeProvider }: IMaticSDKProviders) {
     MaticPolygonSDK.instance = this;
@@ -72,6 +86,17 @@ export class MaticPolygonSDK implements IStakable {
 
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+  }
+
+  /**
+   * Internal function to return increased gas limit.
+   *
+   * @param {number} gasLimit - initial gas limit
+   * @private
+   * @returns {number}
+   */
+  private getIncreasedGasLimit(gasLimit: number): number {
+    return Math.round(gasLimit * MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER);
   }
 
   private async getMaticTokenContract(isForceRead = false): Promise<Contract> {
@@ -351,7 +376,7 @@ export class MaticPolygonSDK implements IStakable {
    */
   public async getStakeGasFee(
     amount: BigNumber,
-    token: string,
+    token: TMaticSyntToken,
     scale = MATIC_SCALE_FACTOR,
   ): Promise<BigNumber> {
     const amountHex = convertNumberToHex(amount, scale);
@@ -368,7 +393,13 @@ export class MaticPolygonSDK implements IStakable {
         value: amountHex,
       });
 
-    return provider.getContractMethodFee(estimatedGas);
+    const increasedGasLimit = this.getIncreasedGasLimit(estimatedGas);
+
+    const stakeGasFee = await provider.getContractMethodFee(increasedGasLimit);
+
+    this.stakeGasFee = stakeGasFee;
+
+    return stakeGasFee;
   }
 
   public async getTxData(txHash: string): Promise<IFetchTxData> {
@@ -438,15 +469,35 @@ export class MaticPolygonSDK implements IStakable {
       await this.writeProvider.connect();
     }
 
-    const amountHex = convertNumberToHex(amount, scale);
+    const gasFee =
+      this.stakeGasFee ??
+      (await this.getStakeGasFee(amount, token as TMaticSyntToken, scale));
+
+    const balance = await this.getMaticBalance();
+
+    const multipliedGasFee = gasFee.multipliedBy(
+      MATIC_ON_POLYGON_GAS_FEE_MULTIPLIER,
+    );
+
+    const maxAllowedAmount = balance.minus(multipliedGasFee);
+
+    if (maxAllowedAmount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EMaticSDKErrorCodes.INSUFFICIENT_BALANCE);
+    }
+
+    const stakeAmount = amount.isGreaterThan(maxAllowedAmount)
+      ? maxAllowedAmount
+      : amount;
+
+    const value = convertNumberToHex(stakeAmount, scale);
 
     const swapPoolContract = await this.getSwapPoolContract();
 
     const tx: TransactionReceipt = await swapPoolContract.methods
-      .swapEth(true, amountHex, this.currentAccount)
+      .swapEth(true, value, this.currentAccount)
       .send({
         from: this.currentAccount,
-        value: amountHex,
+        value,
       });
 
     return {

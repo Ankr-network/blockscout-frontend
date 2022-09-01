@@ -40,6 +40,16 @@ export const MATIC_ON_POLYGON_PROVIDER_READ_ID = isMainnet
   : AvailableReadProviders.mumbai;
 
 /**
+ * Magic number for preventing fee calculation issue in MetaMask
+ */
+export const MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+
+/**
+ * Magic number to avoid issues with max amount and fee calculation in the wallet
+ */
+export const MATIC_ON_POLYGON_GAS_FEE_MULTIPLIER = 2;
+
+/**
  * Decimals length for MATIC
  */
 export const MATIC_DECIMALS = 18;
