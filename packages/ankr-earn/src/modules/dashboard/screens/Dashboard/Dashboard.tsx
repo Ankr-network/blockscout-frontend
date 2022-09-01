@@ -8,7 +8,6 @@ import { Container } from 'uiKit/Container';
 import { PortfolioChart } from '../../components/PortfolioChart';
 
 import { LiquidCrowdloans } from './components/LiquidCrowdloans';
-import { StakableTokens } from './components/StakableTokens';
 import { StakedTokens } from './components/StakedTokens';
 import { useDashboard } from './hooks/useDashboard';
 import { usePortfolioNativeData } from './hooks/usePortfolioNativeData';
@@ -53,8 +52,6 @@ export const Dashboard = (): JSX.Element => {
           totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
           width={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
         />
-
-        <StakableTokens mb={7} />
 
         <StakedTokens mb={7} />
 
