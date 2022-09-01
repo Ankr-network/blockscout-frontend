@@ -170,7 +170,7 @@ export const PortfolioChartLegend = ({
               {isNative && item.link && (
                 <NavLink
                   className={classes.stake}
-                  href={item.link}
+                  href={item.link ?? ''}
                   variant="contained"
                 >
                   {t('dashboard.stake')}
