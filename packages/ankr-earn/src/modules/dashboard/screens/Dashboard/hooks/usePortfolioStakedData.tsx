@@ -138,7 +138,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.aMATICb,
         amount:
-          maticEthData?.aMATICbBalance
+          (maticEthData?.aMATICbBalance ?? ZERO)
             .plus(aMATICbBridgeBscBalance ?? ZERO)
             .plus(maticPolygonBalances?.maticBondBalance ?? ZERO) ?? ZERO,
         apy: metrics?.matic.apy ?? ZERO,
@@ -147,7 +147,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.aMATICc,
         amount:
-          maticEthData?.aMATICcBalance
+          (maticEthData?.aMATICcBalance ?? ZERO)
             .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
             .plus(aMATICcBridgeBscBalance ?? ZERO) ?? ZERO,
         service: EMetricsServiceName.MATIC,
