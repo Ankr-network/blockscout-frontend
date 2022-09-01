@@ -495,12 +495,25 @@ export class MaticPolygonSDK implements IStakable {
 
     const swapPoolContract = await this.getSwapPoolContract();
 
-    const tx: TransactionReceipt = await swapPoolContract.methods
-      .swapEth(true, value, this.currentAccount)
-      .send({
-        from: this.currentAccount,
-        value,
-      });
+    const contractMethod = swapPoolContract.methods.swapEth(
+      true,
+      value,
+      this.currentAccount,
+    );
+
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
+    const gasLimit: number = await contractMethod.estimateGas({
+      from: this.currentAccount,
+      value,
+    });
+
+    const tx: TransactionReceipt = await contractMethod.send({
+      from: this.currentAccount,
+      value,
+      gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
+    });
 
     return {
       txHash: tx.transactionHash,
