@@ -1,10 +1,10 @@
 import { Box } from '@material-ui/core';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Container } from 'uiKit/Container';
 
 import { TRouteConfig } from '../../../router/utils/createRouteConfig';
-import { Table, Filters } from '../../components';
+import { Filters, Table } from '../../components';
 import { useDeFiAggregator } from '../../hooks';
 
 type RouteConfig = TRouteConfig<{
@@ -34,7 +34,7 @@ export const DeFiAggregator = ({
 
   return (
     <Box component="section" py={{ xs: 6, sm: 8 }}>
-      <Container maxWidth="1450px">
+      <Container size="xl">
         {children}
 
         <Box mb={3}>

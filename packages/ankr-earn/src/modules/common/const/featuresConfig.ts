@@ -15,7 +15,6 @@ export const featuresConfig = {
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
   bridgeAnotherAddr: false,
-  showOldBanner: false,
   /**
    * Please remove extra feature flag
    * @deprecated
@@ -43,4 +42,5 @@ export const featuresConfig = {
    */
   newEmptyStateForDashboard: isLocal,
   isCalcActive: isLocal,
+  providerNotification: true,
 };

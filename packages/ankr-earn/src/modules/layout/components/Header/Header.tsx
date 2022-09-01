@@ -47,8 +47,6 @@ export const Header = ({
 
   return (
     <header>
-      {bannerSlot}
-
       <Container className={classes.container} maxWidth="none">
         <div className={classes.leftSide}>
           <GlobalMenu isMobile={isMobile} locale={locale} project="staking" />
@@ -87,6 +85,8 @@ export const Header = ({
           {mainNavigationMobileSlot}
         </Drawer>
       )}
+
+      {bannerSlot}
     </header>
   );
 };

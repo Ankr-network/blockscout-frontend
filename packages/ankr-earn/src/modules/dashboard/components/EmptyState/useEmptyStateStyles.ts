@@ -1,5 +1,7 @@
 import { darken, makeStyles } from '@material-ui/core';
 
+import { getImgRatioPct } from 'modules/common/utils/styles/getImgRatioPct';
+
 export const useEmptyStateStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(6, 2, 4.5),
@@ -104,7 +106,3 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     },
   },
 }));
-
-function getImgRatioPct(width: number, height: number): string {
-  return `${(height / width) * 100}%`;
-}
