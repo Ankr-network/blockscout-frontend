@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { ReactNode } from 'react';
 
 interface INoReactSnapProps {
   children?: ReactNode;
@@ -14,13 +15,11 @@ interface INoReactSnapProps {
  * [react-snap](https://github.com/stereobooster/react-snap)
  */
 export const NoReactSnap = ({ children, fallback }: INoReactSnapProps) => {
-  const isReactSnap = navigator.userAgent === 'ReactSnap';
-
-  if (isReactSnap && fallback) {
+  if (isReactSnap() && fallback) {
     return <>{fallback}</>;
   }
 
-  if (isReactSnap) {
+  if (isReactSnap()) {
     return null;
   }
 
